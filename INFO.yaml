@@ -1,0 +1,37 @@
+---
+project: 'policy/apex-pdp'
+project_creation_date: '2018-04-30'
+lifecycle_state: 'Incubation'
+project_lead: &onap_releng_ptl
+    name: 'Pamela Dragosh'
+    email: 'pdragosh@research.att.com'
+    id: 'pdragosh'
+    company: 'ATT'
+    timezone: 'America/New York'
+primary_contact: *onap_releng_ptl
+issue_tracking:
+    type: 'jira'
+    url: 'https://jira.onap.org/projects/POLICY'
+    key: 'POLICY'
+meetings:
+    - type: 'zoom'
+      agenda: 'https://wiki.onap.org/pages/viewpage.action?pageId=6589781'
+      url: 'https://wiki.onap.org/display/DW/Policy+Framework+Project'
+      server: 'n/a'
+      channel: 'n/a'
+      repeats: 'weekly'
+      time: '13:00 UTC'
+committers:
+    - <<: *onap_releng_ptl
+    - name: 'Jorge Hernandez'
+      email: 'jh1730@att.com'
+      company: 'ATT'
+      id: 'jhh'
+      timezone: 'America/Illinois'
+    - name: 'Liam Fallon'
+      email: 'liam.fallon@ericsson.com'
+      company: 'Ericsson'
+      id: 'liamfallon'
+      timezone: 'Europe/Ireland'
+tsc:
+    approval: 'https://lists.onap.org/pipermail/onap-tsc'
