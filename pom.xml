@@ -31,7 +31,7 @@
     <artifactId>policy-models</artifactId>
     <version>2.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>Policy Models</name>
+    <name>policy-models</name>
     <description>This repo will hold model code agnostic to PDP engines</description>
 
     <distributionManagement>
