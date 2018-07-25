@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da7095c5_3bcb1174",
+        "filename": "pap-client-model/src/main/java/org/onap/policy/model/papclient/PdpStatusParameters.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2018-07-25T19:17:36Z",
+      "side": 1,
+      "message": "pdpVersion",
+      "range": {
+        "startLine": 137,
+        "startChar": 11,
+        "endLine": 137,
+        "endChar": 18
+      },
+      "revId": "70769e110b2e142cc89c4ce1a49552a0b25659f2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_dbc3f536",
+        "filename": "pdp-client-model/src/main/java/org/onap/policy/model/pdpclient/Policy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2018-07-25T19:17:36Z",
+      "side": 1,
+      "message": "Should we use PolicyFile instead?",
+      "range": {
+        "startLine": 47,
+        "startChar": 17,
+        "endLine": 47,
+        "endChar": 21
+      },
+      "revId": "70769e110b2e142cc89c4ce1a49552a0b25659f2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_bbe2c1d3",
+        "filename": "pdp-client-model/src/main/java/org/onap/policy/model/pdpclient/Policy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2018-07-25T19:17:36Z",
+      "side": 1,
+      "message": "Do we also need to add \"policyType\", \"description\", \"priority\" and \"timeToLive\"/\"expiration\" that exist in current policy fields?",
+      "revId": "70769e110b2e142cc89c4ce1a49552a0b25659f2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
