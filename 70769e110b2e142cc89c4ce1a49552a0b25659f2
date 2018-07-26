@@ -62,6 +62,24 @@
       "revId": "70769e110b2e142cc89c4ce1a49552a0b25659f2",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_3c2227ba",
+        "filename": "pdp-client-model/src/main/java/org/onap/policy/model/pdpclient/Policy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-07-26T12:59:51Z",
+      "side": 1,
+      "message": "I really don\u0027t care for the priority and timeTolive fields. They don\u0027t make any sense to me. But we can discuss later. Perhaps we ensure that this is extendable.\n\nThis is WIP.",
+      "parentUuid": "da7095c5_bbe2c1d3",
+      "revId": "70769e110b2e142cc89c4ce1a49552a0b25659f2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
