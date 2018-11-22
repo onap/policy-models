@@ -9,3 +9,6 @@ target
 .metadata/
 /bin/
 .idea
+*.iml
+*.ipr
+*.iws
