@@ -2,6 +2,7 @@
   ============LICENSE_START=======================================================
    Copyright (C) 2018 Ericsson. All rights reserved.
    Copyright (C) 2019 Nordix Foundation.
+   Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -41,10 +42,21 @@
         <sonar.jacoco.reportPath>${project.basedir}/../target/code-coverage/jacoco-ut.exec</sonar.jacoco.reportPath>
         <sonar.jacoco.itReportPath>${project.basedir}/../target/code-coverage/jacoco-it.exec</sonar.jacoco.itReportPath>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+
+        <policy.common.version>1.4.0-SNAPSHOT</policy.common.version>
     </properties>
 
     <modules>
+        <module>platform</module>
     </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
     <distributionManagement>
         <site>
