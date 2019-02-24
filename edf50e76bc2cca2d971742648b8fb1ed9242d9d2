@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1f8039e_77117476",
+        "filename": "platform/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-02-24T10:04:14Z",
+      "side": 1,
+      "message": "pls remove extra spaces",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 4
+      },
+      "revId": "edf50e76bc2cca2d971742648b8fb1ed9242d9d2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3502bdba_43881ee9",
+        "filename": "platform/src/test/java/org/onap/policy/api/rest/tosca/TestConstraint.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-02-24T10:04:14Z",
+      "side": 1,
+      "message": "I will suggest to have a single test for all pojos. Just pass the package name instead of class name here. Openpojo will test all the pojos in that package.\nAnd that\u0027s the main beauty of it!!!\n\nvalidator.validate(pojoPackage, new FilterPackageInfo());",
+      "range": {
+        "startLine": 49,
+        "startChar": 8,
+        "endLine": 50,
+        "endChar": 65
+      },
+      "revId": "edf50e76bc2cca2d971742648b8fb1ed9242d9d2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
