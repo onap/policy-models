@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "6e98f13e_dab98985",
+        "filename": "platform/src/main/java/org/onap/policy/tosca/ToscaPolicyType.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-02-25T21:35:23Z",
+      "side": 1,
+      "message": "Just wondering is this not a ToscaPolicyType?",
+      "range": {
+        "startLine": 44,
+        "startChar": 12,
+        "endLine": 44,
+        "endChar": 18
+      },
+      "revId": "d3b760949a5dd9614a76369c7112eeb440a86641",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "00de8c7d_e6165fbd",
         "filename": "platform/src/main/java/org/onap/policy/tosca/ToscaPolicyTypeList.java",
         "patchSetId": 3
@@ -48,6 +71,52 @@
     },
     {
       "key": {
+        "uuid": "ca74e28c_a2efaba8",
+        "filename": "platform/src/main/java/org/onap/policy/tosca/ToscaProperty.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-02-25T21:35:23Z",
+      "side": 1,
+      "message": "Is this a DataType?",
+      "range": {
+        "startLine": 43,
+        "startChar": 12,
+        "endLine": 43,
+        "endChar": 18
+      },
+      "revId": "d3b760949a5dd9614a76369c7112eeb440a86641",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "719fb938_adfc55c0",
+        "filename": "platform/src/main/java/org/onap/policy/tosca/ToscaTimeInterval.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-02-25T21:35:23Z",
+      "side": 1,
+      "message": "Could we use one of the Java time objects for this? Not sure which one. Maybe java.time.Duration?",
+      "range": {
+        "startLine": 37,
+        "startChar": 13,
+        "endLine": 37,
+        "endChar": 30
+      },
+      "revId": "d3b760949a5dd9614a76369c7112eeb440a86641",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a5dfb4d3_3f53f0f9",
         "filename": "platform/src/main/java/org/onap/policy/tosca/ToscaTimeInterval.java",
         "patchSetId": 3
@@ -59,6 +128,29 @@
       "writtenOn": "2019-02-25T19:13:41Z",
       "side": 1,
       "message": "Should it be used a date/time java object here instead?",
+      "revId": "d3b760949a5dd9614a76369c7112eeb440a86641",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0390ca4c_086db203",
+        "filename": "platform/src/main/java/org/onap/policy/tosca/ToscaTrigger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-02-25T21:35:23Z",
+      "side": 1,
+      "message": "EventType is probably something we should model as well...o",
+      "range": {
+        "startLine": 47,
+        "startChar": 12,
+        "endLine": 47,
+        "endChar": 18
+      },
       "revId": "d3b760949a5dd9614a76369c7112eeb440a86641",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
