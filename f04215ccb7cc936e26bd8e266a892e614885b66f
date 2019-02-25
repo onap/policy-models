@@ -22,6 +22,190 @@
       "revId": "f04215ccb7cc936e26bd8e266a892e614885b66f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76c53ed0_7e90bcec",
+        "filename": "platform/src/main/java/org/onap/policy/api/rest/tosca/Constraint.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-02-25T12:58:09Z",
+      "side": 1,
+      "message": "We might rename this class to ToscaConstraint just to avoid confusion with other \"constrants\"",
+      "range": {
+        "startLine": 37,
+        "startChar": 13,
+        "endLine": 37,
+        "endChar": 23
+      },
+      "revId": "f04215ccb7cc936e26bd8e266a892e614885b66f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "536651b9_1c21390f",
+        "filename": "platform/src/main/java/org/onap/policy/api/rest/tosca/DataType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-02-25T12:58:09Z",
+      "side": 1,
+      "message": "I wonder should this have a type of DataType?",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 31
+      },
+      "revId": "f04215ccb7cc936e26bd8e266a892e614885b66f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "297b4253_99f88d05",
+        "filename": "platform/src/main/java/org/onap/policy/api/rest/tosca/DataType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-02-25T12:58:09Z",
+      "side": 1,
+      "message": "I assumed first this was a Java Property, we should rename the Property class to ToscaProperty",
+      "range": {
+        "startLine": 69,
+        "startChar": 29,
+        "endLine": 69,
+        "endChar": 37
+      },
+      "revId": "f04215ccb7cc936e26bd8e266a892e614885b66f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd1a16f4_89684a88",
+        "filename": "platform/src/main/java/org/onap/policy/api/rest/tosca/EntrySchema.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-02-25T12:58:09Z",
+      "side": 1,
+      "message": "DataType ?",
+      "range": {
+        "startLine": 48,
+        "startChar": 12,
+        "endLine": 48,
+        "endChar": 18
+      },
+      "revId": "f04215ccb7cc936e26bd8e266a892e614885b66f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f94b40e_069fd6df",
+        "filename": "platform/src/main/java/org/onap/policy/api/rest/tosca/Policy.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-02-25T12:58:09Z",
+      "side": 1,
+      "message": "PolicyType?",
+      "range": {
+        "startLine": 44,
+        "startChar": 12,
+        "endLine": 44,
+        "endChar": 18
+      },
+      "revId": "f04215ccb7cc936e26bd8e266a892e614885b66f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47aedac0_a926053b",
+        "filename": "platform/src/main/java/org/onap/policy/api/rest/tosca/Policy.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-02-25T12:58:09Z",
+      "side": 1,
+      "message": "Properties?",
+      "range": {
+        "startLine": 59,
+        "startChar": 29,
+        "endLine": 59,
+        "endChar": 35
+      },
+      "revId": "f04215ccb7cc936e26bd8e266a892e614885b66f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "567defad_691e8346",
+        "filename": "platform/src/main/java/org/onap/policy/api/rest/tosca/Property.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-02-25T12:58:09Z",
+      "side": 1,
+      "message": "We should rename this",
+      "range": {
+        "startLine": 38,
+        "startChar": 13,
+        "endLine": 38,
+        "endChar": 21
+      },
+      "revId": "f04215ccb7cc936e26bd8e266a892e614885b66f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a719f897_eda15bfd",
+        "filename": "platform/src/main/java/org/onap/policy/api/rest/tosca/TimeInterval.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-02-25T12:58:09Z",
+      "side": 1,
+      "message": "Let\u0027s think how we relate this to java time support...or if we even need to.",
+      "range": {
+        "startLine": 37,
+        "startChar": 13,
+        "endLine": 37,
+        "endChar": 25
+      },
+      "revId": "f04215ccb7cc936e26bd8e266a892e614885b66f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
