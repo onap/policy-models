@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a5dfb4d3_3f53f0f9",
+        "filename": "platform/src/main/java/org/onap/policy/tosca/ToscaTimeInterval.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-02-25T19:13:41Z",
+      "side": 1,
+      "message": "Should it be used a date/time java object here instead?",
+      "revId": "d3b760949a5dd9614a76369c7112eeb440a86641",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
