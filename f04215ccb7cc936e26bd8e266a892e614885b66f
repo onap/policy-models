@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "1582ea8d_2e2ec3b1",
+        "filename": "platform/src/main/java/org/onap/policy/api/rest/tosca/Constraint.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-02-25T13:44:16Z",
+      "side": 1,
+      "message": "Will rename in new patch",
+      "parentUuid": "76c53ed0_7e90bcec",
+      "range": {
+        "startLine": 37,
+        "startChar": 13,
+        "endLine": 37,
+        "endChar": 23
+      },
+      "revId": "f04215ccb7cc936e26bd8e266a892e614885b66f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "536651b9_1c21390f",
         "filename": "platform/src/main/java/org/onap/policy/api/rest/tosca/DataType.java",
         "patchSetId": 2
@@ -59,6 +83,30 @@
       "writtenOn": "2019-02-25T12:58:09Z",
       "side": 1,
       "message": "I wonder should this have a type of DataType?",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 31
+      },
+      "revId": "f04215ccb7cc936e26bd8e266a892e614885b66f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6020460c_9afeb493",
+        "filename": "platform/src/main/java/org/onap/policy/api/rest/tosca/DataType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-02-25T13:44:16Z",
+      "side": 1,
+      "message": "if using DataType, the serialized json would not be \"derived_from: xxx.xxx.xxx.xxx\". Instead, it would be \"derived_from: DataType_property: value\".",
+      "parentUuid": "536651b9_1c21390f",
       "range": {
         "startLine": 44,
         "startChar": 0,
@@ -117,6 +165,30 @@
     },
     {
       "key": {
+        "uuid": "c4cba874_dcb1e67a",
+        "filename": "platform/src/main/java/org/onap/policy/api/rest/tosca/EntrySchema.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-02-25T13:44:16Z",
+      "side": 1,
+      "message": "same as previous comment",
+      "parentUuid": "cd1a16f4_89684a88",
+      "range": {
+        "startLine": 48,
+        "startChar": 12,
+        "endLine": 48,
+        "endChar": 18
+      },
+      "revId": "f04215ccb7cc936e26bd8e266a892e614885b66f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f94b40e_069fd6df",
         "filename": "platform/src/main/java/org/onap/policy/api/rest/tosca/Policy.java",
         "patchSetId": 2
@@ -128,6 +200,30 @@
       "writtenOn": "2019-02-25T12:58:09Z",
       "side": 1,
       "message": "PolicyType?",
+      "range": {
+        "startLine": 44,
+        "startChar": 12,
+        "endLine": 44,
+        "endChar": 18
+      },
+      "revId": "f04215ccb7cc936e26bd8e266a892e614885b66f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "75d6d60c_2d22af61",
+        "filename": "platform/src/main/java/org/onap/policy/api/rest/tosca/Policy.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-02-25T13:44:16Z",
+      "side": 1,
+      "message": "I wanted to make the serialized json/yaml aligned with the format in wiki/tosca definition. If we use PolicyType for \"type\", it would be nested json/yaml.",
+      "parentUuid": "5f94b40e_069fd6df",
       "range": {
         "startLine": 44,
         "startChar": 12,
@@ -174,6 +270,30 @@
       "writtenOn": "2019-02-25T12:58:09Z",
       "side": 1,
       "message": "We should rename this",
+      "range": {
+        "startLine": 38,
+        "startChar": 13,
+        "endLine": 38,
+        "endChar": 21
+      },
+      "revId": "f04215ccb7cc936e26bd8e266a892e614885b66f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b858f717_aa625117",
+        "filename": "platform/src/main/java/org/onap/policy/api/rest/tosca/Property.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-02-25T13:44:16Z",
+      "side": 1,
+      "message": "will rename to ToscaProperty in new patch",
+      "parentUuid": "567defad_691e8346",
       "range": {
         "startLine": 38,
         "startChar": 13,
