@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "32f7bc81_1f70ac7b",
+        "filename": "platform/src/main/java/org/onap/policy/tosca/ToscaPolicyType.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-02-25T21:23:05Z",
+      "side": 1,
+      "message": "Folks, I just realize that maybe I should use JAXB annotations (e.g. @XmlElement(name\u003d\"derived_from\")) for serialization in JAX-RS, instead of @SerializedName? My thinking is @SerializedName comes from gson. JAX-RS is not configured to use gson for serialization, correct? @Jorge@Ram@Liam@Pam",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 35
+      },
+      "revId": "d3b760949a5dd9614a76369c7112eeb440a86641",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "00de8c7d_e6165fbd",
         "filename": "platform/src/main/java/org/onap/policy/tosca/ToscaPolicyTypeList.java",
         "patchSetId": 3
