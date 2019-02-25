@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7795e9ae_68f5afa6",
+        "filename": "platform/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-02-25T12:42:20Z",
+      "side": 1,
+      "message": "If we are going to use lombok everywhere - let\u0027s think about declaring it in onap/parent. But I want to run clm against this first before doing so.",
+      "range": {
+        "startLine": 34,
+        "startChar": 8,
+        "endLine": 39,
+        "endChar": 21
+      },
+      "revId": "f04215ccb7cc936e26bd8e266a892e614885b66f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
