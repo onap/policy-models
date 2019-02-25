@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "00de8c7d_e6165fbd",
+        "filename": "platform/src/main/java/org/onap/policy/tosca/ToscaPolicyTypeList.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-02-25T21:14:19Z",
+      "side": 1,
+      "message": "spelling",
+      "range": {
+        "startLine": 48,
+        "startChar": 24,
+        "endLine": 48,
+        "endChar": 25
+      },
+      "revId": "d3b760949a5dd9614a76369c7112eeb440a86641",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a5dfb4d3_3f53f0f9",
         "filename": "platform/src/main/java/org/onap/policy/tosca/ToscaTimeInterval.java",
         "patchSetId": 3
