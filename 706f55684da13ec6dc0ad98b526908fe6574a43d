@@ -91,6 +91,30 @@
       "revId": "706f55684da13ec6dc0ad98b526908fe6574a43d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83d87aec_161cfdc6",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-02-26T20:25:12Z",
+      "side": 1,
+      "message": "Pam, 2.1.0-SNAPSHOT is the latest for policy/parent.\nI think you mean policy/models version should be 2.0.0-SNAPSHOT. Is that correct?",
+      "parentUuid": "8120e12d_cc6d6bc1",
+      "range": {
+        "startLine": 28,
+        "startChar": 8,
+        "endLine": 28,
+        "endChar": 41
+      },
+      "revId": "706f55684da13ec6dc0ad98b526908fe6574a43d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
