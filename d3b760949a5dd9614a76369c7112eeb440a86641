@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "aa478684_822ee083",
+        "filename": "platform/src/main/java/org/onap/policy/tosca/ToscaPolicyType.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-02-26T16:04:07Z",
+      "side": 1,
+      "message": "I think this should work Chenfei, I think you are using policy-endpoints httpserver.  Jim has done work to support gson, so I think this is fine.",
+      "parentUuid": "32f7bc81_1f70ac7b",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 35
+      },
+      "revId": "d3b760949a5dd9614a76369c7112eeb440a86641",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e98f13e_dab98985",
         "filename": "platform/src/main/java/org/onap/policy/tosca/ToscaPolicyType.java",
         "patchSetId": 3
