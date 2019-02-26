@@ -68,6 +68,29 @@
       "revId": "706f55684da13ec6dc0ad98b526908fe6574a43d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8120e12d_cc6d6bc1",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-02-26T19:43:56Z",
+      "side": 1,
+      "message": "I think we need to put this back to 2.0.0-SNAPSHOT - it got bumped before Chenfei\u0027s review when it shouldn\u0027t have. Oops.",
+      "range": {
+        "startLine": 28,
+        "startChar": 8,
+        "endLine": 28,
+        "endChar": 41
+      },
+      "revId": "706f55684da13ec6dc0ad98b526908fe6574a43d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
