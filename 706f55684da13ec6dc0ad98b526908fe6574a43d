@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24df647c_47e6f995",
+        "filename": "models-base/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-02-26T17:01:25Z",
+      "side": 1,
+      "message": "Please update the license header.\nSame comment applies to other files.",
+      "range": {
+        "startLine": 3,
+        "startChar": 3,
+        "endLine": 3,
+        "endChar": 52
+      },
+      "revId": "706f55684da13ec6dc0ad98b526908fe6574a43d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7da6a5f2_7497a709",
+        "filename": "models-base/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-02-26T17:01:25Z",
+      "side": 1,
+      "message": "I think policy/model is a new component same as pap, api etc.\nIn that case, shouldn\u0027t it be 2.0.0-SNAPSHOT?",
+      "range": {
+        "startLine": 27,
+        "startChar": 17,
+        "endLine": 27,
+        "endChar": 31
+      },
+      "revId": "706f55684da13ec6dc0ad98b526908fe6574a43d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2683d52a_58508853",
+        "filename": "models-base/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-02-26T17:01:25Z",
+      "side": 1,
+      "message": "I think these dependencies will be common across all the sub-modules in models repo. May be we can put them in policy/models main pom.xml",
+      "range": {
+        "startLine": 34,
+        "startChar": 4,
+        "endLine": 50,
+        "endChar": 19
+      },
+      "revId": "706f55684da13ec6dc0ad98b526908fe6574a43d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
