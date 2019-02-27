@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f569eeb_59fea8e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-02-27T09:55:26Z",
+      "side": 1,
+      "message": "policy/parent is already 2.1.0-SNAPSHOT\nI think you are trying to change the version of policy/models \u0026 its sub-module to 2.0.0-SNAPSHOT. Is that correct?\nIf yes, please update the commit message.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "9ddbc872354eb5399bab9d9c23188b4be98d7dd7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
