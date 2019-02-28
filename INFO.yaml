@@ -29,7 +29,7 @@ committers:
       id: 'jhh'
       timezone: 'America/Illinois'
     - name: 'Liam Fallon'
-      email: 'liam.fallon@ericsson.com'
+      email: 'liam.fallon@est.tech'
       company: 'Ericsson'
       id: 'liamfallon'
       timezone: 'Europe/Ireland'
