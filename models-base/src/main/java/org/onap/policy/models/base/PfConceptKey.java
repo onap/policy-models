@@ -25,11 +25,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
 
 import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
@@ -37,16 +32,12 @@ import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 /**
  * An artifact key uniquely identifies every first order entity in the system. Every first order
  * concept in the system must have an {@link PfConceptKey} to identify it. Concepts that are wholly
- * contained in another concept are identified using a {@link AxReferenceKey} key.
+ * contained in another concept are identified using a {@link PfReferenceKey} key.
  *
  * <p>Key validation checks that the name and version fields match the NAME_REGEXP and VERSION_REGEXP
  * regular expressions respectively.
  */
 @Embeddable
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name = "pfConceptKey", namespace = "http://www.onap.org/policy/models")
-
-@XmlType(name = "PfConceptKey", namespace = "http://www.onap.org/policy/models", propOrder = {"name", "version"})
 
 public class PfConceptKey extends PfKey {
     private static final long serialVersionUID = 8932717618579392561L;
@@ -55,11 +46,9 @@ public class PfConceptKey extends PfKey {
     private static final String VERSION_TOKEN = "version";
 
     @Column(name = NAME_TOKEN)
-    @XmlElement(required = true)
     private String name;
 
     @Column(name = VERSION_TOKEN)
-    @XmlElement(required = true)
     private String version;
 
     /**
@@ -125,7 +114,11 @@ public class PfConceptKey extends PfKey {
         return this;
     }
 
-    @Override
+    /**
+     * Get a list of all the keys used in this class or its contained classes.
+     *
+     * @return a list of keys
+     */
     public List<PfKey> getKeys() {
         final List<PfKey> keyList = new ArrayList<>();
         keyList.add(getKey());

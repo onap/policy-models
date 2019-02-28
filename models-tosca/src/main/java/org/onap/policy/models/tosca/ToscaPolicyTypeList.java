@@ -20,35 +20,31 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.model.tosca;
+package org.onap.policy.models.tosca;
 
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
+import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 /**
- * Class to represent the EntrySchema of list/map property in TOSCA definition
+ * Class to represent the policy type list in TOSCA definition.
  *
  * @author Chenfei Gao (cgao@research.att.com)
  *
  */
 @ToString
-public class ToscaEntrySchema {
+public class ToscaPolicyTypeList {
 
     @Getter
     @Setter
-    @SerializedName("description")
-    private String description;
+    @SerializedName("policy_types")
+    private List<Map<String, ToscaPolicyType>> policyTypes;
 
     @Getter
     @Setter
-    @SerializedName("type")
-    private String type;
-
-    @Getter
-    @Setter
-    @SerializedName("constraints")
-    private List<ToscaConstraint> constraints;
+    @SerializedName("data_types")
+    private List<Map<String, ToscaDataType>> dataTypes;
 }

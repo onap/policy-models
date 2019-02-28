@@ -20,51 +20,74 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.model.tosca;
+package org.onap.policy.models.tosca;
 
 import com.google.gson.annotations.SerializedName;
-import java.util.List;
-import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 /**
- * Class to represent the policy in TOSCA definition
+ * Class to represent the Constraint of property in TOSCA definition.
  *
  * @author Chenfei Gao (cgao@research.att.com)
  *
  */
 @ToString
-public class ToscaPolicy {
+public class ToscaConstraint {
 
     @Getter
     @Setter
-    @SerializedName("type")
-    private String type;
+    @SerializedName("equal")
+    private String equal;
 
     @Getter
     @Setter
-    @SerializedName("description")
-    private String description;
+    @SerializedName("greater_than")
+    private String greaterThan;
 
     @Getter
     @Setter
-    @SerializedName("metadata")
-    private Map<String, String> metadata;
+    @SerializedName("greater_or_equal")
+    private String greaterOrEqual;
 
     @Getter
     @Setter
-    @SerializedName("properties")
-    private List<Map<String, String>> properties;
+    @SerializedName("less_than")
+    private String lessThan;
 
     @Getter
     @Setter
-    @SerializedName("targets")
-    private List<String> targets;
+    @SerializedName("less_or_equal")
+    private String lessOrEqual;
 
     @Getter
     @Setter
-    @SerializedName("triggers")
-    private List<Map<String, ToscaTrigger>> triggers;
+    @SerializedName("in_range")
+    private String inRange;
+
+    @Getter
+    @Setter
+    @SerializedName("valid_values")
+    private String validValues;
+
+    @Getter
+    @Setter
+    @SerializedName("length")
+    private String length;
+
+    @Getter
+    @Setter
+    @SerializedName("min_length")
+    private String minLength;
+
+    @Getter
+    @Setter
+    @SerializedName("max_length")
+    private String maxLength;
+
+    @Getter
+    @Setter
+    @SerializedName("pattern")
+    private String pattern;
 }

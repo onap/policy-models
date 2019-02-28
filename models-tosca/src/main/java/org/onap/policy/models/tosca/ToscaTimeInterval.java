@@ -20,34 +20,29 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.tosca;
+package org.onap.policy.models.tosca;
 
-import com.openpojo.reflection.filters.FilterPackageInfo;
-import com.openpojo.validation.Validator;
-import com.openpojo.validation.ValidatorBuilder;
-import com.openpojo.validation.rule.impl.GetterMustExistRule;
-import com.openpojo.validation.rule.impl.SetterMustExistRule;
-import com.openpojo.validation.test.impl.GetterTester;
-import com.openpojo.validation.test.impl.SetterTester;
-
-import org.junit.Test;
-import org.onap.policy.common.utils.validation.ToStringTester;
+import com.google.gson.annotations.SerializedName;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
- * Class to perform unit tests of all pojos
+ * Class to represent the TimeInterval in TOSCA definition.
  *
  * @author Chenfei Gao (cgao@research.att.com)
  *
  */
-public class TestPojos {
+@ToString
+public class ToscaTimeInterval {
+    @Getter
+    @Setter
+    @SerializedName("start_time")
+    private String startTime;
 
-    private static final String POJO_PACKAGE = "org.onap.policy.model.tosca";
+    @Getter
+    @Setter
+    @SerializedName("end_time")
+    private String endTime;
 
-    @Test
-    public void testPojos() {
-        final Validator validator = ValidatorBuilder.create().with(new ToStringTester())
-                .with(new SetterMustExistRule()).with(new GetterMustExistRule()).with(new SetterTester())
-                .with(new GetterTester()).build();
-        validator.validate(POJO_PACKAGE, new FilterPackageInfo());
-    }
 }

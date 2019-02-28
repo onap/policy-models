@@ -20,31 +20,61 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.model.tosca;
+package org.onap.policy.models.tosca;
 
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
-import java.util.Map;
+
+import javax.persistence.Column;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import org.onap.policy.models.base.PfConceptKey;
+
 /**
- * Class to represent the policy type list in TOSCA definition
+ * Class to represent the property in TOSCA definition.
  *
  * @author Chenfei Gao (cgao@research.att.com)
  *
  */
 @ToString
-public class ToscaPolicyTypeList {
+public class ToscaProperty {
 
     @Getter
     @Setter
-    @SerializedName("policy_types")
-    private List<Map<String, ToscaPolicyType>> policyTypes;
+    @SerializedName("type")
+    @Column(name = "derivedFrom")
+    private PfConceptKey type;
 
     @Getter
     @Setter
-    @SerializedName("data_types")
-    private List<Map<String, ToscaDataType>> dataTypes;
+    @SerializedName("description")
+    private String description;
+
+    @Getter
+    @Setter
+    @SerializedName("required")
+    private boolean required;
+
+    @Getter
+    @Setter
+    @SerializedName("default_value")
+    private Object defaultValue;
+
+    @Getter
+    @Setter
+    @SerializedName("status")
+    private String status;
+
+    @Getter
+    @Setter
+    @SerializedName("constraints")
+    private List<ToscaConstraint> constraints;
+
+    @Getter
+    @Setter
+    @SerializedName("entry_schema")
+    private ToscaEntrySchema entrySchema;
 }

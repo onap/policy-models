@@ -30,16 +30,4 @@
     <artifactId>policy-models-base</artifactId>
     <name>${project.artifactId}</name>
     <description>[${project.parent.artifactId}] module provides basic model handling for the ONAP Policy Framework</description>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.onap.policy.common</groupId>
-            <artifactId>utils</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
-    </dependencies>
 </project>

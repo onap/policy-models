@@ -20,74 +20,51 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.model.tosca;
+package org.onap.policy.models.tosca;
 
 import com.google.gson.annotations.SerializedName;
+import java.util.List;
+import java.util.Map;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 /**
- * Class to represent the Constraint of property in TOSCA definition
+ * Class to represent custom data type in TOSCA definition.
  *
  * @author Chenfei Gao (cgao@research.att.com)
  *
  */
 @ToString
-public class ToscaConstraint {
+public class ToscaDataType {
+    @Getter
+    @Setter
+    @SerializedName("derived_from")
+    private String derivedFrom;
 
     @Getter
     @Setter
-    @SerializedName("equal")
-    private String equal;
+    @SerializedName("version")
+    private String version;
 
     @Getter
     @Setter
-    @SerializedName("greater_than")
-    private String greaterThan;
+    @SerializedName("metadata")
+    private Map<String, String> metadata;
 
     @Getter
     @Setter
-    @SerializedName("greater_or_equal")
-    private String greaterOrEqual;
+    @SerializedName("description")
+    private String description;
 
     @Getter
     @Setter
-    @SerializedName("less_than")
-    private String lessThan;
+    @SerializedName("constraints")
+    private List<ToscaConstraint> constraints;
 
     @Getter
     @Setter
-    @SerializedName("less_or_equal")
-    private String lessOrEqual;
-
-    @Getter
-    @Setter
-    @SerializedName("in_range")
-    private String inRange;
-
-    @Getter
-    @Setter
-    @SerializedName("valid_values")
-    private String validValues;
-
-    @Getter
-    @Setter
-    @SerializedName("length")
-    private String length;
-
-    @Getter
-    @Setter
-    @SerializedName("min_length")
-    private String minLength;
-
-    @Getter
-    @Setter
-    @SerializedName("max_length")
-    private String maxLength;
-
-    @Getter
-    @Setter
-    @SerializedName("pattern")
-    private String pattern;
+    @SerializedName("properties")
+    private List<Map<String, ToscaProperty>> properties;
 }

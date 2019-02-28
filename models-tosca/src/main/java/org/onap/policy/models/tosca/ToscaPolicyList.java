@@ -20,7 +20,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.model.tosca;
+package org.onap.policy.models.tosca;
 
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
@@ -30,7 +30,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * Class to represent the policy list in TOSCA definition
+ * Class to represent the policy list in TOSCA definition.
  *
  * @author Chenfei Gao (cgao@research.att.com)
  *

@@ -20,7 +20,8 @@
   ============LICENSE_END=========================================================
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
@@ -38,28 +39,21 @@
     <description>This repo holds model code agnostic to PDP engines</description>
 
     <properties>
+        <derby.version>10.13.1.1</derby.version>
+        <policy.common.version>1.4.0-SNAPSHOT</policy.common.version>
+
         <!-- sonar/jacoco overrides -->
         <!-- Overriding oparent default sonar/jacoco settings Combine all our reports into one file shared across sub-modules -->
         <sonar.jacoco.reportPath>${project.basedir}/../target/code-coverage/jacoco-ut.exec</sonar.jacoco.reportPath>
         <sonar.jacoco.itReportPath>${project.basedir}/../target/code-coverage/jacoco-it.exec</sonar.jacoco.itReportPath>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-
-        <policy.common.version>1.4.0-SNAPSHOT</policy.common.version>
     </properties>
 
     <modules>
-        <module>platform</module>
         <module>models-base</module>
         <module>models-dao</module>
+        <module>models-tosca</module>
     </modules>
-
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
 
     <distributionManagement>
         <site>
@@ -67,6 +61,42 @@
             <url>dav:${nexusproxy}${sitePath}</url>
         </site>
     </distributionManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.onap.policy.common</groupId>
+            <artifactId>utils</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.4</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>eclipselink</artifactId>
+        </dependency>
+
+    </dependencies>
 
     <dependencyManagement>
         <dependencies>

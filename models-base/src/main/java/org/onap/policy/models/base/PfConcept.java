@@ -21,7 +21,6 @@
 package org.onap.policy.models.base;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.xml.bind.annotation.XmlType;
 
@@ -57,15 +56,9 @@ public abstract class PfConcept implements Serializable, Comparable<PfConcept> {
      *
      * @return the concept key
      */
-    public abstract PfKey getKey();
-
-    /**
-     * Gets a list of all keys for this concept and all concepts that are defined or referenced by
-     * this concept and its sub-concepts.
-     *
-     * @return the keys used by this concept and it's contained concepts
-     */
-    public abstract List<PfKey> getKeys();
+    public PfKey getKey() {
+        return null;
+    }
 
     /**
      * Validate that this concept is structurally correct.
@@ -81,30 +74,6 @@ public abstract class PfConcept implements Serializable, Comparable<PfConcept> {
      * space.
      */
     public abstract void clean();
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public abstract boolean equals(Object otherObject);
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public abstract String toString();
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public abstract int hashCode();
 
     /**
      * Copy this concept to another object. The target object must have the same class as the source

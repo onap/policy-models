@@ -20,7 +20,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.model.tosca;
+package org.onap.policy.models.tosca;
 
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
@@ -30,13 +30,13 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * Class to represent custom data type in TOSCA definition
+ * Class to represent the policy type in TOSCA definition.
  *
  * @author Chenfei Gao (cgao@research.att.com)
  *
  */
 @ToString
-public class ToscaDataType {
+public class ToscaPolicyType {
 
     @Getter
     @Setter
@@ -60,11 +60,16 @@ public class ToscaDataType {
 
     @Getter
     @Setter
-    @SerializedName("constraints")
-    private List<ToscaConstraint> constraints;
+    @SerializedName("properties")
+    private List<Map<String, ToscaProperty>> properties;
 
     @Getter
     @Setter
-    @SerializedName("properties")
-    private List<Map<String, ToscaProperty>> properties;
+    @SerializedName("targets")
+    private List<String> targets;
+
+    @Getter
+    @Setter
+    @SerializedName("triggers")
+    private List<Map<String, ToscaTrigger>> triggers;
 }

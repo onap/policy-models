@@ -20,21 +20,23 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.model.tosca;
+package org.onap.policy.models.tosca;
 
 import com.google.gson.annotations.SerializedName;
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 /**
- * Class to represent the trigger of policy type in TOSCA definition
+ * Class to represent the EntrySchema of list/map property in TOSCA definition.
  *
  * @author Chenfei Gao (cgao@research.att.com)
  *
  */
 @ToString
-public class ToscaTrigger {
+public class ToscaEntrySchema {
 
     @Getter
     @Setter
@@ -43,46 +45,11 @@ public class ToscaTrigger {
 
     @Getter
     @Setter
-    @SerializedName("event_type")
-    private String eventType;
+    @SerializedName("type")
+    private String type;
 
     @Getter
     @Setter
-    @SerializedName("schedule")
-    private ToscaTimeInterval schedule;
-
-    @Getter
-    @Setter
-    @SerializedName("target_filter")
-    private ToscaEventFilter targetFilter;
-
-    @Getter
-    @Setter
-    @SerializedName("condition")
-    private ToscaConstraint condition;
-
-    @Getter
-    @Setter
-    @SerializedName("constraint")
-    private ToscaConstraint constraint;
-
-    @Getter
-    @Setter
-    @SerializedName("period")
-    private String period;
-
-    @Getter
-    @Setter
-    @SerializedName("evaluations")
-    private int evaluations;
-
-    @Getter
-    @Setter
-    @SerializedName("method")
-    private String method;
-
-    @Getter
-    @Setter
-    @SerializedName("action")
-    private String action;
+    @SerializedName("constraints")
+    private List<ToscaConstraint> constraints;
 }

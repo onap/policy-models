@@ -20,27 +20,21 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.model.tosca;
+package org.onap.policy.models.tosca;
 
 import com.google.gson.annotations.SerializedName;
-import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 /**
- * Class to represent the property in TOSCA definition
+ * Class to represent the trigger of policy type in TOSCA definition.
  *
  * @author Chenfei Gao (cgao@research.att.com)
  *
  */
 @ToString
-public class ToscaProperty {
-
-    @Getter
-    @Setter
-    @SerializedName("type")
-    private String type;
+public class ToscaTrigger {
 
     @Getter
     @Setter
@@ -49,26 +43,46 @@ public class ToscaProperty {
 
     @Getter
     @Setter
-    @SerializedName("required")
-    private boolean required;
+    @SerializedName("event_type")
+    private String eventType;
 
     @Getter
     @Setter
-    @SerializedName("default_value")
-    private Object defaultValue;
+    @SerializedName("schedule")
+    private ToscaTimeInterval schedule;
 
     @Getter
     @Setter
-    @SerializedName("status")
-    private String status;
+    @SerializedName("target_filter")
+    private ToscaEventFilter targetFilter;
 
     @Getter
     @Setter
-    @SerializedName("constraints")
-    private List<ToscaConstraint> constraints;
+    @SerializedName("condition")
+    private ToscaConstraint condition;
 
     @Getter
     @Setter
-    @SerializedName("entry_schema")
-    private ToscaEntrySchema entrySchema;
+    @SerializedName("constraint")
+    private ToscaConstraint constraint;
+
+    @Getter
+    @Setter
+    @SerializedName("period")
+    private String period;
+
+    @Getter
+    @Setter
+    @SerializedName("evaluations")
+    private int evaluations;
+
+    @Getter
+    @Setter
+    @SerializedName("method")
+    private String method;
+
+    @Getter
+    @Setter
+    @SerializedName("action")
+    private String action;
 }

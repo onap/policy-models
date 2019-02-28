@@ -20,56 +20,34 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.model.tosca;
+package org.onap.policy.models.tosca;
 
 import com.google.gson.annotations.SerializedName;
-import java.util.List;
-import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 /**
- * Class to represent the policy type in TOSCA definition
+ * Class to represent the EventFilter in TOSCA definition.
  *
  * @author Chenfei Gao (cgao@research.att.com)
  *
  */
 @ToString
-public class ToscaPolicyType {
+public class ToscaEventFilter {
 
     @Getter
     @Setter
-    @SerializedName("derived_from")
-    private String derivedFrom;
+    @SerializedName("node")
+    private String node;
 
     @Getter
     @Setter
-    @SerializedName("version")
-    private String version;
+    @SerializedName("requirement")
+    private String requirement;
 
     @Getter
     @Setter
-    @SerializedName("metadata")
-    private Map<String, String> metadata;
-
-    @Getter
-    @Setter
-    @SerializedName("description")
-    private String description;
-
-    @Getter
-    @Setter
-    @SerializedName("properties")
-    private List<Map<String, ToscaProperty>> properties;
-
-    @Getter
-    @Setter
-    @SerializedName("targets")
-    private List<String> targets;
-
-    @Getter
-    @Setter
-    @SerializedName("triggers")
-    private List<Map<String, ToscaTrigger>> triggers;
+    @SerializedName("capability")
+    private String capability;
 }

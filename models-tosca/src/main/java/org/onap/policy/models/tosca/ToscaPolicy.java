@@ -20,29 +20,51 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.model.tosca;
+package org.onap.policy.models.tosca;
 
 import com.google.gson.annotations.SerializedName;
+import java.util.List;
+import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 /**
- * Class to represent the TimeInterval in TOSCA definition
+ * Class to represent the policy in TOSCA definition.
  *
  * @author Chenfei Gao (cgao@research.att.com)
  *
  */
 @ToString
-public class ToscaTimeInterval {
+public class ToscaPolicy {
 
     @Getter
     @Setter
-    @SerializedName("start_time")
-    private String startTime;
+    @SerializedName("type")
+    private String type;
 
     @Getter
     @Setter
-    @SerializedName("end_time")
-    private String endTime;
+    @SerializedName("description")
+    private String description;
+
+    @Getter
+    @Setter
+    @SerializedName("metadata")
+    private Map<String, String> metadata;
+
+    @Getter
+    @Setter
+    @SerializedName("properties")
+    private List<Map<String, String>> properties;
+
+    @Getter
+    @Setter
+    @SerializedName("targets")
+    private List<String> targets;
+
+    @Getter
+    @Setter
+    @SerializedName("triggers")
+    private List<Map<String, ToscaTrigger>> triggers;
 }
