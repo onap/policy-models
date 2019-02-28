@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe040155_1316472f",
+        "filename": "models-base/pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-02-28T02:04:20Z",
+      "side": 1,
+      "message": "not needed. same comment",
+      "range": {
+        "startLine": 45,
+        "startChar": 8,
+        "endLine": 49,
+        "endChar": 21
+      },
+      "revId": "957ffc0249e2b4a4812d0a79f451d55bf70592db",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71a19c6f_f41337b4",
+        "filename": "models-dao/pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-02-28T02:04:20Z",
+      "side": 1,
+      "message": "I think it is not needed here. It is already indicated in top pom.",
+      "range": {
+        "startLine": 34,
+        "startChar": 5,
+        "endLine": 40,
+        "endChar": 19
+      },
+      "revId": "957ffc0249e2b4a4812d0a79f451d55bf70592db",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
