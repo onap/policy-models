@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9844be00_58fede30",
+        "filename": "INFO.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-02-28T12:56:56Z",
+      "side": 1,
+      "message": "Ok let\u0027s get this fixed in all the repos.",
+      "range": {
+        "startLine": 32,
+        "startChar": 6,
+        "endLine": 32,
+        "endChar": 35
+      },
+      "revId": "f240fda5e8f7e940d6033b204c2dac48a9dc7c4e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
