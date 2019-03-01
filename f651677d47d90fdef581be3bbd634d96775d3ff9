@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2de7d590_23f7493c",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-03-01T13:14:49Z",
+      "side": 1,
+      "message": "Do we want to use derby? Or stick with mariadb as that is our current database.",
+      "range": {
+        "startLine": 42,
+        "startChar": 8,
+        "endLine": 42,
+        "endChar": 48
+      },
+      "revId": "f651677d47d90fdef581be3bbd634d96775d3ff9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2ad324e_0d6d2a34",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-03-01T13:14:49Z",
+      "side": 1,
+      "message": "Remove that version, in policy/parent now",
+      "range": {
+        "startLine": 79,
+        "startChar": 12,
+        "endLine": 79,
+        "endChar": 37
+      },
+      "revId": "f651677d47d90fdef581be3bbd634d96775d3ff9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
