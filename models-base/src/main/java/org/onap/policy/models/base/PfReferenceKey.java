@@ -1,0 +1,511 @@
+/*-
+ * ============LICENSE_START=======================================================
+ *  Copyright (C) 2019 Nordix Foundation.
+ * ================================================================================
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * ============LICENSE_END=========================================================
+ */
+
+package org.onap.policy.models.base;
+
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+
+import org.onap.policy.common.utils.validation.Assertions;
+import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+
+/**
+ * A reference key identifies entities in the system that are contained in other entities. Every contained concept in
+ * the system must have an {@link PfReferenceKey} to identify it. Non-contained first order concepts are identified
+ * using an {@link PfConceptKey} key.
+ *
+ * <p>An {@link PfReferenceKey} contains an {@link PfConceptKey} key reference to the first order entity that contains
+ * it. The local name of the reference key must uniquely identify the referenced concept among those concepts contained
+ * in the reference key's parent. In other words, if a parent concept has more than one child, the local name in the key
+ * of all its children must be unique.
+ *
+ * <p>If a reference key's parent is itself a reference key, then the parent's local name must be set in the reference
+ * key. If the parent is a first order concept, then the parent's local name in the key will be set to NULL.
+ *
+ * <p>Key validation checks that the parent name and parent version fields match the NAME_REGEXP and
+ * VERSION_REGEXP regular expressions respectively and that the local name fields match the
+ * LOCAL_NAME_REGEXP regular expression.
+ */
+@Embeddable
+public class PfReferenceKey extends PfKey {
+    private static final String PARENT_KEY_NAME = "parentKeyName";
+    private static final String PARENT_KEY_VERSION = "parentKeyVersion";
+    private static final String PARENT_LOCAL_NAME = "parentLocalName";
+    private static final String LOCAL_NAME = "localName";
+
+    private static final long serialVersionUID = 8932717618579392561L;
+
+    /** Regular expression to specify the structure of local names in reference keys. */
+    public static final String LOCAL_NAME_REGEXP = "[A-Za-z0-9\\-_\\.]+|^$";
+
+    /** Regular expression to specify the structure of IDs in reference keys. */
+    public static final String REFERENCE_KEY_ID_REGEXP =
+                    "[A-Za-z0-9\\-_]+:[0-9].[0-9].[0-9]:[A-Za-z0-9\\-_]+:[A-Za-z0-9\\-_]+";
+
+    private static final int PARENT_NAME_FIELD = 0;
+    private static final int PARENT_VERSION_FIELD = 1;
+    private static final int PARENT_LOCAL_NAME_FIELD = 2;
+    private static final int LOCAL_NAME_FIELD = 3;
+
+    @Column(name = PARENT_KEY_NAME)
+    private String parentKeyName;
+
+    @Column(name = PARENT_KEY_VERSION)
+    private String parentKeyVersion;
+
+    @Column(name = PARENT_LOCAL_NAME)
+    private String parentLocalName;
+
+    @Column(name = LOCAL_NAME)
+    private String localName;
+
+    /**
+     * The default constructor creates a null reference key.
+     */
+    public PfReferenceKey() {
+        this(NULL_KEY_NAME, NULL_KEY_VERSION, NULL_KEY_NAME, NULL_KEY_NAME);
+    }
+
+    /**
+     * The Copy Constructor creates a key by copying another key.
+     *
+     * @param referenceKey
+     *        the reference key to copy from
+     */
+    public PfReferenceKey(final PfReferenceKey referenceKey) {
+        this(referenceKey.getParentKeyName(), referenceKey.getParentKeyVersion(), referenceKey.getParentLocalName(),
+                        referenceKey.getLocalName());
+    }
+
+    /**
+     * Constructor to create a null reference key for the specified parent artifact key.
+     *
+     * @param pfConceptKey
+     *        the parent artifact key of this reference key
+     */
+    public PfReferenceKey(final PfConceptKey pfConceptKey) {
+        this(pfConceptKey.getName(), pfConceptKey.getVersion(), NULL_KEY_NAME, NULL_KEY_NAME);
+    }
+
+    /**
+     * Constructor to create a reference key for the given parent artifact key with the given local name.
+     *
+     * @param pfConceptKey
+     *        the parent artifact key of this reference key
+     * @param localName
+     *        the local name of this reference key
+     */
+    public PfReferenceKey(final PfConceptKey pfConceptKey, final String localName) {
+        this(pfConceptKey, NULL_KEY_NAME, localName);
+    }
+
+    /**
+     * Constructor to create a reference key for the given parent reference key with the given local name.
+     *
+     * @param parentReferenceKey
+     *        the parent reference key of this reference key
+     * @param localName
+     *        the local name of this reference key
+     */
+    public PfReferenceKey(final PfReferenceKey parentReferenceKey, final String localName) {
+        this(parentReferenceKey.getParentArtifactKey(), parentReferenceKey.getLocalName(), localName);
+    }
+
+    /**
+     * Constructor to create a reference key for the given parent reference key (specified by the parent reference key's
+     * artifact key and local name) with the given local name.
+     *
+     * @param pfConceptKey
+     *        the artifact key of the parent reference key of this reference key
+     * @param parentLocalName
+     *        the local name of the parent reference key of this reference key
+     * @param localName
+     *        the local name of this reference key
+     */
+    public PfReferenceKey(final PfConceptKey pfConceptKey, final String parentLocalName, final String localName) {
+        this(pfConceptKey.getName(), pfConceptKey.getVersion(), parentLocalName, localName);
+    }
+
+    /**
+     * Constructor to create a reference key for the given parent artifact key (specified by the parent artifact key's
+     * name and version) with the given local name.
+     *
+     * @param parentKeyName
+     *        the name of the parent artifact key of this reference key
+     * @param parentKeyVersion
+     *        the version of the parent artifact key of this reference key
+     * @param localName
+     *        the local name of this reference key
+     */
+    public PfReferenceKey(final String parentKeyName, final String parentKeyVersion, final String localName) {
+        this(parentKeyName, parentKeyVersion, NULL_KEY_NAME, localName);
+    }
+
+    /**
+     * Constructor to create a reference key for the given parent key (specified by the parent key's name, version nad
+     * local name) with the given local name.
+     *
+     * @param parentKeyName
+     *        the parent key name of this reference key
+     * @param parentKeyVersion
+     *        the parent key version of this reference key
+     * @param parentLocalName
+     *        the parent local name of this reference key
+     * @param localName
+     *        the local name of this reference key
+     */
+    public PfReferenceKey(final String parentKeyName, final String parentKeyVersion, final String parentLocalName,
+                    final String localName) {
+        super();
+        this.parentKeyName = Assertions.validateStringParameter(PARENT_KEY_NAME, parentKeyName, NAME_REGEXP);
+        this.parentKeyVersion = Assertions.validateStringParameter(PARENT_KEY_VERSION, parentKeyVersion,
+                        VERSION_REGEXP);
+        this.parentLocalName = Assertions.validateStringParameter(PARENT_LOCAL_NAME, parentLocalName,
+                        LOCAL_NAME_REGEXP);
+        this.localName = Assertions.validateStringParameter(LOCAL_NAME, localName, LOCAL_NAME_REGEXP);
+    }
+
+    /**
+     * Constructor to create a key from the specified key ID.
+     *
+     * @param id
+     *        the key ID in a format that respects the KEY_ID_REGEXP
+     */
+    public PfReferenceKey(final String id) {
+        final String conditionedId = Assertions.validateStringParameter("id", id, REFERENCE_KEY_ID_REGEXP);
+
+        // Split on colon, if the id passes the regular expression test above
+        // it'll have just three colons separating the parent name,
+        // parent version, parent local name, and and local name
+        // No need for range checks or size checks on the array
+        final String[] nameVersionNameArray = conditionedId.split(":");
+
+        // Initiate the new key
+        parentKeyName = Assertions.validateStringParameter(PARENT_KEY_NAME, nameVersionNameArray[PARENT_NAME_FIELD],
+                        NAME_REGEXP);
+        parentKeyVersion = Assertions.validateStringParameter(PARENT_KEY_VERSION,
+                        nameVersionNameArray[PARENT_VERSION_FIELD], VERSION_REGEXP);
+        parentLocalName = Assertions.validateStringParameter(PARENT_LOCAL_NAME,
+                        nameVersionNameArray[PARENT_LOCAL_NAME_FIELD], LOCAL_NAME_REGEXP);
+        localName = Assertions.validateStringParameter(LOCAL_NAME, nameVersionNameArray[LOCAL_NAME_FIELD],
+                        LOCAL_NAME_REGEXP);
+    }
+
+    /**
+     * Get a null reference key.
+     *
+     * @return a null reference key
+     */
+    public static PfReferenceKey getNullKey() {
+        return new PfReferenceKey(PfKey.NULL_KEY_NAME, PfKey.NULL_KEY_VERSION, PfKey.NULL_KEY_NAME,
+                        PfKey.NULL_KEY_NAME);
+    }
+
+    @Override
+    public PfReferenceKey getKey() {
+        return this;
+    }
+
+    @Override
+    public String getId() {
+        return parentKeyName + ':' + parentKeyVersion + ':' + parentLocalName + ':' + localName;
+    }
+
+    /**
+     * Gets the parent artifact key of this reference key.
+     *
+     * @return the parent artifact key of this reference key
+     */
+    public PfConceptKey getParentArtifactKey() {
+        return new PfConceptKey(parentKeyName, parentKeyVersion);
+    }
+
+    /**
+     * Gets the parent reference key of this reference key.
+     *
+     * @return the parent reference key of this reference key
+     */
+    public PfReferenceKey getParentReferenceKey() {
+        return new PfReferenceKey(parentKeyName, parentKeyVersion, parentLocalName);
+    }
+
+    /**
+     * Sets the parent artifact key of this reference key.
+     *
+     * @param parentKey
+     *        the parent artifact key of this reference key
+     */
+    public void setParentArtifactKey(final PfConceptKey parentKey) {
+        Assertions.argumentNotNull(parentKey, "parentKey may not be null");
+
+        parentKeyName = parentKey.getName();
+        parentKeyVersion = parentKey.getVersion();
+        parentLocalName = NULL_KEY_NAME;
+    }
+
+    /**
+     * Sets the parent reference key of this reference key.
+     *
+     * @param parentKey
+     *        the parent reference key of this reference key
+     */
+    public void setParentReferenceKey(final PfReferenceKey parentKey) {
+        Assertions.argumentNotNull(parentKey, "parentKey may not be null");
+
+        parentKeyName = parentKey.getParentKeyName();
+        parentKeyVersion = parentKey.getParentKeyVersion();
+        parentLocalName = parentKey.getLocalName();
+    }
+
+    /**
+     * Gets the parent key name of this reference key.
+     *
+     * @return the parent key name of this reference key
+     */
+    public String getParentKeyName() {
+        return parentKeyName;
+    }
+
+    /**
+     * Sets the parent key name of this reference key.
+     *
+     * @param parentKeyName
+     *        the parent key name of this reference key
+     */
+    public void setParentKeyName(final String parentKeyName) {
+        this.parentKeyName = Assertions.validateStringParameter(PARENT_KEY_NAME, parentKeyName, NAME_REGEXP);
+    }
+
+    /**
+     * Gets the parent key version of this reference key.
+     *
+     * @return the parent key version of this reference key
+     */
+    public String getParentKeyVersion() {
+        return parentKeyVersion;
+    }
+
+    /**
+     * Sets the parent key version of this reference key.
+     *
+     * @param parentKeyVersion
+     *        the parent key version of this reference key
+     */
+    public void setParentKeyVersion(final String parentKeyVersion) {
+        this.parentKeyVersion = Assertions.validateStringParameter(PARENT_KEY_VERSION, parentKeyVersion,
+                        VERSION_REGEXP);
+    }
+
+    /**
+     * Gets the parent local name of this reference key.
+     *
+     * @return the parent local name of this reference key
+     */
+    public String getParentLocalName() {
+        return parentLocalName;
+    }
+
+    /**
+     * Sets the parent local name of this reference key.
+     *
+     * @param parentLocalName
+     *        the parent local name of this reference key
+     */
+    public void setParentLocalName(final String parentLocalName) {
+        this.parentLocalName = Assertions.validateStringParameter(PARENT_LOCAL_NAME, parentLocalName,
+                        LOCAL_NAME_REGEXP);
+    }
+
+    /**
+     * Gets the local name of this reference key.
+     *
+     * @return the local name of this reference key
+     */
+    public String getLocalName() {
+        return localName;
+    }
+
+    /**
+     * Sets the local name of this reference key.
+     *
+     * @param localName
+     *        the local name of this reference key
+     */
+    public void setLocalName(final String localName) {
+        this.localName = Assertions.validateStringParameter(LOCAL_NAME, localName, LOCAL_NAME_REGEXP);
+    }
+
+    @Override
+    public PfKey.Compatibility getCompatibility(final PfKey otherKey) {
+        if (!(otherKey instanceof PfReferenceKey)) {
+            return Compatibility.DIFFERENT;
+        }
+        final PfReferenceKey otherReferenceKey = (PfReferenceKey) otherKey;
+
+        return this.getParentArtifactKey().getCompatibility(otherReferenceKey.getParentArtifactKey());
+    }
+
+    @Override
+    public boolean isCompatible(final PfKey otherKey) {
+        if (!(otherKey instanceof PfReferenceKey)) {
+            return false;
+        }
+        final PfReferenceKey otherReferenceKey = (PfReferenceKey) otherKey;
+
+        return this.getParentArtifactKey().isCompatible(otherReferenceKey.getParentArtifactKey());
+    }
+
+    @Override
+    public PfValidationResult validate(final PfValidationResult result) {
+        final String parentNameValidationErrorMessage = Assertions.getStringParameterValidationMessage(PARENT_KEY_NAME,
+                        parentKeyName, NAME_REGEXP);
+        if (parentNameValidationErrorMessage != null) {
+            result.addValidationMessage(new PfValidationMessage(this, this.getClass(), ValidationResult.INVALID,
+                            "parentKeyName invalid-" + parentNameValidationErrorMessage));
+        }
+
+        final String parentKeyVersionValidationErrorMessage = Assertions
+                        .getStringParameterValidationMessage(PARENT_KEY_VERSION, parentKeyVersion, VERSION_REGEXP);
+        if (parentKeyVersionValidationErrorMessage != null) {
+            result.addValidationMessage(new PfValidationMessage(this, this.getClass(), ValidationResult.INVALID,
+                            "parentKeyVersion invalid-" + parentKeyVersionValidationErrorMessage));
+        }
+
+        final String parentLocalNameValidationErrorMessage = Assertions
+                        .getStringParameterValidationMessage(PARENT_LOCAL_NAME, parentLocalName, LOCAL_NAME_REGEXP);
+        if (parentLocalNameValidationErrorMessage != null) {
+            result.addValidationMessage(new PfValidationMessage(this, this.getClass(), ValidationResult.INVALID,
+                            "parentLocalName invalid-" + parentLocalNameValidationErrorMessage));
+        }
+
+        final String localNameValidationErrorMessage = Assertions.getStringParameterValidationMessage(LOCAL_NAME,
+                        localName, LOCAL_NAME_REGEXP);
+        if (localNameValidationErrorMessage != null) {
+            result.addValidationMessage(new PfValidationMessage(this, this.getClass(), ValidationResult.INVALID,
+                            "localName invalid-" + localNameValidationErrorMessage));
+        }
+
+        return result;
+    }
+
+    @Override
+    public void clean() {
+        parentKeyName = Assertions.validateStringParameter(PARENT_KEY_NAME, parentKeyName, NAME_REGEXP);
+        parentKeyVersion = Assertions.validateStringParameter(PARENT_KEY_VERSION, parentKeyVersion, VERSION_REGEXP);
+        parentLocalName = Assertions.validateStringParameter(PARENT_LOCAL_NAME, parentLocalName, LOCAL_NAME_REGEXP);
+        localName = Assertions.validateStringParameter(LOCAL_NAME, localName, LOCAL_NAME_REGEXP);
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(this.getClass().getSimpleName());
+        builder.append(":(");
+        builder.append("parentKeyName=");
+        builder.append(parentKeyName);
+        builder.append(",parentKeyVersion=");
+        builder.append(parentKeyVersion);
+        builder.append(",parentLocalName=");
+        builder.append(parentLocalName);
+        builder.append(",localName=");
+        builder.append(localName);
+        builder.append(")");
+        return builder.toString();
+    }
+
+    @Override
+    public PfConcept copyTo(final PfConcept target) {
+        Assertions.argumentNotNull(target, "target may not be null");
+
+        final Object copyObject = target;
+        Assertions.instanceOf(copyObject, PfReferenceKey.class);
+
+        final PfReferenceKey copy = ((PfReferenceKey) copyObject);
+        copy.setParentKeyName(parentKeyName);
+        copy.setParentKeyVersion(parentKeyVersion);
+        copy.setLocalName(localName);
+        copy.setParentLocalName(parentLocalName);
+
+        return copy;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + parentKeyName.hashCode();
+        result = prime * result + parentKeyVersion.hashCode();
+        result = prime * result + parentLocalName.hashCode();
+        result = prime * result + localName.hashCode();
+        return result;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj == null) {
+            throw new IllegalArgumentException("comparison object may not be null");
+        }
+
+        if (this == obj) {
+            return true;
+        }
+
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+
+        final PfReferenceKey other = (PfReferenceKey) obj;
+
+        if (!parentKeyName.equals(other.parentKeyName)) {
+            return false;
+        }
+        if (!parentKeyVersion.equals(other.parentKeyVersion)) {
+            return false;
+        }
+        if (!parentLocalName.equals(other.parentLocalName)) {
+            return false;
+        }
+        return localName.equals(other.localName);
+    }
+
+    @Override
+    public int compareTo(final PfConcept otherObj) {
+        Assertions.argumentNotNull(otherObj, "comparison object may not be null");
+
+        if (this == otherObj) {
+            return 0;
+        }
+        if (getClass() != otherObj.getClass()) {
+            return this.hashCode() - otherObj.hashCode();
+        }
+
+        final PfReferenceKey other = (PfReferenceKey) otherObj;
+        if (!parentKeyName.equals(other.parentKeyName)) {
+            return parentKeyName.compareTo(other.parentKeyName);
+        }
+        if (!parentKeyVersion.equals(other.parentKeyVersion)) {
+            return parentKeyVersion.compareTo(other.parentKeyVersion);
+        }
+        if (!parentLocalName.equals(other.parentLocalName)) {
+            return parentLocalName.compareTo(other.parentLocalName);
+        }
+        return localName.compareTo(other.localName);
+    }
+}

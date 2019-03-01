@@ -20,8 +20,6 @@
 
 package org.onap.policy.models.base.testpojos;
 
-import java.util.List;
-
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
@@ -38,11 +36,6 @@ public class DummyPfConcept extends PfConcept {
     @Override
     public PfKey getKey() {
         return new PfConceptKey();
-    }
-
-    @Override
-    public List<PfKey> getKeys() {
-        return null;
     }
 
     @Override
