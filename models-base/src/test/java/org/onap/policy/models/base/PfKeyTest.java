@@ -1,4 +1,4 @@
-/*
+/*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
@@ -37,7 +37,7 @@ import org.onap.policy.models.base.testpojos.DummyPfKey;
 public class PfKeyTest {
 
     @Test
-    public void testArtifactKey() {
+    public void testConceptKey() {
         try {
             new PfConceptKey("some bad key id");
             fail("This test should throw an exception");
@@ -113,7 +113,7 @@ public class PfKeyTest {
         assertNotNull(someKey0.toString());
 
         PfConceptKey someKey7 = new PfConceptKey(someKey1);
-        assertEquals(150332875, someKey7.hashCode());
+        assertEquals(244799191, someKey7.hashCode());
         assertEquals(0, someKey7.compareTo(someKey1));
         assertEquals(-12, someKey7.compareTo(someKey0));
 
@@ -124,7 +124,7 @@ public class PfKeyTest {
         }
 
         assertEquals(0, someKey0.compareTo(someKey0));
-        assertEquals(161539407, someKey0.compareTo(new DummyPfKey()));
+        assertEquals(266127751, someKey0.compareTo(new DummyPfKey()));
 
         assertFalse(someKey0.equals(null));
         assertTrue(someKey0.equals(someKey0));
