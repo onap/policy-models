@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb2e6914_d528599d",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfConcept.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-03-04T21:48:42Z",
+      "side": 1,
+      "message": "its",
+      "range": {
+        "startLine": 62,
+        "startChar": 49,
+        "endLine": 62,
+        "endChar": 53
+      },
+      "revId": "bae9c3bc53b3fec645095138ccd4f056b7e18cfb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "631a1e8e_25a19c45",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfConceptGetter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-03-04T21:48:42Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 29,
+        "startChar": 92,
+        "endLine": 29,
+        "endChar": 95
+      },
+      "revId": "bae9c3bc53b3fec645095138ccd4f056b7e18cfb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93bd331d_2d47ac1c",
+        "filename": "models-base/src/test/java/org/onap/policy/models/base/ExceptionsTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-03-04T21:48:42Z",
+      "side": 1,
+      "message": "I don\u0027t see this exception class in this review. Maybe forgot to check in?",
+      "range": {
+        "startLine": 34,
+        "startChar": 26,
+        "endLine": 34,
+        "endChar": 42
+      },
+      "revId": "bae9c3bc53b3fec645095138ccd4f056b7e18cfb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83136b84_d5fb9c91",
+        "filename": "models-dao/src/test/resources/META-INF/persistence.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-03-04T21:48:42Z",
+      "side": 1,
+      "message": "2019?",
+      "range": {
+        "startLine": 4,
+        "startChar": 22,
+        "endLine": 4,
+        "endChar": 26
+      },
+      "revId": "bae9c3bc53b3fec645095138ccd4f056b7e18cfb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21970625_c4d8ec06",
+        "filename": "models-dao/src/test/resources/logback-test.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-03-04T21:48:42Z",
+      "side": 1,
+      "message": "2019",
+      "range": {
+        "startLine": 4,
+        "startChar": 22,
+        "endLine": 4,
+        "endChar": 26
+      },
+      "revId": "bae9c3bc53b3fec645095138ccd4f056b7e18cfb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
