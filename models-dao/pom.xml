@@ -30,4 +30,19 @@
     <artifactId>policy-models-dao</artifactId>
     <name>${project.artifactId}</name>
     <description>[${project.parent.artifactId}] module provides common DAO (Data Access Object) model handling for the ONAP Policy Framework</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.onap.policy.models</groupId>
+            <artifactId>policy-models-base</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
 </project>
