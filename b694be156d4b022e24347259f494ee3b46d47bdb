@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28be5dd7_f1d74e66",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/converters/CDataConditioner.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-03-05T14:03:01Z",
+      "side": 1,
+      "message": "CDataConditioner",
+      "range": {
+        "startLine": 28,
+        "startChar": 13,
+        "endLine": 28,
+        "endChar": 29
+      },
+      "revId": "b694be156d4b022e24347259f494ee3b46d47bdb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a781d588_3340d76a",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/converters/Uuid2String.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-03-05T14:03:01Z",
+      "side": 1,
+      "message": "Uuid2String",
+      "range": {
+        "startLine": 30,
+        "startChar": 13,
+        "endLine": 30,
+        "endChar": 26
+      },
+      "revId": "b694be156d4b022e24347259f494ee3b46d47bdb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97091629_ad93a0df",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/package-info.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-03-05T14:03:01Z",
+      "side": 1,
+      "message": "why Apex specific? isn\u0027t it \"PF concepts\" generally?",
+      "range": {
+        "startLine": 22,
+        "startChar": 67,
+        "endLine": 23,
+        "endChar": 67
+      },
+      "revId": "b694be156d4b022e24347259f494ee3b46d47bdb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
