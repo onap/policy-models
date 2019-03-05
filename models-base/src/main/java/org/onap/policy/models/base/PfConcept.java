@@ -23,16 +23,12 @@ package org.onap.policy.models.base;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlType;
-
 import org.onap.policy.common.utils.validation.Assertions;
 
 /**
- * This class is the base class for all model concept classes. It enforces implementation of
- * abstract methods and interfaces on all concepts that are sub-classes of this class.
+ * This class is the base class for all Policy Framework concept classes. It enforces implementation
+ * of abstract methods and interfaces on all concepts that are sub-classes of this class.
  */
-
-@XmlType(name = "PfConcept", namespace = "http://www.onap.org/policy/models")
 
 public abstract class PfConcept implements Serializable, Comparable<PfConcept> {
     private static final long serialVersionUID = -7434939557282697490L;
@@ -63,7 +59,7 @@ public abstract class PfConcept implements Serializable, Comparable<PfConcept> {
      * Gets a list of all keys for this concept and all concepts that are defined or referenced by
      * this concept and its sub-concepts.
      *
-     * @return the keys used by this concept and it's contained concepts
+     * @return the keys used by this concept and its contained concepts
      */
     public abstract List<PfKey> getKeys();
 

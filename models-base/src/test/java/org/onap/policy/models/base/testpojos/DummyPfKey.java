@@ -20,6 +20,7 @@
 
 package org.onap.policy.models.base.testpojos;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.onap.policy.models.base.PfConcept;
@@ -56,7 +57,7 @@ public class DummyPfKey  extends PfKey {
 
     @Override
     public List<PfKey> getKeys() {
-        return null;
+        return Arrays.asList(getKey());
     }
 
     @Override

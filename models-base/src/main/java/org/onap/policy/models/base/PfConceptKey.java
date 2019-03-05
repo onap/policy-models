@@ -25,29 +25,24 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 
 /**
- * An artifact key uniquely identifies every first order entity in the system. Every first order
- * concept in the system must have an {@link PfConceptKey} to identify it. Concepts that are wholly
- * contained in another concept are identified using a {@link AxReferenceKey} key.
+ * An concept key uniquely identifies every first order entity in the system. Every first order concept in the system
+ * must have an {@link PfConceptKey} to identify it. Concepts that are wholly contained in another concept are
+ * identified using a {@link PfReferenceKey} key.
  *
  * <p>Key validation checks that the name and version fields match the NAME_REGEXP and VERSION_REGEXP
  * regular expressions respectively.
  */
 @Embeddable
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name = "pfConceptKey", namespace = "http://www.onap.org/policy/models")
-
-@XmlType(name = "PfConceptKey", namespace = "http://www.onap.org/policy/models", propOrder = {"name", "version"})
-
+@Data
+@EqualsAndHashCode(callSuper = false)
 public class PfConceptKey extends PfKey {
     private static final long serialVersionUID = 8932717618579392561L;
 
@@ -55,15 +50,13 @@ public class PfConceptKey extends PfKey {
     private static final String VERSION_TOKEN = "version";
 
     @Column(name = NAME_TOKEN)
-    @XmlElement(required = true)
     private String name;
 
     @Column(name = VERSION_TOKEN)
-    @XmlElement(required = true)
     private String version;
 
     /**
-     * The default constructor creates a null artifact key.
+     * The default constructor creates a null concept key.
      */
     public PfConceptKey() {
         this(NULL_KEY_NAME, NULL_KEY_VERSION);
@@ -112,9 +105,9 @@ public class PfConceptKey extends PfKey {
     }
 
     /**
-     * Get a null artifact key.
+     * Get a null concept key.
      *
-     * @return a null artifact key
+     * @return a null concept key
      */
     public static final PfConceptKey getNullKey() {
         return new PfConceptKey(PfKey.NULL_KEY_NAME, PfKey.NULL_KEY_VERSION);
@@ -137,58 +130,22 @@ public class PfConceptKey extends PfKey {
         return name + ':' + version;
     }
 
-    /**
-     * Gets the key name.
-     *
-     * @return the key name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Sets the key name.
-     *
-     * @param name the key name
-     */
-    public void setName(final String name) {
-        this.name = Assertions.validateStringParameter(NAME_TOKEN, name, NAME_REGEXP);
-    }
-
-    /**
-     * Gets the key version.
-     *
-     * @return the key version
-     */
-    public String getVersion() {
-        return version;
-    }
-
-    /**
-     * Sets the key version.
-     *
-     * @param version the key version
-     */
-    public void setVersion(final String version) {
-        this.version = Assertions.validateStringParameter(VERSION_TOKEN, version, VERSION_REGEXP);
-    }
-
     @Override
     public PfKey.Compatibility getCompatibility(final PfKey otherKey) {
         if (!(otherKey instanceof PfConceptKey)) {
             return Compatibility.DIFFERENT;
         }
-        final PfConceptKey otherArtifactKey = (PfConceptKey) otherKey;
+        final PfConceptKey otherConceptKey = (PfConceptKey) otherKey;
 
-        if (this.equals(otherArtifactKey)) {
+        if (this.equals(otherConceptKey)) {
             return Compatibility.IDENTICAL;
         }
-        if (!this.getName().equals(otherArtifactKey.getName())) {
+        if (!this.getName().equals(otherConceptKey.getName())) {
             return Compatibility.DIFFERENT;
         }
 
         final String[] thisVersionArray = getVersion().split("\\.");
-        final String[] otherVersionArray = otherArtifactKey.getVersion().split("\\.");
+        final String[] otherVersionArray = otherConceptKey.getVersion().split("\\.");
 
         // There must always be at least one element in each version
         if (!thisVersionArray[0].equals(otherVersionArray[0])) {
@@ -196,7 +153,7 @@ public class PfConceptKey extends PfKey {
         }
 
         if (thisVersionArray.length >= 2 && otherVersionArray.length >= 2
-                && !thisVersionArray[1].equals(otherVersionArray[1])) {
+                        && !thisVersionArray[1].equals(otherVersionArray[1])) {
             return Compatibility.MINOR;
         }
 
@@ -208,27 +165,27 @@ public class PfConceptKey extends PfKey {
         if (!(otherKey instanceof PfConceptKey)) {
             return false;
         }
-        final PfConceptKey otherArtifactKey = (PfConceptKey) otherKey;
+        final PfConceptKey otherConceptKey = (PfConceptKey) otherKey;
 
-        final Compatibility compatibility = this.getCompatibility(otherArtifactKey);
+        final Compatibility compatibility = this.getCompatibility(otherConceptKey);
 
         return !(compatibility == Compatibility.DIFFERENT || compatibility == Compatibility.MAJOR);
     }
 
     @Override
     public PfValidationResult validate(final PfValidationResult result) {
-        final String nameValidationErrorMessage =
-                Assertions.getStringParameterValidationMessage(NAME_TOKEN, name, NAME_REGEXP);
+        final String nameValidationErrorMessage = Assertions.getStringParameterValidationMessage(NAME_TOKEN, name,
+                        NAME_REGEXP);
         if (nameValidationErrorMessage != null) {
             result.addValidationMessage(new PfValidationMessage(this, this.getClass(), ValidationResult.INVALID,
-                    "name invalid-" + nameValidationErrorMessage));
+                            "name invalid-" + nameValidationErrorMessage));
         }
 
-        final String versionValidationErrorMessage =
-                Assertions.getStringParameterValidationMessage(VERSION_TOKEN, version, VERSION_REGEXP);
+        final String versionValidationErrorMessage = Assertions.getStringParameterValidationMessage(VERSION_TOKEN,
+                        version, VERSION_REGEXP);
         if (versionValidationErrorMessage != null) {
             result.addValidationMessage(new PfValidationMessage(this, this.getClass(), ValidationResult.INVALID,
-                    "version invalid-" + versionValidationErrorMessage));
+                            "version invalid-" + versionValidationErrorMessage));
         }
 
         return result;
@@ -238,19 +195,6 @@ public class PfConceptKey extends PfKey {
     public void clean() {
         name = Assertions.validateStringParameter(NAME_TOKEN, name, NAME_REGEXP);
         version = Assertions.validateStringParameter(VERSION_TOKEN, version, VERSION_REGEXP);
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder builder = new StringBuilder();
-        builder.append(this.getClass().getSimpleName());
-        builder.append(":(");
-        builder.append("name=");
-        builder.append(name);
-        builder.append(",version=");
-        builder.append(version);
-        builder.append(")");
-        return builder.toString();
     }
 
     @Override
@@ -265,35 +209,6 @@ public class PfConceptKey extends PfKey {
         copy.setVersion(version);
 
         return copyObject;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + name.hashCode();
-        result = prime * result + version.hashCode();
-        return result;
-    }
-
-    @Override
-    public boolean equals(final Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (this == obj) {
-            return true;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-
-        final PfConceptKey other = (PfConceptKey) obj;
-
-        if (!name.equals(other.name)) {
-            return false;
-        }
-        return version.equals(other.version);
     }
 
     @Override
