@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "13fc8dce_81eceffb",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfConcept.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-03-05T09:37:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb2e6914_d528599d",
+      "range": {
+        "startLine": 62,
+        "startChar": 49,
+        "endLine": 62,
+        "endChar": 53
+      },
+      "revId": "bae9c3bc53b3fec645095138ccd4f056b7e18cfb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "631a1e8e_25a19c45",
         "filename": "models-base/src/main/java/org/onap/policy/models/base/PfConceptGetter.java",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2019-03-04T21:48:42Z",
       "side": 1,
       "message": "typo",
+      "range": {
+        "startLine": 29,
+        "startChar": 92,
+        "endLine": 29,
+        "endChar": 95
+      },
+      "revId": "bae9c3bc53b3fec645095138ccd4f056b7e18cfb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c504060_de316313",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfConceptGetter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-03-05T09:37:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "631a1e8e_25a19c45",
       "range": {
         "startLine": 29,
         "startChar": 92,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "323308ee_8602a679",
+        "filename": "models-base/src/test/java/org/onap/policy/models/base/ExceptionsTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-03-05T09:37:30Z",
+      "side": 1,
+      "message": "It\u0027s in the master branch, it it came in in a previous review.",
+      "parentUuid": "93bd331d_2d47ac1c",
+      "range": {
+        "startLine": 34,
+        "startChar": 26,
+        "endLine": 34,
+        "endChar": 42
+      },
+      "revId": "bae9c3bc53b3fec645095138ccd4f056b7e18cfb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "83136b84_d5fb9c91",
         "filename": "models-dao/src/test/resources/META-INF/persistence.xml",
         "patchSetId": 6
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "27329f9b_326a3053",
+        "filename": "models-dao/src/test/resources/META-INF/persistence.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-03-05T09:37:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83136b84_d5fb9c91",
+      "range": {
+        "startLine": 4,
+        "startChar": 22,
+        "endLine": 4,
+        "endChar": 26
+      },
+      "revId": "bae9c3bc53b3fec645095138ccd4f056b7e18cfb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21970625_c4d8ec06",
         "filename": "models-dao/src/test/resources/logback-test.xml",
         "patchSetId": 6
@@ -105,6 +201,30 @@
       "writtenOn": "2019-03-04T21:48:42Z",
       "side": 1,
       "message": "2019",
+      "range": {
+        "startLine": 4,
+        "startChar": 22,
+        "endLine": 4,
+        "endChar": 26
+      },
+      "revId": "bae9c3bc53b3fec645095138ccd4f056b7e18cfb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f6a6de8_1296f5cd",
+        "filename": "models-dao/src/test/resources/logback-test.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-03-05T09:37:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21970625_c4d8ec06",
       "range": {
         "startLine": 4,
         "startChar": 22,
