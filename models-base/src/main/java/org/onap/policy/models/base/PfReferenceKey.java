@@ -243,6 +243,11 @@ public class PfReferenceKey extends PfKey {
         return parentKeyName + ':' + parentKeyVersion + ':' + parentLocalName + ':' + localName;
     }
 
+    @Override
+    public boolean isNullKey() {
+        return this.equals(PfReferenceKey.getNullKey());
+    }
+
     /**
      * Gets the parent concept key of this reference key.
      *

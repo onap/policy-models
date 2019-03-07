@@ -23,6 +23,7 @@ package org.onap.policy.models.base;
 import java.util.List;
 
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 import lombok.ToString;
 
 import org.onap.policy.common.utils.validation.Assertions;
@@ -50,22 +51,21 @@ public class PfKeyUse extends PfKey {
     }
 
     /**
-     * Copy constructor.
-     *
-     * @param copyConcept the concept to copy from
-     */
-    public PfKeyUse(final PfKeyUse copyConcept) {
-        super(copyConcept);
-    }
-
-    /**
      * This constructor creates an instance of this class, and holds a reference to a used key.
      *
      * @param usedKey a used key
      */
-    public PfKeyUse(final PfKey usedKey) {
-        Assertions.argumentNotNull(usedKey, "usedKey may not be null");
+    public PfKeyUse(@NonNull final PfKey usedKey) {
         this.usedKey = usedKey;
+    }
+
+    /**
+     * Copy constructor.
+     *
+     * @param copyConcept the concept to copy from
+     */
+    public PfKeyUse(@NonNull final PfKeyUse copyConcept) {
+        super(copyConcept);
     }
 
     @Override
@@ -83,33 +83,28 @@ public class PfKeyUse extends PfKey {
         return usedKey.getId();
     }
 
+    @Override
+    public boolean isNullKey() {
+        return usedKey.isNullKey();
+    }
+
     /**
      * Sets the key.
      *
      * @param key the key
      */
-    public void setKey(final PfKey key) {
-        Assertions.argumentNotNull(key, "usedKey may not be null");
+    public void setKey(@NonNull final PfKey key) {
         this.usedKey = key;
     }
 
     @Override
-    public PfKey.Compatibility getCompatibility(final PfKey otherKey) {
+    public PfKey.Compatibility getCompatibility(@NonNull final PfKey otherKey) {
         return usedKey.getCompatibility(otherKey);
     }
 
     @Override
-    public boolean isCompatible(final PfKey otherKey) {
+    public boolean isCompatible(@NonNull final PfKey otherKey) {
         return usedKey.isCompatible(otherKey);
-    }
-
-    @Override
-    public PfValidationResult validate(final PfValidationResult result) {
-        if (usedKey.equals(PfConceptKey.getNullKey())) {
-            result.addValidationMessage(new PfValidationMessage(usedKey, this.getClass(), ValidationResult.INVALID,
-                    "usedKey is a null key"));
-        }
-        return usedKey.validate(result);
     }
 
     @Override
@@ -118,21 +113,12 @@ public class PfKeyUse extends PfKey {
     }
 
     @Override
-    public PfConcept copyTo(final PfConcept target) {
-        Assertions.argumentNotNull(target, "target may not be null");
-
-        final Object copyObject = target;
-        Assertions.instanceOf(copyObject, PfKeyUse.class);
-
-        final PfKeyUse copy = ((PfKeyUse) copyObject);
-        try {
-            copy.usedKey = usedKey.getClass().newInstance();
-        } catch (final Exception e) {
-            throw new PfModelRuntimeException("error copying concept key: " + e.getMessage(), e);
+    public PfValidationResult validate(@NonNull final PfValidationResult result) {
+        if (usedKey.isNullKey()) {
+            result.addValidationMessage(new PfValidationMessage(usedKey, this.getClass(), ValidationResult.INVALID,
+                    "usedKey is a null key"));
         }
-        usedKey.copyTo(copy.usedKey);
-
-        return copy;
+        return usedKey.validate(result);
     }
 
     @Override
@@ -149,5 +135,21 @@ public class PfKeyUse extends PfKey {
         final PfKeyUse other = (PfKeyUse) otherObj;
 
         return usedKey.compareTo(other.usedKey);
+    }
+
+    @Override
+    public PfConcept copyTo(@NonNull final PfConcept target) {
+        final Object copyObject = target;
+        Assertions.instanceOf(copyObject, PfKeyUse.class);
+
+        final PfKeyUse copy = ((PfKeyUse) copyObject);
+        try {
+            copy.usedKey = usedKey.getClass().newInstance();
+        } catch (final Exception e) {
+            throw new PfModelRuntimeException("error copying concept key: " + e.getMessage(), e);
+        }
+        usedKey.copyTo(copy.usedKey);
+
+        return copy;
     }
 }

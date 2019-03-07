@@ -119,8 +119,8 @@ public class PfKeyTest {
 
         try {
             someKey0.compareTo(null);
-        } catch (IllegalArgumentException e) {
-            assertEquals("comparison object may not be null", e.getMessage());
+        } catch (NullPointerException e) {
+            assertEquals("otherObj is marked @NonNull but is null", e.getMessage());
         }
 
         assertEquals(0, someKey0.compareTo(someKey0));

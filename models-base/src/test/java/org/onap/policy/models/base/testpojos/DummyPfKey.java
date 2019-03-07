@@ -41,6 +41,11 @@ public class DummyPfKey  extends PfKey {
     }
 
     @Override
+    public boolean isNullKey() {
+        return false;
+    }
+
+    @Override
     public Compatibility getCompatibility(PfKey otherKey) {
         return null;
     }

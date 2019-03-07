@@ -3,6 +3,7 @@
  * ONAP Policy Model
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,72 +23,102 @@
 
 package org.onap.policy.models.tosca;
 
-import com.google.gson.annotations.SerializedName;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import java.util.List;
+
+import javax.persistence.EmbeddedId;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NonNull;
+
+import org.onap.policy.models.base.PfConcept;
+import org.onap.policy.models.base.PfKey;
+import org.onap.policy.models.base.PfModelRuntimeException;
+import org.onap.policy.models.base.PfReferenceKey;
+import org.onap.policy.models.base.PfValidationMessage;
+import org.onap.policy.models.base.PfValidationResult;
+import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 
 /**
- * Class to represent the Constraint of property in TOSCA definition.
+ * Immutable class to represent the Constraint of property in TOSCA definition.
  *
  * @author Chenfei Gao (cgao@research.att.com)
- *
+ * @author Liam Fallon (liam.fallon@est.tech)
  */
-@ToString
-public class ToscaConstraint {
+@Data
+@EqualsAndHashCode(callSuper = false)
+public abstract class ToscaConstraint extends PfConcept {
+    private static final long serialVersionUID = 6426438089914347734L;
 
-    @Getter
-    @Setter
-    @SerializedName("equal")
-    private String equal;
+    @EmbeddedId
+    private final PfReferenceKey key;
 
-    @Getter
-    @Setter
-    @SerializedName("greater_than")
-    private String greaterThan;
+    /**
+     * The Default Constructor creates a {@link ToscaConstraint} object with a null key.
+     */
+    public ToscaConstraint() {
+        this(new PfReferenceKey());
+    }
 
-    @Getter
-    @Setter
-    @SerializedName("greater_or_equal")
-    private String greaterOrEqual;
+    /**
+     * The Key Constructor creates a {@link ToscaConstraint} object with the given concept key.
+     *
+     * @param key the key
+     */
+    public ToscaConstraint(@NonNull final PfReferenceKey key) {
+        this.key = key;
+    }
 
-    @Getter
-    @Setter
-    @SerializedName("less_than")
-    private String lessThan;
+    /**
+     * Copy constructor.
+     *
+     * @param copyConcept the concept to copy from
+     */
+    public ToscaConstraint(@NonNull final ToscaConstraint copyConcept) {
+        throw new PfModelRuntimeException("cannot copy an immutable constraint");
+    }
 
-    @Getter
-    @Setter
-    @SerializedName("less_or_equal")
-    private String lessOrEqual;
+    @Override
+    public List<PfKey> getKeys() {
+        return getKey().getKeys();
+    }
 
-    @Getter
-    @Setter
-    @SerializedName("in_range")
-    private String inRange;
+    @Override
+    public void clean() {
+        key.clean();
+    }
 
-    @Getter
-    @Setter
-    @SerializedName("valid_values")
-    private String validValues;
+    @Override
+    public PfValidationResult validate(final PfValidationResult resultIn) {
+        PfValidationResult result = resultIn;
 
-    @Getter
-    @Setter
-    @SerializedName("length")
-    private String length;
+        if (key.isNullKey()) {
+            result.addValidationMessage(
+                    new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID, "key is a null key"));
+        }
 
-    @Getter
-    @Setter
-    @SerializedName("min_length")
-    private String minLength;
+        return key.validate(result);
+    }
 
-    @Getter
-    @Setter
-    @SerializedName("max_length")
-    private String maxLength;
+    @Override
+    public int compareTo(final PfConcept otherConcept) {
+        if (otherConcept == null) {
+            return -1;
+        }
+        if (this == otherConcept) {
+            return 0;
+        }
+        if (getClass() != otherConcept.getClass()) {
+            return this.hashCode() - otherConcept.hashCode();
+        }
 
-    @Getter
-    @Setter
-    @SerializedName("pattern")
-    private String pattern;
+        final ToscaConstraint other = (ToscaConstraint) otherConcept;
+
+        return key.compareTo(other.key);
+    }
+
+    @Override
+    public PfConcept copyTo(@NonNull final PfConcept target) {
+        throw new PfModelRuntimeException("cannot copy an immutable constraint");
+    }
 }

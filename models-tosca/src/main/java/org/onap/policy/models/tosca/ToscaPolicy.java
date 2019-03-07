@@ -3,6 +3,7 @@
  * ONAP Policy Model
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,49 +23,216 @@
 
 package org.onap.policy.models.tosca;
 
-import com.google.gson.annotations.SerializedName;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NonNull;
+
+import org.onap.policy.common.utils.validation.Assertions;
+import org.onap.policy.models.base.PfConcept;
+import org.onap.policy.models.base.PfConceptKey;
+import org.onap.policy.models.base.PfKey;
+import org.onap.policy.models.base.PfValidationMessage;
+import org.onap.policy.models.base.PfValidationResult;
+import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 
 /**
  * Class to represent the policy in TOSCA definition.
  *
  * @author Chenfei Gao (cgao@research.att.com)
- *
+ * @author Liam Fallon (liam.fallon@est.tech)
  */
-@ToString
-public class ToscaPolicy {
+@Entity
+@Table(name = "ToscaPolicy")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class ToscaPolicy extends ToscaEntityType {
+    private static final long serialVersionUID = 3265174757061982805L;
 
-    @Getter
-    @Setter
-    @SerializedName("type")
-    private String type;
+    @Column
+    private PfConceptKey type;
 
-    @Getter
-    @Setter
-    @SerializedName("description")
-    private String description;
+    @ElementCollection
+    private List<ToscaProperty> properties;
 
-    @Getter
-    @Setter
-    @SerializedName("metadata")
-    private Map<String, String> metadata;
+    @ElementCollection
+    private List<PfConceptKey> targets;
 
-    @Getter
-    @Setter
-    @SerializedName("properties")
-    private List<Map<String, String>> properties;
+    /**
+     * The Default Constructor creates a {@link ToscaPolicy} object with a null key.
+     */
+    public ToscaPolicy() {
+        this(new PfConceptKey());
+    }
 
-    @Getter
-    @Setter
-    @SerializedName("targets")
-    private List<String> targets;
+    /**
+     * The Key Constructor creates a {@link ToscaPolicy} object with the given concept key.
+     *
+     * @param key the key
+     */
+    public ToscaPolicy(@NonNull final PfConceptKey key) {
+        super(key);
+    }
 
-    @Getter
-    @Setter
-    @SerializedName("triggers")
-    private List<Map<String, ToscaTrigger>> triggers;
+    /**
+     * Copy constructor.
+     *
+     * @param copyConcept the concept to copy from
+     */
+    public ToscaPolicy(@NonNull final ToscaPolicy copyConcept) {
+        super(copyConcept);
+    }
+
+
+    @Override
+    public List<PfKey> getKeys() {
+        final List<PfKey> keyList = super.getKeys();
+
+        keyList.addAll(type.getKeys());
+
+        for (ToscaProperty property : properties) {
+            keyList.addAll(property.getKeys());
+        }
+
+        keyList.addAll(targets);
+
+        return keyList;
+    }
+
+    @Override
+    public void clean() {
+        super.clean();
+
+        type.clean();
+
+        for (ToscaProperty property : properties) {
+            property.clean();
+        }
+
+        for (PfConceptKey target : targets) {
+            target.clean();
+        }
+    }
+
+    @Override
+    public PfValidationResult validate(@NonNull final PfValidationResult resultIn) {
+        PfValidationResult result = super.validate(resultIn);
+
+        result = type.validate(result);
+
+        if (properties != null) {
+            result = validateProperties(result);
+        }
+
+        if (targets != null) {
+            result = validateTargets(result);
+        }
+
+        return result;
+    }
+
+    /**
+     * Validate the policy properties.
+     *
+     * @param result The result of validations up to now
+     * @return the validation result
+     */
+    private PfValidationResult validateProperties(final PfValidationResult resultIn) {
+        PfValidationResult result = resultIn;
+
+        for (ToscaProperty property : properties) {
+            if (property == null) {
+                result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(),
+                        ValidationResult.INVALID, "policy property may not be null "));
+            } else {
+                result = property.validate(result);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Validate the policy targets.
+     *
+     * @param result The result of validations up to now
+     * @return the validation result
+     */
+    private PfValidationResult validateTargets(final PfValidationResult resultIn) {
+        PfValidationResult result = resultIn;
+
+        for (PfConceptKey target : targets) {
+            if (target == null) {
+                result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
+                        "policy target may not be null "));
+            } else {
+                result = target.validate(result);
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public int compareTo(final PfConcept otherConcept) {
+        if (otherConcept == null) {
+            return -1;
+        }
+
+        if (this == otherConcept) {
+            return 0;
+        }
+
+        if (getClass() != otherConcept.getClass()) {
+            return this.hashCode() - otherConcept.hashCode();
+        }
+
+        final ToscaPolicy other = (ToscaPolicy) otherConcept;
+        if (!super.equals(other)) {
+            return super.compareTo(other);
+        }
+
+        if (!type.equals(other.type)) {
+            return type.compareTo(other.type);
+        }
+
+        if (!properties.equals(other.properties)) {
+            return (properties.hashCode() - other.properties.hashCode());
+        }
+
+        return targets.hashCode() - other.targets.hashCode();
+    }
+
+    @Override
+    public PfConcept copyTo(@NonNull PfConcept target) {
+        final Object copyObject = target;
+        Assertions.instanceOf(copyObject, PfConcept.class);
+
+        final ToscaPolicy copy = ((ToscaPolicy) copyObject);
+        super.copyTo(target);
+
+        copy.setType(new PfConceptKey(type));
+
+        final List<ToscaProperty> newProperties = new ArrayList<>();
+        for (final ToscaProperty property : properties) {
+            newProperties.add(new ToscaProperty(property));
+        }
+        copy.setProperties(newProperties);
+
+        final List<PfConceptKey> newTargets = new ArrayList<>();
+        for (final PfConceptKey oldTarget : targets) {
+            newTargets.add(new PfConceptKey(oldTarget));
+        }
+        copy.setTargets(newTargets);
+
+        return copy;
+    }
 }

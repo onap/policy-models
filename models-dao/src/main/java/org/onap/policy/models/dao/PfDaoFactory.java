@@ -28,6 +28,8 @@ import org.slf4j.LoggerFactory;
 /**
  * This factory class returns a Policy Framework DAO for the configured persistence mechanism. The
  * factory uses the plugin class specified in {@link DaoParameters} to instantiate a DAO instance.
+ *
+ * @author Liam Fallon (liam.fallon@est.tech)
  */
 public class PfDaoFactory {
     // Get a reference to the logger

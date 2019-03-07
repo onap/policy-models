@@ -32,7 +32,7 @@ import java.util.TreeSet;
 import org.junit.Test;
 
 /**
- * Test the AxConceptGetterImpl class.
+ * Test the PfConceptGetterImplTest class.
  */
 public class PfConceptGetterImplTest {
 

@@ -1,9 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP Policy Model
- * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,11 +22,13 @@ package org.onap.policy.models.tosca;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -41,50 +40,46 @@ import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
-import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfValidationMessage;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 
 /**
- * Class to represent the EventFilter in TOSCA definition.
+ * This class holds a TOSCA topology template. Note: Only the policy specific parts of the TOSCA
+ * topology template are implemented.
  *
- * @author Chenfei Gao (cgao@research.att.com)
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 @Entity
-@Table(name = "ToscaEventFilter")
+@Table(name = "ToscaTopologyTemplate")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class ToscaEventFilter extends PfConcept {
-    private static final long serialVersionUID = 8769020537228210247L;
+public class ToscaTopologyTemplate extends PfConcept {
+    private static final long serialVersionUID = 8969698734673232603L;
 
     @EmbeddedId
-    private PfReferenceKey key;
+    private PfConceptKey key;
 
-    @Column
-    private PfConceptKey node;
+    @Column(name = "description")
+    private String description;
 
-    @Column
-    private String requirement;
-
-    @Column
-    private String capability;
+    @OneToOne(cascade = CascadeType.ALL)
+    private ToscaPolicies policies;
 
     /**
-     * The Default Constructor creates a {@link ToscaEventFilter} object with a null key.
+     * The Default Constructor creates a {@link ToscaTopologyTemplate} object with a null key.
      */
-    public ToscaEventFilter() {
-        this(new PfReferenceKey());
+    public ToscaTopologyTemplate() {
+        this(new PfConceptKey());
     }
 
     /**
-     * The Key Constructor creates a {@link ToscaEventFilter} object with the given concept key.
+     * The Key Constructor creates a {@link ToscaTopologyTemplate} object with the given concept key.
      *
      * @param key the key
      */
-    public ToscaEventFilter(@NonNull final PfReferenceKey key) {
+    public ToscaTopologyTemplate(@NonNull final PfConceptKey key) {
         this.key = key;
     }
 
@@ -93,28 +88,30 @@ public class ToscaEventFilter extends PfConcept {
      *
      * @param copyConcept the concept to copy from
      */
-    public ToscaEventFilter(final ToscaEventFilter copyConcept) {
+    public ToscaTopologyTemplate(final ToscaTopologyTemplate copyConcept) {
         super(copyConcept);
     }
 
     @Override
     public List<PfKey> getKeys() {
         final List<PfKey> keyList = getKey().getKeys();
-        keyList.addAll(node.getKeys());
+
+        keyList.addAll(policies.getKeys());
+
         return keyList;
     }
 
     @Override
     public void clean() {
         key.clean();
-        node.clean();
 
-        requirement = (requirement != null ? requirement.trim() : requirement);
-        capability = (capability != null ? capability.trim() : capability);
+        description = (description != null ? description.trim() : null);
+
+        policies.clean();
     }
 
     @Override
-    public PfValidationResult validate(final PfValidationResult resultIn) {
+    public PfValidationResult validate(PfValidationResult resultIn) {
         PfValidationResult result = resultIn;
 
         if (key.isNullKey()) {
@@ -124,19 +121,13 @@ public class ToscaEventFilter extends PfConcept {
 
         result = key.validate(result);
 
-        if (node == null || node.isNullKey()) {
+        if (description != null && description.trim().length() == 0) {
             result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "node on an event filter may not be null"));
+                    "property description may not be blank"));
         }
 
-        if (requirement != null && requirement.trim().length() == 0) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "event filter requirement may not be blank"));
-        }
-
-        if (capability != null && capability.trim().length() == 0) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "event filter capability may not be blank"));
+        if (policies != null) {
+            result = policies.validate(result);
         }
 
         return result;
@@ -154,33 +145,28 @@ public class ToscaEventFilter extends PfConcept {
             return this.hashCode() - otherConcept.hashCode();
         }
 
-        final ToscaEventFilter other = (ToscaEventFilter) otherConcept;
+        final ToscaTopologyTemplate other = (ToscaTopologyTemplate) otherConcept;
         if (!key.equals(other.key)) {
             return key.compareTo(other.key);
         }
 
-        if (!node.equals(other.node)) {
-            return node.compareTo(other.node);
-        }
-
-        int result = ObjectUtils.compare(requirement, other.requirement);
+        int result = ObjectUtils.compare(description, other.description);
         if (result != 0) {
             return result;
         }
 
-        return ObjectUtils.compare(capability, other.capability);
+        return ObjectUtils.compare(policies, other.policies);
     }
 
     @Override
-    public PfConcept copyTo(@NonNull final PfConcept target) {
+    public PfConcept copyTo(@NonNull PfConcept target) {
         final Object copyObject = target;
-        Assertions.instanceOf(copyObject, ToscaEventFilter.class);
+        Assertions.instanceOf(copyObject, PfConcept.class);
 
-        final ToscaEventFilter copy = ((ToscaEventFilter) copyObject);
-        copy.setKey(new PfReferenceKey(key));
-        copy.setNode(new PfConceptKey(node));
-        copy.setRequirement(requirement);
-        copy.setCapability(capability);
+        final ToscaTopologyTemplate copy = ((ToscaTopologyTemplate) copyObject);
+        copy.setKey(new PfConceptKey(key));
+        copy.setDescription(description);
+        copy.setPolicies(new ToscaPolicies(policies));
 
         return copy;
     }

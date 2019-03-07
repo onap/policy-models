@@ -27,7 +27,9 @@ import javax.persistence.Converter;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
- * The Class UUIDConverter converts a UUID to and from database format.
+ * The Class UuidConverter converts a UUID to and from database format.
+ *
+ * @author Liam Fallon (liam.fallon@est.tech)
  */
 @Converter
 public class Uuid2String extends XmlAdapter<String, UUID> implements AttributeConverter<UUID, String> {

@@ -22,7 +22,6 @@ package org.onap.policy.models.tosca;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -41,11 +40,15 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.onap.policy.common.utils.validation.Assertions;
+import org.onap.policy.common.utils.validation.ParameterValidationUtils;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
+import org.onap.policy.models.base.PfValidationMessage;
 import org.onap.policy.models.base.PfValidationResult;
+import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 
 /**
  * Class to represent the EntrySchema of list/map property in TOSCA definition.
@@ -59,8 +62,7 @@ public class ToscaEntityType extends PfConcept {
     private static final long serialVersionUID = -1330661834220739393L;
 
     @EmbeddedId
-    @NonNull
-    private PfConceptKey key = PfConceptKey.getNullKey();
+    private PfConceptKey key;
 
     @SerializedName("derived_from")
     @Column(name = "derivedFrom")
@@ -99,23 +101,59 @@ public class ToscaEntityType extends PfConcept {
 
     @Override
     public List<PfKey> getKeys() {
-        final List<PfKey> keyList = new ArrayList<>();
-        keyList.add(getKey());
+        final List<PfKey> keyList = getKey().getKeys();
+        keyList.addAll(derivedFrom.getKeys());
         return keyList;
     }
 
     @Override
     public void clean() {
-        description = description.trim();
+        key.clean();
+
+        derivedFrom.clean();
 
         for (Entry<String, String> metadataEntry : metadata.entrySet()) {
             metadataEntry.setValue(metadataEntry.getValue().trim());
         }
+
+        description = (description != null ? description.trim() : null);
     }
 
     @Override
-    public PfValidationResult validate(PfValidationResult result) {
-        return null;
+    public PfValidationResult validate(PfValidationResult resultIn) {
+        PfValidationResult result = resultIn;
+
+        if (key.isNullKey()) {
+            result.addValidationMessage(
+                    new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID, "key is a null key"));
+        }
+
+        result = key.validate(result);
+
+        if (derivedFrom != null && derivedFrom.isNullKey()) {
+            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
+                    "derived from key is a null key"));
+        }
+
+        if (metadata != null) {
+            for (Entry<String, String> metadataEntry : metadata.entrySet()) {
+                if (!ParameterValidationUtils.validateStringParameter(metadataEntry.getKey())) {
+                    result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
+                            "property metadata key may not be null"));
+                }
+                if (!ParameterValidationUtils.validateStringParameter(metadataEntry.getValue())) {
+                    result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
+                            "property metadata value may not be null"));
+                }
+            }
+        }
+
+        if (description != null && description.trim().length() == 0) {
+            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
+                    "property description may not be blank"));
+        }
+
+        return result;
     }
 
     @Override
@@ -135,15 +173,16 @@ public class ToscaEntityType extends PfConcept {
             return key.compareTo(other.key);
         }
 
-        if (!derivedFrom.equals(other.derivedFrom)) {
-            return derivedFrom.compareTo(other.derivedFrom);
+        int result = ObjectUtils.compare(derivedFrom, other.derivedFrom);
+        if (result != 0) {
+            return result;
         }
 
         if (!metadata.equals(other.metadata)) {
             return (metadata.hashCode() - other.metadata.hashCode());
         }
 
-        return description.compareTo(other.description);
+        return ObjectUtils.compare(description, other.description);
     }
 
     @Override
@@ -152,16 +191,16 @@ public class ToscaEntityType extends PfConcept {
         Assertions.instanceOf(copyObject, PfConcept.class);
 
         final ToscaEntityType copy = ((ToscaEntityType) copyObject);
-        copy.key = new PfConceptKey(key);
-        copy.derivedFrom = new PfConceptKey(derivedFrom);
+        copy.setKey(new PfConceptKey(key));
+        copy.setDerivedFrom(new PfConceptKey(derivedFrom));
 
         final Map<String, String> newMatadata = new TreeMap<>();
         for (final Entry<String, String> metadataEntry : metadata.entrySet()) {
             newMatadata.put(metadataEntry.getKey(), metadataEntry.getValue());
         }
-        copy.metadata = newMatadata;
+        copy.setMetadata(newMatadata);
 
-        copy.description = description;
+        copy.setDescription(description);
 
         return copy;
     }
