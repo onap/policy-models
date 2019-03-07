@@ -22,6 +22,29 @@
       "revId": "c5b3ba5671d8544fb66098448495a38a034aa72a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8c6c822e_9c3d244b",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/ToscaConstraintLogical.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-03-07T18:58:38Z",
+      "side": 1,
+      "message": "Liam, I have two questions here: \na) how do you map the logical specified by client (e.g.\u003d,\u003e,\u003e\u003d,\u003c\u003d) to enum operation here?\nb) where is other constraints defined, like valid_values that is widely used by clients? Are you checking in more ToscaConstraintXXXXX for the others",
+      "range": {
+        "startLine": 43,
+        "startChar": 8,
+        "endLine": 47,
+        "endChar": 10
+      },
+      "revId": "c5b3ba5671d8544fb66098448495a38a034aa72a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
