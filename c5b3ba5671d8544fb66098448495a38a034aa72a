@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "782f9bca_8406d359",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfConceptContainer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-03-07T18:26:31Z",
+      "side": 1,
+      "message": "isEmpty() for sonar\nPlus you could just return the result in the if and remove the else. Reduces complexity.",
+      "range": {
+        "startLine": 142,
+        "startChar": 22,
+        "endLine": 142,
+        "endChar": 34
+      },
+      "revId": "c5b3ba5671d8544fb66098448495a38a034aa72a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
