@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "9c7cb00c_91996ecc",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfConceptContainer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-08T20:41:13Z",
+      "side": 1,
+      "message": "could combine these two lines",
+      "revId": "c5b3ba5671d8544fb66098448495a38a034aa72a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "782f9bca_8406d359",
         "filename": "models-base/src/main/java/org/onap/policy/models/base/PfConceptContainer.java",
         "patchSetId": 1
@@ -25,6 +42,142 @@
     },
     {
       "key": {
+        "uuid": "b661310a_6cdc768d",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfConceptContainer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-08T20:41:13Z",
+      "side": 1,
+      "message": "I think sonar will complain about the nesting level.  However, if you follow Pam\u0027s idea, then you can eliminate the \"else\" wrapper, thus reducing the nesting level.",
+      "revId": "c5b3ba5671d8544fb66098448495a38a034aa72a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2c5be035_e5522b15",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfConceptContainer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-08T20:41:13Z",
+      "side": 1,
+      "message": "if the hashcodes happen to match, this will return 0, which is incorrect.  Perhaps compare the classes (or class names) instead.\n\nsame comment applies to the other files",
+      "revId": "c5b3ba5671d8544fb66098448495a38a034aa72a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d1a8a21_5c7919d7",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfConceptContainer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-08T20:41:13Z",
+      "side": 1,
+      "message": "this works, though I generally prefer to just do the compareTo and avoid the equals check:\n\nint retval \u003d key.compareTo(...);\nif(retval \u003d\u003d 0) retval \u003d conceptMap.compareTo(...)\n...",
+      "revId": "c5b3ba5671d8544fb66098448495a38a034aa72a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "772f5866_f38a6b8c",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfConceptContainer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-08T20:41:13Z",
+      "side": 1,
+      "message": "again, hashcode is not safe",
+      "revId": "c5b3ba5671d8544fb66098448495a38a034aa72a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d5592cb_e7c63356",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfKeyUse.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-08T20:41:13Z",
+      "side": 1,
+      "message": "since I see this nullkey validation check in a number of places, I wonder if this check could be pushed inside of the key.validate() method.  Or are we saying that there may be cases where null keys are valid?",
+      "revId": "c5b3ba5671d8544fb66098448495a38a034aa72a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4788564_505df5a8",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfKeyUse.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-08T20:41:13Z",
+      "side": 1,
+      "message": "I find myself wondering if we should use clone() instead of copyTo(), or perhaps copy() (since clone() seems a bit problematic at times)\n\nAnother possibility: could create a CloneUtility that uses reflection to do a deep copy of an object, eliminating the need for the \"copyTo\" method and copy constructors.  It could use GSON to make the clone.\n\nOr just create copy constructors for everything, still eliminating the need for \"copyTo\" - I\u0027d prefer one or the other, but not both and the copy constructor is more convenient.\n\n...just the rambling of a madman.",
+      "revId": "c5b3ba5671d8544fb66098448495a38a034aa72a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e36db226_4dc87e8c",
+        "filename": "models-base/src/test/java/org/onap/policy/models/base/PfConceptGetterImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-08T20:41:13Z",
+      "side": 1,
+      "message": "maybe just delete this comment so don\u0027t have to keep updating it",
+      "revId": "c5b3ba5671d8544fb66098448495a38a034aa72a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9248215b_01c0d497",
+        "filename": "models-base/src/test/java/org/onap/policy/models/base/PfKeyTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-08T20:41:13Z",
+      "side": 1,
+      "message": "add fail() (or change to use assetj)",
+      "revId": "c5b3ba5671d8544fb66098448495a38a034aa72a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8c6c822e_9c3d244b",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/ToscaConstraintLogical.java",
         "patchSetId": 1
@@ -42,6 +195,125 @@
         "endLine": 47,
         "endChar": 10
       },
+      "revId": "c5b3ba5671d8544fb66098448495a38a034aa72a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b23c1974_a2f0f301",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/ToscaConstraintLogicalString.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-08T20:41:13Z",
+      "side": 1,
+      "message": "is @Getter needed with @Data?",
+      "revId": "c5b3ba5671d8544fb66098448495a38a034aa72a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "964b371a_a5b769ec",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/ToscaEntityType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-08T20:41:13Z",
+      "side": 1,
+      "message": "hmm, can we use this in all of the other places instead of hashcode?",
+      "revId": "c5b3ba5671d8544fb66098448495a38a034aa72a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12d4ab14_9db5d065",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/ToscaEntrySchema.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-08T20:41:13Z",
+      "side": 1,
+      "message": "sonar: size the array correctly\n\nsame comment applies in some subsequent files",
+      "revId": "c5b3ba5671d8544fb66098448495a38a034aa72a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6852c9c_90c7de71",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/ToscaPolicy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-08T20:41:13Z",
+      "side": 1,
+      "message": "need to check type!\u003dnull?",
+      "revId": "c5b3ba5671d8544fb66098448495a38a034aa72a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8853a002_865d7c16",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/ToscaPolicyType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-08T20:41:13Z",
+      "side": 1,
+      "message": "so if properties\u003d\u003dnull, then it can pass validation, but then \"clean()\" would throw an NPE, right?  this may be an issue in a number of these files",
+      "revId": "c5b3ba5671d8544fb66098448495a38a034aa72a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a9d5fac_9f230112",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/ToscaTrigger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-08T20:41:13Z",
+      "side": 1,
+      "message": "maybe make a common method for this somewhere",
+      "revId": "c5b3ba5671d8544fb66098448495a38a034aa72a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f6cace4_ab464f49",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/ToscaTrigger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-08T20:41:13Z",
+      "side": 1,
+      "message": "make a common method for this?",
       "revId": "c5b3ba5671d8544fb66098448495a38a034aa72a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
