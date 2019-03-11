@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66d95d9a_f0328c8a",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/PdpInstanceDetails.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-03-11T22:55:13Z",
+      "side": 1,
+      "message": "what is deploymentInstanceInfo?",
+      "revId": "383f5b750ac72bd487cbba4d37ea9181d53da09e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4edc72f_83c5ff16",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/PdpSubGroup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-03-11T22:55:13Z",
+      "side": 1,
+      "message": "What is minInstanceCount?   I don\u0027t think we have any visibility into the minimum number of replicas that an operator may choose to support if that\u0027s what it means.  I think we should delete it if we don\u0027t know what to do with this field.",
+      "revId": "383f5b750ac72bd487cbba4d37ea9181d53da09e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26e68bf0_460e5a8e",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/PdpSubGroup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-03-11T22:55:13Z",
+      "side": 1,
+      "message": "Map\u003cString, String\u003e properties",
+      "revId": "383f5b750ac72bd487cbba4d37ea9181d53da09e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab954054_3e6769f9",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/PdpSubGroup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-03-11T22:55:13Z",
+      "side": 1,
+      "message": "What is deploymentInfo?   We should remove if we don\u0027t have a concrete usage for it.",
+      "revId": "383f5b750ac72bd487cbba4d37ea9181d53da09e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
