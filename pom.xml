@@ -53,6 +53,7 @@
         <module>models-base</module>
         <module>models-dao</module>
         <module>models-tosca</module>
+        <module>models-pap</module>
     </modules>
 
     <distributionManagement>
