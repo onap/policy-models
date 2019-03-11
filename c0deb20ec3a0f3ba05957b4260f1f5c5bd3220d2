@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b646331_403a6327",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/PdpGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-11T16:04:30Z",
+      "side": 1,
+      "message": "shouldn\u0027t this be a Map\u003cString,String\u003e?",
+      "revId": "c0deb20ec3a0f3ba05957b4260f1f5c5bd3220d2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21374520_2450e58d",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/PdpInstanceDetails.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-11T16:04:30Z",
+      "side": 1,
+      "message": "what is this?  should it be something other than string?",
+      "revId": "c0deb20ec3a0f3ba05957b4260f1f5c5bd3220d2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f810f090_b02f3cf8",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/PdpSubGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-11T16:04:30Z",
+      "side": 1,
+      "message": "what is the purpose of this parameter?  does the client actually know the current instance count?  isn\u0027t the PAP the authority on the current count?",
+      "revId": "c0deb20ec3a0f3ba05957b4260f1f5c5bd3220d2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b4aa54d_7aea5cc3",
+        "filename": "models-pap/src/test/java/org/onap/policy/models/pap/TestModels.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-11T16:04:30Z",
+      "side": 1,
+      "message": "maybe rename this method",
+      "revId": "c0deb20ec3a0f3ba05957b4260f1f5c5bd3220d2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
