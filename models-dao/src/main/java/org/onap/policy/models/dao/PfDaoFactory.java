@@ -20,6 +20,8 @@
 
 package org.onap.policy.models.dao;
 
+import javax.ws.rs.core.Response;
+
 import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfModelException;
 import org.slf4j.Logger;
@@ -28,6 +30,8 @@ import org.slf4j.LoggerFactory;
 /**
  * This factory class returns a Policy Framework DAO for the configured persistence mechanism. The
  * factory uses the plugin class specified in {@link DaoParameters} to instantiate a DAO instance.
+ *
+ * @author Liam Fallon (liam.fallon@est.tech)
  */
 public class PfDaoFactory {
     // Get a reference to the logger
@@ -52,7 +56,7 @@ public class PfDaoFactory {
             String errorMessage =
                     "Policy Framework DAO class not found for DAO plugin \"" + daoParameters.getPluginClass() + "\"";
             LOGGER.error(errorMessage, e);
-            throw new PfModelException(errorMessage, e);
+            throw new PfModelException(Response.Status.INTERNAL_SERVER_ERROR, errorMessage, e);
         }
 
         // Check the class is a Policy Framework DAO
@@ -60,7 +64,7 @@ public class PfDaoFactory {
             String errorMessage = "Specified DAO plugin class \"" + daoParameters.getPluginClass()
                     + "\" does not implement the PfDao interface";
             LOGGER.error(errorMessage);
-            throw new PfModelException(errorMessage);
+            throw new PfModelException(Response.Status.INTERNAL_SERVER_ERROR, errorMessage);
         }
 
         return (PfDao) pfDaoObject;

@@ -27,10 +27,10 @@
         <version>2.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>policy-models-tosca</artifactId>
+    <artifactId>policy-models-provider</artifactId>
 
     <name>${project.artifactId}</name>
-    <description>The TOSCA models that are shared across different policy components</description>
+    <description>The provider interface that allows components to manipualte models in the database</description>
 
     <dependencies>
         <dependency>
@@ -40,9 +40,15 @@
         </dependency>
 
         <dependency>
-            <groupId>org.onap.policy.common</groupId>
-            <artifactId>gson</artifactId>
-            <version>${policy.common.version}</version>
+            <groupId>org.onap.policy.models</groupId>
+            <artifactId>policy-models-dao</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.onap.policy.models</groupId>
+            <artifactId>policy-models-tosca</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 </project>

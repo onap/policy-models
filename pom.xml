@@ -40,6 +40,7 @@
 
     <properties>
         <derby.version>10.13.1.1</derby.version>
+        <javax.ws.rs-api.version>2.0.1</javax.ws.rs-api.version>
         <policy.common.version>1.4.0-SNAPSHOT</policy.common.version>
 
         <!-- sonar/jacoco overrides -->
@@ -53,6 +54,7 @@
         <module>models-base</module>
         <module>models-dao</module>
         <module>models-tosca</module>
+        <module>models-provider</module>
     </modules>
 
     <distributionManagement>
@@ -84,6 +86,12 @@
             <artifactId>gson</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+            <version>${javax.ws.rs-api.version}</version>
+        </dependency>
+        
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

@@ -20,12 +20,22 @@
 
 package org.onap.policy.models.base;
 
+import javax.ws.rs.core.Response;
+
+import lombok.Getter;
+import lombok.ToString;
+
 /**
  * This class is a base model run time exception from which all model run time exceptions are sub
  * classes.
  */
+@Getter
+@ToString
 public class PfModelRuntimeException extends RuntimeException {
     private static final long serialVersionUID = -8507246953751956974L;
+
+    // The return code on the exception
+    private final Response.Status statusCode;
 
     // The object on which the exception was thrown
     private final transient Object object;
@@ -33,43 +43,50 @@ public class PfModelRuntimeException extends RuntimeException {
     /**
      * Instantiates a new model runtime exception.
      *
+     * @param statusCode the return code for the exception
      * @param message the message on the exception
      */
-    public PfModelRuntimeException(final String message) {
-        this(message, null);
+    public PfModelRuntimeException(final Response.Status statusCode, final String message) {
+        this(statusCode, message, null);
     }
 
     /**
      * Instantiates a new model runtime exception.
      *
+     * @param statusCode the return code for the exception
      * @param message the message on the exception
      * @param object the object that the exception was thrown on
      */
-    public PfModelRuntimeException(final String message, final Object object) {
+    public PfModelRuntimeException(final Response.Status statusCode, final String message, final Object object) {
         super(message);
         this.object = object;
+        this.statusCode = statusCode;
     }
 
     /**
      * Instantiates a new model runtime exception.
      *
+     * @param statusCode the return code for the exception
      * @param message the message on the exception
      * @param exception the exception that caused this model exception
      */
-    public PfModelRuntimeException(final String message, final Exception exception) {
-        this(message, exception, null);
+    public PfModelRuntimeException(final Response.Status statusCode, final String message, final Exception exception) {
+        this(statusCode, message, exception, null);
     }
 
     /**
      * Instantiates a new model runtime exception.
      *
+     * @param statusCode the return code for the exception
      * @param message the message on the exception
      * @param exception the exception that caused this model exception
      * @param object the object that the exception was thrown on
      */
-    public PfModelRuntimeException(final String message, final Exception exception, final Object object) {
+    public PfModelRuntimeException(final Response.Status statusCode, final String message, final Exception exception,
+            final Object object) {
         super(message, exception);
         this.object = object;
+        this.statusCode = statusCode;
     }
 
     /**
@@ -79,14 +96,5 @@ public class PfModelRuntimeException extends RuntimeException {
      */
     public String getCascadedMessage() {
         return PfModelException.buildCascadedMessage(this);
-    }
-
-    /**
-     * Get the object on which the exception was thrown.
-     *
-     * @return The object
-     */
-    public Object getObject() {
-        return object;
     }
 }

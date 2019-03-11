@@ -1,8 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP Policy Model
- * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,34 +18,21 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.models.tosca;
+package org.onap.policy.models.provider;
 
-import com.google.gson.annotations.SerializedName;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import org.onap.policy.models.provider.impl.PolicyModelsProviderImpl;
 
 /**
- * Class to represent the EventFilter in TOSCA definition.
+ * A factory for creating PolicyModelsProvider objects using the default Policy Framework implementation.
  *
- * @author Chenfei Gao (cgao@research.att.com)
- *
+ * @author Liam Fallon (liam.fallon@est.tech)
  */
-@ToString
-public class ToscaEventFilter {
+public class PolicyModelsProviderFactory {
 
-    @Getter
-    @Setter
-    @SerializedName("node")
-    private String node;
-
-    @Getter
-    @Setter
-    @SerializedName("requirement")
-    private String requirement;
-
-    @Getter
-    @Setter
-    @SerializedName("capability")
-    private String capability;
+    /**
+     * Creates a new PolicyModelsProvider object from its implementation.
+     */
+    public  PolicyModelsProvider createPolicyModelsProvider() {
+        return new PolicyModelsProviderImpl();
+    }
 }

@@ -25,7 +25,7 @@ import javax.persistence.Converter;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
- * The Class CDATAConditioner converts a CDATA String to and from database format by removing spaces
+ * The Class CDataConditioner converts a CDATA String to and from database format by removing spaces
  * at the ends of lines and platform-specific new line endings.
  */
 @Converter
