@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "cc5d7c23_425773c0",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/PdpSubGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-11T17:43:45Z",
+      "side": 1,
+      "message": "Ah, didn\u0027t realize this was use in GET requests, too.",
+      "parentUuid": "e9c57c74_8546ee21",
+      "revId": "c0deb20ec3a0f3ba05957b4260f1f5c5bd3220d2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b4aa54d_7aea5cc3",
         "filename": "models-pap/src/test/java/org/onap/policy/models/pap/TestModels.java",
         "patchSetId": 1
