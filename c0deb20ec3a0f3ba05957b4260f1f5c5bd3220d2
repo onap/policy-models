@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "010e1c22_9a0c1dc8",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/PdpGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-03-11T16:56:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b646331_403a6327",
+      "revId": "c0deb20ec3a0f3ba05957b4260f1f5c5bd3220d2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21374520_2450e58d",
         "filename": "models-pap/src/main/java/org/onap/policy/models/pap/PdpInstanceDetails.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2019-03-11T16:04:30Z",
       "side": 1,
       "message": "what is this?  should it be something other than string?",
+      "revId": "c0deb20ec3a0f3ba05957b4260f1f5c5bd3220d2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab30d95c_28d5dccb",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/PdpInstanceDetails.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-03-11T16:56:27Z",
+      "side": 1,
+      "message": "As per API wiki, this will hold information on the node running the PDP. I think it is more node/pod related information.\nI was unclear about the type so for now kept it as String.",
+      "parentUuid": "21374520_2450e58d",
       "revId": "c0deb20ec3a0f3ba05957b4260f1f5c5bd3220d2",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "e9c57c74_8546ee21",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/PdpSubGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-03-11T16:56:27Z",
+      "side": 1,
+      "message": "yes PAP is the authority. But PAP can tell the minInstanceCount to Kubernetes. And Kubernetes has to anytime maintain that number of instances running (which is referred as currentInstanceCount). Ideally, currentInstanceCount \u003d minInstanceCount.\n\nAlso, this field is only applicable for GET requests.",
+      "parentUuid": "f810f090_b02f3cf8",
+      "revId": "c0deb20ec3a0f3ba05957b4260f1f5c5bd3220d2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b4aa54d_7aea5cc3",
         "filename": "models-pap/src/test/java/org/onap/policy/models/pap/TestModels.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2019-03-11T16:04:30Z",
       "side": 1,
       "message": "maybe rename this method",
+      "revId": "c0deb20ec3a0f3ba05957b4260f1f5c5bd3220d2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2ebbef27_a118b0ad",
+        "filename": "models-pap/src/test/java/org/onap/policy/models/pap/TestModels.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-03-11T16:56:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b4aa54d_7aea5cc3",
       "revId": "c0deb20ec3a0f3ba05957b4260f1f5c5bd3220d2",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
