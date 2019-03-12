@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7e6b9eca_e6ada3d0",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/PdpInstanceDetails.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-03-12T11:54:31Z",
+      "side": 1,
+      "message": "As per API wiki, this will hold information on the node running the PDP. I think it is more node/pod related information.",
+      "parentUuid": "66d95d9a_f0328c8a",
+      "revId": "383f5b750ac72bd487cbba4d37ea9181d53da09e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d4edc72f_83c5ff16",
         "filename": "models-pap/src/main/java/org/onap/policy/models/pap/PdpSubGroup.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2019-03-11T22:55:13Z",
       "side": 1,
       "message": "What is minInstanceCount?   I don\u0027t think we have any visibility into the minimum number of replicas that an operator may choose to support if that\u0027s what it means.  I think we should delete it if we don\u0027t know what to do with this field.",
+      "revId": "383f5b750ac72bd487cbba4d37ea9181d53da09e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73f70ad0_2aec38da",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/PdpSubGroup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-03-12T11:54:31Z",
+      "side": 1,
+      "message": "As per API wiki, minInstanceCount is the minumum number of PDP instances to run in a PDP subgroup. This will be specified by the Policy Administration user through PAP REST API for PDP Group Deployment. The same will then be used to maintain the replica of running PDP instances in a PDP Subgroup.",
+      "parentUuid": "d4edc72f_83c5ff16",
       "revId": "383f5b750ac72bd487cbba4d37ea9181d53da09e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "6a8363f9_1b2e92b7",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/PdpSubGroup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-03-12T11:54:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26e68bf0_460e5a8e",
+      "revId": "383f5b750ac72bd487cbba4d37ea9181d53da09e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab954054_3e6769f9",
         "filename": "models-pap/src/main/java/org/onap/policy/models/pap/PdpSubGroup.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2019-03-11T22:55:13Z",
       "side": 1,
       "message": "What is deploymentInfo?   We should remove if we don\u0027t have a concrete usage for it.",
+      "revId": "383f5b750ac72bd487cbba4d37ea9181d53da09e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7226579b_52c05528",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/PdpSubGroup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-03-12T11:54:31Z",
+      "side": 1,
+      "message": "As per API wiki, deploymentInfo is the information on the deployment for a PDP subgroup.\nFor example -\nservice_endpoint: https://\u003cthe drools service endpoint for this PDP group\u003e\ndeployment: A deployment identifier\n\nChanging it to Map\u003cString,String\u003e as that fits better.",
+      "parentUuid": "ab954054_3e6769f9",
       "revId": "383f5b750ac72bd487cbba4d37ea9181d53da09e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
