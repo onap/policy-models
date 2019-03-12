@@ -30,13 +30,19 @@
     <artifactId>policy-models-tosca</artifactId>
 
     <name>${project.artifactId}</name>
-    <description>The platform models that are shared across different policy components</description>
+    <description>The TOSCA models that are shared across different policy components</description>
 
     <dependencies>
         <dependency>
             <groupId>org.onap.policy.models</groupId>
             <artifactId>policy-models-base</artifactId>
             <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.onap.policy.common</groupId>
+            <artifactId>gson</artifactId>
+            <version>${policy.common.version}</version>
         </dependency>
     </dependencies>
 </project>

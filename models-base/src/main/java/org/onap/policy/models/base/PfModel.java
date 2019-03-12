@@ -63,8 +63,7 @@ public abstract class PfModel extends PfConcept {
     private static final long serialVersionUID = -771659065637205430L;
 
     @EmbeddedId
-    @NonNull
-    private PfConceptKey key = PfConceptKey.getNullKey();
+    private PfConceptKey key;
 
     /**
      * The Default Constructor creates this concept with a NULL artifact key.
@@ -74,24 +73,24 @@ public abstract class PfModel extends PfConcept {
     }
 
     /**
-     * Copy constructor.
-     *
-     * @param copyConcept the concept to copy from
-     */
-    public PfModel(final PfModel copyConcept) {
-        super(copyConcept);
-    }
-
-    /**
      * Constructor to create this concept with the specified key.
      *
      * @param key the key of this concept
      */
-    public PfModel(final PfConceptKey key) {
+    public PfModel(@NonNull final PfConceptKey key) {
         super();
         Assertions.argumentNotNull(key, "key may not be null");
 
         this.key = key;
+    }
+
+    /**
+     * Copy constructor.
+     *
+     * @param copyConcept the concept to copy from
+     */
+    public PfModel(@NonNull final PfModel copyConcept) {
+        super(copyConcept);
     }
 
     /**
@@ -107,10 +106,15 @@ public abstract class PfModel extends PfConcept {
     }
 
     @Override
-    public PfValidationResult validate(final PfValidationResult resultIn) {
+    public void clean() {
+        key.clean();
+    }
+
+    @Override
+    public PfValidationResult validate(@NonNull final PfValidationResult resultIn) {
         PfValidationResult result = resultIn;
 
-        if (key.equals(PfConceptKey.getNullKey())) {
+        if (key.isNullKey()) {
             result.addValidationMessage(
                     new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID, "key is a null key"));
         }
@@ -129,7 +133,7 @@ public abstract class PfModel extends PfConcept {
             } else if (pfKey instanceof PfReferenceKey) {
                 result = validateReferenceKeyInModel((PfReferenceKey) pfKey, referenceKeySet, result);
             }
-            // It must be an PfKeyUse, nothing else is legal
+            // It must be a PfKeyUse, nothing else is legal
             else {
                 usedKeySet.add((PfKeyUse) pfKey);
             }
@@ -160,7 +164,7 @@ public abstract class PfModel extends PfConcept {
     private PfValidationResult validateArtifactKeyInModel(final PfConceptKey artifactKey,
             final Set<PfConceptKey> artifactKeySet, final PfValidationResult result) {
         // Null key check
-        if (artifactKey.equals(PfConceptKey.getNullKey())) {
+        if (artifactKey.isNullKey()) {
             result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
                     "key " + artifactKey + IS_A_NULL_KEY));
         }
@@ -194,13 +198,13 @@ public abstract class PfModel extends PfConcept {
     private PfValidationResult validateReferenceKeyInModel(final PfReferenceKey referenceKey,
             final Set<PfReferenceKey> referenceKeySet, final PfValidationResult result) {
         // Null key check
-        if (referenceKey.equals(PfReferenceKey.getNullKey())) {
+        if (referenceKey.isNullKey()) {
             result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
                     "key " + referenceKey + IS_A_NULL_KEY));
         }
 
         // Null parent key check
-        if (referenceKey.getParentConceptKey().equals(PfConceptKey.getNullKey())) {
+        if (referenceKey.getParentConceptKey().isNullKey()) {
             result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
                     "parent artifact key of key " + referenceKey + IS_A_NULL_KEY));
         }
@@ -262,29 +266,6 @@ public abstract class PfModel extends PfConcept {
     }
 
     @Override
-    public void clean() {
-        key.clean();
-    }
-
-    @Override
-    public PfConcept copyTo(final PfConcept target) {
-        Assertions.argumentNotNull(target, "target may not be null");
-
-        final Object copyObject = target;
-        Assertions.instanceOf(copyObject, PfModel.class);
-
-        final PfModel copy = ((PfModel) copyObject);
-        copy.setKey(new PfConceptKey(key));
-
-        return copy;
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Comparable#compareTo(java.lang.Object)
-     */
-    @Override
     public int compareTo(final PfConcept otherObj) {
         if (otherObj == null) {
             return -1;
@@ -299,5 +280,15 @@ public abstract class PfModel extends PfConcept {
         final PfModel other = (PfModel) otherObj;
 
         return key.compareTo(other.key);
+    }
+
+    @Override
+    public PfConcept copyTo(@NonNull final PfConcept target) {
+        Assertions.instanceOf(target, PfModel.class);
+
+        final PfModel copy = ((PfModel) target);
+        copy.setKey(new PfConceptKey(key));
+
+        return copy;
     }
 }

@@ -25,17 +25,27 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 import org.onap.policy.models.base.PfKey.Compatibility;
+import org.onap.policy.models.base.testconcepts.DummyPfConceptKeySub;
 
 public class PfKeyUseTest {
 
+    @SuppressWarnings("unlikely-arg-type")
     @Test
-    public void test() {
+    public void testKeyUse() {
         assertNotNull(new PfKeyUse());
         assertNotNull(new PfKeyUse(new PfConceptKey()));
         assertNotNull(new PfKeyUse(new PfReferenceKey()));
+
+        try {
+            new PfKeyUse((PfKeyUse)null);
+            fail("test should throw an exception");
+        } catch (Exception exc) {
+            assertEquals("copyConcept is marked @NonNull but is null", exc.getMessage());
+        }
 
         PfConceptKey key = new PfConceptKey("Key", "0.0.1");
         PfKeyUse keyUse = new PfKeyUse();
@@ -43,6 +53,7 @@ public class PfKeyUseTest {
         assertEquals(key, keyUse.getKey());
         assertEquals("Key:0.0.1", keyUse.getId());
         assertEquals(key, keyUse.getKeys().get(0));
+        assertFalse(keyUse.isNullKey());
 
         assertEquals(Compatibility.IDENTICAL, keyUse.getCompatibility(key));
         assertTrue(keyUse.isCompatible(key));
@@ -74,5 +85,51 @@ public class PfKeyUseTest {
         PfKeyUse keyUseNull = new PfKeyUse(PfConceptKey.getNullKey());
         PfValidationResult resultNull = new PfValidationResult();
         assertEquals(false, keyUseNull.validate(resultNull).isValid());
+
+        try {
+            keyUse.setKey(null);
+            fail("test should throw an exception");
+        } catch (Exception exc) {
+            assertEquals("key is marked @NonNull but is null", exc.getMessage());
+        }
+
+        try {
+            keyUse.getCompatibility(null);
+            fail("test should throw an exception");
+        } catch (Exception exc) {
+            assertEquals("otherKey is marked @NonNull but is null", exc.getMessage());
+        }
+
+        try {
+            keyUse.isCompatible(null);
+            fail("test should throw an exception");
+        } catch (Exception exc) {
+            assertEquals("otherKey is marked @NonNull but is null", exc.getMessage());
+        }
+
+        try {
+            keyUse.validate(null);
+            fail("test should throw an exception");
+        } catch (Exception exc) {
+            assertEquals("result is marked @NonNull but is null", exc.getMessage());
+        }
+
+        PfKeyUse testKeyUse = new PfKeyUse(new DummyPfConceptKeySub(new PfConceptKey()));
+        PfKeyUse targetKeyUse = new PfKeyUse(key);
+
+        try {
+            keyUse.copyTo(null);
+            fail("test should throw an exception");
+        } catch (Exception exc) {
+            assertEquals("target is marked @NonNull but is null", exc.getMessage());
+        }
+
+        try {
+            testKeyUse.copyTo(targetKeyUse);
+            keyUse.isCompatible(null);
+            fail("test should throw an exception");
+        } catch (Exception exc) {
+            assertEquals("error copying concept key: Some error message", exc.getMessage());
+        }
     }
 }

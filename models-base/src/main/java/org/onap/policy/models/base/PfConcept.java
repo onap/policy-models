@@ -23,7 +23,7 @@ package org.onap.policy.models.base;
 import java.io.Serializable;
 import java.util.List;
 
-import org.onap.policy.common.utils.validation.Assertions;
+import lombok.NonNull;
 
 /**
  * This class is the base class for all Policy Framework concept classes. It enforces implementation
@@ -43,8 +43,7 @@ public abstract class PfConcept implements Serializable, Comparable<PfConcept> {
      *
      * @param copyConcept the concept to copy from
      */
-    public PfConcept(final PfConcept copyConcept) {
-        Assertions.argumentNotNull(copyConcept, "copy concept may not be null");
+    public PfConcept(@NonNull final PfConcept copyConcept) {
         copyConcept.copyTo(this);
     }
 
@@ -70,7 +69,7 @@ public abstract class PfConcept implements Serializable, Comparable<PfConcept> {
      * @return the validation result that was passed in in the @{link result} field with the result
      *         of this validation added
      */
-    public abstract PfValidationResult validate(PfValidationResult result);
+    public abstract PfValidationResult validate(@NonNull final PfValidationResult result);
 
     /**
      * Clean this concept, tidy up any superfluous information such as leading and trailing white
@@ -78,27 +77,12 @@ public abstract class PfConcept implements Serializable, Comparable<PfConcept> {
      */
     public abstract void clean();
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public abstract boolean equals(Object otherObject);
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#toString()
-     */
     @Override
     public abstract String toString();
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public abstract int hashCode();
 
@@ -109,7 +93,7 @@ public abstract class PfConcept implements Serializable, Comparable<PfConcept> {
      * @param target the target object to which this object is copied
      * @return the copied object
      */
-    public abstract PfConcept copyTo(PfConcept target);
+    public abstract PfConcept copyTo(@NonNull PfConcept target);
 
     /**
      * Gets the ID string of this concept.
@@ -126,9 +110,7 @@ public abstract class PfConcept implements Serializable, Comparable<PfConcept> {
      * @param id the key ID to match against
      * @return true, if this key matches the ID
      */
-    public final boolean matchesId(final String id) {
-        Assertions.argumentNotNull(id, "id may not be null");
-
+    public final boolean matchesId(@NonNull final String id) {
         // Check the ID
         return getId().equals(id);
     }
