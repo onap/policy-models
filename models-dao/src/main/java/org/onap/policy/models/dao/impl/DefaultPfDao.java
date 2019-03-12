@@ -27,6 +27,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.ws.rs.core.Response;
 
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
@@ -61,7 +62,8 @@ public class DefaultPfDao implements PfDao {
     public void init(final DaoParameters daoParameters) throws PfModelException {
         if (daoParameters == null || daoParameters.getPersistenceUnit() == null) {
             LOGGER.error("Policy Framework persistence unit parameter not set");
-            throw new PfModelException("Policy Framework persistence unit parameter not set");
+            throw new PfModelException(Response.Status.INTERNAL_SERVER_ERROR,
+                    "Policy Framework persistence unit parameter not set");
         }
 
         LOGGER.debug("Creating Policy Framework persistence unit \"{}\" . . .", daoParameters.getPersistenceUnit());
@@ -72,7 +74,7 @@ public class DefaultPfDao implements PfDao {
             String errorMessage = "Creation of Policy Framework persistence unit \""
                     + daoParameters.getPersistenceUnit() + "\" failed";
             LOGGER.warn(errorMessage, ex);
-            throw new PfModelException(errorMessage, ex);
+            throw new PfModelException(Response.Status.INTERNAL_SERVER_ERROR, errorMessage, ex);
         }
         LOGGER.debug("Created Policy Framework persistence unit \"{}\"", daoParameters.getPersistenceUnit());
     }
@@ -85,7 +87,8 @@ public class DefaultPfDao implements PfDao {
     protected final synchronized EntityManager getEntityManager() {
         if (emf == null) {
             LOGGER.warn("Policy Framework DAO has not been initialized");
-            throw new PfModelRuntimeException("Policy Framework DAO has not been initialized");
+            throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR,
+                    "Policy Framework DAO has not been initialized");
         }
 
         return emf.createEntityManager();
@@ -196,8 +199,7 @@ public class DefaultPfDao implements PfDao {
     }
 
     @Override
-    public <T extends PfConcept> int deleteByConceptKey(final Class<T> someClass,
-            final Collection<PfConceptKey> keys) {
+    public <T extends PfConcept> int deleteByConceptKey(final Class<T> someClass, final Collection<PfConceptKey> keys) {
         if (keys == null || keys.isEmpty()) {
             return 0;
         }

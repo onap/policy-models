@@ -1,0 +1,174 @@
+/*-
+ * ============LICENSE_START=======================================================
+ *  Copyright (C) 2019 Nordix Foundation.
+ * ================================================================================
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * ============LICENSE_END=========================================================
+ */
+
+package org.onap.policy.models.base.testconcepts;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.ws.rs.core.Response;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import org.onap.policy.common.utils.validation.Assertions;
+import org.onap.policy.models.base.PfConcept;
+import org.onap.policy.models.base.PfConceptKey;
+import org.onap.policy.models.base.PfKey;
+import org.onap.policy.models.base.PfModel;
+import org.onap.policy.models.base.PfModelRuntimeException;
+import org.onap.policy.models.base.PfValidationResult;
+
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class DummyPfModel extends PfModel {
+    private static final long serialVersionUID = 8800599637708309945L;
+
+    private List<PfKey> keyList;
+
+    /**
+     * The Default Constructor creates a {@link DummyPfModel} object with a null concept key and
+     * creates an empty TOSCA model.
+     */
+    public DummyPfModel() {
+        super();
+        super.setKey(new PfConceptKey());
+        this.keyList = new ArrayList<PfKey>();
+    }
+
+    /**
+     * The Key Constructor creates a {@link DummyPfModel} object with the given concept key and
+     * creates an empty TOSCA model.
+     *
+     * @param key the TOSCA model key
+     */
+    public DummyPfModel(final PfConceptKey key) {
+        super(key);
+        this.keyList = new ArrayList<PfKey>();
+    }
+
+    /**
+     * Constructor that initiates a {@link ToscaModel} with all its fields.
+     *
+     * @param key the TOSCA model key
+     * @param keyList the service templates in the event model
+     */
+    public DummyPfModel(final PfConceptKey key, final List<PfKey> keyList) {
+        super(key);
+        this.keyList = keyList;
+    }
+
+    /**
+     * Copy constructor.
+     *
+     * @param copyConcept the concept to copy from
+     */
+    public DummyPfModel(final DummyPfModel copyConcept) {
+        super(copyConcept);
+    }
+
+    @Override
+    public void register() {
+    }
+
+    @Override
+    public List<PfKey> getKeys() {
+        final List<PfKey> listOfKeys = super.getKeys();
+
+        listOfKeys.addAll(keyList);
+
+        return listOfKeys;
+    }
+
+    @Override
+    public void clean() {
+        super.clean();
+        for (PfKey pfKey : keyList) {
+            pfKey.clean();
+        }
+    }
+
+    @Override
+    public PfValidationResult validate(final PfValidationResult resultIn) {
+        PfValidationResult result = super.validate(resultIn);
+
+        for (PfKey pfKey : keyList) {
+            result = pfKey.validate(result);
+        }
+
+        return result;
+    }
+
+    @Override
+    public int compareTo(final PfConcept otherConcept) {
+        if (super.compareTo(otherConcept) != 0) {
+            return super.compareTo(otherConcept);
+        }
+
+        if (otherConcept == null) {
+            return -1;
+        }
+
+        if (this == otherConcept) {
+            return 0;
+        }
+
+        if (getClass() != otherConcept.getClass()) {
+            return this.hashCode() - otherConcept.hashCode();
+        }
+
+        final DummyPfModel other = (DummyPfModel) otherConcept;
+        if (!super.equals(other)) {
+            return super.compareTo(other);
+        }
+
+        if (!keyList.equals(other.keyList)) {
+            return (keyList.hashCode() - other.keyList.hashCode());
+        }
+
+        return 0;
+    }
+
+    @Override
+    public PfConcept copyTo(final PfConcept targetObject) {
+        super.copyTo(targetObject);
+
+        Assertions.instanceOf(targetObject, DummyPfModel.class);
+
+        final DummyPfModel copy = ((DummyPfModel) targetObject);
+
+        final List<PfKey> newKeyList = new ArrayList<>();
+        for (final PfKey pfKey : keyList) {
+            PfKey newPfKey;
+            try {
+                newPfKey = pfKey.getClass().newInstance();
+            } catch (final Exception e) {
+                throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR,
+                        "error copying concept key: " + e.getMessage(), e);
+            }
+            newPfKey.copyTo(pfKey);
+            newKeyList.add(newPfKey);
+        }
+        copy.setKeyList(newKeyList);
+
+
+        return copy;
+    }
+}

@@ -20,51 +20,34 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.models.tosca;
+package org.onap.policy.models.tosca.concepts;
 
-import com.google.gson.annotations.SerializedName;
-import java.util.List;
-import java.util.Map;
+import com.openpojo.reflection.filters.FilterPackageInfo;
+import com.openpojo.validation.Validator;
+import com.openpojo.validation.ValidatorBuilder;
+import com.openpojo.validation.rule.impl.GetterMustExistRule;
+import com.openpojo.validation.rule.impl.SetterMustExistRule;
+import com.openpojo.validation.test.impl.GetterTester;
+import com.openpojo.validation.test.impl.SetterTester;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import org.junit.Test;
+import org.onap.policy.common.utils.validation.ToStringTester;
 
 /**
- * Class to represent custom data type in TOSCA definition.
+ * Class to perform unit tests of all pojos.
  *
  * @author Chenfei Gao (cgao@research.att.com)
  *
  */
-@ToString
-public class ToscaDataType {
-    @Getter
-    @Setter
-    @SerializedName("derived_from")
-    private String derivedFrom;
+public class TestPojos {
 
-    @Getter
-    @Setter
-    @SerializedName("version")
-    private String version;
+    private static final String POJO_PACKAGE = "org.onap.policy.models.tosca.concepts";
 
-    @Getter
-    @Setter
-    @SerializedName("metadata")
-    private Map<String, String> metadata;
-
-    @Getter
-    @Setter
-    @SerializedName("description")
-    private String description;
-
-    @Getter
-    @Setter
-    @SerializedName("constraints")
-    private List<ToscaConstraint> constraints;
-
-    @Getter
-    @Setter
-    @SerializedName("properties")
-    private List<Map<String, ToscaProperty>> properties;
+    @Test
+    public void testPojos() {
+        final Validator validator = ValidatorBuilder.create().with(new ToStringTester())
+                .with(new SetterMustExistRule()).with(new GetterMustExistRule()).with(new SetterTester())
+                .with(new GetterTester()).build();
+        validator.validate(POJO_PACKAGE, new FilterPackageInfo());
+    }
 }

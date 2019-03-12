@@ -1,8 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP Policy Model
- * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,31 +18,24 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.models.tosca;
+package org.onap.policy.models.dao.converters;
 
-import com.google.gson.annotations.SerializedName;
-import java.util.List;
-import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
 
 /**
- * Class to represent the policy list in TOSCA definition.
+ * Test the CDataConditioner Class.
  *
- * @author Chenfei Gao (cgao@research.att.com)
- *
+ * @author Liam Fallon (liam.fallon@est.tech)
  */
-@ToString
-public class ToscaPolicyList {
+public class CDataConditionerTest {
 
-    @Getter
-    @Setter
-    @SerializedName("policies")
-    private List<Map<String, ToscaPolicy>> policies;
-
-    @Getter
-    @Setter
-    @SerializedName("data_types")
-    private List<Map<String, ToscaDataType>> dataTypes;
+    @Test
+    public void testCDataConditioner() throws Exception {
+        assertEquals("Raw", new CDataConditioner().convertToDatabaseColumn("Raw"));
+        assertEquals("entityAttribute", new CDataConditioner().convertToEntityAttribute("entityAttribute"));
+        assertEquals("marshal", new CDataConditioner().marshal("marshal"));
+        assertEquals("unmarshal", new CDataConditioner().unmarshal("unmarshal"));
+    }
 }

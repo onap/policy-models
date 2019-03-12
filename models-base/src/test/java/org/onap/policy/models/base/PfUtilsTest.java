@@ -1,8 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP Policy Model
- * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,31 +18,26 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.models.tosca;
+package org.onap.policy.models.base;
 
-import com.google.gson.annotations.SerializedName;
-import java.util.List;
-import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+
+import org.junit.Test;
 
 /**
- * Class to represent the policy type list in TOSCA definition.
+ * Test the PfUtils class.
  *
- * @author Chenfei Gao (cgao@research.att.com)
- *
+ * @author Liam Fallon (liam.fallon@est.tech)
  */
-@ToString
-public class ToscaPolicyTypeList {
+public class PfUtilsTest {
 
-    @Getter
-    @Setter
-    @SerializedName("policy_types")
-    private List<Map<String, ToscaPolicyType>> policyTypes;
-
-    @Getter
-    @Setter
-    @SerializedName("data_types")
-    private List<Map<String, ToscaDataType>> dataTypes;
+    @Test
+    public void testPfUtils() {
+        assertEquals(0, PfUtils.compareObjects(null, null));
+        assertEquals(-1, PfUtils.compareObjects("hello", null));
+        assertEquals(1, PfUtils.compareObjects(null, "hello"));
+        assertFalse(PfUtils.compareObjects("hello", "goodbye") == 0);
+        assertEquals(0, PfUtils.compareObjects("hello", "hello"));
+    }
 }

@@ -23,6 +23,10 @@ package org.onap.policy.models.base;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.ws.rs.core.Response;
+
+import lombok.NonNull;
+
 /**
  * The model service makes Policy Framework models available to all classes in a JVM.
  *
@@ -37,7 +41,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public abstract class PfModelService {
     // The map holding the models
-    private static Map<Class<?>, PfConcept> modelMap = new ConcurrentHashMap<>();
+    private static Map<String, PfConcept> modelMap = new ConcurrentHashMap<>();
 
     /**
      * This class is an abstract static class that cannot be extended.
@@ -48,37 +52,36 @@ public abstract class PfModelService {
      * Register a model with the model service.
      *
      * @param <M> the generic type
-     * @param modelClass the class of the model, used to index the model
+     * @param modelKey the key of the model, used to index the model
      * @param model The model
      */
-    public static <M extends PfConcept> void registerModel(final Class<M> modelClass, final M model) {
-        modelMap.put(modelClass, model);
+    public static <M extends PfConcept> void registerModel(@NonNull final String modelKey, @NonNull final M model) {
+        modelMap.put(modelKey, model);
     }
 
     /**
      * Remove a model from the model service.
      *
-     * @param <M> the generic type
-     * @param modelClass the class of the model, used to index the model
+     * @param modelKey the key of the model, used to index the model
      */
-    public static <M extends PfConcept> void deregisterModel(final Class<M> modelClass) {
-        modelMap.remove(modelClass);
+    public static void deregisterModel(@NonNull final String modelKey) {
+        modelMap.remove(modelKey);
     }
 
     /**
      * Get a model from the model service.
      *
      * @param <M> the generic type
-     * @param modelClass the class of the model, used to index the model
+     * @param modelKey the key of the model, used to index the model
      * @return The model
      */
     @SuppressWarnings("unchecked")
-    public static <M extends PfConcept> M getModel(final Class<M> modelClass) {
-        final M model = (M) modelMap.get(modelClass);
+    public static <M extends PfConcept> M getModel(@NonNull final String modelKey) {
+        final M model = (M) modelMap.get(modelKey);
 
         if (model == null) {
-            throw new PfModelRuntimeException(
-                    "Model for " + modelClass.getCanonicalName() + " not found in model service");
+            throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR,
+                    "Model for name " + modelKey + " not found in model service");
         }
 
         return model;
@@ -87,12 +90,11 @@ public abstract class PfModelService {
     /**
      * Check if a model is defined on the model service.
      *
-     * @param <M> the generic type
-     * @param modelClass the class of the model, used to index the model
+     * @param modelKey the key of the model, used to index the model
      * @return true if the model is defined
      */
-    public static <M extends PfConcept> boolean existsModel(final Class<M> modelClass) {
-        return modelMap.get(modelClass) != null;
+    public static boolean existsModel(final String modelKey) {
+        return modelMap.get(modelKey) != null;
     }
 
     /**
