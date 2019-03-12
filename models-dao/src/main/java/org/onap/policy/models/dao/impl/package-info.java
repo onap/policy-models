@@ -21,5 +21,7 @@
 /**
  * Contains a default DAO implementation for the PF {@link org.onap.policy.models.base.PfConcept}
  * classes that uses javax persistence.
+ *
+ * @author Liam Fallon (liam.fallon@est.tech)
  */
 package org.onap.policy.models.dao.impl;

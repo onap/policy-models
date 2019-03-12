@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.models.base.testpojos;
+package org.onap.policy.models.base.testconcepts;
 
 import java.util.Arrays;
 import java.util.List;
@@ -38,6 +38,11 @@ public class DummyPfKey  extends PfKey {
     @Override
     public String getId() {
         return null;
+    }
+
+    @Override
+    public boolean isNullKey() {
+        return false;
     }
 
     @Override

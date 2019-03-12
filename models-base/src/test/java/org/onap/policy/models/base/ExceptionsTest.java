@@ -25,32 +25,35 @@ import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 
+import javax.ws.rs.core.Response;
+
 import org.junit.Test;
 
 public class ExceptionsTest {
 
     @Test
     public void test() {
-        assertNotNull(new PfModelException("Message"));
-        assertNotNull(new PfModelException("Message", "String"));
-        assertNotNull(new PfModelException("Message", new IOException()));
-        assertNotNull(new PfModelException("Message", new IOException(), "String"));
+        assertNotNull(new PfModelException(Response.Status.OK, "Message"));
+        assertNotNull(new PfModelException(Response.Status.OK, "Message", "String"));
+        assertNotNull(new PfModelException(Response.Status.OK, "Message", new IOException()));
+        assertNotNull(new PfModelException(Response.Status.OK, "Message", new IOException(), "String"));
 
         String key = "A String";
-        PfModelException ae = new PfModelException("Message", new IOException("IO exception message"), key);
+        PfModelException ae =
+                new PfModelException(Response.Status.OK, "Message", new IOException("IO exception message"), key);
         assertEquals("Message\ncaused by: Message\ncaused by: IO exception message", ae.getCascadedMessage());
         assertEquals(key, ae.getObject());
 
-        assertNotNull(new PfModelRuntimeException("Message"));
-        assertNotNull(new PfModelRuntimeException("Message", "String"));
-        assertNotNull(new PfModelRuntimeException("Message", new IOException()));
-        assertNotNull(new PfModelRuntimeException("Message", new IOException(), "String"));
+        assertNotNull(new PfModelRuntimeException(Response.Status.OK, "Message"));
+        assertNotNull(new PfModelRuntimeException(Response.Status.OK, "Message", "String"));
+        assertNotNull(new PfModelRuntimeException(Response.Status.OK, "Message", new IOException()));
+        assertNotNull(new PfModelRuntimeException(Response.Status.OK, "Message", new IOException(), "String"));
 
         String rkey = "A String";
-        PfModelRuntimeException re = new PfModelRuntimeException("Runtime Message",
-                        new IOException("IO runtime exception message"), rkey);
+        PfModelRuntimeException re = new PfModelRuntimeException(Response.Status.OK, "Runtime Message",
+                new IOException("IO runtime exception message"), rkey);
         assertEquals("Runtime Message\ncaused by: Runtime Message\ncaused by: IO runtime exception message",
-                        re.getCascadedMessage());
+                re.getCascadedMessage());
         assertEquals(key, re.getObject());
     }
 }

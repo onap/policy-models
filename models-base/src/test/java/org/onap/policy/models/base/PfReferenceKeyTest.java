@@ -47,9 +47,19 @@ public class PfReferenceKeyTest {
         assertEquals(PfReferenceKey.getNullKey().getKey(), PfReferenceKey.getNullKey());
         assertEquals("NULL:0.0.0:NULL:NULL", PfReferenceKey.getNullKey().getId());
 
+        try {
+            new PfReferenceKey(new PfConceptKey(), null);
+            fail("test should throw an exception");
+        } catch (Exception exc) {
+            assertEquals("parameter \"localName\" is null", exc.getMessage());
+        }
+
         PfReferenceKey testReferenceKey = new PfReferenceKey();
         testReferenceKey.setParentConceptKey(new PfConceptKey("PN", "0.0.1"));
         assertEquals("PN:0.0.1", testReferenceKey.getParentConceptKey().getId());
+
+        assertEquals(1, testReferenceKey.getKeys().size());
+        assertFalse(testReferenceKey.isNullKey());
 
         testReferenceKey.setParentReferenceKey(new PfReferenceKey("PN", "0.0.1", "LN"));
         assertEquals("PN:0.0.1:NULL:LN", testReferenceKey.getParentReferenceKey().getId());

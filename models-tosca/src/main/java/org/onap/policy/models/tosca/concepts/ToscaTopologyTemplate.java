@@ -18,15 +18,9 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.models.tosca;
+package org.onap.policy.models.tosca.concepts;
 
-import com.google.gson.annotations.SerializedName;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.TreeMap;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -34,57 +28,58 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
+import org.onap.policy.models.base.PfValidationMessage;
 import org.onap.policy.models.base.PfValidationResult;
+import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 
 /**
- * Class to represent the EntrySchema of list/map property in TOSCA definition.
+ * This class holds a TOSCA topology template. Note: Only the policy specific parts of the TOSCA
+ * topology template are implemented.
+ *
+ * @author Liam Fallon (liam.fallon@est.tech)
  */
 @Entity
-@Table(name = "ToscaEntityType")
+@Table(name = "ToscaTopologyTemplate")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class ToscaEntityType extends PfConcept {
-    private static final long serialVersionUID = -1330661834220739393L;
+public class ToscaTopologyTemplate extends PfConcept {
+    private static final long serialVersionUID = 8969698734673232603L;
 
     @EmbeddedId
-    @NonNull
-    private PfConceptKey key = PfConceptKey.getNullKey();
-
-    @SerializedName("derived_from")
-    @Column(name = "derivedFrom")
-    private PfConceptKey derivedFrom;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    private Map<String, String> metadata;
+    private PfConceptKey key;
 
     @Column(name = "description")
     private String description;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private ToscaPolicies policies;
+
     /**
-     * The Default Constructor creates a {@link ToscaEntityType} object with a null key.
+     * The Default Constructor creates a {@link ToscaTopologyTemplate} object with a null key.
      */
-    public ToscaEntityType() {
+    public ToscaTopologyTemplate() {
         this(new PfConceptKey());
     }
 
     /**
-     * The Key Constructor creates a {@link ToscaEntityType} object with the given concept key.
+     * The Key Constructor creates a {@link ToscaTopologyTemplate} object with the given concept key.
      *
      * @param key the key
      */
-    public ToscaEntityType(@NonNull final PfConceptKey key) {
+    public ToscaTopologyTemplate(@NonNull final PfConceptKey key) {
         this.key = key;
     }
 
@@ -93,29 +88,49 @@ public class ToscaEntityType extends PfConcept {
      *
      * @param copyConcept the concept to copy from
      */
-    public ToscaEntityType(final ToscaEntityType copyConcept) {
+    public ToscaTopologyTemplate(final ToscaTopologyTemplate copyConcept) {
         super(copyConcept);
     }
 
     @Override
     public List<PfKey> getKeys() {
-        final List<PfKey> keyList = new ArrayList<>();
-        keyList.add(getKey());
+        final List<PfKey> keyList = getKey().getKeys();
+
+        keyList.addAll(policies.getKeys());
+
         return keyList;
     }
 
     @Override
     public void clean() {
-        description = description.trim();
+        key.clean();
 
-        for (Entry<String, String> metadataEntry : metadata.entrySet()) {
-            metadataEntry.setValue(metadataEntry.getValue().trim());
-        }
+        description = (description != null ? description.trim() : null);
+
+        policies.clean();
     }
 
     @Override
-    public PfValidationResult validate(PfValidationResult result) {
-        return null;
+    public PfValidationResult validate(PfValidationResult resultIn) {
+        PfValidationResult result = resultIn;
+
+        if (key.isNullKey()) {
+            result.addValidationMessage(
+                    new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID, "key is a null key"));
+        }
+
+        result = key.validate(result);
+
+        if (description != null && description.trim().length() == 0) {
+            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
+                    "property description may not be blank"));
+        }
+
+        if (policies != null) {
+            result = policies.validate(result);
+        }
+
+        return result;
     }
 
     @Override
@@ -130,20 +145,17 @@ public class ToscaEntityType extends PfConcept {
             return this.hashCode() - otherConcept.hashCode();
         }
 
-        final ToscaEntityType other = (ToscaEntityType) otherConcept;
+        final ToscaTopologyTemplate other = (ToscaTopologyTemplate) otherConcept;
         if (!key.equals(other.key)) {
             return key.compareTo(other.key);
         }
 
-        if (!derivedFrom.equals(other.derivedFrom)) {
-            return derivedFrom.compareTo(other.derivedFrom);
+        int result = ObjectUtils.compare(description, other.description);
+        if (result != 0) {
+            return result;
         }
 
-        if (!metadata.equals(other.metadata)) {
-            return (metadata.hashCode() - other.metadata.hashCode());
-        }
-
-        return description.compareTo(other.description);
+        return ObjectUtils.compare(policies, other.policies);
     }
 
     @Override
@@ -151,17 +163,10 @@ public class ToscaEntityType extends PfConcept {
         final Object copyObject = target;
         Assertions.instanceOf(copyObject, PfConcept.class);
 
-        final ToscaEntityType copy = ((ToscaEntityType) copyObject);
-        copy.key = new PfConceptKey(key);
-        copy.derivedFrom = new PfConceptKey(derivedFrom);
-
-        final Map<String, String> newMatadata = new TreeMap<>();
-        for (final Entry<String, String> metadataEntry : metadata.entrySet()) {
-            newMatadata.put(metadataEntry.getKey(), metadataEntry.getValue());
-        }
-        copy.metadata = newMatadata;
-
-        copy.description = description;
+        final ToscaTopologyTemplate copy = ((ToscaTopologyTemplate) copyObject);
+        copy.setKey(new PfConceptKey(key));
+        copy.setDescription(description);
+        copy.setPolicies(new ToscaPolicies(policies));
 
         return copy;
     }

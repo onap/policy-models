@@ -1,8 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP Policy Model
- * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,31 +18,21 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.models.tosca;
+package org.onap.policy.models.provider;
 
-import com.google.gson.annotations.SerializedName;
-import java.util.List;
-import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import org.onap.policy.models.provider.impl.PolicyModelsProviderImpl;
 
 /**
- * Class to represent the policy type list in TOSCA definition.
+ * A factory for creating PolicyModelsProvider objects using the default Policy Framework implementation.
  *
- * @author Chenfei Gao (cgao@research.att.com)
- *
+ * @author Liam Fallon (liam.fallon@est.tech)
  */
-@ToString
-public class ToscaPolicyTypeList {
+public class PolicyModelsProviderFactory {
 
-    @Getter
-    @Setter
-    @SerializedName("policy_types")
-    private List<Map<String, ToscaPolicyType>> policyTypes;
-
-    @Getter
-    @Setter
-    @SerializedName("data_types")
-    private List<Map<String, ToscaDataType>> dataTypes;
+    /**
+     * Creates a new PolicyModelsProvider object from its implementation.
+     */
+    public  PolicyModelsProvider createPolicyModelsProvider() {
+        return new PolicyModelsProviderImpl();
+    }
 }

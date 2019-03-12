@@ -1,8 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP Policy Model
- * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,34 +18,31 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.models.tosca;
+package org.onap.policy.models.base.testconcepts;
 
-import com.google.gson.annotations.SerializedName;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import javax.ws.rs.core.Response;
 
-/**
- * Class to represent the EventFilter in TOSCA definition.
- *
- * @author Chenfei Gao (cgao@research.att.com)
- *
- */
-@ToString
-public class ToscaEventFilter {
+import lombok.NonNull;
 
-    @Getter
-    @Setter
-    @SerializedName("node")
-    private String node;
+import org.onap.policy.models.base.PfConceptKey;
+import org.onap.policy.models.base.PfModelRuntimeException;
 
-    @Getter
-    @Setter
-    @SerializedName("requirement")
-    private String requirement;
+public class DummyPfConceptSub extends DummyPfConcept {
+    private static final long serialVersionUID = 1L;
 
-    @Getter
-    @Setter
-    @SerializedName("capability")
-    private String capability;
+    /**
+     * The Default Constructor creates a {@link DummyPfConceptSub} object with a null key.
+     */
+    public DummyPfConceptSub() {
+        throw new PfModelRuntimeException(Response.Status.BAD_GATEWAY, "Some error message");
+    }
+
+    /**
+     * The Key Constructor creates a {@link DummyPfConceptSub} object with the given concept key.
+     *
+     * @param key the key
+     */
+    public DummyPfConceptSub(@NonNull final PfConceptKey key) {
+        super(key);
+    }
 }

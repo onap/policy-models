@@ -20,6 +20,8 @@
 
 package org.onap.policy.models.base;
 
+import lombok.NonNull;
+
 /**
  * The key uniquely identifies every entity in the system. This class is an abstract class to give a common parent for
  * all key types in the system.
@@ -89,7 +91,7 @@ public abstract class PfKey extends PfConcept {
      * @param otherKey the key to check compatibility against
      * @return the compatibility result of the check
      */
-    public abstract Compatibility getCompatibility(PfKey otherKey);
+    public abstract Compatibility getCompatibility(@NonNull PfKey otherKey);
 
     /**
      * Check if two keys are compatible, that is the keys are IDENTICAL or have only MINOR, PATCH differences.
@@ -97,5 +99,12 @@ public abstract class PfKey extends PfConcept {
      * @param otherKey the key to check compatibility against
      * @return true, if the keys are compatible
      */
-    public abstract boolean isCompatible(PfKey otherKey);
+    public abstract boolean isCompatible(@NonNull PfKey otherKey);
+
+    /**
+     * Check if a key equals its null key.
+     *
+     * @return true, if the key is a null key
+     */
+    public abstract boolean isNullKey();
 }
