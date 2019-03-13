@@ -18,19 +18,19 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.models.pap;
+package org.onap.policy.models.pap.concepts;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 /**
- * Response to PDP Group DELETE REST API.
+ * Response to PDP Group DEPLOY REST API.
  */
 @Getter
 @Setter
 @ToString
-public class PdpGroupDeleteResponse {
+public class PdpGroupDeployResponse {
 
     /**
      * Optional detailed message in error cases.
