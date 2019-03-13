@@ -20,16 +20,20 @@
 
 package org.onap.policy.models.pap.concepts;
 
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.onap.policy.pdp.common.models.Policy;
 
 /**
- * Response to PDP Group DELETE REST API.
+ * Request deploy or update a set of policies using the <i>simple</i> PDP Group deployment
+ * REST API. Only the "name" and "policyVersion" fields of a Policy are used, and only the
+ * "name" field is actually required.
  */
 @Getter
 @Setter
 @ToString
-public class PdpGroupDeleteResponse extends SimpleResponse {
-
+public class PdpPolicies {
+    private List<Policy> policies;
 }

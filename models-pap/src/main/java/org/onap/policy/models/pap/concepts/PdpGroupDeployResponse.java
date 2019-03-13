@@ -30,10 +30,6 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class PdpGroupDeployResponse {
+public class PdpGroupDeployResponse extends SimpleResponse {
 
-    /**
-     * Optional detailed message in error cases.
-     */
-    private String errorDetails;
 }
