@@ -1,0 +1,10 @@
+{
+    "guard.frequency.scaleout": {
+        "type": "onap.policies.controlloop.guard.FrequencyLimiter",
+        "version": "1.0.0",
+        "metadata": {
+            "policy-id": "guard.frequency.scaleout",
+            "policy-version": 1
+        }
+    }
+}
