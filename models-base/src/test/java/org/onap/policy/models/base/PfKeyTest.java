@@ -31,8 +31,8 @@ import java.lang.reflect.Field;
 import org.junit.Test;
 
 import org.onap.policy.models.base.PfKey.Compatibility;
-import org.onap.policy.models.base.testpojos.DummyPfConcept;
-import org.onap.policy.models.base.testpojos.DummyPfKey;
+import org.onap.policy.models.base.testconcepts.DummyPfConcept;
+import org.onap.policy.models.base.testconcepts.DummyPfKey;
 
 public class PfKeyTest {
 
@@ -67,6 +67,9 @@ public class PfKeyTest {
         PfConceptKey someKey4 = new PfConceptKey(someKey1);
         someKey4.setVersion("0.1.2");
 
+        PfConceptKey someKey4a = new PfConceptKey(someKey1);
+        someKey4a.setVersion("0");
+
         PfConceptKey someKey5 = new PfConceptKey(someKey1);
         someKey5.setVersion("1.2.2");
 
@@ -77,13 +80,25 @@ public class PfKeyTest {
 
         PfConcept pfc = new DummyPfConcept();
         assertEquals(PfConceptKey.getNullKey().getId(), pfc.getId());
+
         assertTrue(PfConceptKey.getNullKey().matchesId(pfc.getId()));
+
+        assertTrue(PfConceptKey.getNullKey().isNullKey());
+
+        try {
+            PfConceptKey.getNullKey().matchesId(null);
+            fail("test should throw an exception");
+        } catch (Exception exc) {
+            assertEquals("id is marked @NonNull but is null", exc.getMessage());
+        }
 
         assertEquals(Compatibility.DIFFERENT, someKey0.getCompatibility(new DummyPfKey()));
         assertEquals(Compatibility.DIFFERENT, someKey0.getCompatibility(someKey1));
         assertEquals(Compatibility.IDENTICAL, someKey2.getCompatibility(someKey1));
         assertEquals(Compatibility.PATCH, someKey3.getCompatibility(someKey1));
         assertEquals(Compatibility.MINOR, someKey4.getCompatibility(someKey1));
+        assertEquals(Compatibility.PATCH, someKey4a.getCompatibility(someKey1));
+        assertEquals(Compatibility.PATCH, someKey1.getCompatibility(someKey4a));
         assertEquals(Compatibility.MAJOR, someKey5.getCompatibility(someKey1));
         assertEquals(Compatibility.MAJOR, someKey6.getCompatibility(someKey1));
 
@@ -119,8 +134,9 @@ public class PfKeyTest {
 
         try {
             someKey0.compareTo(null);
-        } catch (IllegalArgumentException e) {
-            assertEquals("comparison object may not be null", e.getMessage());
+            fail("test should throw an exception here");
+        } catch (NullPointerException e) {
+            assertEquals("otherObj is marked @NonNull but is null", e.getMessage());
         }
 
         assertEquals(0, someKey0.compareTo(someKey0));
@@ -131,6 +147,51 @@ public class PfKeyTest {
         assertFalse(((PfKey) someKey0).equals(new DummyPfKey()));
     }
 
+    @Test
+    public void testNullArguments() {
+        try {
+            new PfConceptKey((String)null);
+            fail("test should throw an exception here");
+        } catch (Exception exc) {
+            assertEquals("id is marked @NonNull but is null", exc.getMessage());
+        }
+
+        try {
+            new PfConceptKey((PfConceptKey)null);
+            fail("id is marked @NonNull but is null");
+        } catch (Exception exc) {
+            assertEquals("copyConcept is marked @NonNull but is null", exc.getMessage());
+        }
+
+        try {
+            new PfConceptKey(null, null);
+            fail("id is marked @NonNull but is null");
+        } catch (Exception exc) {
+            assertEquals("name is marked @NonNull but is null", exc.getMessage());
+        }
+
+        try {
+            new PfConceptKey("name", null);
+            fail("id is marked @NonNull but is null");
+        } catch (Exception exc) {
+            assertEquals("version is marked @NonNull but is null", exc.getMessage());
+        }
+
+        try {
+            new PfConceptKey(null, "0.0.1");
+            fail("id is marked @NonNull but is null");
+        } catch (Exception exc) {
+            assertEquals("name is marked @NonNull but is null", exc.getMessage());
+        }
+
+        try {
+            PfConceptKey key = new PfConceptKey("AKey", "0.0.1");
+            key.isCompatible(null);
+            fail("id is marked @NonNull but is null");
+        } catch (Exception exc) {
+            assertEquals("otherKey is marked @NonNull but is null", exc.getMessage());
+        }
+    }
 
     @Test
     public void testValidation() {

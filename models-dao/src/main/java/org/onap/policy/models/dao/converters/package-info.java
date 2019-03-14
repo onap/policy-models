@@ -21,6 +21,8 @@
 /**
  * Contains converters used by PF EclipseLink marshaling and unmarshaling of
  * {@link org.onap.policy.models.base.PfConcept} instances to and from files and databases.
+ *
+ * @author Liam Fallon (liam.fallon@est.tech)
  */
 
 package org.onap.policy.models.dao.converters;

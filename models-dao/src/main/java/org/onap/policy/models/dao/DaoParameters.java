@@ -24,6 +24,8 @@ import java.util.Properties;
 
 /**
  * This class is a POJO that holds properties for PF DAOs.
+ *
+ * @author Liam Fallon (liam.fallon@est.tech)
  */
 public class DaoParameters {
     /** The default PF DAO plugin class. */

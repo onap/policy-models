@@ -32,12 +32,12 @@ import java.util.TreeSet;
 import org.junit.Test;
 
 /**
- * Test the AxConceptGetterImpl class.
+ * Test the given concept class.
  */
 public class PfConceptGetterImplTest {
 
     @Test
-    public void testAxConceptGetterImpl() {
+    public void testPfConceptGetterImpl() {
         NavigableMap<PfConceptKey, PfConceptKey> keyMap = new TreeMap<>();
 
         PfConceptGetterImpl<PfConceptKey> getter = new PfConceptGetterImpl<>(keyMap);

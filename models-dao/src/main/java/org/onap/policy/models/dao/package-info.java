@@ -19,9 +19,11 @@
  */
 
 /**
- * Defines and implements the Data Access Object (DAO) that allows Apex
- * {@link org.onap.policy.apex.model.basicmodel.concepts.AxConcept} concepts to be read from and written to databases
+ * Defines and implements the Data Access Object (DAO) that allows Policy Framework
+ * {@link org.onap.policy.models.base.pfConcept} concepts to be read from and written to databases
  * over JDBC.
+ *
+ * @author Liam Fallon (liam.fallon@est.tech)
  */
 
 package org.onap.policy.models.dao;

@@ -28,6 +28,7 @@ import javax.persistence.Embeddable;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 
 import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
@@ -67,7 +68,7 @@ public class PfConceptKey extends PfKey {
      *
      * @param copyConcept the concept to copy from
      */
-    public PfConceptKey(final PfConceptKey copyConcept) {
+    public PfConceptKey(@NonNull final PfConceptKey copyConcept) {
         super(copyConcept);
     }
 
@@ -77,7 +78,7 @@ public class PfConceptKey extends PfKey {
      * @param name the key name
      * @param version the key version
      */
-    public PfConceptKey(final String name, final String version) {
+    public PfConceptKey(@NonNull final String name, @NonNull final String version) {
         super();
         this.name = Assertions.validateStringParameter(NAME_TOKEN, name, NAME_REGEXP);
         this.version = Assertions.validateStringParameter(VERSION_TOKEN, version, VERSION_REGEXP);
@@ -88,9 +89,7 @@ public class PfConceptKey extends PfKey {
      *
      * @param id the key ID in a format that respects the KEY_ID_REGEXP
      */
-    public PfConceptKey(final String id) {
-        Assertions.argumentNotNull(id, "id may not be null");
-
+    public PfConceptKey(@NonNull final String id) {
         // Check the incoming ID is valid
         Assertions.validateStringParameter("id", id, KEY_ID_REGEXP);
 
@@ -131,7 +130,12 @@ public class PfConceptKey extends PfKey {
     }
 
     @Override
-    public PfKey.Compatibility getCompatibility(final PfKey otherKey) {
+    public boolean isNullKey() {
+        return this.equals(PfConceptKey.getNullKey());
+    }
+
+    @Override
+    public PfKey.Compatibility getCompatibility(@NonNull final PfKey otherKey) {
         if (!(otherKey instanceof PfConceptKey)) {
             return Compatibility.DIFFERENT;
         }
@@ -161,7 +165,7 @@ public class PfConceptKey extends PfKey {
     }
 
     @Override
-    public boolean isCompatible(final PfKey otherKey) {
+    public boolean isCompatible(@NonNull final PfKey otherKey) {
         if (!(otherKey instanceof PfConceptKey)) {
             return false;
         }
@@ -212,7 +216,7 @@ public class PfConceptKey extends PfKey {
     }
 
     @Override
-    public int compareTo(final PfConcept otherObj) {
+    public int compareTo(@NonNull final PfConcept otherObj) {
         Assertions.argumentNotNull(otherObj, "comparison object may not be null");
 
         if (this == otherObj) {

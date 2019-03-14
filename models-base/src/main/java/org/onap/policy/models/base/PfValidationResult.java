@@ -23,9 +23,12 @@ package org.onap.policy.models.base;
 import java.util.LinkedList;
 import java.util.List;
 
+import lombok.Getter;
+
 /**
- * This class records the result of a validation and holds all validatino observation messages.
+ * This class records the result of a validation and holds all validation observation messages.
  */
+@Getter
 public class PfValidationResult {
     /**
      * The ValidationResult enumeration describes the severity of a validation result.
@@ -74,24 +77,6 @@ public class PfValidationResult {
      */
     public boolean isOk() {
         return validationResult == ValidationResult.VALID || validationResult == ValidationResult.OBSERVATION;
-    }
-
-    /**
-     * Gets the validation result.
-     *
-     * @return the validation result on a concept
-     */
-    public ValidationResult getValidationResult() {
-        return validationResult;
-    }
-
-    /**
-     * Gets the list of validation results on the concept.
-     *
-     * @return the list of validaiton results
-     */
-    public List<PfValidationMessage> getMessageList() {
-        return messageList;
     }
 
     /**
