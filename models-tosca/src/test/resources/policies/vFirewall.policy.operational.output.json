@@ -1,0 +1,10 @@
+{
+    "ControlLoop-vFirewall-d0a1dfc6-94f5-4fd4-a5b5-4630b438850a": {
+        "type": "onap.policies.controloop",
+        "version": "1.0.0",
+        "metadata": {
+            "policy-id": "ControlLoop-vFirewall-d0a1dfc6-94f5-4fd4-a5b5-4630b438850a",
+            "policy-version": 1
+        }
+    }
+}

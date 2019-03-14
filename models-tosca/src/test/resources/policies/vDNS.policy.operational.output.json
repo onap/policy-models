@@ -1,0 +1,10 @@
+{
+    "ControlLoop-vDNS-6f37f56d-a87d-4b85-b6a9-cc953cf779b3": {
+        "type": "onap.policies.controloop",
+        "version": "1.0.0",
+        "metadata": {
+            "policy-id": "ControlLoop-vDNS-6f37f56d-a87d-4b85-b6a9-cc953cf779b3",
+            "policy-version": 1
+        }
+    }
+}

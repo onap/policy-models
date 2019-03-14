@@ -1,0 +1,10 @@
+{
+    "ControlLoop-vCPE-48f0c2c3-a172-4192-9ae3-052274181b6e": {
+        "type": "onap.policies.controloop",
+        "version": "1.0.0",
+        "metadata": {
+            "policy-id": "ControlLoop-vCPE-48f0c2c3-a172-4192-9ae3-052274181b6e",
+            "policy-version": 1
+        }
+    }
+}
