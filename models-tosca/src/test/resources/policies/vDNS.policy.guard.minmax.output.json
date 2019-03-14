@@ -1,0 +1,10 @@
+{
+    "guard.minmax.scaleout": {
+        "type": "onap.policies.controlloop.guard.MinMax",
+        "version": "1.0.0",
+        "metadata": {
+            "policy-id": "guard.minmax.scaleout",
+            "policy-version": 1
+        }
+    }
+}
