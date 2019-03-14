@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87095029_291e9d77",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/serialization/json/ToscaGsonMessageBodyHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-03-14T17:24:17Z",
+      "side": 1,
+      "message": "Ok. I just need to add guard and operational policy adapters  here then add this ToscaGsonMessageBodyHandler to httpServer as the following:\nprops.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_SERIALIZATION_PROVIDER, ToscaGsonMessageBodyHandler.class.getName());\n\nIs it correct?",
+      "range": {
+        "startLine": 56,
+        "startChar": 16,
+        "endLine": 58,
+        "endChar": 85
+      },
+      "revId": "cebfca770fb84978f110b9a8ac0a27c35e90e7d9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
