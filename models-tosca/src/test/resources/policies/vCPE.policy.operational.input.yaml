@@ -1,0 +1,23 @@
+controlLoop:
+  version: 2.0.0
+  controlLoopName: ControlLoop-vCPE-48f0c2c3-a172-4192-9ae3-052274181b6e
+  trigger_policy: unique-policy-id-1-restart
+  timeout: 3600
+  abatement: true
+ 
+policies:
+  - id: unique-policy-id-1-restart
+    name: Restart the VM
+    description:
+    actor: APPC
+    recipe: Restart
+    target:
+      type: VM
+    retry: 3
+    timeout: 1200
+    success: final_success
+    failure: final_failure
+    failure_timeout: final_failure_timeout
+    failure_retries: final_failure_retries
+    failure_exception: final_failure_exception
+    failure_guard: final_failure_guard
