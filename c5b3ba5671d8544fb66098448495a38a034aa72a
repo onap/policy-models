@@ -258,6 +258,24 @@
     },
     {
       "key": {
+        "uuid": "e610eb2c_9dae5fb2",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfKeyUse.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-14T12:50:47Z",
+      "side": 1,
+      "message": "yeah, I tend to think \"clone\" is brain dead.  Maybe copy constructors would do the job.",
+      "parentUuid": "2d246f40_545c30a2",
+      "revId": "c5b3ba5671d8544fb66098448495a38a034aa72a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e36db226_4dc87e8c",
         "filename": "models-base/src/test/java/org/onap/policy/models/base/PfConceptGetterImplTest.java",
         "patchSetId": 1
@@ -445,6 +463,24 @@
     },
     {
       "key": {
+        "uuid": "c3b776a5_9b46c209",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/ToscaEntityType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-14T12:50:47Z",
+      "side": 1,
+      "message": "yep, we can deal with the hash codes in another review",
+      "parentUuid": "8035f191_a285a5e9",
+      "revId": "c5b3ba5671d8544fb66098448495a38a034aa72a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "12d4ab14_9db5d065",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/ToscaEntrySchema.java",
         "patchSetId": 1
@@ -474,6 +510,24 @@
       "side": 1,
       "message": "I don\u0027t see any error in my Eclipse SonarLint here, where are you seeing this Jim?",
       "parentUuid": "12d4ab14_9db5d065",
+      "revId": "c5b3ba5671d8544fb66098448495a38a034aa72a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b53037ce_6b6d4e19",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/ToscaEntrySchema.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-14T12:50:47Z",
+      "side": 1,
+      "message": "Pretty sure I\u0027ve seen it before, and it\u0027s easy enough to fix in this particular case.  However, maybe it was just in a list of \"possible\" sonar complaints and that one isn\u0027t active.",
+      "parentUuid": "4b9dd17d_4b032d11",
       "revId": "c5b3ba5671d8544fb66098448495a38a034aa72a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -579,6 +633,24 @@
       "side": 1,
       "message": "Yes, I thought of that but a common method might not be much less verbose or elegant than this.",
       "parentUuid": "3a9d5fac_9f230112",
+      "revId": "c5b3ba5671d8544fb66098448495a38a034aa72a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1281b10_e246e8ed",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/ToscaTrigger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-14T12:50:47Z",
+      "side": 1,
+      "message": "for all I know, there might already be one in StringUtil or StringUtils - I haven\u0027t checked",
+      "parentUuid": "e309c358_d5ab0bfa",
       "revId": "c5b3ba5671d8544fb66098448495a38a034aa72a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
