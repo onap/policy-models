@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f20d3bc3_26bafb34",
+        "filename": "pom.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-15T16:54:45Z",
+      "side": 1,
+      "message": "this appears to have broken the junit tests in pap.  Swagger uses jackson which uses an older version of snakeyaml, thus the swagger breaks.  For some reason, though, it works fine when installed in a VM.  Version 1.18 appears to work with junits.",
+      "revId": "8fdf84c7f2bd03332e69d13e35414020053c2977",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
