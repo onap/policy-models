@@ -1,7 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,27 +20,24 @@
 
 package org.onap.policy.models.tosca.serialization.legacy;
 
-import java.util.List;
-import java.util.Map;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import org.junit.Test;
 
-/**
- * Definition of a legacy guard policy stored as a TOSCA policy.
- *
- * @author Liam Fallon (liam.fallon@est.tech)
- */
-@Getter
-@Setter
-@ToString
-public class LegacyGuardPolicy {
+public class LegacyOperationalPolicyTest {
 
-    private String policyId;
-
-    private String policyVersion;
-
-    private List<Map<String, String>> content;
+    @Test
+    public void test() {
+        LegacyOperationalPolicy policy = new LegacyOperationalPolicy();
+        assertNotNull(policy);
+        policy.setPolicyId("onap.scaleout");
+        assertEquals("onap.scaleout", policy.getPolicyId());
+        policy.setPolicyVersion("1");
+        assertEquals("1", policy.getPolicyVersion());
+        policy.setContent("controlLoop%3A%0A%20%20");
+        assertTrue(policy.getContent().length() > 0);
+    }
 
 }
