@@ -31,6 +31,7 @@ import java.util.TreeMap;
 
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
+import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfValidationResult;
 
 /**
@@ -103,7 +104,7 @@ public class ToscaServiceTemplateTest {
         tst.setPolicyTypes(policyTypes);
         assertEquals(policyTypes, tst.getPolicyTypes());
 
-        PfConceptKey tttKey = new PfConceptKey("TopologyTemplate", "0.0.1");
+        PfReferenceKey tttKey = new PfReferenceKey(tstKey, "TopologyTemplate");
         ToscaTopologyTemplate ttt = new ToscaTopologyTemplate(tttKey);
         tst.setTopologyTemplate(ttt);
         assertEquals(ttt, tst.getTopologyTemplate());

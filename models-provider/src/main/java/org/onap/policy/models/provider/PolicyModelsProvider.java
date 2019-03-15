@@ -24,8 +24,9 @@ import lombok.NonNull;
 
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
-import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.tosca.concepts.ToscaServiceTemplate;
+import org.onap.policy.models.tosca.serialization.legacy.LegacyGuardPolicy;
+import org.onap.policy.models.tosca.serialization.legacy.LegacyOperationalPolicy;
 
 /**
  * This interface describes the operations that are provided to users and components for reading
@@ -86,7 +87,7 @@ public interface PolicyModelsProvider {
      * @return the policies found
      * @throws PfModelException on errors getting policies
      */
-    public ToscaServiceTemplate getPolicies(@NonNull final PfReferenceKey policyKey) throws PfModelException;
+    public ToscaServiceTemplate getPolicies(@NonNull final PfConceptKey policyKey) throws PfModelException;
 
     /**
      * Create policies.
@@ -118,7 +119,83 @@ public interface PolicyModelsProvider {
      * @return the TOSCA service template containing the policy types that were deleted
      * @throws PfModelException on errors deleting policies
      */
-    public ToscaServiceTemplate deletePolicies(@NonNull final PfReferenceKey policyKey) throws PfModelException;
+    public ToscaServiceTemplate deletePolicies(@NonNull final PfConceptKey policyKey) throws PfModelException;
+
+    /**
+     * Get legacy operational policy.
+     *
+     * @param policyId ID of the policy.
+     * @return the policies found
+     * @throws PfModelException on errors getting policies
+     */
+    public LegacyOperationalPolicy getOperationalPolicy(@NonNull final String policyId) throws PfModelException;
+
+    /**
+     * Create legacy operational policy.
+     *
+     * @param legacyOperationalPolicy the definition of the policy to be created.
+     * @return the created policy
+     * @throws PfModelException on errors creating policies
+     */
+    public LegacyOperationalPolicy createOperationalPolicy(
+            @NonNull final LegacyOperationalPolicy legacyOperationalPolicy) throws PfModelException;
+
+    /**
+     * Update legacy operational policy.
+     *
+     * @param legacyOperationalPolicy the definition of the policy to be updated
+     * @return the updated policy
+     * @throws PfModelException on errors updating policies
+     */
+    public LegacyOperationalPolicy updateOperationalPolicy(
+            @NonNull final LegacyOperationalPolicy legacyOperationalPolicy) throws PfModelException;
+
+    /**
+     * Delete legacy operational policy.
+     *
+     * @param policyId ID of the policy.
+     * @return the deleted policy
+     * @throws PfModelException on errors deleting policies
+     */
+    public LegacyOperationalPolicy deleteOperationalPolicy(@NonNull final String policyId) throws PfModelException;
+
+    /**
+     * Get legacy guard policy.
+     *
+     * @param policyId ID of the policy.
+     * @return the policies found
+     * @throws PfModelException on errors getting policies
+     */
+    public LegacyGuardPolicy getGuardPolicy(@NonNull final String policyId) throws PfModelException;
+
+    /**
+     * Create legacy guard policy.
+     *
+     * @param legacyGuardPolicy the definition of the policy to be created.
+     * @return the created policy
+     * @throws PfModelException on errors creating policies
+     */
+    public LegacyGuardPolicy createGuardPolicy(@NonNull final LegacyGuardPolicy legacyGuardPolicy)
+            throws PfModelException;
+
+    /**
+     * Update legacy guard policy.
+     *
+     * @param legacyGuardPolicy the definition of the policy to be updated
+     * @return the updated policy
+     * @throws PfModelException on errors updating policies
+     */
+    public LegacyGuardPolicy updateGuardPolicy(@NonNull final LegacyGuardPolicy legacyGuardPolicy)
+            throws PfModelException;
+
+    /**
+     * Delete legacy guard policy.
+     *
+     * @param policyId ID of the policy.
+     * @return the deleted policy
+     * @throws PfModelException on errors deleting policies
+     */
+    public LegacyGuardPolicy deleteGuardPolicy(@NonNull final String policyId) throws PfModelException;
 
     /**
      * Get PDP groups.
@@ -152,5 +229,5 @@ public interface PolicyModelsProvider {
      * @param somePdpGroupFilter a filter for the get
      * @throws PfModelException on errors deleting PDP groups
      */
-    public void deletePdpGroups(@NonNull final Object somePdpGroupFilter) throws PfModelException;
+    public Object deletePdpGroups(@NonNull final Object somePdpGroupFilter) throws PfModelException;
 }
