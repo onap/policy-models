@@ -18,21 +18,13 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.models.provider;
-
-import org.onap.policy.models.provider.impl.DummyPolicyModelsProviderImpl;
+package org.onap.policy.models.tosca.serialization.legacy;
 
 /**
- * A factory for creating PolicyModelsProvider objects using the default Policy Framework implementation.
+ * Definition of a legacy guard policy stored as a TOSCA policy.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class PolicyModelsProviderFactory {
+public class LegacyGuardPolicy {
 
-    /**
-     * Creates a new PolicyModelsProvider object from its implementation.
-     */
-    public  PolicyModelsProvider createPolicyModelsProvider() {
-        return new DummyPolicyModelsProviderImpl();
-    }
 }

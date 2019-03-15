@@ -1,0 +1,35 @@
+tosca_definitions_version: tosca_simple_yaml_1_0_0
+topology_template:
+   policies:
+      -
+        operational.scaleout:
+           type: onap.policies.controlloop.Operational
+           version: 1.0.0
+           metadata: 
+             policy-id: operational.scaleout
+           properties:
+           controlLoop:
+             version: 2.0.0
+             controlLoopName: ControlLoop-vDNS-6f37f56d-a87d-4b85-b6a9-cc953cf779b3
+             trigger_policy: unique-policy-id-1-scale-up
+             timeout: 1200
+             abatement: false
+           policies:
+             - id: unique-policy-id-1-scale-up
+               name: Create a new VF Module
+               description:
+               actor: SO
+               recipe: VF Module Create
+               target:
+                 type: VNF
+               payload:
+                 requestParameters: '{"usePreload":true,"userParams":[]}'
+                 configurationParameters: '[{"ip-addr":"$.vf-module-topology.vf-module-parameters.param[9]","oam-ip-addr":"$.vf-module-topology.vf-module-parameters.param[16]","enabled":"$.vf-module-topology.vf-module-parameters.param[23]"}]'
+               retry: 0
+               timeout: 1200
+               success: final_success
+               failure: final_failure
+               failure_timeout: final_failure_timeout
+               failure_retries: final_failure_retries
+               failure_exception: final_failure_exception
+               failure_guard: final_failure_guard

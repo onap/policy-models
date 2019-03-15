@@ -31,6 +31,7 @@ import java.util.TreeMap;
 
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
+import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfValidationResult;
 
 /**
@@ -43,11 +44,11 @@ public class ToscaTopologyTemplateTest {
     @Test
     public void testTopologyTemplatePojo() {
         assertNotNull(new ToscaTopologyTemplate());
-        assertNotNull(new ToscaTopologyTemplate(new PfConceptKey()));
+        assertNotNull(new ToscaTopologyTemplate(new PfReferenceKey()));
         assertNotNull(new ToscaTopologyTemplate(new ToscaTopologyTemplate()));
 
         try {
-            new ToscaTopologyTemplate((PfConceptKey) null);
+            new ToscaTopologyTemplate((PfReferenceKey) null);
             fail("test should throw an exception");
         } catch (Exception exc) {
             assertEquals("key is marked @NonNull but is null", exc.getMessage());
@@ -60,7 +61,7 @@ public class ToscaTopologyTemplateTest {
             assertEquals("copyConcept is marked @NonNull but is null", exc.getMessage());
         }
 
-        PfConceptKey tttKey = new PfConceptKey("ttt", "0.0.1");
+        PfReferenceKey tttKey = new PfReferenceKey("tst", "0.0.1", "ttt");
         ToscaTopologyTemplate ttt = new ToscaTopologyTemplate(tttKey);
 
         ttt.setDescription("A Description");
@@ -89,7 +90,7 @@ public class ToscaTopologyTemplateTest {
         assertEquals(0, ttt.compareTo(ttt));
         assertFalse(ttt.compareTo(ttt.getKey()) == 0);
 
-        PfConceptKey otherDtKey = new PfConceptKey("otherDt", "0.0.1");
+        PfReferenceKey otherDtKey = new PfReferenceKey("otherSt", "0.0.1", "otherDt");
         ToscaTopologyTemplate otherDt = new ToscaTopologyTemplate(otherDtKey);
 
         assertFalse(ttt.compareTo(otherDt) == 0);

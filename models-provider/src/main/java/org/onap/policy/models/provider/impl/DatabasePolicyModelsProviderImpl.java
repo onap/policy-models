@@ -24,16 +24,18 @@ import lombok.NonNull;
 
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
-import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.tosca.concepts.ToscaServiceTemplate;
+import org.onap.policy.models.tosca.serialization.legacy.LegacyGuardPolicy;
+import org.onap.policy.models.tosca.serialization.legacy.LegacyOperationalPolicy;
 
 /**
- * This class provides the implementaiton of the defalut Policy Models Provider for the ONAP Policy Framework.
+ * This class provides an implementation of the Policy Models Provider for the ONAP Policy Framework
+ * that works towards a relational database.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class PolicyModelsProviderImpl implements PolicyModelsProvider {
+public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
 
     @Override
     public ToscaServiceTemplate getPolicyTypes(@NonNull PfConceptKey policyTypeKey) throws PfModelException {
@@ -47,12 +49,18 @@ public class PolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
+    public ToscaServiceTemplate updatePolicyTypes(@NonNull ToscaServiceTemplate serviceTemplate)
+            throws PfModelException {
+        return null;
+    }
+
+    @Override
     public ToscaServiceTemplate deletePolicyTypes(@NonNull PfConceptKey policyTypeKey) throws PfModelException {
         return null;
     }
 
     @Override
-    public ToscaServiceTemplate getPolicies(@NonNull PfReferenceKey policyKey) throws PfModelException {
+    public ToscaServiceTemplate getPolicies(@NonNull PfConceptKey policyKey) throws PfModelException {
         return null;
     }
 
@@ -67,13 +75,49 @@ public class PolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public ToscaServiceTemplate deletePolicies(@NonNull PfReferenceKey policyKey) throws PfModelException {
+    public ToscaServiceTemplate deletePolicies(@NonNull PfConceptKey policyKey) throws PfModelException {
         return null;
     }
 
     @Override
-    public ToscaServiceTemplate updatePolicyTypes(@NonNull ToscaServiceTemplate serviceTemplate)
+    public LegacyOperationalPolicy getOperationalPolicy(@NonNull String policyId) throws PfModelException {
+        return null;
+    }
+
+    @Override
+    public LegacyOperationalPolicy createOperationalPolicy(@NonNull LegacyOperationalPolicy legacyOperationalPolicy)
             throws PfModelException {
+        return null;
+    }
+
+    @Override
+    public LegacyOperationalPolicy updateOperationalPolicy(@NonNull LegacyOperationalPolicy legacyOperationalPolicy)
+            throws PfModelException {
+        return null;
+    }
+
+    @Override
+    public LegacyOperationalPolicy deleteOperationalPolicy(@NonNull String policyId) throws PfModelException {
+        return null;
+    }
+
+    @Override
+    public LegacyGuardPolicy getGuardPolicy(@NonNull String policyId) throws PfModelException {
+        return null;
+    }
+
+    @Override
+    public LegacyGuardPolicy createGuardPolicy(@NonNull LegacyGuardPolicy legacyGuardPolicy) throws PfModelException {
+        return null;
+    }
+
+    @Override
+    public LegacyGuardPolicy updateGuardPolicy(@NonNull LegacyGuardPolicy legacyGuardPolicy) throws PfModelException {
+        return null;
+    }
+
+    @Override
+    public LegacyGuardPolicy deleteGuardPolicy(@NonNull String policyId) throws PfModelException {
         return null;
     }
 
@@ -93,6 +137,8 @@ public class PolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public void deletePdpGroups(@NonNull Object somePdpGroupFilter) throws PfModelException {
+    public Object deletePdpGroups(@NonNull Object somePdpGroupFilter) throws PfModelException {
+        return null;
     }
+
 }

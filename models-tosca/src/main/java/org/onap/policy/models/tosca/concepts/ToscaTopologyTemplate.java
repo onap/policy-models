@@ -38,8 +38,8 @@ import lombok.NonNull;
 import org.apache.commons.lang3.ObjectUtils;
 import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfConcept;
-import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
+import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfValidationMessage;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
@@ -59,7 +59,7 @@ public class ToscaTopologyTemplate extends PfConcept {
     private static final long serialVersionUID = 8969698734673232603L;
 
     @EmbeddedId
-    private PfConceptKey key;
+    private PfReferenceKey key;
 
     @Column(name = "description")
     private String description;
@@ -71,7 +71,7 @@ public class ToscaTopologyTemplate extends PfConcept {
      * The Default Constructor creates a {@link ToscaTopologyTemplate} object with a null key.
      */
     public ToscaTopologyTemplate() {
-        this(new PfConceptKey());
+        this(new PfReferenceKey());
     }
 
     /**
@@ -80,7 +80,7 @@ public class ToscaTopologyTemplate extends PfConcept {
      *
      * @param key the key
      */
-    public ToscaTopologyTemplate(@NonNull final PfConceptKey key) {
+    public ToscaTopologyTemplate(@NonNull final PfReferenceKey key) {
         this.key = key;
     }
 
@@ -169,7 +169,7 @@ public class ToscaTopologyTemplate extends PfConcept {
         Assertions.instanceOf(copyObject, PfConcept.class);
 
         final ToscaTopologyTemplate copy = ((ToscaTopologyTemplate) copyObject);
-        copy.setKey(new PfConceptKey(key));
+        copy.setKey(new PfReferenceKey(key));
         copy.setDescription(description);
         copy.setPolicies(policies != null ? new ToscaPolicies(policies) : null);
 

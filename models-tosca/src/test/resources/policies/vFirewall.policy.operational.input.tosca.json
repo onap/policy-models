@@ -1,0 +1,46 @@
+{
+    "tosca_definitions_version": "tosca_simple_yaml_1_0_0",
+    "topology_template": {
+        "policies": [
+            {
+                "operational.modifyconfig": {
+                    "type": "onap.policies.controlloop.Operational",
+                    "version": "1.0.0",
+                    "metadata": {
+                        "policy-id": "operational.modifyconfig"
+                    },
+                    "properties": {
+                        "controlLoop": {
+                            "version": "2.0.0",
+                            "controlLoopName": "ControlLoop-vFirewall-d0a1dfc6-94f5-4fd4-a5b5-4630b438850a",
+                            "trigger_policy": "unique-policy-id-1-modifyConfig",
+                            "timeout": 1200,
+                            "abatement": false
+                        },
+                        "policies": [
+                            {
+                                "id": "unique-policy-id-1-modifyConfig",
+                                "name": "modify packet gen config",
+                                "description": null,
+                                "actor": "APPC",
+                                "recipe": "ModifyConfig",
+                                "target": {
+                                    "resourceID": "Eace933104d443b496b8.nodes.heat.vpg",
+                                    "type": "VNF"
+                                },
+                                "retry": 0,
+                                "timeout": 300,
+                                "success": "final_success",
+                                "failure": "final_failure",
+                                "failure_timeout": "final_failure_timeout",
+                                "failure_retries": "final_failure_retries",
+                                "failure_exception": "final_failure_exception",
+                                "failure_guard": "final_failure_guard"
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}
