@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,11 +21,20 @@
 
 package org.onap.policy.models.tosca.serialization.legacy;
 
+import lombok.Data;
+
 /**
  * Definition of a legacy operational policy stored as a TOSCA policy.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
+@Data
 public class LegacyOperationalPolicy {
+
+    private String policyId;
+
+    private String policyVersion;
+
+    private String content;
 
 }

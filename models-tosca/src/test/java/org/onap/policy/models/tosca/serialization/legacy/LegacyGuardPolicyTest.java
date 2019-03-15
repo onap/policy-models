@@ -1,7 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,23 +20,32 @@
 
 package org.onap.policy.models.tosca.serialization.legacy;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import lombok.Data;
+import org.junit.Test;
 
-/**
- * Definition of a legacy guard policy stored as a TOSCA policy.
- *
- * @author Liam Fallon (liam.fallon@est.tech)
- */
-@Data
-public class LegacyGuardPolicy {
+public class LegacyGuardPolicyTest {
 
-    private String policyId;
-
-    private String policyVersion;
-
-    private List<Map<String, String>> content;
+    @Test
+    public void test() {
+        LegacyGuardPolicy guard = new LegacyGuardPolicy();
+        assertNotNull(guard);
+        guard.setPolicyId("guard.frequency");
+        assertEquals("guard.frequency", guard.getPolicyId());
+        guard.setPolicyVersion("1");
+        assertEquals("1", guard.getPolicyVersion());
+        Map<String, String> body = new HashMap<>();
+        body.put("actor", "SO");
+        List<Map<String, String>> content = new ArrayList<>();
+        content.add(body);
+        guard.setContent(content);
+        assertEquals(1, guard.getContent().size());
+    }
 
 }
