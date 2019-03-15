@@ -66,10 +66,10 @@ public class MonitoringPolicySerializationTest {
         LOGGER.info(serviceTemplate.validate(new PfValidationResult()).toString());
         assertTrue(serviceTemplate.validate(new PfValidationResult()).isValid());
 
-        assertEquals("onap.vcpe.tca:1.0.0",
-                serviceTemplate.getTopologyTemplate().getPolicies().get("onap.vcpe.tca").getId());
-        assertEquals("onap.vcpe.tca:1.0.0",
-                serviceTemplate.getTopologyTemplate().getPolicies().get("onap.vcpe.tca").getId());
+        assertEquals("onap.restart.tca:1.0.0",
+                serviceTemplate.getTopologyTemplate().getPolicies().get("onap.restart.tca").getId());
+        assertEquals("onap.restart.tca:1.0.0",
+                serviceTemplate.getTopologyTemplate().getPolicies().get("onap.restart.tca").getId());
     }
 
     @Test
@@ -86,9 +86,9 @@ public class MonitoringPolicySerializationTest {
         LOGGER.info(serviceTemplate.validate(new PfValidationResult()).toString());
         assertTrue(serviceTemplate.validate(new PfValidationResult()).isValid());
 
-        assertEquals("onap.vcpe.tca:1.0.0",
-                serviceTemplate.getTopologyTemplate().getPolicies().get("onap.vcpe.tca").getId());
-        assertEquals("onap.vcpe.tca:1.0.0",
-                serviceTemplate.getTopologyTemplate().getPolicies().get("onap.vcpe.tca").getId());
+        assertEquals("onap.restart.tca:1.0.0",
+                serviceTemplate.getTopologyTemplate().getPolicies().get("onap.restart.tca").getId());
+        assertEquals("onap.restart.tca:1.0.0",
+                serviceTemplate.getTopologyTemplate().getPolicies().get("onap.restart.tca").getId());
     }
 }
