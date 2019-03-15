@@ -8,28 +8,29 @@ topology_template:
            metadata:
              policy-id: onap.vcpe.tca
            properties:
-             domain: measurementsForVfScaling
-             metricsPerEventName: 
-               - 
-                 eventName: Measurement_vGMUX
-                 controlLoopSchemaType: VNF
-                 policyScope: DCAE
-                 policyName: "DCAE.Config_tca-hi-lo"
-                 policyVersion: "v0.0.1"
-                 thresholds: 
-                   - 
-                     closedLoopControlName: "ControlLoop-vCPE-48f0c2c3-a172-4192-9ae3-052274181b6e"
-                     version: "1.0.2"
-                     fieldPath: "$.event.measurementsForVfScalingFields.additionalMeasurements[*].arrayOfFields[0].value"
-                     thresholdValue: 0
-                     direction: EQUAL
-                     severity: MAJOR
-                     closedLoopEventStatus: ABATED
-                   - 
-                     closedLoopControlName: "ControlLoop-vCPE-48f0c2c3-a172-4192-9ae3-052274181b6e"
-                     version: "1.0.2"
-                     fieldPath: "$.event.measurementsForVfScalingFields.additionalMeasurements[*].arrayOfFields[0].value"
-                     thresholdValue: 0
-                     direction: GREATER
-                     severity: CRITICAL
-                     closedLoopEventStatus: ONSET
+             tca_policy:
+                domain: measurementsForVfScaling
+                metricsPerEventName: 
+                  - 
+                    eventName: Measurement_vGMUX
+                    controlLoopSchemaType: VNF
+                    policyScope: DCAE
+                    policyName: "DCAE.Config_tca-hi-lo"
+                    policyVersion: "v0.0.1"
+                    thresholds: 
+                      - 
+                        closedLoopControlName: "ControlLoop-vCPE-48f0c2c3-a172-4192-9ae3-052274181b6e"
+                        version: "1.0.2"
+                        fieldPath: "$.event.measurementsForVfScalingFields.additionalMeasurements[*].arrayOfFields[0].value"
+                        thresholdValue: 0
+                        direction: EQUAL
+                        severity: MAJOR
+                        closedLoopEventStatus: ABATED
+                      - 
+                        closedLoopControlName: "ControlLoop-vCPE-48f0c2c3-a172-4192-9ae3-052274181b6e"
+                        version: "1.0.2"
+                        fieldPath: "$.event.measurementsForVfScalingFields.additionalMeasurements[*].arrayOfFields[0].value"
+                        thresholdValue: 0
+                        direction: GREATER
+                        severity: CRITICAL
+                        closedLoopEventStatus: ONSET

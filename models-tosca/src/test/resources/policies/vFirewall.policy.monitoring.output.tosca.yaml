@@ -7,6 +7,7 @@ topology_template:
         version: 1.0.0
         metadata:
            policy-id: onap.vfirewall.tca
+           policy-version: 1
         properties:
            tca_policy:
               domain: measurementsForVfScaling
