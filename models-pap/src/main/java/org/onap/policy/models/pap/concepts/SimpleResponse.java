@@ -25,11 +25,15 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * Response to PDP Group DELETE REST API.
+ * Response returned when no extra output fields are needed.
  */
 @Getter
 @Setter
 @ToString
-public class PdpGroupDeleteResponse extends SimpleResponse {
+public class SimpleResponse {
 
+    /**
+     * Optional detailed message in error cases.
+     */
+    private String errorDetails;
 }
