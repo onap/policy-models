@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e05c804_78f07b39",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/serialization/legacy/LegacyOperationalPolicy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-03-15T14:47:37Z",
+      "side": 1,
+      "message": "You can use @Data to do getter/setter/hashcode/equals/tostring",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 9
+      },
+      "revId": "0b04302ea704c70015cb843d73f24f83c4be02ad",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
