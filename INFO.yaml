@@ -1,18 +1,24 @@
 ---
-project: 'policy/models'
-project_creation_date: '2018-04-30'
+project: 'policy-models'
+project_creation_date: '2018-05-01'
 lifecycle_state: 'Incubation'
+project_category: ''
 project_lead: &onap_releng_ptl
     name: 'Pamela Dragosh'
     email: 'pdragosh@research.att.com'
     id: 'pdragosh'
     company: 'ATT'
-    timezone: 'America/New York'
+    timezone: 'America/New_York'
 primary_contact: *onap_releng_ptl
 issue_tracking:
     type: 'jira'
     url: 'https://jira.onap.org/projects/POLICY'
     key: 'POLICY'
+mailing_list:
+    type: 'groups.io'
+    url: 'lists.onap.org'
+    tag: '<[sub-project_name]>'
+realtime_discussion: ''
 meetings:
     - type: 'zoom'
       agenda: 'https://wiki.onap.org/pages/viewpage.action?pageId=6589781'
@@ -21,6 +27,23 @@ meetings:
       channel: 'n/a'
       repeats: 'weekly'
       time: '13:00 UTC'
+repositories:
+    - 'policy-apex-pdp'
+    - 'policy-api'
+    - 'policy-common'
+    - 'policy-core'
+    - 'policy-distribution'
+    - 'policy-docker'
+    - 'policy-drools-applications'
+    - 'policy-drools-pdp'
+    - 'policy-engine'
+    - 'policy-gui'
+    - 'policy-models'
+    - 'policy-oom'
+    - 'policy-pap'
+    - 'policy-parent'
+    - 'policy-pdp'
+    - 'policy-xacml-pdp'
 committers:
     - <<: *onap_releng_ptl
     - name: 'Jorge Hernandez'
