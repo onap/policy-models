@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a01c045b_98177650",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/concepts/ToscaPolicy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-03-17T01:01:29Z",
+      "side": 1,
+      "message": "properties field for ToscaPolicy cannot use the same type ToscaProperty since typically properties here are just key-value pairs, instead of those fields used in policy type. So I changed it to Map\u003cString, String\u003e",
+      "revId": "d7e68a8ae8c35359e39ef375c8a9db755fb05f7f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
