@@ -16,6 +16,24 @@
       "revId": "d7e68a8ae8c35359e39ef375c8a9db755fb05f7f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "981482bb_8b0f6435",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/concepts/ToscaPolicy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-03-17T20:41:09Z",
+      "side": 1,
+      "message": "According to the TOSCA specification, section 3.7.6.1, page 108, properties are a list of property assignments and not a list of key value pairs. I believe we have to follow the TOSCA specification here, and I have followed it as closely as I can. If what\u0027s coming in is incorrect, then we have to tell the source of the incorrect incoming data that what they are sending is not valid TOSCA. If they won\u0027t change then we\u0027ll have to translate whats coming in into valid TOSCA.",
+      "parentUuid": "a01c045b_98177650",
+      "revId": "d7e68a8ae8c35359e39ef375c8a9db755fb05f7f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
