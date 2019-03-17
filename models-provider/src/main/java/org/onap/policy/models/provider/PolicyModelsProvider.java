@@ -24,9 +24,9 @@ import lombok.NonNull;
 
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
-import org.onap.policy.models.tosca.concepts.ToscaServiceTemplate;
-import org.onap.policy.models.tosca.serialization.legacy.LegacyGuardPolicy;
-import org.onap.policy.models.tosca.serialization.legacy.LegacyOperationalPolicy;
+import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicy;
+import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
+import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
 
 /**
  * This interface describes the operations that are provided to users and components for reading

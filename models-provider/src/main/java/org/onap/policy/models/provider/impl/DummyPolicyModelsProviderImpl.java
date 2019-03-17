@@ -31,10 +31,10 @@ import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.provider.PolicyModelsProvider;
-import org.onap.policy.models.tosca.concepts.ToscaServiceTemplate;
-import org.onap.policy.models.tosca.serialization.legacy.LegacyGuardPolicy;
-import org.onap.policy.models.tosca.serialization.legacy.LegacyOperationalPolicy;
-import org.onap.policy.models.tosca.serialization.simple.ToscaServiceTemplateMessageBodyHandler;
+import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicy;
+import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
+import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
+import org.onap.policy.models.tosca.simple.serialization.ToscaServiceTemplateMessageBodyHandler;
 
 /**
  * This class provides a dummy implementation of the Policy Models Provider for the ONAP Policy

@@ -18,32 +18,32 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.models.provider.impl;
+package org.onap.policy.models.tosca.simple.mapping;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
-import org.junit.Test;
-import org.onap.policy.models.base.PfConceptKey;
-import org.onap.policy.models.base.PfModelException;
-import org.onap.policy.models.provider.PolicyModelsProvider;
-import org.onap.policy.models.provider.PolicyModelsProviderFactory;
 import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
 
 /**
- * Test the dummy moldes provider implementation.
+ * This interface is used to map legacy and proprietary policies into and out of TOSCA service templates.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
+ * @param <I> the type for the incoming policy definition
+ * @param <O> the type for the outgoing policy definition
  */
-public class DummyPolicyModelsProviderTest {
+public interface ToscaServiceTemplateMapper<I, O> {
 
-    @Test
-    public void test() throws PfModelException {
-        PolicyModelsProvider dummyProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider();
+    /**
+     * Translate from the other format to a TOSCA service template.
+     *
+     * @param otherPolicyType the other policy type
+     * @return the TOSCA service template
+     */
+    public ToscaServiceTemplate toToscaServiceTemplate(final I otherPolicyType);
 
-        ToscaServiceTemplate serviceTemplate = dummyProvider.getPolicies(new PfConceptKey());
-        assertNotNull(serviceTemplate);
-        assertEquals("onap.vcpe.tca:1.0.0",
-                serviceTemplate.getTopologyTemplate().getPolicies().get("onap.vcpe.tca").getId());
-    }
+    /**
+     * Translate to the other format from a TOSCA service template.
+     *
+     * @param serviceTemplate the TOSCA service template
+     * @return the policy in the other format
+     */
+    public O fromToscaServiceTemplate(final ToscaServiceTemplate serviceTemplate);
 }

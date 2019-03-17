@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,32 +18,27 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.models.provider.impl;
+package org.onap.policy.models.tosca.legacy.concepts;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import org.onap.policy.models.base.PfConceptKey;
-import org.onap.policy.models.base.PfModelException;
-import org.onap.policy.models.provider.PolicyModelsProvider;
-import org.onap.policy.models.provider.PolicyModelsProviderFactory;
-import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
+import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
 
-/**
- * Test the dummy moldes provider implementation.
- *
- * @author Liam Fallon (liam.fallon@est.tech)
- */
-public class DummyPolicyModelsProviderTest {
+public class LegacyOperationalPolicyTest {
 
     @Test
-    public void test() throws PfModelException {
-        PolicyModelsProvider dummyProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider();
-
-        ToscaServiceTemplate serviceTemplate = dummyProvider.getPolicies(new PfConceptKey());
-        assertNotNull(serviceTemplate);
-        assertEquals("onap.vcpe.tca:1.0.0",
-                serviceTemplate.getTopologyTemplate().getPolicies().get("onap.vcpe.tca").getId());
+    public void test() {
+        LegacyOperationalPolicy policy = new LegacyOperationalPolicy();
+        assertNotNull(policy);
+        policy.setPolicyId("onap.scaleout");
+        assertEquals("onap.scaleout", policy.getPolicyId());
+        policy.setPolicyVersion("1");
+        assertEquals("1", policy.getPolicyVersion());
+        policy.setContent("controlLoop%3A%0A%20%20");
+        assertTrue(policy.getContent().length() > 0);
     }
+
 }
