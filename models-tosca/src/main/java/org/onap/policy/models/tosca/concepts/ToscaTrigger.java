@@ -24,7 +24,7 @@
 package org.onap.policy.models.tosca.concepts;
 
 import com.google.gson.annotations.SerializedName;
-
+import io.swagger.annotations.ApiModelProperty;
 import java.time.Duration;
 import java.util.List;
 
@@ -64,6 +64,7 @@ public class ToscaTrigger extends PfConcept {
     private static final long serialVersionUID = -6515211640208986971L;
 
     @EmbeddedId
+    @ApiModelProperty(hidden = true)
     private PfReferenceKey key;
 
     @Column

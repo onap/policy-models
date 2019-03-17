@@ -27,11 +27,11 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
-import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfValidationResult;
 
 /**
@@ -87,11 +87,11 @@ public class ToscaPolicyTest {
         PfConceptKey ptKey = new PfConceptKey("policyType", "0.0.1");
         ToscaPolicy tp = new ToscaPolicy(tpKey, ptKey);
 
-        List<ToscaProperty> properties = new ArrayList<>();
-        ToscaProperty property = new ToscaProperty(new PfReferenceKey(tpKey, "pr"), new PfConceptKey("type", "0.0.1"));
-        properties.add(property);
+        Map<String, String> properties = new HashMap<>();
+        properties.put("key", "value");
         tp.setProperties(properties);
-        assertEquals(properties, tp.getProperties());
+        assertEquals("key", tp.getProperties().entrySet().iterator().next().getKey());
+        assertEquals("value", tp.getProperties().entrySet().iterator().next().getValue());
 
         List<PfConceptKey> targets = new ArrayList<>();
         PfConceptKey target = new PfConceptKey("target", "0.0.1");
@@ -132,7 +132,7 @@ public class ToscaPolicyTest {
             assertEquals("target is marked @NonNull but is null", exc.getMessage());
         }
 
-        assertEquals(5, tp.getKeys().size());
+        assertEquals(3, tp.getKeys().size());
         assertEquals(2, new ToscaPolicy().getKeys().size());
 
         new ToscaPolicy().clean();
@@ -140,11 +140,6 @@ public class ToscaPolicyTest {
         assertEquals(tdtClone0, tp);
 
         assertFalse(new ToscaPolicy().validate(new PfValidationResult()).isValid());
-        assertTrue(tp.validate(new PfValidationResult()).isValid());
-
-        tp.getProperties().add(null);
-        assertFalse(tp.validate(new PfValidationResult()).isValid());
-        tp.getProperties().remove(null);
         assertTrue(tp.validate(new PfValidationResult()).isValid());
 
         tp.getTargets().add(null);

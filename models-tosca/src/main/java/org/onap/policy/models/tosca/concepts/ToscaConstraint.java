@@ -23,6 +23,8 @@
 
 package org.onap.policy.models.tosca.concepts;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.List;
 
 import javax.persistence.EmbeddedId;
@@ -52,6 +54,7 @@ public abstract class ToscaConstraint extends PfConcept {
     private static final long serialVersionUID = 6426438089914347734L;
 
     @EmbeddedId
+    @ApiModelProperty(hidden = true)
     private final PfReferenceKey key;
 
     /**

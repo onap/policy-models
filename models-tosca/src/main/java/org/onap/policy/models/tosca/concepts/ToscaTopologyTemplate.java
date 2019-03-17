@@ -20,6 +20,8 @@
 
 package org.onap.policy.models.tosca.concepts;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -59,6 +61,7 @@ public class ToscaTopologyTemplate extends PfConcept {
     private static final long serialVersionUID = 8969698734673232603L;
 
     @EmbeddedId
+    @ApiModelProperty(hidden = true)
     private PfReferenceKey key;
 
     @Column(name = "description")

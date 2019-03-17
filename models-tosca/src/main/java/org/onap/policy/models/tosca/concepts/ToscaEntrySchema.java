@@ -23,6 +23,8 @@
 
 package org.onap.policy.models.tosca.concepts;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,9 +67,11 @@ public class ToscaEntrySchema extends PfConcept {
     private static final long serialVersionUID = 3645882081163287058L;
 
     @EmbeddedId
+    @ApiModelProperty(hidden = true)
     private PfReferenceKey key;
 
     @Column
+    @ApiModelProperty(hidden = true)
     private PfConceptKey type;
 
     @Column

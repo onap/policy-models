@@ -23,6 +23,8 @@
 
 package org.onap.policy.models.tosca.concepts;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,9 +66,11 @@ public class ToscaPolicyType extends ToscaEntityType {
     private List<ToscaProperty> properties;
 
     @ElementCollection
+    @ApiModelProperty(hidden = true)
     private List<PfConceptKey> targets;
 
     @ElementCollection
+    @ApiModelProperty(hidden = true)
     private List<ToscaTrigger> triggers;
 
     /**

@@ -23,14 +23,20 @@
 
 package org.onap.policy.models.tosca.concepts;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -38,6 +44,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 
 import org.onap.policy.common.utils.validation.Assertions;
+import org.onap.policy.common.utils.validation.ParameterValidationUtils;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
@@ -61,12 +68,14 @@ public class ToscaPolicy extends ToscaEntityType {
     private static final long serialVersionUID = 3265174757061982805L;
 
     @Column
+    @ApiModelProperty(hidden = true)
     private PfConceptKey type;
 
-    @ElementCollection
-    private List<ToscaProperty> properties;
+    @OneToMany(cascade = CascadeType.ALL)
+    private Map<String, String> properties;
 
     @ElementCollection
+    @ApiModelProperty(hidden = true)
     private List<PfConceptKey> targets;
 
     /**
@@ -112,12 +121,6 @@ public class ToscaPolicy extends ToscaEntityType {
 
         keyList.addAll(type.getKeys());
 
-        if (properties != null) {
-            for (ToscaProperty property : properties) {
-                keyList.addAll(property.getKeys());
-            }
-        }
-
         if (targets != null) {
             keyList.addAll(targets);
         }
@@ -132,8 +135,8 @@ public class ToscaPolicy extends ToscaEntityType {
         type.clean();
 
         if (properties != null) {
-            for (ToscaProperty property : properties) {
-                property.clean();
+            for (Entry<String, String> propertiesEntry : properties.entrySet()) {
+                propertiesEntry.setValue(propertiesEntry.getValue().trim());
             }
         }
 
@@ -157,33 +160,22 @@ public class ToscaPolicy extends ToscaEntityType {
         }
 
         if (properties != null) {
-            result = validateProperties(result);
+            for (Entry<String, String> propertiesEntry : properties.entrySet()) {
+                if (!ParameterValidationUtils.validateStringParameter(propertiesEntry.getKey())) {
+                    result.addValidationMessage(new PfValidationMessage(type, this.getClass(), ValidationResult.INVALID,
+                            "properties key may not be null"));
+                }
+                if (!ParameterValidationUtils.validateStringParameter(propertiesEntry.getValue())) {
+                    result.addValidationMessage(new PfValidationMessage(type, this.getClass(), ValidationResult.INVALID,
+                            "properties value may not be null"));
+                }
+            }
         }
 
         if (targets != null) {
             result = validateTargets(result);
         }
 
-        return result;
-    }
-
-    /**
-     * Validate the policy properties.
-     *
-     * @param result The result of validations up to now
-     * @return the validation result
-     */
-    private PfValidationResult validateProperties(@NonNull final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
-
-        for (ToscaProperty property : properties) {
-            if (property == null) {
-                result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                        "policy property may not be null "));
-            } else {
-                result = property.validate(result);
-            }
-        }
         return result;
     }
 
@@ -248,12 +240,10 @@ public class ToscaPolicy extends ToscaEntityType {
 
         copy.setType(new PfConceptKey(type));
 
-        if (properties == null) {
-            copy.setProperties(null);
-        } else {
-            final List<ToscaProperty> newProperties = new ArrayList<>();
-            for (final ToscaProperty property : properties) {
-                newProperties.add(new ToscaProperty(property));
+        if (properties != null) {
+            final Map<String, String> newProperties = new TreeMap<>();
+            for (final Entry<String, String> propertiesEntry : properties.entrySet()) {
+                newProperties.put(propertiesEntry.getKey(), propertiesEntry.getValue());
             }
             copy.setProperties(newProperties);
         }

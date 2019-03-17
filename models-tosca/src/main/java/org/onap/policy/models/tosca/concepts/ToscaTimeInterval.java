@@ -24,7 +24,7 @@
 package org.onap.policy.models.tosca.concepts;
 
 import com.google.gson.annotations.SerializedName;
-
+import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
 import java.util.List;
 
@@ -63,12 +63,15 @@ public class ToscaTimeInterval extends PfConcept {
     private static final long serialVersionUID = 9151467029611969980L;
 
     @EmbeddedId
+    @ApiModelProperty(hidden = true)
     private PfReferenceKey key;
 
     @SerializedName("start_time")
+    @ApiModelProperty(hidden = true)
     private Date startTime;
 
     @SerializedName("end_time")
+    @ApiModelProperty(hidden = true)
     private Date endTime;
 
     /**

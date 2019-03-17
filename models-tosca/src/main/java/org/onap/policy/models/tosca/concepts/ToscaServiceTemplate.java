@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +22,7 @@
 package org.onap.policy.models.tosca.concepts;
 
 import com.google.gson.annotations.SerializedName;
-
+import io.swagger.annotations.ApiModelProperty;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -51,6 +52,7 @@ import org.onap.policy.models.base.PfValidationResult.ValidationResult;
  * service template are implemented.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
+ * @author Chenfei Gao (cgao@research.att.com)
  */
 @Entity
 @Table(name = "ToscaServiceTemplate")

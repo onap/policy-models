@@ -20,6 +20,8 @@
 
 package org.onap.policy.models.base;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -63,6 +65,7 @@ public class PfConceptContainer<C extends PfConcept> extends PfConcept implement
     private static final long serialVersionUID = -324211738823208318L;
 
     @EmbeddedId
+    @ApiModelProperty(hidden = true)
     private PfConceptKey key;
 
     @ManyToMany(cascade = CascadeType.ALL)

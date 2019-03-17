@@ -21,7 +21,7 @@
 package org.onap.policy.models.tosca.concepts;
 
 import com.google.gson.annotations.SerializedName;
-
+import io.swagger.annotations.ApiModelProperty;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -63,6 +63,7 @@ public class ToscaEntityType extends PfConcept {
     private static final long serialVersionUID = -1330661834220739393L;
 
     @EmbeddedId
+    @ApiModelProperty(hidden = true)
     private PfConceptKey key;
 
     @SerializedName("derived_from")

@@ -24,7 +24,7 @@
 package org.onap.policy.models.tosca.concepts;
 
 import com.google.gson.annotations.SerializedName;
-
+import io.swagger.annotations.ApiModelProperty;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -69,9 +69,11 @@ public class ToscaProperty extends PfConcept {
     }
 
     @EmbeddedId
+    @ApiModelProperty(hidden = true)
     private PfReferenceKey key;
 
     @Column
+    @ApiModelProperty(hidden = true)
     private PfConceptKey type;
 
     @Column
@@ -86,6 +88,7 @@ public class ToscaProperty extends PfConcept {
 
     @Column
     @NonNull
+    @ApiModelProperty(hidden = true)
     private Status status = Status.SUPPORTED;
 
     @ElementCollection

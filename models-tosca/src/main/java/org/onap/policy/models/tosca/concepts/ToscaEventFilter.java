@@ -23,6 +23,8 @@
 
 package org.onap.policy.models.tosca.concepts;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.List;
 
 import javax.persistence.Column;
@@ -61,15 +63,19 @@ public class ToscaEventFilter extends PfConcept {
     private static final long serialVersionUID = 8769020537228210247L;
 
     @EmbeddedId
+    @ApiModelProperty(hidden = true)
     private PfReferenceKey key;
 
     @Column
+    @ApiModelProperty(hidden = true)
     private PfConceptKey node;
 
     @Column
+    @ApiModelProperty(hidden = true)
     private String requirement;
 
     @Column
+    @ApiModelProperty(hidden = true)
     private String capability;
 
     /**
