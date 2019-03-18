@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85efb172_3ea44f67",
+        "filename": "models-decisions/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2019-03-18T21:28:29Z",
+      "side": 1,
+      "message": "curious, why does the copyright here belong to the Nordix Foundation?",
+      "range": {
+        "startLine": 3,
+        "startChar": 3,
+        "endLine": 3,
+        "endChar": 40
+      },
+      "revId": "2d4d299dc1173180aaee3240361f0b9f79648e79",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
