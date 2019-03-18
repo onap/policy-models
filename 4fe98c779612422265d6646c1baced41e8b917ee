@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e94fd8ea_c3a8eeb5",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/serialization/ToscaPoliciesJsonAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-03-18T22:53:27Z",
+      "side": 1,
+      "message": "Would this be better?\n\nfor (ToscaPolicy policy: policies.getConceptMap.values()) {\n    JsonElement policyEntry \u003d new  ToscaPolicyJsonAdapter()\n                    .serialize(policy, type, context);\n            policiesJsonArray.add(policyEntry);\n}",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 9
+      },
+      "revId": "4fe98c779612422265d6646c1baced41e8b917ee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a54c772b_81239a95",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/serialization/ToscaPolicyJsonAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-03-18T22:53:27Z",
+      "side": 1,
+      "message": "Properties are optional on a TOSCA policy.",
+      "range": {
+        "startLine": 105,
+        "startChar": 2,
+        "endLine": 110,
+        "endChar": 2
+      },
+      "revId": "4fe98c779612422265d6646c1baced41e8b917ee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af7354c4_7e32ae14",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/serialization/ToscaPolicyJsonAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-03-18T22:53:27Z",
+      "side": 1,
+      "message": "Properties are optional, all that is mandatory on a policy is the policy type",
+      "range": {
+        "startLine": 151,
+        "startChar": 1,
+        "endLine": 155,
+        "endChar": 1
+      },
+      "revId": "4fe98c779612422265d6646c1baced41e8b917ee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
