@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +30,7 @@ import com.google.gson.JsonSerializer;
 
 import java.lang.reflect.Type;
 import java.util.Iterator;
-
+import java.util.Map.Entry;
 import lombok.NonNull;
 
 import org.onap.policy.models.base.PfConceptKey;
@@ -40,6 +41,7 @@ import org.onap.policy.models.tosca.simple.concepts.ToscaPolicy;
  * GSON type adapter for TOSCA policies.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
+ * @author Chenfei Gao (cgao@research.att.com)
  */
 public class ToscaPoliciesJsonAdapter implements JsonSerializer<ToscaPolicies>, JsonDeserializer<ToscaPolicies> {
     @Override
@@ -64,9 +66,18 @@ public class ToscaPoliciesJsonAdapter implements JsonSerializer<ToscaPolicies>, 
     }
 
     @Override
-    public JsonElement serialize(@NonNull final ToscaPolicies policy, @NonNull final Type type,
+    public JsonElement serialize(@NonNull final ToscaPolicies policies, @NonNull final Type type,
             @NonNull final JsonSerializationContext context) {
 
-        return null;
+        JsonArray policiesJsonArray = new JsonArray();
+
+        Iterator<Entry<PfConceptKey, ToscaPolicy>> policyIter = policies.getConceptMap().entrySet().iterator();
+        while (policyIter.hasNext()) {
+            JsonElement policyEntry = new ToscaPolicyJsonAdapter()
+                    .serialize(policyIter.next().getValue(), type, context);
+            policiesJsonArray.add(policyEntry);
+        }
+
+        return policiesJsonArray;
     }
 }

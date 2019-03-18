@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,9 +41,12 @@ import org.onap.policy.models.tosca.simple.concepts.ToscaTopologyTemplate;
  * GSON type adapter for TOSCA policies.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
+ * @author Chenfei Gao (cgao@research.att.com)
  */
 public class ToscaTopologyTemplateJsonAdapter
         implements JsonSerializer<ToscaTopologyTemplate>, JsonDeserializer<ToscaTopologyTemplate> {
+
+    private static final String POLICIES = "policies";
 
     @Override
     public ToscaTopologyTemplate deserialize(@NonNull final JsonElement toplogyTemplateElement,
@@ -55,9 +59,9 @@ public class ToscaTopologyTemplateJsonAdapter
         final PfReferenceKey topologyTemplateKey = new PfReferenceKey(new PfConceptKey(), "IncomingTopologyTemplate");
         final ToscaTopologyTemplate topologyTemplate = new ToscaTopologyTemplate(topologyTemplateKey);
 
-        if (topologyTemplateJsonObject.has("policies")) {
+        if (topologyTemplateJsonObject.has(POLICIES)) {
             topologyTemplate.setPolicies(new ToscaPoliciesJsonAdapter()
-                    .deserialize(topologyTemplateJsonObject.get("policies"), ToscaPolicies.class, context));
+                    .deserialize(topologyTemplateJsonObject.get(POLICIES), ToscaPolicies.class, context));
         }
 
         return topologyTemplate;
@@ -67,6 +71,11 @@ public class ToscaTopologyTemplateJsonAdapter
     public JsonElement serialize(@NonNull final ToscaTopologyTemplate topologyTemplate, @NonNull final Type type,
             @NonNull final JsonSerializationContext context) {
 
-        return null;
+        JsonObject topologyTemplateJsonObject = new JsonObject();
+        JsonElement policiesJsonElement = new ToscaPoliciesJsonAdapter()
+                .serialize(topologyTemplate.getPolicies(), type, context);
+
+        topologyTemplateJsonObject.add(POLICIES, policiesJsonElement);
+        return topologyTemplateJsonObject;
     }
 }
