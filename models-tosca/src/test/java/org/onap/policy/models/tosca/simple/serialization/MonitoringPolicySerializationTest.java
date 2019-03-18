@@ -68,8 +68,6 @@ public class MonitoringPolicySerializationTest {
 
         assertEquals("onap.restart.tca:1.0.0",
                 serviceTemplate.getTopologyTemplate().getPolicies().get("onap.restart.tca").getId());
-        assertEquals("onap.restart.tca:1.0.0",
-                serviceTemplate.getTopologyTemplate().getPolicies().get("onap.restart.tca").getId());
     }
 
     @Test
@@ -86,8 +84,6 @@ public class MonitoringPolicySerializationTest {
         LOGGER.info(serviceTemplate.validate(new PfValidationResult()).toString());
         assertTrue(serviceTemplate.validate(new PfValidationResult()).isValid());
 
-        assertEquals("onap.restart.tca:1.0.0",
-                serviceTemplate.getTopologyTemplate().getPolicies().get("onap.restart.tca").getId());
         assertEquals("onap.restart.tca:1.0.0",
                 serviceTemplate.getTopologyTemplate().getPolicies().get("onap.restart.tca").getId());
     }
