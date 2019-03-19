@@ -25,7 +25,7 @@
 
         <class>org.onap.policy.models.dao.converters.CDataConditioner</class>
         <class>org.onap.policy.models.dao.converters.Uuid2String</class>
-        <class>org.onap.policy.models.base.concepts.PfConcepttKey</class>
+        <class>org.onap.policy.models.base.PfConceptKey</class>
         <class>org.onap.policy.models.dao.DummyConceptEntity</class>
         <class>org.onap.policy.models.dao.DummyReferenceEntity</class>
 

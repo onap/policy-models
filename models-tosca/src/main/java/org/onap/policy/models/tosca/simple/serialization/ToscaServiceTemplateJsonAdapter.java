@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,9 +40,14 @@ import org.onap.policy.models.tosca.simple.concepts.ToscaTopologyTemplate;
  * GSON type adapter for TOSCA policies.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
+ * @author Chenfei Gao (cgao@research.att.com)
  */
 public class ToscaServiceTemplateJsonAdapter
         implements JsonSerializer<ToscaServiceTemplate>, JsonDeserializer<ToscaServiceTemplate> {
+
+    private static final String TOPOLOGY_TEMPLATE = "topology_template";
+    private static final String TOSCA_DEFINITIONS_VERSION = "tosca_definitions_version";
+
     @Override
     public ToscaServiceTemplate deserialize(@NonNull final JsonElement serviceTemplateElement, @NonNull final Type type,
             @NonNull final JsonDeserializationContext context) {
@@ -53,11 +59,11 @@ public class ToscaServiceTemplateJsonAdapter
         final PfConceptKey serviceTemplateKey = new PfConceptKey("IncomingServiceTemplate", "0.0.1");
         final ToscaServiceTemplate serviceTemplate = new ToscaServiceTemplate(serviceTemplateKey);
         serviceTemplate
-                .setToscaDefinitionsVersion(serviceTemplateJsonObject.get("tosca_definitions_version").getAsString());
+                .setToscaDefinitionsVersion(serviceTemplateJsonObject.get(TOSCA_DEFINITIONS_VERSION).getAsString());
 
-        if (serviceTemplateJsonObject.has("topology_template")) {
+        if (serviceTemplateJsonObject.has(TOPOLOGY_TEMPLATE)) {
             serviceTemplate.setTopologyTemplate(new ToscaTopologyTemplateJsonAdapter().deserialize(
-                    serviceTemplateJsonObject.get("topology_template"), ToscaTopologyTemplate.class, context));
+                    serviceTemplateJsonObject.get(TOPOLOGY_TEMPLATE), ToscaTopologyTemplate.class, context));
         }
 
         // Set the parent key of the topology template to be this service template
@@ -70,6 +76,13 @@ public class ToscaServiceTemplateJsonAdapter
     public JsonElement serialize(@NonNull final ToscaServiceTemplate serviceTemplate, @NonNull final Type type,
             @NonNull final JsonSerializationContext context) {
 
-        return null;
+        JsonObject serviceTemplateJsonObject = new JsonObject();
+        JsonElement topologyTemplateJsonElement = new ToscaTopologyTemplateJsonAdapter()
+                .serialize(serviceTemplate.getTopologyTemplate(), type, context);
+
+        serviceTemplateJsonObject.addProperty(TOSCA_DEFINITIONS_VERSION, serviceTemplate.getToscaDefinitionsVersion());
+        serviceTemplateJsonObject.add(TOPOLOGY_TEMPLATE, topologyTemplateJsonElement);
+
+        return serviceTemplateJsonObject;
     }
 }

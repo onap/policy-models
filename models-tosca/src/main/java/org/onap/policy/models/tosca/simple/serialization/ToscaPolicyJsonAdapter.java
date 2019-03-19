@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +29,9 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 import java.lang.reflect.Type;
-
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import javax.ws.rs.core.Response;
 
 import lombok.NonNull;
@@ -43,10 +46,17 @@ import org.slf4j.LoggerFactory;
  * GSON type adapter for TOSCA policies.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
+ * @author Chenfei Gao (cgao@research.att.com)
  */
 public class ToscaPolicyJsonAdapter implements JsonSerializer<ToscaPolicy>, JsonDeserializer<ToscaPolicy> {
     // Logger for this class
     private static final Logger LOGGER = LoggerFactory.getLogger(ToscaPolicyJsonAdapter.class);
+
+    private static final String TYPE = "type";
+    private static final String DESCRIPTION = "description";
+    private static final String VERSION = "version";
+    private static final String METADATA = "metadata";
+    private static final String PROPERTIES = "properties";
 
     @Override
     public ToscaPolicy deserialize(@NonNull final JsonElement policyElement, @NonNull final Type type,
@@ -59,20 +69,49 @@ public class ToscaPolicyJsonAdapter implements JsonSerializer<ToscaPolicy>, Json
         if (policyJsonMapObject.entrySet().size() != 1) {
             String errorMessage = "a policy list entry may only contain one and only one policy";
             LOGGER.debug(errorMessage);
-            throw new PfModelRuntimeException(Response.Status.NOT_ACCEPTABLE, errorMessage);
+            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
         }
 
-        String policyName = policyJsonMapObject.entrySet().iterator().next().getKey();
-        JsonObject policyJsonObject = policyJsonMapObject.entrySet().iterator().next().getValue().getAsJsonObject();
+        final String policyName = policyJsonMapObject.entrySet().iterator().next().getKey();
+        final JsonObject policyJsonObject = policyJsonMapObject.entrySet().iterator().next()
+                                            .getValue().getAsJsonObject();
 
-        PfConceptKey policyKey = new PfConceptKey(policyName, policyJsonObject.get("version").getAsString());
+        // Set keys
+        PfConceptKey policyKey = new PfConceptKey(policyName, policyJsonObject.get(VERSION).getAsString());
         PfConceptKey policyTypeKey = new PfConceptKey(
-                policyJsonObject.get("type").getAsString(),
-                policyJsonObject.get("version").getAsString());
+                policyJsonObject.get(TYPE).getAsString(),
+                policyJsonObject.get(VERSION).getAsString());
         ToscaPolicy policy = new ToscaPolicy(policyKey, policyTypeKey);
 
-        // TODO: Rest of parsing
+        // Set description
+        if (policyJsonObject.has(DESCRIPTION)) {
+            final String policyDescription = policyJsonObject.get(DESCRIPTION).getAsString();
+            policy.setDescription(policyDescription);
+        }
 
+        // Set metadata
+        if (policyJsonObject.has(METADATA)) {
+            final JsonObject policyMetadataMapObject = policyJsonObject.get(METADATA).getAsJsonObject();
+            Map<String, String> policyMetadataMap = new HashMap<>();
+            for (Entry<String, JsonElement> entry : policyMetadataMapObject.entrySet()) {
+                final String policyMetadataEntryKey = entry.getKey();
+                final String policyMetadataEntryValue = entry.getValue().getAsString();
+                policyMetadataMap.put(policyMetadataEntryKey, policyMetadataEntryValue);
+            }
+            policy.setMetadata(policyMetadataMap);
+        }
+
+        // Set properties
+        if (policyJsonObject.has(PROPERTIES)) {
+            final JsonObject policyPropertiesMapObject = policyJsonObject.get(PROPERTIES).getAsJsonObject();
+            Map<String, Object> propertiesMap = new HashMap<>();
+            for (Entry<String, JsonElement> entry : policyPropertiesMapObject.entrySet()) {
+                final String policyPropertiesEntryKey = entry.getKey();
+                final JsonElement policyPropertiesEntryValue = entry.getValue();
+                propertiesMap.put(policyPropertiesEntryKey, policyPropertiesEntryValue);
+            }
+            policy.setProperties(propertiesMap);
+        }
         return policy;
     }
 
@@ -80,6 +119,46 @@ public class ToscaPolicyJsonAdapter implements JsonSerializer<ToscaPolicy>, Json
     public JsonElement serialize(@NonNull final ToscaPolicy policy, @NonNull final Type type,
             @NonNull final JsonSerializationContext context) {
 
-        return null;
+        JsonObject policyValJsonObject = new JsonObject();
+
+        // Add type
+        policyValJsonObject.addProperty(TYPE, policy.getType().getName());
+
+        // Add version
+        policyValJsonObject.addProperty(VERSION, policy.getType().getVersion());
+
+        // Add description
+        if (policy.getDescription() != null) {
+            policyValJsonObject.addProperty(DESCRIPTION, policy.getDescription());
+        }
+
+        // Add metadata
+        if (policy.getMetadata() != null) {
+            JsonObject metadataMapObject = new JsonObject();
+            for (Entry<String, String> entry : policy.getMetadata().entrySet()) {
+                final String entryKey = entry.getKey();
+                final String entryVal = entry.getValue();
+                metadataMapObject.addProperty(entryKey, entryVal);
+            }
+            policyValJsonObject.add(METADATA, metadataMapObject);
+        }
+
+        // Add properties
+        if (policy.getProperties() != null) {
+            JsonObject propertiesMapObject = new JsonObject();
+            for (Entry<String, Object> entry : policy.getProperties().entrySet()) {
+                final String entryKey = entry.getKey();
+                JsonElement entryVal = null;
+                if (entry.getValue() instanceof JsonElement) {
+                    entryVal = (JsonElement) entry.getValue();
+                }
+                propertiesMapObject.add(entryKey, entryVal);
+            }
+            policyValJsonObject.add(PROPERTIES, propertiesMapObject);
+        }
+
+        JsonObject policyJsonObject = new JsonObject();
+        policyJsonObject.add(policy.getKey().getName(), policyValJsonObject);
+        return policyJsonObject;
     }
 }
