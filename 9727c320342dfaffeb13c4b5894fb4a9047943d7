@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1bdccddb_dacc6b25",
+        "filename": "models-examples/src/main/resources/policies/README.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-03-19T23:16:52Z",
+      "side": 1,
+      "message": "Add blacklist later, these use cases don\u0027t use that policy and its unclear how its supposed to work.",
+      "parentUuid": "16a94dee_273bf932",
+      "range": {
+        "startLine": 18,
+        "startChar": 8,
+        "endLine": 18,
+        "endChar": 26
+      },
+      "revId": "9727c320342dfaffeb13c4b5894fb4a9047943d7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30b1f2ea_d2d8806b",
         "filename": "models-examples/src/main/resources/policies/README.txt",
         "patchSetId": 1
