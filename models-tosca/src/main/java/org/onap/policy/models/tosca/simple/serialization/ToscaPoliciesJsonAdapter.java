@@ -30,7 +30,6 @@ import com.google.gson.JsonSerializer;
 
 import java.lang.reflect.Type;
 import java.util.Iterator;
-import java.util.Map.Entry;
 import lombok.NonNull;
 
 import org.onap.policy.models.base.PfConceptKey;

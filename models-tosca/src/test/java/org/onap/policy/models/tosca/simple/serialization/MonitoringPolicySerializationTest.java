@@ -31,7 +31,7 @@ import java.io.IOException;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.onap.policy.common.utils.resources.TextFileUtils;
+import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.serialization.ToscaServiceTemplateMessageBodyHandler;
@@ -57,11 +57,9 @@ public class MonitoringPolicySerializationTest {
 
     @Test
     public void testJsonDeserialization() throws JsonSyntaxException, IOException {
-        ToscaServiceTemplate serviceTemplate = gson.fromJson(
-                TextFileUtils
-                        .getTextFileAsString("src/test/resources/policies/vCPE.policy.monitoring.input.tosca.json"),
-                ToscaServiceTemplate.class);
+        String vcpePolicyJson = ResourceUtils.getResourceAsString("policies/vCPE.policy.monitoring.input.tosca.json");
 
+        ToscaServiceTemplate serviceTemplate = gson.fromJson(vcpePolicyJson, ToscaServiceTemplate.class);
         assertNotNull(serviceTemplate);
         LOGGER.info(serviceTemplate.validate(new PfValidationResult()).toString());
         assertTrue(serviceTemplate.validate(new PfValidationResult()).isValid());
@@ -73,8 +71,9 @@ public class MonitoringPolicySerializationTest {
     @Test
     public void testYamlDeserialization() throws JsonSyntaxException, IOException {
         Yaml yaml = new Yaml();
-        Object yamlObject = yaml.load(TextFileUtils
-                .getTextFileAsString("src/test/resources/policies/vCPE.policy.monitoring.input.tosca.yaml"));
+
+        String vcpePolicyYaml = ResourceUtils.getResourceAsString("policies/vCPE.policy.monitoring.input.tosca.yaml");
+        Object yamlObject = yaml.load(vcpePolicyYaml);
 
         String yamlAsJsonString = new Gson().toJson(yamlObject);
 

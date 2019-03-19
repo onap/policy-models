@@ -58,6 +58,7 @@
         <module>models-pap</module>
         <module>models-decisions</module>
         <module>models-provider</module>
+        <module>models-examples</module>
     </modules>
 
     <distributionManagement>
@@ -76,6 +77,15 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
         </dependency>
 
         <dependency>

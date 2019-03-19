@@ -27,28 +27,8 @@
         <version>2.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>policy-models-tosca</artifactId>
+    <artifactId>policy-models-examples</artifactId>
 
     <name>${project.artifactId}</name>
-    <description>The TOSCA models that are shared across different policy components</description>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.onap.policy.models</groupId>
-            <artifactId>policy-models-base</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.onap.policy.models</groupId>
-            <artifactId>policy-models-examples</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.onap.policy.common</groupId>
-            <artifactId>gson</artifactId>
-            <version>${policy.common.version}</version>
-        </dependency>
-    </dependencies>
+    <description>Various examples of policy type and policy models in various formats</description>
 </project>

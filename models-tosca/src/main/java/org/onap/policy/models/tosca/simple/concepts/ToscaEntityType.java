@@ -30,11 +30,10 @@ import java.util.TreeMap;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -54,8 +53,7 @@ import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 /**
  * Class to represent the EntrySchema of list/map property in TOSCA definition.
  */
-@Entity
-@Table(name = "ToscaEntityType")
+@MappedSuperclass
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
 @EqualsAndHashCode(callSuper = false)

@@ -31,7 +31,7 @@ import java.io.IOException;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.onap.policy.common.utils.resources.TextFileUtils;
+import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
 import org.onap.policy.models.tosca.legacy.mapping.LegacyOperationalPolicyMapper;
@@ -57,9 +57,9 @@ public class LegacyOperationalPolicySerializationTest {
 
     @Test
     public void testJsonDeserialization() throws JsonSyntaxException, IOException {
-        LegacyOperationalPolicy legacyOperationalPolicy = gson.fromJson(
-                TextFileUtils.getTextFileAsString("src/test/resources/policies/vCPE.policy.operational.input.json"),
-                LegacyOperationalPolicy.class);
+        String vcpePolicyJson = ResourceUtils.getResourceAsString("policies/vCPE.policy.operational.input.json");
+
+        LegacyOperationalPolicy legacyOperationalPolicy = gson.fromJson(vcpePolicyJson, LegacyOperationalPolicy.class);
 
         ToscaServiceTemplate serviceTemplate =
                 new LegacyOperationalPolicyMapper().toToscaServiceTemplate(legacyOperationalPolicy);

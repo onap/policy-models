@@ -26,7 +26,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.ArrayList;
@@ -61,7 +60,6 @@ public class EntityTest {
     @After
     public void teardown() throws Exception {
         connection.close();
-        new File("derby.log").delete();
     }
 
     @Test
