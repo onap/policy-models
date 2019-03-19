@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,16 +24,21 @@ package org.onap.policy.models.tosca.simple.serialization;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 
 import java.io.IOException;
-
+import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
-import org.onap.policy.common.utils.resources.TextFileUtils;
+import org.onap.policy.common.utils.resources.ResourceUtils;
+import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfValidationResult;
+import org.onap.policy.models.tosca.simple.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.serialization.ToscaServiceTemplateMessageBodyHandler;
 import org.slf4j.Logger;
@@ -43,10 +49,18 @@ import org.yaml.snakeyaml.Yaml;
  * Test serialization of monitoring policies.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
+ * @author Chenfei Gao (cgao@research.att.com
  */
 public class MonitoringPolicySerializationTest {
-    // Logger for this class
+
     private static final Logger LOGGER = LoggerFactory.getLogger(MonitoringPolicySerializationTest.class);
+
+    private static final String VCPE_MONITORING_INPUT_JSON = "policies/vCPE.policy.monitoring.input.tosca.json";
+    private static final String VCPE_MONITORING_INPUT_YAML = "policies/vCPE.policy.monitoring.input.tosca.yaml";
+    private static final String VDNS_MONITORING_INPUT_JSON = "policies/vDNS.policy.monitoring.input.tosca.json";
+    private static final String VDNS_MONITORING_INPUT_YAML = "policies/vDNS.policy.monitoring.input.tosca.yaml";
+    private static final String VFW_MONITORING_INPUT_JSON = "policies/vFirewall.policy.monitoring.input.tosca.json";
+    private static final String VFW_MONITORING_INPUT_YAML = "policies/vFirewall.policy.monitoring.input.tosca.yaml";
 
     private Gson gson;
 
@@ -56,35 +70,182 @@ public class MonitoringPolicySerializationTest {
     }
 
     @Test
-    public void testJsonDeserialization() throws JsonSyntaxException, IOException {
-        ToscaServiceTemplate serviceTemplate = gson.fromJson(
-                TextFileUtils
-                        .getTextFileAsString("src/test/resources/policies/vCPE.policy.monitoring.input.tosca.json"),
-                ToscaServiceTemplate.class);
+    public void testDeserialization() {
+        try {
+            // vCPE
+            ToscaServiceTemplate serviceTemplateFromJson = deserializeMonitoringInputJson(VCPE_MONITORING_INPUT_JSON);
+            verifyVcpeMonitoringInputDeserialization(serviceTemplateFromJson);
+            ToscaServiceTemplate serviceTemplateFromYaml = deserializeMonitoringInputYaml(VCPE_MONITORING_INPUT_YAML);
+            assertTrue(serviceTemplateFromJson.compareTo(serviceTemplateFromYaml) == 0);
 
-        assertNotNull(serviceTemplate);
-        LOGGER.info(serviceTemplate.validate(new PfValidationResult()).toString());
-        assertTrue(serviceTemplate.validate(new PfValidationResult()).isValid());
+            // vDNS
+            serviceTemplateFromJson = deserializeMonitoringInputJson(VDNS_MONITORING_INPUT_JSON);
+            verifyVdnsMonitoringInputDeserialization(serviceTemplateFromJson);
+            serviceTemplateFromYaml = deserializeMonitoringInputYaml(VDNS_MONITORING_INPUT_YAML);
+            assertTrue(serviceTemplateFromJson.compareTo(serviceTemplateFromYaml) == 0);
 
-        assertEquals("onap.restart.tca:1.0.0",
-                serviceTemplate.getTopologyTemplate().getPolicies().get("onap.restart.tca").getId());
+            // vFirewall
+            serviceTemplateFromJson = deserializeMonitoringInputJson(VFW_MONITORING_INPUT_JSON);
+            verifyVfwMonitoringInputDeserialization(serviceTemplateFromJson);
+            serviceTemplateFromYaml = deserializeMonitoringInputYaml(VFW_MONITORING_INPUT_YAML);
+            assertTrue(serviceTemplateFromJson.compareTo(serviceTemplateFromYaml) == 0);
+        } catch (Exception e) {
+            fail("No exception should be thrown");
+        }
     }
 
     @Test
-    public void testYamlDeserialization() throws JsonSyntaxException, IOException {
+    public void testSerialization() {
+        try {
+            // vCPE
+            ToscaServiceTemplate serviceTemplate = deserializeMonitoringInputJson(VCPE_MONITORING_INPUT_JSON);
+            String serializedServiceTemplate = serializeMonitoringServiceTemplate(serviceTemplate);
+            String originalServiceTemplate = ResourceUtils.getResourceAsString(VCPE_MONITORING_INPUT_JSON);
+            JsonElement serializedJsonElement = new JsonParser().parse(serializedServiceTemplate);
+            JsonElement originalJsonElement = new JsonParser().parse(originalServiceTemplate);
+            assertEquals(serializedJsonElement, originalJsonElement);
+
+            // vDNS
+            serviceTemplate = deserializeMonitoringInputJson(VDNS_MONITORING_INPUT_JSON);
+            serializedServiceTemplate = serializeMonitoringServiceTemplate(serviceTemplate);
+            originalServiceTemplate = ResourceUtils.getResourceAsString(VDNS_MONITORING_INPUT_JSON);
+            serializedJsonElement = new JsonParser().parse(serializedServiceTemplate);
+            originalJsonElement = new JsonParser().parse(originalServiceTemplate);
+            assertEquals(serializedJsonElement, originalJsonElement);
+
+            // vFirewall
+            serviceTemplate = deserializeMonitoringInputJson(VFW_MONITORING_INPUT_JSON);
+            serializedServiceTemplate = serializeMonitoringServiceTemplate(serviceTemplate);
+            originalServiceTemplate = ResourceUtils.getResourceAsString(VFW_MONITORING_INPUT_JSON);
+            serializedJsonElement = new JsonParser().parse(serializedServiceTemplate);
+            originalJsonElement = new JsonParser().parse(originalServiceTemplate);
+            assertEquals(serializedJsonElement, originalJsonElement);
+        } catch (Exception e) {
+            fail("No exception should be thrown");
+        }
+    }
+
+    private ToscaServiceTemplate deserializeMonitoringInputJson(String resourcePath)
+            throws JsonSyntaxException, IOException {
+
+        String vcpePolicyJson = ResourceUtils.getResourceAsString(resourcePath);
+        ToscaServiceTemplate serviceTemplate = gson.fromJson(vcpePolicyJson, ToscaServiceTemplate.class);
+        return serviceTemplate;
+    }
+
+    private ToscaServiceTemplate deserializeMonitoringInputYaml(String resourcePath)
+            throws JsonSyntaxException, IOException {
         Yaml yaml = new Yaml();
-        Object yamlObject = yaml.load(TextFileUtils
-                .getTextFileAsString("src/test/resources/policies/vCPE.policy.monitoring.input.tosca.yaml"));
-
+        String vcpePolicyYaml = ResourceUtils.getResourceAsString(resourcePath);
+        Object yamlObject = yaml.load(vcpePolicyYaml);
         String yamlAsJsonString = new Gson().toJson(yamlObject);
-
         ToscaServiceTemplate serviceTemplate = gson.fromJson(yamlAsJsonString, ToscaServiceTemplate.class);
+        return serviceTemplate;
+    }
 
+    private String serializeMonitoringServiceTemplate(ToscaServiceTemplate serviceTemplate) {
+        return gson.toJson(serviceTemplate);
+    }
+
+    private void verifyVcpeMonitoringInputDeserialization(ToscaServiceTemplate serviceTemplate) {
+
+        // Sanity check the entire structure
         assertNotNull(serviceTemplate);
         LOGGER.info(serviceTemplate.validate(new PfValidationResult()).toString());
         assertTrue(serviceTemplate.validate(new PfValidationResult()).isValid());
 
+        // Check tosca_definitions_version
+        assertEquals("tosca_simple_yaml_1_0_0",
+                serviceTemplate.getToscaDefinitionsVersion());
+
+        Map<PfConceptKey, ToscaPolicy> policiesConceptMap = serviceTemplate.getTopologyTemplate()
+                .getPolicies().getConceptMap();
+
+        // Check policies
+        assertTrue(policiesConceptMap.size() == 1);
+        assertEquals("onap.restart.tca", policiesConceptMap.keySet().iterator().next().getName());
         assertEquals("onap.restart.tca:1.0.0",
                 serviceTemplate.getTopologyTemplate().getPolicies().get("onap.restart.tca").getId());
+
+        ToscaPolicy policyVal = policiesConceptMap.values().iterator().next();
+
+        // Check metadata
+        assertTrue(policyVal.getMetadata().size() == 1);
+        assertEquals("policy-id", policyVal.getMetadata().entrySet().iterator().next().getKey());
+        assertEquals("onap.restart.tca", policyVal.getMetadata().entrySet().iterator().next().getValue());
+
+        // Check properties
+        assertTrue(policiesConceptMap.values().iterator().next().getProperties().size() == 1);
+        assertEquals("tca_policy", policyVal.getProperties().keySet().iterator().next());
+        assertNotNull(policyVal.getProperties().values().iterator().next());
+        assertTrue(policyVal.getProperties().values().iterator().next() instanceof JsonElement);
+    }
+
+    private void verifyVdnsMonitoringInputDeserialization(ToscaServiceTemplate serviceTemplate) {
+
+        // Sanity check the entire structure
+        assertNotNull(serviceTemplate);
+        LOGGER.info(serviceTemplate.validate(new PfValidationResult()).toString());
+        assertTrue(serviceTemplate.validate(new PfValidationResult()).isValid());
+
+        // Check tosca_definitions_version
+        assertEquals("tosca_simple_yaml_1_0_0",
+                serviceTemplate.getToscaDefinitionsVersion());
+
+        Map<PfConceptKey, ToscaPolicy> policiesConceptMap = serviceTemplate.getTopologyTemplate()
+                .getPolicies().getConceptMap();
+
+        // Check policies
+        assertTrue(policiesConceptMap.size() == 1);
+        assertEquals("onap.scaleout.tca", policiesConceptMap.keySet().iterator().next().getName());
+        assertEquals("onap.scaleout.tca:1.0.0",
+                serviceTemplate.getTopologyTemplate().getPolicies().get("onap.scaleout.tca").getId());
+
+        ToscaPolicy policyVal = policiesConceptMap.values().iterator().next();
+
+        // Check metadata
+        assertTrue(policyVal.getMetadata().size() == 1);
+        assertEquals("policy-id", policyVal.getMetadata().entrySet().iterator().next().getKey());
+        assertEquals("onap.scaleout.tca", policyVal.getMetadata().entrySet().iterator().next().getValue());
+
+        // Check properties
+        assertTrue(policiesConceptMap.values().iterator().next().getProperties().size() == 1);
+        assertEquals("tca_policy", policyVal.getProperties().keySet().iterator().next());
+        assertNotNull(policyVal.getProperties().values().iterator().next());
+        assertTrue(policyVal.getProperties().values().iterator().next() instanceof JsonElement);
+    }
+
+    private void verifyVfwMonitoringInputDeserialization(ToscaServiceTemplate serviceTemplate) {
+
+        // Sanity check the entire structure
+        assertNotNull(serviceTemplate);
+        LOGGER.info(serviceTemplate.validate(new PfValidationResult()).toString());
+        assertTrue(serviceTemplate.validate(new PfValidationResult()).isValid());
+
+        // Check tosca_definitions_version
+        assertEquals("tosca_simple_yaml_1_0_0",
+                serviceTemplate.getToscaDefinitionsVersion());
+
+        Map<PfConceptKey, ToscaPolicy> policiesConceptMap = serviceTemplate.getTopologyTemplate()
+                .getPolicies().getConceptMap();
+
+        // Check policies
+        assertTrue(policiesConceptMap.size() == 1);
+        assertEquals("onap.vfirewall.tca", policiesConceptMap.keySet().iterator().next().getName());
+        assertEquals("onap.vfirewall.tca:1.0.0",
+                serviceTemplate.getTopologyTemplate().getPolicies().get("onap.vfirewall.tca").getId());
+
+        ToscaPolicy policyVal = policiesConceptMap.values().iterator().next();
+
+        // Check metadata
+        assertTrue(policyVal.getMetadata().size() == 1);
+        assertEquals("policy-id", policyVal.getMetadata().entrySet().iterator().next().getKey());
+        assertEquals("onap.vfirewall.tca", policyVal.getMetadata().entrySet().iterator().next().getValue());
+
+        // Check properties
+        assertTrue(policiesConceptMap.values().iterator().next().getProperties().size() == 1);
+        assertEquals("tca_policy", policyVal.getProperties().keySet().iterator().next());
+        assertNotNull(policyVal.getProperties().values().iterator().next());
+        assertTrue(policyVal.getProperties().values().iterator().next() instanceof JsonElement);
     }
 }
