@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ab3dbcc5_1f69d9ef",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/serialization/ToscaPoliciesJsonAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-03-19T00:08:36Z",
+      "side": 1,
+      "message": "Cool! thx!",
+      "parentUuid": "e94fd8ea_c3a8eeb5",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 9
+      },
+      "revId": "4fe98c779612422265d6646c1baced41e8b917ee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a54c772b_81239a95",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/serialization/ToscaPolicyJsonAdapter.java",
         "patchSetId": 1
@@ -59,6 +83,30 @@
       "writtenOn": "2019-03-18T22:53:27Z",
       "side": 1,
       "message": "Properties are optional, all that is mandatory on a policy is the policy type",
+      "range": {
+        "startLine": 151,
+        "startChar": 1,
+        "endLine": 155,
+        "endChar": 1
+      },
+      "revId": "4fe98c779612422265d6646c1baced41e8b917ee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "462ee4be_378ca79c",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/serialization/ToscaPolicyJsonAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-03-19T00:08:36Z",
+      "side": 1,
+      "message": "Ok. I\u0027ll get rid of those exceptions. Exception cannot be put on missing policy type as no policy type is actually provided in example tosca policies",
+      "parentUuid": "af7354c4_7e32ae14",
       "range": {
         "startLine": 151,
         "startChar": 1,
