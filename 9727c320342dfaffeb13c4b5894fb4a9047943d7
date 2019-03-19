@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16a94dee_273bf932",
+        "filename": "models-examples/src/main/resources/policies/README.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2019-03-19T22:26:58Z",
+      "side": 1,
+      "message": "what about blacklist?",
+      "range": {
+        "startLine": 18,
+        "startChar": 8,
+        "endLine": 18,
+        "endChar": 26
+      },
+      "revId": "9727c320342dfaffeb13c4b5894fb4a9047943d7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b1f2ea_d2d8806b",
+        "filename": "models-examples/src/main/resources/policies/README.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2019-03-19T22:26:58Z",
+      "side": 1,
+      "message": "acronym definition missing",
+      "range": {
+        "startLine": 22,
+        "startChar": 4,
+        "endLine": 22,
+        "endChar": 8
+      },
+      "revId": "9727c320342dfaffeb13c4b5894fb4a9047943d7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
