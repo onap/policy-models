@@ -54,7 +54,7 @@ public class LegacyOperationalPolicyMapper
         // TODO: Check if this is the correct way to set the policy type version
         toscaPolicy.setType(new PfConceptKey("SomeDerivedPolicyType", "1.0.0"));
 
-        Map<String, Object> propertyMap = new HashMap<>();
+        Map<String, String> propertyMap = new HashMap<>();
         toscaPolicy.setProperties(propertyMap);
         toscaPolicy.getProperties().put("Content", legacyOperationalPolicy.getContent());
 

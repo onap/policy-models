@@ -72,16 +72,16 @@ public class PfReferenceKey extends PfKey {
     private static final int PARENT_LOCAL_NAME_FIELD = 2;
     private static final int LOCAL_NAME_FIELD = 3;
 
-    @Column(name = PARENT_KEY_NAME)
+    @Column(name = PARENT_KEY_NAME, length = 128)
     private String parentKeyName;
 
-    @Column(name = PARENT_KEY_VERSION)
+    @Column(name = PARENT_KEY_VERSION, length = 128)
     private String parentKeyVersion;
 
-    @Column(name = PARENT_LOCAL_NAME)
+    @Column(name = PARENT_LOCAL_NAME, length = 128)
     private String parentLocalName;
 
-    @Column(name = LOCAL_NAME)
+    @Column(name = LOCAL_NAME, length = 128)
     private String localName;
 
     /**

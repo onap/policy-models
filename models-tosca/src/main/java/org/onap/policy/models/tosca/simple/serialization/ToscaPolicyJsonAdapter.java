@@ -21,6 +21,8 @@
 
 package org.onap.policy.models.tosca.simple.serialization;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -58,6 +60,8 @@ public class ToscaPolicyJsonAdapter implements JsonSerializer<ToscaPolicy>, Json
     private static final String METADATA = "metadata";
     private static final String PROPERTIES = "properties";
 
+    private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
     @Override
     public ToscaPolicy deserialize(@NonNull final JsonElement policyElement, @NonNull final Type type,
             @NonNull final JsonDeserializationContext context) {
@@ -94,9 +98,7 @@ public class ToscaPolicyJsonAdapter implements JsonSerializer<ToscaPolicy>, Json
             final JsonObject policyMetadataMapObject = policyJsonObject.get(METADATA).getAsJsonObject();
             Map<String, String> policyMetadataMap = new HashMap<>();
             for (Entry<String, JsonElement> entry : policyMetadataMapObject.entrySet()) {
-                final String policyMetadataEntryKey = entry.getKey();
-                final String policyMetadataEntryValue = entry.getValue().getAsString();
-                policyMetadataMap.put(policyMetadataEntryKey, policyMetadataEntryValue);
+                policyMetadataMap.put(entry.getKey(), entry.getValue().getAsString());
             }
             policy.setMetadata(policyMetadataMap);
         }
@@ -104,11 +106,14 @@ public class ToscaPolicyJsonAdapter implements JsonSerializer<ToscaPolicy>, Json
         // Set properties
         if (policyJsonObject.has(PROPERTIES)) {
             final JsonObject policyPropertiesMapObject = policyJsonObject.get(PROPERTIES).getAsJsonObject();
-            Map<String, Object> propertiesMap = new HashMap<>();
+            Map<String, String> propertiesMap = new HashMap<>();
             for (Entry<String, JsonElement> entry : policyPropertiesMapObject.entrySet()) {
-                final String policyPropertiesEntryKey = entry.getKey();
-                final JsonElement policyPropertiesEntryValue = entry.getValue();
-                propertiesMap.put(policyPropertiesEntryKey, policyPropertiesEntryValue);
+                // TODO: This is a HACK, we need to validate the properties against their
+                // TODO: their data type in their policy type definition in TOSCA, which means reading
+                // TODO: the policy type from the database and parsing the property value object correctly
+                // TODO: Here we are simply serializing the property value into a string and storing it
+                // TODO: unvalidated into the database
+                propertiesMap.put(entry.getKey(), gson.toJson(entry.getValue()));
             }
             policy.setProperties(propertiesMap);
         }
@@ -136,9 +141,7 @@ public class ToscaPolicyJsonAdapter implements JsonSerializer<ToscaPolicy>, Json
         if (policy.getMetadata() != null) {
             JsonObject metadataMapObject = new JsonObject();
             for (Entry<String, String> entry : policy.getMetadata().entrySet()) {
-                final String entryKey = entry.getKey();
-                final String entryVal = entry.getValue();
-                metadataMapObject.addProperty(entryKey, entryVal);
+                metadataMapObject.addProperty(entry.getKey(), entry.getValue());
             }
             policyValJsonObject.add(METADATA, metadataMapObject);
         }
@@ -146,13 +149,10 @@ public class ToscaPolicyJsonAdapter implements JsonSerializer<ToscaPolicy>, Json
         // Add properties
         if (policy.getProperties() != null) {
             JsonObject propertiesMapObject = new JsonObject();
-            for (Entry<String, Object> entry : policy.getProperties().entrySet()) {
-                final String entryKey = entry.getKey();
-                JsonElement entryVal = null;
-                if (entry.getValue() instanceof JsonElement) {
-                    entryVal = (JsonElement) entry.getValue();
-                }
-                propertiesMapObject.add(entryKey, entryVal);
+            for (Entry<String, String> entry : policy.getProperties().entrySet()) {
+                // TODO: This is the other direction of the HACK
+                JsonObject valueObject = gson.fromJson(entry.getValue(), JsonObject.class);
+                propertiesMapObject.add(entry.getKey(), valueObject);
             }
             policyValJsonObject.add(PROPERTIES, propertiesMapObject);
         }

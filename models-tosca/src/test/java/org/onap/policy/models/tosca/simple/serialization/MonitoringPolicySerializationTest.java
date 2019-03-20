@@ -25,6 +25,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 
 import java.io.IOException;
@@ -66,6 +67,13 @@ public class MonitoringPolicySerializationTest {
 
         assertEquals("onap.restart.tca:1.0.0",
                 serviceTemplate.getTopologyTemplate().getPolicies().get("onap.restart.tca").getId());
+
+        String reserializedString = gson.toJson(serviceTemplate, ToscaServiceTemplate.class);
+        assertEquals(vcpePolicyJson.replaceAll("\\s+", ""), reserializedString.replaceAll("\\s+", ""));
+
+        ToscaServiceTemplate serviceTemplate2 = gson.fromJson(reserializedString, ToscaServiceTemplate.class);
+        assertNotNull(serviceTemplate2);
+        assertEquals(serviceTemplate, serviceTemplate2);
     }
 
     @Test
@@ -75,7 +83,7 @@ public class MonitoringPolicySerializationTest {
         String vcpePolicyYaml = ResourceUtils.getResourceAsString("policies/vCPE.policy.monitoring.input.tosca.yaml");
         Object yamlObject = yaml.load(vcpePolicyYaml);
 
-        String yamlAsJsonString = new Gson().toJson(yamlObject);
+        String yamlAsJsonString = new GsonBuilder().setPrettyPrinting().create().toJson(yamlObject);
 
         ToscaServiceTemplate serviceTemplate = gson.fromJson(yamlAsJsonString, ToscaServiceTemplate.class);
 
@@ -85,5 +93,12 @@ public class MonitoringPolicySerializationTest {
 
         assertEquals("onap.restart.tca:1.0.0",
                 serviceTemplate.getTopologyTemplate().getPolicies().get("onap.restart.tca").getId());
+
+        String reserializedString = gson.toJson(serviceTemplate, ToscaServiceTemplate.class);
+        assertEquals(yamlAsJsonString.replaceAll("\\s+", ""), reserializedString.replaceAll("\\s+", ""));
+
+        ToscaServiceTemplate serviceTemplate2 = gson.fromJson(reserializedString, ToscaServiceTemplate.class);
+        assertNotNull(serviceTemplate2);
+        assertEquals(serviceTemplate, serviceTemplate2);
     }
 }

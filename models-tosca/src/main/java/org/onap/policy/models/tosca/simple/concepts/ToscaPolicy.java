@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -63,14 +65,23 @@ import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 public class ToscaPolicy extends ToscaEntityType {
     private static final long serialVersionUID = 3265174757061982805L;
 
+    // @formatter:off
     @Column
+    @AttributeOverrides({
+        @AttributeOverride(name = "name",
+                           column = @Column(name = "type_name")),
+        @AttributeOverride(name = "version",
+                           column = @Column(name = "type_version"))
+        })
     private PfConceptKey type;
 
     @ElementCollection
-    private Map<String, Object> properties;
+    @Column(length = 10000)
+    private Map<String, String> properties;
 
     @ElementCollection
     private List<PfConceptKey> targets;
+    // @formatter:on
 
     /**
      * The Default Constructor creates a {@link ToscaPolicy} object with a null key.
@@ -166,7 +177,7 @@ public class ToscaPolicy extends ToscaEntityType {
     private PfValidationResult validateProperties(@NonNull final PfValidationResult resultIn) {
         PfValidationResult result = resultIn;
 
-        for (Entry<String, Object> propertyEntry : properties.entrySet()) {
+        for (Entry<String, String> propertyEntry : properties.entrySet()) {
             if (!ParameterValidationUtils.validateStringParameter(propertyEntry.getKey())) {
                 result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
                         "policy property key may not be null "));

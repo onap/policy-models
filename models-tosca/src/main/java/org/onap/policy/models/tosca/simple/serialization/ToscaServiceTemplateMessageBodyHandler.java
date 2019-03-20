@@ -56,6 +56,7 @@ public class ToscaServiceTemplateMessageBodyHandler extends GsonMessageBodyHandl
                 .registerTypeAdapter(ToscaTopologyTemplate.class, new ToscaTopologyTemplateJsonAdapter())
                 .registerTypeAdapter(ToscaPolicies.class, new ToscaPoliciesJsonAdapter())
                 .registerTypeAdapter(ToscaPolicy.class, new ToscaPolicyJsonAdapter())
+                .setPrettyPrinting()
                 .create()
         );
         // @formatter:on
