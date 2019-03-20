@@ -27,8 +27,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import org.onap.policy.pdp.common.models.Policy;
-
 /**
  * Class to represent a group of all PDP's of the same pdp type running for a particular domain.
  *

@@ -38,7 +38,7 @@ import org.onap.policy.pdp.common.enums.PdpState;
 public class PdpInstanceDetails {
 
     private String instanceId;
-    private PdpState state;
+    private PdpState pdpState;
     private PdpHealthStatus healthy;
     private String message;
 }

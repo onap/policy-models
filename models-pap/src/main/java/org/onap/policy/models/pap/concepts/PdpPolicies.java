@@ -21,10 +21,10 @@
 package org.onap.policy.models.pap.concepts;
 
 import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.onap.policy.pdp.common.models.Policy;
 
 /**
  * Request deploy or update a set of policies using the <i>simple</i> PDP Group deployment

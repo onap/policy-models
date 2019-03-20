@@ -20,30 +20,16 @@
 
 package org.onap.policy.models.pap.concepts;
 
-import java.util.List;
-import java.util.Map;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import org.onap.policy.pdp.common.enums.PdpState;
-
 /**
- * Class to represent a PDPGroup, which groups multiple PDPSubGroup entities together for a particular domain.
- *
- * @author Ram Krishna Verma (ram.krishna.verma@est.tech)
+ * Response to PDP Group State Change REST API.
  */
 @Getter
 @Setter
 @ToString
-public class PdpGroup {
-
-    private String name;
-    private String version;
-    private PdpState pdpGroupstate;
-    private String description;
-    private Map<String, String> properties;
-    private List<PdpSubGroup> pdpSubgroups;
+public class PdpGroupStateChangeResponse extends SimpleResponse {
 
 }
