@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9557c34a_ab64c07f",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/concepts/PdpGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-20T19:47:09Z",
+      "side": 1,
+      "message": "pdpGroupstate \u003d\u003e pdpGroupState",
+      "revId": "d614f2f3871ea6b46b0e8b0bbd8be70414710164",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
