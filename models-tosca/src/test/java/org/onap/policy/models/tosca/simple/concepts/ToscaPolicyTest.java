@@ -89,7 +89,7 @@ public class ToscaPolicyTest {
         PfConceptKey ptKey = new PfConceptKey("policyType", "0.0.1");
         ToscaPolicy tp = new ToscaPolicy(tpKey, ptKey);
 
-        Map<String, Object> propertyMap = new HashMap<>();
+        Map<String, String> propertyMap = new HashMap<>();
         propertyMap.put("Property", "Property Value");
         tp.setProperties(propertyMap);
         assertEquals(propertyMap, tp.getProperties());

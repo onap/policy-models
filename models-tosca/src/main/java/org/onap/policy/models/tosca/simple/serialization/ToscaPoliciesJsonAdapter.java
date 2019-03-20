@@ -71,8 +71,7 @@ public class ToscaPoliciesJsonAdapter implements JsonSerializer<ToscaPolicies>, 
         JsonArray policiesJsonArray = new JsonArray();
 
         for (ToscaPolicy policy: policies.getConceptMap().values()) {
-            JsonElement policyEntry = new  ToscaPolicyJsonAdapter().serialize(policy, type, context);
-            policiesJsonArray.add(policyEntry);
+            policiesJsonArray.add(new ToscaPolicyJsonAdapter().serialize(policy, type, context));
         }
 
         return policiesJsonArray;

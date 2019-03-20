@@ -20,20 +20,17 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
-import javax.persistence.CascadeType;
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.EmbeddedId;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToMany;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -54,7 +51,6 @@ import org.onap.policy.models.base.PfValidationResult.ValidationResult;
  * Class to represent the EntrySchema of list/map property in TOSCA definition.
  */
 @MappedSuperclass
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class ToscaEntityType extends PfConcept {
@@ -63,15 +59,22 @@ public class ToscaEntityType extends PfConcept {
     @EmbeddedId
     private PfConceptKey key;
 
-    @SerializedName("derived_from")
-    @Column(name = "derivedFrom")
+    // @formatter:off
+    @Column
+    @AttributeOverrides({
+        @AttributeOverride(name = "name",
+                           column = @Column(name = "derived_from_name")),
+        @AttributeOverride(name = "version",
+                           column = @Column(name = "derived_from_version"))
+        })
     private PfConceptKey derivedFrom;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @ElementCollection
     private Map<String, String> metadata;
 
-    @Column(name = "description")
+    @Column
     private String description;
+    // @formatter:on
 
     /**
      * The Default Constructor creates a {@link ToscaEntityType} object with a null key.
