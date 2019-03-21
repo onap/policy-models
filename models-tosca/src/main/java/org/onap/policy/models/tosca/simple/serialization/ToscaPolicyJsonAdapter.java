@@ -143,6 +143,8 @@ public class ToscaPolicyJsonAdapter implements JsonSerializer<ToscaPolicy>, Json
             for (Entry<String, String> entry : policy.getMetadata().entrySet()) {
                 metadataMapObject.addProperty(entry.getKey(), entry.getValue());
             }
+            // Manually add policy-version: 1 to metadata
+            metadataMapObject.addProperty("policy-version", "1");
             policyValJsonObject.add(METADATA, metadataMapObject);
         }
 
