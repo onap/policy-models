@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f584c109_87da5623",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/serialization/ToscaServiceTemplateMessageBodyHandler.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-03-21T23:28:06Z",
+      "side": 1,
+      "message": "when you get a chance delete these to remove sonar.",
+      "range": {
+        "startLine": 63,
+        "startChar": 16,
+        "endLine": 66,
+        "endChar": 40
+      },
+      "revId": "9a260d4aa1d8546e214ce51c2f0ac7ef030b2615",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
