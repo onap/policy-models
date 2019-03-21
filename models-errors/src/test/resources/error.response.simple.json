@@ -1,0 +1,11 @@
+{
+    "code" : "404",
+    "error" : "Policy Type does not exist",
+    "details" : [
+        "Missing metadata section",
+        "The property value foo bar is missing"   
+    ],
+    "warnings" : [
+        "The topology_template is missing"
+    ]
+}
