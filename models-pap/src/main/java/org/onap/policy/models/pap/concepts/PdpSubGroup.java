@@ -28,8 +28,8 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
-import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfUtils;
+import org.onap.policy.models.base.keys.PolicyTypeIdent;
 
 /**
  * Class to represent a group of all PDP's of the same pdp type running for a particular
@@ -43,7 +43,7 @@ import org.onap.policy.models.base.PfUtils;
 public class PdpSubGroup {
 
     private String pdpType;
-    private List<PfConceptKey> supportedPolicyTypes;
+    private List<PolicyTypeIdent> supportedPolicyTypes;
     private List<Policy> policies;
     private int currentInstanceCount;
     private int desiredInstanceCount;
@@ -64,7 +64,7 @@ public class PdpSubGroup {
      */
     public PdpSubGroup(@NonNull PdpSubGroup source) {
         this.pdpType = source.pdpType;
-        this.supportedPolicyTypes = PfUtils.mapList(source.supportedPolicyTypes, PfConceptKey::new);
+        this.supportedPolicyTypes = PfUtils.mapList(source.supportedPolicyTypes, PolicyTypeIdent::new);
         this.policies = PfUtils.mapList(source.policies, Policy::new);
         this.currentInstanceCount = source.currentInstanceCount;
         this.desiredInstanceCount = source.desiredInstanceCount;
