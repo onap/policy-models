@@ -1,6 +1,7 @@
-/*-
+/*
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,9 +22,9 @@
 package org.onap.policy.models.pap.concepts;
 
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
-
 import org.onap.policy.pdp.common.enums.PdpHealthStatus;
 import org.onap.policy.pdp.common.enums.PdpState;
 
@@ -41,4 +42,23 @@ public class PdpInstanceDetails {
     private PdpState pdpState;
     private PdpHealthStatus healthy;
     private String message;
+
+    /**
+     * Constructs the object.
+     */
+    public PdpInstanceDetails() {
+        super();
+    }
+
+    /**
+     * Constructs the object, making a deep copy from the source.
+     *
+     * @param source source from which to copy fields
+     */
+    public PdpInstanceDetails(@NonNull PdpInstanceDetails source) {
+        this.instanceId = source.instanceId;
+        this.pdpState = source.pdpState;
+        this.healthy = source.healthy;
+        this.message = source.message;
+    }
 }

@@ -1,6 +1,7 @@
-/*-
+/*
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,15 +21,19 @@
 
 package org.onap.policy.models.pap.concepts;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
+import org.onap.policy.models.base.PfConceptKey;
+import org.onap.policy.models.base.PfUtils;
 
 /**
- * Class to represent a group of all PDP's of the same pdp type running for a particular domain.
+ * Class to represent a group of all PDP's of the same pdp type running for a particular
+ * domain.
  *
  * @author Ram Krishna Verma (ram.krishna.verma@est.tech)
  */
@@ -38,11 +43,32 @@ import lombok.ToString;
 public class PdpSubGroup {
 
     private String pdpType;
-    private List<String> supportedPolicyTypes;
+    private List<PfConceptKey> supportedPolicyTypes;
     private List<Policy> policies;
     private int currentInstanceCount;
     private int desiredInstanceCount;
     private Map<String, String> properties;
     private List<PdpInstanceDetails> pdpInstances;
 
+    /**
+     * Constructs the object.
+     */
+    public PdpSubGroup() {
+        super();
+    }
+
+    /**
+     * Constructs the object, making a deep copy from the source.
+     *
+     * @param source source from which to copy fields
+     */
+    public PdpSubGroup(@NonNull PdpSubGroup source) {
+        this.pdpType = source.pdpType;
+        this.supportedPolicyTypes = PfUtils.mapList(source.supportedPolicyTypes, PfConceptKey::new);
+        this.policies = PfUtils.mapList(source.policies, Policy::new);
+        this.currentInstanceCount = source.currentInstanceCount;
+        this.desiredInstanceCount = source.desiredInstanceCount;
+        this.properties = (source.properties == null ? null : new LinkedHashMap<>(source.properties));
+        this.pdpInstances = PfUtils.mapList(source.pdpInstances, PdpInstanceDetails::new);
+    }
 }
