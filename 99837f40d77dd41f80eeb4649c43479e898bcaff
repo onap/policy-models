@@ -16,6 +16,24 @@
       "revId": "99837f40d77dd41f80eeb4649c43479e898bcaff",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73ecbe00_a031fbc6",
+        "filename": "models-errors/src/test/java/org/onap/policy/models/errors/concepts/ErrorResponseTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-03-21T16:58:35Z",
+      "side": 1,
+      "message": "Ok",
+      "parentUuid": "ab898d3a_c533e6ca",
+      "revId": "99837f40d77dd41f80eeb4649c43479e898bcaff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
