@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2de73fcf_3dc6982d",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProviderFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-03-21T17:47:12Z",
+      "side": 1,
+      "message": "maybe we can also have a createDummyPolicyModelsProvider() which just return new DummyPolicyModelsProviderImpl();",
+      "range": {
+        "startLine": 46,
+        "startChar": 32,
+        "endLine": 46,
+        "endChar": 58
+      },
+      "revId": "d785ea6c3b993eef2bf84fd08647941f5b3608ce",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
