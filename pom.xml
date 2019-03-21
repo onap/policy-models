@@ -56,6 +56,7 @@
         <module>models-dao</module>
         <module>models-tosca</module>
         <module>models-pap</module>
+        <module>models-errors</module>
         <module>models-decisions</module>
         <module>models-provider</module>
         <module>models-examples</module>
