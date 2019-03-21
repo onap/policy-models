@@ -56,6 +56,7 @@
         <module>models-dao</module>
         <module>models-tosca</module>
         <module>models-pap</module>
+        <module>models-errors</module>
         <module>models-decisions</module>
         <module>models-provider</module>
         <module>models-examples</module>
@@ -114,6 +115,12 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
             <scope>test</scope>
         </dependency>
 
