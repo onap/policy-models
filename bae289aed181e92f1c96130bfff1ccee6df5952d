@@ -52,6 +52,24 @@
       "revId": "bae289aed181e92f1c96130bfff1ccee6df5952d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86762375_5d21565b",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpStatus.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-21T20:54:57Z",
+      "side": 1,
+      "message": "It doesn\u0027t appear to me that PfConcept pulls in any DB stuff.  In fact, it\u0027s pom has no dependencies.  PfConceptKey is simply a pair, a name and version, which seems to precisely fit this case.\n\nIn a previous meeting, it was suggested that we use PfConceptKey, since it seemed like a perfect fit.  Nevertheless, it would be easy enough to create a new class, if that would be preferred.  If we go that route, the question still stands, should the version be required?  If it isn\u0027t required, does than mean the PDP supports any version?",
+      "parentUuid": "1ebdafc1_d0e9c9e2",
+      "revId": "bae289aed181e92f1c96130bfff1ccee6df5952d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
