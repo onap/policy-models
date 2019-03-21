@@ -37,7 +37,7 @@ import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.tosca.simple.concepts.ToscaPolicy;
 
 /**
- * DAO test for ToscaDatatype.
+ * DAO test for ToscaPolicy.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
