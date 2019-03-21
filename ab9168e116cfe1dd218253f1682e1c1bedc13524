@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a6ba780_158159df",
+        "filename": "models-errors/src/main/java/org/onap/policy/models/errors/concepts/ErrorResponse.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-21T14:36:32Z",
+      "side": 1,
+      "message": "make everything private.\n\nas an aside: should we annotate models Policy name \u0026 policyVersion fields to be \"policy-id\" and \"policy-version\" when serialized?",
+      "revId": "ab9168e116cfe1dd218253f1682e1c1bedc13524",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01af3564_a7daf2ab",
+        "filename": "models-errors/src/main/java/org/onap/policy/models/errors/serialization/ErrorResponseMessageBodyHandler.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-21T14:36:32Z",
+      "side": 1,
+      "message": "this class is not needed, as GsonMessageBodyHandler provides all of the necessary functionality",
+      "revId": "ab9168e116cfe1dd218253f1682e1c1bedc13524",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
