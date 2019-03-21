@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ca3934fa_6d37ba4f",
+        "filename": "models-errors/src/test/java/org/onap/policy/models/errors/concepts/ErrorResponseTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-03-21T15:22:12Z",
+      "side": 1,
+      "message": "Ah yes - I\u0027ll change it.",
+      "parentUuid": "55d4d8d9_ca88d064",
+      "revId": "93cf1ddfcef2666d5b762b49a1ab94eb1cbf0078",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "49b4f339_625fca16",
         "filename": "models-errors/src/test/java/org/onap/policy/models/errors/concepts/ErrorResponseTest.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2019-03-21T15:10:42Z",
       "side": 1,
       "message": "personally, I\u0027d use StandardCoder for this, as it hides the fact that GSON is being used.  (Though, of course, the class itself currently depends on GSON, but no need to proliferate that knowledge - one less file to update if we switch implementations later.)",
+      "revId": "93cf1ddfcef2666d5b762b49a1ab94eb1cbf0078",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52d6cf28_36874fff",
+        "filename": "models-errors/src/test/java/org/onap/policy/models/errors/concepts/ErrorResponseTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-03-21T15:22:12Z",
+      "side": 1,
+      "message": "Not sure what you mean by this - but I\u0027ll investigate. :)",
+      "parentUuid": "49b4f339_625fca16",
       "revId": "93cf1ddfcef2666d5b762b49a1ab94eb1cbf0078",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
