@@ -25,13 +25,14 @@ import javax.ws.rs.core.Response;
 import lombok.Getter;
 import lombok.ToString;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
+
 /**
- * This class is a base model run time exception from which all model run time exceptions are sub
- * classes.
+ * This class is a base model run time exception from which all model run time exceptions are sub classes.
  */
 @Getter
 @ToString
-public class PfModelRuntimeException extends RuntimeException {
+public class PfModelRuntimeException extends RuntimeException implements PfModelExceptionInfo {
     private static final long serialVersionUID = -8507246953751956974L;
 
     // The return code on the exception
@@ -94,7 +95,18 @@ public class PfModelRuntimeException extends RuntimeException {
      *
      * @return the message of this exception and all the exceptions that caused this exception
      */
+    @Override
     public String getCascadedMessage() {
         return PfModelException.buildCascadedMessage(this);
+    }
+
+    /**
+     * Get the stack trace of the exception as a string.
+     *
+     * @return the stack trace of this message as a string
+     */
+    @Override
+    public String getStackTraceAsString() {
+        return ExceptionUtils.getStackTrace(this);
     }
 }

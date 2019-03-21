@@ -25,12 +25,14 @@ import javax.ws.rs.core.Response;
 import lombok.Getter;
 import lombok.ToString;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
+
 /**
  * This class is a base exception from which all model exceptions are sub classes.
  */
 @Getter
 @ToString
-public class PfModelException extends Exception {
+public class PfModelException extends Exception implements PfModelExceptionInfo {
     private static final long serialVersionUID = -8507246953751956974L;
 
     // The status code on the exception
@@ -93,6 +95,7 @@ public class PfModelException extends Exception {
      *
      * @return the cascaded messages from this exception and the exceptions that caused it
      */
+    @Override
     public String getCascadedMessage() {
         return buildCascadedMessage(this);
     }
@@ -113,5 +116,15 @@ public class PfModelException extends Exception {
         }
 
         return builder.toString();
+    }
+
+    /**
+     * Get the stack trace of the exception as a string.
+     *
+     * @return the stack trace of this message as a string
+     */
+    @Override
+    public String getStackTraceAsString() {
+        return ExceptionUtils.getStackTrace(this);
     }
 }
