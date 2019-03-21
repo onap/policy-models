@@ -22,6 +22,30 @@
       "revId": "d785ea6c3b993eef2bf84fd08647941f5b3608ce",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de18f01b_d19c7346",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProviderFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-03-21T22:40:50Z",
+      "side": 1,
+      "message": "I don\u0027t think that would be a good idea as it would violate the factory pattern from the Gang of 4 book.\n\nHave a look at the unit test for the dummy model provider and you can see that it is very easy to configure the parameters to have this method return a DummyPolcyModelsPrivder:\n\n        PolicyModelsProviderParameters parameters \u003d new PolicyModelsProviderParameters();\n        parameters.setImplementation(DummyPolicyModelsProviderImpl.class.getCanonicalName());\n        parameters.setDatabaseUrl(\"jdbc:dummy\");\n        parameters.setPersistenceUnit(\"dummy\");\n\n        PolicyModelsProvider dummyProvider \u003d new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);\n\n        dummyProvider.init();\n\n        ToscaServiceTemplate serviceTemplate \u003d dummyProvider.getPolicies(new PfConceptKey());\n        assertNotNull(serviceTemplate);\n        assertEquals(\"onap.vcpe.tca:1.0.0\",\n                serviceTemplate.getTopologyTemplate().getPolicies().get(\"onap.vcpe.tca\").getId());\n\n        dummyProvider.close();",
+      "parentUuid": "2de73fcf_3dc6982d",
+      "range": {
+        "startLine": 46,
+        "startChar": 32,
+        "endLine": 46,
+        "endChar": 58
+      },
+      "revId": "d785ea6c3b993eef2bf84fd08647941f5b3608ce",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
