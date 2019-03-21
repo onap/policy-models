@@ -51,6 +51,24 @@
       "revId": "ab9168e116cfe1dd218253f1682e1c1bedc13524",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5bf134a4_9e60c898",
+        "filename": "models-errors/src/main/java/org/onap/policy/models/errors/serialization/ErrorResponseMessageBodyHandler.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-03-21T14:49:38Z",
+      "side": 1,
+      "message": "Agree with Jim. It is not needed unless we need custom serialization",
+      "parentUuid": "01af3564_a7daf2ab",
+      "revId": "ab9168e116cfe1dd218253f1682e1c1bedc13524",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
