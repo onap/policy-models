@@ -69,6 +69,30 @@
       "revId": "e5128276d82d9dac6743e9c3f70734582a6d071b",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9736a06c_61612d58",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/serialization/ToscaPolicyTypeJsonAdapter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-03-21T13:32:12Z",
+      "side": 1,
+      "message": "Yes. So I am trying to create ToscaPropertyJsonAdapter to offload the deserial/serial tasks for properties\n\nCurrent review is not complete yet.",
+      "parentUuid": "244b707b_3d5c2810",
+      "range": {
+        "startLine": 69,
+        "startChar": 27,
+        "endLine": 69,
+        "endChar": 38
+      },
+      "revId": "e5128276d82d9dac6743e9c3f70734582a6d071b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
