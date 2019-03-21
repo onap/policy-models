@@ -33,6 +33,8 @@ import java.lang.reflect.Type;
 import lombok.NonNull;
 
 import org.onap.policy.models.base.PfConceptKey;
+import org.onap.policy.models.tosca.simple.concepts.ToscaDataTypes;
+import org.onap.policy.models.tosca.simple.concepts.ToscaPolicyTypes;
 import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.concepts.ToscaTopologyTemplate;
 
@@ -47,6 +49,8 @@ public class ToscaServiceTemplateJsonAdapter
 
     private static final String TOPOLOGY_TEMPLATE = "topology_template";
     private static final String TOSCA_DEFINITIONS_VERSION = "tosca_definitions_version";
+    private static final String POLICY_TYPES = "policy_types";
+    private static final String DATA_TYPES = "data_types";
 
     @Override
     public ToscaServiceTemplate deserialize(@NonNull final JsonElement serviceTemplateElement, @NonNull final Type type,
@@ -58,16 +62,29 @@ public class ToscaServiceTemplateJsonAdapter
         // The outgoing object
         final PfConceptKey serviceTemplateKey = new PfConceptKey("IncomingServiceTemplate", "0.0.1");
         final ToscaServiceTemplate serviceTemplate = new ToscaServiceTemplate(serviceTemplateKey);
+
+        // Set tosca_definitions_version
         serviceTemplate
                 .setToscaDefinitionsVersion(serviceTemplateJsonObject.get(TOSCA_DEFINITIONS_VERSION).getAsString());
 
+        // Set topology_template
         if (serviceTemplateJsonObject.has(TOPOLOGY_TEMPLATE)) {
             serviceTemplate.setTopologyTemplate(new ToscaTopologyTemplateJsonAdapter().deserialize(
                     serviceTemplateJsonObject.get(TOPOLOGY_TEMPLATE), ToscaTopologyTemplate.class, context));
         }
-
-        // Set the parent key of the topology template to be this service template
         serviceTemplate.getTopologyTemplate().getKey().setParentConceptKey(serviceTemplateKey);
+
+        // Set policy_types
+        if (serviceTemplateJsonObject.has(POLICY_TYPES)) {
+            serviceTemplate.setPolicyTypes(new ToscaPolicyTypesJsonAdapter().deserialize(
+                    serviceTemplateJsonObject.get(POLICY_TYPES), ToscaPolicyTypes.class, context));
+        }
+
+        // Set data_types
+        if (serviceTemplateJsonObject.has(DATA_TYPES)) {
+            serviceTemplate.setDataTypes(new ToscaDataTypesJsonAdapter().deserialize(
+                    serviceTemplateJsonObject.get(DATA_TYPES), ToscaDataTypes.class, context));
+        }
 
         return serviceTemplate;
     }
