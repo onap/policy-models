@@ -43,6 +43,7 @@ import org.onap.policy.models.tosca.simple.concepts.ToscaPolicy;
  * @author Chenfei Gao (cgao@research.att.com)
  */
 public class ToscaPoliciesJsonAdapter implements JsonSerializer<ToscaPolicies>, JsonDeserializer<ToscaPolicies> {
+
     @Override
     public ToscaPolicies deserialize(@NonNull final JsonElement policiesElement, @NonNull final Type type,
             @NonNull final JsonDeserializationContext context) {
@@ -73,7 +74,6 @@ public class ToscaPoliciesJsonAdapter implements JsonSerializer<ToscaPolicies>, 
         for (ToscaPolicy policy: policies.getConceptMap().values()) {
             policiesJsonArray.add(new ToscaPolicyJsonAdapter().serialize(policy, type, context));
         }
-
         return policiesJsonArray;
     }
 }
