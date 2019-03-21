@@ -70,6 +70,24 @@
       "revId": "bae289aed181e92f1c96130bfff1ccee6df5952d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f7976f_b4ff3ae9",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpStatus.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-03-21T23:37:50Z",
+      "side": 1,
+      "message": "Unless I am missing something I think it does ..  check this out:\n\nhttps://git.onap.org/policy/models/tree/models-base/src/main/java/org/onap/policy/models/base/PfConceptKey.java\n\n..\n\nimport javax.persistence.Column;\nimport javax.persistence.Embeddable;\n...\n\n    @Column(name \u003d NAME_TOKEN, length \u003d 128)\n    private String name;\n\n    @Column(name \u003d VERSION_TOKEN, length \u003d 128)\n    private String version;\n...\n\nhttps://git.onap.org/policy/models/tree/pom.xml\n\n        \u003cdependency\u003e\n            \u003cgroupId\u003eorg.eclipse.persistence\u003c/groupId\u003e\n            \u003cartifactId\u003eeclipselink\u003c/artifactId\u003e\n        \u003c/dependency\u003e\n\n...\n\nI don\u0027t really think these classes are best for plain protocol communication between PAP and PDP.",
+      "parentUuid": "86762375_5d21565b",
+      "revId": "bae289aed181e92f1c96130bfff1ccee6df5952d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
