@@ -1,6 +1,5 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
  *  Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,50 +29,55 @@ import com.google.gson.JsonSerializer;
 
 import java.lang.reflect.Type;
 import java.util.Iterator;
+
 import lombok.NonNull;
 
 import org.onap.policy.models.base.PfConceptKey;
-import org.onap.policy.models.tosca.simple.concepts.ToscaPolicies;
-import org.onap.policy.models.tosca.simple.concepts.ToscaPolicy;
+import org.onap.policy.models.tosca.simple.concepts.ToscaPolicyType;
+import org.onap.policy.models.tosca.simple.concepts.ToscaPolicyTypes;
 
 /**
- * GSON type adapter for TOSCA policies.
+ * GSON type adapter for TOSCA policy types.
  *
- * @author Liam Fallon (liam.fallon@est.tech)
  * @author Chenfei Gao (cgao@research.att.com)
  */
-public class ToscaPoliciesJsonAdapter implements JsonSerializer<ToscaPolicies>, JsonDeserializer<ToscaPolicies> {
+public class ToscaPolicyTypesJsonAdapter implements JsonSerializer<ToscaPolicyTypes>,
+                                                    JsonDeserializer<ToscaPolicyTypes> {
 
     @Override
-    public ToscaPolicies deserialize(@NonNull final JsonElement policiesElement, @NonNull final Type type,
+    public ToscaPolicyTypes deserialize(@NonNull final JsonElement policyTypesElement, @NonNull final Type type,
             @NonNull final JsonDeserializationContext context) {
+
         // The incoming JSON
-        final JsonArray policiesJsonArray = policiesElement.getAsJsonArray();
+        final JsonArray policyTypesJsonArray = policyTypesElement.getAsJsonArray();
 
         // The outgoing object
-        final PfConceptKey policiesKey = new PfConceptKey("IncomingPolicies", "0.0.1");
-        final ToscaPolicies policies = new ToscaPolicies(policiesKey);
+        final PfConceptKey policyTypesKey = new PfConceptKey("IncomingPolicyTypes", "0.0.1");
+        final ToscaPolicyTypes policyTypes = new ToscaPolicyTypes(policyTypesKey);
 
-        // Get the policies
-        for (Iterator<JsonElement> policiesIterator = policiesJsonArray.iterator(); policiesIterator.hasNext(); ) {
-            ToscaPolicy policy = new ToscaPolicyJsonAdapter()
-                    .deserialize(policiesIterator.next(), ToscaPolicy.class, context);
+        // Get the policyTypes
+        Iterator<JsonElement> policyTypesIterator = policyTypesJsonArray.iterator();
+        while (policyTypesIterator.hasNext()) {
+            ToscaPolicyType policyType = new ToscaPolicyTypeJsonAdapter()
+                    .deserialize(policyTypesIterator.next(), ToscaPolicyType.class, context);
 
-            policies.getConceptMap().put(policy.getKey(), policy);
+            policyTypes.getConceptMap().put(policyType.getKey(), policyType);
         }
 
-        return policies;
+        return policyTypes;
     }
 
     @Override
-    public JsonElement serialize(@NonNull final ToscaPolicies policies, @NonNull final Type type,
+    public JsonElement serialize(@NonNull final ToscaPolicyTypes policyTypes, @NonNull final Type type,
             @NonNull final JsonSerializationContext context) {
 
-        JsonArray policiesJsonArray = new JsonArray();
+        JsonArray policyTypesJsonArray = new JsonArray();
 
-        for (ToscaPolicy policy: policies.getConceptMap().values()) {
-            policiesJsonArray.add(new ToscaPolicyJsonAdapter().serialize(policy, type, context));
+        for (ToscaPolicyType policyType: policyTypes.getConceptMap().values()) {
+            JsonElement policyTypeEntry = new  ToscaPolicyTypeJsonAdapter().serialize(policyType, type, context);
+            policyTypesJsonArray.add(policyTypeEntry);
         }
-        return policiesJsonArray;
+
+        return policyTypesJsonArray;
     }
 }

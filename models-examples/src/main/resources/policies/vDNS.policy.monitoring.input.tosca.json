@@ -1,48 +1,50 @@
 {
-    "tosca_definitions_version": "tosca_simple_yaml_1_0_0",
+  "tosca_definitions_version": "tosca_simple_yaml_1_0_0",
+  "topology_template": {
     "policies": [
-        {
-            "onap.scaleout.tca": {
-                "type": "onap.policies.monitoring.cdap.tca.hi.lo.app",
-                "version": "1.0.0",
-                "metadata": {
-                    "policy-id": "onap.scaleout.tca"
-                },
-                "properties": {
-                    "tca_policy": {
-                        "domain": "measurementsForVfScaling",
-                        "metricsPerEventName": [
-                            {
-                                "eventName": "vLoadBalancer",
-                                "controlLoopSchemaType": "VNF",
-                                "policyScope": "type=configuration",
-                                "policyName": "onap.scaleout.tca",
-                                "policyVersion": "v0.0.1",
-                                "thresholds": [
-                                    {
-                                        "closedLoopControlName": "ControlLoop-vDNS-6f37f56d-a87d-4b85-b6a9-cc953cf779b3",
-                                        "closedLoopEventStatus": "ONSET",
-                                        "version": "1.0.2",
-                                        "fieldPath": "$.event.measurementsForVfScalingFields.vNicPerformanceArray[*].receivedBroadcastPacketsAccumulated",
-                                        "thresholdValue": 500,
-                                        "direction": "LESS_OR_EQUAL",
-                                        "severity": "MAJOR"
-                                    },
-                                    {
-                                        "closedLoopControlName": "ControlLoop-vDNS-6f37f56d-a87d-4b85-b6a9-cc953cf779b3",
-                                        "closedLoopEventStatus": "ONSET",
-                                        "version": "1.0.2",
-                                        "fieldPath": "$.event.measurementsForVfScalingFields.vNicPerformanceArray[*].receivedBroadcastPacketsAccumulated",
-                                        "thresholdValue": 5000,
-                                        "direction": "GREATER_OR_EQUAL",
-                                        "severity": "CRITICAL"
-                                    }
-                                ]
-                            }
-                        ]
+      {
+        "onap.scaleout.tca": {
+          "type": "onap.policies.monitoring.cdap.tca.hi.lo.app",
+          "version": "1.0.0",
+          "metadata": {
+            "policy-id": "onap.scaleout.tca"
+          },
+          "properties": {
+            "tca_policy": {
+              "domain": "measurementsForVfScaling",
+              "metricsPerEventName": [
+                {
+                  "eventName": "vLoadBalancer",
+                  "controlLoopSchemaType": "VNF",
+                  "policyScope": "type=configuration",
+                  "policyName": "onap.scaleout.tca",
+                  "policyVersion": "v0.0.1",
+                  "thresholds": [
+                    {
+                      "closedLoopControlName": "ControlLoop-vDNS-6f37f56d-a87d-4b85-b6a9-cc953cf779b3",
+                      "closedLoopEventStatus": "ONSET",
+                      "version": "1.0.2",
+                      "fieldPath": "$.event.measurementsForVfScalingFields.vNicPerformanceArray[*].receivedBroadcastPacketsAccumulated",
+                      "thresholdValue": 500,
+                      "direction": "LESS_OR_EQUAL",
+                      "severity": "MAJOR"
+                    },
+                    {
+                      "closedLoopControlName": "ControlLoop-vDNS-6f37f56d-a87d-4b85-b6a9-cc953cf779b3",
+                      "closedLoopEventStatus": "ONSET",
+                      "version": "1.0.2",
+                      "fieldPath": "$.event.measurementsForVfScalingFields.vNicPerformanceArray[*].receivedBroadcastPacketsAccumulated",
+                      "thresholdValue": 5000,
+                      "direction": "GREATER_OR_EQUAL",
+                      "severity": "CRITICAL"
                     }
+                  ]
                 }
+              ]
             }
+          }
         }
+      }
     ]
+  }
 }
