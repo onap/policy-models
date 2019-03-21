@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d65a94b1_9864c87f",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/serialization/ToscaPolicyJsonAdapter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-03-21T07:45:21Z",
+      "side": 1,
+      "message": "We should come up with something more elegant than this in the future. Please mark this with a // TODO: comment so that it shows up in Sonar as something we have to fix.",
+      "range": {
+        "startLine": 146,
+        "startChar": 1,
+        "endLine": 146,
+        "endChar": 57
+      },
+      "revId": "e5128276d82d9dac6743e9c3f70734582a6d071b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "244b707b_3d5c2810",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/serialization/ToscaPolicyTypeJsonAdapter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-03-21T07:45:21Z",
+      "side": 1,
+      "message": "Just wondering did your Sonarlint flag this method for complexity?",
+      "range": {
+        "startLine": 69,
+        "startChar": 27,
+        "endLine": 69,
+        "endChar": 38
+      },
+      "revId": "e5128276d82d9dac6743e9c3f70734582a6d071b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
