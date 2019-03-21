@@ -1,6 +1,7 @@
-/*-
+/*
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +20,10 @@
  */
 
 package org.onap.policy.models.base;
+
+import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Utility class for Policy Framework concept utilities.
@@ -55,5 +60,21 @@ public final class PfUtils {
         }
 
         return 0;
+    }
+
+    /**
+     * Convenience method to apply a mapping function to all of the elements of a list,
+     * generating a new list.
+     *
+     * @param source list whose elements are to be mapped, or {@code null}
+     * @param mapFunc mapping function
+     * @return a new list, containing mappings of all of the items in the original list
+     */
+    public static <T> List<T> mapList(List<T> source, Function<T, T> mapFunc) {
+        if (source == null) {
+            return null;
+        }
+
+        return source.stream().map(mapFunc).collect(Collectors.toList());
     }
 }

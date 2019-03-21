@@ -1,6 +1,7 @@
-/*-
+/*
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +22,7 @@
 package org.onap.policy.models.pap.concepts;
 
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -39,4 +41,24 @@ public class Policy {
     private String policyType;
     private String policyTypeVersion;
     private String policyTypeImpl;
+
+    /**
+     * Constructs the object.
+     */
+    public Policy() {
+        super();
+    }
+
+    /**
+     * Constructs the object, making a deep copy from the source.
+     *
+     * @param source source from which to copy fields
+     */
+    public Policy(@NonNull Policy source) {
+        this.name = source.name;
+        this.policyVersion = source.policyVersion;
+        this.policyType = source.policyType;
+        this.policyTypeVersion = source.policyTypeVersion;
+        this.policyTypeImpl = source.policyTypeImpl;
+    }
 }
