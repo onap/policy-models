@@ -23,6 +23,7 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
+import com.google.gson.JsonElement;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -82,7 +83,7 @@ public class ToscaProperty extends PfConcept {
 
     @Column(name = "default")
     @SerializedName("default")
-    private PfKey defaultValue;
+    private String defaultValue;
 
     @Column
     @NonNull
@@ -137,10 +138,6 @@ public class ToscaProperty extends PfConcept {
 
         keyList.addAll(type.getKeys());
 
-        if (defaultValue != null) {
-            keyList.addAll(defaultValue.getKeys());
-        }
-
         if (constraints != null) {
             for (ToscaConstraint constraint : constraints) {
                 keyList.addAll(constraint.getKeys());
@@ -165,7 +162,7 @@ public class ToscaProperty extends PfConcept {
         }
 
         if (defaultValue != null) {
-            defaultValue.clean();
+            defaultValue = defaultValue.trim();
         }
 
         if (constraints != null) {
@@ -212,7 +209,7 @@ public class ToscaProperty extends PfConcept {
                     "property description may not be blank"));
         }
 
-        if (defaultValue != null && defaultValue.isNullKey()) {
+        if (defaultValue != null && defaultValue.trim().length() == 0) {
             result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
                     "property default value may not be null"));
         }
