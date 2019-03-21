@@ -1,0 +1,9 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Pamela Dragosh <pdragosh@research.att.com>
+Code-Review+1: Chenfei Gao <cgao@research.att.com>
+Code-Review+2: Jorge Hernandez <jorge.hernandez-herrero@att.com>
+Submitted-by: Jorge Hernandez <jorge.hernandez-herrero@att.com>
+Submitted-at: Thu, 21 Mar 2019 13:30:13 +0000
+Reviewed-on: https://gerrit.onap.org/r/82912
+Project: policy/models
+Branch: refs/heads/master
