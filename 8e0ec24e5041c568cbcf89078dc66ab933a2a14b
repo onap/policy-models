@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef7b8f72_936d0a40",
+        "filename": "models-errors/src/main/java/org/onap/policy/models/errors/concepts/ErrorResponse.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-03-21T14:07:18Z",
+      "side": 1,
+      "message": "Could we add a field for a Respose.status code?",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 0
+      },
+      "revId": "8e0ec24e5041c568cbcf89078dc66ab933a2a14b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
