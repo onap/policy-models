@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "221c8d68_e6678b3a",
+        "filename": "models-errors/src/main/java/org/onap/policy/models/errors/concepts/ErrorResponse.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-03-21T14:46:16Z",
+      "side": 1,
+      "message": "If I make it private, I need constructors then to create the list object. But I want those optional. So it would be better to have a method added to create the list objects.\n\nThose are separate models, not here.",
+      "parentUuid": "4a6ba780_158159df",
+      "revId": "ab9168e116cfe1dd218253f1682e1c1bedc13524",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "01af3564_a7daf2ab",
         "filename": "models-errors/src/main/java/org/onap/policy/models/errors/serialization/ErrorResponseMessageBodyHandler.java",
         "patchSetId": 3
