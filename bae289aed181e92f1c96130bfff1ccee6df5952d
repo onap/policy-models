@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62b15a65_88a6752f",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpStatus.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-03-21T20:08:46Z",
+      "side": 1,
+      "message": "How does this change work for the PDPs?  It got a bit more complicated by changing it from List\u003cString\u003e to List\u003cPfConceptKey\u003e for PDP clients.\n\nNot sure if there are DB dependencies, etc .. that come with it, but ideally would like to avoid DB or unnecessary dependencies.\n\nCan this class be extended somehow and leave the original if the keys are needed by PAP?\n\nLet me know your thoughts.",
+      "revId": "bae289aed181e92f1c96130bfff1ccee6df5952d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
