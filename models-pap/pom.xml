@@ -27,15 +27,27 @@
         <version>2.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>models-pap</artifactId>
+    <artifactId>policy-models-pap</artifactId>
 
     <name>${project.artifactId}</name>
-    <description>The models for Policy Administration (PAP) REST API's.</description>
+    <description>The models for Policy Administration (PAP) REST APIs.</description>
     <dependencies>
         <dependency>
             <groupId>org.onap.policy.common</groupId>
             <artifactId>pdp-common</artifactId>
             <version>${policy.common.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.onap.policy.models</groupId>
+            <artifactId>policy-models-base</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.onap.policy.models</groupId>
+            <artifactId>policy-models-dao</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 </project>

@@ -52,20 +52,20 @@ public class LegacyOperationalPolicyMapper
 
         // TODO: Find out how to parse the PolicyType from the content
         // TODO: Check if this is the correct way to set the policy type version
-        toscaPolicy.setType(new PfConceptKey("SomeDerivedPolicyType", "1.0.0"));
+        toscaPolicy.setType(new PfConceptKey("SomeDerivedPolicyType", "1.0.1"));
 
         Map<String, String> propertyMap = new HashMap<>();
         toscaPolicy.setProperties(propertyMap);
         toscaPolicy.getProperties().put("Content", legacyOperationalPolicy.getContent());
 
-        PfConceptKey serviceTemplateKey = new PfConceptKey("ServiceTemplate", "1.0.0");
+        PfConceptKey serviceTemplateKey = new PfConceptKey("ServiceTemplate", "1.0.2");
         ToscaServiceTemplate serviceTemplate = new ToscaServiceTemplate(serviceTemplateKey);
         serviceTemplate.setToscaDefinitionsVersion("tosca_simple_yaml_1_0");
 
         PfReferenceKey topologyTemplateKey = new PfReferenceKey(serviceTemplateKey, "TopolocyTemplate");
         serviceTemplate.setTopologyTemplate(new ToscaTopologyTemplate(topologyTemplateKey));
 
-        PfConceptKey policiesKey = new PfConceptKey("Policies", "1.0.0");
+        PfConceptKey policiesKey = new PfConceptKey("Policies", "1.0.3");
         serviceTemplate.getTopologyTemplate().setPolicies(new ToscaPolicies(policiesKey));
         serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().put(policyKey, toscaPolicy);
 
