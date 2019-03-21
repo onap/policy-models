@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab898d3a_c533e6ca",
+        "filename": "models-errors/src/test/java/org/onap/policy/models/errors/concepts/ErrorResponseTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-21T16:52:27Z",
+      "side": 1,
+      "message": "don\u0027t really need this - could just add \"throws Exception\" to the test() method and then it junit will generate a message if an exception is thrown",
+      "revId": "99837f40d77dd41f80eeb4649c43479e898bcaff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
