@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55d4d8d9_ca88d064",
+        "filename": "models-errors/src/test/java/org/onap/policy/models/errors/concepts/ErrorResponseTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-21T15:10:42Z",
+      "side": 1,
+      "message": "fyi: could use Arrays.asList(\"You must...\") and eliminate lines 46-47\n\nsame comment for lines 50-52",
+      "revId": "93cf1ddfcef2666d5b762b49a1ab94eb1cbf0078",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "49b4f339_625fca16",
+        "filename": "models-errors/src/test/java/org/onap/policy/models/errors/concepts/ErrorResponseTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-21T15:10:42Z",
+      "side": 1,
+      "message": "personally, I\u0027d use StandardCoder for this, as it hides the fact that GSON is being used.  (Though, of course, the class itself currently depends on GSON, but no need to proliferate that knowledge - one less file to update if we switch implementations later.)",
+      "revId": "93cf1ddfcef2666d5b762b49a1ab94eb1cbf0078",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
