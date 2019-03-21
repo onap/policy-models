@@ -27,7 +27,7 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.TreeMap;
 import org.junit.Test;
-import org.onap.policy.models.base.PfConceptKey;
+import org.onap.policy.models.base.keys.PolicyTypeIdent;
 
 /**
  * Test the copy constructor, as {@link TestModels} tests the other methods.
@@ -66,8 +66,8 @@ public class TestPdpSubGroup {
         props.put("key-B", "value-B");
         orig.setProperties(props);
 
-        PfConceptKey supp1 = new PfConceptKey("supp-A", "1.2");
-        PfConceptKey supp2 = new PfConceptKey("supp-B", "3.4");
+        PolicyTypeIdent supp1 = new PolicyTypeIdent("supp-A", "1.2");
+        PolicyTypeIdent supp2 = new PolicyTypeIdent("supp-B", "3.4");
         orig.setSupportedPolicyTypes(Arrays.asList(supp1, supp2));
 
         assertEquals(orig.toString(), new PdpSubGroup(orig).toString());
