@@ -31,36 +31,36 @@ import org.onap.policy.models.base.PfValidationResult;
 /**
  * Test the other constructors, as {@link TestModels} tests the other methods.
  */
-public class TestPolicyTypeIdent extends IdentTestBase<PolicyTypeIdent> {
+public class TestPolicyIdent extends IdentTestBase<PolicyIdent> {
     private static final String NAME = "my-name";
     private static final String VERSION = "1.2.3";
 
-    public TestPolicyTypeIdent() {
-        super(PolicyTypeIdent.class);
+    public TestPolicyIdent() {
+        super(PolicyIdent.class);
     }
 
     @Test
     public void testAllArgsConstructor() {
-        assertThatThrownBy(() -> new PolicyTypeIdent(null, VERSION)).isInstanceOf(NullPointerException.class);
-        assertThatThrownBy(() -> new PolicyTypeIdent(NAME, null)).isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> new PolicyIdent(null, VERSION)).isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> new PolicyIdent(NAME, null)).isInstanceOf(NullPointerException.class);
 
-        PolicyTypeIdent orig = new PolicyTypeIdent(NAME, VERSION);
+        PolicyIdent orig = new PolicyIdent(NAME, VERSION);
         assertEquals(NAME, orig.getName());
         assertEquals(VERSION, orig.getVersion());
     }
 
     @Test
     public void testCopyConstructor() {
-        assertThatThrownBy(() -> new PolicyTypeIdent(null)).isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> new PolicyIdent(null)).isInstanceOf(NullPointerException.class);
 
-        PolicyTypeIdent orig = new PolicyTypeIdent();
+        PolicyIdent orig = new PolicyIdent();
 
         // verify with null values
-        assertEquals(orig.toString(), new PolicyTypeIdent(orig).toString());
+        assertEquals(orig.toString(), new PolicyIdent(orig).toString());
 
         // verify with all values
-        orig = new PolicyTypeIdent(NAME, VERSION);
-        assertEquals(orig.toString(), new PolicyTypeIdent(orig).toString());
+        orig = new PolicyIdent(NAME, VERSION);
+        assertEquals(orig.toString(), new PolicyIdent(orig).toString());
     }
 
     @Test
@@ -87,5 +87,4 @@ public class TestPolicyTypeIdent extends IdentTestBase<PolicyTypeIdent> {
         assertFalse(result.isValid());
         assertEquals(1, result.getMessageList().size());
     }
-
 }
