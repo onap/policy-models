@@ -18,23 +18,30 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.models.pap.concepts;
+package org.onap.policy.models.base.keys;
 
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
-// TODO delete this once PAP has been modified to use PdpDeployPolicies
 /**
- * Request deploy or update a set of policies using the <i>simple</i> PDP Group deployment
- * REST API. Only the "name" and "policyVersion" fields of a Policy are used, and only the
- * "name" field is actually required.
+ * Policy identifier with an optional version; only the "name" is required.
  */
-@Getter
-@Setter
-@ToString
-public class PdpPolicies {
-    private List<Policy> policies;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class PolicyIdentOptVersion {
+
+    @NonNull
+    private String name;
+
+    private String version;
+
+
+    public PolicyIdentOptVersion(PolicyIdentOptVersion source) {
+        this.name = source.name;
+        this.version = source.version;
+    }
 }
