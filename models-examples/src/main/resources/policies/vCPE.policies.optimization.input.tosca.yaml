@@ -1,0 +1,130 @@
+tosca_definitions_version: tosca_simple_yaml_1_0_0
+topology_template:
+policies:
+    - 
+        OSDF_CASABLANCA.Affinity_vCPE_1:
+            type: onap.policies.optimization.AffinityPolicy
+            version: 1.0.0
+            metadata:
+                policy-id: OSDF_CASABLANCA.Affinity_vCPE_1
+            properties:
+                identity: affinity_vCPE
+                policyScope: [vCPE, US, INTERNATIONAL, ip, vGMuxInfra, vG]
+                affinityProperties: 
+                    qualifier: same
+                    category: complex
+                policyType: zone
+                resources: [vGMuxInfra, vG]
+    -
+        OSDF_CASABLANCA.Capacity_vG_1:
+            type: onap.policies.optimization.Vim_fit
+            version: 1.0.0
+            metadata:
+                policy-id: OSDF_CASABLANCA.Capacity_vG_1
+            properties:
+                identity: capacity_vG
+                policyScope: [VCPE, US, INTERNATIONAL, ip, vG]
+            resources: [vG]
+            capacityProperty: 
+                controller: multicloud
+                request: "{\"vCPU\": 10, \"Memory\": {\"quantity\": {\"get_param\": \"REQUIRED_MEM\"}, \"unit\": \"GB\"}, \"Storage\": {\"quantity\": {\"get_param\": \"REQUIRED_DISK\"}, \"unit\": \"GB\"}}"
+            policyType: vim_fit
+            applicableResources: any
+    -
+        OSDF_CASABLANCA.Distance_vG_1:
+            type: onap.policies.optimization.DistancePolicy
+            version: 1.0.0
+            metadata:
+                policy-id: OSDF_CASABLANCA.Distance_vG_1
+            properties:
+                distanceProperties: 
+                    locationInfo: customer_loc
+                    distance: 
+                        value: 1500
+                        operator: "<"
+                        unit: km
+                identity: "distance-vG"
+                resources: [vG]
+                policyScope: [vCPE, US, INTERNATIONAL, ip, vG]
+                policyType: distance_to_location
+                applicableResources: any
+    -
+        OSDF_CASABLANCA.hpa_policy_vG_1:
+            type: onap.policies.optimization.HpaPolicy
+            version: 1.0.0
+            metadata:
+                policy-id: OSDF_CASABLANCA.hpa_policy_vG_1
+            properties:
+                resources: [vG]
+                identity: "hpa-vG"
+                policyScope: [vCPE, US, INTERNATIONAL, ip, vG]
+                policyType: hpa            
+                # NONE OF THE FLAVORFEATURES CAME OUT RIGHT
+    -
+        OSDF_CASABLANCA.queryPolicy_vCPE:
+            type: onap.policies.optimization.QueryPolicy
+            version: 1.0.0
+            metadata:
+                policy-id: OSDF_CASABLANCA.queryPolicy_vCPE
+            properties:
+                queryProperties: 
+                    - 
+                        attribute: locationId
+                        attribute_location: customerLocation
+                        value: ""
+                    - 
+                        attribute: id
+                        attribute_location: "vpnInfo.vpnId"
+                        value: ""
+                    - 
+                        attribute: upstreamBW
+                        attribute_location: "vpnInfo.upstreamBW"
+                        value: ""
+                    - 
+                        attribute: customerLatitude
+                        attribute_location: customerLatitude
+                        value: 1.1
+                    - 
+                        attribute: customerLongitude
+                        attribute_location: customerLongitude
+                        value: 2.2
+                serviceName: vCPE
+                policyScope: [vCPE, US, INTERNATIONAL, ip, vGMuxInfra, vG]
+                policyType: request_param_query
+                identity: vCPE_Query_Policy            
+            
+    -
+        OSDF_CASABLANCA.SubscriberPolicy_v1:
+            type: onap.policies.optimization.SubscriberPolicy
+            version: 1.0.0
+            metadata:
+                policy-id: OSDF_CASABLANCA.SubscriberPolicy_v1
+            properties:
+                identity: subscriber_vCPE
+                policyScope: [vCPE, subscriber_x, subscriber_y, subscriberPolicy]
+                properties: 
+                    subscriberName: [subscriber_x, subscriber_y]
+                    subscriberRole: ["PVT Homing"]
+                    provStatus: [CAPPED]
+                policyType: subscriberPolicy
+                serviceName: vCPE
+    -
+        OSDF_CASABLANCA.vnfPolicy_vG:
+            type:
+            version: 1.0.0
+            metadata:
+                policy-id: OSDF_CASABLANCA.vnfPolicy_vG
+            properties:
+                identity: vnf_vG
+                policyScope: [vCPE, US, INTERNATIONAL, ip, vG]
+                policyType: vnfPolicy
+                resources: [vG]
+                applicableResources: any
+                vnfProperties: 
+                    - 
+                        inventoryProvider: aai
+                        serviceType: ""
+                        inventoryType: cloud
+                        customerId: ""
+                        orchestrationStatus: ""
+                        equipmentRole: ""

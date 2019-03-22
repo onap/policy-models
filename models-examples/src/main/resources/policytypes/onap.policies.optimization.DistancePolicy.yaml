@@ -1,0 +1,82 @@
+tosca_definitions_version: tosca_simple_yaml_1_0_0
+policy_types:
+    - onap.policies.Optimization:
+        derived_from: tosca.policies.Root
+        version: 1.0.0
+        description: a base policy type for all policies that govern optimization
+    - onap.policies.optimization.DistancePolicy:
+        derived_from: onap.policies.Optimization
+        properties:
+            policyScope:
+                type: list
+                description: scope where the policy is applicable
+                required: true
+                matchable: true
+                entry_schema:
+                    type: string
+            policyType:
+                type: list
+                description: type of a policy
+                required: true
+                matchable: true
+                entry_schema:
+                    type: string
+                    consraints:
+                    -   valid_values:
+                        - distance_to_location
+            identity:
+                type: string
+                required: true
+            resources:
+                type: list
+                required: true
+                entry_schema:
+                    type: string
+            applicableResources:
+                type: list
+                required: true
+                entry_schema:
+                    type: string
+                    constraints:
+                    -   valid_values:
+                        - any
+                        - all
+            distanceProperties:
+                type: policy.data.distanceProperties_properties
+                required: true
+data_types:
+    policy.data.distanceProperties_properties:
+        derived_from: tosca.nodes.Root
+        properties:
+            locationInfo:
+                type: string
+                required: true
+            distance:
+                type: policy.data.distance_properties
+                required: true
+    policy.data.distance_properties:
+        derived_from: tosca.nodes.Root
+        properties:
+            value:
+                type: string
+                required: true
+            operator:
+                type: list
+                required: true
+                entry_schema:
+                    type: string
+                    constraints:
+                    -   valid_values:
+                        - <
+                        - <=
+                        - '>'
+                        - '>='
+                        - '='
+            unit:
+                type: list
+                required: true
+                entry_schema:
+                    type: string
+                    constraints:
+                    -   valid_values:
+                        - km

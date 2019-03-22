@@ -1,0 +1,89 @@
+tosca_definitions_version: tosca_simple_yaml_1_0_0
+policy_types:
+    - onap.policies.Optimization:
+        derived_from: tosca.policies.Root
+        version: 1.0.0
+        description: a base policy type for all policies that govern optimization
+    - onap.policies.optimization.OptimizationPolicy:
+        derived_from: onap.policies.Optimization
+        properties:
+            policyScope:
+                type: list
+                description: scope where the policy is applicable
+                required: true
+                matchable: true
+                entry_schema:
+                    type: string
+            policyType:
+                type: list
+                description: type of a policy
+                required: true
+                matchable: true
+                entry_schema:
+                    type: string
+                    consraints:
+                    -   valid_values:
+                        - placement_optimization
+            identity:
+                type: string
+                required: true
+            objective:
+                type: list
+                required: true
+                entry_schema:
+                    type: string
+                    constraints:
+                    -   valid_values:
+                        - minimize
+                        - maximize
+            objectiveParameter:
+                type: policy.data.objectiveParameter_properties
+                required: true
+data_types:
+    policy.data.objectiveParameter_properties:
+        derived_from: tosca.nodes.Root
+        properties:
+            parameterAttributes:
+                type: list
+                required: true
+                entry_schema:
+                    type: policy.data.parameterAttributes_properties
+            operator:
+                type: list
+                required: true
+                entry_schema:
+                    type: string
+                    constraints:
+                    -   valid_values:
+                        - '*'
+                        - +
+                        - '-'
+                        - /
+                        - '%'
+    policy.data.parameterAttributes_properties:
+        derived_from: tosca.nodes.Root
+        properties:
+            resources:
+                type: string
+                required: true
+            customerLocationInfo:
+                type: string
+                required: true
+            parameter:
+                type: string
+                required: true
+            weight:
+                type: string
+                required: true
+            operator:
+                type: list
+                required: true
+                entry_schema:
+                    type: string
+                    constraints:
+                    -   valid_values:
+                        - '*'
+                        - +
+                        - '-'
+                        - /
+                        - '%'
