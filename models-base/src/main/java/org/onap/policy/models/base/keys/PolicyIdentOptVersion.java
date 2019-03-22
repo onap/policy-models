@@ -20,6 +20,8 @@
 
 package org.onap.policy.models.base.keys;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import org.onap.policy.models.base.PfConceptKey;
@@ -28,33 +30,46 @@ import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 
 /**
- * Identifies a policy type. Both the name and version must be non-null.
+ * Policy identifier with an optional version; only the "name" is required.
  */
-@NonNull
+@Data
 @NoArgsConstructor
-public class PolicyTypeIdent extends PfConceptKey {
-    private static final long serialVersionUID = 1L;
+@AllArgsConstructor
+public class PolicyIdentOptVersion {
 
-    public PolicyTypeIdent(String name, String version) {
-        super(name, version);
+    @NonNull
+    private String name;
+
+    private String version;
+
+
+    public PolicyIdentOptVersion(PolicyIdentOptVersion source) {
+        this.name = source.name;
+        this.version = source.version;
     }
 
-    public PolicyTypeIdent(PolicyTypeIdent source) {
-        super(source);
-    }
-
-    @Override
-    public PfValidationResult validate(PfValidationResult result) {
-        if (PfConceptKey.NULL_KEY_NAME.equals(getName())) {
+    /**
+     * Validates the object.
+     *
+     * @param result where to place any errors
+     * @return a validation result
+     */
+    public PfValidationResult validate(@NonNull final PfValidationResult result) {
+        if (name == null) {
             result.addValidationMessage(new PfValidationMessage(new PfConceptKey(), this.getClass(),
                             ValidationResult.INVALID, "name invalid-null"));
         }
 
-        if (PfConceptKey.NULL_KEY_VERSION.equals(getVersion())) {
-            result.addValidationMessage(new PfValidationMessage(new PfConceptKey(), this.getClass(),
-                            ValidationResult.INVALID, "version invalid-null"));
+        PfConceptKey key = new PfConceptKey();
+
+        if (name != null) {
+            key.setName(name);
         }
 
-        return super.validate(result);
+        if (version != null) {
+            key.setVersion(version);
+        }
+
+        return key.validate(result);
     }
 }
