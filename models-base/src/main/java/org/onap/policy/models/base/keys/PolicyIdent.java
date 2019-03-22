@@ -27,19 +27,19 @@ import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.base.Validated;
 
 /**
- * Identifies a policy type. Both the name and version must be non-null.
+ * Identifies a policy. Both the name and version must be non-null.
  */
 @NonNull
 @NoArgsConstructor
-public class PolicyTypeIdent extends PfConceptKey {
+public class PolicyIdent extends PfConceptKey {
     private static final long serialVersionUID = 1L;
     private static final Validated validator = new Validated();
 
-    public PolicyTypeIdent(String name, String version) {
+    public PolicyIdent(String name, String version) {
         super(name, version);
     }
 
-    public PolicyTypeIdent(PolicyTypeIdent source) {
+    public PolicyIdent(PolicyIdent source) {
         super(source);
     }
 
