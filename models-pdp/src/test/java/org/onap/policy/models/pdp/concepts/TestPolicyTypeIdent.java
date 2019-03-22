@@ -18,21 +18,26 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.models.base.keys;
+package org.onap.policy.models.pdp.concepts;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import org.onap.policy.models.base.keys.PolicyTypeIdent;
-import org.onap.policy.models.base.keys.TestModels;
+import org.onap.policy.models.base.PfValidationResult;
 
 /**
  * Test the other constructors, as {@link TestModels} tests the other methods.
  */
-public class TestPolicyTypeIdent {
+public class TestPolicyTypeIdent extends IdentTestBase<PolicyTypeIdent> {
     private static final String NAME = "my-name";
     private static final String VERSION = "1.2.3";
+
+    public TestPolicyTypeIdent() {
+        super(PolicyTypeIdent.class);
+    }
 
     @Test
     public void testAllArgsConstructor() {
@@ -57,4 +62,30 @@ public class TestPolicyTypeIdent {
         orig = new PolicyTypeIdent(NAME, VERSION);
         assertEquals(orig.toString(), new PolicyTypeIdent(orig).toString());
     }
+
+    @Test
+    public void testValidate() throws Exception {
+        assertTrue(makeIdent(NAME, VERSION).validate(new PfValidationResult()).isValid());
+
+        // everything is null
+        PfValidationResult result = makeIdent(null, null).validate(new PfValidationResult());
+        assertFalse(result.isValid());
+        assertEquals(2, result.getMessageList().size());
+
+        // name is null
+        result = makeIdent(null, VERSION).validate(new PfValidationResult());
+        assertFalse(result.isValid());
+        assertEquals(1, result.getMessageList().size());
+
+        // version is null
+        result = makeIdent(NAME, null).validate(new PfValidationResult());
+        assertFalse(result.isValid());
+        assertEquals(1, result.getMessageList().size());
+
+        // version is invalid
+        result = makeIdent(NAME, "!!!" + VERSION).validate(new PfValidationResult());
+        assertFalse(result.isValid());
+        assertEquals(1, result.getMessageList().size());
+    }
+
 }

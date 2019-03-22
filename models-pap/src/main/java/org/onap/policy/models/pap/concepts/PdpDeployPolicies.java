@@ -25,8 +25,8 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.onap.policy.models.pdp.concepts.PolicyIdentOptVersion;
 
-// TODO delete this once PAP has been modified to use PdpDeployPolicies
 /**
  * Request deploy or update a set of policies using the <i>simple</i> PDP Group deployment
  * REST API. Only the "name" and "policyVersion" fields of a Policy are used, and only the
@@ -35,6 +35,6 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class PdpPolicies {
-    private List<Policy> policies;
+public class PdpDeployPolicies {
+    private List<PolicyIdentOptVersion> policies;
 }

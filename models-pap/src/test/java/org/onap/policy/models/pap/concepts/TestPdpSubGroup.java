@@ -27,7 +27,7 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.TreeMap;
 import org.junit.Test;
-import org.onap.policy.models.base.keys.PolicyTypeIdent;
+import org.onap.policy.models.pdp.concepts.PolicyTypeIdent;
 
 /**
  * Test the copy constructor, as {@link TestModels} tests the other methods.

@@ -29,7 +29,7 @@ import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.base.keys.PolicyTypeIdent;
+import org.onap.policy.models.pdp.concepts.PolicyTypeIdent;
 
 /**
  * Class to represent a group of all PDP's of the same pdp type running for a particular
