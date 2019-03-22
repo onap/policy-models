@@ -31,54 +31,51 @@ import org.onap.policy.models.base.PfValidationResult;
 /**
  * Test the other constructors, as {@link TestModels} tests the other methods.
  */
-public class TestPolicyTypeIdent extends IdentTestBase<PolicyTypeIdent> {
+public class TestPolicyIdentOptVersion extends IdentTestBase<PolicyIdentOptVersion> {
     private static final String NAME = "my-name";
     private static final String VERSION = "1.2.3";
 
-    public TestPolicyTypeIdent() {
-        super(PolicyTypeIdent.class);
+    public TestPolicyIdentOptVersion() {
+        super(PolicyIdentOptVersion.class);
     }
 
     @Test
-    public void testAllArgsConstructor() {
-        assertThatThrownBy(() -> new PolicyTypeIdent(null, VERSION)).isInstanceOf(NullPointerException.class);
-        assertThatThrownBy(() -> new PolicyTypeIdent(NAME, null)).isInstanceOf(NullPointerException.class);
+    public void testCopyConstructor() throws Exception {
+        assertThatThrownBy(() -> new PolicyIdentOptVersion(null)).isInstanceOf(NullPointerException.class);
 
-        PolicyTypeIdent orig = new PolicyTypeIdent(NAME, VERSION);
-        assertEquals(NAME, orig.getName());
-        assertEquals(VERSION, orig.getVersion());
-    }
-
-    @Test
-    public void testCopyConstructor() {
-        assertThatThrownBy(() -> new PolicyTypeIdent(null)).isInstanceOf(NullPointerException.class);
-
-        PolicyTypeIdent orig = new PolicyTypeIdent();
+        PolicyIdentOptVersion orig = new PolicyIdentOptVersion();
 
         // verify with null values
-        assertEquals(orig.toString(), new PolicyTypeIdent(orig).toString());
+        assertEquals(orig.toString(), new PolicyIdentOptVersion(orig).toString());
 
         // verify with all values
-        orig = new PolicyTypeIdent(NAME, VERSION);
-        assertEquals(orig.toString(), new PolicyTypeIdent(orig).toString());
+        orig = makeIdent(NAME, VERSION);
+        assertEquals(orig.toString(), new PolicyIdentOptVersion(orig).toString());
     }
 
     @Test
     public void testValidate() throws Exception {
+        assertThatThrownBy(() -> makeIdent(NAME, VERSION).validate(null)).isInstanceOf(NullPointerException.class);
         assertTrue(makeIdent(NAME, VERSION).validate(new PfValidationResult()).isValid());
+        assertTrue(makeIdent(NAME, null).validate(new PfValidationResult()).isValid());
 
         // everything is null
         PfValidationResult result = makeIdent(null, null).validate(new PfValidationResult());
         assertFalse(result.isValid());
-        assertEquals(2, result.getMessageList().size());
+        assertEquals(1, result.getMessageList().size());
 
         // name is null
         result = makeIdent(null, VERSION).validate(new PfValidationResult());
         assertFalse(result.isValid());
         assertEquals(1, result.getMessageList().size());
 
-        // version is null
-        result = makeIdent(NAME, null).validate(new PfValidationResult());
+        // name is null, version is invalid
+        result = makeIdent(null, "$$$" + VERSION).validate(new PfValidationResult());
+        assertFalse(result.isValid());
+        assertEquals(2, result.getMessageList().size());
+
+        // name is invalid
+        result = makeIdent("!!!invalid name$$$", VERSION).validate(new PfValidationResult());
         assertFalse(result.isValid());
         assertEquals(1, result.getMessageList().size());
 
@@ -87,5 +84,4 @@ public class TestPolicyTypeIdent extends IdentTestBase<PolicyTypeIdent> {
         assertFalse(result.isValid());
         assertEquals(1, result.getMessageList().size());
     }
-
 }
