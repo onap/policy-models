@@ -22,6 +22,29 @@
       "revId": "966f4c185fafc8f3bbce6b920d74e0867c46ef2e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85e23e2f_3efb32bc",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policy.monitoring.cdap.tca.hi.lo.app.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-03-22T16:33:39Z",
+      "side": 1,
+      "message": "Again why add the dashes, that has not what it is in Tosca",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 3
+      },
+      "revId": "966f4c185fafc8f3bbce6b920d74e0867c46ef2e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
