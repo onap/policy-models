@@ -1,0 +1,131 @@
+tosca_definitions_version: tosca_simple_yaml_1_0_0
+policy_types:
+    - onap.policies.Optimization:
+        derived_from: tosca.policies.Root
+        version: 1.0.0
+        description: a base policy type for all policies that govern optimization
+    - onap.policies.optimization.HpaPolicy:
+        derived_from: onap.policies.Optimization
+        properties:
+            policyScope:
+                type: list
+                description: scope where the policy is applicable
+                required: true
+                matchable: true
+                entry_schema:
+                    type: string
+            policyType:
+                type: list
+                description: type of a policy
+                required: true
+                matchable: true
+                entry_schema:
+                    type: string
+                    consraints:
+                    -   valid_values:
+                        - hpa
+            resources:
+                type: list
+                required: true
+                entry_schema:
+                    type: string
+            identity:
+                type: string
+                required: true
+            flavorFeatures:
+                type: list
+                required: true
+                entry_schema:
+                    type:policy.data.flavorFeatures_properties
+data_types:
+    policy.data.flavorFeatures_properties:
+        derived_from: tosca.nodes.Root
+        properties:
+            id:
+                type: string
+                required: true
+            type:
+                type: string
+                required: true
+            directives:
+                type: list
+                required: true
+                entry_schema:
+                    type: policy.data.directives_properties
+            flavorProperties:
+                type: list
+                required: true
+                entry_schema:
+                    type: policy.data.flavorProperties_properties
+    policy.data.directives_properties:
+        derived_from: tosca.nodes.Root
+        properties:
+            type:
+                type: string
+            attributes:
+                type: list
+                entry_schema:
+                    type: policy.data.directives_attributes_properties
+    policy.data.directives_attributes_properties:
+        derived_from: tosca.nodes.Root
+        properties:
+            attribute_name:
+                type: string
+            attribute_value:
+                type: string
+    policy.data.flavorProperties_properties:
+        derived_from: tosca.nodes.Root
+        properties:
+            hpa-feature:
+                type: string
+                required: true
+            mandatory:
+                type: string
+                required: true
+            score:
+                type: string
+                required: false
+            architecture:
+                type: string
+                required: true
+            hpa-version:
+                type: string
+                required: true
+            directives:
+                type: list
+                required: true
+                entry_schema:
+                    type: policy.data.directives_properties
+            hpa-feature-attributes:
+                type: list
+                required: true
+                entry_schema:
+                    type: policy.data.hpa-feature-attributes_properties
+    policy.data.hpa-feature-attributes_properties:
+        derived_from: tosca.nodes.Root
+        properties:
+            hpa-attribute-key:
+                type: string
+                required: true
+            hpa-attribute-value:
+                type: string
+                required: true
+            operator:
+                type: list
+                required: true
+                entry_schema:
+                    type: string
+                    constraints:
+                    -   valid_values:
+                        - <
+                        - <=
+                        - '>'
+                        - '>='
+                        - '='
+                        - '!='
+                        - any
+                        - all
+                        - subset
+            unit:
+                type: string
+                required: false
