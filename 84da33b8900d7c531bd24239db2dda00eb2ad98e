@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c307a6c6_4044969a",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/Policy.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-03-22T11:13:15Z",
+      "side": 1,
+      "message": "We don\u0027t need this class as we will be using ToscaPolicy",
+      "range": {
+        "startLine": 38,
+        "startChar": 13,
+        "endLine": 38,
+        "endChar": 19
+      },
+      "revId": "84da33b8900d7c531bd24239db2dda00eb2ad98e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
