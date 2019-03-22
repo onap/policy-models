@@ -18,23 +18,33 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.models.pap.concepts;
+package org.onap.policy.models.pdp.concepts;
 
-import java.util.List;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import org.onap.policy.models.base.PfConceptKey;
+import org.onap.policy.models.base.PfValidationResult;
+import org.onap.policy.models.base.Validated;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
-// TODO delete this once PAP has been modified to use PdpDeployPolicies
 /**
- * Request deploy or update a set of policies using the <i>simple</i> PDP Group deployment
- * REST API. Only the "name" and "policyVersion" fields of a Policy are used, and only the
- * "name" field is actually required.
+ * Identifies a policy. Both the name and version must be non-null.
  */
-@Getter
-@Setter
-@ToString
-public class PdpPolicies {
-    private List<Policy> policies;
+@NonNull
+@NoArgsConstructor
+public class PolicyIdent extends PfConceptKey {
+    private static final long serialVersionUID = 1L;
+    private static final Validated validator = new Validated();
+
+    public PolicyIdent(String name, String version) {
+        super(name, version);
+    }
+
+    public PolicyIdent(PolicyIdent source) {
+        super(source);
+    }
+
+    @Override
+    public PfValidationResult validate(PfValidationResult result) {
+        return super.validate(validator.validateNotNull(this, result));
+    }
 }

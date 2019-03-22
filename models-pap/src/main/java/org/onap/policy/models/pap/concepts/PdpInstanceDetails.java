@@ -22,7 +22,6 @@
 package org.onap.policy.models.pap.concepts;
 
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
 import org.onap.policy.models.pdp.enums.PdpHealthStatus;
@@ -42,23 +41,4 @@ public class PdpInstanceDetails {
     private PdpState pdpState;
     private PdpHealthStatus healthy;
     private String message;
-
-    /**
-     * Constructs the object.
-     */
-    public PdpInstanceDetails() {
-        super();
-    }
-
-    /**
-     * Constructs the object, making a deep copy from the source.
-     *
-     * @param source source from which to copy fields
-     */
-    public PdpInstanceDetails(@NonNull PdpInstanceDetails source) {
-        this.instanceId = source.instanceId;
-        this.pdpState = source.pdpState;
-        this.healthy = source.healthy;
-        this.message = source.message;
-    }
 }

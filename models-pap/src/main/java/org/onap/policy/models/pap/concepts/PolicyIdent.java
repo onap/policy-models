@@ -20,32 +20,17 @@
 
 package org.onap.policy.models.pap.concepts;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
-import org.onap.policy.models.pdp.enums.PdpHealthStatus;
-import org.onap.policy.models.pdp.enums.PdpState;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
- * Test the copy constructor, as {@link TestModels} tests the other methods.
+ * Identifies a policy. Both the name and version must be non-null.
  */
-public class TestPdpInstanceDetails {
-
-    @Test
-    public void testCopyConstructor() {
-        assertThatThrownBy(() -> new PdpInstanceDetails(null)).isInstanceOf(NullPointerException.class);
-
-        PdpInstanceDetails orig = new PdpInstanceDetails();
-
-        // verify with null values
-        assertEquals(orig.toString(), new PdpInstanceDetails(orig).toString());
-
-        // verify with all values
-        orig.setHealthy(PdpHealthStatus.TEST_IN_PROGRESS);
-        orig.setInstanceId("my-id");
-        orig.setMessage("my-message");
-        orig.setPdpState(PdpState.SAFE);
-        assertEquals(orig.toString(), new PdpInstanceDetails(orig).toString());
-    }
+@Getter
+@Setter
+@ToString
+public class PolicyIdent {
+    private String name;
+    private String version;
 }
