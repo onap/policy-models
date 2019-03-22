@@ -41,6 +41,12 @@
 
         <dependency>
             <groupId>org.onap.policy.models</groupId>
+            <artifactId>policy-models-dao</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.onap.policy.models</groupId>
             <artifactId>policy-models-examples</artifactId>
             <version>${project.version}</version>
         </dependency>

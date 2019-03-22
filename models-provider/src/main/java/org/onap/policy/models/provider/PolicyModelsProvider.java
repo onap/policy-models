@@ -24,6 +24,7 @@ import lombok.NonNull;
 
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
+import org.onap.policy.models.pap.concepts.PdpGroups;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicy;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
 import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
@@ -34,7 +35,13 @@ import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public interface PolicyModelsProvider {
+public interface PolicyModelsProvider extends AutoCloseable {
+    /**
+     * Open the policy model provider initializing whatever internal handling it needs.
+     *
+     * @throws PfModelException on errors opening the models provider
+     */
+    public void init() throws PfModelException;
 
     /**
      * Get policy types.
@@ -200,34 +207,36 @@ public interface PolicyModelsProvider {
     /**
      * Get PDP groups.
      *
-     * @param somePdpGroupFilter a filter for the get
+     * @param pdpGroupFilter a filter for the get
      * @return the PDP groups found
      * @throws PfModelException on errors getting PDP groups
      */
-    public Object getPdpGroups(@NonNull final Object somePdpGroupFilter) throws PfModelException;
+    public PdpGroups getPdpGroups(@NonNull final String pdpGroupFilter) throws PfModelException;
 
     /**
      * Creates PDP groups.
      *
-     * @param somePdpGroupSpecification a specification for the PDP group
+     * @param pdpGroups a specification of the PDP groups to create
+     * @return the PDP groups created
      * @throws PfModelException on errors creating PDP groups
      */
-    public Object createPdpGroups(@NonNull final Object somePdpGroupSpecification) throws PfModelException;
-
+    public PdpGroups createPdpGroups(@NonNull final PdpGroups pdpGroups) throws PfModelException;
 
     /**
      * Updates PDP groups.
      *
-     * @param somePdpGroupSpecification a specification for the PDP group
+     * @param pdpGroups a specification of the PDP groups to update
+     * @return the PDP groups updated
      * @throws PfModelException on errors updating PDP groups
      */
-    public Object updatePdpGroups(@NonNull final Object somePdpGroupSpecification) throws PfModelException;
+    public PdpGroups updatePdpGroups(@NonNull final PdpGroups pdpGroups) throws PfModelException;
 
     /**
      * Delete PDP groups.
      *
-     * @param somePdpGroupFilter a filter for the get
+     * @param pdpGroupFilter a filter for the get
+     * @return the PDP groups deleted
      * @throws PfModelException on errors deleting PDP groups
      */
-    public Object deletePdpGroups(@NonNull final Object somePdpGroupFilter) throws PfModelException;
+    public PdpGroups deletePdpGroups(@NonNull final String pdpGroupFilter) throws PfModelException;
 }

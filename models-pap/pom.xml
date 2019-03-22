@@ -1,7 +1,6 @@
 <!--
   ============LICENSE_START=======================================================
    Copyright (C) 2019 Nordix Foundation.
-   Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -28,7 +27,7 @@
         <version>2.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>models-pap</artifactId>
+    <artifactId>policy-models-pap</artifactId>
 
     <name>${project.artifactId}</name>
     <description>The models for Policy Administration (PAP) REST API's.</description>
@@ -42,6 +41,11 @@
             <groupId>org.onap.policy.models</groupId>
             <artifactId>policy-models-base</artifactId>
             <version>${project.version}</version>
+        </dependency>
+         <dependency>
+             <groupId>org.onap.policy.models</groupId>
+             <artifactId>policy-models-dao</artifactId>
+             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>

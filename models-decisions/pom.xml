@@ -27,7 +27,7 @@
         <version>2.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>models-decisions</artifactId>
+    <artifactId>policy-models-decisions</artifactId>
 
     <name>${project.artifactId}</name>
     <description>The models for Policy Decision API's.</description>
