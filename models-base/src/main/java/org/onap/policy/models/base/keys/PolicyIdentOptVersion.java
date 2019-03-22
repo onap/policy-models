@@ -20,31 +20,48 @@
 
 package org.onap.policy.models.base.keys;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import org.onap.policy.models.base.PfConceptKey;
+import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.base.Validated;
 
 /**
- * Identifies a policy type. Both the name and version must be non-null.
+ * Policy identifier with an optional version; only the "name" is required.
  */
-@NonNull
+
+@Data
 @NoArgsConstructor
-public class PolicyTypeIdent extends PfConceptKey {
-    private static final long serialVersionUID = 1L;
-    private static final Validated validator = new Validated();
+@AllArgsConstructor
+public class PolicyIdentOptVersion {
 
-    public PolicyTypeIdent(String name, String version) {
-        super(name, version);
+    @NonNull
+    private String name;
+
+    private String version;
+
+
+    public PolicyIdentOptVersion(PolicyIdentOptVersion source) {
+        this.name = source.name;
+        this.version = source.version;
     }
 
-    public PolicyTypeIdent(PolicyTypeIdent source) {
-        super(source);
-    }
+    /**
+     * Validates the object.
+     *
+     * @param result where to place any errors
+     * @return a validation result
+     */
+    public PfValidationResult validate(@NonNull final PfValidationResult result) {
+        Validated validator = new Validated();
 
-    @Override
-    public PfValidationResult validate(PfValidationResult result) {
-        return super.validate(validator.validateNotNull(this, result));
+        validator.validateNotNull(this, "name", name, result);
+        validator.validateText(this, "name", name, PfKey.NAME_REGEXP, result);
+
+        validator.validateText(this, "version", version, PfKey.VERSION_REGEXP, result);
+
+        return result;
     }
 }
