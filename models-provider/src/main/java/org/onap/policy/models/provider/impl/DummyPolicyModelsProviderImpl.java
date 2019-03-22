@@ -30,121 +30,145 @@ import org.onap.policy.common.utils.resources.TextFileUtils;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
+import org.onap.policy.models.pap.concepts.PdpGroups;
 import org.onap.policy.models.provider.PolicyModelsProvider;
+import org.onap.policy.models.provider.PolicyModelsProviderParameters;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicy;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
 import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.serialization.ToscaServiceTemplateMessageBodyHandler;
 
 /**
- * This class provides a dummy implementation of the Policy Models Provider for the ONAP Policy
- * Framework.
+ * This class provides a dummy implementation of the Policy Models Provider for the ONAP Policy Framework.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
+    /**
+     * Constructor that takes the parameters.
+     *
+     * @param parameters the parameters for the provider
+     */
+    public DummyPolicyModelsProviderImpl(@NonNull final PolicyModelsProviderParameters parameters) {
+    }
+
     @Override
-    public ToscaServiceTemplate getPolicyTypes(@NonNull PfConceptKey policyTypeKey) throws PfModelException {
+    public void init() throws PfModelException {
+        // Not required on the dummy provider
+    }
+
+    @Override
+    public void close() {
+        // Not required on the dummy provider
+    }
+
+    @Override
+    public ToscaServiceTemplate getPolicyTypes(@NonNull final PfConceptKey policyTypeKey) throws PfModelException {
         return getDummyResponse("src/main/resources/dummyimpl/DummyToscaPolicyTypeGetResponse.json");
     }
 
     @Override
-    public ToscaServiceTemplate createPolicyTypes(@NonNull ToscaServiceTemplate serviceTemplate)
+    public ToscaServiceTemplate createPolicyTypes(@NonNull final ToscaServiceTemplate serviceTemplate)
             throws PfModelException {
         return serviceTemplate;
     }
 
     @Override
-    public ToscaServiceTemplate updatePolicyTypes(@NonNull ToscaServiceTemplate serviceTemplate)
+    public ToscaServiceTemplate updatePolicyTypes(@NonNull final ToscaServiceTemplate serviceTemplate)
             throws PfModelException {
         return serviceTemplate;
     }
 
     @Override
-    public ToscaServiceTemplate deletePolicyTypes(@NonNull PfConceptKey policyTypeKey) throws PfModelException {
+    public ToscaServiceTemplate deletePolicyTypes(@NonNull final PfConceptKey policyTypeKey) throws PfModelException {
         return getDummyResponse("src/main/resources/dummyimpl/DummyToscaPolicyTypeDeleteResponse.json");
     }
 
     @Override
-    public ToscaServiceTemplate getPolicies(@NonNull PfConceptKey policyKey) throws PfModelException {
+    public ToscaServiceTemplate getPolicies(@NonNull final PfConceptKey policyKey) throws PfModelException {
         return getDummyResponse("src/main/resources/dummyimpl/DummyToscaPolicyGetResponse.json");
     }
 
     @Override
-    public ToscaServiceTemplate createPolicies(@NonNull ToscaServiceTemplate serviceTemplate) throws PfModelException {
+    public ToscaServiceTemplate createPolicies(@NonNull final ToscaServiceTemplate serviceTemplate)
+            throws PfModelException {
         return serviceTemplate;
     }
 
     @Override
-    public ToscaServiceTemplate updatePolicies(@NonNull ToscaServiceTemplate serviceTemplate) throws PfModelException {
+    public ToscaServiceTemplate updatePolicies(@NonNull final ToscaServiceTemplate serviceTemplate)
+            throws PfModelException {
         return serviceTemplate;
     }
 
     @Override
-    public ToscaServiceTemplate deletePolicies(@NonNull PfConceptKey policyKey) throws PfModelException {
+    public ToscaServiceTemplate deletePolicies(@NonNull final PfConceptKey policyKey) throws PfModelException {
         return getDummyResponse("src/main/resources/dummyimpl/DummyToscaPolicyDeleteResponse.json");
     }
 
     @Override
-    public LegacyOperationalPolicy getOperationalPolicy(@NonNull String policyId) throws PfModelException {
+
+    public LegacyOperationalPolicy getOperationalPolicy(@NonNull final String policyId) throws PfModelException {
         return new LegacyOperationalPolicy();
     }
 
     @Override
-    public LegacyOperationalPolicy createOperationalPolicy(@NonNull LegacyOperationalPolicy legacyOperationalPolicy)
-            throws PfModelException {
+    public LegacyOperationalPolicy createOperationalPolicy(
+            @NonNull final LegacyOperationalPolicy legacyOperationalPolicy) throws PfModelException {
         return legacyOperationalPolicy;
     }
 
     @Override
-    public LegacyOperationalPolicy updateOperationalPolicy(@NonNull LegacyOperationalPolicy legacyOperationalPolicy)
-            throws PfModelException {
+    public LegacyOperationalPolicy updateOperationalPolicy(
+            @NonNull final LegacyOperationalPolicy legacyOperationalPolicy) throws PfModelException {
         return legacyOperationalPolicy;
     }
 
     @Override
-    public LegacyOperationalPolicy deleteOperationalPolicy(@NonNull String policyId) throws PfModelException {
+    public LegacyOperationalPolicy deleteOperationalPolicy(@NonNull final String policyId) throws PfModelException {
         return new LegacyOperationalPolicy();
     }
 
     @Override
-    public LegacyGuardPolicy getGuardPolicy(@NonNull String policyId) throws PfModelException {
+    public LegacyGuardPolicy getGuardPolicy(@NonNull final String policyId) throws PfModelException {
         return new LegacyGuardPolicy();
     }
 
     @Override
-    public LegacyGuardPolicy createGuardPolicy(@NonNull LegacyGuardPolicy legacyGuardPolicy) throws PfModelException {
+    public LegacyGuardPolicy createGuardPolicy(@NonNull final LegacyGuardPolicy legacyGuardPolicy)
+            throws PfModelException {
         return legacyGuardPolicy;
     }
 
     @Override
-    public LegacyGuardPolicy updateGuardPolicy(@NonNull LegacyGuardPolicy legacyGuardPolicy) throws PfModelException {
+    public LegacyGuardPolicy updateGuardPolicy(@NonNull final LegacyGuardPolicy legacyGuardPolicy)
+            throws PfModelException {
         return legacyGuardPolicy;
     }
 
     @Override
-    public LegacyGuardPolicy deleteGuardPolicy(@NonNull String policyId) throws PfModelException {
+    public LegacyGuardPolicy deleteGuardPolicy(@NonNull final String policyId) throws PfModelException {
         return new LegacyGuardPolicy();
     }
 
     @Override
-    public Object getPdpGroups(@NonNull Object somePdpGroupFilter) throws PfModelException {
-        return null;
+    public PdpGroups getPdpGroups(@NonNull String pdpGroupFilter) throws PfModelException {
+        return new PdpGroups();
     }
 
     @Override
-    public Object createPdpGroups(@NonNull Object somePdpGroupSpecification) throws PfModelException {
-        return null;
+    public PdpGroups createPdpGroups(@NonNull PdpGroups pdpGroups) throws PfModelException {
+        return new PdpGroups();
     }
 
     @Override
-    public Object updatePdpGroups(@NonNull Object somePdpGroupSpecification) throws PfModelException {
-        return null;
+    public PdpGroups updatePdpGroups(@NonNull PdpGroups pdpGroups) throws PfModelException {
+        return new PdpGroups();
     }
 
     @Override
-    public Object deletePdpGroups(@NonNull Object somePdpGroupFilter) throws PfModelException {
-        return null;
+    public PdpGroups deletePdpGroups(@NonNull String pdpGroupFilter) throws PfModelException {
+        return new PdpGroups();
     }
 
     /**
@@ -153,7 +177,7 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
      * @param fileName the file name containing the dummy response
      * @return the ToscaServiceTemplate with the dummy response
      */
-    private ToscaServiceTemplate getDummyResponse(@NonNull final String fileName) {
+    protected ToscaServiceTemplate getDummyResponse(@NonNull final String fileName) {
         Gson gson = new ToscaServiceTemplateMessageBodyHandler().getGson();
         ToscaServiceTemplate serviceTemplate;
 

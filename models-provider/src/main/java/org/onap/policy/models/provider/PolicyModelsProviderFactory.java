@@ -20,7 +20,14 @@
 
 package org.onap.policy.models.provider;
 
-import org.onap.policy.models.provider.impl.DummyPolicyModelsProviderImpl;
+import javax.ws.rs.core.Response;
+
+import lombok.NonNull;
+
+import org.onap.policy.models.base.PfModelException;
+import org.onap.policy.models.dao.impl.DefaultPfDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A factory for creating PolicyModelsProvider objects using the default Policy Framework implementation.
@@ -28,11 +35,44 @@ import org.onap.policy.models.provider.impl.DummyPolicyModelsProviderImpl;
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 public class PolicyModelsProviderFactory {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultPfDao.class);
 
     /**
      * Creates a new PolicyModelsProvider object from its implementation.
+     *
+     * @param parameters The parameters for the implementation of the PolicyModelProvider
+     * @throws PfModelException on errors creating an implementation of the PolicyModelProvider
      */
-    public  PolicyModelsProvider createPolicyModelsProvider() {
-        return new DummyPolicyModelsProviderImpl();
+    public PolicyModelsProvider createPolicyModelsProvider(@NonNull final PolicyModelsProviderParameters parameters)
+            throws PfModelException {
+        // Get the class for the PolicyModelsProvider
+        Class<?> implementationClass = null;
+        try {
+            // Check if the implementation class is on the classpath
+            implementationClass = Class.forName(parameters.getImplementation());
+        } catch (final Exception exc) {
+            String errorMessage = "could not find implementation of the \"PolicyModelsProvider\" interface \""
+                    + parameters.getImplementation() + "\"";
+            LOGGER.warn(errorMessage, exc);
+            throw new PfModelException(Response.Status.NOT_FOUND, errorMessage, exc);
+        }
+
+        // It is, now check if it is a PolicyModelsProvider
+        if (!PolicyModelsProvider.class.isAssignableFrom(implementationClass)) {
+            String errorMessage = "the class \"" + implementationClass.getCanonicalName()
+                    + "\" is not an implementation of the \"PolicyModelsProvider\" interface";
+            LOGGER.warn(errorMessage);
+            throw new PfModelException(Response.Status.BAD_REQUEST, errorMessage);
+        }
+
+        try {
+            return (PolicyModelsProvider) implementationClass.getConstructor(PolicyModelsProviderParameters.class)
+                    .newInstance(parameters);
+        } catch (Exception exc) {
+            String errorMessage =
+                    "could not create an instance of PolicyModelsProvider \"" + parameters.getImplementation() + "\"";
+            LOGGER.warn(errorMessage, exc);
+            throw new PfModelException(Response.Status.INTERNAL_SERVER_ERROR, errorMessage, exc);
+        }
     }
 }
