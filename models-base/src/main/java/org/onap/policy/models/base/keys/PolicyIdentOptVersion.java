@@ -20,42 +20,48 @@
 
 package org.onap.policy.models.base.keys;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import org.onap.policy.models.base.PfConceptKey;
-import org.onap.policy.models.base.PfValidationMessage;
+import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfValidationResult;
-import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 import org.onap.policy.models.base.Validated;
 
 /**
- * Identifies a policy type. Both the name and version must be non-null.
+ * Policy identifier with an optional version; only the "name" is required.
  */
-@NonNull
+
+@Data
 @NoArgsConstructor
-public class PolicyTypeIdent extends PfConceptKey {
-    private static final long serialVersionUID = 1L;
+@AllArgsConstructor
+public class PolicyIdentOptVersion {
 
-    public PolicyTypeIdent(String name, String version) {
-        super(name, version);
+    @NonNull
+    private String name;
+
+    private String version;
+
+
+    public PolicyIdentOptVersion(PolicyIdentOptVersion source) {
+        this.name = source.name;
+        this.version = source.version;
     }
 
-    public PolicyTypeIdent(PolicyTypeIdent source) {
-        super(source);
-    }
+    /**
+     * Validates the object.
+     *
+     * @param result where to place any errors
+     * @return a validation result
+     */
+    public PfValidationResult validate(@NonNull final PfValidationResult result) {
+        Validated validator = new Validated();
 
-    @Override
-    public PfValidationResult validate(PfValidationResult result) {
-        if (PfConceptKey.NULL_KEY_NAME.equals(getName())) {
-            result.addValidationMessage(new PfValidationMessage(new Validated().makeKey(this), this.getClass(),
-                            ValidationResult.INVALID, "name invalid-null"));
-        }
+        validator.validateNotNull(this, "name", name, result);
+        validator.validateText(this, "name", name, PfKey.NAME_REGEXP, result);
 
-        if (PfConceptKey.NULL_KEY_VERSION.equals(getVersion())) {
-            result.addValidationMessage(new PfValidationMessage(new Validated().makeKey(this), this.getClass(),
-                            ValidationResult.INVALID, "version invalid-null"));
-        }
+        validator.validateText(this, "version", version, PfKey.VERSION_REGEXP, result);
 
-        return super.validate(result);
+        return result;
     }
 }
