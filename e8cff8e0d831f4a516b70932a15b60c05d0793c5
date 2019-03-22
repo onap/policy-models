@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c9a81ec_b1856096",
+        "filename": "models-examples/src/main/resources/policies/vDNS.policy.guard.frequency.input.tosca.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-03-22T08:36:33Z",
+      "side": 1,
+      "message": "If you have time can you replace the tabs with spaces?",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 2
+      },
+      "revId": "e8cff8e0d831f4a516b70932a15b60c05d0793c5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
