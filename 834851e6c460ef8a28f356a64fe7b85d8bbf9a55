@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "939e9fb8_79456489",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/concepts/PdpGroup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-03-22T13:12:36Z",
+      "side": 1,
+      "message": "Ok got it. Thanks!",
+      "parentUuid": "0ecfb7d6_984cbbd6",
+      "range": {
+        "startLine": 51,
+        "startChar": 3,
+        "endLine": 70,
+        "endChar": 5
+      },
+      "revId": "834851e6c460ef8a28f356a64fe7b85d8bbf9a55",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f70cbfe_fb5fab2b",
         "filename": "models-pap/src/main/java/org/onap/policy/models/pap/concepts/PdpInstanceDetails.java",
         "patchSetId": 2
