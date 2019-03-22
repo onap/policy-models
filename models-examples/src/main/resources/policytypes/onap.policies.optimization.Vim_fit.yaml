@@ -1,0 +1,56 @@
+tosca_definitions_version: tosca_simple_yaml_1_0_0
+policy_types:
+    - onap.policies.Optimization:
+        derived_from: tosca.policies.Root
+        version: 1.0.0
+        description: a base policy type for all policies that govern optimization
+    - onap.policies.optimization.Vim_fit:
+        derived_from: onap.policies.Optimization
+        properties:
+            policyScope:
+                type: list
+                description: scope where the policy is applicable
+                required: true
+                matchable: true
+                entry_schema:
+                    type: string
+            policyType:
+                type: list
+                description: type of a policy
+                required: true
+                matchable: true
+                entry_schema:
+                    type: string
+                    consraints:
+                    -   valid_values:
+                        - vim_fit
+            identity:
+                type: string
+                required: true
+            applicableResources:
+                type: list
+                required: true
+                entry_schema:
+                    type: string
+                    constraints:
+                    -   valid_values:
+                        - any
+                        - all
+            resources:
+                type: list
+                required: true
+                entry_schema:
+                    type: string
+            capacityProperties:
+                type: policy.data.capacityProperties_properties
+                required: true
+data_types:
+    policy.data.capacityProperties_properties:
+        derived_from: tosca.nodes.Root
+        properties:
+            controller:
+                type: string
+                required: true
+            request:
+                type: string
+                required: true

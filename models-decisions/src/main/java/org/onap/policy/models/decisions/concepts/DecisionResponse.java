@@ -33,7 +33,8 @@ import lombok.Data;
  */
 @Data
 public class DecisionResponse {
-
-    private String  errorMessage;
+    private String status;
+    private Map<String, Object> advice;
+    private Map<String, Object> obligations;
     private List<Map<String, Object>> policies;
 }
