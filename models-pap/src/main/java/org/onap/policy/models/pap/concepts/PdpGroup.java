@@ -21,14 +21,11 @@
 
 package org.onap.policy.models.pap.concepts;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
-import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.pdp.enums.PdpState;
 
 /**
@@ -47,25 +44,4 @@ public class PdpGroup {
     private String description;
     private Map<String, String> properties;
     private List<PdpSubGroup> pdpSubgroups;
-
-    /**
-     * Constructs the object.
-     */
-    public PdpGroup() {
-        super();
-    }
-
-    /**
-     * Constructs the object, making a deep copy from the source.
-     *
-     * @param source source from which to copy fields
-     */
-    public PdpGroup(@NonNull PdpGroup source) {
-        this.name = source.name;
-        this.version = source.version;
-        this.pdpGroupState = source.pdpGroupState;
-        this.description = source.description;
-        this.properties = (source.properties == null ? null : new LinkedHashMap<>(source.properties));
-        this.pdpSubgroups = PfUtils.mapList(source.pdpSubgroups, PdpSubGroup::new);
-    }
 }

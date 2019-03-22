@@ -18,32 +18,33 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.models.pap.concepts;
+package org.onap.policy.models.pdp.concepts;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import org.onap.policy.models.base.PfConceptKey;
+import org.onap.policy.models.base.PfValidationResult;
+import org.onap.policy.models.base.Validated;
 
 /**
- * Test the copy constructor, as {@link TestModels} tests the other methods.
+ * Identifies a policy. Both the name and version must be non-null.
  */
-public class TestPolicy {
+@NonNull
+@NoArgsConstructor
+public class PolicyIdent extends PfConceptKey {
+    private static final long serialVersionUID = 1L;
+    private static final Validated validator = new Validated();
 
-    @Test
-    public void testCopyConstructor() {
-        assertThatThrownBy(() -> new Policy(null)).isInstanceOf(NullPointerException.class);
+    public PolicyIdent(String name, String version) {
+        super(name, version);
+    }
 
-        Policy orig = new Policy();
+    public PolicyIdent(PolicyIdent source) {
+        super(source);
+    }
 
-        // verify with null values
-        assertEquals(orig.toString(), new Policy(orig).toString());
-
-        // verify with all values
-        orig.setName("my-name");
-        orig.setPolicyType("my-type");
-        orig.setPolicyTypeImpl("my-impl");
-        orig.setPolicyTypeVersion("my-type-vers");
-        assertEquals(orig.toString(), new Policy(orig).toString());
+    @Override
+    public PfValidationResult validate(PfValidationResult result) {
+        return super.validate(validator.validateNotNull(this, result));
     }
 }
