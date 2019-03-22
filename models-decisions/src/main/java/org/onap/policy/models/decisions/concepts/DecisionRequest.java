@@ -43,6 +43,9 @@ public class DecisionRequest {
     @SerializedName("ONAPInstance")
     private String  onapInstance;
 
+    @SerializedName("requestId")
+    private String  requestId;
+
     @SerializedName("action")
     private String  action;
 

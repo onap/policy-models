@@ -1,0 +1,47 @@
+tosca_definitions_version: tosca_simple_yaml_1_0_0
+policy_types:
+    - onap.policies.Optimization:
+        derived_from: tosca.policies.Root
+        version: 1.0.0
+        description: a base policy type for all policies that govern optimization
+    - onap.policies.optimization.QueryPolicy:
+        derived_from: onap.policies.Optimization
+        properties:
+            policyScope:
+                type: list
+                description: scope where the policy is applicable
+                required: true
+                matchable: true
+                entry_schema:
+                    type: string
+            policyType:
+                type: list
+                description: type of a policy
+                required: true
+                matchable: true
+                entry_schema:
+                    type: string
+                    consraints:
+                    -   valid_values:
+                        - request_param_query
+            identity:
+                type: string
+                required: true
+            queryProperties:
+                type: list
+                required: true
+                entry_schema:
+                    type:policy.data.queryProperties_properties
+data_types:
+    policy.data.queryProperties_properties:
+        derived_from: tosca.nodes.Root
+        properties:
+            attribute:
+                type: string
+                required: true
+            value:
+                type: string
+                required: true
+            attribute_location:
+                type: string
+                required: true
