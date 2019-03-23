@@ -24,8 +24,8 @@ package org.onap.policy.models.pdp.concepts;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.onap.policy.models.pdp.enums.PdpMessageType;
-import org.onap.policy.models.pdp.enums.PdpState;
+import org.onap.policy.pdp.common.enums.PdpMessageType;
+import org.onap.policy.pdp.common.enums.PdpState;
 
 /**
  * Class to represent the PDP_STATE_CHANGE message that PAP will send to either PDPGroup/Subgroup or a PDP.

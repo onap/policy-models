@@ -24,7 +24,7 @@ package org.onap.policy.models.pdp.concepts;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.onap.policy.models.pdp.enums.PdpResponseStatus;
+import org.onap.policy.pdp.common.enums.PdpResponseStatus;
 
 /**
  * Class to represent PDP response details.

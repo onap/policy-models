@@ -40,6 +40,11 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.onap.policy.common</groupId>
+            <artifactId>pdp-common</artifactId>
+            <version>${policy.common.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.onap.policy.models</groupId>
             <artifactId>policy-models-tosca</artifactId>
             <version>${project.version}</version>

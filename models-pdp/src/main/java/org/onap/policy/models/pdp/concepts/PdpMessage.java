@@ -26,7 +26,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.onap.policy.models.pdp.enums.PdpMessageType;
+import org.onap.policy.pdp.common.enums.PdpMessageType;
 
 /**
  * Class to represent the base class for various messages that will ve exchanged between PAP and PDP.
