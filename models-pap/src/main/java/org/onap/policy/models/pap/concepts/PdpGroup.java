@@ -29,7 +29,7 @@ import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.pdp.common.enums.PdpState;
+import org.onap.policy.models.pdp.enums.PdpState;
 
 /**
  * Class to represent a PDPGroup, which groups multiple PDPSubGroup entities together for a particular domain.

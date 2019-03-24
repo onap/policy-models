@@ -25,8 +25,8 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
-import org.onap.policy.pdp.common.enums.PdpHealthStatus;
-import org.onap.policy.pdp.common.enums.PdpState;
+import org.onap.policy.models.pdp.enums.PdpHealthStatus;
+import org.onap.policy.models.pdp.enums.PdpState;
 
 /**
  * Class to represent details of a running instance of PDP.

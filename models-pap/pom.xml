@@ -33,9 +33,9 @@
     <description>The models for Policy Administration (PAP) REST API's.</description>
     <dependencies>
         <dependency>
-            <groupId>org.onap.policy.common</groupId>
-            <artifactId>pdp-common</artifactId>
-            <version>${policy.common.version}</version>
+            <groupId>org.onap.policy.models</groupId>
+            <artifactId>models-pdp</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.onap.policy.models</groupId>

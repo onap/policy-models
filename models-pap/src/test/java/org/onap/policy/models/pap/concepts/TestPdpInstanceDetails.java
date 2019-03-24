@@ -24,8 +24,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.onap.policy.pdp.common.enums.PdpHealthStatus;
-import org.onap.policy.pdp.common.enums.PdpState;
+import org.onap.policy.models.pdp.enums.PdpHealthStatus;
+import org.onap.policy.models.pdp.enums.PdpState;
 
 /**
  * Test the copy constructor, as {@link TestModels} tests the other methods.
