@@ -47,12 +47,15 @@ import org.onap.policy.models.base.PfConceptKey;
 public class ToscaDataTypes extends PfConceptContainer<ToscaDataType> {
     private static final long serialVersionUID = 2941102271022190348L;
 
+    public static final String DEFAULT_NAME = "ToscaDataTypesSimple";
+    public static final String DEFAULT_VERSION = "1.0.0";
+
     /**
      * The Default Constructor creates a {@link ToscaDataTypes} object with a null artifact key
      * and creates an empty concept map.
      */
     public ToscaDataTypes() {
-        super(new PfConceptKey());
+        super(new PfConceptKey(DEFAULT_NAME, DEFAULT_VERSION));
     }
 
     /**

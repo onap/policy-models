@@ -37,6 +37,9 @@ import org.onap.policy.models.provider.PolicyModelsProviderParameters;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicy;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
 import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
+import org.onap.policy.models.tosca.simple.provider.SimpleToscaProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Test the database models provider implementation.
@@ -44,6 +47,8 @@ import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 public class DatabasePolicyModelsProviderTest {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleToscaProvider.class);
+
     PolicyModelsProviderParameters parameters;
 
     /**
@@ -266,15 +271,51 @@ public class DatabasePolicyModelsProviderTest {
                 new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters)) {
             databaseProvider.init();
 
-            assertNull(databaseProvider.getPolicyTypes(new PfConceptKey()));
-            assertNull(databaseProvider.createPolicyTypes(new ToscaServiceTemplate()));
-            assertNull(databaseProvider.updatePolicyTypes(new ToscaServiceTemplate()));
-            assertNull(databaseProvider.deletePolicyTypes(new PfConceptKey()));
+            try {
+                databaseProvider.getPolicyTypes(new PfConceptKey());
+                fail("test should throw an exception");
+            } catch (Exception npe) {
+                assertEquals("policy type not found: NULL:0.0.0", npe.getMessage());
+            }
+            try {
+                databaseProvider.createPolicyTypes(new ToscaServiceTemplate());
+            } catch (Exception npe) {
+                assertEquals("no policy types specified on service template", npe.getMessage());
+            }
+            try {
+                databaseProvider.updatePolicyTypes(new ToscaServiceTemplate());
+            } catch (Exception npe) {
+                assertEquals("no policy types specified on service template", npe.getMessage());
+            }
+            try {
+                databaseProvider.deletePolicyTypes(new PfConceptKey());
+                fail("test should throw an exception");
+            } catch (Exception npe) {
+                assertEquals("policy type not found: NULL:0.0.0", npe.getMessage());
+            }
 
-            assertNull(databaseProvider.getPolicies(new PfConceptKey()));
-            assertNull(databaseProvider.createPolicies(new ToscaServiceTemplate()));
-            assertNull(databaseProvider.updatePolicies(new ToscaServiceTemplate()));
-            assertNull(databaseProvider.deletePolicies(new PfConceptKey()));
+            try {
+                databaseProvider.getPolicies(new PfConceptKey());
+                fail("test should throw an exception");
+            } catch (Exception npe) {
+                assertEquals("policy not found: NULL:0.0.0", npe.getMessage());
+            }
+            try {
+                databaseProvider.createPolicies(new ToscaServiceTemplate());
+            } catch (Exception npe) {
+                assertEquals("topology template not specified on service template", npe.getMessage());
+            }
+            try {
+                databaseProvider.updatePolicies(new ToscaServiceTemplate());
+            } catch (Exception npe) {
+                assertEquals("topology template not specified on service template", npe.getMessage());
+            }
+            try {
+                databaseProvider.deletePolicies(new PfConceptKey());
+                fail("test should throw an exception");
+            } catch (Exception npe) {
+                assertEquals("policy not found: NULL:0.0.0", npe.getMessage());
+            }
 
             assertNull(databaseProvider.getOperationalPolicy("policy_id"));
             assertNull(databaseProvider.createOperationalPolicy(new LegacyOperationalPolicy()));
@@ -292,6 +333,7 @@ public class DatabasePolicyModelsProviderTest {
             assertNotNull(databaseProvider.deletePdpGroups("filter"));
 
         } catch (Exception exc) {
+            LOGGER.warn("test should not throw an exception", exc);
             fail("test should not throw an exception");
         }
     }
