@@ -1,7 +1,8 @@
 /*
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * ONAP Policy Models
+ * ================================================================================
+ * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,34 +15,25 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * SPDX-License-Identifier: Apache-2.0
  * ============LICENSE_END=========================================================
  */
 
 package org.onap.policy.models.pap.concepts;
 
-import java.util.List;
-import java.util.Map;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
-import org.onap.policy.models.pdp.enums.PdpState;
 
 /**
- * Class to represent a PDPGroup, which groups multiple PDPSubGroup entities together for a particular domain.
- *
- * @author Ram Krishna Verma (ram.krishna.verma@est.tech)
+ * Policy identifier with an optional version; only the "name" is required.
  */
 @Getter
 @Setter
 @ToString
-public class PdpGroup {
-
+public class PolicyIdentOptVersion {
+    @NonNull
     private String name;
+
     private String version;
-    private PdpState pdpGroupState;
-    private String description;
-    private Map<String, String> properties;
-    private List<PdpSubGroup> pdpSubgroups;
 }

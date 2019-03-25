@@ -18,25 +18,22 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.models.base.keys;
+package org.onap.policy.models.pap.concepts;
 
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import org.onap.policy.models.base.PfConceptKey;
+import java.util.List;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
- * Identifies a policy type. Both the name and version must be non-null.
+ * Request deploy or update a set of policies using the <i>simple</i> PDP Group deployment
+ * REST API. Only the "name" and "policyVersion" fields of a Policy are used, and only the
+ * "name" field is actually required.
  */
-@NonNull
-@NoArgsConstructor
-public class PolicyTypeIdent extends PfConceptKey {
-    private static final long serialVersionUID = 1L;
-
-    public PolicyTypeIdent(String name, String version) {
-        super(name, version);
-    }
-
-    public PolicyTypeIdent(PolicyTypeIdent source) {
-        super(source);
-    }
+@Getter
+@Setter
+@ToString
+public class PdpDeployPolicies {
+    private List<PolicyIdentOptVersion> policies;
 }

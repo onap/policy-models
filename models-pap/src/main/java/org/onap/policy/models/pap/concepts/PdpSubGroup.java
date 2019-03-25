@@ -21,15 +21,11 @@
 
 package org.onap.policy.models.pap.concepts;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
-import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.base.keys.PolicyTypeIdent;
 
 /**
  * Class to represent a group of all PDP's of the same pdp type running for a particular
@@ -49,26 +45,4 @@ public class PdpSubGroup {
     private int desiredInstanceCount;
     private Map<String, String> properties;
     private List<PdpInstanceDetails> pdpInstances;
-
-    /**
-     * Constructs the object.
-     */
-    public PdpSubGroup() {
-        super();
-    }
-
-    /**
-     * Constructs the object, making a deep copy from the source.
-     *
-     * @param source source from which to copy fields
-     */
-    public PdpSubGroup(@NonNull PdpSubGroup source) {
-        this.pdpType = source.pdpType;
-        this.supportedPolicyTypes = PfUtils.mapList(source.supportedPolicyTypes, PolicyTypeIdent::new);
-        this.policies = PfUtils.mapList(source.policies, Policy::new);
-        this.currentInstanceCount = source.currentInstanceCount;
-        this.desiredInstanceCount = source.desiredInstanceCount;
-        this.properties = (source.properties == null ? null : new LinkedHashMap<>(source.properties));
-        this.pdpInstances = PfUtils.mapList(source.pdpInstances, PdpInstanceDetails::new);
-    }
 }

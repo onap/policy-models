@@ -20,30 +20,19 @@
 
 package org.onap.policy.models.pap.concepts;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
- * Test the copy constructor, as {@link TestModels} tests the other methods.
+ * Identifies a policy type. Both the name and version must be non-null.
  */
-public class TestPolicy {
-
-    @Test
-    public void testCopyConstructor() {
-        assertThatThrownBy(() -> new Policy(null)).isInstanceOf(NullPointerException.class);
-
-        Policy orig = new Policy();
-
-        // verify with null values
-        assertEquals(orig.toString(), new Policy(orig).toString());
-
-        // verify with all values
-        orig.setName("my-name");
-        orig.setPolicyType("my-type");
-        orig.setPolicyTypeImpl("my-impl");
-        orig.setPolicyTypeVersion("my-type-vers");
-        assertEquals(orig.toString(), new Policy(orig).toString());
-    }
+@Getter
+@Setter
+@ToString
+@NonNull
+public class PolicyTypeIdent {
+    private String name;
+    private String version;
 }
