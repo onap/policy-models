@@ -1,0 +1,78 @@
+{
+    "in-maint": false,
+    "is-closed-loop-disabled": true,
+    "prov-status": "ACTIVE",
+    "relationship-list": {
+        "relationship": [
+            {
+                "related-link": "/aai/v11/network/generic-vnfs/generic-vnf/807a3f02-f878-436b-870c-f0e91e81570d",
+                "related-to": "generic-vnf",
+                "related-to-property": [
+                    {
+                        "property-key": "generic-vnf.vnf-name",
+                        "property-value": "vLoadBalancerMS-Vnf-0809-2"
+                    }
+                ],
+                "relationship-data": [
+                    {
+                        "relationship-key": "generic-vnf.vnf-id",
+                        "relationship-value": "807a3f02-f878-436b-870c-f0e91e81570d"
+                    }
+                ]
+            },
+            {
+                "related-link": "/aai/v11/cloud-infrastructure/cloud-regions/cloud-region/CloudOwner/RegionOne/images/image/6e219e86-cd94-4989-9119-def29aa10b12",
+                "related-to": "image",
+                "related-to-property": [
+                    {
+                        "property-key": "image.image-name",
+                        "property-value": "unknown"
+                    }
+                ],
+                "relationship-data": [
+                    {
+                        "relationship-key": "cloud-region.cloud-owner",
+                        "relationship-value": "CloudOwner"
+                    },
+                    {
+                        "relationship-key": "cloud-region.cloud-region-id",
+                        "relationship-value": "RegionOne"
+                    },
+                    {
+                        "relationship-key": "image.image-id",
+                        "relationship-value": "6e219e86-cd94-4989-9119-def29aa10b12"
+                    }
+                ]
+            },
+            {
+                "related-link": "/aai/v11/cloud-infrastructure/cloud-regions/cloud-region/CloudOwner/RegionOne/flavors/flavor/764efb04-5a46-4806-a766-2bdd24559f39",
+                "related-to": "flavor",
+                "related-to-property": [
+                    {
+                        "property-key": "flavor.flavor-name",
+                        "property-value": "m1.medium"
+                    }
+                ],
+                "relationship-data": [
+                    {
+                        "relationship-key": "cloud-region.cloud-owner",
+                        "relationship-value": "CloudOwner"
+                    },
+                    {
+                        "relationship-key": "cloud-region.cloud-region-id",
+                        "relationship-value": "RegionOne"
+                    },
+                    {
+                        "relationship-key": "flavor.flavor-id",
+                        "relationship-value": "764efb04-5a46-4806-a766-2bdd24559f39"
+                    }
+                ]
+            }
+        ]
+    },
+    "resource-version": "1533850964910",
+    "vserver-id": "1c94da3f-16f1-4fc7-9ed1-e018dfa62774",
+    "vserver-name": "vlb-ms-0809-1",
+    "vserver-name2": "vlb-ms-0809-7",
+    "vserver-selflink": "http://localhost:8774/v2.1/4086f396c5e04caf9502c5fdeca575c4/servers/1c94da3f-16f1-4fc7-9ed1-e018dfa62774"
+}

@@ -1,0 +1,157 @@
+{
+    "inventory-response-item": [
+        {
+            "extra-properties": {},
+            "inventory-response-items": {
+                "inventory-response-item": [
+                    {
+                        "extra-properties": {
+                            "extra-property": [
+                                {
+                                    "property-name": "model-ver.model-version-id",
+                                    "property-value": "a82cd55f-1452-4c36-941a-c9f970a3e67c"
+                                },
+                                {
+                                    "property-name": "model-ver.model-name",
+                                    "property-value": "vLoadBalancerMS"
+                                },
+                                {
+                                    "property-name": "model.model-type",
+                                    "property-value": "resource"
+                                },
+                                {
+                                    "property-name": "model.model-invariant-id",
+                                    "property-value": "53638a85-361a-437d-8830-4b0d5329225e"
+                                },
+                                {
+                                    "property-name": "model-ver.model-version",
+                                    "property-value": "1.0"
+                                }
+                            ]
+                        },
+                        "generic-vnf": {
+                            "in-maint": false,
+                            "ipv4-oam-address": "10.0.150.1",
+                            "is-closed-loop-disabled": false,
+                            "model-customization-id": "6c1a5439-3b77-4d8a-bb2b-9fe7006ad671",
+                            "model-invariant-id": "53638a85-361a-437d-8830-4b0d5329225e",
+                            "model-version-id": "a82cd55f-1452-4c36-941a-c9f970a3e67c",
+                            "nf-function": "",
+                            "nf-naming-code": "",
+                            "nf-role": "vLB",
+                            "nf-type": "",
+                            "orchestration-status": "Active",
+                            "prov-status": "PROV",
+                            "resource-version": "1533850960381",
+                            "service-id": "50e1b0be-e0c9-48e2-9f42-15279a783ee8",
+                            "vnf-id": "807a3f02-f878-436b-870c-f0e91e81570d",
+                            "vnf-name": "vLoadBalancerMS-Vnf-0809-2",
+                            "vnf-type": "vLoadBalancerMS/vLoadBalancerMS 0"
+                        },
+                        "inventory-response-items": {
+                            "inventory-response-item": [
+                                {
+                                    "model-name": "vLoadBalancerMS",
+                                    "service-instance": {
+                                        "environment-context": "General_Revenue-Bearing",
+                                        "model-invariant-id": "b5477216-9b7d-4e75-8777-5b632d406759",
+                                        "model-version-id": "4feb459d-d8ef-4cde-a714-235c79787962",
+                                        "orchestration-status": "Active",
+                                        "resource-version": "1533848425145",
+                                        "service-instance-id": "b66d24cc-feca-4fdc-8090-2e9539a8bbac",
+                                        "service-instance-name": "vLoadBalancerMS-Service-0809-1",
+                                        "workload-context": "Production"
+                                    }
+                                },
+                                {
+                                    "vf-module": {
+                                        "is-base-vf-module": false,
+                                        "model-invariant-id": "6d01b7f1-769a-4080-b8ea-57fd03ef1572",
+                                        "model-version-id": "3302088a-457e-496c-9282-2eb3d5b8dd24",
+                                        "resource-version": "1534270663202",
+                                        "vf-module-id": "dummy_807a3f02-f878-436b-870c-f0e91e81570d",
+                                        "vf-module-name": "dummy_807a3f02-f878-436b-870c-f0e91e81570d"
+                                    }
+                                },
+                                {
+                                    "vf-module": {
+                                        "is-base-vf-module": false,
+                                        "vf-module-name": "my-module-abc_1"
+                                    }
+                                },
+                                {
+                                    "vf-module": {
+                                        "heat-stack-id": "Vfmodule_vLBMS-0809-1/83ab2394-2b22-40f9-8ba2-383698dd2958",
+                                        "is-base-vf-module": true,
+                                        "model-customization-id": "5198f732-8f22-48f9-98f8-d6b8b50118be",
+                                        "model-invariant-id": "1f566a81-58ba-4762-81f9-d2259509429a",
+                                        "model-version-id": "94827d25-4ac3-4850-abfc-7b6e3c531db4",
+                                        "module-index": 0,
+                                        "orchestration-status": "active",
+                                        "resource-version": "1533850416834",
+                                        "vf-module-id": "b861467d-d3a7-4b21-81b3-94d928a7e8b7",
+                                        "vf-module-name": "Vfmodule_vLBMS-0809-1"
+                                    }
+                                },
+                                {
+                                    "vf-module": {
+                                        "is-base-vf-module": false,
+                                        "vf-module-name": "my-module-abc_123"
+                                    }
+                                },
+                                {
+                                    "vf-module": {
+                                        "is-base-vf-module": false,
+                                        "vf-module-name": "no-underscore-number-9999"
+                                    }
+                                },
+                                {
+                                    "vf-module": {
+                                        "is-base-vf-module": false,
+                                        "vf-module-name": "my-module-abc_34"
+                                    }
+                                }
+                            ]
+                        },
+                        "model-name": "vLoadBalancerMS"
+                    },
+                    {
+                        "extra-properties": {},
+                        "inventory-response-items": {
+                            "inventory-response-item": [
+                                {
+                                    "cloud-region": {
+                                        "cloud-owner": "CloudOwner",
+                                        "cloud-region-id": "RegionOne",
+                                        "cloud-region-version": "v2.5",
+                                        "cloud-type": "openstack",
+                                        "cloud-zone": "zone-1",
+                                        "owner-defined-type": "owner type",
+                                        "resource-version": "1533652058185",
+                                        "sriov-automation": false
+                                    },
+                                    "extra-properties": {}
+                                }
+                            ]
+                        },
+                        "tenant": {
+                            "resource-version": "1533652058206",
+                            "tenant-id": "4086f396c5e04caf9502c5fdeca575c4",
+                            "tenant-name": "PFPP"
+                        }
+                    }
+                ]
+            },
+            "vserver": {
+                "in-maint": false,
+                "is-closed-loop-disabled": false,
+                "prov-status": "ACTIVE",
+                "resource-version": "1533850964910",
+                "vserver-id": "1c94da3f-16f1-4fc7-9ed1-e018dfa62774",
+                "vserver-name": "vlb-ms-0809-1",
+                "vserver-name2": "vlb-ms-0809-1",
+                "vserver-selflink": "http://10.12.25.2:8774/v2.1/4086f396c5e04caf9502c5fdeca575c4/servers/1c94da3f-16f1-4fc7-9ed1-e018dfa62774"
+            }
+        }
+    ]
+}

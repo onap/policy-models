@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
   ============LICENSE_START=======================================================
    Copyright (C) 2018 Ericsson. All rights reserved.
@@ -18,17 +19,13 @@
 
   SPDX-License-Identifier: Apache-2.0
   ============LICENSE_END=========================================================
--->
-
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+--><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.onap.policy.parent</groupId>
         <artifactId>integration</artifactId>
         <version>2.1.0-SNAPSHOT</version>
-        <relativePath />
+        <relativePath/>
     </parent>
 
     <groupId>org.onap.policy.models</groupId>
@@ -43,6 +40,7 @@
         <derby.version>10.13.1.1</derby.version>
         <javax.ws.rs-api.version>2.0.1</javax.ws.rs-api.version>
         <policy.common.version>1.4.0-SNAPSHOT</policy.common.version>
+        <policy.drools-pdp.version>1.4.0-SNAPSHOT</policy.drools-pdp.version>
 
         <!-- sonar/jacoco overrides -->
         <!-- Overriding oparent default sonar/jacoco settings Combine all our reports into one file shared across sub-modules -->
@@ -61,6 +59,7 @@
         <module>models-decisions</module>
         <module>models-provider</module>
         <module>models-examples</module>
+        <module>models-interactions</module>
     </modules>
 
     <distributionManagement>
@@ -262,7 +261,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore />
+                                        <ignore/>
                                     </action>
                                 </pluginExecution>
                             </pluginExecutions>

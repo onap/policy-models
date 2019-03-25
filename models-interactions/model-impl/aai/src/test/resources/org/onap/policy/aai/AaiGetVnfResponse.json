@@ -1,0 +1,123 @@
+{
+    "in-maint": false,
+    "ipv4-oam-address": "10.0.150.1",
+    "is-closed-loop-disabled": true,
+    "model-customization-id": "6c1a5439-3b77-4d8a-bb2b-9fe7006ad671",
+    "model-invariant-id": "53638a85-361a-437d-8830-4b0d5329225e",
+    "model-version-id": "a82cd55f-1452-4c36-941a-c9f970a3e67c",
+    "nf-function": "",
+    "nf-naming-code": "",
+    "nf-role": "vLB",
+    "nf-type": "",
+    "orchestration-status": "Active",
+    "prov-status": "PROV",
+    "relationship-list": {
+        "relationship": [
+            {
+                "related-link": "/aai/v11/business/customers/customer/Demonstration/service-subscriptions/service-subscription/vLB/service-instances/service-instance/b66d24cc-feca-4fdc-8090-2e9539a8bbac",
+                "related-to": "service-instance",
+                "related-to-property": [
+                    {
+                        "property-key": "service-instance.service-instance-name",
+                        "property-value": "vLoadBalancerMS-Service-0809-1"
+                    }
+                ],
+                "relationship-data": [
+                    {
+                        "relationship-key": "customer.global-customer-id",
+                        "relationship-value": "Demonstration"
+                    },
+                    {
+                        "relationship-key": "service-subscription.service-type",
+                        "relationship-value": "vLB"
+                    },
+                    {
+                        "relationship-key": "service-instance.service-instance-id",
+                        "relationship-value": "b66d24cc-feca-4fdc-8090-2e9539a8bbac"
+                    }
+                ]
+            },
+            {
+                "related-link": "/aai/v11/business/lines-of-business/line-of-business/Test-Business",
+                "related-to": "line-of-business",
+                "relationship-data": [
+                    {
+                        "relationship-key": "line-of-business.line-of-business-name",
+                        "relationship-value": "Test-Business"
+                    }
+                ]
+            },
+            {
+                "related-link": "/aai/v11/business/platforms/platform/Test-Platform",
+                "related-to": "platform",
+                "relationship-data": [
+                    {
+                        "relationship-key": "platform.platform-name",
+                        "relationship-value": "Test-Platform"
+                    }
+                ]
+            },
+            {
+                "related-link": "/aai/v11/cloud-infrastructure/cloud-regions/cloud-region/CloudOwner/RegionOne/tenants/tenant/4086f396c5e04caf9502c5fdeca575c4/vservers/vserver/191729bd-cb1d-485d-aa06-b20c888272a8",
+                "related-to": "vserver",
+                "related-to-property": [
+                    {
+                        "property-key": "vserver.vserver-name",
+                        "property-value": "vdns-ms01-0809-1"
+                    }
+                ],
+                "relationship-data": [
+                    {
+                        "relationship-key": "cloud-region.cloud-owner",
+                        "relationship-value": "CloudOwner"
+                    },
+                    {
+                        "relationship-key": "cloud-region.cloud-region-id",
+                        "relationship-value": "RegionOne"
+                    },
+                    {
+                        "relationship-key": "tenant.tenant-id",
+                        "relationship-value": "4086f396c5e04caf9502c5fdeca575c4"
+                    },
+                    {
+                        "relationship-key": "vserver.vserver-id",
+                        "relationship-value": "191729bd-cb1d-485d-aa06-b20c888272a8"
+                    }
+                ]
+            },
+            {
+                "related-link": "/aai/v11/cloud-infrastructure/cloud-regions/cloud-region/CloudOwner/RegionOne/tenants/tenant/4086f396c5e04caf9502c5fdeca575c4/vservers/vserver/1c94da3f-16f1-4fc7-9ed1-e018dfa62774",
+                "related-to": "vserver",
+                "related-to-property": [
+                    {
+                        "property-key": "vserver.vserver-name",
+                        "property-value": "vlb-ms-0809-1"
+                    }
+                ],
+                "relationship-data": [
+                    {
+                        "relationship-key": "cloud-region.cloud-owner",
+                        "relationship-value": "CloudOwner"
+                    },
+                    {
+                        "relationship-key": "cloud-region.cloud-region-id",
+                        "relationship-value": "RegionOne"
+                    },
+                    {
+                        "relationship-key": "tenant.tenant-id",
+                        "relationship-value": "4086f396c5e04caf9502c5fdeca575c4"
+                    },
+                    {
+                        "relationship-key": "vserver.vserver-id",
+                        "relationship-value": "1c94da3f-16f1-4fc7-9ed1-e018dfa62774"
+                    }
+                ]
+            }
+        ]
+    },
+    "resource-version": "1533850960381",
+    "service-id": "50e1b0be-e0c9-48e2-9f42-15279a783ee8",
+    "vnf-id": "807a3f02-f878-436b-870c-f0e91e81570d",
+    "vnf-name": "vLoadBalancerMS-Vnf-0809-2",
+    "vnf-type": "vLoadBalancerMS/vLoadBalancerMS 0"
+}
