@@ -1,5 +1,4 @@
 {
-{
   "policy-id" : "guard.minmax.scaleout",
   "contents" : {
         "actor": "SO",
