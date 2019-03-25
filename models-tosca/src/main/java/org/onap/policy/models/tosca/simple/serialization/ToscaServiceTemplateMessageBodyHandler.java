@@ -21,8 +21,12 @@ package org.onap.policy.models.tosca.simple.serialization;
 import com.google.gson.GsonBuilder;
 
 import org.onap.policy.common.gson.GsonMessageBodyHandler;
+import org.onap.policy.models.tosca.simple.concepts.ToscaDataType;
+import org.onap.policy.models.tosca.simple.concepts.ToscaDataTypes;
 import org.onap.policy.models.tosca.simple.concepts.ToscaPolicies;
 import org.onap.policy.models.tosca.simple.concepts.ToscaPolicy;
+import org.onap.policy.models.tosca.simple.concepts.ToscaPolicyType;
+import org.onap.policy.models.tosca.simple.concepts.ToscaPolicyTypes;
 import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.concepts.ToscaTopologyTemplate;
 import org.slf4j.Logger;
@@ -56,6 +60,10 @@ public class ToscaServiceTemplateMessageBodyHandler extends GsonMessageBodyHandl
                 .registerTypeAdapter(ToscaTopologyTemplate.class, new ToscaTopologyTemplateJsonAdapter())
                 .registerTypeAdapter(ToscaPolicies.class, new ToscaPoliciesJsonAdapter())
                 .registerTypeAdapter(ToscaPolicy.class, new ToscaPolicyJsonAdapter())
+                .registerTypeAdapter(ToscaPolicyTypes.class, new ToscaPolicyTypesJsonAdapter())
+                .registerTypeAdapter(ToscaPolicyType.class, new ToscaPolicyTypeJsonAdapter())
+                .registerTypeAdapter(ToscaDataTypes.class, new ToscaDataTypesJsonAdapter())
+                .registerTypeAdapter(ToscaDataType.class, new ToscaDataTypeJsonAdapter())
                 .setPrettyPrinting()
                 .create()
         );

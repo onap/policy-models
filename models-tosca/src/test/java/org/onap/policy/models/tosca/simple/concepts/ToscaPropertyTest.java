@@ -99,8 +99,7 @@ public class ToscaPropertyTest {
         tp.setRequired(false);
         assertFalse(tp.isRequired());
 
-        PfConceptKey tdefaultKey = new PfConceptKey("defaultKey", "0.0.1");
-        tp.setDefaultValue(tdefaultKey);
+        tp.setDefaultValue("defaultKey");
 
         tp.setStatus(ToscaProperty.Status.SUPPORTED);
 
@@ -141,7 +140,7 @@ public class ToscaPropertyTest {
         assertFalse(tp.compareTo(otherDt) == 0);
         otherDt.setRequired(false);
         assertFalse(tp.compareTo(otherDt) == 0);
-        otherDt.setDefaultValue(tdefaultKey);
+        otherDt.setDefaultValue("defaultKey");
         assertFalse(tp.compareTo(otherDt) == 0);
         otherDt.setStatus(ToscaProperty.Status.SUPPORTED);
         assertFalse(tp.compareTo(otherDt) == 0);
@@ -168,7 +167,7 @@ public class ToscaPropertyTest {
             assertEquals("target is marked @NonNull but is null", exc.getMessage());
         }
 
-        assertEquals(6, tp.getKeys().size());
+        assertEquals(5, tp.getKeys().size());
         assertEquals(2, new ToscaProperty().getKeys().size());
 
         new ToscaProperty().clean();
@@ -197,12 +196,7 @@ public class ToscaPropertyTest {
 
         tp.setDefaultValue(null);
         assertTrue(tp.validate(new PfValidationResult()).isValid());
-        tp.setDefaultValue(tdefaultKey);
-        assertTrue(tp.validate(new PfValidationResult()).isValid());
-
-        tp.setDefaultValue(PfConceptKey.getNullKey());
-        assertFalse(tp.validate(new PfValidationResult()).isValid());
-        tp.setDefaultValue(tdefaultKey);
+        tp.setDefaultValue("defaultKey");
         assertTrue(tp.validate(new PfValidationResult()).isValid());
 
         tp.getConstraints().add(null);

@@ -60,6 +60,9 @@ import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 public class ToscaServiceTemplate extends ToscaEntityType {
     private static final long serialVersionUID = 8084846046148349401L;
 
+    public static final String DEFAULT_NAME = "ToscaServiceTemplateSimple";
+    public static final String DEFAULT_VERSION = "1.0.0";
+
     @Column
     @SerializedName("tosca_definitions_version")
     private String toscaDefinitionsVersion;
@@ -80,7 +83,7 @@ public class ToscaServiceTemplate extends ToscaEntityType {
      * The Default Constructor creates a {@link ToscaServiceTemplate} object with a null key.
      */
     public ToscaServiceTemplate() {
-        this(new PfConceptKey());
+        this(new PfConceptKey(DEFAULT_NAME, DEFAULT_VERSION));
     }
 
     /**

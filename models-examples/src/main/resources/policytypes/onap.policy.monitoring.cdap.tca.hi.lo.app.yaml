@@ -1,8 +1,10 @@
 tosca_definitions_version: tosca_simple_yaml_1_0_0
 policy_types:
+  -
     onap.policies.Monitoring:
         derived_from: tosca.policies.Root
         description: a base policy type for all policies that governs monitoring provisioning
+  -
     onap.policy.monitoring.cdap.tca.hi.lo.app:
         derived_from: onap.policies.Monitoring
         version: 1.0.0
@@ -13,6 +15,7 @@ policy_types:
                 entry_schema:
                     type: onap.datatypes.monitoring.tca_policy
 data_types:
+  -
     onap.datatypes.monitoring.metricsPerEventName:
         derived_from: tosca.datatypes.Root
         properties:
@@ -46,6 +49,7 @@ data_types:
                 description: Thresholds associated with eventName
                 entry_schema:
                     type: onap.datatypes.monitoring.thresholds
+  -
     onap.datatypes.monitoring.tca_policy:
         derived_from: tosca.datatypes.Root
         properties:
@@ -62,6 +66,7 @@ data_types:
                 description: Contains eventName and threshold details that need to be applied to given eventName
                 entry_schema:
                     type: onap.datatypes.monitoring.metricsPerEventName
+  -
     onap.datatypes.monitoring.thresholds:
         derived_from: tosca.datatypes.Root
         properties:

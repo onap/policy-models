@@ -151,7 +151,7 @@ public class ToscaPolicyJsonAdapter implements JsonSerializer<ToscaPolicy>, Json
             JsonObject propertiesMapObject = new JsonObject();
             for (Entry<String, String> entry : policy.getProperties().entrySet()) {
                 // TODO: This is the other direction of the HACK
-                JsonObject valueObject = gson.fromJson(entry.getValue(), JsonObject.class);
+                JsonElement valueObject = gson.fromJson(entry.getValue(), JsonElement.class);
                 propertiesMapObject.add(entry.getKey(), valueObject);
             }
             policyValJsonObject.add(PROPERTIES, propertiesMapObject);
