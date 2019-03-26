@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f41691b_e0fcff7e",
+        "filename": "models-examples/src/main/resources/policies/vFirewall.policy.monitoring.input.tosca.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-03-26T15:53:54Z",
+      "side": 1,
+      "message": "note formatting differences ..",
+      "revId": "28eb9406c035f73baa99f585fc576ad2b0a2b81b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
