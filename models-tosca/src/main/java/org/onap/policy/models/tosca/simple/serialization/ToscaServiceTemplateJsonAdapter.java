@@ -32,13 +32,10 @@ import java.lang.reflect.Type;
 
 import lombok.NonNull;
 
-import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.tosca.simple.concepts.ToscaDataTypes;
 import org.onap.policy.models.tosca.simple.concepts.ToscaPolicyTypes;
 import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.concepts.ToscaTopologyTemplate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * GSON type adapter for TOSCA policies.
@@ -48,8 +45,6 @@ import org.slf4j.LoggerFactory;
  */
 public class ToscaServiceTemplateJsonAdapter
         implements JsonSerializer<ToscaServiceTemplate>, JsonDeserializer<ToscaServiceTemplate> {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(ToscaServiceTemplateJsonAdapter.class);
 
     private static final String TOPOLOGY_TEMPLATE = "topology_template";
     private static final String TOSCA_DEFINITIONS_VERSION = "tosca_definitions_version";
@@ -64,10 +59,7 @@ public class ToscaServiceTemplateJsonAdapter
         final JsonObject serviceTemplateJsonObject = serviceTemplateElement.getAsJsonObject();
 
         // The outgoing object
-        final PfConceptKey serviceTemplateKey = new PfConceptKey("IncomingServiceTemplate", "0.0.1");
-        final ToscaServiceTemplate serviceTemplate = new ToscaServiceTemplate(serviceTemplateKey);
-
-        // Set tosca_definitions_version
+        final ToscaServiceTemplate serviceTemplate = new ToscaServiceTemplate();
         serviceTemplate
                 .setToscaDefinitionsVersion(serviceTemplateJsonObject.get(TOSCA_DEFINITIONS_VERSION).getAsString());
 
@@ -75,19 +67,18 @@ public class ToscaServiceTemplateJsonAdapter
         if (serviceTemplateJsonObject.has(TOPOLOGY_TEMPLATE)) {
             serviceTemplate.setTopologyTemplate(new ToscaTopologyTemplateJsonAdapter().deserialize(
                     serviceTemplateJsonObject.get(TOPOLOGY_TEMPLATE), ToscaTopologyTemplate.class, context));
-            serviceTemplate.getTopologyTemplate().getKey().setParentConceptKey(serviceTemplateKey);
         }
 
         // Set policy_types
         if (serviceTemplateJsonObject.has(POLICY_TYPES)) {
-            serviceTemplate.setPolicyTypes(new ToscaPolicyTypesJsonAdapter().deserialize(
-                    serviceTemplateJsonObject.get(POLICY_TYPES), ToscaPolicyTypes.class, context));
+            serviceTemplate.setPolicyTypes(new ToscaPolicyTypesJsonAdapter()
+                    .deserialize(serviceTemplateJsonObject.get(POLICY_TYPES), ToscaPolicyTypes.class, context));
         }
 
         // Set data_types
         if (serviceTemplateJsonObject.has(DATA_TYPES)) {
-            serviceTemplate.setDataTypes(new ToscaDataTypesJsonAdapter().deserialize(
-                    serviceTemplateJsonObject.get(DATA_TYPES), ToscaDataTypes.class, context));
+            serviceTemplate.setDataTypes(new ToscaDataTypesJsonAdapter()
+                    .deserialize(serviceTemplateJsonObject.get(DATA_TYPES), ToscaDataTypes.class, context));
         }
 
         return serviceTemplate;
@@ -101,8 +92,8 @@ public class ToscaServiceTemplateJsonAdapter
 
         // Serialize tosca_definitions_version
         if (serviceTemplate.getToscaDefinitionsVersion() != null) {
-            serviceTemplateJsonObject.addProperty(
-                    TOSCA_DEFINITIONS_VERSION, serviceTemplate.getToscaDefinitionsVersion());
+            serviceTemplateJsonObject.addProperty(TOSCA_DEFINITIONS_VERSION,
+                    serviceTemplate.getToscaDefinitionsVersion());
         }
 
         // Serialize topoligy_template
@@ -114,15 +105,15 @@ public class ToscaServiceTemplateJsonAdapter
 
         // Serialize policy_types
         if (serviceTemplate.getPolicyTypes() != null) {
-            JsonElement policyTypesJsonElement = new ToscaPolicyTypesJsonAdapter()
-                    .serialize(serviceTemplate.getPolicyTypes(), type, context);
+            JsonElement policyTypesJsonElement =
+                    new ToscaPolicyTypesJsonAdapter().serialize(serviceTemplate.getPolicyTypes(), type, context);
             serviceTemplateJsonObject.add(POLICY_TYPES, policyTypesJsonElement);
         }
 
         // Serialize data_types
         if (serviceTemplate.getDataTypes() != null) {
-            JsonElement dataTypesJsonElement = new ToscaDataTypesJsonAdapter()
-                    .serialize(serviceTemplate.getDataTypes(), type, context);
+            JsonElement dataTypesJsonElement =
+                    new ToscaDataTypesJsonAdapter().serialize(serviceTemplate.getDataTypes(), type, context);
             serviceTemplateJsonObject.add(DATA_TYPES, dataTypesJsonElement);
         }
 

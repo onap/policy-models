@@ -37,7 +37,7 @@ import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
 import org.yaml.snakeyaml.Yaml;
 
 /**
- * This class performs unit test of {@link PlainToscaServiceTemplateMapper}}
+ * This class performs unit test of {@link PlainToscaServiceTemplateMapper}}.
  *
  * @author Chenfei Gao (cgao@research.att.com)
  */

@@ -33,7 +33,7 @@ import org.junit.Test;
 import org.onap.policy.common.utils.validation.ToStringTester;
 
 /**
- * Class to perform unit tests of all pojos
+ * Class to perform unit tests of all pojos.
  *
  * @author Chenfei Gao (cgao@research.att.com)
  *

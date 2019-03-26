@@ -23,7 +23,6 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
-import com.google.gson.JsonElement;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
