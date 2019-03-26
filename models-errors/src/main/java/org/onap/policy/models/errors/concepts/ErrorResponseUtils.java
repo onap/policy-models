@@ -1,0 +1,56 @@
+/*-
+ * ============LICENSE_START=======================================================
+ *  Copyright (C) 2019 Nordix Foundation.
+ * ================================================================================
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * ============LICENSE_END=========================================================
+ */
+
+package org.onap.policy.models.errors.concepts;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Utility class for managing {@link ErrorResponse objects}
+ *
+ * @author Liam Fallon (liam.fallon@est.tech)
+ */
+public final class ErrorResponseUtils {
+    /**
+     * Private constructor used to prevent sub class instantiation.
+     */
+    private ErrorResponseUtils() {}
+
+    /**
+     * Store the cascaded messages from an exception and all its nested exceptions in an ErrorResponse object.
+     *
+     * @param throwable the top level exception
+     */
+    public static void getExceptionMessages(final ErrorResponse errorResponse, final Throwable throwable) {
+        errorResponse.setErrorMessage(throwable.getMessage());
+
+        List<String> cascascadedErrorMessages = new ArrayList<>();
+
+        for (Throwable t = throwable; t != null; t = t.getCause()) {
+            cascascadedErrorMessages.add(t.getMessage());
+        }
+
+        if (!cascascadedErrorMessages.isEmpty()) {
+            errorResponse.setErrorDetails(cascascadedErrorMessages);
+        }
+    }
+}
+

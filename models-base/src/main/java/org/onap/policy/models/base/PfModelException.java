@@ -25,18 +25,20 @@ import javax.ws.rs.core.Response;
 import lombok.Getter;
 import lombok.ToString;
 
-import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.onap.policy.models.errors.concepts.ErrorResponse;
+import org.onap.policy.models.errors.concepts.ErrorResponseInfo;
+import org.onap.policy.models.errors.concepts.ErrorResponseUtils;
 
 /**
  * This class is a base exception from which all model exceptions are sub classes.
  */
 @Getter
 @ToString
-public class PfModelException extends Exception implements PfModelExceptionInfo {
+public class PfModelException extends Exception implements ErrorResponseInfo {
     private static final long serialVersionUID = -8507246953751956974L;
 
-    // The status code on the exception
-    private final Response.Status statusCode;
+    // The error response of the exception
+    private final ErrorResponse errorResponse = new ErrorResponse();
 
     // The object on which the exception was thrown
     private final transient Object object;
@@ -60,7 +62,8 @@ public class PfModelException extends Exception implements PfModelExceptionInfo 
      */
     public PfModelException(final Response.Status statusCode, final String message, final Object object) {
         super(message);
-        this.statusCode = statusCode;
+        errorResponse.setResponseCode(statusCode);
+        ErrorResponseUtils.getExceptionMessages(errorResponse, this);
         this.object = object;
     }
 
@@ -86,45 +89,8 @@ public class PfModelException extends Exception implements PfModelExceptionInfo 
     public PfModelException(final Response.Status statusCode, final String message, final Exception exception,
             final Object object) {
         super(message, exception);
-        this.statusCode = statusCode;
+        errorResponse.setResponseCode(statusCode);
+        ErrorResponseUtils.getExceptionMessages(errorResponse, this);
         this.object = object;
-    }
-
-    /**
-     * Get the message from this exception and its causes.
-     *
-     * @return the cascaded messages from this exception and the exceptions that caused it
-     */
-    @Override
-    public String getCascadedMessage() {
-        return buildCascadedMessage(this);
-    }
-
-    /**
-     * Build a cascaded message from an exception and all its nested exceptions.
-     *
-     * @param throwable the top level exception
-     * @return cascaded message string
-     */
-    public static String buildCascadedMessage(Throwable throwable) {
-        final StringBuilder builder = new StringBuilder();
-        builder.append(throwable.getMessage());
-
-        for (Throwable t = throwable; t != null; t = t.getCause()) {
-            builder.append("\ncaused by: ");
-            builder.append(t.getMessage());
-        }
-
-        return builder.toString();
-    }
-
-    /**
-     * Get the stack trace of the exception as a string.
-     *
-     * @return the stack trace of this message as a string
-     */
-    @Override
-    public String getStackTraceAsString() {
-        return ExceptionUtils.getStackTrace(this);
     }
 }
