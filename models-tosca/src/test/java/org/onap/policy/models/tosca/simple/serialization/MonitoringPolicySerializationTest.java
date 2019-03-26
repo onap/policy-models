@@ -115,6 +115,7 @@ public class MonitoringPolicySerializationTest {
             verifyVfwMonitoringOutputserialization(serializedServiceTemplate);
 
         } catch (Exception e) {
+            LOGGER.warn("No exception should be thrown", e);
             fail("No exception should be thrown");
         }
     }
