@@ -36,6 +36,7 @@ public class LegacyOperationalPolicy {
     @SerializedName("policy-id")
     private String policyId;
 
+    @SerializedName("policy-version")
     private String policyVersion;
 
     private String content;

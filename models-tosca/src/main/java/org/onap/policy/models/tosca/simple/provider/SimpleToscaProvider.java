@@ -34,6 +34,7 @@ import org.onap.policy.models.tosca.simple.concepts.ToscaPolicyType;
 import org.onap.policy.models.tosca.simple.concepts.ToscaPolicyTypes;
 import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.concepts.ToscaTopologyTemplate;
+import org.onap.policy.models.tosca.utils.ToscaUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -84,7 +85,7 @@ public class SimpleToscaProvider {
     public ToscaServiceTemplate createPolicyTypes(@NonNull final PfDao dao,
             @NonNull final ToscaServiceTemplate serviceTemplate) throws PfModelException {
 
-        assertPolicyTypesExist(serviceTemplate);
+        ToscaUtils.assertPolicyTypesExist(serviceTemplate);
 
         for (ToscaPolicyType policyType : serviceTemplate.getPolicyTypes().getAll(null)) {
             dao.create(policyType);
@@ -114,7 +115,7 @@ public class SimpleToscaProvider {
     public ToscaServiceTemplate updatePolicyTypes(@NonNull final PfDao dao,
             @NonNull final ToscaServiceTemplate serviceTemplate) throws PfModelException {
 
-        assertPolicyTypesExist(serviceTemplate);
+        ToscaUtils.assertPolicyTypesExist(serviceTemplate);
 
         for (ToscaPolicyType policyType : serviceTemplate.getPolicyTypes().getAll(null)) {
             dao.update(policyType);
@@ -192,7 +193,7 @@ public class SimpleToscaProvider {
     public ToscaServiceTemplate createPolicies(@NonNull final PfDao dao,
             @NonNull final ToscaServiceTemplate serviceTemplate) throws PfModelException {
 
-        assertPoliciesExist(serviceTemplate);
+        ToscaUtils.assertPoliciesExist(serviceTemplate);
 
         for (ToscaPolicy policy : serviceTemplate.getTopologyTemplate().getPolicies().getAll(null)) {
             dao.create(policy);
@@ -222,7 +223,7 @@ public class SimpleToscaProvider {
     public ToscaServiceTemplate updatePolicies(@NonNull final PfDao dao,
             @NonNull final ToscaServiceTemplate serviceTemplate) throws PfModelException {
 
-        assertPoliciesExist(serviceTemplate);
+        ToscaUtils.assertPoliciesExist(serviceTemplate);
 
         for (ToscaPolicy policy : serviceTemplate.getTopologyTemplate().getPolicies().getAll(null)) {
             dao.update(policy);
@@ -257,45 +258,5 @@ public class SimpleToscaProvider {
         dao.delete(ToscaPolicy.class, policyKey);
 
         return serviceTemplate;
-    }
-
-    /**
-     * Check if policy types have been specified is initialized.
-     */
-    private void assertPolicyTypesExist(final ToscaServiceTemplate serviceTemplate) {
-        if (serviceTemplate.getPolicyTypes() == null) {
-            String errorMessage = "no policy types specified on service template";
-            LOGGER.warn(errorMessage);
-            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
-        }
-
-        if (serviceTemplate.getPolicyTypes().getConceptMap().isEmpty()) {
-            String errorMessage = "list of policy types specified on service template is empty";
-            LOGGER.warn(errorMessage);
-            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
-        }
-    }
-
-    /**
-     * Check if policy types have been specified is initialized.
-     */
-    private void assertPoliciesExist(final ToscaServiceTemplate serviceTemplate) {
-        if (serviceTemplate.getTopologyTemplate() == null) {
-            String errorMessage = "topology template not specified on service template";
-            LOGGER.warn(errorMessage);
-            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
-        }
-
-        if (serviceTemplate.getTopologyTemplate().getPolicies() == null) {
-            String errorMessage = "no policies specified on topology template of service template";
-            LOGGER.warn(errorMessage);
-            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
-        }
-
-        if (serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().isEmpty()) {
-            String errorMessage = "list of policies specified on topology template of service template is empty";
-            LOGGER.warn(errorMessage);
-            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
-        }
     }
 }

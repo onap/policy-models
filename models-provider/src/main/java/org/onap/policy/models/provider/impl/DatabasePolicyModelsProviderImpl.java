@@ -41,7 +41,7 @@ import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicy;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
-import org.onap.policy.models.tosca.legacy.provider.LegacyToscaProvider;
+import org.onap.policy.models.tosca.legacy.provider.LegacyProvider;
 import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.provider.SimpleToscaProvider;
 import org.slf4j.Logger;
@@ -190,53 +190,53 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
     @Override
     public LegacyOperationalPolicy getOperationalPolicy(@NonNull final String policyId) throws PfModelException {
         assertInitilized();
-        return new LegacyToscaProvider().getOperationalPolicy(pfDao, policyId);
+        return new LegacyProvider().getOperationalPolicy(pfDao, policyId);
     }
 
     @Override
     public LegacyOperationalPolicy createOperationalPolicy(
             @NonNull final LegacyOperationalPolicy legacyOperationalPolicy) throws PfModelException {
         assertInitilized();
-        return new LegacyToscaProvider().createOperationalPolicy(pfDao, legacyOperationalPolicy);
+        return new LegacyProvider().createOperationalPolicy(pfDao, legacyOperationalPolicy);
     }
 
     @Override
     public LegacyOperationalPolicy updateOperationalPolicy(
             @NonNull final LegacyOperationalPolicy legacyOperationalPolicy) throws PfModelException {
         assertInitilized();
-        return new LegacyToscaProvider().updateOperationalPolicy(pfDao, legacyOperationalPolicy);
+        return new LegacyProvider().updateOperationalPolicy(pfDao, legacyOperationalPolicy);
     }
 
     @Override
     public LegacyOperationalPolicy deleteOperationalPolicy(@NonNull final String policyId) throws PfModelException {
         assertInitilized();
-        return new LegacyToscaProvider().deleteOperationalPolicy(pfDao, policyId);
+        return new LegacyProvider().deleteOperationalPolicy(pfDao, policyId);
     }
 
     @Override
     public LegacyGuardPolicy getGuardPolicy(@NonNull final String policyId) throws PfModelException {
         assertInitilized();
-        return new LegacyToscaProvider().getGuardPolicy(pfDao, policyId);
+        return new LegacyProvider().getGuardPolicy(pfDao, policyId);
     }
 
     @Override
     public LegacyGuardPolicy createGuardPolicy(@NonNull final LegacyGuardPolicy legacyGuardPolicy)
             throws PfModelException {
         assertInitilized();
-        return new LegacyToscaProvider().createGuardPolicy(pfDao, legacyGuardPolicy);
+        return new LegacyProvider().createGuardPolicy(pfDao, legacyGuardPolicy);
     }
 
     @Override
     public LegacyGuardPolicy updateGuardPolicy(@NonNull final LegacyGuardPolicy legacyGuardPolicy)
             throws PfModelException {
         assertInitilized();
-        return new LegacyToscaProvider().updateGuardPolicy(pfDao, legacyGuardPolicy);
+        return new LegacyProvider().updateGuardPolicy(pfDao, legacyGuardPolicy);
     }
 
     @Override
     public LegacyGuardPolicy deleteGuardPolicy(@NonNull final String policyId) throws PfModelException {
         assertInitilized();
-        return new LegacyToscaProvider().deleteGuardPolicy(pfDao, policyId);
+        return new LegacyProvider().deleteGuardPolicy(pfDao, policyId);
     }
 
     @Override

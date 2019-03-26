@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Utility class for managing {@link ErrorResponse objects}
+ * Utility class for managing {@link ErrorResponse objects}.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */

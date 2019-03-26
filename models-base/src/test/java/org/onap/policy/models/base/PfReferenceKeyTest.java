@@ -58,6 +58,10 @@ public class PfReferenceKeyTest {
         testReferenceKey.setParentConceptKey(new PfConceptKey("PN", "0.0.1"));
         assertEquals("PN:0.0.1", testReferenceKey.getParentConceptKey().getId());
 
+        assertEquals(0, testReferenceKey.getMajorVersion());
+        assertEquals(0, testReferenceKey.getMinorVersion());
+        assertEquals(1, testReferenceKey.getPatchVersion());
+
         assertEquals(1, testReferenceKey.getKeys().size());
         assertFalse(testReferenceKey.isNullKey());
 
@@ -75,6 +79,13 @@ public class PfReferenceKeyTest {
 
         testReferenceKey.setLocalName("NLN");
         assertEquals("NLN", testReferenceKey.getLocalName());
+
+        try {
+            testReferenceKey.isCompatible(null);
+            fail("test should throw an exception here");
+        } catch (Exception exc) {
+            assertEquals("otherKey is marked @NonNull but is null", exc.getMessage());
+        }
 
         assertFalse(testReferenceKey.isCompatible(PfConceptKey.getNullKey()));
         assertFalse(testReferenceKey.isCompatible(PfReferenceKey.getNullKey()));

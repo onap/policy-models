@@ -1,4 +1,4 @@
-/*
+/*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
@@ -23,7 +23,7 @@ package org.onap.policy.models.base;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.List;
@@ -47,9 +47,10 @@ public class PfUtilsTest {
 
     @Test
     public void testMapList() {
-        assertNull(PfUtils.mapList(null, item -> {
+        List<Object> resultList = PfUtils.mapList(null, item -> {
             throw new RuntimeException("should not be invoked");
-        }));
+        });
+        assertTrue(resultList.isEmpty());
 
         List<String> origList = Arrays.asList("abc", "def");
         List<String> newList = PfUtils.mapList(origList, text -> text + "X");

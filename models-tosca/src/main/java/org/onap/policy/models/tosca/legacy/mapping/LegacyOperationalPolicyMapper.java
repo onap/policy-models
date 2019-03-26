@@ -23,14 +23,19 @@ package org.onap.policy.models.tosca.legacy.mapping;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.ws.rs.core.Response;
+
 import org.onap.policy.models.base.PfConceptKey;
-import org.onap.policy.models.base.PfReferenceKey;
+import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
 import org.onap.policy.models.tosca.simple.concepts.ToscaPolicies;
 import org.onap.policy.models.tosca.simple.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.concepts.ToscaTopologyTemplate;
 import org.onap.policy.models.tosca.simple.mapping.ToscaServiceTemplateMapper;
+import org.onap.policy.models.tosca.utils.ToscaUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class maps a legacy operational policy to and from a TOSCA service template.
@@ -39,51 +44,72 @@ import org.onap.policy.models.tosca.simple.mapping.ToscaServiceTemplateMapper;
  */
 public class LegacyOperationalPolicyMapper
         implements ToscaServiceTemplateMapper<LegacyOperationalPolicy, LegacyOperationalPolicy> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(LegacyOperationalPolicyMapper.class);
 
-    // TODO: Do this correctly with an atomic integer
-    private static int nextVersion = 1;
+    private static final PfConceptKey LEGACY_OPERATIONAL_TYPE =
+            new PfConceptKey("onap.policies.controlloop.Operational", "1.0.0");
 
     @Override
-    public ToscaServiceTemplate toToscaServiceTemplate(LegacyOperationalPolicy legacyOperationalPolicy) {
-        PfConceptKey policyKey =
-                new PfConceptKey(legacyOperationalPolicy.getPolicyId(), getNextVersion());
+    public ToscaServiceTemplate toToscaServiceTemplate(final LegacyOperationalPolicy legacyOperationalPolicy) {
+        String incomingVersion = legacyOperationalPolicy.getPolicyVersion();
+        if (incomingVersion == null) {
+            incomingVersion = "1";
+        }
 
-        ToscaPolicy toscaPolicy = new ToscaPolicy(policyKey);
+        PfConceptKey policyKey = new PfConceptKey(legacyOperationalPolicy.getPolicyId(), incomingVersion + ".0.0");
 
-        // TODO: Find out how to parse the PolicyType from the content
-        // TODO: Check if this is the correct way to set the policy type version
-        toscaPolicy.setType(new PfConceptKey("SomeDerivedPolicyType", "1.0.1"));
+        final ToscaPolicy toscaPolicy = new ToscaPolicy(policyKey);
 
-        Map<String, String> propertyMap = new HashMap<>();
+        toscaPolicy.setType(LEGACY_OPERATIONAL_TYPE);
+
+        final Map<String, String> propertyMap = new HashMap<>();
         toscaPolicy.setProperties(propertyMap);
         toscaPolicy.getProperties().put("Content", legacyOperationalPolicy.getContent());
 
-        PfConceptKey serviceTemplateKey = new PfConceptKey("ServiceTemplate", "1.0.2");
-        ToscaServiceTemplate serviceTemplate = new ToscaServiceTemplate(serviceTemplateKey);
+        final ToscaServiceTemplate serviceTemplate = new ToscaServiceTemplate();
         serviceTemplate.setToscaDefinitionsVersion("tosca_simple_yaml_1_0");
 
-        PfReferenceKey topologyTemplateKey = new PfReferenceKey(serviceTemplateKey, "TopolocyTemplate");
-        serviceTemplate.setTopologyTemplate(new ToscaTopologyTemplate(topologyTemplateKey));
+        serviceTemplate.setTopologyTemplate(new ToscaTopologyTemplate());
 
-        PfConceptKey policiesKey = new PfConceptKey("Policies", "1.0.3");
-        serviceTemplate.getTopologyTemplate().setPolicies(new ToscaPolicies(policiesKey));
+        serviceTemplate.getTopologyTemplate().setPolicies(new ToscaPolicies());
         serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().put(policyKey, toscaPolicy);
 
         return serviceTemplate;
     }
 
     @Override
-    public LegacyOperationalPolicy fromToscaServiceTemplate(ToscaServiceTemplate serviceTemplate) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public LegacyOperationalPolicy fromToscaServiceTemplate(final ToscaServiceTemplate serviceTemplate) {
+        ToscaUtils.assertPoliciesExist(serviceTemplate);
 
-    /**
-     * Get the next policy version.
-     *
-     * @return the next version
-     */
-    private static String getNextVersion() {
-        return "1.0." + nextVersion++;
+        if (serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().size() > 1) {
+            String errorMessage = "more than one policy found in service template";
+            LOGGER.warn(errorMessage);
+            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
+        }
+
+        // Get the policy
+        final ToscaPolicy toscaPolicy =
+                serviceTemplate.getTopologyTemplate().getPolicies().getAll(null).iterator().next();
+
+        final LegacyOperationalPolicy legacyOperationalPolicy = new LegacyOperationalPolicy();
+        legacyOperationalPolicy.setPolicyId(toscaPolicy.getKey().getName());
+        legacyOperationalPolicy.setPolicyVersion(Integer.toString(toscaPolicy.getKey().getMajorVersion()));
+
+        if (toscaPolicy.getProperties() == null) {
+            String errorMessage = "no properties defined on TOSCA policy";
+            LOGGER.warn(errorMessage);
+            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
+        }
+
+        final String content = toscaPolicy.getProperties().get("Content");
+        if (toscaPolicy.getProperties() == null) {
+            String errorMessage = "property \"Content\" not defined on TOSCA policy";
+            LOGGER.warn(errorMessage);
+            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
+        }
+
+        legacyOperationalPolicy.setContent(content);
+
+        return legacyOperationalPolicy;
     }
 }

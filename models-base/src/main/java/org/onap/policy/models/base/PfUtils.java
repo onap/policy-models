@@ -21,6 +21,7 @@
 
 package org.onap.policy.models.base;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -72,7 +73,7 @@ public final class PfUtils {
      */
     public static <T> List<T> mapList(List<T> source, Function<T, T> mapFunc) {
         if (source == null) {
-            return null;
+            return new ArrayList<>();
         }
 
         return source.stream().map(mapFunc).collect(Collectors.toList());

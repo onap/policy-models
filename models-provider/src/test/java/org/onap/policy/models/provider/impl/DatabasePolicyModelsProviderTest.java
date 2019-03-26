@@ -316,10 +316,30 @@ public class DatabasePolicyModelsProviderTest {
                 assertEquals("policy not found: NULL:0.0.0", npe.getMessage());
             }
 
-            assertNull(databaseProvider.getOperationalPolicy("policy_id"));
-            assertNull(databaseProvider.createOperationalPolicy(new LegacyOperationalPolicy()));
-            assertNull(databaseProvider.updateOperationalPolicy(new LegacyOperationalPolicy()));
-            assertNull(databaseProvider.deleteOperationalPolicy("policy_id"));
+            try {
+                assertNull(databaseProvider.getOperationalPolicy("policy_id"));
+                fail("test should throw an exception");
+            } catch (Exception npe) {
+                assertEquals("no policy found for policy ID: policy_id", npe.getMessage());
+            }
+            try {
+                assertNull(databaseProvider.createOperationalPolicy(new LegacyOperationalPolicy()));
+                fail("test should throw an exception");
+            } catch (Exception npe) {
+                assertEquals("name is marked @NonNull but is null", npe.getMessage());
+            }
+            try {
+                assertNull(databaseProvider.updateOperationalPolicy(new LegacyOperationalPolicy()));
+                fail("test should throw an exception");
+            } catch (Exception npe) {
+                assertEquals("no policy found for policy ID: null", npe.getMessage());
+            }
+            try {
+                assertNull(databaseProvider.deleteOperationalPolicy("policy_id"));
+                fail("test should throw an exception");
+            } catch (Exception npe) {
+                assertEquals("no policy found for policy ID: policy_id", npe.getMessage());
+            }
 
             assertNull(databaseProvider.getGuardPolicy("policy_id"));
             assertNull(databaseProvider.createGuardPolicy(new LegacyGuardPolicy()));

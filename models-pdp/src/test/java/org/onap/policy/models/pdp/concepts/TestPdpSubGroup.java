@@ -1,8 +1,9 @@
-/*
+/*-
  * ============LICENSE_START=======================================================
  * ONAP Policy Models
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +42,10 @@ public class TestPdpSubGroup {
         PdpSubGroup orig = new PdpSubGroup();
 
         // verify with null values
-        assertEquals(orig.toString(), new PdpSubGroup(orig).toString());
+        assertEquals(
+                "PdpSubGroup(pdpType=null, supportedPolicyTypes=[], policies=[], "
+                        + "currentInstanceCount=0, desiredInstanceCount=0, properties=null, pdpInstances=[])",
+                new PdpSubGroup(orig).toString());
 
         // verify with all values
         orig.setCurrentInstanceCount(10);
