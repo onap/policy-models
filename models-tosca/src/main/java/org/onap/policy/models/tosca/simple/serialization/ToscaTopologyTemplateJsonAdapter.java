@@ -47,6 +47,7 @@ public class ToscaTopologyTemplateJsonAdapter
         implements JsonSerializer<ToscaTopologyTemplate>, JsonDeserializer<ToscaTopologyTemplate> {
 
     private static final String POLICIES = "policies";
+    private static final String DESCRIPTION = "description";
 
     @Override
     public ToscaTopologyTemplate deserialize(@NonNull final JsonElement toplogyTemplateElement,
@@ -58,6 +59,10 @@ public class ToscaTopologyTemplateJsonAdapter
         // The outgoing object
         final PfReferenceKey topologyTemplateKey = new PfReferenceKey(new PfConceptKey(), "IncomingTopologyTemplate");
         final ToscaTopologyTemplate topologyTemplate = new ToscaTopologyTemplate(topologyTemplateKey);
+
+        if (topologyTemplateJsonObject.has(DESCRIPTION)) {
+            topologyTemplate.setDescription(topologyTemplateJsonObject.get(DESCRIPTION).getAsString());
+        }
 
         if (topologyTemplateJsonObject.has(POLICIES)) {
             topologyTemplate.setPolicies(new ToscaPoliciesJsonAdapter()
@@ -76,6 +81,11 @@ public class ToscaTopologyTemplateJsonAdapter
                 .serialize(topologyTemplate.getPolicies(), type, context);
 
         topologyTemplateJsonObject.add(POLICIES, policiesJsonElement);
+
+        if (topologyTemplate.getDescription() != null) {
+            topologyTemplateJsonObject.addProperty(DESCRIPTION, topologyTemplate.getDescription());
+        }
+
         return topologyTemplateJsonObject;
     }
 }

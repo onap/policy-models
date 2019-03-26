@@ -78,7 +78,8 @@ public class ToscaTopologyTemplate extends PfConcept {
     }
 
     /**
-     * The Key Constructor creates a {@link ToscaTopologyTemplate} object with the given concept key.
+     * The Key Constructor creates a {@link ToscaTopologyTemplate} object with the given concept
+     * key.
      *
      * @param key the key
      */
