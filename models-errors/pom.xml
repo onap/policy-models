@@ -27,7 +27,7 @@
         <version>2.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>models-errors</artifactId>
+    <artifactId>policy-models-errors</artifactId>
 
     <name>${project.artifactId}</name>
     <description>The models for Policy API's to return Error/warning message details.</description>

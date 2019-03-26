@@ -22,6 +22,7 @@ package org.onap.policy.models.errors.concepts;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.ws.rs.core.Response;
@@ -36,7 +37,8 @@ import lombok.Data;
  *
  */
 @Data
-public class ErrorResponse {
+public class ErrorResponse implements Serializable {
+    private static final long serialVersionUID = 6760066094588944729L;
 
     @SerializedName("code")
     private Response.Status  responseCode;

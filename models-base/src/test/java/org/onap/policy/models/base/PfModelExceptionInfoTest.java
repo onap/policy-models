@@ -25,6 +25,7 @@ import static org.junit.Assert.assertEquals;
 import javax.ws.rs.core.Response;
 
 import org.junit.Test;
+import org.onap.policy.models.errors.concepts.ErrorResponseInfo;
 
 /**
  * Test PfModelExceptionInfo interface.
@@ -49,15 +50,15 @@ public class PfModelExceptionInfoTest {
         }
     }
 
-    private String getErrorMessage(final PfModelExceptionInfo pfme) {
+    private String getErrorMessage(final ErrorResponseInfo eri) {
         StringBuilder stringBuilder = new StringBuilder();
 
         stringBuilder.append("Server returned: ");
-        stringBuilder.append(pfme.getStatusCode().toString());
+        stringBuilder.append(eri.getErrorResponse().getResponseCode().toString());
+        stringBuilder.append("Error Message:\n");
+        stringBuilder.append(eri.getErrorResponse().getErrorMessage());
         stringBuilder.append("\nDetailed Message:\n");
-        stringBuilder.append(pfme.getCascadedMessage());
-        stringBuilder.append("\nStack Trace:\n");
-        stringBuilder.append(pfme.getStackTraceAsString());
+        stringBuilder.append(String.join("\n", eri.getErrorResponse().getErrorDetails()));
 
         return stringBuilder.toString();
     }

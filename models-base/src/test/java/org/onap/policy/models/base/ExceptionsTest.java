@@ -28,6 +28,7 @@ import java.io.IOException;
 import javax.ws.rs.core.Response;
 
 import org.junit.Test;
+import org.onap.policy.models.errors.concepts.ErrorResponse;
 
 public class ExceptionsTest {
 
@@ -41,7 +42,8 @@ public class ExceptionsTest {
         String key = "A String";
         PfModelException ae =
                 new PfModelException(Response.Status.OK, "Message", new IOException("IO exception message"), key);
-        assertEquals("Message\ncaused by: Message\ncaused by: IO exception message", ae.getCascadedMessage());
+        ErrorResponse errorResponse = ae.getErrorResponse();
+        assertEquals("Message\nIO exception message", String.join("\n", errorResponse.getErrorDetails()));
         assertEquals(key, ae.getObject());
 
         assertNotNull(new PfModelRuntimeException(Response.Status.OK, "Message"));
@@ -52,8 +54,9 @@ public class ExceptionsTest {
         String rkey = "A String";
         PfModelRuntimeException re = new PfModelRuntimeException(Response.Status.OK, "Runtime Message",
                 new IOException("IO runtime exception message"), rkey);
-        assertEquals("Runtime Message\ncaused by: Runtime Message\ncaused by: IO runtime exception message",
-                re.getCascadedMessage());
+        errorResponse = re.getErrorResponse();
+        assertEquals("Runtime Message\nIO runtime exception message",
+                String.join("\n", errorResponse.getErrorDetails()));
         assertEquals(key, re.getObject());
     }
 }

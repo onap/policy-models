@@ -25,18 +25,20 @@ import javax.ws.rs.core.Response;
 import lombok.Getter;
 import lombok.ToString;
 
-import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.onap.policy.models.errors.concepts.ErrorResponse;
+import org.onap.policy.models.errors.concepts.ErrorResponseInfo;
+import org.onap.policy.models.errors.concepts.ErrorResponseUtils;
 
 /**
  * This class is a base model run time exception from which all model run time exceptions are sub classes.
  */
 @Getter
 @ToString
-public class PfModelRuntimeException extends RuntimeException implements PfModelExceptionInfo {
+public class PfModelRuntimeException extends RuntimeException implements ErrorResponseInfo {
     private static final long serialVersionUID = -8507246953751956974L;
 
-    // The return code on the exception
-    private final Response.Status statusCode;
+    // The error response of the exception
+    private final ErrorResponse errorResponse = new ErrorResponse();
 
     // The object on which the exception was thrown
     private final transient Object object;
@@ -61,7 +63,8 @@ public class PfModelRuntimeException extends RuntimeException implements PfModel
     public PfModelRuntimeException(final Response.Status statusCode, final String message, final Object object) {
         super(message);
         this.object = object;
-        this.statusCode = statusCode;
+        errorResponse.setResponseCode(statusCode);
+        ErrorResponseUtils.getExceptionMessages(errorResponse, this);
     }
 
     /**
@@ -87,26 +90,7 @@ public class PfModelRuntimeException extends RuntimeException implements PfModel
             final Object object) {
         super(message, exception);
         this.object = object;
-        this.statusCode = statusCode;
-    }
-
-    /**
-     * Get the message from this exception and its causes.
-     *
-     * @return the message of this exception and all the exceptions that caused this exception
-     */
-    @Override
-    public String getCascadedMessage() {
-        return PfModelException.buildCascadedMessage(this);
-    }
-
-    /**
-     * Get the stack trace of the exception as a string.
-     *
-     * @return the stack trace of this message as a string
-     */
-    @Override
-    public String getStackTraceAsString() {
-        return ExceptionUtils.getStackTrace(this);
+        errorResponse.setResponseCode(statusCode);
+        ErrorResponseUtils.getExceptionMessages(errorResponse, this);
     }
 }

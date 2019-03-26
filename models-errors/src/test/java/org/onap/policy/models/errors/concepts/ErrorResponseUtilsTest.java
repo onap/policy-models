@@ -18,42 +18,36 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.models.base;
+package org.onap.policy.models.errors.concepts;
 
-import javax.ws.rs.core.Response;
+import static org.junit.Assert.assertEquals;
+
+import java.io.IOException;
+
+import org.junit.Test;
 
 /**
- * Interface implemented bu Policy framework model exceptions to allow uniform reading of status codes and cascaded
- * messages.
+ * Test the {@link ErrorResponseUtils} class.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public interface PfModelExceptionInfo {
+public class ErrorResponseUtilsTest {
+    @Test
+    public void testErrorResponseUtils() {
+        try {
+            try {
+                throw new NumberFormatException("Exception 0");
+            }
+            catch (Exception nfe) {
+                throw new IOException("Exception 1", nfe);
+            }
+        } catch (Exception ioe) {
+            ErrorResponse errorResponse = new ErrorResponse();
+            ErrorResponseUtils.getExceptionMessages(errorResponse, ioe);
 
-    /**
-     * Get the status code associated with an exception.
-     * @return the status code
-     */
-    public Response.Status getStatusCode();
-
-    /**
-     * Get the messages for all the cascaded exceptions in an exception.
-     *
-     * @return the cascaded message
-     */
-    public String getCascadedMessage();
-
-    /**
-     * Get the object associated with an exception.
-     *
-     * @return the object associated with an exception
-     */
-    public Object getObject();
-
-    /**
-     * Get the stack trace of the exception as a string.
-     *
-     * @return the stack trace of this message as a string
-     */
-    public String getStackTraceAsString();
+            assertEquals("Exception 1", errorResponse.getErrorMessage());
+            assertEquals("Exception 1", errorResponse.getErrorDetails().get(0));
+            assertEquals("Exception 0", errorResponse.getErrorDetails().get(1));
+        }
+    }
 }
