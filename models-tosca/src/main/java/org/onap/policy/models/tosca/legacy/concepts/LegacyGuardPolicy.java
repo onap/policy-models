@@ -21,7 +21,6 @@
 
 package org.onap.policy.models.tosca.legacy.concepts;
 
-import java.util.List;
 import java.util.Map;
 
 import lombok.Data;
@@ -30,6 +29,7 @@ import lombok.Data;
  * Definition of a legacy guard policy stored as a TOSCA policy.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
+ * @author Chenfei Gao (cgao@research.att.com)
  */
 @Data
 public class LegacyGuardPolicy {
@@ -38,6 +38,6 @@ public class LegacyGuardPolicy {
 
     private String policyVersion;
 
-    private List<Map<String, String>> content;
+    private Map<String, String> content;
 
 }
