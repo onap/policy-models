@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5bb9cb27_d2f90563",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/PlainToscaConstraint.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-03-26T03:11:43Z",
+      "side": 1,
+      "message": "The serial number I don\u0027t think has any use unless it implements Serializable ?   Global comment.",
+      "revId": "ca45bf3082c6e31eab1d46d59b5541fe06cbc6ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "294d450a_280fdfeb",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/PlainToscaDataType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-03-26T03:11:43Z",
+      "side": 1,
+      "message": "The SerializedName is needed when the name is the same.  Is there a reason why you added it?",
+      "revId": "ca45bf3082c6e31eab1d46d59b5541fe06cbc6ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
