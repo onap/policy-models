@@ -1,45 +1,47 @@
 {
-    "tosca_definitions_version": "tosca_simple_yaml_1_0_0",
-    "policies": [
-        {
-            "onap.vfirewall.tca": {
-                "type": "onap.policy.monitoring.cdap.tca.hi.lo.app",
-                "version": "1.0.0",
-                "properties": {
-                    "tca_policy": {
-                        "domain": "measurementsForVfScaling",
-                        "metricsPerEventName": [
-                            {
-                                "eventName": "vLoadBalancer",
-                                "controlLoopSchemaType": "VNF",
-                                "policyScope": "resource=vLoadBalancer;type=configuration",
-                                "policyName": "onap.vfirewall.tca",
-                                "policyVersion": "v0.0.1",
-                                "thresholds": [
-                                    {
-                                        "closedLoopControlName": "ControlLoop-vFirewall-d0a1dfc6-94f5-4fd4-a5b5-4630b438850a",
-                                        "closedLoopEventStatus": "ONSET",
-                                        "version": "1.0.2",
-                                        "fieldPath": "$.event.measurementsForVfScalingFields.vNicPerformanceArray[*].receivedBroadcastPacketsAccumulated",
-                                        "thresholdValue": 500,
-                                        "direction": "LESS_OR_EQUAL",
-                                        "severity": "MAJOR"
-                                    },
-                                    {
-                                        "closedLoopControlName": "ControlLoop-vFirewall-d0a1dfc6-94f5-4fd4-a5b5-4630b438850a",
-                                        "closedLoopEventStatus": "ONSET",
-                                        "version": "1.0.2",
-                                        "fieldPath": "$.event.measurementsForVfScalingFields.vNicPerformanceArray[*].receivedBroadcastPacketsAccumulated",
-                                        "thresholdValue": 5000,
-                                        "direction": "GREATER_OR_EQUAL",
-                                        "severity": "CRITICAL"
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                }
-            }
-        }
-    ]
+	"tosca_definitions_version": "tosca_simple_yaml_1_0_0",
+	"topology_template": {
+		"policies": [
+			{
+				"onap.vfirewall.tca": {
+					"type": "onap.policy.monitoring.cdap.tca.hi.lo.app",
+					"version": "1.0.0",
+					"properties": {
+						"tca_policy": {
+							"domain": "measurementsForVfScaling",
+							"metricsPerEventName": [
+								{
+									"eventName": "vLoadBalancer",
+									"controlLoopSchemaType": "VNF",
+									"policyScope": "resource=vLoadBalancer;type=configuration",
+									"policyName": "onap.vfirewall.tca",
+									"policyVersion": "v0.0.1",
+									"thresholds": [
+										{
+											"closedLoopControlName": "ControlLoop-vFirewall-d0a1dfc6-94f5-4fd4-a5b5-4630b438850a",
+											"closedLoopEventStatus": "ONSET",
+											"version": "1.0.2",
+											"fieldPath": "$.event.measurementsForVfScalingFields.vNicPerformanceArray[*].receivedBroadcastPacketsAccumulated",
+											"thresholdValue": 500,
+											"direction": "LESS_OR_EQUAL",
+											"severity": "MAJOR"
+										},
+										{
+											"closedLoopControlName": "ControlLoop-vFirewall-d0a1dfc6-94f5-4fd4-a5b5-4630b438850a",
+											"closedLoopEventStatus": "ONSET",
+											"version": "1.0.2",
+											"fieldPath": "$.event.measurementsForVfScalingFields.vNicPerformanceArray[*].receivedBroadcastPacketsAccumulated",
+											"thresholdValue": 5000,
+											"direction": "GREATER_OR_EQUAL",
+											"severity": "CRITICAL"
+										}
+									]
+								}
+							]
+						}
+					}
+				}
+			}
+		]
+	}
 }

@@ -62,10 +62,10 @@ public class ToscaServiceTemplateJsonAdapter
         if (serviceTemplateJsonObject.has(TOPOLOGY_TEMPLATE)) {
             serviceTemplate.setTopologyTemplate(new ToscaTopologyTemplateJsonAdapter().deserialize(
                     serviceTemplateJsonObject.get(TOPOLOGY_TEMPLATE), ToscaTopologyTemplate.class, context));
-        }
 
-        // Set the parent key of the topology template to be this service template
-        serviceTemplate.getTopologyTemplate().getKey().setParentConceptKey(serviceTemplate.getKey());
+            // Set the parent key of the topology template to be this service template
+            serviceTemplate.getTopologyTemplate().getKey().setParentConceptKey(serviceTemplate.getKey());
+        }
 
         return serviceTemplate;
     }

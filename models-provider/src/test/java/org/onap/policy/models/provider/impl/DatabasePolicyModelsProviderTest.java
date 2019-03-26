@@ -37,7 +37,6 @@ import org.onap.policy.models.provider.PolicyModelsProviderParameters;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicy;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
 import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
-import org.onap.policy.models.tosca.simple.provider.SimpleToscaProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,7 +46,7 @@ import org.slf4j.LoggerFactory;
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 public class DatabasePolicyModelsProviderTest {
-    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleToscaProvider.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DatabasePolicyModelsProviderTest.class);
 
     PolicyModelsProviderParameters parameters;
 
