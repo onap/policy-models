@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77c42943_99cac793",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfModelException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-03-26T13:48:23Z",
+      "side": 1,
+      "message": "getErrorResponse() is not implemented here? seems i don\u0027t see it",
+      "range": {
+        "startLine": 37,
+        "startChar": 59,
+        "endLine": 37,
+        "endChar": 76
+      },
+      "revId": "35c6f2df3df2de7f54f717c2167f7b170494cdc9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ebe7d09_f5788c9b",
+        "filename": "models-errors/src/main/java/org/onap/policy/models/errors/concepts/ErrorResponse.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-03-26T13:48:23Z",
+      "side": 1,
+      "message": "do we need to specify this? i don\u0027t see it in our pojos. maybe we have implemented it somewhere?",
+      "range": {
+        "startLine": 40,
+        "startChar": 27,
+        "endLine": 41,
+        "endChar": 69
+      },
+      "revId": "35c6f2df3df2de7f54f717c2167f7b170494cdc9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
