@@ -45,8 +45,8 @@ import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 
 /**
- * This class holds a TOSCA topology template. Note: Only the policy specific parts of the TOSCA
- * topology template are implemented.
+ * This class holds a TOSCA topology template. Note: Only the policy specific parts of the TOSCA topology template are
+ * implemented.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
@@ -57,6 +57,8 @@ import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 @EqualsAndHashCode(callSuper = false)
 public class ToscaTopologyTemplate extends PfConcept {
     private static final long serialVersionUID = 8969698734673232603L;
+
+    public static final String DEFAULT_LOCAL_NAME = "ToscaTopologyTemplateSimple";
 
     @EmbeddedId
     private PfReferenceKey key;
@@ -71,12 +73,12 @@ public class ToscaTopologyTemplate extends PfConcept {
      * The Default Constructor creates a {@link ToscaTopologyTemplate} object with a null key.
      */
     public ToscaTopologyTemplate() {
-        this(new PfReferenceKey());
+        this(new PfReferenceKey(ToscaServiceTemplate.DEFAULT_NAME, ToscaServiceTemplate.DEFAULT_VERSION,
+                DEFAULT_LOCAL_NAME));
     }
 
     /**
-     * The Key Constructor creates a {@link ToscaTopologyTemplate} object with the given concept
-     * key.
+     * The Key Constructor creates a {@link ToscaTopologyTemplate} object with the given concept key.
      *
      * @param key the key
      */

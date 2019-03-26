@@ -32,7 +32,6 @@ import java.lang.reflect.Type;
 
 import lombok.NonNull;
 
-import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.concepts.ToscaTopologyTemplate;
 
@@ -56,8 +55,7 @@ public class ToscaServiceTemplateJsonAdapter
         final JsonObject serviceTemplateJsonObject = serviceTemplateElement.getAsJsonObject();
 
         // The outgoing object
-        final PfConceptKey serviceTemplateKey = new PfConceptKey("IncomingServiceTemplate", "0.0.1");
-        final ToscaServiceTemplate serviceTemplate = new ToscaServiceTemplate(serviceTemplateKey);
+        final ToscaServiceTemplate serviceTemplate = new ToscaServiceTemplate();
         serviceTemplate
                 .setToscaDefinitionsVersion(serviceTemplateJsonObject.get(TOSCA_DEFINITIONS_VERSION).getAsString());
 
@@ -67,7 +65,7 @@ public class ToscaServiceTemplateJsonAdapter
         }
 
         // Set the parent key of the topology template to be this service template
-        serviceTemplate.getTopologyTemplate().getKey().setParentConceptKey(serviceTemplateKey);
+        serviceTemplate.getTopologyTemplate().getKey().setParentConceptKey(serviceTemplate.getKey());
 
         return serviceTemplate;
     }

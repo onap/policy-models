@@ -118,7 +118,7 @@ public class ToscaTopologyTemplateTest {
         ttt.clean();
         assertEquals(tttClone0, ttt);
 
-        assertFalse(new ToscaTopologyTemplate().validate(new PfValidationResult()).isValid());
+        assertTrue(new ToscaTopologyTemplate().validate(new PfValidationResult()).isValid());
         assertTrue(ttt.validate(new PfValidationResult()).isValid());
 
         ttt.setDescription(null);
