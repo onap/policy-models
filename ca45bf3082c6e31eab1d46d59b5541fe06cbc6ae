@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d5308adb_1d5caf27",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/PlainToscaConstraint.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-03-26T12:07:03Z",
+      "side": 1,
+      "message": "That\u0027s true - should we have implement Serializable?",
+      "parentUuid": "5bb9cb27_d2f90563",
+      "revId": "ca45bf3082c6e31eab1d46d59b5541fe06cbc6ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "294d450a_280fdfeb",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/PlainToscaDataType.java",
         "patchSetId": 1
