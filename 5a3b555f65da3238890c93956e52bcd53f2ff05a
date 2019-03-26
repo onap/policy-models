@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d839609_0f05a0f4",
+        "filename": "models-examples/src/main/resources/policies/vDNS.policy.monitoring.input.tosca.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-03-26T11:15:19Z",
+      "side": 1,
+      "message": "tabs",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 6
+      },
+      "revId": "5a3b555f65da3238890c93956e52bcd53f2ff05a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28069ffe_2b2094b0",
+        "filename": "models-examples/src/main/resources/policies/vFirewall.policy.monitoring.input.tosca.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-03-26T11:15:19Z",
+      "side": 1,
+      "message": "tabs",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 7
+      },
+      "revId": "5a3b555f65da3238890c93956e52bcd53f2ff05a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
