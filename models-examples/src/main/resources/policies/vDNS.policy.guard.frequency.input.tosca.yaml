@@ -9,7 +9,7 @@ topology_template:
           policy-id : guard.frequency.scaleout
         properties:
           actor: SO
-          recipe: scaleOut
+          recipe: VF Module Create
           targets: .*
           clname: ControlLoop-vDNS-6f37f56d-a87d-4b85-b6a9-cc953cf779b3
           limit: 1
