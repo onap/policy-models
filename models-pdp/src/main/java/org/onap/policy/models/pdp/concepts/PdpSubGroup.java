@@ -29,6 +29,7 @@ import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
 import org.onap.policy.models.base.PfUtils;
+import org.onap.policy.models.tosca.simple.concepts.ToscaEntityType;
 import org.onap.policy.models.tosca.simple.concepts.ToscaPolicy;
 
 /**
@@ -40,9 +41,8 @@ import org.onap.policy.models.tosca.simple.concepts.ToscaPolicy;
 @Getter
 @Setter
 @ToString
-public class PdpSubGroup {
-
-    // TODO subclass from ToscaEntityType
+public class PdpSubGroup extends ToscaEntityType {
+    private static final long serialVersionUID = 1L;
 
     private String pdpType;
     private List<PolicyTypeIdent> supportedPolicyTypes;
