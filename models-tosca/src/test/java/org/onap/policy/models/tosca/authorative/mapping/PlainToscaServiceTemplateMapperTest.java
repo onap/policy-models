@@ -25,11 +25,9 @@ package org.onap.policy.models.tosca.authorative.mapping;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
+import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.tosca.authorative.concepts.PlainToscaServiceTemplate;
@@ -43,21 +41,21 @@ import org.yaml.snakeyaml.Yaml;
  */
 public class PlainToscaServiceTemplateMapperTest {
 
-    private Gson defaultGson;
+    private StandardCoder standardCoder;
     private PlainToscaServiceTemplateMapper mapper;
 
     @Before
     public void setUp() {
-        defaultGson = new Gson();
+        standardCoder = new StandardCoder();
         mapper = new PlainToscaServiceTemplateMapper();
     }
 
     @Test
-    public void testPlainToscaPolicies() throws JsonSyntaxException, IOException {
+    public void testPlainToscaPolicies() throws Exception {
         try {
             String inputJson = ResourceUtils.getResourceAsString("policies/vCPE.policy.monitoring.input.tosca.json");
 
-            PlainToscaServiceTemplate plainPolicies = defaultGson.fromJson(inputJson, PlainToscaServiceTemplate.class);
+            PlainToscaServiceTemplate plainPolicies = standardCoder.decode(inputJson, PlainToscaServiceTemplate.class);
             ToscaServiceTemplate internalPolicies = mapper.toToscaServiceTemplate(plainPolicies);
             assertTrue(internalPolicies.validate(new PfValidationResult()).isValid());
             PlainToscaServiceTemplate plainPolicies2 = mapper.fromToscaServiceTemplate(internalPolicies);
@@ -69,15 +67,15 @@ public class PlainToscaServiceTemplateMapperTest {
     }
 
     @Test
-    public void testPlainToscaPolicyTypes() throws JsonSyntaxException, IOException {
+    public void testPlainToscaPolicyTypes() throws Exception {
         try {
             Yaml yaml = new Yaml();
             String inputYaml = ResourceUtils.getResourceAsString(
                     "policytypes/onap.policy.monitoring.cdap.tca.hi.lo.app.yaml");
             Object yamlObject = yaml.load(inputYaml);
-            String yamlAsJsonString = defaultGson.toJson(yamlObject);
+            String yamlAsJsonString = standardCoder.encode(yamlObject);
 
-            PlainToscaServiceTemplate plainPolicyTypes = defaultGson.fromJson(yamlAsJsonString,
+            PlainToscaServiceTemplate plainPolicyTypes = standardCoder.decode(yamlAsJsonString,
                     PlainToscaServiceTemplate.class);
             ToscaServiceTemplate internalPolicyTypes = mapper.toToscaServiceTemplate(plainPolicyTypes);
             assertTrue(internalPolicyTypes.validate(new PfValidationResult()).isValid());

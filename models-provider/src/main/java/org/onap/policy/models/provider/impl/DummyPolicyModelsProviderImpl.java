@@ -23,16 +23,20 @@ package org.onap.policy.models.provider.impl;
 
 import com.google.gson.Gson;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.ws.rs.core.Response;
 import lombok.NonNull;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
-import org.onap.policy.models.pap.concepts.PdpGroups;
+import org.onap.policy.models.pdp.concepts.PdpGroups;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
-import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicy;
+import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyInput;
+import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyOutput;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
 import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.serialization.ToscaServiceTemplateMessageBodyHandler;
@@ -49,8 +53,7 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
      *
      * @param parameters the parameters for the provider
      */
-    public DummyPolicyModelsProviderImpl(@NonNull final PolicyModelsProviderParameters parameters) {
-    }
+    public DummyPolicyModelsProviderImpl(@NonNull final PolicyModelsProviderParameters parameters) {}
 
     @Override
     public void init() throws PfModelException {
@@ -130,25 +133,26 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public LegacyGuardPolicy getGuardPolicy(@NonNull final String policyId) throws PfModelException {
-        return new LegacyGuardPolicy();
+    public Map<String, LegacyGuardPolicyOutput> getGuardPolicy(@NonNull final String policyId) throws PfModelException {
+        return new HashMap<>();
     }
 
     @Override
-    public LegacyGuardPolicy createGuardPolicy(@NonNull final LegacyGuardPolicy legacyGuardPolicy)
+    public Map<String, LegacyGuardPolicyOutput> createGuardPolicy(
+            @NonNull final LegacyGuardPolicyInput legacyGuardPolicy) throws PfModelException {
+        return new HashMap<>();
+    }
+
+    @Override
+    public Map<String, LegacyGuardPolicyOutput> updateGuardPolicy(
+            @NonNull final LegacyGuardPolicyInput legacyGuardPolicy) throws PfModelException {
+        return new HashMap<>();
+    }
+
+    @Override
+    public Map<String, LegacyGuardPolicyOutput> deleteGuardPolicy(@NonNull final String policyId)
             throws PfModelException {
-        return legacyGuardPolicy;
-    }
-
-    @Override
-    public LegacyGuardPolicy updateGuardPolicy(@NonNull final LegacyGuardPolicy legacyGuardPolicy)
-            throws PfModelException {
-        return legacyGuardPolicy;
-    }
-
-    @Override
-    public LegacyGuardPolicy deleteGuardPolicy(@NonNull final String policyId) throws PfModelException {
-        return new LegacyGuardPolicy();
+        return new HashMap<>();
     }
 
     @Override

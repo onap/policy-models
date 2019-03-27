@@ -20,9 +20,8 @@
 
 package org.onap.policy.models.provider.impl;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 import java.util.Base64;
@@ -30,11 +29,11 @@ import java.util.Base64;
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
-import org.onap.policy.models.pap.concepts.PdpGroups;
+import org.onap.policy.models.pdp.concepts.PdpGroups;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderFactory;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
-import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicy;
+import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyInput;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
 import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
 import org.slf4j.Logger;
@@ -69,12 +68,11 @@ public class DatabasePolicyModelsProviderTest {
                 new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
         parameters.setDatabaseUrl("jdbc://www.acmecorp.nonexist");
-        try {
+
+        assertThatThrownBy(() -> {
             databaseProvider.init();
-            fail("test should throw an exception");
-        } catch (Exception pfme) {
-            assertEquals("could not connect to database with URL \"jdbc://www.acmecorp.nonexist\"", pfme.getMessage());
-        }
+        }).hasMessage("could not connect to database with URL \"jdbc://www.acmecorp.nonexist\"");
+
         parameters.setDatabaseUrl("jdbc:h2:mem:testdb");
 
         try {
@@ -85,13 +83,13 @@ public class DatabasePolicyModelsProviderTest {
         }
 
         parameters.setPersistenceUnit("WileECoyote");
-        try {
+
+        String errorMessage = "could not create Data Access Object (DAO) using url "
+                + "\"jdbc:h2:mem:testdb\" and persistence unit \"WileECoyote\"";
+        assertThatThrownBy(() -> {
             databaseProvider.init();
-            fail("test should throw an exception");
-        } catch (Exception pfme) {
-            assertEquals("could not create Data Access Object (DAO) using url "
-                    + "\"jdbc:h2:mem:testdb\" and persistence unit \"WileECoyote\"", pfme.getMessage());
-        }
+        }).hasMessage(errorMessage);
+
         parameters.setPersistenceUnit("ToscaConceptTest");
 
         try {
@@ -107,15 +105,13 @@ public class DatabasePolicyModelsProviderTest {
             fail("test shold not throw an exception here");
         }
 
-        try {
+        assertThatThrownBy(() -> {
             DatabasePolicyModelsProviderImpl databaseProviderImpl = (DatabasePolicyModelsProviderImpl) databaseProvider;
             databaseProvider.init();
             databaseProviderImpl.setConnection(new DummyConnection());
             databaseProvider.close();
             fail("test should throw an exception");
-        } catch (Exception pfme) {
-            assertEquals("could not close connection to database with URL \"jdbc:h2:mem:testdb\"", pfme.getMessage());
-        }
+        }).hasMessage("could not close connection to database with URL \"jdbc:h2:mem:testdb\"");
     }
 
     @Test
@@ -124,144 +120,99 @@ public class DatabasePolicyModelsProviderTest {
                 new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
         databaseProvider.init();
 
-        try {
+        assertThatThrownBy(() -> {
             databaseProvider.getPolicyTypes(null);
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("policyTypeKey is marked @NonNull but is null", npe.getMessage());
-        }
-        try {
+        }).hasMessage("policyTypeKey is marked @NonNull but is null");
+
+
+        assertThatThrownBy(() -> {
             databaseProvider.createPolicyTypes(null);
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("serviceTemplate is marked @NonNull but is null", npe.getMessage());
-        }
-        try {
+        }).hasMessage("serviceTemplate is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
             databaseProvider.updatePolicyTypes(null);
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("serviceTemplate is marked @NonNull but is null", npe.getMessage());
-        }
-        try {
+        }).hasMessage("serviceTemplate is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
             databaseProvider.deletePolicyTypes(null);
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("policyTypeKey is marked @NonNull but is null", npe.getMessage());
-        }
+        }).hasMessage("policyTypeKey is marked @NonNull but is null");
 
-        try {
+        assertThatThrownBy(() -> {
             databaseProvider.getPolicies(null);
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("policyKey is marked @NonNull but is null", npe.getMessage());
-        }
-        try {
+        }).hasMessage("policyKey is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
             databaseProvider.createPolicies(null);
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("serviceTemplate is marked @NonNull but is null", npe.getMessage());
-        }
-        try {
+        }).hasMessage("serviceTemplate is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
             databaseProvider.updatePolicies(null);
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("serviceTemplate is marked @NonNull but is null", npe.getMessage());
-        }
-        try {
+        }).hasMessage("serviceTemplate is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
             databaseProvider.deletePolicies(null);
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("policyKey is marked @NonNull but is null", npe.getMessage());
-        }
+        }).hasMessage("policyKey is marked @NonNull but is null");
 
-        try {
+        assertThatThrownBy(() -> {
             databaseProvider.getOperationalPolicy(null);
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("policyId is marked @NonNull but is null", npe.getMessage());
-        }
-        try {
+        }).hasMessage("policyId is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
             databaseProvider.createOperationalPolicy(null);
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("legacyOperationalPolicy is marked @NonNull but is null", npe.getMessage());
-        }
-        try {
+        }).hasMessage("legacyOperationalPolicy is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
             databaseProvider.updateOperationalPolicy(null);
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("legacyOperationalPolicy is marked @NonNull but is null", npe.getMessage());
-        }
-        try {
+        }).hasMessage("legacyOperationalPolicy is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
             databaseProvider.deleteOperationalPolicy(null);
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("policyId is marked @NonNull but is null", npe.getMessage());
-        }
+        }).hasMessage("policyId is marked @NonNull but is null");
 
-        try {
+        assertThatThrownBy(() -> {
             databaseProvider.getGuardPolicy(null);
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("policyId is marked @NonNull but is null", npe.getMessage());
-        }
-        try {
-            databaseProvider.createGuardPolicy(null);
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("legacyGuardPolicy is marked @NonNull but is null", npe.getMessage());
-        }
-        try {
-            databaseProvider.updateGuardPolicy(null);
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("legacyGuardPolicy is marked @NonNull but is null", npe.getMessage());
-        }
-        try {
-            databaseProvider.deleteGuardPolicy(null);
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("policyId is marked @NonNull but is null", npe.getMessage());
-        }
+        }).hasMessage("policyId is marked @NonNull but is null");
 
-        try {
+        assertThatThrownBy(() -> {
+            databaseProvider.createGuardPolicy(null);
+        }).hasMessage("legacyGuardPolicy is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            databaseProvider.updateGuardPolicy(null);
+        }).hasMessage("legacyGuardPolicy is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            databaseProvider.deleteGuardPolicy(null);
+        }).hasMessage("policyId is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
             databaseProvider.getPdpGroups(null);
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("pdpGroupFilter is marked @NonNull but is null", npe.getMessage());
-        }
-        try {
+        }).hasMessage("pdpGroupFilter is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
             databaseProvider.createPdpGroups(null);
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("pdpGroups is marked @NonNull but is null", npe.getMessage());
-        }
-        try {
+        }).hasMessage("pdpGroups is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
             databaseProvider.updatePdpGroups(null);
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("pdpGroups is marked @NonNull but is null", npe.getMessage());
-        }
-        try {
+        }).hasMessage("pdpGroups is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
             databaseProvider.deletePdpGroups(null);
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("pdpGroupFilter is marked @NonNull but is null", npe.getMessage());
-        }
+        }).hasMessage("pdpGroupFilter is marked @NonNull but is null");
 
         databaseProvider.close();
+
     }
 
     @Test
     public void testProviderMethodsNotInit() throws Exception {
         PolicyModelsProvider databaseProvider =
                 new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
-        try {
+
+        assertThatThrownBy(() -> {
             databaseProvider.getPolicyTypes(new PfConceptKey());
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("policy models provider is not initilaized", npe.getMessage());
-        }
+        }).hasMessage("policy models provider is not initilaized");
     }
 
     @Test
@@ -270,81 +221,69 @@ public class DatabasePolicyModelsProviderTest {
                 new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters)) {
             databaseProvider.init();
 
-            try {
+            assertThatThrownBy(() -> {
                 databaseProvider.getPolicyTypes(new PfConceptKey());
-                fail("test should throw an exception");
-            } catch (Exception npe) {
-                assertEquals("policy type not found: NULL:0.0.0", npe.getMessage());
-            }
-            try {
+            }).hasMessage("policy type not found: NULL:0.0.0");
+
+            assertThatThrownBy(() -> {
                 databaseProvider.createPolicyTypes(new ToscaServiceTemplate());
-            } catch (Exception npe) {
-                assertEquals("no policy types specified on service template", npe.getMessage());
-            }
-            try {
+            }).hasMessage("no policy types specified on service template");
+
+            assertThatThrownBy(() -> {
                 databaseProvider.updatePolicyTypes(new ToscaServiceTemplate());
-            } catch (Exception npe) {
-                assertEquals("no policy types specified on service template", npe.getMessage());
-            }
-            try {
+            }).hasMessage("no policy types specified on service template");
+
+            assertThatThrownBy(() -> {
                 databaseProvider.deletePolicyTypes(new PfConceptKey());
-                fail("test should throw an exception");
-            } catch (Exception npe) {
-                assertEquals("policy type not found: NULL:0.0.0", npe.getMessage());
-            }
+            }).hasMessage("policy type not found: NULL:0.0.0");
 
-            try {
+            assertThatThrownBy(() -> {
                 databaseProvider.getPolicies(new PfConceptKey());
-                fail("test should throw an exception");
-            } catch (Exception npe) {
-                assertEquals("policy not found: NULL:0.0.0", npe.getMessage());
-            }
-            try {
+            }).hasMessage("policy not found: NULL:0.0.0");
+
+            assertThatThrownBy(() -> {
                 databaseProvider.createPolicies(new ToscaServiceTemplate());
-            } catch (Exception npe) {
-                assertEquals("topology template not specified on service template", npe.getMessage());
-            }
-            try {
+            }).hasMessage("topology template not specified on service template");
+
+            assertThatThrownBy(() -> {
                 databaseProvider.updatePolicies(new ToscaServiceTemplate());
-            } catch (Exception npe) {
-                assertEquals("topology template not specified on service template", npe.getMessage());
-            }
-            try {
+            }).hasMessage("topology template not specified on service template");
+
+            assertThatThrownBy(() -> {
                 databaseProvider.deletePolicies(new PfConceptKey());
-                fail("test should throw an exception");
-            } catch (Exception npe) {
-                assertEquals("policy not found: NULL:0.0.0", npe.getMessage());
-            }
+            }).hasMessage("policy not found: NULL:0.0.0");
 
-            try {
-                assertNull(databaseProvider.getOperationalPolicy("policy_id"));
-                fail("test should throw an exception");
-            } catch (Exception npe) {
-                assertEquals("no policy found for policy ID: policy_id", npe.getMessage());
-            }
-            try {
-                assertNull(databaseProvider.createOperationalPolicy(new LegacyOperationalPolicy()));
-                fail("test should throw an exception");
-            } catch (Exception npe) {
-                assertEquals("name is marked @NonNull but is null", npe.getMessage());
-            }
-            try {
-                assertNull(databaseProvider.updateOperationalPolicy(new LegacyOperationalPolicy()));
-                fail("test should throw an exception");
-            } catch (Exception npe) {
-                assertEquals("no policy found for policy ID: null", npe.getMessage());
-            }
-            try {
-                assertNull(databaseProvider.deleteOperationalPolicy("policy_id"));
-                fail("test should throw an exception");
-            } catch (Exception npe) {
-                assertEquals("no policy found for policy ID: policy_id", npe.getMessage());
-            }
+            assertThatThrownBy(() -> {
+                databaseProvider.getOperationalPolicy("policy_id");
+            }).hasMessage("no policy found for policy ID: policy_id");
 
-            assertNull(databaseProvider.getGuardPolicy("policy_id"));
-            assertNull(databaseProvider.createGuardPolicy(new LegacyGuardPolicy()));
-            assertNull(databaseProvider.updateGuardPolicy(new LegacyGuardPolicy()));
-            assertNull(databaseProvider.deleteGuardPolicy("policy_id"));
+            assertThatThrownBy(() -> {
+                databaseProvider.createOperationalPolicy(new LegacyOperationalPolicy());
+            }).hasMessage("name is marked @NonNull but is null");
+
+            assertThatThrownBy(() -> {
+                databaseProvider.updateOperationalPolicy(new LegacyOperationalPolicy());
+            }).hasMessage("no policy found for policy ID: null");
+
+            assertThatThrownBy(() -> {
+                databaseProvider.deleteOperationalPolicy("policy_id");
+            }).hasMessage("no policy found for policy ID: policy_id");
+
+            assertThatThrownBy(() -> {
+                databaseProvider.getGuardPolicy("policy_id");
+            }).hasMessage("no policy found for policy ID: policy_id");
+
+            assertThatThrownBy(() -> {
+                databaseProvider.createGuardPolicy(new LegacyGuardPolicyInput());
+            }).hasMessage("policy type for guard policy \"null\" unknown");
+
+            assertThatThrownBy(() -> {
+                databaseProvider.updateGuardPolicy(new LegacyGuardPolicyInput());
+            }).hasMessage("policy type for guard policy \"null\" unknown");
+
+            assertThatThrownBy(() -> {
+                databaseProvider.deleteGuardPolicy("policy_id");
+            }).hasMessage("no policy found for policy ID: policy_id");
 
             assertNotNull(databaseProvider.getPdpGroups("filter"));
             assertNotNull(databaseProvider.createPdpGroups(new PdpGroups()));

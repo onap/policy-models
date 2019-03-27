@@ -25,6 +25,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import java.util.Base64;
+import java.util.Map;
 
 import lombok.NonNull;
 
@@ -37,7 +38,8 @@ import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderFactory;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
-import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
+import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyInput;
+import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyOutput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,9 +48,9 @@ import org.slf4j.LoggerFactory;
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class PolicyLegacyOperationalPersistenceTest {
+public class PolicyLegacyGuardPersistenceTest {
     // Logger for this class
-    private static final Logger LOGGER = LoggerFactory.getLogger(PolicyLegacyOperationalPersistenceTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PolicyLegacyGuardPersistenceTest.class);
 
     private StandardCoder standardCoder;
 
@@ -56,15 +58,13 @@ public class PolicyLegacyOperationalPersistenceTest {
 
     // @formatter:off
     private String[] policyInputResourceNames = {
-        "policies/vCPE.policy.operational.input.json",
-        "policies/vDNS.policy.operational.input.json",
-        "policies/vFirewall.policy.operational.input.json"
+        "policies/vDNS.policy.guard.frequency.input.json",
+        "policies/vDNS.policy.guard.minmax.input.json"
     };
 
     private String[] policyOutputResourceNames = {
-        "policies/vCPE.policy.operational.output.json",
-        "policies/vDNS.policy.operational.output.json",
-        "policies/vFirewall.policy.operational.output.json"
+        "policies/vDNS.policy.guard.frequency.output.json",
+        "policies/vDNS.policy.guard.minmax.output.json"
     };
     // @formatter:on
 
@@ -121,22 +121,23 @@ public class PolicyLegacyOperationalPersistenceTest {
      */
     public void testJsonStringPolicyPersistence(@NonNull final String policyInputString,
             final String policyOutputString) throws Exception {
-        LegacyOperationalPolicy lop = standardCoder.decode(policyInputString, LegacyOperationalPolicy.class);
+        LegacyGuardPolicyInput gip = standardCoder.decode(policyInputString, LegacyGuardPolicyInput.class);
 
-        assertNotNull(lop);
+        assertNotNull(gip);
 
-        LegacyOperationalPolicy createdLop = databaseProvider.createOperationalPolicy(lop);
-        assertEquals(createdLop, lop);
+        Map<String, LegacyGuardPolicyOutput> createdGopm = databaseProvider.createGuardPolicy(gip);
+        assertEquals(gip.getPolicyId(), createdGopm.keySet().iterator().next());
+        assertEquals(gip.getContent(),
+                createdGopm.get(gip.getPolicyId()).getProperties().values().iterator().next());
 
-        LegacyOperationalPolicy gotLop = databaseProvider.getOperationalPolicy(lop.getPolicyId());
-        assertEquals(gotLop, lop);
+        Map<String, LegacyGuardPolicyOutput> gotGopm = databaseProvider.getGuardPolicy(gip.getPolicyId());
+        assertEquals(gip.getPolicyId(), gotGopm.keySet().iterator().next());
+        assertEquals(gip.getContent(),
+                gotGopm.get(gip.getPolicyId()).getProperties().values().iterator().next());
 
-        String actualRetrievedJson = standardCoder.encode(gotLop);
+        String actualRetrievedJson = standardCoder.encode(gotGopm);
 
         // All of this dash/underscore stuff is to avoid a checkstyle error around escaping unicode characters
-        assertEquals(
-                policyOutputString.replaceAll("\\s+", "").replaceAll("u0027", "_-_-_-_").replaceAll("\\\\_-_-_-_", "'"),
-                actualRetrievedJson.replaceAll("\\s+", "").replaceAll("u0027", "_-_-_-_").replaceAll("\\\\_-_-_-_",
-                        "'"));
+        assertEquals(policyOutputString.replaceAll("\\s+", ""), actualRetrievedJson.replaceAll("\\s+", ""));
     }
 }

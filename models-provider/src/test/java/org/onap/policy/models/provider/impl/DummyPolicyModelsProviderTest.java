@@ -20,17 +20,18 @@
 
 package org.onap.policy.models.provider.impl;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
-import org.onap.policy.models.pap.concepts.PdpGroups;
+import org.onap.policy.models.pdp.concepts.PdpGroups;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderFactory;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
-import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicy;
+import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyInput;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
 import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
 
@@ -86,8 +87,8 @@ public class DummyPolicyModelsProviderTest {
         assertNotNull(dummyProvider.deleteOperationalPolicy("policy_id"));
 
         assertNotNull(dummyProvider.getGuardPolicy("policy_id"));
-        assertNotNull(dummyProvider.createGuardPolicy(new LegacyGuardPolicy()));
-        assertNotNull(dummyProvider.updateGuardPolicy(new LegacyGuardPolicy()));
+        assertNotNull(dummyProvider.createGuardPolicy(new LegacyGuardPolicyInput()));
+        assertNotNull(dummyProvider.updateGuardPolicy(new LegacyGuardPolicyInput()));
         assertNotNull(dummyProvider.deleteGuardPolicy("policy_id"));
 
         assertNotNull(dummyProvider.getPdpGroups("filter"));
@@ -95,134 +96,70 @@ public class DummyPolicyModelsProviderTest {
         assertNotNull(dummyProvider.updatePdpGroups(new PdpGroups()));
         assertNotNull(dummyProvider.deletePdpGroups("filter"));
 
-        try {
+        assertThatThrownBy(() -> {
             dummyProvider.getPolicyTypes(null);
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("policyTypeKey is marked @NonNull but is null", npe.getMessage());
-        }
-        try {
+        }).hasMessage("policyTypeKey is marked @NonNull but is null");
+        assertThatThrownBy(() -> {
             dummyProvider.createPolicyTypes(null);
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("serviceTemplate is marked @NonNull but is null", npe.getMessage());
-        }
-        try {
+        }).hasMessage("serviceTemplate is marked @NonNull but is null");
+        assertThatThrownBy(() -> {
             dummyProvider.updatePolicyTypes(null);
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("serviceTemplate is marked @NonNull but is null", npe.getMessage());
-        }
-        try {
+        }).hasMessage("serviceTemplate is marked @NonNull but is null");
+        assertThatThrownBy(() -> {
             dummyProvider.deletePolicyTypes(null);
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("policyTypeKey is marked @NonNull but is null", npe.getMessage());
-        }
+        }).hasMessage("policyTypeKey is marked @NonNull but is null");
 
-        try {
+        assertThatThrownBy(() -> {
             dummyProvider.getPolicies(null);
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("policyKey is marked @NonNull but is null", npe.getMessage());
-        }
-        try {
+        }).hasMessage("policyKey is marked @NonNull but is null");
+        assertThatThrownBy(() -> {
             dummyProvider.createPolicies(null);
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("serviceTemplate is marked @NonNull but is null", npe.getMessage());
-        }
-        try {
+        }).hasMessage("serviceTemplate is marked @NonNull but is null");
+        assertThatThrownBy(() -> {
             dummyProvider.updatePolicies(null);
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("serviceTemplate is marked @NonNull but is null", npe.getMessage());
-        }
-        try {
+        }).hasMessage("serviceTemplate is marked @NonNull but is null");
+        assertThatThrownBy(() -> {
             dummyProvider.deletePolicies(null);
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("policyKey is marked @NonNull but is null", npe.getMessage());
-        }
+        }).hasMessage("policyKey is marked @NonNull but is null");
 
-        try {
+        assertThatThrownBy(() -> {
             dummyProvider.getOperationalPolicy(null);
-
-
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("policyId is marked @NonNull but is null", npe.getMessage());
-        }
-        try {
+        }).hasMessage("policyId is marked @NonNull but is null");
+        assertThatThrownBy(() -> {
             dummyProvider.createOperationalPolicy(null);
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("legacyOperationalPolicy is marked @NonNull but is null", npe.getMessage());
-        }
-        try {
+        }).hasMessage("legacyOperationalPolicy is marked @NonNull but is null");
+        assertThatThrownBy(() -> {
             dummyProvider.updateOperationalPolicy(null);
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("legacyOperationalPolicy is marked @NonNull but is null", npe.getMessage());
-        }
-        try {
+        }).hasMessage("legacyOperationalPolicy is marked @NonNull but is null");
+        assertThatThrownBy(() -> {
             dummyProvider.deleteOperationalPolicy(null);
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("policyId is marked @NonNull but is null", npe.getMessage());
-        }
+        }).hasMessage("policyId is marked @NonNull but is null");
 
-        try {
+        assertThatThrownBy(() -> {
             dummyProvider.getGuardPolicy(null);
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("policyId is marked @NonNull but is null", npe.getMessage());
-        }
-        try {
+        }).hasMessage("policyId is marked @NonNull but is null");
+        assertThatThrownBy(() -> {
             dummyProvider.createGuardPolicy(null);
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("legacyGuardPolicy is marked @NonNull but is null", npe.getMessage());
-        }
-        try {
+        }).hasMessage("legacyGuardPolicy is marked @NonNull but is null");
+        assertThatThrownBy(() -> {
             dummyProvider.updateGuardPolicy(null);
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("legacyGuardPolicy is marked @NonNull but is null", npe.getMessage());
-        }
-        try {
+        }).hasMessage("legacyGuardPolicy is marked @NonNull but is null");
+        assertThatThrownBy(() -> {
             dummyProvider.deleteGuardPolicy(null);
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("policyId is marked @NonNull but is null", npe.getMessage());
-        }
+        }).hasMessage("policyId is marked @NonNull but is null");
 
-        try {
-
-
+        assertThatThrownBy(() -> {
             dummyProvider.getPdpGroups(null);
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("pdpGroupFilter is marked @NonNull but is null", npe.getMessage());
-        }
-        try {
+        }).hasMessage("pdpGroupFilter is marked @NonNull but is null");
+        assertThatThrownBy(() -> {
             dummyProvider.createPdpGroups(null);
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("pdpGroups is marked @NonNull but is null", npe.getMessage());
-        }
-        try {
+        }).hasMessage("pdpGroups is marked @NonNull but is null");
+        assertThatThrownBy(() -> {
             dummyProvider.updatePdpGroups(null);
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("pdpGroups is marked @NonNull but is null", npe.getMessage());
-        }
-        try {
+        }).hasMessage("pdpGroups is marked @NonNull but is null");
+        assertThatThrownBy(() -> {
             dummyProvider.deletePdpGroups(null);
-            fail("test should throw an exception");
-        } catch (Exception npe) {
-            assertEquals("pdpGroupFilter is marked @NonNull but is null", npe.getMessage());
-        }
+        }).hasMessage("pdpGroupFilter is marked @NonNull but is null");
 
         dummyProvider.close();
     }
