@@ -1,6 +1,6 @@
 {
   "policy-id" : "guard.minmax.scaleout",
-  "contents" : {
+  "content" : {
         "actor": "SO",
         "recipe": "VF Module Create",
         "targets": ".*",
