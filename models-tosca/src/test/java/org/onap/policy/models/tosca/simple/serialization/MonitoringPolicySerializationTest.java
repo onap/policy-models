@@ -36,6 +36,7 @@ import java.io.IOException;
 import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
+import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfValidationResult;
@@ -129,12 +130,12 @@ public class MonitoringPolicySerializationTest {
     }
 
     private ToscaServiceTemplate deserializeMonitoringInputYaml(String resourcePath)
-            throws JsonSyntaxException, IOException {
+            throws Exception {
 
         Yaml yaml = new Yaml();
         String policyYaml = ResourceUtils.getResourceAsString(resourcePath);
         Object yamlObject = yaml.load(policyYaml);
-        String yamlAsJsonString = new Gson().toJson(yamlObject);
+        String yamlAsJsonString = new StandardCoder().encode(yamlObject);
         ToscaServiceTemplate serviceTemplate = gson.fromJson(yamlAsJsonString, ToscaServiceTemplate.class);
         return serviceTemplate;
     }

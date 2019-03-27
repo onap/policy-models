@@ -27,22 +27,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
-import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicy;
+import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyInput;
 
 public class LegacyGuardPolicyTest {
 
     @Test
     public void test() {
-        LegacyGuardPolicy guard = new LegacyGuardPolicy();
+        LegacyGuardPolicyInput guard = new LegacyGuardPolicyInput();
         assertNotNull(guard);
         guard.setPolicyId("guard.frequency");
         assertEquals("guard.frequency", guard.getPolicyId());
         guard.setPolicyVersion("1");
         assertEquals("1", guard.getPolicyVersion());
-        Map<String, String> content = new HashMap<>();
-        content.put("actor", "SO");
+        Map<String, String> body = new HashMap<>();
+        body.put("actor", "SO");
+        LegacyGuardPolicyContent content = new LegacyGuardPolicyContent();
+        content.setActor("SO");
         guard.setContent(content);
-        assertEquals(1, guard.getContent().size());
+        assertEquals("SO", guard.getContent().getActor());
     }
 
 }

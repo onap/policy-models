@@ -18,20 +18,20 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.models.pap.provider;
+package org.onap.policy.models.pdp.provider;
 
 import lombok.NonNull;
 
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.dao.PfDao;
-import org.onap.policy.models.pap.concepts.PdpGroups;
+import org.onap.policy.models.pdp.concepts.PdpGroups;
 
 /**
  * This class provides the provision of information on PAP concepts in the database to callers.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class PapProvider {
+public class PdpProvider {
     /**
      * Get PDP groups.
      *

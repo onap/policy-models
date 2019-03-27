@@ -20,18 +20,21 @@
 
 package org.onap.policy.models.provider;
 
+import java.util.Map;
+
 import lombok.NonNull;
 
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
-import org.onap.policy.models.pap.concepts.PdpGroups;
-import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicy;
+import org.onap.policy.models.pdp.concepts.PdpGroups;
+import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyInput;
+import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyOutput;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
 import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
 
 /**
- * This interface describes the operations that are provided to users and components for reading
- * objects from and writing objects to the database.
+ * This interface describes the operations that are provided to users and components for reading objects from and
+ * writing objects to the database.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
@@ -46,9 +49,8 @@ public interface PolicyModelsProvider extends AutoCloseable {
     /**
      * Get policy types.
      *
-     * @param policyTypeKey the policy type key for the policy types to be retrieved. A null key
-     *        name returns all policy types. A null key version returns all versions of the policy
-     *        type name specified in the key.
+     * @param policyTypeKey the policy type key for the policy types to be retrieved. A null key name returns all policy
+     *        types. A null key version returns all versions of the policy type name specified in the key.
      * @return the policy types found
      * @throws PfModelException on errors getting policy types
      */
@@ -57,8 +59,7 @@ public interface PolicyModelsProvider extends AutoCloseable {
     /**
      * Create policy types.
      *
-     * @param serviceTemplate the service template containing the definition of the policy types to
-     *        be created
+     * @param serviceTemplate the service template containing the definition of the policy types to be created
      * @return the TOSCA service template containing the created policy types
      * @throws PfModelException on errors creating policy types
      */
@@ -68,8 +69,7 @@ public interface PolicyModelsProvider extends AutoCloseable {
     /**
      * Create policy types.
      *
-     * @param serviceTemplate the service template containing the definition of the policy types to
-     *        be modified
+     * @param serviceTemplate the service template containing the definition of the policy types to be modified
      * @return the TOSCA service template containing the modified policy types
      * @throws PfModelException on errors updating policy types
      */
@@ -79,8 +79,8 @@ public interface PolicyModelsProvider extends AutoCloseable {
     /**
      * Delete policy types.
      *
-     * @param policyTypeKey the policy type key for the policy types to be deleted, if the version
-     *        of the key is null, all versions of the policy type are deleted.
+     * @param policyTypeKey the policy type key for the policy types to be deleted, if the version of the key is null,
+     *        all versions of the policy type are deleted.
      * @return the TOSCA service template containing the policy types that were deleted
      * @throws PfModelException on errors deleting policy types
      */
@@ -89,8 +89,8 @@ public interface PolicyModelsProvider extends AutoCloseable {
     /**
      * Get policies.
      *
-     * @param policyKey the policy key for the policies to be retrieved. The parent name and version
-     *        must be specified. A null local name returns all policies for a parent policy type.
+     * @param policyKey the policy key for the policies to be retrieved. The parent name and version must be specified.
+     *        A null local name returns all policies for a parent policy type.
      * @return the policies found
      * @throws PfModelException on errors getting policies
      */
@@ -99,8 +99,7 @@ public interface PolicyModelsProvider extends AutoCloseable {
     /**
      * Create policies.
      *
-     * @param serviceTemplate the service template containing the definitions of the new policies to
-     *        be created.
+     * @param serviceTemplate the service template containing the definitions of the new policies to be created.
      * @return the TOSCA service template containing the policy types that were created
      * @throws PfModelException on errors creating policies
      */
@@ -111,8 +110,7 @@ public interface PolicyModelsProvider extends AutoCloseable {
     /**
      * Update policies.
      *
-     * @param serviceTemplate the service template containing the definitions of the policies to be
-     *        updated.
+     * @param serviceTemplate the service template containing the definitions of the policies to be updated.
      * @return the TOSCA service template containing the policies that were updated
      * @throws PfModelException on errors updating policies
      */
@@ -173,7 +171,7 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * @return the policies found
      * @throws PfModelException on errors getting policies
      */
-    public LegacyGuardPolicy getGuardPolicy(@NonNull final String policyId) throws PfModelException;
+    public Map<String, LegacyGuardPolicyOutput> getGuardPolicy(@NonNull final String policyId) throws PfModelException;
 
     /**
      * Create legacy guard policy.
@@ -182,8 +180,8 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * @return the created policy
      * @throws PfModelException on errors creating policies
      */
-    public LegacyGuardPolicy createGuardPolicy(@NonNull final LegacyGuardPolicy legacyGuardPolicy)
-            throws PfModelException;
+    public Map<String, LegacyGuardPolicyOutput> createGuardPolicy(
+            @NonNull final LegacyGuardPolicyInput legacyGuardPolicy) throws PfModelException;
 
     /**
      * Update legacy guard policy.
@@ -192,8 +190,8 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * @return the updated policy
      * @throws PfModelException on errors updating policies
      */
-    public LegacyGuardPolicy updateGuardPolicy(@NonNull final LegacyGuardPolicy legacyGuardPolicy)
-            throws PfModelException;
+    public Map<String, LegacyGuardPolicyOutput> updateGuardPolicy(
+            @NonNull final LegacyGuardPolicyInput legacyGuardPolicy) throws PfModelException;
 
     /**
      * Delete legacy guard policy.
@@ -202,7 +200,8 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * @return the deleted policy
      * @throws PfModelException on errors deleting policies
      */
-    public LegacyGuardPolicy deleteGuardPolicy(@NonNull final String policyId) throws PfModelException;
+    public Map<String, LegacyGuardPolicyOutput> deleteGuardPolicy(@NonNull final String policyId)
+            throws PfModelException;
 
     /**
      * Get PDP groups.

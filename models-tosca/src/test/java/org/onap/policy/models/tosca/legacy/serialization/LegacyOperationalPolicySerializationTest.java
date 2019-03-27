@@ -24,13 +24,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-
-import java.io.IOException;
-
 import org.junit.Before;
 import org.junit.Test;
+import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
@@ -48,18 +44,19 @@ public class LegacyOperationalPolicySerializationTest {
     // Logger for this class
     private static final Logger LOGGER = LoggerFactory.getLogger(LegacyOperationalPolicySerializationTest.class);
 
-    private Gson gson;
+    private StandardCoder standardCoder;
 
     @Before
     public void setUp() {
-        gson = new Gson();
+        standardCoder = new StandardCoder();
     }
 
     @Test
-    public void testJsonDeserialization() throws JsonSyntaxException, IOException {
+    public void testJsonDeserialization() throws Exception {
         String vcpePolicyJson = ResourceUtils.getResourceAsString("policies/vCPE.policy.operational.input.json");
 
-        LegacyOperationalPolicy legacyOperationalPolicy = gson.fromJson(vcpePolicyJson, LegacyOperationalPolicy.class);
+        LegacyOperationalPolicy legacyOperationalPolicy =
+                standardCoder.decode(vcpePolicyJson, LegacyOperationalPolicy.class);
 
         ToscaServiceTemplate serviceTemplate =
                 new LegacyOperationalPolicyMapper().toToscaServiceTemplate(legacyOperationalPolicy);
