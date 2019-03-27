@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55175def_e9a60c74",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/legacy/concepts/LegacyGuardPolicyInput.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-03-27T17:55:09Z",
+      "side": 1,
+      "message": "do we need version in input? should client specify a version or system auto-generate one?",
+      "range": {
+        "startLine": 40,
+        "startChar": 19,
+        "endLine": 40,
+        "endChar": 32
+      },
+      "revId": "72d5506d44e82b09b0d59dfd04a7b9f2a7f43044",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a73049e_2a612157",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/legacy/concepts/LegacyGuardPolicyInput.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-03-27T17:55:09Z",
+      "side": 1,
+      "message": "I\u0027d prefer to have content as general Map\u003cString, String\u003e since the fields in the contents are not specific to frequency and minmax guard. If we have new types of guard policy that require new content fields, we don\u0027t need to change LegacyGuardPolicyContent class.",
+      "range": {
+        "startLine": 42,
+        "startChar": 12,
+        "endLine": 42,
+        "endChar": 36
+      },
+      "revId": "72d5506d44e82b09b0d59dfd04a7b9f2a7f43044",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ffc9bff_4efdecd1",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/legacy/concepts/LegacyGuardPolicyOutput.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-03-27T17:55:09Z",
+      "side": 1,
+      "message": "a bit confused. legacy policy output would be in tosca form or legacy custom form? In models-examples, we have both tosca and non-tosca versions of legacy output.",
+      "range": {
+        "startLine": 33,
+        "startChar": 13,
+        "endLine": 33,
+        "endChar": 36
+      },
+      "revId": "72d5506d44e82b09b0d59dfd04a7b9f2a7f43044",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8201bcd9_d86b1747",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/legacy/concepts/LegacyGuardPolicyOutput.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-03-27T17:55:09Z",
+      "side": 1,
+      "message": "do we really need to have Map here? perhaps better to just put fields like \"actor\", \"recipe\" under \"properties\"? That is, no need of \"content\" in the middle.",
+      "range": {
+        "startLine": 37,
+        "startChar": 12,
+        "endLine": 37,
+        "endChar": 22
+      },
+      "revId": "72d5506d44e82b09b0d59dfd04a7b9f2a7f43044",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9fd0315c_7233e931",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/legacy/concepts/LegacyGuardPolicyOutput.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-03-27T17:55:09Z",
+      "side": 1,
+      "message": "same. better to just use Map\u003cString, String\u003e?",
+      "range": {
+        "startLine": 37,
+        "startChar": 24,
+        "endLine": 37,
+        "endChar": 48
+      },
+      "revId": "72d5506d44e82b09b0d59dfd04a7b9f2a7f43044",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
