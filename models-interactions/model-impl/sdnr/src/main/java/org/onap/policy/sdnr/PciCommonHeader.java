@@ -8,9 +8,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,7 +22,6 @@
 package org.onap.policy.sdnr;
 
 import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashMap;
@@ -57,7 +56,7 @@ public class PciCommonHeader implements Serializable {
 
     /**
      * Used to copy a pci common header.
-     * 
+     *
      * @param commonHeader a header that is defined by the Pci api guide that contains information
      *        about the request (requestId, flags, etc.)
      */
@@ -75,7 +74,7 @@ public class PciCommonHeader implements Serializable {
 
     /**
      * Get the timestamp.
-     * 
+     *
      * @return the timeStamp
      */
     public Instant getTimeStamp() {
@@ -84,9 +83,8 @@ public class PciCommonHeader implements Serializable {
 
     /**
      * Set the timestamp.
-     * 
-     * @param timeStamp
-     *            the timeStamp to set
+     *
+     * @param timeStamp the timeStamp to set
      */
     public void setTimeStamp(Instant timeStamp) {
         this.timeStamp = timeStamp;
@@ -94,7 +92,7 @@ public class PciCommonHeader implements Serializable {
 
     /**
      * Get the API version.
-     * 
+     *
      * @return the apiVer
      */
     public String getApiVer() {
@@ -103,9 +101,8 @@ public class PciCommonHeader implements Serializable {
 
     /**
      * Set the API version.
-     * 
-     * @param apiVer
-     *            the apiVer to set
+     *
+     * @param apiVer the apiVer to set
      */
     public void setApiVer(String apiVer) {
         this.apiVer = apiVer;
@@ -113,7 +110,7 @@ public class PciCommonHeader implements Serializable {
 
     /**
      * Get the request Id.
-     * 
+     *
      * @return the requestId
      */
     public UUID getRequestId() {
@@ -122,9 +119,8 @@ public class PciCommonHeader implements Serializable {
 
     /**
      * Set the request Id.
-     * 
-     * @param requestId
-     *            the requestId to set
+     *
+     * @param requestId the requestId to set
      */
     public void setRequestId(UUID requestId) {
         this.requestId = requestId;
@@ -132,7 +128,7 @@ public class PciCommonHeader implements Serializable {
 
     /**
      * Get the sub request Id.
-     * 
+     *
      * @return the subRequestId
      */
     public String getSubRequestId() {
@@ -141,25 +137,25 @@ public class PciCommonHeader implements Serializable {
 
     /**
      * Set the sub request Id.
-     * 
-     * @param subRequestId
-     *            the subRequestId to set
+     *
+     * @param subRequestId the subRequestId to set
      */
     public void setSubRequestId(String subRequestId) {
         this.subRequestId = subRequestId;
     }
+
     /**
      * Set the request track.
-     * 
-     * @param requestTrack
-     *            the requestTrack to set
+     *
+     * @param requestTrack the requestTrack to set
      */
     public void setRequestTrack(Map<String, String> requestTrack) {
         this.requestTrack = requestTrack;
     }
+
     /**
      * Get the request track.
-     * 
+     *
      * @return the requestTrack
      */
     public Map<String, String> getRequestTrack() {
@@ -168,7 +164,7 @@ public class PciCommonHeader implements Serializable {
 
     /**
      * Get the flags.
-     * 
+     *
      * @return the flags
      */
     public Map<String, String> getFlags() {
@@ -177,9 +173,8 @@ public class PciCommonHeader implements Serializable {
 
     /**
      * Set the flags.
-     * 
-     * @param flags
-     *            the flags to set
+     *
+     * @param flags the flags to set
      */
     public void setFlags(Map<String, String> flags) {
         this.flags = flags;
@@ -187,9 +182,8 @@ public class PciCommonHeader implements Serializable {
 
     @Override
     public String toString() {
-        return "CommonHeader [timeStamp=" + timeStamp + ", apiVer=" + apiVer 
-                   + ", requestId=" + requestId + ", subRequestId=" + subRequestId + ", requestTrack=" + requestTrack
-                   + ", flags=" + flags + "]";
+        return "CommonHeader [timeStamp=" + timeStamp + ", apiVer=" + apiVer + ", requestId=" + requestId
+                + ", subRequestId=" + subRequestId + ", requestTrack=" + requestTrack + ", flags=" + flags + "]";
     }
 
     @Override
@@ -217,46 +211,22 @@ public class PciCommonHeader implements Serializable {
             return false;
         }
         PciCommonHeader other = (PciCommonHeader) obj;
-        if (apiVer == null) {
-            if (other.apiVer != null) {
-                return false;
-            }
-        } else if (!apiVer.equals(other.apiVer)) {
+        if (apiVer != null ? !apiVer.equals(other.apiVer) : other.apiVer != null) {
             return false;
         }
-        if (flags == null) {
-            if (other.flags != null) {
-                return false;
-            }
-        } else if (!flags.equals(other.flags)) {
+        if (flags != null ? !flags.equals(other.flags) : other.flags != null) {
             return false;
         }
-        if (requestTrack == null) {
-            if (other.requestTrack != null) {
-                return false;
-            }
-        } else if (!requestTrack.equals(other.requestTrack)) {
+        if (requestTrack != null ? !requestTrack.equals(other.requestTrack) : other.requestTrack != null) {
             return false;
         }
-        if (requestId == null) {
-            if (other.requestId != null) {
-                return false;
-            }
-        } else if (!requestId.equals(other.requestId)) {
+        if (requestId != null ? !requestId.equals(other.requestId) : other.requestId != null) {
             return false;
         }
-        if (subRequestId == null) {
-            if (other.subRequestId != null) {
-                return false;
-            }
-        } else if (!subRequestId.equals(other.subRequestId)) {
+        if (subRequestId != null ? !subRequestId.equals(other.subRequestId) : other.subRequestId != null) {
             return false;
         }
-        if (timeStamp == null) {
-            if (other.timeStamp != null) {
-                return false;
-            }
-        } else if (!timeStamp.equals(other.timeStamp)) {
+        if (timeStamp != null ? !timeStamp.equals(other.timeStamp) : other.timeStamp != null) {
             return false;
         }
         return true;

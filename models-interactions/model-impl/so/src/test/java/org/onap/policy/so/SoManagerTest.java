@@ -59,7 +59,7 @@ public class SoManagerTest {
      */
     @BeforeClass
     public static void setUp() throws IOException {
-        final ResourceConfig rc = new ResourceConfig(SoDummyServerTest.class);
+        final ResourceConfig rc = new ResourceConfig(SoDummyServer.class);
         //Grizzly by default doesn't allow payload for HTTP methods (ex: DELETE), for which HTTP spec doesn't
         // explicitly state that.
         //allow it before starting the server

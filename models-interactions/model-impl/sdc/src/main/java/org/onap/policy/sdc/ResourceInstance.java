@@ -8,9 +8,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,22 +29,22 @@ public class ResourceInstance implements Serializable {
 
     private String resourceInstanceName;
     private String resourceName;
-    private UUID    resourceInvariantUuid;
+    private UUID resourceInvariantUuid;
     private String resourceVersion;
     private ResourceType resourceType;
-    private UUID    resourceUuid;
-    
+    private UUID resourceUuid;
+
     public ResourceInstance() {
-        //Empty Constructor
+        // Empty Constructor
     }
-    
+
     /**
      * Constructor.
-     * 
+     *
      * @param instance copy object
      */
     public ResourceInstance(ResourceInstance instance) {
-        if (instance == null) { 
+        if (instance == null) {
             return;
         }
         this.resourceInstanceName = instance.resourceInstanceName;
@@ -54,7 +54,7 @@ public class ResourceInstance implements Serializable {
         this.resourceType = instance.resourceType;
         this.resourceUuid = instance.resourceUuid;
     }
-    
+
     public String getResourceInstanceName() {
         return resourceInstanceName;
     }
@@ -109,7 +109,7 @@ public class ResourceInstance implements Serializable {
                 + ", resourceInvariantUuid=" + resourceInvariantUuid + ", resourceVersion=" + resourceVersion
                 + ", resourceType=" + resourceType + ", resourceUuid=" + resourceUuid + "]";
     }
-    
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -122,7 +122,7 @@ public class ResourceInstance implements Serializable {
         result = prime * result + ((resourceVersion == null) ? 0 : resourceVersion.hashCode());
         return result;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -135,45 +135,27 @@ public class ResourceInstance implements Serializable {
             return false;
         }
         ResourceInstance other = (ResourceInstance) obj;
-        if (resourceInstanceName == null) {
-            if (other.resourceInstanceName != null) {
-                return false;
-            }
-        } else if (!resourceInstanceName.equals(other.resourceInstanceName)) {
+        if (resourceInstanceName != null ? !resourceInstanceName.equals(other.resourceInstanceName)
+                : other.resourceInstanceName != null) {
             return false;
         }
-        if (resourceInvariantUuid == null) {
-            if (other.resourceInvariantUuid != null) {
-                return false;
-            }
-        } else if (!resourceInvariantUuid.equals(other.resourceInvariantUuid)) {
+        if (resourceInvariantUuid != null ? !resourceInvariantUuid.equals(other.resourceInvariantUuid)
+                : other.resourceInvariantUuid != null) {
             return false;
         }
-        if (resourceName == null) {
-            if (other.resourceName != null) {
-                return false;
-            }
-        } else if (!resourceName.equals(other.resourceName)) {
+        if (resourceName != null ? !resourceName.equals(other.resourceName) : other.resourceName != null) {
             return false;
         }
-        if (resourceType != other.resourceType) {
+        if (resourceType != null ? !resourceType.equals(other.resourceType) : other.resourceType != null) {
             return false;
         }
-        if (resourceUuid == null) {
-            if (other.resourceUuid != null) {
-                return false;
-            }
-        } else if (!resourceUuid.equals(other.resourceUuid)) {
+        if (resourceUuid != null ? !resourceUuid.equals(other.resourceUuid) : other.resourceUuid != null) {
             return false;
         }
-        if (resourceVersion == null) {
-            if (other.resourceVersion != null) {
-                return false;
-            }
-        } else if (!resourceVersion.equals(other.resourceVersion)) {
+        if (resourceVersion != null ? !resourceVersion.equals(other.resourceVersion) : other.resourceVersion != null) {
             return false;
         }
         return true;
     }
-    
+
 }

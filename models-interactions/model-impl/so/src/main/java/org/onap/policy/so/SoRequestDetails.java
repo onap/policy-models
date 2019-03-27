@@ -22,7 +22,6 @@
 package org.onap.policy.so;
 
 import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
@@ -59,7 +58,7 @@ public class SoRequestDetails implements Serializable {
 
     /**
      * Constructor.
-     * 
+     *
      * @param soRequestDetails copy object
      */
     public SoRequestDetails(SoRequestDetails soRequestDetails) {
@@ -83,53 +82,29 @@ public class SoRequestDetails implements Serializable {
             return false;
         }
         SoRequestDetails other = (SoRequestDetails) obj;
-        if (cloudConfiguration == null) {
-            if (other.cloudConfiguration != null) {
-                return false;
-            }
-        } else if (!cloudConfiguration.equals(other.cloudConfiguration)) {
+        if (cloudConfiguration != null ? !cloudConfiguration.equals(other.cloudConfiguration)
+                : other.cloudConfiguration != null) {
             return false;
         }
-        if (configurationParameters == null) {
-            if (other.configurationParameters != null) {
-                return false;
-            }
-        } else if (!configurationParameters.equals(other.configurationParameters)) {
+        if (configurationParameters != null ? !configurationParameters.equals(other.configurationParameters)
+                : other.configurationParameters != null) {
             return false;
         }
-        if (modelInfo == null) {
-            if (other.modelInfo != null) {
-                return false;
-            }
-        } else if (!modelInfo.equals(other.modelInfo)) {
+        if (modelInfo != null ? !modelInfo.equals(other.modelInfo) : other.modelInfo != null) {
             return false;
         }
-        if (relatedInstanceList == null) {
-            if (other.relatedInstanceList != null) {
-                return false;
-            }
-        } else if (!relatedInstanceList.equals(other.relatedInstanceList)) {
+        if (relatedInstanceList != null ? !relatedInstanceList.equals(other.relatedInstanceList)
+                : other.relatedInstanceList != null) {
             return false;
         }
-        if (requestInfo == null) {
-            if (other.requestInfo != null) {
-                return false;
-            }
-        } else if (!requestInfo.equals(other.requestInfo)) {
+        if (requestInfo != null ? !requestInfo.equals(other.requestInfo) : other.requestInfo != null) {
             return false;
         }
-        if (requestParameters == null) {
-            if (other.requestParameters != null) {
-                return false;
-            }
-        } else if (!requestParameters.equals(other.requestParameters)) {
+        if (requestParameters != null ? !requestParameters.equals(other.requestParameters)
+                : other.requestParameters != null) {
             return false;
         }
-        if (subscriberInfo == null) {
-            if (other.subscriberInfo != null) {
-                return false;
-            }
-        } else if (!subscriberInfo.equals(other.subscriberInfo)) {
+        if (subscriberInfo != null ? !subscriberInfo.equals(other.subscriberInfo) : other.subscriberInfo != null) {
             return false;
         }
         return true;
@@ -208,9 +183,9 @@ public class SoRequestDetails implements Serializable {
     @Override
     public String toString() {
         return "SORequestDetails [modelInfo=" + modelInfo + ", cloudConfiguration=" + cloudConfiguration
-                        + ", requestInfo=" + requestInfo + ", subscriberInfo=" + subscriberInfo
-                        + ", relatedInstanceList=" + relatedInstanceList + ", requestParameters=" + requestParameters
-                        + ", configurationParameters=" + configurationParameters + "]";
+                + ", requestInfo=" + requestInfo + ", subscriberInfo=" + subscriberInfo + ", relatedInstanceList="
+                + relatedInstanceList + ", requestParameters=" + requestParameters + ", configurationParameters="
+                + configurationParameters + "]";
     }
 
 }

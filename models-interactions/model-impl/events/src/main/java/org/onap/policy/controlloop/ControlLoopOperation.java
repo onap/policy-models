@@ -8,9 +8,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -43,7 +43,7 @@ public class ControlLoopOperation implements Serializable {
 
     /**
      * Construct an instance from an existing instance.
-     * 
+     *
      * @param op the existing instance
      */
     public ControlLoopOperation(ControlLoopOperation op) {
@@ -168,60 +168,28 @@ public class ControlLoopOperation implements Serializable {
             return false;
         }
         ControlLoopOperation other = (ControlLoopOperation) obj;
-        if (actor == null) {
-            if (other.actor != null) {
-                return false;
-            }
-        } else if (!actor.equals(other.actor)) {
+        if (actor != null ? !actor.equals(other.actor) : other.actor != null) {
             return false;
         }
-        if (end == null) {
-            if (other.end != null) {
-                return false;
-            }
-        } else if (!end.equals(other.end)) {
+        if (end != null ? !end.equals(other.end) : other.end != null) {
             return false;
         }
-        if (message == null) {
-            if (other.message != null) {
-                return false;
-            }
-        } else if (!message.equals(other.message)) {
+        if (message != null ? !message.equals(other.message) : other.message != null) {
             return false;
         }
-        if (operation == null) {
-            if (other.operation != null) {
-                return false;
-            }
-        } else if (!operation.equals(other.operation)) {
+        if (operation != null ? !operation.equals(other.operation) : other.operation != null) {
             return false;
         }
-        if (outcome == null) {
-            if (other.outcome != null) {
-                return false;
-            }
-        } else if (!outcome.equals(other.outcome)) {
+        if (outcome != null ? !outcome.equals(other.outcome) : other.outcome != null) {
             return false;
         }
-        if (start == null) {
-            if (other.start != null) {
-                return false;
-            }
-        } else if (!start.equals(other.start)) {
+        if (start != null ? !start.equals(other.start) : other.start != null) {
             return false;
         }
-        if (subRequestId == null) {
-            if (other.subRequestId != null) {
-                return false;
-            }
-        } else if (!subRequestId.equals(other.subRequestId)) {
+        if (subRequestId != null ? !subRequestId.equals(other.subRequestId) : other.subRequestId != null) {
             return false;
         }
-        if (target == null) {
-            if (other.target != null) {
-                return false;
-            }
-        } else if (!target.equals(other.target)) {
+        if (target != null ? !target.equals(other.target) : other.target != null) {
             return false;
         }
         return true;

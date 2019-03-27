@@ -8,9 +8,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -58,7 +58,7 @@ public class CommonHeader implements Serializable {
 
     /**
      * Construct an instance from an existing instance.
-     * 
+     *
      * @param commonHeader the existing instance
      */
     public CommonHeader(CommonHeader commonHeader) {
@@ -162,53 +162,25 @@ public class CommonHeader implements Serializable {
             return false;
         }
         CommonHeader other = (CommonHeader) obj;
-        if (apiVer == null) {
-            if (other.apiVer != null) {
-                return false;
-            }
-        } else if (!apiVer.equals(other.apiVer)) {
+        if (apiVer != null ? !apiVer.equals(other.apiVer) : other.apiVer != null) {
             return false;
         }
-        if (flags == null) {
-            if (other.flags != null) {
-                return false;
-            }
-        } else if (!flags.equals(other.flags)) {
+        if (flags != null ? !flags.equals(other.flags) : other.flags != null) {
             return false;
         }
-        if (originatorId == null) {
-            if (other.originatorId != null) {
-                return false;
-            }
-        } else if (!originatorId.equals(other.originatorId)) {
+        if (originatorId != null ? !originatorId.equals(other.originatorId) : other.originatorId != null) {
             return false;
         }
-        if (requestId == null) {
-            if (other.requestId != null) {
-                return false;
-            }
-        } else if (!requestId.equals(other.requestId)) {
+        if (requestId != null ? !requestId.equals(other.requestId) : other.requestId != null) {
             return false;
         }
-        if (requestTrack == null) {
-            if (other.requestTrack != null) {
-                return false;
-            }
-        } else if (!requestTrack.equals(other.requestTrack)) {
+        if (requestTrack != null ? !requestTrack.equals(other.requestTrack) : other.requestTrack != null) {
             return false;
         }
-        if (subRequestId == null) {
-            if (other.subRequestId != null) {
-                return false;
-            }
-        } else if (!subRequestId.equals(other.subRequestId)) {
+        if (subRequestId != null ? !subRequestId.equals(other.subRequestId) : other.subRequestId != null) {
             return false;
         }
-        if (timeStamp == null) {
-            if (other.timeStamp != null) {
-                return false;
-            }
-        } else if (!timeStamp.equals(other.timeStamp)) {
+        if (timeStamp != null ? !timeStamp.equals(other.timeStamp) : other.timeStamp != null) {
             return false;
         }
         return true;
