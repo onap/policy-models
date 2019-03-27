@@ -1,6 +1,7 @@
-/*-
+/*
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  ModificationsCopyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -132,6 +133,15 @@ public class PfConceptKey extends PfKey {
     @Override
     public boolean isNullKey() {
         return this.equals(PfConceptKey.getNullKey());
+    }
+
+    /**
+     * Determines if the version is "null".
+     *
+     * @return {@code true} if the version is null, {@code false} otherwise
+     */
+    public boolean isNullVersion() {
+        return PfKey.NULL_KEY_VERSION.equals(getVersion());
     }
 
     @Override
