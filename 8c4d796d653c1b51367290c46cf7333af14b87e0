@@ -16,6 +16,24 @@
       "revId": "8c4d796d653c1b51367290c46cf7333af14b87e0",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e0b3d526_0c5c62e7",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/impl/DatabasePolicyModelsProviderTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-03-27T22:37:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f22f79ab_4a19bd12",
+      "revId": "8c4d796d653c1b51367290c46cf7333af14b87e0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
