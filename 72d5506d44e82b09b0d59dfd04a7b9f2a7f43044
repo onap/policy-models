@@ -350,6 +350,24 @@
       "revId": "72d5506d44e82b09b0d59dfd04a7b9f2a7f43044",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c5d295f_5b86a7e5",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/legacy/mapping/LegacyGuardPolicyMapper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-27T22:11:52Z",
+      "side": 1,
+      "message": "you can specify a default value, in the annotation, to be used if the property doesn\u0027t exist",
+      "parentUuid": "67f83395_2b2fffcc",
+      "revId": "72d5506d44e82b09b0d59dfd04a7b9f2a7f43044",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
