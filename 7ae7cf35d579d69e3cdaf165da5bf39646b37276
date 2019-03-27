@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4eceff37_6c5b7e75",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/concepts/PdpResponseDetails.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-03-27T10:23:35Z",
+      "side": 1,
+      "message": "This class is only valid for PAP-PDP communication over DMAAP. Hence, we don\u0027t need this in models-pap.",
+      "range": {
+        "startLine": 37,
+        "startChar": 13,
+        "endLine": 37,
+        "endChar": 31
+      },
+      "revId": "7ae7cf35d579d69e3cdaf165da5bf39646b37276",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10a3b939_493d5f5e",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpDeployPolicies.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-03-27T10:23:35Z",
+      "side": 1,
+      "message": "I think this class is specific to PAP REST API only. Hence, we don\u0027t need this in models-pdp.",
+      "range": {
+        "startLine": 37,
+        "startChar": 13,
+        "endLine": 37,
+        "endChar": 30
+      },
+      "revId": "7ae7cf35d579d69e3cdaf165da5bf39646b37276",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab68e215_fa95f2b7",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpGroupDeleteResponse.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-03-27T10:23:35Z",
+      "side": 1,
+      "message": "Same comment",
+      "range": {
+        "startLine": 33,
+        "startChar": 13,
+        "endLine": 33,
+        "endChar": 35
+      },
+      "revId": "7ae7cf35d579d69e3cdaf165da5bf39646b37276",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d69e1123_1cf84b29",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpGroupDeployResponse.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-03-27T10:23:35Z",
+      "side": 1,
+      "message": "Same comment",
+      "range": {
+        "startLine": 33,
+        "startChar": 13,
+        "endLine": 33,
+        "endChar": 35
+      },
+      "revId": "7ae7cf35d579d69e3cdaf165da5bf39646b37276",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81b8c74a_013181b8",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpGroupStateChangeResponse.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-03-27T10:23:35Z",
+      "side": 1,
+      "message": "Same comment",
+      "range": {
+        "startLine": 34,
+        "startChar": 13,
+        "endLine": 34,
+        "endChar": 40
+      },
+      "revId": "7ae7cf35d579d69e3cdaf165da5bf39646b37276",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa5c1b05_274fb6b1",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/SimpleResponse.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-03-27T10:23:35Z",
+      "side": 1,
+      "message": "Same comment",
+      "range": {
+        "startLine": 33,
+        "startChar": 13,
+        "endLine": 33,
+        "endChar": 27
+      },
+      "revId": "7ae7cf35d579d69e3cdaf165da5bf39646b37276",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
