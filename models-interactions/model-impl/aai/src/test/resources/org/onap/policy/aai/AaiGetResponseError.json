@@ -1,0 +1,14 @@
+{
+    "requestError": {
+        "serviceException": {
+            "messageId": "SVC3001",
+            "text": "Resource not found for %1 using id %2 (msg=%3) (ec=%4)",
+            "variables": [
+                "GET",
+                "network/generic-vnfs/generic-vnf/3f02-f878-436b-870c-f0e91e81570d",
+                "Node Not Found:No Node of type generic-vnf found at: network/generic-vnfs/generic-vnf/3f02-f878-436b-870c-f0e91e81570d",
+                "ERR.5.4.6114"
+            ]
+        }
+    }
+}

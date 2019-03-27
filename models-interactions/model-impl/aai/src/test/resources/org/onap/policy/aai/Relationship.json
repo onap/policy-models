@@ -1,0 +1,25 @@
+
+{
+    "related-link": "/aai/v11/network/generic-vnfs/generic-vnf/807a3f02-f878-436b-870c-f0e91e81570d",
+    "related-to": "generic-vnf",
+    "related-to-property": [
+        {
+            "property-key": "generic-vnf.vnf-name",
+            "property-value": "vLoadBalancerMS-Vnf-0809-1"
+        },
+        {
+            "property-key": "generic-vnf.vnf-name",
+            "property-value": "vLoadBalancerMS-Vnf-0809-2"
+        }
+    ],
+    "relationship-data": [
+        {
+            "relationship-key": "generic-vnf.vnf-id",
+            "relationship-value": "807a3f02-f878-436b-870c-f0e91e81570d"
+        },
+        {
+            "relationship-key": "generic-vnf.vnf-id",
+            "relationship-value": "907a3f02-f878-436b-870c-f0e91e81570e"
+        }
+    ]
+}

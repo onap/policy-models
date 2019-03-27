@@ -1,0 +1,128 @@
+# Copyright 2018 AT&T Intellectual Property. All rights reserved
+# Modifications Copyright (C) 2019 Nordix Foundation.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+AAI:
+  type: object
+  properties:
+    AICVServerSelfLink:
+      type: string
+    VNF_NAME:
+      type: string
+    AICVMID:
+      type: string
+    AICTenantID:
+      type: string
+    LOC_ID:
+      type: string
+    in_maint:
+      type: boolean
+    AICIdentity:
+      type: string
+    Prov_status:
+      type: string
+    OAM_IPV4:
+      type: string
+    is_closed_loop_disabled:
+      type: boolean
+    VM_NAME:
+      type: string
+    OAM_IPV6:
+      type: string
+  required:
+    - AICVServerSelfLink
+    - AICIdentity
+    - is_closed_loop_disabled
+ControlLoop:
+  type: object
+  description: Common fields for control loop events and notifications
+  properties:
+    closedLoopControlName:
+      type: string
+      description: A UNIQUE string identifying the Closed Loop ID this event is for. There are no semantics behind this string.
+    serviceInstance:
+      $ref: '../../../../sdc/src/main/resources/definitions.yaml#/serviceInstance'
+    resourceInstance:
+      $ref: '../../../../sdc/src/main/resources/definitions.yaml#/resourceInstance'
+    requestID:
+      type: string
+      description: This is required via ONAP Platform Logging Requirements.
+      pattern: /[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12}/
+    triggerID:
+      type: string
+      description: ID that maps back to Highland Park. Concatenation between eventID and firstEPOCH.
+    triggerSourceName:
+      type: string
+      description: pulled from eventSourceName of trigger H.P. alarm. The contents of this field should also be contained in the AAI Json sub-tag (see below).
+    closedLoopAlarmStart:
+      type: string
+      description: firstEpoch. UTC Timestamp when this event was detected by DCAE. Conform to ONAP Logging requirements.
+    closedLoopAlarmEnd:
+      type: string
+      description: lastEpoch.  UTC Timestamp when this event was detected as cleared by DCAE. Conform to ONAP Logging requirements.
+    closedLoopEventClient:
+      type: string
+      description: Open DCAE sub-system that detected the event and published this event message.
+    target:
+      type: string
+      description: The target entity that is being administered. This could be VM_NAME, VNF_NAME, etc. This should map to a field name in the AAI sub-tag shown below.
+    AAI:
+      $ref: '#/AAI'
+    from:
+      type: string
+    policyScope:
+      type: string
+    policyName:
+      type: string
+    policyVersion:
+      type: string
+  required:
+    - closedLoopControlName
+    - requestID
+    - triggerID
+    - triggerSourceName
+    - closedLoopAlarmStart
+    - closedLoopEventClient
+    - target
+    - AAI
+    - from
+    - policyScope
+    - policyName
+    - policyVersion
+Event:
+  allOf:
+    - $ref: '#/ControlLoop'
+    - properties:
+      closedLoopEventStatus:
+        type: string
+        description: The status for the event within Open DCAE. A value of “ONSET” indicates the event has been encountered. “ABATED” indicates the event has been abated.
+        valid_values:
+          - ONSET
+          - ABATEMENT
+    - required:
+      - closedLoopEventStatus
+Notification:
+    - $ref: '#/ControlLoop'
+    - properties:
+      notification:
+        type: string
+      notificationTime:
+        type: string
+      message:
+        type: string
+      OPS_CL_timer:
+        type: int
+    - required:
+      - notification
+      - notificationTime
+      - OPS_CL_timer
