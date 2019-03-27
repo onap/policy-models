@@ -76,6 +76,30 @@
     },
     {
       "key": {
+        "uuid": "882a4317_f779f784",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/legacy/concepts/LegacyGuardPolicyInput.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-03-27T20:10:28Z",
+      "side": 1,
+      "message": "It\u0027s optional so if its not specified it\u0027s not specified.",
+      "parentUuid": "55175def_e9a60c74",
+      "range": {
+        "startLine": 40,
+        "startChar": 19,
+        "endLine": 40,
+        "endChar": 32
+      },
+      "revId": "72d5506d44e82b09b0d59dfd04a7b9f2a7f43044",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a73049e_2a612157",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/legacy/concepts/LegacyGuardPolicyInput.java",
         "patchSetId": 2
@@ -99,6 +123,30 @@
     },
     {
       "key": {
+        "uuid": "05fa3191_a9d5c280",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/legacy/concepts/LegacyGuardPolicyInput.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-03-27T20:10:28Z",
+      "side": 1,
+      "message": "I did it this way to make the parsing easier. If we don\u0027t do it this way then we\u0027ll have to have a custom parser. We\u0027re deprecating all this stuff anyway in El Alto so in my opinion this is the easiest way.",
+      "parentUuid": "2a73049e_2a612157",
+      "range": {
+        "startLine": 42,
+        "startChar": 12,
+        "endLine": 42,
+        "endChar": 36
+      },
+      "revId": "72d5506d44e82b09b0d59dfd04a7b9f2a7f43044",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ffc9bff_4efdecd1",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/legacy/concepts/LegacyGuardPolicyOutput.java",
         "patchSetId": 2
@@ -110,6 +158,30 @@
       "writtenOn": "2019-03-27T17:55:09Z",
       "side": 1,
       "message": "a bit confused. legacy policy output would be in tosca form or legacy custom form? In models-examples, we have both tosca and non-tosca versions of legacy output.",
+      "range": {
+        "startLine": 33,
+        "startChar": 13,
+        "endLine": 33,
+        "endChar": 36
+      },
+      "revId": "72d5506d44e82b09b0d59dfd04a7b9f2a7f43044",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e018012d_415f464e",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/legacy/concepts/LegacyGuardPolicyOutput.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-03-27T20:10:28Z",
+      "side": 1,
+      "message": "If you give legacy input, then you get legacy output.",
+      "parentUuid": "0ffc9bff_4efdecd1",
       "range": {
         "startLine": 33,
         "startChar": 13,
@@ -161,6 +233,30 @@
         "startChar": 24,
         "endLine": 37,
         "endChar": 48
+      },
+      "revId": "72d5506d44e82b09b0d59dfd04a7b9f2a7f43044",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a894f5d_2f765943",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/legacy/concepts/LegacyGuardPolicyOutput.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-03-27T20:10:28Z",
+      "side": 1,
+      "message": "Yes if we don\u0027t want a custom serializer. I investigated this for an hour or two today including reverse engineering the solution in GSON in the debugger and this was the only way I could see of getting the desired output.",
+      "parentUuid": "8201bcd9_d86b1747",
+      "range": {
+        "startLine": 37,
+        "startChar": 12,
+        "endLine": 37,
+        "endChar": 22
       },
       "revId": "72d5506d44e82b09b0d59dfd04a7b9f2a7f43044",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
