@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "ae3deec1_e26c4822",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/impl/DatabasePolicyModelsProviderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-27T18:15:11Z",
+      "side": 1,
+      "message": "suggestion: use assertj\u0027s assertThatThrownBy() and turn all of these into 1-2 liners.\n\nsame comment applies to a few other files",
+      "revId": "72d5506d44e82b09b0d59dfd04a7b9f2a7f43044",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93022518_b96e58a1",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/impl/PolicyLegacyGuardPersistenceTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-27T18:15:11Z",
+      "side": 1,
+      "message": "suggestion: consider using StandardCoder, as it hides gson, and it will ensure this can be encoded/decoded using the standard coder, whatever that happens to be.\n\nsame comment in a few other files",
+      "revId": "72d5506d44e82b09b0d59dfd04a7b9f2a7f43044",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ecfa07ea_9b0cf2d8",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/legacy/concepts/LegacyGuardPolicyContent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-27T18:15:11Z",
+      "side": 1,
+      "message": "\"rpoperty\" \u003d\u003e \"property\"",
+      "revId": "72d5506d44e82b09b0d59dfd04a7b9f2a7f43044",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55175def_e9a60c74",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/legacy/concepts/LegacyGuardPolicyInput.java",
         "patchSetId": 2
@@ -111,6 +162,23 @@
         "endLine": 37,
         "endChar": 48
       },
+      "revId": "72d5506d44e82b09b0d59dfd04a7b9f2a7f43044",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fee63a8_3fec5c58",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/legacy/mapping/LegacyGuardPolicyMapper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-27T18:15:11Z",
+      "side": 1,
+      "message": "suggestion: use policy/commons @Property annotation within LegacyGuardPolicyContent, then you can use policy/commons BeanConfigurator to set all of the properties.  That will eliminate all of these lines.",
       "revId": "72d5506d44e82b09b0d59dfd04a7b9f2a7f43044",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
