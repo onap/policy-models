@@ -2,7 +2,7 @@
   "policy-id" : "guard.minmax.scaleout",
   "contents" : {
         "actor": "SO",
-        "recipe": "scaleOut",
+        "recipe": "VF Module Create",
         "targets": ".*",
         "clname": "ControlLoop-vDNS-6f37f56d-a87d-4b85-b6a9-cc953cf779b3",
         "min": "1",
