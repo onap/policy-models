@@ -1,7 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,16 +22,22 @@ package org.onap.policy.models.provider.impl;
 
 import com.google.gson.Gson;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.ws.rs.core.Response;
+
 import lombok.NonNull;
-import org.onap.policy.common.utils.resources.ResourceUtils;
+
+import org.onap.policy.common.utils.resources.TextFileUtils;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
-import org.onap.policy.models.pap.concepts.PdpGroups;
+import org.onap.policy.models.pdp.concepts.PdpGroups;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
-import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicy;
+import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyInput;
+import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyOutput;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
 import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.serialization.ToscaServiceTemplateMessageBodyHandler;
@@ -41,7 +46,6 @@ import org.onap.policy.models.tosca.simple.serialization.ToscaServiceTemplateMes
  * This class provides a dummy implementation of the Policy Models Provider for the ONAP Policy Framework.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
- * @author Chenfei Gao (cgao@research.att.com)
  */
 public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
     /**
@@ -49,8 +53,7 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
      *
      * @param parameters the parameters for the provider
      */
-    public DummyPolicyModelsProviderImpl(@NonNull final PolicyModelsProviderParameters parameters) {
-    }
+    public DummyPolicyModelsProviderImpl(@NonNull final PolicyModelsProviderParameters parameters) {}
 
     @Override
     public void init() throws PfModelException {
@@ -64,7 +67,7 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
 
     @Override
     public ToscaServiceTemplate getPolicyTypes(@NonNull final PfConceptKey policyTypeKey) throws PfModelException {
-        return getDummyResponse("dummyimpl/DummyToscaPolicyTypeGetResponse.json");
+        return getDummyResponse("src/main/resources/dummyimpl/DummyToscaPolicyTypeGetResponse.json");
     }
 
     @Override
@@ -81,12 +84,12 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
 
     @Override
     public ToscaServiceTemplate deletePolicyTypes(@NonNull final PfConceptKey policyTypeKey) throws PfModelException {
-        return getDummyResponse("dummyimpl/DummyToscaPolicyTypeDeleteResponse.json");
+        return getDummyResponse("src/main/resources/dummyimpl/DummyToscaPolicyTypeDeleteResponse.json");
     }
 
     @Override
     public ToscaServiceTemplate getPolicies(@NonNull final PfConceptKey policyKey) throws PfModelException {
-        return getDummyResponse("dummyimpl/DummyToscaPolicyGetResponse.json");
+        return getDummyResponse("src/main/resources/dummyimpl/DummyToscaPolicyGetResponse.json");
     }
 
     @Override
@@ -103,7 +106,7 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
 
     @Override
     public ToscaServiceTemplate deletePolicies(@NonNull final PfConceptKey policyKey) throws PfModelException {
-        return getDummyResponse("dummyimpl/DummyToscaPolicyDeleteResponse.json");
+        return getDummyResponse("src/main/resources/dummyimpl/DummyToscaPolicyDeleteResponse.json");
     }
 
     @Override
@@ -130,25 +133,26 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public LegacyGuardPolicy getGuardPolicy(@NonNull final String policyId) throws PfModelException {
-        return new LegacyGuardPolicy();
+    public Map<String, LegacyGuardPolicyOutput> getGuardPolicy(@NonNull final String policyId) throws PfModelException {
+        return new HashMap<>();
     }
 
     @Override
-    public LegacyGuardPolicy createGuardPolicy(@NonNull final LegacyGuardPolicy legacyGuardPolicy)
+    public Map<String, LegacyGuardPolicyOutput> createGuardPolicy(
+            @NonNull final LegacyGuardPolicyInput legacyGuardPolicy) throws PfModelException {
+        return new HashMap<>();
+    }
+
+    @Override
+    public Map<String, LegacyGuardPolicyOutput> updateGuardPolicy(
+            @NonNull final LegacyGuardPolicyInput legacyGuardPolicy) throws PfModelException {
+        return new HashMap<>();
+    }
+
+    @Override
+    public Map<String, LegacyGuardPolicyOutput> deleteGuardPolicy(@NonNull final String policyId)
             throws PfModelException {
-        return legacyGuardPolicy;
-    }
-
-    @Override
-    public LegacyGuardPolicy updateGuardPolicy(@NonNull final LegacyGuardPolicy legacyGuardPolicy)
-            throws PfModelException {
-        return legacyGuardPolicy;
-    }
-
-    @Override
-    public LegacyGuardPolicy deleteGuardPolicy(@NonNull final String policyId) throws PfModelException {
-        return new LegacyGuardPolicy();
+        return new HashMap<>();
     }
 
     @Override
@@ -182,10 +186,7 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
         ToscaServiceTemplate serviceTemplate;
 
         try {
-            serviceTemplate = gson.fromJson(ResourceUtils.getResourceAsString(fileName), ToscaServiceTemplate.class);
-            if (serviceTemplate == null) {
-                throw new PfModelException(Response.Status.INTERNAL_SERVER_ERROR, "error reading specified file");
-            }
+            serviceTemplate = gson.fromJson(TextFileUtils.getTextFileAsString(fileName), ToscaServiceTemplate.class);
         } catch (Exception exc) {
             throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR, "error serializing object", exc);
         }

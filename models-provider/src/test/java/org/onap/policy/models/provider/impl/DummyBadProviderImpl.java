@@ -20,6 +20,8 @@
 
 package org.onap.policy.models.provider.impl;
 
+import java.util.Map;
+
 import javax.ws.rs.core.Response;
 
 import lombok.NonNull;
@@ -27,9 +29,10 @@ import lombok.NonNull;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
-import org.onap.policy.models.pap.concepts.PdpGroups;
+import org.onap.policy.models.pdp.concepts.PdpGroups;
 import org.onap.policy.models.provider.PolicyModelsProvider;
-import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicy;
+import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyInput;
+import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyOutput;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
 import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
 
@@ -47,8 +50,7 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
     public void close() throws Exception {}
 
     @Override
-    public void init() throws PfModelException {
-    }
+    public void init() throws PfModelException {}
 
     @Override
     public ToscaServiceTemplate getPolicyTypes(@NonNull PfConceptKey policyTypeKey) throws PfModelException {
@@ -115,22 +117,24 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public LegacyGuardPolicy getGuardPolicy(@NonNull String policyId) throws PfModelException {
+    public Map<String, LegacyGuardPolicyOutput> getGuardPolicy(@NonNull String policyId) throws PfModelException {
         return null;
     }
 
     @Override
-    public LegacyGuardPolicy createGuardPolicy(@NonNull LegacyGuardPolicy legacyGuardPolicy) throws PfModelException {
+    public Map<String, LegacyGuardPolicyOutput> createGuardPolicy(@NonNull LegacyGuardPolicyInput legacyGuardPolicy)
+            throws PfModelException {
         return null;
     }
 
     @Override
-    public LegacyGuardPolicy updateGuardPolicy(@NonNull LegacyGuardPolicy legacyGuardPolicy) throws PfModelException {
+    public Map<String, LegacyGuardPolicyOutput> updateGuardPolicy(@NonNull LegacyGuardPolicyInput legacyGuardPolicy)
+            throws PfModelException {
         return null;
     }
 
     @Override
-    public LegacyGuardPolicy deleteGuardPolicy(@NonNull String policyId) throws PfModelException {
+    public Map<String, LegacyGuardPolicyOutput> deleteGuardPolicy(@NonNull String policyId) throws PfModelException {
         return null;
     }
 

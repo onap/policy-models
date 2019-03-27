@@ -23,6 +23,7 @@ package org.onap.policy.models.provider.impl;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Base64;
+import java.util.Map;
 
 import javax.ws.rs.core.Response;
 
@@ -35,11 +36,12 @@ import org.onap.policy.models.dao.DaoParameters;
 import org.onap.policy.models.dao.PfDao;
 import org.onap.policy.models.dao.PfDaoFactory;
 import org.onap.policy.models.dao.impl.DefaultPfDao;
-import org.onap.policy.models.pap.concepts.PdpGroups;
-import org.onap.policy.models.pap.provider.PapProvider;
+import org.onap.policy.models.pdp.concepts.PdpGroups;
+import org.onap.policy.models.pdp.provider.PdpProvider;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
-import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicy;
+import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyInput;
+import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyOutput;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
 import org.onap.policy.models.tosca.legacy.provider.LegacyProvider;
 import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
@@ -214,27 +216,28 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public LegacyGuardPolicy getGuardPolicy(@NonNull final String policyId) throws PfModelException {
+    public Map<String, LegacyGuardPolicyOutput> getGuardPolicy(@NonNull final String policyId) throws PfModelException {
         assertInitilized();
         return new LegacyProvider().getGuardPolicy(pfDao, policyId);
     }
 
     @Override
-    public LegacyGuardPolicy createGuardPolicy(@NonNull final LegacyGuardPolicy legacyGuardPolicy)
-            throws PfModelException {
+    public Map<String, LegacyGuardPolicyOutput> createGuardPolicy(
+            @NonNull final LegacyGuardPolicyInput legacyGuardPolicy) throws PfModelException {
         assertInitilized();
         return new LegacyProvider().createGuardPolicy(pfDao, legacyGuardPolicy);
     }
 
     @Override
-    public LegacyGuardPolicy updateGuardPolicy(@NonNull final LegacyGuardPolicy legacyGuardPolicy)
-            throws PfModelException {
+    public Map<String, LegacyGuardPolicyOutput> updateGuardPolicy(
+            @NonNull final LegacyGuardPolicyInput legacyGuardPolicy) throws PfModelException {
         assertInitilized();
         return new LegacyProvider().updateGuardPolicy(pfDao, legacyGuardPolicy);
     }
 
     @Override
-    public LegacyGuardPolicy deleteGuardPolicy(@NonNull final String policyId) throws PfModelException {
+    public Map<String, LegacyGuardPolicyOutput> deleteGuardPolicy(@NonNull final String policyId)
+            throws PfModelException {
         assertInitilized();
         return new LegacyProvider().deleteGuardPolicy(pfDao, policyId);
     }
@@ -242,25 +245,25 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
     @Override
     public PdpGroups getPdpGroups(@NonNull String pdpGroupFilter) throws PfModelException {
         assertInitilized();
-        return new PapProvider().getPdpGroups(pfDao, pdpGroupFilter);
+        return new PdpProvider().getPdpGroups(pfDao, pdpGroupFilter);
     }
 
     @Override
     public PdpGroups createPdpGroups(@NonNull PdpGroups pdpGroups) throws PfModelException {
         assertInitilized();
-        return new PapProvider().createPdpGroups(pfDao, pdpGroups);
+        return new PdpProvider().createPdpGroups(pfDao, pdpGroups);
     }
 
     @Override
     public PdpGroups updatePdpGroups(@NonNull PdpGroups pdpGroups) throws PfModelException {
         assertInitilized();
-        return new PapProvider().updatePdpGroups(pfDao, pdpGroups);
+        return new PdpProvider().updatePdpGroups(pfDao, pdpGroups);
     }
 
     @Override
     public PdpGroups deletePdpGroups(@NonNull String pdpGroupFilter) throws PfModelException {
         assertInitilized();
-        return new PapProvider().deletePdpGroups(pfDao, pdpGroupFilter);
+        return new PdpProvider().deletePdpGroups(pfDao, pdpGroupFilter);
     }
 
     /**

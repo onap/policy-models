@@ -30,11 +30,11 @@ import java.util.Base64;
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
-import org.onap.policy.models.pap.concepts.PdpGroups;
+import org.onap.policy.models.pdp.concepts.PdpGroups;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderFactory;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
-import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicy;
+import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyInput;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
 import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
 import org.slf4j.Logger;
@@ -317,34 +317,54 @@ public class DatabasePolicyModelsProviderTest {
             }
 
             try {
-                assertNull(databaseProvider.getOperationalPolicy("policy_id"));
+                databaseProvider.getOperationalPolicy("policy_id");
                 fail("test should throw an exception");
             } catch (Exception npe) {
                 assertEquals("no policy found for policy ID: policy_id", npe.getMessage());
             }
             try {
-                assertNull(databaseProvider.createOperationalPolicy(new LegacyOperationalPolicy()));
+                databaseProvider.createOperationalPolicy(new LegacyOperationalPolicy());
                 fail("test should throw an exception");
             } catch (Exception npe) {
                 assertEquals("name is marked @NonNull but is null", npe.getMessage());
             }
             try {
-                assertNull(databaseProvider.updateOperationalPolicy(new LegacyOperationalPolicy()));
+                databaseProvider.updateOperationalPolicy(new LegacyOperationalPolicy());
                 fail("test should throw an exception");
             } catch (Exception npe) {
                 assertEquals("no policy found for policy ID: null", npe.getMessage());
             }
             try {
-                assertNull(databaseProvider.deleteOperationalPolicy("policy_id"));
+                databaseProvider.deleteOperationalPolicy("policy_id");
                 fail("test should throw an exception");
             } catch (Exception npe) {
                 assertEquals("no policy found for policy ID: policy_id", npe.getMessage());
             }
 
-            assertNull(databaseProvider.getGuardPolicy("policy_id"));
-            assertNull(databaseProvider.createGuardPolicy(new LegacyGuardPolicy()));
-            assertNull(databaseProvider.updateGuardPolicy(new LegacyGuardPolicy()));
-            assertNull(databaseProvider.deleteGuardPolicy("policy_id"));
+            try {
+                databaseProvider.getGuardPolicy("policy_id");
+                fail("test should throw an exception");
+            } catch (Exception npe) {
+                assertEquals("no policy found for policy ID: policy_id", npe.getMessage());
+            }
+            try {
+                databaseProvider.createGuardPolicy(new LegacyGuardPolicyInput());
+                fail("test should throw an exception");
+            } catch (Exception npe) {
+                assertEquals("policy type for guard policy \"null\" unknown", npe.getMessage());
+            }
+            try {
+                databaseProvider.updateGuardPolicy(new LegacyGuardPolicyInput());
+                fail("test should throw an exception");
+            } catch (Exception npe) {
+                assertEquals("policy type for guard policy \"null\" unknown", npe.getMessage());
+            }
+            try {
+                databaseProvider.deleteGuardPolicy("policy_id");
+                fail("test should throw an exception");
+            } catch (Exception npe) {
+                assertEquals("no policy found for policy ID: policy_id", npe.getMessage());
+            }
 
             assertNotNull(databaseProvider.getPdpGroups("filter"));
             assertNotNull(databaseProvider.createPdpGroups(new PdpGroups()));

@@ -41,11 +41,11 @@ import org.onap.policy.models.dao.impl.DefaultPfDao;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
 
 /**
- * Test the {@link LegacyProvider} class.
+ * Test the {@link LegacyProvider} class for legacy operational policies.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class LegacyProviderTest {
+public class LegacyProvider4LegacyOperationalTest {
     private Connection connection;
     private PfDao pfDao;
     private Gson gson;
@@ -134,7 +134,7 @@ public class LegacyProviderTest {
         String expectedJsonOutput = ResourceUtils.getResourceAsString("policies/vCPE.policy.operational.output.json");
         String actualJsonOutput = gson.toJson(gotLop);
 
-        assertEquals(actualJsonOutput.replaceAll("\\s+", ""), expectedJsonOutput.replaceAll("\\s+", ""));
+        assertEquals(expectedJsonOutput.replaceAll("\\s+", ""), actualJsonOutput.replaceAll("\\s+", ""));
 
         LegacyOperationalPolicy createdLopV2 = new LegacyProvider().createOperationalPolicy(pfDao, originalLop);
         LegacyOperationalPolicy gotLopV2 = new LegacyProvider().getOperationalPolicy(pfDao, originalLop.getPolicyId());
@@ -181,7 +181,7 @@ public class LegacyProviderTest {
         String expectedJsonOutput = ResourceUtils.getResourceAsString("policies/vCPE.policy.operational.output.json");
         String actualJsonOutput = gson.toJson(gotLop);
 
-        assertEquals(actualJsonOutput.replaceAll("\\s+", ""), expectedJsonOutput.replaceAll("\\s+", ""));
+        assertEquals(expectedJsonOutput.replaceAll("\\s+", ""), actualJsonOutput.replaceAll("\\s+", ""));
     }
 
 
@@ -285,11 +285,11 @@ public class LegacyProviderTest {
         String expectedJsonOutput = ResourceUtils.getResourceAsString("policies/vCPE.policy.operational.output.json");
         String actualJsonOutput = gson.toJson(gotLop);
 
-        assertEquals(actualJsonOutput.replaceAll("\\s+", ""), expectedJsonOutput.replaceAll("\\s+", ""));
+        assertEquals(expectedJsonOutput.replaceAll("\\s+", ""), actualJsonOutput.replaceAll("\\s+", ""));
 
         LegacyOperationalPolicy deletedLop =
                 new LegacyProvider().deleteOperationalPolicy(pfDao, originalLop.getPolicyId());
-        assertEquals(deletedLop, originalLop);
+        assertEquals(originalLop, deletedLop);
 
         try {
             new LegacyProvider().getOperationalPolicy(pfDao, originalLop.getPolicyId());

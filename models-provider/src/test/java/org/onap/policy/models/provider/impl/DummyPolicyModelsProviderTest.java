@@ -26,11 +26,11 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
-import org.onap.policy.models.pap.concepts.PdpGroups;
+import org.onap.policy.models.pdp.concepts.PdpGroups;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderFactory;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
-import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicy;
+import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyInput;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
 import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
 
@@ -86,8 +86,8 @@ public class DummyPolicyModelsProviderTest {
         assertNotNull(dummyProvider.deleteOperationalPolicy("policy_id"));
 
         assertNotNull(dummyProvider.getGuardPolicy("policy_id"));
-        assertNotNull(dummyProvider.createGuardPolicy(new LegacyGuardPolicy()));
-        assertNotNull(dummyProvider.updateGuardPolicy(new LegacyGuardPolicy()));
+        assertNotNull(dummyProvider.createGuardPolicy(new LegacyGuardPolicyInput()));
+        assertNotNull(dummyProvider.updateGuardPolicy(new LegacyGuardPolicyInput()));
         assertNotNull(dummyProvider.deleteGuardPolicy("policy_id"));
 
         assertNotNull(dummyProvider.getPdpGroups("filter"));
