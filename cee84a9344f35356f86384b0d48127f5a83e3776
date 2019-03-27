@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9001f1a6_8849d81a",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/utils/ToscaUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-03-27T01:05:13Z",
+      "side": 1,
+      "message": "\"check if policy types that have been specified are initialized\"?",
+      "range": {
+        "startLine": 45,
+        "startChar": 16,
+        "endLine": 45,
+        "endChar": 38
+      },
+      "revId": "cee84a9344f35356f86384b0d48127f5a83e3776",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee7d219f_9735e2a7",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/utils/ToscaUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-03-27T01:05:13Z",
+      "side": 1,
+      "message": "\"check if policies that have been specified are initialized\"?",
+      "range": {
+        "startLine": 62,
+        "startChar": 16,
+        "endLine": 62,
+        "endChar": 38
+      },
+      "revId": "cee84a9344f35356f86384b0d48127f5a83e3776",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eac8a5a0_eda8c730",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/legacy/provider/LegacyProviderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-03-27T01:05:13Z",
+      "side": 1,
+      "message": "reverse the order. expected string goes first as the first argument",
+      "range": {
+        "startLine": 137,
+        "startChar": 21,
+        "endLine": 137,
+        "endChar": 103
+      },
+      "revId": "cee84a9344f35356f86384b0d48127f5a83e3776",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10a09fe9_b44955fa",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/legacy/provider/LegacyProviderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-03-27T01:05:13Z",
+      "side": 1,
+      "message": "same. expected goes first. global comment",
+      "range": {
+        "startLine": 288,
+        "startChar": 21,
+        "endLine": 288,
+        "endChar": 103
+      },
+      "revId": "cee84a9344f35356f86384b0d48127f5a83e3776",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f86aaedc_b205fb3a",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/legacy/serialization/LegacyOperationalPolicySerializationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-03-27T01:05:13Z",
+      "side": 1,
+      "message": "need to test fromToscaServiceTemplate also?",
+      "range": {
+        "startLine": 65,
+        "startChar": 52,
+        "endLine": 65,
+        "endChar": 74
+      },
+      "revId": "cee84a9344f35356f86384b0d48127f5a83e3776",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
