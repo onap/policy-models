@@ -68,7 +68,7 @@ public class LegacyOperationalPolicySerializationTest {
         LOGGER.info(serviceTemplate.validate(new PfValidationResult()).toString());
         assertTrue(serviceTemplate.validate(new PfValidationResult()).isValid());
 
-        assertEquals("operational.restart:1.0.1",
+        assertEquals("operational.restart:1.0.0",
                 serviceTemplate.getTopologyTemplate().getPolicies().get("operational.restart").getId());
     }
 }

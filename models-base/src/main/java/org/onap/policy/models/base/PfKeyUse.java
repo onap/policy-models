@@ -111,6 +111,26 @@ public class PfKeyUse extends PfKey {
     }
 
     @Override
+    public boolean isNewerThan(@NonNull final PfKey otherKey) {
+        return usedKey.isCompatible(otherKey);
+    }
+
+    @Override
+    public int getMajorVersion() {
+        return usedKey.getMajorVersion();
+    }
+
+    @Override
+    public int getMinorVersion() {
+        return usedKey.getMinorVersion();
+    }
+
+    @Override
+    public int getPatchVersion() {
+        return usedKey.getPatchVersion();
+    }
+
+    @Override
     public void clean() {
         usedKey.clean();
     }

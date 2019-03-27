@@ -23,11 +23,13 @@ package org.onap.policy.models.base.testconcepts;
 import java.util.Arrays;
 import java.util.List;
 
+import lombok.NonNull;
+
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfValidationResult;
 
-public class DummyPfKey  extends PfKey {
+public class DummyPfKey extends PfKey {
     private static final long serialVersionUID = 1L;
 
     @Override
@@ -93,5 +95,26 @@ public class DummyPfKey  extends PfKey {
     @Override
     public PfConcept copyTo(PfConcept target) {
         return null;
+    }
+
+    @Override
+    public boolean isNewerThan(@NonNull PfKey otherKey) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public int getMajorVersion() {
+        return 0;
+    }
+
+    @Override
+    public int getMinorVersion() {
+        return 0;
+    }
+
+    @Override
+    public int getPatchVersion() {
+        return 0;
     }
 }

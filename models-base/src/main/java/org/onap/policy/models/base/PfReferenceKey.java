@@ -28,6 +28,7 @@ import javax.persistence.Embeddable;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 
 import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
@@ -305,13 +306,38 @@ public class PfReferenceKey extends PfKey {
     }
 
     @Override
-    public boolean isCompatible(final PfKey otherKey) {
+    public boolean isCompatible(@NonNull final PfKey otherKey) {
         if (!(otherKey instanceof PfReferenceKey)) {
             return false;
         }
         final PfReferenceKey otherReferenceKey = (PfReferenceKey) otherKey;
 
         return this.getParentConceptKey().isCompatible(otherReferenceKey.getParentConceptKey());
+    }
+
+    @Override
+    public int getMajorVersion() {
+        return this.getParentConceptKey().getMajorVersion();
+    }
+
+    @Override
+    public int getMinorVersion() {
+        return this.getParentConceptKey().getMinorVersion();
+    }
+
+    @Override
+    public int getPatchVersion() {
+        return this.getParentConceptKey().getPatchVersion();
+    }
+
+
+    @Override
+    public boolean isNewerThan(@NonNull final PfKey otherKey) {
+        Assertions.instanceOf(otherKey, PfReferenceKey.class);
+
+        final PfReferenceKey otherReferenceKey = (PfReferenceKey) otherKey;
+
+        return this.getParentConceptKey().isNewerThan(otherReferenceKey.getParentConceptKey());
     }
 
     @Override

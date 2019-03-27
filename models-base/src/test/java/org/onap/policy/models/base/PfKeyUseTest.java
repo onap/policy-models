@@ -131,5 +131,9 @@ public class PfKeyUseTest {
         } catch (Exception exc) {
             assertEquals("error copying concept key: Some error message", exc.getMessage());
         }
+
+        assertEquals(0, testKeyUse.getMajorVersion());
+        assertEquals(0, testKeyUse.getMinorVersion());
+        assertEquals(0, testKeyUse.getPatchVersion());
     }
 }

@@ -47,7 +47,7 @@ import org.onap.policy.models.base.PfConceptKey;
 public class ToscaPolicies extends PfConceptContainer<ToscaPolicy> {
     private static final long serialVersionUID = -7526648702327776101L;
 
-    public static final String DEFAULT_NAME = "ToscaPoliciessSimple";
+    public static final String DEFAULT_NAME = "ToscaPoliciesSimple";
     public static final String DEFAULT_VERSION = "1.0.0";
 
     /**
