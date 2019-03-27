@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,10 +24,8 @@ package org.onap.policy.models.provider.impl;
 import com.google.gson.Gson;
 
 import javax.ws.rs.core.Response;
-
 import lombok.NonNull;
-
-import org.onap.policy.common.utils.resources.TextFileUtils;
+import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
@@ -42,6 +41,7 @@ import org.onap.policy.models.tosca.simple.serialization.ToscaServiceTemplateMes
  * This class provides a dummy implementation of the Policy Models Provider for the ONAP Policy Framework.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
+ * @author Chenfei Gao (cgao@research.att.com)
  */
 public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
     /**
@@ -64,7 +64,7 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
 
     @Override
     public ToscaServiceTemplate getPolicyTypes(@NonNull final PfConceptKey policyTypeKey) throws PfModelException {
-        return getDummyResponse("src/main/resources/dummyimpl/DummyToscaPolicyTypeGetResponse.json");
+        return getDummyResponse("dummyimpl/DummyToscaPolicyTypeGetResponse.json");
     }
 
     @Override
@@ -81,12 +81,12 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
 
     @Override
     public ToscaServiceTemplate deletePolicyTypes(@NonNull final PfConceptKey policyTypeKey) throws PfModelException {
-        return getDummyResponse("src/main/resources/dummyimpl/DummyToscaPolicyTypeDeleteResponse.json");
+        return getDummyResponse("dummyimpl/DummyToscaPolicyTypeDeleteResponse.json");
     }
 
     @Override
     public ToscaServiceTemplate getPolicies(@NonNull final PfConceptKey policyKey) throws PfModelException {
-        return getDummyResponse("src/main/resources/dummyimpl/DummyToscaPolicyGetResponse.json");
+        return getDummyResponse("dummyimpl/DummyToscaPolicyGetResponse.json");
     }
 
     @Override
@@ -103,7 +103,7 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
 
     @Override
     public ToscaServiceTemplate deletePolicies(@NonNull final PfConceptKey policyKey) throws PfModelException {
-        return getDummyResponse("src/main/resources/dummyimpl/DummyToscaPolicyDeleteResponse.json");
+        return getDummyResponse("dummyimpl/DummyToscaPolicyDeleteResponse.json");
     }
 
     @Override
@@ -182,7 +182,10 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
         ToscaServiceTemplate serviceTemplate;
 
         try {
-            serviceTemplate = gson.fromJson(TextFileUtils.getTextFileAsString(fileName), ToscaServiceTemplate.class);
+            serviceTemplate = gson.fromJson(ResourceUtils.getResourceAsString(fileName), ToscaServiceTemplate.class);
+            if (serviceTemplate == null) {
+                throw new PfModelException(Response.Status.INTERNAL_SERVER_ERROR, "error reading specified file");
+            }
         } catch (Exception exc) {
             throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR, "error serializing object", exc);
         }

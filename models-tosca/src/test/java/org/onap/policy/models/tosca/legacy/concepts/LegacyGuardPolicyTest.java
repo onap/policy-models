@@ -23,9 +23,7 @@ package org.onap.policy.models.tosca.legacy.concepts;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
@@ -41,10 +39,8 @@ public class LegacyGuardPolicyTest {
         assertEquals("guard.frequency", guard.getPolicyId());
         guard.setPolicyVersion("1");
         assertEquals("1", guard.getPolicyVersion());
-        Map<String, String> body = new HashMap<>();
-        body.put("actor", "SO");
-        List<Map<String, String>> content = new ArrayList<>();
-        content.add(body);
+        Map<String, String> content = new HashMap<>();
+        content.put("actor", "SO");
         guard.setContent(content);
         assertEquals(1, guard.getContent().size());
     }
