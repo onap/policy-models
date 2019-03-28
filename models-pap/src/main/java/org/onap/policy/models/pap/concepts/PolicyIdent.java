@@ -21,6 +21,7 @@
 package org.onap.policy.models.pap.concepts;
 
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -30,6 +31,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@NonNull
 public class PolicyIdent {
     private String name;
     private String version;
