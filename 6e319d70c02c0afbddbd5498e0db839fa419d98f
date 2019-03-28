@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "353a8c91_8cb44d88",
+        "filename": "models-interactions/model-impl/appc/src/main/java/org/onap/policy/appc/CommonHeader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-03-28T21:32:59Z",
+      "side": 1,
+      "message": "I am not sure what is the sonars here but I would be surprised that the code below could be a good practice.  I think the proposed changes introduce loss of readibility and the lines of code gets reduced by just mixing different forms of conditionals together \"if\" and ternary operator \"()?:\" constructions.   I would prefer to keep existing code as is.",
+      "revId": "6e319d70c02c0afbddbd5498e0db839fa419d98f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f9986c1_833f6b92",
+        "filename": "models-interactions/model-impl/appc/src/main/java/org/onap/policy/appc/Request.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-03-28T21:32:59Z",
+      "side": 1,
+      "message": "same comments as in previous file",
+      "revId": "6e319d70c02c0afbddbd5498e0db839fa419d98f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b109498_4006695c",
+        "filename": "models-interactions/model-impl/appc/src/main/java/org/onap/policy/appc/Response.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-03-28T21:32:59Z",
+      "side": 1,
+      "message": "I think this is not right .. it uses serialized name for the name, but at the same time it marks as transient that I think indicates gson to ignore, which is contradictory.  It also has side effects on java serialization that drools uses.   I don\u0027t this this will work.",
+      "revId": "6e319d70c02c0afbddbd5498e0db839fa419d98f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1418c627_63f717b3",
+        "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/LcmCommonHeader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-03-28T21:32:59Z",
+      "side": 1,
+      "message": "same comments .. there must be an easier way to deal with the sonar you\u0027re trying to correct than doing it like this.",
+      "revId": "6e319d70c02c0afbddbd5498e0db839fa419d98f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c21e21ca_0eef729a",
+        "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/LcmRequest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-03-28T21:32:59Z",
+      "side": 1,
+      "message": "general ..",
+      "revId": "6e319d70c02c0afbddbd5498e0db839fa419d98f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8c2e984_b725bf80",
+        "filename": "models-interactions/model-impl/trafficgenerator/src/main/java/org/onap/policy/vnf/trafficgenerator/PgStreams.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-03-28T21:32:59Z",
+      "side": 1,
+      "message": "I think this change will break functionality",
+      "revId": "6e319d70c02c0afbddbd5498e0db839fa419d98f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
