@@ -28,7 +28,7 @@ import lombok.ToString;
 
 /**
  * Request deploy or update a set of policies using the <i>simple</i> PDP Group deployment
- * REST API. Only the "name" and "policyVersion" fields of a Policy are used, and only the
+ * REST API. Only the "name" and "version" fields of a Policy are used, and only the
  * "name" field is actually required.
  */
 @Getter
