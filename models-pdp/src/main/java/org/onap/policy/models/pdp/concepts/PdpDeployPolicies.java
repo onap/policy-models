@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.models.pap.concepts;
+package org.onap.policy.models.pdp.concepts;
 
 import java.util.List;
 
