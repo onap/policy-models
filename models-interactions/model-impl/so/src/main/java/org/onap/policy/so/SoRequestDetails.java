@@ -59,7 +59,7 @@ public class SoRequestDetails implements Serializable {
 
     /**
      * Constructor.
-     * 
+     *
      * @param soRequestDetails copy object
      */
     public SoRequestDetails(SoRequestDetails soRequestDetails) {

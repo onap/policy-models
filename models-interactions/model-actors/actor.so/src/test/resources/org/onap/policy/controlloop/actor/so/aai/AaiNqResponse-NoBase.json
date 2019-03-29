@@ -1,0 +1,230 @@
+{
+  "inventory-response-item": [
+    {
+      "vserver": {
+        "vserver-id": "6ed3642c-f7a1-4a7c-9290-3d51fe1531eb",
+        "vserver-name": "zdfw1lb01lb02",
+        "vserver-name2": "zdfw1lb01lb02",
+        "prov-status": "ACTIVE",
+        "vserver-selflink": "http://10.12.25.2:8774/v2.1/41d6d38489bd40b09ea8a6b6b852dcbd/servers/6ed3642c-f7a1-4a7c-9290-3d51fe1531eb",
+        "in-maint": false,
+        "is-closed-loop-disabled": false,
+        "resource-version": "1510606403522"
+      },
+      "extra-properties": {
+        "extra-property": []
+      },
+      "inventory-response-items": {
+        "inventory-response-item": [
+          {
+            "model-name": "vLoadBalancer",
+            "generic-vnf": {
+              "vnf-id": "db373a8d-f7be-4d02-8ac8-6ca4c305d144",
+              "vnf-name": "Vfmodule_vLB1113",
+              "vnf-type": "vLoadBalancer-1106/vLoadBalancer 0",
+              "service-id": "66f157fc-4148-4880-95f5-e120677e98d1",
+              "prov-status": "PREPROV",
+              "in-maint": false,
+              "is-closed-loop-disabled": false,
+              "resource-version": "1510604011851",
+              "model-invariant-id": "cee050ed-92a5-494f-ab04-234307a846dc",
+              "model-version-id": "fd65becc-6b2c-4fe8-ace9-cc29db9a3da2"
+            },
+            "extra-properties": {
+              "extra-property": [
+                {
+                  "property-name": "model-ver.model-version-id",
+                  "property-value": "fd65becc-6b2c-4fe8-ace9-cc29db9a3da2"
+                },
+                {
+                  "property-name": "model-ver.model-name",
+                  "property-value": "vLoadBalancer"
+                },
+                {
+                  "property-name": "model.model-type",
+                  "property-value": "resource"
+                },
+                {
+                  "property-name": "model.model-invariant-id",
+                  "property-value": "cee050ed-92a5-494f-ab04-234307a846dc"
+                },
+                {
+                  "property-name": "model-ver.model-version",
+                  "property-value": "1.0"
+                }
+              ]
+            },
+            "inventory-response-items": {
+              "inventory-response-item": [
+                {
+                  "model-name": "vLoadBalancer-1106",
+                  "service-instance": {
+                    "service-instance-id": "3b12f31f-8f2d-4f5c-b875-61ff1194b941",
+                    "service-instance-name": "vLoadBalancer-1113",
+                    "resource-version": "1510603936425",
+                    "model-invariant-id": "1321d60d-f7ff-4300-96c2-6bf0b3268b7a",
+                    "model-version-id": "732d4692-4b97-46f9-a996-0b3339e88c50"
+                  },
+                  "extra-properties": {
+                    "extra-property": [
+                      {
+                        "property-name": "model-ver.model-version-id",
+                        "property-value": "732d4692-4b97-46f9-a996-0b3339e88c50"
+                      },
+                      {
+                        "property-name": "model-ver.model-name",
+                        "property-value": "vLoadBalancer-1106"
+                      },
+                      {
+                        "property-name": "model.model-type",
+                        "property-value": "service"
+                      },
+                      {
+                        "property-name": "model.model-invariant-id",
+                        "property-value": "1321d60d-f7ff-4300-96c2-6bf0b3268b7a"
+                      },
+                      {
+                        "property-name": "model-ver.model-version",
+                        "property-value": "1.0"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "model-name": "Vloadbalancer..dnsscaling..module-1",
+                  "vf-module": {
+                    "vf-module-id": "dummy_db373a8d-f7be-4d02-8ac8-6ca4c305d144",
+                    "vf-module-name": "dummy_db373a8d-f7be-4d02-8ac8-6ca4c305d144",
+                    "is-base-vf-module": false,
+                    "resource-version": "1510610079687",
+                    "model-invariant-id": "356a1cff-71f2-4086-9980-a2927ce11c1c",
+                    "model-version-id": "6b93d804-cfc8-4be3-92cc-9336d135859a"
+                  },
+                  "extra-properties": {
+                    "extra-property": [
+                      {
+                        "property-name": "model-ver.model-version-id",
+                        "property-value": "6b93d804-cfc8-4be3-92cc-9336d135859a"
+                      },
+                      {
+                        "property-name": "model-ver.model-name",
+                        "property-value": "Vloadbalancer..dnsscaling..module-1"
+                      },
+                      {
+                        "property-name": "model.model-type",
+                        "property-value": "resource"
+                      },
+                      {
+                        "property-name": "model.model-invariant-id",
+                        "property-value": "356a1cff-71f2-4086-9980-a2927ce11c1c"
+                      },
+                      {
+                        "property-name": "model-ver.model-version",
+                        "property-value": "1"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "model-name": "Vloadbalancer..dnsscaling..module-1",
+                  "vf-module": {
+                    "vf-module-id": "my_module_db373a8d-f7be-4d02-8ac8-6ca4c305d144",
+                    "vf-module-name": "my_module_1",
+                    "is-base-vf-module": false,
+                    "resource-version": "1510610079687",
+                    "model-invariant-id": "356a1cff-71f2-4086-9980-a2927ce11c1c",
+                    "model-version-id": "6b93d804-cfc8-4be3-92cc-9336d135859a"
+                  },
+                  "extra-properties": {
+                    "extra-property": [
+                      {
+                        "property-name": "model-ver.model-version-id",
+                        "property-value": "6b93d804-cfc8-4be3-92cc-9336d135859a"
+                      },
+                      {
+                        "property-name": "model-ver.model-name",
+                        "property-value": "Vloadbalancer..dnsscaling..module-1"
+                      },
+                      {
+                        "property-name": "model.model-type",
+                        "property-value": "resource"
+                      },
+                      {
+                        "property-name": "model.model-invariant-id",
+                        "property-value": "356a1cff-71f2-4086-9980-a2927ce11c1c"
+                      },
+                      {
+                        "property-name": "model-ver.model-version",
+                        "property-value": "1"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "model-name": "Vloadbalancer..dnsscaling..module-1",
+                  "vf-module": {
+                    "vf-module-id": "my_module_db373a8d-f7be-4d02-8ac8-6ca4c305d144",
+                    "vf-module-name": "my_module_2",
+                    "is-base-vf-module": false,
+                    "resource-version": "1510610079687",
+                    "model-invariant-id": "356a1cff-71f2-4086-9980-a2927ce11c1c",
+                    "model-version-id": "6b93d804-cfc8-4be3-92cc-9336d135859a"
+                  },
+                  "extra-properties": {
+                    "extra-property": [
+                      {
+                        "property-name": "model-ver.model-version-id",
+                        "property-value": "6b93d804-cfc8-4be3-92cc-9336d135859a"
+                      },
+                      {
+                        "property-name": "model-ver.model-name",
+                        "property-value": "Vloadbalancer..dnsscaling..module-1"
+                      },
+                      {
+                        "property-name": "model.model-type",
+                        "property-value": "resource"
+                      },
+                      {
+                        "property-name": "model.model-invariant-id",
+                        "property-value": "356a1cff-71f2-4086-9980-a2927ce11c1c"
+                      },
+                      {
+                        "property-name": "model-ver.model-version",
+                        "property-value": "1"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "tenant": {
+              "tenant-id": "41d6d38489bd40b09ea8a6b6b852dcbd",
+              "tenant-name": "Integration-SB-00",
+              "resource-version": "1509587770200"
+            },
+            "extra-properties": {
+              "extra-property": []
+            },
+            "inventory-response-items": {
+              "inventory-response-item": [
+                {
+                  "cloud-region": {
+                    "cloud-owner": "CloudOwner",
+                    "cloud-region-id": "RegionOne",
+                    "cloud-region-version": "v1",
+                    "resource-version": "1509587770092"
+                  },
+                  "extra-properties": {
+                    "extra-property": []
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
