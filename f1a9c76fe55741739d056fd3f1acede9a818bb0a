@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a368f991_a29f62a1",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpDeployPolicies.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-03-29T11:07:33Z",
+      "side": 1,
+      "message": "I don\u0027t think we need this in models-pdp. Because this is only needed to take REST API input from CLAMP (the legacy way). Then the REST provider/handler in policy/pap will create a corresponding PdpUpdate message and push it over Dmaap.",
+      "range": {
+        "startLine": 37,
+        "startChar": 13,
+        "endLine": 37,
+        "endChar": 30
+      },
+      "revId": "f1a9c76fe55741739d056fd3f1acede9a818bb0a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
