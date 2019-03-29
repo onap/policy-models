@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3f5ef75e_0ecd5860",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-03-29T19:01:27Z",
+      "side": 1,
+      "message": "Yes Jim, I mentioned this in the checkin comment. It is coming in the next review. It was too much work to do in this one. Also I wanted to flag the change to Chenfei so he\u0027s ready with it.",
+      "parentUuid": "69bc2088_0112bc0a",
+      "revId": "cc5b96bfd33cd7d91fe6994d348e8d6a0ebb54fa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "75961d90_55c1103b",
         "filename": "models-provider/src/main/java/org/onap/policy/models/provider/impl/DummyPolicyModelsProviderImpl.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "9de1b212_0c1ba772",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/impl/DummyPolicyModelsProviderImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-03-29T19:01:27Z",
+      "side": 1,
+      "message": "We\u0027ll be able to change this to a standard coder in the next review.",
+      "parentUuid": "75961d90_55c1103b",
+      "revId": "cc5b96bfd33cd7d91fe6994d348e8d6a0ebb54fa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fbd552d6_be70abfb",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaPolicy.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2019-03-29T14:58:34Z",
       "side": 1,
       "message": "are the values within \"properties\" immutable?  if not, then need to deep-copy the map",
+      "revId": "cc5b96bfd33cd7d91fe6994d348e8d6a0ebb54fa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a33c531_6ae836c7",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaPolicy.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-03-29T19:01:27Z",
+      "side": 1,
+      "message": "I needed this in order to get the code to compile due to a utility method in models-pdp that insisted a copy constructor existed. I\u0027d prefer to remove it altogether. Anyway I\u0027ll revisit this class in the next review.",
+      "parentUuid": "fbd552d6_be70abfb",
       "revId": "cc5b96bfd33cd7d91fe6994d348e8d6a0ebb54fa",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
