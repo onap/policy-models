@@ -33,7 +33,7 @@ import org.onap.policy.models.provider.PolicyModelsProviderFactory;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyInput;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
-import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
 
 /**
  * Test the dummy models provider implementation.
@@ -53,7 +53,7 @@ public class DummyPolicyModelsProviderTest {
 
         dummyProvider.init();
 
-        ToscaServiceTemplate serviceTemplate = dummyProvider.getPolicies(new PfConceptKey());
+        JpaToscaServiceTemplate serviceTemplate = dummyProvider.getPolicies(new PfConceptKey());
         assertNotNull(serviceTemplate);
         assertEquals("onap.vcpe.tca:1.0.0",
                 serviceTemplate.getTopologyTemplate().getPolicies().get("onap.vcpe.tca").getId());
@@ -72,13 +72,13 @@ public class DummyPolicyModelsProviderTest {
         dummyProvider.init();
 
         assertNotNull(dummyProvider.getPolicyTypes(new PfConceptKey()));
-        assertNotNull(dummyProvider.createPolicyTypes(new ToscaServiceTemplate()));
-        assertNotNull(dummyProvider.updatePolicyTypes(new ToscaServiceTemplate()));
+        assertNotNull(dummyProvider.createPolicyTypes(new JpaToscaServiceTemplate()));
+        assertNotNull(dummyProvider.updatePolicyTypes(new JpaToscaServiceTemplate()));
         assertNotNull(dummyProvider.deletePolicyTypes(new PfConceptKey()));
 
         assertNotNull(dummyProvider.getPolicies(new PfConceptKey()));
-        assertNotNull(dummyProvider.createPolicies(new ToscaServiceTemplate()));
-        assertNotNull(dummyProvider.updatePolicies(new ToscaServiceTemplate()));
+        assertNotNull(dummyProvider.createPolicies(new JpaToscaServiceTemplate()));
+        assertNotNull(dummyProvider.updatePolicies(new JpaToscaServiceTemplate()));
         assertNotNull(dummyProvider.deletePolicies(new PfConceptKey()));
 
         assertNotNull(dummyProvider.getOperationalPolicy("policy_id"));

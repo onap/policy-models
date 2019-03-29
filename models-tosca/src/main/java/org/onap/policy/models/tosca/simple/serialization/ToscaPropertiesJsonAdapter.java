@@ -33,12 +33,12 @@ import javax.ws.rs.core.Response;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.base.PfReferenceKey;
-import org.onap.policy.models.tosca.simple.concepts.ToscaConstraint;
-import org.onap.policy.models.tosca.simple.concepts.ToscaConstraintLogical.Operation;
-import org.onap.policy.models.tosca.simple.concepts.ToscaConstraintLogicalString;
-import org.onap.policy.models.tosca.simple.concepts.ToscaConstraintValidValues;
-import org.onap.policy.models.tosca.simple.concepts.ToscaEntrySchema;
-import org.onap.policy.models.tosca.simple.concepts.ToscaProperty;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaConstraint;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaConstraintLogical.Operation;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaConstraintLogicalString;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaConstraintValidValues;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaEntrySchema;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,17 +69,17 @@ public class ToscaPropertiesJsonAdapter {
      *
      * @return deserialized ToscaProperty list
      */
-    public List<ToscaProperty> deserializeProperties(JsonElement propertiesElement) {
+    public List<JpaToscaProperty> deserializeProperties(JsonElement propertiesElement) {
 
         final JsonObject propertiesMapObject = propertiesElement.getAsJsonObject();
-        List<ToscaProperty> properties = new LinkedList<>();
+        List<JpaToscaProperty> properties = new LinkedList<>();
 
         for (Entry<String, JsonElement> entry : propertiesMapObject.entrySet()) {
             final String propertyEntryKey = entry.getKey();
             final JsonElement propertyEntryVal = entry.getValue();
 
             // Set property: key and type
-            ToscaProperty property = new ToscaProperty(
+            JpaToscaProperty property = new JpaToscaProperty(
                     new PfReferenceKey(new PfConceptKey(), propertyEntryKey),
                     new PfConceptKey(propertyEntryVal.getAsJsonObject().get(TYPE).getAsString(), DEFAULT_VERSION));
 
@@ -110,7 +110,7 @@ public class ToscaPropertiesJsonAdapter {
             // Set property: constraints
             if (propertyJsonObject.has(CONSTRAINTS)) {
                 property.setConstraints(deserializeConstraints(propertyJsonObject.get(CONSTRAINTS)));
-                for (ToscaConstraint c : property.getConstraints()) {
+                for (JpaToscaConstraint c : property.getConstraints()) {
                     c.getKey().setParentConceptKey(property.getType());
                 }
             }
@@ -129,11 +129,11 @@ public class ToscaPropertiesJsonAdapter {
      *
      * @return serialized JsonElement
      */
-    public JsonElement serializeProperties(List<ToscaProperty> properties) {
+    public JsonElement serializeProperties(List<JpaToscaProperty> properties) {
 
         JsonObject propertiesJsonObject = new JsonObject();
 
-        for (ToscaProperty property : properties) {
+        for (JpaToscaProperty property : properties) {
             JsonObject propertyValJsonObject = new JsonObject();
 
             // Add type
@@ -168,23 +168,23 @@ public class ToscaPropertiesJsonAdapter {
         return propertiesJsonObject;
     }
 
-    private JsonElement serializeConstraints(List<ToscaConstraint> constraints) {
+    private JsonElement serializeConstraints(List<JpaToscaConstraint> constraints) {
 
         JsonArray constraintsValJsonArray = new JsonArray();
 
-        for (ToscaConstraint c : constraints) {
+        for (JpaToscaConstraint c : constraints) {
             JsonObject constraintJsonObject = new JsonObject();
 
             // Check which type of constraint it is
             // TODO: here we only support valid_values and equal
-            if (c instanceof ToscaConstraintValidValues) {
+            if (c instanceof JpaToscaConstraintValidValues) {
                 JsonArray validValuesJsonArray = new JsonArray();
-                for (String validValue : ((ToscaConstraintValidValues)c).getValidValues()) {
+                for (String validValue : ((JpaToscaConstraintValidValues)c).getValidValues()) {
                     validValuesJsonArray.add(validValue);
                 }
                 constraintJsonObject.add(VALID_VALUES, validValuesJsonArray);
-            } else if (c instanceof ToscaConstraintLogicalString) {
-                constraintJsonObject.addProperty(EQUAL, ((ToscaConstraintLogicalString)c).getCompareToString());
+            } else if (c instanceof JpaToscaConstraintLogicalString) {
+                constraintJsonObject.addProperty(EQUAL, ((JpaToscaConstraintLogicalString)c).getCompareToString());
             } else {
                 String errorMessage = "constraint is neither valid_values nor equal";
                 LOGGER.debug(errorMessage);
@@ -197,7 +197,7 @@ public class ToscaPropertiesJsonAdapter {
         return constraintsValJsonArray;
     }
 
-    private JsonElement serializeEntrySchema(ToscaEntrySchema entrySchema) {
+    private JsonElement serializeEntrySchema(JpaToscaEntrySchema entrySchema) {
 
         JsonObject entrySchemaValJsonObject = new JsonObject();
 
@@ -217,12 +217,12 @@ public class ToscaPropertiesJsonAdapter {
         return entrySchemaValJsonObject;
     }
 
-    private ToscaEntrySchema deserializeEntrySchema(JsonElement entrySchemaElement) {
+    private JpaToscaEntrySchema deserializeEntrySchema(JsonElement entrySchemaElement) {
 
         JsonObject entrySchemaJsonObject = entrySchemaElement.getAsJsonObject();
 
         // Set entry_schema: key and type
-        ToscaEntrySchema entrySchema = new ToscaEntrySchema(
+        JpaToscaEntrySchema entrySchema = new JpaToscaEntrySchema(
                 new PfReferenceKey(new PfConceptKey(), ENTRY_SCHEMA),
                 new PfConceptKey(entrySchemaJsonObject.get(TYPE).getAsString(), DEFAULT_VERSION));
 
@@ -234,7 +234,7 @@ public class ToscaPropertiesJsonAdapter {
         // Set entry_schema: constraints
         if (entrySchemaJsonObject.has(CONSTRAINTS)) {
             entrySchema.setConstraints(deserializeConstraints(entrySchemaJsonObject.get(CONSTRAINTS)));
-            for (ToscaConstraint c : entrySchema.getConstraints()) {
+            for (JpaToscaConstraint c : entrySchema.getConstraints()) {
                 c.getKey().setParentConceptKey(entrySchema.getType());
             }
         }
@@ -242,10 +242,10 @@ public class ToscaPropertiesJsonAdapter {
         return entrySchema;
     }
 
-    private List<ToscaConstraint> deserializeConstraints(JsonElement constraintsElement) {
+    private List<JpaToscaConstraint> deserializeConstraints(JsonElement constraintsElement) {
 
         JsonArray constraintsJsonArray = constraintsElement.getAsJsonArray();
-        List<ToscaConstraint> constraints = new LinkedList<>();
+        List<JpaToscaConstraint> constraints = new LinkedList<>();
 
         for (Iterator<JsonElement> constraintsIter = constraintsJsonArray.iterator(); constraintsIter.hasNext(); ) {
             JsonObject constraintJsonObject = constraintsIter.next().getAsJsonObject();
@@ -257,11 +257,11 @@ public class ToscaPropertiesJsonAdapter {
                         .iterator(); validValuesIter.hasNext(); ) {
                     validValues.add(validValuesIter.next().getAsString());
                 }
-                ToscaConstraint constraint = new ToscaConstraintValidValues(
+                JpaToscaConstraint constraint = new JpaToscaConstraintValidValues(
                         new PfReferenceKey(new PfConceptKey(), VALID_VALUES), validValues);
                 constraints.add(constraint);
             } else if (constraintJsonObject.get(EQUAL) != null) {
-                ToscaConstraint constraint = new ToscaConstraintLogicalString(new PfReferenceKey(
+                JpaToscaConstraint constraint = new JpaToscaConstraintLogicalString(new PfReferenceKey(
                         new PfConceptKey(), EQUAL), Operation.EQ, constraintJsonObject.get(EQUAL).getAsString());
                 constraints.add(constraint);
             } else {

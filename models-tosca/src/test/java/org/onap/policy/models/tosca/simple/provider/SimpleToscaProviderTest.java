@@ -39,9 +39,9 @@ import org.onap.policy.models.dao.DaoParameters;
 import org.onap.policy.models.dao.PfDao;
 import org.onap.policy.models.dao.PfDaoFactory;
 import org.onap.policy.models.dao.impl.DefaultPfDao;
-import org.onap.policy.models.tosca.simple.concepts.ToscaPolicies;
-import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
-import org.onap.policy.models.tosca.simple.concepts.ToscaTopologyTemplate;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicies;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaTopologyTemplate;
 import org.onap.policy.models.tosca.simple.serialization.ToscaServiceTemplateMessageBodyHandler;
 
 /**
@@ -114,19 +114,19 @@ public class SimpleToscaProviderTest {
             assertEquals("policyKey is marked @NonNull but is null", exc.getMessage());
         }
 
-        ToscaServiceTemplate originalServiceTemplate =
+        JpaToscaServiceTemplate originalServiceTemplate =
                 gson.fromJson(ResourceUtils.getResourceAsString("policies/vCPE.policy.monitoring.input.tosca.json"),
-                        ToscaServiceTemplate.class);
+                        JpaToscaServiceTemplate.class);
 
         assertNotNull(originalServiceTemplate);
-        ToscaServiceTemplate createdServiceTemplate =
+        JpaToscaServiceTemplate createdServiceTemplate =
                 new SimpleToscaProvider().createPolicies(pfDao, originalServiceTemplate);
 
         assertEquals(originalServiceTemplate, createdServiceTemplate);
 
         PfConceptKey policyKey = new PfConceptKey("onap.restart.tca:1.0.0");
 
-        ToscaServiceTemplate gotServiceTemplate =
+        JpaToscaServiceTemplate gotServiceTemplate =
                 new SimpleToscaProvider().getPolicies(pfDao, new PfConceptKey(policyKey));
 
         assertEquals(originalServiceTemplate.getTopologyTemplate().getPolicies().get(policyKey),
@@ -144,7 +144,7 @@ public class SimpleToscaProviderTest {
         }
 
         try {
-            new SimpleToscaProvider().createPolicies(null, new ToscaServiceTemplate());
+            new SimpleToscaProvider().createPolicies(null, new JpaToscaServiceTemplate());
             fail("test should throw an exception here");
         } catch (Exception exc) {
             assertEquals("dao is marked @NonNull but is null", exc.getMessage());
@@ -157,12 +157,12 @@ public class SimpleToscaProviderTest {
             assertEquals("serviceTemplate is marked @NonNull but is null", exc.getMessage());
         }
 
-        ToscaServiceTemplate originalServiceTemplate =
+        JpaToscaServiceTemplate originalServiceTemplate =
                 gson.fromJson(ResourceUtils.getResourceAsString("policies/vCPE.policy.monitoring.input.tosca.json"),
-                        ToscaServiceTemplate.class);
+                        JpaToscaServiceTemplate.class);
 
         assertNotNull(originalServiceTemplate);
-        ToscaServiceTemplate createdServiceTemplate =
+        JpaToscaServiceTemplate createdServiceTemplate =
                 new SimpleToscaProvider().createPolicies(pfDao, originalServiceTemplate);
 
         assertEquals(originalServiceTemplate, createdServiceTemplate);
@@ -178,7 +178,7 @@ public class SimpleToscaProviderTest {
         }
 
         try {
-            new SimpleToscaProvider().updatePolicies(null, new ToscaServiceTemplate());
+            new SimpleToscaProvider().updatePolicies(null, new JpaToscaServiceTemplate());
             fail("test should throw an exception here");
         } catch (Exception exc) {
             assertEquals("dao is marked @NonNull but is null", exc.getMessage());
@@ -191,12 +191,12 @@ public class SimpleToscaProviderTest {
             assertEquals("serviceTemplate is marked @NonNull but is null", exc.getMessage());
         }
 
-        ToscaServiceTemplate originalServiceTemplate =
+        JpaToscaServiceTemplate originalServiceTemplate =
                 gson.fromJson(ResourceUtils.getResourceAsString("policies/vCPE.policy.monitoring.input.tosca.json"),
-                        ToscaServiceTemplate.class);
+                        JpaToscaServiceTemplate.class);
 
         assertNotNull(originalServiceTemplate);
-        ToscaServiceTemplate updatedServiceTemplate =
+        JpaToscaServiceTemplate updatedServiceTemplate =
                 new SimpleToscaProvider().updatePolicies(pfDao, originalServiceTemplate);
 
         assertEquals(originalServiceTemplate, updatedServiceTemplate);
@@ -225,19 +225,19 @@ public class SimpleToscaProviderTest {
             assertEquals("policyKey is marked @NonNull but is null", exc.getMessage());
         }
 
-        ToscaServiceTemplate originalServiceTemplate =
+        JpaToscaServiceTemplate originalServiceTemplate =
                 gson.fromJson(ResourceUtils.getResourceAsString("policies/vCPE.policy.monitoring.input.tosca.json"),
-                        ToscaServiceTemplate.class);
+                        JpaToscaServiceTemplate.class);
 
         assertNotNull(originalServiceTemplate);
-        ToscaServiceTemplate createdServiceTemplate =
+        JpaToscaServiceTemplate createdServiceTemplate =
                 new SimpleToscaProvider().createPolicies(pfDao, originalServiceTemplate);
 
         assertEquals(originalServiceTemplate, createdServiceTemplate);
 
         PfConceptKey policyKey = new PfConceptKey("onap.restart.tca:1.0.0");
 
-        ToscaServiceTemplate deletedServiceTemplate =
+        JpaToscaServiceTemplate deletedServiceTemplate =
                 new SimpleToscaProvider().deletePolicies(pfDao, new PfConceptKey(policyKey));
 
         assertEquals(originalServiceTemplate.getTopologyTemplate().getPolicies().get(policyKey),
@@ -253,7 +253,7 @@ public class SimpleToscaProviderTest {
 
     @Test
     public void testAssertPoliciesExist() throws PfModelException {
-        ToscaServiceTemplate testServiceTemplate = new ToscaServiceTemplate();
+        JpaToscaServiceTemplate testServiceTemplate = new JpaToscaServiceTemplate();
 
         try {
             new SimpleToscaProvider().createPolicies(pfDao, testServiceTemplate);
@@ -262,7 +262,7 @@ public class SimpleToscaProviderTest {
             assertEquals("topology template not specified on service template", exc.getMessage());
         }
 
-        testServiceTemplate.setTopologyTemplate(new ToscaTopologyTemplate());
+        testServiceTemplate.setTopologyTemplate(new JpaToscaTopologyTemplate());
         try {
             new SimpleToscaProvider().createPolicies(pfDao, testServiceTemplate);
             fail("test should throw an exception here");
@@ -270,7 +270,7 @@ public class SimpleToscaProviderTest {
             assertEquals("no policies specified on topology template of service template", exc.getMessage());
         }
 
-        testServiceTemplate.getTopologyTemplate().setPolicies(new ToscaPolicies());
+        testServiceTemplate.getTopologyTemplate().setPolicies(new JpaToscaPolicies());
         try {
             new SimpleToscaProvider().createPolicies(pfDao, testServiceTemplate);
             fail("test should throw an exception here");

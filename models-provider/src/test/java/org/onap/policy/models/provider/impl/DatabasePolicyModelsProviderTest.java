@@ -35,7 +35,7 @@ import org.onap.policy.models.provider.PolicyModelsProviderFactory;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyInput;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
-import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -225,11 +225,11 @@ public class DatabasePolicyModelsProviderTest {
             }).hasMessage("policy type not found: NULL:0.0.0");
 
             assertThatThrownBy(() -> {
-                databaseProvider.createPolicyTypes(new ToscaServiceTemplate());
+                databaseProvider.createPolicyTypes(new JpaToscaServiceTemplate());
             }).hasMessage("no policy types specified on service template");
 
             assertThatThrownBy(() -> {
-                databaseProvider.updatePolicyTypes(new ToscaServiceTemplate());
+                databaseProvider.updatePolicyTypes(new JpaToscaServiceTemplate());
             }).hasMessage("no policy types specified on service template");
 
             assertThatThrownBy(() -> {
@@ -241,11 +241,11 @@ public class DatabasePolicyModelsProviderTest {
             }).hasMessage("policy not found: NULL:0.0.0");
 
             assertThatThrownBy(() -> {
-                databaseProvider.createPolicies(new ToscaServiceTemplate());
+                databaseProvider.createPolicies(new JpaToscaServiceTemplate());
             }).hasMessage("topology template not specified on service template");
 
             assertThatThrownBy(() -> {
-                databaseProvider.updatePolicies(new ToscaServiceTemplate());
+                databaseProvider.updatePolicies(new JpaToscaServiceTemplate());
             }).hasMessage("topology template not specified on service template");
 
             assertThatThrownBy(() -> {

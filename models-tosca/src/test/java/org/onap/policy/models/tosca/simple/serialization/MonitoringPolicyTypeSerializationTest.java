@@ -38,13 +38,13 @@ import org.junit.Test;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfValidationResult;
-import org.onap.policy.models.tosca.simple.concepts.ToscaConstraintLogicalString;
-import org.onap.policy.models.tosca.simple.concepts.ToscaConstraintValidValues;
-import org.onap.policy.models.tosca.simple.concepts.ToscaDataType;
-import org.onap.policy.models.tosca.simple.concepts.ToscaEntrySchema;
-import org.onap.policy.models.tosca.simple.concepts.ToscaPolicyType;
-import org.onap.policy.models.tosca.simple.concepts.ToscaProperty;
-import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaConstraintLogicalString;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaConstraintValidValues;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaDataType;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaEntrySchema;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyType;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaProperty;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.serialization.ToscaServiceTemplateMessageBodyHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,7 +74,7 @@ public class MonitoringPolicyTypeSerializationTest {
     public void testDeserialization() {
         try {
             // TCA
-            ToscaServiceTemplate serviceTemplateFromYaml = deserializeMonitoringInputYaml(MONITORING_TCA_YAML);
+            JpaToscaServiceTemplate serviceTemplateFromYaml = deserializeMonitoringInputYaml(MONITORING_TCA_YAML);
             verifyTcaInputDeserialization(serviceTemplateFromYaml);
 
             // Collector
@@ -90,17 +90,17 @@ public class MonitoringPolicyTypeSerializationTest {
     public void testSerialization() {
         try {
             // TCA
-            ToscaServiceTemplate serviceTemplateFromYaml = deserializeMonitoringInputYaml(MONITORING_TCA_YAML);
+            JpaToscaServiceTemplate serviceTemplateFromYaml = deserializeMonitoringInputYaml(MONITORING_TCA_YAML);
             String serializedServiceTemplate1 = serializeMonitoringServiceTemplate(serviceTemplateFromYaml);
-            ToscaServiceTemplate serviceTemplateFromJson = gson.fromJson(serializedServiceTemplate1,
-                    ToscaServiceTemplate.class);
+            JpaToscaServiceTemplate serviceTemplateFromJson = gson.fromJson(serializedServiceTemplate1,
+                    JpaToscaServiceTemplate.class);
             String serializedServiceTemplate2 = serializeMonitoringServiceTemplate(serviceTemplateFromJson);
             assertEquals(serializedServiceTemplate1, serializedServiceTemplate2);
 
             // Collector
             serviceTemplateFromYaml = deserializeMonitoringInputYaml(MONITORING_COLLECTORS_YAML);
             serializedServiceTemplate1 = serializeMonitoringServiceTemplate(serviceTemplateFromYaml);
-            serviceTemplateFromJson = gson.fromJson(serializedServiceTemplate1, ToscaServiceTemplate.class);
+            serviceTemplateFromJson = gson.fromJson(serializedServiceTemplate1, JpaToscaServiceTemplate.class);
             serializedServiceTemplate2 = serializeMonitoringServiceTemplate(serviceTemplateFromJson);
             assertEquals(serializedServiceTemplate1, serializedServiceTemplate2);
 
@@ -109,18 +109,18 @@ public class MonitoringPolicyTypeSerializationTest {
         }
     }
 
-    private ToscaServiceTemplate deserializeMonitoringInputYaml(String resourcePath)
+    private JpaToscaServiceTemplate deserializeMonitoringInputYaml(String resourcePath)
             throws JsonSyntaxException, IOException {
 
         Yaml yaml = new Yaml();
         String policyTypeYaml = ResourceUtils.getResourceAsString(resourcePath);
         Object yamlObject = yaml.load(policyTypeYaml);
         String yamlAsJsonString = new Gson().toJson(yamlObject);
-        ToscaServiceTemplate serviceTemplate = gson.fromJson(yamlAsJsonString, ToscaServiceTemplate.class);
+        JpaToscaServiceTemplate serviceTemplate = gson.fromJson(yamlAsJsonString, JpaToscaServiceTemplate.class);
         return serviceTemplate;
     }
 
-    private void verifyTcaInputDeserialization(ToscaServiceTemplate serviceTemplate) {
+    private void verifyTcaInputDeserialization(JpaToscaServiceTemplate serviceTemplate) {
 
         // Sanity check the entire structure
         assertNotNull(serviceTemplate);
@@ -131,50 +131,50 @@ public class MonitoringPolicyTypeSerializationTest {
         assertEquals("tosca_simple_yaml_1_0_0", serviceTemplate.getToscaDefinitionsVersion());
 
         // Check policy_types
-        Map<PfConceptKey, ToscaPolicyType> policyTypesConceptMap = serviceTemplate.getPolicyTypes().getConceptMap();
+        Map<PfConceptKey, JpaToscaPolicyType> policyTypesConceptMap = serviceTemplate.getPolicyTypes().getConceptMap();
         assertTrue(policyTypesConceptMap.size() == 2);
-        Iterator<Entry<PfConceptKey, ToscaPolicyType>> policyTypesIter = policyTypesConceptMap.entrySet().iterator();
+        Iterator<Entry<PfConceptKey, JpaToscaPolicyType>> policyTypesIter = policyTypesConceptMap.entrySet().iterator();
 
-        Entry<PfConceptKey, ToscaPolicyType> firstPolicyType = policyTypesIter.next();
+        Entry<PfConceptKey, JpaToscaPolicyType> firstPolicyType = policyTypesIter.next();
         assertEquals("onap.policies.Monitoring", firstPolicyType.getKey().getName());
         assertEquals("1.0.0", firstPolicyType.getKey().getVersion());
         assertEquals("tosca.policies.Root", firstPolicyType.getValue().getDerivedFrom().getName());
         assertEquals("a base policy type for all policies that governs monitoring provisioning",
                 firstPolicyType.getValue().getDescription());
 
-        Entry<PfConceptKey, ToscaPolicyType> secondPolicyType = policyTypesIter.next();
+        Entry<PfConceptKey, JpaToscaPolicyType> secondPolicyType = policyTypesIter.next();
         assertEquals("onap.policy.monitoring.cdap.tca.hi.lo.app", secondPolicyType.getKey().getName());
         assertEquals("1.0.0", secondPolicyType.getKey().getVersion());
         assertEquals("onap.policies.Monitoring", secondPolicyType.getValue().getDerivedFrom().getName());
         assertTrue(secondPolicyType.getValue().getProperties().size() == 1);
 
-        ToscaProperty property = secondPolicyType.getValue().getProperties().iterator().next();
+        JpaToscaProperty property = secondPolicyType.getValue().getProperties().iterator().next();
         assertEquals("onap.policy.monitoring.cdap.tca.hi.lo.app", property.getKey().getParentKeyName());
         assertEquals("1.0.0", property.getKey().getParentKeyVersion());
         assertEquals("tca_policy", property.getKey().getLocalName());
         assertEquals("map", property.getType().getName());
         assertEquals("TCA Policy JSON", property.getDescription());
 
-        ToscaEntrySchema entrySchema = property.getEntrySchema();
+        JpaToscaEntrySchema entrySchema = property.getEntrySchema();
         assertEquals("map", entrySchema.getKey().getParentKeyName());
         assertEquals("1.0.0", entrySchema.getKey().getParentKeyVersion());
         assertEquals("entry_schema", entrySchema.getKey().getLocalName());
         assertEquals("onap.datatypes.monitoring.tca_policy", entrySchema.getType().getName());
 
         // Check data_types
-        Map<PfConceptKey, ToscaDataType> dataTypesConceptMap = serviceTemplate.getDataTypes().getConceptMap();
+        Map<PfConceptKey, JpaToscaDataType> dataTypesConceptMap = serviceTemplate.getDataTypes().getConceptMap();
         assertTrue(dataTypesConceptMap.size() == 3);
-        Iterator<Entry<PfConceptKey, ToscaDataType>> dataTypesIter = dataTypesConceptMap.entrySet().iterator();
+        Iterator<Entry<PfConceptKey, JpaToscaDataType>> dataTypesIter = dataTypesConceptMap.entrySet().iterator();
 
-        Entry<PfConceptKey, ToscaDataType> firstDataType = dataTypesIter.next();
+        Entry<PfConceptKey, JpaToscaDataType> firstDataType = dataTypesIter.next();
         assertEquals("onap.datatypes.monitoring.metricsPerEventName", firstDataType.getKey().getName());
-        ToscaDataType firstDataTypeVal = firstDataType.getValue();
+        JpaToscaDataType firstDataTypeVal = firstDataType.getValue();
         assertEquals("tosca.datatypes.Root", firstDataTypeVal.getDerivedFrom().getName());
         assertEquals("1.0.0", firstDataTypeVal.getDerivedFrom().getVersion());
         assertTrue(firstDataTypeVal.getProperties().size() == 6);
-        Iterator<ToscaProperty> firstDataTypePropertiesIter = firstDataTypeVal.getProperties().iterator();
+        Iterator<JpaToscaProperty> firstDataTypePropertiesIter = firstDataTypeVal.getProperties().iterator();
 
-        ToscaProperty firstDataTypeFirstProperty = firstDataTypePropertiesIter.next();
+        JpaToscaProperty firstDataTypeFirstProperty = firstDataTypePropertiesIter.next();
         assertEquals("onap.datatypes.monitoring.metricsPerEventName", firstDataTypeFirstProperty.getKey()
                 .getParentKeyName());
         assertEquals("controlLoopSchemaType", firstDataTypeFirstProperty.getKey().getLocalName());
@@ -188,11 +188,11 @@ public class MonitoringPolicyTypeSerializationTest {
         assertEquals("string", firstDataTypeFirstProperty.getConstraints().iterator().next().getKey()
                 .getParentKeyName());
         assertTrue(firstDataTypeFirstProperty.getConstraints().iterator().next()
-                instanceof ToscaConstraintValidValues);
-        assertTrue(((ToscaConstraintValidValues)(firstDataTypeFirstProperty.getConstraints().iterator().next()))
+                instanceof JpaToscaConstraintValidValues);
+        assertTrue(((JpaToscaConstraintValidValues)(firstDataTypeFirstProperty.getConstraints().iterator().next()))
                 .getValidValues().size() == 2);
 
-        ToscaProperty firstDataTypeSecondProperty = firstDataTypePropertiesIter.next();
+        JpaToscaProperty firstDataTypeSecondProperty = firstDataTypePropertiesIter.next();
         assertEquals("onap.datatypes.monitoring.metricsPerEventName", firstDataTypeSecondProperty.getKey()
                 .getParentKeyName());
         assertEquals("eventName", firstDataTypeSecondProperty.getKey().getLocalName());
@@ -201,7 +201,7 @@ public class MonitoringPolicyTypeSerializationTest {
         assertEquals("Event name to which thresholds need to be applied", firstDataTypeSecondProperty
                 .getDescription());
 
-        ToscaProperty firstDataTypeThirdProperty = firstDataTypePropertiesIter.next();
+        JpaToscaProperty firstDataTypeThirdProperty = firstDataTypePropertiesIter.next();
         assertEquals("onap.datatypes.monitoring.metricsPerEventName", firstDataTypeThirdProperty.getKey()
                 .getParentKeyName());
         assertEquals("policyName", firstDataTypeThirdProperty.getKey().getLocalName());
@@ -209,7 +209,7 @@ public class MonitoringPolicyTypeSerializationTest {
         assertTrue(firstDataTypeThirdProperty.isRequired());
         assertEquals("TCA Policy Scope Name", firstDataTypeThirdProperty.getDescription());
 
-        ToscaProperty firstDataTypeFourthProperty = firstDataTypePropertiesIter.next();
+        JpaToscaProperty firstDataTypeFourthProperty = firstDataTypePropertiesIter.next();
         assertEquals("onap.datatypes.monitoring.metricsPerEventName", firstDataTypeFourthProperty.getKey()
                 .getParentKeyName());
         assertEquals("policyScope", firstDataTypeFourthProperty.getKey().getLocalName());
@@ -217,7 +217,7 @@ public class MonitoringPolicyTypeSerializationTest {
         assertTrue(firstDataTypeFourthProperty.isRequired());
         assertEquals("TCA Policy Scope", firstDataTypeFourthProperty.getDescription());
 
-        ToscaProperty firstDataTypeFifthProperty = firstDataTypePropertiesIter.next();
+        JpaToscaProperty firstDataTypeFifthProperty = firstDataTypePropertiesIter.next();
         assertEquals("onap.datatypes.monitoring.metricsPerEventName", firstDataTypeFifthProperty.getKey()
                 .getParentKeyName());
         assertEquals("policyVersion", firstDataTypeFifthProperty.getKey().getLocalName());
@@ -225,7 +225,7 @@ public class MonitoringPolicyTypeSerializationTest {
         assertTrue(firstDataTypeFifthProperty.isRequired());
         assertEquals("TCA Policy Scope Version", firstDataTypeFifthProperty.getDescription());
 
-        ToscaProperty firstDataTypeSixthProperty = firstDataTypePropertiesIter.next();
+        JpaToscaProperty firstDataTypeSixthProperty = firstDataTypePropertiesIter.next();
         assertEquals("onap.datatypes.monitoring.metricsPerEventName", firstDataTypeSixthProperty.getKey()
                 .getParentKeyName());
         assertEquals("thresholds", firstDataTypeSixthProperty.getKey().getLocalName());
@@ -238,15 +238,15 @@ public class MonitoringPolicyTypeSerializationTest {
         assertEquals("onap.datatypes.monitoring.thresholds", firstDataTypeSixthProperty.getEntrySchema().getType()
                 .getName());
 
-        Entry<PfConceptKey, ToscaDataType> secondDataType = dataTypesIter.next();
+        Entry<PfConceptKey, JpaToscaDataType> secondDataType = dataTypesIter.next();
         assertEquals("onap.datatypes.monitoring.tca_policy", secondDataType.getKey().getName());
-        ToscaDataType secondDataTypeVal = secondDataType.getValue();
+        JpaToscaDataType secondDataTypeVal = secondDataType.getValue();
         assertEquals("tosca.datatypes.Root", secondDataTypeVal.getDerivedFrom().getName());
         assertEquals("1.0.0", secondDataTypeVal.getDerivedFrom().getVersion());
         assertTrue(secondDataTypeVal.getProperties().size() == 2);
-        Iterator<ToscaProperty> secondDataTypePropertiesIter = secondDataTypeVal.getProperties().iterator();
+        Iterator<JpaToscaProperty> secondDataTypePropertiesIter = secondDataTypeVal.getProperties().iterator();
 
-        ToscaProperty secondDataTypeFirstProperty = secondDataTypePropertiesIter.next();
+        JpaToscaProperty secondDataTypeFirstProperty = secondDataTypePropertiesIter.next();
         assertEquals("onap.datatypes.monitoring.tca_policy", secondDataTypeFirstProperty.getKey().getParentKeyName());
         assertEquals("domain", secondDataTypeFirstProperty.getKey().getLocalName());
         assertEquals("string", secondDataTypeFirstProperty.getType().getName());
@@ -258,11 +258,11 @@ public class MonitoringPolicyTypeSerializationTest {
                 .getParentKeyName());
         assertEquals("equal", secondDataTypeFirstProperty.getConstraints().iterator().next().getKey().getLocalName());
         assertTrue(secondDataTypeFirstProperty.getConstraints().iterator().next()
-                instanceof ToscaConstraintLogicalString);
-        assertEquals("measurementsForVfScaling", ((ToscaConstraintLogicalString)(secondDataTypeFirstProperty
+                instanceof JpaToscaConstraintLogicalString);
+        assertEquals("measurementsForVfScaling", ((JpaToscaConstraintLogicalString)(secondDataTypeFirstProperty
                 .getConstraints().iterator().next())).getCompareToString());
 
-        ToscaProperty secondDataTypeSecondProperty = secondDataTypePropertiesIter.next();
+        JpaToscaProperty secondDataTypeSecondProperty = secondDataTypePropertiesIter.next();
         assertEquals("onap.datatypes.monitoring.tca_policy", secondDataTypeSecondProperty.getKey().getParentKeyName());
         assertEquals("metricsPerEventName", secondDataTypeSecondProperty.getKey().getLocalName());
         assertEquals("list", secondDataTypeSecondProperty.getType().getName());
@@ -275,15 +275,15 @@ public class MonitoringPolicyTypeSerializationTest {
                 secondDataTypeSecondProperty.getEntrySchema().getType().getName());
         assertEquals("entry_schema", secondDataTypeSecondProperty.getEntrySchema().getKey().getLocalName());
 
-        Entry<PfConceptKey, ToscaDataType> thirdDataType = dataTypesIter.next();
+        Entry<PfConceptKey, JpaToscaDataType> thirdDataType = dataTypesIter.next();
         assertEquals("onap.datatypes.monitoring.thresholds", thirdDataType.getKey().getName());
-        ToscaDataType thirdDataTypeVal = thirdDataType.getValue();
+        JpaToscaDataType thirdDataTypeVal = thirdDataType.getValue();
         assertEquals("tosca.datatypes.Root", thirdDataTypeVal.getDerivedFrom().getName());
         assertEquals("1.0.0", thirdDataTypeVal.getDerivedFrom().getVersion());
         assertTrue(thirdDataTypeVal.getProperties().size() == 7);
-        Iterator<ToscaProperty> thirdDataTypePropertiesIter = thirdDataTypeVal.getProperties().iterator();
+        Iterator<JpaToscaProperty> thirdDataTypePropertiesIter = thirdDataTypeVal.getProperties().iterator();
 
-        ToscaProperty thirdDataTypeFirstProperty = thirdDataTypePropertiesIter.next();
+        JpaToscaProperty thirdDataTypeFirstProperty = thirdDataTypePropertiesIter.next();
         assertEquals("onap.datatypes.monitoring.thresholds", thirdDataTypeFirstProperty.getKey().getParentKeyName());
         assertEquals("closedLoopControlName", thirdDataTypeFirstProperty.getKey().getLocalName());
         assertEquals("string", thirdDataTypeFirstProperty.getType().getName());
@@ -291,7 +291,7 @@ public class MonitoringPolicyTypeSerializationTest {
         assertEquals("Closed Loop Control Name associated with the threshold", thirdDataTypeFirstProperty
                 .getDescription());
 
-        ToscaProperty thirdDataTypeSecondProperty = thirdDataTypePropertiesIter.next();
+        JpaToscaProperty thirdDataTypeSecondProperty = thirdDataTypePropertiesIter.next();
         assertEquals("onap.datatypes.monitoring.thresholds", thirdDataTypeSecondProperty.getKey().getParentKeyName());
         assertEquals("closedLoopEventStatus", thirdDataTypeSecondProperty.getKey().getLocalName());
         assertEquals("string", thirdDataTypeSecondProperty.getType().getName());
@@ -304,11 +304,11 @@ public class MonitoringPolicyTypeSerializationTest {
         assertEquals("valid_values", thirdDataTypeSecondProperty.getConstraints().iterator().next().getKey()
                 .getLocalName());
         assertTrue(thirdDataTypeSecondProperty.getConstraints().iterator().next()
-                instanceof ToscaConstraintValidValues);
-        assertTrue(((ToscaConstraintValidValues)(thirdDataTypeSecondProperty.getConstraints().iterator().next()))
+                instanceof JpaToscaConstraintValidValues);
+        assertTrue(((JpaToscaConstraintValidValues)(thirdDataTypeSecondProperty.getConstraints().iterator().next()))
                 .getValidValues().size() == 2);
 
-        ToscaProperty thirdDataTypeThirdProperty = thirdDataTypePropertiesIter.next();
+        JpaToscaProperty thirdDataTypeThirdProperty = thirdDataTypePropertiesIter.next();
         assertEquals("onap.datatypes.monitoring.thresholds", thirdDataTypeThirdProperty.getKey().getParentKeyName());
         assertEquals("direction", thirdDataTypeThirdProperty.getKey().getLocalName());
         assertEquals("string", thirdDataTypeThirdProperty.getType().getName());
@@ -320,10 +320,10 @@ public class MonitoringPolicyTypeSerializationTest {
                 .getParentKeyName());
         assertEquals("valid_values", thirdDataTypeThirdProperty.getConstraints().iterator().next().getKey()
                 .getLocalName());
-        assertTrue(((ToscaConstraintValidValues)(thirdDataTypeThirdProperty.getConstraints().iterator().next()))
+        assertTrue(((JpaToscaConstraintValidValues)(thirdDataTypeThirdProperty.getConstraints().iterator().next()))
                 .getValidValues().size() == 5);
 
-        ToscaProperty thirdDataTypeFourthProperty = thirdDataTypePropertiesIter.next();
+        JpaToscaProperty thirdDataTypeFourthProperty = thirdDataTypePropertiesIter.next();
         assertEquals("onap.datatypes.monitoring.thresholds", thirdDataTypeFourthProperty.getKey().getParentKeyName());
         assertEquals("fieldPath", thirdDataTypeFourthProperty.getKey().getLocalName());
         assertEquals("string", thirdDataTypeFourthProperty.getType().getName());
@@ -336,10 +336,10 @@ public class MonitoringPolicyTypeSerializationTest {
                 .getParentKeyName());
         assertEquals("valid_values", thirdDataTypeFourthProperty.getConstraints().iterator().next().getKey()
                 .getLocalName());
-        assertTrue(((ToscaConstraintValidValues)(thirdDataTypeFourthProperty.getConstraints().iterator().next()))
+        assertTrue(((JpaToscaConstraintValidValues)(thirdDataTypeFourthProperty.getConstraints().iterator().next()))
                 .getValidValues().size() == 43);
 
-        ToscaProperty thirdDataTypeFifthProperty = thirdDataTypePropertiesIter.next();
+        JpaToscaProperty thirdDataTypeFifthProperty = thirdDataTypePropertiesIter.next();
         assertEquals("onap.datatypes.monitoring.thresholds", thirdDataTypeFifthProperty.getKey().getParentKeyName());
         assertEquals("severity", thirdDataTypeFifthProperty.getKey().getLocalName());
         assertEquals("string", thirdDataTypeFifthProperty.getType().getName());
@@ -351,10 +351,10 @@ public class MonitoringPolicyTypeSerializationTest {
                 .getParentKeyName());
         assertEquals("valid_values", thirdDataTypeFifthProperty.getConstraints().iterator().next().getKey()
                 .getLocalName());
-        assertTrue(((ToscaConstraintValidValues)(thirdDataTypeFifthProperty.getConstraints().iterator().next()))
+        assertTrue(((JpaToscaConstraintValidValues)(thirdDataTypeFifthProperty.getConstraints().iterator().next()))
                 .getValidValues().size() == 5);;
 
-        ToscaProperty thirdDataTypeSixthProperty = thirdDataTypePropertiesIter.next();
+        JpaToscaProperty thirdDataTypeSixthProperty = thirdDataTypePropertiesIter.next();
         assertEquals("onap.datatypes.monitoring.thresholds", thirdDataTypeSixthProperty.getKey().getParentKeyName());
         assertEquals("thresholdValue", thirdDataTypeSixthProperty.getKey().getLocalName());
         assertEquals("integer", thirdDataTypeSixthProperty.getType().getName());
@@ -362,7 +362,7 @@ public class MonitoringPolicyTypeSerializationTest {
         assertEquals("Threshold value for the field Path inside CEF message", thirdDataTypeSixthProperty
                 .getDescription());
 
-        ToscaProperty thirdDataTypeSeventhProperty = thirdDataTypePropertiesIter.next();
+        JpaToscaProperty thirdDataTypeSeventhProperty = thirdDataTypePropertiesIter.next();
         assertEquals("onap.datatypes.monitoring.thresholds", thirdDataTypeSeventhProperty.getKey().getParentKeyName());
         assertEquals("version", thirdDataTypeSeventhProperty.getKey().getLocalName());
         assertEquals("string", thirdDataTypeSeventhProperty.getType().getName());
@@ -370,7 +370,7 @@ public class MonitoringPolicyTypeSerializationTest {
         assertEquals("Version number associated with the threshold", thirdDataTypeSeventhProperty.getDescription());
     }
 
-    private void verifyCollectorInputDeserialization(ToscaServiceTemplate serviceTemplate) {
+    private void verifyCollectorInputDeserialization(JpaToscaServiceTemplate serviceTemplate) {
 
         // Sanity check the entire structure
         assertNotNull(serviceTemplate);
@@ -381,27 +381,27 @@ public class MonitoringPolicyTypeSerializationTest {
         assertEquals("tosca_simple_yaml_1_0_0", serviceTemplate.getToscaDefinitionsVersion());
 
         // Check policy_types
-        Map<PfConceptKey, ToscaPolicyType> policyTypesConceptMap = serviceTemplate.getPolicyTypes().getConceptMap();
+        Map<PfConceptKey, JpaToscaPolicyType> policyTypesConceptMap = serviceTemplate.getPolicyTypes().getConceptMap();
         assertTrue(policyTypesConceptMap.size() == 2);
-        Iterator<Entry<PfConceptKey, ToscaPolicyType>> policyTypesIter = policyTypesConceptMap.entrySet().iterator();
+        Iterator<Entry<PfConceptKey, JpaToscaPolicyType>> policyTypesIter = policyTypesConceptMap.entrySet().iterator();
 
-        Entry<PfConceptKey, ToscaPolicyType> firstPolicyType = policyTypesIter.next();
+        Entry<PfConceptKey, JpaToscaPolicyType> firstPolicyType = policyTypesIter.next();
         assertEquals("onap.policies.Monitoring", firstPolicyType.getKey().getName());
         assertEquals("1.0.0", firstPolicyType.getKey().getVersion());
         assertEquals("tosca.policies.Root", firstPolicyType.getValue().getDerivedFrom().getName());
         assertEquals("a base policy type for all policies that govern monitoring provision",
                 firstPolicyType.getValue().getDescription());
 
-        Entry<PfConceptKey, ToscaPolicyType> secondPolicyType = policyTypesIter.next();
+        Entry<PfConceptKey, JpaToscaPolicyType> secondPolicyType = policyTypesIter.next();
         assertEquals("onap.policies.monitoring.dcaegen2.collectors.datafile.datafile-app-server",
                 secondPolicyType.getKey().getName());
         assertEquals("1.0.0", secondPolicyType.getKey().getVersion());
         assertEquals("policy.nodes.Root", secondPolicyType.getValue().getDerivedFrom().getName());
         assertTrue(secondPolicyType.getValue().getProperties().size() == 2);
 
-        Iterator<ToscaProperty> propertiesIter = secondPolicyType.getValue().getProperties().iterator();
+        Iterator<JpaToscaProperty> propertiesIter = secondPolicyType.getValue().getProperties().iterator();
 
-        ToscaProperty firstProperty = propertiesIter.next();
+        JpaToscaProperty firstProperty = propertiesIter.next();
         assertEquals("onap.policies.monitoring.dcaegen2.collectors.datafile.datafile-app-server",
                 firstProperty.getKey().getParentKeyName());
         assertEquals("1.0.0", firstProperty.getKey().getParentKeyVersion());
@@ -409,7 +409,7 @@ public class MonitoringPolicyTypeSerializationTest {
         assertEquals("string", firstProperty.getType().getName());
         assertEquals("DMAAP Bus Controller feed endpoint", firstProperty.getDescription());
 
-        ToscaProperty secondProperty = propertiesIter.next();
+        JpaToscaProperty secondProperty = propertiesIter.next();
         assertEquals("onap.policies.monitoring.dcaegen2.collectors.datafile.datafile-app-server",
                 secondProperty.getKey().getParentKeyName());
         assertEquals("1.0.0", secondProperty.getKey().getParentKeyVersion());
@@ -418,7 +418,7 @@ public class MonitoringPolicyTypeSerializationTest {
         assertEquals("datafile Policy JSON as string", secondProperty.getDescription());
     }
 
-    private String serializeMonitoringServiceTemplate(ToscaServiceTemplate serviceTemplate) {
+    private String serializeMonitoringServiceTemplate(JpaToscaServiceTemplate serviceTemplate) {
         return gson.toJson(serviceTemplate);
     }
 }

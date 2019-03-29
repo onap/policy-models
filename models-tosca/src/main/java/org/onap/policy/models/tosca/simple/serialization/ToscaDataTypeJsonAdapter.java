@@ -34,8 +34,8 @@ import lombok.NonNull;
 
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelRuntimeException;
-import org.onap.policy.models.tosca.simple.concepts.ToscaDataType;
-import org.onap.policy.models.tosca.simple.concepts.ToscaProperty;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaDataType;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,7 +44,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Chenfei Gao (cgao@research.att.com)
  */
-public class ToscaDataTypeJsonAdapter implements JsonSerializer<ToscaDataType>, JsonDeserializer<ToscaDataType> {
+public class ToscaDataTypeJsonAdapter implements JsonSerializer<JpaToscaDataType>, JsonDeserializer<JpaToscaDataType> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ToscaDataTypeJsonAdapter.class);
 
@@ -55,7 +55,7 @@ public class ToscaDataTypeJsonAdapter implements JsonSerializer<ToscaDataType>, 
     private static final String DEFAULT_VERSION = "1.0.0";
 
     @Override
-    public ToscaDataType deserialize(@NonNull final JsonElement dataTypeElement, @NonNull final Type type,
+    public JpaToscaDataType deserialize(@NonNull final JsonElement dataTypeElement, @NonNull final Type type,
             @NonNull final JsonDeserializationContext context) {
 
         // The incoming JSON
@@ -79,7 +79,7 @@ public class ToscaDataTypeJsonAdapter implements JsonSerializer<ToscaDataType>, 
         } else {
             dataTypeKey = new PfConceptKey(dataTypeName, dataTypeJsonObject.get(VERSION).getAsString());
         }
-        ToscaDataType dataType = new ToscaDataType(dataTypeKey);
+        JpaToscaDataType dataType = new JpaToscaDataType(dataTypeKey);
 
         // Set derived_from
         dataType.setDerivedFrom(new PfConceptKey(dataTypeJsonObject.get(DERIVED_FROM).getAsString(),
@@ -95,7 +95,7 @@ public class ToscaDataTypeJsonAdapter implements JsonSerializer<ToscaDataType>, 
         if (dataTypeJsonObject.has(PROPERTIES)) {
             dataType.setProperties(
                     new ToscaPropertiesJsonAdapter().deserializeProperties(dataTypeJsonObject.get(PROPERTIES)));
-            for (ToscaProperty property : dataType.getProperties()) {
+            for (JpaToscaProperty property : dataType.getProperties()) {
                 property.getKey().setParentConceptKey(dataTypeKey);
                 property.getType().setVersion(dataType.getKey().getVersion());
             }
@@ -105,7 +105,7 @@ public class ToscaDataTypeJsonAdapter implements JsonSerializer<ToscaDataType>, 
     }
 
     @Override
-    public JsonElement serialize(@NonNull final ToscaDataType dataType, @NonNull final Type type,
+    public JsonElement serialize(@NonNull final JpaToscaDataType dataType, @NonNull final Type type,
             @NonNull final JsonSerializationContext context) {
 
         JsonObject dataTypeValJsonObject = new JsonObject();

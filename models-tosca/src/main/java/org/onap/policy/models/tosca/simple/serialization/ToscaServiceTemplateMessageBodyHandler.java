@@ -21,14 +21,14 @@ package org.onap.policy.models.tosca.simple.serialization;
 import com.google.gson.GsonBuilder;
 
 import org.onap.policy.common.gson.GsonMessageBodyHandler;
-import org.onap.policy.models.tosca.simple.concepts.ToscaDataType;
-import org.onap.policy.models.tosca.simple.concepts.ToscaDataTypes;
-import org.onap.policy.models.tosca.simple.concepts.ToscaPolicies;
-import org.onap.policy.models.tosca.simple.concepts.ToscaPolicy;
-import org.onap.policy.models.tosca.simple.concepts.ToscaPolicyType;
-import org.onap.policy.models.tosca.simple.concepts.ToscaPolicyTypes;
-import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
-import org.onap.policy.models.tosca.simple.concepts.ToscaTopologyTemplate;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaDataType;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaDataTypes;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicies;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicy;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyType;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyTypes;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaTopologyTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,14 +56,14 @@ public class ToscaServiceTemplateMessageBodyHandler extends GsonMessageBodyHandl
     public ToscaServiceTemplateMessageBodyHandler(final GsonBuilder builder) {
         // @formatter:off
         super(builder
-                .registerTypeAdapter(ToscaServiceTemplate.class, new ToscaServiceTemplateJsonAdapter())
-                .registerTypeAdapter(ToscaTopologyTemplate.class, new ToscaTopologyTemplateJsonAdapter())
-                .registerTypeAdapter(ToscaPolicies.class, new ToscaPoliciesJsonAdapter())
-                .registerTypeAdapter(ToscaPolicy.class, new ToscaPolicyJsonAdapter())
-                .registerTypeAdapter(ToscaPolicyTypes.class, new ToscaPolicyTypesJsonAdapter())
-                .registerTypeAdapter(ToscaPolicyType.class, new ToscaPolicyTypeJsonAdapter())
-                .registerTypeAdapter(ToscaDataTypes.class, new ToscaDataTypesJsonAdapter())
-                .registerTypeAdapter(ToscaDataType.class, new ToscaDataTypeJsonAdapter())
+                .registerTypeAdapter(JpaToscaServiceTemplate.class, new ToscaServiceTemplateJsonAdapter())
+                .registerTypeAdapter(JpaToscaTopologyTemplate.class, new ToscaTopologyTemplateJsonAdapter())
+                .registerTypeAdapter(JpaToscaPolicies.class, new ToscaPoliciesJsonAdapter())
+                .registerTypeAdapter(JpaToscaPolicy.class, new ToscaPolicyJsonAdapter())
+                .registerTypeAdapter(JpaToscaPolicyTypes.class, new ToscaPolicyTypesJsonAdapter())
+                .registerTypeAdapter(JpaToscaPolicyType.class, new ToscaPolicyTypeJsonAdapter())
+                .registerTypeAdapter(JpaToscaDataTypes.class, new ToscaDataTypesJsonAdapter())
+                .registerTypeAdapter(JpaToscaDataType.class, new ToscaDataTypeJsonAdapter())
                 .setPrettyPrinting()
                 .create()
         );
