@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "69bc2088_0112bc0a",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-29T14:58:34Z",
+      "side": 1,
+      "message": "the generic provider should use/return objects that are not implementation specific",
+      "revId": "cc5b96bfd33cd7d91fe6994d348e8d6a0ebb54fa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "75961d90_55c1103b",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/impl/DummyPolicyModelsProviderImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-29T14:58:34Z",
+      "side": 1,
+      "message": "maybe add a getCoder() method to the handler and use that - then it will be GSON agnostic",
+      "revId": "cc5b96bfd33cd7d91fe6994d348e8d6a0ebb54fa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbd552d6_be70abfb",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaPolicy.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-29T14:58:34Z",
+      "side": 1,
+      "message": "are the values within \"properties\" immutable?  if not, then need to deep-copy the map",
+      "revId": "cc5b96bfd33cd7d91fe6994d348e8d6a0ebb54fa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
