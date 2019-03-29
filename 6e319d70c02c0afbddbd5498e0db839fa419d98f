@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bb9fab12_4b4b2bdd",
+        "filename": "models-interactions/model-impl/appc/src/main/java/org/onap/policy/appc/CommonHeader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-03-29T11:01:46Z",
+      "side": 1,
+      "message": "You could try using Apache Commons:\n\n        int result \u003d ObjectUtils.compare(apiVer, other.apiVer);\n        if (result !\u003d 0) {\n            return false;\n        }\n\nhttps://commons.apache.org/proper/commons-lang/apidocs/org/apache/commons/lang3/ObjectUtils.html\nit\u0027s null safe.",
+      "parentUuid": "353a8c91_8cb44d88",
+      "revId": "6e319d70c02c0afbddbd5498e0db839fa419d98f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f9986c1_833f6b92",
         "filename": "models-interactions/model-impl/appc/src/main/java/org/onap/policy/appc/Request.java",
         "patchSetId": 1
