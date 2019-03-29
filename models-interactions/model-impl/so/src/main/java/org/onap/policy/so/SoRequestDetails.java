@@ -59,7 +59,7 @@ public class SoRequestDetails implements Serializable {
 
     /**
      * Constructor.
-     * 
+     *
      * @param soRequestDetails copy object
      */
     public SoRequestDetails(SoRequestDetails soRequestDetails) {
@@ -208,9 +208,9 @@ public class SoRequestDetails implements Serializable {
     @Override
     public String toString() {
         return "SORequestDetails [modelInfo=" + modelInfo + ", cloudConfiguration=" + cloudConfiguration
-                        + ", requestInfo=" + requestInfo + ", subscriberInfo=" + subscriberInfo
-                        + ", relatedInstanceList=" + relatedInstanceList + ", requestParameters=" + requestParameters
-                        + ", configurationParameters=" + configurationParameters + "]";
+            + ", requestInfo=" + requestInfo + ", subscriberInfo=" + subscriberInfo
+            + ", relatedInstanceList=" + relatedInstanceList + ", requestParameters=" + requestParameters
+            + ", configurationParameters=" + configurationParameters + "]";
     }
 
 }

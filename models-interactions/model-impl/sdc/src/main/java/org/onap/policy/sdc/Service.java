@@ -8,9 +8,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,27 +27,27 @@ import java.util.UUID;
 public class Service implements Serializable {
 
     private static final long serialVersionUID = -1249276698549996806L;
-    
-    private UUID        serviceUUID;
-    private UUID        serviceInvariantUUID;
-    private String  serviceName;
-    private String  serviceVersion;
-    
+
+    private UUID serviceUUID;
+    private UUID serviceInvariantUUID;
+    private String serviceName;
+    private String serviceVersion;
+
     public Service() {
         //Empty Constructor
     }
-    
+
     public Service(UUID uuid) {
         this.serviceUUID = uuid;
     }
-    
+
     public Service(String name) {
         this.serviceName = name;
     }
-    
+
     /**
      * Constructor.
-     * 
+     *
      * @param uuid service id
      * @param invariantUUID service invariant id
      * @param name name
@@ -59,10 +59,10 @@ public class Service implements Serializable {
         this.serviceName = name;
         this.serviceVersion = version;
     }
-    
+
     /**
      * Constructor.
-     * 
+     *
      * @param service copy object
      */
     public Service(Service service) {
@@ -71,7 +71,7 @@ public class Service implements Serializable {
         this.serviceName = service.serviceName;
         this.serviceVersion = service.serviceVersion;
     }
-    
+
     public UUID getServiceUUID() {
         return serviceUUID;
     }
@@ -107,9 +107,9 @@ public class Service implements Serializable {
     @Override
     public String toString() {
         return "Service [serviceUUID=" + serviceUUID + ", serviceInvariantUUID=" + serviceInvariantUUID
-                + ", serviceName=" + serviceName + ", serviceVersion=" + serviceVersion + "]";
+            + ", serviceName=" + serviceName + ", serviceVersion=" + serviceVersion + "]";
     }
-    
+
     @Override
     public int hashCode() {
         final int prime = 31;
