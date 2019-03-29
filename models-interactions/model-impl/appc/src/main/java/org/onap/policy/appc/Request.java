@@ -8,9 +8,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Request implements Serializable {
+
     private static final long serialVersionUID = -3912323643990646431L;
 
     @SerializedName("CommonHeader")
@@ -114,43 +115,23 @@ public class Request implements Serializable {
         }
 
         Request other = (Request) obj;
-        if (action == null) {
-            if (other.action != null) {
-                return false;
-            }
-        } else if (!action.equals(other.action)) {
+        if (action != null ? !action.equals(other.action) : other.action != null) {
             return false;
         }
 
-        if (commonHeader == null) {
-            if (other.commonHeader != null) {
-                return false;
-            }
-        } else if (!commonHeader.equals(other.commonHeader)) {
+        if (commonHeader != null ? !commonHeader.equals(other.commonHeader) : other.commonHeader != null) {
             return false;
         }
 
-        if (objectId == null) {
-            if (other.objectId != null) {
-                return false;
-            }
-        } else if (!objectId.equals(other.objectId)) {
+        if (objectId != null ? !objectId.equals(other.objectId) : other.objectId != null) {
             return false;
         }
 
-        if (payload == null) {
-            if (other.payload != null) {
-                return false;
-            }
-        } else if (!payload.equals(other.payload)) {
+        if (payload != null ? !payload.equals(other.payload) : other.payload != null) {
             return false;
         }
 
-        if (targetId == null) {
-            if (other.targetId != null) {
-                return false;
-            }
-        } else if (!targetId.equals(other.targetId)) {
+        if (targetId != null ? !targetId.equals(other.targetId) : other.targetId != null) {
             return false;
         }
 
@@ -160,7 +141,7 @@ public class Request implements Serializable {
     @Override
     public String toString() {
         return "Request [CommonHeader=" + commonHeader + ", Action=" + action + ", TargetId=" + targetId + ", ObjectId="
-                + objectId + ", Payload=" + payload + "]";
+            + objectId + ", Payload=" + payload + "]";
     }
 
 }

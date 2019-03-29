@@ -8,9 +8,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,21 +27,21 @@ import java.util.UUID;
 public class ServiceInstance implements Serializable {
     private static final long serialVersionUID = 6285260780966679625L;
 
-    private UUID        personaModelUUID;
-    private UUID        serviceUUID;
-    private UUID        serviceInstanceUUID;
-    private UUID        widgetModelUUID;
-    private String  widgetModelVersion;
-    private String  serviceName;
-    private String  serviceInstanceName;
-    
+    private UUID personaModelUUID;
+    private UUID serviceUUID;
+    private UUID serviceInstanceUUID;
+    private UUID widgetModelUUID;
+    private String widgetModelVersion;
+    private String serviceName;
+    private String serviceInstanceName;
+
     public ServiceInstance() {
-        //Empty Constructor
+        // Empty Constructor
     }
-    
+
     /**
      * Constructor.
-     * 
+     *
      * @param instance copy object
      */
     public ServiceInstance(ServiceInstance instance) {
@@ -56,7 +56,7 @@ public class ServiceInstance implements Serializable {
         this.serviceName = instance.serviceName;
         this.serviceInstanceName = instance.serviceInstanceName;
     }
-    
+
     public UUID getPersonaModelUUID() {
         return personaModelUUID;
     }
@@ -120,7 +120,7 @@ public class ServiceInstance implements Serializable {
                 + ", widgetModelVersion=" + widgetModelVersion + ", serviceName=" + serviceName
                 + ", serviceInstanceName=" + serviceInstanceName + "]";
     }
-    
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -134,7 +134,7 @@ public class ServiceInstance implements Serializable {
         result = prime * result + ((widgetModelVersion == null) ? 0 : widgetModelVersion.hashCode());
         return result;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -147,56 +147,32 @@ public class ServiceInstance implements Serializable {
             return false;
         }
         ServiceInstance other = (ServiceInstance) obj;
-        if (personaModelUUID == null) {
-            if (other.personaModelUUID != null) {
-                return false;
-            }
-        } else if (!personaModelUUID.equals(other.personaModelUUID)) {
+        if (personaModelUUID != null ? !personaModelUUID.equals(other.personaModelUUID)
+                : other.personaModelUUID != null) {
             return false;
         }
-        if (serviceInstanceName == null) {
-            if (other.serviceInstanceName != null) {
-                return false;
-            }
-        } else if (!serviceInstanceName.equals(other.serviceInstanceName)) {
+        if (serviceInstanceName != null ? !serviceInstanceName.equals(other.serviceInstanceName)
+                : other.serviceInstanceName != null) {
             return false;
         }
-        if (serviceInstanceUUID == null) {
-            if (other.serviceInstanceUUID != null) {
-                return false;
-            }
-        } else if (!serviceInstanceUUID.equals(other.serviceInstanceUUID)) {
+        if (serviceInstanceUUID != null ? !serviceInstanceUUID.equals(other.serviceInstanceUUID)
+                : other.serviceInstanceUUID != null) {
             return false;
         }
-        if (serviceName == null) {
-            if (other.serviceName != null) {
-                return false;
-            }
-        } else if (!serviceName.equals(other.serviceName)) {
+        if (serviceName != null ? !serviceName.equals(other.serviceName) : other.serviceName != null) {
             return false;
         }
-        if (serviceUUID == null) {
-            if (other.serviceUUID != null) {
-                return false;
-            }
-        } else if (!serviceUUID.equals(other.serviceUUID)) {
+        if (serviceUUID != null ? !serviceUUID.equals(other.serviceUUID) : other.serviceUUID != null) {
             return false;
         }
-        if (widgetModelUUID == null) {
-            if (other.widgetModelUUID != null) {
-                return false;
-            }
-        } else if (!widgetModelUUID.equals(other.widgetModelUUID)) {
+        if (widgetModelUUID != null ? !widgetModelUUID.equals(other.widgetModelUUID) : other.widgetModelUUID != null) {
             return false;
         }
-        if (widgetModelVersion == null) {
-            if (other.widgetModelVersion != null) {
-                return false;
-            }
-        } else if (!widgetModelVersion.equals(other.widgetModelVersion)) {
+        if (widgetModelVersion != null ? !widgetModelVersion.equals(other.widgetModelVersion)
+                : other.widgetModelVersion != null) {
             return false;
         }
         return true;
     }
-    
+
 }

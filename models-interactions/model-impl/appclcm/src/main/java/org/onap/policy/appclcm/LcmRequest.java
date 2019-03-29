@@ -8,9 +8,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,7 +22,6 @@
 package org.onap.policy.appclcm;
 
 import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 import java.util.Map;
 
@@ -52,7 +51,7 @@ public class LcmRequest implements Serializable {
 
     /**
      * Get the action.
-     * 
+     *
      * @return the action
      */
     public String getAction() {
@@ -61,7 +60,7 @@ public class LcmRequest implements Serializable {
 
     /**
      * Set the action.
-     * 
+     *
      * @param action the action to set
      */
     public void setAction(String action) {
@@ -70,7 +69,7 @@ public class LcmRequest implements Serializable {
 
     /**
      * Get the action identifiers.
-     * 
+     *
      * @return the actionIdentifiers
      */
     public Map<String, String> getActionIdentifiers() {
@@ -79,7 +78,7 @@ public class LcmRequest implements Serializable {
 
     /**
      * Set the action identifiers.
-     * 
+     *
      * @param actionIdentifiers the actionIdentifiers to set
      */
     public void setActionIdentifiers(Map<String, String> actionIdentifiers) {
@@ -88,7 +87,7 @@ public class LcmRequest implements Serializable {
 
     /**
      * Get the payload.
-     * 
+     *
      * @return the payload
      */
     public String getPayload() {
@@ -97,7 +96,7 @@ public class LcmRequest implements Serializable {
 
     /**
      * Set the payload.
-     * 
+     *
      * @param payload the payload to set
      */
     public void setPayload(String payload) {
@@ -106,7 +105,7 @@ public class LcmRequest implements Serializable {
 
     /**
      * Get the common header.
-     * 
+     *
      * @param commonHeader the commonHeader to set
      */
     public void setCommonHeader(LcmCommonHeader commonHeader) {
@@ -142,32 +141,17 @@ public class LcmRequest implements Serializable {
             return false;
         }
         LcmRequest other = (LcmRequest) obj;
-        if (commonHeader == null) {
-            if (other.commonHeader != null) {
-                return false;
-            }
-        } else if (!commonHeader.equals(other.commonHeader)) {
+        if (commonHeader != null ? !commonHeader.equals(other.commonHeader) : other.commonHeader != null) {
             return false;
         }
-        if (action == null) {
-            if (other.action != null) {
-                return false;
-            }
-        } else if (!action.equals(other.action)) {
+        if (action != null ? !action.equals(other.action) : other.action != null) {
             return false;
         }
-        if (actionIdentifiers == null) {
-            if (other.actionIdentifiers != null) {
-                return false;
-            }
-        } else if (!actionIdentifiers.equals(other.actionIdentifiers)) {
+        if (actionIdentifiers != null ? !actionIdentifiers.equals(other.actionIdentifiers)
+                : other.actionIdentifiers != null) {
             return false;
         }
-        if (payload == null) {
-            if (other.payload != null) {
-                return false;
-            }
-        } else if (!payload.equals(other.payload)) {
+        if (payload != null ? !payload.equals(other.payload) : other.payload != null) {
             return false;
         }
         return true;

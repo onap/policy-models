@@ -21,7 +21,7 @@
 
 package org.onap.policy.rest;
 
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Map.Entry;
 import javax.xml.bind.DatatypeConverter;
@@ -188,6 +188,6 @@ public class RestManager {
         }
 
         String auth = username + ":" + (password == null ? "" : password);
-        return "Basic " + DatatypeConverter.printBase64Binary(auth.getBytes(Charset.forName("ISO-8859-1")));
+        return "Basic " + DatatypeConverter.printBase64Binary(auth.getBytes(StandardCharsets.ISO_8859_1));
     }
 }

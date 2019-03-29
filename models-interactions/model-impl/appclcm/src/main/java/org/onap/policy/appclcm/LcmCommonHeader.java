@@ -8,9 +8,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,7 +22,6 @@
 package org.onap.policy.appclcm;
 
 import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashMap;
@@ -57,7 +56,7 @@ public class LcmCommonHeader implements Serializable {
 
     /**
      * Used to copy a common header.
-     * 
+     *
      * @param commonHeader a header that is defined by the lcm api guide that contains information
      *        about the request (requestId, flags, etc.)
      */
@@ -72,7 +71,7 @@ public class LcmCommonHeader implements Serializable {
 
     /**
      * Get the timestamp.
-     * 
+     *
      * @return the timeStamp
      */
     public Instant getTimeStamp() {
@@ -81,7 +80,7 @@ public class LcmCommonHeader implements Serializable {
 
     /**
      * Set the timestamp.
-     * 
+     *
      * @param timeStamp the timeStamp to set
      */
     public void setTimeStamp(Instant timeStamp) {
@@ -90,7 +89,7 @@ public class LcmCommonHeader implements Serializable {
 
     /**
      * Get the API version.
-     * 
+     *
      * @return the apiVer
      */
     public String getApiVer() {
@@ -99,7 +98,7 @@ public class LcmCommonHeader implements Serializable {
 
     /**
      * Set the API version.
-     * 
+     *
      * @param apiVer the apiVer to set
      */
     public void setApiVer(String apiVer) {
@@ -108,7 +107,7 @@ public class LcmCommonHeader implements Serializable {
 
     /**
      * Get the originator Id.
-     * 
+     *
      * @return the originatorId
      */
     public String getOriginatorId() {
@@ -117,7 +116,7 @@ public class LcmCommonHeader implements Serializable {
 
     /**
      * Set the originator Id.
-     * 
+     *
      * @param originatorId the originatorId to set
      */
     public void setOriginatorId(String originatorId) {
@@ -126,7 +125,7 @@ public class LcmCommonHeader implements Serializable {
 
     /**
      * Get the request Id.
-     * 
+     *
      * @return the requestId
      */
     public UUID getRequestId() {
@@ -135,7 +134,7 @@ public class LcmCommonHeader implements Serializable {
 
     /**
      * Set the request Id.
-     * 
+     *
      * @param requestId the requestId to set
      */
     public void setRequestId(UUID requestId) {
@@ -144,7 +143,7 @@ public class LcmCommonHeader implements Serializable {
 
     /**
      * Get the sub request Id.
-     * 
+     *
      * @return the subRequestId
      */
     public String getSubRequestId() {
@@ -153,7 +152,7 @@ public class LcmCommonHeader implements Serializable {
 
     /**
      * Set the sub request Id.
-     * 
+     *
      * @param subRequestId the subRequestId to set
      */
     public void setSubRequestId(String subRequestId) {
@@ -162,7 +161,7 @@ public class LcmCommonHeader implements Serializable {
 
     /**
      * Get the flags.
-     * 
+     *
      * @return the flags
      */
     public Map<String, String> getFlags() {
@@ -171,7 +170,7 @@ public class LcmCommonHeader implements Serializable {
 
     /**
      * Set the flags.
-     * 
+     *
      * @param flags the flags to set
      */
     public void setFlags(Map<String, String> flags) {
@@ -209,46 +208,22 @@ public class LcmCommonHeader implements Serializable {
             return false;
         }
         LcmCommonHeader other = (LcmCommonHeader) obj;
-        if (apiVer == null) {
-            if (other.apiVer != null) {
-                return false;
-            }
-        } else if (!apiVer.equals(other.apiVer)) {
+        if (apiVer != null ? !apiVer.equals(other.apiVer) : other.apiVer != null) {
             return false;
         }
-        if (flags == null) {
-            if (other.flags != null) {
-                return false;
-            }
-        } else if (!flags.equals(other.flags)) {
+        if (flags != null ? !flags.equals(other.flags) : other.flags != null) {
             return false;
         }
-        if (originatorId == null) {
-            if (other.originatorId != null) {
-                return false;
-            }
-        } else if (!originatorId.equals(other.originatorId)) {
+        if (originatorId != null ? !originatorId.equals(other.originatorId) : other.originatorId != null) {
             return false;
         }
-        if (requestId == null) {
-            if (other.requestId != null) {
-                return false;
-            }
-        } else if (!requestId.equals(other.requestId)) {
+        if (requestId != null ? !requestId.equals(other.requestId) : other.requestId != null) {
             return false;
         }
-        if (subRequestId == null) {
-            if (other.subRequestId != null) {
-                return false;
-            }
-        } else if (!subRequestId.equals(other.subRequestId)) {
+        if (subRequestId != null ? !subRequestId.equals(other.subRequestId) : other.subRequestId != null) {
             return false;
         }
-        if (timeStamp == null) {
-            if (other.timeStamp != null) {
-                return false;
-            }
-        } else if (!timeStamp.equals(other.timeStamp)) {
+        if (timeStamp != null ? !timeStamp.equals(other.timeStamp) : other.timeStamp != null) {
             return false;
         }
         return true;
