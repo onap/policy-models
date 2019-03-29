@@ -22,6 +22,30 @@
       "revId": "f1a9c76fe55741739d056fd3f1acede9a818bb0a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3ea27a_94b61f43",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpDeployPolicies.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-29T13:19:13Z",
+      "side": 1,
+      "message": "Arghh, you\u0027re correct, I did it again - this should be added to policy/pap \"internal\", instead.",
+      "parentUuid": "a368f991_a29f62a1",
+      "range": {
+        "startLine": 37,
+        "startChar": 13,
+        "endLine": 37,
+        "endChar": 30
+      },
+      "revId": "f1a9c76fe55741739d056fd3f1acede9a818bb0a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
