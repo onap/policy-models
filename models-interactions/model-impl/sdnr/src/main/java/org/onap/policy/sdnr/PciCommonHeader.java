@@ -8,9 +8,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -57,7 +57,7 @@ public class PciCommonHeader implements Serializable {
 
     /**
      * Used to copy a pci common header.
-     * 
+     *
      * @param commonHeader a header that is defined by the Pci api guide that contains information
      *        about the request (requestId, flags, etc.)
      */
@@ -75,7 +75,7 @@ public class PciCommonHeader implements Serializable {
 
     /**
      * Get the timestamp.
-     * 
+     *
      * @return the timeStamp
      */
     public Instant getTimeStamp() {
@@ -84,7 +84,7 @@ public class PciCommonHeader implements Serializable {
 
     /**
      * Set the timestamp.
-     * 
+     *
      * @param timeStamp
      *            the timeStamp to set
      */
@@ -94,7 +94,7 @@ public class PciCommonHeader implements Serializable {
 
     /**
      * Get the API version.
-     * 
+     *
      * @return the apiVer
      */
     public String getApiVer() {
@@ -103,7 +103,7 @@ public class PciCommonHeader implements Serializable {
 
     /**
      * Set the API version.
-     * 
+     *
      * @param apiVer
      *            the apiVer to set
      */
@@ -113,7 +113,7 @@ public class PciCommonHeader implements Serializable {
 
     /**
      * Get the request Id.
-     * 
+     *
      * @return the requestId
      */
     public UUID getRequestId() {
@@ -122,7 +122,7 @@ public class PciCommonHeader implements Serializable {
 
     /**
      * Set the request Id.
-     * 
+     *
      * @param requestId
      *            the requestId to set
      */
@@ -132,7 +132,7 @@ public class PciCommonHeader implements Serializable {
 
     /**
      * Get the sub request Id.
-     * 
+     *
      * @return the subRequestId
      */
     public String getSubRequestId() {
@@ -141,7 +141,7 @@ public class PciCommonHeader implements Serializable {
 
     /**
      * Set the sub request Id.
-     * 
+     *
      * @param subRequestId
      *            the subRequestId to set
      */
@@ -150,7 +150,7 @@ public class PciCommonHeader implements Serializable {
     }
     /**
      * Set the request track.
-     * 
+     *
      * @param requestTrack
      *            the requestTrack to set
      */
@@ -159,7 +159,7 @@ public class PciCommonHeader implements Serializable {
     }
     /**
      * Get the request track.
-     * 
+     *
      * @return the requestTrack
      */
     public Map<String, String> getRequestTrack() {
@@ -168,7 +168,7 @@ public class PciCommonHeader implements Serializable {
 
     /**
      * Get the flags.
-     * 
+     *
      * @return the flags
      */
     public Map<String, String> getFlags() {
@@ -177,7 +177,7 @@ public class PciCommonHeader implements Serializable {
 
     /**
      * Set the flags.
-     * 
+     *
      * @param flags
      *            the flags to set
      */
@@ -187,7 +187,7 @@ public class PciCommonHeader implements Serializable {
 
     @Override
     public String toString() {
-        return "CommonHeader [timeStamp=" + timeStamp + ", apiVer=" + apiVer 
+        return "CommonHeader [timeStamp=" + timeStamp + ", apiVer=" + apiVer
                    + ", requestId=" + requestId + ", subRequestId=" + subRequestId + ", requestTrack=" + requestTrack
                    + ", flags=" + flags + "]";
     }

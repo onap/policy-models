@@ -8,9 +8,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -52,7 +52,7 @@ public class LcmRequest implements Serializable {
 
     /**
      * Get the action.
-     * 
+     *
      * @return the action
      */
     public String getAction() {
@@ -61,7 +61,7 @@ public class LcmRequest implements Serializable {
 
     /**
      * Set the action.
-     * 
+     *
      * @param action the action to set
      */
     public void setAction(String action) {
@@ -70,7 +70,7 @@ public class LcmRequest implements Serializable {
 
     /**
      * Get the action identifiers.
-     * 
+     *
      * @return the actionIdentifiers
      */
     public Map<String, String> getActionIdentifiers() {
@@ -79,7 +79,7 @@ public class LcmRequest implements Serializable {
 
     /**
      * Set the action identifiers.
-     * 
+     *
      * @param actionIdentifiers the actionIdentifiers to set
      */
     public void setActionIdentifiers(Map<String, String> actionIdentifiers) {
@@ -88,7 +88,7 @@ public class LcmRequest implements Serializable {
 
     /**
      * Get the payload.
-     * 
+     *
      * @return the payload
      */
     public String getPayload() {
@@ -97,7 +97,7 @@ public class LcmRequest implements Serializable {
 
     /**
      * Set the payload.
-     * 
+     *
      * @param payload the payload to set
      */
     public void setPayload(String payload) {
@@ -106,7 +106,7 @@ public class LcmRequest implements Serializable {
 
     /**
      * Get the common header.
-     * 
+     *
      * @param commonHeader the commonHeader to set
      */
     public void setCommonHeader(LcmCommonHeader commonHeader) {

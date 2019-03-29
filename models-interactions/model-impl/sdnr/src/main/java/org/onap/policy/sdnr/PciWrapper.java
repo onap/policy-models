@@ -8,9 +8,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -50,7 +50,7 @@ public class PciWrapper implements Serializable {
 
     /**
      * Get the version.
-     * 
+     *
      * @return the version
      */
     public String getVersion() {
@@ -59,9 +59,8 @@ public class PciWrapper implements Serializable {
 
     /**
      * Set the version.
-     * 
-     * @param version
-     *            the version to set
+     *
+     * @param version the version to set
      */
     public void setVersion(String version) {
         this.version = version;
@@ -69,7 +68,7 @@ public class PciWrapper implements Serializable {
 
     /**
      * Get the cambria partition.
-     * 
+     *
      * @return the cambriaPartition
      */
     public String getCambriaPartition() {
@@ -78,9 +77,8 @@ public class PciWrapper implements Serializable {
 
     /**
      * Set the cambria partition.
-     * 
-     * @param cambriaPartition
-     *            the cambriaPartition to set
+     *
+     * @param cambriaPartition the cambriaPartition to set
      */
     public void setCambriaPartition(String cambriaPartition) {
         this.cambriaPartition = cambriaPartition;
@@ -88,7 +86,7 @@ public class PciWrapper implements Serializable {
 
     /**
      * Get the RPN name.
-     * 
+     *
      * @return the rpcName
      */
     public String getRpcName() {
@@ -97,9 +95,8 @@ public class PciWrapper implements Serializable {
 
     /**
      * Set the RPC name.
-     * 
-     * @param rpcName
-     *            the rpcName to set
+     *
+     * @param rpcName the rpcName to set
      */
     public void setRpcName(String rpcName) {
         this.rpcName = rpcName;
@@ -107,7 +104,7 @@ public class PciWrapper implements Serializable {
 
     /**
      * Get the correlation Id.
-     * 
+     *
      * @return the correlationId
      */
     public String getCorrelationId() {
@@ -116,9 +113,8 @@ public class PciWrapper implements Serializable {
 
     /**
      * Set the correclation Id.
-     * 
-     * @param correlationId
-     *            the correlationId to set
+     *
+     * @param correlationId the correlationId to set
      */
     public void setCorrelationId(String correlationId) {
         this.correlationId = correlationId;
@@ -126,7 +122,7 @@ public class PciWrapper implements Serializable {
 
     /**
      * Get the type.
-     * 
+     *
      * @return the type
      */
     public String getType() {
@@ -135,9 +131,8 @@ public class PciWrapper implements Serializable {
 
     /**
      * Set the type.
-     * 
-     * @param type
-     *            the type to set
+     *
+     * @param type the type to set
      */
     public void setType(String type) {
         this.type = type;
@@ -146,7 +141,7 @@ public class PciWrapper implements Serializable {
     @Override
     public String toString() {
         return "Wrapper [version=" + version + ", cambriaPartition=" + cambriaPartition + ", rpcName=" + rpcName
-                + ", correlationId=" + correlationId + ", type=" + type + "]";
+            + ", correlationId=" + correlationId + ", type=" + type + "]";
     }
 
     @Override

@@ -8,9 +8,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,23 +25,24 @@ import java.io.Serializable;
 import java.util.UUID;
 
 public class ServiceInstance implements Serializable {
+
     private static final long serialVersionUID = 6285260780966679625L;
 
-    private UUID        personaModelUUID;
-    private UUID        serviceUUID;
-    private UUID        serviceInstanceUUID;
-    private UUID        widgetModelUUID;
-    private String  widgetModelVersion;
-    private String  serviceName;
-    private String  serviceInstanceName;
-    
+    private UUID personaModelUUID;
+    private UUID serviceUUID;
+    private UUID serviceInstanceUUID;
+    private UUID widgetModelUUID;
+    private String widgetModelVersion;
+    private String serviceName;
+    private String serviceInstanceName;
+
     public ServiceInstance() {
         //Empty Constructor
     }
-    
+
     /**
      * Constructor.
-     * 
+     *
      * @param instance copy object
      */
     public ServiceInstance(ServiceInstance instance) {
@@ -56,7 +57,7 @@ public class ServiceInstance implements Serializable {
         this.serviceName = instance.serviceName;
         this.serviceInstanceName = instance.serviceInstanceName;
     }
-    
+
     public UUID getPersonaModelUUID() {
         return personaModelUUID;
     }
@@ -116,11 +117,11 @@ public class ServiceInstance implements Serializable {
     @Override
     public String toString() {
         return "ServiceInstance [personaModelUUID=" + personaModelUUID + ", serviceUUID=" + serviceUUID
-                + ", serviceInstanceUUID=" + serviceInstanceUUID + ", widgetModelUUID=" + widgetModelUUID
-                + ", widgetModelVersion=" + widgetModelVersion + ", serviceName=" + serviceName
-                + ", serviceInstanceName=" + serviceInstanceName + "]";
+            + ", serviceInstanceUUID=" + serviceInstanceUUID + ", widgetModelUUID=" + widgetModelUUID
+            + ", widgetModelVersion=" + widgetModelVersion + ", serviceName=" + serviceName
+            + ", serviceInstanceName=" + serviceInstanceName + "]";
     }
-    
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -134,7 +135,7 @@ public class ServiceInstance implements Serializable {
         result = prime * result + ((widgetModelVersion == null) ? 0 : widgetModelVersion.hashCode());
         return result;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -198,5 +199,5 @@ public class ServiceInstance implements Serializable {
         }
         return true;
     }
-    
+
 }

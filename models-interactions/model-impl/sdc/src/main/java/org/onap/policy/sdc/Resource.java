@@ -8,9 +8,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,20 +27,20 @@ import java.util.UUID;
 public class Resource implements Serializable {
 
     private static final long serialVersionUID = -913729158733348027L;
-    
+
     private UUID    resourceUuid;
     private UUID    resourceInvariantUuid;
     private String  resourceName;
     private String  resourceVersion;
     private ResourceType    resourceType;
-    
+
     public Resource() {
         //Empty Constructor
     }
-    
+
     /**
      * Constructor.
-     * 
+     *
      * @param resource copy object
      */
     public Resource(Resource resource) {
@@ -50,19 +50,19 @@ public class Resource implements Serializable {
         this.resourceVersion = resource.resourceVersion;
         this.resourceType = resource.resourceType;
     }
-    
+
     public Resource(UUID uuid) {
         this.resourceUuid = uuid;
     }
-    
+
     public Resource(String name, ResourceType type) {
         this.resourceName = name;
         this.resourceType = type;
     }
-    
+
     /**
      * Constructor.
-     * 
+     *
      * @param uuid uuid
      * @param invariantUuid invariant uuid
      * @param name name
@@ -76,7 +76,7 @@ public class Resource implements Serializable {
         this.resourceVersion = version;
         this.resourceType = type;
     }
-    
+
     public UUID getResourceUuid() {
         return resourceUuid;
     }
@@ -123,7 +123,7 @@ public class Resource implements Serializable {
                 + ", resourceName=" + resourceName + ", resourceVersion=" + resourceVersion + ", resourceType="
                 + resourceType + "]";
     }
-    
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -135,7 +135,7 @@ public class Resource implements Serializable {
         result = prime * result + ((resourceVersion == null) ? 0 : resourceVersion.hashCode());
         return result;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -185,5 +185,5 @@ public class Resource implements Serializable {
         }
         return true;
     }
-    
+
 }

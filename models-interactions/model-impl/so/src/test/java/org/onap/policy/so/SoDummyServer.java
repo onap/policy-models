@@ -34,7 +34,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
 @Path("/SO")
-public class SoDummyServerTest {
+public class SoDummyServer {
 
     private static int postMessagesReceived = 0;
     private static int putMessagesReceived = 0;
