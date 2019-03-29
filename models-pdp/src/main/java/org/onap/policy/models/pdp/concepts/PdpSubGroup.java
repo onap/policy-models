@@ -29,7 +29,7 @@ import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.tosca.simple.concepts.ToscaPolicy;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 
 /**
  * Class to represent a group of all PDP's of the same pdp type running for a particular
@@ -41,16 +41,13 @@ import org.onap.policy.models.tosca.simple.concepts.ToscaPolicy;
 @Setter
 @ToString
 public class PdpSubGroup {
-
-    // TODO subclass from ToscaEntityType
-
     private String pdpType;
     private List<PolicyTypeIdent> supportedPolicyTypes;
     private List<ToscaPolicy> policies;
     private int currentInstanceCount;
     private int desiredInstanceCount;
     private Map<String, String> properties;
-    private List<PdpInstanceDetails> pdpInstances;
+    private List<Pdp> pdpInstances;
 
     /**
      * Constructs the object.
@@ -71,6 +68,6 @@ public class PdpSubGroup {
         this.currentInstanceCount = source.currentInstanceCount;
         this.desiredInstanceCount = source.desiredInstanceCount;
         this.properties = (source.properties == null ? null : new LinkedHashMap<>(source.properties));
-        this.pdpInstances = PfUtils.mapList(source.pdpInstances, PdpInstanceDetails::new);
+        this.pdpInstances = PfUtils.mapList(source.pdpInstances, Pdp::new);
     }
 }

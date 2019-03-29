@@ -23,9 +23,9 @@
 package org.onap.policy.models.tosca.authorative.mapping;
 
 import com.google.gson.Gson;
-import org.onap.policy.models.tosca.authorative.concepts.PlainToscaServiceTemplate;
-import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
-import org.onap.policy.models.tosca.simple.mapping.ToscaServiceTemplateMapper;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
+import org.onap.policy.models.tosca.simple.mapping.JpaToscaServiceTemplateMapper;
 import org.onap.policy.models.tosca.simple.serialization.ToscaServiceTemplateMessageBodyHandler;
 
 /**
@@ -34,23 +34,23 @@ import org.onap.policy.models.tosca.simple.serialization.ToscaServiceTemplateMes
  * @author Chenfei Gao (cgao@research.att.com)
  */
 public class PlainToscaServiceTemplateMapper
-        implements ToscaServiceTemplateMapper<PlainToscaServiceTemplate, PlainToscaServiceTemplate> {
+        implements JpaToscaServiceTemplateMapper<ToscaServiceTemplate, ToscaServiceTemplate> {
 
     private Gson defaultGson = new Gson();
     private Gson customGson = new ToscaServiceTemplateMessageBodyHandler().getGson();
 
     @Override
-    public ToscaServiceTemplate toToscaServiceTemplate(PlainToscaServiceTemplate otherPolicy) {
+    public JpaToscaServiceTemplate toToscaServiceTemplate(ToscaServiceTemplate otherPolicy) {
 
         String serializedServiceTemplate = defaultGson.toJson(otherPolicy);
-        return customGson.fromJson(serializedServiceTemplate, ToscaServiceTemplate.class);
+        return customGson.fromJson(serializedServiceTemplate, JpaToscaServiceTemplate.class);
 
     }
 
     @Override
-    public PlainToscaServiceTemplate fromToscaServiceTemplate(ToscaServiceTemplate serviceTemplate) {
+    public ToscaServiceTemplate fromToscaServiceTemplate(JpaToscaServiceTemplate serviceTemplate) {
 
         String serializedServiceTemplate = customGson.toJson(serviceTemplate);
-        return defaultGson.fromJson(serializedServiceTemplate, PlainToscaServiceTemplate.class);
+        return defaultGson.fromJson(serializedServiceTemplate, ToscaServiceTemplate.class);
     }
 }

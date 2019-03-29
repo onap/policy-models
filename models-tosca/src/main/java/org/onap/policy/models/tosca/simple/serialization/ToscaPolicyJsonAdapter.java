@@ -40,7 +40,7 @@ import lombok.NonNull;
 
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelRuntimeException;
-import org.onap.policy.models.tosca.simple.concepts.ToscaPolicy;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,7 +50,7 @@ import org.slf4j.LoggerFactory;
  * @author Liam Fallon (liam.fallon@est.tech)
  * @author Chenfei Gao (cgao@research.att.com)
  */
-public class ToscaPolicyJsonAdapter implements JsonSerializer<ToscaPolicy>, JsonDeserializer<ToscaPolicy> {
+public class ToscaPolicyJsonAdapter implements JsonSerializer<JpaToscaPolicy>, JsonDeserializer<JpaToscaPolicy> {
     // Logger for this class
     private static final Logger LOGGER = LoggerFactory.getLogger(ToscaPolicyJsonAdapter.class);
 
@@ -63,7 +63,7 @@ public class ToscaPolicyJsonAdapter implements JsonSerializer<ToscaPolicy>, Json
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     @Override
-    public ToscaPolicy deserialize(@NonNull final JsonElement policyElement, @NonNull final Type type,
+    public JpaToscaPolicy deserialize(@NonNull final JsonElement policyElement, @NonNull final Type type,
             @NonNull final JsonDeserializationContext context) {
 
         // The incoming JSON
@@ -85,7 +85,7 @@ public class ToscaPolicyJsonAdapter implements JsonSerializer<ToscaPolicy>, Json
         PfConceptKey policyTypeKey = new PfConceptKey(
                 policyJsonObject.get(TYPE).getAsString(),
                 policyJsonObject.get(VERSION).getAsString());
-        ToscaPolicy policy = new ToscaPolicy(policyKey, policyTypeKey);
+        JpaToscaPolicy policy = new JpaToscaPolicy(policyKey, policyTypeKey);
 
         // Set description
         if (policyJsonObject.has(DESCRIPTION)) {
@@ -121,7 +121,7 @@ public class ToscaPolicyJsonAdapter implements JsonSerializer<ToscaPolicy>, Json
     }
 
     @Override
-    public JsonElement serialize(@NonNull final ToscaPolicy policy, @NonNull final Type type,
+    public JsonElement serialize(@NonNull final JpaToscaPolicy policy, @NonNull final Type type,
             @NonNull final JsonSerializationContext context) {
 
         JsonObject policyValJsonObject = new JsonObject();

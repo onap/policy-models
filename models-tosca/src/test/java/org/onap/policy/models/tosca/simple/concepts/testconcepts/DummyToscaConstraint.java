@@ -24,14 +24,14 @@ import javax.ws.rs.core.Response;
 
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.base.PfReferenceKey;
-import org.onap.policy.models.tosca.simple.concepts.ToscaConstraint;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaConstraint;
 
 /**
  * Dummy constraint to test abstract ToscaConstraint class.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class DummyToscaConstraint extends ToscaConstraint {
+public class DummyToscaConstraint extends JpaToscaConstraint {
     private static final long serialVersionUID = 1L;
 
     /**

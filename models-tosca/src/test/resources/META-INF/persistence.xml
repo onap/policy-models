@@ -26,8 +26,8 @@
         <class>org.onap.policy.models.dao.converters.CDataConditioner</class>
         <class>org.onap.policy.models.dao.converters.Uuid2String</class>
         <class>org.onap.policy.models.base.PfConceptKey</class>
-        <class>org.onap.policy.models.tosca.simple.concepts.ToscaPolicyType</class>
-        <class>org.onap.policy.models.tosca.simple.concepts.ToscaPolicy</class>
+        <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyType</class>
+        <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicy</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
@@ -46,7 +46,7 @@
         <class>org.onap.policy.models.dao.converters.CDataConditioner</class>
         <class>org.onap.policy.models.dao.converters.Uuid2String</class>
         <class>org.onap.policy.models.base.PfConceptKey</class>
-        <class>org.onap.policy.models.tosca.simple.concepts.ToscaPolicy</class>
+        <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicy</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.mariadb.jdbc.Driver" />

@@ -42,8 +42,8 @@ import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderFactory;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
-import org.onap.policy.models.tosca.simple.concepts.ToscaPolicy;
-import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicy;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.serialization.ToscaServiceTemplateMessageBodyHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -141,7 +141,7 @@ public class PolicyToscaPersistenceTest {
      * @throws Exception any exception thrown
      */
     public void testJsonStringPolicyPersistence(@NonNull final String policyString) throws Exception {
-        ToscaServiceTemplate serviceTemplate = gson.fromJson(policyString, ToscaServiceTemplate.class);
+        JpaToscaServiceTemplate serviceTemplate = gson.fromJson(policyString, JpaToscaServiceTemplate.class);
 
         assertNotNull(serviceTemplate);
         LOGGER.info(serviceTemplate.validate(new PfValidationResult()).toString());
@@ -150,8 +150,8 @@ public class PolicyToscaPersistenceTest {
         databaseProvider.createPolicies(serviceTemplate);
 
         for (PfConceptKey policyKey : serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().keySet()) {
-            ToscaPolicy incomingPolicy = serviceTemplate.getTopologyTemplate().getPolicies().get(policyKey);
-            ToscaPolicy databasePolicy =
+            JpaToscaPolicy incomingPolicy = serviceTemplate.getTopologyTemplate().getPolicies().get(policyKey);
+            JpaToscaPolicy databasePolicy =
                     databaseProvider.getPolicies(policyKey).getTopologyTemplate().getPolicies().get(policyKey);
             assertEquals(incomingPolicy, databasePolicy);
         }

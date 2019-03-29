@@ -31,7 +31,7 @@ import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
 import org.onap.policy.models.tosca.legacy.mapping.LegacyOperationalPolicyMapper;
-import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,7 +58,7 @@ public class LegacyOperationalPolicySerializationTest {
         LegacyOperationalPolicy legacyOperationalPolicy =
                 standardCoder.decode(vcpePolicyJson, LegacyOperationalPolicy.class);
 
-        ToscaServiceTemplate serviceTemplate =
+        JpaToscaServiceTemplate serviceTemplate =
                 new LegacyOperationalPolicyMapper().toToscaServiceTemplate(legacyOperationalPolicy);
 
         assertNotNull(serviceTemplate);

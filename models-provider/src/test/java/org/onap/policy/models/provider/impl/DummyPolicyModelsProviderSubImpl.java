@@ -23,7 +23,7 @@ package org.onap.policy.models.provider.impl;
 import lombok.NonNull;
 
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
-import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
 
 /**
  * Sub class to check getDummyResponse() method in base class.
@@ -40,11 +40,11 @@ public class DummyPolicyModelsProviderSubImpl extends DummyPolicyModelsProviderI
         super(parameters);
     }
 
-    public ToscaServiceTemplate getBadDummyResponse1() {
+    public JpaToscaServiceTemplate getBadDummyResponse1() {
         return super.getDummyResponse("/i/dont/exist");
     }
 
-    public ToscaServiceTemplate getBadDummyResponse2() {
+    public JpaToscaServiceTemplate getBadDummyResponse2() {
         return super.getDummyResponse(null);
     }
 }

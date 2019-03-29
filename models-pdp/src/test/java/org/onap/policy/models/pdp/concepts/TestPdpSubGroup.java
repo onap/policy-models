@@ -28,7 +28,7 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.TreeMap;
 import org.junit.Test;
-import org.onap.policy.models.tosca.simple.concepts.ToscaPolicy;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 
 /**
  * Test the copy constructor, as {@link TestModels} tests the other methods.
@@ -51,9 +51,9 @@ public class TestPdpSubGroup {
         orig.setCurrentInstanceCount(10);
         orig.setDesiredInstanceCount(11);
 
-        PdpInstanceDetails inst1 = new PdpInstanceDetails();
+        Pdp inst1 = new Pdp();
         inst1.setInstanceId("my-id-A");
-        PdpInstanceDetails inst2 = new PdpInstanceDetails();
+        Pdp inst2 = new Pdp();
         inst2.setInstanceId("my-id-B");
         orig.setPdpInstances(Arrays.asList(inst1, inst2));
 

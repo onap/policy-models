@@ -34,8 +34,8 @@ import lombok.NonNull;
 
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelRuntimeException;
-import org.onap.policy.models.tosca.simple.concepts.ToscaDataType;
-import org.onap.policy.models.tosca.simple.concepts.ToscaDataTypes;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaDataType;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaDataTypes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,12 +44,13 @@ import org.slf4j.LoggerFactory;
  *
  * @author Chenfei Gao (cgao@research.att.com)
  */
-public class ToscaDataTypesJsonAdapter implements JsonSerializer<ToscaDataTypes>, JsonDeserializer<ToscaDataTypes> {
+public class ToscaDataTypesJsonAdapter
+        implements JsonSerializer<JpaToscaDataTypes>, JsonDeserializer<JpaToscaDataTypes> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ToscaDataTypesJsonAdapter.class);
 
     @Override
-    public ToscaDataTypes deserialize(@NonNull final JsonElement dataTypesElement, @NonNull final Type type,
+    public JpaToscaDataTypes deserialize(@NonNull final JsonElement dataTypesElement, @NonNull final Type type,
             @NonNull final JsonDeserializationContext context) {
 
         // The incoming JSON
@@ -57,13 +58,13 @@ public class ToscaDataTypesJsonAdapter implements JsonSerializer<ToscaDataTypes>
 
         // The outgoing object
         final PfConceptKey dataTypesKey = new PfConceptKey("IncomingDataTypes", "0.0.1");
-        final ToscaDataTypes dataTypes = new ToscaDataTypes(dataTypesKey);
+        final JpaToscaDataTypes dataTypes = new JpaToscaDataTypes(dataTypesKey);
 
         // Get the dataTypes
         Iterator<JsonElement> dataTypesIterator = dataTypesJsonArray.iterator();
         while (dataTypesIterator.hasNext()) {
-            ToscaDataType dataType = new ToscaDataTypeJsonAdapter()
-                    .deserialize(dataTypesIterator.next(), ToscaDataType.class, context);
+            JpaToscaDataType dataType = new ToscaDataTypeJsonAdapter().deserialize(dataTypesIterator.next(),
+                    JpaToscaDataType.class, context);
 
             dataTypes.getConceptMap().put(dataType.getKey(), dataType);
         }
@@ -72,7 +73,7 @@ public class ToscaDataTypesJsonAdapter implements JsonSerializer<ToscaDataTypes>
     }
 
     @Override
-    public JsonElement serialize(@NonNull final ToscaDataTypes dataTypes, @NonNull final Type type,
+    public JsonElement serialize(@NonNull final JpaToscaDataTypes dataTypes, @NonNull final Type type,
             @NonNull final JsonSerializationContext context) {
 
         JsonArray dataTypesJsonArray = new JsonArray();
@@ -83,8 +84,8 @@ public class ToscaDataTypesJsonAdapter implements JsonSerializer<ToscaDataTypes>
             throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR, errorMessage);
         }
 
-        for (ToscaDataType dataType: dataTypes.getConceptMap().values()) {
-            JsonElement dataTypeEntry = new  ToscaDataTypeJsonAdapter().serialize(dataType, type, context);
+        for (JpaToscaDataType dataType : dataTypes.getConceptMap().values()) {
+            JsonElement dataTypeEntry = new ToscaDataTypeJsonAdapter().serialize(dataType, type, context);
             dataTypesJsonArray.add(dataTypeEntry);
         }
 

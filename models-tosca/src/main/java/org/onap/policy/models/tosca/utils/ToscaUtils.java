@@ -23,7 +23,7 @@ package org.onap.policy.models.tosca.utils;
 import javax.ws.rs.core.Response;
 
 import org.onap.policy.models.base.PfModelRuntimeException;
-import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,7 +44,7 @@ public final class ToscaUtils {
     /**
      * Check if policy types have been specified is initialized.
      */
-    public static void assertPolicyTypesExist(final ToscaServiceTemplate serviceTemplate) {
+    public static void assertPolicyTypesExist(final JpaToscaServiceTemplate serviceTemplate) {
         if (serviceTemplate.getPolicyTypes() == null) {
             String errorMessage = "no policy types specified on service template";
             LOGGER.warn(errorMessage);
@@ -61,7 +61,7 @@ public final class ToscaUtils {
     /**
      * Check if policy types have been specified is initialized.
      */
-    public static void assertPoliciesExist(final ToscaServiceTemplate serviceTemplate) {
+    public static void assertPoliciesExist(final JpaToscaServiceTemplate serviceTemplate) {
         if (serviceTemplate.getTopologyTemplate() == null) {
             String errorMessage = "topology template not specified on service template";
             LOGGER.warn(errorMessage);
