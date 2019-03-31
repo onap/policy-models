@@ -25,13 +25,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.pdp.enums.PdpState;
-import org.onap.policy.models.tosca.simple.concepts.ToscaEntityType;
 
 /**
  * Class to represent a PDPGroup, which groups multiple PDPSubGroup entities together for
@@ -39,13 +36,12 @@ import org.onap.policy.models.tosca.simple.concepts.ToscaEntityType;
  *
  * @author Ram Krishna Verma (ram.krishna.verma@est.tech)
  */
-@Getter
-@Setter
-@ToString
+@Data
 @NoArgsConstructor
-public class PdpGroup extends ToscaEntityType {
-    private static final long serialVersionUID = 1L;
-
+public class PdpGroup {
+    private String name;
+    private String version;
+    private String description;
     private PdpState pdpGroupState;
     private Map<String, String> properties;
     private List<PdpSubGroup> pdpSubgroups;
@@ -62,7 +58,9 @@ public class PdpGroup extends ToscaEntityType {
      * @param source source from which to copy fields
      */
     public PdpGroup(PdpGroup source) {
-        super(source);
+        this.name = source.name;
+        this.version = source.version;
+        this.description = source.description;
         this.pdpGroupState = source.pdpGroupState;
         this.properties = (source.properties == null ? null : new LinkedHashMap<>(source.properties));
         this.pdpSubgroups = PfUtils.mapList(source.pdpSubgroups, PdpSubGroup::new);

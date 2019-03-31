@@ -34,12 +34,12 @@ public class TestPdpInstanceDetails {
 
     @Test
     public void testCopyConstructor() {
-        assertThatThrownBy(() -> new PdpInstanceDetails(null)).isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> new Pdp(null)).isInstanceOf(NullPointerException.class);
 
-        PdpInstanceDetails orig = new PdpInstanceDetails();
+        Pdp orig = new Pdp();
 
         // verify with null values
-        assertEquals(orig.toString(), new PdpInstanceDetails(orig).toString());
+        assertEquals(orig.toString(), new Pdp(orig).toString());
 
         // verify with all values
         orig.setHealthy(PdpHealthStatus.TEST_IN_PROGRESS);
@@ -47,6 +47,6 @@ public class TestPdpInstanceDetails {
         orig.setMessage("my-message");
         orig.setPdpState(PdpState.SAFE);
 
-        assertEquals(orig.toString(), new PdpInstanceDetails(orig).toString());
+        assertEquals(orig.toString(), new Pdp(orig).toString());
     }
 }

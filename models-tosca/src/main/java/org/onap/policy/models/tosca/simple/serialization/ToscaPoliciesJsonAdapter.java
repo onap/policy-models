@@ -33,8 +33,8 @@ import java.util.Iterator;
 import lombok.NonNull;
 
 import org.onap.policy.models.base.PfConceptKey;
-import org.onap.policy.models.tosca.simple.concepts.ToscaPolicies;
-import org.onap.policy.models.tosca.simple.concepts.ToscaPolicy;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicies;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicy;
 
 /**
  * GSON type adapter for TOSCA policies.
@@ -42,22 +42,22 @@ import org.onap.policy.models.tosca.simple.concepts.ToscaPolicy;
  * @author Liam Fallon (liam.fallon@est.tech)
  * @author Chenfei Gao (cgao@research.att.com)
  */
-public class ToscaPoliciesJsonAdapter implements JsonSerializer<ToscaPolicies>, JsonDeserializer<ToscaPolicies> {
+public class ToscaPoliciesJsonAdapter implements JsonSerializer<JpaToscaPolicies>, JsonDeserializer<JpaToscaPolicies> {
 
     @Override
-    public ToscaPolicies deserialize(@NonNull final JsonElement policiesElement, @NonNull final Type type,
+    public JpaToscaPolicies deserialize(@NonNull final JsonElement policiesElement, @NonNull final Type type,
             @NonNull final JsonDeserializationContext context) {
         // The incoming JSON
         final JsonArray policiesJsonArray = policiesElement.getAsJsonArray();
 
         // The outgoing object
         final PfConceptKey policiesKey = new PfConceptKey("IncomingPolicies", "0.0.1");
-        final ToscaPolicies policies = new ToscaPolicies(policiesKey);
+        final JpaToscaPolicies policies = new JpaToscaPolicies(policiesKey);
 
         // Get the policies
         for (Iterator<JsonElement> policiesIterator = policiesJsonArray.iterator(); policiesIterator.hasNext(); ) {
-            ToscaPolicy policy = new ToscaPolicyJsonAdapter()
-                    .deserialize(policiesIterator.next(), ToscaPolicy.class, context);
+            JpaToscaPolicy policy = new ToscaPolicyJsonAdapter()
+                    .deserialize(policiesIterator.next(), JpaToscaPolicy.class, context);
 
             policies.getConceptMap().put(policy.getKey(), policy);
         }
@@ -66,12 +66,12 @@ public class ToscaPoliciesJsonAdapter implements JsonSerializer<ToscaPolicies>, 
     }
 
     @Override
-    public JsonElement serialize(@NonNull final ToscaPolicies policies, @NonNull final Type type,
+    public JsonElement serialize(@NonNull final JpaToscaPolicies policies, @NonNull final Type type,
             @NonNull final JsonSerializationContext context) {
 
         JsonArray policiesJsonArray = new JsonArray();
 
-        for (ToscaPolicy policy: policies.getConceptMap().values()) {
+        for (JpaToscaPolicy policy: policies.getConceptMap().values()) {
             policiesJsonArray.add(new ToscaPolicyJsonAdapter().serialize(policy, type, context));
         }
         return policiesJsonArray;

@@ -28,12 +28,12 @@ import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.dao.PfDao;
-import org.onap.policy.models.tosca.simple.concepts.ToscaPolicies;
-import org.onap.policy.models.tosca.simple.concepts.ToscaPolicy;
-import org.onap.policy.models.tosca.simple.concepts.ToscaPolicyType;
-import org.onap.policy.models.tosca.simple.concepts.ToscaPolicyTypes;
-import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
-import org.onap.policy.models.tosca.simple.concepts.ToscaTopologyTemplate;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicies;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicy;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyType;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyTypes;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaTopologyTemplate;
 import org.onap.policy.models.tosca.utils.ToscaUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,15 +55,15 @@ public class SimpleToscaProvider {
      * @return the policy types found
      * @throws PfModelException on errors getting policy types
      */
-    public ToscaServiceTemplate getPolicyTypes(@NonNull final PfDao dao, @NonNull final PfConceptKey policyTypeKey)
+    public JpaToscaServiceTemplate getPolicyTypes(@NonNull final PfDao dao, @NonNull final PfConceptKey policyTypeKey)
             throws PfModelException {
 
         // Create the structure of the TOSCA service template to contain the policy type
-        ToscaServiceTemplate serviceTemplate = new ToscaServiceTemplate();
-        serviceTemplate.setPolicyTypes(new ToscaPolicyTypes());
+        JpaToscaServiceTemplate serviceTemplate = new JpaToscaServiceTemplate();
+        serviceTemplate.setPolicyTypes(new JpaToscaPolicyTypes());
 
         // Add the policy type to the TOSCA service template
-        ToscaPolicyType policyType = dao.get(ToscaPolicyType.class, policyTypeKey);
+        JpaToscaPolicyType policyType = dao.get(JpaToscaPolicyType.class, policyTypeKey);
         if (policyType != null) {
             serviceTemplate.getPolicyTypes().getConceptMap().put(policyTypeKey, policyType);
             return serviceTemplate;
@@ -82,23 +82,23 @@ public class SimpleToscaProvider {
      * @return the TOSCA service template containing the created policy types
      * @throws PfModelException on errors creating policy types
      */
-    public ToscaServiceTemplate createPolicyTypes(@NonNull final PfDao dao,
-            @NonNull final ToscaServiceTemplate serviceTemplate) throws PfModelException {
+    public JpaToscaServiceTemplate createPolicyTypes(@NonNull final PfDao dao,
+            @NonNull final JpaToscaServiceTemplate serviceTemplate) throws PfModelException {
 
         ToscaUtils.assertPolicyTypesExist(serviceTemplate);
 
-        for (ToscaPolicyType policyType : serviceTemplate.getPolicyTypes().getAll(null)) {
+        for (JpaToscaPolicyType policyType : serviceTemplate.getPolicyTypes().getAll(null)) {
             dao.create(policyType);
         }
 
         // Return the created policy types
-        ToscaPolicyTypes returnPolicyTypes = new ToscaPolicyTypes();
+        JpaToscaPolicyTypes returnPolicyTypes = new JpaToscaPolicyTypes();
 
         for (PfConceptKey policyTypeKey : serviceTemplate.getPolicyTypes().getConceptMap().keySet()) {
-            returnPolicyTypes.getConceptMap().put(policyTypeKey, dao.get(ToscaPolicyType.class, policyTypeKey));
+            returnPolicyTypes.getConceptMap().put(policyTypeKey, dao.get(JpaToscaPolicyType.class, policyTypeKey));
         }
 
-        ToscaServiceTemplate returnServiceTemplate = new ToscaServiceTemplate();
+        JpaToscaServiceTemplate returnServiceTemplate = new JpaToscaServiceTemplate();
         returnServiceTemplate.setPolicyTypes(returnPolicyTypes);
 
         return returnServiceTemplate;
@@ -112,23 +112,23 @@ public class SimpleToscaProvider {
      * @return the TOSCA service template containing the modified policy types
      * @throws PfModelException on errors updating policy types
      */
-    public ToscaServiceTemplate updatePolicyTypes(@NonNull final PfDao dao,
-            @NonNull final ToscaServiceTemplate serviceTemplate) throws PfModelException {
+    public JpaToscaServiceTemplate updatePolicyTypes(@NonNull final PfDao dao,
+            @NonNull final JpaToscaServiceTemplate serviceTemplate) throws PfModelException {
 
         ToscaUtils.assertPolicyTypesExist(serviceTemplate);
 
-        for (ToscaPolicyType policyType : serviceTemplate.getPolicyTypes().getAll(null)) {
+        for (JpaToscaPolicyType policyType : serviceTemplate.getPolicyTypes().getAll(null)) {
             dao.update(policyType);
         }
 
         // Return the created policy types
-        ToscaPolicyTypes returnPolicyTypes = new ToscaPolicyTypes();
+        JpaToscaPolicyTypes returnPolicyTypes = new JpaToscaPolicyTypes();
 
         for (PfConceptKey policyTypeKey : serviceTemplate.getPolicyTypes().getConceptMap().keySet()) {
-            returnPolicyTypes.getConceptMap().put(policyTypeKey, dao.get(ToscaPolicyType.class, policyTypeKey));
+            returnPolicyTypes.getConceptMap().put(policyTypeKey, dao.get(JpaToscaPolicyType.class, policyTypeKey));
         }
 
-        ToscaServiceTemplate returnServiceTemplate = new ToscaServiceTemplate();
+        JpaToscaServiceTemplate returnServiceTemplate = new JpaToscaServiceTemplate();
         returnServiceTemplate.setPolicyTypes(returnPolicyTypes);
 
         return returnServiceTemplate;
@@ -143,12 +143,13 @@ public class SimpleToscaProvider {
      * @return the TOSCA service template containing the policy types that were deleted
      * @throws PfModelException on errors deleting policy types
      */
-    public ToscaServiceTemplate deletePolicyTypes(@NonNull final PfDao dao, @NonNull final PfConceptKey policyTypeKey)
+    public JpaToscaServiceTemplate deletePolicyTypes(@NonNull final PfDao dao,
+            @NonNull final PfConceptKey policyTypeKey)
             throws PfModelException {
 
-        ToscaServiceTemplate serviceTemplate = getPolicyTypes(dao, policyTypeKey);
+        JpaToscaServiceTemplate serviceTemplate = getPolicyTypes(dao, policyTypeKey);
 
-        dao.delete(ToscaPolicyType.class, policyTypeKey);
+        dao.delete(JpaToscaPolicyType.class, policyTypeKey);
 
         return serviceTemplate;
     }
@@ -162,16 +163,16 @@ public class SimpleToscaProvider {
      * @return the policies found
      * @throws PfModelException on errors getting policies
      */
-    public ToscaServiceTemplate getPolicies(@NonNull final PfDao dao, @NonNull final PfConceptKey policyKey)
+    public JpaToscaServiceTemplate getPolicies(@NonNull final PfDao dao, @NonNull final PfConceptKey policyKey)
             throws PfModelException {
 
         // Create the structure of the TOSCA service template to contain the policy type
-        ToscaServiceTemplate serviceTemplate = new ToscaServiceTemplate();
-        serviceTemplate.setTopologyTemplate(new ToscaTopologyTemplate());
-        serviceTemplate.getTopologyTemplate().setPolicies(new ToscaPolicies());
+        JpaToscaServiceTemplate serviceTemplate = new JpaToscaServiceTemplate();
+        serviceTemplate.setTopologyTemplate(new JpaToscaTopologyTemplate());
+        serviceTemplate.getTopologyTemplate().setPolicies(new JpaToscaPolicies());
 
         // Add the policy to the TOSCA service template
-        ToscaPolicy policy = dao.get(ToscaPolicy.class, policyKey);
+        JpaToscaPolicy policy = dao.get(JpaToscaPolicy.class, policyKey);
         if (policy != null) {
             serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().put(policyKey, policy);
             return serviceTemplate;
@@ -190,21 +191,21 @@ public class SimpleToscaProvider {
      * @return the TOSCA service template containing the policy types that were created
      * @throws PfModelException on errors creating policies
      */
-    public ToscaServiceTemplate createPolicies(@NonNull final PfDao dao,
-            @NonNull final ToscaServiceTemplate serviceTemplate) throws PfModelException {
+    public JpaToscaServiceTemplate createPolicies(@NonNull final PfDao dao,
+            @NonNull final JpaToscaServiceTemplate serviceTemplate) throws PfModelException {
 
         ToscaUtils.assertPoliciesExist(serviceTemplate);
 
-        for (ToscaPolicy policy : serviceTemplate.getTopologyTemplate().getPolicies().getAll(null)) {
+        for (JpaToscaPolicy policy : serviceTemplate.getTopologyTemplate().getPolicies().getAll(null)) {
             dao.create(policy);
         }
 
         // Return the created policy types
-        ToscaPolicies returnPolicies = new ToscaPolicies();
+        JpaToscaPolicies returnPolicies = new JpaToscaPolicies();
         returnPolicies.setKey(serviceTemplate.getTopologyTemplate().getPolicies().getKey());
 
         for (PfConceptKey policyKey : serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().keySet()) {
-            returnPolicies.getConceptMap().put(policyKey, dao.get(ToscaPolicy.class, policyKey));
+            returnPolicies.getConceptMap().put(policyKey, dao.get(JpaToscaPolicy.class, policyKey));
         }
 
         serviceTemplate.getTopologyTemplate().setPolicies(returnPolicies);
@@ -220,21 +221,21 @@ public class SimpleToscaProvider {
      * @return the TOSCA service template containing the policies that were updated
      * @throws PfModelException on errors updating policies
      */
-    public ToscaServiceTemplate updatePolicies(@NonNull final PfDao dao,
-            @NonNull final ToscaServiceTemplate serviceTemplate) throws PfModelException {
+    public JpaToscaServiceTemplate updatePolicies(@NonNull final PfDao dao,
+            @NonNull final JpaToscaServiceTemplate serviceTemplate) throws PfModelException {
 
         ToscaUtils.assertPoliciesExist(serviceTemplate);
 
-        for (ToscaPolicy policy : serviceTemplate.getTopologyTemplate().getPolicies().getAll(null)) {
+        for (JpaToscaPolicy policy : serviceTemplate.getTopologyTemplate().getPolicies().getAll(null)) {
             dao.update(policy);
         }
 
         // Return the created policy types
-        ToscaPolicies returnPolicies = new ToscaPolicies();
+        JpaToscaPolicies returnPolicies = new JpaToscaPolicies();
         returnPolicies.setKey(serviceTemplate.getTopologyTemplate().getPolicies().getKey());
 
         for (PfConceptKey policyKey : serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().keySet()) {
-            returnPolicies.getConceptMap().put(policyKey, dao.get(ToscaPolicy.class, policyKey));
+            returnPolicies.getConceptMap().put(policyKey, dao.get(JpaToscaPolicy.class, policyKey));
         }
 
         serviceTemplate.getTopologyTemplate().setPolicies(returnPolicies);
@@ -250,12 +251,12 @@ public class SimpleToscaProvider {
      * @return the TOSCA service template containing the policies that were deleted
      * @throws PfModelException on errors deleting policies
      */
-    public ToscaServiceTemplate deletePolicies(@NonNull final PfDao dao, @NonNull final PfConceptKey policyKey)
+    public JpaToscaServiceTemplate deletePolicies(@NonNull final PfDao dao, @NonNull final PfConceptKey policyKey)
             throws PfModelException {
 
-        ToscaServiceTemplate serviceTemplate = getPolicies(dao, policyKey);
+        JpaToscaServiceTemplate serviceTemplate = getPolicies(dao, policyKey);
 
-        dao.delete(ToscaPolicy.class, policyKey);
+        dao.delete(JpaToscaPolicy.class, policyKey);
 
         return serviceTemplate;
     }

@@ -28,11 +28,11 @@ import javax.ws.rs.core.Response;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
-import org.onap.policy.models.tosca.simple.concepts.ToscaPolicies;
-import org.onap.policy.models.tosca.simple.concepts.ToscaPolicy;
-import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
-import org.onap.policy.models.tosca.simple.concepts.ToscaTopologyTemplate;
-import org.onap.policy.models.tosca.simple.mapping.ToscaServiceTemplateMapper;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicies;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicy;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaTopologyTemplate;
+import org.onap.policy.models.tosca.simple.mapping.JpaToscaServiceTemplateMapper;
 import org.onap.policy.models.tosca.utils.ToscaUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,14 +43,14 @@ import org.slf4j.LoggerFactory;
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 public class LegacyOperationalPolicyMapper
-        implements ToscaServiceTemplateMapper<LegacyOperationalPolicy, LegacyOperationalPolicy> {
+        implements JpaToscaServiceTemplateMapper<LegacyOperationalPolicy, LegacyOperationalPolicy> {
     private static final Logger LOGGER = LoggerFactory.getLogger(LegacyOperationalPolicyMapper.class);
 
     private static final PfConceptKey LEGACY_OPERATIONAL_TYPE =
             new PfConceptKey("onap.policies.controlloop.Operational", "1.0.0");
 
     @Override
-    public ToscaServiceTemplate toToscaServiceTemplate(final LegacyOperationalPolicy legacyOperationalPolicy) {
+    public JpaToscaServiceTemplate toToscaServiceTemplate(final LegacyOperationalPolicy legacyOperationalPolicy) {
         String incomingVersion = legacyOperationalPolicy.getPolicyVersion();
         if (incomingVersion == null) {
             incomingVersion = "1";
@@ -58,7 +58,7 @@ public class LegacyOperationalPolicyMapper
 
         PfConceptKey policyKey = new PfConceptKey(legacyOperationalPolicy.getPolicyId(), incomingVersion + ".0.0");
 
-        final ToscaPolicy toscaPolicy = new ToscaPolicy(policyKey);
+        final JpaToscaPolicy toscaPolicy = new JpaToscaPolicy(policyKey);
 
         toscaPolicy.setType(LEGACY_OPERATIONAL_TYPE);
 
@@ -66,19 +66,19 @@ public class LegacyOperationalPolicyMapper
         toscaPolicy.setProperties(propertyMap);
         toscaPolicy.getProperties().put("Content", legacyOperationalPolicy.getContent());
 
-        final ToscaServiceTemplate serviceTemplate = new ToscaServiceTemplate();
+        final JpaToscaServiceTemplate serviceTemplate = new JpaToscaServiceTemplate();
         serviceTemplate.setToscaDefinitionsVersion("tosca_simple_yaml_1_0");
 
-        serviceTemplate.setTopologyTemplate(new ToscaTopologyTemplate());
+        serviceTemplate.setTopologyTemplate(new JpaToscaTopologyTemplate());
 
-        serviceTemplate.getTopologyTemplate().setPolicies(new ToscaPolicies());
+        serviceTemplate.getTopologyTemplate().setPolicies(new JpaToscaPolicies());
         serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().put(policyKey, toscaPolicy);
 
         return serviceTemplate;
     }
 
     @Override
-    public LegacyOperationalPolicy fromToscaServiceTemplate(final ToscaServiceTemplate serviceTemplate) {
+    public LegacyOperationalPolicy fromToscaServiceTemplate(final JpaToscaServiceTemplate serviceTemplate) {
         ToscaUtils.assertPoliciesExist(serviceTemplate);
 
         if (serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().size() > 1) {
@@ -88,7 +88,7 @@ public class LegacyOperationalPolicyMapper
         }
 
         // Get the policy
-        final ToscaPolicy toscaPolicy =
+        final JpaToscaPolicy toscaPolicy =
                 serviceTemplate.getTopologyTemplate().getPolicies().getAll(null).iterator().next();
 
         final LegacyOperationalPolicy legacyOperationalPolicy = new LegacyOperationalPolicy();

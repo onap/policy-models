@@ -30,11 +30,11 @@ import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyContent;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyInput;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyOutput;
-import org.onap.policy.models.tosca.simple.concepts.ToscaPolicies;
-import org.onap.policy.models.tosca.simple.concepts.ToscaPolicy;
-import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
-import org.onap.policy.models.tosca.simple.concepts.ToscaTopologyTemplate;
-import org.onap.policy.models.tosca.simple.mapping.ToscaServiceTemplateMapper;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicies;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicy;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaTopologyTemplate;
+import org.onap.policy.models.tosca.simple.mapping.JpaToscaServiceTemplateMapper;
 import org.onap.policy.models.tosca.utils.ToscaUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +45,7 @@ import org.slf4j.LoggerFactory;
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 public class LegacyGuardPolicyMapper
-        implements ToscaServiceTemplateMapper<LegacyGuardPolicyInput, Map<String, LegacyGuardPolicyOutput>> {
+        implements JpaToscaServiceTemplateMapper<LegacyGuardPolicyInput, Map<String, LegacyGuardPolicyOutput>> {
     private static final Logger LOGGER = LoggerFactory.getLogger(LegacyGuardPolicyMapper.class);
 
     private static final Map<String, PfConceptKey> GUARD_POLICY_TYPE_MAP = new LinkedHashMap<>();
@@ -62,7 +62,7 @@ public class LegacyGuardPolicyMapper
     }
 
     @Override
-    public ToscaServiceTemplate toToscaServiceTemplate(final LegacyGuardPolicyInput legacyGuardPolicyInput) {
+    public JpaToscaServiceTemplate toToscaServiceTemplate(final LegacyGuardPolicyInput legacyGuardPolicyInput) {
         PfConceptKey guardPolicyType = GUARD_POLICY_TYPE_MAP.get(legacyGuardPolicyInput.getPolicyId());
         if (guardPolicyType == null) {
             String errorMessage =
@@ -80,28 +80,30 @@ public class LegacyGuardPolicyMapper
 
         PfConceptKey policyKey = new PfConceptKey(legacyGuardPolicyInput.getPolicyId(), version);
 
-        final ToscaPolicy toscaPolicy = new ToscaPolicy(policyKey);
+        final JpaToscaPolicy toscaPolicy = new JpaToscaPolicy(policyKey);
         toscaPolicy.setType(guardPolicyType);
         toscaPolicy.setProperties(legacyGuardPolicyInput.getContent().getAsPropertyMap());
 
-        final ToscaServiceTemplate serviceTemplate = new ToscaServiceTemplate();
+        final JpaToscaServiceTemplate serviceTemplate = new JpaToscaServiceTemplate();
         serviceTemplate.setToscaDefinitionsVersion("tosca_simimport java.util.HashMap;\n" + "ple_yaml_1_0");
 
-        serviceTemplate.setTopologyTemplate(new ToscaTopologyTemplate());
+        serviceTemplate.setTopologyTemplate(new JpaToscaTopologyTemplate());
 
-        serviceTemplate.getTopologyTemplate().setPolicies(new ToscaPolicies());
+        serviceTemplate.getTopologyTemplate().setPolicies(new JpaToscaPolicies());
         serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().put(policyKey, toscaPolicy);
 
         return serviceTemplate;
     }
 
     @Override
-    public Map<String, LegacyGuardPolicyOutput> fromToscaServiceTemplate(final ToscaServiceTemplate serviceTemplate) {
+    public Map<String, LegacyGuardPolicyOutput> fromToscaServiceTemplate(
+            final JpaToscaServiceTemplate serviceTemplate) {
         ToscaUtils.assertPoliciesExist(serviceTemplate);
 
         final Map<String, LegacyGuardPolicyOutput> legacyGuardPolicyOutputMap = new LinkedHashMap<>();
 
-        for (ToscaPolicy toscaPolicy : serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().values()) {
+        for (JpaToscaPolicy toscaPolicy : serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap()
+                .values()) {
 
             final LegacyGuardPolicyOutput legacyGuardPolicyOutput = new LegacyGuardPolicyOutput();
             legacyGuardPolicyOutput.setType(toscaPolicy.getType().getName());

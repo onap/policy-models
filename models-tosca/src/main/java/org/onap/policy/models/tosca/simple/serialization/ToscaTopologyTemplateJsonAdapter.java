@@ -34,8 +34,8 @@ import lombok.NonNull;
 
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfReferenceKey;
-import org.onap.policy.models.tosca.simple.concepts.ToscaPolicies;
-import org.onap.policy.models.tosca.simple.concepts.ToscaTopologyTemplate;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicies;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaTopologyTemplate;
 
 /**
  * GSON type adapter for TOSCA policies.
@@ -44,13 +44,13 @@ import org.onap.policy.models.tosca.simple.concepts.ToscaTopologyTemplate;
  * @author Chenfei Gao (cgao@research.att.com)
  */
 public class ToscaTopologyTemplateJsonAdapter
-        implements JsonSerializer<ToscaTopologyTemplate>, JsonDeserializer<ToscaTopologyTemplate> {
+        implements JsonSerializer<JpaToscaTopologyTemplate>, JsonDeserializer<JpaToscaTopologyTemplate> {
 
     private static final String POLICIES = "policies";
     private static final String DESCRIPTION = "description";
 
     @Override
-    public ToscaTopologyTemplate deserialize(@NonNull final JsonElement toplogyTemplateElement,
+    public JpaToscaTopologyTemplate deserialize(@NonNull final JsonElement toplogyTemplateElement,
             @NonNull final Type type, @NonNull final JsonDeserializationContext context) {
 
         // The incoming JSON
@@ -58,7 +58,7 @@ public class ToscaTopologyTemplateJsonAdapter
 
         // The outgoing object
         final PfReferenceKey topologyTemplateKey = new PfReferenceKey(new PfConceptKey(), "IncomingTopologyTemplate");
-        final ToscaTopologyTemplate topologyTemplate = new ToscaTopologyTemplate(topologyTemplateKey);
+        final JpaToscaTopologyTemplate topologyTemplate = new JpaToscaTopologyTemplate(topologyTemplateKey);
 
         if (topologyTemplateJsonObject.has(DESCRIPTION)) {
             topologyTemplate.setDescription(topologyTemplateJsonObject.get(DESCRIPTION).getAsString());
@@ -66,14 +66,14 @@ public class ToscaTopologyTemplateJsonAdapter
 
         if (topologyTemplateJsonObject.has(POLICIES)) {
             topologyTemplate.setPolicies(new ToscaPoliciesJsonAdapter()
-                    .deserialize(topologyTemplateJsonObject.get(POLICIES), ToscaPolicies.class, context));
+                    .deserialize(topologyTemplateJsonObject.get(POLICIES), JpaToscaPolicies.class, context));
         }
 
         return topologyTemplate;
     }
 
     @Override
-    public JsonElement serialize(@NonNull final ToscaTopologyTemplate topologyTemplate, @NonNull final Type type,
+    public JsonElement serialize(@NonNull final JpaToscaTopologyTemplate topologyTemplate, @NonNull final Type type,
             @NonNull final JsonSerializationContext context) {
 
         JsonObject topologyTemplateJsonObject = new JsonObject();

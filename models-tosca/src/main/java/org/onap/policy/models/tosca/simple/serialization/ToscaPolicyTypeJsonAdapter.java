@@ -33,8 +33,8 @@ import lombok.NonNull;
 
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelRuntimeException;
-import org.onap.policy.models.tosca.simple.concepts.ToscaPolicyType;
-import org.onap.policy.models.tosca.simple.concepts.ToscaProperty;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyType;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,7 +43,8 @@ import org.slf4j.LoggerFactory;
  *
  * @author Chenfei Gao (cgao@research.att.com)
  */
-public class ToscaPolicyTypeJsonAdapter implements JsonSerializer<ToscaPolicyType>, JsonDeserializer<ToscaPolicyType> {
+public class ToscaPolicyTypeJsonAdapter
+        implements JsonSerializer<JpaToscaPolicyType>, JsonDeserializer<JpaToscaPolicyType> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ToscaPolicyTypeJsonAdapter.class);
 
@@ -54,7 +55,7 @@ public class ToscaPolicyTypeJsonAdapter implements JsonSerializer<ToscaPolicyTyp
     private static final String DEFAULT_VERSION = "1.0.0";
 
     @Override
-    public ToscaPolicyType deserialize(@NonNull final JsonElement policyTypeElement, @NonNull final Type type,
+    public JpaToscaPolicyType deserialize(@NonNull final JsonElement policyTypeElement, @NonNull final Type type,
             @NonNull final JsonDeserializationContext context) {
 
         // The incoming JSON
@@ -68,8 +69,8 @@ public class ToscaPolicyTypeJsonAdapter implements JsonSerializer<ToscaPolicyTyp
         }
 
         final String policyTypeName = policyTypeJsonMapObject.entrySet().iterator().next().getKey();
-        final JsonObject policyTypeJsonObject = policyTypeJsonMapObject.entrySet().iterator().next()
-                                            .getValue().getAsJsonObject();
+        final JsonObject policyTypeJsonObject =
+                policyTypeJsonMapObject.entrySet().iterator().next().getValue().getAsJsonObject();
 
         // Set keys
         PfConceptKey policyTypeKey;
@@ -78,11 +79,11 @@ public class ToscaPolicyTypeJsonAdapter implements JsonSerializer<ToscaPolicyTyp
         } else {
             policyTypeKey = new PfConceptKey(policyTypeName, policyTypeJsonObject.get(VERSION).getAsString());
         }
-        ToscaPolicyType policyType = new ToscaPolicyType(policyTypeKey);
+        JpaToscaPolicyType policyType = new JpaToscaPolicyType(policyTypeKey);
 
         // Set derived_from
-        policyType.setDerivedFrom(new PfConceptKey(policyTypeJsonObject.get(DERIVED_FROM).getAsString(),
-                DEFAULT_VERSION));
+        policyType.setDerivedFrom(
+                new PfConceptKey(policyTypeJsonObject.get(DERIVED_FROM).getAsString(), DEFAULT_VERSION));
 
         // Set description
         if (policyTypeJsonObject.has(DESCRIPTION)) {
@@ -94,7 +95,7 @@ public class ToscaPolicyTypeJsonAdapter implements JsonSerializer<ToscaPolicyTyp
         if (policyTypeJsonObject.has(PROPERTIES)) {
             policyType.setProperties(
                     new ToscaPropertiesJsonAdapter().deserializeProperties(policyTypeJsonObject.get(PROPERTIES)));
-            for (ToscaProperty property : policyType.getProperties()) {
+            for (JpaToscaProperty property : policyType.getProperties()) {
                 property.getKey().setParentConceptKey(policyTypeKey);
                 property.getType().setVersion(policyType.getKey().getVersion());
             }
@@ -104,7 +105,7 @@ public class ToscaPolicyTypeJsonAdapter implements JsonSerializer<ToscaPolicyTyp
     }
 
     @Override
-    public JsonElement serialize(@NonNull final ToscaPolicyType policyType, @NonNull final Type type,
+    public JsonElement serialize(@NonNull final JpaToscaPolicyType policyType, @NonNull final Type type,
             @NonNull final JsonSerializationContext context) {
 
         JsonObject policyTypeValJsonObject = new JsonObject();
@@ -126,8 +127,8 @@ public class ToscaPolicyTypeJsonAdapter implements JsonSerializer<ToscaPolicyTyp
 
         // Add properties
         if (policyType.getProperties() != null) {
-            JsonElement propertiesJsonElement = new ToscaPropertiesJsonAdapter()
-                    .serializeProperties(policyType.getProperties());
+            JsonElement propertiesJsonElement =
+                    new ToscaPropertiesJsonAdapter().serializeProperties(policyType.getProperties());
             policyTypeValJsonObject.add(PROPERTIES, propertiesJsonElement);
         }
 

@@ -28,7 +28,7 @@
         <version>2.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>models-pdp</artifactId>
+    <artifactId>policy-models-pdp</artifactId>
 
     <name>${project.artifactId}</name>
     <description>The models for internal PDP API's.</description>

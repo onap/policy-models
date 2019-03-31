@@ -42,4 +42,9 @@ public enum PdpHealthStatus {
      * PDP is currently under test state and performing tests.
      */
     TEST_IN_PROGRESS,
+
+    /**
+     * The health status of the PDP is unknown.
+     */
+    UNKNOWN
 }

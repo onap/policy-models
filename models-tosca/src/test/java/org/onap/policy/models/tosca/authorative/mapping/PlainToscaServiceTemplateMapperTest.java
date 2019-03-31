@@ -30,8 +30,8 @@ import org.junit.Test;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.base.PfValidationResult;
-import org.onap.policy.models.tosca.authorative.concepts.PlainToscaServiceTemplate;
-import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
 import org.yaml.snakeyaml.Yaml;
 
 /**
@@ -55,10 +55,10 @@ public class PlainToscaServiceTemplateMapperTest {
         try {
             String inputJson = ResourceUtils.getResourceAsString("policies/vCPE.policy.monitoring.input.tosca.json");
 
-            PlainToscaServiceTemplate plainPolicies = standardCoder.decode(inputJson, PlainToscaServiceTemplate.class);
-            ToscaServiceTemplate internalPolicies = mapper.toToscaServiceTemplate(plainPolicies);
+            ToscaServiceTemplate plainPolicies = standardCoder.decode(inputJson, ToscaServiceTemplate.class);
+            JpaToscaServiceTemplate internalPolicies = mapper.toToscaServiceTemplate(plainPolicies);
             assertTrue(internalPolicies.validate(new PfValidationResult()).isValid());
-            PlainToscaServiceTemplate plainPolicies2 = mapper.fromToscaServiceTemplate(internalPolicies);
+            ToscaServiceTemplate plainPolicies2 = mapper.fromToscaServiceTemplate(internalPolicies);
             assertTrue(plainPolicies.equals(plainPolicies2));
 
         } catch (Exception e) {
@@ -75,12 +75,12 @@ public class PlainToscaServiceTemplateMapperTest {
             Object yamlObject = yaml.load(inputYaml);
             String yamlAsJsonString = standardCoder.encode(yamlObject);
 
-            PlainToscaServiceTemplate plainPolicyTypes = standardCoder.decode(yamlAsJsonString,
-                    PlainToscaServiceTemplate.class);
-            ToscaServiceTemplate internalPolicyTypes = mapper.toToscaServiceTemplate(plainPolicyTypes);
+            ToscaServiceTemplate plainPolicyTypes = standardCoder.decode(yamlAsJsonString,
+                    ToscaServiceTemplate.class);
+            JpaToscaServiceTemplate internalPolicyTypes = mapper.toToscaServiceTemplate(plainPolicyTypes);
             assertTrue(internalPolicyTypes.validate(new PfValidationResult()).isValid());
-            PlainToscaServiceTemplate plainPolicyTypes2 = mapper.fromToscaServiceTemplate(internalPolicyTypes);
-            ToscaServiceTemplate internalPolicyTypes2 = mapper.toToscaServiceTemplate(plainPolicyTypes2);
+            ToscaServiceTemplate plainPolicyTypes2 = mapper.fromToscaServiceTemplate(internalPolicyTypes);
+            JpaToscaServiceTemplate internalPolicyTypes2 = mapper.toToscaServiceTemplate(plainPolicyTypes2);
             assertTrue(internalPolicyTypes2.validate(new PfValidationResult()).isValid());
             assertTrue(internalPolicyTypes.compareTo(internalPolicyTypes2) == 0);
 

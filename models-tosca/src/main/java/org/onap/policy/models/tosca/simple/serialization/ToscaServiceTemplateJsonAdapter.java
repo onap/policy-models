@@ -32,10 +32,10 @@ import java.lang.reflect.Type;
 
 import lombok.NonNull;
 
-import org.onap.policy.models.tosca.simple.concepts.ToscaDataTypes;
-import org.onap.policy.models.tosca.simple.concepts.ToscaPolicyTypes;
-import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
-import org.onap.policy.models.tosca.simple.concepts.ToscaTopologyTemplate;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaDataTypes;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyTypes;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaTopologyTemplate;
 
 /**
  * GSON type adapter for TOSCA policies.
@@ -44,7 +44,7 @@ import org.onap.policy.models.tosca.simple.concepts.ToscaTopologyTemplate;
  * @author Chenfei Gao (cgao@research.att.com)
  */
 public class ToscaServiceTemplateJsonAdapter
-        implements JsonSerializer<ToscaServiceTemplate>, JsonDeserializer<ToscaServiceTemplate> {
+        implements JsonSerializer<JpaToscaServiceTemplate>, JsonDeserializer<JpaToscaServiceTemplate> {
 
     private static final String TOPOLOGY_TEMPLATE = "topology_template";
     private static final String TOSCA_DEFINITIONS_VERSION = "tosca_definitions_version";
@@ -52,40 +52,40 @@ public class ToscaServiceTemplateJsonAdapter
     private static final String DATA_TYPES = "data_types";
 
     @Override
-    public ToscaServiceTemplate deserialize(@NonNull final JsonElement serviceTemplateElement, @NonNull final Type type,
-            @NonNull final JsonDeserializationContext context) {
+    public JpaToscaServiceTemplate deserialize(@NonNull final JsonElement serviceTemplateElement,
+            @NonNull final Type type, @NonNull final JsonDeserializationContext context) {
 
         // The incoming JSON
         final JsonObject serviceTemplateJsonObject = serviceTemplateElement.getAsJsonObject();
 
         // The outgoing object
-        final ToscaServiceTemplate serviceTemplate = new ToscaServiceTemplate();
+        final JpaToscaServiceTemplate serviceTemplate = new JpaToscaServiceTemplate();
         serviceTemplate
                 .setToscaDefinitionsVersion(serviceTemplateJsonObject.get(TOSCA_DEFINITIONS_VERSION).getAsString());
 
         // Set topology_template
         if (serviceTemplateJsonObject.has(TOPOLOGY_TEMPLATE)) {
             serviceTemplate.setTopologyTemplate(new ToscaTopologyTemplateJsonAdapter().deserialize(
-                    serviceTemplateJsonObject.get(TOPOLOGY_TEMPLATE), ToscaTopologyTemplate.class, context));
+                    serviceTemplateJsonObject.get(TOPOLOGY_TEMPLATE), JpaToscaTopologyTemplate.class, context));
         }
 
         // Set policy_types
         if (serviceTemplateJsonObject.has(POLICY_TYPES)) {
             serviceTemplate.setPolicyTypes(new ToscaPolicyTypesJsonAdapter()
-                    .deserialize(serviceTemplateJsonObject.get(POLICY_TYPES), ToscaPolicyTypes.class, context));
+                    .deserialize(serviceTemplateJsonObject.get(POLICY_TYPES), JpaToscaPolicyTypes.class, context));
         }
 
         // Set data_types
         if (serviceTemplateJsonObject.has(DATA_TYPES)) {
             serviceTemplate.setDataTypes(new ToscaDataTypesJsonAdapter()
-                    .deserialize(serviceTemplateJsonObject.get(DATA_TYPES), ToscaDataTypes.class, context));
+                    .deserialize(serviceTemplateJsonObject.get(DATA_TYPES), JpaToscaDataTypes.class, context));
         }
 
         return serviceTemplate;
     }
 
     @Override
-    public JsonElement serialize(@NonNull final ToscaServiceTemplate serviceTemplate, @NonNull final Type type,
+    public JsonElement serialize(@NonNull final JpaToscaServiceTemplate serviceTemplate, @NonNull final Type type,
             @NonNull final JsonSerializationContext context) {
 
         JsonObject serviceTemplateJsonObject = new JsonObject();

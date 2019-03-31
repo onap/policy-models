@@ -38,7 +38,7 @@ import org.onap.policy.models.provider.PolicyModelsProviderParameters;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyInput;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyOutput;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
-import org.onap.policy.models.tosca.simple.concepts.ToscaServiceTemplate;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.serialization.ToscaServiceTemplateMessageBodyHandler;
 
 /**
@@ -66,46 +66,47 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public ToscaServiceTemplate getPolicyTypes(@NonNull final PfConceptKey policyTypeKey) throws PfModelException {
+    public JpaToscaServiceTemplate getPolicyTypes(@NonNull final PfConceptKey policyTypeKey) throws PfModelException {
         return getDummyResponse("dummyimpl/DummyToscaPolicyTypeGetResponse.json");
     }
 
     @Override
-    public ToscaServiceTemplate createPolicyTypes(@NonNull final ToscaServiceTemplate serviceTemplate)
+    public JpaToscaServiceTemplate createPolicyTypes(@NonNull final JpaToscaServiceTemplate serviceTemplate)
             throws PfModelException {
         return serviceTemplate;
     }
 
     @Override
-    public ToscaServiceTemplate updatePolicyTypes(@NonNull final ToscaServiceTemplate serviceTemplate)
+    public JpaToscaServiceTemplate updatePolicyTypes(@NonNull final JpaToscaServiceTemplate serviceTemplate)
             throws PfModelException {
         return serviceTemplate;
     }
 
     @Override
-    public ToscaServiceTemplate deletePolicyTypes(@NonNull final PfConceptKey policyTypeKey) throws PfModelException {
+    public JpaToscaServiceTemplate deletePolicyTypes(@NonNull final PfConceptKey policyTypeKey)
+            throws PfModelException {
         return getDummyResponse("dummyimpl/DummyToscaPolicyTypeDeleteResponse.json");
     }
 
     @Override
-    public ToscaServiceTemplate getPolicies(@NonNull final PfConceptKey policyKey) throws PfModelException {
+    public JpaToscaServiceTemplate getPolicies(@NonNull final PfConceptKey policyKey) throws PfModelException {
         return getDummyResponse("dummyimpl/DummyToscaPolicyGetResponse.json");
     }
 
     @Override
-    public ToscaServiceTemplate createPolicies(@NonNull final ToscaServiceTemplate serviceTemplate)
+    public JpaToscaServiceTemplate createPolicies(@NonNull final JpaToscaServiceTemplate serviceTemplate)
             throws PfModelException {
         return serviceTemplate;
     }
 
     @Override
-    public ToscaServiceTemplate updatePolicies(@NonNull final ToscaServiceTemplate serviceTemplate)
+    public JpaToscaServiceTemplate updatePolicies(@NonNull final JpaToscaServiceTemplate serviceTemplate)
             throws PfModelException {
         return serviceTemplate;
     }
 
     @Override
-    public ToscaServiceTemplate deletePolicies(@NonNull final PfConceptKey policyKey) throws PfModelException {
+    public JpaToscaServiceTemplate deletePolicies(@NonNull final PfConceptKey policyKey) throws PfModelException {
         return getDummyResponse("dummyimpl/DummyToscaPolicyDeleteResponse.json");
     }
 
@@ -181,12 +182,12 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
      * @param fileName the file name containing the dummy response
      * @return the ToscaServiceTemplate with the dummy response
      */
-    protected ToscaServiceTemplate getDummyResponse(@NonNull final String fileName) {
+    protected JpaToscaServiceTemplate getDummyResponse(@NonNull final String fileName) {
         Gson gson = new ToscaServiceTemplateMessageBodyHandler().getGson();
-        ToscaServiceTemplate serviceTemplate;
+        JpaToscaServiceTemplate serviceTemplate;
 
         try {
-            serviceTemplate = gson.fromJson(ResourceUtils.getResourceAsString(fileName), ToscaServiceTemplate.class);
+            serviceTemplate = gson.fromJson(ResourceUtils.getResourceAsString(fileName), JpaToscaServiceTemplate.class);
             if (serviceTemplate == null) {
                 throw new PfModelException(Response.Status.INTERNAL_SERVER_ERROR, "error reading specified file");
             }

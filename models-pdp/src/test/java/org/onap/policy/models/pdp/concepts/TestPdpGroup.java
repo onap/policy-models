@@ -43,11 +43,14 @@ public class TestPdpGroup {
         PdpGroup orig = new PdpGroup();
 
         // verify with null values
-        assertEquals("PdpGroup(pdpGroupState=null, properties=null, pdpSubgroups=[])", new PdpGroup(orig).toString());
+        assertEquals("PdpGroup(name=null, version=null, description=null, pdpGroupState=null, "
+                + "properties=null, pdpSubgroups=[])", new PdpGroup(orig).toString());
 
         // verify with all values
         orig.setDescription("my-descript");
-        orig.getKey().setName("my-name");
+        orig.setName("my-name");
+        orig.setVersion("my-version");
+        orig.setDescription("my-description");
         orig.setPdpGroupState(PdpState.SAFE);
 
         PdpSubGroup sub1 = new PdpSubGroup();
@@ -61,7 +64,8 @@ public class TestPdpGroup {
         props.put("key-B", "value-B");
         orig.setProperties(props);
 
-        assertEquals("PdpGroup(pdpGroupState=SAFE, properties={key-A=value-A, key-B=value-B}, "
+        assertEquals("PdpGroup(name=my-name, version=my-version, description=my-description, "
+                + "pdpGroupState=SAFE, properties={key-A=value-A, key-B=value-B}, "
                 + "pdpSubgroups=[PdpSubGroup(pdpType=null, supportedPolicyTypes=[], policies=[], "
                 + "currentInstanceCount=10, desiredInstanceCount=0, properties=null, pdpInstances=[]), "
                 + "PdpSubGroup(pdpType=null, supportedPolicyTypes=[], policies=[], currentInstanceCount=11, "
