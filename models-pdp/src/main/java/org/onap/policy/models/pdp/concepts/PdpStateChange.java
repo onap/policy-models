@@ -49,4 +49,13 @@ public class PdpStateChange extends PdpMessage {
     public PdpStateChange() {
         super(PdpMessageType.PDP_STATE_CHANGE);
     }
+
+    public PdpStateChange(PdpStateChange source) {
+        super(PdpMessageType.PDP_STATE_CHANGE);
+
+        this.name = source.name;
+        this.state = source.state;
+        this.pdpGroup = source.pdpGroup;
+        this.pdpSubgroup = source.pdpSubgroup;
+    }
 }
