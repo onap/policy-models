@@ -8,9 +8,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -45,7 +45,7 @@ public class PciResponse implements Serializable {
     /**
      * Constructs a response using the common header of the request since they will
      * be the same.
-     * 
+     *
      * @param request
      *            an sdnr Pci request object specified by the Pci api guide
      */
@@ -56,7 +56,7 @@ public class PciResponse implements Serializable {
 
     /**
      * Get the common header.
-     * 
+     *
      * @return the commonHeader
      */
     public PciCommonHeader getCommonHeader() {
@@ -65,7 +65,7 @@ public class PciResponse implements Serializable {
 
     /**
      * Set the common header.
-     * 
+     *
      * @param commonHeader
      *            the commonHeader to set
      */
@@ -75,7 +75,7 @@ public class PciResponse implements Serializable {
 
     /**
      * Get the status.
-     * 
+     *
      * @return the status
      */
     public Status getStatus() {
@@ -84,7 +84,7 @@ public class PciResponse implements Serializable {
 
     /**
      * Set the status.
-     * 
+     *
      * @param status
      *            the status to set
      */
@@ -94,7 +94,7 @@ public class PciResponse implements Serializable {
 
     /**
      * Get the payload.
-     * 
+     *
      * @return the payload
      */
 
