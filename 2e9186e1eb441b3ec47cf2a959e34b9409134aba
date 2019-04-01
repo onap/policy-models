@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "55e92476_c9726840",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfNameVersion.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-01T13:33:07Z",
+      "side": 1,
+      "message": "fyi: I\u0027ve decided to stop leaving \"public\" off of interfaces and their methods, as it makes it easier to convert them to/from classes on the occasion that it is warranted.",
+      "parentUuid": "2cc60a5c_21e760f2",
+      "revId": "2e9186e1eb441b3ec47cf2a959e34b9409134aba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2128abab_059f1446",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaEntity.java",
         "patchSetId": 1
