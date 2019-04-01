@@ -22,11 +22,8 @@ package org.onap.policy.models.pdp.concepts;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import org.onap.policy.models.base.PfValidationResult;
 
 /**
  * Test the other constructors, as {@link TestModels} tests the other methods.
@@ -61,30 +58,5 @@ public class TestPolicyIdent extends IdentTestBase<PolicyIdent> {
         // verify with all values
         orig = new PolicyIdent(NAME, VERSION);
         assertEquals(orig.toString(), new PolicyIdent(orig).toString());
-    }
-
-    @Test
-    public void testValidate() throws Exception {
-        assertTrue(makeIdent(NAME, VERSION).validate(new PfValidationResult()).isValid());
-
-        // everything is null
-        PfValidationResult result = makeIdent(null, null).validate(new PfValidationResult());
-        assertFalse(result.isValid());
-        assertEquals(2, result.getMessageList().size());
-
-        // name is null
-        result = makeIdent(null, VERSION).validate(new PfValidationResult());
-        assertFalse(result.isValid());
-        assertEquals(1, result.getMessageList().size());
-
-        // version is null
-        result = makeIdent(NAME, null).validate(new PfValidationResult());
-        assertFalse(result.isValid());
-        assertEquals(1, result.getMessageList().size());
-
-        // version is invalid
-        result = makeIdent(NAME, "!!!" + VERSION).validate(new PfValidationResult());
-        assertFalse(result.isValid());
-        assertEquals(1, result.getMessageList().size());
     }
 }

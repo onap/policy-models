@@ -26,7 +26,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import org.onap.policy.models.base.PfValidationResult;
 
 /**
  * Test the other constructors, as {@link TestModels} tests the other methods.
@@ -37,6 +36,22 @@ public class TestPolicyIdentOptVersion extends IdentTestBase<PolicyIdentOptVersi
 
     public TestPolicyIdentOptVersion() {
         super(PolicyIdentOptVersion.class);
+    }
+
+    @Test
+    public void testAllArgsConstructor_testIsNullVersion() {
+        assertThatThrownBy(() -> new PolicyIdentOptVersion(null, VERSION)).isInstanceOf(NullPointerException.class);
+
+        // with null version
+        PolicyIdentOptVersion orig = new PolicyIdentOptVersion(NAME, null);
+        assertEquals(NAME, orig.getName());
+        assertEquals(null, orig.getVersion());
+        assertTrue(orig.isNullVersion());
+
+        orig = new PolicyIdentOptVersion(NAME, VERSION);
+        assertEquals(NAME, orig.getName());
+        assertEquals(VERSION, orig.getVersion());
+        assertFalse(orig.isNullVersion());
     }
 
     @Test
@@ -51,37 +66,5 @@ public class TestPolicyIdentOptVersion extends IdentTestBase<PolicyIdentOptVersi
         // verify with all values
         orig = makeIdent(NAME, VERSION);
         assertEquals(orig.toString(), new PolicyIdentOptVersion(orig).toString());
-    }
-
-    @Test
-    public void testValidate() throws Exception {
-        assertThatThrownBy(() -> makeIdent(NAME, VERSION).validate(null)).isInstanceOf(NullPointerException.class);
-        assertTrue(makeIdent(NAME, VERSION).validate(new PfValidationResult()).isValid());
-        assertTrue(makeIdent(NAME, null).validate(new PfValidationResult()).isValid());
-
-        // everything is null
-        PfValidationResult result = makeIdent(null, null).validate(new PfValidationResult());
-        assertFalse(result.isValid());
-        assertEquals(1, result.getMessageList().size());
-
-        // name is null
-        result = makeIdent(null, VERSION).validate(new PfValidationResult());
-        assertFalse(result.isValid());
-        assertEquals(1, result.getMessageList().size());
-
-        // name is null, version is invalid
-        result = makeIdent(null, "$$$" + VERSION).validate(new PfValidationResult());
-        assertFalse(result.isValid());
-        assertEquals(2, result.getMessageList().size());
-
-        // name is invalid
-        result = makeIdent("!!!invalid name$$$", VERSION).validate(new PfValidationResult());
-        assertFalse(result.isValid());
-        assertEquals(1, result.getMessageList().size());
-
-        // version is invalid
-        result = makeIdent(NAME, "!!!" + VERSION).validate(new PfValidationResult());
-        assertFalse(result.isValid());
-        assertEquals(1, result.getMessageList().size());
     }
 }
