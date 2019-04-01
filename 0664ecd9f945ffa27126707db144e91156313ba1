@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d4d0120c_793db5ca",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-04-01T21:23:51Z",
+      "side": 1,
+      "message": "if we wildcard name or version by putting them as null, can the wildcard actually work?",
+      "range": {
+        "startLine": 55,
+        "startChar": 78,
+        "endLine": 55,
+        "endChar": 91
+      },
+      "revId": "0664ecd9f945ffa27126707db144e91156313ba1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c419705e_8d3a582d",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-04-01T21:23:51Z",
+      "side": 1,
+      "message": "place holder?",
+      "range": {
+        "startLine": 82,
+        "startChar": 8,
+        "endLine": 82,
+        "endChar": 20
+      },
+      "revId": "0664ecd9f945ffa27126707db144e91156313ba1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e1b3f8b_54a1da90",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-04-01T21:23:51Z",
+      "side": 1,
+      "message": "same. Can wildcard work in this way?",
+      "range": {
+        "startLine": 155,
+        "startChar": 75,
+        "endLine": 155,
+        "endChar": 88
+      },
+      "revId": "0664ecd9f945ffa27126707db144e91156313ba1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
