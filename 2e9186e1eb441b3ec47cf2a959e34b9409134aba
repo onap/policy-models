@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "852e2b2b_dd82f470",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfConceptContainer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-01T14:39:32Z",
+      "side": 1,
+      "message": "fyi: I prefer that comment lines be limited to 90 characters, as they are difficult for the eye to take in when they\u0027re much longer than that - requires too much eye motion.",
+      "revId": "2e9186e1eb441b3ec47cf2a959e34b9409134aba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c2e869e_b266681c",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfConceptContainer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-01T14:39:32Z",
+      "side": 1,
+      "message": "\"()\" \u003d\u003e \"(1)\"",
+      "revId": "2e9186e1eb441b3ec47cf2a959e34b9409134aba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa0ffa71_e76e89c8",
         "filename": "models-base/src/main/java/org/onap/policy/models/base/PfNameVersion.java",
         "patchSetId": 1
@@ -60,6 +94,40 @@
     },
     {
       "key": {
+        "uuid": "9b748d23_254c1b1c",
+        "filename": "models-base/src/test/java/org/onap/policy/models/base/PfConceptContainerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-01T14:39:32Z",
+      "side": 1,
+      "message": "need any tests with a null version?  or null name?",
+      "revId": "2e9186e1eb441b3ec47cf2a959e34b9409134aba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8cb1bf91_5c07d33d",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/impl/PolicyPersistenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-01T14:39:32Z",
+      "side": 1,
+      "message": "swap arguments for assertEquals",
+      "revId": "2e9186e1eb441b3ec47cf2a959e34b9409134aba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2128abab_059f1446",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaEntity.java",
         "patchSetId": 1
@@ -77,6 +145,380 @@
         "endLine": 40,
         "endChar": 46
       },
+      "revId": "2e9186e1eb441b3ec47cf2a959e34b9409134aba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a8b6514_f565dd0b",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaPolicy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-01T14:39:32Z",
+      "side": 1,
+      "message": "maybe replace this whole block with:\n\nproperties \u003d new LinkedHashMap\u003c\u003e(copyObject.properties);",
+      "revId": "2e9186e1eb441b3ec47cf2a959e34b9409134aba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52fa1175_3634343e",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaProperty.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-01T14:39:32Z",
+      "side": 1,
+      "message": "don\u0027t need a version?",
+      "revId": "2e9186e1eb441b3ec47cf2a959e34b9409134aba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d915c2e_92d57231",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaConstraintValidValues.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-01T14:39:32Z",
+      "side": 1,
+      "message": "combine these lines",
+      "revId": "2e9186e1eb441b3ec47cf2a959e34b9409134aba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d2b36d3_4121db79",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaDataType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-01T14:39:32Z",
+      "side": 1,
+      "message": "\"()\" \u003d\u003e \"(size)\"",
+      "revId": "2e9186e1eb441b3ec47cf2a959e34b9409134aba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b58f6a59_24a1a667",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaDataType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-01T14:39:32Z",
+      "side": 1,
+      "message": "\"()\" \u003d\u003e \"(size)\"",
+      "revId": "2e9186e1eb441b3ec47cf2a959e34b9409134aba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1fe4e87b_8e930b78",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaDataType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-01T14:39:32Z",
+      "side": 1,
+      "message": "I assume the first, unqualified \"getKey()\" is correct",
+      "revId": "2e9186e1eb441b3ec47cf2a959e34b9409134aba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6525879a_c375a724",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaDataType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-01T14:39:32Z",
+      "side": 1,
+      "message": "based on the earlier block of code, should the key for the new JpaToscaProperty be set to target.getKey()?",
+      "revId": "2e9186e1eb441b3ec47cf2a959e34b9409134aba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c521b5a_a86541a6",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaEntityType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-01T14:39:32Z",
+      "side": 1,
+      "message": "use copy copy constructor",
+      "revId": "2e9186e1eb441b3ec47cf2a959e34b9409134aba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb4a27e0_386cc0b6",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaEntityType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-01T14:39:32Z",
+      "side": 1,
+      "message": "use copy constructor",
+      "revId": "2e9186e1eb441b3ec47cf2a959e34b9409134aba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2231adf_cf4a32d4",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaEntrySchema.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-01T14:39:32Z",
+      "side": 1,
+      "message": "could use stream/map, but this is fine (and clear), too\n\nsame comment applies elsewhere",
+      "revId": "2e9186e1eb441b3ec47cf2a959e34b9409134aba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae60e3a3_f651401b",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaEntrySchema.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-01T14:39:32Z",
+      "side": 1,
+      "message": "sonar: () \u003d\u003e (size)",
+      "revId": "2e9186e1eb441b3ec47cf2a959e34b9409134aba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "38c82390_f8bc243e",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaEntrySchema.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-01T14:39:32Z",
+      "side": 1,
+      "message": "could use StringUtils.isBlank()",
+      "revId": "2e9186e1eb441b3ec47cf2a959e34b9409134aba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f5342553_e0143836",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaEntrySchema.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-01T14:39:32Z",
+      "side": 1,
+      "message": "seems like checkstyle complains about the \"(\" \u0026 \")\"",
+      "revId": "2e9186e1eb441b3ec47cf2a959e34b9409134aba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fcffb74_185a3095",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaPolicy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-01T14:39:32Z",
+      "side": 1,
+      "message": "use copy constructor",
+      "revId": "2e9186e1eb441b3ec47cf2a959e34b9409134aba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c49d877_1491db8b",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaPolicy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-01T14:39:32Z",
+      "side": 1,
+      "message": "I assume \"type.setVersion(null)\" will not throw an NPE",
+      "revId": "2e9186e1eb441b3ec47cf2a959e34b9409134aba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ad3e238_4570f7f5",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaPolicy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-01T14:39:32Z",
+      "side": 1,
+      "message": "do we need to serialize the class name, too, so we know how to de-serialize it?",
+      "revId": "2e9186e1eb441b3ec47cf2a959e34b9409134aba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a592c36_aaf8167d",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaProperty.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-01T14:39:32Z",
+      "side": 1,
+      "message": "() \u003d\u003e (size)",
+      "revId": "2e9186e1eb441b3ec47cf2a959e34b9409134aba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "351143e6_81e1f398",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaProperty.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-01T14:39:32Z",
+      "side": 1,
+      "message": "no longer need to clean constraints?",
+      "revId": "2e9186e1eb441b3ec47cf2a959e34b9409134aba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e186158_0e8e54d3",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaProperty.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-01T14:39:32Z",
+      "side": 1,
+      "message": "use copy constructor",
+      "revId": "2e9186e1eb441b3ec47cf2a959e34b9409134aba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa8102bc_2b0d35bc",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaServiceTemplate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-01T14:39:32Z",
+      "side": 1,
+      "message": "I thought authoritative used null instead of NULL_KEY_NAME",
+      "revId": "2e9186e1eb441b3ec47cf2a959e34b9409134aba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11737578_a7ffbc63",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaServiceTemplate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-01T14:39:32Z",
+      "side": 1,
+      "message": "I thought authoritative used null instead of NULL_KEY_VERSION",
+      "revId": "2e9186e1eb441b3ec47cf2a959e34b9409134aba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b05748f_dee203f2",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaTopologyTemplate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-01T14:39:32Z",
+      "side": 1,
+      "message": "do we need?\n\n  else policies \u003d null;\n\nsame comment in some of the other fromAuthorative() methods",
       "revId": "2e9186e1eb441b3ec47cf2a959e34b9409134aba",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
