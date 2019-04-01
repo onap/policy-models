@@ -28,8 +28,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.Test;
-import org.onap.policy.models.base.PfConceptKey;
-import org.onap.policy.models.tosca.simple.concepts.ToscaPolicy;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 
 /**
  * Test the copy constructor, as {@link TestModels} tests the other methods.
@@ -44,7 +43,7 @@ public class TestPdpUpdate {
 
         // verify with null values
         assertEquals("PdpUpdate(name=null, pdpType=null, description=null, pdpGroup=null, "
-                        + "pdpSubgroup=null, policies=null)", new PdpUpdate(orig).toString());
+                + "pdpSubgroup=null, policies=null)", new PdpUpdate(orig).toString());
 
         // verify with all values
         orig.setDescription("my-description");
@@ -54,10 +53,12 @@ public class TestPdpUpdate {
         orig.setPdpType("my-type");
 
         ToscaPolicy policy1 = new ToscaPolicy();
-        policy1.setKey(new PfConceptKey("policy-a", "1.2.3"));
+        policy1.setName("policy-a");
+        policy1.setVersion("1.2.3");
 
         ToscaPolicy policy2 = new ToscaPolicy();
-        policy2.setKey(new PfConceptKey("policy-b", "4.5.6"));
+        policy1.setName("policy-b");
+        policy1.setVersion("4.5.6");
 
         List<ToscaPolicy> policies = Arrays.asList(policy1, policy2);
         orig.setPolicies(policies);
@@ -65,10 +66,8 @@ public class TestPdpUpdate {
         PdpUpdate other = new PdpUpdate(orig);
 
         assertEquals("PdpUpdate(name=my-name, pdpType=my-type, description=my-description, pdpGroup=my-group, "
-                        + "pdpSubgroup=my-subgroup, policies=["
-                        + "ToscaPolicy(type=PfConceptKey(name=NULL, version=0.0.0), properties=null, targets=null), "
-                        + "ToscaPolicy(type=PfConceptKey(name=NULL, version=0.0.0), properties=null, targets=null)])",
-                        other.toString());
+                + "pdpSubgroup=my-subgroup, policies=[ToscaPolicy(type=null, typeVersion=null, properties=null), "
+                + "ToscaPolicy(type=null, typeVersion=null, properties=null)])", other.toString());
 
         // ensure list and items are not the same object
         assertTrue(other.getPolicies() != policies);
