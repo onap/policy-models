@@ -28,7 +28,8 @@ import org.onap.policy.models.pdp.enums.PdpMessageType;
 import org.onap.policy.models.pdp.enums.PdpState;
 
 /**
- * Class to represent the PDP_STATE_CHANGE message that PAP will send to either PDPGroup/Subgroup or a PDP.
+ * Class to represent the PDP_STATE_CHANGE message that PAP will send to either
+ * PDPGroup/Subgroup or a PDP.
  *
  * @author Ram Krishna Verma (ram.krishna.verma@est.tech)
  */
@@ -48,5 +49,19 @@ public class PdpStateChange extends PdpMessage {
      */
     public PdpStateChange() {
         super(PdpMessageType.PDP_STATE_CHANGE);
+    }
+
+    /**
+     * Constructs the object, making a deep copy.
+     *
+     * @param source source from which to copy
+     */
+    public PdpStateChange(PdpStateChange source) {
+        super(PdpMessageType.PDP_STATE_CHANGE);
+
+        this.name = source.name;
+        this.state = source.state;
+        this.pdpGroup = source.pdpGroup;
+        this.pdpSubgroup = source.pdpSubgroup;
     }
 }
