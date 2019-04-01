@@ -20,6 +20,7 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -33,6 +34,7 @@ import lombok.EqualsAndHashCode;
 
 import org.onap.policy.models.base.PfConceptContainer;
 import org.onap.policy.models.base.PfConceptKey;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
 
 /**
  * This class is a container for TOSCA policy types.
@@ -44,23 +46,23 @@ import org.onap.policy.models.base.PfConceptKey;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class JpaToscaPolicyTypes extends PfConceptContainer<JpaToscaPolicyType> {
+public class JpaToscaPolicyTypes extends PfConceptContainer<JpaToscaPolicyType, ToscaPolicyType> {
     private static final long serialVersionUID = -4157979965271220098L;
 
     public static final String DEFAULT_NAME = "ToscaPolicyTypesSimple";
     public static final String DEFAULT_VERSION = "1.0.0";
 
     /**
-     * The Default Constructor creates a {@link JpaToscaPolicyTypes} object with a null artifact key
-     * and creates an empty concept map.
+     * The Default Constructor creates a {@link JpaToscaPolicyTypes} object with a null artifact key and creates an
+     * empty concept map.
      */
     public JpaToscaPolicyTypes() {
         super(new PfConceptKey(DEFAULT_NAME, DEFAULT_VERSION));
     }
 
     /**
-     * The Key Constructor creates a {@link JpaToscaPolicyTypes} object with the given artifact key and
-     * creates an empty concept map.
+     * The Key Constructor creates a {@link JpaToscaPolicyTypes} object with the given artifact key and creates an empty
+     * concept map.
      *
      * @param key the concept key
      */
@@ -85,5 +87,14 @@ public class JpaToscaPolicyTypes extends PfConceptContainer<JpaToscaPolicyType> 
      */
     public JpaToscaPolicyTypes(final JpaToscaPolicyTypes copyConcept) {
         super(copyConcept);
+    }
+
+    /**
+     * Authorative constructor.
+     *
+     * @param authorativeConceptMapList the authorative concept to copy from
+     */
+    public JpaToscaPolicyTypes(final List<Map<String, ToscaPolicyType>> authorativeConceptMapList) {
+        this.fromAuthorative(authorativeConceptMapList);
     }
 }

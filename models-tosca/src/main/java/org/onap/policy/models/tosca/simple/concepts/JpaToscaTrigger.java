@@ -148,12 +148,6 @@ public class JpaToscaTrigger extends PfConcept {
         if (targetFilter != null) {
             keyList.addAll(targetFilter.getKeys());
         }
-        if (condition != null) {
-            keyList.addAll(condition.getKeys());
-        }
-        if (constraint != null) {
-            keyList.addAll(constraint.getKeys());
-        }
         return keyList;
     }
 
@@ -169,12 +163,6 @@ public class JpaToscaTrigger extends PfConcept {
         }
         if (targetFilter != null) {
             targetFilter.clean();
-        }
-        if (condition != null) {
-            condition.clean();
-        }
-        if (constraint != null) {
-            constraint.clean();
         }
 
         method = (method != null ? method.trim() : method);
@@ -233,8 +221,6 @@ public class JpaToscaTrigger extends PfConcept {
 
         result = (schedule != null ? schedule.validate(result) : result);
         result = (targetFilter != null ? targetFilter.validate(result) : result);
-        result = (condition != null ? condition.validate(result) : result);
-        result = (constraint != null ? constraint.validate(result) : result);
 
         return result;
     }

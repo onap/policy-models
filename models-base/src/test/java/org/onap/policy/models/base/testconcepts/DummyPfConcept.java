@@ -30,6 +30,7 @@ import lombok.NonNull;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.onap.policy.common.utils.validation.Assertions;
+import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
@@ -39,12 +40,30 @@ import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class DummyPfConcept extends PfConcept {
+public class DummyPfConcept extends PfConcept implements PfAuthorative<DummyAuthorativeConcept> {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     private PfConceptKey key;
 
     private String description;
+
+
+    @Override
+    public DummyAuthorativeConcept toAuthorative() {
+        DummyAuthorativeConcept dac = new DummyAuthorativeConcept();
+        dac.setName(key.getName());
+        dac.setVersion(key.getVersion());
+        dac.setDescription(description);
+
+        return dac;
+    }
+
+    @Override
+    public void fromAuthorative(DummyAuthorativeConcept dac) {
+        key.setName(dac.getName());
+        key.setVersion(dac.getVersion());
+        description = dac.getDescription();
+    }
 
     /**
      * The Default Constructor creates a {@link DummyPfConcept} object with a null key.

@@ -3,6 +3,7 @@
  * ONAP Policy Model
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +23,7 @@
 
 package org.onap.policy.models.tosca.authorative.mapping;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -30,8 +32,11 @@ import org.junit.Test;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.base.PfValidationResult;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
 
 /**
@@ -39,15 +44,14 @@ import org.yaml.snakeyaml.Yaml;
  *
  * @author Chenfei Gao (cgao@research.att.com)
  */
-public class PlainToscaServiceTemplateMapperTest {
+public class ToscaServiceTemplateMappingTest {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ToscaServiceTemplateMappingTest.class);
 
     private StandardCoder standardCoder;
-    private PlainToscaServiceTemplateMapper mapper;
 
     @Before
     public void setUp() {
         standardCoder = new StandardCoder();
-        mapper = new PlainToscaServiceTemplateMapper();
     }
 
     @Test
@@ -56,12 +60,19 @@ public class PlainToscaServiceTemplateMapperTest {
             String inputJson = ResourceUtils.getResourceAsString("policies/vCPE.policy.monitoring.input.tosca.json");
 
             ToscaServiceTemplate plainPolicies = standardCoder.decode(inputJson, ToscaServiceTemplate.class);
-            JpaToscaServiceTemplate internalPolicies = mapper.toToscaServiceTemplate(plainPolicies);
+            JpaToscaServiceTemplate internalPolicies = new JpaToscaServiceTemplate();
+            internalPolicies.fromAuthorative(plainPolicies);
+
             assertTrue(internalPolicies.validate(new PfValidationResult()).isValid());
-            ToscaServiceTemplate plainPolicies2 = mapper.fromToscaServiceTemplate(internalPolicies);
-            assertTrue(plainPolicies.equals(plainPolicies2));
+            ToscaServiceTemplate plainPolicies2 = internalPolicies.toAuthorative();
+
+            ToscaPolicy pp1 = plainPolicies.getToscaTopologyTemplate().getPolicies().get(0).values().iterator().next();
+            ToscaPolicy pp2 = plainPolicies2.getToscaTopologyTemplate().getPolicies().get(0).values().iterator().next();
+
+            assertEquals(pp1.getProperties().keySet(), pp2.getProperties().keySet());
 
         } catch (Exception e) {
+            LOGGER.warn("no exception should be thrown", e);
             fail("no exception should be thrown");
         }
     }
@@ -77,14 +88,17 @@ public class PlainToscaServiceTemplateMapperTest {
 
             ToscaServiceTemplate plainPolicyTypes = standardCoder.decode(yamlAsJsonString,
                     ToscaServiceTemplate.class);
-            JpaToscaServiceTemplate internalPolicyTypes = mapper.toToscaServiceTemplate(plainPolicyTypes);
+            JpaToscaServiceTemplate internalPolicyTypes = new JpaToscaServiceTemplate();
+            internalPolicyTypes.fromAuthorative(plainPolicyTypes);
             assertTrue(internalPolicyTypes.validate(new PfValidationResult()).isValid());
-            ToscaServiceTemplate plainPolicyTypes2 = mapper.fromToscaServiceTemplate(internalPolicyTypes);
-            JpaToscaServiceTemplate internalPolicyTypes2 = mapper.toToscaServiceTemplate(plainPolicyTypes2);
+            ToscaServiceTemplate plainPolicyTypes2 = internalPolicyTypes.toAuthorative();
+            JpaToscaServiceTemplate internalPolicyTypes2 = new JpaToscaServiceTemplate();
+            internalPolicyTypes2.fromAuthorative(plainPolicyTypes2);
             assertTrue(internalPolicyTypes2.validate(new PfValidationResult()).isValid());
             assertTrue(internalPolicyTypes.compareTo(internalPolicyTypes2) == 0);
 
         } catch (Exception e) {
+            LOGGER.warn("no exception should be thrown", e);
             fail("no exception should be thrown");
         }
 

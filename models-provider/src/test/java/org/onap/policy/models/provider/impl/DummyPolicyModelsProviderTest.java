@@ -26,14 +26,13 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
-import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.pdp.concepts.PdpGroups;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderFactory;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyInput;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
 
 /**
  * Test the dummy models provider implementation.
@@ -53,10 +52,10 @@ public class DummyPolicyModelsProviderTest {
 
         dummyProvider.init();
 
-        JpaToscaServiceTemplate serviceTemplate = dummyProvider.getPolicies(new PfConceptKey());
+        ToscaServiceTemplate serviceTemplate = dummyProvider.getPolicies("onap.vcpe.tca", "1.0.0");
         assertNotNull(serviceTemplate);
-        assertEquals("onap.vcpe.tca:1.0.0",
-                serviceTemplate.getTopologyTemplate().getPolicies().get("onap.vcpe.tca").getId());
+        assertEquals("onap.policies.monitoring.cdap.tca.hi.lo.app",
+                serviceTemplate.getToscaTopologyTemplate().getPolicies().get(0).get("onap.vcpe.tca").getType());
 
         dummyProvider.close();
     }
@@ -71,15 +70,15 @@ public class DummyPolicyModelsProviderTest {
         PolicyModelsProvider dummyProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
         dummyProvider.init();
 
-        assertNotNull(dummyProvider.getPolicyTypes(new PfConceptKey()));
-        assertNotNull(dummyProvider.createPolicyTypes(new JpaToscaServiceTemplate()));
-        assertNotNull(dummyProvider.updatePolicyTypes(new JpaToscaServiceTemplate()));
-        assertNotNull(dummyProvider.deletePolicyTypes(new PfConceptKey()));
+        assertNotNull(dummyProvider.getPolicyTypes("name", "version"));
+        assertNotNull(dummyProvider.createPolicyTypes(new ToscaServiceTemplate()));
+        assertNotNull(dummyProvider.updatePolicyTypes(new ToscaServiceTemplate()));
+        assertNotNull(dummyProvider.deletePolicyTypes("name", "version"));
 
-        assertNotNull(dummyProvider.getPolicies(new PfConceptKey()));
-        assertNotNull(dummyProvider.createPolicies(new JpaToscaServiceTemplate()));
-        assertNotNull(dummyProvider.updatePolicies(new JpaToscaServiceTemplate()));
-        assertNotNull(dummyProvider.deletePolicies(new PfConceptKey()));
+        assertNotNull(dummyProvider.getPolicies("name", "version"));
+        assertNotNull(dummyProvider.createPolicies(new ToscaServiceTemplate()));
+        assertNotNull(dummyProvider.updatePolicies(new ToscaServiceTemplate()));
+        assertNotNull(dummyProvider.deletePolicies("name", "version"));
 
         assertNotNull(dummyProvider.getOperationalPolicy("policy_id"));
         assertNotNull(dummyProvider.createOperationalPolicy(new LegacyOperationalPolicy()));
@@ -97,8 +96,8 @@ public class DummyPolicyModelsProviderTest {
         assertNotNull(dummyProvider.deletePdpGroups("filter"));
 
         assertThatThrownBy(() -> {
-            dummyProvider.getPolicyTypes(null);
-        }).hasMessage("policyTypeKey is marked @NonNull but is null");
+            dummyProvider.getPolicyTypes(null, null);
+        }).hasMessage("name is marked @NonNull but is null");
         assertThatThrownBy(() -> {
             dummyProvider.createPolicyTypes(null);
         }).hasMessage("serviceTemplate is marked @NonNull but is null");
@@ -106,12 +105,12 @@ public class DummyPolicyModelsProviderTest {
             dummyProvider.updatePolicyTypes(null);
         }).hasMessage("serviceTemplate is marked @NonNull but is null");
         assertThatThrownBy(() -> {
-            dummyProvider.deletePolicyTypes(null);
-        }).hasMessage("policyTypeKey is marked @NonNull but is null");
+            dummyProvider.deletePolicyTypes(null, null);
+        }).hasMessage("name is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            dummyProvider.getPolicies(null);
-        }).hasMessage("policyKey is marked @NonNull but is null");
+            dummyProvider.getPolicies(null, null);
+        }).hasMessage("name is marked @NonNull but is null");
         assertThatThrownBy(() -> {
             dummyProvider.createPolicies(null);
         }).hasMessage("serviceTemplate is marked @NonNull but is null");
@@ -119,8 +118,8 @@ public class DummyPolicyModelsProviderTest {
             dummyProvider.updatePolicies(null);
         }).hasMessage("serviceTemplate is marked @NonNull but is null");
         assertThatThrownBy(() -> {
-            dummyProvider.deletePolicies(null);
-        }).hasMessage("policyKey is marked @NonNull but is null");
+            dummyProvider.deletePolicies(null, null);
+        }).hasMessage("name is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
             dummyProvider.getOperationalPolicy(null);

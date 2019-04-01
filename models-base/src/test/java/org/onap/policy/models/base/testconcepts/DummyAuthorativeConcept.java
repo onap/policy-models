@@ -1,8 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP Policy Model
- * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,12 +18,35 @@
  * ============LICENSE_END=========================================================
  */
 
+package org.onap.policy.models.base.testconcepts;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import org.onap.policy.models.base.PfNameVersion;
+
 /**
- * This package includes all the mappers used to transform plain TOSCA POJOs into internal representation
- * of TOSCA concepts with JPA annotations added.
- */
-/**
- * @author Chenfei Gao (cgao@research.att.com)
+ * Dummy authorative concept.
  *
+ * @author Liam Fallon (liam.fallon@est.tech)
  */
-package org.onap.policy.models.tosca.authorative.mapping;
+@Data
+@NoArgsConstructor
+public class DummyAuthorativeConcept implements PfNameVersion {
+    private String name;
+    private String version;
+    private String description;
+
+    /**
+     * Constructor.
+     *
+     * @param name the name
+     * @param version the version
+     * @param description the description
+     */
+    public DummyAuthorativeConcept(final String name, final String version, final String description) {
+        this.name = name;
+        this.version = version;
+        this.description = description;
+    }
+}

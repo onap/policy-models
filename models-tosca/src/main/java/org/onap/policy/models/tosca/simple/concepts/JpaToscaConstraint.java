@@ -23,22 +23,13 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
-import java.util.List;
+import java.io.Serializable;
 
-import javax.persistence.EmbeddedId;
-import javax.ws.rs.core.Response;
-
-import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NonNull;
+import lombok.NoArgsConstructor;
 
-import org.onap.policy.models.base.PfConcept;
-import org.onap.policy.models.base.PfKey;
-import org.onap.policy.models.base.PfModelRuntimeException;
-import org.onap.policy.models.base.PfReferenceKey;
-import org.onap.policy.models.base.PfValidationMessage;
-import org.onap.policy.models.base.PfValidationResult;
-import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.base.PfAuthorative;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaConstraint;
 
 /**
  * Immutable class to represent the Constraint of property in TOSCA definition.
@@ -46,80 +37,37 @@ import org.onap.policy.models.base.PfValidationResult.ValidationResult;
  * @author Chenfei Gao (cgao@research.att.com)
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-@Data
-@EqualsAndHashCode(callSuper = false)
-public abstract class JpaToscaConstraint extends PfConcept {
-    private static final long serialVersionUID = 6426438089914347734L;
-
-    @EmbeddedId
-    private final PfReferenceKey key;
+@NoArgsConstructor
+@EqualsAndHashCode
+public abstract class JpaToscaConstraint
+        implements PfAuthorative<ToscaConstraint>, Serializable, Comparable<JpaToscaConstraint> {
+    private static final long serialVersionUID = -2689472945262507455L;
 
     /**
-     * The Default Constructor creates a {@link JpaToscaConstraint} object with a null key.
-     */
-    public JpaToscaConstraint() {
-        this(new PfReferenceKey());
-    }
-
-    /**
-     * The Key Constructor creates a {@link JpaToscaConstraint} object with the given concept key.
+     * Authorative constructor.
      *
-     * @param key the key
+     * @param authorativeConcept the authorative concept to copy from
      */
-    public JpaToscaConstraint(@NonNull final PfReferenceKey key) {
-        this.key = key;
+    public JpaToscaConstraint(final ToscaConstraint authorativeConcept) {
+        this.fromAuthorative(authorativeConcept);
+    }
+
+    @Override
+    public int compareTo(JpaToscaConstraint otherConstraint) {
+        return 0;
     }
 
     /**
-     * Copy constructor.
+     * Create instances of constraints of various types.
      *
-     * @param copyConcept the concept to copy from
+     * @param toscaConstraint the incoming constraint
+     * @return the constraint
      */
-    public JpaToscaConstraint(@NonNull final JpaToscaConstraint copyConcept) {
-        throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR, "cannot copy an immutable constraint");
-    }
-
-    @Override
-    public List<PfKey> getKeys() {
-        return getKey().getKeys();
-    }
-
-    @Override
-    public void clean() {
-        key.clean();
-    }
-
-    @Override
-    public PfValidationResult validate(@NonNull final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
-
-        if (key.isNullKey()) {
-            result.addValidationMessage(
-                    new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID, "key is a null key"));
+    public static JpaToscaConstraint newInstance(final ToscaConstraint toscaConstraint) {
+        if (toscaConstraint.getValidValues() != null) {
+            return new JpaToscaConstraintValidValues(toscaConstraint);
         }
 
-        return key.validate(result);
-    }
-
-    @Override
-    public int compareTo(final PfConcept otherConcept) {
-        if (otherConcept == null) {
-            return -1;
-        }
-        if (this == otherConcept) {
-            return 0;
-        }
-        if (getClass() != otherConcept.getClass()) {
-            return this.hashCode() - otherConcept.hashCode();
-        }
-
-        final JpaToscaConstraint other = (JpaToscaConstraint) otherConcept;
-
-        return key.compareTo(other.key);
-    }
-
-    @Override
-    public PfConcept copyTo(@NonNull final PfConcept target) {
-        throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR, "cannot copy an immutable constraint");
+        return (new JpaToscaConstraintLogical(toscaConstraint));
     }
 }

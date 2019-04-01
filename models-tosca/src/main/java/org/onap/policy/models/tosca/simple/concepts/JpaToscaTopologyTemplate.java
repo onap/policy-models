@@ -37,12 +37,14 @@ import lombok.NonNull;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.onap.policy.common.utils.validation.Assertions;
+import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfValidationMessage;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaTopologyTemplate;
 
 /**
  * This class holds a TOSCA topology template. Note: Only the policy specific parts of the TOSCA topology template are
@@ -55,7 +57,7 @@ import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class JpaToscaTopologyTemplate extends PfConcept {
+public class JpaToscaTopologyTemplate extends PfConcept implements PfAuthorative<ToscaTopologyTemplate> {
     private static final long serialVersionUID = 8969698734673232603L;
 
     public static final String DEFAULT_LOCAL_NAME = "ToscaTopologyTemplateSimple";
@@ -94,6 +96,38 @@ public class JpaToscaTopologyTemplate extends PfConcept {
      */
     public JpaToscaTopologyTemplate(final JpaToscaTopologyTemplate copyConcept) {
         super(copyConcept);
+    }
+
+    /**
+     * Authorative constructor.
+     *
+     * @param authorativeConcept the authorative concept to copy from
+     */
+    public JpaToscaTopologyTemplate(final ToscaTopologyTemplate authorativeConcept) {
+        this.fromAuthorative(authorativeConcept);
+    }
+
+    @Override
+    public ToscaTopologyTemplate toAuthorative() {
+        final ToscaTopologyTemplate toscaTopologyTemplate = new ToscaTopologyTemplate();
+
+        toscaTopologyTemplate.setDescription(description);
+
+        if (policies != null) {
+            toscaTopologyTemplate.setPolicies(policies.toAuthorative());
+        }
+
+        return toscaTopologyTemplate;
+    }
+
+    @Override
+    public void fromAuthorative(ToscaTopologyTemplate toscaTopologyTemplate) {
+        description = toscaTopologyTemplate.getDescription();
+
+        if (toscaTopologyTemplate.getPolicies() != null) {
+            policies = new JpaToscaPolicies();
+            policies.fromAuthorative(toscaTopologyTemplate.getPolicies());
+        }
     }
 
     @Override

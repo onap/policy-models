@@ -3,6 +3,7 @@
  * ONAP Policy Model
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +27,6 @@ import com.openpojo.reflection.filters.FilterPackageInfo;
 import com.openpojo.validation.Validator;
 import com.openpojo.validation.ValidatorBuilder;
 import com.openpojo.validation.rule.impl.GetterMustExistRule;
-import com.openpojo.validation.rule.impl.SetterMustExistRule;
 import com.openpojo.validation.test.impl.GetterTester;
 import com.openpojo.validation.test.impl.SetterTester;
 
@@ -45,9 +45,16 @@ public class TestPojos {
 
     @Test
     public void testPojos() {
-        final Validator validator = ValidatorBuilder.create().with(new ToStringTester())
-                .with(new SetterMustExistRule()).with(new GetterMustExistRule()).with(new SetterTester())
-                .with(new GetterTester()).build();
+        // @formatter:off
+        final Validator validator = ValidatorBuilder
+                .create()
+                .with(new ToStringTester())
+                .with(new GetterMustExistRule())
+                .with(new SetterTester())
+                .with(new GetterTester())
+                .build();
+        // @formatter:on
+
         validator.validate(POJO_PACKAGE, new FilterPackageInfo());
     }
 }

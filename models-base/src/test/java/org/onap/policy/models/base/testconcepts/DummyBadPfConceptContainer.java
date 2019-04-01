@@ -32,25 +32,25 @@ import org.onap.policy.models.base.PfConceptKey;
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class DummyPfConceptContainer extends PfConceptContainer<DummyPfConcept, DummyAuthorativeConcept> {
+public class DummyBadPfConceptContainer extends PfConceptContainer<DummyBadPfConcept, DummyAuthorativeConcept> {
     private static final long serialVersionUID = -3018432331484294280L;
 
 
     /**
-     * The Default Constructor creates a {@link DummyPfConceptContainer} object with a null artifact key
+     * The Default Constructor creates a {@link DummyBadPfConceptContainer} object with a null artifact key
      * and creates an empty concept map.
      */
-    public DummyPfConceptContainer() {
+    public DummyBadPfConceptContainer() {
         super();
     }
 
     /**
-     * The Key Constructor creates a {@link DummyPfConceptContainer} object with the given artifact key and
+     * The Key Constructor creates a {@link DummyBadPfConceptContainer} object with the given artifact key and
      * creates an empty concept map.
      *
      * @param key the concept key
      */
-    public DummyPfConceptContainer(@NonNull final PfConceptKey key) {
+    public DummyBadPfConceptContainer(@NonNull final PfConceptKey key) {
         super(key);
     }
 
@@ -60,8 +60,8 @@ public class DummyPfConceptContainer extends PfConceptContainer<DummyPfConcept, 
      * @param key the concept container key
      * @param conceptMap the concepts to be stored in the concept container
      */
-    public DummyPfConceptContainer(@NonNull final PfConceptKey key,
-            @NonNull final Map<PfConceptKey, DummyPfConcept> conceptMap) {
+    public DummyBadPfConceptContainer(@NonNull final PfConceptKey key,
+            @NonNull final Map<PfConceptKey, DummyBadPfConcept> conceptMap) {
         super(key, conceptMap);
     }
 
@@ -70,7 +70,7 @@ public class DummyPfConceptContainer extends PfConceptContainer<DummyPfConcept, 
      *
      * @param copyConcept the concept to copy from
      */
-    public DummyPfConceptContainer(@NonNull final DummyPfConceptContainer copyConcept) {
+    public DummyBadPfConceptContainer(@NonNull final DummyBadPfConceptContainer copyConcept) {
         super(copyConcept);
     }
 

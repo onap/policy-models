@@ -31,11 +31,8 @@ import java.util.List;
 
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
-import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaConstraint;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaConstraintLogical.Operation;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaConstraintLogicalString;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaEntrySchema;
 
 /**
@@ -47,16 +44,14 @@ public class JpaToscaEntrySchemaTest {
 
     @Test
     public void testEntrySchemaPojo() {
-        assertNotNull(new JpaToscaEntrySchema());
-        assertNotNull(new JpaToscaEntrySchema(new PfReferenceKey()));
-        assertNotNull(new JpaToscaEntrySchema(new PfReferenceKey(), new PfConceptKey()));
-        assertNotNull(new JpaToscaEntrySchema(new JpaToscaEntrySchema()));
+        assertNotNull(new JpaToscaEntrySchema(new PfConceptKey()));
+        assertNotNull(new JpaToscaEntrySchema(new JpaToscaEntrySchema(new PfConceptKey())));
 
         try {
-            new JpaToscaEntrySchema((PfReferenceKey) null);
+            new JpaToscaEntrySchema((PfConceptKey) null);
             fail("test should throw an exception");
         } catch (Exception exc) {
-            assertEquals("key is marked @NonNull but is null", exc.getMessage());
+            assertEquals("type is marked @NonNull but is null", exc.getMessage());
         }
 
         try {
@@ -66,16 +61,14 @@ public class JpaToscaEntrySchemaTest {
             assertEquals("copyConcept is marked @NonNull but is null", exc.getMessage());
         }
 
-        PfReferenceKey esKey = new PfReferenceKey("entrySchemaParent", "0.0.1", "entrySchema");
         PfConceptKey typeKey = new PfConceptKey("type", "0.0.1");
-        JpaToscaEntrySchema tes = new JpaToscaEntrySchema(esKey, typeKey);
+        JpaToscaEntrySchema tes = new JpaToscaEntrySchema(typeKey);
 
         tes.setDescription("A Description");
         assertEquals("A Description", tes.getDescription());
 
         List<JpaToscaConstraint> constraints = new ArrayList<>();
-        JpaToscaConstraintLogicalString lsc =
-                new JpaToscaConstraintLogicalString(new PfReferenceKey(esKey, "sc"), Operation.EQ, "hello");
+        JpaToscaConstraintLogical lsc = new JpaToscaConstraintLogical(JpaToscaConstraintOperation.EQ, "hello");
         constraints.add(lsc);
         tes.setConstraints(constraints);
         assertEquals(constraints, tes.getConstraints());
@@ -84,20 +77,15 @@ public class JpaToscaEntrySchemaTest {
         assertEquals(tes, tdtClone0);
         assertEquals(0, tes.compareTo(tdtClone0));
 
-        JpaToscaEntrySchema tdtClone1 = new JpaToscaEntrySchema();
-        tes.copyTo(tdtClone1);
+        JpaToscaEntrySchema tdtClone1 = new JpaToscaEntrySchema(tes);
         assertEquals(tes, tdtClone1);
         assertEquals(0, tes.compareTo(tdtClone1));
 
         assertEquals(-1, tes.compareTo(null));
         assertEquals(0, tes.compareTo(tes));
-        assertFalse(tes.compareTo(tes.getKey()) == 0);
 
-        PfReferenceKey otherEsKey = new PfReferenceKey("entrySchemaParent", "0.0.1", "otherEntrySchema");
-        JpaToscaEntrySchema otherEs = new JpaToscaEntrySchema(otherEsKey);
+        JpaToscaEntrySchema otherEs = new JpaToscaEntrySchema(typeKey);
 
-        assertFalse(tes.compareTo(otherEs) == 0);
-        otherEs.setKey(esKey);
         assertFalse(tes.compareTo(otherEs) == 0);
         otherEs.setType(typeKey);
         assertFalse(tes.compareTo(otherEs) == 0);
@@ -113,14 +101,14 @@ public class JpaToscaEntrySchemaTest {
             assertEquals("target is marked @NonNull but is null", exc.getMessage());
         }
 
-        assertEquals(3, tes.getKeys().size());
-        assertEquals(2, new JpaToscaEntrySchema().getKeys().size());
+        assertEquals(1, tes.getKeys().size());
+        assertEquals(1, new JpaToscaEntrySchema(typeKey).getKeys().size());
 
-        new JpaToscaEntrySchema().clean();
+        new JpaToscaEntrySchema(typeKey).clean();
         tes.clean();
         assertEquals(tdtClone0, tes);
 
-        assertFalse(new JpaToscaEntrySchema().validate(new PfValidationResult()).isValid());
+        assertTrue(new JpaToscaEntrySchema(typeKey).validate(new PfValidationResult()).isValid());
         assertTrue(tes.validate(new PfValidationResult()).isValid());
 
         tes.setType(PfConceptKey.getNullKey());

@@ -39,16 +39,18 @@ import lombok.NonNull;
 import org.apache.commons.lang3.ObjectUtils;
 import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.common.utils.validation.ParameterValidationUtils;
+import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfValidationMessage;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 
 /**
- * This class holds a full TOSCA service template. Note: Only the policy specific parts of the TOSCA
- * service template are implemented.
+ * This class holds a full TOSCA service template. Note: Only the policy specific parts of the TOSCA service template
+ * are implemented.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
@@ -57,7 +59,8 @@ import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class JpaToscaServiceTemplate extends JpaToscaEntityType {
+public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemplate>
+        implements PfAuthorative<ToscaServiceTemplate> {
     private static final long serialVersionUID = 8084846046148349401L;
 
     public static final String DEFAULT_NAME = "ToscaServiceTemplateSimple";
@@ -96,8 +99,7 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType {
     }
 
     /**
-     * The full constructor creates a {@link JpaToscaServiceTemplate} object with all mandatory
-     * parameters.
+     * The full constructor creates a {@link JpaToscaServiceTemplate} object with all mandatory parameters.
      *
      * @param key the key
      * @param toscaDefinitionsVersion the TOSCA version string
@@ -114,6 +116,70 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType {
      */
     public JpaToscaServiceTemplate(final JpaToscaServiceTemplate copyConcept) {
         super(copyConcept);
+    }
+
+    /**
+     * Authorative constructor.
+     *
+     * @param authorativeConcept the authorative concept to copy from
+     */
+    public JpaToscaServiceTemplate(final ToscaServiceTemplate authorativeConcept) {
+        this.fromAuthorative(authorativeConcept);
+    }
+
+    @Override
+    public ToscaServiceTemplate toAuthorative() {
+        final ToscaServiceTemplate toscaServiceTemplate = new ToscaServiceTemplate();
+
+        super.setToscaEntity(toscaServiceTemplate);
+        super.toAuthorative();
+
+        toscaServiceTemplate.setToscaDefinitionsVersion(toscaDefinitionsVersion);
+
+        if (dataTypes != null) {
+            toscaServiceTemplate.setDataTypes(dataTypes.toAuthorative());
+        }
+
+        if (policyTypes != null) {
+            toscaServiceTemplate.setPolicyTypes(policyTypes.toAuthorative());
+        }
+
+        if (topologyTemplate != null) {
+            toscaServiceTemplate.setToscaTopologyTemplate(topologyTemplate.toAuthorative());
+        }
+
+        return toscaServiceTemplate;
+    }
+
+    @Override
+    public void fromAuthorative(ToscaServiceTemplate toscaServiceTemplate) {
+        super.fromAuthorative(toscaServiceTemplate);
+
+        if (getKey().getName() == PfKey.NULL_KEY_NAME) {
+            getKey().setName(DEFAULT_NAME);
+        }
+
+        if (getKey().getVersion() == PfKey.NULL_KEY_VERSION) {
+            getKey().setVersion(DEFAULT_VERSION);
+        }
+
+        toscaDefinitionsVersion = toscaServiceTemplate.getToscaDefinitionsVersion();
+
+        if (toscaServiceTemplate.getDataTypes() != null) {
+            dataTypes = new JpaToscaDataTypes();
+            dataTypes.fromAuthorative(toscaServiceTemplate.getDataTypes());
+        }
+
+        if (toscaServiceTemplate.getPolicyTypes() != null) {
+            policyTypes = new JpaToscaPolicyTypes();
+            policyTypes.fromAuthorative(toscaServiceTemplate.getPolicyTypes());
+        }
+
+
+        if (toscaServiceTemplate.getToscaTopologyTemplate() != null) {
+            topologyTemplate = new JpaToscaTopologyTemplate();
+            topologyTemplate.fromAuthorative(toscaServiceTemplate.getToscaTopologyTemplate());
+        }
     }
 
     @Override

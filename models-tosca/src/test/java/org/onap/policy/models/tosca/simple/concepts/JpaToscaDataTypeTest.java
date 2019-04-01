@@ -27,15 +27,15 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaConstraint;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaConstraintLogical.Operation;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaConstraintLogicalString;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaDataType;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaProperty;
 
@@ -70,15 +70,14 @@ public class JpaToscaDataTypeTest {
         JpaToscaDataType tdt = new JpaToscaDataType(dtKey);
 
         List<JpaToscaConstraint> constraints = new ArrayList<>();
-        JpaToscaConstraintLogicalString lsc =
-                new JpaToscaConstraintLogicalString(new PfReferenceKey(dtKey, "sc"), Operation.EQ, "hello");
+        JpaToscaConstraintLogical lsc = new JpaToscaConstraintLogical(JpaToscaConstraintOperation.EQ, "hello");
         constraints.add(lsc);
         tdt.setConstraints(constraints);
         assertEquals(constraints, tdt.getConstraints());
 
-        List<JpaToscaProperty> properties = new ArrayList<>();
+        Map<String, JpaToscaProperty> properties = new LinkedHashMap<>();
         JpaToscaProperty tp = new JpaToscaProperty(new PfReferenceKey(dtKey, "pr"), new PfConceptKey("type", "0.0.1"));
-        properties.add(tp);
+        properties.put(tp.getKey().getLocalName(), tp);
         tdt.setProperties(properties);
         assertEquals(properties, tdt.getProperties());
 
@@ -113,7 +112,7 @@ public class JpaToscaDataTypeTest {
             assertEquals("target is marked @NonNull but is null", exc.getMessage());
         }
 
-        assertEquals(4, tdt.getKeys().size());
+        assertEquals(3, tdt.getKeys().size());
         assertEquals(1, new JpaToscaDataType().getKeys().size());
 
         new JpaToscaDataType().clean();
@@ -128,7 +127,7 @@ public class JpaToscaDataTypeTest {
         tdt.getConstraints().remove(null);
         assertTrue(tdt.validate(new PfValidationResult()).isValid());
 
-        tdt.getProperties().add(null);
+        tdt.getProperties().put(null, null);
         assertFalse(tdt.validate(new PfValidationResult()).isValid());
         tdt.getProperties().remove(null);
         assertTrue(tdt.validate(new PfValidationResult()).isValid());

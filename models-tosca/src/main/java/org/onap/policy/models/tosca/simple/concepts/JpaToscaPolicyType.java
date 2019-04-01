@@ -24,7 +24,10 @@
 package org.onap.policy.models.tosca.simple.concepts;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -37,13 +40,17 @@ import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 
 import org.onap.policy.common.utils.validation.Assertions;
+import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
+import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.base.PfValidationMessage;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaProperty;
 
 /**
  * Class to represent the policy type in TOSCA definition.
@@ -57,11 +64,11 @@ import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class JpaToscaPolicyType extends JpaToscaEntityType {
+public class JpaToscaPolicyType extends JpaToscaEntityType<ToscaPolicyType> implements PfAuthorative<ToscaPolicyType> {
     private static final long serialVersionUID = -563659852901842616L;
 
     @ElementCollection
-    private List<JpaToscaProperty> properties;
+    private Map<String, JpaToscaProperty> properties;
 
     @ElementCollection
     private List<PfConceptKey> targets;
@@ -94,13 +101,55 @@ public class JpaToscaPolicyType extends JpaToscaEntityType {
         super(copyConcept);
     }
 
+    /**
+     * Authorative constructor.
+     *
+     * @param authorativeConcept the authorative concept to copy from
+     */
+    public JpaToscaPolicyType(final ToscaPolicyType authorativeConcept) {
+        this.fromAuthorative(authorativeConcept);
+    }
+
+    @Override
+    public ToscaPolicyType toAuthorative() {
+        ToscaPolicyType toscaPolicyType = new ToscaPolicyType();
+        super.setToscaEntity(toscaPolicyType);
+        super.toAuthorative();
+
+        if (properties != null) {
+            Map<String, ToscaProperty> propertyMap = new LinkedHashMap<>();
+
+            for (Entry<String, JpaToscaProperty> entry : properties.entrySet()) {
+                propertyMap.put(entry.getKey(), entry.getValue().toAuthorative());
+            }
+
+            toscaPolicyType.setProperties(propertyMap);
+        }
+
+        return toscaPolicyType;
+    }
+
+    @Override
+    public void fromAuthorative(final ToscaPolicyType toscaPolicyType) {
+        super.fromAuthorative(toscaPolicyType);
+
+        // Set properties
+        if (toscaPolicyType.getProperties() != null) {
+            properties = new LinkedHashMap<>();
+            for (Entry<String, ToscaProperty> toscaPropertyEntry : toscaPolicyType.getProperties().entrySet()) {
+                JpaToscaProperty jpaProperty = new JpaToscaProperty(toscaPropertyEntry.getValue());
+                jpaProperty.setKey(new PfReferenceKey(getKey(), toscaPropertyEntry.getKey()));
+                properties.put(toscaPropertyEntry.getKey(), jpaProperty);
+            }
+        }
+    }
 
     @Override
     public List<PfKey> getKeys() {
         final List<PfKey> keyList = super.getKeys();
 
         if (properties != null) {
-            for (JpaToscaProperty property : properties) {
+            for (JpaToscaProperty property : properties.values()) {
                 keyList.addAll(property.getKeys());
             }
         }
@@ -123,7 +172,7 @@ public class JpaToscaPolicyType extends JpaToscaEntityType {
         super.clean();
 
         if (properties != null) {
-            for (JpaToscaProperty property : properties) {
+            for (JpaToscaProperty property : properties.values()) {
                 property.clean();
             }
         }
@@ -169,7 +218,7 @@ public class JpaToscaPolicyType extends JpaToscaEntityType {
     private PfValidationResult validateProperties(final PfValidationResult resultIn) {
         PfValidationResult result = resultIn;
 
-        for (JpaToscaProperty property : properties) {
+        for (JpaToscaProperty property : properties.values()) {
             if (property == null) {
                 result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
                         "policy property may not be null "));
@@ -258,13 +307,12 @@ public class JpaToscaPolicyType extends JpaToscaEntityType {
         final JpaToscaPolicyType copy = ((JpaToscaPolicyType) copyObject);
         super.copyTo(target);
 
-        final List<JpaToscaProperty> newProperties = new ArrayList<>();
-
         if (properties == null) {
             copy.setProperties(null);
         } else {
-            for (final JpaToscaProperty property : properties) {
-                newProperties.add(new JpaToscaProperty(property));
+            final Map<String, JpaToscaProperty> newProperties = new LinkedHashMap<>();
+            for (final Entry<String, JpaToscaProperty> propertyEntry : properties.entrySet()) {
+                newProperties.put(propertyEntry.getKey(), new JpaToscaProperty(propertyEntry.getValue()));
             }
             copy.setProperties(newProperties);
         }

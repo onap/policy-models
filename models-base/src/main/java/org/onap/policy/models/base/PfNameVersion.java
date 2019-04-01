@@ -1,9 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP Policy Model
- * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,25 +18,19 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.models.tosca.authorative.concepts;
-
-import java.util.List;
-import lombok.Data;
+package org.onap.policy.models.base;
 
 /**
- * Class to represent TOSCA entry schema matching input/output from/to client.
+ * An interface that forces a POJO to have getName() and getVersion() methods.
  *
- * @author Chenfei Gao (cgao@research.att.com)
+ * @author Liam Fallon (liam.fallon@est.tech)
  */
-@Data
-public class ToscaEntrySchema {
-    private String name;
+public interface PfNameVersion {
+    public String getName();
 
-    private String type;
+    public void setName(final String name);
 
-    private String typeVersion;
+    public String getVersion();
 
-    private String description;
-
-    private List<ToscaConstraint> constraints;
+    public void setVersion(final String version);
 }

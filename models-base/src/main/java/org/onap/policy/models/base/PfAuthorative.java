@@ -37,7 +37,8 @@ public interface PfAuthorative<T> {
 
     /**
      * Set an instance of the persist concept to the equivalent values as the other concept.
+     *
+     * @param authorativeConcept the authorative concept
      */
-    public void fromAuthorative(final T authorativeClass);
-
+    public void fromAuthorative(final T authorativeConcept);
 }

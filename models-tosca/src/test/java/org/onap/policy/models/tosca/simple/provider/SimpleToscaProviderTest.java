@@ -24,14 +24,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
-import com.google.gson.Gson;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
@@ -39,10 +38,10 @@ import org.onap.policy.models.dao.DaoParameters;
 import org.onap.policy.models.dao.PfDao;
 import org.onap.policy.models.dao.PfDaoFactory;
 import org.onap.policy.models.dao.impl.DefaultPfDao;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicies;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaTopologyTemplate;
-import org.onap.policy.models.tosca.simple.serialization.ToscaServiceTemplateMessageBodyHandler;
 
 /**
  * Test the {@link SimpleToscaProvider} class.
@@ -52,7 +51,7 @@ import org.onap.policy.models.tosca.simple.serialization.ToscaServiceTemplateMes
 public class SimpleToscaProviderTest {
     private Connection connection;
     private PfDao pfDao;
-    private Gson gson;
+    private StandardCoder standardCoder;
 
 
     /**
@@ -82,7 +81,7 @@ public class SimpleToscaProviderTest {
      */
     @Before
     public void setupGson() {
-        gson = new ToscaServiceTemplateMessageBodyHandler().getGson();
+        standardCoder = new StandardCoder();
     }
 
     @After
@@ -92,7 +91,7 @@ public class SimpleToscaProviderTest {
     }
 
     @Test
-    public void testPoliciesGet() throws PfModelException {
+    public void testPoliciesGet() throws Exception {
         try {
             new SimpleToscaProvider().getPolicies(null, null);
             fail("test should throw an exception here");
@@ -114,9 +113,12 @@ public class SimpleToscaProviderTest {
             assertEquals("policyKey is marked @NonNull but is null", exc.getMessage());
         }
 
-        JpaToscaServiceTemplate originalServiceTemplate =
-                gson.fromJson(ResourceUtils.getResourceAsString("policies/vCPE.policy.monitoring.input.tosca.json"),
-                        JpaToscaServiceTemplate.class);
+        ToscaServiceTemplate toscaServiceTemplate = standardCoder.decode(
+                ResourceUtils.getResourceAsString("policies/vCPE.policy.monitoring.input.tosca.json"),
+                ToscaServiceTemplate.class);
+
+        JpaToscaServiceTemplate originalServiceTemplate = new JpaToscaServiceTemplate();
+        originalServiceTemplate.fromAuthorative(toscaServiceTemplate);
 
         assertNotNull(originalServiceTemplate);
         JpaToscaServiceTemplate createdServiceTemplate =
@@ -135,7 +137,7 @@ public class SimpleToscaProviderTest {
     }
 
     @Test
-    public void testPolicyCreate() throws PfModelException {
+    public void testPolicyCreate() throws Exception {
         try {
             new SimpleToscaProvider().createPolicies(null, null);
             fail("test should throw an exception here");
@@ -157,9 +159,12 @@ public class SimpleToscaProviderTest {
             assertEquals("serviceTemplate is marked @NonNull but is null", exc.getMessage());
         }
 
-        JpaToscaServiceTemplate originalServiceTemplate =
-                gson.fromJson(ResourceUtils.getResourceAsString("policies/vCPE.policy.monitoring.input.tosca.json"),
-                        JpaToscaServiceTemplate.class);
+        ToscaServiceTemplate toscaServiceTemplate = standardCoder.decode(
+                ResourceUtils.getResourceAsString("policies/vCPE.policy.monitoring.input.tosca.json"),
+                ToscaServiceTemplate.class);
+
+        JpaToscaServiceTemplate originalServiceTemplate = new JpaToscaServiceTemplate();
+        originalServiceTemplate.fromAuthorative(toscaServiceTemplate);
 
         assertNotNull(originalServiceTemplate);
         JpaToscaServiceTemplate createdServiceTemplate =
@@ -169,7 +174,7 @@ public class SimpleToscaProviderTest {
     }
 
     @Test
-    public void testPolicyUpdate() throws PfModelException {
+    public void testPolicyUpdate() throws Exception {
         try {
             new SimpleToscaProvider().updatePolicies(null, null);
             fail("test should throw an exception here");
@@ -191,9 +196,12 @@ public class SimpleToscaProviderTest {
             assertEquals("serviceTemplate is marked @NonNull but is null", exc.getMessage());
         }
 
-        JpaToscaServiceTemplate originalServiceTemplate =
-                gson.fromJson(ResourceUtils.getResourceAsString("policies/vCPE.policy.monitoring.input.tosca.json"),
-                        JpaToscaServiceTemplate.class);
+        ToscaServiceTemplate toscaServiceTemplate = standardCoder.decode(
+                ResourceUtils.getResourceAsString("policies/vCPE.policy.monitoring.input.tosca.json"),
+                ToscaServiceTemplate.class);
+
+        JpaToscaServiceTemplate originalServiceTemplate = new JpaToscaServiceTemplate();
+        originalServiceTemplate.fromAuthorative(toscaServiceTemplate);
 
         assertNotNull(originalServiceTemplate);
         JpaToscaServiceTemplate updatedServiceTemplate =
@@ -203,7 +211,7 @@ public class SimpleToscaProviderTest {
     }
 
     @Test
-    public void testPoliciesDelete() throws PfModelException {
+    public void testPoliciesDelete() throws Exception {
         try {
             new SimpleToscaProvider().deletePolicies(null, null);
             fail("test should throw an exception here");
@@ -225,9 +233,12 @@ public class SimpleToscaProviderTest {
             assertEquals("policyKey is marked @NonNull but is null", exc.getMessage());
         }
 
-        JpaToscaServiceTemplate originalServiceTemplate =
-                gson.fromJson(ResourceUtils.getResourceAsString("policies/vCPE.policy.monitoring.input.tosca.json"),
-                        JpaToscaServiceTemplate.class);
+        ToscaServiceTemplate toscaServiceTemplate = standardCoder.decode(
+                ResourceUtils.getResourceAsString("policies/vCPE.policy.monitoring.input.tosca.json"),
+                ToscaServiceTemplate.class);
+
+        JpaToscaServiceTemplate originalServiceTemplate = new JpaToscaServiceTemplate();
+        originalServiceTemplate.fromAuthorative(toscaServiceTemplate);
 
         assertNotNull(originalServiceTemplate);
         JpaToscaServiceTemplate createdServiceTemplate =

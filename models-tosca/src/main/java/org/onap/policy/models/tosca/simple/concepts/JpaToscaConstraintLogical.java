@@ -21,16 +21,14 @@
 package org.onap.policy.models.tosca.simple.concepts;
 
 import javax.persistence.Column;
-import javax.ws.rs.core.Response;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
 
-import org.onap.policy.models.base.PfConcept;
-import org.onap.policy.models.base.PfModelRuntimeException;
-import org.onap.policy.models.base.PfReferenceKey;
+import org.apache.commons.lang3.ObjectUtils;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaConstraint;
 
 /**
  * This class represents a logical TOSCA constraint: =,>,>=,<,<=.
@@ -38,82 +36,117 @@ import org.onap.policy.models.base.PfReferenceKey;
 @EqualsAndHashCode(callSuper = false)
 @ToString
 public class JpaToscaConstraintLogical extends JpaToscaConstraint {
-    private static final long serialVersionUID = 2562306457768745444L;
-
-    public enum Operation {
-        EQ,
-        GT,
-        GE,
-        LT,
-        LE
-    }
+    private static final long serialVersionUID = -2730203215911880756L;
 
     @Column
     @NonNull
     @Getter
-    private final Operation operation;
+    private JpaToscaConstraintOperation operation;
+
+    @Column
+    @NonNull
+    @Getter
+    private String compareTo;
 
     /**
-     * The Default Constructor creates a {@link JpaToscaConstraintLogical} object with a null key.
-     */
-    public JpaToscaConstraintLogical() {
-        this(new PfReferenceKey());
-    }
-
-    /**
-     * The Key Constructor creates a {@link JpaToscaConstraintLogical} object with the given concept key.
+     * Constructor to set operation.
      *
-     * @param key the key of the constraint
+     * @param operation the operation to set
+     * @param compareTo the string to compare to
      */
-    public JpaToscaConstraintLogical(final PfReferenceKey key) {
-        this(key, Operation.EQ);
-    }
-
-    /**
-     * The Key Constructor creates a {@link JpaToscaConstraintLogical} object with the given concept key and operation.
-     *
-     * @param key the key of the constraint
-     * @param operation the logical operation of the constraint
-     *
-     */
-    public JpaToscaConstraintLogical(final PfReferenceKey key, @NonNull final Operation operation) {
-        super(key);
+    public JpaToscaConstraintLogical(@NonNull final JpaToscaConstraintOperation operation,
+            @NonNull final String compareTo) {
         this.operation = operation;
+        this.compareTo = compareTo;
     }
 
     /**
-     * Copy constructor.
+     * Authorative constructor.
      *
-     * @param copyConcept the concept to copy from
+     * @param authorativeConcept the authorative concept to copy from
      */
-    public JpaToscaConstraintLogical(@NonNull final JpaToscaConstraintLogical copyConcept) {
-        throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR, "cannot copy an immutable constraint");
+    public JpaToscaConstraintLogical(final ToscaConstraint authorativeConcept) {
+        super(authorativeConcept);
     }
 
     @Override
-    public int compareTo(final PfConcept otherConcept) {
-        if (otherConcept == null) {
+    public ToscaConstraint toAuthorative() {
+        ToscaConstraint toscaConstraint = new ToscaConstraint();
+
+        switch (operation) {
+            case EQ: {
+                toscaConstraint.setEqual(compareTo);
+                break;
+            }
+            case GT: {
+                toscaConstraint.setGreaterThan(compareTo);
+                break;
+            }
+            case GE: {
+                toscaConstraint.setGreaterOrEqual(compareTo);
+                break;
+            }
+            case LT: {
+                toscaConstraint.setLessThan(compareTo);
+                break;
+            }
+            case LE: {
+                toscaConstraint.setLessOrEqual(compareTo);
+                break;
+            }
+            default: {
+                // Can't happen
+            }
+        }
+
+        return toscaConstraint;
+    }
+
+    @Override
+    public void fromAuthorative(final ToscaConstraint toscaConstraint) {
+        // @formatter:off
+        if (toscaConstraint.getEqual() != null) {
+            operation = JpaToscaConstraintOperation.EQ;
+            compareTo = toscaConstraint.getEqual();
+        }
+        else if (toscaConstraint.getGreaterThan() != null) {
+            operation = JpaToscaConstraintOperation.GT;
+            compareTo = toscaConstraint.getGreaterThan();
+        }
+        else if (toscaConstraint.getGreaterOrEqual() != null) {
+            operation = JpaToscaConstraintOperation.GE;
+            compareTo = toscaConstraint.getGreaterOrEqual();
+        }
+        else if (toscaConstraint.getLessThan() != null) {
+            operation = JpaToscaConstraintOperation.LT;
+            compareTo = toscaConstraint.getLessThan();
+        }
+        else if (toscaConstraint.getLessOrEqual() != null) {
+            operation = JpaToscaConstraintOperation.LE;
+            compareTo = toscaConstraint.getLessOrEqual();
+        }
+        // @formatter:on
+    }
+
+    @Override
+    public int compareTo(JpaToscaConstraint otherConstraint) {
+        if (otherConstraint == null) {
             return -1;
         }
-        if (this == otherConcept) {
+        if (this == otherConstraint) {
             return 0;
         }
-        if (getClass() != otherConcept.getClass()) {
-            return this.hashCode() - otherConcept.hashCode();
+        if (getClass() != otherConstraint.getClass()) {
+            return this.hashCode() - otherConstraint.hashCode();
         }
 
-        final JpaToscaConstraintLogical other = (JpaToscaConstraintLogical) otherConcept;
+        final JpaToscaConstraintLogical other = (JpaToscaConstraintLogical) otherConstraint;
 
-        int result = super.compareTo(other);
+        int result = ObjectUtils.compare(operation, other.operation);
         if (result != 0) {
             return result;
         }
 
-        return operation.compareTo(other.operation);
-    }
-
-    @Override
-    public PfConcept copyTo(@NonNull final PfConcept target) {
-        throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR, "cannot copy an immutable constraint");
+        return ObjectUtils.compare(compareTo, other.compareTo);
     }
 }

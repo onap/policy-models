@@ -26,15 +26,14 @@ import javax.ws.rs.core.Response;
 
 import lombok.NonNull;
 
-import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.pdp.concepts.PdpGroups;
 import org.onap.policy.models.provider.PolicyModelsProvider;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyInput;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyOutput;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
 
 /**
  * Dummy implementation of {@link PolicyModelsProvider} with bad constructor.
@@ -53,46 +52,46 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
     public void init() throws PfModelException {}
 
     @Override
-    public JpaToscaServiceTemplate getPolicyTypes(@NonNull PfConceptKey policyTypeKey) throws PfModelException {
+    public ToscaServiceTemplate getPolicyTypes(final String name, final String version) throws PfModelException {
         return null;
     }
 
     @Override
-    public JpaToscaServiceTemplate createPolicyTypes(@NonNull JpaToscaServiceTemplate serviceTemplate)
+    public ToscaServiceTemplate createPolicyTypes(@NonNull ToscaServiceTemplate serviceTemplate)
             throws PfModelException {
         return null;
     }
 
     @Override
-    public JpaToscaServiceTemplate updatePolicyTypes(@NonNull JpaToscaServiceTemplate serviceTemplate)
+    public ToscaServiceTemplate updatePolicyTypes(@NonNull ToscaServiceTemplate serviceTemplate)
             throws PfModelException {
         return null;
     }
 
     @Override
-    public JpaToscaServiceTemplate deletePolicyTypes(@NonNull PfConceptKey policyTypeKey) throws PfModelException {
+    public ToscaServiceTemplate deletePolicyTypes(final String name, final String version) throws PfModelException {
         return null;
     }
 
     @Override
-    public JpaToscaServiceTemplate getPolicies(@NonNull PfConceptKey policyKey) throws PfModelException {
+    public ToscaServiceTemplate getPolicies(final String name, final String version) throws PfModelException {
         return null;
     }
 
     @Override
-    public JpaToscaServiceTemplate createPolicies(@NonNull JpaToscaServiceTemplate serviceTemplate)
+    public ToscaServiceTemplate createPolicies(@NonNull ToscaServiceTemplate serviceTemplate)
             throws PfModelException {
         return null;
     }
 
     @Override
-    public JpaToscaServiceTemplate updatePolicies(@NonNull JpaToscaServiceTemplate serviceTemplate)
+    public ToscaServiceTemplate updatePolicies(@NonNull ToscaServiceTemplate serviceTemplate)
             throws PfModelException {
         return null;
     }
 
     @Override
-    public JpaToscaServiceTemplate deletePolicies(@NonNull PfConceptKey policyKey) throws PfModelException {
+    public ToscaServiceTemplate deletePolicies(final String name, final String version) throws PfModelException {
         return null;
     }
 

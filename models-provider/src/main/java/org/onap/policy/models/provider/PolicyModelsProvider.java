@@ -24,13 +24,12 @@ import java.util.Map;
 
 import lombok.NonNull;
 
-import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.pdp.concepts.PdpGroups;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyInput;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyOutput;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
 
 /**
  * This interface describes the operations that are provided to users and components for reading objects from and
@@ -49,12 +48,13 @@ public interface PolicyModelsProvider extends AutoCloseable {
     /**
      * Get policy types.
      *
-     * @param policyTypeKey the policy type key for the policy types to be retrieved. A null key name returns all policy
-     *        types. A null key version returns all versions of the policy type name specified in the key.
+     * @param name the name of the policy type to get.
+     * @param version the version of the policy type to get.
      * @return the policy types found
      * @throws PfModelException on errors getting policy types
      */
-    public JpaToscaServiceTemplate getPolicyTypes(@NonNull final PfConceptKey policyTypeKey) throws PfModelException;
+    public ToscaServiceTemplate getPolicyTypes(@NonNull final String name, @NonNull final String version)
+            throws PfModelException;
 
     /**
      * Create policy types.
@@ -63,7 +63,7 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * @return the TOSCA service template containing the created policy types
      * @throws PfModelException on errors creating policy types
      */
-    public JpaToscaServiceTemplate createPolicyTypes(@NonNull final JpaToscaServiceTemplate serviceTemplate)
+    public ToscaServiceTemplate createPolicyTypes(@NonNull final ToscaServiceTemplate serviceTemplate)
             throws PfModelException;
 
     /**
@@ -73,28 +73,30 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * @return the TOSCA service template containing the modified policy types
      * @throws PfModelException on errors updating policy types
      */
-    public JpaToscaServiceTemplate updatePolicyTypes(@NonNull final JpaToscaServiceTemplate serviceTemplate)
+    public ToscaServiceTemplate updatePolicyTypes(@NonNull final ToscaServiceTemplate serviceTemplate)
             throws PfModelException;
 
     /**
      * Delete policy types.
      *
-     * @param policyTypeKey the policy type key for the policy types to be deleted, if the version of the key is null,
-     *        all versions of the policy type are deleted.
+     * @param name the name of the policy type to delete.
+     * @param version the version of the policy type to delete.
      * @return the TOSCA service template containing the policy types that were deleted
      * @throws PfModelException on errors deleting policy types
      */
-    public JpaToscaServiceTemplate deletePolicyTypes(@NonNull final PfConceptKey policyTypeKey) throws PfModelException;
+    public ToscaServiceTemplate deletePolicyTypes(@NonNull final String name, @NonNull final String version)
+            throws PfModelException;
 
     /**
      * Get policies.
      *
-     * @param policyKey the policy key for the policies to be retrieved. The parent name and version must be specified.
-     *        A null local name returns all policies for a parent policy type.
+     * @param name the name of the policy to get.
+     * @param version the version of the policy to get.
      * @return the policies found
      * @throws PfModelException on errors getting policies
      */
-    public JpaToscaServiceTemplate getPolicies(@NonNull final PfConceptKey policyKey) throws PfModelException;
+    public ToscaServiceTemplate getPolicies(@NonNull final String name, @NonNull final String version)
+            throws PfModelException;
 
     /**
      * Create policies.
@@ -103,7 +105,7 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * @return the TOSCA service template containing the policy types that were created
      * @throws PfModelException on errors creating policies
      */
-    public JpaToscaServiceTemplate createPolicies(@NonNull final JpaToscaServiceTemplate serviceTemplate)
+    public ToscaServiceTemplate createPolicies(@NonNull final ToscaServiceTemplate serviceTemplate)
             throws PfModelException;
 
 
@@ -114,17 +116,19 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * @return the TOSCA service template containing the policies that were updated
      * @throws PfModelException on errors updating policies
      */
-    public JpaToscaServiceTemplate updatePolicies(@NonNull final JpaToscaServiceTemplate serviceTemplate)
+    public ToscaServiceTemplate updatePolicies(@NonNull final ToscaServiceTemplate serviceTemplate)
             throws PfModelException;
 
     /**
      * Delete policies.
      *
-     * @param policyKey the policy key
+     * @param name the name of the policy to delete.
+     * @param version the version of the policy to delete.
      * @return the TOSCA service template containing the policy types that were deleted
      * @throws PfModelException on errors deleting policies
      */
-    public JpaToscaServiceTemplate deletePolicies(@NonNull final PfConceptKey policyKey) throws PfModelException;
+    public ToscaServiceTemplate deletePolicies(@NonNull final String name, @NonNull final String version)
+            throws PfModelException;
 
     /**
      * Get legacy operational policy.

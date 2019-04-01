@@ -22,29 +22,26 @@ package org.onap.policy.models.provider.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.util.Base64;
+import java.util.Map;
 
 import lombok.NonNull;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
-import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
-import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderFactory;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicy;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
-import org.onap.policy.models.tosca.simple.serialization.ToscaServiceTemplateMessageBodyHandler;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
@@ -58,7 +55,7 @@ public class PolicyPersistenceTest {
     // Logger for this class
     private static final Logger LOGGER = LoggerFactory.getLogger(PolicyPersistenceTest.class);
 
-    private Gson gson;
+    private StandardCoder standardCoder;
 
     private PolicyModelsProvider databaseProvider;
 
@@ -101,7 +98,7 @@ public class PolicyPersistenceTest {
      */
     @Before
     public void setupGson() {
-        gson = new ToscaServiceTemplateMessageBodyHandler().getGson();
+        standardCoder = new StandardCoder();
     }
 
     @After
@@ -141,19 +138,20 @@ public class PolicyPersistenceTest {
      * @throws Exception any exception thrown
      */
     public void testJsonStringPolicyPersistence(@NonNull final String policyString) throws Exception {
-        JpaToscaServiceTemplate serviceTemplate = gson.fromJson(policyString, JpaToscaServiceTemplate.class);
+        ToscaServiceTemplate serviceTemplate = standardCoder.decode(policyString, ToscaServiceTemplate.class);
 
         assertNotNull(serviceTemplate);
-        LOGGER.info(serviceTemplate.validate(new PfValidationResult()).toString());
-        assertTrue(serviceTemplate.validate(new PfValidationResult()).isValid());
 
         databaseProvider.createPolicies(serviceTemplate);
 
-        for (PfConceptKey policyKey : serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().keySet()) {
-            JpaToscaPolicy incomingPolicy = serviceTemplate.getTopologyTemplate().getPolicies().get(policyKey);
-            JpaToscaPolicy databasePolicy =
-                    databaseProvider.getPolicies(policyKey).getTopologyTemplate().getPolicies().get(policyKey);
-            assertEquals(incomingPolicy, databasePolicy);
+        for (Map<String, ToscaPolicy> policyMap : serviceTemplate.getToscaTopologyTemplate().getPolicies()) {
+            for (ToscaPolicy policy : policyMap.values()) {
+                ToscaServiceTemplate goToscaServiceTemplate =
+                        databaseProvider.getPolicies(policy.getName(), policy.getVersion());
+
+                assertEquals(goToscaServiceTemplate.getToscaTopologyTemplate().getPolicies().get(0)
+                        .get(policy.getName()).getType(), policy.getType());
+            }
         }
     }
 }

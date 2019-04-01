@@ -20,6 +20,7 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -39,6 +40,7 @@ import lombok.NonNull;
 import org.apache.commons.lang3.ObjectUtils;
 import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.common.utils.validation.ParameterValidationUtils;
+import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
@@ -46,6 +48,7 @@ import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.base.PfValidationMessage;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaEntity;
 
 /**
  * Class to represent the EntrySchema of list/map property in TOSCA definition.
@@ -53,7 +56,7 @@ import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 @MappedSuperclass
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class JpaToscaEntityType extends PfConcept {
+public class JpaToscaEntityType<T extends ToscaEntity> extends PfConcept implements PfAuthorative<T> {
     private static final long serialVersionUID = -1330661834220739393L;
 
     @EmbeddedId
@@ -74,6 +77,8 @@ public class JpaToscaEntityType extends PfConcept {
 
     @Column
     private String description;
+
+    private transient T toscaEntity;
     // @formatter:on
 
     /**
@@ -97,8 +102,79 @@ public class JpaToscaEntityType extends PfConcept {
      *
      * @param copyConcept the concept to copy from
      */
-    public JpaToscaEntityType(final JpaToscaEntityType copyConcept) {
+    public JpaToscaEntityType(final JpaToscaEntityType<T> copyConcept) {
         super(copyConcept);
+    }
+
+    /**
+     * Authorative constructor.
+     *
+     * @param authorativeConcept the authorative concept to copy from
+     */
+    public JpaToscaEntityType(final T authorativeConcept) {
+        this.fromAuthorative(authorativeConcept);
+    }
+
+    @Override
+    public T toAuthorative() {
+        toscaEntity.setName(getKey().getName());
+        toscaEntity.setVersion(getKey().getVersion());
+
+        if (derivedFrom != null) {
+            toscaEntity.setDerivedFrom(derivedFrom.getId());
+        }
+
+        if (description != null) {
+            toscaEntity.setDescription(description);
+        }
+
+        if (metadata != null) {
+            Map<String, String> metadataMap = new LinkedHashMap<>();
+
+            for (Entry<String, String> entry : metadata.entrySet()) {
+                metadataMap.put(entry.getKey(), entry.getValue());
+            }
+
+            toscaEntity.setMetadata(metadataMap);
+        }
+
+        return toscaEntity;
+    }
+
+    @Override
+    public void fromAuthorative(T toscaEntity) {
+        key =  new PfConceptKey();
+
+        if (toscaEntity.getName() != null) {
+            key.setName(toscaEntity.getName());
+        }
+
+        if (toscaEntity.getVersion() != null) {
+            key.setVersion(toscaEntity.getVersion());
+        }
+
+
+        if (toscaEntity.getDerivedFrom() != null) {
+            // CHeck if the derived from field contains a name-version ID
+            if (toscaEntity.getDerivedFrom().contains(":")) {
+                derivedFrom = new PfConceptKey(toscaEntity.getDerivedFrom());
+            }
+            else {
+                derivedFrom = new PfConceptKey(toscaEntity.getDerivedFrom(), PfKey.NULL_KEY_VERSION);
+            }
+        }
+
+        if (toscaEntity.getDescription() != null) {
+            description = toscaEntity.getDescription();
+        }
+
+        if (toscaEntity.getMetadata() != null) {
+            metadata = new LinkedHashMap<>();
+
+            for (Entry<String, String> metadataEntry : toscaEntity.getMetadata().entrySet()) {
+                metadata.put(metadataEntry.getKey(), metadataEntry.getValue());
+            }
+        }
     }
 
     @Override
@@ -176,7 +252,8 @@ public class JpaToscaEntityType extends PfConcept {
             return this.hashCode() - otherConcept.hashCode();
         }
 
-        final JpaToscaEntityType other = (JpaToscaEntityType) otherConcept;
+        @SuppressWarnings("unchecked")
+        final JpaToscaEntityType<T> other = (JpaToscaEntityType<T>) otherConcept;
         if (!key.equals(other.key)) {
             return key.compareTo(other.key);
         }
@@ -199,7 +276,8 @@ public class JpaToscaEntityType extends PfConcept {
         final Object copyObject = target;
         Assertions.instanceOf(copyObject, PfConcept.class);
 
-        final JpaToscaEntityType copy = ((JpaToscaEntityType) copyObject);
+        @SuppressWarnings("unchecked")
+        final JpaToscaEntityType<T> copy = ((JpaToscaEntityType<T>) copyObject);
         copy.setKey(new PfConceptKey(key));
         copy.setDerivedFrom(derivedFrom != null ? new PfConceptKey(derivedFrom) : null);
 

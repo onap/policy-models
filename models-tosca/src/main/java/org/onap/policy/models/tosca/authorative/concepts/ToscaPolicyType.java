@@ -3,6 +3,7 @@
  * ONAP Policy Model
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,9 +23,10 @@
 
 package org.onap.policy.models.tosca.authorative.concepts;
 
-import com.google.gson.annotations.SerializedName;
 import java.util.Map;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * Class to represent TOSCA policy type matching input/output from/to client.
@@ -32,16 +34,8 @@ import lombok.Data;
  * @author Chenfei Gao (cgao@research.att.com)
  */
 @Data
-public class ToscaPolicyType {
-
-    @SerializedName("derived_from")
-    private String derivedFrom;
-
-    private String version;
-
-    private Map<String, String> metadata;
-
-    private String description;
-
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+public class ToscaPolicyType extends ToscaEntity {
     private Map<String, ToscaProperty> properties;
 }
