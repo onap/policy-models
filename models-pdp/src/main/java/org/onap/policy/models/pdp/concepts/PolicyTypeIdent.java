@@ -20,31 +20,31 @@
 
 package org.onap.policy.models.pdp.concepts;
 
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import org.onap.policy.models.base.PfConceptKey;
-import org.onap.policy.models.base.PfValidationResult;
-import org.onap.policy.models.base.Validated;
 
 /**
  * Identifies a policy type. Both the name and version must be non-null.
  */
-@NonNull
+@Data
 @NoArgsConstructor
-public class PolicyTypeIdent extends PfConceptKey {
-    private static final long serialVersionUID = 1L;
-    private static final Validated validator = new Validated();
+public class PolicyTypeIdent {
 
-    public PolicyTypeIdent(String name, String version) {
-        super(name, version);
+    @NonNull
+    private String name;
+
+    @NonNull
+    private String version;
+
+
+    public PolicyTypeIdent(@NonNull String name, @NonNull String version) {
+        this.name = name;
+        this.version = version;
     }
 
     public PolicyTypeIdent(PolicyTypeIdent source) {
-        super(source);
-    }
-
-    @Override
-    public PfValidationResult validate(PfValidationResult result) {
-        return super.validate(validator.validateNotNull(this, result));
+        this.name = source.name;
+        this.version = source.version;
     }
 }
