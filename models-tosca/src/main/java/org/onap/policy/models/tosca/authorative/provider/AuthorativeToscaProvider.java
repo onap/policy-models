@@ -20,11 +20,16 @@
 
 package org.onap.policy.models.tosca.authorative.provider;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import lombok.NonNull;
 
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.dao.PfDao;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.provider.SimpleToscaProvider;
@@ -44,10 +49,50 @@ public class AuthorativeToscaProvider {
      * @return the policy types found
      * @throws PfModelException on errors getting policy types
      */
-    public ToscaServiceTemplate getPolicyTypes(@NonNull final PfDao dao, @NonNull final String name,
-            @NonNull final String version) throws PfModelException {
+    public ToscaServiceTemplate getPolicyTypes(@NonNull final PfDao dao, final String name, final String version)
+            throws PfModelException {
 
         return new SimpleToscaProvider().getPolicyTypes(dao, new PfConceptKey(name, version)).toAuthorative();
+    }
+
+    /**
+     * Get policy types.
+     *
+     * @param dao the DAO to use to access the database
+     * @param name the name of the policy type to get, set to null to get all policy types
+     * @param version the version of the policy type to get, set to null to get all versions
+     * @return the policy types found
+     * @throws PfModelException on errors getting policy types
+     */
+    public List<ToscaPolicyType> getPolicyTypeList(@NonNull final PfDao dao, final String name, final String version)
+            throws PfModelException {
+        return new ArrayList<>();
+    }
+
+    /**
+     * Get latest policy types.
+     *
+     * @param dao the DAO to use to access the database
+     * @param name the name of the policy type to get, set to null to get all policy types
+     * @return the policy types found
+     * @throws PfModelException on errors getting policy types
+     */
+    public ToscaServiceTemplate getLatestPolicyTypes(@NonNull final PfDao dao, final String name)
+            throws PfModelException {
+        return null;
+    }
+
+    /**
+     * Get latest policy types.
+     *
+     * @param dao the DAO to use to access the database
+     * @param name the name of the policy type to get, set to null to get all policy types
+     * @return the policy types found
+     * @throws PfModelException on errors getting policy types
+     */
+    public List<ToscaPolicyType> getLatestPolicyTypeList(@NonNull final PfDao dao, final String name)
+            throws PfModelException {
+        return new ArrayList<>();
     }
 
     /**
@@ -81,18 +126,18 @@ public class AuthorativeToscaProvider {
     }
 
     /**
-     * Delete policy types.
+     * Delete policy type.
      *
      * @param dao the DAO to use to access the database
      * @param name the name of the policy type to delete.
      * @param version the version of the policy type to delete.
-     * @return the TOSCA service template containing the policy types that were deleted
+     * @return the TOSCA service template containing the policy type that was deleted
      * @throws PfModelException on errors deleting policy types
      */
-    public ToscaServiceTemplate deletePolicyTypes(@NonNull final PfDao dao, @NonNull final String name,
+    public ToscaServiceTemplate deletePolicyType(@NonNull final PfDao dao, @NonNull final String name,
             @NonNull final String version) throws PfModelException {
 
-        return new SimpleToscaProvider().deletePolicyTypes(dao, new PfConceptKey(name, version)).toAuthorative();
+        return new SimpleToscaProvider().deletePolicyType(dao, new PfConceptKey(name, version)).toAuthorative();
     }
 
     /**
@@ -108,6 +153,57 @@ public class AuthorativeToscaProvider {
             @NonNull final String version) throws PfModelException {
 
         return new SimpleToscaProvider().getPolicies(dao, new PfConceptKey(name, version)).toAuthorative();
+    }
+
+    /**
+     * Get policies.
+     *
+     * @param dao the DAO to use to access the database
+     * @param name the name of the policy to get, null to get all policies
+     * @param version the version of the policy to get, null to get all versions of a policy
+     * @return the policies found
+     * @throws PfModelException on errors getting policies
+     */
+    public List<ToscaPolicy> getPolicyList(@NonNull final PfDao dao, final String name, final String version)
+            throws PfModelException {
+        return new ArrayList<>();
+    }
+
+    /**
+     * Get policies for a policy type name.
+     *
+     * @param dao the DAO to use to access the database
+     * @param policyTypeName the name of the policy type for which to get policies
+     * @return the policies found
+     * @throws PfModelException on errors getting policies
+     */
+    public List<ToscaPolicy> getPolicyList4PolicyType(@NonNull final PfDao dao, @NonNull final String policyTypeName)
+            throws PfModelException {
+        return new ArrayList<>();
+    }
+
+    /**
+     * Get latest policies.
+     *
+     * @param dao the DAO to use to access the database
+     * @param name the name of the policy to get, null to get all policies
+     * @return the policies found
+     * @throws PfModelException on errors getting policies
+     */
+    public ToscaServiceTemplate getLatestPolicies(@NonNull final PfDao dao, final String name) throws PfModelException {
+        return null;
+    }
+
+    /**
+     * Get latest policies.
+     *
+     * @param dao the DAO to use to access the database
+     * @param name the name of the policy to get, null to get all policies
+     * @return the policies found
+     * @throws PfModelException on errors getting policies
+     */
+    public List<ToscaPolicy> getLatestPolicyList(@NonNull final PfDao dao, final String name) throws PfModelException  {
+        return new ArrayList<>();
     }
 
     /**
@@ -141,17 +237,17 @@ public class AuthorativeToscaProvider {
     }
 
     /**
-     * Delete policies.
+     * Delete policy.
      *
      * @param dao the DAO to use to access the database
      * @param name the name of the policy to delete.
      * @param version the version of the policy to delete.
-     * @return the TOSCA service template containing the policies that were deleted
+     * @return the TOSCA service template containing the policy that weas deleted
      * @throws PfModelException on errors deleting policies
      */
-    public ToscaServiceTemplate deletePolicies(@NonNull final PfDao dao, @NonNull final String name,
+    public ToscaServiceTemplate deletePolicy(@NonNull final PfDao dao, @NonNull final String name,
             @NonNull final String version) throws PfModelException {
 
-        return new SimpleToscaProvider().deletePolicies(dao, new PfConceptKey(name, version)).toAuthorative();
+        return new SimpleToscaProvider().deletePolicy(dao, new PfConceptKey(name, version)).toAuthorative();
     }
 }

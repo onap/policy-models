@@ -143,7 +143,7 @@ public class SimpleToscaProvider {
      * @return the TOSCA service template containing the policy types that were deleted
      * @throws PfModelException on errors deleting policy types
      */
-    public JpaToscaServiceTemplate deletePolicyTypes(@NonNull final PfDao dao,
+    public JpaToscaServiceTemplate deletePolicyType(@NonNull final PfDao dao,
             @NonNull final PfConceptKey policyTypeKey)
             throws PfModelException {
 
@@ -251,7 +251,7 @@ public class SimpleToscaProvider {
      * @return the TOSCA service template containing the policies that were deleted
      * @throws PfModelException on errors deleting policies
      */
-    public JpaToscaServiceTemplate deletePolicies(@NonNull final PfDao dao, @NonNull final PfConceptKey policyKey)
+    public JpaToscaServiceTemplate deletePolicy(@NonNull final PfDao dao, @NonNull final PfConceptKey policyKey)
             throws PfModelException {
 
         JpaToscaServiceTemplate serviceTemplate = getPolicies(dao, policyKey);

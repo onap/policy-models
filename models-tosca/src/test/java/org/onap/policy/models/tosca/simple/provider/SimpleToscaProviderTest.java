@@ -213,21 +213,21 @@ public class SimpleToscaProviderTest {
     @Test
     public void testPoliciesDelete() throws Exception {
         try {
-            new SimpleToscaProvider().deletePolicies(null, null);
+            new SimpleToscaProvider().deletePolicy(null, null);
             fail("test should throw an exception here");
         } catch (Exception exc) {
             assertEquals("dao is marked @NonNull but is null", exc.getMessage());
         }
 
         try {
-            new SimpleToscaProvider().deletePolicies(null, new PfConceptKey());
+            new SimpleToscaProvider().deletePolicy(null, new PfConceptKey());
             fail("test should throw an exception here");
         } catch (Exception exc) {
             assertEquals("dao is marked @NonNull but is null", exc.getMessage());
         }
 
         try {
-            new SimpleToscaProvider().deletePolicies(pfDao, null);
+            new SimpleToscaProvider().deletePolicy(pfDao, null);
             fail("test should throw an exception here");
         } catch (Exception exc) {
             assertEquals("policyKey is marked @NonNull but is null", exc.getMessage());
@@ -249,7 +249,7 @@ public class SimpleToscaProviderTest {
         PfConceptKey policyKey = new PfConceptKey("onap.restart.tca:1.0.0");
 
         JpaToscaServiceTemplate deletedServiceTemplate =
-                new SimpleToscaProvider().deletePolicies(pfDao, new PfConceptKey(policyKey));
+                new SimpleToscaProvider().deletePolicy(pfDao, new PfConceptKey(policyKey));
 
         assertEquals(originalServiceTemplate.getTopologyTemplate().getPolicies().get(policyKey),
                 deletedServiceTemplate.getTopologyTemplate().getPolicies().get(policyKey));

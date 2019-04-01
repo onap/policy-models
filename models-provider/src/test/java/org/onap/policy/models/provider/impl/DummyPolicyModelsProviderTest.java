@@ -23,6 +23,7 @@ package org.onap.policy.models.provider.impl;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
@@ -73,12 +74,12 @@ public class DummyPolicyModelsProviderTest {
         assertNotNull(dummyProvider.getPolicyTypes("name", "version"));
         assertNotNull(dummyProvider.createPolicyTypes(new ToscaServiceTemplate()));
         assertNotNull(dummyProvider.updatePolicyTypes(new ToscaServiceTemplate()));
-        assertNotNull(dummyProvider.deletePolicyTypes("name", "version"));
+        assertNotNull(dummyProvider.deletePolicyType("name", "version"));
 
         assertNotNull(dummyProvider.getPolicies("name", "version"));
         assertNotNull(dummyProvider.createPolicies(new ToscaServiceTemplate()));
         assertNotNull(dummyProvider.updatePolicies(new ToscaServiceTemplate()));
-        assertNotNull(dummyProvider.deletePolicies("name", "version"));
+        assertNotNull(dummyProvider.deletePolicy("name", "version"));
 
         assertNotNull(dummyProvider.getOperationalPolicy("policy_id"));
         assertNotNull(dummyProvider.createOperationalPolicy(new LegacyOperationalPolicy()));
@@ -90,36 +91,11 @@ public class DummyPolicyModelsProviderTest {
         assertNotNull(dummyProvider.updateGuardPolicy(new LegacyGuardPolicyInput()));
         assertNotNull(dummyProvider.deleteGuardPolicy("policy_id"));
 
-        assertNotNull(dummyProvider.getPdpGroups("filter"));
-        assertNotNull(dummyProvider.createPdpGroups(new PdpGroups()));
-        assertNotNull(dummyProvider.updatePdpGroups(new PdpGroups()));
-        assertNotNull(dummyProvider.deletePdpGroups("filter"));
+        assertNull(dummyProvider.getPdpGroups("name", "version"));
+        assertNull(dummyProvider.createPdpGroups(new PdpGroups()));
+        assertNull(dummyProvider.updatePdpGroups(new PdpGroups()));
+        assertNull(dummyProvider.deletePdpGroup("name", "version"));
 
-        assertThatThrownBy(() -> {
-            dummyProvider.getPolicyTypes(null, null);
-        }).hasMessage("name is marked @NonNull but is null");
-        assertThatThrownBy(() -> {
-            dummyProvider.createPolicyTypes(null);
-        }).hasMessage("serviceTemplate is marked @NonNull but is null");
-        assertThatThrownBy(() -> {
-            dummyProvider.updatePolicyTypes(null);
-        }).hasMessage("serviceTemplate is marked @NonNull but is null");
-        assertThatThrownBy(() -> {
-            dummyProvider.deletePolicyTypes(null, null);
-        }).hasMessage("name is marked @NonNull but is null");
-
-        assertThatThrownBy(() -> {
-            dummyProvider.getPolicies(null, null);
-        }).hasMessage("name is marked @NonNull but is null");
-        assertThatThrownBy(() -> {
-            dummyProvider.createPolicies(null);
-        }).hasMessage("serviceTemplate is marked @NonNull but is null");
-        assertThatThrownBy(() -> {
-            dummyProvider.updatePolicies(null);
-        }).hasMessage("serviceTemplate is marked @NonNull but is null");
-        assertThatThrownBy(() -> {
-            dummyProvider.deletePolicies(null, null);
-        }).hasMessage("name is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
             dummyProvider.getOperationalPolicy(null);
@@ -148,17 +124,14 @@ public class DummyPolicyModelsProviderTest {
         }).hasMessage("policyId is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            dummyProvider.getPdpGroups(null);
-        }).hasMessage("pdpGroupFilter is marked @NonNull but is null");
-        assertThatThrownBy(() -> {
             dummyProvider.createPdpGroups(null);
         }).hasMessage("pdpGroups is marked @NonNull but is null");
         assertThatThrownBy(() -> {
             dummyProvider.updatePdpGroups(null);
         }).hasMessage("pdpGroups is marked @NonNull but is null");
         assertThatThrownBy(() -> {
-            dummyProvider.deletePdpGroups(null);
-        }).hasMessage("pdpGroupFilter is marked @NonNull but is null");
+            dummyProvider.deletePdpGroup(null, null);
+        }).hasMessage("name is marked @NonNull but is null");
 
         dummyProvider.close();
     }
