@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "fa0ffa71_e76e89c8",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfNameVersion.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-01T14:28:25Z",
+      "side": 1,
+      "message": "Probably want to add Modifications vs overwrite :) Well actually this is a rename of a package-info.java file to a .java file.",
+      "range": {
+        "startLine": 3,
+        "startChar": 1,
+        "endLine": 3,
+        "endChar": 41
+      },
+      "revId": "2e9186e1eb441b3ec47cf2a959e34b9409134aba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2cc60a5c_21e760f2",
         "filename": "models-base/src/main/java/org/onap/policy/models/base/PfNameVersion.java",
         "patchSetId": 1
