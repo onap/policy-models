@@ -29,7 +29,6 @@ import javax.ws.rs.core.Response;
 
 import lombok.NonNull;
 
-import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.dao.DaoParameters;
@@ -40,12 +39,12 @@ import org.onap.policy.models.pdp.concepts.PdpGroups;
 import org.onap.policy.models.pdp.persistence.provider.PdpProvider;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
+import org.onap.policy.models.tosca.authorative.provider.AuthorativeToscaProvider;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyInput;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyOutput;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
 import org.onap.policy.models.tosca.legacy.provider.LegacyProvider;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
-import org.onap.policy.models.tosca.simple.provider.SimpleToscaProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -138,56 +137,59 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public JpaToscaServiceTemplate getPolicyTypes(@NonNull final PfConceptKey policyTypeKey) throws PfModelException {
-        assertInitilized();
-        return new SimpleToscaProvider().getPolicyTypes(pfDao, policyTypeKey);
-    }
-
-    @Override
-    public JpaToscaServiceTemplate createPolicyTypes(@NonNull final JpaToscaServiceTemplate serviceTemplate)
+    public ToscaServiceTemplate getPolicyTypes(@NonNull final String name, @NonNull final String version)
             throws PfModelException {
         assertInitilized();
-        return new SimpleToscaProvider().createPolicyTypes(pfDao, serviceTemplate);
+        return new AuthorativeToscaProvider().getPolicyTypes(pfDao, name, version);
     }
 
     @Override
-    public JpaToscaServiceTemplate updatePolicyTypes(@NonNull final JpaToscaServiceTemplate serviceTemplate)
+    public ToscaServiceTemplate createPolicyTypes(@NonNull final ToscaServiceTemplate serviceTemplate)
             throws PfModelException {
         assertInitilized();
-        return new SimpleToscaProvider().updatePolicyTypes(pfDao, serviceTemplate);
+        return new AuthorativeToscaProvider().createPolicyTypes(pfDao, serviceTemplate);
     }
 
     @Override
-    public JpaToscaServiceTemplate deletePolicyTypes(@NonNull final PfConceptKey policyTypeKey)
+    public ToscaServiceTemplate updatePolicyTypes(@NonNull final ToscaServiceTemplate serviceTemplate)
             throws PfModelException {
         assertInitilized();
-        return new SimpleToscaProvider().deletePolicyTypes(pfDao, policyTypeKey);
+        return new AuthorativeToscaProvider().updatePolicyTypes(pfDao, serviceTemplate);
     }
 
     @Override
-    public JpaToscaServiceTemplate getPolicies(@NonNull final PfConceptKey policyKey) throws PfModelException {
-        assertInitilized();
-        return new SimpleToscaProvider().getPolicies(pfDao, policyKey);
-    }
-
-    @Override
-    public JpaToscaServiceTemplate createPolicies(@NonNull final JpaToscaServiceTemplate serviceTemplate)
+    public ToscaServiceTemplate deletePolicyTypes(@NonNull final String name, @NonNull final String version)
             throws PfModelException {
         assertInitilized();
-        return new SimpleToscaProvider().createPolicies(pfDao, serviceTemplate);
+        return new AuthorativeToscaProvider().deletePolicyTypes(pfDao, name, version);
     }
 
     @Override
-    public JpaToscaServiceTemplate updatePolicies(@NonNull final JpaToscaServiceTemplate serviceTemplate)
+    public ToscaServiceTemplate getPolicies(@NonNull final String name, @NonNull final String version)
             throws PfModelException {
         assertInitilized();
-        return new SimpleToscaProvider().updatePolicies(pfDao, serviceTemplate);
+        return new AuthorativeToscaProvider().getPolicies(pfDao, name, version);
     }
 
     @Override
-    public JpaToscaServiceTemplate deletePolicies(@NonNull final PfConceptKey policyKey) throws PfModelException {
+    public ToscaServiceTemplate createPolicies(@NonNull final ToscaServiceTemplate serviceTemplate)
+            throws PfModelException {
         assertInitilized();
-        return new SimpleToscaProvider().deletePolicies(pfDao, policyKey);
+        return new AuthorativeToscaProvider().createPolicies(pfDao, serviceTemplate);
+    }
+
+    @Override
+    public ToscaServiceTemplate updatePolicies(@NonNull final ToscaServiceTemplate serviceTemplate)
+            throws PfModelException {
+        assertInitilized();
+        return new AuthorativeToscaProvider().updatePolicies(pfDao, serviceTemplate);
+    }
+
+    @Override
+    public ToscaServiceTemplate deletePolicies(@NonNull final String name, @NonNull final String version)
+            throws PfModelException {
+        assertInitilized();
+        return new AuthorativeToscaProvider().deletePolicies(pfDao, name, version);
     }
 
     @Override

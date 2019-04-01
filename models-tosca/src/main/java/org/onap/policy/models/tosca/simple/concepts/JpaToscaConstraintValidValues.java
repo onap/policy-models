@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,20 +21,17 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
-import com.google.gson.annotations.SerializedName;
-
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.ElementCollection;
-import javax.ws.rs.core.Response;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NonNull;
+import lombok.ToString;
 
-import org.onap.policy.models.base.PfConcept;
-import org.onap.policy.models.base.PfModelRuntimeException;
-import org.onap.policy.models.base.PfReferenceKey;
+import org.onap.policy.models.base.PfUtils;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaConstraint;
 
 /**
  * This class represents valid_values TOSCA constraint.
@@ -41,81 +39,64 @@ import org.onap.policy.models.base.PfReferenceKey;
  * @author Chenfei Gao (cgao@research.att.com)
  */
 @EqualsAndHashCode(callSuper = false)
-@Data
+@ToString
 public class JpaToscaConstraintValidValues extends JpaToscaConstraint {
-    private static final long serialVersionUID = 3152323457560746844L;
+    private static final long serialVersionUID = -5060193250508635456L;
 
-    @SerializedName("valid_values")
-    @NonNull
     @ElementCollection
-    private final List<String> validValues;
+    @NonNull
+    @Getter
+    private List<String> validValues;
 
     /**
-     * The Default Constructor creates a {@link JpaToscaConstraintValidValues} object with a null key.
-     */
-    public JpaToscaConstraintValidValues() {
-        this(new PfReferenceKey());
-    }
-
-    /**
-     * The Key Constructor creates a {@link JpaToscaConstraintValidValues} object with the given concept key.
+     * Constructor to set the valid values.
      *
-     * @param key the key of the constraint
+     * @param validValues the valid values that are allowed
      */
-    public JpaToscaConstraintValidValues(final PfReferenceKey key) {
-        super(key);
-        validValues = new LinkedList<>();
-    }
-
-    /**
-     * The Key Constructor creates a {@link JpaToscaConstraintLogical} object with the given concept key
-     * and valid values list.
-     *
-     * @param key the key of the constraint
-     * @param validValues the valid values list of the constraint
-     *
-     */
-    public JpaToscaConstraintValidValues(final PfReferenceKey key, @NonNull final List<String> validValues) {
-        super(key);
+    public JpaToscaConstraintValidValues(@NonNull final List<String> validValues) {
         this.validValues = validValues;
     }
 
     /**
-     * Copy constructor.
+     * Authorative constructor.
      *
-     * @param copyConcept the concept to copy from
+     * @param authorativeConcept the authorative concept to copy from
      */
-    public JpaToscaConstraintValidValues(@NonNull final JpaToscaConstraintValidValues copyConcept) {
-        throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR, "cannot copy an immutable constraint");
+    public JpaToscaConstraintValidValues(final ToscaConstraint authorativeConcept) {
+        super(authorativeConcept);
     }
 
     @Override
-    public int compareTo(final PfConcept otherConcept) {
-        if (otherConcept == null) {
+    public ToscaConstraint toAuthorative() {
+        ToscaConstraint toscaConstraint = new ToscaConstraint();
+
+        toscaConstraint.setValidValues(validValues);
+
+        return toscaConstraint;
+    }
+
+    @Override
+    public void fromAuthorative(final ToscaConstraint toscaConstraint) {
+        if (toscaConstraint.getValidValues() != null) {
+            validValues = new ArrayList<>();
+            validValues.addAll(toscaConstraint.getValidValues());
+        }
+    }
+
+    @Override
+    public int compareTo(JpaToscaConstraint otherConstraint) {
+        if (otherConstraint == null) {
             return -1;
         }
-        if (this == otherConcept) {
+        if (this == otherConstraint) {
             return 0;
         }
-        if (getClass() != otherConcept.getClass()) {
-            return this.hashCode() - otherConcept.hashCode();
+        if (getClass() != otherConstraint.getClass()) {
+            return this.hashCode() - otherConstraint.hashCode();
         }
 
-        final JpaToscaConstraintValidValues other = (JpaToscaConstraintValidValues) otherConcept;
+        final JpaToscaConstraintValidValues other = (JpaToscaConstraintValidValues) otherConstraint;
 
-        int result = super.compareTo(other);
-        if (result != 0) {
-            return result;
-        }
-
-        if (validValues.equals(other.validValues)) {
-            return 0;
-        }
-        return -1;
-    }
-
-    @Override
-    public PfConcept copyTo(@NonNull final PfConcept target) {
-        throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR, "cannot copy an immutable constraint");
+        return PfUtils.compareObjects(validValues, other.validValues);
     }
 }

@@ -26,23 +26,21 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
 
-import java.io.IOException;
 import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
+import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfValidationResult;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicy;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
-import org.onap.policy.models.tosca.simple.serialization.ToscaServiceTemplateMessageBodyHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
@@ -64,11 +62,11 @@ public class MonitoringPolicySerializationTest {
     private static final String VFW_MON_INPUT_JSON = "policies/vFirewall.policy.monitoring.input.tosca.json";
     private static final String VFW_MON_INPUT_YAML = "policies/vFirewall.policy.monitoring.input.tosca.yaml";
 
-    private Gson gson;
+    private StandardCoder standardCoder;
 
     @Before
     public void setUp() {
-        gson = new ToscaServiceTemplateMessageBodyHandler().getGson();
+        standardCoder = new StandardCoder();
     }
 
     @Test
@@ -93,6 +91,7 @@ public class MonitoringPolicySerializationTest {
             assertTrue(serviceTemplateFromJson.compareTo(serviceTemplateFromYaml) == 0);
 
         } catch (Exception e) {
+            LOGGER.warn("No exception should be thrown", e);
             fail("No exception should be thrown");
         }
     }
@@ -122,11 +121,13 @@ public class MonitoringPolicySerializationTest {
     }
 
     private JpaToscaServiceTemplate deserializeMonitoringInputJson(String resourcePath)
-            throws JsonSyntaxException, IOException {
+            throws Exception {
 
         String policyJson = ResourceUtils.getResourceAsString(resourcePath);
-        JpaToscaServiceTemplate serviceTemplate = gson.fromJson(policyJson, JpaToscaServiceTemplate.class);
-        return serviceTemplate;
+        ToscaServiceTemplate serviceTemplate = standardCoder.decode(policyJson, ToscaServiceTemplate.class);
+        JpaToscaServiceTemplate jpaToscaServiceTemplate = new JpaToscaServiceTemplate();
+        jpaToscaServiceTemplate.fromAuthorative(serviceTemplate);
+        return jpaToscaServiceTemplate;
     }
 
     private JpaToscaServiceTemplate deserializeMonitoringInputYaml(String resourcePath)
@@ -136,12 +137,15 @@ public class MonitoringPolicySerializationTest {
         String policyYaml = ResourceUtils.getResourceAsString(resourcePath);
         Object yamlObject = yaml.load(policyYaml);
         String yamlAsJsonString = new StandardCoder().encode(yamlObject);
-        JpaToscaServiceTemplate serviceTemplate = gson.fromJson(yamlAsJsonString, JpaToscaServiceTemplate.class);
-        return serviceTemplate;
+        ToscaServiceTemplate serviceTemplate = standardCoder.decode(yamlAsJsonString, ToscaServiceTemplate.class);
+
+        JpaToscaServiceTemplate jpaToscaServiceTemplate = new JpaToscaServiceTemplate();
+        jpaToscaServiceTemplate.fromAuthorative(serviceTemplate);
+        return jpaToscaServiceTemplate;
     }
 
-    private String serializeMonitoringServiceTemplate(JpaToscaServiceTemplate serviceTemplate) {
-        return gson.toJson(serviceTemplate);
+    private String serializeMonitoringServiceTemplate(JpaToscaServiceTemplate serviceTemplate) throws CoderException {
+        return standardCoder.encode(serviceTemplate.toAuthorative());
     }
 
     private void verifyVcpeMonitoringInputDeserialization(JpaToscaServiceTemplate serviceTemplate) {

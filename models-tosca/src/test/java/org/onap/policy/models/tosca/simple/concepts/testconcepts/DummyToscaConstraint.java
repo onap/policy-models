@@ -20,10 +20,7 @@
 
 package org.onap.policy.models.tosca.simple.concepts.testconcepts;
 
-import javax.ws.rs.core.Response;
-
-import org.onap.policy.models.base.PfModelRuntimeException;
-import org.onap.policy.models.base.PfReferenceKey;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaConstraint;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaConstraint;
 
 /**
@@ -38,25 +35,14 @@ public class DummyToscaConstraint extends JpaToscaConstraint {
      * The Default Constructor creates a {@link DummyToscaConstraint} object with a null key.
      */
     public DummyToscaConstraint() {
-        super(new PfReferenceKey());
     }
 
-    /**
-     * The Key Constructor creates a {@link DummyToscaConstraint} object with the given concept key.
-     *
-     * @param key the key of the constraint
-     */
-    public DummyToscaConstraint(final PfReferenceKey key) {
-        super(key);
+    @Override
+    public ToscaConstraint toAuthorative() {
+        return null;
     }
 
-    /**
-     * Copy constructor.
-     *
-     * @param copyConcept the concept to copy from
-     */
-    public DummyToscaConstraint(final DummyToscaConstraint copyConcept) {
-        super(copyConcept);
-        throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR, "cannot copy an immutable constraint");
+    @Override
+    public void fromAuthorative(ToscaConstraint authorativeConcept) {
     }
 }

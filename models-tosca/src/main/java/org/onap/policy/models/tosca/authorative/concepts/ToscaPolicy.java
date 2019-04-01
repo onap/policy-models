@@ -3,6 +3,7 @@
  * ONAP Policy Model
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,9 +25,13 @@ package org.onap.policy.models.tosca.authorative.concepts;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.ToString;
 
 /**
  * Class to represent TOSCA policy matching input/output from/to client.
@@ -34,16 +39,13 @@ import lombok.NonNull;
  * @author Chenfei Gao (cgao@research.att.com)
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class ToscaPolicy {
-
+@ToString
+public class ToscaPolicy extends ToscaEntity {
     private String type;
 
-    private String version;
-
-    private String description;
-
-    private Map<String, String> metadata;
+    private String typeVersion;
 
     private Map<String, Object> properties;
 
@@ -53,10 +55,16 @@ public class ToscaPolicy {
      * @param copyObject the obejct to copy from.
      */
     public ToscaPolicy(@NonNull ToscaPolicy copyObject) {
+        super(copyObject);
+
         this.type = copyObject.type;
-        this.version = copyObject.version;
-        this.description = copyObject.description;
-        this.metadata = (metadata != null ? new LinkedHashMap<>(copyObject.metadata) : null);
-        this.properties = (properties != null ? new LinkedHashMap<>(copyObject.properties) : null);
+        this.typeVersion = copyObject.typeVersion;
+
+        if (copyObject.properties != null) {
+            properties = new LinkedHashMap<>();
+            for (final Entry<String, Object> propertyEntry : copyObject.properties.entrySet()) {
+                properties.put(propertyEntry.getKey(), propertyEntry.getValue());
+            }
+        }
     }
 }

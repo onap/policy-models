@@ -33,11 +33,8 @@ import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfValidationResult;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaProperty;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaConstraint;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaConstraintLogical.Operation;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaConstraintLogicalString;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaEntrySchema;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaProperty;
 
 /**
  * DAO test for ToscaProperty.
@@ -101,18 +98,16 @@ public class JpaToscaPropertyTest {
 
         tp.setDefaultValue("defaultKey");
 
-        tp.setStatus(JpaToscaProperty.Status.SUPPORTED);
+        tp.setStatus(ToscaProperty.Status.SUPPORTED);
 
         List<JpaToscaConstraint> constraints = new ArrayList<>();
-        JpaToscaConstraintLogicalString lsc =
-                new JpaToscaConstraintLogicalString(new PfReferenceKey(pkey, "sc"), Operation.EQ, "hello");
+        JpaToscaConstraintLogical lsc = new JpaToscaConstraintLogical(JpaToscaConstraintOperation.EQ, "hello");
         constraints.add(lsc);
         tp.setConstraints(constraints);
         assertEquals(constraints, tp.getConstraints());
 
-        PfReferenceKey esKey = new PfReferenceKey(pkey, "entrySchema");
         PfConceptKey typeKey = new PfConceptKey("type", "0.0.1");
-        JpaToscaEntrySchema tes = new JpaToscaEntrySchema(esKey, typeKey);
+        JpaToscaEntrySchema tes = new JpaToscaEntrySchema(typeKey);
         tp.setEntrySchema(tes);
 
         JpaToscaProperty tdtClone0 = new JpaToscaProperty(tp);
@@ -142,7 +137,7 @@ public class JpaToscaPropertyTest {
         assertFalse(tp.compareTo(otherDt) == 0);
         otherDt.setDefaultValue("defaultKey");
         assertFalse(tp.compareTo(otherDt) == 0);
-        otherDt.setStatus(JpaToscaProperty.Status.SUPPORTED);
+        otherDt.setStatus(ToscaProperty.Status.SUPPORTED);
         assertFalse(tp.compareTo(otherDt) == 0);
         assertFalse(tp.compareTo(otherDt) == 0);
         otherDt.setConstraints(constraints);
@@ -155,9 +150,9 @@ public class JpaToscaPropertyTest {
         otherDt.setRequired(false);
         assertEquals(0, tp.compareTo(otherDt));
 
-        otherDt.setStatus(JpaToscaProperty.Status.UNSUPPORTED);
+        otherDt.setStatus(ToscaProperty.Status.UNSUPPORTED);
         assertFalse(tp.compareTo(otherDt) == 0);
-        otherDt.setStatus(JpaToscaProperty.Status.SUPPORTED);
+        otherDt.setStatus(ToscaProperty.Status.SUPPORTED);
         assertEquals(0, tp.compareTo(otherDt));
 
         try {
@@ -167,7 +162,7 @@ public class JpaToscaPropertyTest {
             assertEquals("target is marked @NonNull but is null", exc.getMessage());
         }
 
-        assertEquals(5, tp.getKeys().size());
+        assertEquals(3, tp.getKeys().size());
         assertEquals(2, new JpaToscaProperty().getKeys().size());
 
         new JpaToscaProperty().clean();

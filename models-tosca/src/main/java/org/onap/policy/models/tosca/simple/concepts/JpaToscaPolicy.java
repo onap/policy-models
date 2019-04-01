@@ -24,6 +24,7 @@
 package org.onap.policy.models.tosca.simple.concepts;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -43,6 +44,7 @@ import lombok.NonNull;
 
 import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.common.utils.validation.ParameterValidationUtils;
+import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
@@ -50,6 +52,7 @@ import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.base.PfValidationMessage;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 
 /**
  * Class to represent the policy in TOSCA definition.
@@ -62,7 +65,7 @@ import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class JpaToscaPolicy extends JpaToscaEntityType {
+public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements PfAuthorative<ToscaPolicy> {
     private static final long serialVersionUID = 3265174757061982805L;
 
     // @formatter:off
@@ -119,6 +122,66 @@ public class JpaToscaPolicy extends JpaToscaEntityType {
         super(copyConcept);
     }
 
+    /**
+     * Authorative constructor.
+     *
+     * @param authorativeConcept the authorative concept to copy from
+     */
+    public JpaToscaPolicy(final ToscaPolicy authorativeConcept) {
+        this.fromAuthorative(authorativeConcept);
+    }
+
+    @Override
+    public ToscaPolicy toAuthorative() {
+        ToscaPolicy toscaPolicy = new ToscaPolicy();
+        super.setToscaEntity(toscaPolicy);
+        super.toAuthorative();
+
+        toscaPolicy.setType(type.getName());
+
+        if (!PfKey.NULL_KEY_VERSION.equals(type.getVersion())) {
+            toscaPolicy.setTypeVersion(type.getVersion());
+        }
+        else {
+            toscaPolicy.setTypeVersion(null);
+        }
+
+        if (properties != null) {
+            Map<String, Object> propertyMap = new LinkedHashMap<>();
+
+            for (Entry<String, String> entry : properties.entrySet()) {
+                propertyMap.put(entry.getKey(), entry.getValue());
+            }
+
+            toscaPolicy.setProperties(propertyMap);
+        }
+
+        return toscaPolicy;
+    }
+
+    @Override
+    public void fromAuthorative(@NonNull final ToscaPolicy toscaPolicy) {
+        super.fromAuthorative(toscaPolicy);
+
+        type.setName(toscaPolicy.getType());
+        type.setVersion(toscaPolicy.getTypeVersion());
+        if (type.getVersion() == null) {
+            type.setVersion(PfKey.NULL_KEY_VERSION);
+        }
+
+        if (toscaPolicy.getProperties() != null) {
+            properties = new LinkedHashMap<>();
+
+            for (Entry<String, Object> propertyEntry : toscaPolicy.getProperties().entrySet()) {
+                // TODO: This is a HACK, we need to validate the properties against their
+                // TODO: their data type in their policy type definition in TOSCA, which means reading
+                // TODO: the policy type from the database and parsing the property value object correctly
+                // TODO: Here we are simply serializing the property value into a string and storing it
+                // TODO: unvalidated into the database
+                properties.put(propertyEntry.getKey(), propertyEntry.getValue().toString());
+            }
+        }
+    }
 
     @Override
     public List<PfKey> getKeys() {

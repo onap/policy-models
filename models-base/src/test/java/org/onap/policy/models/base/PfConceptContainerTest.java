@@ -20,18 +20,23 @@
 
 package org.onap.policy.models.base;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
 import org.junit.Test;
+import org.onap.policy.models.base.testconcepts.DummyAuthorativeConcept;
+import org.onap.policy.models.base.testconcepts.DummyBadPfConceptContainer;
 import org.onap.policy.models.base.testconcepts.DummyPfConcept;
 import org.onap.policy.models.base.testconcepts.DummyPfConceptContainer;
 import org.onap.policy.models.base.testconcepts.DummyPfConceptSub;
@@ -44,7 +49,7 @@ import org.onap.policy.models.base.testconcepts.DummyPfConceptSub;
 public class PfConceptContainerTest {
 
     @Test
-    public void test() {
+    public void testConceptContainer() {
         DummyPfConceptContainer container = new DummyPfConceptContainer();
         assertNotNull(container);
 
@@ -179,16 +184,38 @@ public class PfConceptContainerTest {
         assertEquals(conceptKey, returnSet.iterator().next().getKey());
 
         container.getConceptMap().put(conceptKey, new DummyPfConceptSub(conceptKey));
+    }
 
-        DummyPfConceptContainer exceptionOnCopyContainer = new DummyPfConceptContainer();
-        try {
-            container.copyTo(exceptionOnCopyContainer);
-            fail("test should throw an exception here");
-        } catch (Exception exc) {
-            assertEquals(
-                    "Failed to create a clone of class \"org.onap.policy.models.base.testconcepts.DummyPfConceptSub\"",
-                    exc.getMessage());
-        }
+    @Test
+    public void testAuthorative() {
+        Map<String, DummyAuthorativeConcept> dacMap = new LinkedHashMap<>();
+        dacMap.put("name0", new DummyAuthorativeConcept("name0", "1.2.3", "Hello"));
+        dacMap.put("name1", new DummyAuthorativeConcept("name1", "1.2.3", "Hi"));
+        dacMap.put("name2", new DummyAuthorativeConcept("name2", "1.2.3", "Howdy"));
+
+        List<Map<String, DummyAuthorativeConcept>> authorativeList = new ArrayList<>();
+        authorativeList.add(dacMap);
+
+        DummyPfConceptContainer container = new DummyPfConceptContainer();
+        container.fromAuthorative(authorativeList);
+
+        assertEquals("Hello", container.getConceptMap().get(new PfConceptKey("name0:1.2.3")).getDescription());
+        assertEquals("Hi",    container.getConceptMap().get(new PfConceptKey("name1:1.2.3")).getDescription());
+        assertEquals("Howdy", container.getConceptMap().get(new PfConceptKey("name2:1.2.3")).getDescription());
+
+        List<Map<String, DummyAuthorativeConcept>> outMapList = container.toAuthorative();
+
+        assertEquals(dacMap, outMapList.get(0));
+
+        DummyBadPfConceptContainer badContainer = new DummyBadPfConceptContainer();
+        assertThatThrownBy(() -> {
+            badContainer.fromAuthorative(authorativeList);
+        }).hasMessage("failed to instantiate instance of container concept class");
+
+        authorativeList.clear();
+        assertThatThrownBy(() -> {
+            container.fromAuthorative(authorativeList);
+        }).hasMessage("An incoming list of concepts must have at least one entry");
     }
 
     @Test(expected = NullPointerException.class)

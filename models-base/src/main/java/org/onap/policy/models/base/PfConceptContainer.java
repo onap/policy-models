@@ -20,6 +20,9 @@
 
 package org.onap.policy.models.base;
 
+import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -41,25 +44,26 @@ import lombok.NonNull;
 import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 
+// @formatter:off
 /**
- * This class is a concept container and holds a map of concepts. The {@link PfConceptContainer}
- * class implements the helper methods of the {@link PfConceptGetter} interface to allow
- * {@link PfConceptContainer} instances to be retrieved by calling methods directly on this class
- * without referencing the contained map.
+ * This class is a concept container and holds a map of concepts. The {@link PfConceptContainer} class implements the
+ * helper methods of the {@link PfConceptGetter} interface to allow {@link PfConceptContainer} instances to be retrieved
+ * by calling methods directly on this class without referencing the contained map.
  *
- * <p>Validation checks that the container key is not null. An error is issued if no concepts are
- * defined in the container. Each concept entry is checked to ensure that its key and value are not
- * null and that the key matches the key in the map value. Each concept entry is then validated
- * individually.
+ * <p>Validation checks that a container key is not null. An error is issued if no concepts are defined in a container.
+ * Each concept entry is checked to ensure that its key and value are not null and that the key matches the key in the
+ * map value. Each concept entry is then validated individually.
  *
  * @param C the concept being contained
  */
+//@formatter:on
 @Entity
 @Table(name = "PfConceptContainer")
 @Data
 @EqualsAndHashCode(callSuper = false)
 
-public class PfConceptContainer<C extends PfConcept> extends PfConcept implements PfConceptGetter<C> {
+public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> extends PfConcept
+        implements PfConceptGetter<C>, PfAuthorative<List<Map<String, A>>> {
     private static final long serialVersionUID = -324211738823208318L;
 
     @EmbeddedId
@@ -69,16 +73,16 @@ public class PfConceptContainer<C extends PfConcept> extends PfConcept implement
     private Map<PfConceptKey, C> conceptMap;
 
     /**
-     * The Default Constructor creates a {@link PfConceptContainer} object with a null artifact key
-     * and creates an empty concept map.
+     * The Default Constructor creates a {@link PfConceptContainer} object with a null artifact key and creates an empty
+     * concept map.
      */
     public PfConceptContainer() {
         this(new PfConceptKey());
     }
 
     /**
-     * The Key Constructor creates a {@link PfConceptContainer} object with the given artifact key
-     * and creates an empty concept map.
+     * The Key Constructor creates a {@link PfConceptContainer} object with the given artifact key and creates an empty
+     * concept map.
      *
      * @param key the concept key
      */
@@ -104,7 +108,7 @@ public class PfConceptContainer<C extends PfConcept> extends PfConcept implement
      *
      * @param copyConcept the concept to copy from
      */
-    public PfConceptContainer(@NonNull final PfConceptContainer<C> copyConcept) {
+    public PfConceptContainer(@NonNull final PfConceptContainer<C, A> copyConcept) {
         super(copyConcept);
     }
 
@@ -117,6 +121,65 @@ public class PfConceptContainer<C extends PfConcept> extends PfConcept implement
         }
 
         return keyList;
+    }
+
+    @Override
+    public List<Map<String, A>> toAuthorative() {
+        Map<String, A> toscaPolicyMap = new LinkedHashMap<>();
+
+        for (Entry<PfConceptKey, C> conceptEntry : getConceptMap().entrySet()) {
+            @SuppressWarnings("unchecked")
+            PfAuthorative<A> authoritiveImpl = (PfAuthorative<A>) conceptEntry.getValue();
+            toscaPolicyMap.put(conceptEntry.getKey().getName(), authoritiveImpl.toAuthorative());
+        }
+
+        List<Map<String, A>> toscaPolicyMapList = new ArrayList<>();
+        toscaPolicyMapList.add(toscaPolicyMap);
+
+        return toscaPolicyMapList;
+    }
+
+    @Override
+    public void fromAuthorative(List<Map<String, A>> authorativeList) {
+        // Clear any existing map entries
+        conceptMap.clear();
+
+        // Concepts are in lists of maps
+        for (Map<String, A> incomingConceptMap : authorativeList) {
+            // Add the map entries one by one
+            for (Entry<String, A> incomingConceptEntry : incomingConceptMap.entrySet()) {
+                C jpaConcept = getConceptNewInstance();
+
+                // This cast allows us to call the fromAuthorative method
+                @SuppressWarnings("unchecked")
+                PfAuthorative<A> authoritiveImpl = (PfAuthorative<A>) jpaConcept;
+
+                if (incomingConceptEntry.getValue().getName() == null) {
+                    incomingConceptEntry.getValue().setName(incomingConceptEntry.getKey());
+                }
+
+                // Set the key name and the rest of the values on the concept
+                authoritiveImpl.fromAuthorative(incomingConceptEntry.getValue());
+
+                // This cast gets the key of the concept
+                PfConceptKey conceptKey = (PfConceptKey) jpaConcept.getKey();
+
+                // Set the concept key of the concept
+                conceptKey.setName(incomingConceptEntry.getValue().getName());
+
+                if (incomingConceptEntry.getValue().getVersion() != null) {
+                    conceptKey.setVersion(incomingConceptEntry.getValue().getVersion());
+                }
+
+                // After all that, save the map entry
+                conceptMap.put(conceptKey, jpaConcept);
+            }
+        }
+
+        if (conceptMap.isEmpty()) {
+            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST,
+                    "An incoming list of concepts must have at least one entry");
+        }
     }
 
     @Override
@@ -162,17 +225,19 @@ public class PfConceptContainer<C extends PfConcept> extends PfConcept implement
             if (conceptEntry.getKey().equals(PfConceptKey.getNullKey())) {
                 result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
                         "key on concept entry " + conceptEntry.getKey() + " may not be the null key"));
-            } else if (conceptEntry.getValue() == null) {
-                result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                        "value on concept entry " + conceptEntry.getKey() + " may not be null"));
-            } else if (!conceptEntry.getKey().equals(conceptEntry.getValue().getKey())) {
-                result.addValidationMessage(new PfValidationMessage(key, this.getClass(),
-                        ValidationResult.INVALID, "key on concept entry key " + conceptEntry.getKey()
-                        + " does not equal concept value key " + conceptEntry.getValue().getKey()));
-                result = conceptEntry.getValue().validate(result);
-            } else {
-                result = conceptEntry.getValue().validate(result);
-            }
+            } else
+                if (conceptEntry.getValue() == null) {
+                    result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
+                            "value on concept entry " + conceptEntry.getKey() + " may not be null"));
+                } else
+                    if (!conceptEntry.getKey().equals(conceptEntry.getValue().getKey())) {
+                        result.addValidationMessage(new PfValidationMessage(key, this.getClass(),
+                                ValidationResult.INVALID, "key on concept entry key " + conceptEntry.getKey()
+                                        + " does not equal concept value key " + conceptEntry.getValue().getKey()));
+                        result = conceptEntry.getValue().validate(result);
+                    } else {
+                        result = conceptEntry.getValue().validate(result);
+                    }
         }
         return result;
     }
@@ -190,7 +255,7 @@ public class PfConceptContainer<C extends PfConcept> extends PfConcept implement
         }
 
         @SuppressWarnings("unchecked")
-        final PfConceptContainer<C> other = (PfConceptContainer<C>) otherConcept;
+        final PfConceptContainer<C, A> other = (PfConceptContainer<C, A>) otherConcept;
         int retVal = key.compareTo(other.key);
         if (retVal != 0) {
             return retVal;
@@ -208,12 +273,13 @@ public class PfConceptContainer<C extends PfConcept> extends PfConcept implement
         Assertions.instanceOf(target, PfConceptContainer.class);
 
         @SuppressWarnings("unchecked")
-        final PfConceptContainer<C> copy = (PfConceptContainer<C>) target;
+        final PfConceptContainer<C, A> copy = (PfConceptContainer<C, A>) target;
         copy.setKey(new PfConceptKey(key));
         final Map<PfConceptKey, C> newConceptMap = new TreeMap<>();
         for (final Entry<PfConceptKey, C> conceptMapEntry : conceptMap.entrySet()) {
-            newConceptMap.put(new PfConceptKey(conceptMapEntry.getKey()),
-                    new ConceptCloner().cloneConcept(conceptMapEntry.getValue()));
+            C newC = getConceptNewInstance();
+            conceptMapEntry.getValue().copyTo(newC);
+            newConceptMap.put(new PfConceptKey(conceptMapEntry.getKey()), newC);
         }
         copy.setConceptMap(newConceptMap);
 
@@ -248,21 +314,19 @@ public class PfConceptContainer<C extends PfConcept> extends PfConcept implement
     }
 
     /**
-     * Private inner class that returns a clone of a concept by calling the copy constructor on the
-     * original class.
+     * Get a new empty instance of a concept for this concept map.
+     *
+     * @return the new instance
      */
-    private class ConceptCloner {
-        @SuppressWarnings("unchecked")
-        public C cloneConcept(final C originalConcept) {
-            try {
-                C clonedConcept = (C) originalConcept.getClass().newInstance();
-                originalConcept.copyTo(clonedConcept);
-                return clonedConcept;
-            } catch (Exception ex) {
-                throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR,
-                        "Failed to create a clone of class \"" + originalConcept.getClass().getCanonicalName() + "\"",
-                        ex);
-            }
+    @SuppressWarnings("unchecked")
+    private C getConceptNewInstance() {
+        try {
+            String conceptClassName =
+                    ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0].getTypeName();
+            return (C) Class.forName(conceptClassName).newInstance();
+        } catch (Exception ex) {
+            throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR,
+                    "failed to instantiate instance of container concept class", ex);
         }
     }
 }

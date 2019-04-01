@@ -33,8 +33,6 @@ import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfValidationResult;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaConstraintLogical.Operation;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaConstraintLogicalString;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaEventFilter;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaTimeInterval;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaTrigger;
@@ -128,8 +126,7 @@ public class JpaToscaTriggerTest {
                 new JpaToscaEventFilter(new PfReferenceKey(tkey, "filter"), new PfConceptKey("NodeName", "0.0.1"));
         tdt.setTargetFilter(targetFilter);
 
-        JpaToscaConstraintLogicalString lsc =
-                new JpaToscaConstraintLogicalString(new PfReferenceKey(tkey, "sc"), Operation.EQ, "hello");
+        JpaToscaConstraintLogical lsc = new JpaToscaConstraintLogical(JpaToscaConstraintOperation.EQ, "hello");
         tdt.setCondition(lsc);
         assertEquals(lsc, tdt.getCondition());
         tdt.setConstraint(lsc);
@@ -194,7 +191,7 @@ public class JpaToscaTriggerTest {
             assertEquals("target is marked @NonNull but is null", exc.getMessage());
         }
 
-        assertEquals(6, tdt.getKeys().size());
+        assertEquals(4, tdt.getKeys().size());
         assertEquals(1, new JpaToscaTrigger().getKeys().size());
 
         new JpaToscaTrigger().clean();

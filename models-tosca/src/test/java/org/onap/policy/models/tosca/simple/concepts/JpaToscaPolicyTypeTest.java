@@ -28,6 +28,7 @@ import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,6 +36,7 @@ import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfValidationResult;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaEntityType;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyType;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaProperty;
@@ -46,7 +48,6 @@ import org.onap.policy.models.tosca.simple.concepts.JpaToscaTrigger;
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 public class JpaToscaPolicyTypeTest {
-
     @Test
     public void testPolicyTypePojo() {
         assertNotNull(new JpaToscaPolicyType());
@@ -81,9 +82,9 @@ public class JpaToscaPolicyTypeTest {
         tpt.setDescription("A Description");
 
         PfConceptKey propTypeKey = new PfConceptKey("propType", "0.0.1");
-        List<JpaToscaProperty> properties = new ArrayList<>();
+        Map<String, JpaToscaProperty> properties = new LinkedHashMap<>();
         JpaToscaProperty tp = new JpaToscaProperty(new PfReferenceKey(ptKey, "aProp"), propTypeKey);
-        properties.add(tp);
+        properties.put(tp.getKey().getLocalName(), tp);
         tpt.setProperties(properties);
         assertEquals(properties, tpt.getProperties());
 
@@ -148,7 +149,7 @@ public class JpaToscaPolicyTypeTest {
         assertFalse(new JpaToscaPolicyType().validate(new PfValidationResult()).isValid());
         assertTrue(tpt.validate(new PfValidationResult()).isValid());
 
-        tpt.getProperties().add(null);
+        tpt.getProperties().put(null, null);
         assertFalse(tpt.validate(new PfValidationResult()).isValid());
         tpt.getProperties().remove(null);
         assertTrue(tpt.validate(new PfValidationResult()).isValid());
@@ -191,20 +192,20 @@ public class JpaToscaPolicyTypeTest {
         }
 
         try {
-            new JpaToscaEntityType((PfConceptKey) null);
+            new JpaToscaEntityType<ToscaPolicy>((PfConceptKey) null);
             fail("test should throw an exception");
         } catch (Exception exc) {
             assertEquals("key is marked @NonNull but is null", exc.getMessage());
         }
 
         try {
-            new JpaToscaEntityType((JpaToscaEntityType) null);
+            new JpaToscaEntityType<ToscaPolicy>((JpaToscaEntityType<ToscaPolicy>) null);
             fail("test should throw an exception");
         } catch (Exception exc) {
             assertEquals("copyConcept is marked @NonNull but is null", exc.getMessage());
         }
 
-        JpaToscaEntityType tet = new JpaToscaEntityType(tpt.getKey());
+        JpaToscaEntityType<ToscaPolicy> tet = new JpaToscaEntityType<ToscaPolicy>(tpt.getKey());
         assertEquals(-1, tet.compareTo(null));
         assertEquals(0, tet.compareTo(tet));
         assertFalse(tet.compareTo(tet.getKey()) == 0);

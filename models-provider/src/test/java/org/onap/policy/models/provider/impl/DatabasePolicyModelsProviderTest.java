@@ -28,14 +28,13 @@ import java.util.Base64;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.pdp.concepts.PdpGroups;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderFactory;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyInput;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -120,9 +119,16 @@ public class DatabasePolicyModelsProviderTest {
         databaseProvider.init();
 
         assertThatThrownBy(() -> {
-            databaseProvider.getPolicyTypes(null);
-        }).hasMessage("policyTypeKey is marked @NonNull but is null");
+            databaseProvider.getPolicyTypes(null, null);
+        }).hasMessage("name is marked @NonNull but is null");
 
+        assertThatThrownBy(() -> {
+            databaseProvider.getPolicyTypes("aaa", null);
+        }).hasMessage("version is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            databaseProvider.getPolicyTypes(null, "aaa");
+        }).hasMessage("name is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
             databaseProvider.createPolicyTypes(null);
@@ -133,12 +139,28 @@ public class DatabasePolicyModelsProviderTest {
         }).hasMessage("serviceTemplate is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.deletePolicyTypes(null);
-        }).hasMessage("policyTypeKey is marked @NonNull but is null");
+            databaseProvider.deletePolicyTypes(null, null);
+        }).hasMessage("name is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.getPolicies(null);
-        }).hasMessage("policyKey is marked @NonNull but is null");
+            databaseProvider.deletePolicyTypes("aaa", null);
+        }).hasMessage("version is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            databaseProvider.deletePolicyTypes(null, "aaa");
+        }).hasMessage("name is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            databaseProvider.getPolicies(null, null);
+        }).hasMessage("name is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            databaseProvider.getPolicies(null, "aaa");
+        }).hasMessage("name is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            databaseProvider.getPolicies("aaa", null);
+        }).hasMessage("version is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
             databaseProvider.createPolicies(null);
@@ -149,8 +171,16 @@ public class DatabasePolicyModelsProviderTest {
         }).hasMessage("serviceTemplate is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.deletePolicies(null);
-        }).hasMessage("policyKey is marked @NonNull but is null");
+            databaseProvider.deletePolicies(null, null);
+        }).hasMessage("name is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            databaseProvider.deletePolicies(null, "aaa");
+        }).hasMessage("name is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            databaseProvider.deletePolicies("aaa", null);
+        }).hasMessage("version is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
             databaseProvider.getOperationalPolicy(null);
@@ -210,7 +240,7 @@ public class DatabasePolicyModelsProviderTest {
                 new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
         assertThatThrownBy(() -> {
-            databaseProvider.getPolicyTypes(new PfConceptKey());
+            databaseProvider.getPolicyTypes("name", "version");
         }).hasMessage("policy models provider is not initilaized");
     }
 
@@ -221,36 +251,36 @@ public class DatabasePolicyModelsProviderTest {
             databaseProvider.init();
 
             assertThatThrownBy(() -> {
-                databaseProvider.getPolicyTypes(new PfConceptKey());
-            }).hasMessage("policy type not found: NULL:0.0.0");
+                databaseProvider.getPolicyTypes("name", "version");
+            }).hasMessage("policy type not found: name:version");
 
             assertThatThrownBy(() -> {
-                databaseProvider.createPolicyTypes(new JpaToscaServiceTemplate());
+                databaseProvider.createPolicyTypes(new ToscaServiceTemplate());
             }).hasMessage("no policy types specified on service template");
 
             assertThatThrownBy(() -> {
-                databaseProvider.updatePolicyTypes(new JpaToscaServiceTemplate());
+                databaseProvider.updatePolicyTypes(new ToscaServiceTemplate());
             }).hasMessage("no policy types specified on service template");
 
             assertThatThrownBy(() -> {
-                databaseProvider.deletePolicyTypes(new PfConceptKey());
-            }).hasMessage("policy type not found: NULL:0.0.0");
+                databaseProvider.deletePolicyTypes("name", "version");
+            }).hasMessage("policy type not found: name:version");
 
             assertThatThrownBy(() -> {
-                databaseProvider.getPolicies(new PfConceptKey());
-            }).hasMessage("policy not found: NULL:0.0.0");
+                databaseProvider.getPolicies("name", "version");
+            }).hasMessage("policy not found: name:version");
 
             assertThatThrownBy(() -> {
-                databaseProvider.createPolicies(new JpaToscaServiceTemplate());
+                databaseProvider.createPolicies(new ToscaServiceTemplate());
             }).hasMessage("topology template not specified on service template");
 
             assertThatThrownBy(() -> {
-                databaseProvider.updatePolicies(new JpaToscaServiceTemplate());
+                databaseProvider.updatePolicies(new ToscaServiceTemplate());
             }).hasMessage("topology template not specified on service template");
 
             assertThatThrownBy(() -> {
-                databaseProvider.deletePolicies(new PfConceptKey());
-            }).hasMessage("policy not found: NULL:0.0.0");
+                databaseProvider.deletePolicies("name", "version");
+            }).hasMessage("policy not found: name:version");
 
             assertThatThrownBy(() -> {
                 databaseProvider.getOperationalPolicy("policy_id");

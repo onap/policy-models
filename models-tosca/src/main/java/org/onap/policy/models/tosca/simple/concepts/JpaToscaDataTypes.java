@@ -20,6 +20,7 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -33,6 +34,7 @@ import lombok.EqualsAndHashCode;
 
 import org.onap.policy.models.base.PfConceptContainer;
 import org.onap.policy.models.base.PfConceptKey;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaDataType;
 
 /**
  * This class is a container for TOSCA data types.
@@ -44,23 +46,23 @@ import org.onap.policy.models.base.PfConceptKey;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class JpaToscaDataTypes extends PfConceptContainer<JpaToscaDataType> {
+public class JpaToscaDataTypes extends PfConceptContainer<JpaToscaDataType, ToscaDataType> {
     private static final long serialVersionUID = 2941102271022190348L;
 
     public static final String DEFAULT_NAME = "ToscaDataTypesSimple";
     public static final String DEFAULT_VERSION = "1.0.0";
 
     /**
-     * The Default Constructor creates a {@link JpaToscaDataTypes} object with a null artifact key
-     * and creates an empty concept map.
+     * The Default Constructor creates a {@link JpaToscaDataTypes} object with a null artifact key and creates an empty
+     * concept map.
      */
     public JpaToscaDataTypes() {
         super(new PfConceptKey(DEFAULT_NAME, DEFAULT_VERSION));
     }
 
     /**
-     * The Key Constructor creates a {@link JpaToscaDataTypes} object with the given artifact key
-     * and creates an empty concept map.
+     * The Key Constructor creates a {@link JpaToscaDataTypes} object with the given artifact key and creates an empty
+     * concept map.
      *
      * @param key the concept key
      */
@@ -85,5 +87,14 @@ public class JpaToscaDataTypes extends PfConceptContainer<JpaToscaDataType> {
      */
     public JpaToscaDataTypes(final JpaToscaDataTypes copyConcept) {
         super(copyConcept);
+    }
+
+    /**
+     * Authorative constructor.
+     *
+     * @param authorativeConceptMapList the authorative concept to copy from
+     */
+    public JpaToscaDataTypes(final List<Map<String, ToscaDataType>> authorativeConceptMapList) {
+        this.fromAuthorative(authorativeConceptMapList);
     }
 }

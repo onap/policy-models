@@ -18,33 +18,39 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.models.provider.impl;
+package org.onap.policy.models.base.testconcepts;
 
 import lombok.NonNull;
 
-import org.onap.policy.models.provider.PolicyModelsProviderParameters;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
+import org.onap.policy.models.base.PfConceptKey;
 
 /**
- * Sub class to check getDummyResponse() method in base class.
+ * Bad dummy concept throws exception on default constructor.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class DummyPolicyModelsProviderSubImpl extends DummyPolicyModelsProviderImpl {
+public class DummyBadPfConcept extends DummyPfConcept {
+    private static final long serialVersionUID = 1L;
+
+    public DummyBadPfConcept() {
+        throw new NumberFormatException();
+    }
+
     /**
-     * Constructor.
+     * The Key Constructor creates a {@link DummyPfConcept} object with the given concept key.
      *
-     * @param parameters the parameters
+     * @param key the key
      */
-    public DummyPolicyModelsProviderSubImpl(@NonNull PolicyModelsProviderParameters parameters) {
-        super(parameters);
+    public DummyBadPfConcept(@NonNull final PfConceptKey key) {
+        throw new NumberFormatException();
     }
 
-    public ToscaServiceTemplate getBadDummyResponse1() {
-        return super.getDummyResponse("/i/dont/exist");
-    }
-
-    public ToscaServiceTemplate getBadDummyResponse2() {
-        return super.getDummyResponse(null);
+    /**
+     * Copy constructor.
+     *
+     * @param copyConcept the concept to copy from
+     */
+    public DummyBadPfConcept(final DummyBadPfConcept copyConcept) {
+        throw new NumberFormatException();
     }
 }

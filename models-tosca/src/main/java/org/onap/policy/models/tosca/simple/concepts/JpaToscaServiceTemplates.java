@@ -20,6 +20,7 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -33,6 +34,7 @@ import lombok.EqualsAndHashCode;
 
 import org.onap.policy.models.base.PfConceptContainer;
 import org.onap.policy.models.base.PfConceptKey;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 
 /**
  * This class is a container for TOSCA service templates.
@@ -44,7 +46,7 @@ import org.onap.policy.models.base.PfConceptKey;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class JpaToscaServiceTemplates extends PfConceptContainer<JpaToscaServiceTemplate> {
+public class JpaToscaServiceTemplates extends PfConceptContainer<JpaToscaServiceTemplate, ToscaServiceTemplate> {
     private static final long serialVersionUID = -3053257884307604114L;
 
     /**
@@ -83,5 +85,14 @@ public class JpaToscaServiceTemplates extends PfConceptContainer<JpaToscaService
      */
     public JpaToscaServiceTemplates(final JpaToscaServiceTemplates copyConcept) {
         super(copyConcept);
+    }
+
+    /**
+     * Authorative constructor.
+     *
+     * @param authorativeConceptMapList the authorative concept to copy from
+     */
+    public JpaToscaServiceTemplates(final List<Map<String, ToscaServiceTemplate>> authorativeConceptMapList) {
+        this.fromAuthorative(authorativeConceptMapList);
     }
 }

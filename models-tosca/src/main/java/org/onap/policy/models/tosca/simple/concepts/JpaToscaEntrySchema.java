@@ -23,31 +23,29 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Table;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.onap.policy.common.utils.validation.Assertions;
-import org.onap.policy.models.base.PfConcept;
+import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
-import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.base.PfValidationMessage;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaConstraint;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaEntrySchema;
 
 
 /**
@@ -56,16 +54,12 @@ import org.onap.policy.models.base.PfValidationResult.ValidationResult;
  * @author Chenfei Gao (cgao@research.att.com)
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-@Entity
-@Table(name = "ToscaEntrySchema")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class JpaToscaEntrySchema extends PfConcept {
+@NoArgsConstructor
+public class JpaToscaEntrySchema
+        implements PfAuthorative<ToscaEntrySchema>, Serializable, Comparable<JpaToscaEntrySchema> {
     private static final long serialVersionUID = 3645882081163287058L;
-
-    @EmbeddedId
-    private PfReferenceKey key;
 
     @Column
     private PfConceptKey type;
@@ -77,29 +71,11 @@ public class JpaToscaEntrySchema extends PfConcept {
     private List<JpaToscaConstraint> constraints;
 
     /**
-     * The Default Constructor creates a {@link JpaToscaEntrySchema} object with a null key.
-     */
-    public JpaToscaEntrySchema() {
-        this(new PfReferenceKey());
-    }
-
-    /**
-     * The Key Constructor creates a {@link JpaToscaEntrySchema} object with the given concept key.
-     *
-     * @param key the key
-     */
-    public JpaToscaEntrySchema(@NonNull final PfReferenceKey key) {
-        this(key, new PfConceptKey());
-    }
-
-    /**
      * The full constructor creates a {@link JpaToscaEntrySchema} object with mandatory fields.
      *
-     * @param key the key
      * @param type the type of the entry schema
      */
-    public JpaToscaEntrySchema(@NonNull final PfReferenceKey key, @NonNull final PfConceptKey type) {
-        this.key = key;
+    public JpaToscaEntrySchema(@NonNull final PfConceptKey type) {
         this.type = type;
     }
 
@@ -108,68 +84,95 @@ public class JpaToscaEntrySchema extends PfConcept {
      *
      * @param copyConcept the concept to copy from
      */
-    public JpaToscaEntrySchema(final JpaToscaEntrySchema copyConcept) {
-        super(copyConcept);
+    public JpaToscaEntrySchema(@NonNull final JpaToscaEntrySchema copyConcept) {
+        copyConcept.copyTo(this);
+    }
+
+    /**
+     * Authorative constructor.
+     *
+     * @param authorativeConcept the authorative concept to copy from
+     */
+    public JpaToscaEntrySchema(final ToscaEntrySchema authorativeConcept) {
+        this.fromAuthorative(authorativeConcept);
     }
 
     @Override
-    public List<PfKey> getKeys() {
-        final List<PfKey> keyList = getKey().getKeys();
+    public ToscaEntrySchema toAuthorative() {
+        ToscaEntrySchema toscaEntrySchema = new ToscaEntrySchema();
 
-        keyList.addAll(type.getKeys());
+        toscaEntrySchema.setType(type.getName());
+        toscaEntrySchema.setTypeVersion(type.getVersion());
+
+        toscaEntrySchema.setDescription(description);
 
         if (constraints != null) {
+            List<ToscaConstraint> toscaConstraints = new ArrayList<>();
+
             for (JpaToscaConstraint constraint : constraints) {
-                keyList.addAll(constraint.getKeys());
+                toscaConstraints.add(constraint.toAuthorative());
             }
+
+            toscaEntrySchema.setConstraints(toscaConstraints);
         }
 
-        return keyList;
+        return toscaEntrySchema;
     }
 
     @Override
-    public void clean() {
-        key.clean();
+    public void fromAuthorative(final ToscaEntrySchema toscaEntrySchema) {
+        if (toscaEntrySchema.getTypeVersion() != null) {
+            type = new PfConceptKey(toscaEntrySchema.getType(), toscaEntrySchema.getTypeVersion());
+        } else {
+            type = new PfConceptKey(toscaEntrySchema.getType(), PfKey.NULL_KEY_VERSION);
+        }
 
+        description = toscaEntrySchema.getDescription();
+
+        if (toscaEntrySchema.getConstraints() != null) {
+            constraints = new ArrayList<>();
+
+            for (ToscaConstraint toscaConstraint : toscaEntrySchema.getConstraints()) {
+                constraints.add(JpaToscaConstraint.newInstance(toscaConstraint));
+            }
+        }
+    }
+
+    public List<PfKey> getKeys() {
+        return type.getKeys();
+    }
+
+    public void clean() {
         type.clean();
         description = (description != null ? description.trim() : null);
-
-        if (constraints != null) {
-            for (JpaToscaConstraint constraint : constraints) {
-                constraint.clean();
-            }
-        }
     }
 
-    @Override
+    /**
+     * Validate the entry schema.
+     *
+     * @param resultIn the incoming result
+     * @return the ooutput result witht he result of this validation
+     */
     public PfValidationResult validate(@NonNull final PfValidationResult resultIn) {
         PfValidationResult result = resultIn;
 
-        if (key.isNullKey()) {
-            result.addValidationMessage(
-                    new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID, "key is a null key"));
-        }
-
-        result = key.validate(result);
-
         if (type == null || type.isNullKey()) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "entry schema type may not be null"));
+            result.addValidationMessage(new PfValidationMessage(new PfConceptKey("EntrySchema", PfKey.NULL_KEY_VERSION),
+                    this.getClass(), ValidationResult.INVALID, "entry schema type may not be null"));
         }
 
         if (description != null && description.trim().length() == 0) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "entry schema description may not be blank"));
+            result.addValidationMessage(new PfValidationMessage(new PfConceptKey("EntrySchema", PfKey.NULL_KEY_VERSION),
+                    this.getClass(), ValidationResult.INVALID, "entry schema description may not be blank"));
         }
 
 
         if (constraints != null) {
             for (JpaToscaConstraint constraint : constraints) {
                 if (constraint == null) {
-                    result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                            "property constraint may not be null "));
-                } else {
-                    result = constraint.validate(result);
+                    result.addValidationMessage(
+                            new PfValidationMessage(new PfConceptKey("EntrySchema", PfKey.NULL_KEY_VERSION),
+                                    this.getClass(), ValidationResult.INVALID, "property constraint may not be null "));
                 }
             }
         }
@@ -178,24 +181,12 @@ public class JpaToscaEntrySchema extends PfConcept {
     }
 
     @Override
-    public int compareTo(final PfConcept otherConcept) {
-        if (otherConcept == null) {
+    public int compareTo(final JpaToscaEntrySchema other) {
+        if (other == null) {
             return -1;
         }
-        if (this == otherConcept) {
+        if (this == other) {
             return 0;
-        }
-        if (getClass() != otherConcept.getClass()) {
-            return this.hashCode() - otherConcept.hashCode();
-        }
-
-        final JpaToscaEntrySchema other = (JpaToscaEntrySchema) otherConcept;
-        if (!key.equals(other.key)) {
-            return key.compareTo(other.key);
-        }
-
-        if (!type.equals(other.type)) {
-            return type.compareTo(other.type);
         }
 
         int result = ObjectUtils.compare(description, other.description);
@@ -206,12 +197,16 @@ public class JpaToscaEntrySchema extends PfConcept {
         return PfUtils.compareObjects(constraints, other.constraints);
     }
 
-    @Override
-    public PfConcept copyTo(@NonNull final PfConcept target) {
+    /**
+     * Copy this entry schema to another.
+     *
+     * @param target the other schemaa
+     * @return the copied concept
+     */
+    public JpaToscaEntrySchema copyTo(@NonNull final JpaToscaEntrySchema target) {
         Assertions.instanceOf(target, JpaToscaEntrySchema.class);
 
-        final JpaToscaEntrySchema copy = ((JpaToscaEntrySchema) target);
-        copy.setKey(new PfReferenceKey(key));
+        final JpaToscaEntrySchema copy = (target);
         copy.setType(new PfConceptKey(type));
         copy.setDescription(description);
 
