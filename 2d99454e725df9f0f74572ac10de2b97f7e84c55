@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "849a0bbd_04994c24",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-01T14:25:25Z",
+      "side": 1,
+      "message": "Wait a minute - we don\u0027t want this repo dependent on drools-applications. Hopefully this is just temporary while moving the code???",
+      "range": {
+        "startLine": 43,
+        "startChar": 1,
+        "endLine": 43,
+        "endChar": 95
+      },
+      "revId": "2d99454e725df9f0f74572ac10de2b97f7e84c55",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
