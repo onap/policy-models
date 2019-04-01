@@ -2,6 +2,74 @@
   "comments": [
     {
       "key": {
+        "uuid": "d4c66d3f_87e7958b",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-01T23:50:09Z",
+      "side": 1,
+      "message": "note: pdpType may be null",
+      "revId": "0664ecd9f945ffa27126707db144e91156313ba1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b150ec4_049436bd",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-01T23:50:09Z",
+      "side": 1,
+      "message": "note: pdpType may be null",
+      "revId": "0664ecd9f945ffa27126707db144e91156313ba1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b99b17be_7ee1f7b3",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/impl/DatabasePolicyModelsProviderImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-01T23:50:09Z",
+      "side": 1,
+      "message": "suggestion: for consistency (and ease of use) change return type to List\u003cToscaPolicyType\u003e",
+      "revId": "0664ecd9f945ffa27126707db144e91156313ba1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "906cec7c_952b39b3",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/impl/DatabasePolicyModelsProviderImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-01T23:50:09Z",
+      "side": 1,
+      "message": "suggestion: for consistency (and ease of use) change return type to List\u003cToscaPolicy\u003e\n\nsame comment for other getPolicyXxx() methods",
+      "revId": "0664ecd9f945ffa27126707db144e91156313ba1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fbaddcc2_c997d3ec",
         "filename": "models-provider/src/main/java/org/onap/policy/models/provider/impl/DatabasePolicyModelsProviderImpl.java",
         "patchSetId": 1
@@ -19,6 +87,23 @@
         "endLine": 204,
         "endChar": 91
       },
+      "revId": "0664ecd9f945ffa27126707db144e91156313ba1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1b21b01_99cd6f88",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/impl/DatabasePolicyModelsProviderImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-01T23:50:09Z",
+      "side": 1,
+      "message": "personally, I\u0027d rather use List\u003cPdpGroup\u003e through-out, rather than PdpGroups, but this will work as is",
       "revId": "0664ecd9f945ffa27126707db144e91156313ba1",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
