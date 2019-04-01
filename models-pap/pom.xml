@@ -34,7 +34,7 @@
     <dependencies>
         <dependency>
             <groupId>org.onap.policy.models</groupId>
-            <artifactId>models-pdp</artifactId>
+            <artifactId>policy-models-pdp</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
