@@ -28,8 +28,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.Test;
-import org.onap.policy.models.base.PfConceptKey;
-import org.onap.policy.models.tosca.simple.concepts.ToscaPolicy;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 
 /**
  * Test the copy constructor, as {@link TestModels} tests the other methods.
@@ -54,20 +53,24 @@ public class TestPdpUpdate {
         orig.setPdpType("my-type");
 
         ToscaPolicy policy1 = new ToscaPolicy();
-        policy1.setKey(new PfConceptKey("policy-a", "1.2.3"));
+        policy1.setName("policy-a");
+        policy1.setVersion("1.2.3");
 
         ToscaPolicy policy2 = new ToscaPolicy();
-        policy2.setKey(new PfConceptKey("policy-b", "4.5.6"));
+        policy2.setName("policy-b");
+        policy2.setVersion("4.5.6");
 
         List<ToscaPolicy> policies = Arrays.asList(policy1, policy2);
         orig.setPolicies(policies);
 
         PdpUpdate other = new PdpUpdate(orig);
 
-        assertEquals("PdpUpdate(name=my-name, pdpType=my-type, description=my-description, pdpGroup=my-group, "
-                        + "pdpSubgroup=my-subgroup, policies=["
-                        + "ToscaPolicy(type=PfConceptKey(name=NULL, version=0.0.0), properties=null, targets=null), "
-                        + "ToscaPolicy(type=PfConceptKey(name=NULL, version=0.0.0), properties=null, targets=null)])",
+        assertEquals("PdpUpdate(name=my-name, pdpType=my-type, description=my-description, "
+                        + "pdpGroup=my-group, pdpSubgroup=my-subgroup, policies=["
+                        + "ToscaPolicy(super=ToscaEntity(name=policy-a, version=1.2.3, derivedFrom=null, "
+                        + "metadata=null, description=null), type=null, typeVersion=null, properties=null), "
+                        + "ToscaPolicy(super=ToscaEntity(name=policy-b, version=4.5.6, derivedFrom=null, "
+                        + "metadata=null, description=null), type=null, typeVersion=null, properties=null)])",
                         other.toString());
 
         // ensure list and items are not the same object

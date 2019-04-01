@@ -62,6 +62,7 @@ public class ToscaEntity implements PfNameVersion {
         this.name = copyObject.name;
         this.version = copyObject.version;
         this.derivedFrom = copyObject.derivedFrom;
+        this.description = copyObject.description;
 
         if (copyObject.metadata != null) {
             metadata = new LinkedHashMap<>();
