@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "40ef6193_1f513dc8",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 805
+      },
+      "writtenOn": "2019-04-02T19:48:33Z",
+      "side": 1,
+      "message": "Thank you for this.. this will be very helpful for the PDPs.  How is the value provided? Do I need a property for this on the PDP or is the PAP going to decide the interval?",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 40
+      },
+      "revId": "563ba59d9fb967681216eda454b0be9a3f13607d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
