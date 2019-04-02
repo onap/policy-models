@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3e10c2ec_b64b3637",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-02T23:14:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8da8ffed_92e1280f",
+      "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de1262e1_401b716b",
         "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdp.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2019-04-02T21:32:11Z",
       "side": 1,
       "message": "message",
+      "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcd8196a_2fcbc8ce",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-02T23:14:52Z",
+      "side": 1,
+      "message": "Message is optional so it can be null.",
+      "parentUuid": "de1262e1_401b716b",
       "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "e9a6ee3a_29700c18",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-02T23:14:52Z",
+      "side": 1,
+      "message": "This is because the key is actually set in the \"parent\" of this class, in JpaPdpSubGroup. It sets the parent key of the reference key to be itself. So we don\u0027t want to overwrite it if its set.\n\nHave a look at fromAuthorative() in PdpSubGroup.",
+      "parentUuid": "a13d0ee4_140caabc",
+      "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8bc5f1b0_ab1ad147",
         "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdp.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2019-04-02T21:32:11Z",
       "side": 1,
       "message": "sonar: use isEmpty()\n\nbetter yet: StringUtils.isBlank()",
+      "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1524bb1b_abfd4162",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-02T23:14:52Z",
+      "side": 1,
+      "message": "Nice! Done!",
+      "parentUuid": "8bc5f1b0_ab1ad147",
       "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "d653048a_7bafa6fb",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-02T23:14:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bca37267_55274c0d",
+      "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07183228_7ae6b3e9",
         "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpGroup.java",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2019-04-02T21:32:11Z",
       "side": 1,
       "message": "same comment as before",
+      "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d1a251dc_d5f27088",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-02T23:14:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07183228_7ae6b3e9",
       "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "e0a2f846_f1b47982",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-02T23:14:52Z",
+      "side": 1,
+      "message": "Cool idea.",
+      "parentUuid": "dfb1f966_2c9e9a7f",
+      "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5638ee20_6215accb",
         "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpSubGroup.java",
         "patchSetId": 1
@@ -132,6 +258,24 @@
       "writtenOn": "2019-04-02T21:32:11Z",
       "side": 1,
       "message": "suggestion: () \u003d\u003e (0).  If these are immutable, then use Collections.emptyList() instead",
+      "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "20bce63b_cd275ef0",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpSubGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-02T23:14:52Z",
+      "side": 1,
+      "message": "They can be changed, the JPA may fill the, so I\u0027d prefer not to.",
+      "parentUuid": "5638ee20_6215accb",
       "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "b4fb2cb0_72ee43cb",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpSubGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-02T23:14:52Z",
+      "side": 1,
+      "message": "Yes, the PfConcept copy constructor calls the copyTo() method of the PfConcept subclass:\n\n    /**\n     * Copy constructor.\n     *\n     * @param copyConcept the concept to copy from\n     */\n    public PfConcept(@NonNull final PfConcept copyConcept) {\n        copyConcept.copyTo(this);\n    }",
+      "parentUuid": "ca37ffbd_6b06a855",
+      "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2044c9d0_86a6704d",
         "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpSubGroup.java",
         "patchSetId": 1
@@ -166,6 +328,24 @@
       "writtenOn": "2019-04-02T21:32:11Z",
       "side": 1,
       "message": "don\u0027t we need other policy fields?",
+      "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d85375f_3391c447",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpSubGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-02T23:14:52Z",
+      "side": 1,
+      "message": "No, we just use the name/version. This is what I explained to Ram this morning, in the JPA concept we have a key to an existing policy, we should not load the policy into the DB using the PDP group.",
+      "parentUuid": "2044c9d0_86a6704d",
       "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "7f2a6e8e_b276d646",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-02T23:14:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c35588_3822139d",
+      "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "749a8cb9_4c4523e6",
         "filename": "models-pdp/src/test/resources/META-INF/persistence.xml",
         "patchSetId": 1
@@ -200,6 +398,24 @@
       "writtenOn": "2019-04-02T21:32:11Z",
       "side": 1,
       "message": "JpaToscaPolicyType?",
+      "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc243c70_9ad4e995",
+        "filename": "models-pdp/src/test/resources/META-INF/persistence.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-02T23:14:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "749a8cb9_4c4523e6",
       "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -240,6 +456,24 @@
     },
     {
       "key": {
+        "uuid": "b667bdd6_712e1d40",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-02T23:14:52Z",
+      "side": 1,
+      "message": "You\u0027re welcome!",
+      "parentUuid": "8114848f_bf1031c2",
+      "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "288e67d9_d5b09ff7",
         "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProvider.java",
         "patchSetId": 1
@@ -251,6 +485,24 @@
       "writtenOn": "2019-04-02T21:32:11Z",
       "side": 1,
       "message": "note: this returns both active and inactive groups",
+      "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64fdadd1_91d3348c",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-02T23:14:52Z",
+      "side": 1,
+      "message": "Comment added, will be implemented this way.",
+      "parentUuid": "288e67d9_d5b09ff7",
       "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -274,6 +526,24 @@
     },
     {
       "key": {
+        "uuid": "9c0ba3ce_f414ab6f",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-02T23:14:52Z",
+      "side": 1,
+      "message": "Comment added, will be implemented in this way.",
+      "parentUuid": "e2d641dd_3c4ffc01",
+      "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "73bfbfd0_5d5eebeb",
         "filename": "models-provider/src/main/java/org/onap/policy/models/provider/impl/DatabasePolicyModelsProviderImpl.java",
         "patchSetId": 1
@@ -291,6 +561,24 @@
     },
     {
       "key": {
+        "uuid": "ee6eae98_61d9edab",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/impl/DatabasePolicyModelsProviderImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-02T23:14:52Z",
+      "side": 1,
+      "message": "Let me think about this, I may have to test a few scenarios. let\u0027s write a Jira on it.",
+      "parentUuid": "73bfbfd0_5d5eebeb",
+      "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d0ac538_20943360",
         "filename": "models-provider/src/test/resources/META-INF/persistence.xml",
         "patchSetId": 1
@@ -302,6 +590,24 @@
       "writtenOn": "2019-04-02T21:32:11Z",
       "side": 1,
       "message": "JpaToscaPolicyType?",
+      "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc9e80d1_fcf4ffb5",
+        "filename": "models-provider/src/test/resources/META-INF/persistence.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-02T23:14:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d0ac538_20943360",
       "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
