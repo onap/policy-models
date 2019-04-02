@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "ba39ae06_8328e21c",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-04-02T20:38:40Z",
+      "side": 1,
+      "message": "hmm, i think it is different. What we want initially is, given a policy ID/name, I want to retrieve its deployed version in each pdp group if it has multiple versions",
+      "parentUuid": "e3f9354b_42607ec3",
+      "range": {
+        "startLine": 174,
+        "startChar": 28,
+        "endLine": 174,
+        "endChar": 74
+      },
+      "revId": "0664ecd9f945ffa27126707db144e91156313ba1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b150ec4_049436bd",
         "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProvider.java",
         "patchSetId": 1
@@ -195,6 +219,24 @@
       "side": 1,
       "message": "The next method below gives you that.It\u0027s the same implementation, Chenfei wants a different return type.",
       "parentUuid": "b99b17be_7ee1f7b3",
+      "revId": "0664ecd9f945ffa27126707db144e91156313ba1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a57d57a_e4f634b5",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/impl/DatabasePolicyModelsProviderImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-04-02T20:38:40Z",
+      "side": 1,
+      "message": "thanks!",
+      "parentUuid": "eb97743c_4c213375",
       "revId": "0664ecd9f945ffa27126707db144e91156313ba1",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
