@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3b734186_9493f527",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-02T18:31:02Z",
+      "side": 1,
+      "message": "OK will fix.",
+      "parentUuid": "d4c66d3f_87e7958b",
+      "revId": "0664ecd9f945ffa27126707db144e91156313ba1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "057189d0_f13413dd",
         "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpProvider.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2019-04-02T10:43:03Z",
       "side": 1,
       "message": "Is it name of the PdpGroup instead?",
+      "range": {
+        "startLine": 174,
+        "startChar": 28,
+        "endLine": 174,
+        "endChar": 74
+      },
+      "revId": "0664ecd9f945ffa27126707db144e91156313ba1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3f9354b_42607ec3",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-02T18:31:02Z",
+      "side": 1,
+      "message": "It\u0027s a type but it should be the policy type, Chenfei needs this one.\n\nIt gets all the deployed policies for a policy type.",
+      "parentUuid": "057189d0_f13413dd",
       "range": {
         "startLine": 174,
         "startChar": 28,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "b61af933_8c5b1c8c",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-02T18:31:02Z",
+      "side": 1,
+      "message": "OK, will fix.",
+      "parentUuid": "9b150ec4_049436bd",
+      "revId": "0664ecd9f945ffa27126707db144e91156313ba1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa3e3c03_97e389f6",
         "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProvider.java",
         "patchSetId": 1
@@ -70,6 +130,30 @@
       "writtenOn": "2019-04-02T10:43:03Z",
       "side": 1,
       "message": "Same comment",
+      "range": {
+        "startLine": 374,
+        "startChar": 19,
+        "endLine": 374,
+        "endChar": 74
+      },
+      "revId": "0664ecd9f945ffa27126707db144e91156313ba1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa7d25bc_7a0c4b39",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-02T18:31:02Z",
+      "side": 1,
+      "message": "Sane answer ;-)",
+      "parentUuid": "aa3e3c03_97e389f6",
       "range": {
         "startLine": 374,
         "startChar": 19,
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "eb97743c_4c213375",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/impl/DatabasePolicyModelsProviderImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-02T18:31:02Z",
+      "side": 1,
+      "message": "The next method below gives you that.It\u0027s the same implementation, Chenfei wants a different return type.",
+      "parentUuid": "b99b17be_7ee1f7b3",
+      "revId": "0664ecd9f945ffa27126707db144e91156313ba1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "906cec7c_952b39b3",
         "filename": "models-provider/src/main/java/org/onap/policy/models/provider/impl/DatabasePolicyModelsProviderImpl.java",
         "patchSetId": 1
@@ -110,6 +212,24 @@
       "writtenOn": "2019-04-01T23:50:09Z",
       "side": 1,
       "message": "suggestion: for consistency (and ease of use) change return type to List\u003cToscaPolicy\u003e\n\nsame comment for other getPolicyXxx() methods",
+      "revId": "0664ecd9f945ffa27126707db144e91156313ba1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0c5755c9_8148bbf1",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/impl/DatabasePolicyModelsProviderImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-02T18:31:02Z",
+      "side": 1,
+      "message": "There are generally two methods that return the same information as a service template and as a list.",
+      "parentUuid": "906cec7c_952b39b3",
       "revId": "0664ecd9f945ffa27126707db144e91156313ba1",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -139,6 +259,30 @@
     },
     {
       "key": {
+        "uuid": "5e62dd60_b26013b2",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/impl/DatabasePolicyModelsProviderImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-02T18:31:02Z",
+      "side": 1,
+      "message": "I\u0027ll change this one to add a version that can be null.",
+      "parentUuid": "fbaddcc2_c997d3ec",
+      "range": {
+        "startLine": 204,
+        "startChar": 11,
+        "endLine": 204,
+        "endChar": 91
+      },
+      "revId": "0664ecd9f945ffa27126707db144e91156313ba1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c1b21b01_99cd6f88",
         "filename": "models-provider/src/main/java/org/onap/policy/models/provider/impl/DatabasePolicyModelsProviderImpl.java",
         "patchSetId": 1
@@ -156,6 +300,24 @@
     },
     {
       "key": {
+        "uuid": "356d2766_f3f774b3",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/impl/DatabasePolicyModelsProviderImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-02T18:31:02Z",
+      "side": 1,
+      "message": "OK I\u0027ll eliminate PdpGroups class.",
+      "parentUuid": "c1b21b01_99cd6f88",
+      "revId": "0664ecd9f945ffa27126707db144e91156313ba1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b40ceec4_43bfbf45",
         "filename": "models-provider/src/main/java/org/onap/policy/models/provider/impl/DatabasePolicyModelsProviderImpl.java",
         "patchSetId": 1
@@ -167,6 +329,30 @@
       "writtenOn": "2019-04-01T23:08:26Z",
       "side": 1,
       "message": "Can we change this to String pdpGroupName? I don\u0027t know how pdpGroup will be presented as Map key in json returning to client",
+      "range": {
+        "startLine": 355,
+        "startChar": 15,
+        "endLine": 355,
+        "endChar": 23
+      },
+      "revId": "0664ecd9f945ffa27126707db144e91156313ba1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ce8a8eb_58fdd298",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/impl/DatabasePolicyModelsProviderImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-02T18:31:02Z",
+      "side": 1,
+      "message": "I\u0027ll change it to a pair PdpgroupName/Version",
+      "parentUuid": "b40ceec4_43bfbf45",
       "range": {
         "startLine": 355,
         "startChar": 15,
@@ -202,6 +388,30 @@
     },
     {
       "key": {
+        "uuid": "d683ced3_f7fad15c",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-02T18:31:02Z",
+      "side": 1,
+      "message": "If you set name as null you get everything, if you name as something and version as null, you get everything for that version",
+      "parentUuid": "d4d0120c_793db5ca",
+      "range": {
+        "startLine": 55,
+        "startChar": 78,
+        "endLine": 55,
+        "endChar": 91
+      },
+      "revId": "0664ecd9f945ffa27126707db144e91156313ba1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c419705e_8d3a582d",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProvider.java",
         "patchSetId": 1
@@ -225,6 +435,30 @@
     },
     {
       "key": {
+        "uuid": "53c60b01_c2d0195c",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-02T18:31:02Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "c419705e_8d3a582d",
+      "range": {
+        "startLine": 82,
+        "startChar": 8,
+        "endLine": 82,
+        "endChar": 20
+      },
+      "revId": "0664ecd9f945ffa27126707db144e91156313ba1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e1b3f8b_54a1da90",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProvider.java",
         "patchSetId": 1
@@ -236,6 +470,30 @@
       "writtenOn": "2019-04-01T21:23:51Z",
       "side": 1,
       "message": "same. Can wildcard work in this way?",
+      "range": {
+        "startLine": 155,
+        "startChar": 75,
+        "endLine": 155,
+        "endChar": 88
+      },
+      "revId": "0664ecd9f945ffa27126707db144e91156313ba1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0262db06_81c4318c",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-02T18:31:02Z",
+      "side": 1,
+      "message": "Yes",
+      "parentUuid": "9e1b3f8b_54a1da90",
       "range": {
         "startLine": 155,
         "startChar": 75,
