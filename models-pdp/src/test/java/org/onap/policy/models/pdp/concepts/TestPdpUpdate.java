@@ -42,14 +42,15 @@ public class TestPdpUpdate {
         PdpUpdate orig = new PdpUpdate();
 
         // verify with null values
-        assertEquals("PdpUpdate(name=null, description=null, pdpGroup=null, "
-                        + "pdpSubgroup=null, policies=null)", new PdpUpdate(orig).toString());
+        assertEquals("PdpUpdate(name=null, description=null, pdpGroup=null, pdpSubgroup=null, "
+                        + "pdpHeartbeatIntervalMs=0, policies=null)", new PdpUpdate(orig).toString());
 
         // verify with all values
         orig.setDescription("my-description");
         orig.setName("my-name");
         orig.setPdpGroup("my-group");
         orig.setPdpSubgroup("my-subgroup");
+        orig.setPdpHeartbeatIntervalMs(30000);
 
         ToscaPolicy policy1 = new ToscaPolicy();
         policy1.setName("policy-a");
@@ -65,7 +66,7 @@ public class TestPdpUpdate {
         PdpUpdate other = new PdpUpdate(orig);
 
         assertEquals("PdpUpdate(name=my-name, description=my-description, "
-                        + "pdpGroup=my-group, pdpSubgroup=my-subgroup, policies=["
+                        + "pdpGroup=my-group, pdpSubgroup=my-subgroup, pdpHeartbeatIntervalMs=30000, policies=["
                         + "ToscaPolicy(super=ToscaEntity(name=policy-a, version=1.2.3, derivedFrom=null, "
                         + "metadata=null, description=null), type=null, typeVersion=null, properties=null), "
                         + "ToscaPolicy(super=ToscaEntity(name=policy-b, version=4.5.6, derivedFrom=null, "

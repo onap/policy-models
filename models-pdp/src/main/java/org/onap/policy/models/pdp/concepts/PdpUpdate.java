@@ -43,6 +43,7 @@ public class PdpUpdate extends PdpMessage {
     private String description;
     private String pdpGroup;
     private String pdpSubgroup;
+    private long pdpHeartbeatIntervalMs;
     private List<ToscaPolicy> policies;
 
     /**
@@ -65,6 +66,7 @@ public class PdpUpdate extends PdpMessage {
         this.description = source.description;
         this.pdpGroup = source.pdpGroup;
         this.pdpSubgroup = source.pdpSubgroup;
+        this.pdpHeartbeatIntervalMs = source.pdpHeartbeatIntervalMs;
         this.policies = (source.policies == null ? null
                         : source.policies.stream().map(ToscaPolicy::new).collect(Collectors.toList()));
     }
