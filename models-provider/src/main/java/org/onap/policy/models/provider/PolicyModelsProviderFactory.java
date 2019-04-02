@@ -66,8 +66,12 @@ public class PolicyModelsProviderFactory {
         }
 
         try {
-            return (PolicyModelsProvider) implementationClass.getConstructor(PolicyModelsProviderParameters.class)
-                    .newInstance(parameters);
+            PolicyModelsProvider provider = (PolicyModelsProvider) implementationClass
+                    .getConstructor(PolicyModelsProviderParameters.class).newInstance(parameters);
+
+            provider.init();
+
+            return provider;
         } catch (Exception exc) {
             String errorMessage =
                     "could not create an instance of PolicyModelsProvider \"" + parameters.getImplementation() + "\"";

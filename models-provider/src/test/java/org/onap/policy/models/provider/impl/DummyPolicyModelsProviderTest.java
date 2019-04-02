@@ -24,10 +24,12 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
+
 import org.junit.Test;
-import org.onap.policy.models.pdp.concepts.PdpGroups;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderFactory;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
@@ -91,9 +93,9 @@ public class DummyPolicyModelsProviderTest {
         assertNotNull(dummyProvider.updateGuardPolicy(new LegacyGuardPolicyInput()));
         assertNotNull(dummyProvider.deleteGuardPolicy("policy_id"));
 
-        assertNull(dummyProvider.getPdpGroups("name", "version"));
-        assertNull(dummyProvider.createPdpGroups(new PdpGroups()));
-        assertNull(dummyProvider.updatePdpGroups(new PdpGroups()));
+        assertTrue(dummyProvider.getPdpGroups("name", "version").isEmpty());
+        assertTrue(dummyProvider.createPdpGroups(new ArrayList<>()).isEmpty());
+        assertTrue(dummyProvider.updatePdpGroups(new ArrayList<>()).isEmpty());
         assertNull(dummyProvider.deletePdpGroup("name", "version"));
 
 

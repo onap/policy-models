@@ -21,20 +21,28 @@
 package org.onap.policy.models.pdp.persistence.provider;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.core.Response;
+
 import lombok.NonNull;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
+import org.onap.policy.models.base.PfModelRuntimeException;
+import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.dao.PfDao;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
-import org.onap.policy.models.pdp.concepts.PdpGroups;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
+import org.onap.policy.models.pdp.persistence.concepts.JpaPdpGroup;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class provides the provision of information on PAP concepts in the database to callers.
@@ -42,6 +50,8 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 public class PdpProvider {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PdpProvider.class);
+
     /**
      * Get PDP groups.
      *
@@ -51,9 +61,19 @@ public class PdpProvider {
      * @return the PDP groups found
      * @throws PfModelException on errors getting PDP groups
      */
-    public PdpGroups getPdpGroups(@NonNull final PfDao dao, final String name, final String version)
+    public List<PdpGroup> getPdpGroups(@NonNull final PfDao dao, final String name, final String version)
             throws PfModelException {
-        return new PdpGroups();
+
+        PfConceptKey jpaPdpGroupKey = new PfConceptKey(name, version);
+        JpaPdpGroup jpaPdpGroup = dao.get(JpaPdpGroup.class, jpaPdpGroupKey);
+
+        if (jpaPdpGroup != null) {
+            return Collections.singletonList(jpaPdpGroup.toAuthorative());
+        } else {
+            String errorMessage = "PDP group not found: " + jpaPdpGroupKey.getId();
+            LOGGER.warn(errorMessage);
+            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
+        }
     }
 
     /**
@@ -64,21 +84,21 @@ public class PdpProvider {
      * @return the PDP groups found
      * @throws PfModelException on errors getting policies
      */
-    public PdpGroups getLatestPdpGroups(@NonNull final PfDao dao, final String name) throws PfModelException {
-        return new PdpGroups();
+    public List<PdpGroup> getLatestPdpGroups(@NonNull final PfDao dao, final String name) throws PfModelException {
+        return new ArrayList<>();
     }
 
     /**
      * Get a filtered list of PDP groups.
      *
      * @param dao the DAO to use to access the database
-     * @param pdpType The PDP type filter for the returned PDP groups
+     * @param pdpType The PDP type filter for the returned PDP groups, null to get policy types across PDP subgroups
      * @param supportedPolicyTypes a list of policy type name/version pairs that the PDP groups must support.
      * @return the PDP groups found
      */
-    public PdpGroups getFilteredPdpGroups(@NonNull final PfDao dao, @NonNull final String pdpType,
+    public List<PdpGroup> getFilteredPdpGroups(@NonNull final PfDao dao, final String pdpType,
             @NonNull final List<Pair<String, String>> supportedPolicyTypes) {
-        return new PdpGroups();
+        return new ArrayList<>();
     }
 
     /**
@@ -89,9 +109,33 @@ public class PdpProvider {
      * @return the PDP groups created
      * @throws PfModelException on errors creating PDP groups
      */
-    public PdpGroups createPdpGroups(@NonNull final PfDao dao, @NonNull final PdpGroups pdpGroups)
+    public List<PdpGroup> createPdpGroups(@NonNull final PfDao dao, @NonNull final List<PdpGroup> pdpGroups)
             throws PfModelException {
-        return new PdpGroups();
+
+        for (PdpGroup pdpGroup : pdpGroups) {
+            JpaPdpGroup jpaPdpGroup = new JpaPdpGroup();;
+            jpaPdpGroup.fromAuthorative(pdpGroup);
+
+            PfValidationResult validationResult = jpaPdpGroup.validate(new PfValidationResult());
+            if (!validationResult.isOk()) {
+                String errorMessage = "pdp group \"" + jpaPdpGroup.getId() + "\" is not valid \n" + validationResult;
+                LOGGER.warn(errorMessage);
+                throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
+            }
+
+            dao.create(jpaPdpGroup);
+        }
+
+        // Return the created PDP groups
+        List<PdpGroup> returnPdpGroups = new ArrayList<>();
+
+        for (PdpGroup pdpGroup : pdpGroups) {
+            JpaPdpGroup jpaPdpGroup =
+                    dao.get(JpaPdpGroup.class, new PfConceptKey(pdpGroup.getName(), pdpGroup.getVersion()));
+            returnPdpGroups.add(jpaPdpGroup.toAuthorative());
+        }
+
+        return returnPdpGroups;
     }
 
     /**
@@ -102,9 +146,9 @@ public class PdpProvider {
      * @return the PDP groups updated
      * @throws PfModelException on errors updating PDP groups
      */
-    public PdpGroups updatePdpGroups(@NonNull final PfDao dao, @NonNull final PdpGroups pdpGroups)
+    public List<PdpGroup> updatePdpGroups(@NonNull final PfDao dao, @NonNull final List<PdpGroup> pdpGroups)
             throws PfModelException {
-        return new PdpGroups();
+        return new ArrayList<>();
     }
 
 
@@ -163,7 +207,7 @@ public class PdpProvider {
      */
     public void updatePdpStatistics(@NonNull final PfDao dao, @NonNull final String pdpGroupName,
             @NonNull final String pdpGroupVersion, @NonNull final String pdpType, @NonNull final String pdpInstanceId,
-            @NonNull final PdpStatistics pdppStatistics)  throws PfModelException {
+            @NonNull final PdpStatistics pdppStatistics) throws PfModelException {
         // Not implemented yet
     }
 
@@ -171,12 +215,12 @@ public class PdpProvider {
      * Get deployed policies.
      *
      * @param dao the DAO to use to access the database
-     * @param name the name of the policy to get, null to get all policies
-     * @return the policies deployed as a map of policy lists keyed by PDP group
+     * @param name the name of the policy to get deployed policies for, null to get all deployed policies
+     * @return the policies deployed as a map of policy lists keyed by PDP group name and version
      * @throws PfModelException on errors getting policies
      */
-    public Map<PdpGroup, List<ToscaPolicy>> getDeployedPolicyList(@NonNull final PfDao dao, final String name)
-            throws PfModelException {
+    public Map<Pair<String, String>, List<ToscaPolicy>> getDeployedPolicyList(@NonNull final PfDao dao,
+            final String name) throws PfModelException {
         return new LinkedHashMap<>();
     }
 }

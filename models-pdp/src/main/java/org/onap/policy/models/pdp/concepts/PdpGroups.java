@@ -20,7 +20,11 @@
 
 package org.onap.policy.models.pdp.concepts;
 
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -34,4 +38,17 @@ import lombok.ToString;
 @ToString
 public class PdpGroups {
     private List<PdpGroup> groups;
+
+    /**
+     * Get the contents of this class as a list of PDP group maps.
+     * @return the PDP groups in a list of maps
+     */
+    public List<Map<String, PdpGroup>> toMapList() {
+        final Map<String, PdpGroup> pdpGroupMap = new LinkedHashMap<>();
+        for (PdpGroup pdpGroup : groups) {
+            pdpGroupMap.put(pdpGroup.getName() + ':' + pdpGroup.getVersion() , pdpGroup);
+        }
+
+        return Collections.singletonList(pdpGroupMap);
+    }
 }

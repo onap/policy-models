@@ -31,7 +31,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
-import org.onap.policy.models.pdp.concepts.PdpGroups;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.provider.PolicyModelsProvider;
@@ -53,7 +52,7 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public void close() throws Exception {}
+    public void close() throws PfModelException {}
 
     @Override
     public void init() throws PfModelException {}
@@ -86,14 +85,12 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public ToscaServiceTemplate createPolicies(@NonNull ToscaServiceTemplate serviceTemplate)
-            throws PfModelException {
+    public ToscaServiceTemplate createPolicies(@NonNull ToscaServiceTemplate serviceTemplate) throws PfModelException {
         return null;
     }
 
     @Override
-    public ToscaServiceTemplate updatePolicies(@NonNull ToscaServiceTemplate serviceTemplate)
-            throws PfModelException {
+    public ToscaServiceTemplate updatePolicies(@NonNull ToscaServiceTemplate serviceTemplate) throws PfModelException {
         return null;
     }
 
@@ -147,17 +144,17 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public PdpGroups getPdpGroups(String name, String version) throws PfModelException {
+    public List<PdpGroup> getPdpGroups(String name, String version) throws PfModelException {
         return null;
     }
 
     @Override
-    public PdpGroups createPdpGroups(@NonNull PdpGroups pdpGroups) throws PfModelException {
+    public List<PdpGroup> createPdpGroups(@NonNull List<PdpGroup> pdpGroups) throws PfModelException {
         return null;
     }
 
     @Override
-    public PdpGroups updatePdpGroups(@NonNull PdpGroups pdpGroups) throws PfModelException {
+    public List<PdpGroup> updatePdpGroups(@NonNull List<PdpGroup> pdpGroups) throws PfModelException {
         return null;
     }
 
@@ -187,7 +184,8 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public List<ToscaPolicy> getPolicyList4PolicyType(@NonNull String policyTypeName) throws PfModelException {
+    public List<ToscaPolicy> getPolicyList4PolicyType(@NonNull String policyTypeName, final String policyTypeVersion)
+            throws PfModelException {
         return null;
     }
 
@@ -202,20 +200,19 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public PdpGroups getLatestPdpGroups(String name) throws PfModelException {
+    public List<PdpGroup> getLatestPdpGroups(String name) throws PfModelException {
         return null;
     }
 
     @Override
-    public PdpGroups getFilteredPdpGroups(@NonNull String pdpType,
+    public List<PdpGroup> getFilteredPdpGroups(@NonNull String pdpType,
             @NonNull List<Pair<String, String>> supportedPolicyTypes) {
         return null;
     }
 
     @Override
     public void updatePdpSubGroup(@NonNull String pdpGroupName, @NonNull String pdpGroupVersion,
-            @NonNull PdpSubGroup pdpSubGroup) throws PfModelException {
-    }
+            @NonNull PdpSubGroup pdpSubGroup) throws PfModelException {}
 
     @Override
     public List<PdpStatistics> getPdpStatistics(String name, String version) throws PfModelException {
@@ -224,11 +221,10 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
 
     @Override
     public void updatePdpStatistics(@NonNull String pdpGroupName, @NonNull String pdpGroupVersion,
-            @NonNull String pdpType, @NonNull String pdpInstanceId, @NonNull PdpStatistics pdppStatistics) {
-    }
+            @NonNull String pdpType, @NonNull String pdpInstanceId, @NonNull PdpStatistics pdppStatistics) {}
 
     @Override
-    public Map<PdpGroup, List<ToscaPolicy>> getDeployedPolicyList(String name) throws PfModelException {
+    public Map<Pair<String, String>, List<ToscaPolicy>> getDeployedPolicyList(String name) throws PfModelException {
         return null;
     }
 }

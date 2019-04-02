@@ -27,6 +27,8 @@ import java.util.Map;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import org.onap.policy.models.base.PfNameVersion;
 import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.pdp.enums.PdpState;
 
@@ -38,7 +40,7 @@ import org.onap.policy.models.pdp.enums.PdpState;
  */
 @Data
 @NoArgsConstructor
-public class PdpGroup {
+public class PdpGroup implements PfNameVersion {
     private String name;
     private String version;
     private String description;
