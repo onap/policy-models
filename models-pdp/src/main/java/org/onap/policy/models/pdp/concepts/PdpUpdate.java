@@ -40,7 +40,6 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 public class PdpUpdate extends PdpMessage {
 
     private String name;
-    private String pdpType;
     private String description;
     private String pdpGroup;
     private String pdpSubgroup;
@@ -63,7 +62,6 @@ public class PdpUpdate extends PdpMessage {
         super(PdpMessageType.PDP_UPDATE);
 
         this.name = source.name;
-        this.pdpType = source.pdpType;
         this.description = source.description;
         this.pdpGroup = source.pdpGroup;
         this.pdpSubgroup = source.pdpSubgroup;
