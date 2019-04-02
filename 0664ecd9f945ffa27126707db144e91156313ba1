@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "057189d0_f13413dd",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-04-02T10:43:03Z",
+      "side": 1,
+      "message": "Is it name of the PdpGroup instead?",
+      "range": {
+        "startLine": 174,
+        "startChar": 28,
+        "endLine": 174,
+        "endChar": 74
+      },
+      "revId": "0664ecd9f945ffa27126707db144e91156313ba1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b150ec4_049436bd",
         "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProvider.java",
         "patchSetId": 1
@@ -30,6 +53,29 @@
       "writtenOn": "2019-04-01T23:50:09Z",
       "side": 1,
       "message": "note: pdpType may be null",
+      "revId": "0664ecd9f945ffa27126707db144e91156313ba1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa3e3c03_97e389f6",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-04-02T10:43:03Z",
+      "side": 1,
+      "message": "Same comment",
+      "range": {
+        "startLine": 374,
+        "startChar": 19,
+        "endLine": 374,
+        "endChar": 74
+      },
       "revId": "0664ecd9f945ffa27126707db144e91156313ba1",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
