@@ -1,0 +1,310 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8da8ffed_92e1280f",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-02T21:32:11Z",
+      "side": 1,
+      "message": "suggestion: could use Collections.singletonList() and do all the remaining lines in a single statement",
+      "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de1262e1_401b716b",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-02T21:32:11Z",
+      "side": 1,
+      "message": "message",
+      "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a13d0ee4_140caabc",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-02T21:32:11Z",
+      "side": 1,
+      "message": "so we don\u0027t overwrite the key if it has already been set?  Or should we throw an exception?",
+      "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bc5f1b0_ab1ad147",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-02T21:32:11Z",
+      "side": 1,
+      "message": "sonar: use isEmpty()\n\nbetter yet: StringUtils.isBlank()",
+      "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bca37267_55274c0d",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-02T21:32:11Z",
+      "side": 1,
+      "message": "sonar: () \u003d\u003e (size)\nbetter yet: use mapList()\n\nsame comment elsewhere",
+      "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07183228_7ae6b3e9",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-02T21:32:11Z",
+      "side": 1,
+      "message": "same comment as before",
+      "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dfb1f966_2c9e9a7f",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-02T21:32:11Z",
+      "side": 1,
+      "message": "rather than keep using hashCode with each new class, perhaps use this instead:\n  return getClass().getCanonicalName().compareTo(...)",
+      "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5638ee20_6215accb",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpSubGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-02T21:32:11Z",
+      "side": 1,
+      "message": "suggestion: () \u003d\u003e (0).  If these are immutable, then use Collections.emptyList() instead",
+      "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca37ffbd_6b06a855",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpSubGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-02T21:32:11Z",
+      "side": 1,
+      "message": "does this copy all of the fields?",
+      "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2044c9d0_86a6704d",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpSubGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-02T21:32:11Z",
+      "side": 1,
+      "message": "don\u0027t we need other policy fields?",
+      "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c35588_3822139d",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-02T21:32:11Z",
+      "side": 1,
+      "message": "or just: return Collections.singleton(...)",
+      "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "749a8cb9_4c4523e6",
+        "filename": "models-pdp/src/test/resources/META-INF/persistence.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-02T21:32:11Z",
+      "side": 1,
+      "message": "JpaToscaPolicyType?",
+      "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e98ecb92_358e5840",
+        "filename": "models-pdp/src/test/resources/testdata/PdpGroups0.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-02T21:32:11Z",
+      "side": 1,
+      "message": "tabs \u003d\u003e spaces",
+      "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8114848f_bf1031c2",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-02T21:32:11Z",
+      "side": 1,
+      "message": "thank-you!",
+      "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "288e67d9_d5b09ff7",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-02T21:32:11Z",
+      "side": 1,
+      "message": "note: this returns both active and inactive groups",
+      "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2d641dd_3c4ffc01",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-02T21:32:11Z",
+      "side": 1,
+      "message": "note: this returns only active groups (if otherwise, PAP deploy code must change)",
+      "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73bfbfd0_5d5eebeb",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/impl/DatabasePolicyModelsProviderImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-02T21:32:11Z",
+      "side": 1,
+      "message": "might this throw an exception, in which case connection may be left open?",
+      "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d0ac538_20943360",
+        "filename": "models-provider/src/test/resources/META-INF/persistence.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-02T21:32:11Z",
+      "side": 1,
+      "message": "JpaToscaPolicyType?",
+      "revId": "a51b6380d8fcc143d6cba775a121764b498ecdeb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
