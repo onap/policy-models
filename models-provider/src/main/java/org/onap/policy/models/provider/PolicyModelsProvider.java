@@ -28,7 +28,6 @@ import lombok.NonNull;
 import org.apache.commons.lang3.tuple.Pair;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
-import org.onap.policy.models.pdp.concepts.PdpGroups;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
@@ -51,6 +50,9 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * @throws PfModelException on errors opening the models provider
      */
     public void init() throws PfModelException;
+
+    @Override
+    public void close() throws PfModelException;
 
     /**
      * Get policy types.
@@ -145,10 +147,13 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * Get policies for a policy type name.
      *
      * @param policyTypeName the name of the policy type for which to get policies
+     * @param policyTypeVersion the version of the policy type, null returns all versions of deployed policies for
+     *        policy types
      * @return the policies found
      * @throws PfModelException on errors getting policies
      */
-    public List<ToscaPolicy> getPolicyList4PolicyType(@NonNull final String policyTypeName) throws PfModelException;
+    public List<ToscaPolicy> getPolicyList4PolicyType(@NonNull final String policyTypeName,
+            final String policyTypeVersion) throws PfModelException;
 
     /**
      * Get latest policies.
@@ -284,7 +289,7 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * @return the PDP groups found
      * @throws PfModelException on errors getting PDP groups
      */
-    public PdpGroups getPdpGroups(final String name, final String version) throws PfModelException;
+    public List<PdpGroup> getPdpGroups(final String name, final String version) throws PfModelException;
 
     /**
      * Get latest PDP Groups.
@@ -293,16 +298,16 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * @return the PDP groups found
      * @throws PfModelException on errors getting policies
      */
-    public PdpGroups getLatestPdpGroups(final String name) throws PfModelException;
+    public List<PdpGroup> getLatestPdpGroups(final String name) throws PfModelException;
 
     /**
      * Get a filtered list of PDP groups.
      *
-     * @param pdpType The PDP type filter for the returned PDP groups
+     * @param pdpType The PDP type filter for the returned PDP groups, null to get policy types across PDP subgroups
      * @param supportedPolicyTypes a list of policy type name/version pairs that the PDP groups must support.
      * @return the PDP groups found
      */
-    public PdpGroups getFilteredPdpGroups(@NonNull final String pdpType,
+    public List<PdpGroup> getFilteredPdpGroups(final String pdpType,
             @NonNull final List<Pair<String, String>> supportedPolicyTypes);
 
     /**
@@ -312,7 +317,7 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * @return the PDP groups created
      * @throws PfModelException on errors creating PDP groups
      */
-    public PdpGroups createPdpGroups(@NonNull final PdpGroups pdpGroups) throws PfModelException;
+    public List<PdpGroup> createPdpGroups(@NonNull final List<PdpGroup> pdpGroups) throws PfModelException;
 
     /**
      * Updates PDP groups.
@@ -321,7 +326,7 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * @return the PDP groups updated
      * @throws PfModelException on errors updating PDP groups
      */
-    public PdpGroups updatePdpGroups(@NonNull final PdpGroups pdpGroups) throws PfModelException;
+    public List<PdpGroup> updatePdpGroups(@NonNull final List<PdpGroup> pdpGroups) throws PfModelException;
 
 
     /**
@@ -372,8 +377,9 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * Get deployed policies.
      *
      * @param name the name of the policy to get, null to get all policies
-     * @return the policies deployed as a map of policy lists keyed by PDP group
+     * @return the policies deployed as a map of policy lists keyed by PDP group name and version
      * @throws PfModelException on errors getting policies
      */
-    public Map<PdpGroup, List<ToscaPolicy>> getDeployedPolicyList(final String name) throws PfModelException;
+    public Map<Pair<String, String>, List<ToscaPolicy>> getDeployedPolicyList(final String name)
+            throws PfModelException;
 }

@@ -174,11 +174,13 @@ public class AuthorativeToscaProvider {
      *
      * @param dao the DAO to use to access the database
      * @param policyTypeName the name of the policy type for which to get policies
+     * @param policyTypeVersion the version of the policy type, null returns all versions of deployed policies for
+     *        policy types
      * @return the policies found
      * @throws PfModelException on errors getting policies
      */
-    public List<ToscaPolicy> getPolicyList4PolicyType(@NonNull final PfDao dao, @NonNull final String policyTypeName)
-            throws PfModelException {
+    public List<ToscaPolicy> getPolicyList4PolicyType(@NonNull final PfDao dao, @NonNull final String policyTypeName,
+            final String policyTypeVersion) throws PfModelException {
         return new ArrayList<>();
     }
 
@@ -202,7 +204,7 @@ public class AuthorativeToscaProvider {
      * @return the policies found
      * @throws PfModelException on errors getting policies
      */
-    public List<ToscaPolicy> getLatestPolicyList(@NonNull final PfDao dao, final String name) throws PfModelException  {
+    public List<ToscaPolicy> getLatestPolicyList(@NonNull final PfDao dao, final String name) throws PfModelException {
         return new ArrayList<>();
     }
 

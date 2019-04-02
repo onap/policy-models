@@ -38,7 +38,6 @@ import org.onap.policy.models.dao.PfDao;
 import org.onap.policy.models.dao.PfDaoFactory;
 import org.onap.policy.models.dao.impl.DefaultPfDao;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
-import org.onap.policy.models.pdp.concepts.PdpGroups;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.pdp.persistence.provider.PdpProvider;
@@ -83,6 +82,12 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
     public void init() throws PfModelException {
         LOGGER.debug("opening the database connection to {} using persistence unit {}", parameters.getDatabaseUrl(),
                 parameters.getPersistenceUnit());
+
+        if (connection != null || pfDao != null) {
+            String errorMessage = "provider is already initialized";
+            LOGGER.warn(errorMessage);
+            throw new PfModelException(Response.Status.NOT_ACCEPTABLE, errorMessage);
+        }
 
         // Decode the password using Base64
         String decodedPassword = new String(Base64.getDecoder().decode(parameters.getDatabasePassword()));
@@ -201,9 +206,10 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public List<ToscaPolicy> getPolicyList4PolicyType(@NonNull final String policyTypeName) throws PfModelException {
+    public List<ToscaPolicy> getPolicyList4PolicyType(@NonNull final String policyTypeName,
+            final String policyTypeVersion) throws PfModelException {
         assertInitilized();
-        return new AuthorativeToscaProvider().getPolicyList4PolicyType(pfDao, policyTypeName);
+        return new AuthorativeToscaProvider().getPolicyList4PolicyType(pfDao, policyTypeName, policyTypeVersion);
     }
 
     @Override
@@ -293,32 +299,32 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public PdpGroups getPdpGroups(final String name, final String version) throws PfModelException {
+    public List<PdpGroup> getPdpGroups(final String name, final String version) throws PfModelException {
         assertInitilized();
         return new PdpProvider().getPdpGroups(pfDao, name, version);
     }
 
     @Override
-    public PdpGroups getLatestPdpGroups(final String name) throws PfModelException {
+    public List<PdpGroup> getLatestPdpGroups(final String name) throws PfModelException {
         assertInitilized();
         return new PdpProvider().getLatestPdpGroups(pfDao, name);
     }
 
     @Override
-    public PdpGroups getFilteredPdpGroups(@NonNull final String pdpType,
+    public List<PdpGroup> getFilteredPdpGroups(final String pdpType,
             @NonNull final List<Pair<String, String>> supportedPolicyTypes) {
         assertInitilized();
         return new PdpProvider().getFilteredPdpGroups(pfDao, pdpType, supportedPolicyTypes);
     }
 
     @Override
-    public PdpGroups createPdpGroups(@NonNull final PdpGroups pdpGroups) throws PfModelException {
+    public List<PdpGroup> createPdpGroups(@NonNull final List<PdpGroup> pdpGroups) throws PfModelException {
         assertInitilized();
         return new PdpProvider().createPdpGroups(pfDao, pdpGroups);
     }
 
     @Override
-    public PdpGroups updatePdpGroups(@NonNull final PdpGroups pdpGroups) throws PfModelException {
+    public List<PdpGroup> updatePdpGroups(@NonNull final List<PdpGroup> pdpGroups) throws PfModelException {
         assertInitilized();
         return new PdpProvider().updatePdpGroups(pfDao, pdpGroups);
     }
@@ -345,14 +351,15 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
     @Override
     public void updatePdpStatistics(@NonNull final String pdpGroupName, @NonNull final String pdpGroupVersion,
             @NonNull final String pdpType, @NonNull final String pdpInstanceId,
-            @NonNull final PdpStatistics pdppStatistics)  throws PfModelException {
+            @NonNull final PdpStatistics pdppStatistics) throws PfModelException {
         assertInitilized();
         new PdpProvider().updatePdpStatistics(pfDao, pdpGroupName, pdpGroupVersion, pdpType, pdpInstanceId,
                 pdppStatistics);
     }
 
     @Override
-    public Map<PdpGroup, List<ToscaPolicy>> getDeployedPolicyList(final String name) throws PfModelException {
+    public Map<Pair<String, String>, List<ToscaPolicy>> getDeployedPolicyList(final String name)
+            throws PfModelException {
         assertInitilized();
         return new PdpProvider().getDeployedPolicyList(pfDao, name);
     }

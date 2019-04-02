@@ -89,7 +89,6 @@ public class PolicyToscaPersistenceTest {
         parameters.setPersistenceUnit("ToscaConceptTest");
 
         databaseProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
-        databaseProvider.init();
     }
 
     /**
