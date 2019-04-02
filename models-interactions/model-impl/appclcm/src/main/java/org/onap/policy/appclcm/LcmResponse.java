@@ -8,9 +8,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -44,7 +44,7 @@ public class LcmResponse implements Serializable {
 
     /**
      * Constructs a response using the common header of the request since they will be the same.
-     * 
+     *
      * @param request an appc lcm request object specified by the lcm api guide
      */
     public LcmResponse(LcmRequest request) {
@@ -57,7 +57,7 @@ public class LcmResponse implements Serializable {
 
     /**
      * Get the common header.
-     * 
+     *
      * @return the commonHeader
      */
     public LcmCommonHeader getCommonHeader() {
@@ -66,7 +66,7 @@ public class LcmResponse implements Serializable {
 
     /**
      * Set the common header.
-     * 
+     *
      * @param commonHeader the commonHeader to set
      */
     public void setCommonHeader(LcmCommonHeader commonHeader) {
@@ -75,7 +75,7 @@ public class LcmResponse implements Serializable {
 
     /**
      * Get the status.
-     * 
+     *
      * @return the status
      */
     public LcmResponseStatus getStatus() {
@@ -84,7 +84,7 @@ public class LcmResponse implements Serializable {
 
     /**
      * Set the status.
-     * 
+     *
      * @param status the status to set
      */
     public void setStatus(LcmResponseStatus status) {
@@ -93,7 +93,7 @@ public class LcmResponse implements Serializable {
 
     /**
      * Get the payload.
-     * 
+     *
      * @return the payload
      */
     public String getPayload() {
@@ -102,7 +102,7 @@ public class LcmResponse implements Serializable {
 
     /**
      * Set the payload.
-     * 
+     *
      * @param payload the payload to set
      */
     public void setPayload(String payload) {
