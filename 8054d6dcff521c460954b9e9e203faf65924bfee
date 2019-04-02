@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1272fb63_ef2b579d",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-04-02T23:50:06Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 155,
+        "startChar": 11,
+        "endLine": 155,
+        "endChar": 28
+      },
+      "revId": "8054d6dcff521c460954b9e9e203faf65924bfee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "288346e4_7c9f3f2c",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/impl/DatabasePolicyModelsProviderImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-04-02T23:50:06Z",
+      "side": 1,
+      "message": "Liam, can I have another version that returns ToscaServiceTemplate?",
+      "range": {
+        "startLine": 209,
+        "startChar": 11,
+        "endLine": 209,
+        "endChar": 53
+      },
+      "revId": "8054d6dcff521c460954b9e9e203faf65924bfee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
