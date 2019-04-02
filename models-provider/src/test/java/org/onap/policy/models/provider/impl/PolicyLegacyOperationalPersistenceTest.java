@@ -82,7 +82,6 @@ public class PolicyLegacyOperationalPersistenceTest {
         parameters.setPersistenceUnit("ToscaConceptTest");
 
         databaseProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
-        databaseProvider.init();
     }
 
     /**

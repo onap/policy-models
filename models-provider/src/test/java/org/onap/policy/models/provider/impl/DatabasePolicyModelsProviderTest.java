@@ -24,11 +24,11 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
 import java.util.Base64;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.onap.policy.models.pdp.concepts.PdpGroups;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderFactory;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
@@ -69,6 +69,7 @@ public class DatabasePolicyModelsProviderTest {
         parameters.setDatabaseUrl("jdbc://www.acmecorp.nonexist");
 
         assertThatThrownBy(() -> {
+            databaseProvider.close();
             databaseProvider.init();
         }).hasMessage("could not connect to database with URL \"jdbc://www.acmecorp.nonexist\"");
 
@@ -116,7 +117,6 @@ public class DatabasePolicyModelsProviderTest {
     public void testProviderMethodsNull() throws Exception {
         PolicyModelsProvider databaseProvider =
                 new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
-        databaseProvider.init();
 
         assertThatThrownBy(() -> {
             databaseProvider.getPolicyTypes(null, null);
@@ -235,6 +235,8 @@ public class DatabasePolicyModelsProviderTest {
         PolicyModelsProvider databaseProvider =
                 new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
+        databaseProvider.close();
+
         assertThatThrownBy(() -> {
             databaseProvider.getPolicyTypes("name", "version");
         }).hasMessage("policy models provider is not initilaized");
@@ -244,7 +246,6 @@ public class DatabasePolicyModelsProviderTest {
     public void testProviderMethods() {
         try (PolicyModelsProvider databaseProvider =
                 new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters)) {
-            databaseProvider.init();
 
             assertThatThrownBy(() -> {
                 databaseProvider.getPolicyTypes("name", "version");
@@ -310,9 +311,12 @@ public class DatabasePolicyModelsProviderTest {
                 databaseProvider.deleteGuardPolicy("policy_id");
             }).hasMessage("no policy found for policy ID: policy_id");
 
-            assertNotNull(databaseProvider.getPdpGroups("name", "version"));
-            assertNotNull(databaseProvider.createPdpGroups(new PdpGroups()));
-            assertNotNull(databaseProvider.updatePdpGroups(new PdpGroups()));
+            assertThatThrownBy(() -> {
+                databaseProvider.getPdpGroups("name", "version");
+            }).hasMessage("PDP group not found: name:version");
+
+            assertNotNull(databaseProvider.createPdpGroups(new ArrayList<>()));
+            assertNotNull(databaseProvider.updatePdpGroups(new ArrayList<>()));
             assertNotNull(databaseProvider.deletePdpGroup("name", "version"));
 
         } catch (Exception exc) {
