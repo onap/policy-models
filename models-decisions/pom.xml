@@ -37,5 +37,10 @@
             <artifactId>gson</artifactId>
             <version>${policy.common.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.onap.policy.models</groupId>
+            <artifactId>policy-models-errors</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>
