@@ -22,6 +22,30 @@
       "revId": "2d99454e725df9f0f74572ac10de2b97f7e84c55",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a49b1d14_8e0888ea",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5259
+      },
+      "writtenOn": "2019-04-02T02:00:29Z",
+      "side": 1,
+      "message": "Hi Pamela: Yes, this is a temporary state while moving the code. Since the commit is becomming large, We plan to remove all the dependencies on drools-application in next commit.Thanks for your suggestion.We will check the solution again.",
+      "parentUuid": "849a0bbd_04994c24",
+      "range": {
+        "startLine": 43,
+        "startChar": 1,
+        "endLine": 43,
+        "endChar": 95
+      },
+      "revId": "2d99454e725df9f0f74572ac10de2b97f7e84c55",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
