@@ -139,15 +139,15 @@ public class DatabasePolicyModelsProviderTest {
         }).hasMessage("serviceTemplate is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.deletePolicyTypes(null, null);
+            databaseProvider.deletePolicyType(null, null);
         }).hasMessage("name is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.deletePolicyTypes("aaa", null);
+            databaseProvider.deletePolicyType("aaa", null);
         }).hasMessage("version is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.deletePolicyTypes(null, "aaa");
+            databaseProvider.deletePolicyType(null, "aaa");
         }).hasMessage("name is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
@@ -171,15 +171,15 @@ public class DatabasePolicyModelsProviderTest {
         }).hasMessage("serviceTemplate is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.deletePolicies(null, null);
+            databaseProvider.deletePolicy(null, null);
         }).hasMessage("name is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.deletePolicies(null, "aaa");
+            databaseProvider.deletePolicy(null, "aaa");
         }).hasMessage("name is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.deletePolicies("aaa", null);
+            databaseProvider.deletePolicy("aaa", null);
         }).hasMessage("version is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
@@ -215,10 +215,6 @@ public class DatabasePolicyModelsProviderTest {
         }).hasMessage("policyId is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.getPdpGroups(null);
-        }).hasMessage("pdpGroupFilter is marked @NonNull but is null");
-
-        assertThatThrownBy(() -> {
             databaseProvider.createPdpGroups(null);
         }).hasMessage("pdpGroups is marked @NonNull but is null");
 
@@ -227,8 +223,8 @@ public class DatabasePolicyModelsProviderTest {
         }).hasMessage("pdpGroups is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.deletePdpGroups(null);
-        }).hasMessage("pdpGroupFilter is marked @NonNull but is null");
+            databaseProvider.deletePdpGroup(null, null);
+        }).hasMessage("name is marked @NonNull but is null");
 
         databaseProvider.close();
 
@@ -263,7 +259,7 @@ public class DatabasePolicyModelsProviderTest {
             }).hasMessage("no policy types specified on service template");
 
             assertThatThrownBy(() -> {
-                databaseProvider.deletePolicyTypes("name", "version");
+                databaseProvider.deletePolicyType("name", "version");
             }).hasMessage("policy type not found: name:version");
 
             assertThatThrownBy(() -> {
@@ -279,7 +275,7 @@ public class DatabasePolicyModelsProviderTest {
             }).hasMessage("topology template not specified on service template");
 
             assertThatThrownBy(() -> {
-                databaseProvider.deletePolicies("name", "version");
+                databaseProvider.deletePolicy("name", "version");
             }).hasMessage("policy not found: name:version");
 
             assertThatThrownBy(() -> {
@@ -314,10 +310,10 @@ public class DatabasePolicyModelsProviderTest {
                 databaseProvider.deleteGuardPolicy("policy_id");
             }).hasMessage("no policy found for policy ID: policy_id");
 
-            assertNotNull(databaseProvider.getPdpGroups("filter"));
+            assertNotNull(databaseProvider.getPdpGroups("name", "version"));
             assertNotNull(databaseProvider.createPdpGroups(new PdpGroups()));
             assertNotNull(databaseProvider.updatePdpGroups(new PdpGroups()));
-            assertNotNull(databaseProvider.deletePdpGroups("filter"));
+            assertNotNull(databaseProvider.deletePdpGroup("name", "version"));
 
         } catch (Exception exc) {
             LOGGER.warn("test should not throw an exception", exc);
