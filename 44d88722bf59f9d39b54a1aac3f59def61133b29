@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "72c79605_41599eb8",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpStatus.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-03T15:27:11Z",
+      "side": 1,
+      "message": "Is this the group version?  should we remove it?  Or should we add it to PdpUpdate?",
+      "revId": "44d88722bf59f9d39b54a1aac3f59def61133b29",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a9485e1c_a0c70d68",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpStatus.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-03T15:27:11Z",
+      "side": 1,
+      "message": "sounds like we may be in agreement to remove \"instance\"",
+      "revId": "44d88722bf59f9d39b54a1aac3f59def61133b29",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
