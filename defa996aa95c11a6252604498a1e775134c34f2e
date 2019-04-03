@@ -99,6 +99,29 @@
       "revId": "defa996aa95c11a6252604498a1e775134c34f2e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03869110_1836d6b9",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-04-03T18:05:11Z",
+      "side": 1,
+      "message": "Should the condition be reversed?\nI mean passing null name to getLatestVersion might have errors.",
+      "range": {
+        "startLine": 95,
+        "startChar": 8,
+        "endLine": 100,
+        "endChar": 9
+      },
+      "revId": "defa996aa95c11a6252604498a1e775134c34f2e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
