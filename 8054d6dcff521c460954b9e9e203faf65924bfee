@@ -69,6 +69,30 @@
       "revId": "8054d6dcff521c460954b9e9e203faf65924bfee",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6f3bf71a_5df8e47b",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/impl/DatabasePolicyModelsProviderImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-03T01:44:40Z",
+      "side": 1,
+      "message": "how about this (or do you really need one that takes both id/version AND type/version pairs?):\n\n  List\u003c\u003e getPolicyList(name,version)\n  Template getPolicyTemplate(name,version)\n  List\u003c\u003e getPolicyList4PolicyType(type,typeVersion)\n  Template getPolicyList4PolicyType(type,typeVersion)",
+      "parentUuid": "aba9e33d_679dce35",
+      "range": {
+        "startLine": 209,
+        "startChar": 11,
+        "endLine": 209,
+        "endChar": 53
+      },
+      "revId": "8054d6dcff521c460954b9e9e203faf65924bfee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
