@@ -1,0 +1,318 @@
+# Copyright 2018 AT&T Intellectual Property. All rights reserved
+# Modifications Copyright (C) 2019 Nordix Foundation.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+controlLoop:
+  controlLoopName: ControlLoop-TEST-5dfa8fce-bd7a-4424-b60d-ee2ad2f254a3
+  version: 1.0.0
+  services: 
+    - serviceName: Foo Service
+  resources: 
+    - resourceName: Bar VNF
+      resourceType: VF
+  trigger_policy: unique-policy-id-1-restart
+  timeout: 1200
+
+policies:
+  - id: unique-policy-id-1-restart
+    name: Restart Policy for Trigger Event
+    description:
+    actor: APPC
+    recipe: Restart
+    target:
+      type: VM
+      resourceID: vm1
+    retry: 2
+    timeout: 300
+    success: unique-policy-id-2-modifyconfig
+    failure: unique-policy-id-3-rebuild
+    failure_timeout: unique-policy-id-3-rebuild
+    failure_retries: unique-policy-id-3-rebuild
+    failure_exception: unique-policy-id-7-modifyconfig-for-failure
+    failure_guard: unique-policy-id-7-modifyconfig-for-failure
+  
+  - id: unique-policy-id-2-modifyconfig
+    name: ModifyConfig Policy
+    description:
+    actor: APPC
+    recipe: ModifyConfig
+    target:
+      type: VM
+      resourceID: vm1
+    retry: 2
+    timeout: 300
+    success: FINAL_SUCCESS
+    failure: unique-policy-id-3-rebuild
+    failure_timeout: unique-policy-id-3-rebuild
+    failure_retries: unique-policy-id-3-rebuild
+    failure_exception: FINAL_FAILURE_EXCEPTION
+  
+  - id: unique-policy-id-3-rebuild
+    name: Rebuild Policy
+    description:
+    actor: APPC
+    recipe: Rebuild
+    target:
+      type: VM
+      resourceID: vm1
+    retry: 0
+    timeout: 600
+    success: unique-policy-id-4-modifyconfig
+    failure: unique-policy-id-5-migrate
+    failure_timeout: unique-policy-id-5-migrate
+    failure_retries: unique-policy-id-5-migrate
+    failure_exception: FINAL_FAILURE_EXCEPTION
+  
+  - id: unique-policy-id-4-modifyconfig
+    name: HealthCheck the Rebuild Policy
+    description:
+    actor: APPC
+    recipe: ModifyConfig
+    target:
+      type: VM
+      resourceID: vm1
+    retry: 2
+    timeout: 300
+    success: FINAL_SUCCESS
+    failure: unique-policy-id-5-migrate
+    failure_timeout: unique-policy-id-5-migrate
+    failure_retries: unique-policy-id-5-migrate
+    failure_exception: FINAL_FAILURE_EXCEPTION
+  
+  - id: unique-policy-id-5-migrate
+    name: Migrate Policy
+    description:
+    actor: APPC
+    recipe: Migrate
+    target:
+      type: VM
+      resourceID: vm1
+    retry: 0
+    timeout: 600
+    success: unique-policy-id-6-modifyconfig
+    failure: FINAL_FAILURE
+    failure_timeout: FINAL_FAILURE_TIMEOUT
+    failure_retries: FINAL_FAILURE_RETRIES
+    failure_exception: FINAL_FAILURE_EXCEPTION
+
+  - id: unique-policy-id-6-modifyconfig
+    name: ModifyConfig after Migrate Policy
+    description:
+    actor: APPC
+    recipe: ModifyConfig
+    target: 
+      type: VM
+      resourceID: vm1
+    retry: 2
+    timeout: 300
+    success: FINAL_SUCCESS
+    failure: FINAL_FAILURE
+    failure_timeout: FINAL_FAILURE_TIMEOUT
+    failure_retries: FINAL_FAILURE_RETRIES
+    failure_exception: FINAL_FAILURE_EXCEPTION
+    
+  - id: unique-policy-id-7-modifyconfig-for-failure
+    name: ModifyConfig for Failure
+    description:
+    actor: APPC
+    recipe: ModifyConfig
+    target: 
+      type: VM
+      resourceID: vm1
+    retry: 2
+    timeout: 300
+    success: FINAL_SUCCESS
+    failure: FINAL_FAILURE
+    failure_timeout: FINAL_FAILURE_TIMEOUT
+    failure_retries: FINAL_FAILURE_RETRIES
+    failure_exception: FINAL_FAILURE_EXCEPTION
+    
+  - id: 
+    name: invalid policy - id is null
+    description: 
+    actor: APPC
+    recipe: ModifyConfig
+    target: 
+      type: VM
+      resourceID: vm1
+    retry: 2
+    timeout: 300
+    success: FINAL_SUCCESS
+    
+  - id: SUCCESS
+    name: invalid policy - id is a PolicyResult
+    description: 
+    actor: APPC
+    recipe: ModifyConfig
+    target: 
+      type: VM
+      resourceID: vm1
+    retry: 2
+    timeout: 300
+    success: FINAL_SUCCESS
+    
+  - id: FINAL_SUCCESS
+    name: invalid policy - id is a FinalResult
+    description: 
+    actor: APPC
+    recipe: ModifyConfig
+    target: 
+      type: VM
+      resourceID: vm1
+    retry: 2
+    timeout: 300
+    success: FINAL_SUCCESS
+    
+  - id: invalid-policy-null-actor
+    name: invalid policy - actor is null
+    description: 
+    actor: 
+    recipe: ModifyConfig
+    target: 
+      type: VM
+      resourceID: vm1
+    retry: 2
+    timeout: 300
+    success: FINAL_SUCCESS
+    
+  - id: invalid-policy-unknown-actor
+    name: invalid policy - actor is unknown
+    description: 
+    actor: UnknownActor
+    recipe: ModifyConfig
+    target: 
+      type: VM
+      resourceID: vm1
+    retry: 2
+    timeout: 300
+    success: FINAL_SUCCESS
+
+  - id: invalid-policy-null-receipe
+    name: invalid policy - receipe is null
+    description:
+    actor: APPC
+    recipe: 
+    target: 
+      type: VM
+      resourceID: vm1
+    retry: 2
+    timeout: 300
+    success: FINAL_SUCCESS
+    
+  - id: invalid-policy-unknown-receipe
+    name: invalid policy - unknown receipe
+    description:
+    actor: APPC
+    recipe: UnknownReceipe
+    target: 
+      type: VM
+      resourceID: vm1
+    retry: 2
+    timeout: 300
+    success: FINAL_SUCCESS
+    
+  - id: invalid-policy-null-target
+    name: invalid policy - target is null
+    description:
+    actor: APPC
+    recipe: ModifyConfig
+    target: 
+    retry: 2
+    timeout: 300
+    success: FINAL_SUCCESS
+    
+  - id: invalid-policy-null-target-type
+    name: invalid policy - target type is null
+    description:
+    actor: APPC
+    recipe: ModifyConfig
+    target: 
+      type: 
+      resourceID: vm1
+    retry: 2
+    timeout: 300
+    success: FINAL_SUCCESS
+    
+  - id: invalid-policy-invalid-success-policy
+    name: invalid policy - success policy is invalid
+    description:
+    actor: APPC
+    recipe: ModifyConfig
+    target: 
+      type: VM
+      resourceID: vm1
+    retry: 2
+    timeout: 300
+    success: FINAL_FAILURE
+    
+  - id: invalid-policy-invalid-failure-policy
+    name: invalid policy - failure policy is invalid
+    description:
+    actor: APPC
+    recipe: ModifyConfig
+    target: 
+      type: VM
+      resourceID: vm1
+    retry: 2
+    timeout: 300
+    failure: FINAL_FAILURE_TIMEOUT
+    
+  - id: invalid-policy-invalid-failure-timeout-policy
+    name: invalid policy - failure timeout policy is invalid
+    description:
+    actor: APPC
+    recipe: ModifyConfig
+    target: 
+      type: VM
+      resourceID: vm1
+    retry: 2
+    timeout: 300
+    failure_timeout: FINAL_FAILURE_RETRIES
+    
+  - id: invalid-policy-invalid-failure-retries-policy
+    name: invalid policy - failure retries policy is invalid
+    description:
+    actor: APPC
+    recipe: ModifyConfig
+    target: 
+      type: VM
+      resourceID: vm1
+    retry: 2
+    timeout: 300
+    failure_retries: FINAL_FAILURE_EXCEPTION
+    
+  - id: invalid-policy-invalid-failure-exception-policy
+    name: invalid policy - failure exception policy is invalid
+    description:
+    actor: APPC
+    recipe: ModifyConfig
+    target: 
+      type: VM
+      resourceID: vm1
+    retry: 2
+    timeout: 300
+    failure_exception: FINAL_FAILURE_GUARD
+    
+  - id: invalid-policy-invalid-failure-guard-policy
+    name: invalid policy - failure guard policy is invalid
+    description:
+    actor: APPC
+    recipe: ModifyConfig
+    target: 
+      type: VM
+      resourceID: vm1
+    retry: 2
+    timeout: 300
+    failure_guard: FINAL_SUCCESS
+
+    

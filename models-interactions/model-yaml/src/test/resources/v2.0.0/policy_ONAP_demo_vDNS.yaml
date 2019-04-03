@@ -1,0 +1,64 @@
+# Copyright 2018 AT&T Intellectual Property. All rights reserved
+# Modifications Copyright (C) 2019 Nordix Foundation.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+controlLoop:
+  version: 2.0.0
+  controlLoopName: ControlLoop-vDNS-6f37f56d-a87d-4b85-b6a9-cc953cf779b3
+  services: 
+    - serviceName: d4738992-6497-4dca-9db9
+      serviceInvariantUUID: dc112d6e-7e73-4777-9c6f-1a7fb5fd1b6f
+      serviceUUID: 2eea06c6-e1d3-4c3a-b9c4-478c506eeedf
+#
+# OPTIONAL to specify the exact resource VF and/or VFC(s)
+#
+#  resources:
+#    - resourceInvariantUUID: 4b8d4018-068b-4c33-b9bb-d980798e52c2
+#      resourceUUID: d7d28881-b24d-4512-bfee-1e2eb335591f
+#      resourceVersion: '1.0'
+#      resourceName: 59a2ee3f-b580-45fe-b5a1
+#      resourceType: VF
+#    
+#  resources: 
+#    - resourceInvariantUUID: ee585c30-127b-492e-b2c1-871dc61d1dde
+#      resourceUUID: d816cb01-b5d0-4bbb-b614-f7c3e230ab19
+#      resourceVersion: '1.0'
+#      resourceName: 59a2ee3fB58045feB5a1.nodes.heat.vdns
+#      resourceType: VFC
+#    - resourceInvariantUUID: f7f1d745-cfb1-4aa9-83fc-31280d0ce513
+#      resourceUUID: 1821f13e-411f-4b29-87a5-ae935897b2e1
+#      resourceVersion: '1.0'
+#      resourceName: 59a2ee3fB58045feB5a1.nodes.heat.vlb
+#      resourceType: VFC
+  trigger_policy: unique-policy-id-1-scale-up
+  timeout: 1200
+
+policies:
+  - id: unique-policy-id-1-scale-up
+    name: Create a new VF Module
+    description:
+    actor: SO
+    recipe: VF Module Create
+    target:
+      type: VNF
+    payload:
+      requestParameters: '{"usePreload":true,"userParams":[]}'
+      configurationParameters: '[{"ip-addr":"$.vf-module-topology.vf-module-parameters.param[9]","oam-ip-addr":"$.vf-module-topology.vf-module-parameters.param[16]","enabled":"$.vf-module-topology.vf-module-parameters.param[23]"}]'
+    retry: 0
+    timeout: 1200
+    success: final_success
+    failure: final_failure
+    failure_timeout: final_failure_timeout
+    failure_retries: final_failure_retries
+    failure_exception: final_failure_exception
+    failure_guard: final_failure_guard
