@@ -21,6 +21,7 @@
 package org.onap.policy.models.provider.impl;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
@@ -311,13 +312,14 @@ public class DatabasePolicyModelsProviderTest {
                 databaseProvider.deleteGuardPolicy("policy_id");
             }).hasMessage("no policy found for policy ID: policy_id");
 
-            assertThatThrownBy(() -> {
-                databaseProvider.getPdpGroups("name", "version");
-            }).hasMessage("PDP group not found: name:version");
+            assertEquals(0, databaseProvider.getPdpGroups("name", "version").size());
 
             assertNotNull(databaseProvider.createPdpGroups(new ArrayList<>()));
             assertNotNull(databaseProvider.updatePdpGroups(new ArrayList<>()));
-            assertNotNull(databaseProvider.deletePdpGroup("name", "version"));
+
+            assertThatThrownBy(() -> {
+                databaseProvider.deletePdpGroup("name", "version");
+            }).hasMessage("delete of PDP group \"name:version\" failed, PDP group does not exist");
 
         } catch (Exception exc) {
             LOGGER.warn("test should not throw an exception", exc);

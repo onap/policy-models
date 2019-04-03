@@ -37,6 +37,7 @@ import org.onap.policy.models.dao.DaoParameters;
 import org.onap.policy.models.dao.PfDao;
 import org.onap.policy.models.dao.PfDaoFactory;
 import org.onap.policy.models.dao.impl.DefaultPfDao;
+import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
@@ -206,6 +207,13 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
+    public ToscaServiceTemplate getPolicies4PolicyType(@NonNull String policyTypeName, String policyTypeVersion)
+            throws PfModelException {
+        assertInitilized();
+        return new AuthorativeToscaProvider().getPolicies4PolicyType(pfDao, policyTypeName, policyTypeVersion);
+    }
+
+    @Override
     public List<ToscaPolicy> getPolicyList4PolicyType(@NonNull final String policyTypeName,
             final String policyTypeVersion) throws PfModelException {
         assertInitilized();
@@ -334,6 +342,12 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
             @NonNull final PdpSubGroup pdpSubGroup) throws PfModelException {
         assertInitilized();
         new PdpProvider().updatePdpSubGroup(pfDao, pdpGroupName, pdpGroupVersion, pdpSubGroup);
+    }
+
+    @Override
+    public void updatePdp(@NonNull String pdpGroupName, @NonNull String pdpGroupVersion,
+            @NonNull String pdpSubGroup, @NonNull Pdp pdp) throws PfModelException {
+        new PdpProvider().updatePdp(pfDao, pdpGroupName, pdpGroupVersion, pdpSubGroup, pdp);
     }
 
     @Override

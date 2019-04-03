@@ -21,7 +21,6 @@
 package org.onap.policy.models.pdp.persistence.provider;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,12 +33,16 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
+import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.dao.PfDao;
+import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
+import org.onap.policy.models.pdp.persistence.concepts.JpaPdp;
 import org.onap.policy.models.pdp.persistence.concepts.JpaPdpGroup;
+import org.onap.policy.models.pdp.persistence.concepts.JpaPdpSubGroup;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,11 +55,14 @@ import org.slf4j.LoggerFactory;
 public class PdpProvider {
     private static final Logger LOGGER = LoggerFactory.getLogger(PdpProvider.class);
 
+    // Recurring string constants
+    private static final String NOT_VALID = "\" is not valid \n";
+
     /**
      * Get PDP groups.
      *
      * @param dao the DAO to use to access the database
-     * @param name the name of the policy to get, null to get all PDP groups
+     * @param name the name of the PDP group to get, null to get all PDP groups
      * @param version the version of the policy to get, null to get all versions of a PDP group
      * @return the PDP groups found
      * @throws PfModelException on errors getting PDP groups
@@ -64,20 +70,19 @@ public class PdpProvider {
     public List<PdpGroup> getPdpGroups(@NonNull final PfDao dao, final String name, final String version)
             throws PfModelException {
 
-        PfConceptKey jpaPdpGroupKey = new PfConceptKey(name, version);
-        JpaPdpGroup jpaPdpGroup = dao.get(JpaPdpGroup.class, jpaPdpGroupKey);
+        List<JpaPdpGroup> foundPdpGroups = dao.getFiltered(JpaPdpGroup.class, new PfConceptKey(name, version));
 
-        if (jpaPdpGroup != null) {
-            return Collections.singletonList(jpaPdpGroup.toAuthorative());
+        if (foundPdpGroups != null) {
+            return asPdpGroupList(foundPdpGroups);
         } else {
-            String errorMessage = "PDP group not found: " + jpaPdpGroupKey.getId();
+            String errorMessage = "no PDP groups found for filter " + name + ":" + version;
             LOGGER.warn(errorMessage);
             throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
         }
     }
 
     /**
-     * Get latest PDP Groups.
+     * Get latest PDP Groups, returns PDP groups in all states.
      *
      * @param dao the DAO to use to access the database
      * @param name the name of the PDP group to get, null to get all PDP groups
@@ -85,11 +90,20 @@ public class PdpProvider {
      * @throws PfModelException on errors getting policies
      */
     public List<PdpGroup> getLatestPdpGroups(@NonNull final PfDao dao, final String name) throws PfModelException {
-        return new ArrayList<>();
+        List<JpaPdpGroup> returnList = new ArrayList<>();
+
+        if (name == null) {
+            returnList.add(dao.getLatestVersion(JpaPdpGroup.class, name));
+        }
+        else {
+            returnList.addAll(dao.getLatestVersions(JpaPdpGroup.class));
+        }
+
+        return asPdpGroupList(returnList);
     }
 
     /**
-     * Get a filtered list of PDP groups.
+     * Get a filtered list of PDP groups, returns only active PDP groups.
      *
      * @param dao the DAO to use to access the database
      * @param pdpType The PDP type filter for the returned PDP groups, null to get policy types across PDP subgroups
@@ -118,7 +132,7 @@ public class PdpProvider {
 
             PfValidationResult validationResult = jpaPdpGroup.validate(new PfValidationResult());
             if (!validationResult.isOk()) {
-                String errorMessage = "pdp group \"" + jpaPdpGroup.getId() + "\" is not valid \n" + validationResult;
+                String errorMessage = "pdp group \"" + jpaPdpGroup.getId() + NOT_VALID + validationResult;
                 LOGGER.warn(errorMessage);
                 throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
             }
@@ -148,9 +162,32 @@ public class PdpProvider {
      */
     public List<PdpGroup> updatePdpGroups(@NonNull final PfDao dao, @NonNull final List<PdpGroup> pdpGroups)
             throws PfModelException {
-        return new ArrayList<>();
-    }
 
+        for (PdpGroup pdpGroup : pdpGroups) {
+            JpaPdpGroup jpaPdpGroup = new JpaPdpGroup();;
+            jpaPdpGroup.fromAuthorative(pdpGroup);
+
+            PfValidationResult validationResult = jpaPdpGroup.validate(new PfValidationResult());
+            if (!validationResult.isOk()) {
+                String errorMessage = "pdp group \"" + jpaPdpGroup.getId() + NOT_VALID + validationResult;
+                LOGGER.warn(errorMessage);
+                throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
+            }
+
+            dao.update(jpaPdpGroup);
+        }
+
+        // Return the created PDP groups
+        List<PdpGroup> returnPdpGroups = new ArrayList<>();
+
+        for (PdpGroup pdpGroup : pdpGroups) {
+            JpaPdpGroup jpaPdpGroup =
+                    dao.get(JpaPdpGroup.class, new PfConceptKey(pdpGroup.getName(), pdpGroup.getVersion()));
+            returnPdpGroups.add(jpaPdpGroup.toAuthorative());
+        }
+
+        return returnPdpGroups;
+    }
 
     /**
      * Update a PDP subgroup.
@@ -163,7 +200,54 @@ public class PdpProvider {
      */
     public void updatePdpSubGroup(@NonNull final PfDao dao, @NonNull final String pdpGroupName,
             @NonNull final String pdpGroupVersion, @NonNull final PdpSubGroup pdpSubGroup) throws PfModelException {
-        // Not implemented yet
+
+        final PfReferenceKey subGroupKey = new PfReferenceKey(pdpGroupName, pdpGroupVersion, pdpSubGroup.getPdpType());
+        final JpaPdpSubGroup jpaPdpSubgroup = new JpaPdpSubGroup(subGroupKey);
+        jpaPdpSubgroup.fromAuthorative(pdpSubGroup);
+
+        PfValidationResult validationResult = jpaPdpSubgroup.validate(new PfValidationResult());
+        if (!validationResult.isOk()) {
+            String errorMessage = "PDP subgroup \"" + jpaPdpSubgroup.getId() + NOT_VALID + validationResult;
+            LOGGER.warn(errorMessage);
+            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
+        }
+
+        if (dao.update(jpaPdpSubgroup) == null) {
+            String errorMessage = "update of PDP subgroup \"" + jpaPdpSubgroup.getId() + "\" failed";
+            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
+        }
+    }
+
+    /**
+     * Update a PDP.
+     *
+     * @param dao the DAO to use to access the database
+     * @param pdpGroupName the name of the PDP group of the PDP subgroup
+     * @param pdpGroupVersion the version of the PDP group of the PDP subgroup
+     * @param pdpSubGroup the PDP subgroup to be updated
+     * @param pdp the PDP to be updated
+     * @throws PfModelException on errors updating PDP subgroups
+     */
+    public void updatePdp(@NonNull final PfDao dao, @NonNull final String pdpGroupName,
+            @NonNull final String pdpGroupVersion, @NonNull final String pdpSubGroup, @NonNull final Pdp pdp)
+            throws PfModelException {
+
+        final PfReferenceKey pdpKey =
+                new PfReferenceKey(pdpGroupName, pdpGroupVersion, pdpSubGroup, pdp.getInstanceId());
+        final JpaPdp jpaPdp = new JpaPdp(pdpKey);
+        jpaPdp.fromAuthorative(pdp);
+
+        PfValidationResult validationResult = jpaPdp.validate(new PfValidationResult());
+        if (!validationResult.isOk()) {
+            String errorMessage = "PDP \"" + jpaPdp.getId() + NOT_VALID + validationResult;
+            LOGGER.warn(errorMessage);
+            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
+        }
+
+        if (dao.update(jpaPdp) == null) {
+            String errorMessage = "update of PDP \"" + jpaPdp.getId() + "\" failed";
+            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
+        }
     }
 
     /**
@@ -177,8 +261,20 @@ public class PdpProvider {
      */
     public PdpGroup deletePdpGroup(@NonNull final PfDao dao, @NonNull final String name, @NonNull final String version)
             throws PfModelException {
-        return new PdpGroup();
 
+        PfConceptKey pdpGroupKey = new PfConceptKey(name, version);
+
+        JpaPdpGroup jpaDeletePdpGroup = dao.get(JpaPdpGroup.class, pdpGroupKey);
+
+        if (jpaDeletePdpGroup == null) {
+            String errorMessage =
+                    "delete of PDP group \"" + pdpGroupKey.getId() + "\" failed, PDP group does not exist";
+            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
+        }
+
+        dao.delete(jpaDeletePdpGroup);
+
+        return jpaDeletePdpGroup.toAuthorative();
     }
 
     /**
@@ -222,5 +318,21 @@ public class PdpProvider {
     public Map<Pair<String, String>, List<ToscaPolicy>> getDeployedPolicyList(@NonNull final PfDao dao,
             final String name) throws PfModelException {
         return new LinkedHashMap<>();
+    }
+
+    /**
+     * Convert JPA PDP group list to an authorative PDP group list.
+     *
+     * @param foundPdpGroups the list to convert
+     * @return the authorative list
+     */
+    private List<PdpGroup> asPdpGroupList(List<JpaPdpGroup> jpaPdpGroupList) {
+        List<PdpGroup> pdpGroupList = new ArrayList<>(jpaPdpGroupList.size());
+
+        for (JpaPdpGroup jpaPdpGroup : jpaPdpGroupList) {
+            pdpGroupList.add(jpaPdpGroup.toAuthorative());
+        }
+
+        return pdpGroupList;
     }
 }
