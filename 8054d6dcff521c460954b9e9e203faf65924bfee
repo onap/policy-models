@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "79f598f5_1f51563e",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-03T10:21:39Z",
+      "side": 1,
+      "message": "OK.",
+      "parentUuid": "1272fb63_ef2b579d",
+      "range": {
+        "startLine": 155,
+        "startChar": 11,
+        "endLine": 155,
+        "endChar": 28
+      },
+      "revId": "8054d6dcff521c460954b9e9e203faf65924bfee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "288346e4_7c9f3f2c",
         "filename": "models-provider/src/main/java/org/onap/policy/models/provider/impl/DatabasePolicyModelsProviderImpl.java",
         "patchSetId": 3
@@ -120,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "c4b3cb57_ad84902e",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/impl/DatabasePolicyModelsProviderImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-03T10:21:39Z",
+      "side": 1,
+      "message": "This is coming in next review:\n    /**\n     * Get policies.\n     *\n     * @param name the name of the policy to get, null to get all policies\n     * @param version the version of the policy to get, null to get all versions of a policy\n     * @return the policies found\n     * @throws PfModelException on errors getting policies\n     */\n    public ToscaServiceTemplate getPolicies(final String name, final String version) throws PfModelException;\n\n    /**\n     * Get policies.\n     *\n     * @param name the name of the policy to get, null to get all policies\n     * @param version the version of the policy to get, null to get all versions of a policy\n     * @return the policies found\n     * @throws PfModelException on errors getting policies\n     */\n    public List\u003cToscaPolicy\u003e getPolicyList(final String name, final String version) throws PfModelException;\n\n    /**\n     * Get policies for a policy type name.\n     *\n     * @param policyTypeName the name of the policy type for which to get policies\n     * @param policyTypeVersion the version of the policy type, null returns all versions of deployed policies for\n     *        policy types\n     * @return the policies found\n     * @throws PfModelException on errors getting policies\n     */\n    public ToscaServiceTemplate getPolicies4PolicyType(@NonNull final String policyTypeName,\n            final String policyTypeVersion) throws PfModelException;\n\n    /**\n     * Get policies for a policy type name.\n     *\n     * @param policyTypeName the name of the policy type for which to get policies\n     * @param policyTypeVersion the version of the policy type, null returns all versions of deployed policies for\n     *        policy types\n     * @return the policies found\n     * @throws PfModelException on errors getting policies\n     */\n    public List\u003cToscaPolicy\u003e getPolicyList4PolicyType(@NonNull final String policyTypeName,\n            final String policyTypeVersion) throws PfModelException;",
+      "parentUuid": "8045fb5d_8092eb9e",
+      "range": {
+        "startLine": 209,
+        "startChar": 11,
+        "endLine": 209,
+        "endChar": 53
+      },
+      "revId": "8054d6dcff521c460954b9e9e203faf65924bfee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "80d66748_12ded683",
         "filename": "models-provider/src/test/java/org/onap/policy/models/provider/impl/PolicyPersistenceTest.java",
         "patchSetId": 3
@@ -131,6 +179,30 @@
       "writtenOn": "2019-04-03T01:58:20Z",
       "side": 1,
       "message": "Seems this test is duplicated with PolicyToscaPersistenceTest?",
+      "range": {
+        "startLine": 54,
+        "startChar": 13,
+        "endLine": 54,
+        "endChar": 34
+      },
+      "revId": "8054d6dcff521c460954b9e9e203faf65924bfee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc8e4f35_cf697443",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/impl/PolicyPersistenceTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-03T10:21:39Z",
+      "side": 1,
+      "message": "Tests will be tidied up afterwards.",
+      "parentUuid": "80d66748_12ded683",
       "range": {
         "startLine": 54,
         "startChar": 13,
