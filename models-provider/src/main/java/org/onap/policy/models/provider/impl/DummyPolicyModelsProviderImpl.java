@@ -34,6 +34,7 @@ import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
+import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
@@ -116,6 +117,12 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
     @Override
     public List<ToscaPolicy> getPolicyList(final String name, final String version) throws PfModelException {
         return new ArrayList<>();
+    }
+
+    @Override
+    public ToscaServiceTemplate getPolicies4PolicyType(@NonNull String policyTypeName, String policyTypeVersion)
+            throws PfModelException {
+        return null;
     }
 
     @Override
@@ -227,6 +234,12 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
     @Override
     public void updatePdpSubGroup(@NonNull final String pdpGroupName, @NonNull final String pdpGroupVersion,
             @NonNull final PdpSubGroup pdpSubGroup) throws PfModelException {
+        // Not implemented
+    }
+
+    @Override
+    public void updatePdp(@NonNull String pdpGroupName, @NonNull String pdpGroupVersion,
+            @NonNull String pdpSubGroup, @NonNull Pdp pdp) throws PfModelException {
         // Not implemented
     }
 

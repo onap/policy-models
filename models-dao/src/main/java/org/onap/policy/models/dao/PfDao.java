@@ -29,8 +29,8 @@ import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfReferenceKey;
 
 /**
- * The Interface PfDao describes the DAO interface for reading and writing Policy Framework
- * {@link PfConcept} concepts to and from databases using JDBC.
+ * The Interface PfDao describes the DAO interface for reading and writing Policy Framework {@link PfConcept} concepts
+ * to and from databases using JDBC.
  */
 public interface PfDao {
 
@@ -108,7 +108,7 @@ public interface PfDao {
     <T extends PfConcept> int deleteByConceptKey(Class<T> someClass, Collection<PfConceptKey> keys);
 
     /**
-     * Delete a collection of objects in the database referred to by reference key.
+     * policypolicypolicy Delete a collection of objects in the database referred to by reference key.
      *
      * @param <T> the type of the objects to delete, a subclass of {@link PfConcept}
      * @param someClass the class of the objects to delete, a subclass of {@link PfConcept}
@@ -129,6 +129,18 @@ public interface PfDao {
      * Get an object from the database, referred to by concept key.
      *
      * @param <T> the type of the object to get, a subclass of {@link PfConcept}
+     * @param someClass the class of the object to get, a subclass of {@link PfConcept}, if name is null, all concepts
+     *        of type T are returned, if name is not null and version is null, all versions of that concept matching the
+     *        name are returned.
+     * @param key the key of the object to get
+     * @return the objects that was retrieved from the database
+     */
+    <T extends PfConcept> List<T> getFiltered(Class<T> someClass, PfConceptKey key);
+
+    /**
+     * Get an object from the database, referred to by concept key.
+     *
+     * @param <T> the type of the object to get, a subclass of {@link PfConcept}
      * @param someClass the class of the object to get, a subclass of {@link PfConcept}
      * @param key the key of the object to get
      * @return the object that was retrieved from the database
@@ -141,8 +153,7 @@ public interface PfDao {
      * @param <T> the type of the object to get, a subclass of {@link PfConcept}
      * @param someClass the class of the object to get, a subclass of {@link PfConcept}
      * @param key the key of the object to get
-     * @return the object that was retrieved from the database or null if the object was not
-     *         retrieved
+     * @return the object that was retrieved from the database or null if the object was not retrieved
      */
     <T extends PfConcept> T get(Class<T> someClass, PfReferenceKey key);
 
@@ -164,6 +175,35 @@ public interface PfDao {
      * @return the all
      */
     <T extends PfConcept> List<T> getAll(Class<T> someClass, PfConceptKey parentKey);
+
+    /**
+     * Get all the objects in the database of a given type.
+     *
+     * @param <T> the type of the objects to get, a subclass of {@link PfConcept}
+     * @param someClass the class of the objects to get, a subclass of {@link PfConcept}
+     * @param name the name of the concepts for which to get all versions
+     * @return the objects or null if no objects were retrieved
+     */
+    <T extends PfConcept> List<T> getAllVersions(Class<T> someClass, final String name);
+
+    /**
+     * Get latest version of objects in the database of a given type.
+     *
+     * @param <T> the type of the objects to get, a subclass of {@link PfConcept}
+     * @param someClass the class of the objects to get, a subclass of {@link PfConcept}
+     * @return the objects or null if no objects were retrieved
+     */
+    <T extends PfConcept> List<T> getLatestVersions(Class<T> someClass);
+
+    /**
+     * Get latest version of an object in the database of a given type.
+     *
+     * @param <T> the type of the objects to get, a subclass of {@link PfConcept}
+     * @param someClass the class of the objects to get, a subclass of {@link PfConcept}
+     * @param conceptName the name of the concept for which to get the latest version
+     * @return the objects or null if no objects were retrieved
+     */
+    <T extends PfConcept> T getLatestVersion(Class<T> someClass, final String conceptName);
 
     /**
      * Get a concept from the database with the given concept key.
@@ -197,7 +237,7 @@ public interface PfDao {
     /**
      * Update a concept in the database.
      *
-     * @param <T> the type of the object to get, a subclass of {@link PfConcept}
+     * @param <T> the type of the object to update, a subclass of {@link PfConcept}
      * @param obj the object to update
      * @return the updated object
      */

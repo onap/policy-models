@@ -30,6 +30,7 @@ import lombok.NonNull;
 import org.apache.commons.lang3.tuple.Pair;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
+import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
@@ -159,6 +160,11 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
+    public void updatePdp(@NonNull String pdpGroupName, @NonNull String pdpGroupVersion,
+            @NonNull String pdpSubGroup, @NonNull Pdp pdp) throws PfModelException {
+    }
+
+    @Override
     public PdpGroup deletePdpGroup(@NonNull String name, @NonNull String verison) throws PfModelException {
         return null;
     }
@@ -180,6 +186,12 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
 
     @Override
     public List<ToscaPolicy> getPolicyList(String name, String version) throws PfModelException {
+        return null;
+    }
+
+    @Override
+    public ToscaServiceTemplate getPolicies4PolicyType(@NonNull String policyTypeName, String policyTypeVersion)
+            throws PfModelException {
         return null;
     }
 

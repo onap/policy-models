@@ -37,6 +37,18 @@
             <property name="eclipselink.ddl-generation" value="drop-and-create-tables" />
             <property name="eclipselink.ddl-generation.output-mode" value="database" />
             <property name="eclipselink.logging.level" value="INFO" />
+            
+            <property name="eclipselink.logging.level" value="ALL" />
+            <property name="eclipselink.logging.level.jpa" value="ALL" />
+            <property name="eclipselink.logging.level.ddl" value="ALL" />
+            <property name="eclipselink.logging.level.connection" value="ALL" />
+            <property name="eclipselink.logging.level.sql" value="ALL" />
+            <property name="eclipselink.logging.level.transaction" value="ALL" />
+            <property name="eclipselink.logging.level.sequencing" value="ALL" />
+            <property name="eclipselink.logging.level.server" value="ALL" />
+            <property name="eclipselink.logging.level.query" value="ALL" />
+            <property name="eclipselink.logging.level.properties" value="ALL" />
+            
         </properties>
     </persistence-unit>
 </persistence>

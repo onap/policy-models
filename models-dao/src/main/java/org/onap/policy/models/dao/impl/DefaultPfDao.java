@@ -40,20 +40,58 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The Class DefaultPfDao is an JPA implementation of the {@link PfDao} class for Policy Framework
- * concepts ({@link PfConcept}). It uses the default JPA implementation in the javax
- * {@link Persistence} class.
+ * The Class DefaultPfDao is an JPA implementation of the {@link PfDao} class for Policy Framework concepts
+ * ({@link PfConcept}). It uses the default JPA implementation in the javax {@link Persistence} class.
  */
 public class DefaultPfDao implements PfDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultPfDao.class);
 
-    private static final String SELECT_C_FROM = "SELECT c FROM ";
-    private static final String AND_C_KEY_LOCAL_NAME = "' AND c.key.localName='";
-    private static final String AND_C_KEY_PARENT_KEY_VERSION = "' AND c.key.parentKeyVersion='";
-    private static final String C_WHERE_C_KEY_PARENT_KEY_NAME = " c WHERE c.key.parentKeyName='";
-    private static final String AND_C_KEY_VERSION = "' AND c.key.version='";
-    private static final String C_WHERE_C_KEY_NAME = " c WHERE c.key.name='";
-    private static final String DELETE_FROM = "DELETE FROM ";
+    // @formatter:off
+    private static final String NAME           = "name";
+    private static final String VERSION        = "version";
+    private static final String PARENT_NAME    = "parentname";
+    private static final String PARENT_VERSION = "parentversion";
+    private static final String LOCAL_NAME     = "localname";
+
+    private static final String TABLE_TOKEN = "__TABLE__";
+
+    private static final String DELETE_FROM_TABLE = "DELETE FROM __TABLE__ c";
+
+    private static final String SELECT_FROM_TABLE = "SELECT c FROM __TABLE__ c";
+
+    private static final String WHERE      = " WHERE ";
+    private static final String AND        = " AND ";
+
+    private static final String NAME_FILTER           = "c.key.name = :name";
+    private static final String VERSION_FILTER        = "c.key.version = :version";
+    private static final String PARENT_NAME_FILTER    = "c.key.parentKeyName = :parentname";
+    private static final String PARENT_VERSION_FILTER = "c.key.parentKeyVersion = :parentversion";
+    private static final String LOCAL_NAME_FILTER     = "c.key.localName = :localname";
+    private static final String MAX_VERISON_FILTER    = "c.key.version = (SELECT MAX(c.key.version) FROM __TABLE__ c)";
+
+    private static final String DELETE_BY_CONCEPT_KEY =
+            DELETE_FROM_TABLE + WHERE + NAME_FILTER + AND + VERSION_FILTER;
+
+    private static final String DELETE_BY_REFERENCE_KEY =
+            DELETE_FROM_TABLE + WHERE + PARENT_NAME_FILTER + AND + PARENT_VERSION_FILTER + AND + LOCAL_NAME_FILTER;
+
+    private static final String SELECT_ALL_FOR_PARENT =
+            SELECT_FROM_TABLE + WHERE + PARENT_NAME_FILTER + AND + PARENT_VERSION_FILTER;
+
+    private static final String SELECT_ALL_VERSIONS = SELECT_FROM_TABLE + WHERE + NAME_FILTER;
+
+    private static final String SELECT_LATEST_VERSION =
+            SELECT_FROM_TABLE + WHERE + NAME_FILTER + AND + MAX_VERISON_FILTER;
+
+    private static final String SELECT_LATEST_VERSIONS =
+            "SELECT c FROM __TABLE__ c WHERE c.key.version = (SELECT MAX(c.key.version) FROM __TABLE__ c)";
+
+    private static final String SELECT_BY_CONCEPT_KEY =
+            SELECT_FROM_TABLE + WHERE + NAME_FILTER + AND + VERSION_FILTER;
+
+    private static final String SELECT_BY_REFERENCE_KEY =
+            SELECT_FROM_TABLE + WHERE + PARENT_NAME_FILTER + AND + PARENT_VERSION_FILTER + AND + LOCAL_NAME_FILTER;
+    // @formatter:on
 
     // Entity manager for JPA
     private EntityManagerFactory emf = null;
@@ -138,10 +176,14 @@ public class DefaultPfDao implements PfDao {
         }
         final EntityManager mg = getEntityManager();
         try {
+            // @formatter:off
             mg.getTransaction().begin();
-            mg.createQuery(DELETE_FROM + someClass.getSimpleName() + C_WHERE_C_KEY_NAME + key.getName()
-                    + AND_C_KEY_VERSION + key.getVersion() + "'", someClass).executeUpdate();
+            mg.createQuery(setQueryTable(DELETE_BY_CONCEPT_KEY, someClass), someClass)
+                .setParameter(NAME,    key.getName())
+                .setParameter("version", key.getVersion())
+                .executeUpdate();
             mg.getTransaction().commit();
+            // @formatter:on
         } finally {
             mg.close();
         }
@@ -154,11 +196,15 @@ public class DefaultPfDao implements PfDao {
         }
         final EntityManager mg = getEntityManager();
         try {
+            // @formatter:off
             mg.getTransaction().begin();
-            mg.createQuery(DELETE_FROM + someClass.getSimpleName() + C_WHERE_C_KEY_PARENT_KEY_NAME
-                    + key.getParentKeyName() + AND_C_KEY_PARENT_KEY_VERSION + key.getParentKeyVersion()
-                    + AND_C_KEY_LOCAL_NAME + key.getLocalName() + "'", someClass).executeUpdate();
+            mg.createQuery(setQueryTable(DELETE_BY_REFERENCE_KEY, someClass), someClass)
+                .setParameter(PARENT_NAME,    key.getParentKeyName())
+                .setParameter(PARENT_VERSION, key.getParentKeyVersion())
+                .setParameter(LOCAL_NAME,     key.getLocalName())
+                .executeUpdate();
             mg.getTransaction().commit();
+            // @formatter:on
         } finally {
             mg.close();
         }
@@ -206,12 +252,16 @@ public class DefaultPfDao implements PfDao {
         int deletedCount = 0;
         final EntityManager mg = getEntityManager();
         try {
+            // @formatter:off
             mg.getTransaction().begin();
             for (final PfConceptKey key : keys) {
-                deletedCount += mg.createQuery(DELETE_FROM + someClass.getSimpleName() + C_WHERE_C_KEY_NAME
-                        + key.getName() + AND_C_KEY_VERSION + key.getVersion() + "'", someClass).executeUpdate();
+                deletedCount += mg.createQuery(setQueryTable(DELETE_BY_CONCEPT_KEY, someClass), someClass)
+                    .setParameter(NAME,    key.getName())
+                    .setParameter("version", key.getVersion())
+                    .executeUpdate();
             }
             mg.getTransaction().commit();
+            // @formatter:on
         } finally {
             mg.close();
         }
@@ -227,16 +277,17 @@ public class DefaultPfDao implements PfDao {
         int deletedCount = 0;
         final EntityManager mg = getEntityManager();
         try {
+            // @formatter:off
             mg.getTransaction().begin();
             for (final PfReferenceKey key : keys) {
-                deletedCount +=
-                        mg.createQuery(
-                                DELETE_FROM + someClass.getSimpleName() + C_WHERE_C_KEY_PARENT_KEY_NAME
-                                        + key.getParentKeyName() + AND_C_KEY_PARENT_KEY_VERSION
-                                        + key.getParentKeyVersion() + AND_C_KEY_LOCAL_NAME + key.getLocalName() + "'",
-                                someClass).executeUpdate();
+                deletedCount += mg.createQuery(setQueryTable(DELETE_BY_REFERENCE_KEY, someClass), someClass)
+                    .setParameter(PARENT_NAME,    key.getParentKeyName())
+                    .setParameter(PARENT_VERSION, key.getParentKeyVersion())
+                    .setParameter(LOCAL_NAME,     key.getLocalName())
+                    .executeUpdate();
             }
             mg.getTransaction().commit();
+            // @formatter:on
         } finally {
             mg.close();
         }
@@ -248,11 +299,26 @@ public class DefaultPfDao implements PfDao {
         final EntityManager mg = getEntityManager();
         try {
             mg.getTransaction().begin();
-            mg.createQuery(DELETE_FROM + someClass.getSimpleName() + " c ", someClass).executeUpdate();
+            mg.createQuery(setQueryTable(DELETE_FROM_TABLE, someClass), someClass).executeUpdate();
             mg.getTransaction().commit();
         } finally {
             mg.close();
         }
+    }
+
+    @Override
+    public <T extends PfConcept> List<T> getFiltered(Class<T> someClass, PfConceptKey key) {
+        if (key.getName() == null) {
+            return getAll(someClass);
+        }
+
+        if (key.getVersion() == null) {
+            return getAllVersions(someClass, key.getName());
+        }
+
+        T foundConcept = get(someClass, key);
+
+        return (foundConcept == null ? Collections.emptyList() : Collections.singletonList(foundConcept));
     }
 
     @Override
@@ -313,7 +379,7 @@ public class DefaultPfDao implements PfDao {
         }
         final EntityManager mg = getEntityManager();
         try {
-            return mg.createQuery(SELECT_C_FROM + someClass.getSimpleName() + " c", someClass).getResultList();
+            return mg.createQuery(setQueryTable(SELECT_FROM_TABLE, someClass), someClass).getResultList();
         } finally {
             mg.close();
         }
@@ -326,15 +392,69 @@ public class DefaultPfDao implements PfDao {
         }
         final EntityManager mg = getEntityManager();
         try {
-            return mg
-                    .createQuery(
-                            SELECT_C_FROM + someClass.getSimpleName() + C_WHERE_C_KEY_PARENT_KEY_NAME
-                                    + parentKey.getName() + AND_C_KEY_PARENT_KEY_VERSION + parentKey.getVersion() + "'",
-                            someClass)
+            // @formatter:off
+            return mg.createQuery(setQueryTable(SELECT_ALL_FOR_PARENT, someClass), someClass)
+                    .setParameter(PARENT_NAME,    parentKey.getName())
+                    .setParameter(PARENT_VERSION, parentKey.getVersion())
                     .getResultList();
+            // @formatter:on
         } finally {
             mg.close();
         }
+    }
+
+    @Override
+    public <T extends PfConcept> List<T> getAllVersions(final Class<T> someClass, final String conceptName) {
+        if (someClass == null || conceptName == null) {
+            return Collections.emptyList();
+        }
+        final EntityManager mg = getEntityManager();
+        try {
+            // @formatter:off
+            return mg.createQuery(setQueryTable(SELECT_ALL_VERSIONS, someClass), someClass)
+                    .setParameter(NAME, conceptName)
+                    .getResultList();
+            // @formatter:on
+        } finally {
+            mg.close();
+        }
+    }
+
+    @Override
+    public <T extends PfConcept> List<T> getLatestVersions(final Class<T> someClass) {
+        if (someClass == null) {
+            return Collections.emptyList();
+        }
+        final EntityManager mg = getEntityManager();
+        List<T> ret;
+        try {
+            // @formatter:off
+            return mg.createQuery(setQueryTable(SELECT_LATEST_VERSIONS, someClass), someClass)
+                    .getResultList();
+            // @formatter:on
+        } finally {
+            mg.close();
+        }
+    }
+
+    @Override
+    public <T extends PfConcept> T getLatestVersion(final Class<T> someClass, final String conceptName) {
+        if (someClass == null || conceptName == null) {
+            return null;
+        }
+        final EntityManager mg = getEntityManager();
+        List<T> ret;
+        try {
+            // @formatter:off
+            ret = mg.createQuery(setQueryTable(SELECT_LATEST_VERSION, someClass), someClass)
+                    .setParameter(NAME, conceptName)
+                    .getResultList();
+            // @formatter:on
+        } finally {
+            mg.close();
+        }
+
+        return getSingleResult(someClass, conceptName, ret);
     }
 
     @Override
@@ -345,19 +465,17 @@ public class DefaultPfDao implements PfDao {
         final EntityManager mg = getEntityManager();
         List<T> ret;
         try {
-            ret = mg.createQuery(SELECT_C_FROM + someClass.getSimpleName() + C_WHERE_C_KEY_NAME + key.getName()
-                    + AND_C_KEY_VERSION + key.getVersion() + "'", someClass).getResultList();
+            // @formatter:off
+            ret = mg.createQuery(setQueryTable(SELECT_BY_CONCEPT_KEY, someClass), someClass)
+                    .setParameter(NAME,    key.getName())
+                    .setParameter(VERSION, key.getVersion())
+                    .getResultList();
+            // @formatter:on
         } finally {
             mg.close();
         }
-        if (ret == null || ret.isEmpty()) {
-            return null;
-        }
-        if (ret.size() > 1) {
-            throw new IllegalArgumentException("More than one result was returned for search for " + someClass
-                    + " with key " + key.getId() + ": " + ret);
-        }
-        return ret.get(0);
+
+        return getSingleResult(someClass, key.getId(), ret);
     }
 
     @Override
@@ -368,20 +486,18 @@ public class DefaultPfDao implements PfDao {
         final EntityManager mg = getEntityManager();
         List<T> ret;
         try {
-            ret = mg.createQuery(SELECT_C_FROM + someClass.getSimpleName() + C_WHERE_C_KEY_PARENT_KEY_NAME
-                    + key.getParentKeyName() + AND_C_KEY_PARENT_KEY_VERSION + key.getParentKeyVersion()
-                    + AND_C_KEY_LOCAL_NAME + key.getLocalName() + "'", someClass).getResultList();
+            // @formatter:off
+            ret = mg.createQuery(setQueryTable(SELECT_BY_REFERENCE_KEY, someClass), someClass)
+                    .setParameter(PARENT_NAME,    key.getParentKeyName())
+                    .setParameter(PARENT_VERSION, key.getParentKeyVersion())
+                    .setParameter(LOCAL_NAME,     key.getLocalName())
+                    .getResultList();
+            // @formatter:on
         } finally {
             mg.close();
         }
-        if (ret == null || ret.isEmpty()) {
-            return null;
-        }
-        if (ret.size() > 1) {
-            throw new IllegalArgumentException("More than one result was returned for search for " + someClass
-                    + " with key " + key.getId() + ": " + ret);
-        }
-        return ret.get(0);
+
+        return getSingleResult(someClass, key.getId(), ret);
     }
 
     @Override
@@ -413,5 +529,35 @@ public class DefaultPfDao implements PfDao {
             mg.close();
         }
         return size;
+    }
+
+    /**
+     * Add the table to a query string.
+     *
+     * @param queryString the query string
+     * @param tableClass the class name of the table
+     * @return the updated query string
+     */
+    private <T extends PfConcept> String setQueryTable(final String queryString, final Class<T> tableClass) {
+        return queryString.replaceAll(TABLE_TOKEN, tableClass.getSimpleName());
+    }
+
+    /**
+     * Check that a query returned one and only one entry and return that entry.
+     *
+     * @param someClass the class being searched for
+     * @param conceptName the concept name being searched for
+     * @param resultList the result list returned by the query
+     * @return the single unique result
+     */
+    private <T extends PfConcept> T getSingleResult(final Class<T> someClass, final String searchFilter, List<T> ret) {
+        if (ret == null || ret.isEmpty()) {
+            return null;
+        }
+        if (ret.size() > 1) {
+            throw new IllegalArgumentException("More than one result was returned query on " + someClass
+                    + " with filter " + searchFilter + ": " + ret);
+        }
+        return ret.get(0);
     }
 }
