@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "8f81b22f_83a97d51",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpStatus.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-03T15:54:15Z",
+      "side": 1,
+      "message": "then we can remove this - it\u0027s of no value to PAP, is it?",
+      "parentUuid": "bb9332d6_7ed3c0e8",
+      "revId": "44d88722bf59f9d39b54a1aac3f59def61133b29",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a9485e1c_a0c70d68",
         "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpStatus.java",
         "patchSetId": 1
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "No, this denotes the instanceId of the Pdp.",
       "parentUuid": "a9485e1c_a0c70d68",
+      "revId": "44d88722bf59f9d39b54a1aac3f59def61133b29",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a7429c0_170f7eb4",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpStatus.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-03T15:54:15Z",
+      "side": 1,
+      "message": "From what I have heard in the discussions and seen in the code, they\u0027re both the same; they\u0027re both populated from the hostname.",
+      "parentUuid": "f3caafdd_f636c1e7",
       "revId": "44d88722bf59f9d39b54a1aac3f59def61133b29",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
