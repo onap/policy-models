@@ -102,6 +102,24 @@
     },
     {
       "key": {
+        "uuid": "e6645b51_a0164629",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-03T20:11:54Z",
+      "side": 1,
+      "message": "I think some of the filtering we need to do is too complex to do in SQL, I\u0027ll implement in Java for now.",
+      "parentUuid": "c981a616_0925219e",
+      "revId": "defa996aa95c11a6252604498a1e775134c34f2e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11263378_72a71c05",
         "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpProvider.java",
         "patchSetId": 1
@@ -125,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "2c657831_302a09ca",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-03T20:11:54Z",
+      "side": 1,
+      "message": "It just gets the latest version irrespective of state. I think we need to talk about what we want there because we could end up with very complex queries.",
+      "parentUuid": "11263378_72a71c05",
+      "range": {
+        "startLine": 92,
+        "startChar": 26,
+        "endLine": 92,
+        "endChar": 44
+      },
+      "revId": "defa996aa95c11a6252604498a1e775134c34f2e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03869110_1836d6b9",
         "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpProvider.java",
         "patchSetId": 1
@@ -136,6 +178,30 @@
       "writtenOn": "2019-04-03T18:05:11Z",
       "side": 1,
       "message": "Should the condition be reversed?\nI mean passing null name to getLatestVersion might have errors.",
+      "range": {
+        "startLine": 95,
+        "startChar": 8,
+        "endLine": 100,
+        "endChar": 9
+      },
+      "revId": "defa996aa95c11a6252604498a1e775134c34f2e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "776b5b84_98036193",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-03T20:11:54Z",
+      "side": 1,
+      "message": "Yes, will fix in next review.",
+      "parentUuid": "03869110_1836d6b9",
       "range": {
         "startLine": 95,
         "startChar": 8,
