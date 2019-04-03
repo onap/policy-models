@@ -22,13 +22,14 @@
 package org.onap.policy.models.pdp.concepts;
 
 import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
 import org.onap.policy.models.pdp.enums.PdpHealthStatus;
 import org.onap.policy.models.pdp.enums.PdpMessageType;
 import org.onap.policy.models.pdp.enums.PdpState;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 
 /**
  * Class to represent the PDP_STATUS message that all the PDP's will send to PAP.
@@ -48,8 +49,8 @@ public class PdpStatus extends PdpMessage {
     private String description;
     private String pdpGroup;
     private String pdpSubgroup;
-    private List<PolicyTypeIdent> supportedPolicyTypes;
-    private List<ToscaPolicy> policies;
+    private List<ToscaPolicyTypeIdentifier> supportedPolicyTypes;
+    private List<ToscaPolicyIdentifier> policies;
     private String instance;
     private String deploymentInstanceInfo;
     private String properties;

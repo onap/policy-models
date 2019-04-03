@@ -1,4 +1,4 @@
-/*
+/*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
@@ -24,16 +24,16 @@ package org.onap.policy.models.pdp.concepts;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
+
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 
 /**
- * Class to represent a group of all PDP's of the same pdp type running for a particular
- * domain.
+ * Class to represent a group of all PDP's of the same pdp type running for a particular domain.
  *
  * @author Ram Krishna Verma (ram.krishna.verma@est.tech)
  */
@@ -42,8 +42,8 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 @ToString
 public class PdpSubGroup {
     private String pdpType;
-    private List<PolicyTypeIdent> supportedPolicyTypes;
-    private List<ToscaPolicy> policies;
+    private List<ToscaPolicyTypeIdentifier> supportedPolicyTypes;
+    private List<ToscaPolicyIdentifier> policies;
     private int currentInstanceCount;
     private int desiredInstanceCount;
     private Map<String, String> properties;
@@ -61,10 +61,10 @@ public class PdpSubGroup {
      *
      * @param source source from which to copy fields
      */
-    public PdpSubGroup(@NonNull PdpSubGroup source) {
+    public PdpSubGroup(@NonNull final PdpSubGroup source) {
         this.pdpType = source.pdpType;
-        this.supportedPolicyTypes = PfUtils.mapList(source.supportedPolicyTypes, PolicyTypeIdent::new);
-        this.policies = PfUtils.mapList(source.policies, ToscaPolicy::new);
+        this.supportedPolicyTypes = PfUtils.mapList(source.supportedPolicyTypes, ToscaPolicyTypeIdentifier::new);
+        this.policies = PfUtils.mapList(source.policies, ToscaPolicyIdentifier::new);
         this.currentInstanceCount = source.currentInstanceCount;
         this.desiredInstanceCount = source.desiredInstanceCount;
         this.properties = (source.properties == null ? null : new LinkedHashMap<>(source.properties));

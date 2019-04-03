@@ -25,26 +25,34 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 /**
- * Identifies a policy. Both the name and version must be non-null.
+ * Policy identifier with an optional version; only the "name" is required.
  */
 @Data
 @NoArgsConstructor
-public class PolicyIdent {
+public class ToscaPolicyIdentifierOptVersion {
 
     @NonNull
     private String name;
 
-    @NonNull
     private String version;
 
 
-    public PolicyIdent(@NonNull String name, @NonNull String version) {
+    public ToscaPolicyIdentifierOptVersion(@NonNull String name, String version) {
         this.name = name;
         this.version = version;
     }
 
-    public PolicyIdent(PolicyIdent source) {
+    public ToscaPolicyIdentifierOptVersion(ToscaPolicyIdentifierOptVersion source) {
         this.name = source.name;
         this.version = source.version;
+    }
+
+    /**
+     * Determines if the version is null/missing.
+     *
+     * @return {@code true} if the version is null/missing, {@code false}
+     */
+    public boolean isNullVersion() {
+        return (version == null);
     }
 }

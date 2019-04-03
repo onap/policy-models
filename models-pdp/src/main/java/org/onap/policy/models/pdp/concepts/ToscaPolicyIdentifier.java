@@ -25,11 +25,11 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 /**
- * Identifies a policy type. Both the name and version must be non-null.
+ * Identifies a policy. Both the name and version must be non-null.
  */
 @Data
 @NoArgsConstructor
-public class PolicyTypeIdent {
+public class ToscaPolicyIdentifier {
 
     @NonNull
     private String name;
@@ -38,12 +38,12 @@ public class PolicyTypeIdent {
     private String version;
 
 
-    public PolicyTypeIdent(@NonNull String name, @NonNull String version) {
+    public ToscaPolicyIdentifier(@NonNull String name, @NonNull String version) {
         this.name = name;
         this.version = version;
     }
 
-    public PolicyTypeIdent(PolicyTypeIdent source) {
+    public ToscaPolicyIdentifier(ToscaPolicyIdentifier source) {
         this.name = source.name;
         this.version = source.version;
     }

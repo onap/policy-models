@@ -58,7 +58,8 @@ import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
-import org.onap.policy.models.pdp.concepts.PolicyTypeIdent;
+import org.onap.policy.models.pdp.concepts.ToscaPolicyIdentifier;
+import org.onap.policy.models.pdp.concepts.ToscaPolicyTypeIdentifier;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 
 /**
@@ -161,17 +162,17 @@ public class JpaPdpSubGroup extends PfConcept implements PfAuthorative<PdpSubGro
 
         pdpSubgroup.setSupportedPolicyTypes(new ArrayList<>());
         for (PfConceptKey supportedPolicyTypeKey : supportedPolicyTypes) {
-            PolicyTypeIdent supportedPolicyTypeIdent =
-                    new PolicyTypeIdent(supportedPolicyTypeKey.getName(), supportedPolicyTypeKey.getVersion());
+            ToscaPolicyTypeIdentifier supportedPolicyTypeIdent = new ToscaPolicyTypeIdentifier(
+                    supportedPolicyTypeKey.getName(), supportedPolicyTypeKey.getVersion());
             pdpSubgroup.getSupportedPolicyTypes().add(supportedPolicyTypeIdent);
         }
 
         pdpSubgroup.setPolicies(new ArrayList<>());
         for (PfConceptKey policyKey : policies) {
-            ToscaPolicy toscaPolicy = new ToscaPolicy();
-            toscaPolicy.setName(policyKey.getName());
-            toscaPolicy.setVersion(policyKey.getVersion());
-            pdpSubgroup.getPolicies().add(toscaPolicy);
+            ToscaPolicyIdentifier toscaPolicyIdentifier = new ToscaPolicyIdentifier();
+            toscaPolicyIdentifier.setName(policyKey.getName());
+            toscaPolicyIdentifier.setVersion(policyKey.getVersion());
+            pdpSubgroup.getPolicies().add(toscaPolicyIdentifier);
         }
 
         pdpSubgroup.setCurrentInstanceCount(currentInstanceCount);
@@ -194,15 +195,15 @@ public class JpaPdpSubGroup extends PfConcept implements PfAuthorative<PdpSubGro
         }
 
         this.supportedPolicyTypes = new ArrayList<>();
-        for (PolicyTypeIdent supportedPolicyType : pdpSubgroup.getSupportedPolicyTypes()) {
+        for (ToscaPolicyTypeIdentifier supportedPolicyType : pdpSubgroup.getSupportedPolicyTypes()) {
             this.supportedPolicyTypes
                     .add(new PfConceptKey(supportedPolicyType.getName(), supportedPolicyType.getVersion()));
         }
 
 
         this.policies = new ArrayList<>();
-        for (ToscaPolicy toscaPolicy : pdpSubgroup.getPolicies()) {
-            this.policies.add(new PfConceptKey(toscaPolicy.getName(), toscaPolicy.getVersion()));
+        for (ToscaPolicyIdentifier toscaPolicyIdentifier : pdpSubgroup.getPolicies()) {
+            this.policies.add(new PfConceptKey(toscaPolicyIdentifier.getName(), toscaPolicyIdentifier.getVersion()));
         }
 
         this.currentInstanceCount = pdpSubgroup.getCurrentInstanceCount();

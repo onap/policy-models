@@ -29,7 +29,7 @@ import org.onap.policy.common.utils.coder.StandardCoder;
  *
  * @param <T> type of key being tested
  */
-public class IdentTestBase<T> {
+public class ToscaIdentifierTestBase<T> {
 
     private static final Coder coder = new StandardCoder();
 
@@ -40,7 +40,7 @@ public class IdentTestBase<T> {
      * Constructs the object.
      * @param clazz the type of class being tested
      */
-    public IdentTestBase(Class<T> clazz) {
+    public ToscaIdentifierTestBase(Class<T> clazz) {
         this.clazz = clazz;
     }
 

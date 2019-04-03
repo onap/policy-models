@@ -22,41 +22,50 @@ package org.onap.policy.models.pdp.concepts;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
 /**
  * Test the other constructors, as {@link TestModels} tests the other methods.
  */
-public class TestPolicyIdent extends IdentTestBase<PolicyIdent> {
+public class TestToscaPolicyIdentifierOptVersion extends ToscaIdentifierTestBase<ToscaPolicyIdentifierOptVersion> {
     private static final String NAME = "my-name";
     private static final String VERSION = "1.2.3";
 
-    public TestPolicyIdent() {
-        super(PolicyIdent.class);
+    public TestToscaPolicyIdentifierOptVersion() {
+        super(ToscaPolicyIdentifierOptVersion.class);
     }
 
     @Test
-    public void testAllArgsConstructor() {
-        assertThatThrownBy(() -> new PolicyIdent(null, VERSION)).isInstanceOf(NullPointerException.class);
-        assertThatThrownBy(() -> new PolicyIdent(NAME, null)).isInstanceOf(NullPointerException.class);
+    public void testAllArgsConstructor_testIsNullVersion() {
+        assertThatThrownBy(() -> new ToscaPolicyIdentifierOptVersion(null, VERSION))
+                .isInstanceOf(NullPointerException.class);
 
-        PolicyIdent orig = new PolicyIdent(NAME, VERSION);
+        // with null version
+        ToscaPolicyIdentifierOptVersion orig = new ToscaPolicyIdentifierOptVersion(NAME, null);
+        assertEquals(NAME, orig.getName());
+        assertEquals(null, orig.getVersion());
+        assertTrue(orig.isNullVersion());
+
+        orig = new ToscaPolicyIdentifierOptVersion(NAME, VERSION);
         assertEquals(NAME, orig.getName());
         assertEquals(VERSION, orig.getVersion());
+        assertFalse(orig.isNullVersion());
     }
 
     @Test
-    public void testCopyConstructor() {
-        assertThatThrownBy(() -> new PolicyIdent(null)).isInstanceOf(NullPointerException.class);
+    public void testCopyConstructor() throws Exception {
+        assertThatThrownBy(() -> new ToscaPolicyIdentifierOptVersion(null)).isInstanceOf(NullPointerException.class);
 
-        PolicyIdent orig = new PolicyIdent();
+        ToscaPolicyIdentifierOptVersion orig = new ToscaPolicyIdentifierOptVersion();
 
         // verify with null values
-        assertEquals(orig.toString(), new PolicyIdent(orig).toString());
+        assertEquals(orig.toString(), new ToscaPolicyIdentifierOptVersion(orig).toString());
 
         // verify with all values
-        orig = new PolicyIdent(NAME, VERSION);
-        assertEquals(orig.toString(), new PolicyIdent(orig).toString());
+        orig = makeIdent(NAME, VERSION);
+        assertEquals(orig.toString(), new ToscaPolicyIdentifierOptVersion(orig).toString());
     }
 }

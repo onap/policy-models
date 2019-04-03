@@ -28,36 +28,36 @@ import org.junit.Test;
 /**
  * Test the other constructors, as {@link TestModels} tests the other methods.
  */
-public class TestPolicyTypeIdent extends IdentTestBase<PolicyTypeIdent> {
+public class TestToscaPolicyTypeIdentifier extends ToscaIdentifierTestBase<ToscaPolicyTypeIdentifier> {
     private static final String NAME = "my-name";
     private static final String VERSION = "1.2.3";
 
-    public TestPolicyTypeIdent() {
-        super(PolicyTypeIdent.class);
+    public TestToscaPolicyTypeIdentifier() {
+        super(ToscaPolicyTypeIdentifier.class);
     }
 
     @Test
     public void testAllArgsConstructor() {
-        assertThatThrownBy(() -> new PolicyTypeIdent(null, VERSION)).isInstanceOf(NullPointerException.class);
-        assertThatThrownBy(() -> new PolicyTypeIdent(NAME, null)).isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> new ToscaPolicyTypeIdentifier(null, VERSION)).isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> new ToscaPolicyTypeIdentifier(NAME, null)).isInstanceOf(NullPointerException.class);
 
-        PolicyTypeIdent orig = new PolicyTypeIdent(NAME, VERSION);
+        ToscaPolicyTypeIdentifier orig = new ToscaPolicyTypeIdentifier(NAME, VERSION);
         assertEquals(NAME, orig.getName());
         assertEquals(VERSION, orig.getVersion());
     }
 
     @Test
     public void testCopyConstructor() {
-        assertThatThrownBy(() -> new PolicyTypeIdent(null)).isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> new ToscaPolicyTypeIdentifier(null)).isInstanceOf(NullPointerException.class);
 
-        PolicyTypeIdent orig = new PolicyTypeIdent();
+        ToscaPolicyTypeIdentifier orig = new ToscaPolicyTypeIdentifier();
 
         // verify with null values
-        assertEquals(orig.toString(), new PolicyTypeIdent(orig).toString());
+        assertEquals(orig.toString(), new ToscaPolicyTypeIdentifier(orig).toString());
 
         // verify with all values
-        orig = new PolicyTypeIdent(NAME, VERSION);
-        assertEquals(orig.toString(), new PolicyTypeIdent(orig).toString());
+        orig = new ToscaPolicyTypeIdentifier(NAME, VERSION);
+        assertEquals(orig.toString(), new ToscaPolicyTypeIdentifier(orig).toString());
     }
 
 }
