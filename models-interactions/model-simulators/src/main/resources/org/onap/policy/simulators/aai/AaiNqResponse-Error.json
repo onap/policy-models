@@ -1,0 +1,15 @@
+{
+  "inventory-response-item": [],
+  "requestError": {
+    "serviceException": {
+      "messageId": "SVC3001",
+      "text": "Resource not found for %1 using id %2 (msg=%3) (ec=%4)",
+      "variables": [
+        "POST Search",
+        "getNamedQueryResponse",
+        "Node Not Found:No Node of type ${type} found for properties",
+        "ERR.5.4.6114"
+      ]
+    }
+  }
+}
