@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "02666400_c6c81a75",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/PfDao.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-03T16:39:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e38099a_fe392663",
+      "range": {
+        "startLine": 111,
+        "startChar": 7,
+        "endLine": 111,
+        "endChar": 25
+      },
+      "revId": "defa996aa95c11a6252604498a1e775134c34f2e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "228ebadd_6e621949",
         "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2019-04-03T16:18:20Z",
       "side": 1,
       "message": "will this correctly sort 1.2.3 and 10.2.3?\n\nNote: for my queries, I only want versions that are numeric in each component.",
+      "revId": "defa996aa95c11a6252604498a1e775134c34f2e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "969cb087_3a85bd48",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-03T16:39:21Z",
+      "side": 1,
+      "message": "Good point, I\u0027ll check this in the next version, in fact I\u0027m not happy with the JUnit for all this, it needs to be more extensive. It might be better to suck out all the versions into Java and sort there using a comparator.",
+      "parentUuid": "228ebadd_6e621949",
       "revId": "defa996aa95c11a6252604498a1e775134c34f2e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
