@@ -29,6 +29,7 @@
   <packaging>pom</packaging>
   <name>${project.artifactId}</name>
   <modules>
+      <module>model-simulators</module>
       <module>model-impl</module>
       <module>model-actors</module>
   </modules>
