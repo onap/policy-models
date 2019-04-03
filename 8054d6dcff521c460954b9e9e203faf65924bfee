@@ -93,6 +93,53 @@
       "revId": "8054d6dcff521c460954b9e9e203faf65924bfee",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8045fb5d_8092eb9e",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/impl/DatabasePolicyModelsProviderImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-04-03T01:58:20Z",
+      "side": 1,
+      "message": "Jim, I think we are talking the same thing. Either of two following options is good enough for me\n1. What Jim wrote above, 4 different apis\n2. have one like \"Template getPolicies(type, typeV, name, V)\"",
+      "parentUuid": "6f3bf71a_5df8e47b",
+      "range": {
+        "startLine": 209,
+        "startChar": 11,
+        "endLine": 209,
+        "endChar": 53
+      },
+      "revId": "8054d6dcff521c460954b9e9e203faf65924bfee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "80d66748_12ded683",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/impl/PolicyPersistenceTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-04-03T01:58:20Z",
+      "side": 1,
+      "message": "Seems this test is duplicated with PolicyToscaPersistenceTest?",
+      "range": {
+        "startLine": 54,
+        "startChar": 13,
+        "endLine": 54,
+        "endChar": 34
+      },
+      "revId": "8054d6dcff521c460954b9e9e203faf65924bfee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
