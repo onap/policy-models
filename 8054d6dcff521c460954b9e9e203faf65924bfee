@@ -45,6 +45,30 @@
       "revId": "8054d6dcff521c460954b9e9e203faf65924bfee",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aba9e33d_679dce35",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/impl/DatabasePolicyModelsProviderImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-04-03T00:02:00Z",
+      "side": 1,
+      "message": "or can we change \n\"ToscaServiceTemplate getPolicies(final String name, final String version)\" to \n\"ToscaServiceTemplate getPolicies(final String policyTypeId, final String policyTypeVersion, final String policyId, final String policyVersion)\"\n\ngiven all policies are coupled with policy types, we can easily retrieve all policies for a policy type by setting both policyId and policyVersion to null while policyTypeId and policyTypeVersion are not null. I have one endpoint for that. how do you think?",
+      "parentUuid": "288346e4_7c9f3f2c",
+      "range": {
+        "startLine": 209,
+        "startChar": 11,
+        "endLine": 209,
+        "endChar": 53
+      },
+      "revId": "8054d6dcff521c460954b9e9e203faf65924bfee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
