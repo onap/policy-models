@@ -72,9 +72,9 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.onap.policy.drools-applications.controlloop.common</groupId>
+      <groupId>org.onap.policy.models.policy-models-interactions</groupId>
       <artifactId>simulators</artifactId>
-      <version>${policy.drools-applications.version}</version>
+      <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
