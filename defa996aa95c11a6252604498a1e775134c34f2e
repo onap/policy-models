@@ -81,6 +81,24 @@
       "revId": "defa996aa95c11a6252604498a1e775134c34f2e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c981a616_0925219e",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-03T16:42:49Z",
+      "side": 1,
+      "message": "if you do, there\u0027s a Version.java in policy/pap which I used to do it before you added this to the provider.  Has junit tests, too",
+      "parentUuid": "969cb087_3a85bd48",
+      "revId": "defa996aa95c11a6252604498a1e775134c34f2e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
