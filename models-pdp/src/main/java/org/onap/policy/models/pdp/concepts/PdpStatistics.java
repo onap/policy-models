@@ -35,9 +35,10 @@ import lombok.ToString;
 @ToString
 public class PdpStatistics {
 
-    private long policyDownloadCount;
-    private long policyDownloadSuccessCount;
-    private long policyDownloadFailCount;
+    private String pdpInstanceId;
+    private long policyDeployCount;
+    private long policyDeploySuccessCount;
+    private long policyDeployFailCount;
     private long policyExecutedCount;
     private long policyExecutedSuccessCount;
     private long policyExecutedFailCount;
