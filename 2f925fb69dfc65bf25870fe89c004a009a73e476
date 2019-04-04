@@ -312,6 +312,24 @@
       "revId": "2f925fb69dfc65bf25870fe89c004a009a73e476",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9402bca6_9a21c47c",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/authorative/concepts/TestPojos.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-04T18:06:37Z",
+      "side": 1,
+      "message": "weird.  Doesn\u0027t work that way for me. FilterClassName returns true if the class name matches the given regex, so I\u0027d expect it to INCLUDE the class if the name matches.  That\u0027s why I added ExcludeUtilityClasses to tosca TestPojos; using FilterClassName didn\u0027t work.",
+      "parentUuid": "528b6a4e_cb4f4e66",
+      "revId": "2f925fb69dfc65bf25870fe89c004a009a73e476",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
