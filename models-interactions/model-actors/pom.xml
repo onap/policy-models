@@ -46,9 +46,9 @@
       <artifactId>guava</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.onap.policy.drools-applications.controlloop.common</groupId>
-      <artifactId>policy-yaml</artifactId>
-      <version>${policy.drools-applications.version}</version>
+      <groupId>org.onap.policy.models.policy-models-interactions</groupId>
+      <artifactId>model-yaml</artifactId>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
 </project>
