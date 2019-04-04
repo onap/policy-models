@@ -280,6 +280,30 @@
     },
     {
       "key": {
+        "uuid": "30aba3cf_667ae5e4",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaPolicyFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-04T18:41:09Z",
+      "side": 1,
+      "message": "I\u0027ll look at doing it another way later on, that blue line from SonarLint annoys me......\n\nI have to do something else for the latest version anyway.",
+      "parentUuid": "0d300d46_687be1c2",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 46
+      },
+      "revId": "2f925fb69dfc65bf25870fe89c004a009a73e476",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc39b2bb_456b021c",
         "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/authorative/concepts/TestPojos.java",
         "patchSetId": 1
