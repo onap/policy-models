@@ -18,33 +18,32 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.models.pdp.concepts;
+package org.onap.policy.models.tosca.authorative.concepts;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
 
 /**
- * Identifies a policy. Both the name and version must be non-null.
+ * Tests methods not tested by {@link TestPojos}.
  */
-@Data
-@NoArgsConstructor
-public class ToscaPolicyIdentifier {
+public class TestToscaPolicy {
 
-    @NonNull
-    private String name;
+    @Test
+    public void testGetIdentifier_testGetTypeIdentifier() {
+        ToscaPolicy policy = new ToscaPolicy();
 
-    @NonNull
-    private String version;
+        policy.setName("my_name");
+        policy.setVersion("1.2.3");
+        policy.setType("my_type");
+        policy.setTypeVersion("3.2.1");
 
+        ToscaPolicyIdentifier ident = policy.getIdentifier();
+        assertEquals("my_name", ident.getName());
+        assertEquals("1.2.3", ident.getVersion());
 
-    public ToscaPolicyIdentifier(@NonNull String name, @NonNull String version) {
-        this.name = name;
-        this.version = version;
-    }
-
-    public ToscaPolicyIdentifier(ToscaPolicyIdentifier source) {
-        this.name = source.name;
-        this.version = source.version;
+        ToscaPolicyTypeIdentifier type = policy.getTypeIdentifier();
+        assertEquals("my_type", type.getName());
+        assertEquals("3.2.1", type.getVersion());
     }
 }

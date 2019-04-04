@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,10 +25,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,15 +34,9 @@ import org.onap.policy.models.dao.DaoParameters;
 import org.onap.policy.models.dao.PfDao;
 import org.onap.policy.models.dao.PfDaoFactory;
 import org.onap.policy.models.dao.impl.DefaultPfDao;
-import org.onap.policy.models.pdp.concepts.Pdp;
-import org.onap.policy.models.pdp.concepts.PdpGroup;
 import org.onap.policy.models.pdp.concepts.PdpGroups;
-import org.onap.policy.models.pdp.concepts.PdpSubGroup;
-import org.onap.policy.models.pdp.concepts.ToscaPolicyTypeIdentifier;
-import org.onap.policy.models.pdp.enums.PdpHealthStatus;
-import org.onap.policy.models.pdp.enums.PdpState;
 import org.onap.policy.models.pdp.persistence.provider.PdpProvider;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
+import org.onap.policy.models.tosca.simple.provider.SimpleToscaProvider;
 
 /**
  * Test the {@link SimpleToscaProvider} class.
@@ -110,7 +101,6 @@ public class PdpProviderTest {
 
         String originalJson = ResourceUtils.getResourceAsString("testdata/PdpGroups0.json");
 
-        @SuppressWarnings("unchecked")
         PdpGroups pdpGroups0 = standardCoder.decode(originalJson, PdpGroups.class);
 
         PdpGroups createdPdpGroups0 = new PdpGroups();

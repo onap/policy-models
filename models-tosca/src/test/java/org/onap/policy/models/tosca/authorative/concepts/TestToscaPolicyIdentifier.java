@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.models.pdp.concepts;
+package org.onap.policy.models.tosca.authorative.concepts;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
@@ -26,7 +26,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 /**
- * Test the other constructors, as {@link TestModels} tests the other methods.
+ * Test the other constructors, as {@link TestPojos} tests the other methods.
  */
 public class TestToscaPolicyIdentifier extends ToscaIdentifierTestBase<ToscaPolicyIdentifier> {
     private static final String NAME = "my-name";

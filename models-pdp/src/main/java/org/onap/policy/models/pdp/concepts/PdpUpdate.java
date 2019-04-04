@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import org.onap.policy.models.pdp.enums.PdpMessageType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 
@@ -36,13 +35,13 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
  */
 @Getter
 @Setter
-@ToString
 public class PdpUpdate extends PdpMessage {
 
-    private String name;
+    /**
+     * Description of the PDP group.
+     */
     private String description;
-    private String pdpGroup;
-    private String pdpSubgroup;
+
     private long pdpHeartbeatIntervalMs;
     private List<ToscaPolicy> policies;
 
@@ -60,14 +59,18 @@ public class PdpUpdate extends PdpMessage {
      * @param source source from which to copy
      */
     public PdpUpdate(PdpUpdate source) {
-        super(PdpMessageType.PDP_UPDATE);
+        super(source);
 
-        this.name = source.name;
         this.description = source.description;
-        this.pdpGroup = source.pdpGroup;
-        this.pdpSubgroup = source.pdpSubgroup;
         this.pdpHeartbeatIntervalMs = source.pdpHeartbeatIntervalMs;
         this.policies = (source.policies == null ? null
                         : source.policies.stream().map(ToscaPolicy::new).collect(Collectors.toList()));
+    }
+
+    @Override
+    public String toString() {
+        return "PdpUpdate [description=" + description + ", pdpHeartbeatIntervalMs=" + pdpHeartbeatIntervalMs
+                        + ", policies=" + policies + ", getName()=" + getName() + ", getPdpGroup()=" + getPdpGroup()
+                        + ", getPdpSubgroup()=" + getPdpSubgroup() + "]";
     }
 }

@@ -23,7 +23,6 @@ package org.onap.policy.models.pdp.concepts;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import org.onap.policy.models.pdp.enums.PdpMessageType;
 import org.onap.policy.models.pdp.enums.PdpState;
 
@@ -35,13 +34,9 @@ import org.onap.policy.models.pdp.enums.PdpState;
  */
 @Getter
 @Setter
-@ToString
 public class PdpStateChange extends PdpMessage {
 
-    private String name;
     private PdpState state;
-    private String pdpGroup;
-    private String pdpSubgroup;
 
     /**
      * Constructor for instantiating PdpStateChange class with message name.
@@ -57,11 +52,14 @@ public class PdpStateChange extends PdpMessage {
      * @param source source from which to copy
      */
     public PdpStateChange(PdpStateChange source) {
-        super(PdpMessageType.PDP_STATE_CHANGE);
+        super(source);
 
-        this.name = source.name;
         this.state = source.state;
-        this.pdpGroup = source.pdpGroup;
-        this.pdpSubgroup = source.pdpSubgroup;
+    }
+
+    @Override
+    public String toString() {
+        return "PdpStateChange [state=" + state + ", getName()=" + getName() + ", getPdpGroup()=" + getPdpGroup()
+                        + ", getPdpSubgroup()=" + getPdpSubgroup() + "]";
     }
 }
