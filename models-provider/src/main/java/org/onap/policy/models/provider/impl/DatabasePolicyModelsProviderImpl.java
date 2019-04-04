@@ -30,7 +30,6 @@ import javax.ws.rs.core.Response;
 
 import lombok.NonNull;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.dao.DaoParameters;
@@ -39,13 +38,16 @@ import org.onap.policy.models.dao.PfDaoFactory;
 import org.onap.policy.models.dao.impl.DefaultPfDao;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
+import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.pdp.persistence.provider.PdpProvider;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.authorative.provider.AuthorativeToscaProvider;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyInput;
@@ -162,15 +164,16 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public ToscaServiceTemplate getLatestPolicyTypes(final String name) throws PfModelException {
+    public ToscaServiceTemplate getFilteredPolicyTypes(@NonNull ToscaPolicyTypeFilter filter) throws PfModelException {
         assertInitilized();
-        return new AuthorativeToscaProvider().getLatestPolicyTypes(pfDao, name);
+        return new AuthorativeToscaProvider().getFilteredPolicyTypes(pfDao, filter);
     }
 
     @Override
-    public List<ToscaPolicyType> getLatestPolicyTypeList(final String name) throws PfModelException {
+    public List<ToscaPolicyType> getFilteredPolicyTypeList(@NonNull ToscaPolicyTypeFilter filter)
+            throws PfModelException {
         assertInitilized();
-        return new AuthorativeToscaProvider().getLatestPolicyTypeList(pfDao, name);
+        return new AuthorativeToscaProvider().getFilteredPolicyTypeList(pfDao, filter);
     }
 
     @Override
@@ -207,30 +210,17 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public ToscaServiceTemplate getPolicies4PolicyType(@NonNull String policyTypeName, String policyTypeVersion)
-            throws PfModelException {
+    public ToscaServiceTemplate getFilteredPolicies(@NonNull ToscaPolicyFilter filter) throws PfModelException {
         assertInitilized();
-        return new AuthorativeToscaProvider().getPolicies4PolicyType(pfDao, policyTypeName, policyTypeVersion);
+        return new AuthorativeToscaProvider().getFilteredPolicies(pfDao, filter);
     }
 
     @Override
-    public List<ToscaPolicy> getPolicyList4PolicyType(@NonNull final String policyTypeName,
-            final String policyTypeVersion) throws PfModelException {
+    public List<ToscaPolicy> getFilteredPolicyList(@NonNull ToscaPolicyFilter filter) throws PfModelException {
         assertInitilized();
-        return new AuthorativeToscaProvider().getPolicyList4PolicyType(pfDao, policyTypeName, policyTypeVersion);
+        return new AuthorativeToscaProvider().getFilteredPolicyList(pfDao, filter);
     }
 
-    @Override
-    public ToscaServiceTemplate getLatestPolicies(final String name) throws PfModelException {
-        assertInitilized();
-        return new AuthorativeToscaProvider().getLatestPolicies(pfDao, name);
-    }
-
-    @Override
-    public List<ToscaPolicy> getLatestPolicyList(final String name) throws PfModelException {
-        assertInitilized();
-        return new AuthorativeToscaProvider().getLatestPolicyList(pfDao, name);
-    }
 
     @Override
     public ToscaServiceTemplate createPolicies(@NonNull final ToscaServiceTemplate serviceTemplate)
@@ -313,16 +303,9 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public List<PdpGroup> getLatestPdpGroups(final String name) throws PfModelException {
+    public List<PdpGroup> getFilteredPdpGroups(@NonNull PdpGroupFilter filter) throws PfModelException {
         assertInitilized();
-        return new PdpProvider().getLatestPdpGroups(pfDao, name);
-    }
-
-    @Override
-    public List<PdpGroup> getFilteredPdpGroups(final String pdpType,
-            @NonNull final List<Pair<String, String>> supportedPolicyTypes) {
-        assertInitilized();
-        return new PdpProvider().getFilteredPdpGroups(pfDao, pdpType, supportedPolicyTypes);
+        return new PdpProvider().getFilteredPdpGroups(pfDao, filter);
     }
 
     @Override
@@ -369,13 +352,6 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
         assertInitilized();
         new PdpProvider().updatePdpStatistics(pfDao, pdpGroupName, pdpGroupVersion, pdpType, pdpInstanceId,
                 pdppStatistics);
-    }
-
-    @Override
-    public Map<Pair<String, String>, List<ToscaPolicy>> getDeployedPolicyList(final String name)
-            throws PfModelException {
-        assertInitilized();
-        return new PdpProvider().getDeployedPolicyList(pfDao, name);
     }
 
     /**

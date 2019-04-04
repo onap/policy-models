@@ -22,6 +22,7 @@ package org.onap.policy.models.tosca.simple.provider;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.sql.Connection;
@@ -93,24 +94,10 @@ public class SimpleToscaProviderTest {
     @Test
     public void testPoliciesGet() throws Exception {
         try {
-            new SimpleToscaProvider().getPolicies(null, null);
+            new SimpleToscaProvider().getPolicies(null, null, null);
             fail("test should throw an exception here");
         } catch (Exception exc) {
             assertEquals("dao is marked @NonNull but is null", exc.getMessage());
-        }
-
-        try {
-            new SimpleToscaProvider().getPolicies(null, new PfConceptKey());
-            fail("test should throw an exception here");
-        } catch (Exception exc) {
-            assertEquals("dao is marked @NonNull but is null", exc.getMessage());
-        }
-
-        try {
-            new SimpleToscaProvider().getPolicies(pfDao, null);
-            fail("test should throw an exception here");
-        } catch (Exception exc) {
-            assertEquals("policyKey is marked @NonNull but is null", exc.getMessage());
         }
 
         ToscaServiceTemplate toscaServiceTemplate = standardCoder.decode(
@@ -129,7 +116,7 @@ public class SimpleToscaProviderTest {
         PfConceptKey policyKey = new PfConceptKey("onap.restart.tca:1.0.0");
 
         JpaToscaServiceTemplate gotServiceTemplate =
-                new SimpleToscaProvider().getPolicies(pfDao, new PfConceptKey(policyKey));
+                new SimpleToscaProvider().getPolicies(pfDao, policyKey.getName(), policyKey.getVersion());
 
         assertEquals(originalServiceTemplate.getTopologyTemplate().getPolicies().get(policyKey),
                 gotServiceTemplate.getTopologyTemplate().getPolicies().get(policyKey));
@@ -254,12 +241,8 @@ public class SimpleToscaProviderTest {
         assertEquals(originalServiceTemplate.getTopologyTemplate().getPolicies().get(policyKey),
                 deletedServiceTemplate.getTopologyTemplate().getPolicies().get(policyKey));
 
-        try {
-            new SimpleToscaProvider().getPolicies(pfDao, new PfConceptKey(policyKey));
-            fail("test should throw an exception here");
-        } catch (Exception exc) {
-            assertEquals("policy not found: onap.restart.tca:1.0.0", exc.getMessage());
-        }
+        assertTrue(new SimpleToscaProvider().getPolicies(pfDao, policyKey.getName(), policyKey.getVersion())
+                .getTopologyTemplate().getPolicies().getConceptMap().isEmpty());
     }
 
     @Test

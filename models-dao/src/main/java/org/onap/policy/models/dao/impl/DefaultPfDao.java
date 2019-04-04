@@ -67,7 +67,6 @@ public class DefaultPfDao implements PfDao {
     private static final String PARENT_NAME_FILTER    = "c.key.parentKeyName = :parentname";
     private static final String PARENT_VERSION_FILTER = "c.key.parentKeyVersion = :parentversion";
     private static final String LOCAL_NAME_FILTER     = "c.key.localName = :localname";
-    private static final String MAX_VERISON_FILTER    = "c.key.version = (SELECT MAX(c.key.version) FROM __TABLE__ c)";
 
     private static final String DELETE_BY_CONCEPT_KEY =
             DELETE_FROM_TABLE + WHERE + NAME_FILTER + AND + VERSION_FILTER;
@@ -79,12 +78,6 @@ public class DefaultPfDao implements PfDao {
             SELECT_FROM_TABLE + WHERE + PARENT_NAME_FILTER + AND + PARENT_VERSION_FILTER;
 
     private static final String SELECT_ALL_VERSIONS = SELECT_FROM_TABLE + WHERE + NAME_FILTER;
-
-    private static final String SELECT_LATEST_VERSION =
-            SELECT_FROM_TABLE + WHERE + NAME_FILTER + AND + MAX_VERISON_FILTER;
-
-    private static final String SELECT_LATEST_VERSIONS =
-            "SELECT c FROM __TABLE__ c WHERE c.key.version = (SELECT MAX(c.key.version) FROM __TABLE__ c)";
 
     private static final String SELECT_BY_CONCEPT_KEY =
             SELECT_FROM_TABLE + WHERE + NAME_FILTER + AND + VERSION_FILTER;
@@ -307,16 +300,17 @@ public class DefaultPfDao implements PfDao {
     }
 
     @Override
-    public <T extends PfConcept> List<T> getFiltered(Class<T> someClass, PfConceptKey key) {
-        if (key.getName() == null) {
+    public <T extends PfConcept> List<T> getFiltered(final Class<T> someClass, final String name,
+            final String version) {
+        if (name == null) {
             return getAll(someClass);
         }
 
-        if (key.getVersion() == null) {
-            return getAllVersions(someClass, key.getName());
+        if (version == null) {
+            return getAllVersions(someClass, name);
         }
 
-        T foundConcept = get(someClass, key);
+        T foundConcept = get(someClass, new PfConceptKey(name, version));
 
         return (foundConcept == null ? Collections.emptyList() : Collections.singletonList(foundConcept));
     }
@@ -418,43 +412,6 @@ public class DefaultPfDao implements PfDao {
         } finally {
             mg.close();
         }
-    }
-
-    @Override
-    public <T extends PfConcept> List<T> getLatestVersions(final Class<T> someClass) {
-        if (someClass == null) {
-            return Collections.emptyList();
-        }
-        final EntityManager mg = getEntityManager();
-        List<T> ret;
-        try {
-            // @formatter:off
-            return mg.createQuery(setQueryTable(SELECT_LATEST_VERSIONS, someClass), someClass)
-                    .getResultList();
-            // @formatter:on
-        } finally {
-            mg.close();
-        }
-    }
-
-    @Override
-    public <T extends PfConcept> T getLatestVersion(final Class<T> someClass, final String conceptName) {
-        if (someClass == null || conceptName == null) {
-            return null;
-        }
-        final EntityManager mg = getEntityManager();
-        List<T> ret;
-        try {
-            // @formatter:off
-            ret = mg.createQuery(setQueryTable(SELECT_LATEST_VERSION, someClass), someClass)
-                    .setParameter(NAME, conceptName)
-                    .getResultList();
-            // @formatter:on
-        } finally {
-            mg.close();
-        }
-
-        return getSingleResult(someClass, conceptName, ret);
     }
 
     @Override

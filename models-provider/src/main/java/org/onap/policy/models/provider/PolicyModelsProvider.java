@@ -25,14 +25,16 @@ import java.util.Map;
 
 import lombok.NonNull;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
+import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyInput;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyOutput;
@@ -76,22 +78,24 @@ public interface PolicyModelsProvider extends AutoCloseable {
     public List<ToscaPolicyType> getPolicyTypeList(final String name, final String version) throws PfModelException;
 
     /**
-     * Get latest policy types.
+     * Get filtered policy types.
      *
-     * @param name the name of the policy type to get, set to null to get all policy types
+     * @param filter the filter for the policy types to get
      * @return the policy types found
      * @throws PfModelException on errors getting policy types
      */
-    public ToscaServiceTemplate getLatestPolicyTypes(final String name) throws PfModelException;
+    public ToscaServiceTemplate getFilteredPolicyTypes(@NonNull final ToscaPolicyTypeFilter filter)
+            throws PfModelException;
 
     /**
-     * Get latest policy types.
+     * Get filtered policy types.
      *
-     * @param name the name of the policy type to get, set to null to get all policy types
+     * @param filter the filter for the policy types to get
      * @return the policy types found
      * @throws PfModelException on errors getting policy types
      */
-    public List<ToscaPolicyType> getLatestPolicyTypeList(final String name) throws PfModelException;
+    public List<ToscaPolicyType> getFilteredPolicyTypeList(@NonNull final ToscaPolicyTypeFilter filter)
+            throws PfModelException;
 
     /**
      * Create policy types.
@@ -145,46 +149,22 @@ public interface PolicyModelsProvider extends AutoCloseable {
     public List<ToscaPolicy> getPolicyList(final String name, final String version) throws PfModelException;
 
     /**
-     * Get policies for a policy type name.
+     * Get filtered policies.
      *
-     * @param policyTypeName the name of the policy type for which to get policies
-     * @param policyTypeVersion the version of the policy type, null returns all versions of deployed policies for
-     *        policy types
+     * @param filter the filter for the policies to get
      * @return the policies found
      * @throws PfModelException on errors getting policies
      */
-    public ToscaServiceTemplate getPolicies4PolicyType(@NonNull final String policyTypeName,
-            final String policyTypeVersion) throws PfModelException;
+    public ToscaServiceTemplate getFilteredPolicies(@NonNull final ToscaPolicyFilter filter) throws PfModelException;
 
     /**
-     * Get policies for a policy type name.
+     * Get filtered policies.
      *
-     * @param policyTypeName the name of the policy type for which to get policies
-     * @param policyTypeVersion the version of the policy type, null returns all versions of deployed policies for
-     *        policy types
+     * @param filter the filter for the policies to get
      * @return the policies found
      * @throws PfModelException on errors getting policies
      */
-    public List<ToscaPolicy> getPolicyList4PolicyType(@NonNull final String policyTypeName,
-            final String policyTypeVersion) throws PfModelException;
-
-    /**
-     * Get latest policies.
-     *
-     * @param name the name of the policy to get, null to get all policies
-     * @return the policies found
-     * @throws PfModelException on errors getting policies
-     */
-    public ToscaServiceTemplate getLatestPolicies(final String name) throws PfModelException;
-
-    /**
-     * Get latest policies.
-     *
-     * @param name the name of the policy to get, null to get all policies
-     * @return the policies found
-     * @throws PfModelException on errors getting policies
-     */
-    public List<ToscaPolicy> getLatestPolicyList(final String name) throws PfModelException;
+    public List<ToscaPolicy> getFilteredPolicyList(@NonNull final ToscaPolicyFilter filter) throws PfModelException;
 
     /**
      * Create policies.
@@ -305,23 +285,13 @@ public interface PolicyModelsProvider extends AutoCloseable {
     public List<PdpGroup> getPdpGroups(final String name, final String version) throws PfModelException;
 
     /**
-     * Get latest PDP Groups, returns PDP groups in all states.
+     * Get filtered PDP groups.
      *
-     * @param name the name of the PDP group to get, null to get all PDP groups
+     * @param filter the filter for the PDP groups to get
      * @return the PDP groups found
      * @throws PfModelException on errors getting policies
      */
-    public List<PdpGroup> getLatestPdpGroups(final String name) throws PfModelException;
-
-    /**
-     * Get a filtered list of PDP groups, returns only active PDP groups.
-     *
-     * @param pdpType The PDP type filter for the returned PDP groups, null to get policy types across PDP subgroups
-     * @param supportedPolicyTypes a list of policy type name/version pairs that the PDP groups must support.
-     * @return the PDP groups found
-     */
-    public List<PdpGroup> getFilteredPdpGroups(final String pdpType,
-            @NonNull final List<Pair<String, String>> supportedPolicyTypes);
+    public List<PdpGroup> getFilteredPdpGroups(@NonNull final PdpGroupFilter filter) throws PfModelException;
 
     /**
      * Creates PDP groups.
@@ -396,14 +366,4 @@ public interface PolicyModelsProvider extends AutoCloseable {
     public void updatePdpStatistics(@NonNull final String pdpGroupName, @NonNull final String pdpGroupVersion,
             @NonNull final String pdpType, @NonNull final String pdpInstanceId,
             @NonNull final PdpStatistics pdppStatistics) throws PfModelException;
-
-    /**
-     * Get deployed policies.
-     *
-     * @param name the name of the policy to get, null to get all policies
-     * @return the policies deployed as a map of policy lists keyed by PDP group name and version
-     * @throws PfModelException on errors getting policies
-     */
-    public Map<Pair<String, String>, List<ToscaPolicy>> getDeployedPolicyList(final String name)
-            throws PfModelException;
 }
