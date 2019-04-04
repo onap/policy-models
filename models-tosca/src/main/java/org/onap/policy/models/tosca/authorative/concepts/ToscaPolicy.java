@@ -26,7 +26,6 @@ package org.onap.policy.models.tosca.authorative.concepts;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

@@ -22,7 +22,7 @@
 package org.onap.policy.models.tosca.legacy.concepts;
 
 import com.google.gson.annotations.SerializedName;
-
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -33,9 +33,11 @@ import lombok.Data;
 @Data
 public class LegacyOperationalPolicy {
 
+    @ApiModelProperty(name = "policy-id")
     @SerializedName("policy-id")
     private String policyId;
 
+    @ApiModelProperty(name = "policy-version")
     @SerializedName("policy-version")
     private String policyVersion;
 
