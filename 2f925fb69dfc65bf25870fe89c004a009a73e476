@@ -164,6 +164,30 @@
       "revId": "2f925fb69dfc65bf25870fe89c004a009a73e476",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c122e186_31c9efad",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaPolicyFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-04T17:47:02Z",
+      "side": 1,
+      "message": "For these types of things, they are easier to read, I\u0027m willing to go into sonar and mark that as Won\u0027t Fix.",
+      "parentUuid": "d4372d57_67e5cb8b",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 46
+      },
+      "revId": "2f925fb69dfc65bf25870fe89c004a009a73e476",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
