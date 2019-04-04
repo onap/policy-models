@@ -270,6 +270,24 @@
       "revId": "2f925fb69dfc65bf25870fe89c004a009a73e476",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "528b6a4e_cb4f4e66",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/authorative/concepts/TestPojos.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-04T17:56:29Z",
+      "side": 1,
+      "message": "This code excludes the builders because the @Builder annotation does not play well with OpenPojo:\n\njava.lang.AssertionError: [PojoFieldImpl [field\u003dprivate java.lang.String org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter$ToscaPolicyTypeFilterBuilder.name, fieldGetter\u003dnull, fieldSetter\u003dnull]] is missing a setter",
+      "parentUuid": "fc39b2bb_456b021c",
+      "revId": "2f925fb69dfc65bf25870fe89c004a009a73e476",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
