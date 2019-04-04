@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8eead8a_8147a9bf",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-04-04T14:24:23Z",
+      "side": 1,
+      "message": "I am trying to guess, name/version wildcard as well as latest/deployed will be all included in this filter, right?",
+      "range": {
+        "startLine": 87,
+        "startChar": 92,
+        "endLine": 87,
+        "endChar": 98
+      },
+      "revId": "fc297c8a98df155971e2fa485c7724a61b70c69c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c574f6d2_e0d3ca1f",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-04-04T14:24:23Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 158,
+        "startChar": 85,
+        "endLine": 158,
+        "endChar": 91
+      },
+      "revId": "fc297c8a98df155971e2fa485c7724a61b70c69c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
