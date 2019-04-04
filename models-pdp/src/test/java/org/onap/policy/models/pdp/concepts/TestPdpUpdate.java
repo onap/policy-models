@@ -24,6 +24,7 @@ package org.onap.policy.models.pdp.concepts;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.onap.policy.models.pdp.concepts.PdpMessageUtils.removeVariableFields;
 
 import java.util.Arrays;
 import java.util.List;
@@ -42,15 +43,14 @@ public class TestPdpUpdate {
         PdpUpdate orig = new PdpUpdate();
 
         // verify with null values
-        assertEquals("PdpUpdate(name=null, description=null, pdpGroup=null, pdpSubgroup=null, "
-                        + "pdpHeartbeatIntervalMs=0, policies=null)", new PdpUpdate(orig).toString());
+        assertEquals(removeVariableFields(orig.toString()), removeVariableFields(new PdpUpdate(orig).toString()));
 
         // verify with all values
         orig.setDescription("my-description");
         orig.setName("my-name");
         orig.setPdpGroup("my-group");
         orig.setPdpSubgroup("my-subgroup");
-        orig.setPdpHeartbeatIntervalMs(30000);
+        orig.setPdpHeartbeatIntervalMs(30000L);
 
         ToscaPolicy policy1 = new ToscaPolicy();
         policy1.setName("policy-a");
@@ -65,13 +65,7 @@ public class TestPdpUpdate {
 
         PdpUpdate other = new PdpUpdate(orig);
 
-        assertEquals("PdpUpdate(name=my-name, description=my-description, "
-                        + "pdpGroup=my-group, pdpSubgroup=my-subgroup, pdpHeartbeatIntervalMs=30000, policies=["
-                        + "ToscaPolicy(super=ToscaEntity(name=policy-a, version=1.2.3, derivedFrom=null, "
-                        + "metadata=null, description=null), type=null, typeVersion=null, properties=null), "
-                        + "ToscaPolicy(super=ToscaEntity(name=policy-b, version=4.5.6, derivedFrom=null, "
-                        + "metadata=null, description=null), type=null, typeVersion=null, properties=null)])",
-                        other.toString());
+        assertEquals(removeVariableFields(orig.toString()), removeVariableFields(other.toString()));
 
         // ensure list and items are not the same object
         assertTrue(other.getPolicies() != policies);

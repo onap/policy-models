@@ -18,41 +18,32 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.models.pdp.concepts;
+package org.onap.policy.models.tosca.authorative.concepts;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
 
 /**
- * Policy identifier with an optional version; only the "name" is required.
+ * Tests methods not tested by {@link TestPojos}.
  */
-@Data
-@NoArgsConstructor
-public class ToscaPolicyIdentifierOptVersion {
+public class TestToscaPolicy {
 
-    @NonNull
-    private String name;
+    @Test
+    public void testGetIdentifier_testGetTypeIdentifier() {
+        ToscaPolicy policy = new ToscaPolicy();
 
-    private String version;
+        policy.setName("my_name");
+        policy.setVersion("1.2.3");
+        policy.setType("my_type");
+        policy.setTypeVersion("3.2.1");
 
+        ToscaPolicyIdentifier ident = policy.getIdentifier();
+        assertEquals("my_name", ident.getName());
+        assertEquals("1.2.3", ident.getVersion());
 
-    public ToscaPolicyIdentifierOptVersion(@NonNull String name, String version) {
-        this.name = name;
-        this.version = version;
-    }
-
-    public ToscaPolicyIdentifierOptVersion(ToscaPolicyIdentifierOptVersion source) {
-        this.name = source.name;
-        this.version = source.version;
-    }
-
-    /**
-     * Determines if the version is null/missing.
-     *
-     * @return {@code true} if the version is null/missing, {@code false}
-     */
-    public boolean isNullVersion() {
-        return (version == null);
+        ToscaPolicyTypeIdentifier type = policy.getTypeIdentifier();
+        assertEquals("my_type", type.getName());
+        assertEquals("3.2.1", type.getVersion());
     }
 }

@@ -20,31 +20,12 @@
 
 package org.onap.policy.models.pdp.concepts;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-
 /**
- * Identifies a policy. Both the name and version must be non-null.
+ * Super class for tests of PdpMessage subclasses.
  */
-@Data
-@NoArgsConstructor
-public class ToscaPolicyIdentifier {
+public class PdpMessageUtils {
 
-    @NonNull
-    private String name;
-
-    @NonNull
-    private String version;
-
-
-    public ToscaPolicyIdentifier(@NonNull String name, @NonNull String version) {
-        this.name = name;
-        this.version = version;
-    }
-
-    public ToscaPolicyIdentifier(ToscaPolicyIdentifier source) {
-        this.name = source.name;
-        this.version = source.version;
+    public static String removeVariableFields(String text) {
+        return text.replaceAll("requestId=[^,]*", "requestId=xxx").replaceAll("timestampMs=[^,]*", "timestampMs=nnn");
     }
 }

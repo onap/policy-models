@@ -18,33 +18,41 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.models.pdp.concepts;
+package org.onap.policy.models.tosca.authorative.concepts;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 /**
- * Identifies a policy type. Both the name and version must be non-null.
+ * Policy identifier with an optional version; only the "name" is required.
  */
 @Data
 @NoArgsConstructor
-public class ToscaPolicyTypeIdentifier {
+public class ToscaPolicyIdentifierOptVersion {
 
     @NonNull
     private String name;
 
-    @NonNull
     private String version;
 
 
-    public ToscaPolicyTypeIdentifier(@NonNull String name, @NonNull String version) {
+    public ToscaPolicyIdentifierOptVersion(@NonNull String name, String version) {
         this.name = name;
         this.version = version;
     }
 
-    public ToscaPolicyTypeIdentifier(ToscaPolicyTypeIdentifier source) {
+    public ToscaPolicyIdentifierOptVersion(ToscaPolicyIdentifierOptVersion source) {
         this.name = source.name;
         this.version = source.version;
+    }
+
+    /**
+     * Determines if the version is null/missing.
+     *
+     * @return {@code true} if the version is null/missing, {@code false}
+     */
+    public boolean isNullVersion() {
+        return (version == null);
     }
 }

@@ -31,6 +31,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 import org.onap.policy.models.base.PfUtils;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifier;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifier;
 
 /**
  * Class to represent a group of all PDP's of the same pdp type running for a particular domain.
