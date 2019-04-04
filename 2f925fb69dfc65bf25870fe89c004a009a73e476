@@ -208,6 +208,30 @@
     },
     {
       "key": {
+        "uuid": "1167f254_6e129ee2",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaPolicyFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-04-04T17:49:18Z",
+      "side": 1,
+      "message": "You can ask sonar to ignore the analysis by adding\n@SuppressWarnings(\"squid:S2078\")\n\nYou can get squid from SonarLint Pluggin or sonar rules.",
+      "parentUuid": "c122e186_31c9efad",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 46
+      },
+      "revId": "2f925fb69dfc65bf25870fe89c004a009a73e476",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc39b2bb_456b021c",
         "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/authorative/concepts/TestPojos.java",
         "patchSetId": 1
