@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d1bb6338_846b8ddf",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpStatus.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-04T19:33:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f43f2b13_d0ca5e4b",
+      "range": {
+        "startLine": 67,
+        "startChar": 18,
+        "endLine": 67,
+        "endChar": 26
+      },
+      "revId": "b2edda00936b58b176d2685b31833fc2daa59938",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6bada082_e617fb6d",
         "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpUpdate.java",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "2849413a_8dd1dc96",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-04T19:33:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bada082_e617fb6d",
+      "range": {
+        "startLine": 45,
+        "startChar": 12,
+        "endLine": 45,
+        "endChar": 16
+      },
+      "revId": "b2edda00936b58b176d2685b31833fc2daa59938",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3af0fa69_3b886352",
         "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/authorative/concepts/TestPojos.java",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2019-04-04T18:19:14Z",
       "side": 1,
       "message": "In general, I feel its better to avoid static inner classes. It decreases readability \u0026 usability of the code. May be we can create a global ExcludeUtilityClasses filter which other classes can also use.\nBut I leave it on you to decide :)",
+      "range": {
+        "startLine": 55,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 5
+      },
+      "revId": "b2edda00936b58b176d2685b31833fc2daa59938",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9f87894_904f80a1",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/authorative/concepts/TestPojos.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-04T19:33:48Z",
+      "side": 1,
+      "message": "maybe later.  I\u0027m still not convinced it\u0027s needed since Liam was able to use FilterClassName to do the job.",
+      "parentUuid": "3af0fa69_3b886352",
       "range": {
         "startLine": 55,
         "startChar": 4,
