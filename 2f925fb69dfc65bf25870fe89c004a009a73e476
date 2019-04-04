@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "372cc27a_6a65dfe0",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfObjectFiler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-04T17:45:24Z",
+      "side": 1,
+      "message": "Great eyes!",
+      "parentUuid": "39db7dc0_73016e5a",
+      "range": {
+        "startLine": 31,
+        "startChar": 17,
+        "endLine": 31,
+        "endChar": 30
+      },
+      "revId": "2f925fb69dfc65bf25870fe89c004a009a73e476",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba2c5f4d_05b00761",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaPolicyFilter.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2019-04-04T17:39:15Z",
       "side": 1,
       "message": "what about deployed version?",
+      "range": {
+        "startLine": 46,
+        "startChar": 27,
+        "endLine": 46,
+        "endChar": 75
+      },
+      "revId": "2f925fb69dfc65bf25870fe89c004a009a73e476",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5201b74d_7c345df2",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaPolicyFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-04T17:45:24Z",
+      "side": 1,
+      "message": "You need to use the PDP group filter to get those. The Policy type and policy tables do not know whether the policy types or policies are deployed or not.\n\nUse getFilteredPdpGroups() with an appropriate filter.",
+      "parentUuid": "ba2c5f4d_05b00761",
       "range": {
         "startLine": 46,
         "startChar": 27,
@@ -83,6 +131,30 @@
       "side": 1,
       "message": "simple thing to try, but may not resolve it: use a common method:\n\noptionallyMatches(String desired, String actual)\n\n.filter(p -\u003e optionallyMatches(name, p.getName())\n...",
       "parentUuid": "528e33dc_d6413548",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 46
+      },
+      "revId": "2f925fb69dfc65bf25870fe89c004a009a73e476",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4372d57_67e5cb8b",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaPolicyFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-04T17:45:24Z",
+      "side": 1,
+      "message": "I\u0027ll try that (I wish checkstyle would keep up with the newer things in Java ..... Sigh)",
+      "parentUuid": "80daa123_c9d4dcd8",
       "range": {
         "startLine": 59,
         "startChar": 0,
