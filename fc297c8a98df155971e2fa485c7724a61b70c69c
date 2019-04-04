@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4385c599_12a03610",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-04T15:11:10Z",
+      "side": 1,
+      "message": "Precisely, Jim explained it in the other comment, it will work using the Builder pattern. Specifying no filter parameters will let everything through.",
+      "parentUuid": "a8eead8a_8147a9bf",
+      "range": {
+        "startLine": 87,
+        "startChar": 92,
+        "endLine": 87,
+        "endChar": 98
+      },
+      "revId": "fc297c8a98df155971e2fa485c7724a61b70c69c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c574f6d2_e0d3ca1f",
         "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProvider.java",
         "patchSetId": 1
