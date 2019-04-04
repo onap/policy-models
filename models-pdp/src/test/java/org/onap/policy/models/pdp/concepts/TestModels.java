@@ -38,7 +38,7 @@ import org.onap.policy.common.utils.validation.ToStringTester;
 public class TestModels {
 
     @Test
-    public void testPapModels() {
+    public void testPdpModels() {
         final Validator validator = ValidatorBuilder.create().with(new ToStringTester()).with(new SetterTester())
                 .with(new GetterTester()).build();
         validator.validate(TestModels.class.getPackage().getName(), new FilterPackageInfo());

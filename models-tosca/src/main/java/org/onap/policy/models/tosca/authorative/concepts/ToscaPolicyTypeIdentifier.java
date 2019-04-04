@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.models.pdp.concepts;
+package org.onap.policy.models.tosca.authorative.concepts;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
