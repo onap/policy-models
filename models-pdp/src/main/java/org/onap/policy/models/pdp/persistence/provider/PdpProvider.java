@@ -21,15 +21,12 @@
 package org.onap.policy.models.pdp.persistence.provider;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.ws.rs.core.Response;
 
 import lombok.NonNull;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
@@ -38,12 +35,12 @@ import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.dao.PfDao;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
+import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.pdp.persistence.concepts.JpaPdp;
 import org.onap.policy.models.pdp.persistence.concepts.JpaPdpGroup;
 import org.onap.policy.models.pdp.persistence.concepts.JpaPdpSubGroup;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,7 +67,7 @@ public class PdpProvider {
     public List<PdpGroup> getPdpGroups(@NonNull final PfDao dao, final String name, final String version)
             throws PfModelException {
 
-        List<JpaPdpGroup> foundPdpGroups = dao.getFiltered(JpaPdpGroup.class, new PfConceptKey(name, version));
+        List<JpaPdpGroup> foundPdpGroups = dao.getFiltered(JpaPdpGroup.class, name, version);
 
         if (foundPdpGroups != null) {
             return asPdpGroupList(foundPdpGroups);
@@ -90,29 +87,31 @@ public class PdpProvider {
      * @throws PfModelException on errors getting policies
      */
     public List<PdpGroup> getLatestPdpGroups(@NonNull final PfDao dao, final String name) throws PfModelException {
-        List<JpaPdpGroup> returnList = new ArrayList<>();
+        List<JpaPdpGroup> jpaPdpGroupList = new ArrayList<>();
 
         if (name == null) {
-            returnList.add(dao.getLatestVersion(JpaPdpGroup.class, name));
-        }
-        else {
-            returnList.addAll(dao.getLatestVersions(JpaPdpGroup.class));
+            jpaPdpGroupList.addAll(dao.getAll(JpaPdpGroup.class));
+        } else {
+            jpaPdpGroupList.addAll(dao.getAllVersions(JpaPdpGroup.class, name));
         }
 
-        return asPdpGroupList(returnList);
+        return asPdpGroupList(jpaPdpGroupList);
     }
 
     /**
-     * Get a filtered list of PDP groups, returns only active PDP groups.
+     * Get filtered PDP groups.
      *
      * @param dao the DAO to use to access the database
-     * @param pdpType The PDP type filter for the returned PDP groups, null to get policy types across PDP subgroups
-     * @param supportedPolicyTypes a list of policy type name/version pairs that the PDP groups must support.
+     * @param filter the filter for the PDP groups to get
      * @return the PDP groups found
+     * @throws PfModelException on errors getting policies
      */
-    public List<PdpGroup> getFilteredPdpGroups(@NonNull final PfDao dao, final String pdpType,
-            @NonNull final List<Pair<String, String>> supportedPolicyTypes) {
-        return new ArrayList<>();
+    public List<PdpGroup> getFilteredPdpGroups(@NonNull final PfDao dao, @NonNull final PdpGroupFilter filter)
+            throws PfModelException {
+
+        List<JpaPdpGroup> jpaPdpGroupList = dao.getAll(JpaPdpGroup.class);
+
+        return asPdpGroupList(jpaPdpGroupList);
     }
 
     /**
@@ -305,19 +304,6 @@ public class PdpProvider {
             @NonNull final String pdpGroupVersion, @NonNull final String pdpType, @NonNull final String pdpInstanceId,
             @NonNull final PdpStatistics pdppStatistics) throws PfModelException {
         // Not implemented yet
-    }
-
-    /**
-     * Get deployed policies.
-     *
-     * @param dao the DAO to use to access the database
-     * @param name the name of the policy to get deployed policies for, null to get all deployed policies
-     * @return the policies deployed as a map of policy lists keyed by PDP group name and version
-     * @throws PfModelException on errors getting policies
-     */
-    public Map<Pair<String, String>, List<ToscaPolicy>> getDeployedPolicyList(@NonNull final PfDao dao,
-            final String name) throws PfModelException {
-        return new LinkedHashMap<>();
     }
 
     /**

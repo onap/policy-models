@@ -21,7 +21,9 @@
 package org.onap.policy.models.tosca.authorative.provider;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import lombok.NonNull;
 
@@ -29,7 +31,9 @@ import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.dao.PfDao;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.provider.SimpleToscaProvider;
@@ -52,7 +56,7 @@ public class AuthorativeToscaProvider {
     public ToscaServiceTemplate getPolicyTypes(@NonNull final PfDao dao, final String name, final String version)
             throws PfModelException {
 
-        return new SimpleToscaProvider().getPolicyTypes(dao, new PfConceptKey(name, version)).toAuthorative();
+        return new SimpleToscaProvider().getPolicyTypes(dao, name, version).toAuthorative();
     }
 
     /**
@@ -66,33 +70,37 @@ public class AuthorativeToscaProvider {
      */
     public List<ToscaPolicyType> getPolicyTypeList(@NonNull final PfDao dao, final String name, final String version)
             throws PfModelException {
-        return new ArrayList<>();
+
+        return (asConceptList(
+                new SimpleToscaProvider().getPolicyTypes(dao, name, version).toAuthorative().getPolicyTypes()));
     }
 
     /**
-     * Get latest policy types.
+     * Get filtered policy types.
      *
      * @param dao the DAO to use to access the database
-     * @param name the name of the policy type to get, set to null to get all policy types
+     * @param filter the filter for the policy types to get
      * @return the policy types found
      * @throws PfModelException on errors getting policy types
      */
-    public ToscaServiceTemplate getLatestPolicyTypes(@NonNull final PfDao dao, final String name)
-            throws PfModelException {
-        return null;
+    public ToscaServiceTemplate getFilteredPolicyTypes(@NonNull final PfDao dao,
+            @NonNull final ToscaPolicyTypeFilter filter) throws PfModelException {
+        return new SimpleToscaProvider().getFilteredPolicyTypes(dao, filter).toAuthorative();
     }
 
     /**
-     * Get latest policy types.
+     * Get filtered policy types.
      *
      * @param dao the DAO to use to access the database
-     * @param name the name of the policy type to get, set to null to get all policy types
+     * @param filter the filter for the policy types to get
      * @return the policy types found
      * @throws PfModelException on errors getting policy types
      */
-    public List<ToscaPolicyType> getLatestPolicyTypeList(@NonNull final PfDao dao, final String name)
-            throws PfModelException {
-        return new ArrayList<>();
+    public List<ToscaPolicyType> getFilteredPolicyTypeList(@NonNull final PfDao dao,
+            @NonNull final ToscaPolicyTypeFilter filter) throws PfModelException {
+
+        return (asConceptList(
+                new SimpleToscaProvider().getFilteredPolicyTypes(dao, filter).toAuthorative().getPolicyTypes()));
     }
 
     /**
@@ -152,7 +160,7 @@ public class AuthorativeToscaProvider {
     public ToscaServiceTemplate getPolicies(@NonNull final PfDao dao, @NonNull final String name,
             @NonNull final String version) throws PfModelException {
 
-        return new SimpleToscaProvider().getPolicies(dao, new PfConceptKey(name, version)).toAuthorative();
+        return new SimpleToscaProvider().getPolicies(dao, name, version).toAuthorative();
     }
 
     /**
@@ -166,61 +174,38 @@ public class AuthorativeToscaProvider {
      */
     public List<ToscaPolicy> getPolicyList(@NonNull final PfDao dao, final String name, final String version)
             throws PfModelException {
-        return new ArrayList<>();
+
+        return asConceptList(new SimpleToscaProvider().getPolicies(dao, name, version).toAuthorative()
+                .getToscaTopologyTemplate().getPolicies());
     }
 
     /**
-     * Get policies for a policy type name.
+     * Get filtered policies.
      *
      * @param dao the DAO to use to access the database
-     * @param policyTypeName the name of the policy type for which to get policies
-     * @param policyTypeVersion the version of the policy type, null returns all versions of deployed policies for
-     *        policy types
+     * @param filter the filter for the policies to get
      * @return the policies found
      * @throws PfModelException on errors getting policies
      */
-    public ToscaServiceTemplate getPolicies4PolicyType(@NonNull final PfDao dao, @NonNull final String policyTypeName,
-            final String policyTypeVersion) throws PfModelException {
-        return null;
+    public ToscaServiceTemplate getFilteredPolicies(@NonNull final PfDao dao, @NonNull final ToscaPolicyFilter filter)
+            throws PfModelException {
+
+        return new SimpleToscaProvider().getFilteredPolicies(dao, filter).toAuthorative();
     }
 
     /**
-     * Get policies for a policy type name.
+     * Get filtered policies.
      *
      * @param dao the DAO to use to access the database
-     * @param policyTypeName the name of the policy type for which to get policies
-     * @param policyTypeVersion the version of the policy type, null returns all versions of deployed policies for
-     *        policy types
+     * @param filter the filter for the policies to get
      * @return the policies found
      * @throws PfModelException on errors getting policies
      */
-    public List<ToscaPolicy> getPolicyList4PolicyType(@NonNull final PfDao dao, @NonNull final String policyTypeName,
-            final String policyTypeVersion) throws PfModelException {
-        return new ArrayList<>();
-    }
+    public List<ToscaPolicy> getFilteredPolicyList(@NonNull final PfDao dao, @NonNull final ToscaPolicyFilter filter)
+            throws PfModelException {
 
-    /**
-     * Get latest policies.
-     *
-     * @param dao the DAO to use to access the database
-     * @param name the name of the policy to get, null to get all policies
-     * @return the policies found
-     * @throws PfModelException on errors getting policies
-     */
-    public ToscaServiceTemplate getLatestPolicies(@NonNull final PfDao dao, final String name) throws PfModelException {
-        return null;
-    }
-
-    /**
-     * Get latest policies.
-     *
-     * @param dao the DAO to use to access the database
-     * @param name the name of the policy to get, null to get all policies
-     * @return the policies found
-     * @throws PfModelException on errors getting policies
-     */
-    public List<ToscaPolicy> getLatestPolicyList(@NonNull final PfDao dao, final String name) throws PfModelException {
-        return new ArrayList<>();
+        return asConceptList(new SimpleToscaProvider().getFilteredPolicies(dao, filter).toAuthorative()
+                .getToscaTopologyTemplate().getPolicies());
     }
 
     /**
@@ -266,5 +251,26 @@ public class AuthorativeToscaProvider {
             @NonNull final String version) throws PfModelException {
 
         return new SimpleToscaProvider().deletePolicy(dao, new PfConceptKey(name, version)).toAuthorative();
+    }
+
+    /**
+     * Return the contents of a list of maps as a plain list.
+     *
+     * @param listOfMaps the list of maps
+     * @return the plain list
+     */
+    private <T> List<T> asConceptList(final List<Map<String, T>> listOfMaps) {
+        if (listOfMaps == null) {
+            return Collections.emptyList();
+        }
+
+        List<T> returnList = new ArrayList<>();
+        for (Map<String, T> conceptMap : listOfMaps) {
+            for (T concept : conceptMap.values()) {
+                returnList.add(concept);
+            }
+        }
+
+        return returnList;
     }
 }

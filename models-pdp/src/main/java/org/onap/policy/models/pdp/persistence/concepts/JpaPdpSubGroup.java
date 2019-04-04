@@ -60,7 +60,6 @@ import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.pdp.concepts.ToscaPolicyIdentifier;
 import org.onap.policy.models.pdp.concepts.ToscaPolicyTypeIdentifier;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 
 /**
  * Class to represent a PDP subgroup in the database.

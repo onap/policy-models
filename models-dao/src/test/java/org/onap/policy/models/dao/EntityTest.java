@@ -112,6 +112,8 @@ public class EntityTest {
 
         testVersionOps();
 
+        testgetFilteredOps();
+
         pfDao.close();
     }
 
@@ -326,11 +328,39 @@ public class EntityTest {
         pfDao.create(keyInfo5);
 
         assertEquals(3, pfDao.getAllVersions(DummyConceptEntity.class, "AAA0").size());
-        DummyConceptEntity latestVersionEntity = pfDao.getLatestVersion(DummyConceptEntity.class, "AAA0");
-        assertEquals(aKey2, latestVersionEntity.getKey());
-        List<DummyConceptEntity> returnedLatestVersions = pfDao.getLatestVersions(DummyConceptEntity.class);
-        assertEquals(2, returnedLatestVersions.size());
-        assertEquals("0.0.3", returnedLatestVersions.get(0).getKey().getVersion());
-        assertEquals("0.0.3", returnedLatestVersions.get(1).getKey().getVersion());
+    }
+
+    private void testgetFilteredOps() {
+        final PfConceptKey aKey0 = new PfConceptKey("AAA0", "0.0.1");
+        final PfConceptKey aKey1 = new PfConceptKey("AAA0", "0.0.2");
+        final PfConceptKey aKey2 = new PfConceptKey("AAA0", "0.0.3");
+        final PfConceptKey bKey0 = new PfConceptKey("BBB0", "0.0.1");
+        final PfConceptKey bKey1 = new PfConceptKey("BBB0", "0.0.2");
+        final PfConceptKey bKey2 = new PfConceptKey("BBB0", "0.0.3");
+        final DummyConceptEntity keyInfo0 = new DummyConceptEntity(aKey0,
+                UUID.fromString("00000000-0000-0000-0000-000000000000"), "key description 0");
+        final DummyConceptEntity keyInfo1 = new DummyConceptEntity(aKey1,
+                UUID.fromString("00000000-0000-0000-0000-000000000001"), "key description 1");
+        final DummyConceptEntity keyInfo2 = new DummyConceptEntity(aKey2,
+                UUID.fromString("00000000-0000-0000-0000-000000000002"), "key description 2");
+        final DummyConceptEntity keyInfo3 = new DummyConceptEntity(bKey0,
+                UUID.fromString("00000000-0000-0000-0000-000000000000"), "key description 0");
+        final DummyConceptEntity keyInfo4 = new DummyConceptEntity(bKey1,
+                UUID.fromString("00000000-0000-0000-0000-000000000001"), "key description 1");
+        final DummyConceptEntity keyInfo5 = new DummyConceptEntity(bKey2,
+                UUID.fromString("00000000-0000-0000-0000-000000000002"), "key description 2");
+
+        pfDao.create(keyInfo0);
+        pfDao.create(keyInfo1);
+        pfDao.create(keyInfo2);
+        pfDao.create(keyInfo3);
+        pfDao.create(keyInfo4);
+        pfDao.create(keyInfo5);
+
+        assertEquals(6, pfDao.getFiltered(DummyConceptEntity.class, null, null).size());
+        assertEquals(3, pfDao.getFiltered(DummyConceptEntity.class, "AAA0", null).size());
+        assertEquals(3, pfDao.getFiltered(DummyConceptEntity.class, "BBB0", null).size());
+        assertEquals(1, pfDao.getFiltered(DummyConceptEntity.class, "BBB0", "0.0.3").size());
+        assertEquals(6, pfDao.getFiltered(DummyConceptEntity.class, null, "0.0.3").size());
     }
 }

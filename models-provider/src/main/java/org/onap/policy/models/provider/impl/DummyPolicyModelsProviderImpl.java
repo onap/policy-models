@@ -29,19 +29,21 @@ import java.util.Map;
 import javax.ws.rs.core.Response;
 import lombok.NonNull;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
+import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyInput;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyOutput;
@@ -82,12 +84,12 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public ToscaServiceTemplate getLatestPolicyTypes(final String name) throws PfModelException {
+    public ToscaServiceTemplate getFilteredPolicyTypes(@NonNull ToscaPolicyTypeFilter filter) throws PfModelException {
         return null;
     }
 
     @Override
-    public List<ToscaPolicyType> getLatestPolicyTypeList(final String name) throws PfModelException {
+    public List<ToscaPolicyType> getFilteredPolicyTypeList(@NonNull ToscaPolicyTypeFilter filter) {
         return new ArrayList<>();
     }
 
@@ -120,24 +122,12 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public ToscaServiceTemplate getPolicies4PolicyType(@NonNull String policyTypeName, String policyTypeVersion)
-            throws PfModelException {
+    public ToscaServiceTemplate getFilteredPolicies(@NonNull ToscaPolicyFilter filter) throws PfModelException {
         return null;
     }
 
     @Override
-    public List<ToscaPolicy> getPolicyList4PolicyType(@NonNull final String policyTypeName,
-            final String policyTypeVersion) throws PfModelException {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public ToscaServiceTemplate getLatestPolicies(final String name) throws PfModelException {
-        return null;
-    }
-
-    @Override
-    public List<ToscaPolicy> getLatestPolicyList(final String name) throws PfModelException {
+    public List<ToscaPolicy> getFilteredPolicyList(@NonNull ToscaPolicyFilter filter) throws PfModelException {
         return new ArrayList<>();
     }
 
@@ -211,13 +201,7 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public List<PdpGroup> getLatestPdpGroups(final String name) throws PfModelException {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<PdpGroup> getFilteredPdpGroups(final String pdpType,
-            @NonNull final List<Pair<String, String>> supportedPolicyTypes) {
+    public List<PdpGroup> getFilteredPdpGroups(@NonNull PdpGroupFilter filter) throws PfModelException {
         return new ArrayList<>();
     }
 
@@ -258,12 +242,6 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
             @NonNull final String pdpType, @NonNull final String pdpInstanceId,
             @NonNull final PdpStatistics pdppStatistics) throws PfModelException {
         // Not implemented
-    }
-
-    @Override
-    public Map<Pair<String, String>, List<ToscaPolicy>> getDeployedPolicyList(final String name)
-            throws PfModelException {
-        return null;
     }
 
     /**
