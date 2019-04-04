@@ -49,6 +49,23 @@
     },
     {
       "key": {
+        "uuid": "d990ad76_5462c377",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpGroupFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-04T17:47:19Z",
+      "side": 1,
+      "message": "do we really want these fields to be regular expressions?\n\nsame comment applies to all filter classes",
+      "revId": "2f925fb69dfc65bf25870fe89c004a009a73e476",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba2c5f4d_05b00761",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaPolicyFilter.java",
         "patchSetId": 1
@@ -185,6 +202,23 @@
         "endLine": 64,
         "endChar": 46
       },
+      "revId": "2f925fb69dfc65bf25870fe89c004a009a73e476",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc39b2bb_456b021c",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/authorative/concepts/TestPojos.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-04T17:47:19Z",
+      "side": 1,
+      "message": "aren\u0027t these included automatically, since they\u0027re in the same package?",
       "revId": "2f925fb69dfc65bf25870fe89c004a009a73e476",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
