@@ -1,0 +1,37 @@
+# Copyright 2018 AT&T Intellectual Property. All rights reserved
+# Modifications Copyright (C) 2019 Nordix Foundation.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+controlLoop:
+  version: 2.0.0
+  controlLoopName: ControlLoop-VOLTE-2179b738-fd36-4843-a71a-a8c24c70c55b
+  
+  trigger_policy: unique-policy-id-1-restart
+  timeout: 3600
+
+policies:
+  - id: unique-policy-id-1-restart
+    name: Restart the VM
+    description:
+    actor: VFC
+    recipe: Restart
+    target:
+      type: VM
+    retry: 3
+    timeout: 1200
+    success: final_success
+    failure: final_failure
+    failure_timeout: final_failure_timeout
+    failure_retries: final_failure_retries
+    failure_exception: final_failure_exception
+    failure_guard: final_failure_guard

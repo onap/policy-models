@@ -1,0 +1,135 @@
+# Copyright 2018 AT&T Intellectual Property. All rights reserved
+# Modifications Copyright (C) 2019 Nordix Foundation.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+controlLoop:
+  version: 2.0.0
+  controlLoopName: ControlLoop-GENERIC-64cdc9fa-6601-4989-9de7-8f47134aa043
+  #
+  # Example of how someone can fine-grain this
+  # policy for a specific service and/or resources
+  # contained within the service.
+  #
+  services:
+    - serviceName: vFooService
+ 
+  resources:
+    - resourceName: vVNF1
+      resourceType: VFC
+    - resourceName: vVNF2
+      resourceType: VFC
+    - resourceName: vVNF3
+      resourceType: VFC
+    - resourceName: vVNF4
+      resourceType: VFC
+ 
+  trigger_policy: unique-policy-id-1-restart
+  timeout: 1200
+  #
+  # Example of case where an abatement isn't possible
+  # from DCAE to Policy. So Policy should NOT expect
+  #
+  abatement: false
+ 
+policies:
+ 
+  - id: unique-policy-id-1-restart
+    name: Restart Policy
+    description:
+    actor: APPC
+    recipe: Restart
+    target:
+      type: VM
+    retry: 2
+    timeout: 300
+    success: unique-policy-id-1-healthdiagnostic
+    failure: unique-policy-id-2-rebuild
+    failure_timeout: unique-policy-id-2-rebuild
+    failure_retries: unique-policy-id-2-rebuild
+    failure_exception: final_failure_exception
+    failure_guard: unique-policy-id-2-rebuild
+   
+ 
+  - id: unique-policy-id-2-rebuild
+    name: Rebuild Policy
+    description:
+    actor: APPC
+    recipe: Rebuild
+    target:
+      type: VM
+    retry: 0
+    timeout: 600
+    success: unique-policy-id-2-healthdiagnostic
+    failure: unique-policy-id-3-migrate
+    failure_timeout: unique-policy-id-3-migrate
+    failure_retries: unique-policy-id-3-migrate
+    failure_exception: final_failure_exception
+    failure_guard: unique-policy-id-3-migrate
+ 
+  - id: unique-policy-id-3-migrate
+    name: Migrate Policy
+    description:
+    actor: APPC
+    recipe: Migrate
+    target:
+      type: VM
+    retry: 0
+    timeout: 600
+    success: final_success
+    failure: final_failure
+    failure_timeout: final_failure_timeout
+    failure_retries: final_failure_retries
+    failure_exception: final_failure_exception
+    failure_guard: final_failure_guard
+ 
+  - id: unique-policy-id-1-healthdiagnostic
+    name: Do A Health Diagnostic
+    description:
+    actor: APPC
+    recipe: health-diagnostic
+    # Example of a payload
+    payload:
+      health-diagnostic-code: HC01234
+      health-diagnostic-code-parameters: "{\"Junk\":\"--version\",\"Junk2\":\"--help\"}"
+    target:
+      type: VM
+    retry: 0
+    timeout: 600
+    success: final_success
+    failure: unique-policy-id-2-rebuild
+    failure_timeout: unique-policy-id-2-rebuild
+    failure_retries: unique-policy-id-2-rebuild
+    failure_exception: final_failure_exception
+    failure_guard: unique-policy-id-2-rebuild
+ 
+ 
+  - id: unique-policy-id-2-healthdiagnostic
+    name: Do Health Diagnostic
+    description:
+    actor: APPC
+    recipe: health-diagnostic
+    payload:
+      health-diagnostic-code: HC01234
+      health-diagnostic-code-parameters: "{\"Junk\":\"--version\",\"Junk2\":\"--help\"}"
+    target:
+      type: VM
+    retry: 0
+    timeout: 600
+    success: final_success
+    failure: final_failure
+    failure_timeout: final_failure_timeout
+    failure_retries: final_failure_retries
+    failure_exception: final_failure_exception
+    failure_guard: final_failure_guard
+    
+
