@@ -66,4 +66,22 @@ public class ToscaPolicy extends ToscaEntity {
             }
         }
     }
+
+    /**
+     * Gets the identifier for this policy.
+     *
+     * @return this policy's identifier
+     */
+    public ToscaPolicyIdentifier getIdentifier() {
+        return new ToscaPolicyIdentifier(getName(), getVersion());
+    }
+
+    /**
+     * Gets the type identifier for this policy.
+     *
+     * @return this policy's type identifier
+     */
+    public ToscaPolicyTypeIdentifier getTypeIdentifier() {
+        return new ToscaPolicyTypeIdentifier(getType(), getTypeVersion());
+    }
 }

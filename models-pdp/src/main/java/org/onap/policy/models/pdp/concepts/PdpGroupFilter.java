@@ -29,6 +29,8 @@ import lombok.NonNull;
 
 import org.onap.policy.models.base.PfObjectFiler;
 import org.onap.policy.models.pdp.enums.PdpState;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifier;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifier;
 
 /**
  * Filter class for searches for {@link PdpGroup} instances.

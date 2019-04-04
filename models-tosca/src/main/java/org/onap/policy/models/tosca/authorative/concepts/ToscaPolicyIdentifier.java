@@ -18,22 +18,33 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.models.pap.concepts;
+package org.onap.policy.models.tosca.authorative.concepts;
 
-import java.util.List;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifierOptVersion;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 /**
- * Request deploy or update a set of policies using the <i>simple</i> PDP Group deployment
- * REST API. Only the "name" and "version" fields of a Policy are used, and only the
- * "name" field is actually required.
+ * Identifies a policy. Both the name and version must be non-null.
  */
-@Getter
-@Setter
-@ToString
-public class PdpDeployPolicies {
-    private List<ToscaPolicyIdentifierOptVersion> policies;
+@Data
+@NoArgsConstructor
+public class ToscaPolicyIdentifier {
+
+    @NonNull
+    private String name;
+
+    @NonNull
+    private String version;
+
+
+    public ToscaPolicyIdentifier(@NonNull String name, @NonNull String version) {
+        this.name = name;
+        this.version = version;
+    }
+
+    public ToscaPolicyIdentifier(ToscaPolicyIdentifier source) {
+        this.name = source.name;
+        this.version = source.version;
+    }
 }

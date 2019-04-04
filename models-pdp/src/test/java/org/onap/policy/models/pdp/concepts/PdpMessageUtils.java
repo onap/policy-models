@@ -18,22 +18,14 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.models.pap.concepts;
-
-import java.util.List;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifierOptVersion;
+package org.onap.policy.models.pdp.concepts;
 
 /**
- * Request deploy or update a set of policies using the <i>simple</i> PDP Group deployment
- * REST API. Only the "name" and "version" fields of a Policy are used, and only the
- * "name" field is actually required.
+ * Utility class for tests of PdpMessage subclasses.
  */
-@Getter
-@Setter
-@ToString
-public class PdpDeployPolicies {
-    private List<ToscaPolicyIdentifierOptVersion> policies;
+public class PdpMessageUtils {
+
+    public static String removeVariableFields(String text) {
+        return text.replaceAll("requestId=[^,]*", "requestId=xxx").replaceAll("timestampMs=[^,]*", "timestampMs=nnn");
+    }
 }

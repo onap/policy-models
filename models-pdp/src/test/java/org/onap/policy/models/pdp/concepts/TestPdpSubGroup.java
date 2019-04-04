@@ -29,6 +29,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.junit.Test;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifier;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifier;
 
 /**
  * Test the copy constructor, as {@link TestModels} tests the other methods.

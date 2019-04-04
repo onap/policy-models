@@ -23,6 +23,7 @@ package org.onap.policy.models.pdp.concepts;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
+import static org.onap.policy.models.pdp.concepts.PdpMessageUtils.removeVariableFields;
 
 import org.junit.Test;
 import org.onap.policy.models.pdp.enums.PdpState;
@@ -39,8 +40,7 @@ public class TestPdpStateChange {
         PdpStateChange orig = new PdpStateChange();
 
         // verify with null values
-        assertEquals("PdpStateChange(name=null, state=null, pdpGroup=null, pdpSubgroup=null)",
-                        new PdpStateChange(orig).toString());
+        assertEquals(removeVariableFields(orig.toString()), removeVariableFields(new PdpStateChange(orig).toString()));
 
         // verify with all values
         orig.setName("my-name");
@@ -48,7 +48,6 @@ public class TestPdpStateChange {
         orig.setPdpSubgroup("my-subgroup");
         orig.setState(PdpState.SAFE);
 
-        assertEquals("PdpStateChange(name=my-name, state=SAFE, pdpGroup=my-group, pdpSubgroup=my-subgroup)",
-                        new PdpStateChange(orig).toString());
+        assertEquals(removeVariableFields(orig.toString()), removeVariableFields(new PdpStateChange(orig).toString()));
     }
 }

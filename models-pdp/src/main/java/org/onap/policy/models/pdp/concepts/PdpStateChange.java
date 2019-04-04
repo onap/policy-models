@@ -35,13 +35,10 @@ import org.onap.policy.models.pdp.enums.PdpState;
  */
 @Getter
 @Setter
-@ToString
+@ToString(callSuper = true)
 public class PdpStateChange extends PdpMessage {
 
-    private String name;
     private PdpState state;
-    private String pdpGroup;
-    private String pdpSubgroup;
 
     /**
      * Constructor for instantiating PdpStateChange class with message name.
@@ -57,11 +54,8 @@ public class PdpStateChange extends PdpMessage {
      * @param source source from which to copy
      */
     public PdpStateChange(PdpStateChange source) {
-        super(PdpMessageType.PDP_STATE_CHANGE);
+        super(source);
 
-        this.name = source.name;
         this.state = source.state;
-        this.pdpGroup = source.pdpGroup;
-        this.pdpSubgroup = source.pdpSubgroup;
     }
 }

@@ -59,7 +59,9 @@ public class TestPojos {
                 new FilterClassName(
                         org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter.class.getName()),
                 new FilterClassName(
-                        org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter.class.getName())
+                        org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter.class.getName()),
+                new FilterClassName(
+                        ToscaIdentifierTestBase.class.getName())
         );
         // @formatter:on
     }
