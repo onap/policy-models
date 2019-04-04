@@ -20,11 +20,48 @@
 
 package org.onap.policy.models.tosca.authorative.concepts;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import lombok.Builder;
+import lombok.Data;
+import lombok.NonNull;
+
+import org.onap.policy.models.base.PfObjectFiler;
+
 /**
  * Filter class for searches for {@link ToscaPolicy} instances.
+ * If any fields are null, they are ignored.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class ToscaPolicyFilter {
+@Builder
+@Data
+public class ToscaPolicyFilter implements PfObjectFiler<ToscaPolicy> {
+    public static final String LATEST_VERSION = "LATEST";
 
+    // Regular expression
+    private String name;
+
+    // Regular Expression, set to LATEST_VERRSION to get the latest version
+    private String version;
+
+    // Regular expression
+    private String policyTypeName;
+
+    // Regular Expression, set to LATEST_VERRSION to get the latest version
+    private String policyTypeVersion;
+
+    @Override
+    public List<ToscaPolicy> filter(@NonNull final List<ToscaPolicy> originalList) {
+
+        // @formatter:off
+        return originalList.stream()
+                .filter(p -> name              != null && p.getName()       .matches(name))
+                .filter(p -> version           != null && p.getVersion()    .matches(version))
+                .filter(p -> policyTypeName    != null && p.getType()       .matches(policyTypeName))
+                .filter(p -> policyTypeVersion != null && p.getTypeVersion().matches(policyTypeVersion))
+                .collect(Collectors.toList());
+        // @formatter:off
+    }
 }

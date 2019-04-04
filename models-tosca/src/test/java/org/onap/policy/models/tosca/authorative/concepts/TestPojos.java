@@ -22,6 +22,7 @@
 
 package org.onap.policy.models.tosca.authorative.concepts;
 
+import com.openpojo.reflection.filters.FilterClassName;
 import com.openpojo.reflection.filters.FilterPackageInfo;
 import com.openpojo.validation.Validator;
 import com.openpojo.validation.ValidatorBuilder;
@@ -44,9 +45,22 @@ public class TestPojos {
 
     @Test
     public void testPojos() {
-        final Validator validator = ValidatorBuilder.create().with(new ToStringTester())
-                .with(new SetterMustExistRule()).with(new GetterMustExistRule()).with(new SetterTester())
-                .with(new GetterTester()).build();
-        validator.validate(POJO_PACKAGE, new FilterPackageInfo());
+        // @formatter:off
+        final Validator validator = ValidatorBuilder
+                .create()
+                .with(new ToStringTester())
+                .with(new SetterMustExistRule())
+                .with(new GetterMustExistRule())
+                .with(new SetterTester())
+                .with(new GetterTester())
+                .build();
+        validator.validate(POJO_PACKAGE,
+                new FilterPackageInfo(),
+                new FilterClassName(
+                        org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter.class.getName()),
+                new FilterClassName(
+                        org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter.class.getName())
+        );
+        // @formatter:on
     }
 }
