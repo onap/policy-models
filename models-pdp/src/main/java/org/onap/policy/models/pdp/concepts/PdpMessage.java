@@ -29,7 +29,8 @@ import lombok.ToString;
 import org.onap.policy.models.pdp.enums.PdpMessageType;
 
 /**
- * Class to represent the base class for various messages that will ve exchanged between PAP and PDP.
+ * Class to represent the base class for various messages that will ve exchanged between
+ * PAP and PDP.
  *
  * @author Ram Krishna Verma (ram.krishna.verma@est.tech)
  */
@@ -50,11 +51,42 @@ public class PdpMessage {
     private long timestampMs = System.currentTimeMillis();
 
     /**
+     * PDP name or {@code null} for state-change broadcast messages.
+     */
+    private String name;
+
+    /**
+     * Group associated the PDP. For state-change messages, this may be {@code null}, if
+     * the {@link #name} is provided.
+     */
+    private String pdpGroup;
+
+    /**
+     * Group associated the PDP. For state-change messages, this may be {@code null}, if
+     * the {@link #name} is provided.
+     */
+    private String pdpSubgroup;
+
+
+    /**
      * Constructor for instantiating PdpMessage class with message name.
      *
      * @param messageName the message name
      */
     public PdpMessage(final PdpMessageType messageName) {
         this.messageName = messageName;
+    }
+
+    /**
+     * Constructs the object, making a deep copy. Does <i>not</i> copy the request id or
+     * the time stamp.
+     *
+     * @param source source from which to copy
+     */
+    public PdpMessage(final PdpMessage source) {
+        this.messageName = source.messageName;
+        this.name = source.name;
+        this.pdpGroup = source.pdpGroup;
+        this.pdpSubgroup = source.pdpSubgroup;
     }
 }

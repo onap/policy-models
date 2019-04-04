@@ -22,6 +22,8 @@
 
 package org.onap.policy.models.tosca.authorative.concepts;
 
+import com.openpojo.reflection.PojoClass;
+import com.openpojo.reflection.PojoClassFilter;
 import com.openpojo.reflection.filters.FilterPackageInfo;
 import com.openpojo.validation.Validator;
 import com.openpojo.validation.ValidatorBuilder;
@@ -47,6 +49,17 @@ public class TestPojos {
         final Validator validator = ValidatorBuilder.create().with(new ToStringTester())
                 .with(new SetterMustExistRule()).with(new GetterMustExistRule()).with(new SetterTester())
                 .with(new GetterTester()).build();
-        validator.validate(POJO_PACKAGE, new FilterPackageInfo());
+        validator.validate(POJO_PACKAGE, new FilterPackageInfo(), new ExcludeUtilities());
+    }
+
+    /**
+     * Excludes utility class from the validation tests.
+     */
+    public static class ExcludeUtilities implements PojoClassFilter {
+
+        @Override
+        public boolean include(PojoClass pojoClass) {
+            return !ToscaIdentifierTestBase.class.getName().equals(pojoClass.getName());
+        }
     }
 }

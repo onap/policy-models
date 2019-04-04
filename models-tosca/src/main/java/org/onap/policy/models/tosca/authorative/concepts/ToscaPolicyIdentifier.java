@@ -1,9 +1,8 @@
-/*-
+/*
  * ============LICENSE_START=======================================================
  * ONAP Policy Models
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,34 +18,33 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.models.pdp.concepts;
+package org.onap.policy.models.tosca.authorative.concepts;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
-import org.onap.policy.models.pdp.enums.PdpState;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 /**
- * Test the copy constructor, as {@link TestModels} tests the other methods.
+ * Identifies a policy. Both the name and version must be non-null.
  */
-public class TestPdpStateChange {
+@Data
+@NoArgsConstructor
+public class ToscaPolicyIdentifier {
 
-    @Test
-    public void testCopyConstructor() {
-        assertThatThrownBy(() -> new PdpStateChange(null)).isInstanceOf(NullPointerException.class);
+    @NonNull
+    private String name;
 
-        PdpStateChange orig = new PdpStateChange();
+    @NonNull
+    private String version;
 
-        // verify with null values
-        assertEquals(orig.toString(), new PdpStateChange(orig).toString());
 
-        // verify with all values
-        orig.setName("my-name");
-        orig.setPdpGroup("my-group");
-        orig.setPdpSubgroup("my-subgroup");
-        orig.setState(PdpState.SAFE);
+    public ToscaPolicyIdentifier(@NonNull String name, @NonNull String version) {
+        this.name = name;
+        this.version = version;
+    }
 
-        assertEquals(orig.toString(), new PdpStateChange(orig).toString());
+    public ToscaPolicyIdentifier(ToscaPolicyIdentifier source) {
+        this.name = source.name;
+        this.version = source.version;
     }
 }

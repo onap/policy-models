@@ -24,7 +24,7 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.onap.policy.models.pdp.concepts.ToscaPolicyIdentifierOptVersion;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifierOptVersion;
 
 /**
  * Request deploy or update a set of policies using the <i>simple</i> PDP Group deployment
