@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "39db7dc0_73016e5a",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfObjectFiler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-04-04T17:39:15Z",
+      "side": 1,
+      "message": "typo. \"PfObjectFilter\"",
+      "range": {
+        "startLine": 31,
+        "startChar": 17,
+        "endLine": 31,
+        "endChar": 30
+      },
+      "revId": "2f925fb69dfc65bf25870fe89c004a009a73e476",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba2c5f4d_05b00761",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaPolicyFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-04-04T17:39:15Z",
+      "side": 1,
+      "message": "what about deployed version?",
+      "range": {
+        "startLine": 46,
+        "startChar": 27,
+        "endLine": 46,
+        "endChar": 75
+      },
+      "revId": "2f925fb69dfc65bf25870fe89c004a009a73e476",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "528e33dc_d6413548",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaPolicyFilter.java",
         "patchSetId": 1
