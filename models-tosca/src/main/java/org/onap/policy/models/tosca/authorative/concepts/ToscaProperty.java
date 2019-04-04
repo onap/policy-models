@@ -24,6 +24,7 @@
 package org.onap.policy.models.tosca.authorative.concepts;
 
 import com.google.gson.annotations.SerializedName;
+import io.swagger.annotations.ApiModelProperty;
 import java.util.List;
 import lombok.Data;
 
@@ -46,6 +47,7 @@ public class ToscaProperty {
 
     private String description;
 
+    @ApiModelProperty(name = "default")
     @SerializedName("default")
     private String defaultValue;
 
@@ -55,6 +57,7 @@ public class ToscaProperty {
 
     private List<ToscaConstraint> constraints;
 
+    @ApiModelProperty(name = "entry_schema")
     @SerializedName("entry_schema")
     private ToscaEntrySchema entrySchema;
 }

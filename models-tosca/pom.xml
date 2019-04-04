@@ -68,6 +68,11 @@
             <artifactId>mariadb-java-client</artifactId>
             <scope>test</scope>
         </dependency>
+        
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-jersey2-jaxrs</artifactId>
+        </dependency>
 
     </dependencies>
 </project>
