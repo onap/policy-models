@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70529096_1069821a",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfNameVersion.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-04-05T15:27:18Z",
+      "side": 1,
+      "message": "I suppose there\u0027s a reason why couldn\u0027t use Comparable interface here, right?",
+      "revId": "8820423178d21acace9451b63bca947707255184",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
