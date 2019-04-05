@@ -22,6 +22,30 @@
       "revId": "4d79da10654094b3967e9d3c19188de637864a88",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b81c4d84_0e5596fd",
+        "filename": "models-interactions/model-simulators/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-05T13:48:02Z",
+      "side": 1,
+      "message": "This is basically there because the JUnit tests use Drools logging. Jorge, I believe that we can just use simple SLF4J logging.",
+      "parentUuid": "59249757_652bb146",
+      "range": {
+        "startLine": 61,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 17
+      },
+      "revId": "4d79da10654094b3967e9d3c19188de637864a88",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
