@@ -97,7 +97,7 @@ public final class SdncManager implements Runnable {
         responseError.setResponseOutput(responseOutput);
 
         headers.put("Accept", "application/json");
-        String sdncUrl = sdncUrlBase + "/GENERIC-RESOURCE-API:network-topology-operation";
+        String sdncUrl = sdncUrlBase + sdncRequest.getUrl();
 
         try {
             String sdncRequestJson = Serialization.gsonPretty.toJson(sdncRequest);

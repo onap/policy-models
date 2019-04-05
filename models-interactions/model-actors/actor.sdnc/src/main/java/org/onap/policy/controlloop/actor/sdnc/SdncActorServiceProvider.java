@@ -2,8 +2,9 @@
  * ============LICENSE_START=======================================================
  * SdncActorServiceProvider
  * ================================================================================
- * Copyright (C) 2018 Huawei Intellectual Property. All rights reserved.
+ * Copyright (C) 2018-2019 Huawei Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,6 +39,11 @@ import org.onap.policy.sdnc.SdncHealRequest;
 import org.onap.policy.sdnc.SdncHealRequestHeaderInfo;
 import org.onap.policy.sdnc.SdncHealRequestInfo;
 import org.onap.policy.sdnc.SdncHealServiceInfo;
+import org.onap.policy.sdnc.SdncHealVfModuleParameter;
+import org.onap.policy.sdnc.SdncHealVfModuleParametersInfo;
+import org.onap.policy.sdnc.SdncHealVfModuleRequestInput;
+import org.onap.policy.sdnc.SdncHealVnfInfo;
+
 import org.onap.policy.sdnc.SdncRequest;
 
 import org.slf4j.Logger;
@@ -55,6 +61,9 @@ public class SdncActorServiceProvider implements Actor {
 
     // Strings for recipes
     private static final String RECIPE_REROUTE = "Reroute";
+
+    // Strings for recipes
+    private static final String RECIPE_BW_ON_DEMAND = "BandwidthOnDemand";
 
     private static final ImmutableList<String> recipes = ImmutableList.of(RECIPE_REROUTE);
     private static final ImmutableMap<String, List<String>> targets =
@@ -88,28 +97,86 @@ public class SdncActorServiceProvider implements Actor {
      * @param policy the policy
      * @return the constructed request
      */
-    public static SdncRequest constructRequest(VirtualControlLoopEvent onset, ControlLoopOperation operation,
+    public SdncRequest constructRequest(VirtualControlLoopEvent onset, ControlLoopOperation operation,
             Policy policy) {
-
-        if (!policy.getRecipe().equalsIgnoreCase(RECIPE_REROUTE)) {
-            return null;
+        switch (policy.getRecipe()) {
+            case RECIPE_REROUTE:
+                return constructReOptimizeRequest(onset);
+            case RECIPE_BW_ON_DEMAND:
+                logger.info("Construct request for receipe {}" , RECIPE_BW_ON_DEMAND);
+                return constructBwOnDemandRequest(onset);
+            default:
+                logger.info("Unsupported recipe {} " + policy.getRecipe());
+                return null;
         }
+    }
 
+    private SdncRequest constructBwOnDemandRequest(VirtualControlLoopEvent onset) {
         // Construct an Sdnc request
         String serviceInstance = onset.getAai().get("service-instance.service-instance-id");
         if (serviceInstance == null || serviceInstance.isEmpty()) {
-            // This indicates that AAI Enrichment needs to be done by event producer. 
+            // This indicates that AAI Enrichment needs to be done by event producer.
+            return null;
+        }
+        SdncHealVfModuleParameter bandwidth = new SdncHealVfModuleParameter();
+        bandwidth.setName("bandwidth");
+        bandwidth.setValue(onset.getAai().get("bandwidth"));
+
+        SdncHealVfModuleParameter timeStamp = new SdncHealVfModuleParameter();
+        timeStamp.setName("bandwidth-change-time");
+        timeStamp.setValue(onset.getAai().get("bandwidth-change-time"));
+
+        SdncHealVfModuleParametersInfo vfParametersInfo = new SdncHealVfModuleParametersInfo();
+        vfParametersInfo.addParameters(bandwidth);
+        vfParametersInfo.addParameters(timeStamp);
+
+        SdncHealVfModuleRequestInput vfRequestInfo = new SdncHealVfModuleRequestInput();
+        vfRequestInfo.setVfModuleParametersInfo(vfParametersInfo);
+
+        SdncHealServiceInfo serviceInfo = new SdncHealServiceInfo();
+        serviceInfo.setServiceInstanceId(serviceInstance);
+
+        SdncHealRequestInfo requestInfo = new SdncHealRequestInfo();
+        requestInfo.setRequestAction("SdwanBWPolicyChange");
+
+        SdncHealRequestHeaderInfo headerInfo = new SdncHealRequestHeaderInfo();
+        headerInfo.setSvcAction("update");
+        headerInfo.setSvcRequestId(UUID.randomUUID().toString());
+
+        SdncRequest request = new SdncRequest();
+        request.setNsInstanceId(serviceInstance);
+        request.setRequestId(onset.getRequestId());
+        request.setUrl("/GENERIC-RESOURCE-API:vnf-topology-operation");
+
+        SdncHealVnfInfo vnfInfo = new SdncHealVnfInfo();
+        vnfInfo.setVnfId(onset.getAai().get("vnfId"));
+
+        SdncHealRequest healRequest = new SdncHealRequest();
+        healRequest.setVnfInfo(vnfInfo);
+        healRequest.setRequestHeaderInfo(headerInfo);
+        healRequest.setVfModuleRequestInput(vfRequestInfo);
+        healRequest.setRequestInfo(requestInfo);
+        healRequest.setServiceInfo(serviceInfo);
+        request.setHealRequest(healRequest);
+        return request;
+    }
+
+    private SdncRequest constructReOptimizeRequest(VirtualControlLoopEvent onset) {
+        // Construct an Sdnc request
+        String serviceInstance = onset.getAai().get("service-instance.service-instance-id");
+        if (serviceInstance == null || serviceInstance.isEmpty()) {
+            // This indicates that AAI Enrichment needs to be done by event producer.
             return null;
         }
         SdncHealServiceInfo serviceInfo = new SdncHealServiceInfo();
         serviceInfo.setServiceInstanceId(serviceInstance);
-        
+
         String networkId = onset.getAai().get("network-information.network-id");
         if (networkId == null || networkId.isEmpty()) {
-            // This indicates that AAI Enrichment needs to be done by event producer. 
+            // This indicates that AAI Enrichment needs to be done by event producer.
             return null;
         }
-        SdncHealNetworkInfo networkInfo = new SdncHealNetworkInfo();        
+        SdncHealNetworkInfo networkInfo = new SdncHealNetworkInfo();
         networkInfo.setNetworkId(networkId);
 
         SdncHealRequestInfo requestInfo = new SdncHealRequestInfo();
@@ -122,6 +189,7 @@ public class SdncActorServiceProvider implements Actor {
         SdncRequest request = new SdncRequest();
         request.setNsInstanceId(serviceInstance);
         request.setRequestId(onset.getRequestId());
+        request.setUrl("/GENERIC-RESOURCE-API:network-topology-operation");
 
         SdncHealRequest healRequest = new SdncHealRequest();
         healRequest.setRequestHeaderInfo(headerInfo);
@@ -129,7 +197,6 @@ public class SdncActorServiceProvider implements Actor {
         healRequest.setRequestInfo(requestInfo);
         healRequest.setServiceInfo(serviceInfo);
         request.setHealRequest(healRequest);
-
         return request;
     }
 }

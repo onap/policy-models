@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  * Copyright (C) 2018 Huawei. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +21,7 @@
 package org.onap.policy.sdnc;
 
 import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -29,6 +31,7 @@ public class SdncRequest implements Serializable {
     // These fields are not serialized and not part of JSON
     private transient String nsInstanceId;
     private transient UUID requestId;
+    private transient String url;
 
     @SerializedName("input")
     private SdncHealRequest healRequest;
@@ -59,5 +62,13 @@ public class SdncRequest implements Serializable {
 
     public void setHealRequest(SdncHealRequest healRequest) {
         this.healRequest = healRequest;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

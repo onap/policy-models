@@ -2,8 +2,8 @@
  * ============LICENSE_START=======================================================
  * TestSdncActorServiceProvider
  * ================================================================================
- * Copyright (C) 2018 Huawei. All rights reserved.
- * Modifications Copyright (C) 2018 AT&T Corp. All rights reserved.
+ * Copyright (C) 2018-2019 Huawei. All rights reserved.
+ * Modifications Copyright (C) 2018-2019 AT&T Corp. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -69,31 +69,32 @@ public class SdncActorServiceProviderTest {
         Policy policy = new Policy();
         policy.setRecipe("Reroute");
 
-        assertNull(SdncActorServiceProvider.constructRequest(onset, operation, policy));
+        SdncActorServiceProvider provider = new SdncActorServiceProvider();
+        assertNull(provider.constructRequest(onset, operation, policy));
 
         onset.getAai().put("network-information.network-id", "network-5555");
-        assertNull(SdncActorServiceProvider.constructRequest(onset, operation, policy));
+        assertNull(provider.constructRequest(onset, operation, policy));
 
         PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
         PolicyEngine.manager.setEnvironmentProperty("aai.username", "AAI");
         PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
-        assertNull(SdncActorServiceProvider.constructRequest(onset, operation, policy));
+        assertNull(provider.constructRequest(onset, operation, policy));
 
         UUID requestId = UUID.randomUUID();
         onset.setRequestId(requestId);
-        assertNull(SdncActorServiceProvider.constructRequest(onset, operation, policy));
+        assertNull(provider.constructRequest(onset, operation, policy));
 
         PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
-        assertNull(SdncActorServiceProvider.constructRequest(onset, operation, policy));
+        assertNull(provider.constructRequest(onset, operation, policy));
 
         onset.getAai().put("service-instance.service-instance-id", "service-instance-01");
-        assertNotNull(SdncActorServiceProvider.constructRequest(onset, operation, policy));
+        assertNotNull(provider.constructRequest(onset, operation, policy));
 
         policy.setRecipe("Reroute");
-        assertNotNull(SdncActorServiceProvider.constructRequest(onset, operation, policy));
+        assertNotNull(provider.constructRequest(onset, operation, policy));
 
         SdncRequest request =
-                SdncActorServiceProvider.constructRequest(onset, operation, policy);
+                provider.constructRequest(onset, operation, policy);
 
         assertEquals(requestId, Objects.requireNonNull(request).getRequestId());
         assertEquals("reoptimize", request.getHealRequest().getRequestHeaderInfo().getSvcAction());
