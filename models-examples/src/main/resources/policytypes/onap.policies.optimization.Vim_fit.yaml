@@ -45,6 +45,7 @@ policy_types:
                 type: policy.data.capacityProperties_properties
                 required: true
 data_types:
+  -
     policy.data.capacityProperties_properties:
         derived_from: tosca.nodes.Root
         properties:

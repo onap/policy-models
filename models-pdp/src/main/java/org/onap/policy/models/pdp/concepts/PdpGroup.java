@@ -40,7 +40,7 @@ import org.onap.policy.models.pdp.enums.PdpState;
  */
 @Data
 @NoArgsConstructor
-public class PdpGroup implements PfNameVersion {
+public class PdpGroup implements PfNameVersion, Comparable<PdpGroup> {
     private String name;
     private String version;
     private String description;
@@ -66,5 +66,10 @@ public class PdpGroup implements PfNameVersion {
         this.pdpGroupState = source.pdpGroupState;
         this.properties = (source.properties == null ? null : new LinkedHashMap<>(source.properties));
         this.pdpSubgroups = PfUtils.mapList(source.pdpSubgroups, PdpSubGroup::new);
+    }
+
+    @Override
+    public int compareTo(final PdpGroup other) {
+        return compareNameVersion(this, other);
     }
 }

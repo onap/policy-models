@@ -36,8 +36,9 @@ policy_types:
                 type: list
                 required: false
                 entry_schema:
-                -   type:policy.data.pciProperties_properties
+                  type: policy.data.pciProperties_properties
 data_types:
+  -
     policy.data.pciProperties_properties:
         derived_from: tosca.nodes.Root
         properties:

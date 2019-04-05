@@ -27,7 +27,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 
-import org.onap.policy.models.base.PfObjectFiler;
+import org.onap.policy.models.base.PfObjectFilter;
 
 /**
  * Filter class for searches for {@link ToscaPolicy} instances.
@@ -37,7 +37,7 @@ import org.onap.policy.models.base.PfObjectFiler;
  */
 @Builder
 @Data
-public class ToscaPolicyFilter implements PfObjectFiler<ToscaPolicy> {
+public class ToscaPolicyFilter implements PfObjectFilter<ToscaPolicy> {
     public static final String LATEST_VERSION = "LATEST";
 
     // Regular expression
@@ -47,21 +47,28 @@ public class ToscaPolicyFilter implements PfObjectFiler<ToscaPolicy> {
     private String version;
 
     // Regular expression
-    private String policyTypeName;
+    private String type;
 
     // Regular Expression, set to LATEST_VERRSION to get the latest version
-    private String policyTypeVersion;
+    private String typeVersion;
 
     @Override
     public List<ToscaPolicy> filter(@NonNull final List<ToscaPolicy> originalList) {
 
         // @formatter:off
-        return originalList.stream()
-                .filter(p -> name              != null && p.getName()       .matches(name))
-                .filter(p -> version           != null && p.getVersion()    .matches(version))
-                .filter(p -> policyTypeName    != null && p.getType()       .matches(policyTypeName))
-                .filter(p -> policyTypeVersion != null && p.getTypeVersion().matches(policyTypeVersion))
+        List<ToscaPolicy> returnList = originalList.stream()
+                .filter(p -> filterOnRegexp(p.getName(),        name))
+                .filter(p -> filterOnRegexp(p.getVersion(),     version))
+                .filter(p -> filterOnRegexp(p.getType(),        type))
+                .filter(p -> filterOnRegexp(p.getTypeVersion(), typeVersion))
                 .collect(Collectors.toList());
         // @formatter:off
+
+        if (LATEST_VERSION.equals(version)) {
+            return this.latestVersionFilter(returnList);
+        }
+        else {
+            return returnList;
+        }
     }
 }
