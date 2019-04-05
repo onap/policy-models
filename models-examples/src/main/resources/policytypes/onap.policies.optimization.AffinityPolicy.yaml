@@ -45,6 +45,7 @@ policy_types:
                 entry_schema:
                     type: string
 data_types:
+  -
     policy.data.affinityProperties_properties:
         derived_from: tosca.nodes.Root
         properties:

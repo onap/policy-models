@@ -33,6 +33,7 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -68,6 +69,7 @@ public class JpaToscaPolicyType extends JpaToscaEntityType<ToscaPolicyType> impl
     private static final long serialVersionUID = -563659852901842616L;
 
     @ElementCollection
+    @Lob
     private Map<String, JpaToscaProperty> properties;
 
     @ElementCollection

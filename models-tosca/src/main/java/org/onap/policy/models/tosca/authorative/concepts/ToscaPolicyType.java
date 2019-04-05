@@ -36,6 +36,11 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class ToscaPolicyType extends ToscaEntity {
+public class ToscaPolicyType extends ToscaEntity implements Comparable<ToscaPolicyType> {
     private Map<String, ToscaProperty> properties;
+
+    @Override
+    public int compareTo(final ToscaPolicyType other) {
+        return compareNameVersion(this, other);
+    }
 }
