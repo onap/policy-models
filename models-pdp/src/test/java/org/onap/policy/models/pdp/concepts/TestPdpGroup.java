@@ -49,7 +49,7 @@ public class TestPdpGroup {
         // verify with all values
         orig.setDescription("my-descript");
         orig.setName("my-name");
-        orig.setVersion("my-version");
+        orig.setVersion("1.2.3");
         orig.setDescription("my-description");
         orig.setPdpGroupState(PdpState.SAFE);
 
@@ -64,7 +64,7 @@ public class TestPdpGroup {
         props.put("key-B", "value-B");
         orig.setProperties(props);
 
-        assertEquals("PdpGroup(name=my-name, version=my-version, description=my-description, "
+        assertEquals("PdpGroup(name=my-name, version=1.2.3, description=my-description, "
                 + "pdpGroupState=SAFE, properties={key-A=value-A, key-B=value-B}, "
                 + "pdpSubgroups=[PdpSubGroup(pdpType=null, supportedPolicyTypes=[], policies=[], "
                 + "currentInstanceCount=10, desiredInstanceCount=0, properties=null, pdpInstances=[]), "

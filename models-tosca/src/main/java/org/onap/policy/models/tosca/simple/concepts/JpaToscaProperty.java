@@ -83,7 +83,6 @@ public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaPr
     private String defaultValue;
 
     @Column
-    @NonNull
     private Status status = Status.SUPPORTED;
 
     @ElementCollection

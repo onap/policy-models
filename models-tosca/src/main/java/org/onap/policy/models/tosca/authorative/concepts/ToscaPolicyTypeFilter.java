@@ -27,7 +27,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 
-import org.onap.policy.models.base.PfObjectFiler;
+import org.onap.policy.models.base.PfObjectFilter;
 
 /**
  * Filter class for searches for {@link ToscaPolicyType} instances.
@@ -37,7 +37,7 @@ import org.onap.policy.models.base.PfObjectFiler;
  */
 @Builder
 @Data
-public class ToscaPolicyTypeFilter implements PfObjectFiler<ToscaPolicyType> {
+public class ToscaPolicyTypeFilter implements PfObjectFilter<ToscaPolicyType> {
     public static final String LATEST_VERSION = "LATEST";
 
     // Regular expression
@@ -50,10 +50,17 @@ public class ToscaPolicyTypeFilter implements PfObjectFiler<ToscaPolicyType> {
     public List<ToscaPolicyType> filter(@NonNull final List<ToscaPolicyType> originalList) {
 
         // @formatter:off
-        return originalList.stream()
-                .filter(p -> name    != null && p.getName()   .matches(name))
-                .filter(p -> version != null && p.getVersion().matches(version))
+        List<ToscaPolicyType> returnList = originalList.stream()
+                .filter(p -> filterOnRegexp(p.getName(),    name))
+                .filter(p -> filterOnRegexp(p.getVersion(), version))
                 .collect(Collectors.toList());
         // @formatter:off
+
+        if (LATEST_VERSION.equals(version)) {
+            return this.latestVersionFilter(returnList);
+        }
+        else {
+            return returnList;
+        }
     }
 }

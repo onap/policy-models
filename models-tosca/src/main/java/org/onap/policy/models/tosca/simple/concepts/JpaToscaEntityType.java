@@ -143,7 +143,7 @@ public class JpaToscaEntityType<T extends ToscaEntity> extends PfConcept impleme
 
     @Override
     public void fromAuthorative(T toscaEntity) {
-        key =  new PfConceptKey();
+        key = new PfConceptKey();
 
         if (toscaEntity.getName() != null) {
             key.setName(toscaEntity.getName());
@@ -158,8 +158,7 @@ public class JpaToscaEntityType<T extends ToscaEntity> extends PfConcept impleme
             // CHeck if the derived from field contains a name-version ID
             if (toscaEntity.getDerivedFrom().contains(":")) {
                 derivedFrom = new PfConceptKey(toscaEntity.getDerivedFrom());
-            }
-            else {
+            } else {
                 derivedFrom = new PfConceptKey(toscaEntity.getDerivedFrom(), PfKey.NULL_KEY_VERSION);
             }
         }

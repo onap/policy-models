@@ -27,18 +27,18 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 
-import org.onap.policy.models.base.PfObjectFiler;
+import org.apache.commons.lang3.ObjectUtils;
+import org.onap.policy.models.base.PfObjectFilter;
 import org.onap.policy.models.pdp.enums.PdpState;
 
 /**
- * Filter class for searches for {@link PdpGroup} instances.
- * If any fields are null, they are ignored.
+ * Filter class for searches for {@link PdpGroup} instances. If any fields are null, they are ignored.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 @Builder
 @Data
-public class PdpGroupFilter implements PfObjectFiler<PdpGroup> {
+public class PdpGroupFilter implements PfObjectFilter<PdpGroup> {
     public static final String LATEST_VERSION = "LATEST";
 
     // Regular expression
@@ -58,15 +58,95 @@ public class PdpGroupFilter implements PfObjectFiler<PdpGroup> {
     // Set regular expressions on fields to match policy names and versions
     private ToscaPolicyIdentifier policy;
 
+    private PdpState pdpState;
+
     @Override
     public List<PdpGroup> filter(@NonNull final List<PdpGroup> originalList) {
 
         // @formatter:off
-        return originalList.stream()
-                .filter(p -> name       != null && p.getName()   .matches(name))
-                .filter(p -> version    != null && p.getVersion().matches(version))
-                .filter(p -> groupState != null && p.getPdpGroupState().equals(groupState))
+        List<PdpGroup> returnList = originalList.stream()
+                .filter(p -> filterOnRegexp(p.getName(),    name))
+                .filter(p -> filterOnRegexp(p.getVersion(), version))
+                .filter(p -> ObjectUtils.compare(p.getPdpGroupState(), groupState) == 0)
+                .filter(p -> filterOnPdpType(p, pdpType))
+                .filter(p -> filterOnPolicyType(p, policyType))
+                .filter(p -> filterOnPolicy(p, policy))
                 .collect(Collectors.toList());
         // @formatter:off
+
+        if (LATEST_VERSION.equals(version)) {
+            returnList = this.latestVersionFilter(returnList);
+        }
+
+        return returnList;
+    }
+
+    /**
+     * Filter PDP groups on PDP type.
+     *
+     * @param pdpGroup the PDP group to check
+     * @param pdpType the PDP type to check for
+     * @return true if the filter should let this PDP group through
+     */
+    private boolean filterOnPdpType(final PdpGroup pdpGroup, final String pdpType) {
+        if (pdpType == null) {
+            return true;
+        }
+
+        for (PdpSubGroup pdpSubGroup: pdpGroup.getPdpSubgroups()) {
+            if (pdpSubGroup.getPdpType().equals(pdpType)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Filter PDP groups on policy type.
+     *
+     * @param pdpGroup the PDP group to check
+     * @param policyTypeFilter the policy type regular expressions to check for
+     * @return true if the filter should let this PDP group through
+     */
+    private boolean filterOnPolicyType(final PdpGroup pdpGroup, final ToscaPolicyTypeIdentifier policyTypeFiler) {
+        if (policyTypeFiler == null) {
+            return true;
+        }
+
+        for (PdpSubGroup pdpSubGroup: pdpGroup.getPdpSubgroups()) {
+            for (ToscaPolicyTypeIdentifier foundPolicyType : pdpSubGroup.getSupportedPolicyTypes()) {
+                if (foundPolicyType.getName().matches(policyTypeFiler.getName())
+                        && foundPolicyType.getVersion().matches(policyTypeFiler.getVersion())) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Filter PDP groups on policy.
+     *
+     * @param pdpGroup the PDP group to check
+     * @param policyFilter the policy regular expressions to check for
+     * @return true if the filter should let this PDP group through
+     */
+    private boolean filterOnPolicy(final PdpGroup pdpGroup, final ToscaPolicyIdentifier policyFiler) {
+        if (policyFiler == null) {
+            return true;
+        }
+
+        for (PdpSubGroup pdpSubGroup: pdpGroup.getPdpSubgroups()) {
+            for (ToscaPolicyIdentifier foundPolicy : pdpSubGroup.getPolicies()) {
+                if (foundPolicy.getName().matches(policyFiler.getName())
+                        && foundPolicy.getVersion().matches(policyFiler.getVersion())) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }
