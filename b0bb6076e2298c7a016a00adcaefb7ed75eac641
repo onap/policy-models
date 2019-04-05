@@ -1,0 +1,9 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Jim Hahn <jrh3@att.com>
+Code-Review+1: Ram Krishna Verma <ram.krishna.verma@est.tech>
+Code-Review+2: Pamela Dragosh <pdragosh@research.att.com>
+Submitted-by: Pamela Dragosh <pdragosh@research.att.com>
+Submitted-at: Fri, 05 Apr 2019 11:51:33 +0000
+Reviewed-on: https://gerrit.onap.org/r/84253
+Project: policy/models
+Branch: refs/heads/master
