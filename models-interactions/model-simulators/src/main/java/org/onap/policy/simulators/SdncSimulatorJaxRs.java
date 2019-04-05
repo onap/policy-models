@@ -56,4 +56,25 @@ public class SdncSimulatorJaxRs {
         response.setResponseOutput(responseOutput);
         return Serialization.gsonPretty.toJson(response);
     }
+    
+
+    /**
+     * SDNC vnf topology operation.
+     *
+     * @return the response
+     */
+    @POST
+    @Path("/GENERIC-RESOURCE-API:vnf-topology-operation")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces("application/json")
+    public String sdncVnfTopologyOperation() {
+        final SdncResponse response = new SdncResponse();
+        response.setRequestId(UUID.randomUUID().toString());
+        SdncResponseOutput responseOutput = new SdncResponseOutput();
+        responseOutput.setResponseCode("200");
+        responseOutput.setAckFinalIndicator("Y");
+        responseOutput.setSvcRequestId(UUID.randomUUID().toString());
+        response.setResponseOutput(responseOutput);
+        return Serialization.gsonPretty.toJson(response);
+    }
 }
