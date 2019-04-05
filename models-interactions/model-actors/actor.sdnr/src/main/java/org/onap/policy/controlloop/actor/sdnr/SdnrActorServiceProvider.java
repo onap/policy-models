@@ -28,6 +28,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.onap.policy.controlloop.ControlLoopOperation;
+import org.onap.policy.controlloop.ControlLoopResponse;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.onap.policy.controlloop.policy.Policy;
@@ -69,6 +70,7 @@ public class SdnrActorServiceProvider implements Actor {
 
     // Strings for recipes
     private static final String RECIPE_MODIFY = "ModifyConfig";
+    private static final String RECIPE_MODIFY_ANR = "ModifyConfigANR";
 
     /* To be used in future releases when pci ModifyConfig is used */
     private static final String SDNR_REQUEST_PARAMS = "request-parameters";
@@ -253,4 +255,37 @@ public class SdnrActorServiceProvider implements Actor {
         }
         return new SdnrActorServiceProvider.Pair<>(result, message);
     }
+
+    /**
+     * Converts the SDNR response to ControlLoopResponse object.
+     *
+     * @param dmaapResponse
+     *            the dmaap wrapper message that contains the actual SDNR reponse
+     *            inside the body field
+     *
+     * @return a ControlLoopResponse object to send to DCAE_CL_RSP topic
+     */
+    public static ControlLoopResponse getControlLoopResponse(PciResponseWrapper dmaapResponse,
+            VirtualControlLoopEvent event) {
+
+        logger.info("SDNR getClosedLoopResponse called : {} {}", dmaapResponse, event);
+
+        /* The actual SDNR response is inside the wrapper's body field. */
+        PciResponse sdnrResponse = dmaapResponse.getBody();
+
+        /* The ControlLoop response determined from the SDNR Response and input event. */
+        ControlLoopResponse clRsp = new ControlLoopResponse();
+        clRsp.setPayload(sdnrResponse.getPayload());
+        clRsp.setFrom("SDNR");
+        clRsp.setTarget("DCAE");
+        clRsp.setClosedLoopControlName(event.getClosedLoopControlName());
+        clRsp.setPolicyName(event.getPolicyName());
+        clRsp.setPolicyVersion(event.getPolicyVersion());
+        clRsp.setRequestId(event.getRequestId());
+        clRsp.setVersion(event.getVersion());
+        logger.info("SDNR getClosedLoopResponse clRsp : {}", clRsp);
+
+        return clRsp;
+    }
+
 }

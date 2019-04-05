@@ -35,6 +35,7 @@ import org.junit.Test;
 import org.onap.policy.common.endpoints.http.server.HttpServletServer;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopOperation;
+import org.onap.policy.controlloop.ControlLoopResponse;
 import org.onap.policy.controlloop.ControlLoopTargetType;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.policy.Policy;
@@ -43,6 +44,7 @@ import org.onap.policy.controlloop.policy.TargetType;
 import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.sdnr.PciRequest;
 import org.onap.policy.sdnr.PciResponse;
+import org.onap.policy.sdnr.PciResponseWrapper;
 import org.onap.policy.sdnr.util.Serialization;
 import org.onap.policy.simulators.Util;
 import org.slf4j.Logger;
@@ -93,6 +95,31 @@ public class SdnrActorServiceProviderTest {
         policy.setPayload(null);
         policy.setRetry(2);
         policy.setTimeout(300);
+
+    }
+
+    @Test
+    public void getControlLoopResponseTest() {
+        PciRequest sdnrRequest;
+        sdnrRequest = SdnrActorServiceProvider.constructRequest(onsetEvent, operation, policy).getBody();
+        PciResponse sdnrResponse = new PciResponse(sdnrRequest);
+        sdnrResponse.getStatus().setCode(200);
+        sdnrResponse.getStatus().setValue("SDNR success");
+        sdnrResponse.setPayload("sdnr payload ");
+        /* Print out request as json to make sure serialization works */
+        String jsonResponse = Serialization.gsonPretty.toJson(sdnrResponse);
+        PciResponseWrapper pciResponseWrapper = new PciResponseWrapper();
+        pciResponseWrapper.setBody(sdnrResponse);
+
+        ControlLoopResponse clRsp = SdnrActorServiceProvider.getControlLoopResponse(pciResponseWrapper, onsetEvent);
+        assertEquals(clRsp.getClosedLoopControlName(), onsetEvent.getClosedLoopControlName());
+        assertEquals(clRsp.getRequestId(), onsetEvent.getRequestId());
+        assertEquals(clRsp.getPolicyName(), onsetEvent.getPolicyName());
+        assertEquals(clRsp.getPolicyVersion(), onsetEvent.getPolicyVersion());
+        assertEquals(clRsp.getVersion(), onsetEvent.getVersion());
+        assertEquals(clRsp.getFrom(), "SDNR");
+        assertEquals(clRsp.getTarget(), "DCAE");
+        assertEquals(clRsp.getPayload(), sdnrResponse.getPayload());
     }
 
     @Test
