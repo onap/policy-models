@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "00f28afa_dfcd501b",
+        "filename": "models-base/src/test/java/org/onap/policy/models/base/PfKeyTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-05T22:57:53Z",
+      "side": 1,
+      "message": "fyi: I prefer to use assertj as I\u0027m less likely to forget to add one of the statements, such as the fail()",
+      "revId": "52229882d7ee3e934641de0bd2df74ed1268130e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
