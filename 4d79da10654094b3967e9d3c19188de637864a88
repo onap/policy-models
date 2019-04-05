@@ -46,6 +46,52 @@
       "revId": "4d79da10654094b3967e9d3c19188de637864a88",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2411d03a_8916220c",
+        "filename": "models-interactions/model-simulators/src/test/java/org/onap/policy/simulators/AaiSimulatorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-05T13:49:55Z",
+      "side": 1,
+      "message": "So this will be removed.",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 55
+      },
+      "revId": "4d79da10654094b3967e9d3c19188de637864a88",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "41eeae59_08461007",
+        "filename": "models-interactions/model-simulators/src/test/java/org/onap/policy/simulators/AaiSimulatorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-05T13:49:55Z",
+      "side": 1,
+      "message": "And these 2 lines in each JUnit.",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 57
+      },
+      "revId": "4d79da10654094b3967e9d3c19188de637864a88",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
