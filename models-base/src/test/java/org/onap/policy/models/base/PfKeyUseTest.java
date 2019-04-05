@@ -1,4 +1,4 @@
-/*
+/*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
@@ -41,7 +41,7 @@ public class PfKeyUseTest {
         assertNotNull(new PfKeyUse(new PfReferenceKey()));
 
         try {
-            new PfKeyUse((PfKeyUse)null);
+            new PfKeyUse((PfKeyUse) null);
             fail("test should throw an exception");
         } catch (Exception exc) {
             assertEquals("copyConcept is marked @NonNull but is null", exc.getMessage());
@@ -56,6 +56,14 @@ public class PfKeyUseTest {
         assertFalse(keyUse.isNullKey());
 
         assertEquals(Compatibility.IDENTICAL, keyUse.getCompatibility(key));
+
+        try {
+            key.getCompatibility(null);
+            fail("test should throw an exception");
+        } catch (Exception exc) {
+            assertEquals("otherKey is marked @NonNull but is null", exc.getMessage());
+        }
+
         assertTrue(keyUse.isCompatible(key));
 
         keyUse.clean();
@@ -131,6 +139,16 @@ public class PfKeyUseTest {
         } catch (Exception exc) {
             assertEquals("error copying concept key: Some error message", exc.getMessage());
         }
+
+        try {
+            keyUse.isNewerThan(null);
+            fail("test should throw an exception");
+        } catch (Exception exc) {
+            assertEquals("otherKey is marked @NonNull but is null", exc.getMessage());
+        }
+
+        assertEquals(false, testKeyUse.isNewerThan(keyUse));
+        assertEquals(false, testKeyUse.isNewerThan(testKeyUse));
 
         assertEquals(0, testKeyUse.getMajorVersion());
         assertEquals(0, testKeyUse.getMinorVersion());

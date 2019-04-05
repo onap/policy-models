@@ -48,6 +48,7 @@ import org.onap.policy.models.base.testconcepts.DummyPfConceptSub;
  */
 public class PfConceptContainerTest {
 
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void testConceptContainer() {
         DummyPfConceptContainer container = new DummyPfConceptContainer();
@@ -61,6 +62,13 @@ public class PfConceptContainerTest {
 
         container = new DummyPfConceptContainer(new PfConceptKey(), new TreeMap<PfConceptKey, DummyPfConcept>());
         assertNotNull(container);
+
+        try {
+            new PfConceptContainer((PfConceptKey) null, null);
+            fail("test should throw an exception here");
+        } catch (Exception exc) {
+            assertEquals("key is marked @NonNull but is null", exc.getMessage());
+        }
 
         try {
             container = new DummyPfConceptContainer((PfConceptKey) null, null);
@@ -190,7 +198,7 @@ public class PfConceptContainerTest {
     public void testAuthorative() {
         Map<String, DummyAuthorativeConcept> dacMap = new LinkedHashMap<>();
         dacMap.put("name0", new DummyAuthorativeConcept("name0", "1.2.3", "Hello"));
-        dacMap.put("name1", new DummyAuthorativeConcept("name1", "1.2.3", "Hi"));
+        dacMap.put("name1", new DummyAuthorativeConcept(null, null, "Hi"));
         dacMap.put("name2", new DummyAuthorativeConcept("name2", "1.2.3", "Howdy"));
 
         List<Map<String, DummyAuthorativeConcept>> authorativeList = new ArrayList<>();
@@ -200,12 +208,14 @@ public class PfConceptContainerTest {
         container.fromAuthorative(authorativeList);
 
         assertEquals("Hello", container.getConceptMap().get(new PfConceptKey("name0:1.2.3")).getDescription());
-        assertEquals("Hi",    container.getConceptMap().get(new PfConceptKey("name1:1.2.3")).getDescription());
+        assertEquals("Hi", container.getConceptMap().get(new PfConceptKey("name1:0.0.0")).getDescription());
         assertEquals("Howdy", container.getConceptMap().get(new PfConceptKey("name2:1.2.3")).getDescription());
 
         List<Map<String, DummyAuthorativeConcept>> outMapList = container.toAuthorative();
 
-        assertEquals(dacMap, outMapList.get(0));
+        assertEquals(dacMap.get("name0"), outMapList.get(0).get("name0"));
+        assertEquals(dacMap.get("name1").getDescription(), outMapList.get(0).get("name1").getDescription());
+        assertEquals(dacMap.get("name2"), outMapList.get(0).get("name2"));
 
         DummyBadPfConceptContainer badContainer = new DummyBadPfConceptContainer();
         assertThatThrownBy(() -> {

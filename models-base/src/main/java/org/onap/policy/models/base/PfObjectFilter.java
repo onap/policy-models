@@ -59,7 +59,7 @@ public interface PfObjectFilter<T extends Comparable<T>> {
      * @return the filtered list
      */
     public default List<T> latestVersionFilter(final List<T> originalList) {
-        List<T> filteredList = new ArrayList<>();
+        List<T> filteredList = new ArrayList<>(originalList);
         Collections.sort(filteredList);
 
         List<T> filteredOutList = new ArrayList<>();

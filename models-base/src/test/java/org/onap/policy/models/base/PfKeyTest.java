@@ -48,6 +48,13 @@ public class PfKeyTest {
                     e.getMessage());
         }
 
+        try {
+            new PfConceptKey((PfConceptKey) null);
+            fail("This test should throw an exception");
+        } catch (Exception e) {
+            assertEquals("copyConcept is marked @NonNull but is null", e.getMessage());
+        }
+
         PfConceptKey someKey0 = new PfConceptKey();
         assertEquals(PfConceptKey.getNullKey(), someKey0);
 
@@ -56,6 +63,7 @@ public class PfKeyTest {
         PfConceptKey someKey3 = new PfConceptKey(someKey1.getId());
         assertEquals(someKey1, someKey2);
         assertEquals(someKey1, someKey3);
+        assertFalse(someKey1.isNullVersion());
 
         assertEquals(someKey2, someKey1.getKey());
         assertEquals(1, someKey1.getKeys().size());

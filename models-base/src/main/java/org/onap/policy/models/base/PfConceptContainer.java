@@ -170,6 +170,9 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
                 if (incomingConceptEntry.getValue().getVersion() != null) {
                     conceptKey.setVersion(incomingConceptEntry.getValue().getVersion());
                 }
+                else {
+                    conceptKey.setVersion(PfKey.NULL_KEY_VERSION);
+                }
 
                 // After all that, save the map entry
                 conceptMap.put(conceptKey, jpaConcept);
