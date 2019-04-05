@@ -36,6 +36,7 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -79,7 +80,7 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
     private PfConceptKey type;
 
     @ElementCollection
-    @Column(length = 10000)
+    @Lob
     private Map<String, String> properties;
 
     @ElementCollection

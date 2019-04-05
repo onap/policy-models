@@ -31,8 +31,9 @@ policy_types:
                 type: list
                 required: true
                 entry_schema:
-                    type:policy.data.queryProperties_properties
+                    type: policy.data.queryProperties_properties
 data_types:
+  -
     policy.data.queryProperties_properties:
         derived_from: tosca.nodes.Root
         properties:

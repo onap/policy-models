@@ -40,6 +40,7 @@ policy_types:
                 type: policy.data.objectiveParameter_properties
                 required: true
 data_types:
+  -
     policy.data.objectiveParameter_properties:
         derived_from: tosca.nodes.Root
         properties:

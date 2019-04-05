@@ -41,7 +41,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @ToString(callSuper = true)
-public class ToscaPolicy extends ToscaEntity {
+public class ToscaPolicy extends ToscaEntity implements Comparable<ToscaPolicy> {
     private String type;
 
     private String typeVersion;
@@ -83,5 +83,10 @@ public class ToscaPolicy extends ToscaEntity {
      */
     public ToscaPolicyTypeIdentifier getTypeIdentifier() {
         return new ToscaPolicyTypeIdentifier(getType(), getTypeVersion());
+    }
+
+    @Override
+    public int compareTo(final ToscaPolicy other) {
+        return compareNameVersion(this, other);
     }
 }

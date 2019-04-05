@@ -20,6 +20,9 @@
 
 package org.onap.policy.models.base;
 
+import org.apache.commons.lang3.ObjectUtils;
+import org.onap.policy.common.utils.validation.Version;
+
 /**
  * An interface that forces a POJO to have getName() and getVersion() methods.
  *
@@ -33,4 +36,43 @@ public interface PfNameVersion {
     public String getVersion();
 
     public void setVersion(final String version);
+
+    /**
+     * COmpare two name version implementation objects.
+     *
+     * @param left the left name/version implementation
+     * @param right the right name/version implementation
+     * @return the comparison resilt
+     */
+    public default int compareNameVersion(final PfNameVersion left, final PfNameVersion right) {
+        if (left == null && right == null) {
+            return 0;
+        }
+
+        if (left == null) {
+            return 1;
+        }
+
+        if (right == null) {
+            return -1;
+        }
+
+        int result = ObjectUtils.compare(left.getName(), right.getName());
+        if (result != 0) {
+            return result;
+        }
+
+        if (left.getVersion() == null && right.getVersion() == null) {
+            return 0;
+        }
+
+        if (left.getVersion() == null) {
+            return 1;
+        }
+
+        if (right.getVersion() == null) {
+            return -1;
+        }
+        return new Version(left.getVersion()).compareTo(new Version(right.getVersion()));
+    }
 }

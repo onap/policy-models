@@ -30,6 +30,7 @@ import java.util.Map.Entry;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+
 import org.onap.policy.models.base.PfNameVersion;
 
 /**
@@ -70,5 +71,4 @@ public class ToscaEntity implements PfNameVersion {
             }
         }
     }
-
 }

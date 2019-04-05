@@ -200,13 +200,6 @@ public class JpaToscaPropertyTest {
         assertTrue(tp.validate(new PfValidationResult()).isValid());
 
         try {
-            tp.setStatus(null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("status is marked @NonNull but is null", exc.getMessage());
-        }
-
-        try {
             tp.validate(null);
             fail("test should throw an exception");
         } catch (Exception exc) {

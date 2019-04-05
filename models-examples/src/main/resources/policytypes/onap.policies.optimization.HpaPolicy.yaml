@@ -36,8 +36,9 @@ policy_types:
                 type: list
                 required: true
                 entry_schema:
-                    type:policy.data.flavorFeatures_properties
+                    type: policy.data.flavorFeatures_properties
 data_types:
+  -
     policy.data.flavorFeatures_properties:
         derived_from: tosca.nodes.Root
         properties:
@@ -57,6 +58,7 @@ data_types:
                 required: true
                 entry_schema:
                     type: policy.data.flavorProperties_properties
+  -
     policy.data.directives_properties:
         derived_from: tosca.nodes.Root
         properties:
@@ -66,6 +68,7 @@ data_types:
                 type: list
                 entry_schema:
                     type: policy.data.directives_attributes_properties
+  -
     policy.data.directives_attributes_properties:
         derived_from: tosca.nodes.Root
         properties:
@@ -73,6 +76,7 @@ data_types:
                 type: string
             attribute_value:
                 type: string
+  -
     policy.data.flavorProperties_properties:
         derived_from: tosca.nodes.Root
         properties:
@@ -101,6 +105,7 @@ data_types:
                 required: true
                 entry_schema:
                     type: policy.data.hpa-feature-attributes_properties
+  -
     policy.data.hpa-feature-attributes_properties:
         derived_from: tosca.nodes.Root
         properties:

@@ -157,8 +157,8 @@ public class AuthorativeToscaProvider {
      * @return the policies found
      * @throws PfModelException on errors getting policies
      */
-    public ToscaServiceTemplate getPolicies(@NonNull final PfDao dao, @NonNull final String name,
-            @NonNull final String version) throws PfModelException {
+    public ToscaServiceTemplate getPolicies(@NonNull final PfDao dao, final String name, final String version)
+            throws PfModelException {
 
         return new SimpleToscaProvider().getPolicies(dao, name, version).toAuthorative();
     }

@@ -45,8 +45,9 @@ policy_types:
                 type: list
                 required: true
                 entry_schema:
-                    type:policy.data.vnfProperties_properties
+                    type: policy.data.vnfProperties_properties
 data_types:
+  -
     policy.data.vnfProperties_properties:
         derived_from: tosca.nodes.Root
         properties:
