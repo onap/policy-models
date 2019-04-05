@@ -1,6 +1,8 @@
-/*-
+/*
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ * ONAP Policy Models
+ * ================================================================================
+ * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,8 +15,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * SPDX-License-Identifier: Apache-2.0
  * ============LICENSE_END=========================================================
  */
 
@@ -25,11 +25,11 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * Response to PDP Group State Change REST API.
+ * Response to a Policy UNDEPLOY REST API.
  */
 @Getter
 @Setter
 @ToString(callSuper = true)
-public class PdpGroupStateChangeResponse extends SimpleResponse {
+public class PolicyUndeployResponse extends SimpleResponse {
 
 }
