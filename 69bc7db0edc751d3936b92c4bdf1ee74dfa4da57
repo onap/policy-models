@@ -50,6 +50,24 @@
       "revId": "69bc7db0edc751d3936b92c4bdf1ee74dfa4da57",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4de5d9f1_9409922d",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpGroupFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-05T16:37:17Z",
+      "side": 1,
+      "message": "actually, for deployment: if it has a subgroup that supports the policy type and does NOT have at least one PDP assigned, then it should skip the whole group",
+      "parentUuid": "d5ab0471_5387fca9",
+      "revId": "69bc7db0edc751d3936b92c4bdf1ee74dfa4da57",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
