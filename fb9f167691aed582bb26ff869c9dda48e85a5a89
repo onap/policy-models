@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e3f28b0_b5892898",
+        "filename": "models-interactions/model-actors/actor.appclcm/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-06T12:21:54Z",
+      "side": 1,
+      "message": "tabs \u003d\u003e spaces",
+      "revId": "fb9f167691aed582bb26ff869c9dda48e85a5a89",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4129851c_74c313a0",
+        "filename": "models-interactions/model-actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-06T12:21:54Z",
+      "side": 1,
+      "message": "tabs \u003d\u003e spaces\n\nsame comment applies in a number of the files",
+      "revId": "fb9f167691aed582bb26ff869c9dda48e85a5a89",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
