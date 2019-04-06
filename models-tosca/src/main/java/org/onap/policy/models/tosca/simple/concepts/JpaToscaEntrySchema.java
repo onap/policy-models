@@ -59,7 +59,11 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaEntrySchema;
 @NoArgsConstructor
 public class JpaToscaEntrySchema
         implements PfAuthorative<ToscaEntrySchema>, Serializable, Comparable<JpaToscaEntrySchema> {
+
     private static final long serialVersionUID = 3645882081163287058L;
+
+    // Recurring string constants
+    private static final String ENTRY_SCHEMA = "EntrySchema";
 
     @Column
     private PfConceptKey type;
@@ -157,12 +161,12 @@ public class JpaToscaEntrySchema
         PfValidationResult result = resultIn;
 
         if (type == null || type.isNullKey()) {
-            result.addValidationMessage(new PfValidationMessage(new PfConceptKey("EntrySchema", PfKey.NULL_KEY_VERSION),
+            result.addValidationMessage(new PfValidationMessage(new PfConceptKey(ENTRY_SCHEMA, PfKey.NULL_KEY_VERSION),
                     this.getClass(), ValidationResult.INVALID, "entry schema type may not be null"));
         }
 
         if (description != null && description.trim().length() == 0) {
-            result.addValidationMessage(new PfValidationMessage(new PfConceptKey("EntrySchema", PfKey.NULL_KEY_VERSION),
+            result.addValidationMessage(new PfValidationMessage(new PfConceptKey(ENTRY_SCHEMA, PfKey.NULL_KEY_VERSION),
                     this.getClass(), ValidationResult.INVALID, "entry schema description may not be blank"));
         }
 
@@ -171,7 +175,7 @@ public class JpaToscaEntrySchema
             for (JpaToscaConstraint constraint : constraints) {
                 if (constraint == null) {
                     result.addValidationMessage(
-                            new PfValidationMessage(new PfConceptKey("EntrySchema", PfKey.NULL_KEY_VERSION),
+                            new PfValidationMessage(new PfConceptKey(ENTRY_SCHEMA, PfKey.NULL_KEY_VERSION),
                                     this.getClass(), ValidationResult.INVALID, "property constraint may not be null "));
                 }
             }

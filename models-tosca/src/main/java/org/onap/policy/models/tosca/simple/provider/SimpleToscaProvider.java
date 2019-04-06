@@ -33,8 +33,6 @@ import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.dao.PfDao;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicies;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicy;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyType;
@@ -79,28 +77,6 @@ public class SimpleToscaProvider {
             LOGGER.warn(errorMessage);
             throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
         }
-    }
-
-    /**
-     * Get filtered policy types.
-     *
-     * @param dao the DAO to use to access the database
-     * @param filter the filter for the policy types to get
-     * @return the policy types found
-     * @throws PfModelException on errors getting policy types
-     */
-    public JpaToscaServiceTemplate getFilteredPolicyTypes(@NonNull final PfDao dao,
-            @NonNull final ToscaPolicyTypeFilter filter) throws PfModelException {
-
-        // Create the structure of the TOSCA service template to contain the policy type
-        JpaToscaServiceTemplate serviceTemplate = new JpaToscaServiceTemplate();
-        serviceTemplate.setPolicyTypes(new JpaToscaPolicyTypes());
-
-        List<JpaToscaPolicyType> jpaPolicyTypeList = dao.getAll(JpaToscaPolicyType.class);
-        // TODO: The actual filtering
-
-        serviceTemplate.getPolicyTypes().getConceptMap().putAll(asConceptMap(jpaPolicyTypeList));
-        return serviceTemplate;
     }
 
     /**
@@ -210,29 +186,6 @@ public class SimpleToscaProvider {
             LOGGER.warn(errorMessage);
             throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
         }
-    }
-
-    /**
-     * Get filtered policies.
-     *
-     * @param dao the DAO to use to access the database
-     * @param filter the filter for the policies to get
-     * @return the policies found
-     * @throws PfModelException on errors getting policies
-     */
-    public JpaToscaServiceTemplate getFilteredPolicies(@NonNull final PfDao dao,
-            @NonNull final ToscaPolicyFilter filter) throws PfModelException {
-
-        // Create the structure of the TOSCA service template to contain the policy type
-        JpaToscaServiceTemplate serviceTemplate = new JpaToscaServiceTemplate();
-        serviceTemplate.setTopologyTemplate(new JpaToscaTopologyTemplate());
-        serviceTemplate.getTopologyTemplate().setPolicies(new JpaToscaPolicies());
-
-        List<JpaToscaPolicy> jpaPolicyList = dao.getAll(JpaToscaPolicy.class);
-        // TODO: Do the actual filtering
-
-        serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().putAll(asConceptMap(jpaPolicyList));
-        return serviceTemplate;
     }
 
     /**

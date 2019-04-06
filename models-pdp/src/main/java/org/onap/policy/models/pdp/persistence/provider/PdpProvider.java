@@ -111,7 +111,7 @@ public class PdpProvider {
 
         List<JpaPdpGroup> jpaPdpGroupList = dao.getAll(JpaPdpGroup.class);
 
-        return asPdpGroupList(jpaPdpGroupList);
+        return filter.filter(asPdpGroupList(jpaPdpGroupList));
     }
 
     /**
