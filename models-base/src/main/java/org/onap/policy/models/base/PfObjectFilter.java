@@ -59,26 +59,31 @@ public interface PfObjectFilter<T extends Comparable<T>> {
      * @return the filtered list
      */
     public default List<T> latestVersionFilter(final List<T> originalList) {
+        if (originalList.size() <= 1) {
+            return originalList;
+        }
+
         List<T> filteredList = new ArrayList<>(originalList);
         Collections.sort(filteredList);
 
-        List<T> filteredOutList = new ArrayList<>();
-
-        for (int i = 1; i < filteredList.size(); i++) {
+        int icur = 0;
+        for (int j = 1; j < filteredList.size(); j++) {
             // Get the current and last element
-            T thisElement = filteredList.get(i);
-            T lastElement = filteredList.get(i - 1);
+            T curElement = filteredList.get(icur);
+            T lastElement = filteredList.get(j);
 
-            // The list is sorted so if the last element name is the same as the current element name, the last element
-            // should be removed
-            if (((PfNameVersion)thisElement).getName().equals(((PfNameVersion)lastElement).getName())) {
-                filteredOutList.add(lastElement);
+            /*
+             * The list is sorted so if the last element name is the same as the current
+             * element name, the current element should be removed.
+             */
+            if (!((PfNameVersion)curElement).getName().equals(((PfNameVersion)lastElement).getName())) {
+                // have a new name - done comparing with the old "current"
+                ++icur;
             }
+
+            filteredList.set(icur, lastElement);
         }
 
-        // We can now remove these elements
-        filteredList.removeAll(filteredOutList);
-
-        return filteredList;
+        return new ArrayList<>(filteredList.subList(0, icur + 1));
     }
 }
