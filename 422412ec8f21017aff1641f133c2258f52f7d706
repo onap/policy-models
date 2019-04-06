@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e5264302_9241c0ed",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpGroupFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-06T16:08:31Z",
+      "side": 1,
+      "message": "You can actually filter on both, the PDP group state filter is on line 72.",
+      "parentUuid": "a60b5f37_e96924ed",
+      "revId": "422412ec8f21017aff1641f133c2258f52f7d706",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c0726f69_8a5b8907",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProvider.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2019-04-06T12:11:20Z",
       "side": 1,
       "message": "fyi: if we use exact match instead of regex, then can pass the name and version to this method so it can take advantage of the primary key index - should improve performance substantially if there are more than a couple of policies\n\nsame comment elsewhere",
+      "revId": "422412ec8f21017aff1641f133c2258f52f7d706",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea84b28d_0d0c330f",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-06T16:08:31Z",
+      "side": 1,
+      "message": "Yes, I see what you mean. Let\u0027s discuss on Monday and we can raise another review to improve performance.",
+      "parentUuid": "c0726f69_8a5b8907",
       "revId": "422412ec8f21017aff1641f133c2258f52f7d706",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
