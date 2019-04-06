@@ -43,12 +43,6 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.drools</groupId>
-      <artifactId>drools-core</artifactId>
-      <version>6.5.0.Final</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
       <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
       <artifactId>rest</artifactId>
       <version>${project.version}</version>
@@ -57,12 +51,6 @@
       <groupId>org.onap.policy.common</groupId>
       <artifactId>policy-endpoints</artifactId>
       <version>${policy.common.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.onap.policy.drools-pdp</groupId>
-      <artifactId>policy-management</artifactId>
-      <version>${policy.drools-pdp.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>

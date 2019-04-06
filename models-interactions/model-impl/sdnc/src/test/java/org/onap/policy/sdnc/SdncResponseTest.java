@@ -25,7 +25,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
-
 import org.junit.Test;
 
 public class SdncResponseTest {
@@ -35,15 +34,15 @@ public class SdncResponseTest {
         SdncResponse response = new SdncResponse();
         assertNotNull(response);
         assertNotEquals(0, response.hashCode());
-        
+
         String requestId = "Get Home";
         response.setRequestId(requestId);
         assertEquals(requestId, response.getRequestId());
-        
+
         SdncResponseOutput responseDescriptor = new SdncResponseOutput();
         response.setResponseOutput(responseDescriptor);
         assertEquals(responseDescriptor, response.getResponseOutput());
-        
+
         assertNotEquals(0, response.hashCode());
     }
 }

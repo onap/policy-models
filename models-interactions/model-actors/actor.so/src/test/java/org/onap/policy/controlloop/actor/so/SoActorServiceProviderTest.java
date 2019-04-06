@@ -145,7 +145,7 @@ public class SoActorServiceProviderTest {
     @Test
     public void testSendRequest() {
         try {
-            SoActorServiceProvider.sendRequest(UUID.randomUUID().toString(), null, null);
+            SoActorServiceProvider.sendRequest(UUID.randomUUID().toString(), null, null, null, null, null);
         } catch (Exception e) {
             fail("Test should not throw an exception");
         }
