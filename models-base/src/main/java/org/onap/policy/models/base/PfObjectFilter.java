@@ -22,6 +22,7 @@ package org.onap.policy.models.base;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import lombok.NonNull;
@@ -59,25 +60,36 @@ public interface PfObjectFilter<T extends Comparable<T>> {
      * @return the filtered list
      */
     public default List<T> latestVersionFilter(final List<T> originalList) {
+        if (originalList.size() < 2) {
+            // TODO ok to return the original list?  Or do we need to return a copy?
+            return originalList;
+        }
+
         List<T> filteredList = new ArrayList<>(originalList);
         Collections.sort(filteredList);
 
-        List<T> filteredOutList = new ArrayList<>();
+        // reverse so we work from higher to lower versions
+        Collections.reverse(filteredList);
 
-        for (int i = 1; i < filteredList.size(); i++) {
-            // Get the current and last element
-            T thisElement = filteredList.get(i);
-            T lastElement = filteredList.get(i - 1);
+        /*
+         * The list is sorted so if the next element name is the same as the current
+         * element name, the next element should be removed
+         */
+        Iterator<T> iter = filteredList.iterator();
+        T current = iter.next();
 
-            // The list is sorted so if the last element name is the same as the current element name, the last element
-            // should be removed
-            if (((PfNameVersion)thisElement).getName().equals(((PfNameVersion)lastElement).getName())) {
-                filteredOutList.add(lastElement);
+        while (iter.hasNext()) {
+            T next = iter.next();
+
+            if (((PfNameVersion) next).getName().equals(((PfNameVersion) current).getName())) {
+                iter.remove();
             }
+
+            current = next;
         }
 
-        // We can now remove these elements
-        filteredList.removeAll(filteredOutList);
+        // TODO is this necessary?
+        Collections.reverse(filteredList);
 
         return filteredList;
     }
