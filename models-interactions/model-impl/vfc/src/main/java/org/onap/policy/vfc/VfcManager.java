@@ -26,11 +26,9 @@ import com.google.gson.JsonSyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.drools.core.WorkingMemory;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
-import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.rest.RestManager;
 import org.onap.policy.rest.RestManager.Pair;
 import org.onap.policy.vfc.util.Serialization;
@@ -43,11 +41,16 @@ public final class VfcManager implements Runnable {
     private String username;
     private String password;
     private VfcRequest vfcRequest;
-    private WorkingMemory workingMem;
+    private VfcCallback callback;
     private static final Logger logger = LoggerFactory.getLogger(VfcManager.class);
 
     // The REST manager used for processing REST calls for this VFC manager
     private RestManager restManager;
+    
+    public interface VfcCallback {
+
+		void onResponse(VfcResponse responseError);
+    }
 
     /**
      * Constructor.
@@ -55,19 +58,18 @@ public final class VfcManager implements Runnable {
      * @param wm Drools working memory
      * @param request request
      */
-    public VfcManager(WorkingMemory wm, VfcRequest request) {
-        if (wm == null || request == null) {
+    public VfcManager(VfcCallback cb, VfcRequest request, String url, String user, String pwd) {
+        if (cb == null || request == null) {
             throw new IllegalArgumentException(
-                    "the parameters \"wm\" and \"request\" on the VfcManager constructor may not be null");
+                    "the parameters \"cb\" and \"request\" on the VfcManager constructor may not be null");
         }
-        workingMem = wm;
+        callback = cb;
         vfcRequest = request;
+        vfcUrlBase = url;
+        username = user;
+        password = pwd;
 
         restManager = new RestManager();
-
-        // use getPEManagerEnvProperty() for required properties; others are optional
-        setVfcParams(getPeManagerEnvProperty("vfc.url"), PolicyEngine.manager.getEnvironmentProperty("vfc.username"),
-                PolicyEngine.manager.getEnvironmentProperty("vfc.password"));
     }
 
     /**
@@ -101,12 +103,12 @@ public final class VfcManager implements Runnable {
             httpDetails = restManager.post(vfcUrl, username, password, headers, "application/json", vfcRequestJson);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            workingMem.insert(responseError);
+            this.callback.onResponse(responseError);
             return;
         }
 
         if (httpDetails == null) {
-            workingMem.insert(responseError);
+            this.callback.onResponse(responseError);
             return;
         }
 
@@ -142,7 +144,7 @@ public final class VfcManager implements Runnable {
                 if (httpDetailsGet.first == 200
                         && ("finished".equalsIgnoreCase(responseStatus) || "error".equalsIgnoreCase(responseStatus))) {
                     logger.debug("VFC Heal Status {}", responseGet.getResponseDescriptor().getStatus());
-                    workingMem.insert(responseGet);
+                    this.callback.onResponse(responseGet);
                     break;
                 }
                 Thread.sleep(20000);
@@ -151,7 +153,7 @@ public final class VfcManager implements Runnable {
                     && (responseGet.getResponseDescriptor().getStatus() != null)
                     && (!responseGet.getResponseDescriptor().getStatus().isEmpty())) {
                 logger.debug("VFC timeout. Status: ({})", responseGet.getResponseDescriptor().getStatus());
-                workingMem.insert(responseGet);
+                this.callback.onResponse(responseGet);
             }
         } catch (JsonSyntaxException e) {
             logger.error("Failed to deserialize into VfcResponse {}", e.getLocalizedMessage(), e);
@@ -170,22 +172,5 @@ public final class VfcManager implements Runnable {
      */
     protected void setRestManager(final RestManager restManager) {
         this.restManager = restManager;
-    }
-
-    /**
-     * This method reads and validates environmental properties coming from the policy engine. Null
-     * properties cause an {@link IllegalArgumentException} runtime exception to be thrown
-     *
-     * @param string the name of the parameter to retrieve
-     * @return the property value
-     */
-
-    private String getPeManagerEnvProperty(String enginePropertyName) {
-        String enginePropertyValue = PolicyEngine.manager.getEnvironmentProperty(enginePropertyName);
-        if (enginePropertyValue == null) {
-            throw new IllegalArgumentException("The value of policy engine manager environment property \""
-                    + enginePropertyName + "\" may not be null");
-        }
-        return enginePropertyValue;
     }
 }

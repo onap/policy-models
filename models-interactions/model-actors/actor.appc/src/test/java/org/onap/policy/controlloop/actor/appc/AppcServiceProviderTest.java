@@ -45,7 +45,7 @@ import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.Target;
 import org.onap.policy.controlloop.policy.TargetType;
-import org.onap.policy.drools.system.PolicyEngine;
+//import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.simulators.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -96,9 +96,9 @@ public class AppcServiceProviderTest {
         policy.setTimeout(300);
 
         /* Set environment properties */
-        PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
-        PolicyEngine.manager.setEnvironmentProperty("aai.username", "AAI");
-        PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
+//        PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
+//        PolicyEngine.manager.setEnvironmentProperty("aai.username", "AAI");
+//        PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
 
     }
 

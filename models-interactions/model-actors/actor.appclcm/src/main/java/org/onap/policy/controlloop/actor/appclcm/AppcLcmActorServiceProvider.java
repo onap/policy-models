@@ -52,7 +52,6 @@ import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
-import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.rest.RestManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -144,7 +143,8 @@ public class AppcLcmActorServiceProvider implements Actor {
      * @return the target entities vnf id to act upon
      * @throws AaiException it an error occurs
      */
-    public static String vnfNamedQuery(String resourceId, String sourceVnfId) throws AaiException {
+    public static String vnfNamedQuery(String resourceId, String sourceVnfId, String aaiUrl,
+    		String aaiUser, String aaiPassword) throws AaiException {
 
         // TODO: This request id should not be hard coded in future releases
         UUID requestId = UUID.fromString("a93ac487-409c-4e8c-9e5f-334ae8f99087");
@@ -163,9 +163,8 @@ public class AppcLcmActorServiceProvider implements Actor {
         aaiRequest.setInstanceFilters(new AaiNqInstanceFilters());
         aaiRequest.getInstanceFilters().getInstanceFilter().add(filter);
 
-        AaiNqResponse aaiResponse = new AaiManager(new RestManager()).postQuery(getPeManagerEnvProperty("aai.url"),
-                getPeManagerEnvProperty("aai.username"), getPeManagerEnvProperty("aai.password"), aaiRequest,
-                requestId);
+        AaiNqResponse aaiResponse = new AaiManager(new RestManager()).postQuery(aaiUrl,
+                aaiUser, aaiPassword, aaiRequest, requestId);
 
         if (aaiResponse == null) {
             throw new AaiException("The named query response was null");
@@ -340,21 +339,5 @@ public class AppcLcmActorServiceProvider implements Actor {
                 result = PolicyResult.FAILURE_EXCEPTION;
         }
         return new AbstractMap.SimpleEntry<>(result, message);
-    }
-
-    /**
-     * This method reads and validates environmental properties coming from the policy engine. Null
-     * properties cause an {@link IllegalArgumentException} runtime exception to be thrown
-     *
-     * @param enginePropertyName the name of the parameter to retrieve
-     * @return the property value
-     */
-    private static String getPeManagerEnvProperty(String enginePropertyName) {
-        String enginePropertyValue = PolicyEngine.manager.getEnvironmentProperty(enginePropertyName);
-        if (enginePropertyValue == null) {
-            throw new IllegalArgumentException("The value of policy engine manager environment property \""
-                    + enginePropertyName + "\" may not be null");
-        }
-        return enginePropertyValue;
     }
 }

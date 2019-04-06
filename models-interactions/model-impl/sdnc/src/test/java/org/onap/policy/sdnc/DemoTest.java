@@ -19,8 +19,6 @@
 
 package org.onap.policy.sdnc;
 
-import java.util.LinkedList;
-
 import org.junit.Test;
 import org.onap.policy.sdnc.util.Serialization;
 

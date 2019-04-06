@@ -70,11 +70,5 @@
       <version>${policy.common.version}</version>
       <scope>provided</scope>
     </dependency>
-    <dependency>
-      <groupId>org.onap.policy.drools-pdp</groupId>
-      <artifactId>policy-management</artifactId>
-      <version>${policy.drools-pdp.version}</version>
-      <scope>provided</scope>
-    </dependency>
   </dependencies>
 </project>

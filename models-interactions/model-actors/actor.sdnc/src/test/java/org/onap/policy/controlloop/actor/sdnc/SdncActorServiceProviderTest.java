@@ -33,12 +33,11 @@ import java.util.UUID;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.onap.policy.aai.AaiGetVnfResponse;
 import org.onap.policy.common.endpoints.http.server.HttpServletServer;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.policy.Policy;
-import org.onap.policy.drools.system.PolicyEngine;
+//import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.sdnc.SdncRequest;
 import org.onap.policy.simulators.Util;
 
@@ -75,16 +74,15 @@ public class SdncActorServiceProviderTest {
         onset.getAai().put("network-information.network-id", "network-5555");
         assertNull(provider.constructRequest(onset, operation, policy));
 
-        PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
-        PolicyEngine.manager.setEnvironmentProperty("aai.username", "AAI");
-        PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
+//        PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
+//        PolicyEngine.manager.setEnvironmentProperty("aai.username", "AAI");
+//        PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
         assertNull(provider.constructRequest(onset, operation, policy));
 
         UUID requestId = UUID.randomUUID();
         onset.setRequestId(requestId);
         assertNull(provider.constructRequest(onset, operation, policy));
 
-        PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
         assertNull(provider.constructRequest(onset, operation, policy));
 
         onset.getAai().put("service-instance.service-instance-id", "service-instance-01");

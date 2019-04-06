@@ -23,16 +23,12 @@ package org.onap.policy.controlloop.actor.sdnr;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.UUID;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.onap.policy.common.endpoints.http.server.HttpServletServer;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.ControlLoopTargetType;
@@ -40,11 +36,9 @@ import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.Target;
 import org.onap.policy.controlloop.policy.TargetType;
-import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.sdnr.PciRequest;
 import org.onap.policy.sdnr.PciResponse;
 import org.onap.policy.sdnr.util.Serialization;
-import org.onap.policy.simulators.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
