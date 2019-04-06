@@ -24,12 +24,9 @@ package org.onap.policy.controlloop.actor.sdnc;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
-
-import org.onap.policy.aai.AaiGetVnfResponse;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
@@ -43,9 +40,7 @@ import org.onap.policy.sdnc.SdncHealVfModuleParameter;
 import org.onap.policy.sdnc.SdncHealVfModuleParametersInfo;
 import org.onap.policy.sdnc.SdncHealVfModuleRequestInput;
 import org.onap.policy.sdnc.SdncHealVnfInfo;
-
 import org.onap.policy.sdnc.SdncRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

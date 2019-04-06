@@ -25,34 +25,26 @@ package org.onap.policy.sdnc;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-
 import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.endsWith;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.startsWith;
-
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
-import org.drools.core.WorkingMemory;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.rest.RestManager;
 import org.onap.policy.rest.RestManager.Pair;
+import org.onap.policy.sdnc.SdncManager.SdncCallback;
 import org.onap.policy.sdnc.util.Serialization;
 
-public class SdncManagerTest {
-    private static WorkingMemory mockedWorkingMemory;
-
+public class SdncManagerTest implements SdncCallback {
     private RestManager   mockedRestManager;
 
     private Pair<Integer, String> httpResponsePutOk;
@@ -65,7 +57,6 @@ public class SdncManagerTest {
 
     @BeforeClass
     public static void beforeTestSdncManager() {
-        mockedWorkingMemory = mock(WorkingMemory.class);
     }
 
     /**
@@ -118,15 +109,15 @@ public class SdncManagerTest {
      */
     @After
     public void afterTestSdncManager() throws InterruptedException {
-        PolicyEngine.manager.getEnvironment().remove("sdnc.password");
-        PolicyEngine.manager.getEnvironment().remove("sdnc.username");
-        PolicyEngine.manager.getEnvironment().remove("sdnc.url");
+//        PolicyEngine.manager.getEnvironment().remove("sdnc.password");
+//        PolicyEngine.manager.getEnvironment().remove("sdnc.username");
+//        PolicyEngine.manager.getEnvironment().remove("sdnc.url");
     }
 
     @Test
     public void testSdncInitiation() throws InterruptedException {
         try {
-            new SdncManager(null, null);
+            new SdncManager(null, null, null, null, null);
             fail("test should throw an exception here");
         }
         catch (IllegalArgumentException e) {
@@ -137,7 +128,7 @@ public class SdncManagerTest {
         }
     
         try {
-            new SdncManager(mockedWorkingMemory, null);
+            new SdncManager(this, null, null, null, null);
             fail("test should throw an exception here");
         }
         catch (IllegalArgumentException e) {
@@ -148,7 +139,7 @@ public class SdncManagerTest {
         }
         
         try {
-            new SdncManager(mockedWorkingMemory, request);
+            new SdncManager(this, request, null, null, null);
             fail("test should throw an exception here");
         }
         catch (IllegalArgumentException e) {
@@ -158,9 +149,8 @@ public class SdncManagerTest {
             );
         }
         
-        PolicyEngine.manager.getEnvironment().put("sdnc.url", "http://somewhere.over.the.rainbow");
         try {
-            new SdncManager(mockedWorkingMemory, request);
+            new SdncManager(this, request, "http://somewhere.over.the.rainbow", null, null);
             fail("test should throw an exception here");
         }
         catch (IllegalArgumentException e) {
@@ -170,9 +160,8 @@ public class SdncManagerTest {
             );
         }
         
-        PolicyEngine.manager.getEnvironment().put("sdnc.username", "Dorothy");
         try {
-            new SdncManager(mockedWorkingMemory, request);
+            new SdncManager(this, request, "http://somewhere.over.the.rainbow", "Dorothy", null);
             fail("test should throw an exception here");
         }
         catch (IllegalArgumentException e) {
@@ -182,17 +171,12 @@ public class SdncManagerTest {
             );
         }
         
-        PolicyEngine.manager.getEnvironment().put("sdnc.password", "Toto");
-        new SdncManager(mockedWorkingMemory, request);
+        new SdncManager(this, request, "http://somewhere.over.the.rainbow", "Dorothy", "Toto");
     }
 
     @Test
     public void testSdncExecutionException() throws InterruptedException {
-        PolicyEngine.manager.getEnvironment().put("sdnc.url", "http://somewhere.over.the.rainbow");
-        PolicyEngine.manager.getEnvironment().put("sdnc.username", "Dorothy");
-        PolicyEngine.manager.getEnvironment().put("sdnc.password", "Exception");
-
-        SdncManager manager = new SdncManager(mockedWorkingMemory, request);
+        SdncManager manager = new SdncManager(this, request, "http://somewhere.over.the.rainbow", "Dorothy", "Exception");
         manager.setRestManager(mockedRestManager);
 
         Thread managerThread = new Thread(manager);
@@ -207,11 +191,7 @@ public class SdncManagerTest {
     
     @Test
     public void testSdncExecutionNull() throws InterruptedException {
-        PolicyEngine.manager.getEnvironment().put("sdnc.url", "http://somewhere.over.the.rainbow");
-        PolicyEngine.manager.getEnvironment().put("sdnc.username", "Dorothy");
-        PolicyEngine.manager.getEnvironment().put("sdnc.password", "Null");
-
-        SdncManager manager = new SdncManager(mockedWorkingMemory, request);
+        SdncManager manager = new SdncManager(this, request, "http://somewhere.over.the.rainbow", "Dorothy", "Null");
         manager.setRestManager(mockedRestManager);
 
         Thread managerThread = new Thread(manager);
@@ -226,11 +206,7 @@ public class SdncManagerTest {
 
     @Test
     public void testSdncExecutionError0() throws InterruptedException {
-        PolicyEngine.manager.getEnvironment().put("sdnc.url", "http://somewhere.over.the.rainbow");
-        PolicyEngine.manager.getEnvironment().put("sdnc.username", "Dorothy");
-        PolicyEngine.manager.getEnvironment().put("sdnc.password", "Error0");
-
-        SdncManager manager = new SdncManager(mockedWorkingMemory, request);
+        SdncManager manager = new SdncManager(this, request, "http://somewhere.over.the.rainbow", "Dorothy", "Error0");
         manager.setRestManager(mockedRestManager);
         
         Thread managerThread = new Thread(manager);
@@ -244,11 +220,7 @@ public class SdncManagerTest {
 
     @Test
     public void testSdncExecutionBadResponse() throws InterruptedException {
-        PolicyEngine.manager.getEnvironment().put("sdnc.url", "http://somewhere.over.the.rainbow");
-        PolicyEngine.manager.getEnvironment().put("sdnc.username", "Dorothy");
-        PolicyEngine.manager.getEnvironment().put("sdnc.password", "BadResponse");
-
-        SdncManager manager = new SdncManager(mockedWorkingMemory, request);
+        SdncManager manager = new SdncManager(this, request, "http://somewhere.over.the.rainbow", "Dorothy", "BadResponse");
         manager.setRestManager(mockedRestManager);
         
         Thread managerThread = new Thread(manager);
@@ -262,11 +234,7 @@ public class SdncManagerTest {
     
     @Test
     public void testSdncExecutionOk() throws InterruptedException {
-        PolicyEngine.manager.getEnvironment().put("sdnc.url", "http://somewhere.over.the.rainbow");
-        PolicyEngine.manager.getEnvironment().put("sdnc.username", "Dorothy");
-        PolicyEngine.manager.getEnvironment().put("sdnc.password", "OK");
-        
-        SdncManager manager = new SdncManager(mockedWorkingMemory, request);
+        SdncManager manager = new SdncManager(this, request, "http://somewhere.over.the.rainbow", "Dorothy", "OOK");
         manager.setRestManager(mockedRestManager);
         
         Thread managerThread = new Thread(manager);
@@ -281,4 +249,11 @@ public class SdncManagerTest {
 
         managerThread.join(100);
     }
+
+	@Override
+	public void onCallback(SdncResponse response) {
+		//
+		// Nothing really to do
+		//
+	}
 }

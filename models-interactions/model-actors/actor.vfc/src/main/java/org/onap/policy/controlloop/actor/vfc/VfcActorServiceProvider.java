@@ -33,7 +33,6 @@ import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.onap.policy.controlloop.policy.Policy;
-import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.rest.RestManager;
 import org.onap.policy.vfc.VfcHealActionVmInfo;
 import org.onap.policy.vfc.VfcHealAdditionalParams;
@@ -87,8 +86,9 @@ public class VfcActorServiceProvider implements Actor {
      * @param vnfResponse the VNF response
      * @return the constructed request
      */
-    public static VfcRequest constructRequest(VirtualControlLoopEvent onset, ControlLoopOperation operation,
-            Policy policy, AaiGetVnfResponse vnfResponse) {
+    public static VfcRequest constructRequest(VirtualControlLoopEvent onset, 
+    		ControlLoopOperation operation, Policy policy, AaiGetVnfResponse vnfResponse,
+    		String aaiUrl, String aaiUsername, String aaiPassword) {
 
         // Construct an VFC request
         VfcRequest request = new VfcRequest();
@@ -97,7 +97,7 @@ public class VfcActorServiceProvider implements Actor {
             AaiGetVnfResponse tempVnfResp = vnfResponse;
             if (tempVnfResp == null) { // if the response is null, we haven't queried
                 // This does the AAI query since we haven't already
-                tempVnfResp = getAaiServiceInstance(onset);
+                tempVnfResp = getAaiServiceInstance(onset, aaiUrl, aaiUsername, aaiPassword);
                 if (tempVnfResp == null) {
                     return null;
                 }
@@ -124,14 +124,12 @@ public class VfcActorServiceProvider implements Actor {
         return request;
     }
 
-    private static AaiGetVnfResponse getAaiServiceInstance(VirtualControlLoopEvent event) {
+    private static AaiGetVnfResponse getAaiServiceInstance(VirtualControlLoopEvent event,
+    		String aaiUrl, String aaiUsername, String aaiPassword) {
         AaiGetVnfResponse response = null;
         UUID requestId = event.getRequestId();
         String vnfName = event.getAai().get("generic-vnf.vnf-name");
         String vnfId = event.getAai().get("generic-vnf.vnf-id");
-        String aaiUrl = PolicyEngine.manager.getEnvironmentProperty("aai.url");
-        String aaiUsername = PolicyEngine.manager.getEnvironmentProperty("aai.username");
-        String aaiPassword = PolicyEngine.manager.getEnvironmentProperty("aai.password");
         try {
             if (vnfName != null) {
                 String url = aaiUrl + "/aai/v11/network/generic-vnfs/generic-vnf?vnf-name=";
