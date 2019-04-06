@@ -28,7 +28,6 @@ import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import org.drools.core.WorkingMemory;
 import org.onap.policy.aai.AaiNqExtraProperty;
 import org.onap.policy.aai.AaiNqInventoryResponseItem;
 import org.onap.policy.aai.AaiNqResponseWrapper;
@@ -374,12 +373,16 @@ public class SoActorServiceProvider implements Actor {
      * in the asyncSORestCall.
      *
      * @param requestId the request Id
-     * @param wm the working memory
+     * @param callback callback method
      * @param request the request
+     * @param url SO REST URL
+     * @param user username
+     * @param password password
      */
-    public static void sendRequest(String requestId, WorkingMemory wm, Object request) {
-        SoManager soManager = new SoManager();
-        soManager.asyncSoRestCall(requestId, wm, lastServiceItemServiceInstanceId, lastVNFItemVnfId,
+    public static void sendRequest(String requestId, SoManager.SoCallback callback, Object request,
+            String url, String user, String password) {
+        SoManager soManager = new SoManager(url, user, password);
+        soManager.asyncSoRestCall(requestId, callback, lastServiceItemServiceInstanceId, lastVNFItemVnfId,
                 lastVfModuleItemVfModuleInstanceId, (SoRequest) request);
     }
 
@@ -406,7 +409,7 @@ public class SoActorServiceProvider implements Actor {
     private void buildRequestParameters(Policy policy, SoRequestDetails request) {
         // assume null until proven otherwise
         request.setRequestParameters(null);
-        
+
         if (policy.getPayload() == null) {
             return;
         }
@@ -428,7 +431,7 @@ public class SoActorServiceProvider implements Actor {
     private void buildConfigurationParameters(Policy policy, SoRequestDetails request) {
         // assume null until proven otherwise
         request.setConfigurationParameters(null);
-        
+
         if (policy.getPayload() == null) {
             return;
         }

@@ -38,7 +38,6 @@ import org.onap.policy.common.endpoints.http.server.HttpServletServer;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.policy.Policy;
-import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.simulators.Util;
 import org.onap.policy.vfc.VfcRequest;
 
@@ -69,37 +68,32 @@ public class VfcActorServiceProviderTest {
         Policy policy = new Policy();
         policy.setRecipe("GoToOz");
 
-        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null));
+        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null, null, null, null));
 
         onset.getAai().put("generic-vnf.vnf-id", "dorothy.gale.1939");
-        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null));
+        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null, null, null, null));
 
-        PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
-        PolicyEngine.manager.setEnvironmentProperty("aai.username", "AAI");
-        PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
-        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null));
+        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null, "http://localhost:6666", "AAI", "AAI"));
 
         UUID requestId = UUID.randomUUID();
         onset.setRequestId(requestId);
-        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null));
+        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null, "http://localhost:6666", "AAI", "AAI"));
 
         onset.getAai().put("generic-vnf.vnf-name", "Dorothy");
-        PolicyEngine.manager.getEnvironment().remove("aai.password");
-        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null));
+        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null, "http://localhost:6666", "AAI", null));
 
-        PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
-        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null));
+        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null, "http://localhost:6666", "AAI", "AAI"));
 
         onset.getAai().put("service-instance.service-instance-id", "");
-        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null));
+        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null, "http://localhost:6666", "AAI", "AAI"));
 
-        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, new AaiGetVnfResponse()));
+        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, new AaiGetVnfResponse(), "http://localhost:6666", "AAI", "AAI"));
 
         policy.setRecipe("Restart");
-        assertNotNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, new AaiGetVnfResponse()));
+        assertNotNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, new AaiGetVnfResponse(), "http://localhost:6666", "AAI", "AAI"));
 
         VfcRequest request =
-                VfcActorServiceProvider.constructRequest(onset, operation, policy, new AaiGetVnfResponse());
+                VfcActorServiceProvider.constructRequest(onset, operation, policy, new AaiGetVnfResponse(), "http://localhost:6666", "AAI", "AAI");
 
         assertEquals(requestId, Objects.requireNonNull(request).getRequestId());
         assertEquals("dorothy.gale.1939", request.getHealRequest().getVnfInstanceId());
