@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -84,6 +85,6 @@ public interface PfObjectFilter<T extends Comparable<T>> {
             filteredList.set(icur, lastElement);
         }
 
-        return new ArrayList<>(filteredList.subList(0, icur + 1));
+        return filteredList.subList(0, icur + 1);
     }
 }
