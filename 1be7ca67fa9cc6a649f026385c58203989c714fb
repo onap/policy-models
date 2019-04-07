@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0897a420_9c27d1be",
+        "filename": "models-interactions/model-impl/so/src/test/java/org/onap/policy/so/SoManagerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-07T00:42:40Z",
+      "side": 1,
+      "message": "This hangs forever",
+      "range": {
+        "startLine": 241,
+        "startChar": 8,
+        "endLine": 248,
+        "endChar": 6
+      },
+      "revId": "1be7ca67fa9cc6a649f026385c58203989c714fb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
