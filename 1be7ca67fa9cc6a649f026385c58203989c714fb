@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b939593e_072a9b5d",
+        "filename": "models-interactions/model-impl/so/src/test/java/org/onap/policy/so/SoManagerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-07T15:36:06Z",
+      "side": 1,
+      "message": "Never mind this comment - some other stuff in this test code would have to be modified if the counts were reduced.",
+      "parentUuid": "4a9bb901_849f01ec",
+      "revId": "1be7ca67fa9cc6a649f026385c58203989c714fb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0897a420_9c27d1be",
         "filename": "models-interactions/model-impl/so/src/test/java/org/onap/policy/so/SoManagerTest.java",
         "patchSetId": 2
