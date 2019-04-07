@@ -84,6 +84,6 @@ public interface PfObjectFilter<T extends Comparable<T>> {
             filteredList.set(icur, lastElement);
         }
 
-        return new ArrayList<>(filteredList.subList(0, icur + 1));
+        return filteredList.subList(0, icur + 1);
     }
 }
