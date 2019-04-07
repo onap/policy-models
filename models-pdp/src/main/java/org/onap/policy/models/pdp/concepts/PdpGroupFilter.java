@@ -68,11 +68,12 @@ public class PdpGroupFilter implements PfObjectFilter<PdpGroup> {
         // @formatter:off
         List<PdpGroup> returnList = originalList.stream()
                 .filter(p -> filterOnRegexp(p.getName(),    name))
-                .filter(p -> filterOnRegexp(p.getVersion(), version))
+                .filter(p -> version.equals(LATEST_VERSION) || filterOnRegexp(p.getVersion(), version))
                 .filter(p -> ObjectUtils.compare(p.getPdpGroupState(), groupState) == 0)
                 .filter(p -> filterOnPdpType(p, pdpType))
                 .filter(p -> filterOnPolicyType(p, policyType))
                 .filter(p -> filterOnPolicy(p, policy))
+                .filter(p -> filterOnPdpState(p, pdpState))
                 .collect(Collectors.toList());
         // @formatter:off
 
@@ -144,6 +145,29 @@ public class PdpGroupFilter implements PfObjectFilter<PdpGroup> {
             for (ToscaPolicyIdentifier foundPolicy : pdpSubGroup.getPolicies()) {
                 if (foundPolicy.getName().matches(policyFiler.getName())
                         && foundPolicy.getVersion().matches(policyFiler.getVersion())) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Filter PDP groups on PDP state.
+     *
+     * @param pdpGroup the PDP group to check
+     * @param policyFilter the policy regular expressions to check for
+     * @return true if the filter should let this PDP group through
+     */
+    private boolean filterOnPdpState(final PdpGroup pdpGroup, final PdpState pdpState) {
+        if (pdpState == null) {
+            return true;
+        }
+
+        for (PdpSubGroup pdpSubGroup: pdpGroup.getPdpSubgroups()) {
+            for (Pdp pdp : pdpSubGroup.getPdpInstances()) {
+                if (pdpState.equals(pdp.getPdpState())) {
                     return true;
                 }
             }

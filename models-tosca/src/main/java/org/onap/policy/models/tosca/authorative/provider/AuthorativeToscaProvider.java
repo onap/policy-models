@@ -22,6 +22,7 @@ package org.onap.policy.models.tosca.authorative.provider;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +31,7 @@ import lombok.NonNull;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.dao.PfDao;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaEntity;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
@@ -85,7 +87,16 @@ public class AuthorativeToscaProvider {
      */
     public ToscaServiceTemplate getFilteredPolicyTypes(@NonNull final PfDao dao,
             @NonNull final ToscaPolicyTypeFilter filter) throws PfModelException {
-        return new SimpleToscaProvider().getFilteredPolicyTypes(dao, filter).toAuthorative();
+
+        ToscaServiceTemplate serviceTemplate =
+                new SimpleToscaProvider().getPolicyTypes(dao, null, null).toAuthorative();
+
+        List<ToscaPolicyType> filteredPolicyTypes = asConceptList(serviceTemplate.getPolicyTypes());
+        filteredPolicyTypes = filter.filter(filteredPolicyTypes);
+
+        serviceTemplate.setPolicyTypes(asConceptMap(filteredPolicyTypes));
+
+        return serviceTemplate;
     }
 
     /**
@@ -99,8 +110,7 @@ public class AuthorativeToscaProvider {
     public List<ToscaPolicyType> getFilteredPolicyTypeList(@NonNull final PfDao dao,
             @NonNull final ToscaPolicyTypeFilter filter) throws PfModelException {
 
-        return (asConceptList(
-                new SimpleToscaProvider().getFilteredPolicyTypes(dao, filter).toAuthorative().getPolicyTypes()));
+        return filter.filter(getPolicyTypeList(dao, null, null));
     }
 
     /**
@@ -190,7 +200,14 @@ public class AuthorativeToscaProvider {
     public ToscaServiceTemplate getFilteredPolicies(@NonNull final PfDao dao, @NonNull final ToscaPolicyFilter filter)
             throws PfModelException {
 
-        return new SimpleToscaProvider().getFilteredPolicies(dao, filter).toAuthorative();
+        ToscaServiceTemplate serviceTemplate = new SimpleToscaProvider().getPolicies(dao, null, null).toAuthorative();
+
+        List<ToscaPolicy> filteredPolicies = asConceptList(serviceTemplate.getToscaTopologyTemplate().getPolicies());
+        filteredPolicies = filter.filter(filteredPolicies);
+
+        serviceTemplate.getToscaTopologyTemplate().setPolicies(asConceptMap(filteredPolicies));
+
+        return serviceTemplate;
     }
 
     /**
@@ -204,8 +221,7 @@ public class AuthorativeToscaProvider {
     public List<ToscaPolicy> getFilteredPolicyList(@NonNull final PfDao dao, @NonNull final ToscaPolicyFilter filter)
             throws PfModelException {
 
-        return asConceptList(new SimpleToscaProvider().getFilteredPolicies(dao, filter).toAuthorative()
-                .getToscaTopologyTemplate().getPolicies());
+        return filter.filter(getPolicyList(dao, null, null));
     }
 
     /**
@@ -272,5 +288,20 @@ public class AuthorativeToscaProvider {
         }
 
         return returnList;
+    }
+
+    /**
+     * Return the contents of a list of concepts as a list of maps of concepts.
+     *
+     * @param comceptList the concept list
+     * @return the concept map
+     */
+    private <T extends ToscaEntity> List<Map<String, T>> asConceptMap(List<T> conceptList) {
+        Map<String, T> conceptMap = new LinkedHashMap<>();
+        for (T concept : conceptList) {
+            conceptMap.put(concept.getName(), concept);
+        }
+
+        return Collections.singletonList(conceptMap);
     }
 }
