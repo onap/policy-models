@@ -23,35 +23,138 @@ package org.onap.policy.models.pdp.concepts;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.onap.policy.models.pdp.enums.PdpMessageType;
 
 /**
- * Test the copy constructor, as {@link TestModels} tests the other methods.
+ * Tests methods not already tested by {@link TestModels}.
  */
 public class TestPdpMessage {
+    private static final String PDP_NAME = "pdpA";
+    private static final String PDP_GROUP = "groupA";
+    private static final String PDP_SUBGROUP = "subgroupA";
+    private static final String DIFFERENT = "differentValue";
+
+    private PdpMessage message;
 
     @Test
     public void testCopyConstructor() {
         assertThatThrownBy(() -> new PdpMessage((PdpMessage) null)).isInstanceOf(NullPointerException.class);
 
-        PdpMessage orig = new PdpMessage(PdpMessageType.PDP_STATE_CHANGE);
-
         // verify with null values
-        PdpMessage newmsg = new PdpMessage(orig);
-        newmsg.setRequestId(orig.getRequestId());
-        newmsg.setTimestampMs(orig.getTimestampMs());
-        assertEquals(orig.toString(), newmsg.toString());
+        message = new PdpMessage(PdpMessageType.PDP_STATE_CHANGE);
+        PdpMessage newmsg = new PdpMessage(message);
+        newmsg.setRequestId(message.getRequestId());
+        newmsg.setTimestampMs(message.getTimestampMs());
+        assertEquals(message.toString(), newmsg.toString());
 
         // verify with all values
-        orig.setName("my-name");
-        orig.setPdpGroup("my-group");
-        orig.setPdpSubgroup("my-subgroup");
+        message = makeMessage(PDP_NAME, PDP_GROUP, PDP_SUBGROUP);
+        newmsg = new PdpMessage(message);
+        newmsg.setRequestId(message.getRequestId());
+        newmsg.setTimestampMs(message.getTimestampMs());
+        assertEquals(message.toString(), newmsg.toString());
+    }
 
-        newmsg = new PdpMessage(orig);
-        newmsg.setRequestId(orig.getRequestId());
-        newmsg.setTimestampMs(orig.getTimestampMs());
-        assertEquals(orig.toString(), newmsg.toString());
+    @Test
+    public void testAppliesTo_NameCombos() {
+        /*
+         * Test cases where the name matches.
+         */
+        for (String msgGroup : new String[] {null, PDP_GROUP, DIFFERENT}) {
+            for (String msgSubgroup : new String[] {null, PDP_SUBGROUP, DIFFERENT}) {
+                message = makeMessage(PDP_NAME, msgGroup, msgSubgroup);
+
+                for (String pdpGroup : new String[] {null, PDP_GROUP, DIFFERENT}) {
+                    for (String pdpSubgroup : new String[] {null, PDP_SUBGROUP, DIFFERENT}) {
+                        assertTrue("name msg " + message + " pdp group " + pdpGroup + "/" + pdpSubgroup,
+                                        message.appliesTo(PDP_NAME, pdpGroup, pdpSubgroup));
+                    }
+                }
+            }
+        }
+
+        /*
+         * Test cases where the name does not match.
+         */
+        for (String msgGroup : new String[] {null, PDP_GROUP, DIFFERENT}) {
+            for (String msgSubgroup : new String[] {null, PDP_SUBGROUP, DIFFERENT}) {
+                message = makeMessage(PDP_NAME, msgGroup, msgSubgroup);
+
+                for (String pdpGroup : new String[] {null, PDP_GROUP, DIFFERENT}) {
+                    for (String pdpSubgroup : new String[] {null, PDP_SUBGROUP, DIFFERENT}) {
+                        assertFalse("name msg " + message + " pdp group " + pdpGroup + "/" + pdpSubgroup,
+                                        message.appliesTo(DIFFERENT, pdpGroup, pdpSubgroup));
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testAppliesTo_BroadcastGroup() {
+        /*
+         * Test cases where the group matches.
+         */
+        for (String msgSubgroup : new String[] {null, PDP_SUBGROUP}) {
+            message = makeMessage(null, PDP_GROUP, msgSubgroup);
+
+            assertTrue("group msg " + message, message.appliesTo(PDP_NAME, PDP_GROUP, PDP_SUBGROUP));
+        }
+
+        /*
+         * Test cases where the group does not match.
+         */
+        for (String msgGroup : new String[] {null, PDP_GROUP}) {
+            for (String msgSubgroup : new String[] {null, PDP_SUBGROUP}) {
+                message = makeMessage(null, msgGroup, msgSubgroup);
+
+                for (String pdpGroup : new String[] {null, DIFFERENT}) {
+                    assertFalse("group msg " + message + " pdp group " + pdpGroup,
+                                    message.appliesTo(PDP_NAME, pdpGroup, PDP_SUBGROUP));
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testAppliesTo_BroadcastSubGroup() {
+        /*
+         * Test cases where the subgroup matches.
+         */
+        message = makeMessage(null, PDP_GROUP, PDP_SUBGROUP);
+        assertTrue("subgroup msg " + message, message.appliesTo(PDP_NAME, PDP_GROUP, PDP_SUBGROUP));
+
+        /*
+         * Test cases where the subgroup does not match.
+         */
+        message = makeMessage(null, PDP_GROUP, PDP_SUBGROUP);
+
+        for (String pdpSubgroup : new String[] {null, DIFFERENT}) {
+            assertFalse("subgroup msg " + message + " pdp subgroup " + pdpSubgroup,
+                            message.appliesTo(PDP_NAME, PDP_GROUP, pdpSubgroup));
+        }
+    }
+
+    @Test
+    public void testAppliesTo_NullPdpName() {
+        message = makeMessage(PDP_NAME, PDP_GROUP, PDP_SUBGROUP);
+
+        assertThatThrownBy(() -> message.appliesTo(null, PDP_GROUP, PDP_SUBGROUP))
+                        .isInstanceOf(NullPointerException.class);
+
+    }
+
+    private PdpMessage makeMessage(String pdpName, String pdpGroup, String pdpSubgroup) {
+        PdpMessage msg = new PdpMessage(PdpMessageType.PDP_STATE_CHANGE);
+
+        msg.setName(pdpName);
+        msg.setPdpGroup(pdpGroup);
+        msg.setPdpSubgroup(pdpSubgroup);
+
+        return msg;
     }
 }

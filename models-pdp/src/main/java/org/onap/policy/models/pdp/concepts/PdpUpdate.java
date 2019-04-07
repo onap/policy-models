@@ -30,7 +30,9 @@ import org.onap.policy.models.pdp.enums.PdpMessageType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 
 /**
- * Class to represent the PDP_UPDATE message that PAP will send to a PDP.
+ * Class to represent the PDP_UPDATE message that PAP will send to a PDP. When a PDP
+ * receives this message, it should save the group and subgroup and pass them to
+ * {@link #appliesTo(String, String, String)} of subsequent messages that it receives.
  *
  * @author Ram Krishna Verma (ram.krishna.verma@est.tech)
  */
@@ -45,6 +47,13 @@ public class PdpUpdate extends PdpMessage {
     private String description;
 
     private Long pdpHeartbeatIntervalMs;
+
+    /**
+     * Policies that the PDP should deploy. This is a complete list, so PDPs should be
+     * prepared to deploy new policies listed and undeploy policies that are no longer
+     * listed. Note: this list may be empty, as a PDP may remain attached to a subgroup
+     * even if all of the policies are removed from the subgroup.
+     */
     private List<ToscaPolicy> policies;
 
     /**
