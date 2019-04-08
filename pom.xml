@@ -40,8 +40,6 @@
         <derby.version>10.13.1.1</derby.version>
         <javax.ws.rs-api.version>2.0.1</javax.ws.rs-api.version>
         <policy.common.version>1.4.0-SNAPSHOT</policy.common.version>
-        <policy.drools-applications.version>1.4.0-SNAPSHOT</policy.drools-applications.version>
-        <policy.drools-pdp.version>1.4.0-SNAPSHOT</policy.drools-pdp.version>
 
         <!-- sonar/jacoco overrides -->
         <!-- Overriding oparent default sonar/jacoco settings Combine all our reports into one file shared across sub-modules -->

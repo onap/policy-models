@@ -49,7 +49,6 @@ import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.controlloop.policy.Target;
 import org.onap.policy.controlloop.policy.TargetType;
-import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.simulators.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -115,11 +114,6 @@ public class AppcLcmActorServiceProviderTest {
         dmaapResponse.setCorrelationId(onsetEvent.getRequestId().toString() + "-" + "1");
         dmaapResponse.setRpcName(policy.getRecipe().toLowerCase());
         dmaapResponse.setType("response");
-
-        /* Set environment properties */
-        PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
-        PolicyEngine.manager.setEnvironmentProperty("aai.username", "AAI");
-        PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
 
         /* A sample APPC LCM request. */
         LcmRequest appcRequest = new LcmRequest();
@@ -317,7 +311,8 @@ public class AppcLcmActorServiceProviderTest {
         String resourceId = "82194af1-3c2c-485a-8f44-420e22a9eaa4";
         String targetVnfId = null;
         try {
-            targetVnfId = AppcLcmActorServiceProvider.vnfNamedQuery(resourceId, "vnf01");
+            targetVnfId = AppcLcmActorServiceProvider.vnfNamedQuery(resourceId, "vnf01",
+                    "http://localhost:6666", "AAI", "AAI");
         } catch (AaiException e) {
             logger.warn(e.toString());
             fail("no vnf-id found");

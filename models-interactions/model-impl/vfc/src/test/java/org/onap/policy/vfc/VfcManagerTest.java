@@ -24,7 +24,6 @@ package org.onap.policy.vfc;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-
 import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.endsWith;
@@ -37,18 +36,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import org.drools.core.WorkingMemory;
-import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.rest.RestManager;
 import org.onap.policy.rest.RestManager.Pair;
+import org.onap.policy.vfc.VfcManager.VfcCallback;
 import org.onap.policy.vfc.util.Serialization;
 
-public class VfcManagerTest {
-    private static WorkingMemory mockedWorkingMemory;
+public class VfcManagerTest implements VfcCallback {
 
     private RestManager   mockedRestManager;
 
@@ -59,11 +54,6 @@ public class VfcManagerTest {
 
     private VfcRequest  request;
     private VfcResponse response;
-
-    @BeforeClass
-    public static void beforeTestVfcManager() {
-        mockedWorkingMemory = mock(WorkingMemory.class);
-    }
 
     /**
      * Set up the mocked REST manager.
@@ -118,64 +108,43 @@ public class VfcManagerTest {
         response.setResponseDescriptor(responseDescriptor);
     }
 
-    /**
-     * Remove the environnment.
-     */
-    @After
-    public void tearDown() {
-        PolicyEngine.manager.getEnvironment().remove("vfc.password");
-        PolicyEngine.manager.getEnvironment().remove("vfc.username");
-        PolicyEngine.manager.getEnvironment().remove("vfc.url");
-    }
-
     @Test
     public void testVfcInitiation() {
         try {
-            new VfcManager(null, null);
+            new VfcManager(null, null, null, null, null);
             fail("test should throw an exception here");
         }
         catch (IllegalArgumentException e) {
-            assertEquals("the parameters \"wm\" and \"request\" on the VfcManager constructor may not be null", 
+            assertEquals("the parameters \"cb\" and \"request\" on the VfcManager constructor may not be null",
                     e.getMessage());
         }
 
         try {
-            new VfcManager(mockedWorkingMemory, null);
+            new VfcManager(this, null, null, null, null);
             fail("test should throw an exception here");
         }
         catch (IllegalArgumentException e) {
-            assertEquals("the parameters \"wm\" and \"request\" on the VfcManager constructor may not be null", 
+            assertEquals("the parameters \"cb\" and \"request\" on the VfcManager constructor may not be null",
                     e.getMessage());
         }
 
         try {
-            new VfcManager(mockedWorkingMemory, request);
+            new VfcManager(this, request, null, null, null);
             fail("test should throw an exception here");
         }
         catch (IllegalArgumentException e) {
-            assertEquals("The value of policy engine manager environment property \"vfc.url\" may not be null", 
+            assertEquals("the \"url\" parameter on the VfcManager constructor may not be null",
                     e.getMessage());
         }
 
-        // add url; username & password are not required
-        PolicyEngine.manager.getEnvironment().put("vfc.url", "http://somewhere.over.the.rainbow");
-        new VfcManager(mockedWorkingMemory, request);
+        new VfcManager(this, request, "http://somewhere.over.the.rainbow", null, null);
 
-        // url & username, but no password
-        PolicyEngine.manager.getEnvironment().put("vfc.username", "Dorothy");
-
-        // url, username, and password
-        PolicyEngine.manager.getEnvironment().put("vfc.password", "Toto");
-        new VfcManager(mockedWorkingMemory, request);
+        new VfcManager(this, request, "http://somewhere.over.the.rainbow", "Dorothy", "Toto");
     }
 
     @Test
     public void testVfcExecutionException() throws InterruptedException {
-        PolicyEngine.manager.getEnvironment().put("vfc.url", "http://somewhere.over.the.rainbow");
-        PolicyEngine.manager.getEnvironment().put("vfc.username", "Dorothy");
-        PolicyEngine.manager.getEnvironment().put("vfc.password", "Exception");
-
-        VfcManager manager = new VfcManager(mockedWorkingMemory, request);
+        VfcManager manager = new VfcManager(this, request, "http://somewhere.over.the.rainbow", "Dorothy", "Exception");
         manager.setRestManager(mockedRestManager);
 
         Thread managerThread = new Thread(manager);
@@ -191,94 +160,62 @@ public class VfcManagerTest {
             .thenThrow(new RuntimeException("OzException"));
 
         managerThread.join();
-
-        PolicyEngine.manager.getEnvironment().remove("vfc.password");
-        PolicyEngine.manager.getEnvironment().remove("vfc.username");
-        PolicyEngine.manager.getEnvironment().remove("vfc.url");
     }
 
     @Test
     public void testVfcExecutionNull() throws InterruptedException {
-        PolicyEngine.manager.getEnvironment().put("vfc.url", "http://somewhere.over.the.rainbow");
-        PolicyEngine.manager.getEnvironment().put("vfc.username", "Dorothy");
-        PolicyEngine.manager.getEnvironment().put("vfc.password", "Null");
-
-        VfcManager manager = new VfcManager(mockedWorkingMemory, request);
+        VfcManager manager = new VfcManager(this, request, "http://somewhere.over.the.rainbow", "Dorothy", "Null");
         manager.setRestManager(mockedRestManager);
 
         Thread managerThread = new Thread(manager);
         managerThread.start();
 
-        when(mockedRestManager.post(startsWith("http://somewhere.over.the.rainbow"), 
+        when(mockedRestManager.post(startsWith("http://somewhere.over.the.rainbow"),
                 eq("Dorothy"), eq("Null"), anyMap(), anyString(), anyString()))
                 .thenReturn(null);
 
         managerThread.join();
-
-        PolicyEngine.manager.getEnvironment().remove("vfc.password");
-        PolicyEngine.manager.getEnvironment().remove("vfc.username");
-        PolicyEngine.manager.getEnvironment().remove("vfc.url");
     }
 
     @Test
     public void testVfcExecutionError0() throws InterruptedException {
-        PolicyEngine.manager.getEnvironment().put("vfc.url", "http://somewhere.over.the.rainbow");
-        PolicyEngine.manager.getEnvironment().put("vfc.username", "Dorothy");
-        PolicyEngine.manager.getEnvironment().put("vfc.password", "Error0");
-
-        VfcManager manager = new VfcManager(mockedWorkingMemory, request);
+        VfcManager manager = new VfcManager(this, request, "http://somewhere.over.the.rainbow", "Dorothy", "Error0");
         manager.setRestManager(mockedRestManager);
 
         Thread managerThread = new Thread(manager);
         managerThread.start();
 
-        when(mockedRestManager.post(startsWith("http://somewhere.over.the.rainbow"), 
+        when(mockedRestManager.post(startsWith("http://somewhere.over.the.rainbow"),
                 eq("Dorothy"), eq("Error0"), anyMap(), anyString(), anyString()))
                 .thenReturn(httpResponseErr);
 
         managerThread.join();
-
-        PolicyEngine.manager.getEnvironment().remove("vfc.password");
-        PolicyEngine.manager.getEnvironment().remove("vfc.username");
-        PolicyEngine.manager.getEnvironment().remove("vfc.url");
     }
 
     @Test
     public void testVfcExecutionBadResponse() throws InterruptedException {
-        PolicyEngine.manager.getEnvironment().put("vfc.url", "http://somewhere.over.the.rainbow");
-        PolicyEngine.manager.getEnvironment().put("vfc.username", "Dorothy");
-        PolicyEngine.manager.getEnvironment().put("vfc.password", "BadResponse");
-
-        VfcManager manager = new VfcManager(mockedWorkingMemory, request);
+        VfcManager manager = new VfcManager(this, request, "http://somewhere.over.the.rainbow", "Dorothy", "BadResponse");
         manager.setRestManager(mockedRestManager);
 
         Thread managerThread = new Thread(manager);
         managerThread.start();
 
-        when(mockedRestManager.post(startsWith("http://somewhere.over.the.rainbow"), 
+        when(mockedRestManager.post(startsWith("http://somewhere.over.the.rainbow"),
                 eq("Dorothy"), eq("OK"), anyMap(), anyString(), anyString()))
                 .thenReturn(httpResponseBadResponse);
 
         managerThread.join();
-
-        PolicyEngine.manager.getEnvironment().remove("vfc.password");
-        PolicyEngine.manager.getEnvironment().remove("vfc.username");
-        PolicyEngine.manager.getEnvironment().remove("vfc.url");
     }
 
     @Test
     public void testVfcExecutionOk() throws InterruptedException {
-        PolicyEngine.manager.getEnvironment().put("vfc.url", "http://somewhere.over.the.rainbow");
-        PolicyEngine.manager.getEnvironment().put("vfc.username", "Dorothy");
-        PolicyEngine.manager.getEnvironment().put("vfc.password", "OK");
-
-        VfcManager manager = new VfcManager(mockedWorkingMemory, request);
+        VfcManager manager = new VfcManager(this, request, "http://somewhere.over.the.rainbow", "Dorothy", "Ok");
         manager.setRestManager(mockedRestManager);
 
         Thread managerThread = new Thread(manager);
         managerThread.start();
 
-        when(mockedRestManager.post(startsWith("http://somewhere.over.the.rainbow"), 
+        when(mockedRestManager.post(startsWith("http://somewhere.over.the.rainbow"),
                 eq("Dorothy"), eq("OK"), anyMap(), anyString(), anyString()))
                 .thenReturn(httpResponsePutOk);
 
@@ -286,9 +223,12 @@ public class VfcManagerTest {
             .thenReturn(httpResponseGetOk);
 
         managerThread.join();
+    }
 
-        PolicyEngine.manager.getEnvironment().remove("vfc.password");
-        PolicyEngine.manager.getEnvironment().remove("vfc.username");
-        PolicyEngine.manager.getEnvironment().remove("vfc.url");
+    @Override
+    public void onResponse(VfcResponse responseError) {
+        //
+        // Nothing needs to be done
+        //
     }
 }

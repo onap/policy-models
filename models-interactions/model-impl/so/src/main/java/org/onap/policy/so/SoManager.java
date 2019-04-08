@@ -30,11 +30,9 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import org.drools.core.WorkingMemory;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
-import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.rest.RestManager;
 import org.onap.policy.rest.RestManager.Pair;
 import org.onap.policy.so.util.Serialization;
@@ -66,10 +64,21 @@ public final class SoManager {
 
     private long restGetTimeout = GET_REQUEST_WAIT_INTERVAL;
 
+    private String url;
+    private String user;
+    private String password;
+
+    public interface SoCallback {
+        public void onSoResponseWrapper(SoResponseWrapper wrapper);
+    }
+
     /**
      * Default constructor.
      */
-    public SoManager() {
+    public SoManager(String url, String user, String password) {
+        this.url = url;
+        this.user = user;
+        this.password = password;
         restManager = new RestManager();
     }
 
@@ -106,10 +115,10 @@ public final class SoManager {
      * except the vfModuleInstanceId is always null.
      *
      */
-    public Future<SoResponse> asyncSoRestCall(final String requestId, final WorkingMemory wm,
+    public Future<SoResponse> asyncSoRestCall(final String requestId, final SoCallback callback,
                                               final String serviceInstanceId, final String vnfInstanceId,
                                               final SoRequest request) {
-        return asyncSoRestCall(requestId, wm, serviceInstanceId, vnfInstanceId, null, request);
+        return asyncSoRestCall(requestId, callback, serviceInstanceId, vnfInstanceId, null, request);
     }
 
     /**
@@ -117,7 +126,7 @@ public final class SoManager {
      * Drools working memory.
      *
      * @param requestId          the request id
-     * @param wm                 the Drools working memory
+     * @param callback           callback method
      * @param serviceInstanceId  service instance id to construct the request url
      * @param vnfInstanceId      vnf instance id to construct the request url
      * @param vfModuleInstanceId vfModule instance id to construct the request url (required in case of delete vf
@@ -126,12 +135,13 @@ public final class SoManager {
      * @return a concurrent Future for the thread that handles the request
      */
     public Future<SoResponse> asyncSoRestCall(final String requestId,
-            final WorkingMemory wm,
+            final SoCallback callback,
             final String serviceInstanceId,
             final String vnfInstanceId,
-            final String vfModuleInstanceId, final SoRequest request) {
-        return executors.submit(new AsyncSoRestCallThread(requestId, wm, serviceInstanceId, vnfInstanceId,
-                vfModuleInstanceId, request));
+            final String vfModuleInstanceId,
+            final SoRequest request) {
+        return executors.submit(new AsyncSoRestCallThread(requestId, callback, serviceInstanceId, vnfInstanceId,
+                vfModuleInstanceId, request, this.url, this.user, this.password));
     }
 
     /**
@@ -139,11 +149,14 @@ public final class SoManager {
      */
     private class AsyncSoRestCallThread implements Callable<SoResponse> {
         final String requestId;
-        final WorkingMemory wm;
+        final SoCallback callback;
         final String serviceInstanceId;
         final String vnfInstanceId;
         final String vfModuleInstanceId;
         final SoRequest request;
+        final String baseUrl;
+        final String user;
+        final String password;
 
         /**
          * Constructor, sets the context of the request.
@@ -156,15 +169,21 @@ public final class SoManager {
          * @param request            the request itself
          */
         private AsyncSoRestCallThread(final String requestId,
-                final WorkingMemory wm, final String serviceInstanceId,
+                final SoCallback callback, final String serviceInstanceId,
                 final String vnfInstanceId, final String vfModuleInstanceId,
-                final SoRequest request) {
+                final SoRequest request,
+                final String url,
+                final String user,
+                final String password) {
             this.requestId = requestId;
-            this.wm = wm;
+            this.callback = callback;
             this.serviceInstanceId = serviceInstanceId;
             this.vnfInstanceId = vnfInstanceId;
             this.vfModuleInstanceId = vfModuleInstanceId;
             this.request = request;
+            this.baseUrl = url;
+            this.user = user;
+            this.password = password;
         }
 
         /**
@@ -172,37 +191,39 @@ public final class SoManager {
          */
         @Override
         public SoResponse call() {
-            String urlBase = PolicyEngine.manager.getEnvironmentProperty("so.url");
-            String username = PolicyEngine.manager.getEnvironmentProperty("so.username");
-            String password = PolicyEngine.manager.getEnvironmentProperty("so.password");
 
             // Create a JSON representation of the request
             String soJson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create().toJson(request);
-            String url = null;
+            String initialUrl = null;
             Pair<Integer, String> httpResponse = null;
 
             if (request.getOperationType() != null && request.getOperationType()
                     .equals(SoOperationType.SCALE_OUT)) {
-                url = urlBase + "/serviceInstantiation/v7/serviceInstances/" + serviceInstanceId + "/vnfs/"
+                initialUrl = this.baseUrl + "/serviceInstantiation/v7/serviceInstances/" + serviceInstanceId + "/vnfs/"
                                 + vnfInstanceId + "/vfModules/scaleOut";
-                NetLoggerUtil.log(EventType.OUT, CommInfrastructure.REST, url, soJson);
-                httpResponse = restManager.post(url, username, password, createSimpleHeaders(), MEDIA_TYPE, soJson);
+                NetLoggerUtil.log(EventType.OUT, CommInfrastructure.REST, initialUrl, soJson);
+                httpResponse = restManager.post(initialUrl, this.user, this.password, createSimpleHeaders(),
+                        MEDIA_TYPE, soJson);
             } else if (request.getOperationType() != null && request.getOperationType()
                     .equals(SoOperationType.DELETE_VF_MODULE)) {
-                url = urlBase + "/serviceInstances/v7/" + serviceInstanceId + "/vnfs/" + vnfInstanceId
+                initialUrl = this.baseUrl + "/serviceInstances/v7/" + serviceInstanceId + "/vnfs/" + vnfInstanceId
                         + "/vfModules/" + vfModuleInstanceId;
-                NetLoggerUtil.log(EventType.OUT, CommInfrastructure.REST, url, soJson);
-                httpResponse = restManager.delete(url, username, password, createSimpleHeaders(), MEDIA_TYPE, soJson);
+                NetLoggerUtil.log(EventType.OUT, CommInfrastructure.REST, initialUrl, soJson);
+                httpResponse = restManager.delete(initialUrl, this.user, this.password, createSimpleHeaders(),
+                        MEDIA_TYPE, soJson);
             } else {
                 return null;
             }
 
             // Process the response from SO
-            SoResponse response = waitForSoOperationCompletion(urlBase, username, password, url, httpResponse);
+            SoResponse response = waitForSoOperationCompletion(this.baseUrl, this.user, this.password, initialUrl,
+                    httpResponse);
 
             // Return the response to Drools in its working memory
             SoResponseWrapper soWrapper = new SoResponseWrapper(response, requestId);
-            wm.insert(soWrapper);
+            if (this.callback != null) {
+                this.callback.onSoResponseWrapper(soWrapper);
+            }
 
             return response;
         }
