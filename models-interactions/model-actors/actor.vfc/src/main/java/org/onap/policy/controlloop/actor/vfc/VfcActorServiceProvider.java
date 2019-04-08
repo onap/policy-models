@@ -22,11 +22,10 @@ package org.onap.policy.controlloop.actor.vfc;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
-
+import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.aai.AaiGetVnfResponse;
 import org.onap.policy.aai.AaiManager;
 import org.onap.policy.controlloop.ControlLoopOperation;
@@ -148,5 +147,52 @@ public class VfcActorServiceProvider implements Actor {
             logger.error("getAAIServiceInstance exception: ", e);
         }
         return response;
+    }
+
+    /**
+     * This method constructs the VFC request.
+     *
+     * @param onset onset object
+     * @param operation operation object
+     * @param policy policy object
+     * @param aaiCqResponse response from aai custom query
+     * @return VfcRequest
+     */
+    public static VfcRequest constructRequestCq(VirtualControlLoopEvent onset, ControlLoopOperation operation,
+            Policy policy, AaiCqResponse aaiCqResponse) {
+
+        // Construct an VFC request
+        VfcRequest request = new VfcRequest();
+        String serviceInstance = onset.getAai().get("service-instance.service-instance-id");
+        if (serviceInstance == null || "".equals(serviceInstance)) {
+            // get service isntance from AaiCqResponse
+            if (aaiCqResponse == null) {
+                return null;
+            }
+            serviceInstance = aaiCqResponse.getServiceInstance().getServiceInstanceId();
+            // If the serviceInstanceId returned is null then return null
+            if (serviceInstance == null) {
+                return null;
+            }
+
+        }
+        request.setNsInstanceId(serviceInstance);
+        request.setRequestId(onset.getRequestId());
+        request.setHealRequest(new VfcHealRequest());
+        request.getHealRequest().setVnfInstanceId(onset.getAai().get("generic-vnf.vnf-id"));
+        request.getHealRequest().setCause(operation.getMessage());
+        request.getHealRequest().setAdditionalParams(new VfcHealAdditionalParams());
+
+        if (policy.getRecipe().toLowerCase().equalsIgnoreCase(RECIPE_RESTART)) {
+            request.getHealRequest().getAdditionalParams().setAction("restartvm");
+            request.getHealRequest().getAdditionalParams().setActionInfo(new VfcHealActionVmInfo());
+            request.getHealRequest().getAdditionalParams().getActionInfo()
+                    .setVmid(onset.getAai().get("vserver.vserver-id"));
+            request.getHealRequest().getAdditionalParams().getActionInfo()
+                    .setVmname(onset.getAai().get("vserver.vserver-name"));
+        } else {
+            return null;
+        }
+        return request;
     }
 }

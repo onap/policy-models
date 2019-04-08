@@ -35,8 +35,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.UUID;
+import javax.xml.bind.JAXBException;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
+import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.aai.AaiNqResponse;
 import org.onap.policy.aai.AaiNqResponseWrapper;
 import org.onap.policy.controlloop.ControlLoopOperation;
@@ -64,7 +66,7 @@ public class SoActorServiceProviderTest {
         Policy policy = new Policy();
         policy.setActor("Dorothy");
         policy.setRecipe("GoToOz");
-        
+
         assertNull(new SoActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp));
 
         policy.setActor("SO");
@@ -88,7 +90,7 @@ public class SoActorServiceProviderTest {
         assertEquals("avalue", request.getRequestDetails().getRequestParameters().getUserParams().get(0).get("akey"));
         assertEquals(1, request.getRequestDetails().getConfigurationParameters().size());
         assertEquals("cvalue", request.getRequestDetails().getConfigurationParameters().get(0).get("ckey"));
-        
+
         // payload with config, but no request params
         policy.setPayload(makePayload());
         policy.getPayload().remove(SoActorServiceProvider.REQ_PARAM_NM);
@@ -96,7 +98,7 @@ public class SoActorServiceProviderTest {
         assertNotNull(request);
         assertNull(request.getRequestDetails().getRequestParameters());
         assertNotNull(request.getRequestDetails().getConfigurationParameters());
-        
+
         // payload with request, but no config params
         policy.setPayload(makePayload());
         policy.getPayload().remove(SoActorServiceProvider.CONFIG_PARAM_NM);
@@ -140,6 +142,80 @@ public class SoActorServiceProviderTest {
         // null response
         aaiNqResp.setAaiNqResponse(null);
         assertNull(new SoActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp));
+    }
+
+    @Test
+    public void testConstructRequestCq() throws Exception {
+        VirtualControlLoopEvent onset = new VirtualControlLoopEvent();
+        final ControlLoopOperation operation = new ControlLoopOperation();
+        final AaiCqResponse aaiCqResp = loadAaiResponseCq("aai/AaiCqResponse.json");
+
+        final UUID requestId = UUID.randomUUID();
+        onset.setRequestId(requestId);
+
+        Policy policy = new Policy();
+        policy.setActor("Dorothy");
+        policy.setRecipe("GoToOz");
+
+        assertNull(new SoActorServiceProviderNew().constructRequest(onset, operation, policy, aaiCqResp));
+
+        policy.setActor("SO");
+        assertNull(new SoActorServiceProviderNew().constructRequest(onset, operation, policy, aaiCqResp));
+
+        policy.setRecipe(VF_MODULE_CREATE);
+
+        // empty policy payload
+        SoRequest request = new SoActorServiceProviderNew().constructRequest(onset, operation, policy, aaiCqResp);
+        assertNotNull(request);
+
+        assertEquals("TestVM-0201-2", request.getRequestDetails().getRequestInfo().getInstanceName());
+        assertEquals("policy", request.getRequestDetails().getRequestInfo().getRequestorId());
+        assertEquals("cr-16197-01-as988q", request.getRequestDetails().getCloudConfiguration().getLcpCloudRegionId());
+
+        // non-empty policy payload
+        policy.setPayload(makePayload());
+        request = new SoActorServiceProviderNew().constructRequest(onset, operation, policy, aaiCqResp);
+        assertNotNull(request);
+        assertEquals(true, request.getRequestDetails().getRequestParameters().isUsePreload());
+        assertEquals("avalue", request.getRequestDetails().getRequestParameters().getUserParams().get(0).get("akey"));
+        assertEquals(1, request.getRequestDetails().getConfigurationParameters().size());
+        assertEquals("cvalue", request.getRequestDetails().getConfigurationParameters().get(0).get("ckey"));
+
+        // payload with config, but no request params
+        policy.setPayload(makePayload());
+        policy.getPayload().remove(SoActorServiceProvider.REQ_PARAM_NM);
+        request = new SoActorServiceProviderNew().constructRequest(onset, operation, policy, aaiCqResp);
+        assertNotNull(request);
+        assertNull(request.getRequestDetails().getRequestParameters());
+        assertNotNull(request.getRequestDetails().getConfigurationParameters());
+
+        // payload with request, but no config params
+        policy.setPayload(makePayload());
+        policy.getPayload().remove(SoActorServiceProvider.CONFIG_PARAM_NM);
+        request = new SoActorServiceProviderNew().constructRequest(onset, operation, policy, aaiCqResp);
+        assertNotNull(request);
+        assertNotNull(request.getRequestDetails().getRequestParameters());
+        assertNull(request.getRequestDetails().getConfigurationParameters());
+
+        // null response
+        assertNull(new SoActorServiceProvider().constructRequestCq(onset, operation, policy, null));
+
+
+        policy.setRecipe(VF_MODULE_DELETE);
+        SoRequest deleteRequest = new SoActorServiceProviderNew().constructRequest(onset, operation, policy, aaiCqResp);
+        assertNotNull(deleteRequest);
+        assertEquals(SoOperationType.DELETE_VF_MODULE, deleteRequest.getOperationType());
+
+        /*
+         * NOTE: The remaining tests must be done in order
+         */
+
+        policy.setRecipe(VF_MODULE_CREATE);
+
+        // no VfModule, ServiceInstance or VNF exists in the response
+        aaiCqResp.setInventoryResponseItems(null);;
+        assertNull(new SoActorServiceProviderNew().constructRequest(onset, operation, policy, aaiCqResp));
+
     }
 
     @Test
@@ -228,4 +304,19 @@ public class SoActorServiceProviderTest {
 
         return new AaiNqResponseWrapper(onset.getRequestId(), aaiNqResponse);
     }
+
+    /**
+     * Reads an AAI vserver named-query response from a file.
+     *
+     * @param fileName name of the file containing the JSON response
+     * @return output from the AAI vserver named-query
+     * @throws IOException if the file cannot be read
+     * @throws JAXBException throws JAXBException
+     */
+    private AaiCqResponse loadAaiResponseCq(String fileName) throws IOException, JAXBException {
+        String resp = IOUtils.toString(getClass().getResource(fileName), StandardCharsets.UTF_8);
+        return new AaiCqResponse(resp);
+    }
+
+
 }

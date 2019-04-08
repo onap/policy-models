@@ -27,12 +27,16 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.UUID;
-
+import javax.xml.bind.JAXBException;
+import org.apache.commons.io.IOUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.aai.AaiGetVnfResponse;
 import org.onap.policy.common.endpoints.http.server.HttpServletServer;
 import org.onap.policy.controlloop.ControlLoopOperation;
@@ -107,6 +111,55 @@ public class VfcActorServiceProviderTest {
     }
 
     @Test
+    public void testConstructRequestCq() throws Exception {
+        final AaiCqResponse aaiCqResponse = loadAaiResponse("aai/AaiCqResponse.json");
+
+        VirtualControlLoopEvent onset = new VirtualControlLoopEvent();
+        ControlLoopOperation operation = new ControlLoopOperation();
+
+        Policy policy = new Policy();
+        policy.setRecipe("GoToOz");
+
+        assertNull(VfcActorServiceProvider.constructRequestCq(onset, operation, policy, null));
+
+        onset.getAai().put("generic-vnf.vnf-id", "dorothy.gale.1939");
+        assertNull(VfcActorServiceProvider.constructRequestCq(onset, operation, policy, null));
+
+        PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
+        PolicyEngine.manager.setEnvironmentProperty("aai.username", "AAI");
+        PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
+        assertNull(VfcActorServiceProvider.constructRequestCq(onset, operation, policy, null));
+
+        UUID requestId = UUID.randomUUID();
+        onset.setRequestId(requestId);
+        assertNull(VfcActorServiceProvider.constructRequestCq(onset, operation, policy, null));
+
+        onset.getAai().put("generic-vnf.vnf-name", "Dorothy");
+        PolicyEngine.manager.getEnvironment().remove("aai.password");
+        assertNull(VfcActorServiceProvider.constructRequestCq(onset, operation, policy, null));
+
+        PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
+        assertNull(VfcActorServiceProvider.constructRequestCq(onset, operation, policy, null));
+
+        onset.getAai().put("service-instance.service-instance-id", "");
+        assertNull(VfcActorServiceProvider.constructRequestCq(onset, operation, policy, null));
+
+        assertNull(VfcActorServiceProvider.constructRequestCq(onset, operation, policy, null));
+
+        policy.setRecipe("Restart");
+        onset.getAai().put("service-instance.service-instance-id", "MyService");
+        assertNotNull(VfcActorServiceProvider.constructRequestCq(onset, operation, policy, null));
+
+        VfcRequest request =
+                VfcActorServiceProvider.constructRequestCq(onset, operation, policy, aaiCqResponse);
+
+        assertEquals(requestId, Objects.requireNonNull(request).getRequestId());
+        assertEquals("dorothy.gale.1939", request.getHealRequest().getVnfInstanceId());
+        assertEquals("restartvm", request.getHealRequest().getAdditionalParams().getAction());
+    }
+
+
+    @Test
     public void testMethods() {
         VfcActorServiceProvider sp = new VfcActorServiceProvider();
 
@@ -115,5 +168,18 @@ public class VfcActorServiceProviderTest {
         assertEquals("Restart", sp.recipes().get(0));
         assertEquals("VM", sp.recipeTargets("Restart").get(0));
         assertEquals(0, sp.recipePayloads("Restart").size());
+    }
+
+    /**
+     * Reads an AAI vserver named-query response from a file.
+     *
+     * @param fileName name of the file containing the JSON response
+     * @return output from the AAI vserver named-query
+     * @throws IOException if the file cannot be read
+     * @throws JAXBException throws JAXBException
+     */
+    private AaiCqResponse loadAaiResponse(String fileName) throws IOException, JAXBException {
+        String resp = IOUtils.toString(getClass().getResource(fileName), StandardCharsets.UTF_8);
+        return new AaiCqResponse(resp);
     }
 }
