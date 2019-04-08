@@ -33,9 +33,9 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifier;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifier;
 
 /**
- * Test the copy constructor, as {@link TestModels} tests the other methods.
+ * Test the copy constructor, as {@link ModelsTest} tests the other methods.
  */
-public class TestPdpSubGroup {
+public class PdpSubGroupTest {
 
     @Test
     public void testCopyConstructor() {

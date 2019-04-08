@@ -23,31 +23,52 @@ package org.onap.policy.models.pdp.concepts;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.onap.policy.models.pdp.concepts.PdpMessageUtils.removeVariableFields;
 
+import java.util.Arrays;
+import java.util.List;
 import org.junit.Test;
-import org.onap.policy.models.pdp.enums.PdpState;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 
 /**
- * Test the copy constructor, as {@link TestModels} tests the other methods.
+ * Test the copy constructor, as {@link ModelsTest} tests the other methods.
  */
-public class TestPdpStateChange {
+public class PdpUpdateTest {
 
     @Test
     public void testCopyConstructor() {
-        assertThatThrownBy(() -> new PdpStateChange(null)).isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> new PdpUpdate(null)).isInstanceOf(NullPointerException.class);
 
-        PdpStateChange orig = new PdpStateChange();
+        PdpUpdate orig = new PdpUpdate();
 
         // verify with null values
-        assertEquals(removeVariableFields(orig.toString()), removeVariableFields(new PdpStateChange(orig).toString()));
+        assertEquals(removeVariableFields(orig.toString()), removeVariableFields(new PdpUpdate(orig).toString()));
 
         // verify with all values
+        orig.setDescription("my-description");
         orig.setName("my-name");
         orig.setPdpGroup("my-group");
         orig.setPdpSubgroup("my-subgroup");
-        orig.setState(PdpState.SAFE);
+        orig.setPdpHeartbeatIntervalMs(30000L);
 
-        assertEquals(removeVariableFields(orig.toString()), removeVariableFields(new PdpStateChange(orig).toString()));
+        ToscaPolicy policy1 = new ToscaPolicy();
+        policy1.setName("policy-a");
+        policy1.setVersion("1.2.3");
+
+        ToscaPolicy policy2 = new ToscaPolicy();
+        policy2.setName("policy-b");
+        policy2.setVersion("4.5.6");
+
+        List<ToscaPolicy> policies = Arrays.asList(policy1, policy2);
+        orig.setPolicies(policies);
+
+        PdpUpdate other = new PdpUpdate(orig);
+
+        assertEquals(removeVariableFields(orig.toString()), removeVariableFields(other.toString()));
+
+        // ensure list and items are not the same object
+        assertTrue(other.getPolicies() != policies);
+        assertTrue(other.getPolicies().get(0) != policies.get(0));
     }
 }

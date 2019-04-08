@@ -328,6 +328,8 @@ public class EntityTest {
         pfDao.create(keyInfo5);
 
         assertEquals(3, pfDao.getAllVersions(DummyConceptEntity.class, "AAA0").size());
+        assertEquals(0, pfDao.getAllVersions(null, "AAA0").size());
+        assertEquals(0, pfDao.getAllVersions(DummyConceptEntity.class, null).size());
     }
 
     private void testgetFilteredOps() {

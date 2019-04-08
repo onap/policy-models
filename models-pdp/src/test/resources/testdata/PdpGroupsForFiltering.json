@@ -1,37 +1,78 @@
 {
-    "groups": [
+    "groups": 
+    [
         {
             "name": "PdpGroup0",
             "version": "1.2.3",
             "description": "group description",
             "pdpGroupState": "PASSIVE",
-            "properties": {
+            "properties": 
+            {
                 "groupProperty0": "Value of Group Property 0"
             },
-            "pdpSubgroups": [
+
+            "pdpSubgroups": 
+            [
                 {
                     "pdpType": "APEX",
-                    "supportedPolicyTypes": [
+                    "supportedPolicyTypes": 
+                    [
                         {
                             "name": "policy.type.0",
                             "version": "1.2.3"
+                        },
+                        {
+                            "name": "policy.type.1",
+                            "version": "4.5.6"
+                        },
+                        {
+                            "name": "policy.type.2",
+                            "version": "7.8.9"
                         }
                     ],
-                    "policies": [
+
+                    "policies": 
+                    [
                         {
                             "name": "Policy0",
                             "version": "4.5.6"
+                        },
+                        {
+                            "name": "Policy1",
+                            "version": "4.5.6"
                         }
                     ],
+
                     "currentInstanceCount": 123,
                     "desiredInstanceCount": 456,
-                    "properties": {
+                    "properties": 
+                    {
                         "subgroupProperty0": "Value of sub Group Property 0"
                     },
-                    "pdpInstances": [
+
+                    "pdpInstances": 
+                    [
                         {
                             "instanceId": "apex-0",
                             "pdpState": "ACTIVE",
+                            "healthy": "NOT_HEALTHY",
+                            "message": "message from PDP"
+                        },
+                        {
+                            "instanceId": "apex-0",
+                            "pdpState": "PASSIVE",
+                            "healthy": "NOT_HEALTHY",
+                            "message": "message from PDP"
+                        },
+                        {
+                            "instanceId": "apex-0",
+                            "pdpState": "SAFE",
+                            "healthy": "NOT_HEALTHY",
+                            "message": "message from PDP"
+                        },
+                        {
+                            "instanceId": "apex-0",
+                            "pdpState": "TEST",
                             "healthy": "NOT_HEALTHY",
                             "message": "message from PDP"
                         }
@@ -39,35 +80,54 @@
                 }
             ]
         },
+
         {
             "name": "PdpGroup0",
             "version": "1.2.4",
             "description": "group description",
-            "pdpGroupState": "PASSIVE",
-            "properties": {
+            "pdpGroupState": "ACTIVE",
+            "properties": 
+            {
                 "groupProperty0": "Value of Group Property 0"
             },
-            "pdpSubgroups": [
+
+            "pdpSubgroups": 
+            [
                 {
                     "pdpType": "APEX",
-                    "supportedPolicyTypes": [
+                    "supportedPolicyTypes": 
+                    [
                         {
                             "name": "policy.type.0",
                             "version": "1.2.3"
+                        },
+                        {
+                            "name": "policy.type.1",
+                            "version": "4.5.6"
+                        },
+                        {
+                            "name": "policy.type.3",
+                            "version": "0.1.2"
                         }
                     ],
-                    "policies": [
+
+                    "policies": 
+                    [
                         {
-                            "name": "Policy0",
+                            "name": "Policy2",
                             "version": "4.5.6"
                         }
                     ],
+
                     "currentInstanceCount": 123,
                     "desiredInstanceCount": 456,
-                    "properties": {
+                    "properties": 
+                    {
                         "subgroupProperty0": "Value of sub Group Property 0"
                     },
-                    "pdpInstances": [
+
+                    "pdpInstances": 
+                    [
                         {
                             "instanceId": "apex-0",
                             "pdpState": "ACTIVE",
@@ -78,38 +138,92 @@
                 }
             ]
         },
+
         {
             "name": "PdpGroup0",
             "version": "1.2.1",
             "description": "group description",
-            "pdpGroupState": "PASSIVE",
-            "properties": {
+            "pdpGroupState": "SAFE",
+            "properties": 
+            {
                 "groupProperty0": "Value of Group Property 0"
             },
-            "pdpSubgroups": [
+
+            "pdpSubgroups": 
+            [
                 {
                     "pdpType": "APEX",
-                    "supportedPolicyTypes": [
+                    "supportedPolicyTypes": 
+                    [
+                        {
+                            "name": "policy.type.1",
+                            "version": "4.5.6"
+                        },
+                        {
+                            "name": "policy.type.3",
+                            "version": "0.1.2"
+                        }
+                    ],
+
+                    "policies": 
+                    [
+                        {
+                            "name": "Policy2",
+                            "version": "4.5.6"
+                        },
+                        {
+                            "name": "Policy3",
+                            "version": "1.2.3"
+                        }
+                    ],
+
+                    "currentInstanceCount": 123,
+                    "desiredInstanceCount": 456,
+                    "properties": 
+                    {
+                        "subgroupProperty0": "Value of sub Group Property 0"
+                    },
+
+                    "pdpInstances": 
+                    [
+                        {
+                            "instanceId": "apex-0",
+                            "pdpState": "SAFE",
+                            "healthy": "NOT_HEALTHY",
+                            "message": "message from PDP"
+                        }
+                    ]
+                },
+                {
+                    "pdpType": "DROOLS",
+                    "supportedPolicyTypes": 
+                    [
                         {
                             "name": "policy.type.0",
                             "version": "1.2.3"
                         }
                     ],
-                    "policies": [
+
+                    "policies": 
+                    [
                         {
                             "name": "Policy0",
                             "version": "4.5.6"
                         }
                     ],
+
                     "currentInstanceCount": 123,
                     "desiredInstanceCount": 456,
-                    "properties": {
+                    "properties": 
+                    {
                         "subgroupProperty0": "Value of sub Group Property 0"
                     },
-                    "pdpInstances": [
+
+                    "pdpInstances": 
+                    [
                         {
                             "instanceId": "apex-0",
-                            "pdpState": "ACTIVE",
+                            "pdpState": "SAFE",
                             "healthy": "NOT_HEALTHY",
                             "message": "message from PDP"
                         }
@@ -122,33 +236,47 @@
             "version": "1.2.1",
             "description": "group description",
             "pdpGroupState": "PASSIVE",
-            "properties": {
+            "properties": 
+            {
                 "groupProperty0": "Value of Group Property 0"
             },
-            "pdpSubgroups": [
+
+            "pdpSubgroups": 
+            [
                 {
                     "pdpType": "APEX",
-                    "supportedPolicyTypes": [
+                    "supportedPolicyTypes": 
+                    [
                         {
-                            "name": "policy.type.0",
-                            "version": "1.2.3"
+                            "name": "policy.type.1",
+                            "version": "4.5.6"
+                        },
+                        {
+                            "name": "policy.type.2",
+                            "version": "7.8.9"
                         }
                     ],
-                    "policies": [
+
+                    "policies": 
+                    [
                         {
                             "name": "Policy0",
                             "version": "4.5.6"
                         }
                     ],
+
                     "currentInstanceCount": 123,
                     "desiredInstanceCount": 456,
-                    "properties": {
+                    "properties": 
+                    {
                         "subgroupProperty0": "Value of sub Group Property 0"
                     },
-                    "pdpInstances": [
+
+                    "pdpInstances": 
+                    [
                         {
                             "instanceId": "apex-0",
-                            "pdpState": "ACTIVE",
+                            "pdpState": "PASSIVE",
                             "healthy": "NOT_HEALTHY",
                             "message": "message from PDP"
                         }
@@ -156,35 +284,116 @@
                 }
             ]
         },
+
         {
             "name": "PdpGroup1",
             "version": "1.2.3",
             "description": "group description",
-            "pdpGroupState": "PASSIVE",
-            "properties": {
+            "pdpGroupState": "TEST",
+            "properties": 
+            {
                 "groupProperty0": "Value of Group Property 0"
             },
-            "pdpSubgroups": [
+
+            "pdpSubgroups": 
+            [
                 {
                     "pdpType": "APEX",
-                    "supportedPolicyTypes": [
+                    "supportedPolicyTypes": 
+                    [
                         {
                             "name": "policy.type.0",
                             "version": "1.2.3"
                         }
                     ],
-                    "policies": [
+
+                    "policies": 
+                    [
                         {
                             "name": "Policy0",
                             "version": "4.5.6"
                         }
                     ],
+
                     "currentInstanceCount": 123,
                     "desiredInstanceCount": 456,
-                    "properties": {
+                    "properties": 
+                    {
                         "subgroupProperty0": "Value of sub Group Property 0"
                     },
-                    "pdpInstances": [
+
+                    "pdpInstances": 
+                    [
+                        {
+                            "instanceId": "apex-0",
+                            "pdpState": "TEST",
+                            "healthy": "NOT_HEALTHY",
+                            "message": "message from PDP"
+                        }
+                    ]
+                },
+                {
+                    "pdpType": "DROOLS",
+                    "supportedPolicyTypes": 
+                    [
+                        {
+                            "name": "policy.type.0",
+                            "version": "1.2.3"
+                        }
+                    ],
+
+                    "policies": 
+                    [
+                        {
+                            "name": "Policy0",
+                            "version": "4.5.6"
+                        }
+                    ],
+
+                    "currentInstanceCount": 123,
+                    "desiredInstanceCount": 456,
+                    "properties": 
+                    {
+                        "subgroupProperty0": "Value of sub Group Property 0"
+                    },
+
+                    "pdpInstances": 
+                    [
+                        {
+                            "instanceId": "apex-0",
+                            "pdpState": "PASSIVE",
+                            "healthy": "NOT_HEALTHY",
+                            "message": "message from PDP"
+                        }
+                    ]
+                },
+                {
+                    "pdpType": "XACML",
+                    "supportedPolicyTypes": 
+                    [
+                        {
+                            "name": "policy.type.0",
+                            "version": "1.2.3"
+                        }
+                    ],
+
+                    "policies": 
+                    [
+                        {
+                            "name": "Policy0",
+                            "version": "4.5.6"
+                        }
+                    ],
+
+                    "currentInstanceCount": 123,
+                    "desiredInstanceCount": 456,
+                    "properties": 
+                    {
+                        "subgroupProperty0": "Value of sub Group Property 0"
+                    },
+
+                    "pdpInstances": 
+                    [
                         {
                             "instanceId": "apex-0",
                             "pdpState": "ACTIVE",

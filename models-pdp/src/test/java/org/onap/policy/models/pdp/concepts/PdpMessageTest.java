@@ -32,7 +32,7 @@ import org.onap.policy.models.pdp.enums.PdpMessageType;
 /**
  * Tests methods not already tested by {@link TestModels}.
  */
-public class TestPdpMessage {
+public class PdpMessageTest {
     private static final String PDP_NAME = "pdpA";
     private static final String PDP_GROUP = "groupA";
     private static final String PDP_SUBGROUP = "subgroupA";

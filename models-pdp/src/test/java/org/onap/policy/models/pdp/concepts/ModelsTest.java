@@ -35,12 +35,12 @@ import org.onap.policy.common.utils.validation.ToStringTester;
  *
  * @author Ram Krishna Verma (ram.krishna.verma@est.tech)
  */
-public class TestModels {
+public class ModelsTest {
 
     @Test
     public void testPdpModels() {
         final Validator validator = ValidatorBuilder.create().with(new ToStringTester()).with(new SetterTester())
                 .with(new GetterTester()).build();
-        validator.validate(TestModels.class.getPackage().getName(), new FilterPackageInfo());
+        validator.validate(ModelsTest.class.getPackage().getName(), new FilterPackageInfo());
     }
 }

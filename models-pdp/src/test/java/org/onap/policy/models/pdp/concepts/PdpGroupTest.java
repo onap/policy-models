@@ -34,9 +34,9 @@ import org.junit.Test;
 import org.onap.policy.models.pdp.enums.PdpState;
 
 /**
- * Test the copy constructor, as {@link TestModels} tests the other methods.
+ * Test the copy constructor, as {@link ModelsTest} tests the other methods.
  */
-public class TestPdpGroup {
+public class PdpGroupTest {
 
     @Test
     public void testCopyConstructor() {

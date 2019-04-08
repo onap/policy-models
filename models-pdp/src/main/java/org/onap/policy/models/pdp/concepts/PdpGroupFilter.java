@@ -43,23 +43,33 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifi
 public class PdpGroupFilter implements PfObjectFilter<PdpGroup> {
     public static final String LATEST_VERSION = "LATEST";
 
-    // Regular expression
+    // Name to find
     private String name;
 
-    // Regular Expression, set to to get the latest version
+    // Version to find, set to LATEST_VERSION to get the latest version
     private String version;
 
+    // State to find
     private PdpState groupState;
 
-    // Regular expression
+    // PDP type to find
     private String pdpType;
 
     // Set regular expressions on fields to match policy type names and versions
-    private ToscaPolicyTypeIdentifier policyType;
+    private List<ToscaPolicyTypeIdentifier> policyTypeList;
+
+    // If set, only PDP groups where policy types are matched exactly are returned
+    @Builder.Default
+    private boolean matchPolicyTypesExactly = false;
 
     // Set regular expressions on fields to match policy names and versions
-    private ToscaPolicyIdentifier policy;
+    private List<ToscaPolicyIdentifier> policyList;
 
+    // If set, only PDP groups where policies are matched exactly are returned
+    @Builder.Default
+    private boolean matchPoliciesExactly = false;
+
+    // If set, only PDP groups with PDPs in this state are returned
     private PdpState pdpState;
 
     @Override
@@ -68,15 +78,15 @@ public class PdpGroupFilter implements PfObjectFilter<PdpGroup> {
         // @formatter:off
         List<PdpGroup> returnList = originalList.stream()
                 .filter(p -> filterString(p.getName(), name))
-                .filter(p -> (version != null && LATEST_VERSION.equals(version))
+                .filter(p -> LATEST_VERSION.equals(version)
                         || filterString(p.getVersion(), version))
                 .filter(p -> groupState == null || ObjectUtils.compare(p.getPdpGroupState(), groupState) == 0)
                 .filter(p -> filterOnPdpType(p, pdpType))
-                .filter(p -> filterOnPolicyType(p, policyType))
-                .filter(p -> filterOnPolicy(p, policy))
+                .filter(p -> filterOnPolicyTypeList(p, policyTypeList, matchPolicyTypesExactly))
+                .filter(p -> filterOnPolicyList(p, policyList, matchPoliciesExactly))
                 .filter(p -> filterOnPdpState(p, pdpState))
                 .collect(Collectors.toList());
-        // @formatter:off
+        // @formatter:on
 
         if (LATEST_VERSION.equals(version)) {
             returnList = this.latestVersionFilter(returnList);
@@ -97,7 +107,7 @@ public class PdpGroupFilter implements PfObjectFilter<PdpGroup> {
             return true;
         }
 
-        for (PdpSubGroup pdpSubGroup: pdpGroup.getPdpSubgroups()) {
+        for (PdpSubGroup pdpSubGroup : pdpGroup.getPdpSubgroups()) {
             if (pdpSubGroup.getPdpType().equals(pdpType)) {
                 return true;
             }
@@ -110,24 +120,27 @@ public class PdpGroupFilter implements PfObjectFilter<PdpGroup> {
      * Filter PDP groups on policy type.
      *
      * @param pdpGroup the PDP group to check
-     * @param policyTypeFilter the policy type regular expressions to check for
+     * @param typeFilter the policy type regular expressions to check for
+     * @param matchPolicyTypesExactly if true, only PDP groups where policy types are matched exactly are returned
      * @return true if the filter should let this PDP group through
      */
-    private boolean filterOnPolicyType(final PdpGroup pdpGroup, final ToscaPolicyTypeIdentifier policyTypeFiler) {
-        if (policyTypeFiler == null) {
+    private boolean filterOnPolicyTypeList(final PdpGroup pdpGroup, final List<ToscaPolicyTypeIdentifier> typeFilter,
+            final boolean matchPolicyTypesExactly) {
+        if (typeFilter == null) {
             return true;
         }
 
-        for (PdpSubGroup pdpSubGroup: pdpGroup.getPdpSubgroups()) {
-            for (ToscaPolicyTypeIdentifier foundPolicyType : pdpSubGroup.getSupportedPolicyTypes()) {
-                if (foundPolicyType.getName().matches(policyTypeFiler.getName())
-                        && foundPolicyType.getVersion().matches(policyTypeFiler.getVersion())) {
-                    return true;
-                }
+        for (PdpSubGroup pdpSubGroup : pdpGroup.getPdpSubgroups()) {
+            if (matchPolicyTypesExactly && areListsIdentical(pdpSubGroup.getSupportedPolicyTypes(), typeFilter)) {
+                return true;
+            } else if (!matchPolicyTypesExactly
+                    && findSingleElement(pdpSubGroup.getSupportedPolicyTypes(), typeFilter)) {
+                return true;
             }
         }
 
         return false;
+
     }
 
     /**
@@ -135,19 +148,20 @@ public class PdpGroupFilter implements PfObjectFilter<PdpGroup> {
      *
      * @param pdpGroup the PDP group to check
      * @param policyFilter the policy regular expressions to check for
+     * @param matchPoliciesExactly if true, only PDP groups where ps are matched exactly are returned
      * @return true if the filter should let this PDP group through
      */
-    private boolean filterOnPolicy(final PdpGroup pdpGroup, final ToscaPolicyIdentifier policyFiler) {
-        if (policyFiler == null) {
+    private boolean filterOnPolicyList(final PdpGroup pdpGroup, final List<ToscaPolicyIdentifier> policyFilter,
+            final boolean matchPoliciesExactly) {
+        if (policyFilter == null) {
             return true;
         }
 
-        for (PdpSubGroup pdpSubGroup: pdpGroup.getPdpSubgroups()) {
-            for (ToscaPolicyIdentifier foundPolicy : pdpSubGroup.getPolicies()) {
-                if (foundPolicy.getName().matches(policyFiler.getName())
-                        && foundPolicy.getVersion().matches(policyFiler.getVersion())) {
-                    return true;
-                }
+        for (PdpSubGroup pdpSubGroup : pdpGroup.getPdpSubgroups()) {
+            if (matchPoliciesExactly && areListsIdentical(pdpSubGroup.getPolicies(), policyFilter)) {
+                return true;
+            } else if (!matchPoliciesExactly && findSingleElement(pdpSubGroup.getPolicies(), policyFilter)) {
+                return true;
             }
         }
 
@@ -166,11 +180,39 @@ public class PdpGroupFilter implements PfObjectFilter<PdpGroup> {
             return true;
         }
 
-        for (PdpSubGroup pdpSubGroup: pdpGroup.getPdpSubgroups()) {
+        for (PdpSubGroup pdpSubGroup : pdpGroup.getPdpSubgroups()) {
             for (Pdp pdp : pdpSubGroup.getPdpInstances()) {
                 if (pdpState.equals(pdp.getPdpState())) {
                     return true;
                 }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if two lists have identical content.
+     *
+     * @param leftList the left list
+     * @param rightList the right list
+     * @return true if the lists are identical
+     */
+    private <T> boolean areListsIdentical(final List<T> leftList, List<T> rightList) {
+        return leftList.equals(rightList);
+    }
+
+    /**
+     * Find a single element of a list in a list.
+     *
+     * @param listToSearch the list in which we are searching for elements
+     * @param listOfElementsToFind the list of elements, one of which we wish to find on the list we are searching
+     * @return true if one element of the elements to find is found on the list we searched
+     */
+    private <T> boolean findSingleElement(final List<T> listToSearch, List<T> listOfElementsToFind) {
+        for (Object elementToFind : listOfElementsToFind) {
+            if (listToSearch.contains(elementToFind)) {
+                return true;
             }
         }
 

@@ -30,8 +30,7 @@ import lombok.NonNull;
 import org.onap.policy.models.base.PfObjectFilter;
 
 /**
- * Filter class for searches for {@link ToscaPolicy} instances.
- * If any fields are null, they are ignored.
+ * Filter class for searches for {@link ToscaPolicy} instances. If any fields are null, they are ignored.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
@@ -58,7 +57,7 @@ public class ToscaPolicyFilter implements PfObjectFilter<ToscaPolicy> {
         // @formatter:off
         List<ToscaPolicy> returnList = originalList.stream()
                 .filter(p -> filterString(p.getName(),        name))
-                .filter(p -> (version != null && LATEST_VERSION.equals(version))
+                .filter(p -> LATEST_VERSION.equals(version)
                         || filterString(p.getVersion(), version))
                 .filter(p -> filterString(p.getType(),        type))
                 .filter(p -> filterString(p.getTypeVersion(), typeVersion))
