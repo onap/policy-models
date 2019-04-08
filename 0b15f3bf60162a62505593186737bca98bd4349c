@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b74ae616_44abbd0c",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpGroupFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-08T20:42:30Z",
+      "side": 1,
+      "message": "maybe move this before line 85 to avoid scanning subgroups when possible",
+      "revId": "0b15f3bf60162a62505593186737bca98bd4349c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "184ec09f_7b3bea3c",
+        "filename": "models-pdp/src/test/resources/testdata/PdpGroupsForFiltering.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-08T20:42:30Z",
+      "side": 1,
+      "message": "trailing spaces",
+      "revId": "0b15f3bf60162a62505593186737bca98bd4349c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
