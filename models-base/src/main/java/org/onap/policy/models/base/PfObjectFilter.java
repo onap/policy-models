@@ -46,11 +46,11 @@ public interface PfObjectFilter<T extends Comparable<T>> {
      * Check if a value matches a regular expression.
      *
      * @param value the incoming value to check
-     * @param regexp the regular expression to check against
+     * @param pattern the pattern to check against
      * @return match or not
      */
-    public default boolean filterOnRegexp(@NonNull final String value, @NonNull final String regexp) {
-        return value.matches(regexp);
+    public default boolean filterString(@NonNull final String value, final String pattern) {
+        return pattern == null || value.equals(pattern);
     }
 
     /**
@@ -74,10 +74,10 @@ public interface PfObjectFilter<T extends Comparable<T>> {
             T lastElement = filteredList.get(j);
 
             /*
-             * The list is sorted so if the last element name is the same as the current
-             * element name, the current element should be removed.
+             * The list is sorted so if the last element name is the same as the current element name, the current
+             * element should be removed.
              */
-            if (!((PfNameVersion)curElement).getName().equals(((PfNameVersion)lastElement).getName())) {
+            if (!((PfNameVersion) curElement).getName().equals(((PfNameVersion) lastElement).getName())) {
                 // have a new name - done comparing with the old "current"
                 ++icur;
             }

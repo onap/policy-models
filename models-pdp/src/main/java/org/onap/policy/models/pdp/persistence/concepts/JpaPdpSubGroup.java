@@ -28,19 +28,23 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import javax.persistence.CollectionTable;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
+
 import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.common.utils.validation.ParameterValidationUtils;
 import org.onap.policy.models.base.PfAuthorative;
@@ -89,13 +93,16 @@ public class JpaPdpSubGroup extends PfConcept implements PfAuthorative<PdpSubGro
     @ElementCollection
     private Map<String, String> properties;
 
-    // @formatter:ofF
-    @OneToMany
-    @CollectionTable(
-            joinColumns = { @JoinColumn(name = "pdpSubGroupParentKeyName", referencedColumnName = "parentKeyName"),
-            @JoinColumn(name = "pdpSubGroupParentKeyVersion", referencedColumnName = "parentKeyVersion"),
-            @JoinColumn(name = "pdpSubGroupParentLocalName", referencedColumnName = "parentLocalName"),
-            @JoinColumn(name = "pdpSubGroupLocalName", referencedColumnName = "localName") })
+    // @formatter:off
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinTable (
+            joinColumns = {
+                @JoinColumn(name = "pdpParentKeyName",    referencedColumnName = "parentKeyName"),
+                @JoinColumn(name = "pdpParentKeyVersion", referencedColumnName = "parentKeyVersion"),
+                @JoinColumn(name = "pdpParentLocalName",  referencedColumnName = "parentLocalName"),
+                @JoinColumn(name = "pdpLocalName",        referencedColumnName = "localName")
+            }
+        )
     // formatter:on
     private List<JpaPdp> pdpInstances;
 

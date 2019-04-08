@@ -1,0 +1,83 @@
+{
+    "groups": [
+        {
+            "name": "PdpGroup0",
+            "version": "1.2.3",
+            "description": "group description",
+            "pdpGroupState": "PASSIVE",
+            "properties": {
+                "groupProperty0": "Value of Group Property 0"
+            },
+            "pdpSubgroups": [
+                {
+                    "pdpType": "APEX",
+                    "supportedPolicyTypes": [
+                        {
+                            "name": "policy.type.0",
+                            "version": "1.2.3"
+                        }
+                    ],
+                    "policies": [
+                        {
+                            "name": "Policy0",
+                            "version": "4.5.6"
+                        }
+                    ],
+                    "currentInstanceCount": 123,
+                    "desiredInstanceCount": 456,
+                    "properties": {
+                        "subgroupProperty0": "Value of sub Group Property 0"
+                    },
+                    "pdpInstances": [
+                        {
+                            "instanceId": "apex-0",
+                            "pdpState": "ACTIVE",
+                            "healthy": "NOT_HEALTHY",
+                            "message": "message from PDP"
+                        },
+                        {
+                            "instanceId": "apex-1",
+                            "pdpState": "ACTIVE",
+                            "healthy": "NOT_HEALTHY",
+                            "message": "message from PDP"
+                        },
+                        {
+                            "instanceId": "apex-2",
+                            "pdpState": "ACTIVE",
+                            "healthy": "NOT_HEALTHY",
+                            "message": "message from PDP"
+                        }
+                    ]
+                },
+                {
+                    "pdpType": "Drools",
+                    "supportedPolicyTypes": [
+                        {
+                            "name": "policy.type.1",
+                            "version": "4.5.6"
+                        }
+                    ],
+                    "policies": [
+                        {
+                            "name": "Policy0",
+                            "version": "4.5.6"
+                        }
+                    ],
+                    "currentInstanceCount": 123,
+                    "desiredInstanceCount": 456,
+                    "properties": {
+                        "subgroupProperty0": "Value of sub Group Property 0"
+                    },
+                    "pdpInstances": [
+                        {
+                            "instanceId": "drools-0",
+                            "pdpState": "ACTIVE",
+                            "healthy": "NOT_HEALTHY",
+                            "message": "message from PDP"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

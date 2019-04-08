@@ -25,7 +25,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import org.junit.Test;
@@ -82,5 +84,28 @@ public class TestPdpGroup {
 
         group.setDescription("B");
         assertTrue(hash != group.hashCode());
+    }
+
+    @Test
+    public void testCompareTo() {
+        PdpGroup pdpGroup0 = new PdpGroup();
+        pdpGroup0.setName("Name0");
+        pdpGroup0.setVersion("1.2.3");
+
+        PdpGroup pdpGroup1 = new PdpGroup();
+        pdpGroup1.setName("Name0");
+        pdpGroup1.setVersion("1.2.3");
+
+        assertEquals(0, pdpGroup0.compareTo(pdpGroup1));
+
+        PdpGroups pdpGroups = new PdpGroups();
+        pdpGroups.setGroups(new ArrayList<>());
+        pdpGroups.getGroups().add(pdpGroup0);
+        pdpGroups.getGroups().add(pdpGroup1);
+
+        List<Map<String, PdpGroup>> mapList = pdpGroups.toMapList();
+
+        assertEquals(1, mapList.size());
+        assertEquals(1, mapList.get(0).size());
     }
 }

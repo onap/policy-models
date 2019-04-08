@@ -44,6 +44,10 @@ import org.slf4j.LoggerFactory;
  */
 public class LegacyOperationalPolicyMapper
         implements JpaToscaServiceTemplateMapper<LegacyOperationalPolicy, LegacyOperationalPolicy> {
+
+    // Property name for the operational policy content
+    private static final String CONTENT_PROPERTY = "content";
+
     private static final Logger LOGGER = LoggerFactory.getLogger(LegacyOperationalPolicyMapper.class);
 
     private static final PfConceptKey LEGACY_OPERATIONAL_TYPE =
@@ -64,7 +68,7 @@ public class LegacyOperationalPolicyMapper
 
         final Map<String, String> propertyMap = new HashMap<>();
         toscaPolicy.setProperties(propertyMap);
-        toscaPolicy.getProperties().put("Content", legacyOperationalPolicy.getContent());
+        toscaPolicy.getProperties().put(CONTENT_PROPERTY, legacyOperationalPolicy.getContent());
 
         final JpaToscaServiceTemplate serviceTemplate = new JpaToscaServiceTemplate();
         serviceTemplate.setToscaDefinitionsVersion("tosca_simple_yaml_1_0");
@@ -101,7 +105,7 @@ public class LegacyOperationalPolicyMapper
             throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
         }
 
-        final String content = toscaPolicy.getProperties().get("Content");
+        final String content = toscaPolicy.getProperties().get(CONTENT_PROPERTY);
         if (toscaPolicy.getProperties() == null) {
             String errorMessage = "property \"Content\" not defined on TOSCA policy";
             LOGGER.warn(errorMessage);

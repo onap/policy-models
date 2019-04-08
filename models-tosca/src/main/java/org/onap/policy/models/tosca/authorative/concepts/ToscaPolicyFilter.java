@@ -57,10 +57,11 @@ public class ToscaPolicyFilter implements PfObjectFilter<ToscaPolicy> {
 
         // @formatter:off
         List<ToscaPolicy> returnList = originalList.stream()
-                .filter(p -> filterOnRegexp(p.getName(),        name))
-                .filter(p -> version.equals(LATEST_VERSION) || filterOnRegexp(p.getVersion(), version))
-                .filter(p -> filterOnRegexp(p.getType(),        type))
-                .filter(p -> filterOnRegexp(p.getTypeVersion(), typeVersion))
+                .filter(p -> filterString(p.getName(),        name))
+                .filter(p -> (version != null && LATEST_VERSION.equals(version))
+                        || filterString(p.getVersion(), version))
+                .filter(p -> filterString(p.getType(),        type))
+                .filter(p -> filterString(p.getTypeVersion(), typeVersion))
                 .collect(Collectors.toList());
         // @formatter:off
 
