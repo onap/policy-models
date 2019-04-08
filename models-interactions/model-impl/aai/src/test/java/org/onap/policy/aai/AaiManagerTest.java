@@ -31,10 +31,12 @@ import static org.mockito.ArgumentMatchers.startsWith;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.aai.util.Serialization;
@@ -44,16 +46,25 @@ import org.onap.policy.rest.RestManager.Pair;
 public class AaiManagerTest {
     RestManager restManagerMock;
     UUID aaiNqRequestUuid = UUID.randomUUID();
+    UUID aaiCqRequestUuid = UUID.randomUUID();
     Pair<Integer, String> httpResponseOk;
+    Pair<Integer, String> httpTenantResponseOk;
+    Pair<Integer, String> httpCqResponseOk;
     Pair<Integer, String> httpResponseErr0;
     Pair<Integer, String> httpResponseErr1;
     Pair<Integer, String> httpResponseWait;
 
+    private static final String TENANT_RESPONSE_SAMPLE =
+            "src/test/resources/org/onap/policy/aai/AaiTenantResponse.json";
+
+
     /**
      * Set up test cases.
+     *
+     * @throws Exception exception
      */
     @Before
-    public void beforeTestAaiManager() {
+    public void beforeTestAaiManager() throws Exception {
         restManagerMock = mock(RestManager.class);
 
         Map<String, String> expectedHeaders = new HashMap<>();
@@ -62,11 +73,61 @@ public class AaiManagerTest {
         expectedHeaders.put("Accept", "application/json");
 
         AaiNqResponse aaiNqResponse = new AaiNqResponseTest().getAaiNqResponse();
+        String aaiCqResponse = new AaiCqResponseTest().getAaiCqResponse();
+        String tenantResponse = this.getTenantQueryResponse();
+        httpCqResponseOk = restManagerMock.new Pair<>(200, aaiCqResponse);
+        httpTenantResponseOk = restManagerMock.new Pair<>(200, tenantResponse);
         httpResponseOk = restManagerMock.new Pair<>(200, Serialization.gsonPretty.toJson(aaiNqResponse));
         httpResponseErr0 = restManagerMock.new Pair<>(200, null);
         httpResponseErr1 = restManagerMock.new Pair<>(200, "{");
         httpResponseWait = restManagerMock.new Pair<>(503, null);
     }
+
+    @Test
+    public void testAaiCqResponse() {
+        AaiManager aaiManager = new AaiManager(restManagerMock);
+        assertNotNull(aaiManager);
+
+        UUID vserverNameRequestId = UUID.randomUUID();
+
+        when(restManagerMock.put(startsWith("http://testing.cq.query"), eq("Foo"), eq("Bar"), anyMap(), anyString(),
+                anyString())).thenReturn(httpCqResponseOk);
+
+        when(restManagerMock.get(startsWith("http://testing.cq.query"), eq("Foo"), eq("Bar"), anyMap()))
+                .thenReturn(httpTenantResponseOk);
+
+        AaiCqResponse aaiCqResponse =
+                aaiManager.getCustomQueryResponse("http://testing.cq.query", "Foo", "Bar", vserverNameRequestId, "Foo");
+        assertNotNull(aaiCqResponse);
+
+        when(restManagerMock.put(eq(""), eq("Foo"), eq("Bar"), anyMap(), anyString(), anyString()))
+                .thenReturn(httpResponseErr0);
+
+        when(restManagerMock.get(eq("/aai/v11/query?format=resource"), eq("Foo"), eq("Bar"), anyMap()))
+                .thenReturn(httpResponseErr0);
+
+        AaiCqResponse aaiCqResponseNull =
+                aaiManager.getCustomQueryResponse("", "Foo", "Bar", vserverNameRequestId, "Foo");
+        assertNull(aaiCqResponseNull);
+
+
+        when(restManagerMock.put(eq("Error"), eq("Foo"), eq("Bar"), anyMap(), anyString(), anyString()))
+                .thenReturn(httpResponseErr1);
+
+        when(restManagerMock.get(eq("Error/aai/v11/query?format=resource"), eq("Foo"), eq("Bar"), anyMap()))
+                .thenReturn(httpResponseErr1);
+
+        AaiCqResponse aaiCqResponseErr =
+                aaiManager.getCustomQueryResponse("Error", "Foo", "Bar", vserverNameRequestId, "Foo");
+        assertNull(aaiCqResponseErr);
+    }
+
+    private String getTenantQueryResponse() throws IOException {
+        String responseString = "";
+        responseString = new String(Files.readAllBytes(new File(TENANT_RESPONSE_SAMPLE).toPath()));
+        return responseString;
+    }
+
 
     @Test
     public void testAaiManagerAaiNqRequest() {
@@ -167,4 +228,5 @@ public class AaiManagerTest {
                 "Gale", vserverNameRequestId, "vnfName");
         assertNotNull(vnfResponse);
     }
+
 }
