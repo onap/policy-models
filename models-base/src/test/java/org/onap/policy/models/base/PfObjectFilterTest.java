@@ -81,20 +81,20 @@ public class PfObjectFilterTest {
         doList.add(do5);
 
         DummyPfObjectFilter dof = new DummyPfObjectFilter();
-        assertFalse(dof.filterOnRegexp("Hello", "Goodbye"));
-        assertTrue(dof.filterOnRegexp("Hello", "Hello"));
+        assertFalse(dof.filterString("Hello", "Goodbye"));
+        assertTrue(dof.filterString("Hello", "Hello"));
 
         assertThatThrownBy(() -> {
-            dof.filterOnRegexp(null, null);
+            dof.filterString(null, null);
         }).hasMessage("value is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            dof.filterOnRegexp("hello", null);
-        }).hasMessage("regexp is marked @NonNull but is null");
-
-        assertThatThrownBy(() -> {
-            dof.filterOnRegexp(null, "hello");
+            dof.filterString(null, "hello");
         }).hasMessage("value is marked @NonNull but is null");
+
+        assertEquals(false, dof.filterString("Hello", "Goodbye"));
+        assertEquals(true, dof.filterString("Hello", "Hello"));
+        assertEquals(true, dof.filterString("Hello", null));
 
         List<DummyPfObject> latestVersionList = dof.latestVersionFilter(doList);
         assertEquals(3, latestVersionList.size());
@@ -104,5 +104,10 @@ public class PfObjectFilterTest {
         assertEquals("1.0.0", latestVersionList.get(1).getVersion());
         assertEquals("name1", latestVersionList.get(2).getName());
         assertEquals("0.1.2", latestVersionList.get(2).getVersion());
+
+        latestVersionList.remove(2);
+        latestVersionList.remove(1);
+        List<DummyPfObject> newestVersionList = dof.latestVersionFilter(latestVersionList);
+        assertEquals(latestVersionList, newestVersionList);
     }
 }
