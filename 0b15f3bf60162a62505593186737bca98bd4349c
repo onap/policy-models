@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2b25d687_fe7baa77",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpGroupFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-08T21:32:52Z",
+      "side": 1,
+      "message": "This one is filtering on PDP state so it\u0027s way down in the PDPs, the deepest search. The PDP group state one is at the top of the list.",
+      "parentUuid": "b74ae616_44abbd0c",
+      "revId": "0b15f3bf60162a62505593186737bca98bd4349c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "184ec09f_7b3bea3c",
         "filename": "models-pdp/src/test/resources/testdata/PdpGroupsForFiltering.json",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2019-04-08T20:42:30Z",
       "side": 1,
       "message": "trailing spaces",
+      "revId": "0b15f3bf60162a62505593186737bca98bd4349c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9bae05c7_6e44d73c",
+        "filename": "models-pdp/src/test/resources/testdata/PdpGroupsForFiltering.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-08T21:32:52Z",
+      "side": 1,
+      "message": "OK, I\u0027ll eradicate them in the next review ;-)",
+      "parentUuid": "184ec09f_7b3bea3c",
       "revId": "0b15f3bf60162a62505593186737bca98bd4349c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
