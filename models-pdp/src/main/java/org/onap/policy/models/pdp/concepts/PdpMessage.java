@@ -24,6 +24,7 @@ package org.onap.policy.models.pdp.concepts;
 import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
 import org.onap.policy.models.pdp.enums.PdpMessageType;
@@ -88,5 +89,44 @@ public class PdpMessage {
         this.name = source.name;
         this.pdpGroup = source.pdpGroup;
         this.pdpSubgroup = source.pdpSubgroup;
+    }
+
+    /**
+     * Determines if this message applies to this PDP.
+     *
+     * @param pdpName name of this PDP
+     * @param group group to which this PDP has been assigned, or {@code null} if the PDP
+     *        has not been assigned to a group yet
+     * @param subgroup group to which this PDP has been assigned, or {@code null} if the
+     *        PDP has not been assigned to a subgroup yet
+     * @return {@code true} if this message applies to this PDP, {@code false} otherwise
+     */
+    public boolean appliesTo(@NonNull String pdpName, String group, String subgroup) {
+        if (pdpName.equals(name)) {
+            return true;
+        }
+
+        if (name != null) {
+            // message included a PDP name, but it does not match
+            return false;
+        }
+
+        // message does not provide a PDP name - must be a broadcast
+
+        if (group == null || subgroup == null) {
+            // this PDP has no assignment yet, thus should ignore broadcast messages
+            return false;
+        }
+
+        if (!group.equals(pdpGroup)) {
+            return false;
+        }
+
+        if (pdpSubgroup == null) {
+            // message was broadcast to entire group
+            return true;
+        }
+
+        return subgroup.equals(pdpSubgroup);
     }
 }
