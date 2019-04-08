@@ -29,11 +29,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
@@ -87,7 +89,7 @@ public class JpaPdpGroup extends PfConcept implements PfAuthorative<PdpGroup> {
     private Map<String, String> properties;
 
     // @formatter:off
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @CollectionTable(joinColumns = {
             @JoinColumn(name = "pdpGroupParentKeyName",    referencedColumnName = "parentKeyName"),
             @JoinColumn(name = "pdpGroupParentKeyVersion", referencedColumnName = "parentKeyVersion"),

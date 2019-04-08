@@ -46,7 +46,7 @@ public class PdpGroupFilter implements PfObjectFilter<PdpGroup> {
     // Regular expression
     private String name;
 
-    // Regular Expression, set to LATEST_VERRSION to get the latest version
+    // Regular Expression, set to to get the latest version
     private String version;
 
     private PdpState groupState;
@@ -67,9 +67,10 @@ public class PdpGroupFilter implements PfObjectFilter<PdpGroup> {
 
         // @formatter:off
         List<PdpGroup> returnList = originalList.stream()
-                .filter(p -> filterOnRegexp(p.getName(),    name))
-                .filter(p -> version.equals(LATEST_VERSION) || filterOnRegexp(p.getVersion(), version))
-                .filter(p -> ObjectUtils.compare(p.getPdpGroupState(), groupState) == 0)
+                .filter(p -> filterString(p.getName(), name))
+                .filter(p -> (version != null && LATEST_VERSION.equals(version))
+                        || filterString(p.getVersion(), version))
+                .filter(p -> groupState == null || ObjectUtils.compare(p.getPdpGroupState(), groupState) == 0)
                 .filter(p -> filterOnPdpType(p, pdpType))
                 .filter(p -> filterOnPolicyType(p, policyType))
                 .filter(p -> filterOnPolicy(p, policy))

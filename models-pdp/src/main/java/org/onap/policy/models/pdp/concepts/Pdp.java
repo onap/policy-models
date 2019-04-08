@@ -21,10 +21,9 @@
 
 package org.onap.policy.models.pdp.concepts;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import lombok.Setter;
 import lombok.ToString;
 import org.onap.policy.models.pdp.enums.PdpHealthStatus;
 import org.onap.policy.models.pdp.enums.PdpState;
@@ -34,10 +33,9 @@ import org.onap.policy.models.pdp.enums.PdpState;
  *
  * @author Ram Krishna Verma (ram.krishna.verma@est.tech)
  */
-@Getter
-@Setter
 @ToString
 @NoArgsConstructor
+@Data
 public class Pdp {
 
     @NonNull

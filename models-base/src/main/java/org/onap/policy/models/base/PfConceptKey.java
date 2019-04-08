@@ -51,10 +51,10 @@ public class PfConceptKey extends PfKey {
     private static final String NAME_TOKEN = "name";
     private static final String VERSION_TOKEN = "version";
 
-    @Column(name = NAME_TOKEN, length = 128)
+    @Column(name = NAME_TOKEN, length = 120)
     private String name;
 
-    @Column(name = VERSION_TOKEN, length = 128)
+    @Column(name = VERSION_TOKEN, length = 20)
     private String version;
 
     /**

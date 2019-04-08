@@ -25,10 +25,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.NonNull;
-import lombok.Setter;
-import lombok.ToString;
 
 import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifier;
@@ -39,9 +37,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifi
  *
  * @author Ram Krishna Verma (ram.krishna.verma@est.tech)
  */
-@Getter
-@Setter
-@ToString
+@Data
 public class PdpSubGroup {
     private String pdpType;
     private List<ToscaPolicyTypeIdentifier> supportedPolicyTypes;
