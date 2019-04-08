@@ -73,7 +73,7 @@ public final class PfUtils {
      */
     public static <T> List<T> mapList(List<T> source, Function<T, T> mapFunc) {
         if (source == null) {
-            return new ArrayList<>();
+            return new ArrayList<>(0);
         }
 
         return source.stream().map(mapFunc).collect(Collectors.toList());

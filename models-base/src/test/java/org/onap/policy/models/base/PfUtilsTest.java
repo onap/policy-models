@@ -52,9 +52,19 @@ public class PfUtilsTest {
         });
         assertTrue(resultList.isEmpty());
 
+        // verify that we can modify the empty list without throwing an exception
+        resultList.add("xyz");
+        resultList.add("pdq");
+        resultList.remove("xyz");
+
+
         List<String> origList = Arrays.asList("abc", "def");
         List<String> newList = PfUtils.mapList(origList, text -> text + "X");
 
         assertEquals(Arrays.asList("abcX", "defX"), newList);
+
+        // verify that we can modify the list without throwing an exception
+        newList.remove("abcX");
+        newList.add("something else");
     }
 }
