@@ -34,7 +34,6 @@ import static org.mockito.Mockito.when;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.aai.util.Serialization;
@@ -44,16 +43,21 @@ import org.onap.policy.rest.RestManager.Pair;
 public class AaiManagerTest {
     RestManager restManagerMock;
     UUID aaiNqRequestUuid = UUID.randomUUID();
+    UUID aaiCqRequestUuid = UUID.randomUUID();
     Pair<Integer, String> httpResponseOk;
+    Pair<Integer, String> httpTenantResponseOk;
     Pair<Integer, String> httpResponseErr0;
     Pair<Integer, String> httpResponseErr1;
     Pair<Integer, String> httpResponseWait;
 
+
     /**
      * Set up test cases.
+     *
+     * @throws Exception exception
      */
     @Before
-    public void beforeTestAaiManager() {
+    public void beforeTestAaiManager() throws Exception {
         restManagerMock = mock(RestManager.class);
 
         Map<String, String> expectedHeaders = new HashMap<>();
@@ -67,6 +71,8 @@ public class AaiManagerTest {
         httpResponseErr1 = restManagerMock.new Pair<>(200, "{");
         httpResponseWait = restManagerMock.new Pair<>(503, null);
     }
+
+
 
     @Test
     public void testAaiManagerAaiNqRequest() {
@@ -167,4 +173,5 @@ public class AaiManagerTest {
                 "Gale", vserverNameRequestId, "vnfName");
         assertNotNull(vnfResponse);
     }
+
 }

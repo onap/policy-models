@@ -23,11 +23,9 @@
 package org.onap.policy.aai;
 
 import com.google.gson.JsonSyntaxException;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
 import org.onap.policy.aai.util.Serialization;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil;
@@ -57,6 +55,7 @@ public final class AaiManager {
     public AaiManager(final RestManager restManager) {
         this.restManager = restManager;
     }
+
 
     /**
      * Post a query to A&AI.
@@ -194,6 +193,8 @@ public final class AaiManager {
 
         return null;
     }
+
+
 
     /**
      * Create the headers for the HTTP request.
