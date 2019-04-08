@@ -111,7 +111,7 @@ public class JpaPdp extends PfConcept implements PfAuthorative<Pdp>, Serializabl
      *
      * @param copyConcept the concept to copy from
      */
-    public JpaPdp(final JpaPdp copyConcept) {
+    public JpaPdp(@NonNull final JpaPdp copyConcept) {
         super(copyConcept);
     }
 
@@ -120,7 +120,7 @@ public class JpaPdp extends PfConcept implements PfAuthorative<Pdp>, Serializabl
      *
      * @param authorativeConcept the authorative concept to copy from
      */
-    public JpaPdp(final Pdp authorativeConcept) {
+    public JpaPdp(@NonNull final Pdp authorativeConcept) {
         this.fromAuthorative(authorativeConcept);
     }
 
@@ -137,8 +137,8 @@ public class JpaPdp extends PfConcept implements PfAuthorative<Pdp>, Serializabl
     }
 
     @Override
-    public void fromAuthorative(final Pdp pdp) {
-        if (this.getKey().isNullKey()) {
+    public void fromAuthorative(@NonNull final Pdp pdp) {
+        if (this.key == null || this.getKey().isNullKey()) {
             this.setKey(new PfReferenceKey());
             getKey().setLocalName(pdp.getInstanceId());
         }
@@ -163,7 +163,7 @@ public class JpaPdp extends PfConcept implements PfAuthorative<Pdp>, Serializabl
     }
 
     @Override
-    public PfValidationResult validate(final PfValidationResult resultIn) {
+    public PfValidationResult validate(@NonNull final PfValidationResult resultIn) {
         PfValidationResult result = resultIn;
 
         if (key.isNullKey()) {

@@ -1,0 +1,35 @@
+{
+    "groups": [
+        {
+            "name": "TestPdpGroup",
+            "version": "1.2.3",
+            "description": "group description",
+            "pdpGroupState": "ACTIVE",
+            "properties": {
+                "groupProperty0": "Value of Group Property 0"
+            },
+            "pdpSubgroups": [
+                {
+                    "pdpType": "APEX",
+                    "supportedPolicyTypes": [
+                        {
+                            "name": "onap.policies.controlloop.Operational",
+                            "version": "1.0.0"
+                        }
+                    ],
+                    "policies": [
+                        {
+                            "name": "onap.policies.controlloop.Operational.apex.sampledomain",
+                            "version": "1.0.0"
+                        }
+                    ],
+                    "currentInstanceCount": 0,
+                    "desiredInstanceCount": 5,
+                    "properties": {
+                        "subgroupProperty0": "Value of sub Group Property 0"
+                    }
+                }
+            ]
+        }
+    ]
+}
