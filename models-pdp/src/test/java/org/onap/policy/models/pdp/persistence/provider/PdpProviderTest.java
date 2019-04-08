@@ -19,12 +19,16 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.models.persistence.provider;
+package org.onap.policy.models.pdp.persistence.provider;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.ArrayList;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,6 +39,7 @@ import org.onap.policy.models.dao.PfDao;
 import org.onap.policy.models.dao.PfDaoFactory;
 import org.onap.policy.models.dao.impl.DefaultPfDao;
 import org.onap.policy.models.pdp.concepts.PdpGroups;
+import org.onap.policy.models.pdp.persistence.concepts.JpaPdpGroup;
 import org.onap.policy.models.pdp.persistence.provider.PdpProvider;
 import org.onap.policy.models.tosca.simple.provider.SimpleToscaProvider;
 
@@ -87,17 +92,17 @@ public class PdpProviderTest {
 
     @Test
     public void testPoliciesGet() throws Exception {
-        /*
-         * try { new PdpProvider().gePdpGroupst(null, null); fail("test should throw an exception here"); } catch
-         * (Exception exc) { assertEquals("dao is marked @NonNull but is null", exc.getMessage()); }
-         *
-         * try { new SimpleToscaProvider().getPolicies(null, new PfConceptKey());
-         * fail("test should throw an exception here"); } catch (Exception exc) {
-         * assertEquals("dao is marked @NonNull but is null", exc.getMessage()); }
-         *
-         * try { new SimpleToscaProvider().getPolicies(pfDao, null); fail("test should throw an exception here"); }
-         * catch (Exception exc) { assertEquals("policyKey is marked @NonNull but is null", exc.getMessage()); }
-         */
+        assertThatThrownBy(() -> {
+            new PdpProvider().getPdpGroups(null, null, null);
+        }).hasMessage("dao is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            new PdpProvider().getPdpGroups(null, null, "version");
+        }).hasMessage("dao is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            new PdpProvider().getPdpGroups(null, "name", "version");
+        }).hasMessage("dao is marked @NonNull but is null");
 
         String originalJson = ResourceUtils.getResourceAsString("testdata/PdpGroups0.json");
 
@@ -114,32 +119,59 @@ public class PdpProviderTest {
         String gotJson = standardCoder.encode(gotPdpGroups0);
 
         assertEquals(originalJson.replaceAll("\\s+", ""), gotJson.replaceAll("\\s+", ""));
+    }
 
+    @Test
+    public void testPolicyCreate() throws Exception {
+        assertThatThrownBy(() -> {
+            new PdpProvider().createPdpGroups(null, null);
+        }).hasMessage("dao is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            new PdpProvider().createPdpGroups(null, new ArrayList<>());
+        }).hasMessage("dao is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            new PdpProvider().createPdpGroups(pfDao, null);
+        }).hasMessage("pdpGroups is marked @NonNull but is null");
+
+        String originalJson = ResourceUtils.getResourceAsString("testdata/PdpGroups0.json");
+
+        PdpGroups pdpGroups0 = standardCoder.decode(originalJson, PdpGroups.class);
+
+        PdpGroups createdPdpGroups0 = new PdpGroups();
+        createdPdpGroups0.setGroups(new PdpProvider().createPdpGroups(pfDao, pdpGroups0.getGroups()));
+        String createdJson = standardCoder.encode(createdPdpGroups0);
+        assertEquals(originalJson.replaceAll("\\s+", ""), createdJson.replaceAll("\\s+", ""));
+
+        PdpGroups gotPdpGroups0 = new PdpGroups();
+        gotPdpGroups0.setGroups(new PdpProvider().getPdpGroups(pfDao, "PdpGroup0", "1.2.3"));
+
+        String gotJson = standardCoder.encode(gotPdpGroups0);
+        assertEquals(originalJson.replaceAll("\\s+", ""), gotJson.replaceAll("\\s+", ""));
+    }
+
+    @Test
+    public void testPolicyCreateNoPdp() throws Exception {
+        String originalJson = ResourceUtils.getResourceAsString("testdata/PdpGroupsNoPDPs.json");
+
+        PdpGroups pdpGroups0 = standardCoder.decode(originalJson, PdpGroups.class);
+
+        PdpGroups createdPdpGroups0 = new PdpGroups();
+        createdPdpGroups0.setGroups(new PdpProvider().createPdpGroups(pfDao, pdpGroups0.getGroups()));
+        assertNotEquals(pdpGroups0, createdPdpGroups0);
+        pdpGroups0.getGroups().get(0).getPdpSubgroups().get(0).setPdpInstances(new ArrayList<>());
+        String originalTweakedJson = standardCoder.encode(pdpGroups0);
+        String createdJson = standardCoder.encode(createdPdpGroups0);
+        assertEquals(originalTweakedJson.replaceAll("\\s+", ""), createdJson.replaceAll("\\s+", ""));
+
+        PdpGroups gotPdpGroups0 = new PdpGroups();
+        gotPdpGroups0.setGroups(new PdpProvider().getPdpGroups(pfDao, "TestPdpGroup", "1.2.3"));
+
+        String gotJson = standardCoder.encode(gotPdpGroups0);
+        assertEquals(originalTweakedJson.replaceAll("\\s+", ""), gotJson.replaceAll("\\s+", ""));
     }
     /*
-     * @Test public void testPolicyCreate() throws Exception { try { new SimpleToscaProvider().createPolicies(null,
-     * null); fail("test should throw an exception here"); } catch (Exception exc) {
-     * assertEquals("dao is marked @NonNull but is null", exc.getMessage()); }
-     *
-     * try { new SimpleToscaProvider().createPolicies(null, new JpaToscaServiceTemplate());
-     * fail("test should throw an exception here"); } catch (Exception exc) {
-     * assertEquals("dao is marked @NonNull but is null", exc.getMessage()); }
-     *
-     * try { new SimpleToscaProvider().createPolicies(pfDao, null); fail("test should throw an exception here"); } catch
-     * (Exception exc) { assertEquals("serviceTemplate is marked @NonNull but is null", exc.getMessage()); }
-     *
-     * ToscaServiceTemplate toscaServiceTemplate = standardCoder.decode(
-     * ResourceUtils.getResourceAsString("policies/vCPE.policy.monitoring.input.tosca.json"),
-     * ToscaServiceTemplate.class);
-     *
-     * JpaToscaServiceTemplate originalServiceTemplate = new JpaToscaServiceTemplate();
-     * originalServiceTemplate.fromAuthorative(toscaServiceTemplate);
-     *
-     * assertNotNull(originalServiceTemplate); JpaToscaServiceTemplate createdServiceTemplate = new
-     * SimpleToscaProvider().createPolicies(pfDao, originalServiceTemplate);
-     *
-     * assertEquals(originalServiceTemplate, createdServiceTemplate); }
-     *
      * @Test public void testPolicyUpdate() throws Exception { try { new SimpleToscaProvider().updatePolicies(null,
      * null); fail("test should throw an exception here"); } catch (Exception exc) {
      * assertEquals("dao is marked @NonNull but is null", exc.getMessage()); }

@@ -131,7 +131,7 @@ public class JpaPdpGroup extends PfConcept implements PfAuthorative<PdpGroup> {
      *
      * @param copyConcept the concept to copy from
      */
-    public JpaPdpGroup(final JpaPdpGroup copyConcept) {
+    public JpaPdpGroup(@NonNull final JpaPdpGroup copyConcept) {
         super(copyConcept);
     }
 
@@ -140,7 +140,7 @@ public class JpaPdpGroup extends PfConcept implements PfAuthorative<PdpGroup> {
      *
      * @param authorativeConcept the authorative concept to copy from
      */
-    public JpaPdpGroup(final PdpGroup authorativeConcept) {
+    public JpaPdpGroup(@NonNull final PdpGroup authorativeConcept) {
         this.fromAuthorative(authorativeConcept);
     }
 
@@ -164,8 +164,10 @@ public class JpaPdpGroup extends PfConcept implements PfAuthorative<PdpGroup> {
     }
 
     @Override
-    public void fromAuthorative(final PdpGroup pdpGroup) {
-        this.setKey(new PfConceptKey(pdpGroup.getName(), pdpGroup.getVersion()));
+    public void fromAuthorative(@NonNull final PdpGroup pdpGroup) {
+        if (this.key == null || this.getKey().isNullKey()) {
+            this.setKey(new PfConceptKey(pdpGroup.getName(), pdpGroup.getVersion()));
+        }
 
         this.description = pdpGroup.getDescription();
         this.pdpGroupState = pdpGroup.getPdpGroupState();
@@ -190,7 +192,6 @@ public class JpaPdpGroup extends PfConcept implements PfAuthorative<PdpGroup> {
             keyList.addAll(jpaPdpSubgroup.getKeys());
         }
 
-
         return keyList;
     }
 
@@ -214,7 +215,7 @@ public class JpaPdpGroup extends PfConcept implements PfAuthorative<PdpGroup> {
     }
 
     @Override
-    public PfValidationResult validate(final PfValidationResult resultIn) {
+    public PfValidationResult validate(@NonNull final PfValidationResult resultIn) {
         PfValidationResult result = resultIn;
 
         if (key.isNullKey()) {
@@ -224,9 +225,14 @@ public class JpaPdpGroup extends PfConcept implements PfAuthorative<PdpGroup> {
 
         result = key.validate(result);
 
-        if (StringUtils.isBlank(description)) {
+        if (description != null && StringUtils.isBlank(description)) {
             result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
                     "description may not be blank"));
+        }
+
+        if (pdpGroupState == null) {
+            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
+                    "pdpGroupState may not be null"));
         }
 
         if (properties != null) {
@@ -241,7 +247,6 @@ public class JpaPdpGroup extends PfConcept implements PfAuthorative<PdpGroup> {
                 }
             }
         }
-
 
         if (pdpSubGroups == null) {
             result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,

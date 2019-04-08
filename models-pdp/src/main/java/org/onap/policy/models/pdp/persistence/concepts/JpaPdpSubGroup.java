@@ -91,12 +91,11 @@ public class JpaPdpSubGroup extends PfConcept implements PfAuthorative<PdpSubGro
 
     // @formatter:ofF
     @OneToMany
-    @CollectionTable(joinColumns = {
-            @JoinColumn(name = "pdpSubGroupParentKeyName",    referencedColumnName = "parentKeyName"),
+    @CollectionTable(
+            joinColumns = { @JoinColumn(name = "pdpSubGroupParentKeyName", referencedColumnName = "parentKeyName"),
             @JoinColumn(name = "pdpSubGroupParentKeyVersion", referencedColumnName = "parentKeyVersion"),
-            @JoinColumn(name = "pdpSubGroupParentLocalName",  referencedColumnName = "parentLocalName"),
-            @JoinColumn(name = "pdpSubGroupLocalName",        referencedColumnName = "localName")
-        })
+            @JoinColumn(name = "pdpSubGroupParentLocalName", referencedColumnName = "parentLocalName"),
+            @JoinColumn(name = "pdpSubGroupLocalName", referencedColumnName = "localName") })
     // formatter:on
     private List<JpaPdp> pdpInstances;
 
@@ -137,7 +136,7 @@ public class JpaPdpSubGroup extends PfConcept implements PfAuthorative<PdpSubGro
      *
      * @param copyConcept the concept to copy from
      */
-    public JpaPdpSubGroup(final JpaPdpSubGroup copyConcept) {
+    public JpaPdpSubGroup(@NonNull final JpaPdpSubGroup copyConcept) {
         super(copyConcept);
     }
 
@@ -146,7 +145,7 @@ public class JpaPdpSubGroup extends PfConcept implements PfAuthorative<PdpSubGro
      *
      * @param authorativeConcept the authorative concept to copy from
      */
-    public JpaPdpSubGroup(final PdpSubGroup authorativeConcept) {
+    public JpaPdpSubGroup(@NonNull final PdpSubGroup authorativeConcept) {
         this.fromAuthorative(authorativeConcept);
     }
 
@@ -184,35 +183,40 @@ public class JpaPdpSubGroup extends PfConcept implements PfAuthorative<PdpSubGro
     }
 
     @Override
-    public void fromAuthorative(final PdpSubGroup pdpSubgroup) {
-        if (this.getKey().isNullKey()) {
+    public void fromAuthorative(@NonNull final PdpSubGroup pdpSubgroup) {
+        if (this.key == null || this.getKey().isNullKey()) {
             this.setKey(new PfReferenceKey());
             getKey().setLocalName(pdpSubgroup.getPdpType());
         }
 
         this.supportedPolicyTypes = new ArrayList<>();
-        for (ToscaPolicyTypeIdentifier supportedPolicyType : pdpSubgroup.getSupportedPolicyTypes()) {
-            this.supportedPolicyTypes
-                    .add(new PfConceptKey(supportedPolicyType.getName(), supportedPolicyType.getVersion()));
+        if (pdpSubgroup.getSupportedPolicyTypes() != null) {
+            for (ToscaPolicyTypeIdentifier supportedPolicyType : pdpSubgroup.getSupportedPolicyTypes()) {
+                this.supportedPolicyTypes
+                        .add(new PfConceptKey(supportedPolicyType.getName(), supportedPolicyType.getVersion()));
+            }
         }
-
 
         this.policies = new ArrayList<>();
-        for (ToscaPolicyIdentifier toscaPolicyIdentifier : pdpSubgroup.getPolicies()) {
-            this.policies.add(new PfConceptKey(toscaPolicyIdentifier.getName(), toscaPolicyIdentifier.getVersion()));
+        if (pdpSubgroup.getPolicies() != null) {
+            for (ToscaPolicyIdentifier toscaPolicyIdentifier : pdpSubgroup.getPolicies()) {
+                this.policies
+                        .add(new PfConceptKey(toscaPolicyIdentifier.getName(), toscaPolicyIdentifier.getVersion()));
+            }
         }
-
         this.currentInstanceCount = pdpSubgroup.getCurrentInstanceCount();
         this.desiredInstanceCount = pdpSubgroup.getDesiredInstanceCount();
         this.properties =
                 (pdpSubgroup.getProperties() == null ? null : new LinkedHashMap<>(pdpSubgroup.getProperties()));
 
         this.pdpInstances = new ArrayList<>();
-        for (Pdp pdp : pdpSubgroup.getPdpInstances()) {
-            JpaPdp jpaPdp = new JpaPdp();
-            jpaPdp.setKey(new PfReferenceKey(getKey(), pdp.getInstanceId()));
-            jpaPdp.fromAuthorative(pdp);
-            this.pdpInstances.add(jpaPdp);
+        if (pdpSubgroup.getPdpInstances() != null) {
+            for (Pdp pdp : pdpSubgroup.getPdpInstances()) {
+                JpaPdp jpaPdp = new JpaPdp();
+                jpaPdp.setKey(new PfReferenceKey(getKey(), pdp.getInstanceId()));
+                jpaPdp.fromAuthorative(pdp);
+                this.pdpInstances.add(jpaPdp);
+            }
         }
     }
 
@@ -262,7 +266,7 @@ public class JpaPdpSubGroup extends PfConcept implements PfAuthorative<PdpSubGro
     }
 
     @Override
-    public PfValidationResult validate(final PfValidationResult resultIn) {
+    public PfValidationResult validate(@NonNull final PfValidationResult resultIn) {
         PfValidationResult result = resultIn;
 
         if (key.isNullKey()) {
