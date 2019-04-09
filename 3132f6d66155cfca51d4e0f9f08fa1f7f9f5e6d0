@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "db105f54_9fbc2af4",
+        "filename": "models-interactions/model-actors/actor.vfc/src/test/java/org/onap/policy/controlloop/actor/vfc/VfcActorServiceProviderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-09T22:49:26Z",
+      "side": 1,
+      "message": "Sonar complains about commented out code",
+      "range": {
+        "startLine": 131,
+        "startChar": 1,
+        "endLine": 131,
+        "endChar": 98
+      },
+      "revId": "3132f6d66155cfca51d4e0f9f08fa1f7f9f5e6d0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a51810bc_656899f2",
         "filename": "models-interactions/model-impl/rest/src/test/java/org/onap/policy/rest/PutTest.java",
         "patchSetId": 2
