@@ -42,6 +42,7 @@ import org.onap.policy.aai.AaiNqResponseWrapper;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.policy.Policy;
+import org.onap.policy.controlloop.policy.Target;
 import org.onap.policy.so.SoOperationType;
 import org.onap.policy.so.SoRequest;
 import org.onap.policy.so.SoRequestParameters;
@@ -64,7 +65,9 @@ public class SoActorServiceProviderTest {
         Policy policy = new Policy();
         policy.setActor("Dorothy");
         policy.setRecipe("GoToOz");
-        
+
+        instantiateTarget(policy);
+
         assertNull(new SoActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp));
 
         policy.setActor("SO");
@@ -88,7 +91,7 @@ public class SoActorServiceProviderTest {
         assertEquals("avalue", request.getRequestDetails().getRequestParameters().getUserParams().get(0).get("akey"));
         assertEquals(1, request.getRequestDetails().getConfigurationParameters().size());
         assertEquals("cvalue", request.getRequestDetails().getConfigurationParameters().get(0).get("ckey"));
-        
+
         // payload with config, but no request params
         policy.setPayload(makePayload());
         policy.getPayload().remove(SoActorServiceProvider.REQ_PARAM_NM);
@@ -96,7 +99,7 @@ public class SoActorServiceProviderTest {
         assertNotNull(request);
         assertNull(request.getRequestDetails().getRequestParameters());
         assertNotNull(request.getRequestDetails().getConfigurationParameters());
-        
+
         // payload with request, but no config params
         policy.setPayload(makePayload());
         policy.getPayload().remove(SoActorServiceProvider.CONFIG_PARAM_NM);
@@ -112,10 +115,13 @@ public class SoActorServiceProviderTest {
         assertNull(new SoActorServiceProvider().constructRequest(onset, operation, policy,
                         loadAaiResponse(onset, "aai/AaiNqResponse-NoBase.json")));
 
+        policy.setTarget(null);
+
         // response has no non-base VF modules (other than the "dummy")
         assertNull(new SoActorServiceProvider().constructRequest(onset, operation, policy,
                         loadAaiResponse(onset, "aai/AaiNqResponse-NoNonBase.json")));
 
+        instantiateTarget(policy);
         policy.setRecipe(VF_MODULE_DELETE);
         SoRequest deleteRequest = new SoActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp);
         assertNotNull(deleteRequest);
@@ -140,6 +146,18 @@ public class SoActorServiceProviderTest {
         // null response
         aaiNqResp.setAaiNqResponse(null);
         assertNull(new SoActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp));
+    }
+
+    private void instantiateTarget(Policy policy) {
+
+        Target target = new Target();
+        target.setModelCustomizationId("3e2d67ad-3495-4732-82f6-b0b872791fff");
+        target.setModelInvariantId("90b793b5-b8ae-4c36-b10b-4b6372859d3a");
+        target.setModelName("SproutScalingVf..scaling_sprout..module-1");
+        target.setModelVersion("1");
+        target.setModelVersionId("2210154d-e61a-4d7f-8fb9-0face1aee3f8");
+
+        policy.setTarget(target);
     }
 
     @Test
