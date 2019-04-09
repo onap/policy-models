@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95922095_2ad638d7",
+        "filename": "models-interactions/model-impl/aai/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-09T23:37:53Z",
+      "side": 1,
+      "message": "and we are going to remove SNAPSHOT and use the released artifact",
+      "range": {
+        "startLine": 71,
+        "startChar": 21,
+        "endLine": 71,
+        "endChar": 36
+      },
+      "revId": "97fc1c054bd28125989a4926dc6dcd036724591a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
