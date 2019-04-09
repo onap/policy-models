@@ -1,16 +1,17 @@
 /*-
+/*-
  * ============LICENSE_START=======================================================
  * policy-yaml
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2019 Tech Mahindra
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,32 +27,78 @@ import java.io.Serializable;
 public class Target implements Serializable {
 
     private static final long serialVersionUID = 2180988443264988319L;
-     
+
     private String resourceId;
     private TargetType type;
+
+    private String modelInvariantId;
+    private String modelVersionId;
+    private String modelName;
+    private String modelVersion;
+    private String modelCustomizationId;
+
+    public String getModelInvariantId() {
+        return modelInvariantId;
+    }
+
+    public void setModelInvariantId(String modelInvariantId) {
+        this.modelInvariantId = modelInvariantId;
+    }
+
+    public String getModelVersionId() {
+        return modelVersionId;
+    }
+
+    public void setModelVersionId(String modelVersionId) {
+        this.modelVersionId = modelVersionId;
+    }
+
+    public String getModelName() {
+        return modelName;
+    }
+
+    public void setModelName(String modelName) {
+        this.modelName = modelName;
+    }
+
+    public String getModelVersion() {
+        return modelVersion;
+    }
+
+    public void setModelVersion(String modelVersion) {
+        this.modelVersion = modelVersion;
+    }
+
+    public String getModelCustomizationId() {
+        return modelCustomizationId;
+    }
+
+    public void setModelCustomizationId(String modelCustomizationId) {
+        this.modelCustomizationId = modelCustomizationId;
+    } //techm
 
     public Target() {
         //Does Nothing Empty Constructor
     }
-    
+
     public Target(TargetType type) {
         this.type = type;
     }
-    
+
     public Target(String resourceId) {
         this.resourceId = resourceId;
     }
-    
+
     public Target(TargetType type, String resourceId) {
         this.type = type;
         this.resourceId = resourceId;
     }
-    
+
     public Target(Target target) {
         this.type = target.type;
         this.resourceId = target.resourceId;
     }
-    
+
     public String getResourceID() {
         return resourceId;
     }
@@ -72,7 +119,7 @@ public class Target implements Serializable {
     public String toString() {
         return "Target [type=" + type + ", resourceId=" + resourceId + "]";
     }
-    
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -81,7 +128,7 @@ public class Target implements Serializable {
         result = prime * result + ((resourceId == null) ? 0 : resourceId.hashCode());
         return result;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
