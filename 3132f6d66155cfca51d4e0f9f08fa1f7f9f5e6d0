@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a51810bc_656899f2",
+        "filename": "models-interactions/model-impl/rest/src/test/java/org/onap/policy/rest/PutTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-09T20:50:06Z",
+      "side": 1,
+      "message": "And I\u0027m pretty sure that this being a new file, Nordix didn\u0027t modify anything.",
+      "range": {
+        "startLine": 6,
+        "startChar": 1,
+        "endLine": 7,
+        "endChar": 1
+      },
+      "revId": "3132f6d66155cfca51d4e0f9f08fa1f7f9f5e6d0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
