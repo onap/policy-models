@@ -290,12 +290,12 @@ public class JpaPdpSubGroup extends PfConcept implements PfAuthorative<PdpSubGro
 
         if (currentInstanceCount < 0) {
             result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "the current instance count of a PDP group may not be negative"));
+                    "the current instance count of a PDP sub group may not be negative"));
         }
 
         if (desiredInstanceCount < 0) {
             result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "the desired instance count of a PDP group may not be negative"));
+                    "the desired instance count of a PDP sub group may not be negative"));
         }
 
         if (properties != null) {
@@ -310,7 +310,6 @@ public class JpaPdpSubGroup extends PfConcept implements PfAuthorative<PdpSubGro
                 }
             }
         }
-
 
         return validateSubConcepts(result);
     }

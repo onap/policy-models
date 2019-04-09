@@ -67,35 +67,7 @@ public class PdpProvider {
     public List<PdpGroup> getPdpGroups(@NonNull final PfDao dao, final String name, final String version)
             throws PfModelException {
 
-        List<JpaPdpGroup> foundPdpGroups = dao.getFiltered(JpaPdpGroup.class, name, version);
-
-        if (foundPdpGroups != null) {
-            return asPdpGroupList(foundPdpGroups);
-        } else {
-            String errorMessage = "no PDP groups found for filter " + name + ":" + version;
-            LOGGER.warn(errorMessage);
-            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
-        }
-    }
-
-    /**
-     * Get latest PDP Groups, returns PDP groups in all states.
-     *
-     * @param dao the DAO to use to access the database
-     * @param name the name of the PDP group to get, null to get all PDP groups
-     * @return the PDP groups found
-     * @throws PfModelException on errors getting policies
-     */
-    public List<PdpGroup> getLatestPdpGroups(@NonNull final PfDao dao, final String name) throws PfModelException {
-        List<JpaPdpGroup> jpaPdpGroupList = new ArrayList<>();
-
-        if (name == null) {
-            jpaPdpGroupList.addAll(dao.getAll(JpaPdpGroup.class));
-        } else {
-            jpaPdpGroupList.addAll(dao.getAllVersions(JpaPdpGroup.class, name));
-        }
-
-        return asPdpGroupList(jpaPdpGroupList);
+        return asPdpGroupList(dao.getFiltered(JpaPdpGroup.class, name, version));
     }
 
     /**
@@ -106,8 +78,7 @@ public class PdpProvider {
      * @return the PDP groups found
      * @throws PfModelException on errors getting policies
      */
-    public List<PdpGroup> getFilteredPdpGroups(@NonNull final PfDao dao, @NonNull final PdpGroupFilter filter)
-            throws PfModelException {
+    public List<PdpGroup> getFilteredPdpGroups(@NonNull final PfDao dao, @NonNull final PdpGroupFilter filter) {
 
         List<JpaPdpGroup> jpaPdpGroupList = dao.getAll(JpaPdpGroup.class);
 
@@ -211,10 +182,7 @@ public class PdpProvider {
             throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
         }
 
-        if (dao.update(jpaPdpSubgroup) == null) {
-            String errorMessage = "update of PDP subgroup \"" + jpaPdpSubgroup.getId() + "\" failed";
-            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
-        }
+        dao.update(jpaPdpSubgroup);
     }
 
     /**
@@ -228,8 +196,7 @@ public class PdpProvider {
      * @throws PfModelException on errors updating PDP subgroups
      */
     public void updatePdp(@NonNull final PfDao dao, @NonNull final String pdpGroupName,
-            @NonNull final String pdpGroupVersion, @NonNull final String pdpSubGroup, @NonNull final Pdp pdp)
-            throws PfModelException {
+            @NonNull final String pdpGroupVersion, @NonNull final String pdpSubGroup, @NonNull final Pdp pdp) {
 
         final PfReferenceKey pdpKey =
                 new PfReferenceKey(pdpGroupName, pdpGroupVersion, pdpSubGroup, pdp.getInstanceId());
@@ -243,10 +210,7 @@ public class PdpProvider {
             throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
         }
 
-        if (dao.update(jpaPdp) == null) {
-            String errorMessage = "update of PDP \"" + jpaPdp.getId() + "\" failed";
-            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
-        }
+        dao.update(jpaPdp);
     }
 
     /**
@@ -258,8 +222,8 @@ public class PdpProvider {
      * @return the PDP group deleted
      * @throws PfModelException on errors deleting PDP groups
      */
-    public PdpGroup deletePdpGroup(@NonNull final PfDao dao, @NonNull final String name, @NonNull final String version)
-            throws PfModelException {
+    public PdpGroup deletePdpGroup(@NonNull final PfDao dao, @NonNull final String name,
+            @NonNull final String version) {
 
         PfConceptKey pdpGroupKey = new PfConceptKey(name, version);
 
@@ -298,11 +262,12 @@ public class PdpProvider {
      * @param pdpGroupVersion the version of the PDP group containing the PDP that the statistics are for
      * @param pdpType the PDP type of the subgroup containing the PDP that the statistics are for
      * @param pdpInstanceId the instance ID of the PDP to update statistics for
+     * @param pdpStatistics the statistics to update
      * @throws PfModelException on errors updating statistics
      */
     public void updatePdpStatistics(@NonNull final PfDao dao, @NonNull final String pdpGroupName,
             @NonNull final String pdpGroupVersion, @NonNull final String pdpType, @NonNull final String pdpInstanceId,
-            @NonNull final PdpStatistics pdppStatistics) throws PfModelException {
+            @NonNull final PdpStatistics pdpStatistics) throws PfModelException {
         // Not implemented yet
     }
 
