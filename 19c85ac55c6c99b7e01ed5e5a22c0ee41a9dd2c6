@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5fc6553f_b8ee26e4",
+        "filename": "models-interactions/model-impl/aai/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-09T19:01:34Z",
+      "side": 1,
+      "message": "Please ask the A\u0026AI team if they have released this yet. If not, then we are hampered in our release process as we cannot produce a released artifact if we are referring to a SNAPSHOT.",
+      "range": {
+        "startLine": 71,
+        "startChar": 2,
+        "endLine": 71,
+        "endChar": 45
+      },
+      "revId": "19c85ac55c6c99b7e01ed5e5a22c0ee41a9dd2c6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21f7f84a_11cb84dc",
+        "filename": "models-interactions/model-impl/rest/src/test/java/org/onap/policy/rest/PutTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-09T19:01:34Z",
+      "side": 1,
+      "message": "New file, so just 2019",
+      "range": {
+        "startLine": 5,
+        "startChar": 17,
+        "endLine": 5,
+        "endChar": 22
+      },
+      "revId": "19c85ac55c6c99b7e01ed5e5a22c0ee41a9dd2c6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
