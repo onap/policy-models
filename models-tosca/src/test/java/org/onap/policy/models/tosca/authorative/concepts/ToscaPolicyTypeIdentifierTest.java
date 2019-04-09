@@ -26,13 +26,13 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 /**
- * Test the other constructors, as {@link TestPojos} tests the other methods.
+ * Test the other constructors, as {@link PojosTest} tests the other methods.
  */
-public class TestToscaPolicyTypeIdentifier extends ToscaIdentifierTestBase<ToscaPolicyTypeIdentifier> {
+public class ToscaPolicyTypeIdentifierTest extends ToscaIdentifierTestBase<ToscaPolicyTypeIdentifier> {
     private static final String NAME = "my-name";
     private static final String VERSION = "1.2.3";
 
-    public TestToscaPolicyTypeIdentifier() {
+    public ToscaPolicyTypeIdentifierTest() {
         super(ToscaPolicyTypeIdentifier.class);
     }
 

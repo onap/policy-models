@@ -20,17 +20,25 @@
 
 package org.onap.policy.models.tosca.authorative.concepts;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
+
+import java.util.LinkedHashMap;
 
 import org.junit.Test;
 
 /**
- * Tests methods not tested by {@link TestPojos}.
+ * Tests methods not tested by {@link PojosTest}.
  */
-public class TestToscaPolicy {
+public class ToscaPolicyTest {
 
     @Test
     public void testGetIdentifier_testGetTypeIdentifier() {
+        assertThatThrownBy(() -> {
+            new ToscaPolicy(null);
+        }).hasMessage("copyObject is marked @NonNull but is null");
+
+
         ToscaPolicy policy = new ToscaPolicy();
 
         policy.setName("my_name");
@@ -45,5 +53,13 @@ public class TestToscaPolicy {
         ToscaPolicyTypeIdentifier type = policy.getTypeIdentifier();
         assertEquals("my_type", type.getName());
         assertEquals("3.2.1", type.getVersion());
+
+        ToscaPolicy clonedPolicy0 = new ToscaPolicy(policy);
+        assertEquals(0, policy.compareTo(clonedPolicy0));
+
+        policy.setProperties(new LinkedHashMap<String, Object>());
+        policy.getProperties().put("PropertyKey", "PropertyValue");
+        ToscaPolicy clonedPolicy1 = new ToscaPolicy(policy);
+        assertEquals(0, policy.compareTo(clonedPolicy1));
     }
 }

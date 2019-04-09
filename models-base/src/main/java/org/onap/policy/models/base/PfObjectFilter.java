@@ -49,8 +49,8 @@ public interface PfObjectFilter<T extends Comparable<T>> {
      * @param pattern the pattern to check against
      * @return match or not
      */
-    public default boolean filterString(@NonNull final String value, final String pattern) {
-        return pattern == null || value.equals(pattern);
+    public default boolean filterString(final String value, final String pattern) {
+        return value == null || pattern == null || value.equals(pattern);
     }
 
     /**

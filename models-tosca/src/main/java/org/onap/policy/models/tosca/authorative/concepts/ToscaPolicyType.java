@@ -23,10 +23,14 @@
 
 package org.onap.policy.models.tosca.authorative.concepts;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 /**
  * Class to represent TOSCA policy type matching input/output from/to client.
@@ -38,6 +42,22 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ToscaPolicyType extends ToscaEntity implements Comparable<ToscaPolicyType> {
     private Map<String, ToscaProperty> properties;
+
+    /**
+     * Copy Constructor.
+     *
+     * @param copyObject object to copy from
+     */
+    public ToscaPolicyType(@NonNull ToscaPolicyType copyObject) {
+        super(copyObject);
+
+        if (copyObject.properties != null) {
+            properties = new LinkedHashMap<>();
+            for (final Entry<String, ToscaProperty> propertyEntry : copyObject.properties.entrySet()) {
+                properties.put(propertyEntry.getKey(), propertyEntry.getValue());
+            }
+        }
+    }
 
     @Override
     public int compareTo(final ToscaPolicyType other) {

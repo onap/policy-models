@@ -84,14 +84,6 @@ public class PfObjectFilterTest {
         assertFalse(dof.filterString("Hello", "Goodbye"));
         assertTrue(dof.filterString("Hello", "Hello"));
 
-        assertThatThrownBy(() -> {
-            dof.filterString(null, null);
-        }).hasMessage("value is marked @NonNull but is null");
-
-        assertThatThrownBy(() -> {
-            dof.filterString(null, "hello");
-        }).hasMessage("value is marked @NonNull but is null");
-
         assertEquals(false, dof.filterString("Hello", "Goodbye"));
         assertEquals(true, dof.filterString("Hello", "Hello"));
         assertEquals(true, dof.filterString("Hello", null));

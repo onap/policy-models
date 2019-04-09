@@ -54,7 +54,7 @@ public class ToscaEntity implements PfNameVersion {
     private String description;
 
     /**
-     * Copy COnstructor.
+     * Copy Constructor.
      *
      * @param copyObject object to copy from
      */

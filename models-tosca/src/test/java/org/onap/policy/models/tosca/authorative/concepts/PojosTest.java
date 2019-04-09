@@ -39,7 +39,7 @@ import org.onap.policy.common.utils.validation.ToStringTester;
  * @author Chenfei Gao (cgao@research.att.com)
  *
  */
-public class TestPojos {
+public class PojosTest {
 
     private static final String POJO_PACKAGE = "org.onap.policy.models.tosca.authorative.concepts";
 

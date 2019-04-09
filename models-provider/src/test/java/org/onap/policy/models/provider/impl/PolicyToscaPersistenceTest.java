@@ -117,7 +117,7 @@ public class PolicyToscaPersistenceTest {
                 }
             }
         } catch (Exception exc) {
-            LOGGER.warn("error processing policies", exc);
+            LOGGER.warn("error processing policy types", exc);
             fail("test should not throw an exception");
         }
     }
