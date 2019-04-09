@@ -54,7 +54,6 @@ public class SimpleToscaProviderTest {
     private PfDao pfDao;
     private StandardCoder standardCoder;
 
-
     /**
      * Set up the DAO towards the database.
      *

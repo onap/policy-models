@@ -27,6 +27,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
@@ -70,14 +71,15 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
     @SerializedName("tosca_definitions_version")
     private String toscaDefinitionsVersion;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @SerializedName("data_types")
     private JpaToscaDataTypes dataTypes;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @SerializedName("policy_types")
     private JpaToscaPolicyTypes policyTypes;
 
+    @Column
     @SerializedName("topology_template")
     private JpaToscaTopologyTemplate topologyTemplate;
 

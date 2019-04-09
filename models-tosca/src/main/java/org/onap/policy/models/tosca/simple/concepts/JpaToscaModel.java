@@ -24,6 +24,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
@@ -57,7 +58,7 @@ import org.onap.policy.models.base.PfValidationResult;
 public class JpaToscaModel extends PfModel {
     private static final long serialVersionUID = 8800599637708309945L;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private JpaToscaServiceTemplates serviceTemplates;
 
     /**

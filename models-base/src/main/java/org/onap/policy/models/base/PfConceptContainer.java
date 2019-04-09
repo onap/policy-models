@@ -33,6 +33,7 @@ import java.util.TreeMap;
 import javax.persistence.CascadeType;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.ws.rs.core.Response;
@@ -69,7 +70,7 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
     @EmbeddedId
     private PfConceptKey key;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Map<PfConceptKey, C> conceptMap;
 
     /**

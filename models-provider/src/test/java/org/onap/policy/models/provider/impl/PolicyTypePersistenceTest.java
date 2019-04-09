@@ -41,6 +41,7 @@ import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderFactory;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -146,7 +147,24 @@ public class PolicyTypePersistenceTest {
         List<ToscaPolicyType> policyTypeList =
                 databaseProvider.getPolicyTypeList(inPolicyType.getName(), inPolicyType.getVersion());
 
+        policyTypeList = databaseProvider.getFilteredPolicyTypeList(ToscaPolicyTypeFilter.builder()
+                .name(inPolicyType.getName()).version(inPolicyType.getVersion()).build());
+
         assertEquals(1, policyTypeList.size());
         assertEquals(inPolicyType.getName(), policyTypeList.get(0).getName());
+
+        policyTypeList = databaseProvider
+                .getFilteredPolicyTypeList(ToscaPolicyTypeFilter.builder().name(inPolicyType.getName()).build());
+
+        assertEquals(1, policyTypeList.size());
+        assertEquals(inPolicyType.getName(), policyTypeList.get(0).getName());
+
+        policyTypeList = databaseProvider.getFilteredPolicyTypeList(ToscaPolicyTypeFilter.builder().build());
+        assertEquals(2, policyTypeList.size());
+        assertEquals(inPolicyType.getName(), policyTypeList.get(0).getName());
+
+        for (ToscaPolicyType policyType: databaseProvider.getPolicyTypeList(null, null)) {
+            databaseProvider.deletePolicyType(policyType.getName(), policyType.getVersion());
+        }
     }
 }

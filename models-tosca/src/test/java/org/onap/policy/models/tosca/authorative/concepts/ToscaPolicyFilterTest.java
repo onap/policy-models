@@ -95,6 +95,7 @@ public class ToscaPolicyFilterTest {
                     if (policy.getName() == null) {
                         policy.setName(policyEntry.getKey());
                     }
+
                     if (policy.getVersion() == null) {
                         policy.setVersion(PfKey.NULL_KEY_VERSION);
                     }

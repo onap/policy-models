@@ -41,6 +41,7 @@ import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderFactory;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -145,10 +146,21 @@ public class PolicyPersistenceTest {
 
         for (Map<String, ToscaPolicy> policyMap : serviceTemplate.getToscaTopologyTemplate().getPolicies()) {
             for (ToscaPolicy policy : policyMap.values()) {
-                ToscaServiceTemplate goToscaServiceTemplate =
+                ToscaServiceTemplate gotToscaServiceTemplate =
                         databaseProvider.getPolicies(policy.getName(), policy.getVersion());
 
-                assertEquals(goToscaServiceTemplate.getToscaTopologyTemplate().getPolicies().get(0)
+                assertEquals(gotToscaServiceTemplate.getToscaTopologyTemplate().getPolicies().get(0)
+                        .get(policy.getName()).getType(), policy.getType());
+
+                gotToscaServiceTemplate = databaseProvider.getFilteredPolicies(ToscaPolicyFilter.builder().build());
+
+                assertEquals(gotToscaServiceTemplate.getToscaTopologyTemplate().getPolicies().get(0)
+                        .get(policy.getName()).getType(), policy.getType());
+
+                gotToscaServiceTemplate = databaseProvider.getFilteredPolicies(
+                        ToscaPolicyFilter.builder().name(policy.getName()).version(policy.getVersion()).build());
+
+                assertEquals(gotToscaServiceTemplate.getToscaTopologyTemplate().getPolicies().get(0)
                         .get(policy.getName()).getType(), policy.getType());
             }
         }
