@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "69fa7fe9_0a99d763",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/impl/PolicyTypePersistenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-04-09T17:11:35Z",
+      "side": 1,
+      "message": "testPolicyTypePersistence",
+      "range": {
+        "startLine": 109,
+        "startChar": 16,
+        "endLine": 109,
+        "endChar": 37
+      },
+      "revId": "942cd0a012a2a4e9fd44e680dc6c4c7f4bcf8c62",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91825117_dfdece80",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/impl/PolicyTypePersistenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-04-09T17:11:35Z",
+      "side": 1,
+      "message": "policy types",
+      "range": {
+        "startLine": 121,
+        "startChar": 42,
+        "endLine": 121,
+        "endChar": 50
+      },
+      "revId": "942cd0a012a2a4e9fd44e680dc6c4c7f4bcf8c62",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
