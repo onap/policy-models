@@ -25,11 +25,11 @@ import java.nio.charset.Charset;
 import java.util.Map;
 import java.util.Map.Entry;
 import javax.xml.bind.DatatypeConverter;
-
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.entity.StringEntity;
@@ -51,6 +51,33 @@ public class RestManager {
             this.first = first;
             this.second = second;
         }
+    }
+
+    /**
+     * Perform REST PUT.
+     *
+     * @param url         the url
+     * @param username    the user name
+     * @param password    the password
+     * @param headers     any headers
+     * @param contentType what the content type is
+     * @param body        body to send
+     * @return the response status code and the body
+     */
+    public Pair<Integer, String> put(String url, String username, String password,
+                                      Map<String, String> headers, String contentType, String body) {
+        HttpPut put = new HttpPut(url);
+        addHeaders(put, username, password, headers);
+        put.addHeader("Content-Type", contentType);
+        try {
+            StringEntity input = new StringEntity(body);
+            input.setContentType(contentType);
+            put.setEntity(input);
+        } catch (Exception e) {
+            logger.error("put threw: ", e);
+            return null;
+        }
+        return sendRequest(put);
     }
 
     /**
