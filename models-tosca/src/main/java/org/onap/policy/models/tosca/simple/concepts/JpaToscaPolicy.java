@@ -69,6 +69,10 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements PfAuthorative<ToscaPolicy> {
     private static final long serialVersionUID = 3265174757061982805L;
 
+    // Tags for metadata
+    private static final String METADATA_POLICY_ID_TAG = "policy-id";
+    private static final String METADATA_POLICY_VERSION_TAG = "policy-version";
+
     // @formatter:off
     @Column
     @AttributeOverrides({
@@ -184,6 +188,15 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
                 properties.put(propertyEntry.getKey(), propertyEntry.getValue().toString());
             }
         }
+
+        // Add the property metadata if it doesn't exist already
+        if (toscaPolicy.getMetadata() == null) {
+            toscaPolicy.setMetadata(new LinkedHashMap<>());
+        }
+
+        // Add the policy name and version fields to the metadata
+        toscaPolicy.getMetadata().put(METADATA_POLICY_ID_TAG, getKey().getName());
+        toscaPolicy.getMetadata().put(METADATA_POLICY_VERSION_TAG, Integer.toString(getKey().getMajorVersion()));
     }
 
     @Override
