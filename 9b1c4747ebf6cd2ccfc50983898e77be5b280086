@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "209c12cf_d863ca65",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/AaiManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 4341
+      },
+      "writtenOn": "2019-04-10T03:49:49Z",
+      "side": 1,
+      "message": "this re-factoring is OK, but could/should the API version number be a config property instead?",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 46
+      },
+      "revId": "9b1c4747ebf6cd2ccfc50983898e77be5b280086",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
