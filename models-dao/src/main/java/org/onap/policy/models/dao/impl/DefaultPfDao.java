@@ -173,7 +173,7 @@ public class DefaultPfDao implements PfDao {
             mg.getTransaction().begin();
             mg.createQuery(setQueryTable(DELETE_BY_CONCEPT_KEY, someClass), someClass)
                 .setParameter(NAME,    key.getName())
-                .setParameter("version", key.getVersion())
+                .setParameter(VERSION, key.getVersion())
                 .executeUpdate();
             mg.getTransaction().commit();
             // @formatter:on
@@ -250,7 +250,7 @@ public class DefaultPfDao implements PfDao {
             for (final PfConceptKey key : keys) {
                 deletedCount += mg.createQuery(setQueryTable(DELETE_BY_CONCEPT_KEY, someClass), someClass)
                     .setParameter(NAME,    key.getName())
-                    .setParameter("version", key.getVersion())
+                    .setParameter(VERSION, key.getVersion())
                     .executeUpdate();
             }
             mg.getTransaction().commit();

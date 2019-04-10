@@ -1,7 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,29 +18,28 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.models.pdp.concepts;
+package org.onap.policy.models.tosca.utils;
 
-import com.openpojo.reflection.filters.FilterPackageInfo;
-import com.openpojo.validation.Validator;
-import com.openpojo.validation.ValidatorBuilder;
-import com.openpojo.validation.test.impl.GetterTester;
-import com.openpojo.validation.test.impl.SetterTester;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.Test;
-import org.onap.policy.common.utils.validation.ToStringTester;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyTypes;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
 
 /**
- * Class to perform unit testing of models.
+ * Import the {@link ToscaUtils} class.
  *
- * @author Ram Krishna Verma (ram.krishna.verma@est.tech)
+ * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class ModelsTest {
-    private static final String POJO_PACKAGE = "org.onap.policy.models.pdp.concepts";
+public class ToscaUtilsTest {
 
     @Test
-    public void testPdpModels() {
-        final Validator validator = ValidatorBuilder.create().with(new ToStringTester()).with(new SetterTester())
-                .with(new GetterTester()).build();
-        validator.validate(POJO_PACKAGE, new FilterPackageInfo());
+    public void test() {
+        JpaToscaServiceTemplate jpaToscaServiceTemplate = new JpaToscaServiceTemplate();
+        jpaToscaServiceTemplate.setPolicyTypes(new JpaToscaPolicyTypes());
+
+        assertThatThrownBy(() -> {
+            ToscaUtils.assertPolicyTypesExist(jpaToscaServiceTemplate);
+        }).hasMessage("list of policy types specified on service template is empty");
     }
 }

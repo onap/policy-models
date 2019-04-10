@@ -143,8 +143,10 @@ public class AuthorativeToscaProviderPolicyTest {
         gotPolicyList = new AuthorativeToscaProvider().getPolicyList(pfDao, null, "1.0.0");
         assertEquals(1, gotPolicyList.size());
         assertEquals(0, beforePolicy.compareNameVersion(beforePolicy, gotPolicyList.get(0)));
-    }
 
+        gotPolicyList = new AuthorativeToscaProvider().getPolicyList(pfDao, "Nonexistant", "1.0.0");
+        assertEquals(0, gotPolicyList.size());
+    }
 
     @Test
     public void testPoliciesGetFiltered() throws Exception {

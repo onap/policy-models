@@ -20,6 +20,7 @@
 
 package org.onap.policy.models.tosca.legacy.concepts;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -28,6 +29,7 @@ import java.util.Map;
 
 import org.junit.Test;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyInput;
+import org.onap.policy.models.tosca.legacy.concepts.testconcepts.DummyBadLegacyGuardPolicyContent;
 
 public class LegacyGuardPolicyTest {
 
@@ -45,6 +47,10 @@ public class LegacyGuardPolicyTest {
         content.setActor("SO");
         guard.setContent(content);
         assertEquals("SO", guard.getContent().getActor());
-    }
 
+        DummyBadLegacyGuardPolicyContent dblgpc = new DummyBadLegacyGuardPolicyContent();
+        assertThatThrownBy(() -> {
+            dblgpc.getAsPropertyMap();
+        }).hasMessage("could not convert content to a property map");
+    }
 }

@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.core.Response;
-import lombok.NonNull;
 
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
@@ -61,7 +60,7 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
      *
      * @param parameters the parameters for the provider
      */
-    public DummyPolicyModelsProviderImpl(@NonNull final PolicyModelsProviderParameters parameters) {}
+    public DummyPolicyModelsProviderImpl(final PolicyModelsProviderParameters parameters) {}
 
     @Override
     public void init() throws PfModelException {
@@ -84,29 +83,29 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public ToscaServiceTemplate getFilteredPolicyTypes(@NonNull ToscaPolicyTypeFilter filter) throws PfModelException {
-        return null;
+    public ToscaServiceTemplate getFilteredPolicyTypes(ToscaPolicyTypeFilter filter) throws PfModelException {
+        return getDummyResponse("dummyimpl/DummyToscaPolicyTypeGetResponse.json");
     }
 
     @Override
-    public List<ToscaPolicyType> getFilteredPolicyTypeList(@NonNull ToscaPolicyTypeFilter filter) {
+    public List<ToscaPolicyType> getFilteredPolicyTypeList(ToscaPolicyTypeFilter filter) {
         return new ArrayList<>();
     }
 
     @Override
-    public ToscaServiceTemplate createPolicyTypes(@NonNull final ToscaServiceTemplate serviceTemplate)
+    public ToscaServiceTemplate createPolicyTypes(final ToscaServiceTemplate serviceTemplate)
             throws PfModelException {
         return serviceTemplate;
     }
 
     @Override
-    public ToscaServiceTemplate updatePolicyTypes(@NonNull final ToscaServiceTemplate serviceTemplate)
+    public ToscaServiceTemplate updatePolicyTypes(final ToscaServiceTemplate serviceTemplate)
             throws PfModelException {
         return serviceTemplate;
     }
 
     @Override
-    public ToscaServiceTemplate deletePolicyType(@NonNull final String name, @NonNull final String version)
+    public ToscaServiceTemplate deletePolicyType(final String name, final String version)
             throws PfModelException {
         return getDummyResponse("dummyimpl/DummyToscaPolicyTypeDeleteResponse.json");
     }
@@ -122,75 +121,75 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public ToscaServiceTemplate getFilteredPolicies(@NonNull ToscaPolicyFilter filter) throws PfModelException {
-        return null;
+    public ToscaServiceTemplate getFilteredPolicies(ToscaPolicyFilter filter) throws PfModelException {
+        return getDummyResponse("dummyimpl/DummyToscaPolicyGetResponse.json");
     }
 
     @Override
-    public List<ToscaPolicy> getFilteredPolicyList(@NonNull ToscaPolicyFilter filter) throws PfModelException {
+    public List<ToscaPolicy> getFilteredPolicyList(ToscaPolicyFilter filter) throws PfModelException {
         return new ArrayList<>();
     }
 
     @Override
-    public ToscaServiceTemplate createPolicies(@NonNull final ToscaServiceTemplate serviceTemplate)
+    public ToscaServiceTemplate createPolicies(final ToscaServiceTemplate serviceTemplate)
             throws PfModelException {
         return serviceTemplate;
     }
 
     @Override
-    public ToscaServiceTemplate updatePolicies(@NonNull final ToscaServiceTemplate serviceTemplate)
+    public ToscaServiceTemplate updatePolicies(final ToscaServiceTemplate serviceTemplate)
             throws PfModelException {
         return serviceTemplate;
     }
 
     @Override
-    public ToscaServiceTemplate deletePolicy(@NonNull final String name, @NonNull final String version)
+    public ToscaServiceTemplate deletePolicy(final String name, final String version)
             throws PfModelException {
         return getDummyResponse("dummyimpl/DummyToscaPolicyDeleteResponse.json");
     }
 
     @Override
 
-    public LegacyOperationalPolicy getOperationalPolicy(@NonNull final String policyId) throws PfModelException {
+    public LegacyOperationalPolicy getOperationalPolicy(final String policyId) throws PfModelException {
         return new LegacyOperationalPolicy();
     }
 
     @Override
     public LegacyOperationalPolicy createOperationalPolicy(
-            @NonNull final LegacyOperationalPolicy legacyOperationalPolicy) throws PfModelException {
+            final LegacyOperationalPolicy legacyOperationalPolicy) throws PfModelException {
         return legacyOperationalPolicy;
     }
 
     @Override
     public LegacyOperationalPolicy updateOperationalPolicy(
-            @NonNull final LegacyOperationalPolicy legacyOperationalPolicy) throws PfModelException {
+            final LegacyOperationalPolicy legacyOperationalPolicy) throws PfModelException {
         return legacyOperationalPolicy;
     }
 
     @Override
-    public LegacyOperationalPolicy deleteOperationalPolicy(@NonNull final String policyId) throws PfModelException {
+    public LegacyOperationalPolicy deleteOperationalPolicy(final String policyId) throws PfModelException {
         return new LegacyOperationalPolicy();
     }
 
     @Override
-    public Map<String, LegacyGuardPolicyOutput> getGuardPolicy(@NonNull final String policyId) throws PfModelException {
+    public Map<String, LegacyGuardPolicyOutput> getGuardPolicy(final String policyId) throws PfModelException {
         return new HashMap<>();
     }
 
     @Override
     public Map<String, LegacyGuardPolicyOutput> createGuardPolicy(
-            @NonNull final LegacyGuardPolicyInput legacyGuardPolicy) throws PfModelException {
+            final LegacyGuardPolicyInput legacyGuardPolicy) throws PfModelException {
         return new HashMap<>();
     }
 
     @Override
     public Map<String, LegacyGuardPolicyOutput> updateGuardPolicy(
-            @NonNull final LegacyGuardPolicyInput legacyGuardPolicy) throws PfModelException {
+            final LegacyGuardPolicyInput legacyGuardPolicy) throws PfModelException {
         return new HashMap<>();
     }
 
     @Override
-    public Map<String, LegacyGuardPolicyOutput> deleteGuardPolicy(@NonNull final String policyId)
+    public Map<String, LegacyGuardPolicyOutput> deleteGuardPolicy(final String policyId)
             throws PfModelException {
         return new HashMap<>();
     }
@@ -201,34 +200,34 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public List<PdpGroup> getFilteredPdpGroups(@NonNull PdpGroupFilter filter) throws PfModelException {
+    public List<PdpGroup> getFilteredPdpGroups(PdpGroupFilter filter) throws PfModelException {
         return new ArrayList<>();
     }
 
     @Override
-    public List<PdpGroup> createPdpGroups(@NonNull final List<PdpGroup> pdpGroups) throws PfModelException {
+    public List<PdpGroup> createPdpGroups(final List<PdpGroup> pdpGroups) throws PfModelException {
         return new ArrayList<>();
     }
 
     @Override
-    public List<PdpGroup> updatePdpGroups(@NonNull final List<PdpGroup> pdpGroups) throws PfModelException {
+    public List<PdpGroup> updatePdpGroups(final List<PdpGroup> pdpGroups) throws PfModelException {
         return new ArrayList<>();
     }
 
     @Override
-    public void updatePdpSubGroup(@NonNull final String pdpGroupName, @NonNull final String pdpGroupVersion,
-            @NonNull final PdpSubGroup pdpSubGroup) throws PfModelException {
+    public void updatePdpSubGroup(final String pdpGroupName, final String pdpGroupVersion,
+            final PdpSubGroup pdpSubGroup) throws PfModelException {
         // Not implemented
     }
 
     @Override
-    public void updatePdp(@NonNull String pdpGroupName, @NonNull String pdpGroupVersion,
-            @NonNull String pdpSubGroup, @NonNull Pdp pdp) throws PfModelException {
+    public void updatePdp(String pdpGroupName, String pdpGroupVersion,
+            String pdpSubGroup, Pdp pdp) throws PfModelException {
         // Not implemented
     }
 
     @Override
-    public PdpGroup deletePdpGroup(@NonNull final String name, @NonNull final String version) throws PfModelException {
+    public PdpGroup deletePdpGroup(final String name, final String version) throws PfModelException {
         return null;
     }
 
@@ -238,9 +237,9 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public void updatePdpStatistics(@NonNull final String pdpGroupName, @NonNull final String pdpGroupVersion,
-            @NonNull final String pdpType, @NonNull final String pdpInstanceId,
-            @NonNull final PdpStatistics pdppStatistics) throws PfModelException {
+    public void updatePdpStatistics(final String pdpGroupName, final String pdpGroupVersion,
+            final String pdpType, final String pdpInstanceId,
+            final PdpStatistics pdppStatistics) throws PfModelException {
         // Not implemented
     }
 
@@ -250,7 +249,7 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
      * @param fileName the file name containing the dummy response
      * @return the ToscaServiceTemplate with the dummy response
      */
-    protected ToscaServiceTemplate getDummyResponse(@NonNull final String fileName) {
+    protected ToscaServiceTemplate getDummyResponse(final String fileName) {
         StandardCoder standardCoder = new StandardCoder();
         ToscaServiceTemplate serviceTemplate;
 

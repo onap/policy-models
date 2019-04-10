@@ -53,9 +53,7 @@ public abstract class JpaToscaConstraint
     }
 
     @Override
-    public int compareTo(JpaToscaConstraint otherConstraint) {
-        return 0;
-    }
+    public abstract int compareTo(JpaToscaConstraint otherConstraint);
 
     /**
      * Create instances of constraints of various types.

@@ -134,6 +134,16 @@ public class PolicyLegacyGuardPersistenceTest {
         assertEquals(gip.getContent(),
                 gotGopm.get(gip.getPolicyId()).getProperties().values().iterator().next());
 
+        Map<String, LegacyGuardPolicyOutput> updatedGopm = databaseProvider.updateGuardPolicy(gip);
+        assertEquals(gip.getPolicyId(), updatedGopm.keySet().iterator().next());
+        assertEquals(gip.getContent(),
+                updatedGopm.get(gip.getPolicyId()).getProperties().values().iterator().next());
+
+        Map<String, LegacyGuardPolicyOutput> deletedGopm = databaseProvider.deleteGuardPolicy(gip.getPolicyId());
+        assertEquals(gip.getPolicyId(), deletedGopm.keySet().iterator().next());
+        assertEquals(gip.getContent(),
+                deletedGopm.get(gip.getPolicyId()).getProperties().values().iterator().next());
+
         String actualRetrievedJson = standardCoder.encode(gotGopm);
 
         // All of this dash/underscore stuff is to avoid a checkstyle error around escaping unicode characters

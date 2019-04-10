@@ -21,44 +21,55 @@
 package org.onap.policy.models.tosca.simple.concepts;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
+
+import java.util.ArrayList;
 
 import org.junit.Test;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaConstraintLogical;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaConstraint;
 
 /**
- * DAO test for ToscaConstraintLogicalString.
+ * Test the {@link JpaToscaConstraintLogical} class.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 public class JpaToscaConstraintLogicalTest {
 
     @Test
-    public void testConstraintLogicalStringPojo() {
-        assertNotNull(new JpaToscaConstraintLogical(JpaToscaConstraintOperation.EQ, "Constraint"));
+    public void testLogicalConstraint() {
+        ToscaConstraint c0 = new ToscaConstraint();
+        c0.setEqual("Hello");
+        JpaToscaConstraintLogical jc0 = new JpaToscaConstraintLogical(c0);
+        assertEquals(c0, jc0.toAuthorative());
 
-        try {
-            new JpaToscaConstraintLogical((JpaToscaConstraintOperation) null, null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("operation is marked @NonNull but is null", exc.getMessage());
-        }
+        ToscaConstraint c1 = new ToscaConstraint();
+        c1.setGreaterOrEqual("Hello");
+        JpaToscaConstraintLogical jc1 = new JpaToscaConstraintLogical(c1);
+        assertEquals(c1, jc1.toAuthorative());
 
-        try {
-            new JpaToscaConstraintLogical((JpaToscaConstraintOperation) null, "Hello");
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("operation is marked @NonNull but is null", exc.getMessage());
-        }
+        ToscaConstraint c2 = new ToscaConstraint();
+        c2.setGreaterThan("Hello");
+        JpaToscaConstraintLogical jc2 = new JpaToscaConstraintLogical(c2);
+        assertEquals(c2, jc2.toAuthorative());
 
-        try {
-            new JpaToscaConstraintLogical(JpaToscaConstraintOperation.EQ, null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("compareTo is marked @NonNull but is null", exc.getMessage());
-        }
+        ToscaConstraint c3 = new ToscaConstraint();
+        c3.setLessOrEqual("Hello");
+        JpaToscaConstraintLogical jc3 = new JpaToscaConstraintLogical(c3);
+        assertEquals(c3, jc3.toAuthorative());
 
-        assertNotNull(new JpaToscaConstraintLogical(JpaToscaConstraintOperation.EQ, "Constraint"));
+        ToscaConstraint c4 = new ToscaConstraint();
+        c4.setLessThan("Hello");
+        JpaToscaConstraintLogical jc4 = new JpaToscaConstraintLogical(c4);
+        assertEquals(c4, jc4.toAuthorative());
+
+        ToscaConstraint c5 = new ToscaConstraint();
+        JpaToscaConstraintLogical jc5 = new JpaToscaConstraintLogical(c5);
+        assertNull(jc5.toAuthorative());
+
+        assertEquals(-1, jc0.compareTo(null));
+        assertEquals(0, jc0.compareTo(jc0));
+        assertNotEquals(0, jc0.compareTo(new JpaToscaConstraintValidValues(new ArrayList<>())));
+        assertEquals(-2, jc0.compareTo(jc1));
     }
 }

@@ -25,8 +25,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import lombok.NonNull;
-
 /**
  * Interface for filtering a list of concepts.
  *

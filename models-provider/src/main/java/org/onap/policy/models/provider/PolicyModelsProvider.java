@@ -361,9 +361,10 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * @param pdpGroupVersion the version of the PDP group containing the PDP that the statistics are for
      * @param pdpType the PDP type of the subgroup containing the PDP that the statistics are for
      * @param pdpInstanceId the instance ID of the PDP to update statistics for
+     * @param pdpStatistics the PDP statistics
      * @throws PfModelException on errors updating statistics
      */
     public void updatePdpStatistics(@NonNull final String pdpGroupName, @NonNull final String pdpGroupVersion,
             @NonNull final String pdpType, @NonNull final String pdpInstanceId,
-            @NonNull final PdpStatistics pdppStatistics) throws PfModelException;
+            @NonNull final PdpStatistics pdpStatistics) throws PfModelException;
 }

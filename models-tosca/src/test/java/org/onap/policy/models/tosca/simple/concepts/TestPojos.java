@@ -40,7 +40,6 @@ import org.onap.policy.common.utils.validation.ToStringTester;
  *
  */
 public class TestPojos {
-
     private static final String POJO_PACKAGE = "org.onap.policy.models.tosca.simple.concepts";
 
     @Test
