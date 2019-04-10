@@ -143,6 +143,7 @@ public class PolicyPersistenceTest {
         assertNotNull(serviceTemplate);
 
         databaseProvider.createPolicies(serviceTemplate);
+        databaseProvider.updatePolicies(serviceTemplate);
 
         for (Map<String, ToscaPolicy> policyMap : serviceTemplate.getToscaTopologyTemplate().getPolicies()) {
             for (ToscaPolicy policy : policyMap.values()) {

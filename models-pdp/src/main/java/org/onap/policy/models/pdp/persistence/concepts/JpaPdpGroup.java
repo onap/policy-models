@@ -238,16 +238,7 @@ public class JpaPdpGroup extends PfConcept implements PfAuthorative<PdpGroup> {
         }
 
         if (properties != null) {
-            for (Entry<String, String> propertyEntry : properties.entrySet()) {
-                if (!ParameterValidationUtils.validateStringParameter(propertyEntry.getKey())) {
-                    result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                            "a property key may not be null or blank"));
-                }
-                if (!ParameterValidationUtils.validateStringParameter(propertyEntry.getValue())) {
-                    result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                            "a property value may not be null or blank"));
-                }
-            }
+            result = validateProperties(result);
         }
 
         if (pdpSubGroups == null) {
@@ -256,6 +247,29 @@ public class JpaPdpGroup extends PfConcept implements PfAuthorative<PdpGroup> {
         } else {
             for (JpaPdpSubGroup jpaPdpSubgroup : pdpSubGroups) {
                 result = jpaPdpSubgroup.validate(result);
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Validate the properties.
+     *
+     * @param resultIn the incoming validation results so far
+     * @return the revalidation results including the property validation results
+     */
+    private PfValidationResult validateProperties(PfValidationResult resultIn) {
+        PfValidationResult result = resultIn;
+
+        for (Entry<String, String> propertyEntry : properties.entrySet()) {
+            if (!ParameterValidationUtils.validateStringParameter(propertyEntry.getKey())) {
+                result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
+                        "a property key may not be null or blank"));
+            }
+            if (!ParameterValidationUtils.validateStringParameter(propertyEntry.getValue())) {
+                result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
+                        "a property value may not be null or blank"));
             }
         }
 

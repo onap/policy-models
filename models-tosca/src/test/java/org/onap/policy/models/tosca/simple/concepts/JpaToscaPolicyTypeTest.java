@@ -37,6 +37,7 @@ import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaEntityType;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyType;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaProperty;
@@ -209,5 +210,9 @@ public class JpaToscaPolicyTypeTest {
         assertEquals(-1, tet.compareTo(null));
         assertEquals(0, tet.compareTo(tet));
         assertFalse(tet.compareTo(tet.getKey()) == 0);
+
+        assertNotNull(new JpaToscaPolicyType(new ToscaPolicyType()));
+
+        assertNotNull(new JpaToscaEntityType<ToscaPolicyType>(new ToscaPolicyType()));
     }
 }

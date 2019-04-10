@@ -24,14 +24,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.core.Response;
-
 import lombok.NonNull;
 
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
-import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.dao.PfDao;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicies;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicy;
@@ -40,8 +37,6 @@ import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyTypes;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaTopologyTemplate;
 import org.onap.policy.models.tosca.utils.ToscaUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * This class provides the provision of information on TOSCA concepts in the database to callers.
@@ -49,8 +44,6 @@ import org.slf4j.LoggerFactory;
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 public class SimpleToscaProvider {
-    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleToscaProvider.class);
-
     /**
      * Get policy types.
      *
@@ -69,14 +62,9 @@ public class SimpleToscaProvider {
 
         // Add the policy type to the TOSCA service template
         List<JpaToscaPolicyType> jpaPolicyTypeList = dao.getFiltered(JpaToscaPolicyType.class, name, version);
-        if (jpaPolicyTypeList != null) {
-            serviceTemplate.getPolicyTypes().getConceptMap().putAll(asConceptMap(jpaPolicyTypeList));
-            return serviceTemplate;
-        } else {
-            String errorMessage = "policy type not found: " + name + ":" + version;
-            LOGGER.warn(errorMessage);
-            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
-        }
+        serviceTemplate.getPolicyTypes().getConceptMap().putAll(asConceptMap(jpaPolicyTypeList));
+
+        return serviceTemplate;
     }
 
     /**
@@ -178,14 +166,8 @@ public class SimpleToscaProvider {
 
         // Add the policy type to the TOSCA service template
         List<JpaToscaPolicy> jpaPolicyList = dao.getFiltered(JpaToscaPolicy.class, name, version);
-        if (jpaPolicyList != null) {
-            serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().putAll(asConceptMap(jpaPolicyList));
-            return serviceTemplate;
-        } else {
-            String errorMessage = "policy not found: " + name + ":" + version;
-            LOGGER.warn(errorMessage);
-            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
-        }
+        serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().putAll(asConceptMap(jpaPolicyList));
+        return serviceTemplate;
     }
 
     /**

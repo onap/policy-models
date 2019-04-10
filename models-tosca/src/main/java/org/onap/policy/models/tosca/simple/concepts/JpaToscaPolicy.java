@@ -129,6 +129,8 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
      * @param authorativeConcept the authorative concept to copy from
      */
     public JpaToscaPolicy(final ToscaPolicy authorativeConcept) {
+        super(new PfConceptKey());
+        type = new PfConceptKey();
         this.fromAuthorative(authorativeConcept);
     }
 
@@ -215,7 +217,7 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
         PfValidationResult result = super.validate(resultIn);
 
         if (type == null || type.isNullKey()) {
-            result.addValidationMessage(new PfValidationMessage(type, this.getClass(), ValidationResult.INVALID,
+            result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
                     "type is null or a null key"));
         } else {
             result = type.validate(result);
@@ -238,7 +240,7 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
      * @param result The result of validations up to now
      * @return the validation result
      */
-    private PfValidationResult validateProperties(@NonNull final PfValidationResult resultIn) {
+    private PfValidationResult validateProperties(final PfValidationResult resultIn) {
         PfValidationResult result = resultIn;
 
         for (Entry<String, String> propertyEntry : properties.entrySet()) {

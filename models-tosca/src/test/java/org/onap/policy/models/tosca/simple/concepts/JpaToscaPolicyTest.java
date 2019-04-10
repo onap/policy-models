@@ -20,11 +20,11 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,7 +33,9 @@ import java.util.Map;
 
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
+import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfValidationResult;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicy;
 
 /**
@@ -50,40 +52,29 @@ public class JpaToscaPolicyTest {
         assertNotNull(new JpaToscaPolicy(new PfConceptKey(), new PfConceptKey()));
         assertNotNull(new JpaToscaPolicy(new JpaToscaPolicy()));
 
-        try {
+        ToscaPolicy pol = new ToscaPolicy();
+        pol.setType("type");
+        assertNotNull(new JpaToscaPolicy(pol));
+
+        assertThatThrownBy(() -> {
             new JpaToscaPolicy((PfConceptKey) null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("key is marked @NonNull but is null", exc.getMessage());
-        }
+        }).hasMessage("key is marked @NonNull but is null");
 
-        try {
+        assertThatThrownBy(() -> {
             new JpaToscaPolicy(null, null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("key is marked @NonNull but is null", exc.getMessage());
-        }
+        }).hasMessage("key is marked @NonNull but is null");
 
-        try {
+        assertThatThrownBy(() -> {
             new JpaToscaPolicy(new PfConceptKey(), null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("type is marked @NonNull but is null", exc.getMessage());
-        }
+        }).hasMessage("type is marked @NonNull but is null");
 
-        try {
+        assertThatThrownBy(() -> {
             new JpaToscaPolicy(null, new PfConceptKey());
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("key is marked @NonNull but is null", exc.getMessage());
-        }
+        }).hasMessage("key is marked @NonNull but is null");
 
-        try {
+        assertThatThrownBy(() -> {
             new JpaToscaPolicy((JpaToscaPolicy) null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("copyConcept is marked @NonNull but is null", exc.getMessage());
-        }
+        }).hasMessage("copyConcept is marked @NonNull but is null");
 
         PfConceptKey tpKey = new PfConceptKey("tdt", "0.0.1");
         PfConceptKey ptKey = new PfConceptKey("policyType", "0.0.1");
@@ -126,12 +117,9 @@ public class JpaToscaPolicyTest {
         otherDt.setTargets(targets);
         assertEquals(0, tp.compareTo(otherDt));
 
-        try {
+        assertThatThrownBy(() -> {
             tp.copyTo(null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("target is marked @NonNull but is null", exc.getMessage());
-        }
+        }).hasMessage("target is marked @NonNull but is null");
 
         assertEquals(3, tp.getKeys().size());
         assertEquals(2, new JpaToscaPolicy().getKeys().size());
@@ -164,11 +152,35 @@ public class JpaToscaPolicyTest {
         tp.getTargets().remove(null);
         assertTrue(tp.validate(new PfValidationResult()).isValid());
 
-        try {
+        PfConceptKey tpTypeKey = tp.getKey();
+        assertNotNull(tpTypeKey);
+        tp.setType(null);
+        assertFalse(tp.validate(new PfValidationResult()).isValid());
+        tp.setType(PfConceptKey.getNullKey());
+        assertFalse(tp.validate(new PfValidationResult()).isValid());
+        tp.setType(tpTypeKey);
+        assertTrue(tp.validate(new PfValidationResult()).isValid());
+
+        assertThatThrownBy(() -> {
             tp.validate(null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("resultIn is marked @NonNull but is null", exc.getMessage());
-        }
+        }).hasMessage("resultIn is marked @NonNull but is null");
+
+        assertNotNull(tp.toAuthorative());
+        tp.getType().setVersion(PfKey.NULL_KEY_VERSION);
+        assertNotNull(tp.toAuthorative());
+        tp.setProperties(null);
+        assertNotNull(tp.toAuthorative());
+
+        assertThatThrownBy(() -> {
+            tp.fromAuthorative(null);
+        }).hasMessage("toscaPolicy is marked @NonNull but is null");
+
+        pol = new ToscaPolicy();
+        pol.setName("policy");
+        pol.setVersion("1.2.3");
+        pol.setType("poltype");
+        pol.setTypeVersion("2.2.3");
+        tp.fromAuthorative(pol);
+        assertEquals("2.2.3", tp.getType().getVersion());
     }
 }

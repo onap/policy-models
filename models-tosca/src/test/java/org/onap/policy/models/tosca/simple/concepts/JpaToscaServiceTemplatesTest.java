@@ -20,14 +20,18 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplates;
 
@@ -41,39 +45,29 @@ public class JpaToscaServiceTemplatesTest {
                 new JpaToscaServiceTemplates(new PfConceptKey(), new TreeMap<PfConceptKey, JpaToscaServiceTemplate>()));
         assertNotNull(new JpaToscaServiceTemplates(new JpaToscaServiceTemplates()));
 
-        try {
+        assertThatThrownBy(() -> {
             new JpaToscaServiceTemplates((PfConceptKey) null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("key is marked @NonNull but is null", exc.getMessage());
-        }
+        }).hasMessage("key is marked @NonNull but is null");
 
-        try {
+        assertThatThrownBy(() -> {
             new JpaToscaServiceTemplates((JpaToscaServiceTemplates) null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("copyConcept is marked @NonNull but is null", exc.getMessage());
-        }
+        }).hasMessage("copyConcept is marked @NonNull but is null");
 
-        try {
+        assertThatThrownBy(() -> {
             new JpaToscaServiceTemplates(null, null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("key is marked @NonNull but is null", exc.getMessage());
-        }
+        }).hasMessage("key is marked @NonNull but is null");
 
-        try {
+        assertThatThrownBy(() -> {
             new JpaToscaServiceTemplates(new PfConceptKey(), null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("conceptMap is marked @NonNull but is null", exc.getMessage());
-        }
+        }).hasMessage("conceptMap is marked @NonNull but is null");
 
-        try {
+        assertThatThrownBy(() -> {
             new JpaToscaServiceTemplates(null, new TreeMap<PfConceptKey, JpaToscaServiceTemplate>());
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("key is marked @NonNull but is null", exc.getMessage());
-        }
+        }).hasMessage("key is marked @NonNull but is null");
+
+        List<Map<String, ToscaServiceTemplate>> tsMapList = new ArrayList<>();
+        tsMapList.add(new LinkedHashMap<>());
+        tsMapList.get(0).put("serviceTemplate", new ToscaServiceTemplate());
+        assertNotNull(new JpaToscaServiceTemplates(tsMapList));
     }
 }

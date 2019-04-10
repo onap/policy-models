@@ -191,6 +191,8 @@ public class JpaToscaPropertyTest {
 
         tp.setDefaultValue(null);
         assertTrue(tp.validate(new PfValidationResult()).isValid());
+        tp.setDefaultValue("");
+        assertFalse(tp.validate(new PfValidationResult()).isValid());
         tp.setDefaultValue("defaultKey");
         assertTrue(tp.validate(new PfValidationResult()).isValid());
 

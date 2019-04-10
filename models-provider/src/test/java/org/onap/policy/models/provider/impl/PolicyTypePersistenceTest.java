@@ -106,7 +106,7 @@ public class PolicyTypePersistenceTest {
     }
 
     @Test
-    public void testPolicyPersistence() {
+    public void testPolicyTypePersistence() {
         try {
             for (String policyTypeResourceName : policyTypeResourceNames) {
                 String policyTypeString = ResourceUtils.getResourceAsString(policyTypeResourceName);
@@ -118,7 +118,7 @@ public class PolicyTypePersistenceTest {
                 }
             }
         } catch (Exception exc) {
-            LOGGER.warn("error processing policies", exc);
+            LOGGER.warn("error processing policy types", exc);
             fail("test should not throw an exception");
         }
     }
@@ -143,6 +143,7 @@ public class PolicyTypePersistenceTest {
         ToscaPolicyType inPolicyType = serviceTemplate.getPolicyTypes().get(0).values().iterator().next();
 
         databaseProvider.createPolicyTypes(serviceTemplate);
+        databaseProvider.updatePolicyTypes(serviceTemplate);
 
         List<ToscaPolicyType> policyTypeList =
                 databaseProvider.getPolicyTypeList(inPolicyType.getName(), inPolicyType.getVersion());

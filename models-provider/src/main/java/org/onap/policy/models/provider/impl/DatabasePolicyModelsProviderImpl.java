@@ -348,10 +348,10 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
     @Override
     public void updatePdpStatistics(@NonNull final String pdpGroupName, @NonNull final String pdpGroupVersion,
             @NonNull final String pdpType, @NonNull final String pdpInstanceId,
-            @NonNull final PdpStatistics pdppStatistics) throws PfModelException {
+            @NonNull final PdpStatistics pdpStatistics) throws PfModelException {
         assertInitilized();
         new PdpProvider().updatePdpStatistics(pfDao, pdpGroupName, pdpGroupVersion, pdpType, pdpInstanceId,
-                pdppStatistics);
+                pdpStatistics);
     }
 
     /**

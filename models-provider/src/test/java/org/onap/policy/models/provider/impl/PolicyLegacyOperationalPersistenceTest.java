@@ -130,6 +130,12 @@ public class PolicyLegacyOperationalPersistenceTest {
         LegacyOperationalPolicy gotLop = databaseProvider.getOperationalPolicy(lop.getPolicyId());
         assertEquals(gotLop, lop);
 
+        LegacyOperationalPolicy updatedLop = databaseProvider.updateOperationalPolicy(lop);
+        assertEquals(gotLop, updatedLop);
+
+        LegacyOperationalPolicy deletedLop = databaseProvider.deleteOperationalPolicy(lop.getPolicyId());
+        assertEquals(gotLop, deletedLop);
+
         String actualRetrievedJson = standardCoder.encode(gotLop);
 
         // All of this dash/underscore stuff is to avoid a checkstyle error around escaping unicode characters

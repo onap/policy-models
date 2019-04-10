@@ -20,11 +20,11 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -35,6 +35,8 @@ import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfValidationResult;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaConstraint;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaDataType;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaConstraint;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaDataType;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaProperty;
@@ -51,20 +53,15 @@ public class JpaToscaDataTypeTest {
         assertNotNull(new JpaToscaDataType());
         assertNotNull(new JpaToscaDataType(new PfConceptKey()));
         assertNotNull(new JpaToscaDataType(new JpaToscaDataType()));
+        assertNotNull(new JpaToscaDataType(new ToscaDataType()));
 
-        try {
+        assertThatThrownBy(() -> {
             new JpaToscaDataType((PfConceptKey) null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("key is marked @NonNull but is null", exc.getMessage());
-        }
+        }).hasMessage("key is marked @NonNull but is null");
 
-        try {
+        assertThatThrownBy(() -> {
             new JpaToscaDataType((JpaToscaDataType) null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("copyConcept is marked @NonNull but is null", exc.getMessage());
-        }
+        }).hasMessage("copyConcept is marked @NonNull but is null");
 
         PfConceptKey dtKey = new PfConceptKey("tdt", "0.0.1");
         JpaToscaDataType tdt = new JpaToscaDataType(dtKey);
@@ -105,12 +102,9 @@ public class JpaToscaDataTypeTest {
         otherDt.setProperties(properties);
         assertEquals(0, tdt.compareTo(otherDt));
 
-        try {
+        assertThatThrownBy(() -> {
             tdt.copyTo(null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("target is marked @NonNull but is null", exc.getMessage());
-        }
+        }).hasMessage("target is marked @NonNull but is null");
 
         assertEquals(3, tdt.getKeys().size());
         assertEquals(1, new JpaToscaDataType().getKeys().size());
@@ -132,12 +126,23 @@ public class JpaToscaDataTypeTest {
         tdt.getProperties().remove(null);
         assertTrue(tdt.validate(new PfValidationResult()).isValid());
 
-        try {
+        assertThatThrownBy(() -> {
             tdt.validate(null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("resultIn is marked @NonNull but is null", exc.getMessage());
-        }
+        }).hasMessage("resultIn is marked @NonNull but is null");
 
+        ToscaDataType dat = new ToscaDataType();
+        dat.setName("name");
+        dat.setVersion("1.2.3");
+        dat.setConstraints(new ArrayList<>());
+        ToscaConstraint constraint = new ToscaConstraint();
+        constraint.setEqual("EqualTo");
+        dat.getConstraints().add(constraint);
+
+        JpaToscaDataType tdta = new JpaToscaDataType();
+        tdta.fromAuthorative(dat);
+        assertEquals("name", tdta.getKey().getName());
+
+        ToscaDataType datOut = tdta.toAuthorative();
+        assertNotNull(datOut);
     }
 }

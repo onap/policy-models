@@ -33,6 +33,7 @@ import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfValidationResult;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaTopologyTemplate;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicies;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicy;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaTopologyTemplate;
@@ -49,6 +50,7 @@ public class JpaToscaTopologyTemplateTest {
         assertNotNull(new JpaToscaTopologyTemplate());
         assertNotNull(new JpaToscaTopologyTemplate(new PfReferenceKey()));
         assertNotNull(new JpaToscaTopologyTemplate(new JpaToscaTopologyTemplate()));
+        assertNotNull(new JpaToscaTopologyTemplate(new ToscaTopologyTemplate()));
 
         try {
             new JpaToscaTopologyTemplate((PfReferenceKey) null);
@@ -119,6 +121,11 @@ public class JpaToscaTopologyTemplateTest {
         assertEquals(tttClone0, ttt);
 
         assertTrue(new JpaToscaTopologyTemplate().validate(new PfValidationResult()).isValid());
+        assertTrue(ttt.validate(new PfValidationResult()).isValid());
+
+        ttt.setKey(PfReferenceKey.getNullKey());
+        assertFalse(ttt.validate(new PfValidationResult()).isValid());
+        ttt.setKey(tttKey);
         assertTrue(ttt.validate(new PfValidationResult()).isValid());
 
         ttt.setDescription(null);

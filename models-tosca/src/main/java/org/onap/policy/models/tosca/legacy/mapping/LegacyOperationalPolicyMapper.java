@@ -106,8 +106,8 @@ public class LegacyOperationalPolicyMapper
         }
 
         final String content = toscaPolicy.getProperties().get(CONTENT_PROPERTY);
-        if (toscaPolicy.getProperties() == null) {
-            String errorMessage = "property \"Content\" not defined on TOSCA policy";
+        if (content == null) {
+            String errorMessage = "property \"content\" not defined on TOSCA policy";
             LOGGER.warn(errorMessage);
             throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
         }

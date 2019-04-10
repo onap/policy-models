@@ -24,10 +24,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyType;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyTypes;
 
@@ -74,5 +79,10 @@ public class JpaToscaPolicyTypesTest {
         } catch (Exception exc) {
             assertEquals("key is marked @NonNull but is null", exc.getMessage());
         }
+
+        List<Map<String, ToscaPolicyType>> ptMapList = new ArrayList<>();
+        ptMapList.add(new LinkedHashMap<>());
+        ptMapList.get(0).put("policyType", new ToscaPolicyType());
+        assertNotNull(new JpaToscaPolicyTypes(ptMapList));
     }
 }

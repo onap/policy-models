@@ -139,12 +139,6 @@ public class LegacyGuardPolicyMapper
             propertiesMap.put("content", content);
             legacyGuardPolicyOutput.setProperties(propertiesMap);
 
-            if (toscaPolicy.getProperties() == null) {
-                String errorMessage = "property \"Content\" not defined on TOSCA policy";
-                LOGGER.warn(errorMessage);
-                throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
-            }
-
             legacyGuardPolicyOutputMap.put(toscaPolicy.getKey().getName(), legacyGuardPolicyOutput);
         }
 

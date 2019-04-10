@@ -73,30 +73,33 @@ public class JpaToscaConstraintLogical extends JpaToscaConstraint {
     public ToscaConstraint toAuthorative() {
         ToscaConstraint toscaConstraint = new ToscaConstraint();
 
+        if (operation == null) {
+            return null;
+        }
+
         switch (operation) {
-            case EQ: {
+            case EQ:
                 toscaConstraint.setEqual(compareTo);
                 break;
-            }
-            case GT: {
+
+            case GT:
                 toscaConstraint.setGreaterThan(compareTo);
                 break;
-            }
-            case GE: {
+
+            case GE:
                 toscaConstraint.setGreaterOrEqual(compareTo);
                 break;
-            }
-            case LT: {
+
+            case LT:
                 toscaConstraint.setLessThan(compareTo);
                 break;
-            }
-            case LE: {
+
+            case LE:
                 toscaConstraint.setLessOrEqual(compareTo);
                 break;
-            }
-            default: {
+
+            default:
                 // Can't happen
-            }
         }
 
         return toscaConstraint;

@@ -18,36 +18,17 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.models.tosca.simple.concepts.testconcepts;
+package org.onap.policy.models.tosca.legacy.concepts.testconcepts;
 
-import org.onap.policy.models.tosca.authorative.concepts.ToscaConstraint;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaConstraint;
+import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyContent;
 
 /**
- * Dummy constraint to test abstract ToscaConstraint class.
+ * Dummy {@link LegacyGuardPolicyContent} class to force exception for testing.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class DummyToscaConstraint extends JpaToscaConstraint {
-    private static final long serialVersionUID = 1L;
-
-    /**
-     * The Default Constructor creates a {@link DummyToscaConstraint} object with a null key.
-     */
-    public DummyToscaConstraint() {
-    }
-
-    @Override
-    public ToscaConstraint toAuthorative() {
-        return null;
-    }
-
-    @Override
-    public void fromAuthorative(ToscaConstraint authorativeConcept) {
-    }
-
-    @Override
-    public int compareTo(JpaToscaConstraint otherConstraint) {
-        return 0;
-    }
+public class DummyBadLegacyGuardPolicyContent extends LegacyGuardPolicyContent {
+    public static final String TO_TRIGGER_EXCEPTION = "Dummy";
+    @SuppressWarnings("unused")
+    private final transient String aaa = "aaa";
 }

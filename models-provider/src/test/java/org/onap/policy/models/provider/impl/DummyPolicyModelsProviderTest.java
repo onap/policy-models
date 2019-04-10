@@ -20,7 +20,6 @@
 
 package org.onap.policy.models.provider.impl;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -30,9 +29,15 @@ import static org.junit.Assert.fail;
 import java.util.ArrayList;
 
 import org.junit.Test;
+import org.onap.policy.models.pdp.concepts.Pdp;
+import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
+import org.onap.policy.models.pdp.concepts.PdpStatistics;
+import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderFactory;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyInput;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
@@ -74,11 +79,17 @@ public class DummyPolicyModelsProviderTest {
         dummyProvider.init();
 
         assertNotNull(dummyProvider.getPolicyTypes("name", "version"));
+        assertNotNull(dummyProvider.getFilteredPolicyTypes(ToscaPolicyTypeFilter.builder().build()));
+        assertNotNull(dummyProvider.getPolicyTypeList("name", "version"));
+        assertNotNull(dummyProvider.getFilteredPolicyTypeList(ToscaPolicyTypeFilter.builder().build()));
         assertNotNull(dummyProvider.createPolicyTypes(new ToscaServiceTemplate()));
         assertNotNull(dummyProvider.updatePolicyTypes(new ToscaServiceTemplate()));
         assertNotNull(dummyProvider.deletePolicyType("name", "version"));
 
         assertNotNull(dummyProvider.getPolicies("name", "version"));
+        assertNotNull(dummyProvider.getFilteredPolicies(ToscaPolicyFilter.builder().build()));
+        assertNotNull(dummyProvider.getPolicyList("name", "version"));
+        assertNotNull(dummyProvider.getFilteredPolicyList(ToscaPolicyFilter.builder().build()));
         assertNotNull(dummyProvider.createPolicies(new ToscaServiceTemplate()));
         assertNotNull(dummyProvider.updatePolicies(new ToscaServiceTemplate()));
         assertNotNull(dummyProvider.deletePolicy("name", "version"));
@@ -94,46 +105,15 @@ public class DummyPolicyModelsProviderTest {
         assertNotNull(dummyProvider.deleteGuardPolicy("policy_id"));
 
         assertTrue(dummyProvider.getPdpGroups("name", "version").isEmpty());
+        assertTrue(dummyProvider.getFilteredPdpGroups(PdpGroupFilter.builder().build()).isEmpty());
         assertTrue(dummyProvider.createPdpGroups(new ArrayList<>()).isEmpty());
         assertTrue(dummyProvider.updatePdpGroups(new ArrayList<>()).isEmpty());
         assertNull(dummyProvider.deletePdpGroup("name", "version"));
 
-
-        assertThatThrownBy(() -> {
-            dummyProvider.getOperationalPolicy(null);
-        }).hasMessage("policyId is marked @NonNull but is null");
-        assertThatThrownBy(() -> {
-            dummyProvider.createOperationalPolicy(null);
-        }).hasMessage("legacyOperationalPolicy is marked @NonNull but is null");
-        assertThatThrownBy(() -> {
-            dummyProvider.updateOperationalPolicy(null);
-        }).hasMessage("legacyOperationalPolicy is marked @NonNull but is null");
-        assertThatThrownBy(() -> {
-            dummyProvider.deleteOperationalPolicy(null);
-        }).hasMessage("policyId is marked @NonNull but is null");
-
-        assertThatThrownBy(() -> {
-            dummyProvider.getGuardPolicy(null);
-        }).hasMessage("policyId is marked @NonNull but is null");
-        assertThatThrownBy(() -> {
-            dummyProvider.createGuardPolicy(null);
-        }).hasMessage("legacyGuardPolicy is marked @NonNull but is null");
-        assertThatThrownBy(() -> {
-            dummyProvider.updateGuardPolicy(null);
-        }).hasMessage("legacyGuardPolicy is marked @NonNull but is null");
-        assertThatThrownBy(() -> {
-            dummyProvider.deleteGuardPolicy(null);
-        }).hasMessage("policyId is marked @NonNull but is null");
-
-        assertThatThrownBy(() -> {
-            dummyProvider.createPdpGroups(null);
-        }).hasMessage("pdpGroups is marked @NonNull but is null");
-        assertThatThrownBy(() -> {
-            dummyProvider.updatePdpGroups(null);
-        }).hasMessage("pdpGroups is marked @NonNull but is null");
-        assertThatThrownBy(() -> {
-            dummyProvider.deletePdpGroup(null, null);
-        }).hasMessage("name is marked @NonNull but is null");
+        dummyProvider.updatePdpSubGroup("name", "version", new PdpSubGroup());
+        dummyProvider.updatePdp("name", "version", "type", new Pdp());
+        dummyProvider.updatePdpStatistics("name", "version", "type", "type-0", new PdpStatistics());
+        assertTrue(dummyProvider.getPdpStatistics("name", "version").isEmpty());
 
         dummyProvider.close();
     }
@@ -159,7 +139,7 @@ public class DummyPolicyModelsProviderTest {
             resp.getBadDummyResponse2();
             fail("test should throw an exception");
         } catch (Exception npe) {
-            assertEquals("fileName is marked @NonNull but is null", npe.getMessage());
+            assertEquals("error serializing object", npe.getMessage());
         } finally {
             if (resp != null) {
                 resp.close();

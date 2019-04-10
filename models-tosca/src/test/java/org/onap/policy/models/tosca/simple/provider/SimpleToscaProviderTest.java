@@ -20,6 +20,7 @@
 
 package org.onap.policy.models.tosca.simple.provider;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -92,13 +93,6 @@ public class SimpleToscaProviderTest {
 
     @Test
     public void testPoliciesGet() throws Exception {
-        try {
-            new SimpleToscaProvider().getPolicies(null, null, null);
-            fail("test should throw an exception here");
-        } catch (Exception exc) {
-            assertEquals("dao is marked @NonNull but is null", exc.getMessage());
-        }
-
         ToscaServiceTemplate toscaServiceTemplate = standardCoder.decode(
                 ResourceUtils.getResourceAsString("policies/vCPE.policy.monitoring.input.tosca.json"),
                 ToscaServiceTemplate.class);
@@ -124,27 +118,6 @@ public class SimpleToscaProviderTest {
 
     @Test
     public void testPolicyCreate() throws Exception {
-        try {
-            new SimpleToscaProvider().createPolicies(null, null);
-            fail("test should throw an exception here");
-        } catch (Exception exc) {
-            assertEquals("dao is marked @NonNull but is null", exc.getMessage());
-        }
-
-        try {
-            new SimpleToscaProvider().createPolicies(null, new JpaToscaServiceTemplate());
-            fail("test should throw an exception here");
-        } catch (Exception exc) {
-            assertEquals("dao is marked @NonNull but is null", exc.getMessage());
-        }
-
-        try {
-            new SimpleToscaProvider().createPolicies(pfDao, null);
-            fail("test should throw an exception here");
-        } catch (Exception exc) {
-            assertEquals("serviceTemplate is marked @NonNull but is null", exc.getMessage());
-        }
-
         ToscaServiceTemplate toscaServiceTemplate = standardCoder.decode(
                 ResourceUtils.getResourceAsString("policies/vCPE.policy.monitoring.input.tosca.json"),
                 ToscaServiceTemplate.class);
@@ -161,27 +134,6 @@ public class SimpleToscaProviderTest {
 
     @Test
     public void testPolicyUpdate() throws Exception {
-        try {
-            new SimpleToscaProvider().updatePolicies(null, null);
-            fail("test should throw an exception here");
-        } catch (Exception exc) {
-            assertEquals("dao is marked @NonNull but is null", exc.getMessage());
-        }
-
-        try {
-            new SimpleToscaProvider().updatePolicies(null, new JpaToscaServiceTemplate());
-            fail("test should throw an exception here");
-        } catch (Exception exc) {
-            assertEquals("dao is marked @NonNull but is null", exc.getMessage());
-        }
-
-        try {
-            new SimpleToscaProvider().updatePolicies(pfDao, null);
-            fail("test should throw an exception here");
-        } catch (Exception exc) {
-            assertEquals("serviceTemplate is marked @NonNull but is null", exc.getMessage());
-        }
-
         ToscaServiceTemplate toscaServiceTemplate = standardCoder.decode(
                 ResourceUtils.getResourceAsString("policies/vCPE.policy.monitoring.input.tosca.json"),
                 ToscaServiceTemplate.class);
@@ -198,27 +150,6 @@ public class SimpleToscaProviderTest {
 
     @Test
     public void testPoliciesDelete() throws Exception {
-        try {
-            new SimpleToscaProvider().deletePolicy(null, null);
-            fail("test should throw an exception here");
-        } catch (Exception exc) {
-            assertEquals("dao is marked @NonNull but is null", exc.getMessage());
-        }
-
-        try {
-            new SimpleToscaProvider().deletePolicy(null, new PfConceptKey());
-            fail("test should throw an exception here");
-        } catch (Exception exc) {
-            assertEquals("dao is marked @NonNull but is null", exc.getMessage());
-        }
-
-        try {
-            new SimpleToscaProvider().deletePolicy(pfDao, null);
-            fail("test should throw an exception here");
-        } catch (Exception exc) {
-            assertEquals("policyKey is marked @NonNull but is null", exc.getMessage());
-        }
-
         ToscaServiceTemplate toscaServiceTemplate = standardCoder.decode(
                 ResourceUtils.getResourceAsString("policies/vCPE.policy.monitoring.input.tosca.json"),
                 ToscaServiceTemplate.class);
@@ -271,6 +202,88 @@ public class SimpleToscaProviderTest {
             assertEquals("list of policies specified on topology template of service template is empty",
                     exc.getMessage());
         }
+    }
 
+    @Test
+    public void testNonNulls() {
+        assertThatThrownBy(() -> {
+            new SimpleToscaProvider().getPolicyTypes(null, null, null);
+        }).hasMessage("dao is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            new SimpleToscaProvider().createPolicyTypes(null, null);
+        }).hasMessage("dao is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            new SimpleToscaProvider().createPolicyTypes(null, new JpaToscaServiceTemplate());
+        }).hasMessage("dao is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            new SimpleToscaProvider().createPolicyTypes(pfDao, null);
+        }).hasMessage("serviceTemplate is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            new SimpleToscaProvider().updatePolicyTypes(null, null);
+        }).hasMessage("dao is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            new SimpleToscaProvider().updatePolicyTypes(null, new JpaToscaServiceTemplate());
+        }).hasMessage("dao is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            new SimpleToscaProvider().updatePolicyTypes(pfDao, null);
+        }).hasMessage("serviceTemplate is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            new SimpleToscaProvider().deletePolicyType(null, null);
+        }).hasMessage("dao is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            new SimpleToscaProvider().deletePolicyType(null, new PfConceptKey());
+        }).hasMessage("dao is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            new SimpleToscaProvider().deletePolicyType(pfDao, null);
+        }).hasMessage("policyTypeKey is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            new SimpleToscaProvider().getPolicies(null, null, null);
+        }).hasMessage("dao is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            new SimpleToscaProvider().createPolicies(null, null);
+        }).hasMessage("dao is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            new SimpleToscaProvider().createPolicies(null, new JpaToscaServiceTemplate());
+        }).hasMessage("dao is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            new SimpleToscaProvider().createPolicies(pfDao, null);
+        }).hasMessage("serviceTemplate is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            new SimpleToscaProvider().updatePolicies(null, null);
+        }).hasMessage("dao is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            new SimpleToscaProvider().updatePolicies(null, new JpaToscaServiceTemplate());
+        }).hasMessage("dao is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            new SimpleToscaProvider().updatePolicies(pfDao, null);
+        }).hasMessage("serviceTemplate is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            new SimpleToscaProvider().deletePolicy(null, null);
+        }).hasMessage("dao is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            new SimpleToscaProvider().deletePolicy(null, new PfConceptKey());
+        }).hasMessage("dao is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            new SimpleToscaProvider().deletePolicy(pfDao, null);
+        }).hasMessage("policyKey is marked @NonNull but is null");
     }
 }

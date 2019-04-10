@@ -18,36 +18,28 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.models.tosca.simple.concepts.testconcepts;
+package org.onap.policy.models.tosca.utils;
 
-import org.onap.policy.models.tosca.authorative.concepts.ToscaConstraint;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaConstraint;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import org.junit.Test;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyTypes;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
 
 /**
- * Dummy constraint to test abstract ToscaConstraint class.
+ * Import the {@link ToscaUtils} class.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class DummyToscaConstraint extends JpaToscaConstraint {
-    private static final long serialVersionUID = 1L;
+public class ToscaUtilsTest {
 
-    /**
-     * The Default Constructor creates a {@link DummyToscaConstraint} object with a null key.
-     */
-    public DummyToscaConstraint() {
-    }
+    @Test
+    public void test() {
+        JpaToscaServiceTemplate jpaToscaServiceTemplate = new JpaToscaServiceTemplate();
+        jpaToscaServiceTemplate.setPolicyTypes(new JpaToscaPolicyTypes());
 
-    @Override
-    public ToscaConstraint toAuthorative() {
-        return null;
-    }
-
-    @Override
-    public void fromAuthorative(ToscaConstraint authorativeConcept) {
-    }
-
-    @Override
-    public int compareTo(JpaToscaConstraint otherConstraint) {
-        return 0;
+        assertThatThrownBy(() -> {
+            ToscaUtils.assertPolicyTypesExist(jpaToscaServiceTemplate);
+        }).hasMessage("list of policy types specified on service template is empty");
     }
 }

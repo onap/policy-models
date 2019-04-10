@@ -44,9 +44,19 @@ public class TestPojos {
 
     @Test
     public void testPojos() {
-        final Validator validator = ValidatorBuilder.create().with(new ToStringTester())
-                .with(new SetterMustExistRule()).with(new GetterMustExistRule()).with(new SetterTester())
-                .with(new GetterTester()).build();
-        validator.validate(POJO_PACKAGE, new FilterPackageInfo());
+        // @formatter:off
+        final Validator validator = ValidatorBuilder
+                .create()
+                .with(new ToStringTester())
+                .with(new SetterMustExistRule())
+                .with(new GetterMustExistRule())
+                .with(new SetterTester())
+                .with(new GetterTester())
+                .build();
+        validator.validate(POJO_PACKAGE,
+                new FilterPackageInfo()
+        );
+
+        // @formatter:on
     }
 }

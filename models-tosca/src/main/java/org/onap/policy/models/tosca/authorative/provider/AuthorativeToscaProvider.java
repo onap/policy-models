@@ -276,10 +276,6 @@ public class AuthorativeToscaProvider {
      * @return the plain list
      */
     private <T> List<T> asConceptList(final List<Map<String, T>> listOfMaps) {
-        if (listOfMaps == null) {
-            return Collections.emptyList();
-        }
-
         List<T> returnList = new ArrayList<>();
         for (Map<String, T> conceptMap : listOfMaps) {
             for (T concept : conceptMap.values()) {
