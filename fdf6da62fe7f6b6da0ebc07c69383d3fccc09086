@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d27f0eb_a3332a34",
+        "filename": "models-interactions/model-actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SoActorServiceProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 4341
+      },
+      "writtenOn": "2019-04-10T01:46:49Z",
+      "side": 1,
+      "message": "FYI Dublin introduces v15 and v16 API versions.\nAccording to the wiki v16 is preferred.\nhttps://wiki.onap.org/display/DW/AAI+REST+API+Documentation+-+Dublin",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 45
+      },
+      "revId": "fdf6da62fe7f6b6da0ebc07c69383d3fccc09086",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39ef3767_2274d9e9",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/AaiCqResponse.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 4341
+      },
+      "writtenOn": "2019-04-10T01:46:49Z",
+      "side": 1,
+      "message": "FYI Dublin introduces v15 and v16 API versions.\nAccording to the wiki v16 is preferred.\nhttps://wiki.onap.org/display/DW/AAI+REST+API+Documentation+-+Dublin",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 44
+      },
+      "revId": "fdf6da62fe7f6b6da0ebc07c69383d3fccc09086",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6182e1fa_9b662fc2",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/AaiManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 4341
+      },
+      "writtenOn": "2019-04-10T01:46:49Z",
+      "side": 1,
+      "message": "hard-coded API versions are not advisable as they may be deprecated/removed. In this case, v11 is supported but out-of-date, so it won\u0027t see the latest schema and EdgeRules.\n\nFYI Dublin introduces v15 and v16 API versions.\nAccording to the wiki v16 is preferred.\nhttps://wiki.onap.org/display/DW/AAI+REST+API+Documentation+-+Dublin",
+      "range": {
+        "startLine": 80,
+        "startChar": 48,
+        "endLine": 80,
+        "endChar": 58
+      },
+      "revId": "fdf6da62fe7f6b6da0ebc07c69383d3fccc09086",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f9091bb_6e2d3199",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/AaiManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 4341
+      },
+      "writtenOn": "2019-04-10T01:46:49Z",
+      "side": 1,
+      "message": "same as above",
+      "range": {
+        "startLine": 104,
+        "startChar": 31,
+        "endLine": 104,
+        "endChar": 40
+      },
+      "revId": "fdf6da62fe7f6b6da0ebc07c69383d3fccc09086",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95cc4991_a9945e6e",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/AaiManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 4341
+      },
+      "writtenOn": "2019-04-10T01:46:49Z",
+      "side": 1,
+      "message": "same as above",
+      "range": {
+        "startLine": 126,
+        "startChar": 21,
+        "endLine": 126,
+        "endChar": 30
+      },
+      "revId": "fdf6da62fe7f6b6da0ebc07c69383d3fccc09086",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73706766_29338175",
+        "filename": "models-interactions/model-impl/aai/src/test/java/org/onap/policy/aai/AaiCqResponseTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 4341
+      },
+      "writtenOn": "2019-04-10T01:46:49Z",
+      "side": 1,
+      "message": "FYI Dublin introduces v15 and v16 API versions.\nAccording to the wiki v16 is preferred.\nhttps://wiki.onap.org/display/DW/AAI+REST+API+Documentation+-+Dublin",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 44
+      },
+      "revId": "fdf6da62fe7f6b6da0ebc07c69383d3fccc09086",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
