@@ -27,7 +27,7 @@ public enum TargetType {
     PNF("PNF"),
     VFC("VFC"),
     VNF("VNF"),
-    VFMODULE("VFModule")
+    VFMODULE("VFMODULE")
     ;
 
     private String target;
