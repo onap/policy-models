@@ -8,9 +8,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,10 +27,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.UUID;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -50,7 +50,7 @@ public class AaiSimulatorJaxRs {
 
     /**
      * A&AI get query.
-     * 
+     *
      * @param vnfId the VNF Id
      * @return the result
      */
@@ -65,8 +65,40 @@ public class AaiSimulatorJaxRs {
     }
 
     /**
+     * A&AI get query.
+     *
+     * @return the result
+     */
+    @GET
+    @Path("/v16/search/nodes-query")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces("application/json")
+    public String aaiGetVserverQuery() {
+        return "{\"result-data\":[{\"resource-type\": \"vserver\",\"resource-link\":\"/aai/v15/"
+                + "cloud-infrastructure/cloud-regions/cloud-region/CloudOwner/RegionOne/tenants"
+                + "/tenant/3f2aaef74ecb4b19b35e26d0849fe9a2/vservers/vserver/"
+                + "6c3b3714-e36c-45af-9f16-7d3a73d99497\"}]}}";
+    }
+
+
+    /**
+     * A&AI put query.
+     *
+     * @param req the request
+     * @return the response
+     * @throws IOException if a response file cannot be read
+     */
+    @PUT
+    @Path("/v16/query")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces("application/json")
+    public String aaiPutQuery(final String req) throws IOException {
+        return IOUtils.toString(getClass().getResource("aai/AaiCqResponse.json"), StandardCharsets.UTF_8);
+    }
+
+    /**
      * A&AI post query.
-     * 
+     *
      * @param req the request
      * @return the response
      * @throws IOException if a response file cannot be read
@@ -82,7 +114,7 @@ public class AaiSimulatorJaxRs {
             final String vserverName =
                     request.getInstanceFilters().getInstanceFilter().get(0).get(VSERVER).get("vserver-name");
             if (ERROR.equals(vserverName)) {
-                Map<String,String> params = new TreeMap<>();
+                Map<String, String> params = new TreeMap<>();
                 params.put("type", VSERVER);
                 return load("aai/AaiNqResponse-Error.json", params);
             } else {
@@ -94,7 +126,7 @@ public class AaiSimulatorJaxRs {
             final String vnfId =
                     request.getInstanceFilters().getInstanceFilter().get(0).get("generic-vnf").get("vnf-id");
             if (ERROR.equals(vnfId)) {
-                Map<String,String> params = new TreeMap<>();
+                Map<String, String> params = new TreeMap<>();
                 params.put("type", "generic-vnf");
                 return load("aai/AaiNqResponse-Error.json", params);
             } else {
@@ -105,7 +137,7 @@ public class AaiSimulatorJaxRs {
                 params.put("pnfVnfId", getUuidValue(params.get("pnfVndName"), "jimmy-test"));
 
                 params.put("serviceInstanceVnfName", "service-instance-test-" + vnfId);
-                params.put("serviceInstanceVnfId", 
+                params.put("serviceInstanceVnfId",
                         getUuidValue(params.get("serviceInstanceVnfName"), "jimmy-test-vnf2"));
 
                 return load("aai/AaiNqResponse-GenericVnf.json", params);
@@ -115,7 +147,7 @@ public class AaiSimulatorJaxRs {
 
     /**
      * Get by VNF name.
-     * 
+     *
      * @param vnfName the VNF name
      * @return the response
      */
@@ -190,7 +222,7 @@ public class AaiSimulatorJaxRs {
 
     /**
      * Get by VNF Id.
-     * 
+     *
      * @param vnfId the VNF Id
      * @return the response
      */
@@ -212,9 +244,9 @@ public class AaiSimulatorJaxRs {
                 + "d7bb0a21-66f2-4e6d-87d9-9ef3ced63ae4\", \"equipment-role\": \"UCPE\", \"orchestration-status"
                 + "\": \"created\", \"management-option\": \"ATT\", \"ipv4-oam-address\": \"32.40.68.35\", \""
                 + "ipv4-loopback0-address\": \"32.40.64.57\", \"nm-lan-v6-address\": \"2001:1890:e00e:fffe::1345"
-                + "\", \"management-v6-address\": \"2001:1890:e00e:fffd::36\", \"in-maint\": false, " 
-                + "\"prov-status\":\"ACTIVE\", \"" + ""
-                + "is-closed-loop-disabled\": " + isDisabled + ", \"resource-version\": \"1493389458092\", \""
+                + "\", \"management-v6-address\": \"2001:1890:e00e:fffd::36\", \"in-maint\": false, "
+                + "\"prov-status\":\"ACTIVE\", \"" + "" + "is-closed-loop-disabled\": " + isDisabled
+                + ", \"resource-version\": \"1493389458092\", \""
                 + "relationship-list\": {\"relationship\":[{ \"related-to\": \"service-instance\", \"related-link"
                 + "\": \"/aai/v11/business/customers/customer/1610_Func_Global_20160817084727/service-subscriptions"
                 + "/service-subscription/uCPE-VMS/service-instances/service-instance/USUCP0PCOIL0110UJZZ01\", \""
@@ -236,7 +268,7 @@ public class AaiSimulatorJaxRs {
 
     /**
      * Get by VServer name.
-     * 
+     *
      * @param vserverName the VServer name
      * @return the response
      */
@@ -254,8 +286,7 @@ public class AaiSimulatorJaxRs {
         final String vserverId = getUuidValue(vserverName, "d0668d4f-c25e-4a1b-87c4-83845c01efd8");
         return "{\"vserver\": [{ \"vserver-id\": \"" + vserverId + "\", \"vserver-name\": \"" + vserverName
                 + "\", \"vserver-name2\": \"vjunos0\", \"vserver-selflink\": \"https://aai-ext1.test.att.com:8443/aai/v7/cloud-infrastructure/cloud-regions/cloud-region/att-aic/AAIAIC25/tenants/tenant/USMSO1SX7NJ0103UJZZ01%3A%3AuCPE-VMS/vservers/vserver/d0668d4f-c25e-4a1b-87c4-83845c01efd8\", \"in-maint\": false, \"is-closed-loop-disabled\": "
-                + isDisabled
-                + ", \"prov-status\":\"ACTIVE\", \"resource-version\": \"1494001931513\", " 
+                + isDisabled + ", \"prov-status\":\"ACTIVE\", \"resource-version\": \"1494001931513\", "
                 + "\"relationship-list\": {\"relationship\":[{ \"related-to"
                 + "\": \"generic-vnf\", \"related-link\": \"/aai/v11/network/generic-vnfs/generic-vnf/"
                 + "e1a41e99-4ede-409a-8f9d-b5e12984203a\", \"relationship-data\": [ {\"relationship-key\": \""
@@ -272,9 +303,8 @@ public class AaiSimulatorJaxRs {
     }
 
     /**
-     * Loads a JSON response from a file and then replaces parameters of the form, ${xxx},
-     * with values.
-     * 
+     * Loads a JSON response from a file and then replaces parameters of the form, ${xxx}, with values.
+     *
      * @param fileName name of the file containing the JSON
      * @param params parameters to be substituted
      * @return the JSON response, after parameter substitution
