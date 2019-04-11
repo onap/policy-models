@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c8e64fe_95cf984f",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProviderPolicyTypeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-11T23:03:26Z",
+      "side": 1,
+      "message": "or you left these for a reason? For debugging?",
+      "range": {
+        "startLine": 99,
+        "startChar": 8,
+        "endLine": 100,
+        "endChar": 113
+      },
+      "revId": "3f6ea83bc56443ed4a025a19134ff06a8a7830c0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a42698da_4708068e",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/legacy/provider/LegacyProvider4LegacyGuardTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-11T23:03:26Z",
+      "side": 1,
+      "message": "this is commented out - remove at some point",
+      "range": {
+        "startLine": 75,
+        "startChar": 8,
+        "endLine": 76,
+        "endChar": 113
+      },
+      "revId": "3f6ea83bc56443ed4a025a19134ff06a8a7830c0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2f10fc0_12244f67",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/legacy/provider/LegacyProvider4LegacyOperationalTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-11T23:03:26Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 71,
+        "startChar": 8,
+        "endLine": 72,
+        "endChar": 113
+      },
+      "revId": "3f6ea83bc56443ed4a025a19134ff06a8a7830c0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d77bb816_6009146b",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/provider/SimpleToscaProviderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-11T23:03:26Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 78,
+        "startChar": 8,
+        "endLine": 79,
+        "endChar": 113
+      },
+      "revId": "3f6ea83bc56443ed4a025a19134ff06a8a7830c0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
