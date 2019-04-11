@@ -41,6 +41,12 @@ import org.onap.policy.models.pdp.enums.PdpState;
 @Data
 @NoArgsConstructor
 public class PdpGroup implements PfNameVersion, Comparable<PdpGroup> {
+    /**
+     * In the future, we'll eliminate the "version" field. Until then, the version of
+     * every group should always be this fixed value.
+     */
+    public static final String VERSION = "1.0.0";
+
     private String name;
     private String version;
     private String description;
