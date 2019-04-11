@@ -20,6 +20,7 @@
 
 package org.onap.policy.models.tosca.authorative.concepts;
 
+import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -32,8 +33,10 @@ import lombok.NonNull;
 public class ToscaPolicyIdentifierOptVersion {
 
     @NonNull
+    @SerializedName("policy-id")
     private String name;
 
+    @SerializedName("policy-version")
     private String version;
 
 
