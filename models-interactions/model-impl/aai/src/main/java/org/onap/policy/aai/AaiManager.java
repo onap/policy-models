@@ -50,9 +50,10 @@ public final class AaiManager {
     private final RestManager restManager;
 
     /** custom query URLs. */
-    private static String cqUrl =  "/aai/v16/query?format=resource";
-    private static String tenantUrl = "/aai/v16/search/nodes-query?search-node-type=vserver&filter=vserver-name:";
-    private static String prefix = "/aai/v16";
+    private static final String CQ_URL = "/aai/v16/query?format=resource";
+    private static final String TENANT_URL =
+            "/aai/v16/search/nodes-query?search-node-type=vserver&filter=vserver-name:EQUALS:";
+    private static final String PREFIX = "/aai/v16";
 
 
     /**
@@ -83,7 +84,7 @@ public final class AaiManager {
                 return null;
             }
             String resourceLink = resultsArray.getJSONObject(0).getString("resource-link");
-            String start = resourceLink.replace(prefix, "");
+            String start = resourceLink.replace(PREFIX, "");
             String query = "query/closed-loop";
             JSONObject payload = new JSONObject();
             payload.put("start", start);
@@ -107,7 +108,8 @@ public final class AaiManager {
     private String getCustomQueryRequestPayload(String url, String username, String password, UUID requestId,
             String vserver) {
 
-        String urlGet = url + tenantUrl;
+        String urlGet = url + TENANT_URL;
+
         String getResponse = getStringQuery(urlGet, username, password, requestId, vserver);
         return createCustomQueryPayload(getResponse);
     }
@@ -129,11 +131,12 @@ public final class AaiManager {
 
         final Map<String, String> headers = createHeaders(requestId);
 
-        url = url + cqUrl;
-
         logger.debug("RestManager.put before");
         String requestJson = getCustomQueryRequestPayload(url, username, password, requestId, vserver);
         NetLoggerUtil.log(EventType.OUT, CommInfrastructure.REST, url, requestJson);
+
+        url = url + CQ_URL;
+
         Pair<Integer, String> httpDetails =
                 this.restManager.put(url, username, password, headers, "application/json", requestJson);
         logger.debug("RestManager.put after");

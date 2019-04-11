@@ -21,6 +21,7 @@
 
 package org.onap.policy.simulators;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -31,10 +32,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.aai.AaiGetVnfResponse;
 import org.onap.policy.aai.AaiManager;
 import org.onap.policy.aai.AaiNqInstanceFilters;
@@ -74,6 +75,14 @@ public class AaiSimulatorTest {
     }
 
     @Test
+    public void testCqGet() {
+        final AaiCqResponse response = new AaiManager(new RestManager()).getCustomQueryResponse("http://localhost:6666",
+                "testUser", "testPass", UUID.randomUUID(), "vfw-vm-0201-2");
+        assertNotNull(response);
+        assertEquals(response.getVserver().getVserverName(), "vfw-vm-0201-2");
+    }
+
+    @Test
     public void testPost() {
         // check vserver named query
         final AaiNqRequest request = new AaiNqRequest();
@@ -96,7 +105,7 @@ public class AaiSimulatorTest {
                 "testPass", request, UUID.randomUUID());
         assertNotNull(response);
         assertNotNull(response.getInventoryResponseItems());
-        
+
         // check error response for vserver query
         tempInnerMap.put("vserver-name", "error");
 
@@ -125,7 +134,7 @@ public class AaiSimulatorTest {
         assertNotNull(response);
         assertNotNull(response.getInventoryResponseItems());
         assertNull(response.getRequestError());
-        
+
         // check error response for generic-vnf query
         tempInnerMap.put("vnf-id", "error");
 
