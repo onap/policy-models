@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6cda7792_501548d6",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/AaiManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-04-11T15:08:06Z",
+      "side": 1,
+      "message": "You could make these \"final\" and we usually follow the convention that static final literal Strings variable names are all caps, ie. CQURL or CQ_URL.",
+      "revId": "99ffb25603578aaf88a55416e132ba58a56e41ff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "34df94ab_568d13d4",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/AaiManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-04-11T15:08:06Z",
+      "side": 1,
+      "message": "you can put the 2 logger statements into one, better, and save 1 line of real state in the log file,",
+      "revId": "99ffb25603578aaf88a55416e132ba58a56e41ff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d728f33_daebbcd5",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/AaiSimulatorJaxRs.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-04-11T15:08:06Z",
+      "side": 1,
+      "message": "cool, this is much better than the other methods, read it from a file, that with the literal string as the other methods were coded up.   \n\nMinor comment, you could make it 1 statement, just return in the same line.",
+      "revId": "99ffb25603578aaf88a55416e132ba58a56e41ff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
