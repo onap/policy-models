@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f3058eab_fc499c5d",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/legacy/provider/LegacyProvider4LegacyOperationalTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-11T16:23:00Z",
+      "side": 1,
+      "message": "fyi: there are constants defined in the persistence api somewhere for these property names",
+      "revId": "d010fb918de5215fd5ff9219041ea11c77a4059a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
