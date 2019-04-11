@@ -36,6 +36,7 @@ public class PolicyModelsProviderParametersTest {
     @Test
     public void testParameters() {
         PolicyModelsProviderParameters pars = new PolicyModelsProviderParameters();
+        pars.setDatabaseDriver("MichaelsShumacher");
         pars.setDatabaseUrl("jdbc://www.acmecorp/roadrunner");
         pars.setPersistenceUnit("WileECoyote");
 

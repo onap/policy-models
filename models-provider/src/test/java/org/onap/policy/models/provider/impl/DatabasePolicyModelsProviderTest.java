@@ -66,11 +66,11 @@ public class DatabasePolicyModelsProviderTest {
     @Before
     public void setupParameters() {
         parameters = new PolicyModelsProviderParameters();
+        parameters.setDatabaseDriver("org.h2.Driver");
         parameters.setDatabaseUrl("jdbc:h2:mem:testdb");
         parameters.setDatabaseUser("policy");
         parameters.setDatabasePassword(Base64.getEncoder().encodeToString("P01icY".getBytes()));
         parameters.setPersistenceUnit("ToscaConceptTest");
-
     }
 
     @Test
@@ -84,27 +84,21 @@ public class DatabasePolicyModelsProviderTest {
 
         parameters.setDatabaseUrl("jdbc://www.acmecorp.nonexist");
 
-        assertThatThrownBy(() -> {
-            databaseProvider.close();
-            databaseProvider.init();
-        }).hasMessage("could not connect to database with URL \"jdbc://www.acmecorp.nonexist\"");
-
-        parameters.setDatabaseUrl("jdbc:h2:mem:testdb");
-
         try {
-            databaseProvider.init();
             databaseProvider.close();
+            databaseProvider.init();
         } catch (Exception pfme) {
             fail("test shold not throw an exception here");
         }
+        databaseProvider.close();
+
+        parameters.setDatabaseUrl("jdbc:h2:mem:testdb");
 
         parameters.setPersistenceUnit("WileECoyote");
 
-        String errorMessage = "could not create Data Access Object (DAO) using url "
-                + "\"jdbc:h2:mem:testdb\" and persistence unit \"WileECoyote\"";
         assertThatThrownBy(() -> {
             databaseProvider.init();
-        }).hasMessage(errorMessage);
+        }).hasMessageContaining("could not create Data Access Object (DAO)");
 
         parameters.setPersistenceUnit("ToscaConceptTest");
 
@@ -112,6 +106,7 @@ public class DatabasePolicyModelsProviderTest {
             databaseProvider.init();
             databaseProvider.close();
         } catch (Exception pfme) {
+            pfme.printStackTrace();
             fail("test shold not throw an exception here");
         }
 
@@ -131,13 +126,6 @@ public class DatabasePolicyModelsProviderTest {
         } catch (Exception pfme) {
             fail("test shold not throw an exception here");
         }
-
-        assertThatThrownBy(() -> {
-            DatabasePolicyModelsProviderImpl databaseProviderImpl = (DatabasePolicyModelsProviderImpl) databaseProvider;
-            databaseProvider.init();
-            databaseProviderImpl.setConnection(new DummyConnection());
-            databaseProvider.close();
-        }).hasMessage("could not close connection to database with URL \"jdbc:h2:mem:testdb\"");
     }
 
     @Test

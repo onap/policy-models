@@ -26,16 +26,13 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.UUID;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
@@ -49,22 +46,19 @@ import org.onap.policy.models.dao.impl.DefaultPfDao;
  * JUnit test class.
  */
 public class EntityTest {
-    private Connection connection;
     private PfDao pfDao;
-
-    @Before
-    public void setup() throws Exception {
-        connection = DriverManager.getConnection("jdbc:h2:mem:test");
-    }
-
-    @After
-    public void teardown() throws Exception {
-        connection.close();
-    }
 
     @Test
     public void testEntityTestSanity() throws PfModelException {
         final DaoParameters daoParameters = new DaoParameters();
+
+        Properties jdbcProperties = new Properties();
+        jdbcProperties.setProperty("javax.persistence.jdbc.driver", "org.h2.Driver");
+        jdbcProperties.setProperty("javax.persistence.jdbc.url", "jdbc:h2:mem:testdb");
+        jdbcProperties.setProperty("javax.persistence.jdbc.user", "sa");
+        jdbcProperties.setProperty("javax.persistence.jdbc.password", "");
+
+        daoParameters.setJdbcProperties(jdbcProperties);
 
         pfDao = new PfDaoFactory().createPfDao(daoParameters);
 
@@ -101,9 +95,18 @@ public class EntityTest {
 
     @Test
     public void testEntityTestAllOpsJpa() throws PfModelException {
+
         final DaoParameters daoParameters = new DaoParameters();
         daoParameters.setPluginClass(DefaultPfDao.class.getCanonicalName());
         daoParameters.setPersistenceUnit("DaoTest");
+
+        Properties jdbcProperties = new Properties();
+        jdbcProperties.setProperty("javax.persistence.jdbc.driver", "org.h2.Driver");
+        jdbcProperties.setProperty("javax.persistence.jdbc.url", "jdbc:h2:mem:testdb");
+        jdbcProperties.setProperty("javax.persistence.jdbc.user", "sa");
+        jdbcProperties.setProperty("javax.persistence.jdbc.password", "");
+
+        daoParameters.setJdbcProperties(jdbcProperties);
 
         pfDao = new PfDaoFactory().createPfDao(daoParameters);
         pfDao.init(daoParameters);

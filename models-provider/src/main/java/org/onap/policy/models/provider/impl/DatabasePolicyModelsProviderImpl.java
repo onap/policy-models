@@ -20,11 +20,10 @@
 
 package org.onap.policy.models.provider.impl;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.ws.rs.core.Response;
 
@@ -64,12 +63,20 @@ import org.slf4j.LoggerFactory;
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultPfDao.class);
+
+    // Constants for persistence properties
+    // @formatter:off
+    private static final String JAVAX_PERSISTENCE_JDBC_DRIVER = "javax.persistence.jdbc.driver";
+    private static final String JAVAX_PERSISTENCE_JDBC_URL    = "javax.persistence.jdbc.url";
+    private static final String JAVAX_PERSISTENCE_JDBC_USER   = "javax.persistence.jdbc.user";
+    private static final String JAVAX_PERSISTENCE_JDBC_PWORD  = "javax.persistence.jdbc.password";
+    // @formatter:on
 
     private final PolicyModelsProviderParameters parameters;
 
     // Database connection and the DAO for reading and writing Policy Framework concepts
-    private Connection connection;
     private PfDao pfDao;
 
     /**
@@ -86,23 +93,10 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
         LOGGER.debug("opening the database connection to {} using persistence unit {}", parameters.getDatabaseUrl(),
                 parameters.getPersistenceUnit());
 
-        if (connection != null || pfDao != null) {
+        if (pfDao != null) {
             String errorMessage = "provider is already initialized";
             LOGGER.warn(errorMessage);
             throw new PfModelException(Response.Status.NOT_ACCEPTABLE, errorMessage);
-        }
-
-        // Decode the password using Base64
-        String decodedPassword = new String(Base64.getDecoder().decode(parameters.getDatabasePassword()));
-
-        // Connect to the database, call does not implement AutoCloseable for try-with-resources
-        try {
-            connection = DriverManager.getConnection(parameters.getDatabaseUrl(), parameters.getDatabaseUser(),
-                    decodedPassword);
-        } catch (Exception exc) {
-            String errorMessage = "could not connect to database with URL \"" + parameters.getDatabaseUrl() + "\"";
-            LOGGER.warn(errorMessage, exc);
-            throw new PfModelException(Response.Status.NOT_ACCEPTABLE, errorMessage, exc);
         }
 
         // Parameters for the DAO
@@ -110,6 +104,20 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
         daoParameters.setPluginClass(DefaultPfDao.class.getCanonicalName());
         daoParameters.setPersistenceUnit(parameters.getPersistenceUnit());
 
+        // Decode the password using Base64
+        String decodedPassword = new String(Base64.getDecoder().decode(parameters.getDatabasePassword()));
+
+        // @formatter:off
+        Properties jdbcProperties = new Properties();
+        jdbcProperties.setProperty(JAVAX_PERSISTENCE_JDBC_DRIVER, parameters.getDatabaseDriver());
+        jdbcProperties.setProperty(JAVAX_PERSISTENCE_JDBC_URL,    parameters.getDatabaseUrl());
+        jdbcProperties.setProperty(JAVAX_PERSISTENCE_JDBC_USER,   parameters.getDatabaseUser());
+        jdbcProperties.setProperty(JAVAX_PERSISTENCE_JDBC_PWORD,  decodedPassword);
+        // @formatter:on
+
+        daoParameters.setJdbcProperties(jdbcProperties);
+
+        pfDao = new PfDaoFactory().createPfDao(daoParameters);
         try {
             pfDao = new PfDaoFactory().createPfDao(daoParameters);
             pfDao.init(daoParameters);
@@ -131,20 +139,6 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
         if (pfDao != null) {
             pfDao.close();
             pfDao = null;
-        }
-
-        if (connection != null) {
-            try {
-                connection.close();
-            } catch (Exception exc) {
-
-                String errorMessage =
-                        "could not close connection to database with URL \"" + parameters.getDatabaseUrl() + "\"";
-                LOGGER.warn(errorMessage, exc);
-                throw new PfModelException(Response.Status.INTERNAL_SERVER_ERROR, errorMessage, exc);
-            } finally {
-                connection = null;
-            }
         }
 
         LOGGER.debug("closed the database connection to {} using persistence unit {}", parameters.getDatabaseUrl(),
@@ -328,8 +322,8 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public void updatePdp(@NonNull String pdpGroupName, @NonNull String pdpGroupVersion,
-            @NonNull String pdpSubGroup, @NonNull Pdp pdp) throws PfModelException {
+    public void updatePdp(@NonNull String pdpGroupName, @NonNull String pdpGroupVersion, @NonNull String pdpSubGroup,
+            @NonNull Pdp pdp) throws PfModelException {
         new PdpProvider().updatePdp(pfDao, pdpGroupName, pdpGroupVersion, pdpSubGroup, pdp);
     }
 
@@ -363,14 +357,5 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
             LOGGER.warn(errorMessage);
             throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
         }
-    }
-
-    /**
-     * Hook for unit test mocking of database connection.
-     *
-     * @param client the mocked client
-     */
-    protected void setConnection(final Connection connection) {
-        this.connection = connection;
     }
 }
