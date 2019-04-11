@@ -63,5 +63,12 @@ public class PolicyModelsProviderParametersTest {
         pars.setPersistenceUnit("WileECoyote");
         result = pars.validate();
         assertTrue(result.isValid());
+
+        pars.setDatabaseDriver(null);
+        result = pars.validate();
+        assertFalse(result.isValid());
+        pars.setDatabaseDriver("MichaelsShumacher");
+        result = pars.validate();
+        assertTrue(result.isValid());
     }
 }

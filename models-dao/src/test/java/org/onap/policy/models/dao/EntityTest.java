@@ -33,6 +33,8 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.UUID;
 
+import org.eclipse.persistence.config.PersistenceUnitProperties;
+import org.eclipse.persistence.internal.jpa.deployment.PersistenceUnitProcessor;
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
@@ -53,10 +55,12 @@ public class EntityTest {
         final DaoParameters daoParameters = new DaoParameters();
 
         Properties jdbcProperties = new Properties();
-        jdbcProperties.setProperty("javax.persistence.jdbc.driver", "org.h2.Driver");
-        jdbcProperties.setProperty("javax.persistence.jdbc.url", "jdbc:h2:mem:testdb");
-        jdbcProperties.setProperty("javax.persistence.jdbc.user", "sa");
-        jdbcProperties.setProperty("javax.persistence.jdbc.password", "");
+        // @formatter:off
+        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_DRIVER,   "org.h2.Driver");
+        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_URL,      "jdbc:h2:mem:testdb");
+        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_USER,     "sa");
+        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_PASSWORD, "");
+        // @formatter:on
 
         daoParameters.setJdbcProperties(jdbcProperties);
 
