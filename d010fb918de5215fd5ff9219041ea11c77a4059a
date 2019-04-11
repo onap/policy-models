@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "a5560274_c2522d03",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/impl/DatabasePolicyModelsProviderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-04-11T16:55:29Z",
+      "side": 1,
+      "message": "may be remove this",
+      "range": {
+        "startLine": 109,
+        "startChar": 12,
+        "endLine": 109,
+        "endChar": 35
+      },
+      "revId": "d010fb918de5215fd5ff9219041ea11c77a4059a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e722e24_af7abde4",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProviderPolicyTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-04-11T16:55:29Z",
+      "side": 1,
+      "message": "may be remove this",
+      "range": {
+        "startLine": 98,
+        "startChar": 8,
+        "endLine": 98,
+        "endChar": 29
+      },
+      "revId": "d010fb918de5215fd5ff9219041ea11c77a4059a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f3058eab_fc499c5d",
         "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/legacy/provider/LegacyProvider4LegacyOperationalTest.java",
         "patchSetId": 1
