@@ -50,8 +50,9 @@ public final class AaiManager {
     private final RestManager restManager;
 
     /** custom query URLs. */
-    private static String cqUrl =  "/aai/v16/query?format=resource";
-    private static String tenantUrl = "/aai/v16/search/nodes-query?search-node-type=vserver&filter=vserver-name:";
+    private static String cqUrl = "/aai/v16/query?format=resource";
+    private static String tenantUrl =
+            "/aai/v16/search/nodes-query?search-node-type=vserver&filter=vserver-name:EQUALS:";
     private static String prefix = "/aai/v16";
 
 
@@ -108,6 +109,7 @@ public final class AaiManager {
             String vserver) {
 
         String urlGet = url + tenantUrl;
+
         String getResponse = getStringQuery(urlGet, username, password, requestId, vserver);
         return createCustomQueryPayload(getResponse);
     }
@@ -129,13 +131,15 @@ public final class AaiManager {
 
         final Map<String, String> headers = createHeaders(requestId);
 
-        url = url + cqUrl;
-
         logger.debug("RestManager.put before");
         String requestJson = getCustomQueryRequestPayload(url, username, password, requestId, vserver);
         NetLoggerUtil.log(EventType.OUT, CommInfrastructure.REST, url, requestJson);
+
+        url = url + cqUrl;
+
         Pair<Integer, String> httpDetails =
                 this.restManager.put(url, username, password, headers, "application/json", requestJson);
+        logger.debug(url);
         logger.debug("RestManager.put after");
 
         if (httpDetails == null) {
@@ -168,7 +172,7 @@ public final class AaiManager {
      * @param key Aai Key
      * @return String returns the string from the get query
      */
-    private String getStringQuery(final String url, final String username, final String password, final UUID requestId,
+    public String getStringQuery(final String url, final String username, final String password, final UUID requestId,
             final String key) {
 
         Map<String, String> headers = createHeaders(requestId);
