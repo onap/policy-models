@@ -85,6 +85,7 @@ public class PolicyPersistenceTest {
     @Before
     public void setupParameters() throws PfModelException {
         PolicyModelsProviderParameters parameters = new PolicyModelsProviderParameters();
+        parameters.setDatabaseDriver("org.h2.Driver");
         parameters.setDatabaseUrl("jdbc:h2:mem:testdb");
         parameters.setDatabaseUser("policy");
         parameters.setDatabasePassword(Base64.getEncoder().encodeToString("P01icY".getBytes()));

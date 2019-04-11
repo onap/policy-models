@@ -26,10 +26,9 @@ import static org.junit.Assert.assertNotNull;
 
 import com.google.gson.GsonBuilder;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.junit.After;
@@ -57,7 +56,6 @@ import org.yaml.snakeyaml.Yaml;
  */
 public class AuthorativeToscaProviderPolicyTypeTest {
     private static String yamlAsJsonString;
-    private Connection connection;
     private PfDao pfDao;
     private StandardCoder standardCoder;
 
@@ -83,16 +81,24 @@ public class AuthorativeToscaProviderPolicyTypeTest {
      */
     @Before
     public void setupDao() throws Exception {
-        // Use the JDBC UI "jdbc:h2:mem:testdb" to test towards the h2 database
-        // Use the JDBC UI "jdbc:mariadb://localhost:3306/policy" to test towards a locally installed mariadb instance
-        connection = DriverManager.getConnection("jdbc:h2:mem:testdb", "policy", "P01icY");
-
         final DaoParameters daoParameters = new DaoParameters();
         daoParameters.setPluginClass(DefaultPfDao.class.getCanonicalName());
 
-        // Use the persistence unit ToscaConceptTest to test towards the h2 database
-        // Use the persistence unit ToscaConceptMariaDBTest to test towards a locally installed mariadb instance
         daoParameters.setPersistenceUnit("ToscaConceptTest");
+
+        Properties jdbcProperties = new Properties();
+        jdbcProperties.setProperty("javax.persistence.jdbc.user", "policy");
+        jdbcProperties.setProperty("javax.persistence.jdbc.password", "P01icY");
+
+        // H2
+        jdbcProperties.setProperty("javax.persistence.jdbc.driver", "org.h2.Driver");
+        jdbcProperties.setProperty("javax.persistence.jdbc.url", "jdbc:h2:mem:testdb");
+
+        // MariaDB
+        //jdbcProperties.setProperty("javax.persistence.jdbc.driver", "org.mariadb.jdbc.Driver");
+        //jdbcProperties.setProperty("javax.persistence.jdbc.url", "jdbc:mariadb://localhost:3306/policy");
+
+        daoParameters.setJdbcProperties(jdbcProperties );
 
         pfDao = new PfDaoFactory().createPfDao(daoParameters);
         pfDao.init(daoParameters);
@@ -109,7 +115,6 @@ public class AuthorativeToscaProviderPolicyTypeTest {
     @After
     public void teardown() throws Exception {
         pfDao.close();
-        connection.close();
     }
 
     @Test

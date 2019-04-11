@@ -30,10 +30,6 @@
         <class>org.onap.policy.models.dao.DummyReferenceEntity</class>
 
         <properties>
-            <property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
-            <property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:testdb" />
-            <property name="javax.persistence.jdbc.user" value="sa" />
-            <property name="javax.persistence.jdbc.password" value="" />
             <property name="eclipselink.ddl-generation" value="drop-and-create-tables" />
             <property name="eclipselink.ddl-generation.output-mode" value="database" />
             <property name="eclipselink.logging.level" value="INFO" />

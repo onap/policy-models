@@ -55,6 +55,7 @@ public class PolicyModelsProviderParameters implements ParameterGroup {
 
     private String name;
     private String implementation = DEFAULT_IMPLEMENTATION;
+    private String databaseDriver;
     private String databaseUrl;
     private String databaseUser;
     private String databasePassword;
@@ -71,6 +72,11 @@ public class PolicyModelsProviderParameters implements ParameterGroup {
         if (!ParameterValidationUtils.validateStringParameter(implementation)) {
             validationResult.setResult("implementation", ValidationStatus.INVALID,
                     "a PolicyModelsProvider implementation must be specified");
+        }
+
+        if (!ParameterValidationUtils.validateStringParameter(databaseDriver)) {
+            validationResult.setResult("databaseUrl", ValidationStatus.INVALID,
+                    "a driver must be specified for the JDBC connection to the database");
         }
 
         if (!ParameterValidationUtils.validateStringParameter(databaseUrl)) {

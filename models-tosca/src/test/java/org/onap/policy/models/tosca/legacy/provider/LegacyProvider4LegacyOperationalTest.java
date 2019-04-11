@@ -24,8 +24,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
+import java.util.Properties;
 
 import org.junit.After;
 import org.junit.Before;
@@ -44,7 +43,6 @@ import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 public class LegacyProvider4LegacyOperationalTest {
-    private Connection connection;
     private PfDao pfDao;
     private StandardCoder standardCoder;
 
@@ -55,16 +53,24 @@ public class LegacyProvider4LegacyOperationalTest {
      */
     @Before
     public void setupDao() throws Exception {
-        // Use the JDBC UI "jdbc:h2:mem:testdb" to test towards the h2 database
-        // Use the JDBC UI "jdbc:mariadb://localhost:3306/policy" to test towards a locally installed mariadb instance
-        connection = DriverManager.getConnection("jdbc:h2:mem:testdb", "policy", "P01icY");
-
         final DaoParameters daoParameters = new DaoParameters();
         daoParameters.setPluginClass(DefaultPfDao.class.getCanonicalName());
 
-        // Use the persistence unit ToscaConceptTest to test towards the h2 database
-        // Use the persistence unit ToscaConceptMariaDBTest to test towards a locally installed mariadb instance
         daoParameters.setPersistenceUnit("ToscaConceptTest");
+
+        Properties jdbcProperties = new Properties();
+        jdbcProperties.setProperty("javax.persistence.jdbc.user", "policy");
+        jdbcProperties.setProperty("javax.persistence.jdbc.password", "P01icY");
+
+        // H2
+        jdbcProperties.setProperty("javax.persistence.jdbc.driver", "org.h2.Driver");
+        jdbcProperties.setProperty("javax.persistence.jdbc.url", "jdbc:h2:mem:testdb");
+
+        // MariaDB
+        //jdbcProperties.setProperty("javax.persistence.jdbc.driver", "org.mariadb.jdbc.Driver");
+        //jdbcProperties.setProperty("javax.persistence.jdbc.url", "jdbc:mariadb://localhost:3306/policy");
+
+        daoParameters.setJdbcProperties(jdbcProperties );
 
         pfDao = new PfDaoFactory().createPfDao(daoParameters);
         pfDao.init(daoParameters);
@@ -81,7 +87,6 @@ public class LegacyProvider4LegacyOperationalTest {
     @After
     public void teardown() throws Exception {
         pfDao.close();
-        connection.close();
     }
 
     @Test
