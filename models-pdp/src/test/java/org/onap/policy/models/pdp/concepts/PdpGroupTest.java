@@ -144,9 +144,22 @@ public class PdpGroupTest {
         assertTrue(result.isValid());
         assertNull(result.getResult());
 
-        // null name
+        // non-null version is also valid, if it matches VERSION
         PdpGroup group2 = new PdpGroup(group);
+        group2.setVersion(PdpGroup.VERSION);
+        result = group2.validatePapRest();
+        assertNotNull(result);
+        assertTrue(result.isValid());
+        assertNull(result.getResult());
+
+        // null name
+        group2 = new PdpGroup(group);
         group2.setName(null);
+        assertInvalid(group2);
+
+        // invalid version
+        group2 = new PdpGroup(group);
+        group2.setVersion(PdpGroup.VERSION + "1");
         assertInvalid(group2);
 
         // null subgroup list
