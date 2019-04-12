@@ -25,7 +25,7 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.onap.policy.common.parameters.BeanValidationResult;
@@ -98,6 +98,13 @@ public class PdpGroup implements PfNameVersion, Comparable<PdpGroup> {
          */
 
         result.validateNotNull("name", name);
+
+        // if the version is specified, it must match VERSION
+        if (version != null && !PdpGroup.VERSION.equals(version)) {
+            result.addResult(new ObjectValidationResult("version", version, ValidationStatus.INVALID,
+                            "version must be null"));
+        }
+
         result.validateNotNullList("pdpSubgroups", pdpSubgroups, PdpSubGroup::validatePapRest);
 
         checkDuplicateSubgroups(result);
@@ -111,26 +118,18 @@ public class PdpGroup implements PfNameVersion, Comparable<PdpGroup> {
      * @param result where to place validation results
      */
     private void checkDuplicateSubgroups(BeanValidationResult result) {
-        if (pdpSubgroups == null) {
+        if (pdpSubgroups == null || !result.isValid()) {
             return;
         }
 
-        Set<String> set = new HashSet<>();
-
-        for (PdpSubGroup subgrp : pdpSubgroups) {
-            if (subgrp == null) {
-                continue;
-            }
-
-            String pdpType = subgrp.getPdpType();
-            if (pdpType == null) {
-                continue;
-            }
-
-            if (!set.add(pdpType)) {
-                result.addResult(new ObjectValidationResult("subgroups", pdpType, ValidationStatus.INVALID,
-                                "duplicate subgroup"));
-            }
+        // verify that the same subgroup doesn't appear more than once
+        List<String> pdpTypes = pdpSubgroups.stream().map(PdpSubGroup::getPdpType).collect(Collectors.toList());
+        if (pdpSubgroups.size() == new HashSet<>(pdpTypes).size()) {
+            return;
         }
+
+        // different sizes implies duplicates
+        result.addResult(new ObjectValidationResult("pdpSubgroups", pdpTypes, ValidationStatus.INVALID,
+                        "duplicate subgroups"));
     }
 }
