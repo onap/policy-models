@@ -22,6 +22,30 @@
       "revId": "92d9b661cc32b8dcc90e813aa220e26ef6f83b17",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d5fd313_d5393d19",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-12T20:42:24Z",
+      "side": 0,
+      "message": "Once this is merged, I\u0027ll push up a new version that replaces the whole for-loop with a couple of lines of \"Set\u003c\u003e\" operations.",
+      "parentUuid": "625c7e4d_210b757c",
+      "range": {
+        "startLine": 121,
+        "startChar": 1,
+        "endLine": 130,
+        "endChar": 1
+      },
+      "revId": "92d9b661cc32b8dcc90e813aa220e26ef6f83b17",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
