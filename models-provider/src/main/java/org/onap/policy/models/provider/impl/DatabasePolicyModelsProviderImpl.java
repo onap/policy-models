@@ -29,6 +29,7 @@ import javax.ws.rs.core.Response;
 
 import lombok.NonNull;
 
+import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.dao.DaoParameters;
@@ -66,14 +67,6 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultPfDao.class);
 
-    // Constants for persistence properties
-    // @formatter:off
-    private static final String JAVAX_PERSISTENCE_JDBC_DRIVER = "javax.persistence.jdbc.driver";
-    private static final String JAVAX_PERSISTENCE_JDBC_URL    = "javax.persistence.jdbc.url";
-    private static final String JAVAX_PERSISTENCE_JDBC_USER   = "javax.persistence.jdbc.user";
-    private static final String JAVAX_PERSISTENCE_JDBC_PWORD  = "javax.persistence.jdbc.password";
-    // @formatter:on
-
     private final PolicyModelsProviderParameters parameters;
 
     // Database connection and the DAO for reading and writing Policy Framework concepts
@@ -109,10 +102,10 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
 
         // @formatter:off
         Properties jdbcProperties = new Properties();
-        jdbcProperties.setProperty(JAVAX_PERSISTENCE_JDBC_DRIVER, parameters.getDatabaseDriver());
-        jdbcProperties.setProperty(JAVAX_PERSISTENCE_JDBC_URL,    parameters.getDatabaseUrl());
-        jdbcProperties.setProperty(JAVAX_PERSISTENCE_JDBC_USER,   parameters.getDatabaseUser());
-        jdbcProperties.setProperty(JAVAX_PERSISTENCE_JDBC_PWORD,  decodedPassword);
+        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_DRIVER,   parameters.getDatabaseDriver());
+        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_URL,      parameters.getDatabaseUrl());
+        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_USER,     parameters.getDatabaseUser());
+        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_PASSWORD, decodedPassword);
         // @formatter:on
 
         daoParameters.setJdbcProperties(jdbcProperties);

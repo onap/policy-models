@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -67,16 +68,12 @@ public class AuthorativeToscaProviderPolicyTest {
         daoParameters.setPersistenceUnit("ToscaConceptTest");
 
         Properties jdbcProperties = new Properties();
-        jdbcProperties.setProperty("javax.persistence.jdbc.user", "policy");
-        jdbcProperties.setProperty("javax.persistence.jdbc.password", "P01icY");
+        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_USER, "policy");
+        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_PASSWORD, "P01icY");
 
-        // H2
-        jdbcProperties.setProperty("javax.persistence.jdbc.driver", "org.h2.Driver");
-        jdbcProperties.setProperty("javax.persistence.jdbc.url", "jdbc:h2:mem:testdb");
-
-        // MariaDB
-        //jdbcProperties.setProperty("javax.persistence.jdbc.driver", "org.mariadb.jdbc.Driver");
-        //jdbcProperties.setProperty("javax.persistence.jdbc.url", "jdbc:mariadb://localhost:3306/policy");
+        // H2, use "org.mariadb.jdbc.Driver" and "jdbc:mariadb://localhost:3306/policy" for locally installed MariaDB
+        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_DRIVER, "org.h2.Driver");
+        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_URL, "jdbc:h2:mem:testdb");
 
         daoParameters.setJdbcProperties(jdbcProperties );
 
@@ -95,7 +92,6 @@ public class AuthorativeToscaProviderPolicyTest {
     @After
     public void teardown() throws Exception {
         pfDao.close();
-        //connection.close();
     }
 
     @Test
