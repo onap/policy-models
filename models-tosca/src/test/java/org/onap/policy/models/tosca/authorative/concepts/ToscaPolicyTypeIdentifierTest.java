@@ -22,18 +22,21 @@ package org.onap.policy.models.tosca.authorative.concepts;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+import org.onap.policy.common.parameters.ValidationResult;
 
 /**
- * Test the other constructors, as {@link PojosTest} tests the other methods.
+ * Test methods not tested by {@link PojosTest}.
  */
 public class ToscaPolicyTypeIdentifierTest extends ToscaIdentifierTestBase<ToscaPolicyTypeIdentifier> {
-    private static final String NAME = "my-name";
-    private static final String VERSION = "1.2.3";
 
     public ToscaPolicyTypeIdentifierTest() {
-        super(ToscaPolicyTypeIdentifier.class);
+        super(ToscaPolicyTypeIdentifier.class, "name", "version");
     }
 
     @Test
@@ -60,4 +63,29 @@ public class ToscaPolicyTypeIdentifierTest extends ToscaIdentifierTestBase<Tosca
         assertEquals(orig.toString(), new ToscaPolicyTypeIdentifier(orig).toString());
     }
 
+    @Test
+    public void testValidatePapRest() throws Exception {
+        ToscaPolicyTypeIdentifier ident = new ToscaPolicyTypeIdentifier(NAME, VERSION);
+        ValidationResult result = ident.validatePapRest();
+        assertNotNull(result);
+        assertTrue(result.isValid());
+        assertNull(result.getResult());
+
+        ident = makeIdent(NAME, null);
+        result = ident.validatePapRest();
+        assertNotNull(result);
+        assertFalse(result.isValid());
+        assertNotNull(result.getResult());
+
+        ident = makeIdent(null, VERSION);
+        result = ident.validatePapRest();
+        assertNotNull(result);
+        assertFalse(result.isValid());
+        assertNotNull(result.getResult());
+    }
+
+    @Test
+    public void testCompareTo() throws Exception {
+        super.testCompareTo();
+    }
 }

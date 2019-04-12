@@ -20,6 +20,9 @@
 
 package org.onap.policy.models.tosca.authorative.concepts;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
@@ -29,19 +32,49 @@ import org.onap.policy.common.utils.coder.StandardCoder;
  *
  * @param <T> type of key being tested
  */
-public class ToscaIdentifierTestBase<T> {
+public class ToscaIdentifierTestBase<T extends Comparable<T>> {
+    public static final String NAME = "my-name";
+    public static final String VERSION = "1.2.3";
 
     private static final Coder coder = new StandardCoder();
 
     private final Class<T> clazz;
+    private final String nameField;
+    private final String versionField;
 
 
     /**
      * Constructs the object.
+     *
      * @param clazz the type of class being tested
+     * @param nameField name of the field containing the "name"
+     * @param versionField name of the field containing the "version"
      */
-    public ToscaIdentifierTestBase(Class<T> clazz) {
+    public ToscaIdentifierTestBase(Class<T> clazz, String nameField, String versionField) {
         this.clazz = clazz;
+        this.nameField = nameField;
+        this.versionField = versionField;
+    }
+
+    /**
+     * Tests the compareTo() method.
+     *
+     * @throws Exception if an error occurs
+     */
+    public void testCompareTo() throws Exception {
+        T ident = makeIdent(NAME, VERSION);
+        assertEquals(0, ident.compareTo(ident));
+
+        assertTrue(ident.compareTo(null) > 0);
+
+        assertTrue(ident.compareTo(makeIdent(NAME, VERSION)) == 0);
+        assertTrue(ident.compareTo(makeIdent(NAME, null)) > 0);
+        assertTrue(ident.compareTo(makeIdent(null, VERSION)) > 0);
+        assertTrue(ident.compareTo(makeIdent(NAME, VERSION + "a")) < 0);
+        assertTrue(ident.compareTo(makeIdent(NAME + "a", VERSION)) < 0);
+
+        // name takes precedence over version
+        assertTrue(makeIdent(NAME, VERSION + "a").compareTo(makeIdent(NAME + "a", VERSION)) < 0);
     }
 
     /**
@@ -57,7 +90,9 @@ public class ToscaIdentifierTestBase<T> {
         bldr.append("{");
 
         if (name != null) {
-            bldr.append("'name':'");
+            bldr.append("'");
+            bldr.append(nameField);
+            bldr.append("':'");
             bldr.append(name);
             bldr.append("'");
         }
@@ -67,7 +102,9 @@ public class ToscaIdentifierTestBase<T> {
                 bldr.append(',');
             }
 
-            bldr.append("'version':'");
+            bldr.append("'");
+            bldr.append(versionField);
+            bldr.append("':'");
             bldr.append(version);
             bldr.append("'");
         }

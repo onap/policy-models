@@ -31,11 +31,9 @@ import org.junit.Test;
  * Test the other constructors, as {@link PojosTest} tests the other methods.
  */
 public class ToscaPolicyIdentifierOptVersionTest extends ToscaIdentifierTestBase<ToscaPolicyIdentifierOptVersion> {
-    private static final String NAME = "my-name";
-    private static final String VERSION = "1.2.3";
 
     public ToscaPolicyIdentifierOptVersionTest() {
-        super(ToscaPolicyIdentifierOptVersion.class);
+        super(ToscaPolicyIdentifierOptVersion.class, "policy-id", "policy-version");
     }
 
     @Test
@@ -67,5 +65,10 @@ public class ToscaPolicyIdentifierOptVersionTest extends ToscaIdentifierTestBase
         // verify with all values
         orig = makeIdent(NAME, VERSION);
         assertEquals(orig.toString(), new ToscaPolicyIdentifierOptVersion(orig).toString());
+    }
+
+    @Test
+    public void testCompareTo() throws Exception {
+        super.testCompareTo();
     }
 }

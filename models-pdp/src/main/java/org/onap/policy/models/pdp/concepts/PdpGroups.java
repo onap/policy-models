@@ -24,14 +24,14 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.ValidationResult;
 
 /**
- * Request deploy or update a set of groups via the PDP Group deployment
- * REST API.
+ * Request deploy or update a set of groups via the PDP Group deployment REST API.
  */
 @Getter
 @Setter
@@ -41,14 +41,29 @@ public class PdpGroups {
 
     /**
      * Get the contents of this class as a list of PDP group maps.
+     *
      * @return the PDP groups in a list of maps
      */
     public List<Map<String, PdpGroup>> toMapList() {
         final Map<String, PdpGroup> pdpGroupMap = new LinkedHashMap<>();
         for (PdpGroup pdpGroup : groups) {
-            pdpGroupMap.put(pdpGroup.getName() + ':' + pdpGroup.getVersion() , pdpGroup);
+            pdpGroupMap.put(pdpGroup.getName() + ':' + pdpGroup.getVersion(), pdpGroup);
         }
 
         return Collections.singletonList(pdpGroupMap);
+    }
+
+    /**
+     * Validates that appropriate fields are populated for an incoming call to the PAP
+     * REST API.
+     *
+     * @return the validation result
+     */
+    public ValidationResult validatePapRest() {
+        BeanValidationResult result = new BeanValidationResult("groups", this);
+
+        result.validateNotNullList("groups", groups, PdpGroup::validatePapRest);
+
+        return result;
     }
 }
