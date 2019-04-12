@@ -24,13 +24,14 @@ import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import org.apache.commons.lang3.ObjectUtils;
 
 /**
  * Policy identifier with an optional version; only the "name" is required.
  */
 @Data
 @NoArgsConstructor
-public class ToscaPolicyIdentifierOptVersion {
+public class ToscaPolicyIdentifierOptVersion implements Comparable<ToscaPolicyIdentifierOptVersion> {
 
     @NonNull
     @SerializedName("policy-id")
@@ -57,5 +58,23 @@ public class ToscaPolicyIdentifierOptVersion {
      */
     public boolean isNullVersion() {
         return (version == null);
+    }
+
+    @Override
+    public int compareTo(ToscaPolicyIdentifierOptVersion other) {
+        if (this == other) {
+            return 0;
+        }
+
+        if (other == null) {
+            return 1;
+        }
+
+        int result = ObjectUtils.compare(getName(), other.getName());
+        if (result != 0) {
+            return result;
+        }
+
+        return ObjectUtils.compare(getVersion(), other.getVersion());
     }
 }

@@ -22,18 +22,21 @@ package org.onap.policy.models.tosca.authorative.concepts;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+import org.onap.policy.common.parameters.ValidationResult;
 
 /**
- * Test the other constructors, as {@link PojosTest} tests the other methods.
+ * Test methods not tested by {@link PojosTest}.
  */
 public class ToscaPolicyIdentifierTest extends ToscaIdentifierTestBase<ToscaPolicyIdentifier> {
-    private static final String NAME = "my-name";
-    private static final String VERSION = "1.2.3";
 
     public ToscaPolicyIdentifierTest() {
-        super(ToscaPolicyIdentifier.class);
+        super(ToscaPolicyIdentifier.class, "name", "version");
     }
 
     @Test
@@ -58,5 +61,31 @@ public class ToscaPolicyIdentifierTest extends ToscaIdentifierTestBase<ToscaPoli
         // verify with all values
         orig = new ToscaPolicyIdentifier(NAME, VERSION);
         assertEquals(orig.toString(), new ToscaPolicyIdentifier(orig).toString());
+    }
+
+    @Test
+    public void testValidatePapRest() throws Exception {
+        ToscaPolicyIdentifier ident = new ToscaPolicyIdentifier(NAME, VERSION);
+        ValidationResult result = ident.validatePapRest();
+        assertNotNull(result);
+        assertTrue(result.isValid());
+        assertNull(result.getResult());
+
+        ident = makeIdent(NAME, null);
+        result = ident.validatePapRest();
+        assertNotNull(result);
+        assertFalse(result.isValid());
+        assertNotNull(result.getResult());
+
+        ident = makeIdent(null, VERSION);
+        result = ident.validatePapRest();
+        assertNotNull(result);
+        assertFalse(result.isValid());
+        assertNotNull(result.getResult());
+    }
+
+    @Test
+    public void testCompareTo() throws Exception {
+        super.testCompareTo();
     }
 }
