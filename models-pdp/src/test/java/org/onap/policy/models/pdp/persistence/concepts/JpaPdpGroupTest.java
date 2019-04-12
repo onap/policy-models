@@ -98,15 +98,7 @@ public class JpaPdpGroupTest {
         JpaPdpGroup testJpaPdpGroup = new JpaPdpGroup();
         testJpaPdpGroup.setKey(null);
 
-        assertThatThrownBy(() -> {
-            testJpaPdpGroup.fromAuthorative(testPdpGroup);
-        }).hasMessage("version is marked @NonNull but is null");
-
         testJpaPdpGroup.setKey(new PfConceptKey());
-
-        assertThatThrownBy(() -> {
-            testJpaPdpGroup.fromAuthorative(testPdpGroup);
-        }).hasMessage("version is marked @NonNull but is null");
 
         testPdpGroup.setVersion("1.0.0");
         testJpaPdpGroup.fromAuthorative(testPdpGroup);

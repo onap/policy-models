@@ -1,7 +1,7 @@
-/*
+/*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,36 +32,28 @@ import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.common.parameters.ObjectValidationResult;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.common.parameters.ValidationStatus;
+import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfNameVersion;
 import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.pdp.enums.PdpState;
 
 /**
- * Class to represent a PDPGroup, which groups multiple PDPSubGroup entities together for
- * a particular domain.
+ * Class to represent a PDPGroup, which groups multiple PDPSubGroup entities together for a particular domain.
  *
  * @author Ram Krishna Verma (ram.krishna.verma@est.tech)
  */
 @Data
 @NoArgsConstructor
 public class PdpGroup implements PfNameVersion, Comparable<PdpGroup> {
-    /**
-     * In the future, we'll eliminate the "version" field. Until then, the version of
-     * every group should always be this fixed value.
-     */
-    public static final String VERSION = "1.0.0";
-
     private String name;
-    private String version;
     private String description;
     private PdpState pdpGroupState;
     private Map<String, String> properties;
     private List<PdpSubGroup> pdpSubgroups;
 
     /*
-     * Note: removed "@NotNull" annotation from the constructor argument, because it
-     * cannot be covered by a junit test, as the superclass does the check and throws an
-     * exception first.
+     * Note: removed "@NotNull" annotation from the constructor argument, because it cannot be covered by a junit test,
+     * as the superclass does the check and throws an exception first.
      */
 
     /**
@@ -71,7 +63,6 @@ public class PdpGroup implements PfNameVersion, Comparable<PdpGroup> {
      */
     public PdpGroup(PdpGroup source) {
         this.name = source.name;
-        this.version = source.version;
         this.description = source.description;
         this.pdpGroupState = source.pdpGroupState;
         this.properties = (source.properties == null ? null : new LinkedHashMap<>(source.properties));
@@ -84,8 +75,7 @@ public class PdpGroup implements PfNameVersion, Comparable<PdpGroup> {
     }
 
     /**
-     * Validates that appropriate fields are populated for an incoming call to the PAP
-     * REST API.
+     * Validates that appropriate fields are populated for an incoming call to the PAP REST API.
      *
      * @return the validation result
      */
@@ -93,8 +83,7 @@ public class PdpGroup implements PfNameVersion, Comparable<PdpGroup> {
         BeanValidationResult result = new BeanValidationResult("group", this);
 
         /*
-         * Don't care about version or state, because we override them. Ok if description
-         * is null.
+         * Don't care about version or state, because we override them. Ok if description is null.
          */
 
         result.validateNotNull("name", name);
@@ -118,19 +107,27 @@ public class PdpGroup implements PfNameVersion, Comparable<PdpGroup> {
         Set<String> set = new HashSet<>();
 
         for (PdpSubGroup subgrp : pdpSubgroups) {
-            if (subgrp == null) {
-                continue;
-            }
+            String pdpType = (subgrp == null ? null : subgrp.getPdpType());
 
-            String pdpType = subgrp.getPdpType();
             if (pdpType == null) {
                 continue;
             }
 
             if (!set.add(pdpType)) {
                 result.addResult(new ObjectValidationResult("subgroups", pdpType, ValidationStatus.INVALID,
-                                "duplicate subgroup"));
+                        "duplicate subgroup"));
             }
         }
+    }
+
+    @Override
+    public String getVersion() {
+        // We need to pass a version for keying in the database
+        return PfKey.NULL_KEY_VERSION;
+    }
+
+    @Override
+    public void setVersion(String version) {
+        // Just ignore any version that is set
     }
 }

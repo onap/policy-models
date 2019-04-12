@@ -234,228 +234,118 @@ public class DatabasePolicyModelsProviderTest {
         }).hasMessage("pdpGroups is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.updatePdpSubGroup(null, null, null);
+            databaseProvider.updatePdpSubGroup(null, null);
         }).hasMessage("pdpGroupName is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.updatePdpSubGroup(null, null, new PdpSubGroup());
+            databaseProvider.updatePdpSubGroup(null, new PdpSubGroup());
         }).hasMessage("pdpGroupName is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.updatePdpSubGroup(null, "version", null);
-        }).hasMessage("pdpGroupName is marked @NonNull but is null");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdpSubGroup(null, "version", new PdpSubGroup());
-        }).hasMessage("pdpGroupName is marked @NonNull but is null");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdpSubGroup("name", null, null);
-        }).hasMessage("pdpGroupVersion is marked @NonNull but is null");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdpSubGroup("name", null, new PdpSubGroup());
-        }).hasMessage("pdpGroupVersion is marked @NonNull but is null");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdpSubGroup("name", "version", null);
+            databaseProvider.updatePdpSubGroup("name", null);
         }).hasMessage("pdpSubGroup is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.updatePdp(null, null, null, null);
+            databaseProvider.updatePdpSubGroup("name", new PdpSubGroup());
+        }).hasMessage("parameter \"localName\" is null");
+
+        assertThatThrownBy(() -> {
+            databaseProvider.updatePdp(null, null, null);
         }).hasMessage("pdpGroupName is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.updatePdp(null, null, null, new Pdp());
+            databaseProvider.updatePdp(null, null, new Pdp());
         }).hasMessage("pdpGroupName is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.updatePdp(null, null, "sub", null);
+            databaseProvider.updatePdp(null, "sub", null);
         }).hasMessage("pdpGroupName is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.updatePdp(null, null, "sub", new Pdp());
+            databaseProvider.updatePdp(null, "sub", new Pdp());
         }).hasMessage("pdpGroupName is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.updatePdp(null, "version", null, null);
-        }).hasMessage("pdpGroupName is marked @NonNull but is null");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdp(null, "version", null, new Pdp());
-        }).hasMessage("pdpGroupName is marked @NonNull but is null");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdp(null, "version", "sub", null);
-        }).hasMessage("pdpGroupName is marked @NonNull but is null");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdp(null, "version", "sub", new Pdp());
-        }).hasMessage("pdpGroupName is marked @NonNull but is null");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdp("name", null, null, null);
-        }).hasMessage("pdpGroupVersion is marked @NonNull but is null");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdp("name", null, null, new Pdp());
-        }).hasMessage("pdpGroupVersion is marked @NonNull but is null");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdp("name", null, "sub", null);
-        }).hasMessage("pdpGroupVersion is marked @NonNull but is null");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdp("name", null, "sub", new Pdp());
-        }).hasMessage("pdpGroupVersion is marked @NonNull but is null");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdp("name", "version", null, null);
+            databaseProvider.updatePdp("name", null, null);
         }).hasMessage("pdpSubGroup is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.updatePdp("name", "version", null, new Pdp());
+            databaseProvider.updatePdp("name", null, new Pdp());
         }).hasMessage("pdpSubGroup is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.updatePdp("name", "version", "sub", null);
+            databaseProvider.updatePdp("name", "sub", null);
         }).hasMessage("pdp is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.deletePdpGroup(null, null);
+            databaseProvider.updatePdp("name", "sub", new Pdp());
+        }).hasMessage("parameter \"localName\" is null");
+
+        assertThatThrownBy(() -> {
+            databaseProvider.deletePdpGroup(null);
         }).hasMessage("name is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.deletePdpGroup(null, "version");
-        }).hasMessage("name is marked @NonNull but is null");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.deletePdpGroup("name", null);
-        }).hasMessage("version is marked @NonNull but is null");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdpStatistics(null, null, null, null, null);
+            databaseProvider.updatePdpStatistics(null, null, null, null);
         }).hasMessage("pdpGroupName is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.updatePdpStatistics(null, null, null, null, new PdpStatistics());
+            databaseProvider.updatePdpStatistics(null, null, null, new PdpStatistics());
         }).hasMessage("pdpGroupName is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.updatePdpStatistics(null, null, null, "Instance", null);
+            databaseProvider.updatePdpStatistics(null, null, "Instance", null);
         }).hasMessage("pdpGroupName is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.updatePdpStatistics(null, null, null, "Instance", new PdpStatistics());
+            databaseProvider.updatePdpStatistics(null, null, "Instance", new PdpStatistics());
         }).hasMessage("pdpGroupName is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.updatePdpStatistics(null, null, "type", null, null);
+            databaseProvider.updatePdpStatistics(null, "type", null, null);
         }).hasMessage("pdpGroupName is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.updatePdpStatistics(null, null, "type", null, new PdpStatistics());
+            databaseProvider.updatePdpStatistics(null, "type", null, new PdpStatistics());
         }).hasMessage("pdpGroupName is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.updatePdpStatistics(null, null, "type", "Instance", null);
+            databaseProvider.updatePdpStatistics(null, "type", "Instance", null);
         }).hasMessage("pdpGroupName is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.updatePdpStatistics(null, null, "type", "Instance", new PdpStatistics());
+            databaseProvider.updatePdpStatistics(null, "type", "Instance", new PdpStatistics());
         }).hasMessage("pdpGroupName is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.updatePdpStatistics(null, "ver", null, null, null);
-        }).hasMessage("pdpGroupName is marked @NonNull but is null");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdpStatistics(null, "ver", null, null, new PdpStatistics());
-        }).hasMessage("pdpGroupName is marked @NonNull but is null");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdpStatistics(null, "ver", null, "Instance", null);
-        }).hasMessage("pdpGroupName is marked @NonNull but is null");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdpStatistics(null, "ver", null, "Instance", new PdpStatistics());
-        }).hasMessage("pdpGroupName is marked @NonNull but is null");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdpStatistics(null, "ver", "type", null, null);
-        }).hasMessage("pdpGroupName is marked @NonNull but is null");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdpStatistics(null, "ver", "type", null, new PdpStatistics());
-        }).hasMessage("pdpGroupName is marked @NonNull but is null");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdpStatistics(null, "ver", "type", "Instance", null);
-        }).hasMessage("pdpGroupName is marked @NonNull but is null");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdpStatistics(null, "ver", "type", "Instance", new PdpStatistics());
-        }).hasMessage("pdpGroupName is marked @NonNull but is null");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdpStatistics("name", null, null, null, null);
-        }).hasMessage("pdpGroupVersion is marked @NonNull but is null");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdpStatistics("name", null, null, null, new PdpStatistics());
-        }).hasMessage("pdpGroupVersion is marked @NonNull but is null");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdpStatistics("name", null, null, "Instance", null);
-        }).hasMessage("pdpGroupVersion is marked @NonNull but is null");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdpStatistics("name", null, null, "Instance", new PdpStatistics());
-        }).hasMessage("pdpGroupVersion is marked @NonNull but is null");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdpStatistics("name", null, "type", null, null);
-        }).hasMessage("pdpGroupVersion is marked @NonNull but is null");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdpStatistics("name", null, "type", null, new PdpStatistics());
-        }).hasMessage("pdpGroupVersion is marked @NonNull but is null");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdpStatistics("name", null, "type", "Instance", null);
-        }).hasMessage("pdpGroupVersion is marked @NonNull but is null");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdpStatistics("name", null, "type", "Instance", new PdpStatistics());
-        }).hasMessage("pdpGroupVersion is marked @NonNull but is null");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdpStatistics("name", "ver", null, null, null);
+            databaseProvider.updatePdpStatistics("name", null, null, null);
         }).hasMessage("pdpType is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.updatePdpStatistics("name", "ver", null, null, new PdpStatistics());
+            databaseProvider.updatePdpStatistics("name", null, null, new PdpStatistics());
         }).hasMessage("pdpType is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.updatePdpStatistics("name", "ver", null, "Instance", null);
+            databaseProvider.updatePdpStatistics("name", null, "Instance", null);
         }).hasMessage("pdpType is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.updatePdpStatistics("name", "ver", null, "Instance", new PdpStatistics());
+            databaseProvider.updatePdpStatistics("name", null, "Instance", new PdpStatistics());
         }).hasMessage("pdpType is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.updatePdpStatistics("name", "ver", "type", null, null);
+            databaseProvider.updatePdpStatistics("name", "type", null, null);
         }).hasMessage("pdpInstanceId is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.updatePdpStatistics("name", "ver", "type", null, new PdpStatistics());
+            databaseProvider.updatePdpStatistics("name", "type", null, new PdpStatistics());
         }).hasMessage("pdpInstanceId is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.updatePdpStatistics("name", "ver", "type", "Instance", null);
+            databaseProvider.updatePdpStatistics("name", "type", "Instance", null);
         }).hasMessage("pdpStatistics is marked @NonNull but is null");
+
+        databaseProvider.updatePdpStatistics("name", "type", "Instance", new PdpStatistics());
 
         databaseProvider.close();
     }
@@ -545,7 +435,7 @@ public class DatabasePolicyModelsProviderTest {
                 databaseProvider.deleteGuardPolicy("policy_id");
             }).hasMessage("no policy found for policy ID: policy_id");
 
-            assertEquals(0, databaseProvider.getPdpGroups("name", "version").size());
+            assertEquals(0, databaseProvider.getPdpGroups("name").size());
             assertEquals(0, databaseProvider.getFilteredPdpGroups(PdpGroupFilter.builder().build()).size());
 
             assertNotNull(databaseProvider.createPdpGroups(new ArrayList<>()));
@@ -576,29 +466,29 @@ public class DatabasePolicyModelsProviderTest {
 
             assertEquals(123, databaseProvider.createPdpGroups(groupList).get(0).getPdpSubgroups().get(0)
                     .getDesiredInstanceCount());
-            assertEquals(1, databaseProvider.getPdpGroups("group", "1.2.3").size());
+            assertEquals(1, databaseProvider.getPdpGroups("group").size());
 
             pdpSubGroup.setDesiredInstanceCount(234);
-            databaseProvider.updatePdpSubGroup("group", "1.2.3", pdpSubGroup);
-            assertEquals(234, databaseProvider.getPdpGroups("group", "1.2.3").get(0).getPdpSubgroups()
+            databaseProvider.updatePdpSubGroup("group", pdpSubGroup);
+            assertEquals(234, databaseProvider.getPdpGroups("group").get(0).getPdpSubgroups()
                     .get(0).getDesiredInstanceCount());
 
-            assertEquals("Hello", databaseProvider.getPdpGroups("group", "1.2.3").get(0).getPdpSubgroups()
+            assertEquals("Hello", databaseProvider.getPdpGroups("group").get(0).getPdpSubgroups()
                     .get(0).getPdpInstances().get(0).getMessage());
             pdp.setMessage("Howdy");
-            databaseProvider.updatePdp("group", "1.2.3", "type", pdp);
-            assertEquals("Howdy", databaseProvider.getPdpGroups("group", "1.2.3").get(0).getPdpSubgroups()
+            databaseProvider.updatePdp("group", "type", pdp);
+            assertEquals("Howdy", databaseProvider.getPdpGroups("group").get(0).getPdpSubgroups()
                     .get(0).getPdpInstances().get(0).getMessage());
 
             assertThatThrownBy(() -> {
-                databaseProvider.deletePdpGroup("name", "version");
-            }).hasMessage("delete of PDP group \"name:version\" failed, PDP group does not exist");
+                databaseProvider.deletePdpGroup("name");
+            }).hasMessage("delete of PDP group \"name:0.0.0\" failed, PDP group does not exist");
 
-            assertEquals(pdpGroup.getName(), databaseProvider.deletePdpGroup("group", "1.2.3").getName());
+            assertEquals(pdpGroup.getName(), databaseProvider.deletePdpGroup("group").getName());
 
-            assertEquals(0, databaseProvider.getPdpStatistics(null, null).size());
+            assertEquals(0, databaseProvider.getPdpStatistics(null).size());
 
-            databaseProvider.updatePdpStatistics("group", "1.2.3", "type", "type-0", new PdpStatistics());
+            databaseProvider.updatePdpStatistics("group", "type", "type-0", new PdpStatistics());
         } catch (Exception exc) {
             LOGGER.warn("test should not throw an exception", exc);
             fail("test should not throw an exception");

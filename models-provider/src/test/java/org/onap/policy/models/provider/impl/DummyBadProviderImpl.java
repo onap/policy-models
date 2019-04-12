@@ -147,7 +147,7 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public List<PdpGroup> getPdpGroups(String name, String version) throws PfModelException {
+    public List<PdpGroup> getPdpGroups(String name) throws PfModelException {
         return null;
     }
 
@@ -162,11 +162,11 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public void updatePdp(@NonNull String pdpGroupName, @NonNull String pdpGroupVersion, @NonNull String pdpSubGroup,
+    public void updatePdp(@NonNull String pdpGroupName, @NonNull String pdpSubGroup,
             @NonNull Pdp pdp) throws PfModelException {}
 
     @Override
-    public PdpGroup deletePdpGroup(@NonNull String name, @NonNull String verison) throws PfModelException {
+    public PdpGroup deletePdpGroup(@NonNull String name) throws PfModelException {
         return null;
     }
 
@@ -207,15 +207,15 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public void updatePdpSubGroup(@NonNull String pdpGroupName, @NonNull String pdpGroupVersion,
+    public void updatePdpSubGroup(@NonNull String pdpGroupName,
             @NonNull PdpSubGroup pdpSubGroup) throws PfModelException {}
 
     @Override
-    public List<PdpStatistics> getPdpStatistics(String name, String version) throws PfModelException {
+    public List<PdpStatistics> getPdpStatistics(String name) throws PfModelException {
         return null;
     }
 
     @Override
-    public void updatePdpStatistics(@NonNull String pdpGroupName, @NonNull String pdpGroupVersion,
+    public void updatePdpStatistics(@NonNull String pdpGroupName,
             @NonNull String pdpType, @NonNull String pdpInstanceId, @NonNull PdpStatistics pdppStatistics) {}
 }

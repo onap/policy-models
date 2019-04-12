@@ -278,11 +278,10 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * Get PDP groups.
      *
      * @param name the name of the policy to get, null to get all PDP groups
-     * @param version the version of the policy to get, null to get all versions of a PDP group
      * @return the PDP groups found
      * @throws PfModelException on errors getting PDP groups
      */
-    public List<PdpGroup> getPdpGroups(final String name, final String version) throws PfModelException;
+    public List<PdpGroup> getPdpGroups(final String name) throws PfModelException;
 
     /**
      * Get filtered PDP groups.
@@ -315,56 +314,50 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * Update a PDP subgroup.
      *
      * @param pdpGroupName the name of the PDP group of the PDP subgroup
-     * @param pdpGroupVersion the version of the PDP group of the PDP subgroup
      * @param pdpSubGroup the PDP subgroup to be updated
      * @throws PfModelException on errors updating PDP subgroups
      */
-    public void updatePdpSubGroup(@NonNull final String pdpGroupName, @NonNull final String pdpGroupVersion,
-            @NonNull final PdpSubGroup pdpSubGroup) throws PfModelException;
+    public void updatePdpSubGroup(@NonNull final String pdpGroupName, @NonNull final PdpSubGroup pdpSubGroup)
+            throws PfModelException;
 
     /**
      * Update a PDP.
      *
      * @param pdpGroupName the name of the PDP group of the PDP subgroup
-     * @param pdpGroupVersion the version of the PDP group of the PDP subgroup
      * @param pdpSubGroup the PDP subgroup to be updated
      * @param pdp the PDP to be updated
      * @throws PfModelException on errors updating PDP subgroups
      */
-    public void updatePdp(@NonNull final String pdpGroupName, @NonNull final String pdpGroupVersion,
-            @NonNull final String pdpSubGroup, @NonNull final Pdp pdp) throws PfModelException;
+    public void updatePdp(@NonNull final String pdpGroupName, @NonNull final String pdpSubGroup, @NonNull final Pdp pdp)
+            throws PfModelException;
 
     /**
      * Delete a PDP group.
      *
      * @param name the name of the policy to get, null to get all PDP groups
-     * @param version the version of the policy to get, null to get all versions of a PDP group
      * @return the PDP group deleted
      * @throws PfModelException on errors deleting PDP groups
      */
-    public PdpGroup deletePdpGroup(@NonNull final String name, @NonNull final String version) throws PfModelException;
+    public PdpGroup deletePdpGroup(@NonNull final String name) throws PfModelException;
 
     /**
      * Get PDP statistics.
      *
      * @param name the name of the PDP group to get statistics for, null to get all PDP groups
-     * @param version the version of the PDP group to get statistics for, null to get all versions of a PDP group
      * @return the statistics found
      * @throws PfModelException on errors getting statistics
      */
-    public List<PdpStatistics> getPdpStatistics(final String name, final String version) throws PfModelException;
+    public List<PdpStatistics> getPdpStatistics(final String name) throws PfModelException;
 
     /**
      * Update PDP statistics for a PDP.
      *
      * @param pdpGroupName the name of the PDP group containing the PDP that the statistics are for
-     * @param pdpGroupVersion the version of the PDP group containing the PDP that the statistics are for
      * @param pdpType the PDP type of the subgroup containing the PDP that the statistics are for
      * @param pdpInstanceId the instance ID of the PDP to update statistics for
      * @param pdpStatistics the PDP statistics
      * @throws PfModelException on errors updating statistics
      */
-    public void updatePdpStatistics(@NonNull final String pdpGroupName, @NonNull final String pdpGroupVersion,
-            @NonNull final String pdpType, @NonNull final String pdpInstanceId,
-            @NonNull final PdpStatistics pdpStatistics) throws PfModelException;
+    public void updatePdpStatistics(@NonNull final String pdpGroupName, @NonNull final String pdpType,
+            @NonNull final String pdpInstanceId, @NonNull final PdpStatistics pdpStatistics) throws PfModelException;
 }

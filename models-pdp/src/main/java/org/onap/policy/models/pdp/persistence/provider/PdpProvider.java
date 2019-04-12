@@ -28,6 +28,7 @@ import javax.ws.rs.core.Response;
 import lombok.NonNull;
 
 import org.onap.policy.models.base.PfConceptKey;
+import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.base.PfReferenceKey;
@@ -60,14 +61,12 @@ public class PdpProvider {
      *
      * @param dao the DAO to use to access the database
      * @param name the name of the PDP group to get, null to get all PDP groups
-     * @param version the version of the policy to get, null to get all versions of a PDP group
      * @return the PDP groups found
      * @throws PfModelException on errors getting PDP groups
      */
-    public List<PdpGroup> getPdpGroups(@NonNull final PfDao dao, final String name, final String version)
-            throws PfModelException {
+    public List<PdpGroup> getPdpGroups(@NonNull final PfDao dao, final String name) throws PfModelException {
 
-        return asPdpGroupList(dao.getFiltered(JpaPdpGroup.class, name, version));
+        return asPdpGroupList(dao.getFiltered(JpaPdpGroup.class, name, PfKey.NULL_KEY_VERSION));
     }
 
     /**
@@ -115,7 +114,7 @@ public class PdpProvider {
 
         for (PdpGroup pdpGroup : pdpGroups) {
             JpaPdpGroup jpaPdpGroup =
-                    dao.get(JpaPdpGroup.class, new PfConceptKey(pdpGroup.getName(), pdpGroup.getVersion()));
+                    dao.get(JpaPdpGroup.class, new PfConceptKey(pdpGroup.getName(), PfKey.NULL_KEY_VERSION));
             returnPdpGroups.add(jpaPdpGroup.toAuthorative());
         }
 
@@ -152,7 +151,7 @@ public class PdpProvider {
 
         for (PdpGroup pdpGroup : pdpGroups) {
             JpaPdpGroup jpaPdpGroup =
-                    dao.get(JpaPdpGroup.class, new PfConceptKey(pdpGroup.getName(), pdpGroup.getVersion()));
+                    dao.get(JpaPdpGroup.class, new PfConceptKey(pdpGroup.getName(), PfKey.NULL_KEY_VERSION));
             returnPdpGroups.add(jpaPdpGroup.toAuthorative());
         }
 
@@ -164,14 +163,14 @@ public class PdpProvider {
      *
      * @param dao the DAO to use to access the database
      * @param pdpGroupName the name of the PDP group of the PDP subgroup
-     * @param pdpGroupVersion the version of the PDP group of the PDP subgroup
      * @param pdpSubGroup the PDP subgroup to be updated
      * @throws PfModelException on errors updating PDP subgroups
      */
     public void updatePdpSubGroup(@NonNull final PfDao dao, @NonNull final String pdpGroupName,
-            @NonNull final String pdpGroupVersion, @NonNull final PdpSubGroup pdpSubGroup) throws PfModelException {
+            @NonNull final PdpSubGroup pdpSubGroup) throws PfModelException {
 
-        final PfReferenceKey subGroupKey = new PfReferenceKey(pdpGroupName, pdpGroupVersion, pdpSubGroup.getPdpType());
+        final PfReferenceKey subGroupKey =
+                new PfReferenceKey(pdpGroupName, PfKey.NULL_KEY_VERSION, pdpSubGroup.getPdpType());
         final JpaPdpSubGroup jpaPdpSubgroup = new JpaPdpSubGroup(subGroupKey);
         jpaPdpSubgroup.fromAuthorative(pdpSubGroup);
 
@@ -190,16 +189,15 @@ public class PdpProvider {
      *
      * @param dao the DAO to use to access the database
      * @param pdpGroupName the name of the PDP group of the PDP subgroup
-     * @param pdpGroupVersion the version of the PDP group of the PDP subgroup
      * @param pdpSubGroup the PDP subgroup to be updated
      * @param pdp the PDP to be updated
      * @throws PfModelException on errors updating PDP subgroups
      */
     public void updatePdp(@NonNull final PfDao dao, @NonNull final String pdpGroupName,
-            @NonNull final String pdpGroupVersion, @NonNull final String pdpSubGroup, @NonNull final Pdp pdp) {
+            @NonNull final String pdpSubGroup, @NonNull final Pdp pdp) {
 
         final PfReferenceKey pdpKey =
-                new PfReferenceKey(pdpGroupName, pdpGroupVersion, pdpSubGroup, pdp.getInstanceId());
+                new PfReferenceKey(pdpGroupName, PfKey.NULL_KEY_VERSION, pdpSubGroup, pdp.getInstanceId());
         final JpaPdp jpaPdp = new JpaPdp(pdpKey);
         jpaPdp.fromAuthorative(pdp);
 
@@ -218,14 +216,12 @@ public class PdpProvider {
      *
      * @param dao the DAO to use to access the database
      * @param name the name of the policy to get, null to get all PDP groups
-     * @param version the version of the policy to get, null to get all versions of a PDP group
      * @return the PDP group deleted
      * @throws PfModelException on errors deleting PDP groups
      */
-    public PdpGroup deletePdpGroup(@NonNull final PfDao dao, @NonNull final String name,
-            @NonNull final String version) {
+    public PdpGroup deletePdpGroup(@NonNull final PfDao dao, @NonNull final String name) {
 
-        PfConceptKey pdpGroupKey = new PfConceptKey(name, version);
+        PfConceptKey pdpGroupKey = new PfConceptKey(name, PfKey.NULL_KEY_VERSION);
 
         JpaPdpGroup jpaDeletePdpGroup = dao.get(JpaPdpGroup.class, pdpGroupKey);
 
@@ -245,12 +241,10 @@ public class PdpProvider {
      *
      * @param dao the DAO to use to access the database
      * @param name the name of the PDP group to get statistics for, null to get all PDP groups
-     * @param version the version of the PDP group to get statistics for, null to get all versions of a PDP group
      * @return the statistics found
      * @throws PfModelException on errors getting statistics
      */
-    public List<PdpStatistics> getPdpStatistics(@NonNull final PfDao dao, final String name, final String version)
-            throws PfModelException {
+    public List<PdpStatistics> getPdpStatistics(@NonNull final PfDao dao, final String name) throws PfModelException {
         return new ArrayList<>();
     }
 
@@ -259,14 +253,13 @@ public class PdpProvider {
      *
      * @param dao the DAO to use to access the database
      * @param pdpGroupName the name of the PDP group containing the PDP that the statistics are for
-     * @param pdpGroupVersion the version of the PDP group containing the PDP that the statistics are for
      * @param pdpType the PDP type of the subgroup containing the PDP that the statistics are for
      * @param pdpInstanceId the instance ID of the PDP to update statistics for
      * @param pdpStatistics the statistics to update
      * @throws PfModelException on errors updating statistics
      */
     public void updatePdpStatistics(@NonNull final PfDao dao, @NonNull final String pdpGroupName,
-            @NonNull final String pdpGroupVersion, @NonNull final String pdpType, @NonNull final String pdpInstanceId,
+            @NonNull final String pdpType, @NonNull final String pdpInstanceId,
             @NonNull final PdpStatistics pdpStatistics) throws PfModelException {
         // Not implemented yet
     }

@@ -41,13 +41,8 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifi
 @Builder
 @Data
 public class PdpGroupFilter implements PfObjectFilter<PdpGroup> {
-    public static final String LATEST_VERSION = "LATEST";
-
     // Name to find
     private String name;
-
-    // Version to find, set to LATEST_VERSION to get the latest version
-    private String version;
 
     // State to find
     private PdpState groupState;
@@ -76,10 +71,8 @@ public class PdpGroupFilter implements PfObjectFilter<PdpGroup> {
     public List<PdpGroup> filter(@NonNull final List<PdpGroup> originalList) {
 
         // @formatter:off
-        List<PdpGroup> returnList = originalList.stream()
+        return originalList.stream()
                 .filter(p -> filterString(p.getName(), name))
-                .filter(p -> LATEST_VERSION.equals(version)
-                        || filterString(p.getVersion(), version))
                 .filter(p -> groupState == null || ObjectUtils.compare(p.getPdpGroupState(), groupState) == 0)
                 .filter(p -> filterOnPdpType(p, pdpType))
                 .filter(p -> filterOnPolicyTypeList(p, policyTypeList, matchPolicyTypesExactly))
@@ -87,12 +80,6 @@ public class PdpGroupFilter implements PfObjectFilter<PdpGroup> {
                 .filter(p -> filterOnPdpState(p, pdpState))
                 .collect(Collectors.toList());
         // @formatter:on
-
-        if (LATEST_VERSION.equals(version)) {
-            returnList = this.latestVersionFilter(returnList);
-        }
-
-        return returnList;
     }
 
     /**

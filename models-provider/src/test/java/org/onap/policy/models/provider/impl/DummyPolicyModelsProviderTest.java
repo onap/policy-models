@@ -104,16 +104,16 @@ public class DummyPolicyModelsProviderTest {
         assertNotNull(dummyProvider.updateGuardPolicy(new LegacyGuardPolicyInput()));
         assertNotNull(dummyProvider.deleteGuardPolicy("policy_id"));
 
-        assertTrue(dummyProvider.getPdpGroups("name", "version").isEmpty());
+        assertTrue(dummyProvider.getPdpGroups("name").isEmpty());
         assertTrue(dummyProvider.getFilteredPdpGroups(PdpGroupFilter.builder().build()).isEmpty());
         assertTrue(dummyProvider.createPdpGroups(new ArrayList<>()).isEmpty());
         assertTrue(dummyProvider.updatePdpGroups(new ArrayList<>()).isEmpty());
-        assertNull(dummyProvider.deletePdpGroup("name", "version"));
+        assertNull(dummyProvider.deletePdpGroup("name"));
 
-        dummyProvider.updatePdpSubGroup("name", "version", new PdpSubGroup());
-        dummyProvider.updatePdp("name", "version", "type", new Pdp());
-        dummyProvider.updatePdpStatistics("name", "version", "type", "type-0", new PdpStatistics());
-        assertTrue(dummyProvider.getPdpStatistics("name", "version").isEmpty());
+        dummyProvider.updatePdpSubGroup("name", new PdpSubGroup());
+        dummyProvider.updatePdp("name", "type", new Pdp());
+        dummyProvider.updatePdpStatistics("name", "type", "type-0", new PdpStatistics());
+        assertTrue(dummyProvider.getPdpStatistics("name").isEmpty());
 
         dummyProvider.close();
     }

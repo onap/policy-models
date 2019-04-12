@@ -284,9 +284,9 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public List<PdpGroup> getPdpGroups(final String name, final String version) throws PfModelException {
+    public List<PdpGroup> getPdpGroups(final String name) throws PfModelException {
         assertInitilized();
-        return new PdpProvider().getPdpGroups(pfDao, name, version);
+        return new PdpProvider().getPdpGroups(pfDao, name);
     }
 
     @Override
@@ -308,36 +308,35 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public void updatePdpSubGroup(@NonNull final String pdpGroupName, @NonNull final String pdpGroupVersion,
-            @NonNull final PdpSubGroup pdpSubGroup) throws PfModelException {
+    public void updatePdpSubGroup(@NonNull final String pdpGroupName, @NonNull final PdpSubGroup pdpSubGroup)
+            throws PfModelException {
         assertInitilized();
-        new PdpProvider().updatePdpSubGroup(pfDao, pdpGroupName, pdpGroupVersion, pdpSubGroup);
+        new PdpProvider().updatePdpSubGroup(pfDao, pdpGroupName, pdpSubGroup);
     }
 
     @Override
-    public void updatePdp(@NonNull String pdpGroupName, @NonNull String pdpGroupVersion, @NonNull String pdpSubGroup,
-            @NonNull Pdp pdp) throws PfModelException {
-        new PdpProvider().updatePdp(pfDao, pdpGroupName, pdpGroupVersion, pdpSubGroup, pdp);
+    public void updatePdp(@NonNull String pdpGroupName, @NonNull String pdpSubGroup, @NonNull Pdp pdp)
+            throws PfModelException {
+        new PdpProvider().updatePdp(pfDao, pdpGroupName, pdpSubGroup, pdp);
     }
 
     @Override
-    public PdpGroup deletePdpGroup(@NonNull final String name, @NonNull final String version) throws PfModelException {
+    public PdpGroup deletePdpGroup(@NonNull final String name) throws PfModelException {
         assertInitilized();
-        return new PdpProvider().deletePdpGroup(pfDao, name, version);
+        return new PdpProvider().deletePdpGroup(pfDao, name);
     }
 
     @Override
-    public List<PdpStatistics> getPdpStatistics(final String name, final String version) throws PfModelException {
+    public List<PdpStatistics> getPdpStatistics(final String name) throws PfModelException {
         assertInitilized();
-        return new PdpProvider().getPdpStatistics(pfDao, name, version);
+        return new PdpProvider().getPdpStatistics(pfDao, name);
     }
 
     @Override
-    public void updatePdpStatistics(@NonNull final String pdpGroupName, @NonNull final String pdpGroupVersion,
-            @NonNull final String pdpType, @NonNull final String pdpInstanceId,
-            @NonNull final PdpStatistics pdpStatistics) throws PfModelException {
+    public void updatePdpStatistics(@NonNull final String pdpGroupName, @NonNull final String pdpType,
+            @NonNull final String pdpInstanceId, @NonNull final PdpStatistics pdpStatistics) throws PfModelException {
         assertInitilized();
-        new PdpProvider().updatePdpStatistics(pfDao, pdpGroupName, pdpGroupVersion, pdpType, pdpInstanceId,
+        new PdpProvider().updatePdpStatistics(pfDao, pdpGroupName, pdpType, pdpInstanceId,
                 pdpStatistics);
     }
 

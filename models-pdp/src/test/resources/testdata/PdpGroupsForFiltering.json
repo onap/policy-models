@@ -2,7 +2,6 @@
     "groups": [
         {
             "name": "PdpGroup0",
-            "version": "1.2.3",
             "description": "group description",
             "pdpGroupState": "PASSIVE",
             "properties": {
@@ -70,8 +69,7 @@
             ]
         },
         {
-            "name": "PdpGroup0",
-            "version": "1.2.4",
+            "name": "PdpGroup10",
             "description": "group description",
             "pdpGroupState": "ACTIVE",
             "properties": {
@@ -117,8 +115,7 @@
             ]
         },
         {
-            "name": "PdpGroup0",
-            "version": "1.2.1",
+            "name": "PdpGroup20",
             "description": "group description",
             "pdpGroupState": "SAFE",
             "properties": {
@@ -193,7 +190,6 @@
         },
         {
             "name": "PdpGroup1",
-            "version": "1.2.1",
             "description": "group description",
             "pdpGroupState": "PASSIVE",
             "properties": {
@@ -235,8 +231,7 @@
             ]
         },
         {
-            "name": "PdpGroup1",
-            "version": "1.2.3",
+            "name": "PdpGroup11",
             "description": "group description",
             "pdpGroupState": "TEST",
             "properties": {

@@ -74,38 +74,28 @@ public class PdpGroupFilterTest {
     }
 
     @Test
-    public void testFilterLatestVersion() {
-        PdpGroupFilter filter = PdpGroupFilter.builder().version(PdpGroupFilter.LATEST_VERSION).build();
-
-        List<PdpGroup> filteredList = filter.filter(pdpGroupList);
-        assertEquals(2, filteredList.size());
-        assertEquals("1.2.4", filteredList.get(0).getVersion());
-        assertEquals("1.2.3", filteredList.get(1).getVersion());
-    }
-
-    @Test
-    public void testFilterNameVersion() {
+    public void testFilterName() {
         PdpGroupFilter filter = PdpGroupFilter.builder().name("PdpGroup0").build();
         List<PdpGroup> filteredList = filter.filter(pdpGroupList);
-        assertEquals(3, filteredList.size());
+        assertEquals(1, filteredList.size());
 
         filter = PdpGroupFilter.builder().name("PdpGroup1").build();
         filteredList = filter.filter(pdpGroupList);
-        assertEquals(2, filteredList.size());
+        assertEquals(1, filteredList.size());
 
-        filter = PdpGroupFilter.builder().name("PdpGroup2").build();
-        filteredList = filter.filter(pdpGroupList);
-        assertEquals(0, filteredList.size());
-
-        filter = PdpGroupFilter.builder().version("1.2.3").build();
-        filteredList = filter.filter(pdpGroupList);
-        assertEquals(2, filteredList.size());
-
-        filter = PdpGroupFilter.builder().name("PdpGroup0").version("1.2.3").build();
+        filter = PdpGroupFilter.builder().name("PdpGroup20").build();
         filteredList = filter.filter(pdpGroupList);
         assertEquals(1, filteredList.size());
 
-        filter = PdpGroupFilter.builder().name("PdpGroup1").version("1.2.9").build();
+        filter = PdpGroupFilter.builder().build();
+        filteredList = filter.filter(pdpGroupList);
+        assertEquals(5, filteredList.size());
+
+        filter = PdpGroupFilter.builder().name("PdpGroup0").build();
+        filteredList = filter.filter(pdpGroupList);
+        assertEquals(1, filteredList.size());
+
+        filter = PdpGroupFilter.builder().name("PdpGroup19").build();
         filteredList = filter.filter(pdpGroupList);
         assertEquals(0, filteredList.size());
     }

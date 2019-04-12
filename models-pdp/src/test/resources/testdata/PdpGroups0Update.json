@@ -2,7 +2,6 @@
     "groups": [
         {
             "name": "PdpGroup0",
-            "version": "1.2.3",
             "description": "group description",
             "pdpGroupState": "PASSIVE",
             "properties": {
