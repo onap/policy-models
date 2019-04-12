@@ -24,16 +24,19 @@ package org.onap.policy.models.pdp.concepts;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import lombok.Data;
 import lombok.NonNull;
-
+import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.ObjectValidationResult;
+import org.onap.policy.common.parameters.ValidationResult;
+import org.onap.policy.common.parameters.ValidationStatus;
 import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifier;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifier;
 
 /**
- * Class to represent a group of all PDP's of the same pdp type running for a particular domain.
+ * Class to represent a group of all PDP's of the same pdp type running for a particular
+ * domain.
  *
  * @author Ram Krishna Verma (ram.krishna.verma@est.tech)
  */
@@ -67,5 +70,31 @@ public class PdpSubGroup {
         this.desiredInstanceCount = source.desiredInstanceCount;
         this.properties = (source.properties == null ? null : new LinkedHashMap<>(source.properties));
         this.pdpInstances = PfUtils.mapList(source.pdpInstances, Pdp::new);
+    }
+
+    /**
+     * Validates that appropriate fields are populated for an incoming call to the PAP
+     * REST API.
+     *
+     * @return a validation result, if there is an error, {@code null} otherwise
+     */
+    public ValidationResult validatePapRest() {
+        BeanValidationResult result = new BeanValidationResult("group", this);
+
+        result.validateNotNull("pdpType", pdpType);
+        result.validateNotNullList("supportedPolicyTypes", supportedPolicyTypes,
+                        ToscaPolicyTypeIdentifier::validatePapRest);
+
+        if (supportedPolicyTypes != null && supportedPolicyTypes.isEmpty()) {
+            result.addResult(new ObjectValidationResult("supportedPolicyTypes", supportedPolicyTypes,
+                            ValidationStatus.INVALID, "empty list"));
+        }
+
+        if (desiredInstanceCount <= 0) {
+            result.addResult(new ObjectValidationResult("desiredInstanceCount", desiredInstanceCount,
+                            ValidationStatus.INVALID, "non-positive"));
+        }
+
+        return (result.isValid() ? null : result);
     }
 }

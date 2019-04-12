@@ -21,12 +21,12 @@
 
 package org.onap.policy.models.pdp.concepts;
 
+import com.openpojo.reflection.filters.FilterClassName;
 import com.openpojo.reflection.filters.FilterPackageInfo;
 import com.openpojo.validation.Validator;
 import com.openpojo.validation.ValidatorBuilder;
 import com.openpojo.validation.test.impl.GetterTester;
 import com.openpojo.validation.test.impl.SetterTester;
-
 import org.junit.Test;
 import org.onap.policy.common.utils.validation.ToStringTester;
 
@@ -41,7 +41,7 @@ public class ModelsTest {
     @Test
     public void testPdpModels() {
         final Validator validator = ValidatorBuilder.create().with(new ToStringTester()).with(new SetterTester())
-                .with(new GetterTester()).build();
-        validator.validate(POJO_PACKAGE, new FilterPackageInfo());
+                        .with(new GetterTester()).build();
+        validator.validate(POJO_PACKAGE, new FilterPackageInfo(), new FilterClassName(PdpMessage.class.getName()));
     }
 }
