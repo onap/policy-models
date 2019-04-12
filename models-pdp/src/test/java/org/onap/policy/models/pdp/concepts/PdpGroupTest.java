@@ -23,6 +23,9 @@ package org.onap.policy.models.pdp.concepts;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -31,12 +34,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import org.junit.Test;
+import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.models.pdp.enums.PdpState;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifier;
 
 /**
- * Test the copy constructor, as {@link ModelsTest} tests the other methods.
+ * Test methods not tested by {@link ModelsTest}.
  */
 public class PdpGroupTest {
+    private static final String NAME = "my-name";
+    private static final String PDP_TYPE1 = "type-1";
+    private static final String PDP_TYPE2 = "type-2";
+    private static final String PDP_TYPE3 = "type-3";
 
     @Test
     public void testCopyConstructor() {
@@ -50,7 +59,7 @@ public class PdpGroupTest {
 
         // verify with all values
         orig.setDescription("my-descript");
-        orig.setName("my-name");
+        orig.setName(NAME);
         orig.setVersion("1.2.3");
         orig.setDescription("my-description");
         orig.setPdpGroupState(PdpState.SAFE);
@@ -107,5 +116,59 @@ public class PdpGroupTest {
 
         assertEquals(1, mapList.size());
         assertEquals(1, mapList.get(0).size());
+    }
+
+    @Test
+    public void testValidatePapRest() {
+        PdpGroup group = new PdpGroup();
+        group.setName(NAME);
+
+        PdpSubGroup subgroup1 = new PdpSubGroup();
+        subgroup1.setDesiredInstanceCount(1);
+        subgroup1.setPdpType(PDP_TYPE1);
+        subgroup1.setSupportedPolicyTypes(Arrays.asList(new ToscaPolicyTypeIdentifier("a-type-name", "3.2.1")));
+
+        PdpSubGroup subgroup2 = new PdpSubGroup(subgroup1);
+        subgroup2.setPdpType(PDP_TYPE2);
+
+        PdpSubGroup subgroup3 = new PdpSubGroup(subgroup1);
+        subgroup3.setPdpType(PDP_TYPE3);
+
+        // valid
+        group.setPdpSubgroups(Arrays.asList(subgroup1, subgroup2, subgroup3));
+        assertNull(group.validatePapRest());
+
+        // null name
+        PdpGroup group2 = new PdpGroup(group);
+        group2.setName(null);
+        assertInvalid(group2);
+
+        // null subgroup list
+        group2 = new PdpGroup(group);
+        group2.setPdpSubgroups(null);
+        assertInvalid(group2);
+
+        // null subgroup
+        group2 = new PdpGroup(group);
+        group2.setPdpSubgroups(Arrays.asList(subgroup1, null));
+        assertInvalid(group2);
+
+        // invalid subgroup
+        group2 = new PdpGroup(group);
+        PdpSubGroup subgroupX = new PdpSubGroup(subgroup1);
+        subgroupX.setPdpType(null);
+        group2.setPdpSubgroups(Arrays.asList(subgroupX));
+        assertInvalid(group2);
+
+        // duplicate PDP type
+        group2 = new PdpGroup(group);
+        group2.setPdpSubgroups(Arrays.asList(subgroup1, subgroup2, subgroup1));
+        assertInvalid(group2);
+    }
+
+    private void assertInvalid(PdpGroup group) {
+        ValidationResult result = group.validatePapRest();
+        assertNotNull(result);
+        assertFalse(result.isValid());
     }
 }

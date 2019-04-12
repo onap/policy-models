@@ -21,13 +21,17 @@
 
 package org.onap.policy.models.pdp.concepts;
 
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
+import java.util.Set;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.ObjectValidationResult;
+import org.onap.policy.common.parameters.ValidationResult;
+import org.onap.policy.common.parameters.ValidationStatus;
 import org.onap.policy.models.base.PfNameVersion;
 import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.pdp.enums.PdpState;
@@ -77,5 +81,56 @@ public class PdpGroup implements PfNameVersion, Comparable<PdpGroup> {
     @Override
     public int compareTo(final PdpGroup other) {
         return compareNameVersion(this, other);
+    }
+
+    /**
+     * Validates that appropriate fields are populated for an incoming call to the PAP
+     * REST API.
+     *
+     * @return a validation result, if there is an error, {@code null} otherwise
+     */
+    public ValidationResult validatePapRest() {
+        BeanValidationResult result = new BeanValidationResult("group", this);
+
+        /*
+         * Don't care about version or state, because we override them. Ok if description
+         * is null.
+         */
+
+        result.validateNotNull("name", name);
+        result.validateNotNullList("pdpSubgroups", pdpSubgroups, PdpSubGroup::validatePapRest);
+
+        checkDuplicateSubgroups(result);
+
+        return (result.isValid() ? null : result);
+    }
+
+    /**
+     * Checks for duplicate subgroups.
+     *
+     * @param result where to place validation results
+     */
+    private void checkDuplicateSubgroups(BeanValidationResult result) {
+        if (pdpSubgroups == null) {
+            return;
+        }
+
+        Set<String> set = new HashSet<>();
+
+        for (PdpSubGroup subgrp : pdpSubgroups) {
+            if (subgrp == null) {
+                continue;
+            }
+
+            String pdpType = subgrp.getPdpType();
+            if (pdpType == null) {
+                continue;
+            }
+
+            if (!set.add(pdpType)) {
+                result.addResult(new ObjectValidationResult("subgroups", pdpType, ValidationStatus.INVALID,
+                                "duplicate subgroup"));
+            }
+        }
     }
 }
