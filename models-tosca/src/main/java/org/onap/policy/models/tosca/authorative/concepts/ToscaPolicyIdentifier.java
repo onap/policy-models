@@ -23,6 +23,8 @@ package org.onap.policy.models.tosca.authorative.concepts;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.ValidationResult;
 
 /**
  * Identifies a policy. Both the name and version must be non-null.
@@ -46,5 +48,20 @@ public class ToscaPolicyIdentifier {
     public ToscaPolicyIdentifier(ToscaPolicyIdentifier source) {
         this.name = source.name;
         this.version = source.version;
+    }
+
+    /**
+     * Validates that appropriate fields are populated for an incoming call to the PAP
+     * REST API.
+     *
+     * @return the validation result
+     */
+    public ValidationResult validatePapRest() {
+        BeanValidationResult result = new BeanValidationResult("group", this);
+
+        result.validateNotNull("name", name);
+        result.validateNotNull("version", version);
+
+        return result;
     }
 }
