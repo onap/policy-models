@@ -42,6 +42,10 @@ public class ModelsTest {
     public void testPdpModels() {
         final Validator validator = ValidatorBuilder.create().with(new ToStringTester()).with(new SetterTester())
                         .with(new GetterTester()).build();
-        validator.validate(POJO_PACKAGE, new FilterPackageInfo(), new FilterClassName(PdpMessage.class.getName()));
+
+        // exclude Test classes and PdpMessage
+        validator.validate(POJO_PACKAGE, new FilterPackageInfo(),
+                        new FilterClassName("^((?!Test$).)*$"),
+                        new FilterClassName("^((?!" + PdpMessage.class.getName() + ").)*$"));
     }
 }

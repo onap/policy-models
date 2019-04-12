@@ -82,6 +82,11 @@ public class PdpGroupsTest {
         groupX.setName(null);
         groups.setGroups(Arrays.asList(group1, groupX));
         assertInvalid(groups);
+
+        // duplicate groups
+        groups = new PdpGroups();
+        groups.setGroups(Arrays.asList(group1, group2, group1));
+        assertInvalid(groups);
     }
 
     private void assertInvalid(PdpGroups groups) {

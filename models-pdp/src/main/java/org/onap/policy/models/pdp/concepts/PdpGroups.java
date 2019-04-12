@@ -21,14 +21,18 @@
 package org.onap.policy.models.pdp.concepts;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.ObjectValidationResult;
 import org.onap.policy.common.parameters.ValidationResult;
+import org.onap.policy.common.parameters.ValidationStatus;
 
 /**
  * Request deploy or update a set of groups via the PDP Group deployment REST API.
@@ -63,7 +67,17 @@ public class PdpGroups {
         BeanValidationResult result = new BeanValidationResult("groups", this);
 
         result.validateNotNullList("groups", groups, PdpGroup::validatePapRest);
+        if (!result.isValid()) {
+            return result;
+        }
 
-        return result;
+        // verify that the same group doesn't appear more than once
+        List<String> names = groups.stream().map(PdpGroup::getName).collect(Collectors.toList());
+        if (groups.size() == new HashSet<>(names).size()) {
+            return result;
+        }
+
+        // different sizes implies duplicates
+        return new ObjectValidationResult("groups", names, ValidationStatus.INVALID, "duplicate group names");
     }
 }

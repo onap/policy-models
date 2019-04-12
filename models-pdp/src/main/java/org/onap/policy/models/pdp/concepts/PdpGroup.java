@@ -25,7 +25,7 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.onap.policy.common.parameters.BeanValidationResult;
@@ -83,7 +83,7 @@ public class PdpGroup implements PfNameVersion, Comparable<PdpGroup> {
         BeanValidationResult result = new BeanValidationResult("group", this);
 
         /*
-         * Don't care about version or state, because we override them. Ok if description is null.
+         * Don't care about state, because we override it. Ok if description is null.
          */
 
         result.validateNotNull("name", name);
@@ -100,24 +100,19 @@ public class PdpGroup implements PfNameVersion, Comparable<PdpGroup> {
      * @param result where to place validation results
      */
     private void checkDuplicateSubgroups(BeanValidationResult result) {
-        if (pdpSubgroups == null) {
+        if (pdpSubgroups == null || !result.isValid()) {
             return;
         }
 
-        Set<String> set = new HashSet<>();
-
-        for (PdpSubGroup subgrp : pdpSubgroups) {
-            String pdpType = (subgrp == null ? null : subgrp.getPdpType());
-
-            if (pdpType == null) {
-                continue;
-            }
-
-            if (!set.add(pdpType)) {
-                result.addResult(new ObjectValidationResult("subgroups", pdpType, ValidationStatus.INVALID,
-                        "duplicate subgroup"));
-            }
+        // verify that the same subgroup doesn't appear more than once
+        List<String> pdpTypes = pdpSubgroups.stream().map(PdpSubGroup::getPdpType).collect(Collectors.toList());
+        if (pdpSubgroups.size() == new HashSet<>(pdpTypes).size()) {
+            return;
         }
+
+        // different sizes implies duplicates
+        result.addResult(new ObjectValidationResult("pdpSubgroups", pdpTypes, ValidationStatus.INVALID,
+                        "duplicate subgroups"));
     }
 
     @Override
