@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "625c7e4d_210b757c",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-12T20:20:38Z",
+      "side": 0,
+      "message": "I think the original code here is more readable but it flags a Sonar issue for having two continues.",
+      "range": {
+        "startLine": 121,
+        "startChar": 1,
+        "endLine": 130,
+        "endChar": 1
+      },
+      "revId": "92d9b661cc32b8dcc90e813aa220e26ef6f83b17",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
