@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -184,6 +185,36 @@ public class ToscaPolicyFilterTest {
         filter = ToscaPolicyFilter.builder().name("operational.modifyconfig").version("1.0.0").build();
         filteredList = filter.filter(policyList);
         assertEquals(2, filteredList.size());
+    }
+
+    @Test
+    public void testFilterMatchVersion() {
+        // null pattern
+        ToscaPolicyFilter filter = ToscaPolicyFilter.builder().matchVersion(null).build();
+        List<ToscaPolicy> filteredList = filter.filter(policyList);
+        assertEquals(17, filteredList.size());
+
+        filter = ToscaPolicyFilter.builder().matchVersion("1[.].*").build();
+        filteredList = filter.filter(policyList);
+        assertEquals(17, filteredList.size());
+
+        // dots match both "." and "0"
+        filter = ToscaPolicyFilter.builder().matchVersion("1....").build();
+        assertEquals(17, filteredList.size());
+
+        filter = ToscaPolicyFilter.builder().matchVersion("1[.]0[.].*").build();
+        assertEquals(17, filteredList.size());
+
+        filter = ToscaPolicyFilter.builder().matchVersion("1[.]0[.]0").build();
+        assertEquals(17, filteredList.size());
+
+        filter = ToscaPolicyFilter.builder().matchVersion("100[.].*").build();
+        filteredList = filter.filter(policyList);
+        assertEquals(0, filteredList.size());
+
+        filter = ToscaPolicyFilter.builder().matchVersion("1[.]0[.]100").build();
+        filteredList = filter.filter(policyList);
+        assertEquals(0, filteredList.size());
     }
 
     @Test
