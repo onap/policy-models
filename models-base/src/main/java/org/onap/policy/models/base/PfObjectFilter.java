@@ -24,6 +24,9 @@ package org.onap.policy.models.base;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.regex.Pattern;
 
 /**
  * Interface for filtering a list of concepts.
@@ -41,14 +44,32 @@ public interface PfObjectFilter<T extends Comparable<T>> {
     public List<T> filter(final List<T> originalList);
 
     /**
-     * Check if a value matches a regular expression.
+     * Check if a value exactly equals some text.
      *
      * @param value the incoming value to check
-     * @param pattern the pattern to check against
+     * @param text the desired text to check against
      * @return match or not
      */
-    public default boolean filterString(final String value, final String pattern) {
-        return value == null || pattern == null || value.equals(pattern);
+    public default boolean filterString(final String value, final String text) {
+        return value == null || text == null || value.equals(text);
+    }
+
+    /**
+     * Gets a predicate used to filter an item in a list by matching an extracted value
+     * with a regular expression.
+     *
+     * @param pattern regular expression to match, or {@code null} if to accept everything
+     * @param extractor function to extract the value, to be matched, from a list item
+     * @return a predicate to match a value from a list item using a regular expression
+     */
+    public default Predicate<T> filterRegexpPred(final String pattern, Function<T, String> extractor) {
+        // if null pattern, then everything matches
+        if (pattern == null) {
+            return item -> true;
+        }
+
+        Pattern pat = Pattern.compile(pattern);
+        return item -> pat.matcher(extractor.apply(item)).matches();
     }
 
     /**
