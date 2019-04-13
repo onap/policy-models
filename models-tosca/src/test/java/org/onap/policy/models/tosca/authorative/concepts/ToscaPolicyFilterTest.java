@@ -187,6 +187,36 @@ public class ToscaPolicyFilterTest {
     }
 
     @Test
+    public void testFilterMatchVersion() {
+        // null pattern
+        ToscaPolicyFilter filter = ToscaPolicyFilter.builder().matchVersion(null).build();
+        List<ToscaPolicy> filteredList = filter.filter(policyList);
+        assertEquals(17, filteredList.size());
+
+        filter = ToscaPolicyFilter.builder().matchVersion("1[.].*").build();
+        filteredList = filter.filter(policyList);
+        assertEquals(17, filteredList.size());
+
+        // dots match both "." and "0"
+        filter = ToscaPolicyFilter.builder().matchVersion("1....").build();
+        assertEquals(17, filteredList.size());
+
+        filter = ToscaPolicyFilter.builder().matchVersion("1[.]0[.].*").build();
+        assertEquals(17, filteredList.size());
+
+        filter = ToscaPolicyFilter.builder().matchVersion("1[.]0[.]0").build();
+        assertEquals(17, filteredList.size());
+
+        filter = ToscaPolicyFilter.builder().matchVersion("100[.].*").build();
+        filteredList = filter.filter(policyList);
+        assertEquals(0, filteredList.size());
+
+        filter = ToscaPolicyFilter.builder().matchVersion("1[.]0[.]100").build();
+        filteredList = filter.filter(policyList);
+        assertEquals(0, filteredList.size());
+    }
+
+    @Test
     public void testFilterTypeVersion() {
         ToscaPolicyFilter filter = ToscaPolicyFilter.builder().type("onap.policies.controlloop.Operational").build();
         List<ToscaPolicy> filteredList = filter.filter(policyList);

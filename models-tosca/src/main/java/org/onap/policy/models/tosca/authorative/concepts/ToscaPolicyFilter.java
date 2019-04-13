@@ -42,8 +42,11 @@ public class ToscaPolicyFilter implements PfObjectFilter<ToscaPolicy> {
     // Regular expression
     private String name;
 
-    // Regular Expression, set to LATEST_VERRSION to get the latest version
+    // Exact match, set to LATEST_VERRSION to get the latest version
     private String version;
+
+    // Regular expression
+    private String matchVersion;
 
     // Regular expression
     private String type;
@@ -59,6 +62,7 @@ public class ToscaPolicyFilter implements PfObjectFilter<ToscaPolicy> {
                 .filter(p -> filterString(p.getName(),        name))
                 .filter(p -> LATEST_VERSION.equals(version)
                         || filterString(p.getVersion(), version))
+                .filter(filterRegexpPred(matchVersion, ToscaPolicy::getVersion))
                 .filter(p -> filterString(p.getType(),        type))
                 .filter(p -> filterString(p.getTypeVersion(), typeVersion))
                 .collect(Collectors.toList());
