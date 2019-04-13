@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2043564b_7989f5e9",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfObjectFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-13T23:30:17Z",
+      "side": 1,
+      "message": "learned something new - thx!",
+      "parentUuid": "b8dea75e_f590e2cd",
+      "revId": "fb984facc4b8f3e4d84a923b72e088682c450779",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a59c6901_e7d0d84b",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaPolicyFilter.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2019-04-13T23:11:03Z",
       "side": 1,
       "message": "RR in VERRSION",
+      "revId": "fb984facc4b8f3e4d84a923b72e088682c450779",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "399c09fa_4c9e6394",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaPolicyFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-13T23:30:17Z",
+      "side": 1,
+      "message": "yes, kept noticing this every time I pushed up a change, but kept forgetting to update it",
+      "parentUuid": "a59c6901_e7d0d84b",
       "revId": "fb984facc4b8f3e4d84a923b72e088682c450779",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
