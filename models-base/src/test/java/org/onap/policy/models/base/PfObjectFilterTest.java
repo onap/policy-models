@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +27,9 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.function.BiFunction;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import org.junit.Test;
 
 import org.onap.policy.models.base.testconcepts.DummyPfObject;
@@ -100,5 +103,51 @@ public class PfObjectFilterTest {
         latestVersionList.remove(1);
         List<DummyPfObject> newestVersionList = dof.latestVersionFilter(latestVersionList);
         assertEquals(latestVersionList, newestVersionList);
+
+        MyFilter filter = new MyFilter();
+
+        assertEquals(true, filter.filterString(null, "Hello"));
+
+        DummyPfObject doNullVersion = new DummyPfObject();
+        do5.setName("bbbbb");
+
+        assertEquals(false, filter(filter::filterStringPred, DummyPfObject::getVersion, doNullVersion, "1.0.0"));
+        assertEquals(false, filter(filter::filterStringPred, DummyPfObject::getVersion, do0, "1"));
+        assertEquals(false, filter(filter::filterStringPred, DummyPfObject::getVersion, do0, "2.0.0"));
+        assertEquals(true, filter(filter::filterStringPred, DummyPfObject::getVersion, doNullVersion, null));
+        assertEquals(true, filter(filter::filterStringPred, DummyPfObject::getVersion, do0, null));
+        assertEquals(true, filter(filter::filterStringPred, DummyPfObject::getVersion, do0, "1.0.0"));
+
+        assertEquals(false, filter(filter::filterPrefixPred, DummyPfObject::getVersion, doNullVersion, "1."));
+        assertEquals(false, filter(filter::filterPrefixPred, DummyPfObject::getVersion, do0, "1.1"));
+        assertEquals(false, filter(filter::filterPrefixPred, DummyPfObject::getVersion, do0, "1.1"));
+        assertEquals(false, filter(filter::filterPrefixPred, DummyPfObject::getVersion, do0, "2"));
+        assertEquals(true, filter(filter::filterPrefixPred, DummyPfObject::getVersion, doNullVersion, null));
+        assertEquals(true, filter(filter::filterPrefixPred, DummyPfObject::getVersion, do0, null));
+        assertEquals(true, filter(filter::filterPrefixPred, DummyPfObject::getVersion, do0, "1."));
+        assertEquals(true, filter(filter::filterPrefixPred, DummyPfObject::getVersion, do0, "1.0."));
+        assertEquals(true, filter(filter::filterPrefixPred, DummyPfObject::getVersion, do0, "1.0.0"));
+
+        assertEquals(false, filter(filter::filterRegexpPred, DummyPfObject::getVersion, doNullVersion, "1[.].*"));
+        assertEquals(false, filter(filter::filterRegexpPred, DummyPfObject::getVersion, do0, "2[.].*"));
+        assertEquals(true, filter(filter::filterRegexpPred, DummyPfObject::getVersion, doNullVersion, null));
+        assertEquals(true, filter(filter::filterRegexpPred, DummyPfObject::getVersion, do0, null));
+        assertEquals(true, filter(filter::filterRegexpPred, DummyPfObject::getVersion, do0, "1[.].*"));
+        assertEquals(true, filter(filter::filterRegexpPred, DummyPfObject::getVersion, do0, "1[.]0[.].*"));
+        assertEquals(true, filter(filter::filterRegexpPred, DummyPfObject::getVersion, do0, "1[.]0[.]0"));
+        assertEquals(true, filter(filter::filterRegexpPred, DummyPfObject::getVersion, do0, "1...."));
+    }
+
+    private boolean filter(BiFunction<String, Function<DummyPfObject, String>, Predicate<DummyPfObject>> predMaker,
+                    Function<DummyPfObject, String> extractor, DummyPfObject dpo, String text) {
+        Predicate<DummyPfObject> pred = predMaker.apply(text, extractor);
+        return pred.test(dpo);
+    }
+
+    private static class MyFilter implements PfObjectFilter<DummyPfObject> {
+        @Override
+        public List<DummyPfObject> filter(List<DummyPfObject> originalList) {
+            return null;
+        }
     }
 }
