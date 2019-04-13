@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,8 +43,11 @@ public class ToscaPolicyFilter implements PfObjectFilter<ToscaPolicy> {
     // Regular expression
     private String name;
 
-    // Regular Expression, set to LATEST_VERRSION to get the latest version
+    // Exact match, set to LATEST_VERRSION to get the latest version
     private String version;
+
+    // Regular expression
+    private String matchVersion;
 
     // Regular expression
     private String type;
@@ -59,6 +63,7 @@ public class ToscaPolicyFilter implements PfObjectFilter<ToscaPolicy> {
                 .filter(p -> filterString(p.getName(),        name))
                 .filter(p -> LATEST_VERSION.equals(version)
                         || filterString(p.getVersion(), version))
+                .filter(filterRegexpPred(matchVersion, ToscaPolicy::getVersion))
                 .filter(p -> filterString(p.getType(),        type))
                 .filter(p -> filterString(p.getTypeVersion(), typeVersion))
                 .collect(Collectors.toList());
