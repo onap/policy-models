@@ -16,6 +16,24 @@
       "revId": "11ad26127fbd2f543cc91f86bc170231b66fa7cd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4663687_7405f2b3",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfObjectFilter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-14T19:58:15Z",
+      "side": 1,
+      "message": "At least with this approach, it only compiles the pattern once  before applying the pattern to a list, rather than compiling it for every item in the list.  For that matter, either way adds negligible overhead, as the vast majority of time is spent just retrieving the data from the DB.\n\nFor the particular case of matching versions, it would actually have been easier to use startsWith(), but this seemed a little more flexible.  I\u0027d still be open to changing matchVersion to startsWithVersion since that\u0027s really what is wanted, thus avoiding the pattern compilation altogether.",
+      "parentUuid": "6e2ea85b_c335c5b8",
+      "revId": "11ad26127fbd2f543cc91f86bc170231b66fa7cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
