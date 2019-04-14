@@ -56,7 +56,7 @@ public class PdpGroupTest {
 
         // verify with null values
         assertEquals("PdpGroup(name=null, description=null, pdpGroupState=null, " + "properties=null, pdpSubgroups=[])",
-                new PdpGroup(orig).toString());
+                        new PdpGroup(orig).toString());
 
         // verify with all values
         orig.setDescription("my-descript");
@@ -77,11 +77,11 @@ public class PdpGroupTest {
         orig.setProperties(props);
 
         assertEquals("PdpGroup(name=my-name, description=my-description, "
-                + "pdpGroupState=SAFE, properties={key-A=value-A, key-B=value-B}, "
-                + "pdpSubgroups=[PdpSubGroup(pdpType=null, supportedPolicyTypes=[], policies=[], "
-                + "currentInstanceCount=10, desiredInstanceCount=0, properties=null, pdpInstances=[]), "
-                + "PdpSubGroup(pdpType=null, supportedPolicyTypes=[], policies=[], currentInstanceCount=11, "
-                + "desiredInstanceCount=0, properties=null, pdpInstances=[])])", new PdpGroup(orig).toString());
+                        + "pdpGroupState=SAFE, properties={key-A=value-A, key-B=value-B}, "
+                        + "pdpSubgroups=[PdpSubGroup(pdpType=null, supportedPolicyTypes=[], policies=[], "
+                        + "currentInstanceCount=10, desiredInstanceCount=0, properties=null, pdpInstances=[]), "
+                        + "PdpSubGroup(pdpType=null, supportedPolicyTypes=[], policies=[], currentInstanceCount=11, "
+                        + "desiredInstanceCount=0, properties=null, pdpInstances=[])])", new PdpGroup(orig).toString());
     }
 
     @Test
@@ -152,6 +152,11 @@ public class PdpGroupTest {
         // null subgroup list
         group2 = new PdpGroup(group);
         group2.setPdpSubgroups(null);
+        assertInvalid(group2);
+
+        // empty subgroup list
+        group2 = new PdpGroup(group);
+        group2.setPdpSubgroups(Collections.emptyList());
         assertInvalid(group2);
 
         // null subgroup
