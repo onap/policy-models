@@ -34,6 +34,24 @@
       "revId": "11ad26127fbd2f543cc91f86bc170231b66fa7cd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91c9cd4a_56e1893c",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfObjectFilter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-14T20:54:24Z",
+      "side": 1,
+      "message": "Decided to use startsWith, after all, when matching versions, as it\u0027s simpler than regular expression matching (e.g., don\u0027t have to escape \".\" embedded within the prefix).  Left this method in the filter class, as it may be useful in the future.",
+      "parentUuid": "d4663687_7405f2b3",
+      "revId": "11ad26127fbd2f543cc91f86bc170231b66fa7cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
