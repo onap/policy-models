@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6e2ea85b_c335c5b8",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfObjectFilter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-04-14T14:06:19Z",
+      "side": 1,
+      "message": "I\u0027ve seen the Pattern object being cached, in theory the compile operation being expensive.   One idea, is to have an api (new default method in this interface) to accept a Pattern or Matcher.   This would allow callers to cache it on their side for reuse.    The other idea is to change the \"String pattern\" argument to this method, to force library clients to think about it, and seriously considering the caching on their side.",
+      "revId": "11ad26127fbd2f543cc91f86bc170231b66fa7cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
