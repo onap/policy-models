@@ -89,6 +89,11 @@ public class PdpGroup implements PfNameVersion, Comparable<PdpGroup> {
         result.validateNotNull("name", name);
         result.validateNotNullList("pdpSubgroups", pdpSubgroups, PdpSubGroup::validatePapRest);
 
+        if (pdpSubgroups != null && pdpSubgroups.isEmpty()) {
+            result.addResult(new ObjectValidationResult("pdpSubgroups", pdpSubgroups, ValidationStatus.INVALID,
+                            "is empty"));
+        }
+
         checkDuplicateSubgroups(result);
 
         return result;

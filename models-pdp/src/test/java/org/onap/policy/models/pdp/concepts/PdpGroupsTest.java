@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 import org.junit.Test;
 import org.onap.policy.common.parameters.ValidationResult;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifier;
 
 public class PdpGroupsTest {
 
@@ -41,11 +42,18 @@ public class PdpGroupsTest {
     public void testValidatePapRest_toMapList() {
         PdpGroup group1 = new PdpGroup();
         group1.setName("group-1");
-        group1.setPdpSubgroups(Collections.emptyList());
+
+        PdpSubGroup subgrp = new PdpSubGroup();
+        subgrp.setDesiredInstanceCount(1);
+        subgrp.setPdpType("pdp-type");
+        subgrp.setSupportedPolicyTypes(Arrays.asList(new ToscaPolicyTypeIdentifier("policy-type", "9.8.7")));
+        subgrp.setPolicies(Collections.emptyList());
+
+        group1.setPdpSubgroups(Arrays.asList(subgrp));
 
         PdpGroup group2 = new PdpGroup();
         group2.setName("group-2");
-        group2.setPdpSubgroups(Collections.emptyList());
+        group2.setPdpSubgroups(Arrays.asList(subgrp));
 
         PdpGroups groups = new PdpGroups();
         groups.setGroups(Arrays.asList(group1, group2));
