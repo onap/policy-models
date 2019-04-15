@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -200,7 +201,10 @@ public class AuthorativeToscaProvider {
     public ToscaServiceTemplate getFilteredPolicies(@NonNull final PfDao dao, @NonNull final ToscaPolicyFilter filter)
             throws PfModelException {
 
-        ToscaServiceTemplate serviceTemplate = new SimpleToscaProvider().getPolicies(dao, null, null).toAuthorative();
+        String version = ToscaPolicyFilter.LATEST_VERSION.equals(filter.getVersion()) ? null : filter.getVersion();
+
+        ToscaServiceTemplate serviceTemplate =
+                        new SimpleToscaProvider().getPolicies(dao, filter.getName(), version).toAuthorative();
 
         List<ToscaPolicy> filteredPolicies = asConceptList(serviceTemplate.getToscaTopologyTemplate().getPolicies());
         filteredPolicies = filter.filter(filteredPolicies);
@@ -221,7 +225,8 @@ public class AuthorativeToscaProvider {
     public List<ToscaPolicy> getFilteredPolicyList(@NonNull final PfDao dao, @NonNull final ToscaPolicyFilter filter)
             throws PfModelException {
 
-        return filter.filter(getPolicyList(dao, null, null));
+        String version = ToscaPolicyFilter.LATEST_VERSION.equals(filter.getVersion()) ? null : filter.getVersion();
+        return filter.filter(getPolicyList(dao, filter.getName(), version));
     }
 
     /**

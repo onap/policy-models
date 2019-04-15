@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -79,9 +80,8 @@ public class PdpProvider {
      */
     public List<PdpGroup> getFilteredPdpGroups(@NonNull final PfDao dao, @NonNull final PdpGroupFilter filter) {
 
-        List<JpaPdpGroup> jpaPdpGroupList = dao.getAll(JpaPdpGroup.class);
-
-        return filter.filter(asPdpGroupList(jpaPdpGroupList));
+        return filter.filter(
+                        asPdpGroupList(dao.getFiltered(JpaPdpGroup.class, filter.getName(), PfKey.NULL_KEY_VERSION)));
     }
 
     /**
