@@ -70,6 +70,30 @@
       "revId": "ddd8b56d7bce562a9990199af9bfe36be4c2ca56",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b1646d5_b52715ce",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpGroup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-04-15T09:21:54Z",
+      "side": 1,
+      "message": "great!",
+      "parentUuid": "e72628f7_4b3a86b9",
+      "range": {
+        "startLine": 92,
+        "startChar": 12,
+        "endLine": 92,
+        "endChar": 32
+      },
+      "revId": "ddd8b56d7bce562a9990199af9bfe36be4c2ca56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
