@@ -41,6 +41,8 @@ import org.onap.policy.common.parameters.ValidationStatus;
 @Setter
 @ToString
 public class PdpGroups {
+    private static final String GROUPS_FIELD = "groups";
+
     private List<PdpGroup> groups;
 
     /**
@@ -64,9 +66,9 @@ public class PdpGroups {
      * @return the validation result
      */
     public ValidationResult validatePapRest() {
-        BeanValidationResult result = new BeanValidationResult("groups", this);
+        BeanValidationResult result = new BeanValidationResult(GROUPS_FIELD, this);
 
-        result.validateNotNullList("groups", groups, PdpGroup::validatePapRest);
+        result.validateNotNullList(GROUPS_FIELD, groups, PdpGroup::validatePapRest);
         if (!result.isValid()) {
             return result;
         }
@@ -78,6 +80,6 @@ public class PdpGroups {
         }
 
         // different sizes implies duplicates
-        return new ObjectValidationResult("groups", names, ValidationStatus.INVALID, "duplicate group names");
+        return new ObjectValidationResult(GROUPS_FIELD, names, ValidationStatus.INVALID, "duplicate group names");
     }
 }
