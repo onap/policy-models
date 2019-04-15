@@ -39,7 +39,7 @@ public class ToscaPolicyIdentifierOptVersionTest extends ToscaIdentifierTestBase
     @Test
     public void testAllArgsConstructor_testIsNullVersion() {
         assertThatThrownBy(() -> new ToscaPolicyIdentifierOptVersion(null, VERSION))
-                .isInstanceOf(NullPointerException.class);
+                        .isInstanceOf(NullPointerException.class);
 
         // with null version
         ToscaPolicyIdentifierOptVersion orig = new ToscaPolicyIdentifierOptVersion(NAME, null);
@@ -55,7 +55,8 @@ public class ToscaPolicyIdentifierOptVersionTest extends ToscaIdentifierTestBase
 
     @Test
     public void testCopyConstructor() throws Exception {
-        assertThatThrownBy(() -> new ToscaPolicyIdentifierOptVersion(null)).isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> new ToscaPolicyIdentifierOptVersion((ToscaPolicyIdentifierOptVersion) null))
+                        .isInstanceOf(NullPointerException.class);
 
         ToscaPolicyIdentifierOptVersion orig = new ToscaPolicyIdentifierOptVersion();
 
@@ -65,6 +66,26 @@ public class ToscaPolicyIdentifierOptVersionTest extends ToscaIdentifierTestBase
         // verify with all values
         orig = makeIdent(NAME, VERSION);
         assertEquals(orig.toString(), new ToscaPolicyIdentifierOptVersion(orig).toString());
+    }
+
+    @Test
+    public void testCopyToscaPolicyIdentifierConstructor() throws Exception {
+        assertThatThrownBy(() -> new ToscaPolicyIdentifierOptVersion((ToscaPolicyIdentifier) null))
+                        .isInstanceOf(NullPointerException.class);
+
+        ToscaPolicyIdentifier orig = new ToscaPolicyIdentifier();
+
+        // verify with null values
+        ToscaPolicyIdentifierOptVersion newIdent = new ToscaPolicyIdentifierOptVersion(orig);
+        assertEquals(null, newIdent.getName());
+        assertEquals(null, newIdent.getVersion());
+
+        // verify with all values
+        orig.setName(NAME);
+        orig.setVersion(VERSION);
+        newIdent = new ToscaPolicyIdentifierOptVersion(orig);
+        assertEquals(NAME, newIdent.getName());
+        assertEquals(VERSION, newIdent.getVersion());
     }
 
     @Test

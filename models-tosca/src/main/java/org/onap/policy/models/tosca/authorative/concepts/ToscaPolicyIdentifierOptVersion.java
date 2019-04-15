@@ -51,6 +51,11 @@ public class ToscaPolicyIdentifierOptVersion implements Comparable<ToscaPolicyId
         this.version = source.version;
     }
 
+    public ToscaPolicyIdentifierOptVersion(ToscaPolicyIdentifier source) {
+        this.name = source.getName();
+        this.version = source.getVersion();
+    }
+
     /**
      * Determines if the version is null/missing.
      *
