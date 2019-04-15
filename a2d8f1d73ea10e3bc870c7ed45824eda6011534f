@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fee40a8f_27a7912b",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaPolicy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-15T21:32:21Z",
+      "side": 1,
+      "message": "fyi: this broke a bunch of junit tests in PAP that use json files to load policies for testing",
+      "revId": "a2d8f1d73ea10e3bc870c7ed45824eda6011534f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
