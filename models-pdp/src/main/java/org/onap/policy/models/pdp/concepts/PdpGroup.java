@@ -21,6 +21,7 @@
 
 package org.onap.policy.models.pdp.concepts;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -121,12 +122,14 @@ public class PdpGroup implements PfNameVersion, Comparable<PdpGroup> {
     }
 
     @Override
+    @JsonIgnore
     public String getVersion() {
         // We need to pass a version for keying in the database
         return PfKey.NULL_KEY_VERSION;
     }
 
     @Override
+    @JsonIgnore
     public void setVersion(String version) {
         // Just ignore any version that is set
     }
