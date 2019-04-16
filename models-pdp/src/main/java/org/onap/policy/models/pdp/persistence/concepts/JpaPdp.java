@@ -193,7 +193,7 @@ public class JpaPdp extends PfConcept implements PfAuthorative<Pdp>, Serializabl
                     "PDP health status may not be null"));
         }
 
-        if (StringUtils.isBlank(message)) {
+        if (message != null && StringUtils.isBlank(message)) {
             result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
                     "message may not be blank"));
         }

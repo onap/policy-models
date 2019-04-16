@@ -149,6 +149,8 @@ public class JpaPdpTest {
         testJpaPdp.setKey(savedKey);
         assertTrue(testJpaPdp.validate(new PfValidationResult()).isOk());
 
+        testJpaPdp.setMessage(null);
+        assertTrue(testJpaPdp.validate(new PfValidationResult()).isOk());
         testJpaPdp.setMessage("");
         assertFalse(testJpaPdp.validate(new PfValidationResult()).isOk());
         testJpaPdp.setMessage("Valid Message");
