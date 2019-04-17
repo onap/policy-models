@@ -59,6 +59,7 @@
         <module>models-provider</module>
         <module>models-examples</module>
         <module>models-interactions</module>
+        <module>models-sim</module>
     </modules>
 
     <distributionManagement>
