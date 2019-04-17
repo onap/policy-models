@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "41c486f4_abead7f6",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-17T17:00:37Z",
+      "side": 1,
+      "message": "The other simulators are located in this sub-module",
+      "range": {
+        "startLine": 61,
+        "startChar": 11,
+        "endLine": 61,
+        "endChar": 41
+      },
+      "revId": "900920306a0be309f389880325558bb96ff76356",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
