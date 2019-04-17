@@ -22,6 +22,30 @@
       "revId": "900920306a0be309f389880325558bb96ff76356",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9358640f_dda0bc64",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-17T18:47:05Z",
+      "side": 1,
+      "message": "I didn\u0027t want to put this simulator in there.\n\nTo be honest I\u0027m pretty uncomfortable having this in models at all given that this has nothing to do with models. I don\u0027t think the other simulators should be in models either and even if they are it\u0027s probably better not to have then buried down in the interactions code.",
+      "parentUuid": "41c486f4_abead7f6",
+      "range": {
+        "startLine": 61,
+        "startChar": 11,
+        "endLine": 61,
+        "endChar": 41
+      },
+      "revId": "900920306a0be309f389880325558bb96ff76356",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
