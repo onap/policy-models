@@ -191,12 +191,12 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
 
         // Add the property metadata if it doesn't exist already
         if (toscaPolicy.getMetadata() == null) {
-            toscaPolicy.setMetadata(new LinkedHashMap<>());
+            setMetadata(new LinkedHashMap<>());
         }
 
         // Add the policy name and version fields to the metadata
-        toscaPolicy.getMetadata().put(METADATA_POLICY_ID_TAG, getKey().getName());
-        toscaPolicy.getMetadata().put(METADATA_POLICY_VERSION_TAG, Integer.toString(getKey().getMajorVersion()));
+        getMetadata().put(METADATA_POLICY_ID_TAG, getKey().getName());
+        getMetadata().put(METADATA_POLICY_VERSION_TAG, Integer.toString(getKey().getMajorVersion()));
     }
 
     @Override
