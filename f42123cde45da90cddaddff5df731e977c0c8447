@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd949261_bf960284",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-04-19T18:24:55Z",
+      "side": 1,
+      "message": "we should verify that the swagger can still be retrieved via the UI",
+      "revId": "f42123cde45da90cddaddff5df731e977c0c8447",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
