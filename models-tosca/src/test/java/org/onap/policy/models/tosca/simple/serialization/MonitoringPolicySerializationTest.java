@@ -171,7 +171,7 @@ public class MonitoringPolicySerializationTest {
         JpaToscaPolicy policyVal = policiesConceptMap.values().iterator().next();
 
         // Check metadata
-        assertTrue(policyVal.getMetadata().size() == 1);
+        assertTrue(policyVal.getMetadata().size() == 2);
         assertEquals("policy-id", policyVal.getMetadata().entrySet().iterator().next().getKey());
         assertEquals("onap.restart.tca", policyVal.getMetadata().entrySet().iterator().next().getValue());
 
@@ -204,7 +204,7 @@ public class MonitoringPolicySerializationTest {
         JpaToscaPolicy policyVal = policiesConceptMap.values().iterator().next();
 
         // Check metadata
-        assertTrue(policyVal.getMetadata().size() == 1);
+        assertTrue(policyVal.getMetadata().size() == 2);
         assertEquals("policy-id", policyVal.getMetadata().entrySet().iterator().next().getKey());
         assertEquals("onap.scaleout.tca", policyVal.getMetadata().entrySet().iterator().next().getValue());
 
@@ -237,7 +237,7 @@ public class MonitoringPolicySerializationTest {
         JpaToscaPolicy policyVal = policiesConceptMap.values().iterator().next();
 
         // Check metadata
-        assertTrue(policyVal.getMetadata().size() == 1);
+        assertTrue(policyVal.getMetadata().size() == 2);
         assertEquals("policy-id", policyVal.getMetadata().entrySet().iterator().next().getKey());
         assertEquals("onap.vfirewall.tca", policyVal.getMetadata().entrySet().iterator().next().getValue());
 
