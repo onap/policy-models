@@ -69,6 +69,12 @@
             <groupId>org.onap.aai.schema-service</groupId>
             <artifactId>aai-schema</artifactId>
             <version>1.0.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-beanutils</groupId>
+                    <artifactId>commons-beanutils</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 </project>
