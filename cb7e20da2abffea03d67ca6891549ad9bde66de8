@@ -1,0 +1,8 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Pramod Jamkhedkar <pramod@research.att.com>
+Code-Review+2: Liam Fallon <liam.fallon@est.tech>
+Submitted-by: Liam Fallon <liam.fallon@est.tech>
+Submitted-at: Tue, 23 Apr 2019 19:10:16 +0000
+Reviewed-on: https://gerrit.onap.org/r/86077
+Project: policy/models
+Branch: refs/heads/master
