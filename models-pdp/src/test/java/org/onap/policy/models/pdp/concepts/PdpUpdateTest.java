@@ -41,6 +41,7 @@ public class PdpUpdateTest {
         assertThatThrownBy(() -> new PdpUpdate(null)).isInstanceOf(NullPointerException.class);
 
         PdpUpdate orig = new PdpUpdate();
+        orig.setPolicies(null);
 
         // verify with null values
         assertEquals(removeVariableFields(orig.toString()), removeVariableFields(new PdpUpdate(orig).toString()));

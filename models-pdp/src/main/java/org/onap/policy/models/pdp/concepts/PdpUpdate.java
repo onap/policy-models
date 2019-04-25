@@ -21,6 +21,7 @@
 
 package org.onap.policy.models.pdp.concepts;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.Getter;
@@ -54,7 +55,7 @@ public class PdpUpdate extends PdpMessage {
      * listed. Note: this list may be empty, as a PDP may remain attached to a subgroup
      * even if all of the policies are removed from the subgroup.
      */
-    private List<ToscaPolicy> policies;
+    private List<ToscaPolicy> policies = new LinkedList<>();
 
     /**
      * Constructor for instantiating PdpUpdate class with message name.
