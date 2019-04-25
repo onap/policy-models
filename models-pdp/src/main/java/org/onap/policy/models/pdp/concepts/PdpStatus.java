@@ -25,6 +25,7 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.pdp.enums.PdpHealthStatus;
 import org.onap.policy.models.pdp.enums.PdpMessageType;
 import org.onap.policy.models.pdp.enums.PdpState;
@@ -63,5 +64,25 @@ public class PdpStatus extends PdpMessage {
      */
     public PdpStatus() {
         super(PdpMessageType.PDP_STATUS);
+    }
+
+    /**
+     * Constructs the object, making a deep copy.
+     *
+     * @param source source from which to copy
+     */
+    public PdpStatus(PdpStatus source) {
+        super(source);
+
+        this.pdpType = source.pdpType;
+        this.state = source.state;
+        this.healthy = source.healthy;
+        this.description = source.description;
+        this.supportedPolicyTypes = PfUtils.mapList(source.supportedPolicyTypes, ToscaPolicyTypeIdentifier::new);
+        this.policies = PfUtils.mapList(source.policies, ToscaPolicyIdentifier::new);
+        this.deploymentInstanceInfo = source.deploymentInstanceInfo;
+        this.properties = source.properties;
+        this.statistics = (source.statistics == null ? null : new PdpStatistics(source.statistics));
+        this.response = (source.response == null ? null : new PdpResponseDetails(source.response));
     }
 }

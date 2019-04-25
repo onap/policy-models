@@ -22,6 +22,7 @@
 package org.onap.policy.models.pdp.concepts;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.onap.policy.models.pdp.enums.PdpResponseStatus;
@@ -34,10 +35,22 @@ import org.onap.policy.models.pdp.enums.PdpResponseStatus;
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
 public class PdpResponseDetails {
 
     // The responseTo field should match the original request id in the request.
     private String responseTo;
     private PdpResponseStatus responseStatus;
     private String responseMessage;
+
+    /**
+     * Constructs the object, making a deep copy.
+     *
+     * @param source source from which to copy
+     */
+    public PdpResponseDetails(PdpResponseDetails source) {
+        this.responseMessage = source.responseMessage;
+        this.responseStatus = source.responseStatus;
+        this.responseTo = source.responseTo;
+    }
 }

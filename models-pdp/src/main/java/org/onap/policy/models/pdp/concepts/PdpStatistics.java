@@ -22,6 +22,7 @@
 package org.onap.policy.models.pdp.concepts;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -33,6 +34,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
 public class PdpStatistics {
 
     private String pdpInstanceId;
@@ -42,4 +44,19 @@ public class PdpStatistics {
     private long policyExecutedCount;
     private long policyExecutedSuccessCount;
     private long policyExecutedFailCount;
+
+    /**
+     * Constructs the object, making a deep copy.
+     *
+     * @param source source from which to copy
+     */
+    public PdpStatistics(PdpStatistics source) {
+        this.pdpInstanceId = source.pdpInstanceId;
+        this.policyDeployCount = source.policyDeployCount;
+        this.policyDeployFailCount = source.policyDeployFailCount;
+        this.policyDeploySuccessCount = source.policyDeploySuccessCount;
+        this.policyExecutedCount = source.policyExecutedCount;
+        this.policyExecutedFailCount = source.policyExecutedFailCount;
+        this.policyExecutedSuccessCount = source.policyExecutedSuccessCount;
+    }
 }
