@@ -46,6 +46,8 @@ import org.onap.policy.models.pdp.enums.PdpState;
 @Data
 @NoArgsConstructor
 public class PdpGroup implements PfNameVersion, Comparable<PdpGroup> {
+    private static final String SUBGROUP_FIELD = "pdpSubgroups";
+
     private String name;
     private String description;
     private PdpState pdpGroupState;
@@ -88,10 +90,10 @@ public class PdpGroup implements PfNameVersion, Comparable<PdpGroup> {
          */
 
         result.validateNotNull("name", name);
-        result.validateNotNullList("pdpSubgroups", pdpSubgroups, PdpSubGroup::validatePapRest);
+        result.validateNotNullList(SUBGROUP_FIELD, pdpSubgroups, PdpSubGroup::validatePapRest);
 
         if (pdpSubgroups != null && pdpSubgroups.isEmpty()) {
-            result.addResult(new ObjectValidationResult("pdpSubgroups", pdpSubgroups, ValidationStatus.INVALID,
+            result.addResult(new ObjectValidationResult(SUBGROUP_FIELD, pdpSubgroups, ValidationStatus.INVALID,
                             "is empty"));
         }
 
@@ -117,7 +119,7 @@ public class PdpGroup implements PfNameVersion, Comparable<PdpGroup> {
         }
 
         // different sizes implies duplicates
-        result.addResult(new ObjectValidationResult("pdpSubgroups", pdpTypes, ValidationStatus.INVALID,
+        result.addResult(new ObjectValidationResult(SUBGROUP_FIELD, pdpTypes, ValidationStatus.INVALID,
                         "duplicate subgroups"));
     }
 
