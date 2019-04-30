@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2413de5a_3625a95c",
+        "filename": "models-sim/models-sim-dmaap/src/main/package/docker/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-04-30T12:35:16Z",
+      "side": 1,
+      "message": "Do you want to use the policy-common for consistency and make sure you get more or less the right packages?",
+      "revId": "1b67f54782ec6c72bd185cfc17b224eaec260077",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a284870f_8ed630ed",
+        "filename": "models-sim/models-sim-dmaap/src/main/package/docker/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-04-30T12:35:16Z",
+      "side": 1,
+      "message": "I don\u0027t think you use BUILD_VERSION.   You could remove these.",
+      "revId": "1b67f54782ec6c72bd185cfc17b224eaec260077",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da2f216a_d99df4e8",
+        "filename": "models-sim/models-sim-dmaap/src/main/package/docker/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-04-30T12:35:16Z",
+      "side": 1,
+      "message": "I think it is better to stick with POLICY_HOME, there\u0027s no need for other variables, besides being long to type in a terminal, doesn\u0027t offer much value, and one has to hop from container to container trying to remove the right name.   POLICY_HOME should be universal root application project.",
+      "revId": "1b67f54782ec6c72bd185cfc17b224eaec260077",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e524e2e7_1fef8d41",
+        "filename": "models-sim/models-sim-dmaap/src/main/package/docker/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-04-30T12:35:16Z",
+      "side": 1,
+      "message": "same rationale for policy:policy originally use.   It is much easier to all use the same policy:policy account.",
+      "revId": "1b67f54782ec6c72bd185cfc17b224eaec260077",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c7f4a5a_5edd9cde",
+        "filename": "models-sim/models-sim-dmaap/src/main/resources/etc/DefaultConfig.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-04-30T12:35:16Z",
+      "side": 1,
+      "message": "why not use the dmaap default ones?   Some dmaap libraries do the port selection internally, provisioning may be an issue with those libraries if it is a non-standard one.",
+      "revId": "1b67f54782ec6c72bd185cfc17b224eaec260077",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
