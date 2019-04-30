@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "663bcbbe_55e29e5c",
+        "filename": "models-sim/models-sim-dmaap/src/main/package/docker/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-30T13:32:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2413de5a_3625a95c",
+      "revId": "1b67f54782ec6c72bd185cfc17b224eaec260077",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a284870f_8ed630ed",
         "filename": "models-sim/models-sim-dmaap/src/main/package/docker/Dockerfile",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2019-04-30T12:35:16Z",
       "side": 1,
       "message": "I don\u0027t think you use BUILD_VERSION.   You could remove these.",
+      "revId": "1b67f54782ec6c72bd185cfc17b224eaec260077",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "261caee6_5a0b62b9",
+        "filename": "models-sim/models-sim-dmaap/src/main/package/docker/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-30T13:32:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a284870f_8ed630ed",
       "revId": "1b67f54782ec6c72bd185cfc17b224eaec260077",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "38cc4400_7abfae75",
+        "filename": "models-sim/models-sim-dmaap/src/main/package/docker/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-30T13:32:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da2f216a_d99df4e8",
+      "revId": "1b67f54782ec6c72bd185cfc17b224eaec260077",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e524e2e7_1fef8d41",
         "filename": "models-sim/models-sim-dmaap/src/main/package/docker/Dockerfile",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "1f710781_9ae6c61f",
+        "filename": "models-sim/models-sim-dmaap/src/main/package/docker/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-30T13:32:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e524e2e7_1fef8d41",
+      "revId": "1b67f54782ec6c72bd185cfc17b224eaec260077",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c7f4a5a_5edd9cde",
         "filename": "models-sim/models-sim-dmaap/src/main/resources/etc/DefaultConfig.json",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2019-04-30T12:35:16Z",
       "side": 1,
       "message": "why not use the dmaap default ones?   Some dmaap libraries do the port selection internally, provisioning may be an issue with those libraries if it is a non-standard one.",
+      "revId": "1b67f54782ec6c72bd185cfc17b224eaec260077",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11b1c397_44f7238c",
+        "filename": "models-sim/models-sim-dmaap/src/main/resources/etc/DefaultConfig.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-04-30T13:32:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c7f4a5a_5edd9cde",
       "revId": "1b67f54782ec6c72bd185cfc17b224eaec260077",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
