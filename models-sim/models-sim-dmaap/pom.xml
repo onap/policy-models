@@ -45,7 +45,6 @@
         <dependency>
             <groupId>org.onap.policy.common</groupId>
             <artifactId>utils</artifactId>
-            <version>${policy.common.version}</version>
         </dependency>
         <dependency>
             <groupId>org.onap.policy.common</groupId>
@@ -61,7 +60,7 @@
 
     <build>
         <resources>
-            <!-- Output the version of the pap service -->
+            <!-- Output the version of the DMaaP simulator service -->
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
@@ -77,5 +76,28 @@
                 </excludes>
             </resource>
         </resources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-complete-tar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/main/package/tarball/assembly.xml</descriptor>
+                            </descriptors>
+                            <finalName>${project.artifactId}-${project.version}</finalName>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
     </build>
 </project>
