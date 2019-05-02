@@ -22,6 +22,7 @@ package org.onap.policy.models.tosca.legacy.mapping;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.ws.rs.core.Response;
 
@@ -46,6 +47,11 @@ import org.slf4j.LoggerFactory;
  */
 public class LegacyGuardPolicyMapper
         implements JpaToscaServiceTemplateMapper<LegacyGuardPolicyInput, Map<String, LegacyGuardPolicyOutput>> {
+
+    // Tag for metadata fields
+    private static final String POLICY_ID = "policy-id";
+    private static final String POLICY_VERSION = "policy-version";
+
     private static final Logger LOGGER = LoggerFactory.getLogger(LegacyGuardPolicyMapper.class);
 
     private static final Map<String, PfConceptKey> GUARD_POLICY_TYPE_MAP = new LinkedHashMap<>();
@@ -84,8 +90,13 @@ public class LegacyGuardPolicyMapper
         toscaPolicy.setType(guardPolicyType);
         toscaPolicy.setProperties(legacyGuardPolicyInput.getContent().getAsPropertyMap());
 
+        final Map<String, String> metadata = new LinkedHashMap<>();
+        metadata.put(POLICY_ID, toscaPolicy.getKey().getName());
+        metadata.put(POLICY_VERSION, Integer.toString(toscaPolicy.getKey().getMajorVersion()));
+        toscaPolicy.setMetadata(metadata);
+
         final JpaToscaServiceTemplate serviceTemplate = new JpaToscaServiceTemplate();
-        serviceTemplate.setToscaDefinitionsVersion("tosca_simimport java.util.HashMap;\n" + "ple_yaml_1_0");
+        serviceTemplate.setToscaDefinitionsVersion("tosca_simple_yaml_1_0");
 
         serviceTemplate.setTopologyTemplate(new JpaToscaTopologyTemplate());
 
@@ -109,9 +120,20 @@ public class LegacyGuardPolicyMapper
             legacyGuardPolicyOutput.setType(toscaPolicy.getType().getName());
             legacyGuardPolicyOutput.setVersion(toscaPolicy.getType().getVersion());
 
+            if (toscaPolicy.getMetadata() == null) {
+                String errorMessage = "no metadata defined on TOSCA policy";
+                LOGGER.warn(errorMessage);
+                throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
+            }
+
             final Map<String, Object> metadata = new LinkedHashMap<>();
-            metadata.put("policy-id", toscaPolicy.getKey().getName());
-            metadata.put("policy-version", toscaPolicy.getKey().getMajorVersion());
+            for (Entry<String, String> metadataEntry : toscaPolicy.getMetadata().entrySet()) {
+                if (POLICY_VERSION.equals(metadataEntry.getKey())) {
+                    metadata.put(POLICY_VERSION, Integer.parseInt(metadataEntry.getValue()));
+                } else {
+                    metadata.put(metadataEntry.getKey(), metadataEntry.getValue());
+                }
+            }
             legacyGuardPolicyOutput.setMetadata(metadata);
 
             if (toscaPolicy.getProperties() == null) {
