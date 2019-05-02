@@ -22,6 +22,8 @@ package org.onap.policy.models.tosca.legacy.mapping;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.util.LinkedHashMap;
+
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicies;
@@ -45,6 +47,11 @@ public class LegacyGuardPolicyMapperTest {
         JpaToscaPolicy policy = new JpaToscaPolicy(new PfConceptKey("PolicyName", "0.0.1"));
         serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().put(policy.getKey(), policy);
 
+        assertThatThrownBy(() -> {
+            new LegacyGuardPolicyMapper().fromToscaServiceTemplate(serviceTemplate);
+        }).hasMessageContaining("no metadata defined on TOSCA policy");
+
+        policy.setMetadata(new LinkedHashMap<>());
         assertThatThrownBy(() -> {
             new LegacyGuardPolicyMapper().fromToscaServiceTemplate(serviceTemplate);
         }).hasMessageContaining("no properties defined on TOSCA policy");
