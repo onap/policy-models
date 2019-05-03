@@ -24,6 +24,7 @@ package org.onap.policy.simulators;
 import java.io.IOException;
 
 import org.onap.policy.common.endpoints.http.server.HttpServletServer;
+import org.onap.policy.common.gson.GsonMessageBodyHandler;
 import org.onap.policy.common.utils.network.NetworkUtil;
 
 public class Util {
@@ -38,7 +39,7 @@ public class Util {
     public static final int VFCSIM_SERVER_PORT = 6668;
     public static final int GUARDSIM_SERVER_PORT = 6669;
     public static final int SDNCSIM_SERVER_PORT = 6670;
-    
+
     private static final String CANNOT_CONNECT = "cannot connect to port ";
     private static final String LOCALHOST = "localhost";
 
@@ -48,7 +49,7 @@ public class Util {
 
     /**
      * Build an A&AI simulator.
-     * 
+     *
      * @return the simulator
      * @throws InterruptedException if a thread is interrupted
      * @throws IOException if an IO errror occurs
@@ -85,7 +86,7 @@ public class Util {
 
     /**
      * Build an SO simulator.
-     * 
+     *
      * @return the simulator
      * @throws InterruptedException if a thread is interrupted
      * @throws IOException if an IO errror occurs
@@ -103,7 +104,7 @@ public class Util {
 
     /**
      * Build a VFC simulator.
-     * 
+     *
      * @return the simulator
      * @throws InterruptedException if a thread is interrupted
      * @throws IOException if an IO errror occurs
@@ -121,7 +122,7 @@ public class Util {
 
     /**
      * Build a guard simulator.
-     * 
+     *
      * @return the simulator
      * @throws InterruptedException if a thread is interrupted
      * @throws IOException if an IO errror occurs
@@ -129,6 +130,7 @@ public class Util {
     public static HttpServletServer buildGuardSim() throws InterruptedException, IOException {
         HttpServletServer testServer = HttpServletServer.factory.build(GUARDSIM_SERVER_NAME, LOCALHOST,
                 GUARDSIM_SERVER_PORT, "/", false, true);
+        testServer.setSerializationProvider(GsonMessageBodyHandler.class.getName());
         testServer.addServletClass("/*", GuardSimulatorJaxRs.class.getName());
         testServer.waitedStart(5000);
         if (!NetworkUtil.isTcpPortOpen(LOCALHOST, testServer.getPort(), 5, 10000L)) {

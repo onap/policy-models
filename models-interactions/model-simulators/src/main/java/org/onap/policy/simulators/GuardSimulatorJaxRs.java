@@ -21,34 +21,49 @@
 
 package org.onap.policy.simulators;
 
+import java.util.Collections;
+import java.util.Map;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.json.JSONObject;
+import org.onap.policy.models.decisions.concepts.DecisionRequest;
+import org.onap.policy.models.decisions.concepts.DecisionResponse;
 
-@Path("/pdp/api")
+@Path("/policy/pdpx/v1")
 public class GuardSimulatorJaxRs {
     public static final String DENY_CLNAME = "denyGuard";
 
     /**
      * Get a guard decision.
-     * 
+     *
      * @param req the request
      * @return the response
      */
     @POST
-    @Path("/getDecision")
+    @Path("/decision")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces("application/json")
-    public String getGuardDecision(String req) {
-        String clName = new JSONObject(req).getJSONObject("decisionAttributes").getString("clname");
+    public DecisionResponse getGuardDecision(DecisionRequest req) {
+        @SuppressWarnings("unchecked")
+        Map<String, String> guard = (Map<String, String>) req.getResource().get("guard");
+        String clName = guard.get("clName");
+        DecisionResponse response = new DecisionResponse();
         if (DENY_CLNAME.equals(clName)) {
-            return "{\"decision\": \"DENY\", \"details\": \"Decision Deny. You asked for it\"}";
+            response.setStatus("Deny");
+            response.setAdvice(Collections.emptyMap());
+            response.setObligations(Collections.emptyMap());
+            response.setPolicies(Collections.emptyList());
+            return response;
         } else {
-            return "{\"decision\": \"PERMIT\", \"details\": \"Decision Permit. OK!\"}";
+            response.setStatus("Permit");
+            response.setAdvice(Collections.emptyMap());
+            response.setObligations(Collections.emptyMap());
+            response.setPolicies(Collections.emptyList());
+            return response;
         }
     }
 }

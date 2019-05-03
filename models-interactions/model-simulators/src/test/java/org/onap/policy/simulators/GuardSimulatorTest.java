@@ -8,9 +8,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,14 +25,22 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.common.endpoints.http.server.HttpServletServer;
+import org.onap.policy.common.utils.coder.CoderException;
+import org.onap.policy.common.utils.coder.StandardCoder;
+import org.onap.policy.models.decisions.concepts.DecisionRequest;
+import org.onap.policy.models.decisions.concepts.DecisionResponse;
 import org.onap.policy.rest.RestManager;
 import org.onap.policy.rest.RestManager.Pair;
 
 public class GuardSimulatorTest {
+    private static final StandardCoder coder = new StandardCoder();
 
     /**
      * Set up test class.
@@ -52,26 +60,38 @@ public class GuardSimulatorTest {
     }
 
     @Test
-    public void testGuard() {
+    public void testGuard() throws CoderException {
         String request = makeRequest("test_actor_id", "test_op_id", "test_target", "test_clName");
-        String url = "http://localhost:" + Util.GUARDSIM_SERVER_PORT + "/pdp/api/getDecision";
+        String url = "http://localhost:" + Util.GUARDSIM_SERVER_PORT + "/policy/pdpx/v1/decision";
         Pair<Integer, String> response =
                 new RestManager().post(url, "testUname", "testPass", null, "application/json", request);
         assertNotNull(response);
         assertNotNull(response.first);
         assertNotNull(response.second);
-        assertEquals("{\"decision\": \"PERMIT\", \"details\": \"Decision Permit. OK!\"}", response.second);
+
+        DecisionResponse decision = coder.decode(response.second, DecisionResponse.class);
+        assertEquals("Permit", decision.getStatus());
 
         request = makeRequest("test_actor_id", "test_op_id", "test_target", "denyGuard");
         response = new RestManager().post(url, "testUname", "testPass", null, "application/json", request);
         assertNotNull(response);
         assertNotNull(response.first);
         assertNotNull(response.second);
-        assertEquals("{\"decision\": \"DENY\", \"details\": \"Decision Deny. You asked for it\"}", response.second);
+        decision = coder.decode(response.second, DecisionResponse.class);
+        assertEquals("Deny", decision.getStatus());
     }
 
-    private static String makeRequest(String actor, String recipe, String target, String clName) {
-        return "{\"decisionAttributes\": {\"actor\": \"" + actor + "\", \"recipe\": \"" + recipe + "\""
-                + ", \"target\": \"" + target + "\", \"clname\": \"" + clName + "\"}, \"onapName\": \"PDPD\"}";
+    private static String makeRequest(String actor, String recipe, String target, String clName) throws CoderException {
+        Map<String, String> guard = new HashMap<String, String>();
+        guard.put("actor", actor);
+        guard.put("recipe", recipe);
+        guard.put("target", target);
+        guard.put("clName", clName);
+        Map<String, Object> resource = new HashMap<String, Object>();
+        resource.put("guard", guard);
+        DecisionRequest request = new DecisionRequest();
+        request.setResource(resource);
+
+        return coder.encode(request);
     }
 }
