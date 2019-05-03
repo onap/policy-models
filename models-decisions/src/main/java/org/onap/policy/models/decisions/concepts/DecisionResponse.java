@@ -20,7 +20,6 @@
 
 package org.onap.policy.models.decisions.concepts;
 
-import java.util.List;
 import java.util.Map;
 
 import lombok.Data;
@@ -36,5 +35,5 @@ public class DecisionResponse {
     private String status;
     private Map<String, Object> advice;
     private Map<String, Object> obligations;
-    private List<Map<String, Object>> policies;
+    private Map<String, Object> policies;
 }

@@ -56,13 +56,13 @@ public class GuardSimulatorJaxRs {
             response.setStatus("Deny");
             response.setAdvice(Collections.emptyMap());
             response.setObligations(Collections.emptyMap());
-            response.setPolicies(Collections.emptyList());
+            response.setPolicies(Collections.emptyMap());
             return response;
         } else {
             response.setStatus("Permit");
             response.setAdvice(Collections.emptyMap());
             response.setObligations(Collections.emptyMap());
-            response.setPolicies(Collections.emptyList());
+            response.setPolicies(Collections.emptyMap());
             return response;
         }
     }
