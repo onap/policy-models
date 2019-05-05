@@ -64,6 +64,7 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
         implements PfAuthorative<ToscaServiceTemplate> {
     private static final long serialVersionUID = 8084846046148349401L;
 
+    public static final String DEFAULT_TOSCA_DEFINTIONS_VERISON = "tosca_simple_yaml_1_0_0";
     public static final String DEFAULT_NAME = "ToscaServiceTemplateSimple";
     public static final String DEFAULT_VERSION = "1.0.0";
 
@@ -97,7 +98,7 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
      * @param key the key
      */
     public JpaToscaServiceTemplate(@NonNull final PfConceptKey key) {
-        this(key, "");
+        this(key, DEFAULT_TOSCA_DEFINTIONS_VERISON);
     }
 
     /**

@@ -157,7 +157,7 @@ public class JpaToscaServiceTemplateTest {
         tst.clean();
         assertEquals(tttClone0, tst);
 
-        assertFalse(new JpaToscaServiceTemplate().validate(new PfValidationResult()).isValid());
+        assertTrue(new JpaToscaServiceTemplate().validate(new PfValidationResult()).isValid());
         assertTrue(tst.validate(new PfValidationResult()).isValid());
 
         tst.setDescription(null);

@@ -81,7 +81,7 @@ public class JpaToscaPolicyTest {
         JpaToscaPolicy tp = new JpaToscaPolicy(tpKey, ptKey);
 
         Map<String, String> propertyMap = new HashMap<>();
-        propertyMap.put("Property", "Property Value");
+        propertyMap.put("Property", "\"Property Value\"");
         tp.setProperties(propertyMap);
         assertEquals(propertyMap, tp.getProperties());
 

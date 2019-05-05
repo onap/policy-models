@@ -38,17 +38,21 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+import javax.ws.rs.core.Response;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 
+import org.onap.policy.common.utils.coder.CoderException;
+import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.common.utils.validation.ParameterValidationUtils;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
+import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.base.PfValidationMessage;
 import org.onap.policy.models.base.PfValidationResult;
@@ -148,8 +152,7 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
 
         if (!PfKey.NULL_KEY_VERSION.equals(type.getVersion())) {
             toscaPolicy.setTypeVersion(type.getVersion());
-        }
-        else {
+        } else {
             toscaPolicy.setTypeVersion(null);
         }
 
@@ -157,7 +160,18 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
             Map<String, Object> propertyMap = new LinkedHashMap<>();
 
             for (Entry<String, String> entry : properties.entrySet()) {
-                propertyMap.put(entry.getKey(), entry.getValue());
+                try {
+                    // TODO: This is a HACK, we need to validate the properties against their
+                    // TODO: their data type in their policy type definition in TOSCA, which means reading
+                    // TODO: the policy type from the database and parsing the property value object correctly
+                    // TODO: Here we are simply reading a JSON string from the database and deserializing the
+                    // TODO: property value from JSON
+                    propertyMap.put(entry.getKey(), new StandardCoder().decode(entry.getValue(), Object.class));
+                } catch (CoderException ce) {
+                    String errorMessage = "error decoding property JSON value read from database: key=" + entry.getKey()
+                            + ", value=" + entry.getValue();
+                    throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR, errorMessage, ce);
+                }
             }
 
             toscaPolicy.setProperties(propertyMap);
@@ -185,7 +199,13 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
                 // TODO: the policy type from the database and parsing the property value object correctly
                 // TODO: Here we are simply serializing the property value into a string and storing it
                 // TODO: unvalidated into the database
-                properties.put(propertyEntry.getKey(), propertyEntry.getValue().toString());
+                try {
+                    properties.put(propertyEntry.getKey(), new StandardCoder().encode(propertyEntry.getValue()));
+                } catch (CoderException ce) {
+                    String errorMessage = "error encoding property JSON value for database: key="
+                            + propertyEntry.getKey() + ", value=" + propertyEntry.getValue();
+                    throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR, errorMessage, ce);
+                }
             }
         }
 

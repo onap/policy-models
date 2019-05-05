@@ -61,8 +61,6 @@ public class LegacyGuardPolicyMapper
                 new PfConceptKey("onap.policies.controlloop.guard.FrequencyLimiter:1.0.0"));
         GUARD_POLICY_TYPE_MAP.put("guard.minmax.scaleout",
                 new PfConceptKey("onap.policies.controlloop.guard.MinMax:1.0.0"));
-        GUARD_POLICY_TYPE_MAP.put("guard.minmax.scaleout",
-                new PfConceptKey("onap.policies.controlloop.guard.MinMax:1.0.0"));
         GUARD_POLICY_TYPE_MAP.put("guard.blacklist",
                 new PfConceptKey("onap.policies.controlloop.guard.Blacklist:1.0.0"));
     }
