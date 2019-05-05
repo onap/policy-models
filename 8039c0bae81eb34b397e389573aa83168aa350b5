@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8da71dad_bb7bfc8d",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/legacy/mapping/LegacyGuardPolicyMapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-05-05T23:00:49Z",
+      "side": 0,
+      "message": "Did you need to remove this for a reason?",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 82
+      },
+      "revId": "8039c0bae81eb34b397e389573aa83168aa350b5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
