@@ -198,7 +198,6 @@ public class SoActorServiceProvider implements Actor {
             soModelInfo.setModelName(policy.getTarget().getModelName());
             soModelInfo.setModelVersion(policy.getTarget().getModelVersion());
             soModelInfo.setModelVersionId(policy.getTarget().getModelVersionId());
-
             return soModelInfo;
         } else {
             return null;
@@ -281,6 +280,7 @@ public class SoActorServiceProvider implements Actor {
                         .setModelVersionId(prop.getPropertyValue());
             }
         }
+
         relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelCustomizationName(vnfItem
                 .getGenericVnf().getVnfType().substring(vnfItem.getGenericVnf().getVnfType().lastIndexOf('/') + 1));
         relatedInstanceListElement2.getRelatedInstance().getModelInfo()
@@ -475,6 +475,14 @@ public class SoActorServiceProvider implements Actor {
             return null;
         }
 
+        SoModelInfo soModelInfo = prepareSoModelInfo(policy);
+
+        // Report the error vf module is not found
+        if (soModelInfo == null) {
+            logger.error("vf module is not found.");
+            return null;
+        }
+
         GenericVnf vnfItem;
         ServiceInstance vnfServiceItem;
         Tenant tenantItem;
@@ -482,7 +490,12 @@ public class SoActorServiceProvider implements Actor {
 
         // Extract the items we're interested in from the response
         try {
-            vnfItem = aaiCqResponse.getDefaultGenericVnf();
+            vnfItem = aaiCqResponse.getGenericVnfByVfModuleModelInvariantId(soModelInfo.getModelInvariantId());
+            //Report VNF not found
+            if (vnfItem == null) {
+                logger.error("Generic Vnf is not found.");
+                return null;
+            }
         } catch (Exception e) {
             logger.error("VNF Item not found in AAI response {}", Serialization.gsonPretty.toJson(aaiCqResponse), e);
             return null;
@@ -510,13 +523,7 @@ public class SoActorServiceProvider implements Actor {
             return null;
         }
 
-        SoModelInfo soModelInfo = prepareSoModelInfo(policy);
 
-        // Report the error vf module is not found
-        if (soModelInfo == null) {
-            logger.error("vf module is not found.");
-            return null;
-        }
 
         // Construct SO Request for a policy's recipe
         if (RECIPE_VF_MODULE_CREATE.equals(policy.getRecipe())) {
@@ -558,10 +565,10 @@ public class SoActorServiceProvider implements Actor {
         // modelInfo
         request.getRequestDetails().setModelInfo(vfModuleItem);
 
+
         // requestInfo
         request.getRequestDetails().setRequestInfo(constructRequestInfo());
-        String vfModuleName = aaiCqResponse.getDefaultVfModule().getVfModuleName();
-        request.getRequestDetails().getRequestInfo().setInstanceName(vfModuleName);
+        request.getRequestDetails().getRequestInfo().setInstanceName("vfModuleName");
 
         // relatedInstanceList
         SoRelatedInstanceListElement relatedInstanceListElement1 = new SoRelatedInstanceListElement();
@@ -569,7 +576,7 @@ public class SoActorServiceProvider implements Actor {
         relatedInstanceListElement1.setRelatedInstance(new SoRelatedInstance());
         relatedInstanceListElement2.setRelatedInstance(new SoRelatedInstance());
 
-        // Service Item (Note that Model Name and Model Version are not available in A&AI schema for ServiceInstance)
+        // Service Item
         relatedInstanceListElement1.getRelatedInstance().setInstanceId(vnfServiceItem.getServiceInstanceId());
         relatedInstanceListElement1.getRelatedInstance().setModelInfo(new SoModelInfo());
         relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelType("service");
@@ -577,18 +584,31 @@ public class SoActorServiceProvider implements Actor {
                 .setModelInvariantId(vnfServiceItem.getModelInvariantId());
         relatedInstanceListElement1.getRelatedInstance().getModelInfo()
                 .setModelVersionId(vnfServiceItem.getModelVersionId());
+        relatedInstanceListElement1.getRelatedInstance().getModelInfo()
+                .setModelName(aaiCqResponse.getModelVerByVersionId(vnfServiceItem.getModelVersionId()).getModelName());
+        relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelVersion(
+                aaiCqResponse.getModelVerByVersionId(vnfServiceItem.getModelVersionId()).getModelVersion());
 
 
-        // VNF Item (Note that Model Name, Model Version, and Model Customization Name are not available in A&AI schema
-        // for Generic VNF)
+        // VNF Item
         relatedInstanceListElement2.getRelatedInstance().setInstanceId(vnfItem.getVnfId());
         relatedInstanceListElement2.getRelatedInstance().setModelInfo(new SoModelInfo());
         relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelType("vnf");
         relatedInstanceListElement2.getRelatedInstance().getModelInfo()
                 .setModelInvariantId(vnfItem.getModelInvariantId());
         relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelVersionId(vnfItem.getModelVersionId());
+
+        relatedInstanceListElement2.getRelatedInstance().getModelInfo()
+                .setModelName(aaiCqResponse.getModelVerByVersionId(vnfItem.getModelVersionId()).getModelName());
+        relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelVersion(
+                aaiCqResponse.getModelVerByVersionId(vnfServiceItem.getModelVersionId()).getModelVersion());
+
+
+        relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelCustomizationName(
+                vnfItem.getVnfType().substring(vnfItem.getVnfType().lastIndexOf('/') + 1));
         relatedInstanceListElement2.getRelatedInstance().getModelInfo()
                 .setModelCustomizationId(vnfItem.getModelCustomizationId());
+
 
         // Insert the Service Item and VNF Item
         request.getRequestDetails().getRelatedInstanceList().add(relatedInstanceListElement1);

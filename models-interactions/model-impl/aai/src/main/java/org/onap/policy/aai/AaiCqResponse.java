@@ -37,6 +37,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.onap.aai.domain.yang.CloudRegion;
 import org.onap.aai.domain.yang.GenericVnf;
+import org.onap.aai.domain.yang.ModelVer;
 import org.onap.aai.domain.yang.Relationship;
 import org.onap.aai.domain.yang.RelationshipData;
 import org.onap.aai.domain.yang.ServiceInstance;
@@ -63,7 +64,7 @@ public class AaiCqResponse {
         // Define JAXB context
         try {
             jaxbContext = JAXBContextFactory.createContext(new Class[] {Vserver.class, GenericVnf.class, VfModule.class,
-                CloudRegion.class, ServiceInstance.class, Tenant.class}, properties);
+                CloudRegion.class, ServiceInstance.class, Tenant.class, ModelVer.class}, properties);
             unmarshaller = jaxbContext.createUnmarshaller();
         } catch (JAXBException e) {
             LOGGER.error("Could not initialize JAXBContext", e);
@@ -166,6 +167,19 @@ public class AaiCqResponse {
                 Tenant tenant = this.getAaiObject(json, Tenant.class);
 
                 this.inventoryResponseItems.add(tenant);
+            }
+
+            // Object is a ModelVer
+            if (resultsArray.getJSONObject(i).has("model-ver")) {
+                // Create the StreamSource by creating StringReader using the
+                // JSON input
+                StreamSource json = new StreamSource(
+                        new StringReader(resultsArray.getJSONObject(i).getJSONObject("model-ver").toString()));
+
+                // Getting the ModelVer pojo again from the json
+                ModelVer modelVer = this.getAaiObject(json, ModelVer.class);
+
+                this.inventoryResponseItems.add(modelVer);
             }
 
         }
@@ -327,6 +341,28 @@ public class AaiCqResponse {
     }
 
 
+    /**
+     * Returns a generic Vnf of a given VF Module ID.
+     *
+     * @param vfModuleModelInvariantId of the vf module for which vnf is to be returned
+     * @return generic Vnf
+     */
+    public GenericVnf getGenericVnfByVfModuleModelInvariantId(String vfModuleModelInvariantId) {
+        List<GenericVnf> genericVnfList = this.getGenericVnfs();
+
+        for (GenericVnf genVnf : genericVnfList) {
+            // Iterate through all the vfModules of that generic Vnf
+            for (VfModule vfMod : genVnf.getVfModules().getVfModule()) {
+                if (vfMod.getModelInvariantId() != null
+                        && vfMod.getModelInvariantId().equals(vfModuleModelInvariantId)) {
+                    return genVnf;
+                }
+            }
+        }
+        return null;
+    }
+
+
 
     /**
      * Get the generic vnf associated with the vserver in the custom query.
@@ -458,6 +494,24 @@ public class AaiCqResponse {
         return vfModule;
     }
 
+
+    /**
+     * Get Vf Module matching a specific VF model invariant ID.
+     *
+     * @return VfModule
+     */
+    public VfModule getVfModuleByVfModelInvariantId(String vfModelInvariantId) {
+        VfModule vfModule = null;
+
+        for (VfModule vfMod : this.getAllVfModules()) {
+            if (vfMod.getModelInvariantId() != null && vfModelInvariantId.equals(vfMod.getModelInvariantId())) {
+                vfModule = vfMod;
+            }
+
+        }
+        return vfModule;
+    }
+
     /**
      * Get verver in the custom query.
      *
@@ -472,6 +526,40 @@ public class AaiCqResponse {
         vserver = (Vserver) this.inventoryResponseItems.get(index);
         return vserver;
 
+    }
+
+    /**
+     * Get Model Versions in the custom query.
+     *
+     * @return List of model Versions
+     */
+    public List<ModelVer> getAllModelVer() {
+        List<ModelVer> modelVerList = new ArrayList<>();
+        for (Object i : this.inventoryResponseItems) {
+            if (i.getClass() == ModelVer.class) {
+                modelVerList.add((ModelVer) i);
+            }
+        }
+        return modelVerList;
+    }
+
+
+
+    /**
+     * Get ModelVer matching a specific version id.
+     *
+     * @return VfModule
+     */
+    public ModelVer getModelVerByVersionId(String versionId) {
+        ModelVer modelVer = null;
+
+        for (ModelVer modVersion : this.getAllModelVer()) {
+            if (versionId.equals(modVersion.getModelVersionId())) {
+                modelVer = modVersion;
+            }
+
+        }
+        return modelVer;
     }
 
 }

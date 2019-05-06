@@ -111,6 +111,7 @@ public final class AaiManager {
         String urlGet = url + TENANT_URL;
 
         String getResponse = getStringQuery(urlGet, username, password, requestId, vserver);
+        System.out.println("GET RESPONSE ----------:   " + getResponse);
         return createCustomQueryPayload(getResponse);
     }
 
@@ -364,6 +365,7 @@ public final class AaiManager {
 
         return headers;
     }
+
 
     /**
      * This method uses Google's GSON to create a response object from a JSON string.
