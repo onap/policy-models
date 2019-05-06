@@ -16,6 +16,24 @@
       "revId": "d3394bba7c8e30073a1f7874fed4320be18545d0",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "425d1bdf_2ba17449",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaPolicy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-05-06T18:50:55Z",
+      "side": 1,
+      "message": "I have tested it on all the example operational policies I have and it works on them. It works on all the example policies Pam uploaded in policy-models/examples",
+      "parentUuid": "4b3340a4_67167dc6",
+      "revId": "d3394bba7c8e30073a1f7874fed4320be18545d0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
