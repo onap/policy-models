@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a7a8cca_f92d61e0",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/AaiManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-05-06T11:12:30Z",
+      "side": 1,
+      "message": "ugh sorry - can you remove this? Or make it LOGGER?",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 72
+      },
+      "revId": "74dc93b397cee039edea5f68a908afbacfcbd866",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0c70d300_1063221d",
+        "filename": "models-interactions/model-impl/aai/src/test/java/org/onap/policy/aai/AaiCqResponseTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-05-06T11:12:30Z",
+      "side": 1,
+      "message": "any assertion needed here? Or are you just dumping?",
+      "range": {
+        "startLine": 311,
+        "startChar": 8,
+        "endLine": 313,
+        "endChar": 9
+      },
+      "revId": "74dc93b397cee039edea5f68a908afbacfcbd866",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88aace14_7527fdee",
+        "filename": "models-interactions/model-impl/aai/src/test/resources/org/onap/policy/aai/AaiCqResponse.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-05-06T11:12:30Z",
+      "side": 1,
+      "message": "I don\u0027t care about tabs here.",
+      "revId": "74dc93b397cee039edea5f68a908afbacfcbd866",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
