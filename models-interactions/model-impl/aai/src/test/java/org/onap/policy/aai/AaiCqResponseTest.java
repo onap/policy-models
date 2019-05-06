@@ -31,6 +31,7 @@ import java.util.List;
 import org.junit.Test;
 import org.onap.aai.domain.yang.CloudRegion;
 import org.onap.aai.domain.yang.GenericVnf;
+import org.onap.aai.domain.yang.ModelVer;
 import org.onap.aai.domain.yang.ServiceInstance;
 import org.onap.aai.domain.yang.Tenant;
 import org.onap.aai.domain.yang.VfModule;
@@ -40,7 +41,7 @@ import org.slf4j.LoggerFactory;
 
 public class AaiCqResponseTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(AaiCqResponseTest.class);
-    private static final String CQ_RESPONSE_SAMPLE = "src/test/resources/org/onap/policy/aai/AaiCqResponse.json";
+    private static final String CQ_RESPONSE_SAMPLE = "src/test/resources/org/onap/policy/aai/AaiCqResponseFull.json";
 
 
     @Test
@@ -90,7 +91,7 @@ public class AaiCqResponseTest {
         aaiCqResponse = new AaiCqResponse(responseString);
         ArrayList<Vserver> vs = (ArrayList<Vserver>) aaiCqResponse.getItemListByType(Vserver.class);
         assertNotNull(vs);
-        assertEquals("e7f1db09-ff78-44fc-b256-69095c5556fb", vs.get(0).getVserverId());
+        assertEquals("f953c499-4b1e-426b-8c6d-e9e9f1fc730f", vs.get(0).getVserverId());
         LOGGER.info(vs.get(0).getVserverId());
 
     }
@@ -105,7 +106,7 @@ public class AaiCqResponseTest {
         aaiCqResponse = new AaiCqResponse(responseString);
         ServiceInstance si = aaiCqResponse.getServiceInstance();
         assertNotNull(si);
-        assertEquals("vLoadBalancerMS-0211-1", si.getServiceInstanceName());
+        assertEquals("Service_Ete_Name7ba1fbde-6187-464a-a62d-d9dd25bdf4e8", si.getServiceInstanceName());
         LOGGER.info(si.getServiceInstanceName());
     }
 
@@ -119,7 +120,7 @@ public class AaiCqResponseTest {
         aaiCqResponse = new AaiCqResponse(responseString);
         CloudRegion cloudRegion = aaiCqResponse.getDefaultCloudRegion();
         assertNotNull(cloudRegion);
-        assertEquals("cr-16197-01-as988q", cloudRegion.getCloudRegionId());
+        assertEquals("RegionOne", cloudRegion.getCloudRegionId());
         LOGGER.info(cloudRegion.getCloudRegionId());
     }
 
@@ -133,7 +134,7 @@ public class AaiCqResponseTest {
         aaiCqResponse = new AaiCqResponse(responseString);
         Tenant tenant = aaiCqResponse.getDefaultTenant();
         assertNotNull(tenant);
-        assertEquals("tenant1-16197-as988q", tenant.getTenantId());
+        assertEquals("41d6d38489bd40b09ea8a6b6b852dcbd", tenant.getTenantId());
         LOGGER.info(tenant.getTenantId());
     }
 
@@ -167,7 +168,7 @@ public class AaiCqResponseTest {
         aaiCqResponse = new AaiCqResponse(responseString);
         GenericVnf genVnf = aaiCqResponse.getDefaultGenericVnf();
         assertNotNull(genVnf);
-        assertEquals("TestVM-Vnf-0201-1", genVnf.getVnfName());
+        assertEquals("Ete_vFWCLvFWSNK_7ba1fbde_0", genVnf.getVnfName());
         LOGGER.info(genVnf.getVnfName());
 
     }
@@ -180,9 +181,9 @@ public class AaiCqResponseTest {
 
         AaiCqResponse aaiCqResponse;
         aaiCqResponse = new AaiCqResponse(responseString);
-        GenericVnf genVnf = aaiCqResponse.getGenericVnfByVnfName("TestVM-Vnf-0201-1");
+        GenericVnf genVnf = aaiCqResponse.getGenericVnfByVnfName("Ete_vFWCLvFWSNK_7ba1fbde_0");
         assertNotNull(genVnf);
-        assertEquals("17044ef4-e7f3-46a1-af03-e2aa562f23ac", genVnf.getVnfId());
+        assertEquals("f17face5-69cb-4c88-9e0b-7426db7edddd", genVnf.getVnfId());
         LOGGER.info(genVnf.getVnfId());
     }
 
@@ -195,11 +196,29 @@ public class AaiCqResponseTest {
 
         AaiCqResponse aaiCqResponse;
         aaiCqResponse = new AaiCqResponse(responseString);
-        GenericVnf genVnf = aaiCqResponse.getGenericVnfByModelInvariantId("724ab1cf-6120-49e8-b909-849963bed1d6");
+        GenericVnf genVnf = aaiCqResponse.getGenericVnfByModelInvariantId("9a243c47-fd5f-43d1-bd2a-f17bd12a61f2");
         assertNotNull(genVnf);
-        assertEquals("724ab1cf-6120-49e8-b909-849963bed1d6", genVnf.getModelInvariantId());
+        assertEquals("9a243c47-fd5f-43d1-bd2a-f17bd12a61f2", genVnf.getModelInvariantId());
         LOGGER.info(genVnf.getModelInvariantId());
     }
+
+
+    @Test
+    public void testGetGenericVnfByVfModuleModelInvariantId() throws Exception {
+
+        String responseString = "";
+        responseString = new String(Files.readAllBytes(new File(CQ_RESPONSE_SAMPLE).toPath()));
+
+        AaiCqResponse aaiCqResponse;
+        aaiCqResponse = new AaiCqResponse(responseString);
+        GenericVnf genVnf =
+                aaiCqResponse.getGenericVnfByVfModuleModelInvariantId("e6130d03-56f1-4b0a-9a1d-e1b2ebc30e0e");
+        assertNotNull(genVnf);
+        assertEquals("Ete_vFWCLvFWSNK_7ba1fbde_0", genVnf.getVnfName());
+        LOGGER.info(genVnf.getVnfName());
+    }
+
+
 
     @Test
     public void testGetAllVfModules() throws Exception {
@@ -226,9 +245,25 @@ public class AaiCqResponseTest {
 
         AaiCqResponse aaiCqResponse;
         aaiCqResponse = new AaiCqResponse(responseString);
-        VfModule vfModule = aaiCqResponse.getVfModuleByVfModuleName("vLoadBalancerMS-0211-1");
+        VfModule vfModule = aaiCqResponse.getVfModuleByVfModuleName("Vfmodule_Ete_vFWCLvFWSNK_7ba1fbde_0");
         assertNotNull(vfModule);
-        assertEquals("vLoadBalancerMS-0211-1", vfModule.getVfModuleName());
+        assertEquals("Vfmodule_Ete_vFWCLvFWSNK_7ba1fbde_0", vfModule.getVfModuleName());
+        LOGGER.info(vfModule.getVfModuleName());
+
+
+    }
+
+    @Test
+    public void testGetVfModuleByVfModelInvariantId() throws Exception {
+
+        String responseString = "";
+        responseString = new String(Files.readAllBytes(new File(CQ_RESPONSE_SAMPLE).toPath()));
+
+        AaiCqResponse aaiCqResponse;
+        aaiCqResponse = new AaiCqResponse(responseString);
+        VfModule vfModule = aaiCqResponse.getVfModuleByVfModelInvariantId("e6130d03-56f1-4b0a-9a1d-e1b2ebc30e0e");
+        assertNotNull(vfModule);
+        assertEquals("Vfmodule_Ete_vFWCLvFWSNK_7ba1fbde_0", vfModule.getVfModuleName());
         LOGGER.info(vfModule.getVfModuleName());
 
 
@@ -244,7 +279,7 @@ public class AaiCqResponseTest {
         aaiCqResponse = new AaiCqResponse(responseString);
         VfModule vfModule = aaiCqResponse.getDefaultVfModule();
         assertNotNull(vfModule);
-        assertEquals("TestVM-0201-2", vfModule.getVfModuleName());
+        assertEquals("Vfmodule_Ete_vFWCLvFWSNK_7ba1fbde_0", vfModule.getVfModuleName());
         LOGGER.info(vfModule.getVfModuleName());
     }
 
@@ -258,10 +293,42 @@ public class AaiCqResponseTest {
         aaiCqResponse = new AaiCqResponse(responseString);
         Vserver vserver = aaiCqResponse.getVserver();
         assertNotNull(vserver);
-        assertEquals("vfw-vm-0201-2", vserver.getVserverName());
+        assertEquals("Ete_vFWCLvFWSNK_7ba1fbde_0", vserver.getVserverName());
         LOGGER.info(vserver.getVserverName());
 
     }
+
+    @Test
+    public void testGetAllModelVer() throws Exception {
+
+        String responseString = "";
+        responseString = new String(Files.readAllBytes(new File(CQ_RESPONSE_SAMPLE).toPath()));
+
+        AaiCqResponse aaiCqResponse;
+        aaiCqResponse = new AaiCqResponse(responseString);
+        List<ModelVer> modelVerList = aaiCqResponse.getAllModelVer();
+        assertNotNull(modelVerList);
+        for (ModelVer modV : modelVerList) {
+            LOGGER.info(modV.getModelName());
+        }
+
+    }
+
+    @Test
+    public void testGetModelVerByVersionId() throws Exception {
+
+        String responseString = "";
+        responseString = new String(Files.readAllBytes(new File(CQ_RESPONSE_SAMPLE).toPath()));
+
+        AaiCqResponse aaiCqResponse;
+        aaiCqResponse = new AaiCqResponse(responseString);
+        ModelVer modelVer = aaiCqResponse.getModelVerByVersionId("189a5070-3bd5-45ac-8a1d-c84ca40b277b");
+        assertNotNull(modelVer);
+        assertEquals("vFWCL_vFWSNK bbefb8ce-2bde", modelVer.getModelName());
+        LOGGER.info(modelVer.getModelName());
+
+    }
+
 
     /**
      * Aai Cq sample response.

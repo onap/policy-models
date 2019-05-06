@@ -365,6 +365,7 @@ public final class AaiManager {
         return headers;
     }
 
+
     /**
      * This method uses Google's GSON to create a response object from a JSON string.
      *
