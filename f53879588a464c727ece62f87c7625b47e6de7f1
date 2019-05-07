@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5063a736_75c6b40a",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfConceptFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-05-07T13:40:38Z",
+      "side": 1,
+      "message": "OK will do.",
+      "parentUuid": "df126c7c_d8767a8a",
+      "range": {
+        "startLine": 4,
+        "startChar": 1,
+        "endLine": 4,
+        "endChar": 85
+      },
+      "revId": "f53879588a464c727ece62f87c7625b47e6de7f1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3365d9b0_e5d4f081",
         "filename": "models-examples/src/main/resources/policytypes/onap.policies.controlloop.Operational.yaml",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2019-05-07T13:12:01Z",
       "side": 1,
       "message": "In production, we are not pre-loading the operational policy types.\nSo just wondering the creation of legacy operational policy will fail now.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 55
+      },
+      "revId": "f53879588a464c727ece62f87c7625b47e6de7f1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d563713d_def98f96",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.controlloop.Operational.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-05-07T13:40:38Z",
+      "side": 1,
+      "message": "Yes, now the policy types must exist for all new/updated policies.",
+      "parentUuid": "3365d9b0_e5d4f081",
       "range": {
         "startLine": 1,
         "startChar": 0,
