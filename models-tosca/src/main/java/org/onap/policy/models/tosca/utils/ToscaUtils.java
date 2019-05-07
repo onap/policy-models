@@ -38,8 +38,7 @@ public final class ToscaUtils {
     /**
      * Private constructor to prevent subclassing.
      */
-    private ToscaUtils() {
-    }
+    private ToscaUtils() {}
 
     /**
      * Check if policy types have been specified is initialized.
@@ -80,6 +79,4 @@ public final class ToscaUtils {
             throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
         }
     }
-
-
 }

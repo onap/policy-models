@@ -33,6 +33,7 @@ import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.base.PfConceptKey;
@@ -45,6 +46,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaTopologyTemplate;
+import org.yaml.snakeyaml.Yaml;
 
 /**
  * Test of the {@link AuthorativeToscaProvider} class.
@@ -75,7 +77,7 @@ public class AuthorativeToscaProviderPolicyTest {
         jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_DRIVER, "org.h2.Driver");
         jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_URL, "jdbc:h2:mem:testdb");
 
-        daoParameters.setJdbcProperties(jdbcProperties );
+        daoParameters.setJdbcProperties(jdbcProperties);
 
         pfDao = new PfDaoFactory().createPfDao(daoParameters);
         pfDao.init(daoParameters);
@@ -103,6 +105,8 @@ public class AuthorativeToscaProviderPolicyTest {
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().getPolicyList(null, null, null);
         }).hasMessage("dao is marked @NonNull but is null");
+
+        createPolicyTypes();
 
         ToscaServiceTemplate toscaServiceTemplate = standardCoder.decode(
                 ResourceUtils.getResourceAsString("policies/vCPE.policy.monitoring.input.tosca.json"),
@@ -175,6 +179,8 @@ public class AuthorativeToscaProviderPolicyTest {
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().getFilteredPolicyList(pfDao, null);
         }).hasMessage("filter is marked @NonNull but is null");
+
+        createPolicyTypes();
 
         ToscaServiceTemplate toscaServiceTemplate = standardCoder.decode(
                 ResourceUtils.getResourceAsString("policies/vCPE.policy.monitoring.input.tosca.json"),
@@ -250,6 +256,8 @@ public class AuthorativeToscaProviderPolicyTest {
             new AuthorativeToscaProvider().createPolicies(pfDao, null);
         }).hasMessage("serviceTemplate is marked @NonNull but is null");
 
+        createPolicyTypes();
+
         ToscaServiceTemplate toscaServiceTemplate = standardCoder.decode(
                 ResourceUtils.getResourceAsString("policies/vCPE.policy.monitoring.input.tosca.json"),
                 ToscaServiceTemplate.class);
@@ -268,7 +276,6 @@ public class AuthorativeToscaProviderPolicyTest {
         assertTrue(beforePolicy.getType().equals(createdPolicy.getType()));
     }
 
-
     @Test
     public void testPolicyUpdate() throws Exception {
         assertThatThrownBy(() -> {
@@ -286,6 +293,8 @@ public class AuthorativeToscaProviderPolicyTest {
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().updatePolicies(pfDao, null);
         }).hasMessage("serviceTemplate is marked @NonNull but is null");
+
+        createPolicyTypes();
 
         ToscaServiceTemplate toscaServiceTemplate = standardCoder.decode(
                 ResourceUtils.getResourceAsString("policies/vCPE.policy.monitoring.input.tosca.json"),
@@ -343,6 +352,8 @@ public class AuthorativeToscaProviderPolicyTest {
             new AuthorativeToscaProvider().deletePolicy(pfDao, "name", null);
         }).hasMessage("version is marked @NonNull but is null");
 
+        createPolicyTypes();
+
         ToscaServiceTemplate toscaServiceTemplate = standardCoder.decode(
                 ResourceUtils.getResourceAsString("policies/vCPE.policy.monitoring.input.tosca.json"),
                 ToscaServiceTemplate.class);
@@ -395,5 +406,17 @@ public class AuthorativeToscaProviderPolicyTest {
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().createPolicies(pfDao, testServiceTemplate);
         }).hasMessage("An incoming list of concepts must have at least one entry");
+    }
+
+    private void createPolicyTypes() throws CoderException, PfModelException {
+        Object yamlObject = new Yaml().load(
+                ResourceUtils.getResourceAsString("policytypes/onap.policies.monitoring.cdap.tca.hi.lo.app.yaml"));
+        String yamlAsJsonString = new StandardCoder().encode(yamlObject);
+
+        ToscaServiceTemplate toscaServiceTemplatePolicyType =
+                standardCoder.decode(yamlAsJsonString, ToscaServiceTemplate.class);
+
+        assertNotNull(toscaServiceTemplatePolicyType);
+        new AuthorativeToscaProvider().createPolicyTypes(pfDao, toscaServiceTemplatePolicyType);
     }
 }

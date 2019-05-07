@@ -20,15 +20,21 @@
 
 package org.onap.policy.models.tosca.simple.provider;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.core.Response;
+
 import lombok.NonNull;
 
 import org.onap.policy.models.base.PfConcept;
+import org.onap.policy.models.base.PfConceptFilter;
 import org.onap.policy.models.base.PfConceptKey;
+import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfModelException;
+import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.dao.PfDao;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicies;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicy;
@@ -37,6 +43,8 @@ import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyTypes;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaTopologyTemplate;
 import org.onap.policy.models.tosca.utils.ToscaUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class provides the provision of information on TOSCA concepts in the database to callers.
@@ -44,6 +52,8 @@ import org.onap.policy.models.tosca.utils.ToscaUtils;
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 public class SimpleToscaProvider {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleToscaProvider.class);
+
     /**
      * Get policy types.
      *
@@ -184,6 +194,8 @@ public class SimpleToscaProvider {
         ToscaUtils.assertPoliciesExist(serviceTemplate);
 
         for (JpaToscaPolicy policy : serviceTemplate.getTopologyTemplate().getPolicies().getAll(null)) {
+            verifyPolicyTypeForPolicy(dao, policy);
+
             dao.create(policy);
         }
 
@@ -261,5 +273,64 @@ public class SimpleToscaProvider {
         }
 
         return conceptMap;
+    }
+
+    /**
+     * Verify the policy type for a policy exists.
+     *
+     * @param dao the DAO to use to access policy types in the database
+     * @param policy the policy to check the policy type for
+     */
+    private void verifyPolicyTypeForPolicy(final PfDao dao, final JpaToscaPolicy policy) {
+        PfConceptKey policyTypeKey = policy.getType();
+
+        JpaToscaPolicyType policyType = null;
+
+        if (PfKey.NULL_KEY_VERSION.equals(policyTypeKey.getVersion())) {
+            policyType = getLatestPolicyTypeVersion(dao, policyTypeKey.getName());
+        } else {
+            policyType = dao.get(JpaToscaPolicyType.class, policyTypeKey);
+        }
+
+        if (policyType == null) {
+            String errorMessage =
+                    "policy type " + policyTypeKey.getId() + " for policy " + policy.getId() + " does not exist";
+            LOGGER.warn(errorMessage);
+            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
+        }
+    }
+
+    /**
+     * Get the latest version of the policy type for the given policy type name.
+     *
+     * @param dao the DAO to use to access policy types in the database
+     * @param policyTypeName the name of the policy type
+     * @return the latest policy type
+     */
+    private JpaToscaPolicyType getLatestPolicyTypeVersion(final PfDao dao, final String policyTypeName) {
+        // Policy type version is not specified, get the latest version from the database
+        List<JpaToscaPolicyType> jpaPolicyTypeList =
+                dao.getFiltered(JpaToscaPolicyType.class, policyTypeName, null);
+
+        if (jpaPolicyTypeList.isEmpty()) {
+            return null;
+        }
+
+        // Create a filter to get the latest version of the policy type
+        PfConceptFilter pfConceptFilter = PfConceptFilter.builder().version(PfConceptFilter.LATEST_VERSION).build();
+
+        // FIlter the returned policy type list
+        List<PfConcept> policyTypeKeyList = new ArrayList<>(jpaPolicyTypeList);
+        List<PfConcept> filterdPolicyTypeList = pfConceptFilter.filter(policyTypeKeyList);
+
+        // We should have one and only one returned entry
+        if (filterdPolicyTypeList.size() != 1 ) {
+            String errorMessage =
+                    "search for lates policy type " + policyTypeName + " returned more than one entry";
+            LOGGER.warn(errorMessage);
+            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
+        }
+
+        return (JpaToscaPolicyType) filterdPolicyTypeList.get(0);
     }
 }

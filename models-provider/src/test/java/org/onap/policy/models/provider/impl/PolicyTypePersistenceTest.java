@@ -72,7 +72,7 @@ public class PolicyTypePersistenceTest {
         "policytypes/onap.policies.optimization.SubscriberPolicy.yaml",
         "policytypes/onap.policies.optimization.Vim_fit.yaml",
         "policytypes/onap.policies.optimization.VnfPolicy.yaml",
-        "policytypes/onap.policy.monitoring.cdap.tca.hi.lo.app.yaml"
+        "policytypes/onap.policies.monitoring.cdap.tca.hi.lo.app.yaml"
     };
     // @formatter:on
 

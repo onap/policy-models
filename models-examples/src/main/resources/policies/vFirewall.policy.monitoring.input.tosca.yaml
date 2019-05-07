@@ -3,7 +3,7 @@ topology_template:
   policies:
     -
       onap.vfirewall.tca:
-        type: onap.policy.monitoring.cdap.tca.hi.lo.app
+        type: onap.policies.monitoring.cdap.tca.hi.lo.app
         version: 1.0.0
         metadata:
            policy-id: onap.vfirewall.tca

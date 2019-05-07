@@ -32,6 +32,7 @@ import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.base.PfConceptKey;
@@ -41,9 +42,11 @@ import org.onap.policy.models.dao.PfDao;
 import org.onap.policy.models.dao.PfDaoFactory;
 import org.onap.policy.models.dao.impl.DefaultPfDao;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
+import org.onap.policy.models.tosca.authorative.provider.AuthorativeToscaProvider;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicies;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaTopologyTemplate;
+import org.yaml.snakeyaml.Yaml;
 
 /**
  * Test the {@link SimpleToscaProvider} class.
@@ -99,6 +102,8 @@ public class SimpleToscaProviderTest {
                 ResourceUtils.getResourceAsString("policies/vCPE.policy.monitoring.input.tosca.json"),
                 ToscaServiceTemplate.class);
 
+        createPolicyTypes();
+
         JpaToscaServiceTemplate originalServiceTemplate = new JpaToscaServiceTemplate();
         originalServiceTemplate.fromAuthorative(toscaServiceTemplate);
 
@@ -124,6 +129,8 @@ public class SimpleToscaProviderTest {
                 ResourceUtils.getResourceAsString("policies/vCPE.policy.monitoring.input.tosca.json"),
                 ToscaServiceTemplate.class);
 
+        createPolicyTypes();
+
         JpaToscaServiceTemplate originalServiceTemplate = new JpaToscaServiceTemplate();
         originalServiceTemplate.fromAuthorative(toscaServiceTemplate);
 
@@ -140,6 +147,8 @@ public class SimpleToscaProviderTest {
                 ResourceUtils.getResourceAsString("policies/vCPE.policy.monitoring.input.tosca.json"),
                 ToscaServiceTemplate.class);
 
+        createPolicyTypes();
+
         JpaToscaServiceTemplate originalServiceTemplate = new JpaToscaServiceTemplate();
         originalServiceTemplate.fromAuthorative(toscaServiceTemplate);
 
@@ -155,6 +164,8 @@ public class SimpleToscaProviderTest {
         ToscaServiceTemplate toscaServiceTemplate = standardCoder.decode(
                 ResourceUtils.getResourceAsString("policies/vCPE.policy.monitoring.input.tosca.json"),
                 ToscaServiceTemplate.class);
+
+        createPolicyTypes();
 
         JpaToscaServiceTemplate originalServiceTemplate = new JpaToscaServiceTemplate();
         originalServiceTemplate.fromAuthorative(toscaServiceTemplate);
@@ -287,5 +298,17 @@ public class SimpleToscaProviderTest {
         assertThatThrownBy(() -> {
             new SimpleToscaProvider().deletePolicy(pfDao, null);
         }).hasMessage("policyKey is marked @NonNull but is null");
+    }
+
+    private void createPolicyTypes() throws CoderException, PfModelException {
+        Object yamlObject = new Yaml().load(
+                ResourceUtils.getResourceAsString("policytypes/onap.policies.monitoring.cdap.tca.hi.lo.app.yaml"));
+        String yamlAsJsonString = new StandardCoder().encode(yamlObject);
+
+        ToscaServiceTemplate toscaServiceTemplatePolicyType =
+                standardCoder.decode(yamlAsJsonString, ToscaServiceTemplate.class);
+
+        assertNotNull(toscaServiceTemplatePolicyType);
+        new AuthorativeToscaProvider().createPolicyTypes(pfDao, toscaServiceTemplatePolicyType);
     }
 }

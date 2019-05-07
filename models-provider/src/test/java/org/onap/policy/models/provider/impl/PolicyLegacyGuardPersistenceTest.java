@@ -32,16 +32,19 @@ import lombok.NonNull;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderFactory;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyInput;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyOutput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.yaml.snakeyaml.Yaml;
 
 /**
  * Test persistence of monitoring policies to and from the database.
@@ -72,9 +75,10 @@ public class PolicyLegacyGuardPersistenceTest {
      * Initialize provider.
      *
      * @throws PfModelException on exceptions in the tests
+     * @throws CoderException on JSON encoding and decoding errors
      */
     @Before
-    public void setupParameters() throws PfModelException {
+    public void setupParameters() throws PfModelException, CoderException {
         PolicyModelsProviderParameters parameters = new PolicyModelsProviderParameters();
         parameters.setDatabaseDriver("org.h2.Driver");
         parameters.setDatabaseUrl("jdbc:h2:mem:testdb");
@@ -83,6 +87,8 @@ public class PolicyLegacyGuardPersistenceTest {
         parameters.setPersistenceUnit("ToscaConceptTest");
 
         databaseProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
+
+        createPolicyTypes();
     }
 
     /**
@@ -149,5 +155,26 @@ public class PolicyLegacyGuardPersistenceTest {
 
         // All of this dash/underscore stuff is to avoid a checkstyle error around escaping unicode characters
         assertEquals(policyOutputString.replaceAll("\\s+", ""), actualRetrievedJson.replaceAll("\\s+", ""));
+    }
+
+    private void createPolicyTypes() throws CoderException, PfModelException {
+        Object yamlObject = new Yaml().load(
+                ResourceUtils.getResourceAsString("policytypes/onap.policies.controlloop.guard.FrequencyLimiter.yaml"));
+        String yamlAsJsonString = new StandardCoder().encode(yamlObject);
+
+        ToscaServiceTemplate toscaServiceTemplatePolicyType =
+                standardCoder.decode(yamlAsJsonString, ToscaServiceTemplate.class);
+
+        assertNotNull(toscaServiceTemplatePolicyType);
+        databaseProvider.createPolicyTypes(toscaServiceTemplatePolicyType);
+
+        yamlObject = new Yaml().load(
+                ResourceUtils.getResourceAsString("policytypes/onap.policies.controlloop.guard.MinMax.yaml"));
+        yamlAsJsonString = new StandardCoder().encode(yamlObject);
+
+        toscaServiceTemplatePolicyType = standardCoder.decode(yamlAsJsonString, ToscaServiceTemplate.class);
+
+        assertNotNull(toscaServiceTemplatePolicyType);
+        databaseProvider.createPolicyTypes(toscaServiceTemplatePolicyType);
     }
 }

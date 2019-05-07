@@ -82,7 +82,7 @@ public class ToscaServiceTemplateMappingTest {
         try {
             Yaml yaml = new Yaml();
             String inputYaml = ResourceUtils.getResourceAsString(
-                    "policytypes/onap.policy.monitoring.cdap.tca.hi.lo.app.yaml");
+                    "policytypes/onap.policies.monitoring.cdap.tca.hi.lo.app.yaml");
             Object yamlObject = yaml.load(inputYaml);
             String yamlAsJsonString = standardCoder.encode(yamlObject);
 

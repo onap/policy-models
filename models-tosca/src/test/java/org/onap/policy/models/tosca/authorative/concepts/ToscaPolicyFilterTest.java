@@ -211,7 +211,7 @@ public class ToscaPolicyFilterTest {
 
         filter = ToscaPolicyFilter.builder().type("onap.policies.monitoring.cdap.tca.hi.lo.app").build();
         filteredList = filter.filter(policyList);
-        assertEquals(2, filteredList.size());
+        assertEquals(3, filteredList.size());
 
         filter = ToscaPolicyFilter.builder().type("onap.policies.controlloop.NonOperational").build();
         filteredList = filter.filter(policyList);
