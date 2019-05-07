@@ -56,9 +56,12 @@ public class AaiManagerTest {
     private static final String TENANT_RESPONSE_SAMPLE =
             "src/test/resources/org/onap/policy/aai/AaiTenantResponse.json";
 
+
+
     /**
      * Set up test cases.
-     * @throws Exception  if error occurs
+     *
+     * @throws Exception if error occurs
      */
     @Before
     public void beforeTestAaiManager() throws Exception {
@@ -78,7 +81,9 @@ public class AaiManagerTest {
         httpResponseErr0 = restManagerMock.new Pair<>(200, null);
         httpResponseErr1 = restManagerMock.new Pair<>(200, "{");
         httpResponseWait = restManagerMock.new Pair<>(503, null);
+
     }
+
 
     @Test
     public void testAaiCqResponse() {

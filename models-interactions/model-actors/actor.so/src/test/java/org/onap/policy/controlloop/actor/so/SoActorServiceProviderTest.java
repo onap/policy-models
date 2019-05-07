@@ -162,6 +162,18 @@ public class SoActorServiceProviderTest {
         policy.setTarget(target);
     }
 
+    private void instantiateTargetCq(Policy policy) {
+
+        Target target = new Target();
+        target.setModelCustomizationId("47958575-138f-452a-8c8d-d89b595f8164");
+        target.setModelInvariantId("e6130d03-56f1-4b0a-9a1d-e1b2ebc30e0e");
+        target.setModelName("VfwclVfwsnkBbefb8ce2bde..base_vfw..module-0");
+        target.setModelVersion("1");
+        target.setModelVersionId("94b18b1d-cc91-4f43-911a-e6348665f292");
+
+        policy.setTarget(target);
+    }
+
     @Test
     public void testSendRequest() {
         try {
@@ -188,7 +200,7 @@ public class SoActorServiceProviderTest {
     public void testConstructRequestCq() throws Exception {
         VirtualControlLoopEvent onset = new VirtualControlLoopEvent();
         final ControlLoopOperation operation = new ControlLoopOperation();
-        final AaiCqResponse aaiCqResp = loadAaiResponseCq("aai/AaiCqResponse.json");
+        final AaiCqResponse aaiCqResp = loadAaiResponseCq("aai/AaiCqResponseFull.json");
         final AaiCqResponse aaiCqRespMissing = loadAaiResponseCq("aai/AaiCqResponseMissing.json");
         final UUID requestId = UUID.randomUUID();
         onset.setRequestId(requestId);
@@ -197,12 +209,13 @@ public class SoActorServiceProviderTest {
         policy.setActor("Dorothy");
         policy.setRecipe("GoToOz");
 
-        instantiateTarget(policy);
+        instantiateTargetCq(policy);
 
         assertNull(new SoActorServiceProvider().constructRequestCq(onset, operation, policy, aaiCqResp));
 
         policy.setActor("SO");
-        assertNull(new SoActorServiceProvider().constructRequestCq(onset, operation, policy, aaiCqResp));
+
+        assertNull(new SoActorServiceProvider().constructRequestCq(onset, operation, policy, aaiCqRespMissing));
 
         policy.setRecipe(VF_MODULE_CREATE);
 
@@ -210,9 +223,9 @@ public class SoActorServiceProviderTest {
         SoRequest request = new SoActorServiceProvider().constructRequestCq(onset, operation, policy, aaiCqResp);
         assertNotNull(request);
 
-        assertEquals("TestVM-0201-2", request.getRequestDetails().getRequestInfo().getInstanceName());
+        assertEquals("vfModuleName", request.getRequestDetails().getRequestInfo().getInstanceName());
         assertEquals("policy", request.getRequestDetails().getRequestInfo().getRequestorId());
-        assertEquals("cr-16197-01-as988q", request.getRequestDetails().getCloudConfiguration().getLcpCloudRegionId());
+        assertEquals("RegionOne", request.getRequestDetails().getCloudConfiguration().getLcpCloudRegionId());
 
         // non-empty policy payload
         policy.setPayload(makePayload());
@@ -242,14 +255,7 @@ public class SoActorServiceProviderTest {
         // null response
         assertNull(new SoActorServiceProvider().constructRequestCq(onset, operation, policy, null));
 
-
-        policy.setTarget(null);
-
-        // response has no non-base VF modules (other than the "dummy")
-        assertNull(new SoActorServiceProvider().constructRequestCq(onset, operation, policy,
-                loadAaiResponseCq("aai/AaiCqResponse.json")));
-
-        instantiateTarget(policy);
+        instantiateTargetCq(policy);
         policy.setRecipe(VF_MODULE_DELETE);
         SoRequest deleteRequest = new SoActorServiceProvider().constructRequestCq(onset, operation, policy, aaiCqResp);
         assertNotNull(deleteRequest);
