@@ -5,7 +5,7 @@ policy_types:
         derived_from: tosca.policies.Root
         description: a base policy type for all policies that governs monitoring provisioning
   -
-    onap.policy.monitoring.cdap.tca.hi.lo.app:
+    onap.policies.monitoring.cdap.tca.hi.lo.app:
         derived_from: onap.policies.Monitoring
         version: 1.0.0
         properties:

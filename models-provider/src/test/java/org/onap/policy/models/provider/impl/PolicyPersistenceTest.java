@@ -34,6 +34,7 @@ import lombok.NonNull;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.base.PfModelException;
@@ -81,9 +82,10 @@ public class PolicyPersistenceTest {
      * Initialize provider.
      *
      * @throws PfModelException on exceptions in the tests
+     * @throws CoderException on JSON encoding and decoding errors
      */
     @Before
-    public void setupParameters() throws PfModelException {
+    public void setupParameters() throws PfModelException, CoderException {
         PolicyModelsProviderParameters parameters = new PolicyModelsProviderParameters();
         parameters.setDatabaseDriver("org.h2.Driver");
         parameters.setDatabaseUrl("jdbc:h2:mem:testdb");
@@ -92,6 +94,8 @@ public class PolicyPersistenceTest {
         parameters.setPersistenceUnit("ToscaConceptTest");
 
         databaseProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
+
+        createPolicyTypes();
     }
 
     /**
@@ -166,5 +170,35 @@ public class PolicyPersistenceTest {
                         .get(policy.getName()).getType(), policy.getType());
             }
         }
+    }
+
+    private void createPolicyTypes() throws CoderException, PfModelException {
+        Object yamlObject = new Yaml().load(
+                ResourceUtils.getResourceAsString("policytypes/onap.policies.monitoring.cdap.tca.hi.lo.app.yaml"));
+        String yamlAsJsonString = new StandardCoder().encode(yamlObject);
+
+        ToscaServiceTemplate toscaServiceTemplatePolicyType =
+                standardCoder.decode(yamlAsJsonString, ToscaServiceTemplate.class);
+
+        assertNotNull(toscaServiceTemplatePolicyType);
+        databaseProvider.createPolicyTypes(toscaServiceTemplatePolicyType);
+
+        yamlObject = new Yaml().load(
+                ResourceUtils.getResourceAsString("policytypes/onap.policies.controlloop.Operational.yaml"));
+        yamlAsJsonString = new StandardCoder().encode(yamlObject);
+
+        toscaServiceTemplatePolicyType = standardCoder.decode(yamlAsJsonString, ToscaServiceTemplate.class);
+
+        assertNotNull(toscaServiceTemplatePolicyType);
+        databaseProvider.createPolicyTypes(toscaServiceTemplatePolicyType);
+
+        yamlObject = new Yaml().load(
+                ResourceUtils.getResourceAsString("policytypes/onap.policies.controlloop.guard.FrequencyLimiter.yaml"));
+        yamlAsJsonString = new StandardCoder().encode(yamlObject);
+
+        toscaServiceTemplatePolicyType = standardCoder.decode(yamlAsJsonString, ToscaServiceTemplate.class);
+
+        assertNotNull(toscaServiceTemplatePolicyType);
+        databaseProvider.createPolicyTypes(toscaServiceTemplatePolicyType);
     }
 }

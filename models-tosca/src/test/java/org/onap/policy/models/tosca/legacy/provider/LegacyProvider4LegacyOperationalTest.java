@@ -30,13 +30,18 @@ import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
+import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.dao.DaoParameters;
 import org.onap.policy.models.dao.PfDao;
 import org.onap.policy.models.dao.PfDaoFactory;
 import org.onap.policy.models.dao.impl.DefaultPfDao;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
+import org.onap.policy.models.tosca.authorative.provider.AuthorativeToscaProvider;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
+import org.yaml.snakeyaml.Yaml;
 
 /**
  * Test the {@link LegacyProvider} class for legacy operational policies.
@@ -104,6 +109,8 @@ public class LegacyProvider4LegacyOperationalTest {
             new LegacyProvider().getOperationalPolicy(pfDao, "I Dont Exist");
         }).hasMessage("no policy found for policy ID: I Dont Exist");
 
+        createPolicyTypes();
+
         LegacyOperationalPolicy originalLop =
                 standardCoder.decode(ResourceUtils.getResourceAsString("policies/vCPE.policy.operational.input.json"),
                         LegacyOperationalPolicy.class);
@@ -142,6 +149,8 @@ public class LegacyProvider4LegacyOperationalTest {
             new LegacyProvider().createOperationalPolicy(pfDao, null);
         }).hasMessage("legacyOperationalPolicy is marked @NonNull but is null");
 
+        createPolicyTypes();
+
         LegacyOperationalPolicy originalLop =
                 standardCoder.decode(ResourceUtils.getResourceAsString("policies/vCPE.policy.operational.input.json"),
                         LegacyOperationalPolicy.class);
@@ -162,7 +171,6 @@ public class LegacyProvider4LegacyOperationalTest {
         assertEquals(expectedJsonOutput.replaceAll("\\s+", ""), actualJsonOutput.replaceAll("\\s+", ""));
     }
 
-
     @Test
     public void testPolicyUpdate() throws Exception {
         assertThatThrownBy(() -> {
@@ -180,6 +188,8 @@ public class LegacyProvider4LegacyOperationalTest {
         assertThatThrownBy(() -> {
             new LegacyProvider().updateOperationalPolicy(pfDao, new LegacyOperationalPolicy());
         }).hasMessage("no policy found for policy ID: null");
+
+        createPolicyTypes();
 
         LegacyOperationalPolicy originalLop =
                 standardCoder.decode(ResourceUtils.getResourceAsString("policies/vCPE.policy.operational.input.json"),
@@ -203,7 +213,6 @@ public class LegacyProvider4LegacyOperationalTest {
         assertEquals("Some New Content", gotUpdatedLop.getContent());
     }
 
-
     @Test
     public void testPoliciesDelete() throws Exception {
         assertThatThrownBy(() -> {
@@ -212,16 +221,18 @@ public class LegacyProvider4LegacyOperationalTest {
 
         assertThatThrownBy(() -> {
             new LegacyProvider().deleteOperationalPolicy(null, "");
+
         }).hasMessage("dao is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
             new LegacyProvider().deleteOperationalPolicy(pfDao, null);
         }).hasMessage("policyId is marked @NonNull but is null");
 
-
         assertThatThrownBy(() -> {
             new LegacyProvider().deleteOperationalPolicy(pfDao, "I Dont Exist");
         }).hasMessage("no policy found for policy ID: I Dont Exist");
+
+        createPolicyTypes();
 
         LegacyOperationalPolicy originalLop =
                 standardCoder.decode(ResourceUtils.getResourceAsString("policies/vCPE.policy.operational.input.json"),
@@ -260,6 +271,17 @@ public class LegacyProvider4LegacyOperationalTest {
         assertThatThrownBy(() -> {
             new LegacyProvider().getOperationalPolicy(pfDao, originalLop.getPolicyId());
         }).hasMessage("no policy found for policy ID: operational.restart");
+    }
 
+    private void createPolicyTypes() throws CoderException, PfModelException {
+        Object yamlObject = new Yaml().load(
+                ResourceUtils.getResourceAsString("policytypes/onap.policies.controlloop.Operational.yaml"));
+        String yamlAsJsonString = new StandardCoder().encode(yamlObject);
+
+        ToscaServiceTemplate toscaServiceTemplatePolicyType =
+                standardCoder.decode(yamlAsJsonString, ToscaServiceTemplate.class);
+
+        assertNotNull(toscaServiceTemplatePolicyType);
+        new AuthorativeToscaProvider().createPolicyTypes(pfDao, toscaServiceTemplatePolicyType);
     }
 }

@@ -31,15 +31,20 @@ import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
+import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.dao.DaoParameters;
 import org.onap.policy.models.dao.PfDao;
 import org.onap.policy.models.dao.PfDaoFactory;
 import org.onap.policy.models.dao.impl.DefaultPfDao;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
+import org.onap.policy.models.tosca.authorative.provider.AuthorativeToscaProvider;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyContent;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyInput;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyOutput;
+import org.yaml.snakeyaml.Yaml;
 
 /**
  * Test the {@link LegacyProvider} class for legacy guard policies.
@@ -108,6 +113,8 @@ public class LegacyProvider4LegacyGuardTest {
             new LegacyProvider().getGuardPolicy(pfDao, "I Dont Exist");
         }).hasMessage("no policy found for policy ID: I Dont Exist");
 
+        createPolicyTypes();
+
         LegacyGuardPolicyInput originalGip = standardCoder.decode(
                 ResourceUtils.getResourceAsString("policies/vDNS.policy.guard.frequency.input.json"),
                 LegacyGuardPolicyInput.class);
@@ -148,6 +155,8 @@ public class LegacyProvider4LegacyGuardTest {
             new LegacyProvider().createGuardPolicy(pfDao, null);
         }).hasMessage("legacyGuardPolicy is marked @NonNull but is null");
 
+        createPolicyTypes();
+
         LegacyGuardPolicyInput originalGip = standardCoder.decode(
                 ResourceUtils.getResourceAsString("policies/vDNS.policy.guard.frequency.input.json"),
                 LegacyGuardPolicyInput.class);
@@ -174,7 +183,6 @@ public class LegacyProvider4LegacyGuardTest {
         assertEquals(expectedJsonOutput.replaceAll("\\s+", ""), actualJsonOutput.replaceAll("\\s+", ""));
     }
 
-
     @Test
     public void testPolicyUpdate() throws Exception {
         assertThatThrownBy(() -> {
@@ -192,6 +200,8 @@ public class LegacyProvider4LegacyGuardTest {
         assertThatThrownBy(() -> {
             new LegacyProvider().updateGuardPolicy(pfDao, new LegacyGuardPolicyInput());
         }).hasMessage("policy type for guard policy \"null\" unknown");
+
+        createPolicyTypes();
 
         LegacyGuardPolicyInput originalGip = standardCoder.decode(
                 ResourceUtils.getResourceAsString("policies/vDNS.policy.guard.frequency.input.json"),
@@ -246,6 +256,8 @@ public class LegacyProvider4LegacyGuardTest {
             new LegacyProvider().deleteGuardPolicy(pfDao, "I Dont Exist");
         }).hasMessage("no policy found for policy ID: I Dont Exist");
 
+        createPolicyTypes();
+
         LegacyGuardPolicyInput originalGip = standardCoder.decode(
                 ResourceUtils.getResourceAsString("policies/vDNS.policy.guard.frequency.input.json"),
                 LegacyGuardPolicyInput.class);
@@ -293,5 +305,26 @@ public class LegacyProvider4LegacyGuardTest {
         assertThatThrownBy(() -> {
             new LegacyProvider().getGuardPolicy(pfDao, originalGip.getPolicyId());
         }).hasMessage("no policy found for policy ID: guard.frequency.scaleout");
+    }
+
+    private void createPolicyTypes() throws CoderException, PfModelException {
+        Object yamlObject = new Yaml().load(
+                ResourceUtils.getResourceAsString("policytypes/onap.policies.controlloop.guard.FrequencyLimiter.yaml"));
+        String yamlAsJsonString = new StandardCoder().encode(yamlObject);
+
+        ToscaServiceTemplate toscaServiceTemplatePolicyType =
+                standardCoder.decode(yamlAsJsonString, ToscaServiceTemplate.class);
+
+        assertNotNull(toscaServiceTemplatePolicyType);
+        new AuthorativeToscaProvider().createPolicyTypes(pfDao, toscaServiceTemplatePolicyType);
+
+        yamlObject = new Yaml()
+                .load(ResourceUtils.getResourceAsString("policytypes/onap.policies.controlloop.guard.Blacklist.yaml"));
+        yamlAsJsonString = new StandardCoder().encode(yamlObject);
+
+        toscaServiceTemplatePolicyType = standardCoder.decode(yamlAsJsonString, ToscaServiceTemplate.class);
+
+        assertNotNull(toscaServiceTemplatePolicyType);
+        new AuthorativeToscaProvider().createPolicyTypes(pfDao, toscaServiceTemplatePolicyType);
     }
 }

@@ -63,7 +63,7 @@ public class ToscaPolicyTypeFilterTest {
         "policytypes/onap.policies.optimization.SubscriberPolicy.yaml",
         "policytypes/onap.policies.optimization.Vim_fit.yaml",
         "policytypes/onap.policies.optimization.VnfPolicy.yaml",
-        "policytypes/onap.policy.monitoring.cdap.tca.hi.lo.app.yaml"
+        "policytypes/onap.policies.monitoring.cdap.tca.hi.lo.app.yaml"
     };
     // @formatter:on
 
@@ -152,7 +152,7 @@ public class ToscaPolicyTypeFilterTest {
         List<ToscaPolicyType> filteredList = filter.filter(typeList);
         assertEquals(2, filteredList.size());
 
-        filter = ToscaPolicyTypeFilter.builder().name("onap.policy.monitoring.cdap.tca.hi.lo.app").build();
+        filter = ToscaPolicyTypeFilter.builder().name("onap.policies.monitoring.cdap.tca.hi.lo.app").build();
         filteredList = filter.filter(typeList);
         assertEquals(1, filteredList.size());
 

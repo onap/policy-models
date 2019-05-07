@@ -129,7 +129,6 @@ public class JpaToscaPolicyTest {
         assertEquals(tdtClone0, tp);
 
         assertFalse(new JpaToscaPolicy().validate(new PfValidationResult()).isValid());
-        System.err.println(tp.validate(new PfValidationResult()));
         assertTrue(tp.validate(new PfValidationResult()).isValid());
 
         tp.getProperties().put(null, null);

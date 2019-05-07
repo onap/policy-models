@@ -297,7 +297,7 @@ public class MonitoringPolicySerializationTest {
         JsonObject policy = policiesJsonArray.iterator().next().getAsJsonObject();
         assertNotNull(policy.get("onap.vfirewall.tca"));
         JsonObject policyVal = policy.get("onap.vfirewall.tca").getAsJsonObject();
-        assertEquals("onap.policy.monitoring.cdap.tca.hi.lo.app", policyVal.get("type").getAsString());
+        assertEquals("onap.policies.monitoring.cdap.tca.hi.lo.app", policyVal.get("type").getAsString());
         assertEquals("1.0.0", policyVal.get("version").getAsString());
         assertEquals("onap.vfirewall.tca", policyVal.get("metadata").getAsJsonObject().get("policy-id")
                 .getAsString());

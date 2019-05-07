@@ -105,6 +105,24 @@ public abstract class PfConcept implements Serializable, Comparable<PfConcept> {
     }
 
     /**
+     * Gets the name of this concept.
+     *
+     * @return the name of this concept
+     */
+    public String getName() {
+        return getKey().getName();
+    }
+
+    /**
+     * Gets the version of this concept.
+     *
+     * @return the version of this concept
+     */
+    public String getVersion() {
+        return getKey().getVersion();
+    }
+
+    /**
      * Checks if this key matches the given key ID.
      *
      * @param id the key ID to match against
