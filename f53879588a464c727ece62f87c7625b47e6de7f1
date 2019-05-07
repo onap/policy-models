@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df126c7c_d8767a8a",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfConceptFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-05-07T12:49:47Z",
+      "side": 1,
+      "message": "If there\u0027s a new patch - since new file. Remove this - otherwise not a big deal.",
+      "range": {
+        "startLine": 4,
+        "startChar": 1,
+        "endLine": 4,
+        "endChar": 85
+      },
+      "revId": "f53879588a464c727ece62f87c7625b47e6de7f1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
