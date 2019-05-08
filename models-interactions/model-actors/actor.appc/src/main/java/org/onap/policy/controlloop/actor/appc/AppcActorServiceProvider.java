@@ -23,22 +23,27 @@ package org.onap.policy.controlloop.actor.appc;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-
 import java.util.Collections;
 import java.util.List;
-
+import java.util.Map;
+import java.util.Map.Entry;
 import org.onap.policy.appc.CommonHeader;
 import org.onap.policy.appc.Request;
+import org.onap.policy.common.utils.coder.CoderException;
+import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.onap.policy.controlloop.policy.Policy;
-import org.onap.policy.vnf.trafficgenerator.PgRequest;
-import org.onap.policy.vnf.trafficgenerator.PgStream;
-import org.onap.policy.vnf.trafficgenerator.PgStreams;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class AppcActorServiceProvider implements Actor {
+    private static final Logger logger = LoggerFactory.getLogger(AppcActorServiceProvider.class);
+
+    private static final StandardCoder coder = new StandardCoder();
+
     // Strings for targets
     private static final String TARGET_VM = "VM";
     private static final String TARGET_VNF = "VNF";
@@ -98,23 +103,13 @@ public class AppcActorServiceProvider implements Actor {
         request.getCommonHeader().setSubRequestId(operation.getSubRequestId());
         request.setAction(policy.getRecipe().substring(0, 1).toUpperCase() + policy.getRecipe().substring(1));
 
-        /*
-         * For now Policy generates the PG Streams as a demo, in the future the payload can be
-         * provided by CLAMP
-         */
-        request.getPayload().put("generic-vnf.vnf-id", targetVnf);
-
-        PgRequest pgRequest = new PgRequest();
-        pgRequest.pgStreams = new PgStreams();
-
-        PgStream pgStream;
-        for (int i = 0; i < 5; i++) {
-            pgStream = new PgStream();
-            pgStream.streamId = "fw_udp" + (i + 1);
-            pgStream.isEnabled = "true";
-            pgRequest.pgStreams.pgStream.add(pgStream);
+        // convert policy payload strings to objects
+        if (policy.getPayload() != null) {
+            convertPayload(policy.getPayload(), request.getPayload());
         }
-        request.getPayload().put("pg-streams", pgRequest.pgStreams);
+
+        // add/replace specific values
+        request.getPayload().put("generic-vnf.vnf-id", targetVnf);
 
         /*
          * Return the request
@@ -123,5 +118,22 @@ public class AppcActorServiceProvider implements Actor {
         return request;
     }
 
+    /**
+     * Converts a payload. The original value is assumed to be a JSON string, which is
+     * decoded into an object.
+     *
+     * @param source source from which to get the values
+     * @param target where to place the decoded values
+     */
+    private static void convertPayload(Map<String, String> source, Map<String, Object> target) {
+        for (Entry<String, String> ent : source.entrySet()) {
+            try {
+                target.put(ent.getKey(), coder.decode(ent.getValue(), Object.class));
+
+            } catch (CoderException e) {
+                logger.warn("cannot decode JSON value {}: {}", ent.getKey(), ent.getValue(), e);
+            }
+        }
+    }
 
 }

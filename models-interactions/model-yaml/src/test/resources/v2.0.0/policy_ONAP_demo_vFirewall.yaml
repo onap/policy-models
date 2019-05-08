@@ -61,7 +61,7 @@ policies:
       resourceID: Eace933104d443b496b8.nodes.heat.vpg
     payload:
       generic-vnf.vnf-id: {generic-vnf.vnf-id}
-      ref$: pgstreams.json
+      ref$: payload.json
     retry: 0
     timeout: 300
     success: final_success

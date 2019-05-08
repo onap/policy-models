@@ -44,12 +44,6 @@
     </dependency>
     <dependency>
       <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
-      <artifactId>trafficgenerator</artifactId>
-      <version>${project.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
       <artifactId>events</artifactId>
       <version>${project.version}</version>
       <scope>provided</scope>
