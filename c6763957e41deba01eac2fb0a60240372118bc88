@@ -16,6 +16,24 @@
       "revId": "c6763957e41deba01eac2fb0a60240372118bc88",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7553a335_6905a26b",
+        "filename": "models-interactions/model-actors/actor.appc/src/main/java/org/onap/policy/controlloop/actor/appc/AppcActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-05-08T22:36:55Z",
+      "side": 1,
+      "message": "The SO code doesn\u0027t warn if the payload is null, but it could be beneficial - I\u0027ll defer to Pam.",
+      "parentUuid": "824e8aa9_65c2a5dc",
+      "revId": "c6763957e41deba01eac2fb0a60240372118bc88",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
