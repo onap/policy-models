@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3115235c_82b9b839",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/legacy/concepts/LegacyGuardPolicyContent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-05-08T22:03:25Z",
+      "side": 1,
+      "message": "hopefully this is the complete list ..",
+      "revId": "4a1ec1aea71bf58d371a034045defd11d9e77ce3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
