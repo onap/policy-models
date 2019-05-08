@@ -47,12 +47,11 @@ import org.slf4j.LoggerFactory;
  */
 public class LegacyGuardPolicyMapper
         implements JpaToscaServiceTemplateMapper<LegacyGuardPolicyInput, Map<String, LegacyGuardPolicyOutput>> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(LegacyGuardPolicyMapper.class);
 
     // Tag for metadata fields
     private static final String POLICY_ID = "policy-id";
     private static final String POLICY_VERSION = "policy-version";
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(LegacyGuardPolicyMapper.class);
 
     private static final Map<String, PfConceptKey> GUARD_POLICY_TYPE_MAP = new LinkedHashMap<>();
 
@@ -141,19 +140,7 @@ public class LegacyGuardPolicyMapper
             }
 
             final LegacyGuardPolicyContent content = new LegacyGuardPolicyContent();
-            // @formatter:off
-            content.setActor(           toscaPolicy.getProperties().get("actor"));
-            content.setClname(          toscaPolicy.getProperties().get("clname"));
-            content.setGuardActiveEnd(  toscaPolicy.getProperties().get("guardActiveEnd"));
-            content.setGuardActiveStart(toscaPolicy.getProperties().get("guardActiveStart"));
-            content.setLimit(           toscaPolicy.getProperties().get("limit"));
-            content.setMax(             toscaPolicy.getProperties().get("max"));
-            content.setMin(             toscaPolicy.getProperties().get("min"));
-            content.setRecipe(          toscaPolicy.getProperties().get("recipe"));
-            content.setTargets(         toscaPolicy.getProperties().get("targets"));
-            content.setTimeUnits(       toscaPolicy.getProperties().get("timeUnits"));
-            content.setTimeWindow(      toscaPolicy.getProperties().get("timeWindow"));
-            // @formatter:on
+            content.setContent(toscaPolicy.getProperties());
 
             final Map<String, LegacyGuardPolicyContent> propertiesMap = new LinkedHashMap<>();
             propertiesMap.put("content", content);

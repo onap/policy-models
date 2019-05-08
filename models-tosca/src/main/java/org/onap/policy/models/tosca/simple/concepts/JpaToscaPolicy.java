@@ -159,6 +159,8 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
         if (properties != null) {
             Map<String, Object> propertyMap = new LinkedHashMap<>();
 
+            final StandardCoder coder = new StandardCoder();
+
             for (Entry<String, String> entry : properties.entrySet()) {
                 try {
                     // TODO: This is a HACK, we need to validate the properties against their
@@ -166,7 +168,7 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
                     // TODO: the policy type from the database and parsing the property value object correctly
                     // TODO: Here we are simply reading a JSON string from the database and deserializing the
                     // TODO: property value from JSON
-                    propertyMap.put(entry.getKey(), new StandardCoder().decode(entry.getValue(), Object.class));
+                    propertyMap.put(entry.getKey(), coder.decode(entry.getValue(), Object.class));
                 } catch (CoderException ce) {
                     String errorMessage = "error decoding property JSON value read from database: key=" + entry.getKey()
                             + ", value=" + entry.getValue();
@@ -193,6 +195,8 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
         if (toscaPolicy.getProperties() != null) {
             properties = new LinkedHashMap<>();
 
+            final StandardCoder coder = new StandardCoder();
+
             for (Entry<String, Object> propertyEntry : toscaPolicy.getProperties().entrySet()) {
                 // TODO: This is a HACK, we need to validate the properties against their
                 // TODO: their data type in their policy type definition in TOSCA, which means reading
@@ -200,7 +204,7 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
                 // TODO: Here we are simply serializing the property value into a string and storing it
                 // TODO: unvalidated into the database
                 try {
-                    properties.put(propertyEntry.getKey(), new StandardCoder().encode(propertyEntry.getValue()));
+                    properties.put(propertyEntry.getKey(), coder.encode(propertyEntry.getValue()));
                 } catch (CoderException ce) {
                     String errorMessage = "error encoding property JSON value for database: key="
                             + propertyEntry.getKey() + ", value=" + propertyEntry.getValue();

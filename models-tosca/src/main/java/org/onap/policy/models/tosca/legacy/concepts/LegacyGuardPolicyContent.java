@@ -28,6 +28,7 @@ import javax.ws.rs.core.Response;
 
 import lombok.Data;
 
+import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.tosca.legacy.mapping.LegacyGuardPolicyMapper;
 import org.slf4j.Logger;
@@ -55,17 +56,19 @@ public class LegacyGuardPolicyContent {
     private String guardActiveEnd;
 
     /**
-     * Get contents as a map.
+     * Get contents as a property map.
      *
      * @return the contents as a map.
      */
     public Map<String, String> getAsPropertyMap() {
         final Map<String, String> propertyMap = new HashMap<>();
 
+        final StandardCoder coder  = new StandardCoder();
+
         try {
             for (Field field : this.getClass().getDeclaredFields()) {
                 if (field.get(this) != null && field.getType().equals(String.class)) {
-                    propertyMap.put(field.getName(), (String)field.get(this));
+                    propertyMap.put(field.getName(), coder.encode(field.get(this)));
                 }
             }
         } catch (Exception exc) {
@@ -76,5 +79,34 @@ public class LegacyGuardPolicyContent {
         }
 
         return propertyMap;
+    }
+
+    /**
+     * Set the contents from a property map.
+     *
+     * @param propertyMap the incoming property map
+     */
+    public void setContent(final Map<String, String> propertyMap) {
+        final StandardCoder coder  = new StandardCoder();
+
+        try {
+            // @formatter:off
+            setActor(           coder.decode(propertyMap.get("actor"),            String.class));
+            setClname(          coder.decode(propertyMap.get("clname"),           String.class));
+            setGuardActiveEnd(  coder.decode(propertyMap.get("guardActiveEnd"),   String.class));
+            setGuardActiveStart(coder.decode(propertyMap.get("guardActiveStart"), String.class));
+            setLimit(           coder.decode(propertyMap.get("limit"),            String.class));
+            setMax(             coder.decode(propertyMap.get("max"),              String.class));
+            setMin(             coder.decode(propertyMap.get("min"),              String.class));
+            setRecipe(          coder.decode(propertyMap.get("recipe"),           String.class));
+            setTargets(         coder.decode(propertyMap.get("targets"),          String.class));
+            setTimeUnits(       coder.decode(propertyMap.get("timeUnits"),        String.class));
+            setTimeWindow(      coder.decode(propertyMap.get("timeWindow"),       String.class));
+            // @formatter:on
+        } catch (Exception exc) {
+            String errorMessage = "could not convert content to a property map";
+            LOGGER.warn(errorMessage, exc);
+            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage, exc);
+        }
     }
 }
