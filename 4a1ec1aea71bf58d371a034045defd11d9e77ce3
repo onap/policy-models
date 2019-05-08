@@ -16,6 +16,24 @@
       "revId": "4a1ec1aea71bf58d371a034045defd11d9e77ce3",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d871c2d9_d1555c62",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/legacy/concepts/LegacyGuardPolicyContent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-05-08T22:35:25Z",
+      "side": 1,
+      "message": "could use reflection like with the previous method (i.e., look for setXxx methods taking a single String argument)",
+      "parentUuid": "3115235c_82b9b839",
+      "revId": "4a1ec1aea71bf58d371a034045defd11d9e77ce3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
