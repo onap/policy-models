@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * AppcServiceProviderTest
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -56,6 +56,14 @@ public class AppcServiceProviderTest {
     private static final VirtualControlLoopEvent onsetEvent;
     private static final ControlLoopOperation operation;
     private static final Policy policy;
+
+    private static final String KEY1 = "my-keyA";
+    private static final String KEY2 = "my-keyB";
+    private static final String SUBKEY = "sub-key";
+
+    private static final String VALUE1 = "'my-value'".replace('\'', '"');
+    private static final String VALUE2 = "{'sub-key':20}".replace('\'', '"');
+    private static final String SUBVALUE = "20";
 
     static {
         /*
@@ -118,6 +126,9 @@ public class AppcServiceProviderTest {
 
     @Test
     public void constructModifyConfigRequestTest() {
+        policy.setPayload(new HashMap<>());
+        policy.getPayload().put(KEY1, VALUE1);
+        policy.getPayload().put(KEY2, VALUE2);
 
         Request appcRequest;
         appcRequest = AppcActorServiceProvider.constructRequest(onsetEvent, operation, policy, "vnf01");
@@ -137,7 +148,8 @@ public class AppcServiceProviderTest {
         assertNotNull(appcRequest.getPayload());
         assertTrue(appcRequest.getPayload().containsKey("generic-vnf.vnf-id"));
         assertNotNull(appcRequest.getPayload().get("generic-vnf.vnf-id"));
-        assertTrue(appcRequest.getPayload().containsKey("pg-streams"));
+        assertTrue(appcRequest.getPayload().containsKey(KEY1));
+        assertTrue(appcRequest.getPayload().containsKey(KEY2));
 
         logger.debug("APPC Request: \n" + appcRequest.toString());
 
@@ -151,7 +163,53 @@ public class AppcServiceProviderTest {
         assertTrue(jsonRequest.contains("ModifyConfig"));
         assertTrue(jsonRequest.contains("Payload"));
         assertTrue(jsonRequest.contains("generic-vnf.vnf-id"));
-        assertTrue(jsonRequest.contains("pg-streams"));
+        assertTrue(jsonRequest.contains(KEY1));
+        assertTrue(jsonRequest.contains(KEY2));
+        assertTrue(jsonRequest.contains(SUBKEY));
+        assertTrue(jsonRequest.contains(SUBVALUE));
+
+        Response appcResponse = new Response(appcRequest);
+        appcResponse.getStatus().setCode(ResponseCode.SUCCESS.getValue());
+        appcResponse.getStatus().setDescription("AppC success");
+        /* Print out request as json to make sure serialization works */
+        String jsonResponse = Serialization.gsonPretty.toJson(appcResponse);
+        logger.debug("JSON Output: \n" + jsonResponse);
+    }
+
+    @Test
+    public void constructModifyConfigRequestTest_NullPayload() {
+
+        Request appcRequest;
+        appcRequest = AppcActorServiceProvider.constructRequest(onsetEvent, operation, policy, "vnf01");
+
+        /* The service provider must return a non null APPC request */
+        assertNotNull(appcRequest);
+
+        /* A common header is required and cannot be null */
+        assertNotNull(appcRequest.getCommonHeader());
+        assertEquals(appcRequest.getCommonHeader().getRequestId(), onsetEvent.getRequestId());
+
+        /* An action is required and cannot be null */
+        assertNotNull(appcRequest.getAction());
+        assertEquals("ModifyConfig", appcRequest.getAction());
+
+        /* A payload is required and cannot be null */
+        assertNotNull(appcRequest.getPayload());
+        assertTrue(appcRequest.getPayload().containsKey("generic-vnf.vnf-id"));
+        assertNotNull(appcRequest.getPayload().get("generic-vnf.vnf-id"));
+
+        logger.debug("APPC Request: \n" + appcRequest.toString());
+
+        /* Print out request as json to make sure serialization works */
+        String jsonRequest = Serialization.gsonPretty.toJson(appcRequest);
+        logger.debug("JSON Output: \n" + jsonRequest);
+
+        /* The JSON string must contain the following fields */
+        assertTrue(jsonRequest.contains("CommonHeader"));
+        assertTrue(jsonRequest.contains("Action"));
+        assertTrue(jsonRequest.contains("ModifyConfig"));
+        assertTrue(jsonRequest.contains("Payload"));
+        assertTrue(jsonRequest.contains("generic-vnf.vnf-id"));
 
         Response appcResponse = new Response(appcRequest);
         appcResponse.getStatus().setCode(ResponseCode.SUCCESS.getValue());

@@ -1,4 +1,4 @@
-Copyright 2018 AT&T Intellectual Property. All rights reserved.
+Copyright 2018-2019 AT&T Intellectual Property. All rights reserved.
 Modifications Copyright (C) 2019 Nordix Foundation.
 This file is licensed under the CREATIVE COMMONS ATTRIBUTION 4.0 INTERNATIONAL LICENSE
 Full license text at https://creativecommons.org/licenses/by/4.0/legalcode
@@ -307,7 +307,7 @@ policies:
       resourceID: Eace933104d443b496b8.nodes.heat.vpg
     payload:
       generic-vnf.vnf-id: {generic-vnf.vnf-id}
-      ref$: pgstreams.json
+      streams: '{"active-streams":5}'
     retry: 0
     timeout: 300
     success: final_success
