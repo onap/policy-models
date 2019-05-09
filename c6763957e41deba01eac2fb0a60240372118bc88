@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "2d12b8ad_3814d3dd",
+        "filename": "models-interactions/model-actors/actor.appc/src/main/java/org/onap/policy/controlloop/actor/appc/AppcActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-05-09T14:55:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d298c314_1ed8e93e",
+      "revId": "c6763957e41deba01eac2fb0a60240372118bc88",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d69c3643_5342d3b2",
         "filename": "models-interactions/model-yaml/README-v2.0.0.md",
         "patchSetId": 2
@@ -90,6 +108,30 @@
       "side": 1,
       "message": "so this should be changed to match what the yaml should really look like (i.e., what\u0027s found in drools-apps)?",
       "parentUuid": "d69c3643_5342d3b2",
+      "range": {
+        "startLine": 310,
+        "startChar": 1,
+        "endLine": 311,
+        "endChar": 1
+      },
+      "revId": "c6763957e41deba01eac2fb0a60240372118bc88",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d5e22a5e_0b8b0cee",
+        "filename": "models-interactions/model-yaml/README-v2.0.0.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-05-09T14:55:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed940ee0_27f9db17",
       "range": {
         "startLine": 310,
         "startChar": 1,
@@ -161,6 +203,30 @@
       "side": 1,
       "message": "Yes I understand, not your fault. I updated the JIRA so you can see the expected vFirewall policy.",
       "parentUuid": "bd34d4ac_a0a2af09",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 24
+      },
+      "revId": "c6763957e41deba01eac2fb0a60240372118bc88",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e94e1580_abb5aabe",
+        "filename": "models-interactions/model-yaml/src/test/resources/v2.0.0/policy_ONAP_demo_vFirewall.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-05-09T14:55:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5265d5bb_a45e8c20",
       "range": {
         "startLine": 62,
         "startChar": 0,
