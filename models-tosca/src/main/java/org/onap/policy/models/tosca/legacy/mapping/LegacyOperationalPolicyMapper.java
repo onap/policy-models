@@ -25,8 +25,6 @@ import java.util.Map;
 
 import javax.ws.rs.core.Response;
 
-import org.onap.policy.common.utils.coder.CoderException;
-import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
@@ -70,14 +68,7 @@ public class LegacyOperationalPolicyMapper
 
         final Map<String, String> propertyMap = new HashMap<>();
         toscaPolicy.setProperties(propertyMap);
-        try {
-            toscaPolicy.getProperties().put(CONTENT_PROPERTY,
-                    new StandardCoder().encode(legacyOperationalPolicy.getContent()));
-        } catch (CoderException ce) {
-            String errorMessage = "encoding of property \"content\" to JSON failed";
-            LOGGER.warn(errorMessage, ce);
-            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage, ce);
-        }
+        toscaPolicy.getProperties().put(CONTENT_PROPERTY, legacyOperationalPolicy.getContent());
 
         final JpaToscaServiceTemplate serviceTemplate = new JpaToscaServiceTemplate();
         serviceTemplate.setToscaDefinitionsVersion("tosca_simple_yaml_1_0");
@@ -114,14 +105,7 @@ public class LegacyOperationalPolicyMapper
             throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
         }
 
-        String content = null;
-        try {
-            content = new StandardCoder().decode(toscaPolicy.getProperties().get(CONTENT_PROPERTY), String.class);
-        } catch (CoderException ce) {
-            String errorMessage = "decoding of property \"content\" from JSON failed";
-            LOGGER.warn(errorMessage, ce);
-            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage, ce);
-        }
+        String content =  toscaPolicy.getProperties().get(CONTENT_PROPERTY);
 
         if (content == null) {
             String errorMessage = "property \"content\" not defined on TOSCA policy";

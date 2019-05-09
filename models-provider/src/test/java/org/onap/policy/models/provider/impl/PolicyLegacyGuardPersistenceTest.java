@@ -79,6 +79,8 @@ public class PolicyLegacyGuardPersistenceTest {
      */
     @Before
     public void setupParameters() throws PfModelException, CoderException {
+        // H2, use "org.mariadb.jdbc.Driver" and "jdbc:mariadb://localhost:3306/policy" for locally installed MariaDB
+
         PolicyModelsProviderParameters parameters = new PolicyModelsProviderParameters();
         parameters.setDatabaseDriver("org.h2.Driver");
         parameters.setDatabaseUrl("jdbc:h2:mem:testdb");
