@@ -195,7 +195,6 @@ public class SimpleToscaProvider {
 
         for (JpaToscaPolicy policy : serviceTemplate.getTopologyTemplate().getPolicies().getAll(null)) {
             verifyPolicyTypeForPolicy(dao, policy);
-
             dao.create(policy);
         }
 
@@ -226,6 +225,7 @@ public class SimpleToscaProvider {
         ToscaUtils.assertPoliciesExist(serviceTemplate);
 
         for (JpaToscaPolicy policy : serviceTemplate.getTopologyTemplate().getPolicies().getAll(null)) {
+            verifyPolicyTypeForPolicy(dao, policy);
             dao.update(policy);
         }
 
@@ -288,6 +288,7 @@ public class SimpleToscaProvider {
 
         if (PfKey.NULL_KEY_VERSION.equals(policyTypeKey.getVersion())) {
             policyType = getLatestPolicyTypeVersion(dao, policyTypeKey.getName());
+            policy.getType().setVersion(policyType.getKey().getVersion());
         } else {
             policyType = dao.get(JpaToscaPolicyType.class, policyTypeKey);
         }
