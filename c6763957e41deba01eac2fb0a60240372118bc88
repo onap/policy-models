@@ -146,6 +146,30 @@
       "revId": "c6763957e41deba01eac2fb0a60240372118bc88",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5265d5bb_a45e8c20",
+        "filename": "models-interactions/model-yaml/src/test/resources/v2.0.0/policy_ONAP_demo_vFirewall.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-05-09T14:06:42Z",
+      "side": 1,
+      "message": "Yes I understand, not your fault. I updated the JIRA so you can see the expected vFirewall policy.",
+      "parentUuid": "bd34d4ac_a0a2af09",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 24
+      },
+      "revId": "c6763957e41deba01eac2fb0a60240372118bc88",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
