@@ -52,6 +52,24 @@
       "revId": "4a1ec1aea71bf58d371a034045defd11d9e77ce3",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bfdd6e6_31695739",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/legacy/concepts/LegacyGuardPolicyContent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-05-09T10:20:10Z",
+      "side": 1,
+      "message": "Is CLAMP passing \"targets\" - I have been using \"target\" singular? I will change my code if so.",
+      "parentUuid": "c709ce80_2d7d8885",
+      "revId": "4a1ec1aea71bf58d371a034045defd11d9e77ce3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
