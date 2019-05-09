@@ -34,6 +34,70 @@
       "revId": "c6763957e41deba01eac2fb0a60240372118bc88",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d298c314_1ed8e93e",
+        "filename": "models-interactions/model-actors/actor.appc/src/main/java/org/onap/policy/controlloop/actor/appc/AppcActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-05-09T10:29:01Z",
+      "side": 1,
+      "message": "We can throw a INFO message out. This is APPC, probably each API under APPC should check if it requires a payload. More work on our end that we can do later when we clean these service providers up.",
+      "parentUuid": "7553a335_6905a26b",
+      "revId": "c6763957e41deba01eac2fb0a60240372118bc88",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d69c3643_5342d3b2",
+        "filename": "models-interactions/model-yaml/README-v2.0.0.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-05-09T10:29:01Z",
+      "side": 1,
+      "message": "Most likely we wouldn\u0027t be getting the YAML in this form. It would require 2 separate files to be stored. The policy and the payload. I wrote the documentation like this long ago when I \"guessed\" how things \"could\" work.",
+      "range": {
+        "startLine": 310,
+        "startChar": 1,
+        "endLine": 311,
+        "endChar": 1
+      },
+      "revId": "c6763957e41deba01eac2fb0a60240372118bc88",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbb8384c_35b27777",
+        "filename": "models-interactions/model-yaml/src/test/resources/v2.0.0/policy_ONAP_demo_vFirewall.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-05-09T10:29:01Z",
+      "side": 1,
+      "message": "Ok so I don\u0027t think this is how the payload is going to be sent to us. Think of it as an empty text box that the designer will throw these values in.",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 24
+      },
+      "revId": "c6763957e41deba01eac2fb0a60240372118bc88",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
