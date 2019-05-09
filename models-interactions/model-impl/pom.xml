@@ -42,7 +42,6 @@
       <module>so</module>
       <module>rest</module>
       <module>sdc</module>
-      <module>trafficgenerator</module>
       <module>vfc</module>
       <module>sdnc</module>
   </modules>
