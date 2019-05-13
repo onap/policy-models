@@ -132,7 +132,7 @@ public class SdncActorServiceProvider implements Actor {
         serviceInfo.setServiceInstanceId(serviceInstance);
 
         SdncHealRequestInfo requestInfo = new SdncHealRequestInfo();
-        requestInfo.setRequestAction("SdwanBWPolicyChange");
+        requestInfo.setRequestAction("SdwanBandwidthChange");
 
         SdncHealRequestHeaderInfo headerInfo = new SdncHealRequestHeaderInfo();
         headerInfo.setSvcAction("update");
