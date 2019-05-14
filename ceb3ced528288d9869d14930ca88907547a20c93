@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "adf912de_310b231a",
+        "filename": "models-sim/policy-models-sim-pdp/src/main/package/docker/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-05-14T17:05:48Z",
+      "side": 1,
+      "message": "there are many of these that can be trimmed, ie. openjdk8, bash, nss, procps, etc .. I think they are in policy-common-alpine that this Dockerfile inherits from.\n\nSimilarly, iproute2, iputils, openssh .. are not needed for the simulator.",
+      "revId": "ceb3ced528288d9869d14930ca88907547a20c93",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b063cfd4_e6303924",
+        "filename": "models-sim/policy-models-sim-pdp/src/main/package/docker/pdp-sim.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-05-14T17:05:48Z",
+      "side": 1,
+      "message": "Why not use $POLICY_HOME all across and not PDP_SIM_HOME so it is uniform across images ..",
+      "revId": "ceb3ced528288d9869d14930ca88907547a20c93",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f3165e_880f5f8c",
+        "filename": "models-sim/policy-models-sim-pdp/src/main/resources/config/topic.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-05-14T17:05:48Z",
+      "side": 1,
+      "message": "how is this used? message-router is only known in oom environments",
+      "revId": "ceb3ced528288d9869d14930ca88907547a20c93",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
