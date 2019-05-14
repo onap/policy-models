@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "88e1c68c_b6e2f3d8",
+        "filename": "models-sim/policy-models-sim-pdp/src/main/package/docker/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 4903
+      },
+      "writtenOn": "2019-05-14T17:40:50Z",
+      "side": 1,
+      "message": "Agreed. I was just finishing this part quickly by referring the dmaap simulator. Such refactoring needs to be done.",
+      "parentUuid": "adf912de_310b231a",
+      "revId": "ceb3ced528288d9869d14930ca88907547a20c93",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b063cfd4_e6303924",
         "filename": "models-sim/policy-models-sim-pdp/src/main/package/docker/pdp-sim.sh",
         "patchSetId": 2
@@ -47,6 +65,24 @@
       "writtenOn": "2019-05-14T17:05:48Z",
       "side": 1,
       "message": "how is this used? message-router is only known in oom environments",
+      "revId": "ceb3ced528288d9869d14930ca88907547a20c93",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e0d2e8e_cf3447b3",
+        "filename": "models-sim/policy-models-sim-pdp/src/main/resources/config/topic.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 4903
+      },
+      "writtenOn": "2019-05-14T17:40:50Z",
+      "side": 1,
+      "message": "By specifying the hostname as message-router it could be used directly if the dmaap also comes up with that name. For example, if you look at the integration-csit \u003escripts\u003epolicy\u003epolicy-apex-pdp docker-compose file and topic.properties file, I have specified dmaap as the host name there.  In this case, \"dmaap\" host will be available in that network. Similarly, message-router is specified here so that it could be used directly in case if needed(by specifying the name as \"message-router\" while bringing up the dmaap simulator). \n\nInstead, if needed to specify the direct ip or any other host name, we could just mount this topic.properties as well with the known ip address.",
+      "parentUuid": "17f3165e_880f5f8c",
       "revId": "ceb3ced528288d9869d14930ca88907547a20c93",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
