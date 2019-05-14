@@ -1,0 +1,9 @@
+{
+    "name":"PdpSimulatorParameterGroup",
+    "pdpStatusParameters":{
+        "timeIntervalMs": 120000,
+        "pdpType":"apex",
+        "description":"Pdp heartbeat",
+        "supportedPolicyTypes":[{"name":"onap.policies.controlloop.operational.Apex","version":"1.0.0"}]
+    }
+}
