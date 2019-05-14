@@ -288,7 +288,10 @@ public class SimpleToscaProvider {
 
         if (PfKey.NULL_KEY_VERSION.equals(policyTypeKey.getVersion())) {
             policyType = getLatestPolicyTypeVersion(dao, policyTypeKey.getName());
-            policy.getType().setVersion(policyType.getKey().getVersion());
+
+            if (policyType != null) {
+                policy.getType().setVersion(policyType.getKey().getVersion());
+            }
         } else {
             policyType = dao.get(JpaToscaPolicyType.class, policyTypeKey);
         }
@@ -310,8 +313,7 @@ public class SimpleToscaProvider {
      */
     private JpaToscaPolicyType getLatestPolicyTypeVersion(final PfDao dao, final String policyTypeName) {
         // Policy type version is not specified, get the latest version from the database
-        List<JpaToscaPolicyType> jpaPolicyTypeList =
-                dao.getFiltered(JpaToscaPolicyType.class, policyTypeName, null);
+        List<JpaToscaPolicyType> jpaPolicyTypeList = dao.getFiltered(JpaToscaPolicyType.class, policyTypeName, null);
 
         if (jpaPolicyTypeList.isEmpty()) {
             return null;
@@ -325,9 +327,8 @@ public class SimpleToscaProvider {
         List<PfConcept> filterdPolicyTypeList = pfConceptFilter.filter(policyTypeKeyList);
 
         // We should have one and only one returned entry
-        if (filterdPolicyTypeList.size() != 1 ) {
-            String errorMessage =
-                    "search for lates policy type " + policyTypeName + " returned more than one entry";
+        if (filterdPolicyTypeList.size() != 1) {
+            String errorMessage = "search for lates policy type " + policyTypeName + " returned more than one entry";
             LOGGER.warn(errorMessage);
             throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
         }
