@@ -1,0 +1,4 @@
+ONAP Policy-PDP simulator Service
+Version: ${project.version}
+Built (UTC): ${maven.build.timestamp}
+ONAP https://wiki.onap.org
