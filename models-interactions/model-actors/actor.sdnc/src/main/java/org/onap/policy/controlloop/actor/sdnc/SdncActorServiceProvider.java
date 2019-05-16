@@ -36,6 +36,7 @@ import org.onap.policy.sdnc.SdncHealRequest;
 import org.onap.policy.sdnc.SdncHealRequestHeaderInfo;
 import org.onap.policy.sdnc.SdncHealRequestInfo;
 import org.onap.policy.sdnc.SdncHealServiceInfo;
+import org.onap.policy.sdnc.SdncHealVfModuleInfo;
 import org.onap.policy.sdnc.SdncHealVfModuleParameter;
 import org.onap.policy.sdnc.SdncHealVfModuleParametersInfo;
 import org.onap.policy.sdnc.SdncHealVfModuleRequestInput;
@@ -146,8 +147,12 @@ public class SdncActorServiceProvider implements Actor {
         SdncHealVnfInfo vnfInfo = new SdncHealVnfInfo();
         vnfInfo.setVnfId(onset.getAai().get("vnfId"));
 
+        SdncHealVfModuleInfo vfModuleInfo = new SdncHealVfModuleInfo();
+        vfModuleInfo.setVfModuleId("");
+
         SdncHealRequest healRequest = new SdncHealRequest();
         healRequest.setVnfInfo(vnfInfo);
+        healRequest.setVfModuleInfo(vfModuleInfo);
         healRequest.setRequestHeaderInfo(headerInfo);
         healRequest.setVfModuleRequestInput(vfRequestInfo);
         healRequest.setRequestInfo(requestInfo);

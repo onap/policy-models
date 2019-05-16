@@ -42,6 +42,9 @@ public class SdncHealRequest implements Serializable {
     @SerializedName("vnf-information")
     private SdncHealVnfInfo vnfInfo;
 
+    @SerializedName("vf-module-information")
+    private SdncHealVfModuleInfo vfModuleInfo;
+
     @SerializedName("vf-module-request-input")
     private SdncHealVfModuleRequestInput vfModuleRequestInput;
 
@@ -95,5 +98,13 @@ public class SdncHealRequest implements Serializable {
 
     public void setVfModuleRequestInput(SdncHealVfModuleRequestInput input) {
         this.vfModuleRequestInput = input;
+    }
+
+    public SdncHealVfModuleInfo getVfModuleInfo() {
+        return vfModuleInfo;
+    }
+
+    public void setVfModuleInfo(SdncHealVfModuleInfo vfModuleInfo) {
+        this.vfModuleInfo = vfModuleInfo;
     }
 }
