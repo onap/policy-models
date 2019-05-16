@@ -184,6 +184,35 @@ public class LegacyProvider4LegacyGuardTest {
     }
 
     @Test
+    public void testPolicyCreateBad() throws Exception {
+        assertThatThrownBy(() -> {
+            new LegacyProvider().createGuardPolicy(null, null);
+        }).hasMessage("dao is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            new LegacyProvider().createGuardPolicy(null, new LegacyGuardPolicyInput());
+        }).hasMessage("dao is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            new LegacyProvider().createGuardPolicy(pfDao, null);
+        }).hasMessage("legacyGuardPolicy is marked @NonNull but is null");
+
+        createPolicyTypes();
+
+        LegacyGuardPolicyInput originalGip = standardCoder.decode(
+                ResourceUtils.getResourceAsString("policies/vDNS.policy.guard.frequency.input.json"),
+                LegacyGuardPolicyInput.class);
+
+        assertNotNull(originalGip);
+
+        originalGip.setPolicyId("i.do.not.exist");
+
+        assertThatThrownBy(() -> {
+            new LegacyProvider().createGuardPolicy(pfDao, originalGip);
+        }).hasMessage("policy type for guard policy \"i.do.not.exist\" unknown");
+    }
+
+    @Test
     public void testPolicyUpdate() throws Exception {
         assertThatThrownBy(() -> {
             new LegacyProvider().updateGuardPolicy(null, null);

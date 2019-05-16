@@ -56,17 +56,17 @@ public class LegacyGuardPolicyMapper
     private static final Map<String, PfConceptKey> GUARD_POLICY_TYPE_MAP = new LinkedHashMap<>();
 
     static {
-        GUARD_POLICY_TYPE_MAP.put("guard.frequency.scaleout",
+        GUARD_POLICY_TYPE_MAP.put("guard.frequency.",
                 new PfConceptKey("onap.policies.controlloop.guard.FrequencyLimiter:1.0.0"));
-        GUARD_POLICY_TYPE_MAP.put("guard.minmax.scaleout",
+        GUARD_POLICY_TYPE_MAP.put("guard.minmax.",
                 new PfConceptKey("onap.policies.controlloop.guard.MinMax:1.0.0"));
-        GUARD_POLICY_TYPE_MAP.put("guard.blacklist",
+        GUARD_POLICY_TYPE_MAP.put("guard.blacklist.",
                 new PfConceptKey("onap.policies.controlloop.guard.Blacklist:1.0.0"));
     }
 
     @Override
     public JpaToscaServiceTemplate toToscaServiceTemplate(final LegacyGuardPolicyInput legacyGuardPolicyInput) {
-        PfConceptKey guardPolicyType = GUARD_POLICY_TYPE_MAP.get(legacyGuardPolicyInput.getPolicyId());
+        PfConceptKey guardPolicyType = getGuardPolicyType(legacyGuardPolicyInput);
         if (guardPolicyType == null) {
             String errorMessage =
                     "policy type for guard policy \"" + legacyGuardPolicyInput.getPolicyId() + "\" unknown";
@@ -150,5 +150,20 @@ public class LegacyGuardPolicyMapper
         }
 
         return legacyGuardPolicyOutputMap;
+    }
+
+    private PfConceptKey getGuardPolicyType(final LegacyGuardPolicyInput legacyGuardPolicyInput) {
+        final String policyId = legacyGuardPolicyInput.getPolicyId();
+        if (policyId == null) {
+            return null;
+        }
+
+        for (Entry<String, PfConceptKey> guardPolicyTypeEntry : GUARD_POLICY_TYPE_MAP.entrySet()) {
+            if (policyId.startsWith(guardPolicyTypeEntry.getKey())) {
+                return guardPolicyTypeEntry.getValue();
+            }
+        }
+
+        return null;
     }
 }
