@@ -141,7 +141,7 @@ public class SdncActorServiceProvider implements Actor {
         SdncRequest request = new SdncRequest();
         request.setNsInstanceId(serviceInstance);
         request.setRequestId(onset.getRequestId());
-        request.setUrl("/GENERIC-RESOURCE-API:vnf-topology-operation");
+        request.setUrl("/GENERIC-RESOURCE-API:vf-module-topology-operation");
 
         SdncHealVnfInfo vnfInfo = new SdncHealVnfInfo();
         vnfInfo.setVnfId(onset.getAai().get("vnfId"));

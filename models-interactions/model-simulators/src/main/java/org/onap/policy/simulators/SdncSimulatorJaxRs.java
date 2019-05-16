@@ -59,12 +59,12 @@ public class SdncSimulatorJaxRs {
     
 
     /**
-     * SDNC vnf topology operation.
+     * SDNC vf module topology operation.
      *
      * @return the response
      */
     @POST
-    @Path("/GENERIC-RESOURCE-API:vnf-topology-operation")
+    @Path("/GENERIC-RESOURCE-API:vf-module-topology-operation")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces("application/json")
     public String sdncVnfTopologyOperation() {
