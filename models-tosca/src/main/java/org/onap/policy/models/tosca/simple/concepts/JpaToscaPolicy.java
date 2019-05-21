@@ -186,9 +186,17 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
     public void fromAuthorative(@NonNull final ToscaPolicy toscaPolicy) {
         super.fromAuthorative(toscaPolicy);
 
-        type.setName(toscaPolicy.getType());
-        type.setVersion(toscaPolicy.getTypeVersion());
-        if (type.getVersion() == null) {
+        if (toscaPolicy.getType() != null) {
+            type.setName(toscaPolicy.getType());
+        }
+        else {
+            type.setName(PfKey.NULL_KEY_NAME);
+        }
+
+        if (toscaPolicy.getTypeVersion() != null) {
+            type.setVersion(toscaPolicy.getTypeVersion());
+        }
+        else {
             type.setVersion(PfKey.NULL_KEY_VERSION);
         }
 

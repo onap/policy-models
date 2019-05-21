@@ -144,7 +144,8 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
 
     @Override
 
-    public LegacyOperationalPolicy getOperationalPolicy(final String policyId) throws PfModelException {
+    public LegacyOperationalPolicy getOperationalPolicy(final String policyId, final String policyVersion)
+            throws PfModelException {
         return new LegacyOperationalPolicy();
     }
 
@@ -161,12 +162,14 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public LegacyOperationalPolicy deleteOperationalPolicy(final String policyId) throws PfModelException {
+    public LegacyOperationalPolicy deleteOperationalPolicy(final String policyId, final String policyVersion)
+            throws PfModelException {
         return new LegacyOperationalPolicy();
     }
 
     @Override
-    public Map<String, LegacyGuardPolicyOutput> getGuardPolicy(final String policyId) throws PfModelException {
+    public Map<String, LegacyGuardPolicyOutput> getGuardPolicy(final String policyId, final String policyVersion)
+            throws PfModelException {
         return new HashMap<>();
     }
 
@@ -183,7 +186,8 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public Map<String, LegacyGuardPolicyOutput> deleteGuardPolicy(final String policyId) throws PfModelException {
+    public Map<String, LegacyGuardPolicyOutput> deleteGuardPolicy(final String policyId, final String policyVersion)
+            throws PfModelException {
         return new HashMap<>();
     }
 

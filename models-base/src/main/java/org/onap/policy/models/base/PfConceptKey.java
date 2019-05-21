@@ -27,9 +27,10 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NonNull;
+import lombok.ToString;
 
 import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
@@ -43,7 +44,8 @@ import org.onap.policy.models.base.PfValidationResult.ValidationResult;
  * regular expressions respectively.
  */
 @Embeddable
-@Data
+@Getter
+@ToString
 @EqualsAndHashCode(callSuper = false)
 public class PfConceptKey extends PfKey {
     private static final long serialVersionUID = 8932717618579392561L;
@@ -116,6 +118,14 @@ public class PfConceptKey extends PfKey {
     @Override
     public PfConceptKey getKey() {
         return this;
+    }
+
+    public void setName(@NonNull final String name) {
+        this.name = Assertions.validateStringParameter(NAME_TOKEN, name, NAME_REGEXP);
+    }
+
+    public void setVersion(@NonNull final String version) {
+        this.version = Assertions.validateStringParameter(VERSION_TOKEN, version, VERSION_REGEXP);
     }
 
     @Override

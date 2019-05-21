@@ -33,7 +33,7 @@ public abstract class PfKey extends PfConcept {
     public static final String NAME_REGEXP = "[A-Za-z0-9\\-_\\.]+";
 
     /** Regular expression to specify the structure of key versions. */
-    public static final String VERSION_REGEXP = "[A-Za-z0-9.]+";
+    public static final String VERSION_REGEXP = "[0-9.]+";
 
     /** Regular expression to specify the structure of key IDs. */
     public static final String KEY_ID_REGEXP = "[A-Za-z0-9\\-_\\.]+:[0-9].[0-9].[0-9]";

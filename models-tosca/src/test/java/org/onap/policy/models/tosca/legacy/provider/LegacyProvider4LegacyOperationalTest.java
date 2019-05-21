@@ -72,7 +72,7 @@ public class LegacyProvider4LegacyOperationalTest {
         jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_DRIVER, "org.h2.Driver");
         jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_URL, "jdbc:h2:mem:testdb");
 
-        daoParameters.setJdbcProperties(jdbcProperties );
+        daoParameters.setJdbcProperties(jdbcProperties);
 
         pfDao = new PfDaoFactory().createPfDao(daoParameters);
         pfDao.init(daoParameters);
@@ -94,20 +94,20 @@ public class LegacyProvider4LegacyOperationalTest {
     @Test
     public void testPoliciesGet() throws Exception {
         assertThatThrownBy(() -> {
-            new LegacyProvider().getOperationalPolicy(null, null);
+            new LegacyProvider().getOperationalPolicy(null, null, null);
         }).hasMessage("dao is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            new LegacyProvider().getOperationalPolicy(null, "");
+            new LegacyProvider().getOperationalPolicy(null, "", null);
         }).hasMessage("dao is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            new LegacyProvider().getOperationalPolicy(pfDao, null);
+            new LegacyProvider().getOperationalPolicy(pfDao, null, null);
         }).hasMessage("policyId is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            new LegacyProvider().getOperationalPolicy(pfDao, "I Dont Exist");
-        }).hasMessage("no policy found for policy ID: I Dont Exist");
+            new LegacyProvider().getOperationalPolicy(pfDao, "I Dont Exist", null);
+        }).hasMessage("no policy found for policy: I Dont Exist:null");
 
         createPolicyTypes();
 
@@ -121,7 +121,8 @@ public class LegacyProvider4LegacyOperationalTest {
 
         assertEquals(originalLop, createdLop);
 
-        LegacyOperationalPolicy gotLop = new LegacyProvider().getOperationalPolicy(pfDao, originalLop.getPolicyId());
+        LegacyOperationalPolicy gotLop =
+                new LegacyProvider().getOperationalPolicy(pfDao, originalLop.getPolicyId(), null);
 
         assertEquals(gotLop, originalLop);
 
@@ -131,7 +132,8 @@ public class LegacyProvider4LegacyOperationalTest {
         assertEquals(expectedJsonOutput.replaceAll("\\s+", ""), actualJsonOutput.replaceAll("\\s+", ""));
 
         LegacyOperationalPolicy createdLopV2 = new LegacyProvider().createOperationalPolicy(pfDao, originalLop);
-        LegacyOperationalPolicy gotLopV2 = new LegacyProvider().getOperationalPolicy(pfDao, originalLop.getPolicyId());
+        LegacyOperationalPolicy gotLopV2 =
+                new LegacyProvider().getOperationalPolicy(pfDao, originalLop.getPolicyId(), null);
         assertEquals(gotLopV2, createdLopV2);
     }
 
@@ -161,7 +163,8 @@ public class LegacyProvider4LegacyOperationalTest {
 
         assertEquals(originalLop, createdLop);
 
-        LegacyOperationalPolicy gotLop = new LegacyProvider().getOperationalPolicy(pfDao, originalLop.getPolicyId());
+        LegacyOperationalPolicy gotLop =
+                new LegacyProvider().getOperationalPolicy(pfDao, originalLop.getPolicyId(), null);
 
         assertEquals(gotLop, originalLop);
 
@@ -187,7 +190,7 @@ public class LegacyProvider4LegacyOperationalTest {
 
         assertThatThrownBy(() -> {
             new LegacyProvider().updateOperationalPolicy(pfDao, new LegacyOperationalPolicy());
-        }).hasMessage("no policy found for policy ID: null");
+        }).hasMessage("name is marked @NonNull but is null");
 
         createPolicyTypes();
 
@@ -200,7 +203,8 @@ public class LegacyProvider4LegacyOperationalTest {
         LegacyOperationalPolicy createdLop = new LegacyProvider().createOperationalPolicy(pfDao, originalLop);
         assertEquals(originalLop, createdLop);
 
-        LegacyOperationalPolicy gotLop = new LegacyProvider().getOperationalPolicy(pfDao, originalLop.getPolicyId());
+        LegacyOperationalPolicy gotLop =
+                new LegacyProvider().getOperationalPolicy(pfDao, originalLop.getPolicyId(), null);
         assertEquals(gotLop, originalLop);
 
         originalLop.setContent("Some New Content");
@@ -208,7 +212,7 @@ public class LegacyProvider4LegacyOperationalTest {
         assertEquals(originalLop, updatedLop);
 
         LegacyOperationalPolicy gotUpdatedLop =
-                new LegacyProvider().getOperationalPolicy(pfDao, originalLop.getPolicyId());
+                new LegacyProvider().getOperationalPolicy(pfDao, originalLop.getPolicyId(), null);
         assertEquals(gotUpdatedLop, originalLop);
         assertEquals("Some New Content", gotUpdatedLop.getContent());
     }
@@ -216,21 +220,38 @@ public class LegacyProvider4LegacyOperationalTest {
     @Test
     public void testPoliciesDelete() throws Exception {
         assertThatThrownBy(() -> {
-            new LegacyProvider().deleteOperationalPolicy(null, null);
+            new LegacyProvider().deleteOperationalPolicy(null, null, null);
         }).hasMessage("dao is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            new LegacyProvider().deleteOperationalPolicy(null, "");
+            new LegacyProvider().deleteOperationalPolicy(null, null, "");
 
         }).hasMessage("dao is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            new LegacyProvider().deleteOperationalPolicy(pfDao, null);
+            new LegacyProvider().deleteOperationalPolicy(null, "", null);
+        }).hasMessage("dao is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            new LegacyProvider().deleteOperationalPolicy(null, "", "");
+
+        }).hasMessage("dao is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            new LegacyProvider().deleteOperationalPolicy(pfDao, null, null);
         }).hasMessage("policyId is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            new LegacyProvider().deleteOperationalPolicy(pfDao, "I Dont Exist");
-        }).hasMessage("no policy found for policy ID: I Dont Exist");
+            new LegacyProvider().deleteOperationalPolicy(pfDao, null, "");
+        }).hasMessage("policyId is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            new LegacyProvider().deleteOperationalPolicy(pfDao, "", null);
+        }).hasMessage("policyVersion is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            new LegacyProvider().deleteOperationalPolicy(pfDao, "IDontExist", "");
+        }).hasMessage("no policy found for policy: IDontExist:");
 
         createPolicyTypes();
 
@@ -243,7 +264,8 @@ public class LegacyProvider4LegacyOperationalTest {
         LegacyOperationalPolicy createdLop = new LegacyProvider().createOperationalPolicy(pfDao, originalLop);
         assertEquals(originalLop, createdLop);
 
-        LegacyOperationalPolicy gotLop = new LegacyProvider().getOperationalPolicy(pfDao, originalLop.getPolicyId());
+        LegacyOperationalPolicy gotLop =
+                new LegacyProvider().getOperationalPolicy(pfDao, originalLop.getPolicyId(), null);
 
         assertEquals(gotLop, originalLop);
 
@@ -252,13 +274,17 @@ public class LegacyProvider4LegacyOperationalTest {
 
         assertEquals(expectedJsonOutput.replaceAll("\\s+", ""), actualJsonOutput.replaceAll("\\s+", ""));
 
+        assertThatThrownBy(() -> {
+            new LegacyProvider().deleteOperationalPolicy(pfDao, originalLop.getPolicyId(), null);
+        }).hasMessage("policyVersion is marked @NonNull but is null");
+
         LegacyOperationalPolicy deletedLop =
-                new LegacyProvider().deleteOperationalPolicy(pfDao, originalLop.getPolicyId());
+                new LegacyProvider().deleteOperationalPolicy(pfDao, originalLop.getPolicyId(), "1");
         assertEquals(originalLop, deletedLop);
 
         assertThatThrownBy(() -> {
-            new LegacyProvider().getOperationalPolicy(pfDao, originalLop.getPolicyId());
-        }).hasMessage("no policy found for policy ID: operational.restart");
+            new LegacyProvider().getOperationalPolicy(pfDao, originalLop.getPolicyId(), null);
+        }).hasMessage("no policy found for policy: operational.restart:null");
 
         LegacyOperationalPolicy otherLop = new LegacyOperationalPolicy();
         otherLop.setPolicyId("another-policy");
@@ -269,13 +295,13 @@ public class LegacyProvider4LegacyOperationalTest {
         assertEquals(otherLop, createdOtherLop);
 
         assertThatThrownBy(() -> {
-            new LegacyProvider().getOperationalPolicy(pfDao, originalLop.getPolicyId());
-        }).hasMessage("no policy found for policy ID: operational.restart");
+            new LegacyProvider().getOperationalPolicy(pfDao, originalLop.getPolicyId(), null);
+        }).hasMessage("no policy found for policy: operational.restart:null");
     }
 
     private void createPolicyTypes() throws CoderException, PfModelException {
-        Object yamlObject = new Yaml().load(
-                ResourceUtils.getResourceAsString("policytypes/onap.policies.controlloop.Operational.yaml"));
+        Object yamlObject = new Yaml()
+                .load(ResourceUtils.getResourceAsString("policytypes/onap.policies.controlloop.Operational.yaml"));
         String yamlAsJsonString = new StandardCoder().encode(yamlObject);
 
         ToscaServiceTemplate toscaServiceTemplatePolicyType =

@@ -190,8 +190,16 @@ public class DatabasePolicyModelsProviderTest {
         }).hasMessage("version is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.getOperationalPolicy(null);
+            databaseProvider.getOperationalPolicy(null, null);
         }).hasMessage("policyId is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            databaseProvider.getOperationalPolicy(null, "");
+        }).hasMessage("policyId is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            databaseProvider.getOperationalPolicy("", null);
+        }).hasMessage("no policy found for policy: :null");
 
         assertThatThrownBy(() -> {
             databaseProvider.createOperationalPolicy(null);
@@ -202,12 +210,28 @@ public class DatabasePolicyModelsProviderTest {
         }).hasMessage("legacyOperationalPolicy is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.deleteOperationalPolicy(null);
+            databaseProvider.deleteOperationalPolicy(null, null);
         }).hasMessage("policyId is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.getGuardPolicy(null);
+            databaseProvider.deleteOperationalPolicy(null, "");
         }).hasMessage("policyId is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            databaseProvider.deleteOperationalPolicy("", null);
+        }).hasMessage("policyVersion is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            databaseProvider.getGuardPolicy(null, null);
+        }).hasMessage("policyId is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            databaseProvider.getGuardPolicy(null, "");
+        }).hasMessage("policyId is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            databaseProvider.getGuardPolicy("", null);
+        }).hasMessage("no policy found for policy: :null");
 
         assertThatThrownBy(() -> {
             databaseProvider.createGuardPolicy(null);
@@ -218,8 +242,16 @@ public class DatabasePolicyModelsProviderTest {
         }).hasMessage("legacyGuardPolicy is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            databaseProvider.deleteGuardPolicy(null);
+            databaseProvider.deleteGuardPolicy(null, null);
         }).hasMessage("policyId is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            databaseProvider.deleteGuardPolicy(null, "");
+        }).hasMessage("policyId is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            databaseProvider.deleteGuardPolicy("", null);
+        }).hasMessage("policyVersion is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
             databaseProvider.getFilteredPdpGroups(null);
@@ -367,8 +399,8 @@ public class DatabasePolicyModelsProviderTest {
         try (PolicyModelsProvider databaseProvider =
                 new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters)) {
 
-            assertEquals(0, databaseProvider.getPolicyTypes("name", "version").getPolicyTypes().get(0).size());
-            assertEquals(0, databaseProvider.getPolicyTypeList("name", "version").size());
+            assertEquals(0, databaseProvider.getPolicyTypes("name", "1.0.0").getPolicyTypes().get(0).size());
+            assertEquals(0, databaseProvider.getPolicyTypeList("name", "1.0.0").size());
             assertEquals(0, databaseProvider.getFilteredPolicyTypes(ToscaPolicyTypeFilter.builder().build())
                     .getPolicyTypes().get(0).size());
             assertEquals(0, databaseProvider.getFilteredPolicyTypeList(ToscaPolicyTypeFilter.builder().build()).size());
@@ -381,13 +413,13 @@ public class DatabasePolicyModelsProviderTest {
                 databaseProvider.updatePolicyTypes(new ToscaServiceTemplate());
             }).hasMessage("no policy types specified on service template");
 
-            assertEquals(0, databaseProvider.deletePolicyType("name", "version").getPolicyTypes().get(0).size());
+            assertEquals(0, databaseProvider.deletePolicyType("name", "1.0.0").getPolicyTypes().get(0).size());
 
-            assertEquals(0, databaseProvider.deletePolicyType("name", "version").getPolicyTypes().get(0).size());
+            assertEquals(0, databaseProvider.deletePolicyType("name", "1.0.0").getPolicyTypes().get(0).size());
 
-            assertEquals(0, databaseProvider.getPolicies("name", "version").getToscaTopologyTemplate().getPolicies()
+            assertEquals(0, databaseProvider.getPolicies("name", "1.0.0").getToscaTopologyTemplate().getPolicies()
                     .get(0).size());
-            assertEquals(0, databaseProvider.getPolicyList("name", "version").size());
+            assertEquals(0, databaseProvider.getPolicyList("name", "1.0.0").size());
             assertEquals(0, databaseProvider.getFilteredPolicies(ToscaPolicyFilter.builder().build())
                     .getToscaTopologyTemplate().getPolicies().get(0).size());
             assertEquals(0, databaseProvider.getFilteredPolicyList(ToscaPolicyFilter.builder().build()).size());
@@ -404,8 +436,12 @@ public class DatabasePolicyModelsProviderTest {
                     .get(0).size());
 
             assertThatThrownBy(() -> {
-                databaseProvider.getOperationalPolicy("policy_id");
-            }).hasMessage("no policy found for policy ID: policy_id");
+                databaseProvider.getOperationalPolicy("policy_id", null);
+            }).hasMessage("no policy found for policy: policy_id:null");
+
+            assertThatThrownBy(() -> {
+                databaseProvider.getOperationalPolicy("policy_id", "10.9.8");
+            }).hasMessage("no policy found for policy: policy_id:10.9.8");
 
             assertThatThrownBy(() -> {
                 databaseProvider.createOperationalPolicy(new LegacyOperationalPolicy());
@@ -413,15 +449,19 @@ public class DatabasePolicyModelsProviderTest {
 
             assertThatThrownBy(() -> {
                 databaseProvider.updateOperationalPolicy(new LegacyOperationalPolicy());
-            }).hasMessage("no policy found for policy ID: null");
+            }).hasMessage("name is marked @NonNull but is null");
 
             assertThatThrownBy(() -> {
-                databaseProvider.deleteOperationalPolicy("policy_id");
-            }).hasMessage("no policy found for policy ID: policy_id");
+                databaseProvider.deleteOperationalPolicy("policy_id", "55.44.33");
+            }).hasMessage("no policy found for policy: policy_id:55.44.33");
 
             assertThatThrownBy(() -> {
-                databaseProvider.getGuardPolicy("policy_id");
-            }).hasMessage("no policy found for policy ID: policy_id");
+                databaseProvider.getGuardPolicy("policy_id", null);
+            }).hasMessage("no policy found for policy: policy_id:null");
+
+            assertThatThrownBy(() -> {
+                databaseProvider.getGuardPolicy("policy_id", "6.7.5");
+            }).hasMessage("no policy found for policy: policy_id:6.7.5");
 
             assertThatThrownBy(() -> {
                 databaseProvider.createGuardPolicy(new LegacyGuardPolicyInput());
@@ -432,8 +472,8 @@ public class DatabasePolicyModelsProviderTest {
             }).hasMessage("policy type for guard policy \"null\" unknown");
 
             assertThatThrownBy(() -> {
-                databaseProvider.deleteGuardPolicy("policy_id");
-            }).hasMessage("no policy found for policy ID: policy_id");
+                databaseProvider.deleteGuardPolicy("policy_id", "33.22.11");
+            }).hasMessage("no policy found for policy: policy_id:33.22.11");
 
             assertEquals(0, databaseProvider.getPdpGroups("name").size());
             assertEquals(0, databaseProvider.getFilteredPdpGroups(PdpGroupFilter.builder().build()).size());

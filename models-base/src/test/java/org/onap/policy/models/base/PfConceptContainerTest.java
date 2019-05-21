@@ -198,7 +198,7 @@ public class PfConceptContainerTest {
     public void testAuthorative() {
         Map<String, DummyAuthorativeConcept> dacMap = new LinkedHashMap<>();
         dacMap.put("name0", new DummyAuthorativeConcept("name0", "1.2.3", "Hello"));
-        dacMap.put("name1", new DummyAuthorativeConcept(null, null, "Hi"));
+        dacMap.put("name1", new DummyAuthorativeConcept(PfKey.NULL_KEY_NAME, PfKey.NULL_KEY_VERSION, "Hi"));
         dacMap.put("name2", new DummyAuthorativeConcept("name2", "1.2.3", "Howdy"));
 
         List<Map<String, DummyAuthorativeConcept>> authorativeList = new ArrayList<>();
@@ -208,13 +208,13 @@ public class PfConceptContainerTest {
         container.fromAuthorative(authorativeList);
 
         assertEquals("Hello", container.getConceptMap().get(new PfConceptKey("name0:1.2.3")).getDescription());
-        assertEquals("Hi", container.getConceptMap().get(new PfConceptKey("name1:0.0.0")).getDescription());
+        assertEquals("Hi", container.getConceptMap().get(new PfConceptKey("NULL:0.0.0")).getDescription());
         assertEquals("Howdy", container.getConceptMap().get(new PfConceptKey("name2:1.2.3")).getDescription());
 
         List<Map<String, DummyAuthorativeConcept>> outMapList = container.toAuthorative();
 
         assertEquals(dacMap.get("name0"), outMapList.get(0).get("name0"));
-        assertEquals(dacMap.get("name1").getDescription(), outMapList.get(0).get("name1").getDescription());
+        assertEquals(dacMap.get("name1").getDescription(), outMapList.get(0).get("NULL").getDescription());
         assertEquals(dacMap.get("name2"), outMapList.get(0).get("name2"));
 
         DummyBadPfConceptContainer badContainer = new DummyBadPfConceptContainer();

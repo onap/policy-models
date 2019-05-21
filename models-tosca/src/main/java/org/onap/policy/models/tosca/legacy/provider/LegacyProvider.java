@@ -20,7 +20,6 @@
 
 package org.onap.policy.models.tosca.legacy.provider;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +27,7 @@ import javax.ws.rs.core.Response;
 
 import lombok.NonNull;
 
+import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.dao.PfDao;
@@ -53,36 +53,25 @@ public class LegacyProvider {
     private static final Logger LOGGER = LoggerFactory.getLogger(LegacyProvider.class);
 
     private static final String FIRST_POLICY_VERSION = "1";
+    private static final String LEGACY_MINOR_PATCH_SUFFIX = ".0.0";
 
     // Recurring constants
-    private static final String NO_POLICY_FOUND_FOR_POLICY_ID = "no policy found for policy ID: ";
+    private static final String NO_POLICY_FOUND_FOR_POLICY = "no policy found for policy: ";
 
     /**
      * Get legacy operational policy.
      *
      * @param dao the DAO to use to access the database
      * @param policyId ID of the policy.
+     * @param policyVersion version of the policy.
      * @return the policies found
      * @throws PfModelException on errors getting policies
      */
-    public LegacyOperationalPolicy getOperationalPolicy(@NonNull final PfDao dao, @NonNull final String policyId)
-            throws PfModelException {
+    public LegacyOperationalPolicy getOperationalPolicy(@NonNull final PfDao dao, @NonNull final String policyId,
+            final String policyVersion) throws PfModelException {
 
-        JpaToscaPolicy newestPolicy = getLatestPolicy(dao, policyId);
-
-        if (newestPolicy == null) {
-            String errorMessage = NO_POLICY_FOUND_FOR_POLICY_ID + policyId;
-            LOGGER.warn(errorMessage);
-            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
-        }
-
-        // Create the structure of the TOSCA service template to contain the policy type
-        JpaToscaServiceTemplate serviceTemplate = new JpaToscaServiceTemplate();
-        serviceTemplate.setTopologyTemplate(new JpaToscaTopologyTemplate());
-        serviceTemplate.getTopologyTemplate().setPolicies(new JpaToscaPolicies());
-        serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().put(newestPolicy.getKey(), newestPolicy);
-
-        return new LegacyOperationalPolicyMapper().fromToscaServiceTemplate(serviceTemplate);
+        return new LegacyOperationalPolicyMapper()
+                .fromToscaServiceTemplate(getLegacyPolicy(dao, policyId, policyVersion));
     }
 
     /**
@@ -125,22 +114,10 @@ public class LegacyProvider {
     public LegacyOperationalPolicy updateOperationalPolicy(@NonNull final PfDao dao,
             @NonNull final LegacyOperationalPolicy legacyOperationalPolicy) throws PfModelException {
 
-        // We need to find the latest policy and use the major version, if there is no policy with this ID, then
-        // we have an error
-        JpaToscaPolicy newestPolicy = getLatestPolicy(dao, legacyOperationalPolicy.getPolicyId());
-
-        if (newestPolicy == null) {
-            String errorMessage = NO_POLICY_FOUND_FOR_POLICY_ID + legacyOperationalPolicy.getPolicyId();
-            LOGGER.warn(errorMessage);
-            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
-        } else {
-            legacyOperationalPolicy.setPolicyVersion(Integer.toString(newestPolicy.getKey().getMajorVersion()));
-        }
-
         JpaToscaServiceTemplate incomingServiceTemplate =
                 new LegacyOperationalPolicyMapper().toToscaServiceTemplate(legacyOperationalPolicy);
         JpaToscaServiceTemplate outgoingingServiceTemplate =
-                new SimpleToscaProvider().createPolicies(dao, incomingServiceTemplate);
+                new SimpleToscaProvider().updatePolicies(dao, incomingServiceTemplate);
 
         return new LegacyOperationalPolicyMapper().fromToscaServiceTemplate(outgoingingServiceTemplate);
     }
@@ -150,42 +127,15 @@ public class LegacyProvider {
      *
      * @param dao the DAO to use to access the database
      * @param policyId ID of the policy.
+     * @param policyVersion version of the policy.
      * @return the deleted policy
      * @throws PfModelException on errors deleting policies
      */
-    public LegacyOperationalPolicy deleteOperationalPolicy(@NonNull final PfDao dao, @NonNull final String policyId)
-            throws PfModelException {
+    public LegacyOperationalPolicy deleteOperationalPolicy(@NonNull final PfDao dao, @NonNull final String policyId,
+            @NonNull final String policyVersion) throws PfModelException {
 
-        // Get all the policies in the database and check the policy ID against the policies returned
-        List<JpaToscaPolicy> policyList = dao.getAll(JpaToscaPolicy.class);
-
-        // Find the latest policy that matches the ID
-        List<JpaToscaPolicy> policyDeleteList = new ArrayList<>();
-
-        for (JpaToscaPolicy policy : policyList) {
-            if (policyId.equals(policy.getKey().getName())) {
-                policyDeleteList.add(policy);
-            }
-        }
-
-        if (policyDeleteList.isEmpty()) {
-            String errorMessage = NO_POLICY_FOUND_FOR_POLICY_ID + policyId;
-            LOGGER.warn(errorMessage);
-            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
-        }
-
-        // Create the structure of the TOSCA service template to contain the policy type
-        JpaToscaServiceTemplate serviceTemplate = new JpaToscaServiceTemplate();
-        serviceTemplate.setTopologyTemplate(new JpaToscaTopologyTemplate());
-        serviceTemplate.getTopologyTemplate().setPolicies(new JpaToscaPolicies());
-
-        for (JpaToscaPolicy deletePolicy : policyDeleteList) {
-            dao.delete(deletePolicy);
-            serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().put(deletePolicy.getKey(),
-                    deletePolicy);
-        }
-
-        return new LegacyOperationalPolicyMapper().fromToscaServiceTemplate(serviceTemplate);
+        return new LegacyOperationalPolicyMapper()
+                .fromToscaServiceTemplate(deleteLegacyPolicy(dao, policyId, policyVersion));
     }
 
     /**
@@ -193,27 +143,14 @@ public class LegacyProvider {
      *
      * @param dao the DAO to use to access the database
      * @param policyId ID of the policy.
+     * @param policyVersion version of the policy.
      * @return the policies found
      * @throws PfModelException on errors getting policies
      */
-    public Map<String, LegacyGuardPolicyOutput> getGuardPolicy(@NonNull final PfDao dao, @NonNull final String policyId)
-            throws PfModelException {
+    public Map<String, LegacyGuardPolicyOutput> getGuardPolicy(@NonNull final PfDao dao, @NonNull final String policyId,
+            final String policyVersion) throws PfModelException {
 
-        JpaToscaPolicy newestPolicy = getLatestPolicy(dao, policyId);
-
-        if (newestPolicy == null) {
-            String errorMessage = NO_POLICY_FOUND_FOR_POLICY_ID + policyId;
-            LOGGER.warn(errorMessage);
-            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
-        }
-
-        // Create the structure of the TOSCA service template to contain the policy type
-        JpaToscaServiceTemplate serviceTemplate = new JpaToscaServiceTemplate();
-        serviceTemplate.setTopologyTemplate(new JpaToscaTopologyTemplate());
-        serviceTemplate.getTopologyTemplate().setPolicies(new JpaToscaPolicies());
-        serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().put(newestPolicy.getKey(), newestPolicy);
-
-        return new LegacyGuardPolicyMapper().fromToscaServiceTemplate(serviceTemplate);
+        return new LegacyGuardPolicyMapper().fromToscaServiceTemplate(getLegacyPolicy(dao, policyId, policyVersion));
     }
 
     /**
@@ -249,7 +186,7 @@ public class LegacyProvider {
         JpaToscaServiceTemplate incomingServiceTemplate =
                 new LegacyGuardPolicyMapper().toToscaServiceTemplate(legacyGuardPolicy);
         JpaToscaServiceTemplate outgoingingServiceTemplate =
-                new SimpleToscaProvider().createPolicies(dao, incomingServiceTemplate);
+                new SimpleToscaProvider().updatePolicies(dao, incomingServiceTemplate);
 
         return new LegacyGuardPolicyMapper().fromToscaServiceTemplate(outgoingingServiceTemplate);
     }
@@ -260,26 +197,37 @@ public class LegacyProvider {
      *
      * @param dao the DAO to use to access the database
      * @param policyId ID of the policy.
+     * @param policyVersion version of the policy.
      * @return the deleted policy
      * @throws PfModelException on errors deleting policies
      */
     public Map<String, LegacyGuardPolicyOutput> deleteGuardPolicy(@NonNull final PfDao dao,
-            @NonNull final String policyId) throws PfModelException {
+            @NonNull final String policyId, @NonNull final String policyVersion) throws PfModelException {
 
-        // Get all the policies in the database and check the policy ID against the policies returned
-        List<JpaToscaPolicy> policyList = dao.getAll(JpaToscaPolicy.class);
+        return new LegacyGuardPolicyMapper().fromToscaServiceTemplate(deleteLegacyPolicy(dao, policyId, policyVersion));
+    }
 
-        // Find the latest policy that matches the ID
-        List<JpaToscaPolicy> policyDeleteList = new ArrayList<>();
-
-        for (JpaToscaPolicy policy : policyList) {
-            if (policyId.equals(policy.getKey().getName())) {
-                policyDeleteList.add(policy);
-            }
+    /**
+     * Get the JPA Policy for a policy ID and version.
+     *
+     * @param dao The DAO to search
+     * @param policyId the policy ID to search for
+     * @param policyVersion the policy version to search for
+     * @return the JPA policy found
+     * @throws PfModelRuntimeException if a policy is not found
+     */
+    private JpaToscaServiceTemplate getLegacyPolicy(final PfDao dao, final String policyId,
+            final String policyVersion) {
+        JpaToscaPolicy foundPolicy = null;
+        if (policyVersion == null) {
+            foundPolicy = getLatestPolicy(dao, policyId);
+        } else {
+            foundPolicy = dao.get(JpaToscaPolicy.class,
+                    new PfConceptKey(policyId, policyVersion + LEGACY_MINOR_PATCH_SUFFIX));
         }
 
-        if (policyDeleteList.isEmpty()) {
-            String errorMessage = NO_POLICY_FOUND_FOR_POLICY_ID + policyId;
+        if (foundPolicy == null) {
+            String errorMessage = NO_POLICY_FOUND_FOR_POLICY + policyId + ':' + policyVersion;
             LOGGER.warn(errorMessage);
             throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
         }
@@ -288,14 +236,41 @@ public class LegacyProvider {
         JpaToscaServiceTemplate serviceTemplate = new JpaToscaServiceTemplate();
         serviceTemplate.setTopologyTemplate(new JpaToscaTopologyTemplate());
         serviceTemplate.getTopologyTemplate().setPolicies(new JpaToscaPolicies());
+        serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().put(foundPolicy.getKey(), foundPolicy);
 
-        for (JpaToscaPolicy deletePolicy : policyDeleteList) {
-            dao.delete(deletePolicy);
-            serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().put(deletePolicy.getKey(),
-                    deletePolicy);
+        return serviceTemplate;
+    }
+
+    /**
+     * Delete a legacy policy.
+     *
+     * @param dao the DAO to use for the deletion
+     * @param policyId the policy ID
+     * @param policyVersion the policy version
+     * @return a service template containing the policy that has been deleted
+     */
+    private JpaToscaServiceTemplate deleteLegacyPolicy(final PfDao dao, final String policyId,
+            final String policyVersion) {
+
+        final JpaToscaPolicy deletePolicy =
+                dao.get(JpaToscaPolicy.class, new PfConceptKey(policyId, policyVersion + LEGACY_MINOR_PATCH_SUFFIX));
+
+        if (deletePolicy == null) {
+            String errorMessage = NO_POLICY_FOUND_FOR_POLICY + policyId + ':' + policyVersion;
+            LOGGER.warn(errorMessage);
+            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
         }
 
-        return new LegacyGuardPolicyMapper().fromToscaServiceTemplate(serviceTemplate);
+        // Delete the policy
+        dao.delete(deletePolicy);
+
+        // Create the structure of the TOSCA service template to contain the policy type
+        JpaToscaServiceTemplate serviceTemplate = new JpaToscaServiceTemplate();
+        serviceTemplate.setTopologyTemplate(new JpaToscaTopologyTemplate());
+        serviceTemplate.getTopologyTemplate().setPolicies(new JpaToscaPolicies());
+        serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().put(deletePolicy.getKey(), deletePolicy);
+
+        return serviceTemplate;
     }
 
     /**
@@ -325,4 +300,5 @@ public class LegacyProvider {
         }
         return newestPolicy;
     }
+
 }

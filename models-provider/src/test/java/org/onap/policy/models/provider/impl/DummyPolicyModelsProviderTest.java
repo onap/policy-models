@@ -94,15 +94,15 @@ public class DummyPolicyModelsProviderTest {
         assertNotNull(dummyProvider.updatePolicies(new ToscaServiceTemplate()));
         assertNotNull(dummyProvider.deletePolicy("name", "version"));
 
-        assertNotNull(dummyProvider.getOperationalPolicy("policy_id"));
+        assertNotNull(dummyProvider.getOperationalPolicy("policy_id", "1"));
         assertNotNull(dummyProvider.createOperationalPolicy(new LegacyOperationalPolicy()));
         assertNotNull(dummyProvider.updateOperationalPolicy(new LegacyOperationalPolicy()));
-        assertNotNull(dummyProvider.deleteOperationalPolicy("policy_id"));
+        assertNotNull(dummyProvider.deleteOperationalPolicy("policy_id", "1"));
 
-        assertNotNull(dummyProvider.getGuardPolicy("policy_id"));
+        assertNotNull(dummyProvider.getGuardPolicy("policy_id", "1"));
         assertNotNull(dummyProvider.createGuardPolicy(new LegacyGuardPolicyInput()));
         assertNotNull(dummyProvider.updateGuardPolicy(new LegacyGuardPolicyInput()));
-        assertNotNull(dummyProvider.deleteGuardPolicy("policy_id"));
+        assertNotNull(dummyProvider.deleteGuardPolicy("policy_id", "1"));
 
         assertTrue(dummyProvider.getPdpGroups("name").isEmpty());
         assertTrue(dummyProvider.getFilteredPdpGroups(PdpGroupFilter.builder().build()).isEmpty());

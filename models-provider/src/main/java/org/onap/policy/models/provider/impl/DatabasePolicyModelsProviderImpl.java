@@ -231,9 +231,10 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public LegacyOperationalPolicy getOperationalPolicy(@NonNull final String policyId) throws PfModelException {
+    public LegacyOperationalPolicy getOperationalPolicy(@NonNull final String policyId, final String policyVersion)
+            throws PfModelException {
         assertInitilized();
-        return new LegacyProvider().getOperationalPolicy(pfDao, policyId);
+        return new LegacyProvider().getOperationalPolicy(pfDao, policyId, policyVersion);
     }
 
     @Override
@@ -251,15 +252,17 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public LegacyOperationalPolicy deleteOperationalPolicy(@NonNull final String policyId) throws PfModelException {
+    public LegacyOperationalPolicy deleteOperationalPolicy(@NonNull final String policyId,
+            @NonNull final String policyVersion) throws PfModelException {
         assertInitilized();
-        return new LegacyProvider().deleteOperationalPolicy(pfDao, policyId);
+        return new LegacyProvider().deleteOperationalPolicy(pfDao, policyId, policyVersion);
     }
 
     @Override
-    public Map<String, LegacyGuardPolicyOutput> getGuardPolicy(@NonNull final String policyId) throws PfModelException {
+    public Map<String, LegacyGuardPolicyOutput> getGuardPolicy(@NonNull final String policyId,
+            final String policyVersion) throws PfModelException {
         assertInitilized();
-        return new LegacyProvider().getGuardPolicy(pfDao, policyId);
+        return new LegacyProvider().getGuardPolicy(pfDao, policyId, policyVersion);
     }
 
     @Override
@@ -277,10 +280,10 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public Map<String, LegacyGuardPolicyOutput> deleteGuardPolicy(@NonNull final String policyId)
-            throws PfModelException {
+    public Map<String, LegacyGuardPolicyOutput> deleteGuardPolicy(@NonNull final String policyId,
+            @NonNull final String policyVersion) throws PfModelException {
         assertInitilized();
-        return new LegacyProvider().deleteGuardPolicy(pfDao, policyId);
+        return new LegacyProvider().deleteGuardPolicy(pfDao, policyId, policyVersion);
     }
 
     @Override
@@ -336,8 +339,7 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
     public void updatePdpStatistics(@NonNull final String pdpGroupName, @NonNull final String pdpType,
             @NonNull final String pdpInstanceId, @NonNull final PdpStatistics pdpStatistics) throws PfModelException {
         assertInitilized();
-        new PdpProvider().updatePdpStatistics(pfDao, pdpGroupName, pdpType, pdpInstanceId,
-                pdpStatistics);
+        new PdpProvider().updatePdpStatistics(pfDao, pdpGroupName, pdpType, pdpInstanceId, pdpStatistics);
     }
 
     /**

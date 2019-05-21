@@ -98,20 +98,20 @@ public class LegacyProvider4LegacyGuardTest {
     @Test
     public void testPoliciesGet() throws Exception {
         assertThatThrownBy(() -> {
-            new LegacyProvider().getGuardPolicy(null, null);
+            new LegacyProvider().getGuardPolicy(null, null, null);
         }).hasMessage("dao is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            new LegacyProvider().getGuardPolicy(null, "");
+            new LegacyProvider().getGuardPolicy(null, null, "");
         }).hasMessage("dao is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            new LegacyProvider().getGuardPolicy(pfDao, null);
+            new LegacyProvider().getGuardPolicy(pfDao, null, null);
         }).hasMessage("policyId is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            new LegacyProvider().getGuardPolicy(pfDao, "I Dont Exist");
-        }).hasMessage("no policy found for policy ID: I Dont Exist");
+            new LegacyProvider().getGuardPolicy(pfDao, "I Dont Exist", null);
+        }).hasMessage("no policy found for policy: I Dont Exist:null");
 
         createPolicyTypes();
 
@@ -128,7 +128,7 @@ public class LegacyProvider4LegacyGuardTest {
                 createdGopm.get(originalGip.getPolicyId()).getProperties().values().iterator().next());
 
         Map<String, LegacyGuardPolicyOutput> gotGopm =
-                new LegacyProvider().getGuardPolicy(pfDao, originalGip.getPolicyId());
+                new LegacyProvider().getGuardPolicy(pfDao, originalGip.getPolicyId(), null);
 
         assertEquals(originalGip.getPolicyId(), gotGopm.keySet().iterator().next());
         assertEquals(originalGip.getContent(),
@@ -139,6 +139,20 @@ public class LegacyProvider4LegacyGuardTest {
         String actualJsonOutput = standardCoder.encode(gotGopm);
 
         assertEquals(expectedJsonOutput.replaceAll("\\s+", ""), actualJsonOutput.replaceAll("\\s+", ""));
+
+        gotGopm = new LegacyProvider().getGuardPolicy(pfDao, originalGip.getPolicyId(), "1");
+
+        assertEquals(originalGip.getPolicyId(), gotGopm.keySet().iterator().next());
+        assertEquals(originalGip.getContent(),
+                gotGopm.get(originalGip.getPolicyId()).getProperties().values().iterator().next());
+
+        actualJsonOutput = standardCoder.encode(gotGopm);
+
+        assertEquals(expectedJsonOutput.replaceAll("\\s+", ""), actualJsonOutput.replaceAll("\\s+", ""));
+
+        assertThatThrownBy(() -> {
+            new LegacyProvider().getGuardPolicy(pfDao, originalGip.getPolicyId(), "2");
+        }).hasMessage("no policy found for policy: guard.frequency.scaleout:2");
     }
 
     @Test
@@ -170,7 +184,7 @@ public class LegacyProvider4LegacyGuardTest {
                 createdGopm.get(originalGip.getPolicyId()).getProperties().values().iterator().next());
 
         Map<String, LegacyGuardPolicyOutput> gotGopm =
-                new LegacyProvider().getGuardPolicy(pfDao, originalGip.getPolicyId());
+                new LegacyProvider().getGuardPolicy(pfDao, originalGip.getPolicyId(), null);
 
         assertEquals(originalGip.getPolicyId(), gotGopm.keySet().iterator().next());
         assertEquals(originalGip.getContent(),
@@ -244,7 +258,7 @@ public class LegacyProvider4LegacyGuardTest {
                 createdGopm.get(originalGip.getPolicyId()).getProperties().values().iterator().next());
 
         Map<String, LegacyGuardPolicyOutput> gotGopm =
-                new LegacyProvider().getGuardPolicy(pfDao, originalGip.getPolicyId());
+                new LegacyProvider().getGuardPolicy(pfDao, originalGip.getPolicyId(), null);
 
         assertEquals(originalGip.getPolicyId(), gotGopm.keySet().iterator().next());
         assertEquals(originalGip.getContent(),
@@ -257,7 +271,7 @@ public class LegacyProvider4LegacyGuardTest {
                 updatedGp.get(originalGip.getPolicyId()).getProperties().values().iterator().next());
 
         Map<String, LegacyGuardPolicyOutput> gotUpdatedGopm =
-                new LegacyProvider().getGuardPolicy(pfDao, originalGip.getPolicyId());
+                new LegacyProvider().getGuardPolicy(pfDao, originalGip.getPolicyId(), null);
         assertEquals(originalGip.getPolicyId(), gotUpdatedGopm.keySet().iterator().next());
         assertEquals(originalGip.getContent(),
                 gotUpdatedGopm.get(originalGip.getPolicyId()).getProperties().values().iterator().next());
@@ -269,21 +283,36 @@ public class LegacyProvider4LegacyGuardTest {
     @Test
     public void testPoliciesDelete() throws Exception {
         assertThatThrownBy(() -> {
-            new LegacyProvider().deleteGuardPolicy(null, null);
+            new LegacyProvider().deleteGuardPolicy(null, null, null);
         }).hasMessage("dao is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            new LegacyProvider().deleteGuardPolicy(null, "");
+            new LegacyProvider().deleteGuardPolicy(null, null, "");
         }).hasMessage("dao is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            new LegacyProvider().deleteGuardPolicy(pfDao, null);
+            new LegacyProvider().deleteGuardPolicy(null, "", null);
+        }).hasMessage("dao is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            new LegacyProvider().deleteGuardPolicy(null, "", "");
+        }).hasMessage("dao is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            new LegacyProvider().deleteGuardPolicy(pfDao, null, null);
         }).hasMessage("policyId is marked @NonNull but is null");
 
+        assertThatThrownBy(() -> {
+            new LegacyProvider().deleteGuardPolicy(pfDao, null, "");
+        }).hasMessage("policyId is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            new LegacyProvider().deleteGuardPolicy(pfDao, "I Dont Exist");
-        }).hasMessage("no policy found for policy ID: I Dont Exist");
+            new LegacyProvider().deleteGuardPolicy(pfDao, "", null);
+        }).hasMessage("policyVersion is marked @NonNull but is null");
+
+        assertThatThrownBy(() -> {
+            new LegacyProvider().deleteGuardPolicy(pfDao, "IDontExist", "");
+        }).hasMessage("no policy found for policy: IDontExist:");
 
         createPolicyTypes();
 
@@ -299,7 +328,7 @@ public class LegacyProvider4LegacyGuardTest {
                 createdGopm.get(originalGip.getPolicyId()).getProperties().values().iterator().next());
 
         Map<String, LegacyGuardPolicyOutput> gotGopm =
-                new LegacyProvider().getGuardPolicy(pfDao, originalGip.getPolicyId());
+                new LegacyProvider().getGuardPolicy(pfDao, originalGip.getPolicyId(), null);
 
         assertEquals(originalGip.getPolicyId(), gotGopm.keySet().iterator().next());
         assertEquals(originalGip.getContent(),
@@ -311,15 +340,19 @@ public class LegacyProvider4LegacyGuardTest {
 
         assertEquals(expectedJsonOutput.replaceAll("\\s+", ""), actualJsonOutput.replaceAll("\\s+", ""));
 
+        assertThatThrownBy(() -> {
+            new LegacyProvider().deleteGuardPolicy(pfDao, originalGip.getPolicyId(), null);
+        }).hasMessage("policyVersion is marked @NonNull but is null");
+
         Map<String, LegacyGuardPolicyOutput> deletedGopm =
-                new LegacyProvider().deleteGuardPolicy(pfDao, originalGip.getPolicyId());
+                new LegacyProvider().deleteGuardPolicy(pfDao, originalGip.getPolicyId(), "1");
         assertEquals(originalGip.getPolicyId(), deletedGopm.keySet().iterator().next());
         assertEquals(originalGip.getContent(),
                 deletedGopm.get(originalGip.getPolicyId()).getProperties().values().iterator().next());
 
         assertThatThrownBy(() -> {
-            new LegacyProvider().getGuardPolicy(pfDao, originalGip.getPolicyId());
-        }).hasMessage("no policy found for policy ID: guard.frequency.scaleout");
+            new LegacyProvider().getGuardPolicy(pfDao, originalGip.getPolicyId(), null);
+        }).hasMessage("no policy found for policy: guard.frequency.scaleout:null");
 
         LegacyGuardPolicyInput otherGip = new LegacyGuardPolicyInput();
         otherGip.setPolicyId("guard.blacklist.b0");
@@ -332,8 +365,8 @@ public class LegacyProvider4LegacyGuardTest {
                 createdOtherGopm.get(otherGip.getPolicyId()).getProperties().values().iterator().next());
 
         assertThatThrownBy(() -> {
-            new LegacyProvider().getGuardPolicy(pfDao, originalGip.getPolicyId());
-        }).hasMessage("no policy found for policy ID: guard.frequency.scaleout");
+            new LegacyProvider().getGuardPolicy(pfDao, originalGip.getPolicyId(), null);
+        }).hasMessage("no policy found for policy: guard.frequency.scaleout:null");
     }
 
     private void createPolicyTypes() throws CoderException, PfModelException {

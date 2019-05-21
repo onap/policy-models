@@ -200,11 +200,13 @@ public interface PolicyModelsProvider extends AutoCloseable {
     /**
      * Get legacy operational policy.
      *
-     * @param policyId ID of the policy.
+     * @param policyId ID of the policy
+     * @param policyVersion version of the policy, set to null to get the latest policy
      * @return the policies found
      * @throws PfModelException on errors getting policies
      */
-    public LegacyOperationalPolicy getOperationalPolicy(@NonNull final String policyId) throws PfModelException;
+    public LegacyOperationalPolicy getOperationalPolicy(@NonNull final String policyId, final String policyVersion)
+            throws PfModelException;
 
     /**
      * Create legacy operational policy.
@@ -230,19 +232,23 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * Delete legacy operational policy.
      *
      * @param policyId ID of the policy.
+     * @param policyVersion version of the policy, set to null to get the latest policy
      * @return the deleted policy
      * @throws PfModelException on errors deleting policies
      */
-    public LegacyOperationalPolicy deleteOperationalPolicy(@NonNull final String policyId) throws PfModelException;
+    public LegacyOperationalPolicy deleteOperationalPolicy(@NonNull final String policyId,
+            @NonNull final String policyVersion) throws PfModelException;
 
     /**
      * Get legacy guard policy.
      *
-     * @param policyId ID of the policy.
+     * @param policyId ID of the policy
+     * @param policyVersion version of the policy, set to null to get the latest policy
      * @return the policies found
      * @throws PfModelException on errors getting policies
      */
-    public Map<String, LegacyGuardPolicyOutput> getGuardPolicy(@NonNull final String policyId) throws PfModelException;
+    public Map<String, LegacyGuardPolicyOutput> getGuardPolicy(@NonNull final String policyId,
+            final String policyVersion) throws PfModelException;
 
     /**
      * Create legacy guard policy.
@@ -268,11 +274,12 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * Delete legacy guard policy.
      *
      * @param policyId ID of the policy.
+     * @param policyVersion version of the policy, set to null to get the latest policy
      * @return the deleted policy
      * @throws PfModelException on errors deleting policies
      */
-    public Map<String, LegacyGuardPolicyOutput> deleteGuardPolicy(@NonNull final String policyId)
-            throws PfModelException;
+    public Map<String, LegacyGuardPolicyOutput> deleteGuardPolicy(@NonNull final String policyId,
+            @NonNull final String policyVersion) throws PfModelException;
 
     /**
      * Get PDP groups.

@@ -233,7 +233,7 @@ public class PfKeyTest {
             versionField.setAccessible(false);
             assertEquals(
                     "version invalid-parameter version with value Key Version "
-                            + "does not match regular expression [A-Za-z0-9.]+",
+                            + "does not match regular expression [0-9.]+",
                     validationResult.getMessageList().get(0).getMessage());
         } catch (Exception validationException) {
             fail("test should not throw an exception");

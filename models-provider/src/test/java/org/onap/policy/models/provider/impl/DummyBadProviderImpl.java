@@ -103,7 +103,8 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public LegacyOperationalPolicy getOperationalPolicy(@NonNull String policyId) throws PfModelException {
+    public LegacyOperationalPolicy getOperationalPolicy(@NonNull final String policyId, final String policyVersion)
+            throws PfModelException {
         return null;
     }
 
@@ -120,12 +121,14 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public LegacyOperationalPolicy deleteOperationalPolicy(@NonNull String policyId) throws PfModelException {
+    public LegacyOperationalPolicy deleteOperationalPolicy(@NonNull String policyId, final String policyVersion)
+            throws PfModelException {
         return null;
     }
 
     @Override
-    public Map<String, LegacyGuardPolicyOutput> getGuardPolicy(@NonNull String policyId) throws PfModelException {
+    public Map<String, LegacyGuardPolicyOutput> getGuardPolicy(@NonNull String policyId, final String policyVersion)
+            throws PfModelException {
         return null;
     }
 
@@ -142,7 +145,8 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public Map<String, LegacyGuardPolicyOutput> deleteGuardPolicy(@NonNull String policyId) throws PfModelException {
+    public Map<String, LegacyGuardPolicyOutput> deleteGuardPolicy(@NonNull String policyId, final String policyVersion)
+            throws PfModelException {
         return null;
     }
 
@@ -162,8 +166,8 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public void updatePdp(@NonNull String pdpGroupName, @NonNull String pdpSubGroup,
-            @NonNull Pdp pdp) throws PfModelException {}
+    public void updatePdp(@NonNull String pdpGroupName, @NonNull String pdpSubGroup, @NonNull Pdp pdp)
+            throws PfModelException {}
 
     @Override
     public PdpGroup deletePdpGroup(@NonNull String name) throws PfModelException {
@@ -207,8 +211,8 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public void updatePdpSubGroup(@NonNull String pdpGroupName,
-            @NonNull PdpSubGroup pdpSubGroup) throws PfModelException {}
+    public void updatePdpSubGroup(@NonNull String pdpGroupName, @NonNull PdpSubGroup pdpSubGroup)
+            throws PfModelException {}
 
     @Override
     public List<PdpStatistics> getPdpStatistics(String name) throws PfModelException {
@@ -216,6 +220,6 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public void updatePdpStatistics(@NonNull String pdpGroupName,
-            @NonNull String pdpType, @NonNull String pdpInstanceId, @NonNull PdpStatistics pdppStatistics) {}
+    public void updatePdpStatistics(@NonNull String pdpGroupName, @NonNull String pdpType,
+            @NonNull String pdpInstanceId, @NonNull PdpStatistics pdppStatistics) {}
 }

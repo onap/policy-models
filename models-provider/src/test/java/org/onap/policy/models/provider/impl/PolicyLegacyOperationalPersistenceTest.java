@@ -136,13 +136,13 @@ public class PolicyLegacyOperationalPersistenceTest {
         LegacyOperationalPolicy createdLop = databaseProvider.createOperationalPolicy(lop);
         assertEquals(createdLop, lop);
 
-        LegacyOperationalPolicy gotLop = databaseProvider.getOperationalPolicy(lop.getPolicyId());
+        LegacyOperationalPolicy gotLop = databaseProvider.getOperationalPolicy(lop.getPolicyId(), null);
         assertEquals(gotLop, lop);
 
         LegacyOperationalPolicy updatedLop = databaseProvider.updateOperationalPolicy(lop);
         assertEquals(gotLop, updatedLop);
 
-        LegacyOperationalPolicy deletedLop = databaseProvider.deleteOperationalPolicy(lop.getPolicyId());
+        LegacyOperationalPolicy deletedLop = databaseProvider.deleteOperationalPolicy(lop.getPolicyId(), "1");
         assertEquals(gotLop, deletedLop);
 
         String actualRetrievedJson = standardCoder.encode(gotLop);

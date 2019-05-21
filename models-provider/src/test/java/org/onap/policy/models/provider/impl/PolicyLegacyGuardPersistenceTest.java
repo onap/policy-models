@@ -138,7 +138,7 @@ public class PolicyLegacyGuardPersistenceTest {
         assertEquals(gip.getContent(),
                 createdGopm.get(gip.getPolicyId()).getProperties().values().iterator().next());
 
-        Map<String, LegacyGuardPolicyOutput> gotGopm = databaseProvider.getGuardPolicy(gip.getPolicyId());
+        Map<String, LegacyGuardPolicyOutput> gotGopm = databaseProvider.getGuardPolicy(gip.getPolicyId(), null);
         assertEquals(gip.getPolicyId(), gotGopm.keySet().iterator().next());
         assertEquals(gip.getContent(),
                 gotGopm.get(gip.getPolicyId()).getProperties().values().iterator().next());
@@ -148,7 +148,7 @@ public class PolicyLegacyGuardPersistenceTest {
         assertEquals(gip.getContent(),
                 updatedGopm.get(gip.getPolicyId()).getProperties().values().iterator().next());
 
-        Map<String, LegacyGuardPolicyOutput> deletedGopm = databaseProvider.deleteGuardPolicy(gip.getPolicyId());
+        Map<String, LegacyGuardPolicyOutput> deletedGopm = databaseProvider.deleteGuardPolicy(gip.getPolicyId(), "1");
         assertEquals(gip.getPolicyId(), deletedGopm.keySet().iterator().next());
         assertEquals(gip.getContent(),
                 deletedGopm.get(gip.getPolicyId()).getProperties().values().iterator().next());
