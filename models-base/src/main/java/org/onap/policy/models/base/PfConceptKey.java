@@ -205,17 +205,17 @@ public class PfConceptKey extends PfKey {
 
         // There must always be at least one element in each version
         if (!thisVersionArray[0].equals(otherVersionArray[0])) {
-            return thisVersionArray[0].compareTo(otherVersionArray[0]) > 0;
+            return Integer.valueOf(thisVersionArray[0]) > Integer.valueOf(otherVersionArray[0]);
         }
 
         if (thisVersionArray.length >= 2 && otherVersionArray.length >= 2
                         && !thisVersionArray[1].equals(otherVersionArray[1])) {
-            return thisVersionArray[1].compareTo(otherVersionArray[1]) > 0;
+            return Integer.valueOf(thisVersionArray[1]) > Integer.valueOf(otherVersionArray[1]);
         }
 
         if (thisVersionArray.length >= 3 && otherVersionArray.length >= 3
                         && !thisVersionArray[2].equals(otherVersionArray[2])) {
-            return thisVersionArray[2].compareTo(otherVersionArray[2]) > 0;
+            return Integer.valueOf(thisVersionArray[2]) > Integer.valueOf(otherVersionArray[2]);
         }
 
         return false;
