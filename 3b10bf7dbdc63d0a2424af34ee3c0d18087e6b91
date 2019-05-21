@@ -16,6 +16,24 @@
       "revId": "3b10bf7dbdc63d0a2424af34ee3c0d18087e6b91",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59f75e7b_eb904fc5",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfConceptKey.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-05-21T14:00:26Z",
+      "side": 1,
+      "message": "Are there any scenarios that you may be aware, either from PAP, where this may cause a \"ClassCastException\" ?   For example in the PAP deploy operation, typically, we need to append \"0.0\" to the version we get back when using the API component?",
+      "parentUuid": "b4e294f7_cec95b4c",
+      "revId": "3b10bf7dbdc63d0a2424af34ee3c0d18087e6b91",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
