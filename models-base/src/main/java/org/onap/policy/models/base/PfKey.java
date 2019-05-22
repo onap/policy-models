@@ -30,13 +30,13 @@ public abstract class PfKey extends PfConcept {
     private static final long serialVersionUID = 6281159885962014041L;
 
     /** Regular expression to specify the structure of key names. */
-    public static final String NAME_REGEXP = "[A-Za-z0-9\\-_\\.]+";
+    public static final String NAME_REGEXP = "^[A-Za-z0-9\\-_\\.]+$";
 
     /** Regular expression to specify the structure of key versions. */
-    public static final String VERSION_REGEXP = "[0-9.]+";
+    public static final String VERSION_REGEXP = "^(\\d+.){2}\\d+$";
 
     /** Regular expression to specify the structure of key IDs. */
-    public static final String KEY_ID_REGEXP = "[A-Za-z0-9\\-_\\.]+:[0-9].[0-9].[0-9]";
+    public static final String KEY_ID_REGEXP = "^[A-Za-z0-9\\-_\\.]+:(\\d+.){2}\\d+$";
 
     /** Specifies the value for names in NULL keys. */
     public static final String NULL_KEY_NAME = "NULL";

@@ -44,7 +44,7 @@ public class PfKeyTest {
         } catch (IllegalArgumentException e) {
             assertEquals(
                     "parameter \"id\": value \"some bad key id\", "
-                            + "does not match regular expression \"[A-Za-z0-9\\-_\\.]+:[0-9].[0-9].[0-9]\"",
+                            + "does not match regular expression \"" + PfKey.KEY_ID_REGEXP + "\"",
                     e.getMessage());
         }
 
@@ -77,13 +77,13 @@ public class PfKeyTest {
         someKey4.setVersion("0.1.2");
 
         PfConceptKey someKey4a = new PfConceptKey(someKey1);
-        someKey4a.setVersion("0");
+        someKey4a.setVersion("0.0.0");
 
         PfConceptKey someKey5 = new PfConceptKey(someKey1);
         someKey5.setVersion("1.2.2");
 
         PfConceptKey someKey6 = new PfConceptKey(someKey1);
-        someKey6.setVersion("3");
+        someKey6.setVersion("3.0.0");
 
         assertEquals("name:0.1.2", someKey4.getId());
 
@@ -217,7 +217,7 @@ public class PfKeyTest {
             nameField.setAccessible(false);
             assertEquals(
                     "name invalid-parameter name with value Key Name "
-                            + "does not match regular expression [A-Za-z0-9\\-_\\.]+",
+                            + "does not match regular expression " + PfKey.NAME_REGEXP,
                     validationResult.getMessageList().get(0).getMessage());
         } catch (Exception validationException) {
             fail("test should not throw an exception");
@@ -233,7 +233,7 @@ public class PfKeyTest {
             versionField.setAccessible(false);
             assertEquals(
                     "version invalid-parameter version with value Key Version "
-                            + "does not match regular expression [0-9.]+",
+                            + "does not match regular expression " + PfKey.VERSION_REGEXP,
                     validationResult.getMessageList().get(0).getMessage());
         } catch (Exception validationException) {
             fail("test should not throw an exception");
@@ -291,9 +291,9 @@ public class PfKeyTest {
         key1a.setVersion("1.2.3");
         assertFalse(key1.isNewerThan(key1a));
 
-        key1.setVersion("1");
+        key1.setVersion("1.0.0");
         assertFalse(key1.isNewerThan(key1a));
-        key1a.setVersion("1");
+        key1a.setVersion("1.0.0");
         assertFalse(key1.isNewerThan(key1a));
 
         PfReferenceKey refKey = new PfReferenceKey();
@@ -318,12 +318,12 @@ public class PfKeyTest {
 
     @Test
     public void testmajorMinorPatch() {
-        PfConceptKey key = new PfConceptKey("Key", "1");
+        PfConceptKey key = new PfConceptKey("Key", "1.0.0");
         assertEquals(1, key.getMajorVersion());
         assertEquals(0, key.getMinorVersion());
         assertEquals(0, key.getPatchVersion());
 
-        key = new PfConceptKey("Key", "1.2");
+        key = new PfConceptKey("Key", "1.2.0");
         assertEquals(1, key.getMajorVersion());
         assertEquals(2, key.getMinorVersion());
         assertEquals(0, key.getPatchVersion());

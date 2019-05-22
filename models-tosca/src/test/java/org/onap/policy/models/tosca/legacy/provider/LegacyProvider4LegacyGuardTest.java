@@ -311,8 +311,8 @@ public class LegacyProvider4LegacyGuardTest {
         }).hasMessage("policyVersion is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            new LegacyProvider().deleteGuardPolicy(pfDao, "IDontExist", "");
-        }).hasMessage("no policy found for policy: IDontExist:");
+            new LegacyProvider().deleteGuardPolicy(pfDao, "IDontExist", "0");
+        }).hasMessage("no policy found for policy: IDontExist:0");
 
         createPolicyTypes();
 

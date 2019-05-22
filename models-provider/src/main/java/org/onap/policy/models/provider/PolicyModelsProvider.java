@@ -232,7 +232,7 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * Delete legacy operational policy.
      *
      * @param policyId ID of the policy.
-     * @param policyVersion version of the policy, set to null to get the latest policy
+     * @param policyVersion version of the policy
      * @return the deleted policy
      * @throws PfModelException on errors deleting policies
      */
@@ -274,7 +274,7 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * Delete legacy guard policy.
      *
      * @param policyId ID of the policy.
-     * @param policyVersion version of the policy, set to null to get the latest policy
+     * @param policyVersion version of the policy
      * @return the deleted policy
      * @throws PfModelException on errors deleting policies
      */

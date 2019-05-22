@@ -162,7 +162,7 @@ public class PfReferenceKeyTest {
             parentNameField.setAccessible(false);
             assertEquals(
                     "parentKeyName invalid-parameter parentKeyName with value Parent Name "
-                            + "does not match regular expression [A-Za-z0-9\\-_\\.]+",
+                            + "does not match regular expression " + PfKey.NAME_REGEXP,
                     validationResult.getMessageList().get(0).getMessage());
         } catch (Exception validationException) {
             fail("test should not throw an exception");
@@ -178,7 +178,7 @@ public class PfReferenceKeyTest {
             parentVersionField.setAccessible(false);
             assertEquals(
                     "parentKeyVersion invalid-parameter parentKeyVersion with value Parent Version "
-                            + "does not match regular expression [0-9.]+",
+                            + "does not match regular expression " + PfKey.VERSION_REGEXP,
                     validationResult.getMessageList().get(0).getMessage());
         } catch (Exception validationException) {
             fail("test should not throw an exception");

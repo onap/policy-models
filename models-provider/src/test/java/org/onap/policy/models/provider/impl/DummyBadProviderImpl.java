@@ -121,8 +121,8 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public LegacyOperationalPolicy deleteOperationalPolicy(@NonNull String policyId, final String policyVersion)
-            throws PfModelException {
+    public LegacyOperationalPolicy deleteOperationalPolicy(@NonNull String policyId,
+            @NonNull final String policyVersion) throws PfModelException {
         return null;
     }
 
@@ -145,8 +145,8 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public Map<String, LegacyGuardPolicyOutput> deleteGuardPolicy(@NonNull String policyId, final String policyVersion)
-            throws PfModelException {
+    public Map<String, LegacyGuardPolicyOutput> deleteGuardPolicy(@NonNull String policyId,
+            @NonNull final String policyVersion) throws PfModelException {
         return null;
     }
 

@@ -440,8 +440,8 @@ public class DatabasePolicyModelsProviderTest {
             }).hasMessage("no policy found for policy: policy_id:null");
 
             assertThatThrownBy(() -> {
-                databaseProvider.getOperationalPolicy("policy_id", "10.9.8");
-            }).hasMessage("no policy found for policy: policy_id:10.9.8");
+                databaseProvider.getOperationalPolicy("policy_id", "10");
+            }).hasMessage("no policy found for policy: policy_id:10");
 
             assertThatThrownBy(() -> {
                 databaseProvider.createOperationalPolicy(new LegacyOperationalPolicy());
@@ -452,16 +452,16 @@ public class DatabasePolicyModelsProviderTest {
             }).hasMessage("name is marked @NonNull but is null");
 
             assertThatThrownBy(() -> {
-                databaseProvider.deleteOperationalPolicy("policy_id", "55.44.33");
-            }).hasMessage("no policy found for policy: policy_id:55.44.33");
+                databaseProvider.deleteOperationalPolicy("policy_id", "55");
+            }).hasMessage("no policy found for policy: policy_id:55");
 
             assertThatThrownBy(() -> {
                 databaseProvider.getGuardPolicy("policy_id", null);
             }).hasMessage("no policy found for policy: policy_id:null");
 
             assertThatThrownBy(() -> {
-                databaseProvider.getGuardPolicy("policy_id", "6.7.5");
-            }).hasMessage("no policy found for policy: policy_id:6.7.5");
+                databaseProvider.getGuardPolicy("policy_id", "6");
+            }).hasMessage("no policy found for policy: policy_id:6");
 
             assertThatThrownBy(() -> {
                 databaseProvider.createGuardPolicy(new LegacyGuardPolicyInput());
@@ -472,8 +472,8 @@ public class DatabasePolicyModelsProviderTest {
             }).hasMessage("policy type for guard policy \"null\" unknown");
 
             assertThatThrownBy(() -> {
-                databaseProvider.deleteGuardPolicy("policy_id", "33.22.11");
-            }).hasMessage("no policy found for policy: policy_id:33.22.11");
+                databaseProvider.deleteGuardPolicy("policy_id", "33");
+            }).hasMessage("no policy found for policy: policy_id:33");
 
             assertEquals(0, databaseProvider.getPdpGroups("name").size());
             assertEquals(0, databaseProvider.getFilteredPdpGroups(PdpGroupFilter.builder().build()).size());
