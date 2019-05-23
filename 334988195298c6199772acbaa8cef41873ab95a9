@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba656a4e_c4b2524b",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-05-23T15:31:57Z",
+      "side": 1,
+      "message": "little typo - Tempalate (general)",
+      "revId": "334988195298c6199772acbaa8cef41873ab95a9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
