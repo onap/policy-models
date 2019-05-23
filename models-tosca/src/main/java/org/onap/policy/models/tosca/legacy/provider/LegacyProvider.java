@@ -70,8 +70,14 @@ public class LegacyProvider {
     public LegacyOperationalPolicy getOperationalPolicy(@NonNull final PfDao dao, @NonNull final String policyId,
             final String policyVersion) throws PfModelException {
 
-        return new LegacyOperationalPolicyMapper()
+        LOGGER.debug("->getOperationalPolicy: policyId={}, policyVersion={}", policyId, policyVersion);
+
+        LegacyOperationalPolicy legacyOperationalPolicy = new LegacyOperationalPolicyMapper()
                 .fromToscaServiceTemplate(getLegacyPolicy(dao, policyId, policyVersion));
+
+        LOGGER.debug("<-getOperationalPolicy: policyId={}, policyVersion={}, legacyOperationalPolicy={}", policyId,
+                policyVersion, legacyOperationalPolicy);
+        return legacyOperationalPolicy;
     }
 
     /**
@@ -84,6 +90,8 @@ public class LegacyProvider {
      */
     public LegacyOperationalPolicy createOperationalPolicy(@NonNull final PfDao dao,
             @NonNull final LegacyOperationalPolicy legacyOperationalPolicy) throws PfModelException {
+
+        LOGGER.debug("->createOperationalPolicy: legacyOperationalPolicy={}", legacyOperationalPolicy);
 
         // We need to find the latest policy and update the major version, if there is no policy with this ID, then
         // we set it to the first version
@@ -100,7 +108,11 @@ public class LegacyProvider {
         JpaToscaServiceTemplate outgoingingServiceTemplate =
                 new SimpleToscaProvider().createPolicies(dao, incomingServiceTemplate);
 
-        return new LegacyOperationalPolicyMapper().fromToscaServiceTemplate(outgoingingServiceTemplate);
+        LegacyOperationalPolicy createdLegacyOperationalPolicy =
+                new LegacyOperationalPolicyMapper().fromToscaServiceTemplate(outgoingingServiceTemplate);
+
+        LOGGER.debug("<-createOperationalPolicy: createdLegacyOperationalPolicy={}", createdLegacyOperationalPolicy);
+        return createdLegacyOperationalPolicy;
     }
 
     /**
@@ -114,12 +126,17 @@ public class LegacyProvider {
     public LegacyOperationalPolicy updateOperationalPolicy(@NonNull final PfDao dao,
             @NonNull final LegacyOperationalPolicy legacyOperationalPolicy) throws PfModelException {
 
+        LOGGER.debug("->updateOperationalPolicy: legacyOperationalPolicy={}", legacyOperationalPolicy);
         JpaToscaServiceTemplate incomingServiceTemplate =
                 new LegacyOperationalPolicyMapper().toToscaServiceTemplate(legacyOperationalPolicy);
         JpaToscaServiceTemplate outgoingingServiceTemplate =
                 new SimpleToscaProvider().updatePolicies(dao, incomingServiceTemplate);
 
-        return new LegacyOperationalPolicyMapper().fromToscaServiceTemplate(outgoingingServiceTemplate);
+        LegacyOperationalPolicy updatedLegacyOperationalPolicy =
+                new LegacyOperationalPolicyMapper().fromToscaServiceTemplate(outgoingingServiceTemplate);
+
+        LOGGER.debug("<-updateOperationalPolicy: updatedLegacyOperationalPolicy={}", updatedLegacyOperationalPolicy);
+        return updatedLegacyOperationalPolicy;
     }
 
     /**
@@ -134,8 +151,14 @@ public class LegacyProvider {
     public LegacyOperationalPolicy deleteOperationalPolicy(@NonNull final PfDao dao, @NonNull final String policyId,
             @NonNull final String policyVersion) throws PfModelException {
 
-        return new LegacyOperationalPolicyMapper()
+        LOGGER.debug("->deleteOperationalPolicy: policyId={}, policyVersion={}", policyId, policyVersion);
+
+        LegacyOperationalPolicy legacyOperationalPolicy = new LegacyOperationalPolicyMapper()
                 .fromToscaServiceTemplate(deleteLegacyPolicy(dao, policyId, policyVersion));
+
+        LOGGER.debug("<-deleteOperationalPolicy: policyId={}, policyVersion={}, legacyOperationalPolicy={}", policyId,
+                policyVersion, legacyOperationalPolicy);
+        return legacyOperationalPolicy;
     }
 
     /**
@@ -150,7 +173,14 @@ public class LegacyProvider {
     public Map<String, LegacyGuardPolicyOutput> getGuardPolicy(@NonNull final PfDao dao, @NonNull final String policyId,
             final String policyVersion) throws PfModelException {
 
-        return new LegacyGuardPolicyMapper().fromToscaServiceTemplate(getLegacyPolicy(dao, policyId, policyVersion));
+        LOGGER.debug("->getGuardPolicy: policyId={}, policyVersion={}", policyId, policyVersion);
+
+        Map<String, LegacyGuardPolicyOutput> legacyGuardPolicyMap =
+                new LegacyGuardPolicyMapper().fromToscaServiceTemplate(getLegacyPolicy(dao, policyId, policyVersion));
+
+        LOGGER.debug("<-getGuardPolicy: policyId={}, policyVersion={}, legacyGuardPolicyMap={}", policyId,
+                policyVersion, legacyGuardPolicyMap);
+        return legacyGuardPolicyMap;
     }
 
     /**
@@ -164,12 +194,18 @@ public class LegacyProvider {
     public Map<String, LegacyGuardPolicyOutput> createGuardPolicy(@NonNull final PfDao dao,
             @NonNull final LegacyGuardPolicyInput legacyGuardPolicy) throws PfModelException {
 
+        LOGGER.debug("->createGuardPolicy: legacyGuardPolicy={}", legacyGuardPolicy);
+
         JpaToscaServiceTemplate incomingServiceTemplate =
                 new LegacyGuardPolicyMapper().toToscaServiceTemplate(legacyGuardPolicy);
         JpaToscaServiceTemplate outgoingingServiceTemplate =
                 new SimpleToscaProvider().createPolicies(dao, incomingServiceTemplate);
 
-        return new LegacyGuardPolicyMapper().fromToscaServiceTemplate(outgoingingServiceTemplate);
+        Map<String, LegacyGuardPolicyOutput> createdLegacyGuardPolicyMap =
+                new LegacyGuardPolicyMapper().fromToscaServiceTemplate(outgoingingServiceTemplate);
+
+        LOGGER.debug("<-createGuardPolicy: createdLegacyGuardPolicyMap={}", createdLegacyGuardPolicyMap);
+        return createdLegacyGuardPolicyMap;
     }
 
     /**
@@ -183,12 +219,18 @@ public class LegacyProvider {
     public Map<String, LegacyGuardPolicyOutput> updateGuardPolicy(@NonNull final PfDao dao,
             @NonNull final LegacyGuardPolicyInput legacyGuardPolicy) throws PfModelException {
 
+        LOGGER.debug("->updateGuardPolicy: legacyGuardPolicy={}", legacyGuardPolicy);
+
         JpaToscaServiceTemplate incomingServiceTemplate =
                 new LegacyGuardPolicyMapper().toToscaServiceTemplate(legacyGuardPolicy);
         JpaToscaServiceTemplate outgoingingServiceTemplate =
                 new SimpleToscaProvider().updatePolicies(dao, incomingServiceTemplate);
 
-        return new LegacyGuardPolicyMapper().fromToscaServiceTemplate(outgoingingServiceTemplate);
+        Map<String, LegacyGuardPolicyOutput> updatedLegacyGuardPolicyMap =
+                new LegacyGuardPolicyMapper().fromToscaServiceTemplate(outgoingingServiceTemplate);
+
+        LOGGER.debug("<-updateGuardPolicy: updatedLegacyGuardPolicyMap={}", updatedLegacyGuardPolicyMap);
+        return updatedLegacyGuardPolicyMap;
     }
 
 
@@ -204,7 +246,13 @@ public class LegacyProvider {
     public Map<String, LegacyGuardPolicyOutput> deleteGuardPolicy(@NonNull final PfDao dao,
             @NonNull final String policyId, @NonNull final String policyVersion) throws PfModelException {
 
-        return new LegacyGuardPolicyMapper().fromToscaServiceTemplate(deleteLegacyPolicy(dao, policyId, policyVersion));
+        LOGGER.debug("->deleteGuardPolicy: policyId={}, policyVersion={}", policyId, policyVersion);
+        Map<String, LegacyGuardPolicyOutput> legacyGuardPolicyMap = new LegacyGuardPolicyMapper()
+                .fromToscaServiceTemplate(deleteLegacyPolicy(dao, policyId, policyVersion));
+
+        LOGGER.debug("<-deleteGuardPolicy: policyId={}, policyVersion={}, legacyGuardPolicyMap={}", policyId,
+                policyVersion, legacyGuardPolicyMap);
+        return legacyGuardPolicyMap;
     }
 
     /**

@@ -40,6 +40,8 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.provider.SimpleToscaProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class provides the provision of information on TOSCA concepts in the database to callers.
@@ -47,6 +49,8 @@ import org.onap.policy.models.tosca.simple.provider.SimpleToscaProvider;
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 public class AuthorativeToscaProvider {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthorativeToscaProvider.class);
+
     /**
      * Get policy types.
      *
@@ -59,7 +63,13 @@ public class AuthorativeToscaProvider {
     public ToscaServiceTemplate getPolicyTypes(@NonNull final PfDao dao, final String name, final String version)
             throws PfModelException {
 
-        return new SimpleToscaProvider().getPolicyTypes(dao, name, version).toAuthorative();
+        LOGGER.debug("->getPolicyTypes: name={}, version={}", name, version);
+
+        ToscaServiceTemplate serviceTemplate =
+                new SimpleToscaProvider().getPolicyTypes(dao, name, version).toAuthorative();
+
+        LOGGER.debug("<-getPolicyTypes: name={}, version={}, serviceTemplate={}", name, version, serviceTemplate);
+        return serviceTemplate;
     }
 
     /**
@@ -74,8 +84,13 @@ public class AuthorativeToscaProvider {
     public List<ToscaPolicyType> getPolicyTypeList(@NonNull final PfDao dao, final String name, final String version)
             throws PfModelException {
 
-        return (asConceptList(
-                new SimpleToscaProvider().getPolicyTypes(dao, name, version).toAuthorative().getPolicyTypes()));
+        LOGGER.debug("->getPolicyTypeList: name={}, version={}", name, version);
+
+        List<ToscaPolicyType> policyTypeList = asConceptList(
+                new SimpleToscaProvider().getPolicyTypes(dao, name, version).toAuthorative().getPolicyTypes());
+
+        LOGGER.debug("<-getPolicyTypeList: name={}, version={}, policyTypeList={}", name, version, policyTypeList);
+        return policyTypeList;
     }
 
     /**
@@ -89,6 +104,8 @@ public class AuthorativeToscaProvider {
     public ToscaServiceTemplate getFilteredPolicyTypes(@NonNull final PfDao dao,
             @NonNull final ToscaPolicyTypeFilter filter) throws PfModelException {
 
+        LOGGER.debug("->getFilteredPolicyTypes: filter={}", filter);
+
         ToscaServiceTemplate serviceTemplate =
                 new SimpleToscaProvider().getPolicyTypes(dao, null, null).toAuthorative();
 
@@ -97,6 +114,7 @@ public class AuthorativeToscaProvider {
 
         serviceTemplate.setPolicyTypes(asConceptMap(filteredPolicyTypes));
 
+        LOGGER.debug("<-getFilteredPolicyTypes: filter={}, serviceTemplate={}", filter, serviceTemplate);
         return serviceTemplate;
     }
 
@@ -111,7 +129,13 @@ public class AuthorativeToscaProvider {
     public List<ToscaPolicyType> getFilteredPolicyTypeList(@NonNull final PfDao dao,
             @NonNull final ToscaPolicyTypeFilter filter) throws PfModelException {
 
-        return filter.filter(getPolicyTypeList(dao, null, null));
+        LOGGER.debug("->getFilteredPolicyTypeList: filter={}", filter);
+
+        List<ToscaPolicyType> filteredPolicyTypeList = filter.filter(getPolicyTypeList(dao, null, null));
+
+        LOGGER.debug("<-getFilteredPolicyTypeList: filter={}, filteredPolicyTypeList={}", filter,
+                filteredPolicyTypeList);
+        return filteredPolicyTypeList;
     }
 
     /**
@@ -125,8 +149,13 @@ public class AuthorativeToscaProvider {
     public ToscaServiceTemplate createPolicyTypes(@NonNull final PfDao dao,
             @NonNull final ToscaServiceTemplate serviceTemplate) throws PfModelException {
 
-        return new SimpleToscaProvider().createPolicyTypes(dao, new JpaToscaServiceTemplate(serviceTemplate))
-                .toAuthorative();
+        LOGGER.debug("->createPolicyTypes: serviceTemplate={}", serviceTemplate);
+
+        ToscaServiceTemplate createdServiceTempalate = new SimpleToscaProvider()
+                .createPolicyTypes(dao, new JpaToscaServiceTemplate(serviceTemplate)).toAuthorative();
+
+        LOGGER.debug("<-createPolicyTypes: createdServiceTempalate={}", createdServiceTempalate);
+        return createdServiceTempalate;
     }
 
     /**
@@ -140,8 +169,13 @@ public class AuthorativeToscaProvider {
     public ToscaServiceTemplate updatePolicyTypes(@NonNull final PfDao dao,
             @NonNull final ToscaServiceTemplate serviceTemplate) throws PfModelException {
 
-        return new SimpleToscaProvider().updatePolicyTypes(dao, new JpaToscaServiceTemplate(serviceTemplate))
-                .toAuthorative();
+        LOGGER.debug("->updatePolicyTypes: serviceTempalate={}", serviceTemplate);
+
+        ToscaServiceTemplate updatedServiceTempalate = new SimpleToscaProvider()
+                .updatePolicyTypes(dao, new JpaToscaServiceTemplate(serviceTemplate)).toAuthorative();
+
+        LOGGER.debug("<-updatePolicyTypes: updatedServiceTempalate={}", updatedServiceTempalate);
+        return updatedServiceTempalate;
     }
 
     /**
@@ -156,7 +190,14 @@ public class AuthorativeToscaProvider {
     public ToscaServiceTemplate deletePolicyType(@NonNull final PfDao dao, @NonNull final String name,
             @NonNull final String version) throws PfModelException {
 
-        return new SimpleToscaProvider().deletePolicyType(dao, new PfConceptKey(name, version)).toAuthorative();
+        LOGGER.debug("->deletePolicyType: name={}, version={}", name, version);
+
+        ToscaServiceTemplate deletedServiceTempalate =
+                new SimpleToscaProvider().deletePolicyType(dao, new PfConceptKey(name, version)).toAuthorative();
+
+        LOGGER.debug("<-deletePolicyType: name={}, version={}, deletedServiceTempalate={}", name, version,
+                deletedServiceTempalate);
+        return deletedServiceTempalate;
     }
 
     /**
@@ -170,8 +211,13 @@ public class AuthorativeToscaProvider {
      */
     public ToscaServiceTemplate getPolicies(@NonNull final PfDao dao, final String name, final String version)
             throws PfModelException {
+        LOGGER.debug("->getPolicies: name={}, version={}", name, version);
 
-        return new SimpleToscaProvider().getPolicies(dao, name, version).toAuthorative();
+        ToscaServiceTemplate gotServiceTempalate =
+                new SimpleToscaProvider().getPolicies(dao, name, version).toAuthorative();
+
+        LOGGER.debug("<-getPolicies: name={}, version={}, gotServiceTempalate={}", name, version, gotServiceTempalate);
+        return gotServiceTempalate;
     }
 
     /**
@@ -185,9 +231,13 @@ public class AuthorativeToscaProvider {
      */
     public List<ToscaPolicy> getPolicyList(@NonNull final PfDao dao, final String name, final String version)
             throws PfModelException {
+        LOGGER.debug("->getPolicyList: name={}, version={}", name, version);
 
-        return asConceptList(new SimpleToscaProvider().getPolicies(dao, name, version).toAuthorative()
-                .getToscaTopologyTemplate().getPolicies());
+        List<ToscaPolicy> policyList = asConceptList(new SimpleToscaProvider().getPolicies(dao, name, version)
+                .toAuthorative().getToscaTopologyTemplate().getPolicies());
+
+        LOGGER.debug("<-getPolicyList: name={}, version={}, policyTypeList={}", name, version, policyList);
+        return policyList;
     }
 
     /**
@@ -201,16 +251,18 @@ public class AuthorativeToscaProvider {
     public ToscaServiceTemplate getFilteredPolicies(@NonNull final PfDao dao, @NonNull final ToscaPolicyFilter filter)
             throws PfModelException {
 
+        LOGGER.debug("->getFilteredPolicies: filter={}", filter);
         String version = ToscaPolicyFilter.LATEST_VERSION.equals(filter.getVersion()) ? null : filter.getVersion();
 
         ToscaServiceTemplate serviceTemplate =
-                        new SimpleToscaProvider().getPolicies(dao, filter.getName(), version).toAuthorative();
+                new SimpleToscaProvider().getPolicies(dao, filter.getName(), version).toAuthorative();
 
         List<ToscaPolicy> filteredPolicies = asConceptList(serviceTemplate.getToscaTopologyTemplate().getPolicies());
         filteredPolicies = filter.filter(filteredPolicies);
 
         serviceTemplate.getToscaTopologyTemplate().setPolicies(asConceptMap(filteredPolicies));
 
+        LOGGER.debug("<-getFilteredPolicies: filter={}, serviceTemplate={}", filter, serviceTemplate);
         return serviceTemplate;
     }
 
@@ -225,8 +277,13 @@ public class AuthorativeToscaProvider {
     public List<ToscaPolicy> getFilteredPolicyList(@NonNull final PfDao dao, @NonNull final ToscaPolicyFilter filter)
             throws PfModelException {
 
+        LOGGER.debug("->getFilteredPolicyList: filter={}", filter);
         String version = ToscaPolicyFilter.LATEST_VERSION.equals(filter.getVersion()) ? null : filter.getVersion();
-        return filter.filter(getPolicyList(dao, filter.getName(), version));
+
+        List<ToscaPolicy> policyList = filter.filter(getPolicyList(dao, filter.getName(), version));
+
+        LOGGER.debug("<-getFilteredPolicyList: filter={}, policyList={}", filter, policyList);
+        return policyList;
     }
 
     /**
@@ -240,8 +297,13 @@ public class AuthorativeToscaProvider {
     public ToscaServiceTemplate createPolicies(@NonNull final PfDao dao,
             @NonNull final ToscaServiceTemplate serviceTemplate) throws PfModelException {
 
-        return new SimpleToscaProvider().createPolicies(dao, new JpaToscaServiceTemplate(serviceTemplate))
-                .toAuthorative();
+        LOGGER.debug("->createPolicies: serviceTempalate={}", serviceTemplate);
+
+        ToscaServiceTemplate createdServiceTempalate = new SimpleToscaProvider()
+                .createPolicies(dao, new JpaToscaServiceTemplate(serviceTemplate)).toAuthorative();
+
+        LOGGER.debug("<-createPolicies: createdServiceTempalate={}", createdServiceTempalate);
+        return createdServiceTempalate;
     }
 
     /**
@@ -255,8 +317,13 @@ public class AuthorativeToscaProvider {
     public ToscaServiceTemplate updatePolicies(@NonNull final PfDao dao,
             @NonNull final ToscaServiceTemplate serviceTemplate) throws PfModelException {
 
-        return new SimpleToscaProvider().updatePolicies(dao, new JpaToscaServiceTemplate(serviceTemplate))
-                .toAuthorative();
+        LOGGER.debug("->updatePolicies: serviceTempalate={}", serviceTemplate);
+
+        ToscaServiceTemplate updatedServiceTempalate = new SimpleToscaProvider()
+                .updatePolicies(dao, new JpaToscaServiceTemplate(serviceTemplate)).toAuthorative();
+
+        LOGGER.debug("<-updatePolicies: updatedServiceTempalate={}", updatedServiceTempalate);
+        return updatedServiceTempalate;
     }
 
     /**
@@ -271,7 +338,14 @@ public class AuthorativeToscaProvider {
     public ToscaServiceTemplate deletePolicy(@NonNull final PfDao dao, @NonNull final String name,
             @NonNull final String version) throws PfModelException {
 
-        return new SimpleToscaProvider().deletePolicy(dao, new PfConceptKey(name, version)).toAuthorative();
+        LOGGER.debug("->deletePolicy: name={}, version={}", name, version);
+
+        ToscaServiceTemplate deletedServiceTempalate =
+                new SimpleToscaProvider().deletePolicy(dao, new PfConceptKey(name, version)).toAuthorative();
+
+        LOGGER.debug("<-deletePolicy: name={}, version={}, deletedServiceTempalate={}", name, version,
+                deletedServiceTempalate);
+        return deletedServiceTempalate;
     }
 
     /**
