@@ -1,6 +1,7 @@
 #
 # ============LICENSE_START=======================================================
 #  Copyright (C) 2019 Nordix Foundation.
+#  Modifications Copyright (C) 2019 AT&T Intellectual Property.
 # ================================================================================
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -66,7 +67,7 @@ RUN tar xvfz /packages/policy-models-sim-pdp-tarball.tar.gz --directory ${POLICY
 COPY pdp-sim.sh ${POLICY_HOME}/pdp-sim/bin
 RUN find /opt/app -type d -perm 755 \
     && find /opt/app -type f -perm 644 \
-    && chmod a+x ${POLICY_HOME}/pdp-sim/bin/*
+    && chmod 755 ${POLICY_HOME}/pdp-sim/bin/*
 
 USER policy
 ENV PATH ${POLICY_HOME}/pdp-sim/bin:$PATH
