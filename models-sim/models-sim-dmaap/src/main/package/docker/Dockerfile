@@ -66,7 +66,7 @@ RUN tar xvfz /packages/policy-models-sim-dmaap-tarball.tar.gz --directory ${POLI
 COPY dmaap-sim.sh ${POLICY_HOME}/dmaap-sim/bin
 RUN find /opt/app -type d -perm 755 \
     && find /opt/app -type f -perm 644 \
-    && chmod a+x ${POLICY_HOME}/dmaap-sim/bin/*
+    && chmod 755 ${POLICY_HOME}/dmaap-sim/bin/*
 
 USER policy
 ENV PATH ${POLICY_HOME}/dmaap-sim/bin:$PATH
