@@ -4,6 +4,7 @@
  * ================================================================================
  * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019 IBM.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +29,8 @@ import org.junit.Test;
 import org.onap.policy.rest.RestManager.Pair;
 
 public class GetTest {
+    
+    private static final String URL = "http://www.example.org";
 
     @Test(expected = NullPointerException.class)
     public void testUrlNull() {
@@ -39,7 +42,7 @@ public class GetTest {
     public void testUsernameNull() {
         RestManager mgr = new RestManager();
 
-        Pair<Integer, String> result = mgr.get("http://www.example.org", null, null, null);
+        Pair<Integer, String> result = mgr.get(URL, null, null, null);
         assertEquals((Integer)200, result.first);
         assertTrue(result.second != null);
         assertTrue(result.second.length() > 0);
@@ -49,7 +52,7 @@ public class GetTest {
     public void testUsernameEmpty() {
         RestManager mgr = new RestManager();
 
-        Pair<Integer, String> result = mgr.get("http://www.example.org", "", null, null);
+        Pair<Integer, String> result = mgr.get(URL, "", null, null);
         assertEquals((Integer)200, result.first);
         assertTrue(result.second != null);
         assertTrue(result.second.length() > 0);
@@ -59,7 +62,7 @@ public class GetTest {
     public void testUrlExampleOrg() {
         RestManager mgr = new RestManager();
 
-        Pair<Integer, String> result = mgr.get("http://www.example.org", "user", null, null);
+        Pair<Integer, String> result = mgr.get(URL, "user", null, null);
         assertEquals((Integer)200, result.first);
         assertTrue(result.second != null);
         assertTrue(result.second.length() > 0);
