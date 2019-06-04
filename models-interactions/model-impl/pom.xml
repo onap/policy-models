@@ -44,7 +44,6 @@
       <module>sdc</module>
       <module>vfc</module>
       <module>sdnc</module>
+      <module>cds</module>
   </modules>
-
-
 </project>
