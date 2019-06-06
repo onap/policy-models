@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe9e4c90_0d6b95ca",
+        "filename": "models-interactions/model-impl/cds/src/main/java/org/onap/policy/cds/properties/CdsProperties.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-06-06T12:56:38Z",
+      "side": 1,
+      "message": "We have acommon way of handing parameters. have a look at how we handle parameters in policy-common/common-parameters.\n\nFor an example of how this works, look at for example policy pap.",
+      "range": {
+        "startLine": 31,
+        "startChar": 13,
+        "endLine": 31,
+        "endChar": 26
+      },
+      "revId": "1c59cc2eea09dfebbb3287f67b33485aadd6b94b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
