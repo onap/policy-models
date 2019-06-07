@@ -34,6 +34,24 @@
       "revId": "c42fc99b41744772aa882d021dbfce5311c1da81",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cd86eee_92593b6c",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/legacy/mapping/LegacyGuardPolicyMapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-06-07T18:58:59Z",
+      "side": 1,
+      "message": "honestly, it\u0027s easier to provide the code :-) :\n\n  final Map\u003cString, Object\u003e metadata \u003d new LinkedHashMap\u003c\u003e(toscaPolicy.getMetadata());\n\n  // if version exists, convert it to int\n  metadata.computeIfPresent(POLICY_VERSION, (key,val) -\u003e Integer.parseInt(val.toString()));",
+      "parentUuid": "08b83d03_d56438d3",
+      "revId": "c42fc99b41744772aa882d021dbfce5311c1da81",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
