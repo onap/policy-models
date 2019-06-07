@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e25d479_f9d3741e",
+        "filename": "models-interactions/model-impl/cds/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-06-07T08:58:09Z",
+      "side": 1,
+      "message": "Better to use the constant defined in parent pom of policy/models.\n\u003cversion\u003e${policy.common.version}\u003c/version\u003e\n\nIn general, when adding a dependency please check if it is already added as managed version in parent pom\u0027s. If yes, then better to go with managed version to avoid conflicts.",
+      "range": {
+        "startLine": 89,
+        "startChar": 6,
+        "endLine": 89,
+        "endChar": 39
+      },
+      "revId": "dfbb881cd60892cb63b5d7dc7d3859581f239cb3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
