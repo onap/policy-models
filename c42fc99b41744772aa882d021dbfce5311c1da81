@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68dadfd9_6305ccb2",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/legacy/mapping/LegacyGuardPolicyMapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-06-07T16:11:51Z",
+      "side": 1,
+      "message": "guess we could also have done this using copy constructor and then:\n\n  if metadata contains policy_version then\n    metadata.put(policy_version, Integer.parseInt(...))\n\nI only mention this, because it took me a moment to realize what the for-loop was doing.",
+      "revId": "c42fc99b41744772aa882d021dbfce5311c1da81",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
