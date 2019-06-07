@@ -49,6 +49,23 @@
     },
     {
       "key": {
+        "uuid": "99615268_0692f102",
+        "filename": "models-interactions/model-impl/cds/src/main/java/org/onap/policy/cds/api/CdsProcessorListener.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-06-07T14:01:02Z",
+      "side": 1,
+      "message": "should the listener implement an onComplete() also?",
+      "revId": "dfbb881cd60892cb63b5d7dc7d3859581f239cb3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fefb856d_d2c1132c",
         "filename": "models-interactions/model-impl/cds/src/main/java/org/onap/policy/cds/client/BasicAuthClientHeaderInterceptor.java",
         "patchSetId": 7
@@ -93,6 +110,193 @@
       "revId": "dfbb881cd60892cb63b5d7dc7d3859581f239cb3",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d98f9147_59dffd3b",
+        "filename": "models-interactions/model-impl/cds/src/main/java/org/onap/policy/cds/properties/CdsServerProperties.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-06-07T14:01:02Z",
+      "side": 1,
+      "message": "because \"this\" is a subclass of ParameterGroup, most of these checks are unnecessary; just add @NotNull and @Min annotations to the fields and this line will do all the rest.\n\npolicy/common does not have a @Max annotation yet, but could add one and then this entire method would simply become:\n\n  return new GroupValidationResult(this)",
+      "revId": "dfbb881cd60892cb63b5d7dc7d3859581f239cb3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3b15fdd_7241874c",
+        "filename": "models-interactions/model-impl/cds/src/main/java/org/onap/policy/cds/properties/CdsServerProperties.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-06-07T14:01:02Z",
+      "side": 1,
+      "message": "perhaps move this literal up next to the XXX_PORT constants so maintainers don\u0027t forget to update it.  (Or use the constants here so it doesn\u0027t have to be updated at all.)",
+      "revId": "dfbb881cd60892cb63b5d7dc7d3859581f239cb3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84d60a35_da1534ec",
+        "filename": "models-interactions/model-impl/cds/src/main/java/org/onap/policy/cds/properties/CdsServerProperties.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-06-07T14:01:02Z",
+      "side": 1,
+      "message": "add \"UTF-8\" to getBytes()",
+      "revId": "dfbb881cd60892cb63b5d7dc7d3859581f239cb3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bb8c06b_7bc09a7c",
+        "filename": "models-interactions/model-impl/cds/src/test/java/org/onap/policy/cds/client/BasicAuthClientHeaderInterceptorTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-06-07T14:01:02Z",
+      "side": 1,
+      "message": "I don\u0027t think this is needed\n\nsame comment for other test classes",
+      "revId": "dfbb881cd60892cb63b5d7dc7d3859581f239cb3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9590869_0fa05daa",
+        "filename": "models-interactions/model-impl/cds/src/test/java/org/onap/policy/cds/client/BasicAuthClientHeaderInterceptorTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-06-07T14:01:02Z",
+      "side": 1,
+      "message": "I\u0027m not sure, but sonar may prefer this be done using functional-style syntax",
+      "revId": "dfbb881cd60892cb63b5d7dc7d3859581f239cb3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "615723b2_d93af0dc",
+        "filename": "models-interactions/model-impl/cds/src/test/java/org/onap/policy/cds/client/BasicAuthClientHeaderInterceptorTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-06-07T14:01:02Z",
+      "side": 1,
+      "message": "I don\u0027t think this is used\n\nas a general rule - please eliminate all eclipse warnings from the java files",
+      "revId": "dfbb881cd60892cb63b5d7dc7d3859581f239cb3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eebd4061_b09299f0",
+        "filename": "models-interactions/model-impl/cds/src/test/java/org/onap/policy/cds/client/BasicAuthClientHeaderInterceptorTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-06-07T14:01:02Z",
+      "side": 1,
+      "message": "doesn\u0027t appear that this method is needed",
+      "revId": "dfbb881cd60892cb63b5d7dc7d3859581f239cb3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f689a3b8_b9359787",
+        "filename": "models-interactions/model-impl/cds/src/test/java/org/onap/policy/cds/client/BasicAuthClientHeaderInterceptorTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-06-07T14:01:02Z",
+      "side": 1,
+      "message": "add \"UTF-8\" to getBytes()",
+      "revId": "dfbb881cd60892cb63b5d7dc7d3859581f239cb3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01713008_f30c8305",
+        "filename": "models-interactions/model-impl/cds/src/test/java/org/onap/policy/cds/client/CdsProcessorGrpcClientTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-06-07T14:01:02Z",
+      "side": 1,
+      "message": "this @Mock annotation is not needed",
+      "revId": "dfbb881cd60892cb63b5d7dc7d3859581f239cb3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "78a54846_efb673c7",
+        "filename": "models-interactions/model-impl/cds/src/test/java/org/onap/policy/cds/client/CdsProcessorGrpcClientTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-06-07T14:01:02Z",
+      "side": 1,
+      "message": "maybe allow a couple of seconds here, just in case OS process swapping causes some random delays?  (probably use a constant).  Or if this happens in the same thread, then just use zero.\n\nsame comment below",
+      "revId": "dfbb881cd60892cb63b5d7dc7d3859581f239cb3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cec42585_c6647759",
+        "filename": "models-interactions/model-impl/cds/src/test/java/org/onap/policy/cds/client/CdsProcessorGrpcClientTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-06-07T14:01:02Z",
+      "side": 1,
+      "message": "this is redundant with line 173",
+      "revId": "dfbb881cd60892cb63b5d7dc7d3859581f239cb3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
