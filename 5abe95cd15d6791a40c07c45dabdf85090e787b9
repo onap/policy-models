@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b5b08fd0_6f361404",
+        "filename": "models-interactions/model-impl/cds/src/main/java/org/onap/policy/cds/properties/CdsServerProperties.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-06-07T13:39:43Z",
+      "side": 1,
+      "message": "Great! This allows us to integrate these parameters into the overall parameters for anyone using this model implementation.",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 59
+      },
+      "revId": "5abe95cd15d6791a40c07c45dabdf85090e787b9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
