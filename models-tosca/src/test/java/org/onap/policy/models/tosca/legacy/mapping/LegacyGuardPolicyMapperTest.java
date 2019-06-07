@@ -21,11 +21,13 @@
 package org.onap.policy.models.tosca.legacy.mapping;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.Assert.assertEquals;
 
 import java.util.LinkedHashMap;
-
+import java.util.Map;
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
+import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyOutput;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicies;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicy;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
@@ -44,7 +46,7 @@ public class LegacyGuardPolicyMapperTest {
         serviceTemplate.setTopologyTemplate(new JpaToscaTopologyTemplate());
         serviceTemplate.getTopologyTemplate().setPolicies(new JpaToscaPolicies());
 
-        JpaToscaPolicy policy = new JpaToscaPolicy(new PfConceptKey("PolicyName", "0.0.1"));
+        JpaToscaPolicy policy = new JpaToscaPolicy(new PfConceptKey("PolicyName", "2.0.0"));
         serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().put(policy.getKey(), policy);
 
         assertThatThrownBy(() -> {
@@ -55,5 +57,11 @@ public class LegacyGuardPolicyMapperTest {
         assertThatThrownBy(() -> {
             new LegacyGuardPolicyMapper().fromToscaServiceTemplate(serviceTemplate);
         }).hasMessageContaining("no properties defined on TOSCA policy");
+
+        policy.setProperties(new LinkedHashMap<>());
+        Map<String, LegacyGuardPolicyOutput> guardPolicyMap =
+                new LegacyGuardPolicyMapper().fromToscaServiceTemplate(serviceTemplate);
+        LegacyGuardPolicyOutput guardPolicy = guardPolicyMap.values().iterator().next();
+        assertEquals("2.0.0", guardPolicy.getVersion());
     }
 }
