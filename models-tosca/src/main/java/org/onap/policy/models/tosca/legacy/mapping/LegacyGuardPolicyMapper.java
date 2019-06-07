@@ -115,7 +115,7 @@ public class LegacyGuardPolicyMapper
 
             final LegacyGuardPolicyOutput legacyGuardPolicyOutput = new LegacyGuardPolicyOutput();
             legacyGuardPolicyOutput.setType(toscaPolicy.getType().getName());
-            legacyGuardPolicyOutput.setVersion(toscaPolicy.getType().getVersion());
+            legacyGuardPolicyOutput.setVersion(toscaPolicy.getKey().getVersion());
 
             if (toscaPolicy.getMetadata() == null) {
                 String errorMessage = "no metadata defined on TOSCA policy";
@@ -123,14 +123,11 @@ public class LegacyGuardPolicyMapper
                 throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
             }
 
-            final Map<String, Object> metadata = new LinkedHashMap<>();
-            for (Entry<String, String> metadataEntry : toscaPolicy.getMetadata().entrySet()) {
-                if (POLICY_VERSION.equals(metadataEntry.getKey())) {
-                    metadata.put(POLICY_VERSION, Integer.parseInt(metadataEntry.getValue()));
-                } else {
-                    metadata.put(metadataEntry.getKey(), metadataEntry.getValue());
-                }
-            }
+            final Map<String, Object> metadata = new LinkedHashMap<>(toscaPolicy.getMetadata());
+
+            // if version exists, convert it to int
+            metadata.computeIfPresent(POLICY_VERSION, (key,val) -> Integer.parseInt(val.toString()));
+
             legacyGuardPolicyOutput.setMetadata(metadata);
 
             if (toscaPolicy.getProperties() == null) {
