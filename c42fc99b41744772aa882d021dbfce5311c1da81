@@ -16,6 +16,24 @@
       "revId": "c42fc99b41744772aa882d021dbfce5311c1da81",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08b83d03_d56438d3",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/legacy/mapping/LegacyGuardPolicyMapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-06-07T17:12:28Z",
+      "side": 1,
+      "message": "Hmm, Jim, seems I don\u0027t get it. Could you explain a little more?",
+      "parentUuid": "68dadfd9_6305ccb2",
+      "revId": "c42fc99b41744772aa882d021dbfce5311c1da81",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
