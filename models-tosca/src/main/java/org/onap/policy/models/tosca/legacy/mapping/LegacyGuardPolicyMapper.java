@@ -115,7 +115,7 @@ public class LegacyGuardPolicyMapper
 
             final LegacyGuardPolicyOutput legacyGuardPolicyOutput = new LegacyGuardPolicyOutput();
             legacyGuardPolicyOutput.setType(toscaPolicy.getType().getName());
-            legacyGuardPolicyOutput.setVersion(toscaPolicy.getType().getVersion());
+            legacyGuardPolicyOutput.setVersion(toscaPolicy.getKey().getVersion());
 
             if (toscaPolicy.getMetadata() == null) {
                 String errorMessage = "no metadata defined on TOSCA policy";
