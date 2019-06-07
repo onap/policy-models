@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19108113_ad995866",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/legacy/mapping/LegacyGuardPolicyMapperTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-06-07T17:47:37Z",
+      "side": 1,
+      "message": "Should never ben 0.0.1 - always x.0.0",
+      "range": {
+        "startLine": 64,
+        "startChar": 22,
+        "endLine": 64,
+        "endChar": 27
+      },
+      "revId": "a530e803b21688bcc3b357bec1eefe4a7174e785",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
