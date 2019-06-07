@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c5044c6c_fdacf181",
+        "filename": "models-interactions/model-impl/cds/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-06-07T13:33:30Z",
+      "side": 1,
+      "message": "Sure, done",
+      "parentUuid": "4e25d479_f9d3741e",
+      "range": {
+        "startLine": 89,
+        "startChar": 6,
+        "endLine": 89,
+        "endChar": 39
+      },
+      "revId": "dfbb881cd60892cb63b5d7dc7d3859581f239cb3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fefb856d_d2c1132c",
         "filename": "models-interactions/model-impl/cds/src/main/java/org/onap/policy/cds/client/BasicAuthClientHeaderInterceptor.java",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2019-06-07T13:28:03Z",
       "side": 1,
       "message": "I know this is trivial, but a new file would only need 2019\n:)",
+      "range": {
+        "startLine": 3,
+        "startChar": 17,
+        "endLine": 3,
+        "endChar": 24
+      },
+      "revId": "dfbb881cd60892cb63b5d7dc7d3859581f239cb3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ee57dda_e3d8b2a8",
+        "filename": "models-interactions/model-impl/cds/src/main/java/org/onap/policy/cds/client/BasicAuthClientHeaderInterceptor.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-06-07T13:33:30Z",
+      "side": 1,
+      "message": "ya will fix those.",
+      "parentUuid": "fefb856d_d2c1132c",
       "range": {
         "startLine": 3,
         "startChar": 17,
