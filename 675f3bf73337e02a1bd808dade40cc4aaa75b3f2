@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "edc1a2d0_7ea6159c",
+        "filename": "models-interactions/model-impl/cds/src/main/java/org/onap/policy/cds/api/CdsProcessorListener.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-06-11T13:29:47Z",
+      "side": 1,
+      "message": "\"upto\" \u003d\u003e \"up to\"",
+      "revId": "675f3bf73337e02a1bd808dade40cc4aaa75b3f2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0df8610_cbb5420b",
+        "filename": "models-interactions/model-impl/cds/src/main/java/org/onap/policy/cds/properties/CdsServerProperties.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-06-11T13:29:47Z",
+      "side": 1,
+      "message": "I don\u0027t think this is needed now",
+      "revId": "675f3bf73337e02a1bd808dade40cc4aaa75b3f2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "20d0a2b9_3c23e097",
+        "filename": "models-interactions/model-impl/cds/src/main/java/org/onap/policy/cds/properties/CdsServerProperties.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-06-11T13:29:47Z",
+      "side": 1,
+      "message": "\"0\" \u003d\u003e \"1\"?",
+      "revId": "675f3bf73337e02a1bd808dade40cc4aaa75b3f2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79b525c4_1cdb8052",
+        "filename": "models-interactions/model-impl/cds/src/test/java/org/onap/policy/cds/client/BasicAuthClientHeaderInterceptorTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-06-11T13:29:47Z",
+      "side": 1,
+      "message": "is \"{}\" needed?",
+      "revId": "675f3bf73337e02a1bd808dade40cc4aaa75b3f2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e23ab6e_3f2fcc12",
+        "filename": "models-interactions/model-impl/cds/src/test/java/org/onap/policy/cds/client/BasicAuthClientHeaderInterceptorTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-06-11T13:29:47Z",
+      "side": 1,
+      "message": "extra indentation doesn\u0027t match onNext()",
+      "revId": "675f3bf73337e02a1bd808dade40cc4aaa75b3f2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
