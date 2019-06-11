@@ -66,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "aace10b9_a9bcd1b5",
+        "filename": "models-interactions/model-impl/cds/src/main/java/org/onap/policy/cds/api/CdsProcessorListener.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-06-11T03:38:19Z",
+      "side": 1,
+      "message": "Since the communication to CDS gRPC server uses a streaming approach, i.e. when client sends a request the server can respond in multiple sub-responses, the completion will be handled in the onMessage implementation by checking the status of the ExecutionServiceOutput message. The CDS proto file defining these response types can be found at: https://github.com/onap/ccsdk-cds/blob/c90edac236dffb7c495e266dd04991de7e8f04b7/components/model-catalog/proto-definition/proto/BluePrintCommon.proto#L33|L38\n\nI will add a few lines in the javadocs on this",
+      "parentUuid": "99615268_0692f102",
+      "revId": "dfbb881cd60892cb63b5d7dc7d3859581f239cb3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fefb856d_d2c1132c",
         "filename": "models-interactions/model-impl/cds/src/main/java/org/onap/policy/cds/client/BasicAuthClientHeaderInterceptor.java",
         "patchSetId": 7
@@ -181,6 +199,24 @@
     },
     {
       "key": {
+        "uuid": "ae410d15_a364df90",
+        "filename": "models-interactions/model-impl/cds/src/test/java/org/onap/policy/cds/client/BasicAuthClientHeaderInterceptorTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-06-11T03:38:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bb8c06b_7bc09a7c",
+      "revId": "dfbb881cd60892cb63b5d7dc7d3859581f239cb3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9590869_0fa05daa",
         "filename": "models-interactions/model-impl/cds/src/test/java/org/onap/policy/cds/client/BasicAuthClientHeaderInterceptorTest.java",
         "patchSetId": 7
@@ -192,6 +228,24 @@
       "writtenOn": "2019-06-07T14:01:02Z",
       "side": 1,
       "message": "I\u0027m not sure, but sonar may prefer this be done using functional-style syntax",
+      "revId": "dfbb881cd60892cb63b5d7dc7d3859581f239cb3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dea5e581_f97f85dc",
+        "filename": "models-interactions/model-impl/cds/src/test/java/org/onap/policy/cds/client/BasicAuthClientHeaderInterceptorTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-06-11T03:38:19Z",
+      "side": 1,
+      "message": "Okie, will fix it to remove the sonar issue",
+      "parentUuid": "d9590869_0fa05daa",
       "revId": "dfbb881cd60892cb63b5d7dc7d3859581f239cb3",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -215,6 +269,24 @@
     },
     {
       "key": {
+        "uuid": "c48ef832_4073d2da",
+        "filename": "models-interactions/model-impl/cds/src/test/java/org/onap/policy/cds/client/BasicAuthClientHeaderInterceptorTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-06-11T03:38:19Z",
+      "side": 1,
+      "message": "Yes, done",
+      "parentUuid": "615723b2_d93af0dc",
+      "revId": "dfbb881cd60892cb63b5d7dc7d3859581f239cb3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eebd4061_b09299f0",
         "filename": "models-interactions/model-impl/cds/src/test/java/org/onap/policy/cds/client/BasicAuthClientHeaderInterceptorTest.java",
         "patchSetId": 7
@@ -226,6 +298,24 @@
       "writtenOn": "2019-06-07T14:01:02Z",
       "side": 1,
       "message": "doesn\u0027t appear that this method is needed",
+      "revId": "dfbb881cd60892cb63b5d7dc7d3859581f239cb3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3bef5a2_03bdecd2",
+        "filename": "models-interactions/model-impl/cds/src/test/java/org/onap/policy/cds/client/BasicAuthClientHeaderInterceptorTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-06-11T03:38:19Z",
+      "side": 1,
+      "message": "I need a dummy implementation of the BluePrintProcessing grpc server in order to register it and intercept it in L104.",
+      "parentUuid": "eebd4061_b09299f0",
       "revId": "dfbb881cd60892cb63b5d7dc7d3859581f239cb3",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -249,6 +339,24 @@
     },
     {
       "key": {
+        "uuid": "38752592_3ef5365a",
+        "filename": "models-interactions/model-impl/cds/src/test/java/org/onap/policy/cds/client/BasicAuthClientHeaderInterceptorTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-06-11T03:38:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f689a3b8_b9359787",
+      "revId": "dfbb881cd60892cb63b5d7dc7d3859581f239cb3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "01713008_f30c8305",
         "filename": "models-interactions/model-impl/cds/src/test/java/org/onap/policy/cds/client/CdsProcessorGrpcClientTest.java",
         "patchSetId": 7
@@ -260,6 +368,24 @@
       "writtenOn": "2019-06-07T14:01:02Z",
       "side": 1,
       "message": "this @Mock annotation is not needed",
+      "revId": "dfbb881cd60892cb63b5d7dc7d3859581f239cb3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b2c9b5b_6a591582",
+        "filename": "models-interactions/model-impl/cds/src/test/java/org/onap/policy/cds/client/CdsProcessorGrpcClientTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-06-11T03:38:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01713008_f30c8305",
       "revId": "dfbb881cd60892cb63b5d7dc7d3859581f239cb3",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -283,6 +409,24 @@
     },
     {
       "key": {
+        "uuid": "d00fad7e_389b75a8",
+        "filename": "models-interactions/model-impl/cds/src/test/java/org/onap/policy/cds/client/CdsProcessorGrpcClientTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-06-11T03:38:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78a54846_efb673c7",
+      "revId": "dfbb881cd60892cb63b5d7dc7d3859581f239cb3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cec42585_c6647759",
         "filename": "models-interactions/model-impl/cds/src/test/java/org/onap/policy/cds/client/CdsProcessorGrpcClientTest.java",
         "patchSetId": 7
@@ -294,6 +438,24 @@
       "writtenOn": "2019-06-07T14:01:02Z",
       "side": 1,
       "message": "this is redundant with line 173",
+      "revId": "dfbb881cd60892cb63b5d7dc7d3859581f239cb3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db6a7aa5_9a7f5b47",
+        "filename": "models-interactions/model-impl/cds/src/test/java/org/onap/policy/cds/client/CdsProcessorGrpcClientTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-06-11T03:38:19Z",
+      "side": 1,
+      "message": "wil remove L173",
+      "parentUuid": "cec42585_c6647759",
       "revId": "dfbb881cd60892cb63b5d7dc7d3859581f239cb3",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
