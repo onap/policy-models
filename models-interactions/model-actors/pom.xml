@@ -38,6 +38,7 @@
     <module>actor.appclcm</module>
     <module>actor.sdnr</module>
     <module>actor.so</module>
+    <module>actor.cds</module>
     <module>actor.test</module>
   </modules>
   <dependencies>
