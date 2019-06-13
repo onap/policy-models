@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -74,7 +75,7 @@ public class DummyPfKey extends PfKey {
 
     @Override
     public void clean() {
-
+        // nothing to do
     }
 
     @Override
@@ -84,7 +85,7 @@ public class DummyPfKey extends PfKey {
 
     @Override
     public String toString() {
-        return null;
+        return "";
     }
 
     @Override

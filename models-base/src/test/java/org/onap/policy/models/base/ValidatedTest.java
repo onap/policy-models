@@ -3,6 +3,7 @@
  * ONAP Policy Models
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,6 +36,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ValidatedTest {
+    private static final String COLLECTION_TEXT = "collection";
     private static final String ERROR_MESSAGE = "error message";
     private static final String COLLECTION_FIELD = "coll";
     private static final String VALID_VALUE = "abc123";
@@ -236,7 +238,7 @@ public class ValidatedTest {
     @Test
     public void testValidateCollectionNotNull() {
         PfValidationResult result = new PfValidationResult();
-        result = validated.validateCollectionNotNull(this, "collection", null, result);
+        result = validated.validateCollectionNotNull(this, COLLECTION_TEXT, null, result);
         assertTrue(result.isValid());
         assertEquals(0, result.getMessageList().size());
 
@@ -273,7 +275,7 @@ public class ValidatedTest {
     @Test
     public void testValidateCollection() {
         PfValidationResult result = new PfValidationResult();
-        result = validated.validateCollection(this, "collection", null, result);
+        result = validated.validateCollection(this, COLLECTION_TEXT, null, result);
         assertTrue(result.isValid());
         assertEquals(0, result.getMessageList().size());
 
@@ -310,7 +312,7 @@ public class ValidatedTest {
     @Test
     public void testValidateConceptCollection() {
         PfValidationResult result = new PfValidationResult();
-        result = validated.validateConceptCollection(this, "collection", null, result);
+        result = validated.validateConceptCollection(this, COLLECTION_TEXT, null, result);
         assertTrue(result.isValid());
         assertEquals(0, result.getMessageList().size());
 
