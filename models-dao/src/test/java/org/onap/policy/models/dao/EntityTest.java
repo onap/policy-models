@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,11 +21,11 @@
 
 package org.onap.policy.models.dao;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,21 +33,27 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.UUID;
-
 import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfReferenceKey;
-import org.onap.policy.models.dao.DaoParameters;
-import org.onap.policy.models.dao.PfDao;
-import org.onap.policy.models.dao.PfDaoFactory;
 import org.onap.policy.models.dao.impl.DefaultPfDao;
 
 /**
  * JUnit test class.
  */
 public class EntityTest {
+    private static final String DESCRIPTION2 = "key description 2";
+    private static final String DESCRIPTION1 = "key description 1";
+    private static final String DESCRIPTION0 = "key description 0";
+    private static final String ENTITY0 = "Entity0";
+    private static final String UUID2 = "00000000-0000-0000-0000-000000000002";
+    private static final String UUID1 = "00000000-0000-0000-0000-000000000001";
+    private static final String UUID0 = "00000000-0000-0000-0000-000000000000";
+    private static final String VERSION003 = "0.0.3";
+    private static final String VERSION002 = "0.0.2";
+    private static final String VERSION001 = "0.0.1";
     private PfDao pfDao;
 
     @Test
@@ -65,34 +72,20 @@ public class EntityTest {
 
         pfDao = new PfDaoFactory().createPfDao(daoParameters);
 
-        try {
-            pfDao.init(null);
-            fail("Test should throw an exception here");
-        } catch (final Exception e) {
-            assertEquals("Policy Framework persistence unit parameter not set", e.getMessage());
-        }
+        assertThatThrownBy(() -> pfDao.init(null)).hasMessage("Policy Framework persistence unit parameter not set");
 
-        try {
-            pfDao.init(daoParameters);
-            fail("Test should throw an exception here");
-        } catch (final Exception e) {
-            assertEquals("Policy Framework persistence unit parameter not set", e.getMessage());
-        }
+        assertThatThrownBy(() -> pfDao.init(daoParameters))
+                        .hasMessage("Policy Framework persistence unit parameter not set");
 
         daoParameters.setPluginClass("somewhere.over.the.rainbow");
         daoParameters.setPersistenceUnit("Dorothy");
-        try {
-            pfDao.init(daoParameters);
-            fail("Test should throw an exception here");
-        } catch (final Exception e) {
-            assertEquals("Creation of Policy Framework persistence unit \"Dorothy\" failed", e.getMessage());
-        }
-        try {
-            pfDao.create(new PfConceptKey());
-            fail("Test should throw an exception here");
-        } catch (final Exception e) {
-            assertEquals("Policy Framework DAO has not been initialized", e.getMessage());
-        }
+
+        assertThatThrownBy(() -> pfDao.init(daoParameters))
+                        .hasMessage("Creation of Policy Framework persistence unit \"Dorothy\" failed");
+
+        assertThatThrownBy(() -> pfDao.create(new PfConceptKey()))
+                        .hasMessage("Policy Framework DAO has not been initialized");
+
         pfDao.close();
     }
 
@@ -167,15 +160,15 @@ public class EntityTest {
     }
 
     private void testAllOps() {
-        final PfConceptKey aKey0 = new PfConceptKey("A-KEY0", "0.0.1");
-        final PfConceptKey aKey1 = new PfConceptKey("A-KEY1", "0.0.1");
-        final PfConceptKey aKey2 = new PfConceptKey("A-KEY2", "0.0.1");
+        final PfConceptKey aKey0 = new PfConceptKey("A-KEY0", VERSION001);
+        final PfConceptKey aKey1 = new PfConceptKey("A-KEY1", VERSION001);
+        final PfConceptKey aKey2 = new PfConceptKey("A-KEY2", VERSION001);
         final DummyConceptEntity keyInfo0 = new DummyConceptEntity(aKey0,
-                UUID.fromString("00000000-0000-0000-0000-000000000000"), "key description 0");
+                UUID.fromString(UUID0), DESCRIPTION0);
         final DummyConceptEntity keyInfo1 = new DummyConceptEntity(aKey1,
-                UUID.fromString("00000000-0000-0000-0000-000000000001"), "key description 1");
+                UUID.fromString(UUID1), DESCRIPTION1);
         final DummyConceptEntity keyInfo2 = new DummyConceptEntity(aKey2,
-                UUID.fromString("00000000-0000-0000-0000-000000000002"), "key description 2");
+                UUID.fromString(UUID2), DESCRIPTION2);
 
         pfDao.create(keyInfo0);
 
@@ -189,69 +182,69 @@ public class EntityTest {
         assertTrue(keyInfoBack0.equals(keyInfoBack1));
 
         final DummyConceptEntity keyInfoBack2 =
-                pfDao.getConcept(DummyConceptEntity.class, new PfConceptKey("A-KEY3", "0.0.1"));
+                pfDao.getConcept(DummyConceptEntity.class, new PfConceptKey("A-KEY3", VERSION001));
         assertNull(keyInfoBack2);
 
-        final Set<DummyConceptEntity> keyInfoSetIn = new TreeSet<DummyConceptEntity>();
+        final Set<DummyConceptEntity> keyInfoSetIn = new TreeSet<>();
         keyInfoSetIn.add(keyInfo1);
         keyInfoSetIn.add(keyInfo2);
 
         pfDao.createCollection(keyInfoSetIn);
 
-        Set<DummyConceptEntity> keyInfoSetOut = new TreeSet<DummyConceptEntity>(pfDao.getAll(DummyConceptEntity.class));
+        Set<DummyConceptEntity> keyInfoSetOut = new TreeSet<>(pfDao.getAll(DummyConceptEntity.class));
 
         keyInfoSetIn.add(keyInfo0);
         assertTrue(keyInfoSetIn.equals(keyInfoSetOut));
 
         pfDao.delete(keyInfo1);
         keyInfoSetIn.remove(keyInfo1);
-        keyInfoSetOut = new TreeSet<DummyConceptEntity>(pfDao.getAll(DummyConceptEntity.class));
+        keyInfoSetOut = new TreeSet<>(pfDao.getAll(DummyConceptEntity.class));
         assertTrue(keyInfoSetIn.equals(keyInfoSetOut));
 
         pfDao.deleteCollection(keyInfoSetIn);
-        keyInfoSetOut = new TreeSet<DummyConceptEntity>(pfDao.getAll(DummyConceptEntity.class));
+        keyInfoSetOut = new TreeSet<>(pfDao.getAll(DummyConceptEntity.class));
         assertEquals(0, keyInfoSetOut.size());
 
         keyInfoSetIn.add(keyInfo0);
         keyInfoSetIn.add(keyInfo1);
         keyInfoSetIn.add(keyInfo0);
         pfDao.createCollection(keyInfoSetIn);
-        keyInfoSetOut = new TreeSet<DummyConceptEntity>(pfDao.getAll(DummyConceptEntity.class));
+        keyInfoSetOut = new TreeSet<>(pfDao.getAll(DummyConceptEntity.class));
         assertTrue(keyInfoSetIn.equals(keyInfoSetOut));
 
         pfDao.delete(DummyConceptEntity.class, aKey0);
-        keyInfoSetOut = new TreeSet<DummyConceptEntity>(pfDao.getAll(DummyConceptEntity.class));
+        keyInfoSetOut = new TreeSet<>(pfDao.getAll(DummyConceptEntity.class));
         assertEquals(2, keyInfoSetOut.size());
         assertEquals(2, pfDao.size(DummyConceptEntity.class));
 
-        final Set<PfConceptKey> keySetIn = new TreeSet<PfConceptKey>();
+        final Set<PfConceptKey> keySetIn = new TreeSet<>();
         keySetIn.add(aKey1);
         keySetIn.add(aKey2);
 
         final int deletedCount = pfDao.deleteByConceptKey(DummyConceptEntity.class, keySetIn);
         assertEquals(2, deletedCount);
 
-        keyInfoSetOut = new TreeSet<DummyConceptEntity>(pfDao.getAll(DummyConceptEntity.class));
+        keyInfoSetOut = new TreeSet<>(pfDao.getAll(DummyConceptEntity.class));
         assertEquals(0, keyInfoSetOut.size());
 
         keyInfoSetIn.add(keyInfo0);
         keyInfoSetIn.add(keyInfo1);
         keyInfoSetIn.add(keyInfo0);
         pfDao.createCollection(keyInfoSetIn);
-        keyInfoSetOut = new TreeSet<DummyConceptEntity>(pfDao.getAll(DummyConceptEntity.class));
+        keyInfoSetOut = new TreeSet<>(pfDao.getAll(DummyConceptEntity.class));
         assertTrue(keyInfoSetIn.equals(keyInfoSetOut));
 
         pfDao.deleteAll(DummyConceptEntity.class);
         assertEquals(0, pfDao.size(DummyConceptEntity.class));
 
-        final PfConceptKey owner0Key = new PfConceptKey("Owner0", "0.0.1");
-        final PfConceptKey owner1Key = new PfConceptKey("Owner1", "0.0.1");
-        final PfConceptKey owner2Key = new PfConceptKey("Owner2", "0.0.1");
-        final PfConceptKey owner3Key = new PfConceptKey("Owner3", "0.0.1");
-        final PfConceptKey owner4Key = new PfConceptKey("Owner4", "0.0.1");
-        final PfConceptKey owner5Key = new PfConceptKey("Owner5", "0.0.1");
+        final PfConceptKey owner0Key = new PfConceptKey("Owner0", VERSION001);
+        final PfConceptKey owner1Key = new PfConceptKey("Owner1", VERSION001);
+        final PfConceptKey owner2Key = new PfConceptKey("Owner2", VERSION001);
+        final PfConceptKey owner3Key = new PfConceptKey("Owner3", VERSION001);
+        final PfConceptKey owner4Key = new PfConceptKey("Owner4", VERSION001);
+        final PfConceptKey owner5Key = new PfConceptKey("Owner5", VERSION001);
 
-        pfDao.create(new DummyReferenceEntity(new PfReferenceKey(owner0Key, "Entity0"), 100.0));
+        pfDao.create(new DummyReferenceEntity(new PfReferenceKey(owner0Key, ENTITY0), 100.0));
         pfDao.create(new DummyReferenceEntity(new PfReferenceKey(owner0Key, "Entity1"), 101.0));
         pfDao.create(new DummyReferenceEntity(new PfReferenceKey(owner0Key, "Entity2"), 102.0));
         pfDao.create(new DummyReferenceEntity(new PfReferenceKey(owner0Key, "Entity3"), 103.0));
@@ -269,34 +262,34 @@ public class EntityTest {
         pfDao.create(new DummyReferenceEntity(new PfReferenceKey(owner5Key, "EntityF"), 115.0));
 
         TreeSet<DummyReferenceEntity> testEntitySetOut =
-                new TreeSet<DummyReferenceEntity>(pfDao.getAll(DummyReferenceEntity.class));
+                new TreeSet<>(pfDao.getAll(DummyReferenceEntity.class));
         assertEquals(16, testEntitySetOut.size());
 
-        testEntitySetOut = new TreeSet<DummyReferenceEntity>(pfDao.getAll(DummyReferenceEntity.class, owner0Key));
+        testEntitySetOut = new TreeSet<>(pfDao.getAll(DummyReferenceEntity.class, owner0Key));
         assertEquals(5, testEntitySetOut.size());
 
-        testEntitySetOut = new TreeSet<DummyReferenceEntity>(pfDao.getAll(DummyReferenceEntity.class, owner1Key));
+        testEntitySetOut = new TreeSet<>(pfDao.getAll(DummyReferenceEntity.class, owner1Key));
         assertEquals(3, testEntitySetOut.size());
 
-        testEntitySetOut = new TreeSet<DummyReferenceEntity>(pfDao.getAll(DummyReferenceEntity.class, owner2Key));
+        testEntitySetOut = new TreeSet<>(pfDao.getAll(DummyReferenceEntity.class, owner2Key));
         assertEquals(2, testEntitySetOut.size());
 
-        testEntitySetOut = new TreeSet<DummyReferenceEntity>(pfDao.getAll(DummyReferenceEntity.class, owner3Key));
+        testEntitySetOut = new TreeSet<>(pfDao.getAll(DummyReferenceEntity.class, owner3Key));
         assertEquals(1, testEntitySetOut.size());
 
-        testEntitySetOut = new TreeSet<DummyReferenceEntity>(pfDao.getAll(DummyReferenceEntity.class, owner4Key));
+        testEntitySetOut = new TreeSet<>(pfDao.getAll(DummyReferenceEntity.class, owner4Key));
         assertEquals(1, testEntitySetOut.size());
 
-        testEntitySetOut = new TreeSet<DummyReferenceEntity>(pfDao.getAll(DummyReferenceEntity.class, owner5Key));
+        testEntitySetOut = new TreeSet<>(pfDao.getAll(DummyReferenceEntity.class, owner5Key));
         assertEquals(4, testEntitySetOut.size());
 
-        assertNotNull(pfDao.get(DummyReferenceEntity.class, new PfReferenceKey(owner0Key, "Entity0")));
-        assertNotNull(pfDao.getConcept(DummyReferenceEntity.class, new PfReferenceKey(owner0Key, "Entity0")));
+        assertNotNull(pfDao.get(DummyReferenceEntity.class, new PfReferenceKey(owner0Key, ENTITY0)));
+        assertNotNull(pfDao.getConcept(DummyReferenceEntity.class, new PfReferenceKey(owner0Key, ENTITY0)));
         assertNull(pfDao.get(DummyReferenceEntity.class, new PfReferenceKey(owner0Key, "Entity1000")));
         assertNull(pfDao.getConcept(DummyReferenceEntity.class, new PfReferenceKey(owner0Key, "Entity1000")));
-        pfDao.delete(DummyReferenceEntity.class, new PfReferenceKey(owner0Key, "Entity0"));
+        pfDao.delete(DummyReferenceEntity.class, new PfReferenceKey(owner0Key, ENTITY0));
 
-        final Set<PfReferenceKey> rKeySetIn = new TreeSet<PfReferenceKey>();
+        final Set<PfReferenceKey> rKeySetIn = new TreeSet<>();
         rKeySetIn.add(new PfReferenceKey(owner4Key, "EntityB"));
         rKeySetIn.add(new PfReferenceKey(owner5Key, "EntityD"));
 
@@ -307,24 +300,24 @@ public class EntityTest {
     }
 
     private void testVersionOps() {
-        final PfConceptKey aKey0 = new PfConceptKey("AAA0", "0.0.1");
-        final PfConceptKey aKey1 = new PfConceptKey("AAA0", "0.0.2");
-        final PfConceptKey aKey2 = new PfConceptKey("AAA0", "0.0.3");
-        final PfConceptKey bKey0 = new PfConceptKey("BBB0", "0.0.1");
-        final PfConceptKey bKey1 = new PfConceptKey("BBB0", "0.0.2");
-        final PfConceptKey bKey2 = new PfConceptKey("BBB0", "0.0.3");
+        final PfConceptKey aKey0 = new PfConceptKey("AAA0", VERSION001);
+        final PfConceptKey aKey1 = new PfConceptKey("AAA0", VERSION002);
+        final PfConceptKey aKey2 = new PfConceptKey("AAA0", VERSION003);
+        final PfConceptKey bKey0 = new PfConceptKey("BBB0", VERSION001);
+        final PfConceptKey bKey1 = new PfConceptKey("BBB0", VERSION002);
+        final PfConceptKey bKey2 = new PfConceptKey("BBB0", VERSION003);
         final DummyConceptEntity keyInfo0 = new DummyConceptEntity(aKey0,
-                UUID.fromString("00000000-0000-0000-0000-000000000000"), "key description 0");
+                UUID.fromString(UUID0), DESCRIPTION0);
         final DummyConceptEntity keyInfo1 = new DummyConceptEntity(aKey1,
-                UUID.fromString("00000000-0000-0000-0000-000000000001"), "key description 1");
+                UUID.fromString(UUID1), DESCRIPTION1);
         final DummyConceptEntity keyInfo2 = new DummyConceptEntity(aKey2,
-                UUID.fromString("00000000-0000-0000-0000-000000000002"), "key description 2");
+                UUID.fromString(UUID2), DESCRIPTION2);
         final DummyConceptEntity keyInfo3 = new DummyConceptEntity(bKey0,
-                UUID.fromString("00000000-0000-0000-0000-000000000000"), "key description 0");
+                UUID.fromString(UUID0), DESCRIPTION0);
         final DummyConceptEntity keyInfo4 = new DummyConceptEntity(bKey1,
-                UUID.fromString("00000000-0000-0000-0000-000000000001"), "key description 1");
+                UUID.fromString(UUID1), DESCRIPTION1);
         final DummyConceptEntity keyInfo5 = new DummyConceptEntity(bKey2,
-                UUID.fromString("00000000-0000-0000-0000-000000000002"), "key description 2");
+                UUID.fromString(UUID2), DESCRIPTION2);
 
         pfDao.create(keyInfo0);
         pfDao.create(keyInfo1);
@@ -339,24 +332,24 @@ public class EntityTest {
     }
 
     private void testgetFilteredOps() {
-        final PfConceptKey aKey0 = new PfConceptKey("AAA0", "0.0.1");
-        final PfConceptKey aKey1 = new PfConceptKey("AAA0", "0.0.2");
-        final PfConceptKey aKey2 = new PfConceptKey("AAA0", "0.0.3");
-        final PfConceptKey bKey0 = new PfConceptKey("BBB0", "0.0.1");
-        final PfConceptKey bKey1 = new PfConceptKey("BBB0", "0.0.2");
-        final PfConceptKey bKey2 = new PfConceptKey("BBB0", "0.0.3");
+        final PfConceptKey aKey0 = new PfConceptKey("AAA0", VERSION001);
+        final PfConceptKey aKey1 = new PfConceptKey("AAA0", VERSION002);
+        final PfConceptKey aKey2 = new PfConceptKey("AAA0", VERSION003);
+        final PfConceptKey bKey0 = new PfConceptKey("BBB0", VERSION001);
+        final PfConceptKey bKey1 = new PfConceptKey("BBB0", VERSION002);
+        final PfConceptKey bKey2 = new PfConceptKey("BBB0", VERSION003);
         final DummyConceptEntity keyInfo0 = new DummyConceptEntity(aKey0,
-                UUID.fromString("00000000-0000-0000-0000-000000000000"), "key description 0");
+                UUID.fromString(UUID0), DESCRIPTION0);
         final DummyConceptEntity keyInfo1 = new DummyConceptEntity(aKey1,
-                UUID.fromString("00000000-0000-0000-0000-000000000001"), "key description 1");
+                UUID.fromString(UUID1), DESCRIPTION1);
         final DummyConceptEntity keyInfo2 = new DummyConceptEntity(aKey2,
-                UUID.fromString("00000000-0000-0000-0000-000000000002"), "key description 2");
+                UUID.fromString(UUID2), DESCRIPTION2);
         final DummyConceptEntity keyInfo3 = new DummyConceptEntity(bKey0,
-                UUID.fromString("00000000-0000-0000-0000-000000000000"), "key description 0");
+                UUID.fromString(UUID0), DESCRIPTION0);
         final DummyConceptEntity keyInfo4 = new DummyConceptEntity(bKey1,
-                UUID.fromString("00000000-0000-0000-0000-000000000001"), "key description 1");
+                UUID.fromString(UUID1), DESCRIPTION1);
         final DummyConceptEntity keyInfo5 = new DummyConceptEntity(bKey2,
-                UUID.fromString("00000000-0000-0000-0000-000000000002"), "key description 2");
+                UUID.fromString(UUID2), DESCRIPTION2);
 
         pfDao.create(keyInfo0);
         pfDao.create(keyInfo1);
@@ -368,7 +361,7 @@ public class EntityTest {
         assertEquals(6, pfDao.getFiltered(DummyConceptEntity.class, null, null).size());
         assertEquals(3, pfDao.getFiltered(DummyConceptEntity.class, "AAA0", null).size());
         assertEquals(3, pfDao.getFiltered(DummyConceptEntity.class, "BBB0", null).size());
-        assertEquals(1, pfDao.getFiltered(DummyConceptEntity.class, "BBB0", "0.0.3").size());
-        assertEquals(6, pfDao.getFiltered(DummyConceptEntity.class, null, "0.0.3").size());
+        assertEquals(1, pfDao.getFiltered(DummyConceptEntity.class, "BBB0", VERSION003).size());
+        assertEquals(6, pfDao.getFiltered(DummyConceptEntity.class, null, VERSION003).size());
     }
 }

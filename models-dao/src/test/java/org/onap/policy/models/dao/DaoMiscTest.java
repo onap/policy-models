@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,19 +21,18 @@
 
 package org.onap.policy.models.dao;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
 
 import java.util.Properties;
-
 import org.junit.Test;
-import org.onap.policy.models.dao.DaoParameters;
-import org.onap.policy.models.dao.PfDaoFactory;
 import org.onap.policy.models.dao.converters.CDataConditioner;
 import org.onap.policy.models.dao.converters.Uuid2String;
 
 public class DaoMiscTest {
+
+    private static final String SOMEWHERE_OVER_THE_RAINBOW = "somewhere.over.the.rainbow";
 
     @Test
     public void testUuid2StringMopUp() {
@@ -49,23 +49,13 @@ public class DaoMiscTest {
     public void testDaoFactory() {
         final DaoParameters daoParameters = new DaoParameters();
 
-        daoParameters.setPluginClass("somewhere.over.the.rainbow");
-        try {
-            new PfDaoFactory().createPfDao(daoParameters);
-            fail("test shold throw an exception here");
-        } catch (final Exception e) {
-            assertEquals("Policy Framework DAO class not found for DAO plugin \"somewhere.over.the.rainbow\"",
-                    e.getMessage());
-        }
+        daoParameters.setPluginClass(SOMEWHERE_OVER_THE_RAINBOW);
+        assertThatThrownBy(() -> new PfDaoFactory().createPfDao(daoParameters)).hasMessage(
+                        "Policy Framework DAO class not found for DAO plugin \"somewhere.over.the.rainbow\"");
 
         daoParameters.setPluginClass("java.lang.String");
-        try {
-            new PfDaoFactory().createPfDao(daoParameters);
-            fail("test shold throw an exception here");
-        } catch (final Exception e) {
-            assertEquals("Specified DAO plugin class \"java.lang.String\" " + "does not implement the PfDao interface",
-                    e.getMessage());
-        }
+        assertThatThrownBy(() -> new PfDaoFactory().createPfDao(daoParameters)).hasMessage(
+                        "Specified DAO plugin class \"java.lang.String\" " + "does not implement the PfDao interface");
     }
 
     @Test
@@ -80,8 +70,8 @@ public class DaoMiscTest {
         pars.setPersistenceUnit("Kansas");
         assertEquals("Kansas", pars.getPersistenceUnit());
 
-        pars.setPluginClass("somewhere.over.the.rainbow");
-        assertEquals("somewhere.over.the.rainbow", pars.getPluginClass());
+        pars.setPluginClass(SOMEWHERE_OVER_THE_RAINBOW);
+        assertEquals(SOMEWHERE_OVER_THE_RAINBOW, pars.getPluginClass());
 
         assertEquals("DAOParameters [pluginClass=somewhere.over.the.rainbow, "
                 + "persistenceUnit=Kansas, jdbcProperties={name=Dorothy}]", pars.toString());
