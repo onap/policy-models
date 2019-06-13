@@ -24,17 +24,12 @@ package org.onap.policy.aai;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class AaiNqGenericVnfTest {
 
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {}
-
-    @AfterClass
-    public static void tearDownAfterClass() throws Exception {}
+    private static final String VERSION_ID = "98f410f6-4c63-447b-97d2-42508437cec0";
+    private static final String INVARIANT_ID = "653d2caa-7e47-4614-95b3-26c8d82755b8";
 
     @Test
     public void test() {
@@ -44,12 +39,12 @@ public class AaiNqGenericVnfTest {
         aaiNqGenericVnf.setIpv4Loopback0Address("aa");
         aaiNqGenericVnf.setIpv4OamAddress("oamAddress");
         aaiNqGenericVnf.setIsClosedLoopDisabled(false);
-        aaiNqGenericVnf.setModelInvariantId("653d2caa-7e47-4614-95b3-26c8d82755b8");
-        aaiNqGenericVnf.setModelVersionId("98f410f6-4c63-447b-97d2-42508437cec0");
+        aaiNqGenericVnf.setModelInvariantId(INVARIANT_ID);
+        aaiNqGenericVnf.setModelVersionId(VERSION_ID);
         aaiNqGenericVnf.setModelCustomizationId("SomeCustomizationId");
         aaiNqGenericVnf.setOperationalState("active");
-        aaiNqGenericVnf.setPersonaModelId("653d2caa-7e47-4614-95b3-26c8d82755b8");
-        aaiNqGenericVnf.setPersonaModelVersion("98f410f6-4c63-447b-97d2-42508437cec0");
+        aaiNqGenericVnf.setPersonaModelId(INVARIANT_ID);
+        aaiNqGenericVnf.setPersonaModelVersion(VERSION_ID);
         aaiNqGenericVnf.setProvStatus("complete");
         aaiNqGenericVnf.setResourceVersion("1505056714553");
         aaiNqGenericVnf.setServiceId("e8cb8968-5411-478b-906a-f28747de72cd");
@@ -64,12 +59,12 @@ public class AaiNqGenericVnfTest {
         assertEquals("aa", aaiNqGenericVnf.getIpv4Loopback0Address());
         assertEquals("oamAddress", aaiNqGenericVnf.getIpv4OamAddress());
         assertEquals(false, aaiNqGenericVnf.getIsClosedLoopDisabled());
-        assertEquals("653d2caa-7e47-4614-95b3-26c8d82755b8", aaiNqGenericVnf.getModelInvariantId());
-        assertEquals("98f410f6-4c63-447b-97d2-42508437cec0", aaiNqGenericVnf.getModelVersionId());
+        assertEquals(INVARIANT_ID, aaiNqGenericVnf.getModelInvariantId());
+        assertEquals(VERSION_ID, aaiNqGenericVnf.getModelVersionId());
         assertEquals("SomeCustomizationId", aaiNqGenericVnf.getModelCustomizationId());
         assertEquals("active", aaiNqGenericVnf.getOperationalState());
-        assertEquals("653d2caa-7e47-4614-95b3-26c8d82755b8", aaiNqGenericVnf.getPersonaModelId());
-        assertEquals("98f410f6-4c63-447b-97d2-42508437cec0", aaiNqGenericVnf.getPersonaModelVersion());
+        assertEquals(INVARIANT_ID, aaiNqGenericVnf.getPersonaModelId());
+        assertEquals(VERSION_ID, aaiNqGenericVnf.getPersonaModelVersion());
         assertEquals("complete", aaiNqGenericVnf.getProvStatus());
         assertEquals("1505056714553", aaiNqGenericVnf.getResourceVersion());
         assertEquals("e8cb8968-5411-478b-906a-f28747de72cd", aaiNqGenericVnf.getServiceId());

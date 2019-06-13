@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,6 +48,10 @@ import org.onap.policy.models.pdp.testconcepts.DummyJpaPdpSubgroupChild;
  */
 public class JpaPdpGroupTest {
 
+    private static final String NULL_KEY_ERROR = "key is marked @NonNull but is null";
+    private static final String PDP_GROUP0 = "PDPGroup0";
+    private static final String VERSION = "1.0.0";
+
     @Test
     public void testJpaPdpGroup() {
         assertThatThrownBy(() -> {
@@ -55,7 +60,7 @@ public class JpaPdpGroupTest {
 
         assertThatThrownBy(() -> {
             new JpaPdpGroup((PfConceptKey) null);
-        }).hasMessage("key is marked @NonNull but is null");
+        }).hasMessage(NULL_KEY_ERROR);
 
         assertThatThrownBy(() -> {
             new JpaPdpGroup((PdpGroup) null);
@@ -67,7 +72,7 @@ public class JpaPdpGroupTest {
 
         assertThatThrownBy(() -> {
             new JpaPdpGroup(null, null, null);
-        }).hasMessage("key is marked @NonNull but is null");
+        }).hasMessage(NULL_KEY_ERROR);
 
         assertThatThrownBy(() -> {
             new JpaPdpGroup(new PfConceptKey(), null, null);
@@ -79,31 +84,31 @@ public class JpaPdpGroupTest {
 
         assertThatThrownBy(() -> {
             new JpaPdpGroup(null, PdpState.PASSIVE, null);
-        }).hasMessage("key is marked @NonNull but is null");
+        }).hasMessage(NULL_KEY_ERROR);
 
         assertThatThrownBy(() -> {
             new JpaPdpGroup(null, PdpState.PASSIVE, new ArrayList<>());
-        }).hasMessage("key is marked @NonNull but is null");
+        }).hasMessage(NULL_KEY_ERROR);
 
         assertThatThrownBy(() -> {
             new JpaPdpGroup(null, null, new ArrayList<>());
-        }).hasMessage("key is marked @NonNull but is null");
+        }).hasMessage(NULL_KEY_ERROR);
 
         assertNotNull(new JpaPdpGroup((new PfConceptKey())));
         assertNotNull(new JpaPdpGroup((new JpaPdpGroup())));
 
         PdpGroup testPdpGroup = new PdpGroup();
-        testPdpGroup.setName("PDPGroup0");
+        testPdpGroup.setName(PDP_GROUP0);
         testPdpGroup.setPdpSubgroups(new ArrayList<>());
         JpaPdpGroup testJpaPdpGroup = new JpaPdpGroup();
         testJpaPdpGroup.setKey(null);
 
         testJpaPdpGroup.setKey(new PfConceptKey());
 
-        testPdpGroup.setVersion("1.0.0");
+        testPdpGroup.setVersion(VERSION);
         testJpaPdpGroup.fromAuthorative(testPdpGroup);
 
-        assertEquals("PDPGroup0", testJpaPdpGroup.getKey().getName());
+        assertEquals(PDP_GROUP0, testJpaPdpGroup.getKey().getName());
         testJpaPdpGroup.setKey(PfConceptKey.getNullKey());
         testJpaPdpGroup.fromAuthorative(testPdpGroup);
 
@@ -111,19 +116,19 @@ public class JpaPdpGroupTest {
             testJpaPdpGroup.fromAuthorative(null);
         }).hasMessage("pdpGroup is marked @NonNull but is null");
 
-        testJpaPdpGroup.setKey(new PfConceptKey("PDPGroup0", "1.0.0"));
+        testJpaPdpGroup.setKey(new PfConceptKey(PDP_GROUP0, VERSION));
         testJpaPdpGroup.fromAuthorative(testPdpGroup);
 
         assertThatThrownBy(() -> {
             testJpaPdpGroup.copyTo(null);
         }).hasMessage("target is marked @NonNull but is null");
 
-        assertEquals("PDPGroup0", testJpaPdpGroup.getKey().getName());
-        assertEquals("PDPGroup0", new JpaPdpGroup(testPdpGroup).getKey().getName());
-        assertEquals("PDPGroup0", ((PfConceptKey) new JpaPdpGroup(testPdpGroup).getKeys().get(0)).getName());
+        assertEquals(PDP_GROUP0, testJpaPdpGroup.getKey().getName());
+        assertEquals(PDP_GROUP0, new JpaPdpGroup(testPdpGroup).getKey().getName());
+        assertEquals(PDP_GROUP0, ((PfConceptKey) new JpaPdpGroup(testPdpGroup).getKeys().get(0)).getName());
 
         testJpaPdpGroup.clean();
-        assertEquals("PDPGroup0", testJpaPdpGroup.getKey().getName());
+        assertEquals(PDP_GROUP0, testJpaPdpGroup.getKey().getName());
 
         assertThatThrownBy(() -> {
             testJpaPdpGroup.validate(null);
@@ -135,7 +140,7 @@ public class JpaPdpGroupTest {
 
         testJpaPdpGroup.setKey(PfConceptKey.getNullKey());
         assertFalse(testJpaPdpGroup.validate(new PfValidationResult()).isOk());
-        testJpaPdpGroup.setKey(new PfConceptKey("PdpGroup0", "1.0.0"));
+        testJpaPdpGroup.setKey(new PfConceptKey("PdpGroup0", VERSION));
         assertTrue(testJpaPdpGroup.validate(new PfValidationResult()).isOk());
 
         testJpaPdpGroup.setDescription("   ");

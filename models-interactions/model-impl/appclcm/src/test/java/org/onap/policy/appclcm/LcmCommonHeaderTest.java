@@ -36,6 +36,10 @@ import org.junit.Test;
 
 public class LcmCommonHeaderTest {
 
+    private static final String KANSAS = "Kansas";
+    private static final String DOROTHY = "Dorothy";
+    private static final String CAN_I_GO_HOME = "Can I go home?";
+
     @Test
     public void testLcmCommonHeader() {
         LcmCommonHeader commonHeader = new LcmCommonHeader();
@@ -43,22 +47,22 @@ public class LcmCommonHeaderTest {
         assertNotNull(new LcmCommonHeader(commonHeader));
         assertNotEquals(0, commonHeader.hashCode());
 
-        commonHeader.setApiVer("Kansas");
-        assertEquals("Kansas", commonHeader.getApiVer());
+        commonHeader.setApiVer(KANSAS);
+        assertEquals(KANSAS, commonHeader.getApiVer());
 
         Map<String, String> flagMap = new HashMap<>();
         commonHeader.setFlags(flagMap);
         assertEquals(flagMap, commonHeader.getFlags());
 
-        commonHeader.setOriginatorId("Dorothy");
-        assertEquals("Dorothy", commonHeader.getOriginatorId());
+        commonHeader.setOriginatorId(DOROTHY);
+        assertEquals(DOROTHY, commonHeader.getOriginatorId());
 
         UUID requestId = UUID.randomUUID();
         commonHeader.setRequestId(requestId);
         assertEquals(requestId, commonHeader.getRequestId());
 
-        commonHeader.setSubRequestId("Can I go home?");
-        assertEquals("Can I go home?", commonHeader.getSubRequestId());
+        commonHeader.setSubRequestId(CAN_I_GO_HOME);
+        assertEquals(CAN_I_GO_HOME, commonHeader.getSubRequestId());
 
         Instant timestamp = Instant.now();
         commonHeader.setTimeStamp(timestamp);
@@ -91,9 +95,9 @@ public class LcmCommonHeaderTest {
         assertFalse(commonHeader.equals(copiedLcmCommonHeader));
         copiedLcmCommonHeader.setApiVer(null);
         assertTrue(commonHeader.equals(copiedLcmCommonHeader));
-        commonHeader.setApiVer("Kansas");
+        commonHeader.setApiVer(KANSAS);
         assertFalse(commonHeader.equals(copiedLcmCommonHeader));
-        copiedLcmCommonHeader.setApiVer("Kansas");
+        copiedLcmCommonHeader.setApiVer(KANSAS);
         assertTrue(commonHeader.equals(copiedLcmCommonHeader));
 
         commonHeader.setFlags(null);
@@ -109,9 +113,9 @@ public class LcmCommonHeaderTest {
         assertFalse(commonHeader.equals(copiedLcmCommonHeader));
         copiedLcmCommonHeader.setOriginatorId(null);
         assertTrue(commonHeader.equals(copiedLcmCommonHeader));
-        commonHeader.setOriginatorId("Dorothy");
+        commonHeader.setOriginatorId(DOROTHY);
         assertFalse(commonHeader.equals(copiedLcmCommonHeader));
-        copiedLcmCommonHeader.setOriginatorId("Dorothy");
+        copiedLcmCommonHeader.setOriginatorId(DOROTHY);
         assertTrue(commonHeader.equals(copiedLcmCommonHeader));
 
         commonHeader.setRequestId(null);
@@ -127,9 +131,9 @@ public class LcmCommonHeaderTest {
         assertFalse(commonHeader.equals(copiedLcmCommonHeader));
         copiedLcmCommonHeader.setSubRequestId(null);
         assertTrue(commonHeader.equals(copiedLcmCommonHeader));
-        commonHeader.setSubRequestId("Can I go home?");
+        commonHeader.setSubRequestId(CAN_I_GO_HOME);
         assertFalse(commonHeader.equals(copiedLcmCommonHeader));
-        copiedLcmCommonHeader.setSubRequestId("Can I go home?");
+        copiedLcmCommonHeader.setSubRequestId(CAN_I_GO_HOME);
         assertTrue(commonHeader.equals(copiedLcmCommonHeader));
 
         commonHeader.setTimeStamp(null);

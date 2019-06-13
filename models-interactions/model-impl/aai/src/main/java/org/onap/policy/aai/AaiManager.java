@@ -45,6 +45,8 @@ public final class AaiManager {
     /** The Constant logger. */
     private static final Logger logger = LoggerFactory.getLogger(AaiManager.class);
 
+    private static final String APPLICATION_JSON = "application/json";
+
     /** The rest manager. */
     // The REST manager used for processing REST calls for this AAI manager
     private final RestManager restManager;
@@ -77,7 +79,7 @@ public final class AaiManager {
             return null;
         } else {
             JSONObject responseObj = new JSONObject(getResponse);
-            JSONArray resultsArray = new JSONArray();
+            JSONArray resultsArray;
             if (responseObj.has("result-data")) {
                 resultsArray = (JSONArray) responseObj.get("result-data");
             } else {
@@ -138,7 +140,7 @@ public final class AaiManager {
         url = url + CQ_URL;
 
         Pair<Integer, String> httpDetails =
-                this.restManager.put(url, username, password, headers, "application/json", requestJson);
+                this.restManager.put(url, username, password, headers, APPLICATION_JSON, requestJson);
         logger.debug("RestManager.put after");
 
         if (httpDetails == null) {
@@ -232,7 +234,7 @@ public final class AaiManager {
         String requestJson = Serialization.gsonPretty.toJson(request);
         NetLoggerUtil.log(EventType.OUT, CommInfrastructure.REST, url, requestJson);
         Pair<Integer, String> httpDetails =
-                restManager.post(url, username, password, headers, "application/json", requestJson);
+                restManager.post(url, username, password, headers, APPLICATION_JSON, requestJson);
         logger.debug("RestManager.post after");
 
         if (httpDetails == null) {
@@ -360,7 +362,7 @@ public final class AaiManager {
 
         headers.put("X-FromAppId", "POLICY");
         headers.put("X-TransactionId", requestId.toString());
-        headers.put("Accept", "application/json");
+        headers.put("Accept", APPLICATION_JSON);
 
         return headers;
     }

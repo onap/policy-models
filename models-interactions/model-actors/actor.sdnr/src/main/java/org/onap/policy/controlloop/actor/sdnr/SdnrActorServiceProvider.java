@@ -70,7 +70,6 @@ public class SdnrActorServiceProvider implements Actor {
 
     // Strings for recipes
     private static final String RECIPE_MODIFY = "ModifyConfig";
-    private static final String RECIPE_MODIFY_ANR = "ModifyConfigANR";
 
     /* To be used in future releases when pci ModifyConfig is used */
     private static final String SDNR_REQUEST_PARAMS = "request-parameters";

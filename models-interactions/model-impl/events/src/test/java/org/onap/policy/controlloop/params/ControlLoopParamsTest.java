@@ -21,8 +21,8 @@
 
 package org.onap.policy.controlloop.params;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -41,11 +41,11 @@ public class ControlLoopParamsTest {
 
         ControlLoopParams params2 = new ControlLoopParams(params);
 
-        assertTrue(params2.getClosedLoopControlName().equals("name"));
-        assertTrue(params2.getControlLoopYaml().equals("yaml"));
-        assertTrue(params2.getPolicyName().equals("name"));
-        assertTrue(params2.getPolicyScope().equals("scope"));
-        assertTrue(params2.getPolicyVersion().equals("1"));
+        assertEquals("name", params2.getClosedLoopControlName());
+        assertEquals("yaml", params2.getControlLoopYaml());
+        assertEquals("name", params2.getPolicyName());
+        assertEquals("scope", params2.getPolicyScope());
+        assertEquals("1", params2.getPolicyVersion());
 
     }
 }

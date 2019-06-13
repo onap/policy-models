@@ -24,8 +24,6 @@ package org.onap.policy.aai;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.aai.util.Serialization;
 import org.slf4j.Logger;
@@ -33,12 +31,6 @@ import org.slf4j.LoggerFactory;
 
 public class AaiNqServiceInstanceTest {
     private static final Logger logger = LoggerFactory.getLogger(AaiNqServiceInstanceTest.class);
-
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {}
-
-    @AfterClass
-    public static void tearDownAfterClass() throws Exception {}
 
     @Test
     public void test() {

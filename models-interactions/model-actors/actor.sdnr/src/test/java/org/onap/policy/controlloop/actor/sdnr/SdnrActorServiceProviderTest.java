@@ -46,6 +46,8 @@ import org.slf4j.LoggerFactory;
 
 public class SdnrActorServiceProviderTest {
 
+    private static final String MODIFY_CONFIG = "ModifyConfig";
+
     private static final Logger logger = LoggerFactory.getLogger(SdnrActorServiceProviderTest.class);
 
     private static final VirtualControlLoopEvent onsetEvent;
@@ -73,7 +75,7 @@ public class SdnrActorServiceProviderTest {
         /* Construct an operation with an SDNR actor and ModifyConfig operation. */
         operation = new ControlLoopOperation();
         operation.setActor("SDNR");
-        operation.setOperation("ModifyConfig");
+        operation.setOperation(MODIFY_CONFIG);
         operation.setTarget("VNF");
         operation.setEnd(Instant.now());
         operation.setSubRequestId("1");
@@ -85,7 +87,7 @@ public class SdnrActorServiceProviderTest {
         policy.setActor("SDNR");
         policy.setTarget(new Target(TargetType.VNF));
         policy.getTarget().setResourceID("Eace933104d443b496b8.nodes.heat.vpg");
-        policy.setRecipe("ModifyConfig");
+        policy.setRecipe(MODIFY_CONFIG);
         policy.setPayload(null);
         policy.setRetry(2);
         policy.setTimeout(300);
@@ -132,7 +134,7 @@ public class SdnrActorServiceProviderTest {
 
         /* An action is required and cannot be null */
         assertNotNull(sdnrRequest.getAction());
-        assertEquals("ModifyConfig", sdnrRequest.getAction());
+        assertEquals(MODIFY_CONFIG, sdnrRequest.getAction());
 
         /* A payload is required and cannot be null */
         assertNotNull(sdnrRequest.getPayload());
@@ -147,7 +149,7 @@ public class SdnrActorServiceProviderTest {
         /* The JSON string must contain the following fields */
         assertTrue(jsonRequest.contains("CommonHeader"));
         assertTrue(jsonRequest.contains("Action"));
-        assertTrue(jsonRequest.contains("ModifyConfig"));
+        assertTrue(jsonRequest.contains(MODIFY_CONFIG));
         assertTrue(jsonRequest.contains("payload"));
 
         PciResponse sdnrResponse = new PciResponse(sdnrRequest);
@@ -164,7 +166,7 @@ public class SdnrActorServiceProviderTest {
 
         assertEquals("SDNR", sp.actor());
         assertEquals(1, sp.recipes().size());
-        assertEquals("VNF", sp.recipeTargets("ModifyConfig").get(0));
-        assertEquals(2, sp.recipePayloads("ModifyConfig").size());
+        assertEquals("VNF", sp.recipeTargets(MODIFY_CONFIG).get(0));
+        assertEquals(2, sp.recipePayloads(MODIFY_CONFIG).size());
     }
 }

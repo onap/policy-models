@@ -96,7 +96,7 @@ public class PdpProvider {
             throws PfModelException {
 
         for (PdpGroup pdpGroup : pdpGroups) {
-            JpaPdpGroup jpaPdpGroup = new JpaPdpGroup();;
+            JpaPdpGroup jpaPdpGroup = new JpaPdpGroup();
             jpaPdpGroup.fromAuthorative(pdpGroup);
 
             PfValidationResult validationResult = jpaPdpGroup.validate(new PfValidationResult());
@@ -133,7 +133,7 @@ public class PdpProvider {
             throws PfModelException {
 
         for (PdpGroup pdpGroup : pdpGroups) {
-            JpaPdpGroup jpaPdpGroup = new JpaPdpGroup();;
+            JpaPdpGroup jpaPdpGroup = new JpaPdpGroup();
             jpaPdpGroup.fromAuthorative(pdpGroup);
 
             PfValidationResult validationResult = jpaPdpGroup.validate(new PfValidationResult());

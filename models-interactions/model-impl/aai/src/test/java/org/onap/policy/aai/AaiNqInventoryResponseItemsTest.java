@@ -25,28 +25,25 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.LinkedList;
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.aai.util.Serialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class AaiNqInventoryResponseItemsTest {
+    private static final String WIDGET = "widget";
+    private static final String SERVICE_INSTANCE = "service-instance";
+    private static final String MODEL_VERSION_KEY = "model.model-version";
+    private static final String MODEL_TYPE_KEY = "model.model-type";
+    private static final String MODEL_NAME_KEY = "model.model-name";
+    private static final String MODEL_ID_KEY = "model.model-id";
     private static final Logger logger = LoggerFactory.getLogger(AaiNqInventoryResponseItemsTest.class);
-
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {}
-
-    @AfterClass
-    public static void tearDownAfterClass() throws Exception {}
 
     @Test
     public void test() {
         AaiNqInventoryResponseItem serviceItem = new AaiNqInventoryResponseItem();
-        serviceItem.setModelName("service-instance");
-        assertEquals("service-instance", serviceItem.getModelName());
+        serviceItem.setModelName(SERVICE_INSTANCE);
+        assertEquals(SERVICE_INSTANCE, serviceItem.getModelName());
 
         serviceItem.setServiceInstance(new AaiNqServiceInstance());
         serviceItem.getServiceInstance().setServiceInstanceId("dhv-test-vhnfportal-service-instance-id");
@@ -57,13 +54,13 @@ public class AaiNqInventoryResponseItemsTest {
         serviceItem.getServiceInstance().setResourceVersion("1485366092");
         serviceItem.setExtraProperties(new AaiNqExtraProperties());
         serviceItem.getExtraProperties().getExtraProperty()
-                .add(new AaiNqExtraProperty("model.model-name", "service-instance"));
-        serviceItem.getExtraProperties().getExtraProperty().add(new AaiNqExtraProperty("model.model-type", "widget"));
-        serviceItem.getExtraProperties().getExtraProperty().add(new AaiNqExtraProperty("model.model-version", "1.0"));
+                .add(new AaiNqExtraProperty(MODEL_NAME_KEY, SERVICE_INSTANCE));
+        serviceItem.getExtraProperties().getExtraProperty().add(new AaiNqExtraProperty(MODEL_TYPE_KEY, WIDGET));
+        serviceItem.getExtraProperties().getExtraProperty().add(new AaiNqExtraProperty(MODEL_VERSION_KEY, "1.0"));
         serviceItem.getExtraProperties().getExtraProperty()
-                .add(new AaiNqExtraProperty("model.model-id", "82194af1-3c2c-485a-8f44-420e22a9eaa4"));
+                .add(new AaiNqExtraProperty(MODEL_ID_KEY, "82194af1-3c2c-485a-8f44-420e22a9eaa4"));
         serviceItem.getExtraProperties().getExtraProperty()
-                .add(new AaiNqExtraProperty("model.model-name", "46b92144-923a-4d20-b85a-3cbd847668a9"));
+                .add(new AaiNqExtraProperty(MODEL_NAME_KEY, "46b92144-923a-4d20-b85a-3cbd847668a9"));
 
         AaiNqInventoryResponseItem vfModuleItem = new AaiNqInventoryResponseItem();
         vfModuleItem.setModelName("vf-module");
@@ -81,13 +78,13 @@ public class AaiNqInventoryResponseItemsTest {
         vfModuleItem.getVfModule().setContrailServiceInstanceFqdn("example-contrail-service-instance-fqdn-val-86796");
         vfModuleItem.setExtraProperties(new AaiNqExtraProperties());
         vfModuleItem.getExtraProperties().getExtraProperty()
-                .add(new AaiNqExtraProperty("model.model-name", "vf-module"));
-        vfModuleItem.getExtraProperties().getExtraProperty().add(new AaiNqExtraProperty("model.model-type", "widget"));
-        vfModuleItem.getExtraProperties().getExtraProperty().add(new AaiNqExtraProperty("model.model-version", "1.0"));
+                .add(new AaiNqExtraProperty(MODEL_NAME_KEY, "vf-module"));
+        vfModuleItem.getExtraProperties().getExtraProperty().add(new AaiNqExtraProperty(MODEL_TYPE_KEY, WIDGET));
+        vfModuleItem.getExtraProperties().getExtraProperty().add(new AaiNqExtraProperty(MODEL_VERSION_KEY, "1.0"));
         vfModuleItem.getExtraProperties().getExtraProperty()
-                .add(new AaiNqExtraProperty("model.model-id", "ef86f9c5-2165-44f3-8fc3-96018b609ea5"));
+                .add(new AaiNqExtraProperty(MODEL_ID_KEY, "ef86f9c5-2165-44f3-8fc3-96018b609ea5"));
         vfModuleItem.getExtraProperties().getExtraProperty()
-                .add(new AaiNqExtraProperty("model.model-name", "c00563ae-812b-4e62-8330-7c4d0f47088a"));
+                .add(new AaiNqExtraProperty(MODEL_NAME_KEY, "c00563ae-812b-4e62-8330-7c4d0f47088a"));
 
         AaiNqInventoryResponseItem genericVnfItem = new AaiNqInventoryResponseItem();
         genericVnfItem.setModelName("generic-vnf");
@@ -110,13 +107,13 @@ public class AaiNqInventoryResponseItemsTest {
         genericVnfItem.setExtraProperties(new AaiNqExtraProperties());
         genericVnfItem.getExtraProperties().setExtraProperty(new LinkedList<>());
         genericVnfItem.getExtraProperties().getExtraProperty()
-                .add(new AaiNqExtraProperty("model.model-name", "generic-vnf"));
+                .add(new AaiNqExtraProperty(MODEL_NAME_KEY, "generic-vnf"));
         genericVnfItem.getExtraProperties().getExtraProperty()
-                .add(new AaiNqExtraProperty("model.model-type", "widget"));
+                .add(new AaiNqExtraProperty(MODEL_TYPE_KEY, WIDGET));
         genericVnfItem.getExtraProperties().getExtraProperty()
-                .add(new AaiNqExtraProperty("model.model-version", "1.0"));
+                .add(new AaiNqExtraProperty(MODEL_VERSION_KEY, "1.0"));
         genericVnfItem.getExtraProperties().getExtraProperty()
-                .add(new AaiNqExtraProperty("model.model-id", "acc6edd8-a8d4-4b93-afaa-0994068be14c"));
+                .add(new AaiNqExtraProperty(MODEL_ID_KEY, "acc6edd8-a8d4-4b93-afaa-0994068be14c"));
         genericVnfItem.getExtraProperties().getExtraProperty()
                 .add(new AaiNqExtraProperty("model.model-name-version-id", "93a6166f-b3d5-4f06-b4ba-aed48d009ad9"));
         genericVnfItem.setItems(new AaiNqInventoryResponseItems());

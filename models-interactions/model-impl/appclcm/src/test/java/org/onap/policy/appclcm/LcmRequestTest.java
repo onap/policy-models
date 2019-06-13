@@ -34,6 +34,9 @@ import org.junit.Test;
 
 public class LcmRequestTest {
 
+    private static final String THE_EMERALD_CITY = "The Emerald City";
+    private static final String GO_TO_OZ = "Go to Oz";
+
     @Test
     public void testLcmRequest() {
         LcmRequest request = new LcmRequest();
@@ -45,8 +48,8 @@ public class LcmRequestTest {
         request.setCommonHeader(commonHeader);
         assertEquals(commonHeader, request.getCommonHeader());
 
-        request.setAction("Go to Oz");
-        assertEquals("Go to Oz", request.getAction());
+        request.setAction(GO_TO_OZ);
+        assertEquals(GO_TO_OZ, request.getAction());
 
         Map<String, String> actionIdentifiers = new HashMap<>();
         actionIdentifiers.put("North", "Good Witch");
@@ -55,8 +58,8 @@ public class LcmRequestTest {
         request.setActionIdentifiers(actionIdentifiers);
         assertEquals(actionIdentifiers, request.getActionIdentifiers());
 
-        request.setPayload("The Emerald City");
-        assertEquals("The Emerald City", request.getPayload());
+        request.setPayload(THE_EMERALD_CITY);
+        assertEquals(THE_EMERALD_CITY, request.getPayload());
 
         assertNotEquals(0, request.hashCode());
 
@@ -86,9 +89,9 @@ public class LcmRequestTest {
         assertFalse(request.equals(copiedLcmRequest));
         copiedLcmRequest.setAction(null);
         assertTrue(request.equals(copiedLcmRequest));
-        request.setAction("Go to Oz");
+        request.setAction(GO_TO_OZ);
         assertFalse(request.equals(copiedLcmRequest));
-        copiedLcmRequest.setAction("Go to Oz");
+        copiedLcmRequest.setAction(GO_TO_OZ);
         assertTrue(request.equals(copiedLcmRequest));
 
         request.setActionIdentifiers(null);
@@ -104,9 +107,9 @@ public class LcmRequestTest {
         assertFalse(request.equals(copiedLcmRequest));
         copiedLcmRequest.setPayload(null);
         assertTrue(request.equals(copiedLcmRequest));
-        request.setPayload("The Emerald City");
+        request.setPayload(THE_EMERALD_CITY);
         assertFalse(request.equals(copiedLcmRequest));
-        copiedLcmRequest.setPayload("The Emerald City");
+        copiedLcmRequest.setPayload(THE_EMERALD_CITY);
         assertTrue(request.equals(copiedLcmRequest));
     }
 }

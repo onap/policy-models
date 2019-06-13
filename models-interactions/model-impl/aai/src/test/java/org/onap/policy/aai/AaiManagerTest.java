@@ -44,6 +44,12 @@ import org.onap.policy.rest.RestManager;
 import org.onap.policy.rest.RestManager.Pair;
 
 public class AaiManagerTest {
+    private static final String VSERVER_NAME = "vserverName";
+    private static final String CQ_QUERY_URL = "http://testing.cq.query";
+    private static final String WITCH = "Witch";
+    private static final String DOROTHY = "Dorothy";
+    private static final String SOME_URL = "http://somewhere.over.the.rainbow";
+    private static final String ANOTHER_URL = "http://somewhere.under.the.rainbow";
     RestManager restManagerMock;
     UUID aaiNqRequestUuid = UUID.randomUUID();
     Pair<Integer, String> httpResponseOk;
@@ -92,14 +98,14 @@ public class AaiManagerTest {
 
         UUID vserverNameRequestId = UUID.randomUUID();
 
-        when(restManagerMock.put(startsWith("http://testing.cq.query"), eq("Foo"), eq("Bar"), anyMap(), anyString(),
+        when(restManagerMock.put(startsWith(CQ_QUERY_URL), eq("Foo"), eq("Bar"), anyMap(), anyString(),
                 anyString())).thenReturn(httpCqResponseOk);
 
-        when(restManagerMock.get(startsWith("http://testing.cq.query"), eq("Foo"), eq("Bar"), anyMap()))
+        when(restManagerMock.get(startsWith(CQ_QUERY_URL), eq("Foo"), eq("Bar"), anyMap()))
                 .thenReturn(httpTenantResponseOk);
 
         AaiCqResponse aaiCqResponse =
-                aaiManager.getCustomQueryResponse("http://testing.cq.query", "Foo", "Bar", vserverNameRequestId, "Foo");
+                aaiManager.getCustomQueryResponse(CQ_QUERY_URL, "Foo", "Bar", vserverNameRequestId, "Foo");
         assertNotNull(aaiCqResponse);
 
         when(restManagerMock.put(eq(""), eq("Foo"), eq("Bar"), anyMap(), anyString(), anyString()))
@@ -146,30 +152,30 @@ public class AaiManagerTest {
         AaiNqRequest aaiNqRequest = new AaiNqRequest();
         aaiNqRequest.setQueryParameters(aaiNqQueryParameters);
 
-        when(restManagerMock.post(startsWith("http://somewhere.over.the.rainbow"), eq("Dorothy"), eq("Gale"), anyMap(),
+        when(restManagerMock.post(startsWith(SOME_URL), eq(DOROTHY), eq("Gale"), anyMap(),
                 anyString(), anyString())).thenReturn(httpResponseOk);
 
-        AaiNqResponse aaiNqOkResponse = aaiManager.postQuery("http://somewhere.over.the.rainbow", "Dorothy", "Gale",
+        AaiNqResponse aaiNqOkResponse = aaiManager.postQuery(SOME_URL, DOROTHY, "Gale",
                 aaiNqRequest, aaiNqRequestUuid);
         assertNotNull(aaiNqOkResponse);
 
-        when(restManagerMock.post(isNull(), eq("Dorothy"), anyString(), anyMap(), anyString(), anyString()))
+        when(restManagerMock.post(isNull(), eq(DOROTHY), anyString(), anyMap(), anyString(), anyString()))
                 .thenReturn(null);
 
-        AaiNqResponse aaiNqNullResponse = aaiManager.postQuery(null, "Dorothy", "Gale", null, aaiNqRequestUuid);
+        AaiNqResponse aaiNqNullResponse = aaiManager.postQuery(null, DOROTHY, "Gale", null, aaiNqRequestUuid);
         assertNull(aaiNqNullResponse);
 
-        when(restManagerMock.post(startsWith("http://somewhere.over.the.rainbow"), eq("Witch"), eq("West"), anyMap(),
+        when(restManagerMock.post(startsWith(SOME_URL), eq(WITCH), eq("West"), anyMap(),
                 anyString(), anyString())).thenReturn(httpResponseErr0);
 
-        AaiNqResponse aaiNqNotOkResponse0 = aaiManager.postQuery("http://somewhere.over.the.rainbow", "Witch", "West",
+        AaiNqResponse aaiNqNotOkResponse0 = aaiManager.postQuery(SOME_URL, WITCH, "West",
                 aaiNqRequest, aaiNqRequestUuid);
         assertNull(aaiNqNotOkResponse0);
 
-        when(restManagerMock.post(startsWith("http://somewhere.under.the.rainbow"), eq("Witch"), eq("West"), anyMap(),
+        when(restManagerMock.post(startsWith(ANOTHER_URL), eq(WITCH), eq("West"), anyMap(),
                 anyString(), anyString())).thenReturn(httpResponseErr1);
 
-        AaiNqResponse aaiNqNotOkResponse1 = aaiManager.postQuery("http://somewhere.under.the.rainbow", "Witch", "West",
+        AaiNqResponse aaiNqNotOkResponse1 = aaiManager.postQuery(ANOTHER_URL, WITCH, "West",
                 aaiNqRequest, aaiNqRequestUuid);
         assertNull(aaiNqNotOkResponse1);
     }
@@ -181,22 +187,22 @@ public class AaiManagerTest {
 
         UUID vserverNameRequestId = UUID.randomUUID();
 
-        when(restManagerMock.get(startsWith("http://somewhere.over.the.rainbow"), eq("Dorothy"), eq("Gale"), anyMap()))
+        when(restManagerMock.get(startsWith(SOME_URL), eq(DOROTHY), eq("Gale"), anyMap()))
                 .thenReturn(httpResponseOk);
 
-        AaiGetVserverResponse vserverResponse = aaiManager.getQueryByVserverName("http://somewhere.over.the.rainbow",
-                "Dorothy", "Gale", vserverNameRequestId, "vserverName");
+        AaiGetVserverResponse vserverResponse = aaiManager.getQueryByVserverName(SOME_URL,
+                DOROTHY, "Gale", vserverNameRequestId, VSERVER_NAME);
         assertNotNull(vserverResponse);
 
         AaiGetVserverResponse vserverNullResponse =
-                aaiManager.getQueryByVserverName(null, "Dorothy", "Gale", vserverNameRequestId, "vserverName");
+                aaiManager.getQueryByVserverName(null, DOROTHY, "Gale", vserverNameRequestId, VSERVER_NAME);
         assertNull(vserverNullResponse);
 
-        when(restManagerMock.get(startsWith("http://somewhere.under.the.rainbow"), eq("Witch"), eq("West"), anyMap()))
+        when(restManagerMock.get(startsWith(ANOTHER_URL), eq(WITCH), eq("West"), anyMap()))
                 .thenReturn(httpResponseErr0);
 
         AaiGetVserverResponse vserverNotOkResponse0 = aaiManager.getQueryByVserverName(
-                "http://somewhere.under.the.rainbow", "Witch", "West", vserverNameRequestId, "vserverName");
+                ANOTHER_URL, WITCH, "West", vserverNameRequestId, VSERVER_NAME);
         assertNull(vserverNotOkResponse0);
     }
 
@@ -207,10 +213,10 @@ public class AaiManagerTest {
 
         UUID vserverNameRequestId = UUID.randomUUID();
 
-        when(restManagerMock.get(startsWith("http://somewhere.over.the.rainbow"), eq("Dorothy"), eq("Gale"), anyMap()))
+        when(restManagerMock.get(startsWith(SOME_URL), eq(DOROTHY), eq("Gale"), anyMap()))
                 .thenReturn(httpResponseOk);
 
-        AaiGetVnfResponse vnfResponse = aaiManager.getQueryByVnfId("http://somewhere.over.the.rainbow", "Dorothy",
+        AaiGetVnfResponse vnfResponse = aaiManager.getQueryByVnfId(SOME_URL, DOROTHY,
                 "Gale", vserverNameRequestId, "vnfID");
         assertNotNull(vnfResponse);
     }
@@ -222,10 +228,10 @@ public class AaiManagerTest {
 
         UUID vserverNameRequestId = UUID.randomUUID();
 
-        when(restManagerMock.get(startsWith("http://somewhere.over.the.rainbow"), eq("Dorothy"), eq("Gale"), anyMap()))
+        when(restManagerMock.get(startsWith(SOME_URL), eq(DOROTHY), eq("Gale"), anyMap()))
                 .thenReturn(httpResponseOk);
 
-        AaiGetVnfResponse vnfResponse = aaiManager.getQueryByVnfId("http://somewhere.over.the.rainbow", "Dorothy",
+        AaiGetVnfResponse vnfResponse = aaiManager.getQueryByVnfId(SOME_URL, DOROTHY,
                 "Gale", vserverNameRequestId, "vnfName");
         assertNotNull(vnfResponse);
     }

@@ -25,14 +25,12 @@ package org.onap.policy.controlloop.actor.vfc;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.UUID;
 import org.apache.commons.io.IOUtils;
-import org.eclipse.persistence.exceptions.JAXBException;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -47,16 +45,18 @@ import org.onap.policy.vfc.VfcRequest;
 
 public class VfcActorServiceProviderTest {
 
+    private static final String LOCAL_URL = "http://localhost:6666";
+    private static final String DOROTHY_GALE_1939 = "dorothy.gale.1939";
+    private static final String CQ_RESPONSE_JSON = "aai/AaiCqResponse.json";
+    private static final String RESTART = "Restart";
+
     /**
-     * Set up for test class.
+     * Set up before test class.
+     * @throws Exception if the A&AI simulator cannot be started
      */
     @BeforeClass
-    public static void setUpSimulator() {
-        try {
-            Util.buildAaiSim();
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
+    public static void setUpSimulator() throws Exception {
+        Util.buildAaiSim();
     }
 
     @AfterClass
@@ -74,40 +74,40 @@ public class VfcActorServiceProviderTest {
 
         assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null, null, null, null));
 
-        onset.getAai().put("generic-vnf.vnf-id", "dorothy.gale.1939");
+        onset.getAai().put("generic-vnf.vnf-id", DOROTHY_GALE_1939);
         assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null, null, null, null));
 
-        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null, "http://localhost:6666",
+        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null, LOCAL_URL,
                 "AAI", "AAI"));
 
         UUID requestId = UUID.randomUUID();
         onset.setRequestId(requestId);
-        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null, "http://localhost:6666",
+        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null, LOCAL_URL,
                 "AAI", "AAI"));
 
         onset.getAai().put("generic-vnf.vnf-name", "Dorothy");
-        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null, "http://localhost:6666",
+        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null, LOCAL_URL,
                 "AAI", null));
 
-        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null, "http://localhost:6666",
+        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null, LOCAL_URL,
                 "AAI", "AAI"));
 
         onset.getAai().put("service-instance.service-instance-id", "");
-        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null, "http://localhost:6666",
+        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null, LOCAL_URL,
                 "AAI", "AAI"));
 
         assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, new AaiGetVnfResponse(),
-                "http://localhost:6666", "AAI", "AAI"));
+                LOCAL_URL, "AAI", "AAI"));
 
-        policy.setRecipe("Restart");
+        policy.setRecipe(RESTART);
         assertNotNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, new AaiGetVnfResponse(),
-                "http://localhost:6666", "AAI", "AAI"));
+                LOCAL_URL, "AAI", "AAI"));
 
         VfcRequest request = VfcActorServiceProvider.constructRequest(onset, operation, policy, new AaiGetVnfResponse(),
-                "http://localhost:6666", "AAI", "AAI");
+                LOCAL_URL, "AAI", "AAI");
 
         assertEquals(requestId, Objects.requireNonNull(request).getRequestId());
-        assertEquals("dorothy.gale.1939", request.getHealRequest().getVnfInstanceId());
+        assertEquals(DOROTHY_GALE_1939, request.getHealRequest().getVnfInstanceId());
         assertEquals("restartvm", request.getHealRequest().getAdditionalParams().getAction());
     }
 
@@ -117,13 +117,13 @@ public class VfcActorServiceProviderTest {
 
         assertEquals("VFC", sp.actor());
         assertEquals(1, sp.recipes().size());
-        assertEquals("Restart", sp.recipes().get(0));
-        assertEquals("VM", sp.recipeTargets("Restart").get(0));
-        assertEquals(0, sp.recipePayloads("Restart").size());
+        assertEquals(RESTART, sp.recipes().get(0));
+        assertEquals("VM", sp.recipeTargets(RESTART).get(0));
+        assertEquals(0, sp.recipePayloads(RESTART).size());
     }
 
     @Test
-    public void testConstructRequestCq() throws IOException, JAXBException {
+    public void testConstructRequestCq() throws IOException {
         VirtualControlLoopEvent onset = new VirtualControlLoopEvent();
         ControlLoopOperation operation = new ControlLoopOperation();
 
@@ -132,7 +132,7 @@ public class VfcActorServiceProviderTest {
 
         assertNull(VfcActorServiceProvider.constructRequestCq(onset, operation, policy, null));
 
-        onset.getAai().put("generic-vnf.vnf-id", "dorothy.gale.1939");
+        onset.getAai().put("generic-vnf.vnf-id", DOROTHY_GALE_1939);
         assertNull(VfcActorServiceProvider.constructRequestCq(onset, operation, policy, null));
 
 
@@ -148,17 +148,17 @@ public class VfcActorServiceProviderTest {
         assertNull(VfcActorServiceProvider.constructRequestCq(onset, operation, policy, null));
 
         assertNull(VfcActorServiceProvider.constructRequestCq(onset, operation, policy,
-                loadAaiResponse("aai/AaiCqResponse.json")));
+                loadAaiResponse(CQ_RESPONSE_JSON)));
 
-        policy.setRecipe("Restart");
+        policy.setRecipe(RESTART);
         assertNotNull(VfcActorServiceProvider.constructRequestCq(onset, operation, policy,
-                loadAaiResponse("aai/AaiCqResponse.json")));
+                loadAaiResponse(CQ_RESPONSE_JSON)));
 
         VfcRequest request = VfcActorServiceProvider.constructRequestCq(onset, operation, policy,
-                loadAaiResponse("aai/AaiCqResponse.json"));
+                loadAaiResponse(CQ_RESPONSE_JSON));
 
         assertEquals(requestId, Objects.requireNonNull(request).getRequestId());
-        assertEquals("dorothy.gale.1939", request.getHealRequest().getVnfInstanceId());
+        assertEquals(DOROTHY_GALE_1939, request.getHealRequest().getVnfInstanceId());
         assertEquals("restartvm", request.getHealRequest().getAdditionalParams().getAction());
     }
 
@@ -168,9 +168,8 @@ public class VfcActorServiceProviderTest {
      * @param fileName name of the file containing the JSON response
      * @return output from the AAI vserver named-query
      * @throws IOException if the file cannot be read
-     * @throws JAXBException throws JAXBException
      */
-    private AaiCqResponse loadAaiResponse(String fileName) throws IOException, JAXBException {
+    private AaiCqResponse loadAaiResponse(String fileName) throws IOException {
         String resp = IOUtils.toString(getClass().getResource(fileName), StandardCharsets.UTF_8);
         return new AaiCqResponse(resp);
     }
