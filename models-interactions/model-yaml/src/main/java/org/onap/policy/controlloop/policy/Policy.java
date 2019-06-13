@@ -2,15 +2,15 @@
  * ============LICENSE_START=======================================================
  * policy-yaml
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -45,19 +45,19 @@ public class Policy implements Serializable {
     private String failureTimeout = FinalResult.FINAL_FAILURE_TIMEOUT.toString();
     private String failureException = FinalResult.FINAL_FAILURE_EXCEPTION.toString();
     private String failureGuard = FinalResult.FINAL_FAILURE_GUARD.toString();
-    
-    
+
+
     public Policy() {
         //Does Nothing Empty Constructor
     }
-    
+
     public Policy(String id) {
         this.id = id;
     }
-    
+
     /**
      * Constructor.
-     * 
+     *
      * @param name name
      * @param actor actor
      * @param recipe recipe
@@ -73,10 +73,10 @@ public class Policy implements Serializable {
             this.payload = Collections.unmodifiableMap(payload);
         }
     }
-    
+
     /**
      * Constructor.
-     * 
+     *
      * @param name name
      * @param actor actor
      * @param recipe recipe
@@ -91,7 +91,7 @@ public class Policy implements Serializable {
         this.retry = retries;
         this.timeout = timeout;
     }
-    
+
     /**
      * Constructor.
      *
@@ -103,10 +103,10 @@ public class Policy implements Serializable {
         this.id = policyParam.getId();
         this.description = policyParam.getDescription();
     }
-    
+
     /**
      * Constructor.
-     * 
+     *
      * @param policy copy object
      */
     public Policy(Policy policy) {
@@ -259,13 +259,14 @@ public class Policy implements Serializable {
     }
 
     public boolean isValid() {
-        return id != null && name != null && actor != null && recipe != null && target != null;
+        boolean isValid = id != null && name != null && actor != null;
+        return isValid && recipe != null && target != null;
     }
 
     @Override
     public String toString() {
         return "Policy [id=" + id + ", name=" + name + ", description=" + description + ", actor=" + actor + ", recipe="
-                + recipe + ", payload=" + payload + ", target=" + target + ", operationsAccumulateParams=" 
+                + recipe + ", payload=" + payload + ", target=" + target + ", operationsAccumulateParams="
                 + operationsAccumulateParams + ", retry=" + retry + ", timeout=" + timeout
                 + ", success=" + success + ", failure=" + failure + ", failure_retries=" + failureRetries
                 + ", failure_timeout=" + failureTimeout + ", failure_exception=" + failureException
@@ -293,7 +294,7 @@ public class Policy implements Serializable {
         result = addHashCodeForField(result, timeout);
         return result;
     }
-    
+
     private int addHashCodeForField(int hashCode, Object field) {
         final int prime = 31;
         return prime * hashCode + ((field == null) ? 0 : field.hashCode());
@@ -311,23 +312,29 @@ public class Policy implements Serializable {
             return false;
         }
         Policy other = (Policy) obj;
-        return equalsMayBeNull(actor, other.actor)
+        boolean isEq = equalsMayBeNull(actor, other.actor)
                 && equalsMayBeNull(description, other.description)
-                && equalsMayBeNull(failure, other.failure)
+                && equalsMayBeNull(failure, other.failure);
+        isEq = isEq
                 && equalsMayBeNull(failureException, other.failureException)
-                && equalsMayBeNull(failureGuard, other.failureGuard)
+                && equalsMayBeNull(failureGuard, other.failureGuard);
+        isEq = isEq
                 && equalsMayBeNull(failureRetries, other.failureRetries)
-                && equalsMayBeNull(id, other.id)
+                && equalsMayBeNull(id, other.id);
+        isEq = isEq
                 && equalsMayBeNull(name, other.name)
-                && equalsMayBeNull(payload, other.payload)
+                && equalsMayBeNull(payload, other.payload);
+        isEq = isEq
                 && equalsMayBeNull(recipe, other.recipe)
-                && equalsMayBeNull(retry, other.retry)
+                && equalsMayBeNull(retry, other.retry);
+        isEq = isEq
                 && equalsMayBeNull(success, other.success)
-                && equalsMayBeNull(operationsAccumulateParams, other.operationsAccumulateParams)
+                && equalsMayBeNull(operationsAccumulateParams, other.operationsAccumulateParams);
+        return isEq
                 && equalsMayBeNull(target, other.target)
                 && equalsMayBeNull(timeout, other.timeout);
     }
-    
+
     private boolean equalsMayBeNull(final Object obj1, final Object obj2) {
         if ( obj1 == null ) {
             return obj2 == null;

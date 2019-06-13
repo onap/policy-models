@@ -1,7 +1,7 @@
-package org.onap.policy.models.base;
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,11 +19,13 @@ package org.onap.policy.models.base;
  * ============LICENSE_END=========================================================
  */
 
+package org.onap.policy.models.base;
+
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import org.junit.Test;
 import org.onap.policy.models.base.testconcepts.DummyPfModel;
@@ -35,28 +37,21 @@ import org.onap.policy.models.base.testconcepts.DummyPfModel;
  */
 public class PfModelTest {
 
+    private static final String VERSION001 = "0.0.1";
+
     @Test
     public void testPfModel() {
         assertNotNull(new DummyPfModel());
         assertNotNull(new DummyPfModel(new PfConceptKey()));
         assertNotNull(new DummyPfModel(new DummyPfModel()));
 
-        try {
-            new DummyPfModel((PfConceptKey)null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("key is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new DummyPfModel((PfConceptKey) null))
+                        .hasMessage("key is marked @NonNull but is null");
 
-        try {
-            DummyPfModel nullModel = null;
-            new DummyPfModel(nullModel);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("copyConcept is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new DummyPfModel((DummyPfModel) null))
+                        .hasMessage("copyConcept is marked @NonNull but is null");
 
-        DummyPfModel dpm = new DummyPfModel(new PfConceptKey("modelKey", "0.0.1"));
+        DummyPfModel dpm = new DummyPfModel(new PfConceptKey("modelKey", VERSION001));
         DummyPfModel dpmClone = new DummyPfModel(dpm);
         assertEquals(dpm, dpmClone);
 
@@ -65,12 +60,7 @@ public class PfModelTest {
         dpmClone.clean();
         assertEquals(dpm, dpmClone);
 
-        try {
-            dpm.copyTo(null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("target is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> dpm.copyTo(null)).hasMessage("target is marked @NonNull but is null");
 
         assertEquals(0, dpm.compareTo(dpmClone));
         assertEquals(-1, dpm.compareTo(null));
@@ -80,16 +70,11 @@ public class PfModelTest {
 
     @Test
     public void testPfModelValidation() {
-        PfConceptKey dpmKey = new PfConceptKey("modelKey", "0.0.1");
+        PfConceptKey dpmKey = new PfConceptKey("modelKey", VERSION001);
         DummyPfModel dpm = new DummyPfModel(dpmKey);
         assertTrue(dpm.validate(new PfValidationResult()).isValid());
 
-        try {
-            dpm.validate(null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("resultIn is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> dpm.validate(null)).hasMessage("resultIn is marked @NonNull but is null");
 
         dpm.setKey(PfConceptKey.getNullKey());
         assertFalse(dpm.validate(new PfValidationResult()).isValid());
@@ -102,7 +87,7 @@ public class PfModelTest {
         dpm.getKeyList().clear();
         assertTrue(dpm.validate(new PfValidationResult()).isValid());
 
-        PfConceptKey goodCKey = new PfConceptKey("goodCKey", "0.0.1");
+        PfConceptKey goodCKey = new PfConceptKey("goodCKey", VERSION001);
         PfReferenceKey goodRKey = new PfReferenceKey(goodCKey, "goodLocalName");
 
         dpm.getKeyList().add(goodCKey);
@@ -129,7 +114,7 @@ public class PfModelTest {
         dpm.getKeyList().add(goodRKeyUse);
         assertTrue(dpm.validate(new PfValidationResult()).isValid());
 
-        PfConceptKey badCKey = new PfConceptKey("badCKey", "0.0.1");
+        PfConceptKey badCKey = new PfConceptKey("badCKey", VERSION001);
         PfKeyUse badCKeyUse = new PfKeyUse(badCKey);
         dpm.getKeyList().add(badCKeyUse);
         assertFalse(dpm.validate(new PfValidationResult()).isValid());
