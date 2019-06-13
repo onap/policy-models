@@ -25,18 +25,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.UUID;
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class AaiNqQueryParametersTest {
-
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {}
-
-    @AfterClass
-    public static void tearDownAfterClass() throws Exception {}
 
     @Test
     public void test() {

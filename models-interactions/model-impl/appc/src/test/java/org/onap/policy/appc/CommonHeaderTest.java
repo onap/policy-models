@@ -19,27 +19,6 @@
  * ============LICENSE_END=========================================================
  */
 
-/*-
- * ============LICENSE_START=======================================================
- * appc
- * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
- * ================================================================================
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * ============LICENSE_END=========================================================
- */
-
 package org.onap.policy.appc;
 
 import static org.junit.Assert.assertEquals;
@@ -58,6 +37,10 @@ import org.junit.Test;
 
 public class CommonHeaderTest {
 
+    private static final String KANSAS = "Kansas";
+    private static final String DOROTHY = "Dorothy";
+    private static final String CAN_I_GO_HOME = "Can I go home?";
+
     @Test
     public void testCommonHeader() {
         CommonHeader commonHeader = new CommonHeader();
@@ -65,15 +48,15 @@ public class CommonHeaderTest {
         assertNotNull(new CommonHeader(commonHeader));
         assertNotEquals(0, commonHeader.hashCode());
 
-        commonHeader.setApiVer("Kansas");
-        assertEquals("Kansas", commonHeader.getApiVer());
+        commonHeader.setApiVer(KANSAS);
+        assertEquals(KANSAS, commonHeader.getApiVer());
 
         List<Map<String, String>> flagSet = new ArrayList<>();
         commonHeader.setFlags(flagSet);
         assertEquals(flagSet, commonHeader.getFlags());
 
-        commonHeader.setOriginatorId("Dorothy");
-        assertEquals("Dorothy", commonHeader.getOriginatorId());
+        commonHeader.setOriginatorId(DOROTHY);
+        assertEquals(DOROTHY, commonHeader.getOriginatorId());
 
         UUID requestId = UUID.randomUUID();
         commonHeader.setRequestId(requestId);
@@ -83,8 +66,8 @@ public class CommonHeaderTest {
         commonHeader.setRequestTrack(requestTrackSet);
         assertEquals(requestTrackSet, commonHeader.getRequestTrack());
 
-        commonHeader.setSubRequestId("Can I go home?");
-        assertEquals("Can I go home?", commonHeader.getSubRequestId());
+        commonHeader.setSubRequestId(CAN_I_GO_HOME);
+        assertEquals(CAN_I_GO_HOME, commonHeader.getSubRequestId());
 
         Instant timestamp = Instant.now();
         commonHeader.setTimeStamp(timestamp);
@@ -118,9 +101,9 @@ public class CommonHeaderTest {
         assertFalse(commonHeader.equals(copiedCommonHeader));
         copiedCommonHeader.setApiVer(null);
         assertTrue(commonHeader.equals(copiedCommonHeader));
-        commonHeader.setApiVer("Kansas");
+        commonHeader.setApiVer(KANSAS);
         assertFalse(commonHeader.equals(copiedCommonHeader));
-        copiedCommonHeader.setApiVer("Kansas");
+        copiedCommonHeader.setApiVer(KANSAS);
         assertTrue(commonHeader.equals(copiedCommonHeader));
 
         commonHeader.setFlags(null);
@@ -136,9 +119,9 @@ public class CommonHeaderTest {
         assertFalse(commonHeader.equals(copiedCommonHeader));
         copiedCommonHeader.setOriginatorId(null);
         assertTrue(commonHeader.equals(copiedCommonHeader));
-        commonHeader.setOriginatorId("Dorothy");
+        commonHeader.setOriginatorId(DOROTHY);
         assertFalse(commonHeader.equals(copiedCommonHeader));
-        copiedCommonHeader.setOriginatorId("Dorothy");
+        copiedCommonHeader.setOriginatorId(DOROTHY);
         assertTrue(commonHeader.equals(copiedCommonHeader));
 
         commonHeader.setRequestId(null);
@@ -163,9 +146,9 @@ public class CommonHeaderTest {
         assertFalse(commonHeader.equals(copiedCommonHeader));
         copiedCommonHeader.setSubRequestId(null);
         assertTrue(commonHeader.equals(copiedCommonHeader));
-        commonHeader.setSubRequestId("Can I go home?");
+        commonHeader.setSubRequestId(CAN_I_GO_HOME);
         assertFalse(commonHeader.equals(copiedCommonHeader));
-        copiedCommonHeader.setSubRequestId("Can I go home?");
+        copiedCommonHeader.setSubRequestId(CAN_I_GO_HOME);
         assertTrue(commonHeader.equals(copiedCommonHeader));
 
         commonHeader.setTimeStamp(null);

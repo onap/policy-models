@@ -24,12 +24,10 @@ package org.onap.policy.controlloop.actor.appc;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.UUID;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -50,6 +48,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class AppcServiceProviderTest {
+
+    private static final String GENERIC_VNF_ID = "generic-vnf.vnf-id";
+
+    private static final String MODIFY_CONFIG = "ModifyConfig";
+
+    private static final String JSON_OUTPUT = "JSON Output: \n";
 
     private static final Logger logger = LoggerFactory.getLogger(AppcServiceProviderTest.class);
 
@@ -85,7 +89,7 @@ public class AppcServiceProviderTest {
         /* Construct an operation with an APPC actor and ModifyConfig operation. */
         operation = new ControlLoopOperation();
         operation.setActor("APPC");
-        operation.setOperation("ModifyConfig");
+        operation.setOperation(MODIFY_CONFIG);
         operation.setTarget("VNF");
         operation.setEnd(Instant.now());
         operation.setSubRequestId("1");
@@ -97,7 +101,7 @@ public class AppcServiceProviderTest {
         policy.setActor("APPC");
         policy.setTarget(new Target(TargetType.VNF));
         policy.getTarget().setResourceID("Eace933104d443b496b8.nodes.heat.vpg");
-        policy.setRecipe("ModifyConfig");
+        policy.setRecipe(MODIFY_CONFIG);
         policy.setPayload(null);
         policy.setRetry(2);
         policy.setTimeout(300);
@@ -106,14 +110,11 @@ public class AppcServiceProviderTest {
 
     /**
      * Set up before test class.
+     * @throws Exception if the A&AI simulator cannot be started
      */
     @BeforeClass
-    public static void setUpSimulator() {
-        try {
-            Util.buildAaiSim();
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
+    public static void setUpSimulator() throws Exception {
+        Util.buildAaiSim();
     }
 
     /**
@@ -142,12 +143,12 @@ public class AppcServiceProviderTest {
 
         /* An action is required and cannot be null */
         assertNotNull(appcRequest.getAction());
-        assertEquals("ModifyConfig", appcRequest.getAction());
+        assertEquals(MODIFY_CONFIG, appcRequest.getAction());
 
         /* A payload is required and cannot be null */
         assertNotNull(appcRequest.getPayload());
-        assertTrue(appcRequest.getPayload().containsKey("generic-vnf.vnf-id"));
-        assertNotNull(appcRequest.getPayload().get("generic-vnf.vnf-id"));
+        assertTrue(appcRequest.getPayload().containsKey(GENERIC_VNF_ID));
+        assertNotNull(appcRequest.getPayload().get(GENERIC_VNF_ID));
         assertTrue(appcRequest.getPayload().containsKey(KEY1));
         assertTrue(appcRequest.getPayload().containsKey(KEY2));
 
@@ -155,14 +156,14 @@ public class AppcServiceProviderTest {
 
         /* Print out request as json to make sure serialization works */
         String jsonRequest = Serialization.gsonPretty.toJson(appcRequest);
-        logger.debug("JSON Output: \n" + jsonRequest);
+        logger.debug(JSON_OUTPUT + jsonRequest);
 
         /* The JSON string must contain the following fields */
         assertTrue(jsonRequest.contains("CommonHeader"));
         assertTrue(jsonRequest.contains("Action"));
-        assertTrue(jsonRequest.contains("ModifyConfig"));
+        assertTrue(jsonRequest.contains(MODIFY_CONFIG));
         assertTrue(jsonRequest.contains("Payload"));
-        assertTrue(jsonRequest.contains("generic-vnf.vnf-id"));
+        assertTrue(jsonRequest.contains(GENERIC_VNF_ID));
         assertTrue(jsonRequest.contains(KEY1));
         assertTrue(jsonRequest.contains(KEY2));
         assertTrue(jsonRequest.contains(SUBKEY));
@@ -173,7 +174,7 @@ public class AppcServiceProviderTest {
         appcResponse.getStatus().setDescription("AppC success");
         /* Print out request as json to make sure serialization works */
         String jsonResponse = Serialization.gsonPretty.toJson(appcResponse);
-        logger.debug("JSON Output: \n" + jsonResponse);
+        logger.debug(JSON_OUTPUT + jsonResponse);
     }
 
     @Test
@@ -191,32 +192,32 @@ public class AppcServiceProviderTest {
 
         /* An action is required and cannot be null */
         assertNotNull(appcRequest.getAction());
-        assertEquals("ModifyConfig", appcRequest.getAction());
+        assertEquals(MODIFY_CONFIG, appcRequest.getAction());
 
         /* A payload is required and cannot be null */
         assertNotNull(appcRequest.getPayload());
-        assertTrue(appcRequest.getPayload().containsKey("generic-vnf.vnf-id"));
-        assertNotNull(appcRequest.getPayload().get("generic-vnf.vnf-id"));
+        assertTrue(appcRequest.getPayload().containsKey(GENERIC_VNF_ID));
+        assertNotNull(appcRequest.getPayload().get(GENERIC_VNF_ID));
 
         logger.debug("APPC Request: \n" + appcRequest.toString());
 
         /* Print out request as json to make sure serialization works */
         String jsonRequest = Serialization.gsonPretty.toJson(appcRequest);
-        logger.debug("JSON Output: \n" + jsonRequest);
+        logger.debug(JSON_OUTPUT + jsonRequest);
 
         /* The JSON string must contain the following fields */
         assertTrue(jsonRequest.contains("CommonHeader"));
         assertTrue(jsonRequest.contains("Action"));
-        assertTrue(jsonRequest.contains("ModifyConfig"));
+        assertTrue(jsonRequest.contains(MODIFY_CONFIG));
         assertTrue(jsonRequest.contains("Payload"));
-        assertTrue(jsonRequest.contains("generic-vnf.vnf-id"));
+        assertTrue(jsonRequest.contains(GENERIC_VNF_ID));
 
         Response appcResponse = new Response(appcRequest);
         appcResponse.getStatus().setCode(ResponseCode.SUCCESS.getValue());
         appcResponse.getStatus().setDescription("AppC success");
         /* Print out request as json to make sure serialization works */
         String jsonResponse = Serialization.gsonPretty.toJson(appcResponse);
-        logger.debug("JSON Output: \n" + jsonResponse);
+        logger.debug(JSON_OUTPUT + jsonResponse);
     }
 
     @Test

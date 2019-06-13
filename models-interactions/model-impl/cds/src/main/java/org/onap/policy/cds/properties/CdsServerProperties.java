@@ -39,7 +39,6 @@ public class CdsServerProperties implements ParameterGroup {
     private static final int MIN_USER_PORT = 1024;
     private static final int MAX_USER_PORT = 65535;
 
-    private static final String INVALID_PROP = "Invalid CDS property: ";
     private static final String SERVER_PROPERTIES_TYPE = "CDS gRPC Server Properties";
 
     // CDS carrier properties

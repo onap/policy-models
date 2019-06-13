@@ -37,6 +37,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class AaiNqResponseWrapperTest {
+    private static final String WIDGET = "widget";
+    private static final String MODEL_VERSION_KEY = "model.model-version";
+    private static final String MODEL_TYPE_KEY = "model.model-type";
+    private static final String MODEL_NAME_KEY = "model.model-name";
+    private static final String MODEL_ID_KEY = "model.model-id";
+    private static final String VERSION_JSON = "AaiNqResponseWrapper-Vserver.json";
+    private static final String NO_NAMES_JSON = "AaiNqResponseWrapper-NoNames.json";
     private static final Logger logger = LoggerFactory.getLogger(AaiNqResponseWrapperTest.class);
 
     @Test
@@ -52,13 +59,13 @@ public class AaiNqResponseWrapperTest {
         serviceItem.getServiceInstance().setResourceVersion("1485366092");
         serviceItem.setExtraProperties(new AaiNqExtraProperties());
         serviceItem.getExtraProperties().getExtraProperty()
-                .add(new AaiNqExtraProperty("model.model-name", "service-instance"));
-        serviceItem.getExtraProperties().getExtraProperty().add(new AaiNqExtraProperty("model.model-type", "widget"));
-        serviceItem.getExtraProperties().getExtraProperty().add(new AaiNqExtraProperty("model.model-version", "1.0"));
+                .add(new AaiNqExtraProperty(MODEL_NAME_KEY, "service-instance"));
+        serviceItem.getExtraProperties().getExtraProperty().add(new AaiNqExtraProperty(MODEL_TYPE_KEY, WIDGET));
+        serviceItem.getExtraProperties().getExtraProperty().add(new AaiNqExtraProperty(MODEL_VERSION_KEY, "1.0"));
         serviceItem.getExtraProperties().getExtraProperty()
-                .add(new AaiNqExtraProperty("model.model-id", "82194af1-3c2c-485a-8f44-420e22a9eaa4"));
+                .add(new AaiNqExtraProperty(MODEL_ID_KEY, "82194af1-3c2c-485a-8f44-420e22a9eaa4"));
         serviceItem.getExtraProperties().getExtraProperty()
-                .add(new AaiNqExtraProperty("model.model-name", "46b92144-923a-4d20-b85a-3cbd847668a9"));
+                .add(new AaiNqExtraProperty(MODEL_NAME_KEY, "46b92144-923a-4d20-b85a-3cbd847668a9"));
 
         AaiNqInventoryResponseItem vfModuleItem = new AaiNqInventoryResponseItem();
         vfModuleItem.setModelName("vf-module");
@@ -76,13 +83,13 @@ public class AaiNqResponseWrapperTest {
         vfModuleItem.getVfModule().setContrailServiceInstanceFqdn("example-contrail-service-instance-fqdn-val-86796");
         vfModuleItem.setExtraProperties(new AaiNqExtraProperties());
         vfModuleItem.getExtraProperties().getExtraProperty()
-                .add(new AaiNqExtraProperty("model.model-name", "vf-module"));
-        vfModuleItem.getExtraProperties().getExtraProperty().add(new AaiNqExtraProperty("model.model-type", "widget"));
-        vfModuleItem.getExtraProperties().getExtraProperty().add(new AaiNqExtraProperty("model.model-version", "1.0"));
+                .add(new AaiNqExtraProperty(MODEL_NAME_KEY, "vf-module"));
+        vfModuleItem.getExtraProperties().getExtraProperty().add(new AaiNqExtraProperty(MODEL_TYPE_KEY, WIDGET));
+        vfModuleItem.getExtraProperties().getExtraProperty().add(new AaiNqExtraProperty(MODEL_VERSION_KEY, "1.0"));
         vfModuleItem.getExtraProperties().getExtraProperty()
-                .add(new AaiNqExtraProperty("model.model-id", "ef86f9c5-2165-44f3-8fc3-96018b609ea5"));
+                .add(new AaiNqExtraProperty(MODEL_ID_KEY, "ef86f9c5-2165-44f3-8fc3-96018b609ea5"));
         vfModuleItem.getExtraProperties().getExtraProperty()
-                .add(new AaiNqExtraProperty("model.model-name", "c00563ae-812b-4e62-8330-7c4d0f47088a"));
+                .add(new AaiNqExtraProperty(MODEL_NAME_KEY, "c00563ae-812b-4e62-8330-7c4d0f47088a"));
 
         AaiNqInventoryResponseItem genericVnfItem = new AaiNqInventoryResponseItem();
         genericVnfItem.setModelName("generic-vnf");
@@ -105,13 +112,13 @@ public class AaiNqResponseWrapperTest {
         genericVnfItem.setExtraProperties(new AaiNqExtraProperties());
         genericVnfItem.getExtraProperties().setExtraProperty(new LinkedList<>());
         genericVnfItem.getExtraProperties().getExtraProperty()
-                .add(new AaiNqExtraProperty("model.model-name", "generic-vnf"));
+                .add(new AaiNqExtraProperty(MODEL_NAME_KEY, "generic-vnf"));
         genericVnfItem.getExtraProperties().getExtraProperty()
-                .add(new AaiNqExtraProperty("model.model-type", "widget"));
+                .add(new AaiNqExtraProperty(MODEL_TYPE_KEY, WIDGET));
         genericVnfItem.getExtraProperties().getExtraProperty()
-                .add(new AaiNqExtraProperty("model.model-version", "1.0"));
+                .add(new AaiNqExtraProperty(MODEL_VERSION_KEY, "1.0"));
         genericVnfItem.getExtraProperties().getExtraProperty()
-                .add(new AaiNqExtraProperty("model.model-id", "acc6edd8-a8d4-4b93-afaa-0994068be14c"));
+                .add(new AaiNqExtraProperty(MODEL_ID_KEY, "acc6edd8-a8d4-4b93-afaa-0994068be14c"));
         genericVnfItem.getExtraProperties().getExtraProperty()
                 .add(new AaiNqExtraProperty("model.model-name-version-id", "93a6166f-b3d5-4f06-b4ba-aed48d009ad9"));
         genericVnfItem.setItems(new AaiNqInventoryResponseItems());
@@ -175,13 +182,13 @@ public class AaiNqResponseWrapperTest {
         // null item
         resp = new AaiNqResponseWrapper();
         assertEquals(0, resp.countVfModules());
-        
+
         // no names
-        resp.setAaiNqResponse(load("AaiNqResponseWrapper-NoNames.json"));
+        resp.setAaiNqResponse(load(NO_NAMES_JSON));
         assertEquals(0, resp.countVfModules());
 
         // has VF modules
-        resp.setAaiNqResponse(load("AaiNqResponseWrapper-Vserver.json"));
+        resp.setAaiNqResponse(load(VERSION_JSON));
         assertEquals(3, resp.countVfModules());
     }
 
@@ -192,13 +199,13 @@ public class AaiNqResponseWrapperTest {
         // null item
         resp = new AaiNqResponseWrapper();
         assertEquals(null, resp.genVfModuleName());
-        
+
         // no names
-        resp.setAaiNqResponse(load("AaiNqResponseWrapper-NoNames.json"));
+        resp.setAaiNqResponse(load(NO_NAMES_JSON));
         assertEquals(null, resp.genVfModuleName());
 
         // has VF modules
-        resp.setAaiNqResponse(load("AaiNqResponseWrapper-Vserver.json"));
+        resp.setAaiNqResponse(load(VERSION_JSON));
         assertEquals("my-module-abc_124", resp.genVfModuleName());
     }
 
@@ -220,25 +227,25 @@ public class AaiNqResponseWrapperTest {
         resp.getAaiNqResponse().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(0)
                         .getItems().setInventoryResponseItems(null);
         assertTrue(resp.getVfModuleItems(false).isEmpty());
-        
+
         // no modules
         resp.setAaiNqResponse(load("AaiNqResponseWrapper-NoModules.json"));
         assertTrue(resp.getVfModuleItems(false).isEmpty());
-        
+
         // no names
-        resp.setAaiNqResponse(load("AaiNqResponseWrapper-NoNames.json"));
+        resp.setAaiNqResponse(load(NO_NAMES_JSON));
         List<AaiNqInventoryResponseItem> lst;
         lst = resp.getVfModuleItems(false);
         assertEquals(0, lst.size());
 
         // base VF modules
-        resp.setAaiNqResponse(load("AaiNqResponseWrapper-Vserver.json"));
+        resp.setAaiNqResponse(load(VERSION_JSON));
         lst = resp.getVfModuleItems(true);
         assertEquals(1, lst.size());
         assertEquals("Vfmodule_vLBMS-0809-1", lst.get(0).getVfModule().getVfModuleName());
-        
+
         // non base VF modules
-        resp.setAaiNqResponse(load("AaiNqResponseWrapper-Vserver.json"));
+        resp.setAaiNqResponse(load(VERSION_JSON));
         lst = resp.getVfModuleItems(false);
         assertEquals(3, lst.size());
         int index;
