@@ -31,6 +31,8 @@ import org.junit.Test;
 
 public class LcmResponseStatusTest {
 
+    private static final String THE_WONDERFUL_LAND_OF_OZ = "The wonderful land of Oz";
+
     @Test
     public void testResonseStatus() {
         LcmResponseStatus status = new LcmResponseStatus();
@@ -40,8 +42,8 @@ public class LcmResponseStatusTest {
         status.setCode(1234);
         assertEquals(1234, status.getCode());
 
-        status.setMessage("The wonderful land of Oz");
-        assertEquals("The wonderful land of Oz", status.getMessage());
+        status.setMessage(THE_WONDERFUL_LAND_OF_OZ);
+        assertEquals(THE_WONDERFUL_LAND_OF_OZ, status.getMessage());
 
         assertEquals("ResponseStatus [code=1234, message=The wonderfu", status.toString().substring(0, 47));
 
@@ -67,9 +69,9 @@ public class LcmResponseStatusTest {
         assertFalse(status.equals(copiedStatus));
         copiedStatus.setMessage(null);
         assertTrue(status.equals(copiedStatus));
-        status.setMessage("The wonderful land of Oz");
+        status.setMessage(THE_WONDERFUL_LAND_OF_OZ);
         assertFalse(status.equals(copiedStatus));
-        copiedStatus.setMessage("The wonderful land of Oz");
+        copiedStatus.setMessage(THE_WONDERFUL_LAND_OF_OZ);
         assertTrue(status.equals(copiedStatus));
     }
 }

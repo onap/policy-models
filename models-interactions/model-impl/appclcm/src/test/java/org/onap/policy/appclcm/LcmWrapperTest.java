@@ -31,26 +31,32 @@ import org.junit.Test;
 
 public class LcmWrapperTest {
 
+    private static final String YELLOW_BRICK_ROAD = "YellowBrickRoad";
+    private static final String TORNADO = "Tornado";
+    private static final String THE_EMERALD_CITY = "The Emerald City";
+    private static final String MUNCHKIN = "Munchkin";
+    private static final String VERSION19 = "19.3.9";
+
     @Test
     public void testLcmWrapper() {
         LcmWrapper wrapper = new LcmWrapper();
         assertNotNull(wrapper);
         assertNotEquals(0, wrapper.hashCode());
 
-        wrapper.setVersion("19.3.9");
-        assertEquals("19.3.9", wrapper.getVersion());
+        wrapper.setVersion(VERSION19);
+        assertEquals(VERSION19, wrapper.getVersion());
 
-        wrapper.setCambriaPartition("The Emerald City");
-        assertEquals("The Emerald City", wrapper.getCambriaPartition());
+        wrapper.setCambriaPartition(THE_EMERALD_CITY);
+        assertEquals(THE_EMERALD_CITY, wrapper.getCambriaPartition());
 
-        wrapper.setRpcName("Tornado");
-        assertEquals("Tornado", wrapper.getRpcName());
+        wrapper.setRpcName(TORNADO);
+        assertEquals(TORNADO, wrapper.getRpcName());
 
-        wrapper.setCorrelationId("YellowBrickRoad");
-        assertEquals("YellowBrickRoad", wrapper.getCorrelationId());
+        wrapper.setCorrelationId(YELLOW_BRICK_ROAD);
+        assertEquals(YELLOW_BRICK_ROAD, wrapper.getCorrelationId());
 
-        wrapper.setType("Munchkin");
-        assertEquals("Munchkin", wrapper.getType());
+        wrapper.setType(MUNCHKIN);
+        assertEquals(MUNCHKIN, wrapper.getType());
 
         assertNotEquals(0, wrapper.hashCode());
 
@@ -72,45 +78,45 @@ public class LcmWrapperTest {
         assertFalse(wrapper.equals(copiedLcmWrapper));
         copiedLcmWrapper.setVersion(null);
         assertTrue(wrapper.equals(copiedLcmWrapper));
-        wrapper.setVersion("19.3.9");
+        wrapper.setVersion(VERSION19);
         assertFalse(wrapper.equals(copiedLcmWrapper));
-        copiedLcmWrapper.setVersion("19.3.9");
+        copiedLcmWrapper.setVersion(VERSION19);
         assertTrue(wrapper.equals(copiedLcmWrapper));
 
         wrapper.setCambriaPartition(null);
         assertFalse(wrapper.equals(copiedLcmWrapper));
         copiedLcmWrapper.setCambriaPartition(null);
         assertTrue(wrapper.equals(copiedLcmWrapper));
-        wrapper.setCambriaPartition("The Emerald City");
+        wrapper.setCambriaPartition(THE_EMERALD_CITY);
         assertFalse(wrapper.equals(copiedLcmWrapper));
-        copiedLcmWrapper.setCambriaPartition("The Emerald City");
+        copiedLcmWrapper.setCambriaPartition(THE_EMERALD_CITY);
         assertTrue(wrapper.equals(copiedLcmWrapper));
 
         wrapper.setRpcName(null);
         assertFalse(wrapper.equals(copiedLcmWrapper));
         copiedLcmWrapper.setRpcName(null);
         assertTrue(wrapper.equals(copiedLcmWrapper));
-        wrapper.setRpcName("Tornado");
+        wrapper.setRpcName(TORNADO);
         assertFalse(wrapper.equals(copiedLcmWrapper));
-        copiedLcmWrapper.setRpcName("Tornado");
+        copiedLcmWrapper.setRpcName(TORNADO);
         assertTrue(wrapper.equals(copiedLcmWrapper));
 
         wrapper.setCorrelationId(null);
         assertFalse(wrapper.equals(copiedLcmWrapper));
         copiedLcmWrapper.setCorrelationId(null);
         assertTrue(wrapper.equals(copiedLcmWrapper));
-        wrapper.setCorrelationId("YellowBrickRoad");
+        wrapper.setCorrelationId(YELLOW_BRICK_ROAD);
         assertFalse(wrapper.equals(copiedLcmWrapper));
-        copiedLcmWrapper.setCorrelationId("YellowBrickRoad");
+        copiedLcmWrapper.setCorrelationId(YELLOW_BRICK_ROAD);
         assertTrue(wrapper.equals(copiedLcmWrapper));
 
         wrapper.setType(null);
         assertFalse(wrapper.equals(copiedLcmWrapper));
         copiedLcmWrapper.setType(null);
         assertTrue(wrapper.equals(copiedLcmWrapper));
-        wrapper.setType("Munchkin");
+        wrapper.setType(MUNCHKIN);
         assertFalse(wrapper.equals(copiedLcmWrapper));
-        copiedLcmWrapper.setType("Munchkin");
+        copiedLcmWrapper.setType(MUNCHKIN);
         assertTrue(wrapper.equals(copiedLcmWrapper));
     }
 }

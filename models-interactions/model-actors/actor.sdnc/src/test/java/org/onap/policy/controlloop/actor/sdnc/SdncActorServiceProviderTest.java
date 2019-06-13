@@ -25,11 +25,9 @@ package org.onap.policy.controlloop.actor.sdnc;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
 
 import java.util.Objects;
 import java.util.UUID;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -42,16 +40,15 @@ import org.onap.policy.simulators.Util;
 
 public class SdncActorServiceProviderTest {
 
+    private static final String REROUTE = "Reroute";
+
     /**
-     * Set up for test class.
+     * Set up before test class.
+     * @throws Exception if the A&AI simulator cannot be started
      */
     @BeforeClass
-    public static void setUpSimulator() {
-        try {
-            Util.buildAaiSim();
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
+    public static void setUpSimulator() throws Exception {
+        Util.buildAaiSim();
     }
 
     @AfterClass
@@ -65,7 +62,7 @@ public class SdncActorServiceProviderTest {
         ControlLoopOperation operation = new ControlLoopOperation();
 
         Policy policy = new Policy();
-        policy.setRecipe("Reroute");
+        policy.setRecipe(REROUTE);
 
         SdncActorServiceProvider provider = new SdncActorServiceProvider();
         assertNull(provider.constructRequest(onset, operation, policy));
@@ -84,7 +81,7 @@ public class SdncActorServiceProviderTest {
         onset.getAai().put("service-instance.service-instance-id", "service-instance-01");
         assertNotNull(provider.constructRequest(onset, operation, policy));
 
-        policy.setRecipe("Reroute");
+        policy.setRecipe(REROUTE);
         assertNotNull(provider.constructRequest(onset, operation, policy));
 
         SdncRequest request =
@@ -103,8 +100,8 @@ public class SdncActorServiceProviderTest {
 
         assertEquals("SDNC", sp.actor());
         assertEquals(1, sp.recipes().size());
-        assertEquals("Reroute", sp.recipes().get(0));
-        assertEquals("VM", sp.recipeTargets("Reroute").get(0));
-        assertEquals(0, sp.recipePayloads("Reroute").size());
+        assertEquals(REROUTE, sp.recipes().get(0));
+        assertEquals("VM", sp.recipeTargets(REROUTE).get(0));
+        assertEquals(0, sp.recipePayloads(REROUTE).size());
     }
 }

@@ -35,6 +35,12 @@ import org.slf4j.LoggerFactory;
 
 public class AppcLcmTest {
 
+    private static final String VNF_ID_KEY = "vnf-id";
+
+    private static final String RESTART = "restart";
+
+    private static final String CORRELATION_ID = "664be3d2-6c12-4f4b-a3e7-c349acced200";
+
     private static final Logger logger = LoggerFactory.getLogger(AppcLcmTest.class);
 
     private static LcmRequestWrapper dmaapRequest;
@@ -45,29 +51,29 @@ public class AppcLcmTest {
          * Construct an APPCLCM Request to be Serialized
          */
         dmaapRequest = new LcmRequestWrapper();
-        dmaapRequest.setCorrelationId("664be3d2-6c12-4f4b-a3e7-c349acced200" + "-" + "1");
-        dmaapRequest.setRpcName("restart");
+        dmaapRequest.setCorrelationId(CORRELATION_ID + "-" + "1");
+        dmaapRequest.setRpcName(RESTART);
         dmaapRequest.setType("request");
 
         dmaapResponse = new LcmResponseWrapper();
-        dmaapResponse.setCorrelationId("664be3d2-6c12-4f4b-a3e7-c349acced200" + "-" + "1");
-        dmaapResponse.setRpcName("restart");
+        dmaapResponse.setCorrelationId(CORRELATION_ID + "-" + "1");
+        dmaapResponse.setRpcName(RESTART);
         dmaapResponse.setType("response");
 
         LcmRequest appcRequest = new LcmRequest();
 
-        appcRequest.setAction("restart");
+        appcRequest.setAction(RESTART);
 
         HashMap<String, String> actionIdentifiers = new HashMap<>();
-        actionIdentifiers.put("vnf-id", "trial-vnf-003");
+        actionIdentifiers.put(VNF_ID_KEY, "trial-vnf-003");
         actionIdentifiers.put("vserver-id", "08f6c1f9-99e7-49f3-a662-c62b9f200d79");
 
         appcRequest.setActionIdentifiers(actionIdentifiers);
 
         LcmCommonHeader commonHeader = new LcmCommonHeader();
-        commonHeader.setRequestId(UUID.fromString("664be3d2-6c12-4f4b-a3e7-c349acced200"));
+        commonHeader.setRequestId(UUID.fromString(CORRELATION_ID));
         commonHeader.setSubRequestId("1");
-        commonHeader.setOriginatorId("664be3d2-6c12-4f4b-a3e7-c349acced200");
+        commonHeader.setOriginatorId(CORRELATION_ID);
 
         appcRequest.setCommonHeader(commonHeader);
 
@@ -111,7 +117,7 @@ public class AppcLcmTest {
          * action-identifiers should exist and contain a vnf-id
          */
         assertTrue(jsonRequest.contains("action-identifiers"));
-        assertTrue(jsonRequest.contains("vnf-id"));
+        assertTrue(jsonRequest.contains(VNF_ID_KEY));
 
         /*
          * The action sub-tag should exist
@@ -132,19 +138,19 @@ public class AppcLcmTest {
         /*
          * Use the serializer to convert the json string into a java object
          */
-        LcmRequestWrapper dmaapRequest = Serialization.gson.fromJson(jsonRequest, LcmRequestWrapper.class);
-        assertNotNull(dmaapRequest);
+        LcmRequestWrapper req = Serialization.gson.fromJson(jsonRequest, LcmRequestWrapper.class);
+        assertNotNull(req);
 
         /*
          * The type of the DMAAP wrapper should be request
          */
-        assertEquals("request", dmaapRequest.getType());
+        assertEquals("request", req.getType());
 
         /*
          * The DMAAP wrapper must have a body as that is the true APPC request
          */
-        assertNotNull(dmaapRequest.getBody());
-        LcmRequest appcRequest = dmaapRequest.getBody();
+        assertNotNull(req.getBody());
+        LcmRequest appcRequest = req.getBody();
         assertNotNull(appcRequest);
 
         /*
@@ -156,13 +162,13 @@ public class AppcLcmTest {
          * The action should not be null and should be set to restart
          */
         assertNotNull(appcRequest.getAction());
-        assertEquals("restart", appcRequest.getAction());
+        assertEquals(RESTART, appcRequest.getAction());
 
         /*
          * The action-identifiers should not be null and should contain a vnf-id
          */
         assertNotNull(appcRequest.getActionIdentifiers());
-        assertNotNull(appcRequest.getActionIdentifiers().get("vnf-id"));
+        assertNotNull(appcRequest.getActionIdentifiers().get(VNF_ID_KEY));
 
         logger.debug("Request as a Java Object: \n" + appcRequest.toString() + "\n\n");
     }
@@ -202,19 +208,19 @@ public class AppcLcmTest {
         /*
          * Use the serializer to convert the json string into a java object
          */
-        LcmResponseWrapper dmaapResponse = Serialization.gson.fromJson(jsonResponse, LcmResponseWrapper.class);
-        assertNotNull(dmaapResponse);
+        LcmResponseWrapper resp = Serialization.gson.fromJson(jsonResponse, LcmResponseWrapper.class);
+        assertNotNull(resp);
 
         /*
          * The type of the DMAAP wrapper should be response
          */
-        assertEquals("response", dmaapResponse.getType());
+        assertEquals("response", resp.getType());
 
         /*
          * The DMAAP wrapper must have a body as that is the true APPC response
          */
-        assertNotNull(dmaapResponse.getBody());
-        LcmResponse appcResponse = dmaapResponse.getBody();
+        assertNotNull(resp.getBody());
+        LcmResponse appcResponse = resp.getBody();
         assertNotNull(appcResponse);
 
         /*

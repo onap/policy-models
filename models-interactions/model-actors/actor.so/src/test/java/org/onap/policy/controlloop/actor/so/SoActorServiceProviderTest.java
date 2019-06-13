@@ -26,7 +26,6 @@ package org.onap.policy.controlloop.actor.so;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -36,7 +35,6 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.UUID;
 import org.apache.commons.io.IOUtils;
-import org.eclipse.persistence.exceptions.JAXBException;
 import org.junit.Test;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.aai.AaiNqResponse;
@@ -52,6 +50,8 @@ import org.onap.policy.so.util.Serialization;
 
 public class SoActorServiceProviderTest {
 
+    private static final String C_VALUE = "cvalue";
+    private static final String A_VALUE = "avalue";
     private static final String VF_MODULE_CREATE = "VF Module Create";
     private static final String VF_MODULE_DELETE = "VF Module Delete";
 
@@ -90,9 +90,9 @@ public class SoActorServiceProviderTest {
         request = new SoActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp);
         assertNotNull(request);
         assertEquals(true, request.getRequestDetails().getRequestParameters().isUsePreload());
-        assertEquals("avalue", request.getRequestDetails().getRequestParameters().getUserParams().get(0).get("akey"));
+        assertEquals(A_VALUE, request.getRequestDetails().getRequestParameters().getUserParams().get(0).get("akey"));
         assertEquals(1, request.getRequestDetails().getConfigurationParameters().size());
-        assertEquals("cvalue", request.getRequestDetails().getConfigurationParameters().get(0).get("ckey"));
+        assertEquals(C_VALUE, request.getRequestDetails().getConfigurationParameters().get(0).get("ckey"));
 
         // payload with config, but no request params
         policy.setPayload(makePayload());
@@ -176,11 +176,7 @@ public class SoActorServiceProviderTest {
 
     @Test
     public void testSendRequest() {
-        try {
-            SoActorServiceProvider.sendRequest(UUID.randomUUID().toString(), null, null, null, null, null);
-        } catch (Exception e) {
-            fail("Test should not throw an exception");
-        }
+        SoActorServiceProvider.sendRequest(UUID.randomUUID().toString(), null, null, null, null, null);
     }
 
     @Test
@@ -232,9 +228,9 @@ public class SoActorServiceProviderTest {
         request = new SoActorServiceProvider().constructRequestCq(onset, operation, policy, aaiCqResp);
         assertNotNull(request);
         assertEquals(true, request.getRequestDetails().getRequestParameters().isUsePreload());
-        assertEquals("avalue", request.getRequestDetails().getRequestParameters().getUserParams().get(0).get("akey"));
+        assertEquals(A_VALUE, request.getRequestDetails().getRequestParameters().getUserParams().get(0).get("akey"));
         assertEquals(1, request.getRequestDetails().getConfigurationParameters().size());
-        assertEquals("cvalue", request.getRequestDetails().getConfigurationParameters().get(0).get("ckey"));
+        assertEquals(C_VALUE, request.getRequestDetails().getConfigurationParameters().get(0).get("ckey"));
 
         // payload with config, but no request params
         policy.setPayload(makePayload());
@@ -282,9 +278,8 @@ public class SoActorServiceProviderTest {
      * @param fileName name of the file containing the JSON response
      * @return output from the AAI vserver named-query
      * @throws IOException if the file cannot be read
-     * @throws JAXBException throws JAXBException
      */
-    private AaiCqResponse loadAaiResponseCq(String fileName) throws IOException, JAXBException {
+    private AaiCqResponse loadAaiResponseCq(String fileName) throws IOException {
         String resp = IOUtils.toString(getClass().getResource(fileName), StandardCharsets.UTF_8);
         return new AaiCqResponse(resp);
     }
@@ -316,7 +311,7 @@ public class SoActorServiceProviderTest {
         params.setUsePreload(true);
 
         Map<String, String> map = new TreeMap<>();
-        map.put("akey", "avalue");
+        map.put("akey", A_VALUE);
 
         List<Map<String, String>> lst = new LinkedList<>();
         lst.add(map);
@@ -333,7 +328,7 @@ public class SoActorServiceProviderTest {
      */
     private String makeConfigParams() {
         Map<String, String> map = new TreeMap<>();
-        map.put("ckey", "cvalue");
+        map.put("ckey", C_VALUE);
 
         List<Map<String, String>> lst = new LinkedList<>();
         lst.add(map);
