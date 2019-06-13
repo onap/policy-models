@@ -50,7 +50,7 @@ public class GuardSimulatorJaxRs {
     public DecisionResponse getGuardDecision(DecisionRequest req) {
         @SuppressWarnings("unchecked")
         Map<String, String> guard = (Map<String, String>) req.getResource().get("guard");
-        String clName = guard.get("clName");
+        String clName = guard.get("clname");
         DecisionResponse response = new DecisionResponse();
         if (DENY_CLNAME.equals(clName)) {
             response.setStatus("Deny");
