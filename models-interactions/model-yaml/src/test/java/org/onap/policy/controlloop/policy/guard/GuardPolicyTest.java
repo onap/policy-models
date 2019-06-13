@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
- * Modifications Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,6 +33,10 @@ import org.junit.Test;
 
 public class GuardPolicyTest {
 
+    private static final String GUARD_DESCRIPTION = "guard description";
+    private static final String GUARD_ID = "guard id";
+    private static final String GUARD_NAME = "guard name";
+
     @Test
     public void testConstructor() {
         GuardPolicy guardPolicy = new GuardPolicy();
@@ -46,7 +50,7 @@ public class GuardPolicyTest {
 
     @Test
     public void testConstructorString() {
-        String id = "guard id";
+        String id = GUARD_ID;
         GuardPolicy guardPolicy = new GuardPolicy(id);
 
         assertEquals(id, guardPolicy.getId());
@@ -58,9 +62,9 @@ public class GuardPolicyTest {
 
     @Test
     public void testConstructorStringStringStringMatchParameters() {
-        String id = "guard id";
-        String name = "guard name";
-        String description = "guard description";
+        String id = GUARD_ID;
+        String name = GUARD_NAME;
+        String description = GUARD_DESCRIPTION;
         MatchParameters matchParameters = new MatchParameters();
         List<Constraint> limitConstraints = new LinkedList<>();
         limitConstraints.add(new Constraint());
@@ -75,7 +79,7 @@ public class GuardPolicyTest {
 
     @Test
     public void testConstructorStringMatchParametersList() {
-        String name = "guard name";
+        String name = GUARD_NAME;
         MatchParameters matchParameters = new MatchParameters();
         List<Constraint> limitConstraints = new LinkedList<>();
         limitConstraints.add(new Constraint());
@@ -90,8 +94,8 @@ public class GuardPolicyTest {
 
     @Test
     public void testConstructorStringStringMatchParametersList() {
-        String name = "guard name";
-        String description = "guard description";
+        String name = GUARD_NAME;
+        String description = GUARD_DESCRIPTION;
         MatchParameters matchParameters = new MatchParameters();
         List<Constraint> limitConstraints = new LinkedList<>();
         limitConstraints.add(new Constraint());
@@ -106,9 +110,9 @@ public class GuardPolicyTest {
 
     @Test
     public void testConstructorStringStringStringMatchParametersList() {
-        String id = "guard id";
-        String name = "guard name";
-        String description = "guard description";
+        String id = GUARD_ID;
+        String name = GUARD_NAME;
+        String description = GUARD_DESCRIPTION;
         MatchParameters matchParameters = new MatchParameters();
         List<Constraint> limitConstraints = new LinkedList<>();
         limitConstraints.add(new Constraint());
@@ -123,9 +127,9 @@ public class GuardPolicyTest {
 
     @Test
     public void testConstructorGuardPolicy() {
-        String id = "guard id";
-        String name = "guard name";
-        String description = "guard description";
+        String id = GUARD_ID;
+        String name = GUARD_NAME;
+        String description = GUARD_DESCRIPTION;
         MatchParameters matchParameters = new MatchParameters();
         List<Constraint> limitConstraints = new LinkedList<>();
         limitConstraints.add(new Constraint());
@@ -143,7 +147,7 @@ public class GuardPolicyTest {
 
     @Test
     public void testSetAndGetId() {
-        String id = "guard id";
+        String id = GUARD_ID;
         GuardPolicy guardPolicy = new GuardPolicy();
         guardPolicy.setId(id);
         assertEquals(id, guardPolicy.getId());
@@ -151,7 +155,7 @@ public class GuardPolicyTest {
 
     @Test
     public void testSetAndGetName() {
-        String name = "guard name";
+        String name = GUARD_NAME;
         GuardPolicy guardPolicy = new GuardPolicy();
         guardPolicy.setName(name);
         assertEquals(name, guardPolicy.getName());
@@ -159,7 +163,7 @@ public class GuardPolicyTest {
 
     @Test
     public void testSetAndGetDescription() {
-        String description = "guard description";
+        String description = GUARD_DESCRIPTION;
         GuardPolicy guardPolicy = new GuardPolicy();
         guardPolicy.setDescription(description);
         assertEquals(description, guardPolicy.getDescription());
@@ -187,7 +191,7 @@ public class GuardPolicyTest {
         GuardPolicy guardPolicy = new GuardPolicy();
         assertFalse(guardPolicy.isValid());
 
-        guardPolicy.setName("guard name");
+        guardPolicy.setName(GUARD_NAME);
         assertTrue(guardPolicy.isValid());
 
         guardPolicy.setId(null);
@@ -196,9 +200,9 @@ public class GuardPolicyTest {
 
     @Test
     public void testToString() {
-        String id = "guard id";
-        String name = "guard name";
-        String description = "guard description";
+        String id = GUARD_ID;
+        String name = GUARD_NAME;
+        String description = GUARD_DESCRIPTION;
         MatchParameters matchParameters = new MatchParameters();
         List<Constraint> limitConstraints = new LinkedList<>();
         limitConstraints.add(new Constraint());
@@ -212,9 +216,9 @@ public class GuardPolicyTest {
 
     @Test
     public void testEquals() {
-        final String id = "guard id";
-        final String name = "guard name";
-        final String description = "guard description";
+        final String id = GUARD_ID;
+        final String name = GUARD_NAME;
+        final String description = GUARD_DESCRIPTION;
         GuardPolicy guardPolicy1 = new GuardPolicy(id);
         GuardPolicy guardPolicy2 = new GuardPolicy();
         assertFalse(guardPolicy1.equals(guardPolicy2));

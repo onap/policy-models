@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +26,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -33,7 +33,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-
 import org.junit.Test;
 import org.onap.policy.models.base.testconcepts.DummyAuthorativeConcept;
 import org.onap.policy.models.base.testconcepts.DummyBadPfConceptContainer;
@@ -47,6 +46,13 @@ import org.onap.policy.models.base.testconcepts.DummyPfConceptSub;
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 public class PfConceptContainerTest {
+
+    private static final String NAME2 = "name2";
+    private static final String NAME1 = "name1";
+    private static final String NAME0 = "name0";
+    private static final String KEY_IS_NULL = "key is marked @NonNull but is null";
+    private static final String DUMMY_VALUE = "Dummy";
+    private static final String VERSION0 = "0.0.1";
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
@@ -63,51 +69,28 @@ public class PfConceptContainerTest {
         container = new DummyPfConceptContainer(new PfConceptKey(), new TreeMap<PfConceptKey, DummyPfConcept>());
         assertNotNull(container);
 
-        try {
-            new PfConceptContainer((PfConceptKey) null, null);
-            fail("test should throw an exception here");
-        } catch (Exception exc) {
-            assertEquals("key is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new PfConceptContainer((PfConceptKey) null, null)).hasMessage(KEY_IS_NULL);
 
-        try {
-            container = new DummyPfConceptContainer((PfConceptKey) null, null);
-            fail("test should throw an exception here");
-        } catch (Exception exc) {
-            assertEquals("key is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new DummyPfConceptContainer((PfConceptKey) null, null)).hasMessage(KEY_IS_NULL);
 
-        try {
-            container = new DummyPfConceptContainer(new PfConceptKey(), null);
-            fail("test should throw an exception here");
-        } catch (Exception exc) {
-            assertEquals("conceptMap is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new DummyPfConceptContainer(new PfConceptKey(), null))
+                        .hasMessage("conceptMap is marked @NonNull but is null");
 
-        try {
-            container = new DummyPfConceptContainer(null, new TreeMap<PfConceptKey, DummyPfConcept>());
-            fail("test should throw an exception here");
-        } catch (Exception exc) {
-            assertEquals("key is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new DummyPfConceptContainer(null, new TreeMap<PfConceptKey, DummyPfConcept>()))
+                        .hasMessage(KEY_IS_NULL);
 
-        container.getKey().setName("Dummy");
+        container.getKey().setName(DUMMY_VALUE);
         DummyPfConceptContainer clonedContainer = new DummyPfConceptContainer(container);
         assertNotNull(clonedContainer);
-        assertEquals("Dummy", clonedContainer.getKey().getName());
+        assertEquals(DUMMY_VALUE, clonedContainer.getKey().getName());
 
-        try {
-            DummyPfConceptContainer conceptContainter = null;
-            container = new DummyPfConceptContainer(conceptContainter);
-            fail("test should throw an exception here");
-        } catch (Exception exc) {
-            assertEquals("copyConcept is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new DummyPfConceptContainer((DummyPfConceptContainer) null))
+                        .hasMessage("copyConcept is marked @NonNull but is null");
 
         List<PfKey> keyList = container.getKeys();
         assertEquals(1, keyList.size());
 
-        PfConceptKey conceptKey = new PfConceptKey("Key", "0.0.1");
+        PfConceptKey conceptKey = new PfConceptKey("Key", VERSION0);
         Map<PfConceptKey, DummyPfConcept> conceptMap = new TreeMap<>();
         conceptMap.put(conceptKey, new DummyPfConcept(conceptKey));
 
@@ -117,7 +100,7 @@ public class PfConceptContainerTest {
 
         clonedContainer = new DummyPfConceptContainer(container);
         assertNotNull(clonedContainer);
-        assertEquals("Dummy", clonedContainer.getKey().getName());
+        assertEquals(DUMMY_VALUE, clonedContainer.getKey().getName());
         assertEquals(2, clonedContainer.getKeys().size());
 
         assertEquals(clonedContainer, container);
@@ -130,12 +113,8 @@ public class PfConceptContainerTest {
 
         assertEquals(0, container.compareTo(clonedContainer));
 
-        try {
-            container.copyTo(null);
-            fail("test should throw an exception here");
-        } catch (Exception exc) {
-            assertEquals("target is marked @NonNull but is null", exc.getMessage());
-        }
+        final DummyPfConceptContainer container2 = container;
+        assertThatThrownBy(() -> container2.copyTo(null)).hasMessage("target is marked @NonNull but is null");
 
         assertFalse(container.compareTo(null) == 0);
         assertEquals(0, container.compareTo(container));
@@ -147,20 +126,16 @@ public class PfConceptContainerTest {
         testContainer.getKey().setVersion(container.getKey().getVersion());
         assertEquals(0, container.compareTo(testContainer));
 
-        PfConceptKey testConceptKey = new PfConceptKey("TestKey", "0.0.1");
+        PfConceptKey testConceptKey = new PfConceptKey("TestKey", VERSION0);
         testContainer.getConceptMap().put(testConceptKey, new DummyPfConcept(testConceptKey));
         assertFalse(container.compareTo(testContainer) == 0);
 
-        try {
-            container.validate(null);
-            fail("test should throw an exception here");
-        } catch (Exception exc) {
-            assertEquals("resultIn is marked @NonNull but is null", exc.getMessage());
-        }
+        final DummyPfConceptContainer container3 = container;
+        assertThatThrownBy(() -> container3.validate(null)).hasMessage("resultIn is marked @NonNull but is null");
 
         DummyPfConceptContainer validateContainer = new DummyPfConceptContainer();
         assertFalse(validateContainer.validate(new PfValidationResult()).isOk());
-        validateContainer.setKey(new PfConceptKey("VCKey", "0.0.1"));
+        validateContainer.setKey(new PfConceptKey("VCKey", VERSION0));
         assertFalse(validateContainer.validate(new PfValidationResult()).isOk());
 
         validateContainer.getConceptMap().put(testConceptKey, new DummyPfConcept(testConceptKey));
@@ -197,9 +172,9 @@ public class PfConceptContainerTest {
     @Test
     public void testAuthorative() {
         Map<String, DummyAuthorativeConcept> dacMap = new LinkedHashMap<>();
-        dacMap.put("name0", new DummyAuthorativeConcept("name0", "1.2.3", "Hello"));
-        dacMap.put("name1", new DummyAuthorativeConcept(PfKey.NULL_KEY_NAME, PfKey.NULL_KEY_VERSION, "Hi"));
-        dacMap.put("name2", new DummyAuthorativeConcept("name2", "1.2.3", "Howdy"));
+        dacMap.put(NAME0, new DummyAuthorativeConcept(NAME0, "1.2.3", "Hello"));
+        dacMap.put(NAME1, new DummyAuthorativeConcept(PfKey.NULL_KEY_NAME, PfKey.NULL_KEY_VERSION, "Hi"));
+        dacMap.put(NAME2, new DummyAuthorativeConcept(NAME2, "1.2.3", "Howdy"));
 
         List<Map<String, DummyAuthorativeConcept>> authorativeList = new ArrayList<>();
         authorativeList.add(dacMap);
@@ -213,19 +188,17 @@ public class PfConceptContainerTest {
 
         List<Map<String, DummyAuthorativeConcept>> outMapList = container.toAuthorative();
 
-        assertEquals(dacMap.get("name0"), outMapList.get(0).get("name0"));
-        assertEquals(dacMap.get("name1").getDescription(), outMapList.get(0).get("NULL").getDescription());
-        assertEquals(dacMap.get("name2"), outMapList.get(0).get("name2"));
+        assertEquals(dacMap.get(NAME0), outMapList.get(0).get(NAME0));
+        assertEquals(dacMap.get(NAME1).getDescription(), outMapList.get(0).get("NULL").getDescription());
+        assertEquals(dacMap.get(NAME2), outMapList.get(0).get(NAME2));
 
         DummyBadPfConceptContainer badContainer = new DummyBadPfConceptContainer();
-        assertThatThrownBy(() -> {
-            badContainer.fromAuthorative(authorativeList);
-        }).hasMessage("failed to instantiate instance of container concept class");
+        assertThatThrownBy(() -> badContainer.fromAuthorative(authorativeList))
+                        .hasMessage("failed to instantiate instance of container concept class");
 
         authorativeList.clear();
-        assertThatThrownBy(() -> {
-            container.fromAuthorative(authorativeList);
-        }).hasMessage("An incoming list of concepts must have at least one entry");
+        assertThatThrownBy(() -> container.fromAuthorative(authorativeList))
+                        .hasMessage("An incoming list of concepts must have at least one entry");
     }
 
     @Test(expected = NullPointerException.class)

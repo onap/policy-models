@@ -37,6 +37,28 @@ public class Target implements Serializable {
     private String modelVersion;
     private String modelCustomizationId;
 
+    public Target() {
+        //Does Nothing Empty Constructor
+    }
+
+    public Target(TargetType type) {
+        this.type = type;
+    }
+
+    public Target(String resourceId) {
+        this.resourceId = resourceId;
+    }
+
+    public Target(TargetType type, String resourceId) {
+        this.type = type;
+        this.resourceId = resourceId;
+    }
+
+    public Target(Target target) {
+        this.type = target.type;
+        this.resourceId = target.resourceId;
+    }
+
     public String getModelInvariantId() {
         return modelInvariantId;
     }
@@ -76,28 +98,6 @@ public class Target implements Serializable {
     public void setModelCustomizationId(String modelCustomizationId) {
         this.modelCustomizationId = modelCustomizationId;
     } //techm
-
-    public Target() {
-        //Does Nothing Empty Constructor
-    }
-
-    public Target(TargetType type) {
-        this.type = type;
-    }
-
-    public Target(String resourceId) {
-        this.resourceId = resourceId;
-    }
-
-    public Target(TargetType type, String resourceId) {
-        this.type = type;
-        this.resourceId = resourceId;
-    }
-
-    public Target(Target target) {
-        this.type = target.type;
-        this.resourceId = target.resourceId;
-    }
 
     public String getResourceID() {
         return resourceId;

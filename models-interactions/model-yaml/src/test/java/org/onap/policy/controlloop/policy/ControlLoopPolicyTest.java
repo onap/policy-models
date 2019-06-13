@@ -2,15 +2,15 @@
  * ============LICENSE_START=======================================================
  * policy-yaml unit test
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,16 +21,13 @@
 
 package org.onap.policy.controlloop.policy;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
-
 import org.junit.Test;
 import org.onap.policy.common.utils.io.Serializer;
 import org.slf4j.Logger;
@@ -43,54 +40,55 @@ import org.yaml.snakeyaml.constructor.Constructor;
 
 public class ControlLoopPolicyTest {
     private static final Logger logger = LoggerFactory.getLogger(ControlLoopPolicyTest.class);
-    
-    @Test 
-    public void test1() {
+
+    @Test
+    public void test1() throws Exception {
         this.test("src/test/resources/v1.0.0/policy_Test.yaml");
     }
 
-    @Test 
-    public void testvService1() {
+    @Test
+    public void testvService1() throws Exception {
         this.test("src/test/resources/v1.0.0/policy_vService.yaml");
     }
 
-    @Test 
-    public void testOpenLoop() {
+    @Test
+    public void testOpenLoop() throws Exception {
         this.test("src/test/resources/v1.0.0/policy_OpenLoop.yaml");
     }
 
-    @Test 
-    public void testvdns() {
+    @Test
+    public void testvdns() throws Exception {
         this.test("src/test/resources/v2.0.0/policy_ONAP_demo_vDNS.yaml");
     }
 
-    @Test 
+    @Test
     public void testvFirewall() {
         // Chenfei to fix this.
         // this.test("src/test/resources/v2.0.0/policy_ONAP_demo_vFirewall.yaml");
     }
 
-    @Test 
-    public void testvcpe() {
+    @Test
+    public void testvcpe() throws Exception {
         this.test("src/test/resources/v2.0.0/policy_ONAP_UseCase_vCPE.yaml");
     }
 
-    @Test 
-    public void testvpci() {
+    @Test
+    public void testvpci() throws Exception {
         this.test("src/test/resources/v2.0.0/policy_ONAP_UseCase_vPCI.yaml");
     }
 
-    @Test 
-    public void testvolte() {
+    @Test
+    public void testvolte() throws Exception {
         this.test("src/test/resources/v2.0.0/policy_ONAP_UseCase_VOLTE.yaml");
     }
 
     /**
      * Does the actual test.
-     * 
+     *
      * @param testFile input file
+     * @throws Exception if an error occurs
      */
-    public void test(String testFile) {
+    public void test(String testFile) throws Exception {
         try (InputStream is = new FileInputStream(new File(testFile))) {
             //
             // Read the yaml into our Java Object
@@ -116,21 +114,12 @@ public class ControlLoopPolicyTest {
             dump(newObject);
             assertNotNull(newObject);
             assertTrue(newObject instanceof ControlLoopPolicy);
-            //
-            // Have to comment it out tentatively since it causes junit to fail. 
-            // Seems we cannot use assertEquals here. Need advice.
-            //
-            //assertEquals(newObject, obj);
-            
+            assertEquals(obj, newObject);
+
             // test serialization
             ControlLoopPolicy policy = (ControlLoopPolicy) obj;
             ControlLoopPolicy policy2 = Serializer.roundTrip(policy);
             assertTrue(policy.equals(policy2));
-            
-        } catch (FileNotFoundException e) {
-            fail(e.getLocalizedMessage());
-        } catch (IOException e) {
-            fail(e.getLocalizedMessage());
         }
     }
 

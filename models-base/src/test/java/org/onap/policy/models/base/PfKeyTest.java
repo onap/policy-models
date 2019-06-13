@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,45 +21,40 @@
 
 package org.onap.policy.models.base;
 
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.lang.reflect.Field;
-
 import org.junit.Test;
-
 import org.onap.policy.models.base.PfKey.Compatibility;
 import org.onap.policy.models.base.testconcepts.DummyPfConcept;
 import org.onap.policy.models.base.testconcepts.DummyPfKey;
 
 public class PfKeyTest {
 
+    private static final String OTHER_IS_NULL = "otherKey is marked @NonNull but is null";
+    private static final String ID_IS_NULL = "id is marked @NonNull but is null";
+    private static final String VERSION123 = "1.2.3";
+    private static final String VERSION100 = "1.0.0";
+    private static final String VERSION001 = "0.0.1";
+
     @Test
     public void testConceptKey() {
-        try {
-            new PfConceptKey("some bad key id");
-            fail("This test should throw an exception");
-        } catch (IllegalArgumentException e) {
-            assertEquals(
-                    "parameter \"id\": value \"some bad key id\", "
-                            + "does not match regular expression \"" + PfKey.KEY_ID_REGEXP + "\"",
-                    e.getMessage());
-        }
+        assertThatIllegalArgumentException().isThrownBy(() -> new PfConceptKey("some bad key id"))
+                        .withMessage("parameter \"id\": value \"some bad key id\", "
+                                        + "does not match regular expression \"" + PfKey.KEY_ID_REGEXP + "\"");
 
-        try {
-            new PfConceptKey((PfConceptKey) null);
-            fail("This test should throw an exception");
-        } catch (Exception e) {
-            assertEquals("copyConcept is marked @NonNull but is null", e.getMessage());
-        }
+        assertThatThrownBy(() -> new PfConceptKey((PfConceptKey) null))
+                        .hasMessage("copyConcept is marked @NonNull but is null");
 
         PfConceptKey someKey0 = new PfConceptKey();
         assertEquals(PfConceptKey.getNullKey(), someKey0);
 
-        PfConceptKey someKey1 = new PfConceptKey("name", "0.0.1");
+        PfConceptKey someKey1 = new PfConceptKey("name", VERSION001);
         PfConceptKey someKey2 = new PfConceptKey(someKey1);
         PfConceptKey someKey3 = new PfConceptKey(someKey1.getId());
         assertEquals(someKey1, someKey2);
@@ -94,12 +90,7 @@ public class PfKeyTest {
 
         assertTrue(PfConceptKey.getNullKey().isNullKey());
 
-        try {
-            PfConceptKey.getNullKey().matchesId(null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("id is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> PfConceptKey.getNullKey().matchesId(null)).hasMessage(ID_IS_NULL);
 
         assertEquals(Compatibility.DIFFERENT, someKey0.getCompatibility(new DummyPfKey()));
         assertEquals(Compatibility.DIFFERENT, someKey0.getCompatibility(someKey1));
@@ -141,130 +132,79 @@ public class PfKeyTest {
         assertEquals(0, someKey7.compareTo(someKey1));
         assertEquals(-12, someKey7.compareTo(someKey0));
 
-        try {
-            someKey0.compareTo(null);
-            fail("test should throw an exception here");
-        } catch (NullPointerException e) {
-            assertEquals("otherObj is marked @NonNull but is null", e.getMessage());
-        }
+        assertThatThrownBy(() -> someKey0.compareTo(null)).isInstanceOf(NullPointerException.class)
+                        .hasMessage("otherObj is marked @NonNull but is null");
 
         assertEquals(0, someKey0.compareTo(someKey0));
         assertEquals(266127751, someKey0.compareTo(new DummyPfKey()));
 
         assertFalse(someKey0.equals(null));
         assertTrue(someKey0.equals(someKey0));
-        assertFalse(((PfKey) someKey0).equals(new DummyPfKey()));
+        assertFalse(someKey0.equals(new DummyPfKey()));
     }
 
     @Test
     public void testNullArguments() {
-        try {
-            new PfConceptKey((String) null);
-            fail("test should throw an exception here");
-        } catch (Exception exc) {
-            assertEquals("id is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new PfConceptKey((String) null)).hasMessage(ID_IS_NULL);
 
-        try {
-            new PfConceptKey((PfConceptKey) null);
-            fail("id is marked @NonNull but is null");
-        } catch (Exception exc) {
-            assertEquals("copyConcept is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new PfConceptKey((PfConceptKey) null))
+                        .hasMessage("copyConcept is marked @NonNull but is null");
 
-        try {
-            new PfConceptKey(null, null);
-            fail("id is marked @NonNull but is null");
-        } catch (Exception exc) {
-            assertEquals("name is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new PfConceptKey(null, null)).hasMessage("name is marked @NonNull but is null");
 
-        try {
-            new PfConceptKey("name", null);
-            fail("id is marked @NonNull but is null");
-        } catch (Exception exc) {
-            assertEquals("version is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new PfConceptKey("name", null)).hasMessage("version is marked @NonNull but is null");
 
-        try {
-            new PfConceptKey(null, "0.0.1");
-            fail("id is marked @NonNull but is null");
-        } catch (Exception exc) {
-            assertEquals("name is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new PfConceptKey(null, VERSION001)).hasMessage("name is marked @NonNull but is null");
 
-        try {
-            PfConceptKey key = new PfConceptKey("AKey", "0.0.1");
-            key.isCompatible(null);
-            fail("id is marked @NonNull but is null");
-        } catch (Exception exc) {
-            assertEquals("otherKey is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new PfConceptKey("AKey", VERSION001).isCompatible(null)).hasMessage(OTHER_IS_NULL);
     }
 
     @Test
-    public void testValidation() {
-        PfConceptKey testKey = new PfConceptKey("TheKey", "0.0.1");
+    public void testValidation() throws Exception {
+        PfConceptKey testKey = new PfConceptKey("TheKey", VERSION001);
         assertEquals("TheKey:0.0.1", testKey.getId());
 
-        try {
-            Field nameField = testKey.getClass().getDeclaredField("name");
-            nameField.setAccessible(true);
-            nameField.set(testKey, "Key Name");
-            PfValidationResult validationResult = new PfValidationResult();
-            testKey.validate(validationResult);
-            nameField.set(testKey, "TheKey");
-            nameField.setAccessible(false);
-            assertEquals(
-                    "name invalid-parameter name with value Key Name "
-                            + "does not match regular expression " + PfKey.NAME_REGEXP,
-                    validationResult.getMessageList().get(0).getMessage());
-        } catch (Exception validationException) {
-            fail("test should not throw an exception");
-        }
+        Field nameField = testKey.getClass().getDeclaredField("name");
+        nameField.setAccessible(true);
+        nameField.set(testKey, "Key Name");
+        PfValidationResult validationResult = new PfValidationResult();
+        testKey.validate(validationResult);
+        nameField.set(testKey, "TheKey");
+        nameField.setAccessible(false);
+        assertEquals(
+                "name invalid-parameter name with value Key Name "
+                        + "does not match regular expression " + PfKey.NAME_REGEXP,
+                validationResult.getMessageList().get(0).getMessage());
 
-        try {
-            Field versionField = testKey.getClass().getDeclaredField("version");
-            versionField.setAccessible(true);
-            versionField.set(testKey, "Key Version");
-            PfValidationResult validationResult = new PfValidationResult();
-            testKey.validate(validationResult);
-            versionField.set(testKey, "0.0.1");
-            versionField.setAccessible(false);
-            assertEquals(
-                    "version invalid-parameter version with value Key Version "
-                            + "does not match regular expression " + PfKey.VERSION_REGEXP,
-                    validationResult.getMessageList().get(0).getMessage());
-        } catch (Exception validationException) {
-            fail("test should not throw an exception");
-        }
+        Field versionField = testKey.getClass().getDeclaredField("version");
+        versionField.setAccessible(true);
+        versionField.set(testKey, "Key Version");
+        PfValidationResult validationResult2 = new PfValidationResult();
+        testKey.validate(validationResult2);
+        versionField.set(testKey, VERSION001);
+        versionField.setAccessible(false);
+        assertEquals(
+                "version invalid-parameter version with value Key Version "
+                        + "does not match regular expression " + PfKey.VERSION_REGEXP,
+                validationResult2.getMessageList().get(0).getMessage());
     }
 
     @Test
     public void testkeynewerThan() {
-        PfConceptKey key1 = new PfConceptKey("Key1", "1.2.3");
+        PfConceptKey key1 = new PfConceptKey("Key1", VERSION123);
 
-        try {
-            key1.isNewerThan(null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("otherKey is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> key1.isNewerThan(null)).hasMessage(OTHER_IS_NULL);
 
-        try {
-            key1.isNewerThan(new PfReferenceKey());
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("org.onap.policy.models.base.PfReferenceKey is not "
-                    + "an instance of org.onap.policy.models.base.PfConceptKey", exc.getMessage());
-        }
+        assertThatThrownBy(() -> key1.isNewerThan(new PfReferenceKey()))
+                        .hasMessage("org.onap.policy.models.base.PfReferenceKey is not "
+                                        + "an instance of org.onap.policy.models.base.PfConceptKey");
 
         assertFalse(key1.isNewerThan(key1));
 
-        PfConceptKey key1a = new PfConceptKey("Key1a", "1.2.3");
+        PfConceptKey key1a = new PfConceptKey("Key1a", VERSION123);
         assertFalse(key1.isNewerThan(key1a));
 
-        PfConceptKey key1b = new PfConceptKey("Key0", "1.2.3");
+        PfConceptKey key1b = new PfConceptKey("Key0", VERSION123);
         assertTrue(key1.isNewerThan(key1b));
 
         key1a.setName("Key1");
@@ -274,51 +214,42 @@ public class PfKeyTest {
         assertTrue(key1.isNewerThan(key1a));
         key1a.setVersion("2.2.3");
         assertFalse(key1.isNewerThan(key1a));
-        key1a.setVersion("1.2.3");
+        key1a.setVersion(VERSION123);
         assertFalse(key1.isNewerThan(key1a));
 
         key1a.setVersion("1.1.3");
         assertTrue(key1.isNewerThan(key1a));
         key1a.setVersion("1.3.3");
         assertFalse(key1.isNewerThan(key1a));
-        key1a.setVersion("1.2.3");
+        key1a.setVersion(VERSION123);
         assertFalse(key1.isNewerThan(key1a));
 
         key1a.setVersion("1.2.2");
         assertTrue(key1.isNewerThan(key1a));
         key1a.setVersion("1.2.4");
         assertFalse(key1.isNewerThan(key1a));
-        key1a.setVersion("1.2.3");
+        key1a.setVersion(VERSION123);
         assertFalse(key1.isNewerThan(key1a));
 
-        key1.setVersion("1.0.0");
+        key1.setVersion(VERSION100);
         assertFalse(key1.isNewerThan(key1a));
-        key1a.setVersion("1.0.0");
+        key1a.setVersion(VERSION100);
         assertFalse(key1.isNewerThan(key1a));
 
         PfReferenceKey refKey = new PfReferenceKey();
 
-        try {
-            refKey.isNewerThan(null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("otherKey is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> refKey.isNewerThan(null)).hasMessage(OTHER_IS_NULL);
 
-        try {
-            refKey.isNewerThan(new PfConceptKey());
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("org.onap.policy.models.base.PfConceptKey is not "
-                    + "an instance of org.onap.policy.models.base.PfReferenceKey", exc.getMessage());
-        }
+        assertThatThrownBy(() -> refKey.isNewerThan(new PfConceptKey()))
+                        .hasMessage("org.onap.policy.models.base.PfConceptKey is not "
+                                        + "an instance of org.onap.policy.models.base.PfReferenceKey");
 
         assertFalse(refKey.isNewerThan(refKey));
     }
 
     @Test
     public void testmajorMinorPatch() {
-        PfConceptKey key = new PfConceptKey("Key", "1.0.0");
+        PfConceptKey key = new PfConceptKey("Key", VERSION100);
         assertEquals(1, key.getMajorVersion());
         assertEquals(0, key.getMinorVersion());
         assertEquals(0, key.getPatchVersion());
@@ -328,7 +259,7 @@ public class PfKeyTest {
         assertEquals(2, key.getMinorVersion());
         assertEquals(0, key.getPatchVersion());
 
-        key = new PfConceptKey("Key", "1.2.3");
+        key = new PfConceptKey("Key", VERSION123);
         assertEquals(1, key.getMajorVersion());
         assertEquals(2, key.getMinorVersion());
         assertEquals(3, key.getPatchVersion());
