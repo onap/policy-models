@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
- * Modifications Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -39,6 +39,11 @@ import org.onap.policy.sdc.Service;
 
 public class ControlLoopTest {
 
+    private static final String SERVICE2 = "service2";
+    private static final String SERVICE1 = "service1";
+    private static final String RESOURCE2 = "resource2";
+    private static final String RESOURCE1 = "resource1";
+    private static final String PNF1 = "pnf 1";
     private String controlLoopName = "control loop 1";
     private String version = "1.0.1";
     private String triggerPolicy = FinalResult.FINAL_OPENLOOP.toString();
@@ -66,7 +71,7 @@ public class ControlLoopTest {
     @Test
     public void testEqualsNoServicesAndResourcesOrTimeout() {
         final Pnf pnf = new Pnf();
-        pnf.setPnfName("pnf 1");
+        pnf.setPnfName(PNF1);
 
         ControlLoop controlLoop1 = new ControlLoop();
         controlLoop1.setControlLoopName(controlLoopName);
@@ -88,19 +93,19 @@ public class ControlLoopTest {
     @Test
     public void testEquals() throws IOException {
         final Pnf pnf = new Pnf();
-        pnf.setPnfName("pnf 1");
+        pnf.setPnfName(PNF1);
 
         ControlLoop controlLoop1 = new ControlLoop();
         controlLoop1.setControlLoopName(controlLoopName);
         controlLoop1.setVersion(version);
-        Service service1 = new Service("service1");
-        Service service2 = new Service("service2");
+        Service service1 = new Service(SERVICE1);
+        Service service2 = new Service(SERVICE2);
         List<Service> services = new ArrayList<>();
         services.add(service1);
         services.add(service2);
         controlLoop1.setServices(services);
-        Resource resource1 = new Resource("resource1", ResourceType.VF);
-        Resource resource2 = new Resource("resource2", ResourceType.VFC);
+        Resource resource1 = new Resource(RESOURCE1, ResourceType.VF);
+        Resource resource2 = new Resource(RESOURCE2, ResourceType.VFC);
         List<Resource> resources = new ArrayList<>();
         resources.add(resource1);
         resources.add(resource2);
@@ -113,14 +118,14 @@ public class ControlLoopTest {
         ControlLoop controlLoop2 = new ControlLoop();
         controlLoop2.setControlLoopName(controlLoopName);
         controlLoop2.setVersion(version);
-        Service controlLoop2Service1 = new Service("service1");
-        Service controlLoop2Service2 = new Service("service2");
+        Service controlLoop2Service1 = new Service(SERVICE1);
+        Service controlLoop2Service2 = new Service(SERVICE2);
         List<Service> controlLoop2Services = new ArrayList<>();
         controlLoop2Services.add(controlLoop2Service1);
         controlLoop2Services.add(controlLoop2Service2);
         controlLoop2.setServices(controlLoop2Services);
-        Resource controlLoop2Resource1 = new Resource("resource1", ResourceType.VF);
-        Resource controlLoop2Resource2 = new Resource("resource2", ResourceType.VFC);
+        Resource controlLoop2Resource1 = new Resource(RESOURCE1, ResourceType.VF);
+        Resource controlLoop2Resource2 = new Resource(RESOURCE2, ResourceType.VFC);
         List<Resource> controlLoop2Resources = new ArrayList<>();
         controlLoop2Resources.add(controlLoop2Resource1);
         controlLoop2Resources.add(controlLoop2Resource2);
@@ -146,19 +151,19 @@ public class ControlLoopTest {
     // PLEASE ADVISE IF THE EXISTING BEHAVIOUR IS CORRECT
     public void testControlLoop() {
         final Pnf pnf = new Pnf();
-        pnf.setPnfName("pnf 1");
+        pnf.setPnfName(PNF1);
 
         ControlLoop controlLoop1 = new ControlLoop();
         controlLoop1.setControlLoopName(controlLoopName);
         controlLoop1.setVersion(version);
-        Service service1 = new Service("service1");
-        Service service2 = new Service("service2");
+        Service service1 = new Service(SERVICE1);
+        Service service2 = new Service(SERVICE2);
         List<Service> services = new ArrayList<>();
         services.add(service1);
         services.add(service2);
         controlLoop1.setServices(services);
-        Resource resource1 = new Resource("resource1", ResourceType.VF);
-        Resource resource2 = new Resource("resource2", ResourceType.VFC);
+        Resource resource1 = new Resource(RESOURCE1, ResourceType.VF);
+        Resource resource2 = new Resource(RESOURCE2, ResourceType.VFC);
         List<Resource> resources = new ArrayList<>();
         resources.add(resource1);
         resources.add(resource2);

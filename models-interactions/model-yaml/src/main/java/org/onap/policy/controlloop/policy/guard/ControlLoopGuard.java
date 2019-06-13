@@ -2,15 +2,15 @@
  * ============LICENSE_START=======================================================
  * policy-yaml
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,22 +22,23 @@
 package org.onap.policy.controlloop.policy.guard;
 
 import java.util.LinkedList;
+import java.util.List;
 
 public class ControlLoopGuard {
-    
+
     private Guard guard;
-    
-    private LinkedList<GuardPolicy> guards;
-    
+
+    private List<GuardPolicy> guards;
+
     public ControlLoopGuard() {
         //DO Nothing Empty Constructor
     }
-    
+
     public ControlLoopGuard(ControlLoopGuard clGuard) {
         this.guard = new Guard();
         this.guards = new LinkedList<>(clGuard.guards);
     }
-    
+
     public Guard getGuard() {
         return guard;
     }
@@ -46,11 +47,11 @@ public class ControlLoopGuard {
         this.guard = guard;
     }
 
-    public LinkedList<GuardPolicy> getGuards() {
+    public List<GuardPolicy> getGuards() {
         return guards;
     }
 
-    public void setGuards(LinkedList<GuardPolicy> guards) {
+    public void setGuards(List<GuardPolicy> guards) {
         this.guards = guards;
     }
 
@@ -97,5 +98,5 @@ public class ControlLoopGuard {
         return true;
     }
 
-    
+
 }

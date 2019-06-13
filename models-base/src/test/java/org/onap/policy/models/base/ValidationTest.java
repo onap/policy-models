@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,6 +31,9 @@ import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 
 public class ValidationTest {
 
+    private static final String HELLO = "hello";
+    private static final String SOME_MESSAGE = "Some message";
+
     @Test
     public void test() {
         PfValidationResult result = new PfValidationResult();
@@ -43,47 +47,47 @@ public class ValidationTest {
         assertNotNull(result.getMessageList());
 
         PfValidationMessage vmess0 = new PfValidationMessage(PfConceptKey.getNullKey(), PfConceptKey.class,
-                        ValidationResult.VALID, "Some message");
+                        ValidationResult.VALID, SOME_MESSAGE);
         result.addValidationMessage(vmess0);
 
         assertTrue(result.isOk());
         assertTrue(result.isValid());
         assertEquals(PfValidationResult.ValidationResult.VALID, result.getValidationResult());
         assertNotNull(result.getMessageList());
-        assertNotNull("hello", result.toString());
+        assertNotNull(HELLO, result.toString());
 
         PfValidationMessage vmess1 = new PfValidationMessage(PfConceptKey.getNullKey(), PfConceptKey.class,
-                        ValidationResult.OBSERVATION, "Some message");
+                        ValidationResult.OBSERVATION, SOME_MESSAGE);
         result.addValidationMessage(vmess1);
 
         assertTrue(result.isOk());
         assertTrue(result.isValid());
         assertEquals(PfValidationResult.ValidationResult.OBSERVATION, result.getValidationResult());
         assertNotNull(result.getMessageList());
-        assertNotNull("hello", result.toString());
+        assertNotNull(HELLO, result.toString());
 
         PfValidationMessage vmess2 = new PfValidationMessage(PfConceptKey.getNullKey(), PfConceptKey.class,
-                        ValidationResult.WARNING, "Some message");
+                        ValidationResult.WARNING, SOME_MESSAGE);
         result.addValidationMessage(vmess2);
 
         assertFalse(result.isOk());
         assertTrue(result.isValid());
         assertEquals(PfValidationResult.ValidationResult.WARNING, result.getValidationResult());
         assertNotNull(result.getMessageList());
-        assertNotNull("hello", result.toString());
+        assertNotNull(HELLO, result.toString());
 
         PfValidationMessage vmess3 = new PfValidationMessage(PfConceptKey.getNullKey(), PfConceptKey.class,
-                        ValidationResult.INVALID, "Some message");
+                        ValidationResult.INVALID, SOME_MESSAGE);
         result.addValidationMessage(vmess3);
 
         assertFalse(result.isOk());
         assertFalse(result.isValid());
         assertEquals(PfValidationResult.ValidationResult.INVALID, result.getValidationResult());
         assertNotNull(result.getMessageList());
-        assertNotNull("hello", result.toString());
+        assertNotNull(HELLO, result.toString());
 
         assertEquals(PfValidationResult.ValidationResult.INVALID, result.getMessageList().get(3).getValidationResult());
-        assertEquals("Some message", result.getMessageList().get(3).getMessage());
+        assertEquals(SOME_MESSAGE, result.getMessageList().get(3).getMessage());
         assertEquals(PfConceptKey.class.getCanonicalName(), result.getMessageList().get(3).getObservedClass());
         assertEquals(PfConceptKey.getNullKey(), result.getMessageList().get(3).getObservedKey());
     }
