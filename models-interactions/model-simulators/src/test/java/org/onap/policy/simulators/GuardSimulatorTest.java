@@ -86,7 +86,7 @@ public class GuardSimulatorTest {
         guard.put("actor", actor);
         guard.put("recipe", recipe);
         guard.put("target", target);
-        guard.put("clName", clName);
+        guard.put("clname", clName);
         Map<String, Object> resource = new HashMap<String, Object>();
         resource.put("guard", guard);
         DecisionRequest request = new DecisionRequest();
