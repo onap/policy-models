@@ -34,6 +34,9 @@ import org.junit.Test;
 
 public class RequestTest {
 
+    private static final String WIZARD = "Wizard";
+    private static final String GO_TO_OZ = "Go to Oz";
+
     @Test
     public void testRequest() {
         Request request = new Request();
@@ -45,11 +48,11 @@ public class RequestTest {
         request.setCommonHeader(commonHeader);
         assertEquals(commonHeader, request.getCommonHeader());
 
-        request.setAction("Go to Oz");
-        assertEquals("Go to Oz", request.getAction());
+        request.setAction(GO_TO_OZ);
+        assertEquals(GO_TO_OZ, request.getAction());
 
-        request.setObjectId("Wizard");
-        assertEquals("Wizard", request.getObjectId());
+        request.setObjectId(WIZARD);
+        assertEquals(WIZARD, request.getObjectId());
 
         request.setTargetId("Oz");
         assertEquals("Oz", request.getTargetId());
@@ -90,18 +93,18 @@ public class RequestTest {
         assertFalse(request.equals(copiedRequest));
         copiedRequest.setAction(null);
         assertTrue(request.equals(copiedRequest));
-        request.setAction("Go to Oz");
+        request.setAction(GO_TO_OZ);
         assertFalse(request.equals(copiedRequest));
-        copiedRequest.setAction("Go to Oz");
+        copiedRequest.setAction(GO_TO_OZ);
         assertTrue(request.equals(copiedRequest));
 
         request.setObjectId(null);
         assertFalse(request.equals(copiedRequest));
         copiedRequest.setObjectId(null);
         assertTrue(request.equals(copiedRequest));
-        request.setObjectId("Wizard");
+        request.setObjectId(WIZARD);
         assertFalse(request.equals(copiedRequest));
-        copiedRequest.setObjectId("Wizard");
+        copiedRequest.setObjectId(WIZARD);
         assertTrue(request.equals(copiedRequest));
 
         request.setTargetId(null);

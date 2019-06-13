@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,6 +47,9 @@ import org.onap.policy.models.pdp.testconcepts.DummyJpaPdpSubgroupChild;
  */
 public class JpaPdpSubGroupTest {
 
+    private static final String NULL_KEY_ERROR = "key is marked @NonNull but is null";
+    private static final String PDP_A = "PDP-A";
+
     @Test
     public void testJpaPdpSubGroup() {
         assertThatThrownBy(() -> {
@@ -54,7 +58,7 @@ public class JpaPdpSubGroupTest {
 
         assertThatThrownBy(() -> {
             new JpaPdpSubGroup((PfReferenceKey) null);
-        }).hasMessage("key is marked @NonNull but is null");
+        }).hasMessage(NULL_KEY_ERROR);
 
         assertThatThrownBy(() -> {
             new JpaPdpSubGroup((PdpSubGroup) null);
@@ -62,7 +66,7 @@ public class JpaPdpSubGroupTest {
 
         assertThatThrownBy(() -> {
             new JpaPdpSubGroup(null, null, null, null);
-        }).hasMessage("key is marked @NonNull but is null");
+        }).hasMessage(NULL_KEY_ERROR);
 
         assertThatThrownBy(() -> {
             new JpaPdpSubGroup(new PfReferenceKey(), null, null, null);
@@ -74,19 +78,19 @@ public class JpaPdpSubGroupTest {
 
         assertThatThrownBy(() -> {
             new JpaPdpSubGroup(null, new ArrayList<>(), null, null);
-        }).hasMessage("key is marked @NonNull but is null");
+        }).hasMessage(NULL_KEY_ERROR);
 
         assertThatThrownBy(() -> {
             new JpaPdpSubGroup(null, new ArrayList<>(), new ArrayList<>(), null);
-        }).hasMessage("key is marked @NonNull but is null");
+        }).hasMessage(NULL_KEY_ERROR);
 
         assertThatThrownBy(() -> {
             new JpaPdpSubGroup(null, null, new ArrayList<>(), null);
-        }).hasMessage("key is marked @NonNull but is null");
+        }).hasMessage(NULL_KEY_ERROR);
 
         assertThatThrownBy(() -> {
             new JpaPdpSubGroup(null, null, null, new ArrayList<>());
-        }).hasMessage("key is marked @NonNull but is null");
+        }).hasMessage(NULL_KEY_ERROR);
 
         assertThatThrownBy(() -> {
             new JpaPdpSubGroup(new PfReferenceKey(), null, null, new ArrayList<>());
@@ -98,24 +102,24 @@ public class JpaPdpSubGroupTest {
 
         assertThatThrownBy(() -> {
             new JpaPdpSubGroup(null, new ArrayList<>(), null, new ArrayList<>());
-        }).hasMessage("key is marked @NonNull but is null");
+        }).hasMessage(NULL_KEY_ERROR);
 
         assertThatThrownBy(() -> {
             new JpaPdpSubGroup(null, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-        }).hasMessage("key is marked @NonNull but is null");
+        }).hasMessage(NULL_KEY_ERROR);
 
         assertThatThrownBy(() -> {
             new JpaPdpSubGroup(null, null, new ArrayList<>(), null);
-        }).hasMessage("key is marked @NonNull but is null");
+        }).hasMessage(NULL_KEY_ERROR);
 
         assertNotNull(new JpaPdpSubGroup((new PfReferenceKey())));
 
         PdpSubGroup testPdpSubgroup = new PdpSubGroup();
-        testPdpSubgroup.setPdpType("PDP-A");
+        testPdpSubgroup.setPdpType(PDP_A);
         JpaPdpSubGroup testJpaPdpSubGroup = new JpaPdpSubGroup();
         testJpaPdpSubGroup.setKey(null);
         testJpaPdpSubGroup.fromAuthorative(testPdpSubgroup);
-        assertEquals("PDP-A", testJpaPdpSubGroup.getKey().getLocalName());
+        assertEquals(PDP_A, testJpaPdpSubGroup.getKey().getLocalName());
         testJpaPdpSubGroup.setKey(PfReferenceKey.getNullKey());
         testJpaPdpSubGroup.fromAuthorative(testPdpSubgroup);
 
@@ -127,12 +131,12 @@ public class JpaPdpSubGroupTest {
             testJpaPdpSubGroup.copyTo(null);
         }).hasMessage("target is marked @NonNull but is null");
 
-        assertEquals("PDP-A", testJpaPdpSubGroup.getKey().getLocalName());
-        assertEquals("PDP-A", new JpaPdpSubGroup(testPdpSubgroup).getKey().getLocalName());
-        assertEquals("PDP-A", ((PfReferenceKey) new JpaPdpSubGroup(testPdpSubgroup).getKeys().get(0)).getLocalName());
+        assertEquals(PDP_A, testJpaPdpSubGroup.getKey().getLocalName());
+        assertEquals(PDP_A, new JpaPdpSubGroup(testPdpSubgroup).getKey().getLocalName());
+        assertEquals(PDP_A, ((PfReferenceKey) new JpaPdpSubGroup(testPdpSubgroup).getKeys().get(0)).getLocalName());
 
         testJpaPdpSubGroup.clean();
-        assertEquals("PDP-A", testJpaPdpSubGroup.getKey().getLocalName());
+        assertEquals(PDP_A, testJpaPdpSubGroup.getKey().getLocalName());
 
         assertThatThrownBy(() -> {
             testJpaPdpSubGroup.validate(null);

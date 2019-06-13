@@ -41,6 +41,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class VfcActorServiceProvider implements Actor {
+    private static final String GENERIC_VNF_ID = "generic-vnf.vnf-id";
+
     private static final Logger logger = LoggerFactory.getLogger(VfcActorServiceProvider.class);
 
     // Strings for VFC Actor
@@ -105,7 +107,7 @@ public class VfcActorServiceProvider implements Actor {
         request.setNsInstanceId(serviceInstance);
         request.setRequestId(onset.getRequestId());
         request.setHealRequest(new VfcHealRequest());
-        request.getHealRequest().setVnfInstanceId(onset.getAai().get("generic-vnf.vnf-id"));
+        request.getHealRequest().setVnfInstanceId(onset.getAai().get(GENERIC_VNF_ID));
         request.getHealRequest().setCause(operation.getMessage());
         request.getHealRequest().setAdditionalParams(new VfcHealAdditionalParams());
 
@@ -127,7 +129,7 @@ public class VfcActorServiceProvider implements Actor {
         AaiGetVnfResponse response = null;
         UUID requestId = event.getRequestId();
         String vnfName = event.getAai().get("generic-vnf.vnf-name");
-        String vnfId = event.getAai().get("generic-vnf.vnf-id");
+        String vnfId = event.getAai().get(GENERIC_VNF_ID);
         try {
             if (vnfName != null) {
                 String url = aaiUrl + "/aai/v11/network/generic-vnfs/generic-vnf?vnf-name=";
@@ -176,7 +178,7 @@ public class VfcActorServiceProvider implements Actor {
         request.setNsInstanceId(serviceInstance);
         request.setRequestId(onset.getRequestId());
         request.setHealRequest(new VfcHealRequest());
-        request.getHealRequest().setVnfInstanceId(onset.getAai().get("generic-vnf.vnf-id"));
+        request.getHealRequest().setVnfInstanceId(onset.getAai().get(GENERIC_VNF_ID));
         request.getHealRequest().setCause(operation.getMessage());
         request.getHealRequest().setAdditionalParams(new VfcHealAdditionalParams());
 

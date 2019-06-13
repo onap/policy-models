@@ -29,12 +29,14 @@ import org.junit.Test;
 
 public class AaiExceptionTest {
 
+    private static final String MESSAGE = "message";
+
     @Test
     public void test() {
         assertNotNull(new AaiException());
-        assertNotNull(new AaiException("message"));
-        assertNotNull(new AaiException("message", new IOException()));
-        assertNotNull(new AaiException("message", new IOException(), true, false));
+        assertNotNull(new AaiException(MESSAGE));
+        assertNotNull(new AaiException(MESSAGE, new IOException()));
+        assertNotNull(new AaiException(MESSAGE, new IOException(), true, false));
         assertNotNull(new AaiException(new IOException()));
     }
 

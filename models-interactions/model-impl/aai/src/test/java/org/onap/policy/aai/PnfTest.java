@@ -27,33 +27,26 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.aai.util.Serialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class PnfTest {
+    private static final String PNF_NAME_TEST = "pnf-name-test";
     private static final Logger logger = LoggerFactory.getLogger(PnfTest.class);
-
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {}
-
-    @AfterClass
-    public static void tearDownAfterClass() throws Exception {}
 
     @Test
     public void test() {
         Pnf pnf = new Pnf();
-        pnf.setPnfName("pnf-name-test");
+        pnf.setPnfName(PNF_NAME_TEST);
         pnf.setPnfType(PnfType.ENODEB);
         assertNotNull(pnf);
 
         Pnf pnfClone = new Pnf(pnf);
         assertNotNull(pnfClone);
 
-        assertEquals("pnf-name-test", pnfClone.getPnfName());
+        assertEquals(PNF_NAME_TEST, pnfClone.getPnfName());
         assertEquals(PnfType.ENODEB, pnfClone.getPnfType());
 
         assertEquals("PNF [PNFName=pnf-name-test, PNFType=eNodeB]", pnfClone.toString());
@@ -61,7 +54,7 @@ public class PnfTest {
         assertNotEquals(0, new Pnf().hashCode());
 
         Pnf pnfOther = new Pnf();
-        pnfOther.setPnfName("pnf-name-test");
+        pnfOther.setPnfName(PNF_NAME_TEST);
 
         assertTrue(pnf.equals(pnf));
         assertFalse(pnf.equals(null));

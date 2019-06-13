@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2019 Bell Canada.
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -127,9 +128,8 @@ public class BasicAuthClientHeaderInterceptorTest {
     private static class TestServerInterceptor implements ServerInterceptor {
 
         @Override
-        public <ReqT, RespT> Listener<ReqT> interceptCall(final ServerCall<ReqT, RespT> serverCall,
-            final Metadata metadata,
-            final ServerCallHandler<ReqT, RespT> serverCallHandler) {
+        public <Q, P> Listener<Q> interceptCall(final ServerCall<Q, P> serverCall,
+                        final Metadata metadata, final ServerCallHandler<Q, P> serverCallHandler) {
             return serverCallHandler.startCall(serverCall, metadata);
         }
     }
