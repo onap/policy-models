@@ -22,8 +22,6 @@ package org.onap.policy.models.tosca.authorative.concepts;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -45,12 +43,10 @@ public class ToscaPolicyIdentifierOptVersionTest extends ToscaIdentifierTestBase
         ToscaPolicyIdentifierOptVersion orig = new ToscaPolicyIdentifierOptVersion(NAME, null);
         assertEquals(NAME, orig.getName());
         assertEquals(null, orig.getVersion());
-        assertTrue(orig.isNullVersion());
 
         orig = new ToscaPolicyIdentifierOptVersion(NAME, VERSION);
         assertEquals(NAME, orig.getName());
         assertEquals(VERSION, orig.getVersion());
-        assertFalse(orig.isNullVersion());
     }
 
     @Test

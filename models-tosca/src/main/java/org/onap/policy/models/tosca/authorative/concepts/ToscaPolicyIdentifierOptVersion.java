@@ -20,7 +20,6 @@
 
 package org.onap.policy.models.tosca.authorative.concepts;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -55,16 +54,6 @@ public class ToscaPolicyIdentifierOptVersion implements Comparable<ToscaPolicyId
     public ToscaPolicyIdentifierOptVersion(ToscaPolicyIdentifier source) {
         this.name = source.getName();
         this.version = source.getVersion();
-    }
-
-    /**
-     * Determines if the version is null/missing.
-     *
-     * @return {@code true} if the version is null/missing, {@code false}
-     */
-    @JsonIgnore
-    public boolean isNullVersion() {
-        return (version == null);
     }
 
     @Override
