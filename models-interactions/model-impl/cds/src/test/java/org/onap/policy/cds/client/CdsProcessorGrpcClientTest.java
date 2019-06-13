@@ -19,9 +19,8 @@
 package org.onap.policy.cds.client;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
@@ -128,13 +127,13 @@ public class CdsProcessorGrpcClientTest {
 
     @Test
     public void testCdsProcessorGrpcClientConstructor() {
-        new CdsProcessorGrpcClient(listener, props);
+        new CdsProcessorGrpcClient(listener, props).close();
     }
 
     @Test(expected = IllegalStateException.class)
     public void testCdsProcessorGrpcClientConstructorFailure() {
         props.setHost(null);
-        new CdsProcessorGrpcClient(listener, props);
+        new CdsProcessorGrpcClient(listener, props).close();
     }
 
     @Test

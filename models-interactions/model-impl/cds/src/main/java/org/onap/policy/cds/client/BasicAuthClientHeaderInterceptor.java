@@ -49,12 +49,12 @@ public class BasicAuthClientHeaderInterceptor implements ClientInterceptor {
     }
 
     @Override
-    public <ReqT, RespT> ClientCall<ReqT, RespT> interceptCall(MethodDescriptor<ReqT, RespT> method,
+    public <Q, P> ClientCall<Q, P> interceptCall(MethodDescriptor<Q, P> method,
         CallOptions callOptions, Channel channel) {
         Key<String> authHeader = Key.of(BASIC_AUTH_HEADER_KEY, Metadata.ASCII_STRING_MARSHALLER);
-        return new ForwardingClientCall.SimpleForwardingClientCall<ReqT, RespT>(channel.newCall(method, callOptions)) {
+        return new ForwardingClientCall.SimpleForwardingClientCall<Q, P>(channel.newCall(method, callOptions)) {
             @Override
-            public void start(Listener<RespT> responseListener, Metadata headers) {
+            public void start(Listener<P> responseListener, Metadata headers) {
                 headers.put(authHeader, props.getBasicAuth());
                 super.start(responseListener, headers);
             }

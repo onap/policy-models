@@ -57,6 +57,9 @@ import org.slf4j.LoggerFactory;
 public class SoActorServiceProvider implements Actor {
     private static final Logger logger = LoggerFactory.getLogger(SoActorServiceProvider.class);
 
+    private static final String TENANT_NOT_FOUND = "Tenant Item not found in AAI response {}";
+    private static final String CONSTRUCTED_SO_MSG = "Constructed SO request: {}";
+
     // Strings for SO Actor
     private static final String SO_ACTOR = "SO";
 
@@ -160,7 +163,7 @@ public class SoActorServiceProvider implements Actor {
             tenantItem = aaiResponseWrapper.getAaiNqResponse().getInventoryResponseItems().get(0).getItems()
                     .getInventoryResponseItems().get(1);
         } catch (Exception e) {
-            logger.error("Tenant Item not found in AAI response {}",
+            logger.error(TENANT_NOT_FOUND,
                     Serialization.gsonPretty.toJson(aaiResponseWrapper), e);
             return null;
         }
@@ -180,7 +183,7 @@ public class SoActorServiceProvider implements Actor {
         if (RECIPE_VF_MODULE_CREATE.equals(policy.getRecipe())) {
             return constructCreateRequest(aaiResponseWrapper, policy, tenantItem, vnfItem, vnfServiceItem, soModelInfo);
         } else if (RECIPE_VF_MODULE_DELETE.equals(policy.getRecipe())) {
-            return constructDeleteRequest(tenantItem, vnfItem, vnfServiceItem, soModelInfo, policy);
+            return constructDeleteRequest(tenantItem, vnfItem, vnfServiceItem, policy);
         } else {
             return null;
         }
@@ -188,20 +191,23 @@ public class SoActorServiceProvider implements Actor {
 
     private SoModelInfo prepareSoModelInfo(Policy policy) {
 
-        SoModelInfo soModelInfo = new SoModelInfo();
-        if ((policy.getTarget() != null && (policy.getTarget().getModelCustomizationId() != null))
-                && (policy.getTarget().getModelInvariantId() != null) && (policy.getTarget().getModelName() != null)
-                && (policy.getTarget().getModelVersion() != null) && (policy.getTarget().getModelVersionId() != null)) {
-
-            soModelInfo.setModelCustomizationId(policy.getTarget().getModelCustomizationId());
-            soModelInfo.setModelInvariantId(policy.getTarget().getModelInvariantId());
-            soModelInfo.setModelName(policy.getTarget().getModelName());
-            soModelInfo.setModelVersion(policy.getTarget().getModelVersion());
-            soModelInfo.setModelVersionId(policy.getTarget().getModelVersionId());
-            return soModelInfo;
-        } else {
+        if (policy.getTarget() == null || policy.getTarget().getModelCustomizationId() == null
+                        || policy.getTarget().getModelInvariantId() == null) {
             return null;
         }
+
+        if (policy.getTarget().getModelName() == null || policy.getTarget().getModelVersion() == null
+                        || policy.getTarget().getModelVersionId() == null) {
+            return null;
+        }
+
+        SoModelInfo soModelInfo = new SoModelInfo();
+        soModelInfo.setModelCustomizationId(policy.getTarget().getModelCustomizationId());
+        soModelInfo.setModelInvariantId(policy.getTarget().getModelInvariantId());
+        soModelInfo.setModelName(policy.getTarget().getModelName());
+        soModelInfo.setModelVersion(policy.getTarget().getModelVersion());
+        soModelInfo.setModelVersionId(policy.getTarget().getModelVersionId());
+        return soModelInfo;
     }
 
     /**
@@ -300,7 +306,7 @@ public class SoActorServiceProvider implements Actor {
         preserveInstanceIds(vnfItem.getGenericVnf().getVnfId(),
                 vnfServiceItem.getServiceInstance().getServiceInstanceId(), null);
         if (logger.isDebugEnabled()) {
-            logger.debug("Constructed SO request: {}", Serialization.gsonPretty.toJson(request));
+            logger.debug(CONSTRUCTED_SO_MSG, Serialization.gsonPretty.toJson(request));
         }
         return request;
     }
@@ -311,11 +317,10 @@ public class SoActorServiceProvider implements Actor {
      * @param tenantItem tenant item from A&AI named-query response
      * @param vnfItem vnf item from A&AI named-query response
      * @param vnfServiceItem vnf service item from A&AI named-query response
-     * @param vfModuleItem vf module item from A&AI named-query response
      * @return SO delete vf-module request
      */
     private SoRequest constructDeleteRequest(AaiNqInventoryResponseItem tenantItem, AaiNqInventoryResponseItem vnfItem,
-            AaiNqInventoryResponseItem vnfServiceItem, SoModelInfo vfModuleItem, Policy policy) {
+            AaiNqInventoryResponseItem vnfServiceItem, Policy policy) {
         SoRequest request = new SoRequest();
         request.setOperationType(SoOperationType.DELETE_VF_MODULE);
         request.setRequestDetails(new SoRequestDetails());
@@ -333,7 +338,7 @@ public class SoActorServiceProvider implements Actor {
                 vnfServiceItem.getServiceInstance().getServiceInstanceId(), null);
 
         if (logger.isDebugEnabled()) {
-            logger.debug("Constructed SO request: {}", Serialization.gsonPretty.toJson(request));
+            logger.debug(CONSTRUCTED_SO_MSG, Serialization.gsonPretty.toJson(request));
         }
         return request;
     }
@@ -512,14 +517,14 @@ public class SoActorServiceProvider implements Actor {
         try {
             tenantItem = aaiCqResponse.getDefaultTenant();
         } catch (Exception e) {
-            logger.error("Tenant Item not found in AAI response {}", Serialization.gsonPretty.toJson(aaiCqResponse), e);
+            logger.error(TENANT_NOT_FOUND, Serialization.gsonPretty.toJson(aaiCqResponse), e);
             return null;
         }
 
         try {
             cloudRegionItem = aaiCqResponse.getDefaultCloudRegion();
         } catch (Exception e) {
-            logger.error("Tenant Item not found in AAI response {}", Serialization.gsonPretty.toJson(aaiCqResponse), e);
+            logger.error(TENANT_NOT_FOUND, Serialization.gsonPretty.toJson(aaiCqResponse), e);
             return null;
         }
 
@@ -530,7 +535,7 @@ public class SoActorServiceProvider implements Actor {
             return constructCreateRequestCq(aaiCqResponse, policy, tenantItem, vnfItem, vnfServiceItem, soModelInfo,
                     cloudRegionItem);
         } else if (RECIPE_VF_MODULE_DELETE.equals(policy.getRecipe())) {
-            return constructDeleteRequestCq(tenantItem, vnfItem, vnfServiceItem, soModelInfo, policy, cloudRegionItem);
+            return constructDeleteRequestCq(tenantItem, vnfItem, vnfServiceItem, policy, cloudRegionItem);
         } else {
             return null;
         }
@@ -623,7 +628,7 @@ public class SoActorServiceProvider implements Actor {
         // vfModuleId is not required for the create vf-module
         preserveInstanceIds(vnfItem.getVnfId(), vnfServiceItem.getServiceInstanceId(), null);
         if (logger.isDebugEnabled()) {
-            logger.debug("Constructed SO request: {}", Serialization.gsonPretty.toJson(request));
+            logger.debug(CONSTRUCTED_SO_MSG, Serialization.gsonPretty.toJson(request));
         }
         return request;
     }
@@ -634,13 +639,12 @@ public class SoActorServiceProvider implements Actor {
      * @param tenantItem Tenant from A&AI CQ request
      * @param vnfItem Generic VNF from A&AI CQ request
      * @param vnfServiceItem ServiceInstance from A&AI CQ request
-     * @param vfModuleItem VFModule from A&AI CQ request
      * @param policy policy information
      * @param cloudRegionItem CloudRegion from A&AI CQ request
      * @return SoRequest deleted
      */
     private SoRequest constructDeleteRequestCq(Tenant tenantItem, GenericVnf vnfItem, ServiceInstance vnfServiceItem,
-            SoModelInfo vfModuleItem, Policy policy, CloudRegion cloudRegionItem) {
+            Policy policy, CloudRegion cloudRegionItem) {
         SoRequest request = new SoRequest();
         request.setOperationType(SoOperationType.DELETE_VF_MODULE);
         request.setRequestDetails(new SoRequestDetails());
@@ -657,7 +661,7 @@ public class SoActorServiceProvider implements Actor {
         preserveInstanceIds(vnfItem.getVnfId(), vnfServiceItem.getServiceInstanceId(), null);
 
         if (logger.isDebugEnabled()) {
-            logger.debug("Constructed SO request: {}", Serialization.gsonPretty.toJson(request));
+            logger.debug(CONSTRUCTED_SO_MSG, Serialization.gsonPretty.toJson(request));
         }
         return request;
     }

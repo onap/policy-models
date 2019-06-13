@@ -31,6 +31,9 @@ import org.junit.Test;
 
 public class ResponseStatusTest {
 
+    private static final String THERE_S_NO_PLACE_LIKE_HOME = "There's no place like home";
+    private static final String THE_WONDERFUL_LAND_OF_OZ = "The wonderful land of Oz";
+
     @Test
     public void testResonseStatus() {
         ResponseStatus status = new ResponseStatus();
@@ -40,11 +43,11 @@ public class ResponseStatusTest {
         status.setCode(1234);
         assertEquals(1234, status.getCode());
 
-        status.setDescription("The wonderful land of Oz");
-        assertEquals("The wonderful land of Oz", status.getDescription());
+        status.setDescription(THE_WONDERFUL_LAND_OF_OZ);
+        assertEquals(THE_WONDERFUL_LAND_OF_OZ, status.getDescription());
 
-        status.setValue("There's no place like home");
-        assertEquals("There's no place like home", status.getValue());
+        status.setValue(THERE_S_NO_PLACE_LIKE_HOME);
+        assertEquals(THERE_S_NO_PLACE_LIKE_HOME, status.getValue());
         assertNotEquals(0, status.hashCode());
 
         assertEquals("ResponseStatus [Code=1234, Value=There's no pla", status.toString().substring(0, 47));
@@ -72,18 +75,18 @@ public class ResponseStatusTest {
         assertFalse(status.equals(copiedStatus));
         copiedStatus.setDescription(null);
         assertTrue(status.equals(copiedStatus));
-        status.setDescription("The wonderful land of Oz");
+        status.setDescription(THE_WONDERFUL_LAND_OF_OZ);
         assertFalse(status.equals(copiedStatus));
-        copiedStatus.setDescription("The wonderful land of Oz");
+        copiedStatus.setDescription(THE_WONDERFUL_LAND_OF_OZ);
         assertTrue(status.equals(copiedStatus));
 
         status.setValue(null);
         assertFalse(status.equals(copiedStatus));
         copiedStatus.setValue(null);
         assertTrue(status.equals(copiedStatus));
-        status.setValue("There's no place like home");
+        status.setValue(THERE_S_NO_PLACE_LIKE_HOME);
         assertFalse(status.equals(copiedStatus));
-        copiedStatus.setValue("There's no place like home");
+        copiedStatus.setValue(THERE_S_NO_PLACE_LIKE_HOME);
         assertTrue(status.equals(copiedStatus));
     }
 }

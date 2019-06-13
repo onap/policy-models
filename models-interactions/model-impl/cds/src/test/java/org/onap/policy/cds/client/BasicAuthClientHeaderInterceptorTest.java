@@ -127,9 +127,8 @@ public class BasicAuthClientHeaderInterceptorTest {
     private static class TestServerInterceptor implements ServerInterceptor {
 
         @Override
-        public <ReqT, RespT> Listener<ReqT> interceptCall(final ServerCall<ReqT, RespT> serverCall,
-            final Metadata metadata,
-            final ServerCallHandler<ReqT, RespT> serverCallHandler) {
+        public <Q, P> Listener<Q> interceptCall(final ServerCall<Q, P> serverCall,
+                        final Metadata metadata, final ServerCallHandler<Q, P> serverCallHandler) {
             return serverCallHandler.startCall(serverCall, metadata);
         }
     }

@@ -25,6 +25,10 @@ package org.onap.policy.models.pdp.concepts;
  */
 public class PdpMessageUtils {
 
+    private PdpMessageUtils() {
+
+    }
+
     public static String removeVariableFields(String text) {
         return text.replaceAll("requestId=[^,]*", "requestId=xxx").replaceAll("timestampMs=[^,]*", "timestampMs=nnn");
     }

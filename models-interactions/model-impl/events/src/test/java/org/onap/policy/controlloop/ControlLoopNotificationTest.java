@@ -61,7 +61,7 @@ public class ControlLoopNotificationTest {
         assertEquals("from", notification.getFrom());
 
         notification.setHistory(Collections.emptyList());
-        assertTrue(notification.getHistory().size() == 0);
+        assertTrue(notification.getHistory().isEmpty());
 
         notification.setMessage("message");
         assertEquals("message", notification.getMessage());
