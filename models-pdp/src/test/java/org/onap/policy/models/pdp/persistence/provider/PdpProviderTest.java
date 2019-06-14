@@ -60,6 +60,12 @@ import org.onap.policy.models.tosca.simple.provider.SimpleToscaProvider;
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 public class PdpProviderTest {
+    private static final String PDP_GROUPS0_JSON = "testdata/PdpGroups0.json";
+    private static final String PDP_TYPE_IS_NULL = "pdpType is marked @NonNull but is null";
+    private static final String SUBGROUP_IS_NULL = "pdpSubGroup is marked @NonNull but is null";
+    private static final String GROUP_IS_NULL = "pdpGroupName is marked @NonNull but is null";
+    private static final String DAO_IS_NULL = "dao is marked @NonNull but is null";
+    private static final String PDP_GROUP0 = "PdpGroup0";
     private PfDao pfDao;
     private StandardCoder standardCoder;
 
@@ -99,7 +105,7 @@ public class PdpProviderTest {
     }
 
     @After
-    public void teardown() throws Exception {
+    public void teardown() {
         pfDao.close();
     }
 
@@ -107,13 +113,13 @@ public class PdpProviderTest {
     public void testGroupsGet() throws Exception {
         assertThatThrownBy(() -> {
             new PdpProvider().getPdpGroups(null, null);
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().getPdpGroups(null, "name");
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
-        String originalJson = ResourceUtils.getResourceAsString("testdata/PdpGroups0.json");
+        String originalJson = ResourceUtils.getResourceAsString(PDP_GROUPS0_JSON);
         PdpGroups pdpGroups0 = standardCoder.decode(originalJson, PdpGroups.class);
 
         PdpGroups createdPdpGroups0 = new PdpGroups();
@@ -122,7 +128,7 @@ public class PdpProviderTest {
         assertEquals(originalJson.replaceAll("\\s+", ""), createdJson.replaceAll("\\s+", ""));
 
         PdpGroups gotPdpGroups0 = new PdpGroups();
-        gotPdpGroups0.setGroups(new PdpProvider().getPdpGroups(pfDao, "PdpGroup0"));
+        gotPdpGroups0.setGroups(new PdpProvider().getPdpGroups(pfDao, PDP_GROUP0));
 
         String gotJson = standardCoder.encode(gotPdpGroups0);
 
@@ -133,11 +139,11 @@ public class PdpProviderTest {
     public void testFilteredPdpGroupGet() throws Exception {
         assertThatThrownBy(() -> {
             new PdpProvider().getFilteredPdpGroups(null, null);
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().getFilteredPdpGroups(null, PdpGroupFilter.builder().build());
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().getFilteredPdpGroups(pfDao, null);
@@ -157,7 +163,7 @@ public class PdpProviderTest {
         // @formatter:off
         final PdpGroupFilter filter = PdpGroupFilter.builder()
                 .groupState(PdpState.PASSIVE)
-                .name("PdpGroup0")
+                .name(PDP_GROUP0)
                 .matchPoliciesExactly(false)
                 .matchPolicyTypesExactly(false)
                 .pdpState(PdpState.PASSIVE)
@@ -173,17 +179,17 @@ public class PdpProviderTest {
     public void testGroupsCreate() throws Exception {
         assertThatThrownBy(() -> {
             new PdpProvider().createPdpGroups(null, null);
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().createPdpGroups(null, new ArrayList<>());
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().createPdpGroups(pfDao, null);
         }).hasMessage("pdpGroups is marked @NonNull but is null");
 
-        String originalJson = ResourceUtils.getResourceAsString("testdata/PdpGroups0.json");
+        String originalJson = ResourceUtils.getResourceAsString(PDP_GROUPS0_JSON);
         PdpGroups pdpGroups0 = standardCoder.decode(originalJson, PdpGroups.class);
 
         PdpGroups createdPdpGroups0 = new PdpGroups();
@@ -192,7 +198,7 @@ public class PdpProviderTest {
         assertEquals(originalJson.replaceAll("\\s+", ""), createdJson.replaceAll("\\s+", ""));
 
         PdpGroups gotPdpGroups0 = new PdpGroups();
-        gotPdpGroups0.setGroups(new PdpProvider().getPdpGroups(pfDao, "PdpGroup0"));
+        gotPdpGroups0.setGroups(new PdpProvider().getPdpGroups(pfDao, PDP_GROUP0));
 
         String gotJson = standardCoder.encode(gotPdpGroups0);
         assertEquals(originalJson.replaceAll("\\s+", ""), gotJson.replaceAll("\\s+", ""));
@@ -228,17 +234,17 @@ public class PdpProviderTest {
     public void testGroupsUpdate() throws Exception {
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpGroups(null, null);
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpGroups(null, new ArrayList<>());
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpGroups(pfDao, null);
         }).hasMessage("pdpGroups is marked @NonNull but is null");
 
-        String originalJson = ResourceUtils.getResourceAsString("testdata/PdpGroups0.json");
+        String originalJson = ResourceUtils.getResourceAsString(PDP_GROUPS0_JSON);
         PdpGroups pdpGroups0 = standardCoder.decode(originalJson, PdpGroups.class);
 
         PdpGroups createdPdpGroups0 = new PdpGroups();
@@ -247,7 +253,7 @@ public class PdpProviderTest {
         assertEquals(originalJson.replaceAll("\\s+", ""), createdJson.replaceAll("\\s+", ""));
 
         PdpGroups gotPdpGroups0 = new PdpGroups();
-        gotPdpGroups0.setGroups(new PdpProvider().getPdpGroups(pfDao, "PdpGroup0"));
+        gotPdpGroups0.setGroups(new PdpProvider().getPdpGroups(pfDao, PDP_GROUP0));
 
         String gotJson = standardCoder.encode(gotPdpGroups0);
         assertEquals(originalJson.replaceAll("\\s+", ""), gotJson.replaceAll("\\s+", ""));
@@ -272,11 +278,11 @@ public class PdpProviderTest {
     public void testPoliciesDelete() throws Exception {
         assertThatThrownBy(() -> {
             new PdpProvider().deletePdpGroup(null, null);
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().deletePdpGroup(null, "name");
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().deletePdpGroup(pfDao, null);
@@ -286,7 +292,7 @@ public class PdpProviderTest {
             new PdpProvider().deletePdpGroup(pfDao, "name");
         }).hasMessage("delete of PDP group \"name:0.0.0\" failed, PDP group does not exist");
 
-        String originalJson = ResourceUtils.getResourceAsString("testdata/PdpGroups0.json");
+        String originalJson = ResourceUtils.getResourceAsString(PDP_GROUPS0_JSON);
         PdpGroups pdpGroups0 = standardCoder.decode(originalJson, PdpGroups.class);
 
         PdpGroups createdPdpGroups0 = new PdpGroups();
@@ -295,19 +301,19 @@ public class PdpProviderTest {
         assertEquals(originalJson.replaceAll("\\s+", ""), createdJson.replaceAll("\\s+", ""));
 
         PdpGroups gotPdpGroups0 = new PdpGroups();
-        gotPdpGroups0.setGroups(new PdpProvider().getPdpGroups(pfDao, "PdpGroup0"));
+        gotPdpGroups0.setGroups(new PdpProvider().getPdpGroups(pfDao, PDP_GROUP0));
 
         String gotJson = standardCoder.encode(gotPdpGroups0);
         assertEquals(originalJson.replaceAll("\\s+", ""), gotJson.replaceAll("\\s+", ""));
 
-        PdpGroup deletedPdpGroup = new PdpProvider().deletePdpGroup(pfDao, "PdpGroup0");
+        PdpGroup deletedPdpGroup = new PdpProvider().deletePdpGroup(pfDao, PDP_GROUP0);
 
         assertEquals(createdPdpGroups0.getGroups().get(0), deletedPdpGroup);
 
-        assertEquals(0, new PdpProvider().getPdpGroups(pfDao, "PdpGroup0").size());
+        assertEquals(0, new PdpProvider().getPdpGroups(pfDao, PDP_GROUP0).size());
 
         assertThatThrownBy(() -> {
-            new PdpProvider().deletePdpGroup(pfDao, "PdpGroup0");
+            new PdpProvider().deletePdpGroup(pfDao, PDP_GROUP0);
         }).hasMessage("delete of PDP group \"PdpGroup0:0.0.0\" failed, PDP group does not exist");
     }
 
@@ -315,37 +321,37 @@ public class PdpProviderTest {
     public void testPdpSubgroupUpdate() throws Exception {
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpSubGroup(null, null, null);
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpSubGroup(null, null, new PdpSubGroup());
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpSubGroup(null, "name", null);
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpSubGroup(null, "name", new PdpSubGroup());
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpSubGroup(pfDao, null, null);
-        }).hasMessage("pdpGroupName is marked @NonNull but is null");
+        }).hasMessage(GROUP_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpSubGroup(pfDao, null, new PdpSubGroup());
-        }).hasMessage("pdpGroupName is marked @NonNull but is null");
+        }).hasMessage(GROUP_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpSubGroup(pfDao, "name", null);
-        }).hasMessage("pdpSubGroup is marked @NonNull but is null");
+        }).hasMessage(SUBGROUP_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpSubGroup(pfDao, "name", new PdpSubGroup());
         }).hasMessage("parameter \"localName\" is null");
 
-        String originalJson = ResourceUtils.getResourceAsString("testdata/PdpGroups0.json");
+        String originalJson = ResourceUtils.getResourceAsString(PDP_GROUPS0_JSON);
         PdpGroups pdpGroups0 = standardCoder.decode(originalJson, PdpGroups.class);
 
         PdpGroups createdPdpGroups0 = new PdpGroups();
@@ -354,7 +360,7 @@ public class PdpProviderTest {
         assertEquals(originalJson.replaceAll("\\s+", ""), createdJson.replaceAll("\\s+", ""));
 
         PdpGroups gotPdpGroups0 = new PdpGroups();
-        gotPdpGroups0.setGroups(new PdpProvider().getPdpGroups(pfDao, "PdpGroup0"));
+        gotPdpGroups0.setGroups(new PdpProvider().getPdpGroups(pfDao, PDP_GROUP0));
 
         String gotJson = standardCoder.encode(gotPdpGroups0);
         assertEquals(originalJson.replaceAll("\\s+", ""), gotJson.replaceAll("\\s+", ""));
@@ -362,15 +368,15 @@ public class PdpProviderTest {
         PdpSubGroup existingSubGroup = gotPdpGroups0.getGroups().get(0).getPdpSubgroups().get(0);
         existingSubGroup.setCurrentInstanceCount(10);
         existingSubGroup.setDesiredInstanceCount(10);
-        new PdpProvider().updatePdpSubGroup(pfDao, "PdpGroup0", existingSubGroup);
+        new PdpProvider().updatePdpSubGroup(pfDao, PDP_GROUP0, existingSubGroup);
 
-        List<PdpGroup> afterUpdatePdpGroups = new PdpProvider().getPdpGroups(pfDao, "PdpGroup0");
+        List<PdpGroup> afterUpdatePdpGroups = new PdpProvider().getPdpGroups(pfDao, PDP_GROUP0);
         assertEquals(10, afterUpdatePdpGroups.get(0).getPdpSubgroups().get(0).getCurrentInstanceCount());
         assertEquals(10, afterUpdatePdpGroups.get(0).getPdpSubgroups().get(0).getDesiredInstanceCount());
 
         existingSubGroup.setDesiredInstanceCount(-1);
         assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpSubGroup(pfDao, "PdpGroup0", existingSubGroup);
+            new PdpProvider().updatePdpSubGroup(pfDao, PDP_GROUP0, existingSubGroup);
         }).hasMessageContaining("INVALID:the desired instance count of a PDP sub group may not be negative");
         existingSubGroup.setDesiredInstanceCount(10);
     }
@@ -379,59 +385,59 @@ public class PdpProviderTest {
     public void testPdpUpdate() throws Exception {
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdp(null, null, null, null);
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdp(null, null, null, new Pdp());
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdp(null, null, "TYPE", null);
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdp(null, null, "TYPE", new Pdp());
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdp(null, "name", null, null);
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdp(null, "name", null, new Pdp());
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdp(null, "name", "TYPE", null);
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdp(null, "name", "TYPE", new Pdp());
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdp(pfDao, null, null, null);
-        }).hasMessage("pdpGroupName is marked @NonNull but is null");
+        }).hasMessage(GROUP_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdp(pfDao, null, null, new Pdp());
-        }).hasMessage("pdpGroupName is marked @NonNull but is null");
+        }).hasMessage(GROUP_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdp(pfDao, null, "TYPE", null);
-        }).hasMessage("pdpGroupName is marked @NonNull but is null");
+        }).hasMessage(GROUP_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdp(pfDao, null, "TYPE", new Pdp());
-        }).hasMessage("pdpGroupName is marked @NonNull but is null");
+        }).hasMessage(GROUP_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdp(pfDao, "name", null, null);
-        }).hasMessage("pdpSubGroup is marked @NonNull but is null");
+        }).hasMessage(SUBGROUP_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdp(pfDao, "name", null, new Pdp());
-        }).hasMessage("pdpSubGroup is marked @NonNull but is null");
+        }).hasMessage(SUBGROUP_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdp(pfDao, "name", "TYPE", null);
@@ -441,7 +447,7 @@ public class PdpProviderTest {
             new PdpProvider().updatePdp(pfDao, "name", "TYPE", new Pdp());
         }).hasMessage("parameter \"localName\" is null");
 
-        String originalJson = ResourceUtils.getResourceAsString("testdata/PdpGroups0.json");
+        String originalJson = ResourceUtils.getResourceAsString(PDP_GROUPS0_JSON);
         PdpGroups pdpGroups0 = standardCoder.decode(originalJson, PdpGroups.class);
 
         PdpGroups createdPdpGroups0 = new PdpGroups();
@@ -450,7 +456,7 @@ public class PdpProviderTest {
         assertEquals(originalJson.replaceAll("\\s+", ""), createdJson.replaceAll("\\s+", ""));
 
         PdpGroups gotPdpGroups0 = new PdpGroups();
-        gotPdpGroups0.setGroups(new PdpProvider().getPdpGroups(pfDao, "PdpGroup0"));
+        gotPdpGroups0.setGroups(new PdpProvider().getPdpGroups(pfDao, PDP_GROUP0));
 
         String gotJson = standardCoder.encode(gotPdpGroups0);
         assertEquals(originalJson.replaceAll("\\s+", ""), gotJson.replaceAll("\\s+", ""));
@@ -458,9 +464,9 @@ public class PdpProviderTest {
         Pdp existingPdp = gotPdpGroups0.getGroups().get(0).getPdpSubgroups().get(0).getPdpInstances().get(0);
         existingPdp.setPdpState(PdpState.TEST);
         existingPdp.setHealthy(PdpHealthStatus.TEST_IN_PROGRESS);
-        new PdpProvider().updatePdp(pfDao, "PdpGroup0", "APEX", existingPdp);
+        new PdpProvider().updatePdp(pfDao, PDP_GROUP0, "APEX", existingPdp);
 
-        List<PdpGroup> afterUpdatePdpGroups = new PdpProvider().getPdpGroups(pfDao, "PdpGroup0");
+        List<PdpGroup> afterUpdatePdpGroups = new PdpProvider().getPdpGroups(pfDao, PDP_GROUP0);
         assertEquals(PdpState.TEST,
                 afterUpdatePdpGroups.get(0).getPdpSubgroups().get(0).getPdpInstances().get(0).getPdpState());
         assertEquals(PdpHealthStatus.TEST_IN_PROGRESS,
@@ -468,7 +474,7 @@ public class PdpProviderTest {
 
         existingPdp.setMessage("");
         assertThatThrownBy(() -> {
-            new PdpProvider().updatePdp(pfDao, "PdpGroup0", "APEX", existingPdp);
+            new PdpProvider().updatePdp(pfDao, PDP_GROUP0, "APEX", existingPdp);
         }).hasMessageContaining("INVALID:message may not be blank");
         existingPdp.setMessage("A Message");
     }
@@ -477,11 +483,11 @@ public class PdpProviderTest {
     public void testGetPdpStatistics() throws PfModelException {
         assertThatThrownBy(() -> {
             new PdpProvider().getPdpStatistics(null, null);
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().getPdpStatistics(null, "name");
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertEquals(0, new PdpProvider().getPdpStatistics(pfDao, "name").size());
     }
@@ -490,115 +496,115 @@ public class PdpProviderTest {
     public void testUpdatePdpStatistics() throws PfModelException {
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpStatistics(null, null, null, null, null);
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpStatistics(null, null, null, null, new PdpStatistics());
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpStatistics(null, null, null, "inst", null);
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpStatistics(null, null, null, "inst", new PdpStatistics());
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpStatistics(null, null, "TYPE", null, null);
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpStatistics(null, null, "TYPE", null, new PdpStatistics());
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpStatistics(null, null, "TYPE", "inst", null);
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpStatistics(null, null, "TYPE", "inst", new PdpStatistics());
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpStatistics(null, "name", null, null, null);
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpStatistics(null, "name", null, null, new PdpStatistics());
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpStatistics(null, "name", null, "inst", null);
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpStatistics(null, "name", null, "inst", new PdpStatistics());
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpStatistics(null, "name", "TYPE", null, null);
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpStatistics(null, "name", "TYPE", null, new PdpStatistics());
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpStatistics(null, "name", "TYPE", "inst", null);
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpStatistics(null, "name", "TYPE", "inst", new PdpStatistics());
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpStatistics(pfDao, null, null, null, null);
-        }).hasMessage("pdpGroupName is marked @NonNull but is null");
+        }).hasMessage(GROUP_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpStatistics(pfDao, null, null, null, new PdpStatistics());
-        }).hasMessage("pdpGroupName is marked @NonNull but is null");
+        }).hasMessage(GROUP_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpStatistics(pfDao, null, null, "inst", null);
-        }).hasMessage("pdpGroupName is marked @NonNull but is null");
+        }).hasMessage(GROUP_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpStatistics(pfDao, null, null, "inst", new PdpStatistics());
-        }).hasMessage("pdpGroupName is marked @NonNull but is null");
+        }).hasMessage(GROUP_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpStatistics(pfDao, null, "TYPE", null, null);
-        }).hasMessage("pdpGroupName is marked @NonNull but is null");
+        }).hasMessage(GROUP_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpStatistics(pfDao, null, "TYPE", null, new PdpStatistics());
-        }).hasMessage("pdpGroupName is marked @NonNull but is null");
+        }).hasMessage(GROUP_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpStatistics(pfDao, null, "TYPE", "inst", null);
-        }).hasMessage("pdpGroupName is marked @NonNull but is null");
+        }).hasMessage(GROUP_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpStatistics(pfDao, null, "TYPE", "inst", new PdpStatistics());
-        }).hasMessage("pdpGroupName is marked @NonNull but is null");
+        }).hasMessage(GROUP_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpStatistics(pfDao, "name", null, null, null);
-        }).hasMessage("pdpType is marked @NonNull but is null");
+        }).hasMessage(PDP_TYPE_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpStatistics(pfDao, "name", null, null, new PdpStatistics());
-        }).hasMessage("pdpType is marked @NonNull but is null");
+        }).hasMessage(PDP_TYPE_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpStatistics(pfDao, "name", null, "inst", null);
-        }).hasMessage("pdpType is marked @NonNull but is null");
+        }).hasMessage(PDP_TYPE_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpStatistics(pfDao, "name", null, "inst", new PdpStatistics());
-        }).hasMessage("pdpType is marked @NonNull but is null");
+        }).hasMessage(PDP_TYPE_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpStatistics(pfDao, "name", "TYPE", null, null);

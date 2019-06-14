@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -57,6 +58,8 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
  * @author Ajith Sreekumar (ajith.sreekumar@est.tech)
  */
 public class TestPdpStateChangeListener {
+    private static final String PDP_SUBGROUP = "pdpSubgroup";
+    private static final String PDP_GROUP = "pdpGroup";
     private PdpUpdateListener pdpUpdateMessageListener;
     private PdpStateChangeListener pdpStateChangeListener;
     private static final CommInfrastructure INFRA = CommInfrastructure.NOOP;
@@ -71,7 +74,7 @@ public class TestPdpStateChangeListener {
      * @throws IOException if IO exception occurs
      */
     @Before
-    public void setUp() throws PdpSimulatorException, FileNotFoundException, IOException {
+    public void setUp() throws PdpSimulatorException, IOException {
         pdpUpdateMessageListener = new PdpUpdateListener();
         pdpStateChangeListener = new PdpStateChangeListener();
         Registry.newRegistry();
@@ -125,8 +128,8 @@ public class TestPdpStateChangeListener {
     private PdpUpdate performPdpUpdate(final String instance) {
         final PdpUpdate pdpUpdateMsg = new PdpUpdate();
         pdpUpdateMsg.setDescription("dummy pdp status for test");
-        pdpUpdateMsg.setPdpGroup("pdpGroup");
-        pdpUpdateMsg.setPdpSubgroup("pdpSubgroup");
+        pdpUpdateMsg.setPdpGroup(PDP_GROUP);
+        pdpUpdateMsg.setPdpSubgroup(PDP_SUBGROUP);
         pdpUpdateMsg.setName(instance);
         final ToscaPolicy toscaPolicy = new ToscaPolicy();
         toscaPolicy.setType("apexpolicytype");
@@ -142,7 +145,7 @@ public class TestPdpStateChangeListener {
             propertiesMap.put("content", "");
         }
         toscaPolicy.setProperties(propertiesMap);
-        final List<ToscaPolicy> toscaPolicies = new ArrayList<ToscaPolicy>();
+        final List<ToscaPolicy> toscaPolicies = new ArrayList<>();
         toscaPolicies.add(toscaPolicy);
         pdpUpdateMsg.setPolicies(toscaPolicies);
         pdpUpdateMessageListener.onTopicEvent(INFRA, TOPIC, null, pdpUpdateMsg);
@@ -155,8 +158,8 @@ public class TestPdpStateChangeListener {
         performPdpUpdate(pdpStatus.getName());
         final PdpStateChange pdpStateChangeMsg = new PdpStateChange();
         pdpStateChangeMsg.setState(PdpState.PASSIVE);
-        pdpStateChangeMsg.setPdpGroup("pdpGroup");
-        pdpStateChangeMsg.setPdpSubgroup("pdpSubgroup");
+        pdpStateChangeMsg.setPdpGroup(PDP_GROUP);
+        pdpStateChangeMsg.setPdpSubgroup(PDP_SUBGROUP);
         pdpStateChangeMsg.setName(pdpStatus.getName());
         pdpStateChangeListener.onTopicEvent(INFRA, TOPIC, null, pdpStateChangeMsg);
 
@@ -170,8 +173,8 @@ public class TestPdpStateChangeListener {
         pdpStatus.setState(PdpState.ACTIVE);
         final PdpStateChange pdpStateChangeMsg = new PdpStateChange();
         pdpStateChangeMsg.setState(PdpState.ACTIVE);
-        pdpStateChangeMsg.setPdpGroup("pdpGroup");
-        pdpStateChangeMsg.setPdpSubgroup("pdpSubgroup");
+        pdpStateChangeMsg.setPdpGroup(PDP_GROUP);
+        pdpStateChangeMsg.setPdpSubgroup(PDP_SUBGROUP);
         pdpStateChangeMsg.setName(pdpStatus.getName());
         pdpStateChangeListener.onTopicEvent(INFRA, TOPIC, null, pdpStateChangeMsg);
 

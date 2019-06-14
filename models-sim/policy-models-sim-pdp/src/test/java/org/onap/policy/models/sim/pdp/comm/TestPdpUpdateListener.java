@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -69,7 +70,7 @@ public class TestPdpUpdateListener {
      * @throws IOException if IO exception occurs
      */
     @Before
-    public void setUp() throws PdpSimulatorException, FileNotFoundException, IOException {
+    public void setUp() throws PdpSimulatorException, IOException {
         Registry.newRegistry();
         final String[] pdpSimulatorConfigParameters = { "-c", "src/test/resources/PdpSimulatorConfigParameters.json",
             "-p", "src/test/resources/topic.properties" };
@@ -136,7 +137,7 @@ public class TestPdpUpdateListener {
             propertiesMap.put("content", "");
         }
         toscaPolicy.setProperties(propertiesMap);
-        final List<ToscaPolicy> toscaPolicies = new ArrayList<ToscaPolicy>();
+        final List<ToscaPolicy> toscaPolicies = new ArrayList<>();
         toscaPolicies.add(toscaPolicy);
         pdpUpdateMsg.setPolicies(toscaPolicies);
         pdpUpdateMessageListener.onTopicEvent(INFRA, TOPIC, null, pdpUpdateMsg);

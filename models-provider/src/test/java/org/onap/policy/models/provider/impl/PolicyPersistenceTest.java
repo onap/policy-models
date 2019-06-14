@@ -85,7 +85,7 @@ public class PolicyPersistenceTest {
      * @throws CoderException on JSON encoding and decoding errors
      */
     @Before
-    public void setupParameters() throws PfModelException, CoderException {
+    public void setupParameters() throws Exception {
         // H2, use "org.mariadb.jdbc.Driver" and "jdbc:mariadb://localhost:3306/policy" for locally installed MariaDB
 
         PolicyModelsProviderParameters parameters = new PolicyModelsProviderParameters();

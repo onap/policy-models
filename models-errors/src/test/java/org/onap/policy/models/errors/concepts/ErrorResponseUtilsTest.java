@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,21 +33,18 @@ import org.junit.Test;
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 public class ErrorResponseUtilsTest {
+    private static final String EXCEPTION1 = "Exception 1";
+
     @Test
     public void testErrorResponseUtils() {
         try {
-            try {
-                throw new NumberFormatException("Exception 0");
-            }
-            catch (Exception nfe) {
-                throw new IOException("Exception 1", nfe);
-            }
+            throw new IOException(EXCEPTION1, new NumberFormatException("Exception 0"));
         } catch (Exception ioe) {
             ErrorResponse errorResponse = new ErrorResponse();
             ErrorResponseUtils.getExceptionMessages(errorResponse, ioe);
 
-            assertEquals("Exception 1", errorResponse.getErrorMessage());
-            assertEquals("Exception 1", errorResponse.getErrorDetails().get(0));
+            assertEquals(EXCEPTION1, errorResponse.getErrorMessage());
+            assertEquals(EXCEPTION1, errorResponse.getErrorDetails().get(0));
             assertEquals("Exception 0", errorResponse.getErrorDetails().get(1));
         }
     }
