@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,9 +46,9 @@ public class CommonTestData {
     public static final String DESCRIPTION = "Pdp status for HealthCheck";
     public static final String POLICY_NAME = "onap.controllloop.operational.apex.BBS";
     public static final String POLICY_VERSION = "0.0.1";
-    public static final List<ToscaPolicyTypeIdentifierParameters> SUPPORTED_POLICY_TYPES =
+    protected static final List<ToscaPolicyTypeIdentifierParameters> SUPPORTED_POLICY_TYPES =
             Arrays.asList(getSupportedPolicyTypes(POLICY_NAME, POLICY_VERSION));
-    private static final String REST_SERVER_PASSWORD = "zb!XztG34";
+    private static final String REST_SERVER_PASS = "zb!XztG34";
     private static final String REST_SERVER_USER = "healthcheck";
     private static final int REST_SERVER_PORT = 6969;
     private static final String REST_SERVER_HOST = "0.0.0.0";
@@ -116,7 +117,7 @@ public class CommonTestData {
             map.put("host", REST_SERVER_HOST);
             map.put("port", REST_SERVER_PORT);
             map.put("userName", REST_SERVER_USER);
-            map.put("password", REST_SERVER_PASSWORD);
+            map.put("password", REST_SERVER_PASS);
         }
 
         return map;

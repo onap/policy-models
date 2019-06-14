@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,11 +23,9 @@ package org.onap.policy.models.sim.pdp;
 
 import java.util.List;
 import java.util.Properties;
-
+import java.util.Random;
 import lombok.Getter;
 import lombok.Setter;
-
-
 import org.onap.policy.common.endpoints.event.comm.TopicEndpoint;
 import org.onap.policy.common.endpoints.event.comm.TopicSink;
 import org.onap.policy.common.endpoints.event.comm.TopicSource;
@@ -57,6 +56,7 @@ public class PdpSimulatorActivator {
     private List<TopicSink> topicSinks;// topics to which pdp sends pdp status
     private List<TopicSource> topicSources; // topics to which pdp listens to for messages from pap.
     private static final String[] MSG_TYPE_NAMES = { "messageName" };
+    private static final Random RANDOM = new Random();
 
     /**
      * Listens for messages on the topic, decodes them into a message, and then dispatches them.
@@ -85,9 +85,9 @@ public class PdpSimulatorActivator {
         topicSinks = TopicEndpoint.manager.addTopicSinks(topicProperties);
         topicSources = TopicEndpoint.manager.addTopicSources(topicProperties);
 
-        final int random = (int) (Math.random() * 1000);
+        final int random = RANDOM.nextInt();
         final String instanceId = "pdp_" + random;
-        LOGGER.debug("PdpSimulatorActivator initializing with instance id:" + instanceId);
+        LOGGER.debug("PdpSimulatorActivator initializing with instance id: {}", instanceId);
         try {
             this.pdpSimulatorParameterGroup = pdpSimulatorParameterGroup;
             this.msgDispatcher = new MessageTypeDispatcher(MSG_TYPE_NAMES);
@@ -100,8 +100,8 @@ public class PdpSimulatorActivator {
         // @formatter:off
         this.manager = new ServiceManager()
             .addAction("topics",
-                () -> TopicEndpoint.manager.start(),
-                () -> TopicEndpoint.manager.shutdown())
+                TopicEndpoint.manager::start,
+                TopicEndpoint.manager::shutdown)
             .addAction("set alive",
                 () -> setAlive(true),
                 () -> setAlive(false))
@@ -117,7 +117,7 @@ public class PdpSimulatorActivator {
                 () -> Registry.register(PdpSimulatorConstants.REG_PDP_STATUS_PUBLISHER,
                         new PdpStatusPublisher(topicSinks,
                                 pdpSimulatorParameterGroup.getPdpStatusParameters().getTimeIntervalMs())),
-                () -> stopAndRemovePdpStatusPublisher())
+                this::stopAndRemovePdpStatusPublisher)
             .addAction("Register pdp update listener",
                 () -> msgDispatcher.register(PdpMessageType.PDP_UPDATE.name(), pdpUpdateListener),
                 () -> msgDispatcher.unregister(PdpMessageType.PDP_UPDATE.name()))
@@ -125,8 +125,8 @@ public class PdpSimulatorActivator {
                 () -> msgDispatcher.register(PdpMessageType.PDP_STATE_CHANGE.name(), pdpStateChangeListener),
                 () -> msgDispatcher.unregister(PdpMessageType.PDP_STATE_CHANGE.name()))
             .addAction("Message Dispatcher",
-                () -> registerMsgDispatcher(),
-                () -> unregisterMsgDispatcher());
+                this::registerMsgDispatcher,
+                this::unregisterMsgDispatcher);
 
         // @formatter:on
     }
