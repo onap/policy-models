@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f42f786_185be23b",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/GuardSimulatorJaxRs.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-06-14T12:47:27Z",
+      "side": 1,
+      "message": "2019",
+      "revId": "dcea324a27a4597d486511771d0884a833b0a7be",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
