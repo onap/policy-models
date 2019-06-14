@@ -22,6 +22,30 @@
       "revId": "10c11e142feb1d040612fed695aaf76d007294da",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9310092_0f900197",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaTopologyTemplate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-06-14T19:27:47Z",
+      "side": 1,
+      "message": "Because the API may not be only user of these classes and/or the API could be expanded in the future. The current way the policies as a list of singleton maps is only that way because that\u0027s the only way we can automatically parse the TOSCA JSON directly. I thought it good to add a method that translates the policies into a map that can actually be managed programatically rather easily if someone decides to use this API as a Java API or if we wanted to add something to the API later.\n\nPlease see the similar methods on ToscaServiceTemplate.",
+      "parentUuid": "6b91a5c2_05cc5a7b",
+      "range": {
+        "startLine": 41,
+        "startChar": 44,
+        "endLine": 41,
+        "endChar": 60
+      },
+      "revId": "10c11e142feb1d040612fed695aaf76d007294da",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
