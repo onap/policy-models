@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b91a5c2_05cc5a7b",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaTopologyTemplate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-06-14T14:19:43Z",
+      "side": 1,
+      "message": "Liam, I don\u0027t get it why we need this conversion. Where this Map\u003cToscaEntityKey, ToscaPolicy\u003e is being used? \n\nSame for policy type and data type",
+      "range": {
+        "startLine": 41,
+        "startChar": 44,
+        "endLine": 41,
+        "endChar": 60
+      },
+      "revId": "10c11e142feb1d040612fed695aaf76d007294da",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
