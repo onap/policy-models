@@ -4,6 +4,7 @@
  * ================================================================================
  * Copyright (C) 2018 Wipro Limited Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -148,6 +149,7 @@ public class PciCommonHeader implements Serializable {
     public void setSubRequestId(String subRequestId) {
         this.subRequestId = subRequestId;
     }
+
     /**
      * Set the request track.
      *
@@ -157,6 +159,7 @@ public class PciCommonHeader implements Serializable {
     public void setRequestTrack(Map<String, String> requestTrack) {
         this.requestTrack = requestTrack;
     }
+
     /**
      * Get the request track.
      *

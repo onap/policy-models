@@ -30,6 +30,9 @@ import org.junit.Test;
 
 public class ServiceTest {
 
+    private static final String EQUALS_TEST = "equalsTest";
+    private static final String VERSION_111 = "1.1.1";
+
     @Test
     public void testConstructors() {
         Service svc = new Service();
@@ -108,7 +111,7 @@ public class ServiceTest {
         assertTrue(s1.equals(s2));
         assertTrue(s2.equals(s1));
 
-        s1 = new Service(UUID.randomUUID(), UUID.randomUUID(), "equalsTest", "1.1.1");
+        s1 = new Service(UUID.randomUUID(), UUID.randomUUID(), EQUALS_TEST, VERSION_111);
         s2 = new Service(s1);
         assertTrue(s1.equals(s2));
         assertTrue(s2.equals(s1));
@@ -120,7 +123,7 @@ public class ServiceTest {
         Service s2 = new Service(s1);
         assertEquals(s1.toString(), s2.toString());
 
-        s1 = new Service(UUID.randomUUID(), UUID.randomUUID(), "equalsTest", "1.1.1");
+        s1 = new Service(UUID.randomUUID(), UUID.randomUUID(), EQUALS_TEST, VERSION_111);
         s2 = new Service(s1);
         assertEquals(s1.toString(), s2.toString());
     }
@@ -131,7 +134,7 @@ public class ServiceTest {
         Service s2 = new Service(s1);
         assertEquals(s1.hashCode(), s2.hashCode());
 
-        s1 = new Service(UUID.randomUUID(), UUID.randomUUID(), "equalsTest", "1.1.1");
+        s1 = new Service(UUID.randomUUID(), UUID.randomUUID(), EQUALS_TEST, VERSION_111);
         s2 = new Service(s1);
         assertEquals(s1.hashCode(), s2.hashCode());
     }

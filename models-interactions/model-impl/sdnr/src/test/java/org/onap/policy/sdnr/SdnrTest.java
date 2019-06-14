@@ -4,6 +4,7 @@
  * ================================================================================
  * Copyright (C) 2018 Wipro Limited Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,6 +36,8 @@ import org.slf4j.LoggerFactory;
 
 public class SdnrTest {
 
+    private static final String CORRELATION_ID = "664be3d2-6c12-4f4b-a3e7-c349acced200";
+
     private static final Logger logger = LoggerFactory.getLogger(SdnrTest.class);
 
     private static PciRequestWrapper dmaapRequest;
@@ -45,12 +48,12 @@ public class SdnrTest {
          * Construct an SDNR Request to be Serialized
          */
         dmaapRequest = new PciRequestWrapper();
-        dmaapRequest.setCorrelationId("664be3d2-6c12-4f4b-a3e7-c349acced200" + "-" + "1");
+        dmaapRequest.setCorrelationId(CORRELATION_ID + "-" + "1");
         dmaapRequest.setRpcName("restart");
         dmaapRequest.setType("request");
 
         dmaapResponse = new PciResponseWrapper();
-        dmaapResponse.setCorrelationId("664be3d2-6c12-4f4b-a3e7-c349acced200" + "-" + "1");
+        dmaapResponse.setCorrelationId(CORRELATION_ID + "-" + "1");
         dmaapResponse.setRpcName("restart");
         dmaapResponse.setType("response");
 
@@ -59,7 +62,7 @@ public class SdnrTest {
         sdnrRequest.setAction("ModifyConfig");
 
         PciCommonHeader commonHeader = new PciCommonHeader();
-        commonHeader.setRequestId(UUID.fromString("664be3d2-6c12-4f4b-a3e7-c349acced200"));
+        commonHeader.setRequestId(UUID.fromString(CORRELATION_ID));
         commonHeader.setSubRequestId("1");
 
         sdnrRequest.setCommonHeader(commonHeader);

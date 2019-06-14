@@ -30,6 +30,10 @@ import org.junit.Test;
 
 public class ResourceInstanceTest {
 
+    private static final String RESOURCE = "resource";
+    private static final String INSTANCE = "instance";
+    private static final String VERSION_000 = "0.0.0";
+
     @Test
     public void testConstructors() {
         ResourceInstance ri = new ResourceInstance();
@@ -111,11 +115,11 @@ public class ResourceInstanceTest {
         assertTrue(ri1.equals(ri2));
         assertTrue(ri2.equals(ri1));
 
-        ri1.setResourceInstanceName("instance");
-        ri1.setResourceName("resource");
+        ri1.setResourceInstanceName(INSTANCE);
+        ri1.setResourceName(RESOURCE);
         ri1.setResourceInvariantUUID(UUID.randomUUID());
         ri1.setResourceInvariantUUID(UUID.randomUUID());
-        ri1.setResourceVersion("0.0.0");
+        ri1.setResourceVersion(VERSION_000);
         ri1.setResourceType(ResourceType.VL);
         ri2 = new ResourceInstance(ri1);
         assertTrue(ri1.equals(ri2));
@@ -128,11 +132,11 @@ public class ResourceInstanceTest {
         ResourceInstance ri2 = new ResourceInstance(ri1);
         assertEquals(ri1.toString(), ri2.toString());
 
-        ri1.setResourceInstanceName("instance");
-        ri1.setResourceName("resource");
+        ri1.setResourceInstanceName(INSTANCE);
+        ri1.setResourceName(RESOURCE);
         ri1.setResourceInvariantUUID(UUID.randomUUID());
         ri1.setResourceInvariantUUID(UUID.randomUUID());
-        ri1.setResourceVersion("0.0.0");
+        ri1.setResourceVersion(VERSION_000);
         ri1.setResourceType(ResourceType.VL);
         ri2 = new ResourceInstance(ri1);
         assertEquals(ri1.toString(), ri2.toString());
@@ -144,11 +148,11 @@ public class ResourceInstanceTest {
         ResourceInstance ri2 = new ResourceInstance(ri1);
         assertEquals(ri1.hashCode(), ri2.hashCode());
 
-        ri1.setResourceInstanceName("instance");
-        ri1.setResourceName("resource");
+        ri1.setResourceInstanceName(INSTANCE);
+        ri1.setResourceName(RESOURCE);
         ri1.setResourceInvariantUUID(UUID.randomUUID());
         ri1.setResourceInvariantUUID(UUID.randomUUID());
-        ri1.setResourceVersion("0.0.0");
+        ri1.setResourceVersion(VERSION_000);
         ri1.setResourceType(ResourceType.VL);
         ri2 = new ResourceInstance(ri1);
         assertEquals(ri1.hashCode(), ri2.hashCode());
