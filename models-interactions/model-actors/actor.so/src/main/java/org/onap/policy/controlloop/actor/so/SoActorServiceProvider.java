@@ -198,6 +198,7 @@ public class SoActorServiceProvider implements Actor {
             soModelInfo.setModelName(policy.getTarget().getModelName());
             soModelInfo.setModelVersion(policy.getTarget().getModelVersion());
             soModelInfo.setModelVersionId(policy.getTarget().getModelVersionId());
+            soModelInfo.setModelType("vfModule");
             return soModelInfo;
         } else {
             return null;
@@ -601,11 +602,9 @@ public class SoActorServiceProvider implements Actor {
         relatedInstanceListElement2.getRelatedInstance().getModelInfo()
                 .setModelName(aaiCqResponse.getModelVerByVersionId(vnfItem.getModelVersionId()).getModelName());
         relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelVersion(
-                aaiCqResponse.getModelVerByVersionId(vnfServiceItem.getModelVersionId()).getModelVersion());
+                aaiCqResponse.getModelVerByVersionId(vnfItem.getModelVersionId()).getModelVersion());
 
 
-        relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelCustomizationName(
-                vnfItem.getVnfType().substring(vnfItem.getVnfType().lastIndexOf('/') + 1));
         relatedInstanceListElement2.getRelatedInstance().getModelInfo()
                 .setModelCustomizationId(vnfItem.getModelCustomizationId());
 
