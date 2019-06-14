@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,6 +49,10 @@ import org.yaml.snakeyaml.Yaml;
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 public class ToscaPolicyTypeFilterTest {
+    private static final String VERSION_100 = "1.0.0";
+
+    private static final String VERSION_000 = "0.0.0";
+
     // Logger for this class
     private static final Logger LOGGER = LoggerFactory.getLogger(ToscaPolicyTypeFilterTest.class);
 
@@ -86,23 +91,27 @@ public class ToscaPolicyTypeFilterTest {
             assertNotNull(serviceTemplate);
 
             for (Map<String, ToscaPolicyType> foundPolicyTypeMap : serviceTemplate.getPolicyTypes()) {
-                for (Entry<String, ToscaPolicyType> policyTypeEntry : foundPolicyTypeMap.entrySet()) {
-                    ToscaPolicyType policyType = policyTypeEntry.getValue();
-                    if (policyType.getName() == null) {
-                        policyType.setName(policyTypeEntry.getKey());
-                    }
-                    if (policyType.getVersion() == null) {
-                        policyType.setVersion(PfKey.NULL_KEY_VERSION);
-                    }
-                    if (!typeList.contains(policyType)) {
-                        typeList.add(policyType);
-                    }
-                }
+                addPolicyTypes(foundPolicyTypeMap);
             }
         }
 
         for (ToscaPolicyType type : typeList) {
             LOGGER.info("using policy type-" + type.getName() + ":" + type.getVersion());
+        }
+    }
+
+    private static void addPolicyTypes(Map<String, ToscaPolicyType> foundPolicyTypeMap) {
+        for (Entry<String, ToscaPolicyType> policyTypeEntry : foundPolicyTypeMap.entrySet()) {
+            ToscaPolicyType policyType = policyTypeEntry.getValue();
+            if (policyType.getName() == null) {
+                policyType.setName(policyTypeEntry.getKey());
+            }
+            if (policyType.getVersion() == null) {
+                policyType.setVersion(PfKey.NULL_KEY_VERSION);
+            }
+            if (!typeList.contains(policyType)) {
+                typeList.add(policyType);
+            }
         }
     }
 
@@ -130,20 +139,20 @@ public class ToscaPolicyTypeFilterTest {
 
         List<ToscaPolicyType> filteredList = filter.filter(typeList);
         assertEquals(13, filteredList.size());
-        assertEquals("1.0.0", filteredList.get(0).getVersion());
-        assertEquals("0.0.0", filteredList.get(4).getVersion());
+        assertEquals(VERSION_100, filteredList.get(0).getVersion());
+        assertEquals(VERSION_000, filteredList.get(4).getVersion());
 
         typeList.get(12).setVersion("2.0.0");
         filteredList = filter.filter(typeList);
         assertEquals(13, filteredList.size());
         assertEquals("2.0.0", filteredList.get(0).getVersion());
-        assertEquals("0.0.0", filteredList.get(4).getVersion());
+        assertEquals(VERSION_000, filteredList.get(4).getVersion());
 
-        typeList.get(12).setVersion("1.0.0");
+        typeList.get(12).setVersion(VERSION_100);
         filteredList = filter.filter(typeList);
         assertEquals(13, filteredList.size());
-        assertEquals("1.0.0", filteredList.get(0).getVersion());
-        assertEquals("0.0.0", filteredList.get(4).getVersion());
+        assertEquals(VERSION_100, filteredList.get(0).getVersion());
+        assertEquals(VERSION_000, filteredList.get(4).getVersion());
     }
 
     @Test
@@ -160,11 +169,12 @@ public class ToscaPolicyTypeFilterTest {
         filteredList = filter.filter(typeList);
         assertEquals(0, filteredList.size());
 
-        filter = ToscaPolicyTypeFilter.builder().version("0.0.0").build();
+        filter = ToscaPolicyTypeFilter.builder().version(VERSION_000).build();
         filteredList = filter.filter(typeList);
         assertEquals(9, filteredList.size());
 
-        filter = ToscaPolicyTypeFilter.builder().name("onap.policies.optimization.Vim_fit").version("0.0.0").build();
+        filter = ToscaPolicyTypeFilter.builder().name("onap.policies.optimization.Vim_fit").version(VERSION_000)
+                        .build();
         filteredList = filter.filter(typeList);
         assertEquals(1, filteredList.size());
 

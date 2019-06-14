@@ -49,8 +49,6 @@ public class LegacyGuardPolicyTest {
         assertEquals("SO", guard.getContent().getActor());
 
         DummyBadLegacyGuardPolicyContent dblgpc = new DummyBadLegacyGuardPolicyContent();
-        assertThatThrownBy(() -> {
-            dblgpc.getAsPropertyMap();
-        }).hasMessage("could not convert content to a property map");
+        assertThatThrownBy(dblgpc::getAsPropertyMap).hasMessage("could not convert content to a property map");
     }
 }
