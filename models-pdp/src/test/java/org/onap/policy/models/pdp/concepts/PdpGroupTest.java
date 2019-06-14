@@ -43,6 +43,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifi
  * Test methods not tested by {@link ModelsTest}.
  */
 public class PdpGroupTest {
+    private static final String VERSION_123 = "1.2.3";
     private static final String NAME = "my-name";
     private static final String PDP_TYPE1 = "type-1";
     private static final String PDP_TYPE2 = "type-2";
@@ -61,7 +62,7 @@ public class PdpGroupTest {
         // verify with all values
         orig.setDescription("my-descript");
         orig.setName(NAME);
-        orig.setVersion("1.2.3");
+        orig.setVersion(VERSION_123);
         orig.setDescription("my-description");
         orig.setPdpGroupState(PdpState.SAFE);
 
@@ -100,11 +101,11 @@ public class PdpGroupTest {
     public void testCompareTo() {
         PdpGroup pdpGroup0 = new PdpGroup();
         pdpGroup0.setName("Name0");
-        pdpGroup0.setVersion("1.2.3");
+        pdpGroup0.setVersion(VERSION_123);
 
         PdpGroup pdpGroup1 = new PdpGroup();
         pdpGroup1.setName("Name0");
-        pdpGroup1.setVersion("1.2.3");
+        pdpGroup1.setVersion(VERSION_123);
 
         assertEquals(0, pdpGroup0.compareTo(pdpGroup1));
 

@@ -83,7 +83,7 @@ public class PolicyToscaPersistenceTest {
      * @throws CoderException on JSON encoding and decoding errors
      */
     @Before
-    public void setupParameters() throws PfModelException, CoderException {
+    public void setupParameters() throws Exception {
         PolicyModelsProviderParameters parameters = new PolicyModelsProviderParameters();
         parameters.setDatabaseDriver("org.h2.Driver");
         parameters.setDatabaseUrl("jdbc:h2:mem:testdb");
