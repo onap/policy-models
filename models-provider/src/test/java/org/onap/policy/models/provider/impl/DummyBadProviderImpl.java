@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +21,7 @@
 
 package org.onap.policy.models.provider.impl;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -55,10 +57,14 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public void close() throws PfModelException {}
+    public void close() throws PfModelException {
+        // do nothing
+    }
 
     @Override
-    public void init() throws PfModelException {}
+    public void init() throws PfModelException {
+        // do nothing
+    }
 
     @Override
     public ToscaServiceTemplate getPolicyTypes(final String name, final String version) throws PfModelException {
@@ -152,22 +158,24 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
 
     @Override
     public List<PdpGroup> getPdpGroups(String name) throws PfModelException {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
     public List<PdpGroup> createPdpGroups(@NonNull List<PdpGroup> pdpGroups) throws PfModelException {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
     public List<PdpGroup> updatePdpGroups(@NonNull List<PdpGroup> pdpGroups) throws PfModelException {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
     public void updatePdp(@NonNull String pdpGroupName, @NonNull String pdpSubGroup, @NonNull Pdp pdp)
-            throws PfModelException {}
+            throws PfModelException {
+        // do nothing
+    }
 
     @Override
     public PdpGroup deletePdpGroup(@NonNull String name) throws PfModelException {
@@ -176,7 +184,7 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
 
     @Override
     public List<ToscaPolicyType> getPolicyTypeList(String name, String version) throws PfModelException {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
@@ -187,12 +195,12 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
     @Override
     public List<ToscaPolicyType> getFilteredPolicyTypeList(@NonNull ToscaPolicyTypeFilter filter)
             throws PfModelException {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
     public List<ToscaPolicy> getPolicyList(String name, String version) throws PfModelException {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
@@ -202,24 +210,28 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
 
     @Override
     public List<ToscaPolicy> getFilteredPolicyList(@NonNull ToscaPolicyFilter filter) throws PfModelException {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
     public List<PdpGroup> getFilteredPdpGroups(@NonNull PdpGroupFilter filter) throws PfModelException {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
     public void updatePdpSubGroup(@NonNull String pdpGroupName, @NonNull PdpSubGroup pdpSubGroup)
-            throws PfModelException {}
+            throws PfModelException {
+        // do nothing
+    }
 
     @Override
     public List<PdpStatistics> getPdpStatistics(String name) throws PfModelException {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
     public void updatePdpStatistics(@NonNull String pdpGroupName, @NonNull String pdpType,
-            @NonNull String pdpInstanceId, @NonNull PdpStatistics pdppStatistics) {}
+            @NonNull String pdpInstanceId, @NonNull PdpStatistics pdppStatistics) {
+        // do nothing
+    }
 }
