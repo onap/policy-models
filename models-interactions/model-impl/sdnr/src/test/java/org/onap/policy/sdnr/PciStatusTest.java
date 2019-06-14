@@ -4,6 +4,7 @@
  * ================================================================================
  * Copyright (C) 2018 Wipro Limited Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +32,8 @@ import org.junit.Test;
 
 public class PciStatusTest {
 
+    private static final String THE_WONDERFUL_LAND_OF_OZ = "The wonderful land of Oz";
+
     @Test
     public void testResponseStatus() {
         Status status = new Status();
@@ -40,8 +43,8 @@ public class PciStatusTest {
         status.setCode(1234);
         assertEquals(1234, status.getCode());
 
-        status.setValue("The wonderful land of Oz");
-        assertEquals("The wonderful land of Oz", status.getValue());
+        status.setValue(THE_WONDERFUL_LAND_OF_OZ);
+        assertEquals(THE_WONDERFUL_LAND_OF_OZ, status.getValue());
 
         assertEquals("Status [code = 1234, value = The wonderfu", status.toString().substring(0, 41));
 
@@ -67,9 +70,9 @@ public class PciStatusTest {
         assertFalse(status.equals(copiedStatus));
         copiedStatus.setValue(null);
         assertTrue(status.equals(copiedStatus));
-        status.setValue("The wonderful land of Oz");
+        status.setValue(THE_WONDERFUL_LAND_OF_OZ);
         assertFalse(status.equals(copiedStatus));
-        copiedStatus.setValue("The wonderful land of Oz");
+        copiedStatus.setValue(THE_WONDERFUL_LAND_OF_OZ);
         assertTrue(status.equals(copiedStatus));
     }
 }

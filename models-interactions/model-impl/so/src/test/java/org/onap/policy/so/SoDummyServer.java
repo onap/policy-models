@@ -36,6 +36,7 @@ import javax.ws.rs.core.Response;
 @Path("/SO")
 public class SoDummyServer {
 
+    private static final String ONGOING = "ONGOING";
     private static int postMessagesReceived = 0;
     private static int putMessagesReceived = 0;
     private static int statMessagesReceived = 0;
@@ -113,9 +114,9 @@ public class SoDummyServer {
 
         SoResponse response = ongoingRequestMap.get(nsInstanceId);
 
-        int iterationsLeft = Integer.valueOf(response.getRequest().getRequestScope());
+        int iterationsLeft = Integer.parseInt(response.getRequest().getRequestScope());
         if (--iterationsLeft > 0) {
-            response.getRequest().setRequestScope(new Integer(iterationsLeft).toString());
+            response.getRequest().setRequestScope(Integer.toString(iterationsLeft));
             String responseString = new Gson().toJson(response, SoResponse.class);
             return Response.status(response.getHttpResponseCode()).entity(responseString).build();
         }
@@ -158,12 +159,7 @@ public class SoDummyServer {
             return Response.status(400).build();
         }
 
-        SoRequest request = null;
-        try {
-            request = new Gson().fromJson(jsonString, SoRequest.class);
-        } catch (Exception e) {
-            return Response.status(400).build();
-        }
+        SoRequest request = new Gson().fromJson(jsonString, SoRequest.class);
 
         if (request == null) {
             return Response.status(400).build();
@@ -206,7 +202,7 @@ public class SoDummyServer {
         if ("ReturnOnging202".equals(request.getRequestType())) {
             ongoingRequestMap.put(request.getRequestId().toString(), response);
 
-            response.getRequest().getRequestStatus().setRequestState("ONGOING");
+            response.getRequest().getRequestStatus().setRequestState(ONGOING);
             response.setHttpResponseCode(202);
             String responseString = new Gson().toJson(response, SoResponse.class);
             return Response.status(response.getHttpResponseCode())
@@ -217,7 +213,7 @@ public class SoDummyServer {
         if ("ReturnOnging200".equals(request.getRequestType())) {
             ongoingRequestMap.put(request.getRequestId().toString(), response);
 
-            response.getRequest().getRequestStatus().setRequestState("ONGOING");
+            response.getRequest().getRequestStatus().setRequestState(ONGOING);
             response.setHttpResponseCode(200);
             String responseString = new Gson().toJson(response, SoResponse.class);
             return Response.status(response.getHttpResponseCode())
@@ -228,7 +224,7 @@ public class SoDummyServer {
         if ("ReturnBadAfterWait".equals(request.getRequestType())) {
             ongoingRequestMap.put(request.getRequestId().toString(), response);
 
-            response.getRequest().getRequestStatus().setRequestState("ONGOING");
+            response.getRequest().getRequestStatus().setRequestState(ONGOING);
             response.setHttpResponseCode(200);
             String responseString = new Gson().toJson(response, SoResponse.class);
             return Response.status(response.getHttpResponseCode())

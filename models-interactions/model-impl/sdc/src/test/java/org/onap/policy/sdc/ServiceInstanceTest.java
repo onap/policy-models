@@ -30,6 +30,10 @@ import org.junit.Test;
 
 public class ServiceInstanceTest {
 
+    private static final String SERVICE = "service";
+    private static final String INSTANCE = "instance";
+    private static final String VERSION_333 = "3.3.3";
+
     @Test
     public void testConstructors() {
         ServiceInstance si = new ServiceInstance();
@@ -123,13 +127,13 @@ public class ServiceInstanceTest {
         assertTrue(si1.equals(si2));
         assertTrue(si2.equals(si1));
 
-        si1.setServiceInstanceName("instance");
-        si1.setServiceName("service");
+        si1.setServiceInstanceName(INSTANCE);
+        si1.setServiceName(SERVICE);
         si1.setServiceInstanceUUID(UUID.randomUUID());
         si1.setServiceUUID(UUID.randomUUID());
         si1.setPersonaModelUUID(UUID.randomUUID());
         si1.setWidgetModelUUID(UUID.randomUUID());
-        si1.setWidgetModelVersion("3.3.3");
+        si1.setWidgetModelVersion(VERSION_333);
         si2 = new ServiceInstance(si1);
         assertTrue(si1.equals(si2));
         assertTrue(si2.equals(si1));
@@ -141,13 +145,13 @@ public class ServiceInstanceTest {
         ServiceInstance si2 = new ServiceInstance(si1);
         assertEquals(si1.toString(), si2.toString());
 
-        si1.setServiceInstanceName("instance");
-        si1.setServiceName("service");
+        si1.setServiceInstanceName(INSTANCE);
+        si1.setServiceName(SERVICE);
         si1.setServiceInstanceUUID(UUID.randomUUID());
         si1.setServiceUUID(UUID.randomUUID());
         si1.setPersonaModelUUID(UUID.randomUUID());
         si1.setWidgetModelUUID(UUID.randomUUID());
-        si1.setWidgetModelVersion("3.3.3");
+        si1.setWidgetModelVersion(VERSION_333);
         si2 = new ServiceInstance(si1);
         assertEquals(si1.toString(), si2.toString());
     }
@@ -158,13 +162,13 @@ public class ServiceInstanceTest {
         ServiceInstance si2 = new ServiceInstance(si1);
         assertEquals(si1.hashCode(), si2.hashCode());
 
-        si1.setServiceInstanceName("instance");
-        si1.setServiceName("service");
+        si1.setServiceInstanceName(INSTANCE);
+        si1.setServiceName(SERVICE);
         si1.setServiceInstanceUUID(UUID.randomUUID());
         si1.setServiceUUID(UUID.randomUUID());
         si1.setPersonaModelUUID(UUID.randomUUID());
         si1.setWidgetModelUUID(UUID.randomUUID());
-        si1.setWidgetModelVersion("3.3.3");
+        si1.setWidgetModelVersion(VERSION_333);
         si2 = new ServiceInstance(si1);
         assertEquals(si1.hashCode(), si2.hashCode());
     }

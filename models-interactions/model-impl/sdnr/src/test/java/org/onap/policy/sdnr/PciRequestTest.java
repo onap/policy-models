@@ -4,6 +4,7 @@
  * ================================================================================
  * Copyright (C) 2018 Wipro Limited Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +32,8 @@ import org.junit.Test;
 
 public class PciRequestTest {
 
+    private static final String MODIFY = "Modify";
+
     @Test
     public void testPciRequest() {
         PciRequest request = new PciRequest();
@@ -46,8 +49,8 @@ public class PciRequestTest {
         request.setPayload(requestPayload);
         assertEquals(requestPayload, request.getPayload());
 
-        request.setAction("Modify");
-        assertEquals("Modify", request.getAction());
+        request.setAction(MODIFY);
+        assertEquals(MODIFY, request.getAction());
 
         assertNotEquals(0, request.hashCode());
 
@@ -76,9 +79,9 @@ public class PciRequestTest {
         assertFalse(request.equals(copiedPciRequest));
         copiedPciRequest.setAction(null);
         assertTrue(request.equals(copiedPciRequest));
-        request.setAction("Modify");
+        request.setAction(MODIFY);
         assertFalse(request.equals(copiedPciRequest));
-        copiedPciRequest.setAction("Modify");
+        copiedPciRequest.setAction(MODIFY);
         assertTrue(request.equals(copiedPciRequest));
 
         request.setPayload(null);

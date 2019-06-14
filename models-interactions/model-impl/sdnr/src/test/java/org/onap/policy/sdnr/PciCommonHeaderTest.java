@@ -4,6 +4,7 @@
  * ================================================================================
  * Copyright (C) 2018 Wipro Limited Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,6 +37,9 @@ import org.junit.Test;
 
 public class PciCommonHeaderTest {
 
+    private static final String KANSAS = "Kansas";
+    private static final String CAN_I_GO_HOME = "Can I go home?";
+
     @Test
     public void testPciCommonHeader() {
         PciCommonHeader commonHeader = new PciCommonHeader();
@@ -43,8 +47,8 @@ public class PciCommonHeaderTest {
         assertNotNull(new PciCommonHeader(commonHeader));
         assertNotEquals(0, commonHeader.hashCode());
 
-        commonHeader.setApiVer("Kansas");
-        assertEquals("Kansas", commonHeader.getApiVer());
+        commonHeader.setApiVer(KANSAS);
+        assertEquals(KANSAS, commonHeader.getApiVer());
 
         Map<String, String> flagMap = new HashMap<>();
         commonHeader.setFlags(flagMap);
@@ -58,8 +62,8 @@ public class PciCommonHeaderTest {
         commonHeader.setRequestId(requestId);
         assertEquals(requestId, commonHeader.getRequestId());
 
-        commonHeader.setSubRequestId("Can I go home?");
-        assertEquals("Can I go home?", commonHeader.getSubRequestId());
+        commonHeader.setSubRequestId(CAN_I_GO_HOME);
+        assertEquals(CAN_I_GO_HOME, commonHeader.getSubRequestId());
 
         Instant timestamp = Instant.now();
         commonHeader.setTimeStamp(timestamp);
@@ -91,9 +95,9 @@ public class PciCommonHeaderTest {
         assertFalse(commonHeader.equals(copiedPciCommonHeader));
         copiedPciCommonHeader.setApiVer(null);
         assertTrue(commonHeader.equals(copiedPciCommonHeader));
-        commonHeader.setApiVer("Kansas");
+        commonHeader.setApiVer(KANSAS);
         assertFalse(commonHeader.equals(copiedPciCommonHeader));
-        copiedPciCommonHeader.setApiVer("Kansas");
+        copiedPciCommonHeader.setApiVer(KANSAS);
         assertTrue(commonHeader.equals(copiedPciCommonHeader));
 
         commonHeader.setFlags(null);
@@ -128,9 +132,9 @@ public class PciCommonHeaderTest {
         assertFalse(commonHeader.equals(copiedPciCommonHeader));
         copiedPciCommonHeader.setSubRequestId(null);
         assertTrue(commonHeader.equals(copiedPciCommonHeader));
-        commonHeader.setSubRequestId("Can I go home?");
+        commonHeader.setSubRequestId(CAN_I_GO_HOME);
         assertFalse(commonHeader.equals(copiedPciCommonHeader));
-        copiedPciCommonHeader.setSubRequestId("Can I go home?");
+        copiedPciCommonHeader.setSubRequestId(CAN_I_GO_HOME);
         assertTrue(commonHeader.equals(copiedPciCommonHeader));
 
         commonHeader.setTimeStamp(null);

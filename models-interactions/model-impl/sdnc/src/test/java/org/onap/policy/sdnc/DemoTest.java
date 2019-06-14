@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  * Copyright (C) 2018 Huawei. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,8 +22,11 @@ package org.onap.policy.sdnc;
 
 import org.junit.Test;
 import org.onap.policy.sdnc.util.Serialization;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DemoTest {
+    private static final Logger logger = LoggerFactory.getLogger(DemoTest.class);
 
     @Test
     public void test() {
@@ -37,34 +41,34 @@ public class DemoTest {
 
         request.getHealRequest().setRequestInfo(new SdncHealRequestInfo());
         request.getHealRequest().getRequestInfo().setRequestAction("request-action");
-        
+
         request.getHealRequest().setServiceInfo(new SdncHealServiceInfo());
         request.getHealRequest().getServiceInfo().setServiceInstanceId("service-instance-01");
-        
+
         request.getHealRequest().setNetworkInfo(new SdncHealNetworkInfo());
         request.getHealRequest().getNetworkInfo().setNetworkId("network-5555");
-        
+
 
         String body = Serialization.gsonPretty.toJson(request);
-        System.out.println(body);
+        logger.info("{}", body);
 
         SdncResponse response = new SdncResponse();
 
         body = Serialization.gsonPretty.toJson(response);
-        System.out.println(body);
+        logger.info("{}", body);
 
         response.setRequestId("request-01");
         response.setResponseOutput(new SdncResponseOutput());
         response.getResponseOutput().setSvcRequestId("service-req-01");
         response.getResponseOutput().setResponseCode("200");
         response.getResponseOutput().setAckFinalIndicator("final-indicator-00");
-        
+
         body = Serialization.gsonPretty.toJson(response);
-        System.out.println(body);
+        logger.info("{}", body);
 
         response = Serialization.gsonPretty.fromJson(body, SdncResponse.class);
         body = Serialization.gsonPretty.toJson(response);
-        System.out.println(body);
+        logger.info("{}", body);
 
     }
 }

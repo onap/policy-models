@@ -68,6 +68,7 @@ public final class SoManager {
     private String user;
     private String password;
 
+    @FunctionalInterface
     public interface SoCallback {
         public void onSoResponseWrapper(SoResponseWrapper wrapper);
     }
