@@ -44,6 +44,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifi
  * Test methods not tested by {@link ModelsTest}.
  */
 public class PdpSubGroupTest {
+    private static final String VERSION_300 = "3.0.0";
     private static final Coder coder = new StandardCoder();
 
     @Test
@@ -95,7 +96,8 @@ public class PdpSubGroupTest {
 
         subgrp.setDesiredInstanceCount(1);
         subgrp.setPdpType("pdp-type");
-        subgrp.setSupportedPolicyTypes(Arrays.asList(makeIdent("type-X", "3.0.0", ToscaPolicyTypeIdentifier.class)));
+        subgrp.setSupportedPolicyTypes(
+                        Arrays.asList(makeIdent("type-X", VERSION_300, ToscaPolicyTypeIdentifier.class)));
         subgrp.setPolicies(Arrays.asList(makeIdent("policy-X", "4.0.0", ToscaPolicyIdentifier.class)));
 
         // valid
@@ -136,7 +138,7 @@ public class PdpSubGroupTest {
 
         // invalid policy type item
         sub2 = new PdpSubGroup(subgrp);
-        sub2.getSupportedPolicyTypes().set(0, makeIdent(null, "3.0.0", ToscaPolicyTypeIdentifier.class));
+        sub2.getSupportedPolicyTypes().set(0, makeIdent(null, VERSION_300, ToscaPolicyTypeIdentifier.class));
         assertInvalid(sub2);
 
         // null policies
@@ -151,7 +153,7 @@ public class PdpSubGroupTest {
 
         // invalid policy item
         sub2 = new PdpSubGroup(subgrp);
-        sub2.getPolicies().set(0, makeIdent(null, "3.0.0", ToscaPolicyIdentifier.class));
+        sub2.getPolicies().set(0, makeIdent(null, VERSION_300, ToscaPolicyIdentifier.class));
         assertInvalid(sub2);
     }
 

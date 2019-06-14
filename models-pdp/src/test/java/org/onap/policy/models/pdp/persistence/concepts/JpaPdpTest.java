@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,6 +44,9 @@ import org.onap.policy.models.pdp.testconcepts.DummyJpaPdpChild;
  */
 public class JpaPdpTest {
 
+    private static final String KEY_IS_NULL = "key is marked @NonNull but is null";
+    private static final String PDP1 = "ThePDP";
+
     @Test
     public void testJpaPdp() {
         assertThatThrownBy(() -> {
@@ -51,11 +55,11 @@ public class JpaPdpTest {
 
         assertThatThrownBy(() -> {
             new JpaPdp((PfReferenceKey) null);
-        }).hasMessage("key is marked @NonNull but is null");
+        }).hasMessage(KEY_IS_NULL);
 
         assertThatThrownBy(() -> {
             new JpaPdp(null, null, null);
-        }).hasMessage("key is marked @NonNull but is null");
+        }).hasMessage(KEY_IS_NULL);
 
         assertThatThrownBy(() -> {
             new JpaPdp(new PfReferenceKey(), null, null);
@@ -67,15 +71,15 @@ public class JpaPdpTest {
 
         assertThatThrownBy(() -> {
             new JpaPdp(null, PdpState.ACTIVE, null);
-        }).hasMessage("key is marked @NonNull but is null");
+        }).hasMessage(KEY_IS_NULL);
 
         assertThatThrownBy(() -> {
             new JpaPdp(null, PdpState.ACTIVE, PdpHealthStatus.UNKNOWN);
-        }).hasMessage("key is marked @NonNull but is null");
+        }).hasMessage(KEY_IS_NULL);
 
         assertThatThrownBy(() -> {
             new JpaPdp(null, null, PdpHealthStatus.UNKNOWN);
-        }).hasMessage("key is marked @NonNull but is null");
+        }).hasMessage(KEY_IS_NULL);
 
         assertThatThrownBy(() -> {
             new JpaPdp((Pdp) null);
@@ -84,11 +88,11 @@ public class JpaPdpTest {
         assertNotNull(new JpaPdp((new PfReferenceKey())));
 
         Pdp testPdp = new Pdp();
-        testPdp.setInstanceId("ThePDP");
+        testPdp.setInstanceId(PDP1);
         JpaPdp testJpaPdp = new JpaPdp();
         testJpaPdp.setKey(null);
         testJpaPdp.fromAuthorative(testPdp);
-        assertEquals("ThePDP", testJpaPdp.getKey().getLocalName());
+        assertEquals(PDP1, testJpaPdp.getKey().getLocalName());
         testJpaPdp.setKey(PfReferenceKey.getNullKey());
         testJpaPdp.fromAuthorative(testPdp);
 
@@ -100,12 +104,12 @@ public class JpaPdpTest {
             testJpaPdp.copyTo(null);
         }).hasMessage("target is marked @NonNull but is null");
 
-        assertEquals("ThePDP", testJpaPdp.getKey().getLocalName());
-        assertEquals("ThePDP", new JpaPdp(testPdp).getKey().getLocalName());
-        assertEquals("ThePDP", ((PfReferenceKey) new JpaPdp(testPdp).getKeys().get(0)).getLocalName());
+        assertEquals(PDP1, testJpaPdp.getKey().getLocalName());
+        assertEquals(PDP1, new JpaPdp(testPdp).getKey().getLocalName());
+        assertEquals(PDP1, ((PfReferenceKey) new JpaPdp(testPdp).getKeys().get(0)).getLocalName());
 
         testJpaPdp.clean();
-        assertEquals("ThePDP", testJpaPdp.getKey().getLocalName());
+        assertEquals(PDP1, testJpaPdp.getKey().getLocalName());
 
         testJpaPdp.setMessage("   A Message   ");
         testJpaPdp.clean();
