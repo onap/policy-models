@@ -23,6 +23,7 @@ package org.onap.policy.models.tosca.authorative.provider;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import com.google.gson.GsonBuilder;
 
@@ -133,7 +134,7 @@ public class AuthorativeToscaProviderPolicyTypeTest {
         PfConceptKey policyTypeKey = new PfConceptKey("onap.policies.optimization.AffinityPolicy:0.0.0");
 
         ToscaPolicyType beforePolicyType = toscaServiceTemplate.getPolicyTypes().get(1).get(policyTypeKey.getName());
-        ToscaPolicyType createdPolicyType = createdServiceTemplate.getPolicyTypes().get(0).get(policyTypeKey.getName());
+        ToscaPolicyType createdPolicyType = createdServiceTemplate.getPolicyTypes().get(1).get(policyTypeKey.getName());
         assertEquals(true, beforePolicyType.getName().equals(createdPolicyType.getName()));
         assertEquals(0, ObjectUtils.compare(beforePolicyType.getDescription(), createdPolicyType.getDescription()));
 
@@ -199,7 +200,7 @@ public class AuthorativeToscaProviderPolicyTypeTest {
         PfConceptKey policyTypeKey = new PfConceptKey("onap.policies.optimization.AffinityPolicy:0.0.0");
 
         ToscaPolicyType beforePolicyType = toscaServiceTemplate.getPolicyTypes().get(1).get(policyTypeKey.getName());
-        ToscaPolicyType createdPolicyType = createdServiceTemplate.getPolicyTypes().get(0).get(policyTypeKey.getName());
+        ToscaPolicyType createdPolicyType = createdServiceTemplate.getPolicyTypes().get(1).get(policyTypeKey.getName());
         assertEquals(true, beforePolicyType.getName().equals(createdPolicyType.getName()));
         assertEquals(0, ObjectUtils.compare(beforePolicyType.getDescription(), createdPolicyType.getDescription()));
 
@@ -283,7 +284,7 @@ public class AuthorativeToscaProviderPolicyTypeTest {
         PfConceptKey policyTypeKey = new PfConceptKey("onap.policies.optimization.AffinityPolicy:0.0.0");
 
         ToscaPolicyType beforePolicyType = toscaServiceTemplate.getPolicyTypes().get(1).get(policyTypeKey.getName());
-        ToscaPolicyType createdPolicyType = createdServiceTemplate.getPolicyTypes().get(0).get(policyTypeKey.getName());
+        ToscaPolicyType createdPolicyType = createdServiceTemplate.getPolicyTypes().get(1).get(policyTypeKey.getName());
         assertEquals(true, beforePolicyType.getName().equals(createdPolicyType.getName()));
         assertEquals(0, ObjectUtils.compare(beforePolicyType.getDescription(), createdPolicyType.getDescription()));
     }
@@ -315,14 +316,14 @@ public class AuthorativeToscaProviderPolicyTypeTest {
         PfConceptKey policyTypeKey = new PfConceptKey("onap.policies.optimization.AffinityPolicy:0.0.0");
 
         ToscaPolicyType beforePolicyType = toscaServiceTemplate.getPolicyTypes().get(1).get(policyTypeKey.getName());
-        ToscaPolicyType createdPolicyType = createdServiceTemplate.getPolicyTypes().get(0).get(policyTypeKey.getName());
+        ToscaPolicyType createdPolicyType = createdServiceTemplate.getPolicyTypes().get(1).get(policyTypeKey.getName());
         assertEquals(true, beforePolicyType.getName().equals(createdPolicyType.getName()));
         assertEquals(0, ObjectUtils.compare(beforePolicyType.getDescription(), createdPolicyType.getDescription()));
 
         ToscaServiceTemplate updatedServiceTemplate =
                 new AuthorativeToscaProvider().updatePolicyTypes(pfDao, toscaServiceTemplate);
 
-        ToscaPolicyType updatedPolicy = updatedServiceTemplate.getPolicyTypes().get(0).get(policyTypeKey.getName());
+        ToscaPolicyType updatedPolicy = updatedServiceTemplate.getPolicyTypes().get(1).get(policyTypeKey.getName());
         assertEquals(true, beforePolicyType.getName().equals(updatedPolicy.getName()));
         assertEquals(0, ObjectUtils.compare(beforePolicyType.getDescription(), updatedPolicy.getDescription()));
     }
@@ -366,7 +367,7 @@ public class AuthorativeToscaProviderPolicyTypeTest {
         PfConceptKey policyTypeKey = new PfConceptKey("onap.policies.optimization.AffinityPolicy:0.0.0");
 
         ToscaPolicyType beforePolicyType = toscaServiceTemplate.getPolicyTypes().get(1).get(policyTypeKey.getName());
-        ToscaPolicyType createdPolicyType = createdServiceTemplate.getPolicyTypes().get(0).get(policyTypeKey.getName());
+        ToscaPolicyType createdPolicyType = createdServiceTemplate.getPolicyTypes().get(1).get(policyTypeKey.getName());
         assertEquals(true, beforePolicyType.getName().equals(createdPolicyType.getName()));
         assertEquals(0, ObjectUtils.compare(beforePolicyType.getDescription(), createdPolicyType.getDescription()));
 
@@ -380,7 +381,7 @@ public class AuthorativeToscaProviderPolicyTypeTest {
         ToscaServiceTemplate gotServiceTemplate = new AuthorativeToscaProvider().getPolicyTypes(pfDao,
                 policyTypeKey.getName(), policyTypeKey.getVersion());
 
-        assertEquals(0, gotServiceTemplate.getPolicyTypes().get(0).size());
+        assertTrue(gotServiceTemplate.getPolicyTypes().isEmpty());
     }
 
     @Test

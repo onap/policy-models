@@ -23,6 +23,7 @@ package org.onap.policy.models.provider.impl;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
@@ -399,7 +400,7 @@ public class DatabasePolicyModelsProviderTest {
         try (PolicyModelsProvider databaseProvider =
                 new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters)) {
 
-            assertEquals(0, databaseProvider.getPolicyTypes("name", "1.0.0").getPolicyTypes().get(0).size());
+            assertTrue(databaseProvider.getPolicyTypes("name", "1.0.0").getPolicyTypes().isEmpty());
             assertEquals(0, databaseProvider.getPolicyTypeList("name", "1.0.0").size());
             assertEquals(0, databaseProvider.getFilteredPolicyTypes(ToscaPolicyTypeFilter.builder().build())
                     .getPolicyTypes().get(0).size());
@@ -413,12 +414,12 @@ public class DatabasePolicyModelsProviderTest {
                 databaseProvider.updatePolicyTypes(new ToscaServiceTemplate());
             }).hasMessage("no policy types specified on service template");
 
-            assertEquals(0, databaseProvider.deletePolicyType("name", "1.0.0").getPolicyTypes().get(0).size());
+            assertTrue(databaseProvider.deletePolicyType("name", "1.0.0").getPolicyTypes().isEmpty());
 
-            assertEquals(0, databaseProvider.deletePolicyType("name", "1.0.0").getPolicyTypes().get(0).size());
+            assertTrue(databaseProvider.deletePolicyType("name", "1.0.0").getPolicyTypes().isEmpty());
 
-            assertEquals(0, databaseProvider.getPolicies("name", "1.0.0").getToscaTopologyTemplate().getPolicies()
-                    .get(0).size());
+            assertTrue(
+                    databaseProvider.getPolicies("name", "1.0.0").getToscaTopologyTemplate().getPolicies().isEmpty());
             assertEquals(0, databaseProvider.getPolicyList("name", "1.0.0").size());
             assertEquals(0, databaseProvider.getFilteredPolicies(ToscaPolicyFilter.builder().build())
                     .getToscaTopologyTemplate().getPolicies().get(0).size());
@@ -432,8 +433,8 @@ public class DatabasePolicyModelsProviderTest {
                 databaseProvider.updatePolicies(new ToscaServiceTemplate());
             }).hasMessage("topology template not specified on service template");
 
-            assertEquals(0, databaseProvider.deletePolicy("Policy", "0.0.0").getToscaTopologyTemplate().getPolicies()
-                    .get(0).size());
+            assertTrue(databaseProvider.deletePolicy("Policy", "0.0.0").getToscaTopologyTemplate().getPolicies()
+                    .isEmpty());
 
             assertThatThrownBy(() -> {
                 databaseProvider.getOperationalPolicy("policy_id", null);
@@ -510,15 +511,15 @@ public class DatabasePolicyModelsProviderTest {
 
             pdpSubGroup.setDesiredInstanceCount(234);
             databaseProvider.updatePdpSubGroup("group", pdpSubGroup);
-            assertEquals(234, databaseProvider.getPdpGroups("group").get(0).getPdpSubgroups()
-                    .get(0).getDesiredInstanceCount());
+            assertEquals(234,
+                    databaseProvider.getPdpGroups("group").get(0).getPdpSubgroups().get(0).getDesiredInstanceCount());
 
-            assertEquals("Hello", databaseProvider.getPdpGroups("group").get(0).getPdpSubgroups()
-                    .get(0).getPdpInstances().get(0).getMessage());
+            assertEquals("Hello", databaseProvider.getPdpGroups("group").get(0).getPdpSubgroups().get(0)
+                    .getPdpInstances().get(0).getMessage());
             pdp.setMessage("Howdy");
             databaseProvider.updatePdp("group", "type", pdp);
-            assertEquals("Howdy", databaseProvider.getPdpGroups("group").get(0).getPdpSubgroups()
-                    .get(0).getPdpInstances().get(0).getMessage());
+            assertEquals("Howdy", databaseProvider.getPdpGroups("group").get(0).getPdpSubgroups().get(0)
+                    .getPdpInstances().get(0).getMessage());
 
             assertThatThrownBy(() -> {
                 databaseProvider.deletePdpGroup("name");

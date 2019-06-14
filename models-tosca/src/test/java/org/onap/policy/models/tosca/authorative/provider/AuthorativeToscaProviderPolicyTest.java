@@ -27,6 +27,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.eclipse.persistence.config.PersistenceUnitProperties;
@@ -382,7 +383,7 @@ public class AuthorativeToscaProviderPolicyTest {
         ToscaServiceTemplate gotServiceTemplate =
                 new AuthorativeToscaProvider().getPolicies(pfDao, policyKey.getName(), policyKey.getVersion());
 
-        assertEquals(0, gotServiceTemplate.getToscaTopologyTemplate().getPolicies().get(0).size());
+        assertTrue(gotServiceTemplate.getToscaTopologyTemplate().getPolicies().isEmpty());
     }
 
     @Test
@@ -406,6 +407,49 @@ public class AuthorativeToscaProviderPolicyTest {
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().createPolicies(pfDao, testServiceTemplate);
         }).hasMessage("An incoming list of concepts must have at least one entry");
+    }
+
+    @Test
+    public void testEntityMaps() throws CoderException, PfModelException {
+        Object yamlObject = new Yaml().load(
+                ResourceUtils.getResourceAsString("policytypes/onap.policies.monitoring.cdap.tca.hi.lo.app.yaml"));
+        String yamlAsJsonString = new StandardCoder().encode(yamlObject);
+
+        ToscaServiceTemplate toscaServiceTemplatePolicyType =
+                standardCoder.decode(yamlAsJsonString, ToscaServiceTemplate.class);
+
+        assertNotNull(toscaServiceTemplatePolicyType);
+        new AuthorativeToscaProvider().createPolicyTypes(pfDao, toscaServiceTemplatePolicyType);
+
+        assertEquals(3, toscaServiceTemplatePolicyType.getDataTypesAsMap().size());
+        assertEquals(2, toscaServiceTemplatePolicyType.getPolicyTypesAsMap().size());
+
+        ToscaServiceTemplate toscaServiceTemplate = standardCoder.decode(
+                ResourceUtils.getResourceAsString("policies/vCPE.policy.monitoring.input.tosca.json"),
+                ToscaServiceTemplate.class);
+
+        assertNotNull(toscaServiceTemplate);
+        ToscaServiceTemplate createdServiceTemplate =
+                new AuthorativeToscaProvider().createPolicies(pfDao, toscaServiceTemplate);
+
+        PfConceptKey policyKey = new PfConceptKey("onap.restart.tca:1.0.0");
+
+        ToscaPolicy beforePolicy =
+                toscaServiceTemplate.getToscaTopologyTemplate().getPolicies().get(0).get(policyKey.getName());
+        ToscaPolicy createdPolicy =
+                createdServiceTemplate.getToscaTopologyTemplate().getPolicies().get(0).get(policyKey.getName());
+        assertEquals(0, beforePolicy.compareNameVersion(beforePolicy, createdPolicy));
+        assertTrue(beforePolicy.getType().equals(createdPolicy.getType()));
+
+        assertEquals(1, toscaServiceTemplate.getToscaTopologyTemplate().getPoliciesAsMap().size());
+        assertEquals(1, createdServiceTemplate.getToscaTopologyTemplate().getPoliciesAsMap().size());
+
+        Map<String, ToscaPolicy> policyMapItem = createdServiceTemplate.getToscaTopologyTemplate().getPolicies().get(0);
+        createdServiceTemplate.getToscaTopologyTemplate().getPolicies().add(policyMapItem);
+
+        assertThatThrownBy(() -> {
+            createdServiceTemplate.getToscaTopologyTemplate().getPoliciesAsMap();
+        }).hasMessageContaining("list of map of entities contains more than one entity with key");
     }
 
     private void createPolicyTypes() throws CoderException, PfModelException {

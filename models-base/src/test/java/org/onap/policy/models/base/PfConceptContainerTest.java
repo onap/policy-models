@@ -213,9 +213,9 @@ public class PfConceptContainerTest {
 
         List<Map<String, DummyAuthorativeConcept>> outMapList = container.toAuthorative();
 
-        assertEquals(dacMap.get("name0"), outMapList.get(0).get("name0"));
-        assertEquals(dacMap.get("name1").getDescription(), outMapList.get(0).get("NULL").getDescription());
-        assertEquals(dacMap.get("name2"), outMapList.get(0).get("name2"));
+        assertEquals(dacMap.get("name1"), outMapList.get(0).get("NULL"));
+        assertEquals(dacMap.get("name0").getDescription(), outMapList.get(1).get("name0").getDescription());
+        assertEquals(dacMap.get("name2"), outMapList.get(2).get("name2"));
 
         DummyBadPfConceptContainer badContainer = new DummyBadPfConceptContainer();
         assertThatThrownBy(() -> {

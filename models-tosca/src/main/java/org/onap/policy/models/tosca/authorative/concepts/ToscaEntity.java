@@ -25,12 +25,17 @@ package org.onap.policy.models.tosca.authorative.concepts;
 import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import javax.ws.rs.core.Response;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.base.PfNameVersion;
 
 /**
@@ -70,5 +75,40 @@ public class ToscaEntity implements PfNameVersion {
                 metadata.put(metadataEntry.getKey(), metadataEntry.getValue());
             }
         }
+    }
+
+    /**
+     * Get a key for this entity.
+     *
+     * @return a ToscaEntityKey for this entry
+     */
+    public ToscaEntityKey getKey() {
+        return new ToscaEntityKey(name, version);
+    }
+
+    /**
+     * Convert a list of maps of TOSCA entities into a regular map.
+     *
+     * @param listOfMapsOfEntities the incoming list of maps of entities
+     * @return The entities on a regular map
+     * @throws PfModelException on duplicate entity entries
+     */
+    public static <T extends ToscaEntity> Map<ToscaEntityKey, T> getEntityListMapAsMap(
+            List<Map<String, T>> listOfMapsOfEntities) {
+        // Declare the return map
+        Map<ToscaEntityKey, T> entityMap = new LinkedHashMap<>();
+
+        for (Map<String, T> mapOfEntities : listOfMapsOfEntities) {
+            for (T entityEntry : mapOfEntities.values()) {
+                if (entityMap.containsKey(entityEntry.getKey())) {
+                    throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR,
+                            "list of map of entities contains more than one entity with key " + entityEntry.getKey());
+                }
+
+                entityMap.put(entityEntry.getKey(), entityEntry);
+            }
+        }
+
+        return entityMap;
     }
 }

@@ -126,16 +126,22 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
 
     @Override
     public List<Map<String, A>> toAuthorative() {
-        Map<String, A> toscaPolicyMap = new LinkedHashMap<>();
+        // The returned list is a list of map singletons with one map for each map
+        // entry in the concept container
+        List<Map<String, A>> toscaPolicyMapList = new ArrayList<>();
 
         for (Entry<PfConceptKey, C> conceptEntry : getConceptMap().entrySet()) {
+            // Create a map to hold this entry
+            Map<String, A> toscaPolicyMap = new LinkedHashMap<>(1);
+
+            // Add the concept container entry to the singleton map
             @SuppressWarnings("unchecked")
             PfAuthorative<A> authoritiveImpl = (PfAuthorative<A>) conceptEntry.getValue();
             toscaPolicyMap.put(conceptEntry.getKey().getName(), authoritiveImpl.toAuthorative());
-        }
 
-        List<Map<String, A>> toscaPolicyMapList = new ArrayList<>();
-        toscaPolicyMapList.add(toscaPolicyMap);
+            // Add the map to the returned list
+            toscaPolicyMapList.add(toscaPolicyMap);
+        }
 
         return toscaPolicyMapList;
     }

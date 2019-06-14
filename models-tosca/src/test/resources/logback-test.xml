@@ -25,7 +25,7 @@
     <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener" />
     <property name="LOG_DIR" value="${java.io.tmpdir}/pf_logging/" />
 
-    <!-- USE FOR STD OUT ONLY -->
+    <!-- USE FOR STD OUTPUT ONLY -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <Pattern>%d %contextName [%t] %level %logger{36} - %msg%n</Pattern>
