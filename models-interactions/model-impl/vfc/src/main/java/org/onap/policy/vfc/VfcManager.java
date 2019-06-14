@@ -47,6 +47,7 @@ public final class VfcManager implements Runnable {
     // The REST manager used for processing REST calls for this VFC manager
     private RestManager restManager;
 
+    @FunctionalInterface
     public interface VfcCallback {
         void onResponse(VfcResponse responseError);
     }
@@ -155,9 +156,11 @@ public final class VfcManager implements Runnable {
                 }
                 Thread.sleep(20000);
             }
-            if ((attemptsLeft <= 0) && (responseGet != null) && (responseGet.getResponseDescriptor() != null)
-                    && (responseGet.getResponseDescriptor().getStatus() != null)
-                    && (!responseGet.getResponseDescriptor().getStatus().isEmpty())) {
+            boolean isTimeout = (attemptsLeft <= 0) && (responseGet != null)
+                            && (responseGet.getResponseDescriptor() != null);
+            isTimeout = isTimeout && (responseGet.getResponseDescriptor().getStatus() != null)
+                            && (!responseGet.getResponseDescriptor().getStatus().isEmpty());
+            if (isTimeout) {
                 logger.debug("VFC timeout. Status: ({})", responseGet.getResponseDescriptor().getStatus());
                 this.callback.onResponse(responseGet);
             }

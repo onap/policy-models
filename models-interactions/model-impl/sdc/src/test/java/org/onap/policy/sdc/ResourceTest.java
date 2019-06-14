@@ -30,6 +30,9 @@ import org.junit.Test;
 
 public class ResourceTest {
 
+    private static final String EQUALS_TEST = "equalsTest";
+    private static final String VERSION_111 = "1.1.1";
+
     @Test
     public void testConstructors() {
         Resource res = new Resource();
@@ -120,7 +123,7 @@ public class ResourceTest {
         assertTrue(r1.equals(r2));
         assertTrue(r2.equals(r1));
 
-        r1 = new Resource(UUID.randomUUID(), UUID.randomUUID(), "equalsTest", "1.1.1",
+        r1 = new Resource(UUID.randomUUID(), UUID.randomUUID(), EQUALS_TEST, VERSION_111,
                 ResourceType.VFC);
         r2 = new Resource(r1);
         assertTrue(r1.equals(r2));
@@ -133,7 +136,7 @@ public class ResourceTest {
         Resource r2 = new Resource(r1);
         assertEquals(r1.toString(), r2.toString());
 
-        r1 = new Resource(UUID.randomUUID(), UUID.randomUUID(), "equalsTest", "1.1.1",
+        r1 = new Resource(UUID.randomUUID(), UUID.randomUUID(), EQUALS_TEST, VERSION_111,
                 ResourceType.VFC);
         r2 = new Resource(r1);
         assertEquals(r1.toString(), r2.toString());
@@ -145,7 +148,7 @@ public class ResourceTest {
         Resource r2 = new Resource(r1);
         assertEquals(r1.hashCode(), r2.hashCode());
 
-        r1 = new Resource(UUID.randomUUID(), UUID.randomUUID(), "equalsTest", "1.1.1",
+        r1 = new Resource(UUID.randomUUID(), UUID.randomUUID(), EQUALS_TEST, VERSION_111,
                 ResourceType.VFC);
         r2 = new Resource(r1);
         assertEquals(r1.hashCode(), r2.hashCode());

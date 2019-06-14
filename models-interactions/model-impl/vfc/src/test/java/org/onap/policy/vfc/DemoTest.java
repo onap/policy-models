@@ -21,11 +21,13 @@
 package org.onap.policy.vfc;
 
 import java.util.LinkedList;
-
 import org.junit.Test;
 import org.onap.policy.vfc.util.Serialization;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DemoTest {
+    private static final Logger logger = LoggerFactory.getLogger(DemoTest.class);
 
     @Test
     public void test() {
@@ -44,13 +46,13 @@ public class DemoTest {
         request.getHealRequest().getAdditionalParams().getActionInfo().setVmname("xgw-smp11");
 
         String body = Serialization.gsonPretty.toJson(request);
-        System.out.println(body);
+        logger.info("{}", body);
 
         VfcResponse response = new VfcResponse();
         response.setJobId("1");
 
         body = Serialization.gsonPretty.toJson(response);
-        System.out.println(body);
+        logger.info("{}", body);
 
         response.setResponseDescriptor(new VfcResponseDescriptor());
         response.getResponseDescriptor().setProgress("40");
@@ -59,7 +61,7 @@ public class DemoTest {
         response.getResponseDescriptor().setErrorCode(null);
         response.getResponseDescriptor().setResponseId("42");
         body = Serialization.gsonPretty.toJson(response);
-        System.out.println(body);
+        logger.info("{}", body);
 
         VfcResponseDescriptor responseDescriptor = new VfcResponseDescriptor();
         responseDescriptor.setProgress("20");
@@ -72,11 +74,11 @@ public class DemoTest {
         response.getResponseDescriptor().getResponseHistoryList().add(responseDescriptor);
 
         body = Serialization.gsonPretty.toJson(response);
-        System.out.println(body);
+        logger.info("{}", body);
 
         response = Serialization.gsonPretty.fromJson(body, VfcResponse.class);
         body = Serialization.gsonPretty.toJson(response);
-        System.out.println(body);
+        logger.info("{}", body);
 
     }
 }

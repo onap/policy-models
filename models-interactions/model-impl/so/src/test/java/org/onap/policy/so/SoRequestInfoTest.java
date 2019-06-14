@@ -3,7 +3,6 @@
  * so
  * ================================================================================
  * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,7 +22,8 @@
 package org.onap.policy.so;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
@@ -33,16 +33,16 @@ public class SoRequestInfoTest {
     public void testConstructor() {
         SoRequestInfo obj = new SoRequestInfo();
 
-        assertTrue(obj.getBillingAccountNumber() == null);
-        assertTrue(obj.getCallbackUrl() == null);
-        assertTrue(obj.getCorrelator() == null);
-        assertTrue(obj.getInstanceName() == null);
-        assertTrue(obj.getOrderNumber() == null);
-        assertTrue(obj.getOrderVersion() == null);
-        assertTrue(obj.getProductFamilyId() == null);
-        assertTrue(obj.getRequestorId() == null);
-        assertTrue(obj.getSource() == null);
-        assertTrue(obj.isSuppressRollback() == false);
+        assertNull(obj.getBillingAccountNumber());
+        assertNull(obj.getCallbackUrl());
+        assertNull(obj.getCorrelator());
+        assertNull(obj.getInstanceName());
+        assertNull(obj.getOrderNumber());
+        assertNull(obj.getOrderVersion());
+        assertNull(obj.getProductFamilyId());
+        assertNull(obj.getRequestorId());
+        assertNull(obj.getSource());
+        assertFalse(obj.isSuppressRollback());
     }
 
     @Test

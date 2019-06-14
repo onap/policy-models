@@ -23,8 +23,7 @@
 
 package org.onap.policy.sdnc;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.endsWith;
@@ -35,7 +34,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.UUID;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.rest.RestManager;
 import org.onap.policy.rest.RestManager.Pair;
@@ -43,6 +41,10 @@ import org.onap.policy.sdnc.SdncManager.SdncCallback;
 import org.onap.policy.sdnc.util.Serialization;
 
 public class SdncManagerTest implements SdncCallback {
+    private static final String SOMEWHERE_OVER_THE_RAINBOW = "http://somewhere.over.the.rainbow";
+
+    private static final String DOROTHY = "Dorothy";
+
     private RestManager   mockedRestManager;
 
     private Pair<Integer, String> httpResponsePutOk;
@@ -52,10 +54,6 @@ public class SdncManagerTest implements SdncCallback {
 
     private SdncRequest  request;
     private SdncResponse response;
-
-    @BeforeClass
-    public static void beforeTestSdncManager() {
-    }
 
     /**
      * Set up the mocked REST manager.
@@ -90,7 +88,7 @@ public class SdncManagerTest implements SdncCallback {
         request = new SdncRequest();
         request.setRequestId(requestId);
         request.setHealRequest(healRequest);
-        request.setNsInstanceId("Dorothy");
+        request.setNsInstanceId(DOROTHY);
 
         SdncResponseOutput responseDescriptor = new SdncResponseOutput();
         responseDescriptor.setSvcRequestId("1234");
@@ -103,53 +101,30 @@ public class SdncManagerTest implements SdncCallback {
     }
 
     @Test
-    public void testSdncInitiation() throws InterruptedException {
-        try {
-            new SdncManager(null, null, null, null, null);
-            fail("test should throw an exception here");
-        }
-        catch (IllegalArgumentException e) {
-            assertEquals(
-                "the parameters \"callback\" and \"request\" on the SdncManager constructor may not be null",
-                e.getMessage()
-            );
-        }
+    public void testSdncInitiation() {
 
-        try {
-            new SdncManager(this, null, null, null, null);
-            fail("test should throw an exception here");
-        }
-        catch (IllegalArgumentException e) {
-            assertEquals(
-                "the parameters \"callback\" and \"request\" on the SdncManager constructor may not be null",
-                e.getMessage()
-            );
-        }
+        assertThatIllegalArgumentException().isThrownBy(() -> new SdncManager(null, null, null, null, null))
+            .withMessage("the parameters \"callback\" and \"request\" on the SdncManager constructor may not be null");
 
-        try {
-            new SdncManager(this, request, null, null, null);
-            fail("test should throw an exception here");
-        }
-        catch (IllegalArgumentException e) {
-            assertEquals(
-                "the \"url\" parameter on the SdncManager constructor may not be null",
-                e.getMessage()
-            );
-        }
+        assertThatIllegalArgumentException().isThrownBy(() -> new SdncManager(this, null, null, null, null))
+            .withMessage("the parameters \"callback\" and \"request\" on the SdncManager constructor may not be null");
 
-        new SdncManager(this, request, "http://somewhere.over.the.rainbow", "Dorothy", "Toto");
+        assertThatIllegalArgumentException().isThrownBy(() -> new SdncManager(this, request, null, null, null))
+            .withMessage("the \"url\" parameter on the SdncManager constructor may not be null");
+
+        new SdncManager(this, request, SOMEWHERE_OVER_THE_RAINBOW, DOROTHY, "Toto");
     }
 
     @Test
     public void testSdncExecutionException() throws InterruptedException {
-        SdncManager manager = new SdncManager(this, request, "http://somewhere.over.the.rainbow", "Dorothy", "Exception");
+        SdncManager manager = new SdncManager(this, request, SOMEWHERE_OVER_THE_RAINBOW, DOROTHY, "Exception");
         manager.setRestManager(mockedRestManager);
 
         Thread managerThread = new Thread(manager);
         managerThread.start();
 
-        when(mockedRestManager.post(startsWith("http://somewhere.over.the.rainbow"), eq("Dorothy"), eq("Exception"), anyMap(), anyString(), anyString()))
-            .thenThrow(new RuntimeException("OzException"));
+        when(mockedRestManager.post(startsWith(SOMEWHERE_OVER_THE_RAINBOW), eq(DOROTHY), eq("Exception"), anyMap(),
+                        anyString(), anyString())).thenThrow(new RuntimeException("OzException"));
 
 
         managerThread.join(100);
@@ -157,14 +132,14 @@ public class SdncManagerTest implements SdncCallback {
 
     @Test
     public void testSdncExecutionNull() throws InterruptedException {
-        SdncManager manager = new SdncManager(this, request, "http://somewhere.over.the.rainbow", "Dorothy", "Null");
+        SdncManager manager = new SdncManager(this, request, SOMEWHERE_OVER_THE_RAINBOW, DOROTHY, "Null");
         manager.setRestManager(mockedRestManager);
 
         Thread managerThread = new Thread(manager);
         managerThread.start();
 
-        when(mockedRestManager.post(startsWith("http://somewhere.over.the.rainbow"), eq("Dorothy"), eq("Null"), anyMap(), anyString(), anyString()))
-            .thenReturn(null);
+        when(mockedRestManager.post(startsWith(SOMEWHERE_OVER_THE_RAINBOW), eq(DOROTHY), eq("Null"), anyMap(),
+                        anyString(), anyString())).thenReturn(null);
 
         managerThread.join(100);
     }
@@ -172,44 +147,44 @@ public class SdncManagerTest implements SdncCallback {
 
     @Test
     public void testSdncExecutionError0() throws InterruptedException {
-        SdncManager manager = new SdncManager(this, request, "http://somewhere.over.the.rainbow", "Dorothy", "Error0");
+        SdncManager manager = new SdncManager(this, request, SOMEWHERE_OVER_THE_RAINBOW, DOROTHY, "Error0");
         manager.setRestManager(mockedRestManager);
 
         Thread managerThread = new Thread(manager);
         managerThread.start();
 
-        when(mockedRestManager.post(startsWith("http://somewhere.over.the.rainbow"), eq("Dorothy"), eq("Error0"), anyMap(), anyString(), anyString()))
-            .thenReturn(httpResponseErr);
+        when(mockedRestManager.post(startsWith(SOMEWHERE_OVER_THE_RAINBOW), eq(DOROTHY), eq("Error0"), anyMap(),
+                        anyString(), anyString())).thenReturn(httpResponseErr);
 
         managerThread.join(100);
     }
 
     @Test
     public void testSdncExecutionBadResponse() throws InterruptedException {
-        SdncManager manager = new SdncManager(this, request, "http://somewhere.over.the.rainbow", "Dorothy", "BadResponse");
+        SdncManager manager = new SdncManager(this, request, SOMEWHERE_OVER_THE_RAINBOW, DOROTHY, "BadResponse");
         manager.setRestManager(mockedRestManager);
 
         Thread managerThread = new Thread(manager);
         managerThread.start();
 
-        when(mockedRestManager.post(startsWith("http://somewhere.over.the.rainbow"), eq("Dorothy"), eq("OK"), anyMap(), anyString(), anyString()))
-            .thenReturn(httpResponseBadResponse);
+        when(mockedRestManager.post(startsWith(SOMEWHERE_OVER_THE_RAINBOW), eq(DOROTHY), eq("OK"), anyMap(),
+                        anyString(), anyString())).thenReturn(httpResponseBadResponse);
 
         managerThread.join(100);
     }
 
     @Test
     public void testSdncExecutionOk() throws InterruptedException {
-        SdncManager manager = new SdncManager(this, request, "http://somewhere.over.the.rainbow", "Dorothy", "OOK");
+        SdncManager manager = new SdncManager(this, request, SOMEWHERE_OVER_THE_RAINBOW, DOROTHY, "OOK");
         manager.setRestManager(mockedRestManager);
 
         Thread managerThread = new Thread(manager);
         managerThread.start();
 
-        when(mockedRestManager.post(startsWith("http://somewhere.over.the.rainbow"), eq("Dorothy"), eq("OK"), anyMap(), anyString(), anyString()))
-            .thenReturn(httpResponsePutOk);
+        when(mockedRestManager.post(startsWith(SOMEWHERE_OVER_THE_RAINBOW), eq(DOROTHY), eq("OK"), anyMap(),
+                        anyString(), anyString())).thenReturn(httpResponsePutOk);
 
-        when(mockedRestManager.get(endsWith("1234"), eq("Dorothy"), eq("OK"), anyMap()))
+        when(mockedRestManager.get(endsWith("1234"), eq(DOROTHY), eq("OK"), anyMap()))
             .thenReturn(httpResponseGetOk);
 
 
