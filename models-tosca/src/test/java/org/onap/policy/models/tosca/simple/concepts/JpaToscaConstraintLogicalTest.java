@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,30 +37,32 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaConstraint;
  */
 public class JpaToscaConstraintLogicalTest {
 
+    private static final String HELLO = "Hello";
+
     @Test
     public void testLogicalConstraint() {
         ToscaConstraint c0 = new ToscaConstraint();
-        c0.setEqual("Hello");
+        c0.setEqual(HELLO);
         JpaToscaConstraintLogical jc0 = new JpaToscaConstraintLogical(c0);
         assertEquals(c0, jc0.toAuthorative());
 
         ToscaConstraint c1 = new ToscaConstraint();
-        c1.setGreaterOrEqual("Hello");
+        c1.setGreaterOrEqual(HELLO);
         JpaToscaConstraintLogical jc1 = new JpaToscaConstraintLogical(c1);
         assertEquals(c1, jc1.toAuthorative());
 
         ToscaConstraint c2 = new ToscaConstraint();
-        c2.setGreaterThan("Hello");
+        c2.setGreaterThan(HELLO);
         JpaToscaConstraintLogical jc2 = new JpaToscaConstraintLogical(c2);
         assertEquals(c2, jc2.toAuthorative());
 
         ToscaConstraint c3 = new ToscaConstraint();
-        c3.setLessOrEqual("Hello");
+        c3.setLessOrEqual(HELLO);
         JpaToscaConstraintLogical jc3 = new JpaToscaConstraintLogical(c3);
         assertEquals(c3, jc3.toAuthorative());
 
         ToscaConstraint c4 = new ToscaConstraint();
-        c4.setLessThan("Hello");
+        c4.setLessThan(HELLO);
         JpaToscaConstraintLogical jc4 = new JpaToscaConstraintLogical(c4);
         assertEquals(c4, jc4.toAuthorative());
 

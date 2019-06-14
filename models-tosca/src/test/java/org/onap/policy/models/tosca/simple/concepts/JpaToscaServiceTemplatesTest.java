@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,6 +38,8 @@ import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplates;
 
 public class JpaToscaServiceTemplatesTest {
 
+    private static final String KEY_IS_NULL = "key is marked @NonNull but is null";
+
     @Test
     public void testServiceTemplates() {
         assertNotNull(new JpaToscaServiceTemplates());
@@ -47,7 +50,7 @@ public class JpaToscaServiceTemplatesTest {
 
         assertThatThrownBy(() -> {
             new JpaToscaServiceTemplates((PfConceptKey) null);
-        }).hasMessage("key is marked @NonNull but is null");
+        }).hasMessage(KEY_IS_NULL);
 
         assertThatThrownBy(() -> {
             new JpaToscaServiceTemplates((JpaToscaServiceTemplates) null);
@@ -55,7 +58,7 @@ public class JpaToscaServiceTemplatesTest {
 
         assertThatThrownBy(() -> {
             new JpaToscaServiceTemplates(null, null);
-        }).hasMessage("key is marked @NonNull but is null");
+        }).hasMessage(KEY_IS_NULL);
 
         assertThatThrownBy(() -> {
             new JpaToscaServiceTemplates(new PfConceptKey(), null);
@@ -63,7 +66,7 @@ public class JpaToscaServiceTemplatesTest {
 
         assertThatThrownBy(() -> {
             new JpaToscaServiceTemplates(null, new TreeMap<PfConceptKey, JpaToscaServiceTemplate>());
-        }).hasMessage("key is marked @NonNull but is null");
+        }).hasMessage(KEY_IS_NULL);
 
         List<Map<String, ToscaServiceTemplate>> tsMapList = new ArrayList<>();
         tsMapList.add(new LinkedHashMap<>());

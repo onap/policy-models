@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,6 +46,9 @@ import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicy;
  */
 public class JpaToscaPolicyTest {
 
+    private static final String KEY_IS_NULL = "key is marked @NonNull but is null";
+    private static final String VERSION_001 = "0.0.1";
+
     @Test
     public void testPolicyPojo() {
         assertNotNull(new JpaToscaPolicy());
@@ -58,11 +62,11 @@ public class JpaToscaPolicyTest {
 
         assertThatThrownBy(() -> {
             new JpaToscaPolicy((PfConceptKey) null);
-        }).hasMessage("key is marked @NonNull but is null");
+        }).hasMessage(KEY_IS_NULL);
 
         assertThatThrownBy(() -> {
             new JpaToscaPolicy(null, null);
-        }).hasMessage("key is marked @NonNull but is null");
+        }).hasMessage(KEY_IS_NULL);
 
         assertThatThrownBy(() -> {
             new JpaToscaPolicy(new PfConceptKey(), null);
@@ -70,14 +74,14 @@ public class JpaToscaPolicyTest {
 
         assertThatThrownBy(() -> {
             new JpaToscaPolicy(null, new PfConceptKey());
-        }).hasMessage("key is marked @NonNull but is null");
+        }).hasMessage(KEY_IS_NULL);
 
         assertThatThrownBy(() -> {
             new JpaToscaPolicy((JpaToscaPolicy) null);
         }).hasMessage("copyConcept is marked @NonNull but is null");
 
-        PfConceptKey tpKey = new PfConceptKey("tdt", "0.0.1");
-        PfConceptKey ptKey = new PfConceptKey("policyType", "0.0.1");
+        PfConceptKey tpKey = new PfConceptKey("tdt", VERSION_001);
+        PfConceptKey ptKey = new PfConceptKey("policyType", VERSION_001);
         JpaToscaPolicy tp = new JpaToscaPolicy(tpKey, ptKey);
 
         Map<String, String> propertyMap = new HashMap<>();
@@ -86,7 +90,7 @@ public class JpaToscaPolicyTest {
         assertEquals(propertyMap, tp.getProperties());
 
         List<PfConceptKey> targets = new ArrayList<>();
-        PfConceptKey target = new PfConceptKey("target", "0.0.1");
+        PfConceptKey target = new PfConceptKey("target", VERSION_001);
         targets.add(target);
         tp.setTargets(targets);
         assertEquals(targets, tp.getTargets());
@@ -104,7 +108,7 @@ public class JpaToscaPolicyTest {
         assertEquals(0, tp.compareTo(tp));
         assertFalse(tp.compareTo(tp.getKey()) == 0);
 
-        PfConceptKey otherDtKey = new PfConceptKey("otherDt", "0.0.1");
+        PfConceptKey otherDtKey = new PfConceptKey("otherDt", VERSION_001);
         JpaToscaPolicy otherDt = new JpaToscaPolicy(otherDtKey);
 
         assertFalse(tp.compareTo(otherDt) == 0);

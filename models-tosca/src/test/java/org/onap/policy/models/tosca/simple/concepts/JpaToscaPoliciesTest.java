@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,23 +21,21 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicies;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicy;
 
 public class JpaToscaPoliciesTest {
+
+    private static final String KEY_IS_NULL = "key is marked @NonNull but is null";
 
     @Test
     public void testPolicies() {
@@ -45,40 +44,18 @@ public class JpaToscaPoliciesTest {
         assertNotNull(new JpaToscaPolicies(new PfConceptKey(), new TreeMap<PfConceptKey, JpaToscaPolicy>()));
         assertNotNull(new JpaToscaPolicies(new JpaToscaPolicies()));
 
-        try {
-            new JpaToscaPolicies((PfConceptKey) null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("key is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaPolicies((PfConceptKey) null)).hasMessage(KEY_IS_NULL);
 
-        try {
-            new JpaToscaPolicies((JpaToscaPolicies) null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("copyConcept is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaPolicies((JpaToscaPolicies) null))
+                        .hasMessage("copyConcept is marked @NonNull but is null");
 
-        try {
-            new JpaToscaPolicies(null, null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("key is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaPolicies(null, null)).hasMessage(KEY_IS_NULL);
 
-        try {
-            new JpaToscaPolicies(new PfConceptKey(), null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("conceptMap is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaPolicies(new PfConceptKey(), null))
+                        .hasMessage("conceptMap is marked @NonNull but is null");
 
-        try {
-            new JpaToscaPolicies(null, new TreeMap<PfConceptKey, JpaToscaPolicy>());
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("key is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaPolicies(null, new TreeMap<PfConceptKey, JpaToscaPolicy>()))
+                        .hasMessage(KEY_IS_NULL);
 
         List<Map<String, ToscaPolicy>> polMapList = new ArrayList<>();
         polMapList.add(new LinkedHashMap<>());

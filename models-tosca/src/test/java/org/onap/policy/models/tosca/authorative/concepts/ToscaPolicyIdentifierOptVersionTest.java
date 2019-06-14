@@ -65,7 +65,7 @@ public class ToscaPolicyIdentifierOptVersionTest extends ToscaIdentifierTestBase
     }
 
     @Test
-    public void testCopyToscaPolicyIdentifierConstructor() throws Exception {
+    public void testCopyToscaPolicyIdentifierConstructor() {
         assertThatThrownBy(() -> new ToscaPolicyIdentifierOptVersion((ToscaPolicyIdentifier) null))
                         .isInstanceOf(NullPointerException.class);
 
@@ -85,6 +85,7 @@ public class ToscaPolicyIdentifierOptVersionTest extends ToscaIdentifierTestBase
     }
 
     @Test
+    @Override
     public void testCompareTo() throws Exception {
         super.testCompareTo();
     }

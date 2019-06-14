@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,28 +21,23 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaEntityType;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyType;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaProperty;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaTrigger;
 
 /**
  * DAO test for ToscaPolicyType.
@@ -49,30 +45,25 @@ import org.onap.policy.models.tosca.simple.concepts.JpaToscaTrigger;
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 public class JpaToscaPolicyTypeTest {
+    private static final String A_DESCRIPTION = "A Description";
+    private static final String VERSION_001 = "0.0.1";
+
     @Test
     public void testPolicyTypePojo() {
         assertNotNull(new JpaToscaPolicyType());
         assertNotNull(new JpaToscaPolicyType(new PfConceptKey()));
         assertNotNull(new JpaToscaPolicyType(new JpaToscaPolicyType()));
 
-        try {
-            new JpaToscaPolicyType((PfConceptKey) null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("key is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaPolicyType((PfConceptKey) null))
+                        .hasMessage("key is marked @NonNull but is null");
 
-        try {
-            new JpaToscaPolicyType((JpaToscaPolicyType) null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("copyConcept is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaPolicyType((JpaToscaPolicyType) null))
+                        .hasMessage("copyConcept is marked @NonNull but is null");
 
-        PfConceptKey ptKey = new PfConceptKey("tdt", "0.0.1");
+        PfConceptKey ptKey = new PfConceptKey("tdt", VERSION_001);
         JpaToscaPolicyType tpt = new JpaToscaPolicyType(ptKey);
 
-        PfConceptKey derivedFromKey = new PfConceptKey("deriveFrom", "0.0.1");
+        PfConceptKey derivedFromKey = new PfConceptKey("deriveFrom", VERSION_001);
         tpt.setDerivedFrom(derivedFromKey);
 
         Map<String, String> metadata = new HashMap<>();
@@ -80,9 +71,9 @@ public class JpaToscaPolicyTypeTest {
         tpt.setMetadata(metadata);
         assertEquals(metadata, tpt.getMetadata());
 
-        tpt.setDescription("A Description");
+        tpt.setDescription(A_DESCRIPTION);
 
-        PfConceptKey propTypeKey = new PfConceptKey("propType", "0.0.1");
+        PfConceptKey propTypeKey = new PfConceptKey("propType", VERSION_001);
         Map<String, JpaToscaProperty> properties = new LinkedHashMap<>();
         JpaToscaProperty tp = new JpaToscaProperty(new PfReferenceKey(ptKey, "aProp"), propTypeKey);
         properties.put(tp.getKey().getLocalName(), tp);
@@ -90,7 +81,7 @@ public class JpaToscaPolicyTypeTest {
         assertEquals(properties, tpt.getProperties());
 
         List<PfConceptKey> targets = new ArrayList<>();
-        PfConceptKey target = new PfConceptKey("target", "0.0.1");
+        PfConceptKey target = new PfConceptKey("target", VERSION_001);
         targets.add(target);
         tpt.setTargets(targets);
         assertEquals(targets, tpt.getTargets());
@@ -114,7 +105,7 @@ public class JpaToscaPolicyTypeTest {
         assertEquals(0, tpt.compareTo(tpt));
         assertFalse(tpt.compareTo(tpt.getKey()) == 0);
 
-        PfConceptKey otherDtKey = new PfConceptKey("otherDt", "0.0.1");
+        PfConceptKey otherDtKey = new PfConceptKey("otherDt", VERSION_001);
         JpaToscaPolicyType otherDt = new JpaToscaPolicyType(otherDtKey);
 
         assertFalse(tpt.compareTo(otherDt) == 0);
@@ -124,7 +115,7 @@ public class JpaToscaPolicyTypeTest {
         assertFalse(tpt.compareTo(otherDt) == 0);
         otherDt.setMetadata(metadata);
         assertFalse(tpt.compareTo(otherDt) == 0);
-        otherDt.setDescription("A Description");
+        otherDt.setDescription(A_DESCRIPTION);
         assertFalse(tpt.compareTo(otherDt) == 0);
         otherDt.setProperties(properties);
         assertFalse(tpt.compareTo(otherDt) == 0);
@@ -133,12 +124,7 @@ public class JpaToscaPolicyTypeTest {
         otherDt.setTriggers(triggers);
         assertEquals(0, tpt.compareTo(otherDt));
 
-        try {
-            tpt.copyTo(null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("target is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> tpt.copyTo(null)).hasMessage("target is marked @NonNull but is null");
 
         assertEquals(6, tpt.getKeys().size());
         assertEquals(1, new JpaToscaPolicyType().getKeys().size());
@@ -177,7 +163,7 @@ public class JpaToscaPolicyTypeTest {
 
         tpt.setDescription("");;
         assertFalse(tpt.validate(new PfValidationResult()).isValid());
-        tpt.setDescription("A Description");
+        tpt.setDescription(A_DESCRIPTION);
         assertTrue(tpt.validate(new PfValidationResult()).isValid());
 
         tpt.setDerivedFrom(PfConceptKey.getNullKey());
@@ -185,28 +171,15 @@ public class JpaToscaPolicyTypeTest {
         tpt.setDerivedFrom(derivedFromKey);
         assertTrue(tpt.validate(new PfValidationResult()).isValid());
 
-        try {
-            tpt.validate(null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("resultIn is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> tpt.validate(null)).hasMessage("resultIn is marked @NonNull but is null");
 
-        try {
-            new JpaToscaEntityType<ToscaPolicy>((PfConceptKey) null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("key is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaEntityType<ToscaPolicy>((PfConceptKey) null))
+                        .hasMessage("key is marked @NonNull but is null");
 
-        try {
-            new JpaToscaEntityType<ToscaPolicy>((JpaToscaEntityType<ToscaPolicy>) null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("copyConcept is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaEntityType<ToscaPolicy>((JpaToscaEntityType<ToscaPolicy>) null))
+                        .hasMessage("copyConcept is marked @NonNull but is null");
 
-        JpaToscaEntityType<ToscaPolicy> tet = new JpaToscaEntityType<ToscaPolicy>(tpt.getKey());
+        JpaToscaEntityType<ToscaPolicy> tet = new JpaToscaEntityType<>(tpt.getKey());
         assertEquals(-1, tet.compareTo(null));
         assertEquals(0, tet.compareTo(tet));
         assertFalse(tet.compareTo(tet.getKey()) == 0);

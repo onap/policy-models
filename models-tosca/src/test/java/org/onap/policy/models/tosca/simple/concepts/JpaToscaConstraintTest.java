@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,17 +21,15 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.Test;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConstraint;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaConstraintLogical;
 
 /**
  * DAO test for ToscaConstraintLogicalString.
@@ -39,32 +38,22 @@ import org.onap.policy.models.tosca.simple.concepts.JpaToscaConstraintLogical;
  */
 public class JpaToscaConstraintTest {
 
+    private static final String CONSTRAINT = "Constraint";
+
     @Test
     public void testConstraintLogicalStringPojo() {
-        assertNotNull(new JpaToscaConstraintLogical(JpaToscaConstraintOperation.EQ, "Constraint"));
+        assertNotNull(new JpaToscaConstraintLogical(JpaToscaConstraintOperation.EQ, CONSTRAINT));
 
-        try {
-            new JpaToscaConstraintLogical((JpaToscaConstraintOperation) null, null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("operation is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaConstraintLogical((JpaToscaConstraintOperation) null, null))
+                        .hasMessage("operation is marked @NonNull but is null");
 
-        try {
-            new JpaToscaConstraintLogical((JpaToscaConstraintOperation) null, "Hello");
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("operation is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaConstraintLogical((JpaToscaConstraintOperation) null, "Hello"))
+                        .hasMessage("operation is marked @NonNull but is null");
 
-        try {
-            new JpaToscaConstraintLogical(JpaToscaConstraintOperation.EQ, null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("compareTo is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaConstraintLogical(JpaToscaConstraintOperation.EQ, null))
+                        .hasMessage("compareTo is marked @NonNull but is null");
 
-        assertNotNull(new JpaToscaConstraintLogical(JpaToscaConstraintOperation.EQ, "Constraint"));
+        assertNotNull(new JpaToscaConstraintLogical(JpaToscaConstraintOperation.EQ, CONSTRAINT));
 
         assertEquals(0, new JpaToscaConstraintLogical(JpaToscaConstraintOperation.EQ, "")
                 .compareTo(new JpaToscaConstraintLogical(JpaToscaConstraintOperation.EQ, "")));
@@ -78,7 +67,7 @@ public class JpaToscaConstraintTest {
         JpaToscaConstraintValidValues cvv0 = new JpaToscaConstraintValidValues(validValues);
         assertEquals(-1, cvv0.compareTo(null));
         assertEquals(0, cvv0.compareTo(cvv0));
-        assertNotEquals(0, cvv0.compareTo(new JpaToscaConstraintLogical(JpaToscaConstraintOperation.EQ, "Constraint")));
+        assertNotEquals(0, cvv0.compareTo(new JpaToscaConstraintLogical(JpaToscaConstraintOperation.EQ, CONSTRAINT)));
         JpaToscaConstraintValidValues cvv1 = new JpaToscaConstraintValidValues(validValues);
         assertEquals(0, cvv0.compareTo(cvv1));
 

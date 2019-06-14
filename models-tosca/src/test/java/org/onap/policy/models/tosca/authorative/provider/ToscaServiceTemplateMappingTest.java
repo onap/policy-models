@@ -25,7 +25,6 @@ package org.onap.policy.models.tosca.authorative.provider;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -35,8 +34,6 @@ import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
 
 /**
@@ -45,7 +42,6 @@ import org.yaml.snakeyaml.Yaml;
  * @author Chenfei Gao (cgao@research.att.com)
  */
 public class ToscaServiceTemplateMappingTest {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ToscaServiceTemplateMappingTest.class);
 
     private StandardCoder standardCoder;
 
@@ -56,51 +52,38 @@ public class ToscaServiceTemplateMappingTest {
 
     @Test
     public void testPlainToscaPolicies() throws Exception {
-        try {
-            String inputJson = ResourceUtils.getResourceAsString("policies/vCPE.policy.monitoring.input.tosca.json");
+        String inputJson = ResourceUtils.getResourceAsString("policies/vCPE.policy.monitoring.input.tosca.json");
 
-            ToscaServiceTemplate plainPolicies = standardCoder.decode(inputJson, ToscaServiceTemplate.class);
-            JpaToscaServiceTemplate internalPolicies = new JpaToscaServiceTemplate();
-            internalPolicies.fromAuthorative(plainPolicies);
+        ToscaServiceTemplate plainPolicies = standardCoder.decode(inputJson, ToscaServiceTemplate.class);
+        JpaToscaServiceTemplate internalPolicies = new JpaToscaServiceTemplate();
+        internalPolicies.fromAuthorative(plainPolicies);
 
-            assertTrue(internalPolicies.validate(new PfValidationResult()).isValid());
-            ToscaServiceTemplate plainPolicies2 = internalPolicies.toAuthorative();
+        assertTrue(internalPolicies.validate(new PfValidationResult()).isValid());
+        ToscaServiceTemplate plainPolicies2 = internalPolicies.toAuthorative();
 
-            ToscaPolicy pp1 = plainPolicies.getToscaTopologyTemplate().getPolicies().get(0).values().iterator().next();
-            ToscaPolicy pp2 = plainPolicies2.getToscaTopologyTemplate().getPolicies().get(0).values().iterator().next();
+        ToscaPolicy pp1 = plainPolicies.getToscaTopologyTemplate().getPolicies().get(0).values().iterator().next();
+        ToscaPolicy pp2 = plainPolicies2.getToscaTopologyTemplate().getPolicies().get(0).values().iterator().next();
 
-            assertEquals(pp1.getProperties().keySet(), pp2.getProperties().keySet());
-
-        } catch (Exception e) {
-            LOGGER.warn("no exception should be thrown", e);
-            fail("no exception should be thrown");
-        }
+        assertEquals(pp1.getProperties().keySet(), pp2.getProperties().keySet());
     }
 
     @Test
     public void testPlainToscaPolicyTypes() throws Exception {
-        try {
-            Yaml yaml = new Yaml();
-            String inputYaml = ResourceUtils.getResourceAsString(
-                    "policytypes/onap.policies.monitoring.cdap.tca.hi.lo.app.yaml");
-            Object yamlObject = yaml.load(inputYaml);
-            String yamlAsJsonString = standardCoder.encode(yamlObject);
+        Yaml yaml = new Yaml();
+        String inputYaml = ResourceUtils.getResourceAsString(
+                "policytypes/onap.policies.monitoring.cdap.tca.hi.lo.app.yaml");
+        Object yamlObject = yaml.load(inputYaml);
+        String yamlAsJsonString = standardCoder.encode(yamlObject);
 
-            ToscaServiceTemplate plainPolicyTypes = standardCoder.decode(yamlAsJsonString,
-                    ToscaServiceTemplate.class);
-            JpaToscaServiceTemplate internalPolicyTypes = new JpaToscaServiceTemplate();
-            internalPolicyTypes.fromAuthorative(plainPolicyTypes);
-            assertTrue(internalPolicyTypes.validate(new PfValidationResult()).isValid());
-            ToscaServiceTemplate plainPolicyTypes2 = internalPolicyTypes.toAuthorative();
-            JpaToscaServiceTemplate internalPolicyTypes2 = new JpaToscaServiceTemplate();
-            internalPolicyTypes2.fromAuthorative(plainPolicyTypes2);
-            assertTrue(internalPolicyTypes2.validate(new PfValidationResult()).isValid());
-            assertTrue(internalPolicyTypes.compareTo(internalPolicyTypes2) == 0);
-
-        } catch (Exception e) {
-            LOGGER.warn("no exception should be thrown", e);
-            fail("no exception should be thrown");
-        }
-
+        ToscaServiceTemplate plainPolicyTypes = standardCoder.decode(yamlAsJsonString,
+                ToscaServiceTemplate.class);
+        JpaToscaServiceTemplate internalPolicyTypes = new JpaToscaServiceTemplate();
+        internalPolicyTypes.fromAuthorative(plainPolicyTypes);
+        assertTrue(internalPolicyTypes.validate(new PfValidationResult()).isValid());
+        ToscaServiceTemplate plainPolicyTypes2 = internalPolicyTypes.toAuthorative();
+        JpaToscaServiceTemplate internalPolicyTypes2 = new JpaToscaServiceTemplate();
+        internalPolicyTypes2.fromAuthorative(plainPolicyTypes2);
+        assertTrue(internalPolicyTypes2.validate(new PfValidationResult()).isValid());
+        assertTrue(internalPolicyTypes.compareTo(internalPolicyTypes2) == 0);
     }
 }
