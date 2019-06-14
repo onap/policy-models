@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +21,7 @@
 
 package org.onap.policy.models.sim.pdp.parameters;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -61,12 +63,8 @@ public class TestPdpSimulatorParameterHandler {
         final PdpSimulatorCommandLineArguments noArguments = new PdpSimulatorCommandLineArguments();
         noArguments.parse(noArgumentString);
 
-        try {
-            new PdpSimulatorParameterHandler().getParameters(noArguments);
-            fail("test should throw an exception here");
-        } catch (final Exception e) {
-            assertTrue(e.getMessage().contains("no parameters found"));
-        }
+        assertThatThrownBy(() -> new PdpSimulatorParameterHandler().getParameters(noArguments))
+                        .hasMessageContaining("no parameters found");
     }
 
     @Test
@@ -76,13 +74,9 @@ public class TestPdpSimulatorParameterHandler {
         final PdpSimulatorCommandLineArguments invalidArguments = new PdpSimulatorCommandLineArguments();
         invalidArguments.parse(invalidArgumentString);
 
-        try {
-            new PdpSimulatorParameterHandler().getParameters(invalidArguments);
-            fail("test should throw an exception here");
-        } catch (final Exception e) {
-            assertTrue(e.getMessage().startsWith("error reading parameters from"));
-            assertTrue(e.getCause() instanceof CoderException);
-        }
+        assertThatThrownBy(() -> new PdpSimulatorParameterHandler().getParameters(invalidArguments))
+                        .hasMessageStartingWith("error reading parameters from")
+                        .hasCauseInstanceOf(CoderException.class);
     }
 
     @Test
@@ -92,11 +86,8 @@ public class TestPdpSimulatorParameterHandler {
         final PdpSimulatorCommandLineArguments noArguments = new PdpSimulatorCommandLineArguments();
         noArguments.parse(noArgumentString);
 
-        try {
-            new PdpSimulatorParameterHandler().getParameters(noArguments);
-        } catch (final Exception e) {
-            assertTrue(e.getMessage().contains("is null"));
-        }
+        assertThatThrownBy(() -> new PdpSimulatorParameterHandler().getParameters(noArguments))
+                        .hasMessageContaining("is null");
     }
 
     @Test
@@ -113,19 +104,14 @@ public class TestPdpSimulatorParameterHandler {
 
     @Test
     public void testPdpSimulatorParameterGroup_InvalidName() throws PdpSimulatorException {
-        final String[] pdpSimulatorConfigParameters = {"-c", 
+        final String[] pdpSimulatorConfigParameters = {"-c",
             "src/test/resources/PdpSimulatorConfigParameters_InvalidName.json"};
 
         final PdpSimulatorCommandLineArguments arguments = new PdpSimulatorCommandLineArguments();
         arguments.parse(pdpSimulatorConfigParameters);
 
-        try {
-            new PdpSimulatorParameterHandler().getParameters(arguments);
-            fail("test should throw an exception here");
-        } catch (final Exception e) {
-            assertTrue(e.getMessage().contains(
-                "field \"name\" type \"java.lang.String\" value \" \" INVALID, must be a non-blank string"));
-        }
+        assertThatThrownBy(() -> new PdpSimulatorParameterHandler().getParameters(arguments)).hasMessageContaining(
+                        "field \"name\" type \"java.lang.String\" value \" \" INVALID, must be a non-blank string");
     }
 
     @Test
@@ -145,13 +131,11 @@ public class TestPdpSimulatorParameterHandler {
     }
 
     @Test
-    public void testPdpSimulatorInvalidOption() throws PdpSimulatorException {
+    public void testPdpSimulatorInvalidOption() {
         final String[] pdpSimulatorConfigParameters = { "-d" };
         final PdpSimulatorCommandLineArguments arguments = new PdpSimulatorCommandLineArguments();
-        try {
-            arguments.parse(pdpSimulatorConfigParameters);
-        } catch (final Exception exp) {
-            assertTrue(exp.getMessage().startsWith("invalid command line arguments specified"));
-        }
+
+        assertThatThrownBy(() -> arguments.parse(pdpSimulatorConfigParameters))
+                        .hasMessageStartingWith("invalid command line arguments specified");
     }
 }
