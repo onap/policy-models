@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,8 +22,6 @@
 package org.onap.policy.models.sim.pdp.parameters;
 
 import java.io.File;
-
-
 import org.onap.policy.common.parameters.GroupValidationResult;
 import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
@@ -39,7 +38,7 @@ import org.slf4j.LoggerFactory;
  */
 public class PdpSimulatorParameterHandler {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PdpSimulatorParameterHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(PdpSimulatorParameterHandler.class);
     private static final Coder CODER = new StandardCoder();
 
     /**
@@ -61,14 +60,14 @@ public class PdpSimulatorParameterHandler {
         } catch (final CoderException e) {
             final String errorMessage = "error reading parameters from \"" + arguments.getConfigurationFilePath()
                     + "\"\n" + "(" + e.getClass().getSimpleName() + "):" + e.getMessage();
-            LOGGER.error(errorMessage, e);
+            logger.error(errorMessage);
             throw new PdpSimulatorException(errorMessage, e);
         }
 
         // The JSON processing returns null if there is an empty file
         if (pdpSimulatorParameterGroup == null) {
             final String errorMessage = "no parameters found in \"" + arguments.getConfigurationFilePath() + "\"";
-            LOGGER.error(errorMessage);
+            logger.error(errorMessage);
             throw new PdpSimulatorException(errorMessage);
         }
 
@@ -79,7 +78,7 @@ public class PdpSimulatorParameterHandler {
                     "validation error(s) on parameters from \"" + arguments.getConfigurationFilePath() + "\"\n";
             returnMessage += validationResult.getResult();
 
-            LOGGER.error(returnMessage);
+            logger.error(returnMessage);
             throw new PdpSimulatorException(returnMessage);
         }
 

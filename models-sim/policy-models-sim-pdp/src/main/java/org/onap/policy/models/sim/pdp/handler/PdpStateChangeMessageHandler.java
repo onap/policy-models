@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +22,6 @@
 package org.onap.policy.models.sim.pdp.handler;
 
 import java.util.List;
-
 import org.onap.policy.common.utils.services.Registry;
 import org.onap.policy.models.pdp.concepts.PdpResponseDetails;
 import org.onap.policy.models.pdp.concepts.PdpStateChange;
@@ -31,8 +31,6 @@ import org.onap.policy.models.pdp.enums.PdpState;
 import org.onap.policy.models.sim.pdp.PdpSimulatorConstants;
 import org.onap.policy.models.sim.pdp.comm.PdpStatusPublisher;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * This class supports the handling of pdp state change messages.
@@ -40,8 +38,6 @@ import org.slf4j.LoggerFactory;
  * @author Ajith Sreekumar (ajith.sreekumar@est.tech)
  */
 public class PdpStateChangeMessageHandler {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(PdpStateChangeMessageHandler.class);
 
     /**
      * Method which handles a pdp state change event from PAP.

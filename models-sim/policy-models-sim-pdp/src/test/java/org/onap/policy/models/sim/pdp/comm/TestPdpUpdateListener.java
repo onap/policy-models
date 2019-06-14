@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +24,6 @@ package org.onap.policy.models.sim.pdp.comm;
 import static org.junit.Assert.assertEquals;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -33,7 +33,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,7 +43,6 @@ import org.onap.policy.models.pdp.concepts.PdpUpdate;
 import org.onap.policy.models.sim.pdp.PdpSimulatorActivator;
 import org.onap.policy.models.sim.pdp.PdpSimulatorCommandLineArguments;
 import org.onap.policy.models.sim.pdp.PdpSimulatorConstants;
-import org.onap.policy.models.sim.pdp.exception.PdpSimulatorException;
 import org.onap.policy.models.sim.pdp.handler.PdpMessageHandler;
 import org.onap.policy.models.sim.pdp.parameters.PdpSimulatorParameterGroup;
 import org.onap.policy.models.sim.pdp.parameters.PdpSimulatorParameterHandler;
@@ -64,12 +62,10 @@ public class TestPdpUpdateListener {
     /**
      * Method for setup before each test.
      *
-     * @throws PdpSimulatorException if some error occurs while starting up the pdp simulator
-     * @throws FileNotFoundException if the file is missing
-     * @throws IOException if IO exception occurs
+     * @throws Exception if an error occurs
      */
     @Before
-    public void setUp() throws PdpSimulatorException, FileNotFoundException, IOException {
+    public void setUp() throws Exception {
         Registry.newRegistry();
         final String[] pdpSimulatorConfigParameters = { "-c", "src/test/resources/PdpSimulatorConfigParameters.json",
             "-p", "src/test/resources/topic.properties" };
@@ -136,7 +132,7 @@ public class TestPdpUpdateListener {
             propertiesMap.put("content", "");
         }
         toscaPolicy.setProperties(propertiesMap);
-        final List<ToscaPolicy> toscaPolicies = new ArrayList<ToscaPolicy>();
+        final List<ToscaPolicy> toscaPolicies = new ArrayList<>();
         toscaPolicies.add(toscaPolicy);
         pdpUpdateMsg.setPolicies(toscaPolicies);
         pdpUpdateMessageListener.onTopicEvent(INFRA, TOPIC, null, pdpUpdateMsg);
