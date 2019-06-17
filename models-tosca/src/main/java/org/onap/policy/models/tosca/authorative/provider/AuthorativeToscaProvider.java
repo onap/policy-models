@@ -368,15 +368,17 @@ public class AuthorativeToscaProvider {
     /**
      * Return the contents of a list of concepts as a list of maps of concepts.
      *
-     * @param comceptList the concept list
-     * @return the concept map
+     * @param conceptList the concept list
+     * @return the list of concept map
      */
     private <T extends ToscaEntity> List<Map<String, T>> asConceptMap(List<T> conceptList) {
-        Map<String, T> conceptMap = new LinkedHashMap<>();
+        List<Map<String, T>> toscaEntityMapList = new ArrayList<>();
         for (T concept : conceptList) {
+            Map<String, T> conceptMap = new LinkedHashMap<>();
             conceptMap.put(concept.getName(), concept);
+            toscaEntityMapList.add(conceptMap);
         }
 
-        return Collections.singletonList(conceptMap);
+        return toscaEntityMapList;
     }
 }
