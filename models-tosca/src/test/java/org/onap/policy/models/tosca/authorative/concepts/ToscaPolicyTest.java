@@ -46,6 +46,8 @@ public class ToscaPolicyTest {
         policy.setType("my_type");
         policy.setTypeVersion("3.2.1");
 
+        assertEquals("ToscaEntityKey(name=my_name, version=1.2.3)", policy.getKey().toString());
+
         ToscaPolicyIdentifier ident = policy.getIdentifier();
         assertEquals("my_name", ident.getName());
         assertEquals("1.2.3", ident.getVersion());

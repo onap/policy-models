@@ -54,4 +54,12 @@ public class ToscaServiceTemplate extends ToscaEntity {
     @ApiModelProperty(name = "data_types")
     @SerializedName("data_types")
     private List<Map<String, ToscaDataType>> dataTypes;
+
+    public Map<ToscaEntityKey, ToscaPolicyType> getPolicyTypesAsMap() {
+        return ToscaEntity.getEntityListMapAsMap(policyTypes);
+    }
+
+    public Map<ToscaEntityKey, ToscaDataType> getDataTypesAsMap() {
+        return ToscaEntity.getEntityListMapAsMap(dataTypes);
+    }
 }

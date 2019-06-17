@@ -1,8 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP Policy Model
- * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,23 +20,19 @@
 
 package org.onap.policy.models.tosca.authorative.concepts;
 
-import java.util.List;
-import java.util.Map;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
- * Class to represent TOSCA topology template matching input/output from/to client.
+ * This class is a compound key for Tosca entity keying on maps.
  *
- * @author Chenfei Gao (cgao@research.att.com)
+ * @author Liam Fallon (liam.fallon@est.tech)
  */
 @Data
-public class ToscaTopologyTemplate {
-
-    private String description;
-
-    private List<Map<String, ToscaPolicy>> policies;
-
-    public Map<ToscaEntityKey, ToscaPolicy> getPoliciesAsMap() {
-        return ToscaEntity.getEntityListMapAsMap(policies);
-    }
+@NoArgsConstructor
+@AllArgsConstructor
+public class ToscaEntityKey {
+    private String name;
+    private String version;
 }
