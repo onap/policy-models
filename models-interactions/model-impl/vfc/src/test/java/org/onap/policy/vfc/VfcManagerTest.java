@@ -22,8 +22,7 @@
 
 package org.onap.policy.vfc;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.endsWith;
@@ -35,7 +34,6 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.rest.RestManager;
@@ -44,6 +42,10 @@ import org.onap.policy.vfc.VfcManager.VfcCallback;
 import org.onap.policy.vfc.util.Serialization;
 
 public class VfcManagerTest implements VfcCallback {
+
+    private static final String SOME_URL = "http://somewhere.over.the.rainbow";
+
+    private static final String DOROTHY = "Dorothy";
 
     private RestManager   mockedRestManager;
 
@@ -89,7 +91,7 @@ public class VfcManagerTest implements VfcCallback {
         final UUID requestId = UUID.randomUUID();
         request = new VfcRequest();
         request.setHealRequest(healRequest);
-        request.setNsInstanceId("Dorothy");
+        request.setNsInstanceId(DOROTHY);
         request.setRequestId(requestId);
 
         List<VfcResponseDescriptor> responseHistoryList = new ArrayList<>();;
@@ -110,49 +112,31 @@ public class VfcManagerTest implements VfcCallback {
 
     @Test
     public void testVfcInitiation() {
-        try {
-            new VfcManager(null, null, null, null, null);
-            fail("test should throw an exception here");
-        }
-        catch (IllegalArgumentException e) {
-            assertEquals("the parameters \"cb\" and \"request\" on the VfcManager constructor may not be null",
-                    e.getMessage());
-        }
+        assertThatIllegalArgumentException().isThrownBy(() -> new VfcManager(null, null, null, null, null)).withMessage(
+                        "the parameters \"cb\" and \"request\" on the VfcManager constructor may not be null");
 
-        try {
-            new VfcManager(this, null, null, null, null);
-            fail("test should throw an exception here");
-        }
-        catch (IllegalArgumentException e) {
-            assertEquals("the parameters \"cb\" and \"request\" on the VfcManager constructor may not be null",
-                    e.getMessage());
-        }
+        assertThatIllegalArgumentException().isThrownBy(() -> new VfcManager(this, null, null, null, null)).withMessage(
+                        "the parameters \"cb\" and \"request\" on the VfcManager constructor may not be null");
 
-        try {
-            new VfcManager(this, request, null, null, null);
-            fail("test should throw an exception here");
-        }
-        catch (IllegalArgumentException e) {
-            assertEquals("the \"url\" parameter on the VfcManager constructor may not be null",
-                    e.getMessage());
-        }
+        assertThatIllegalArgumentException().isThrownBy(() -> new VfcManager(this, request, null, null, null))
+                        .withMessage("the \"url\" parameter on the VfcManager constructor may not be null");
 
-        new VfcManager(this, request, "http://somewhere.over.the.rainbow", null, null);
+        new VfcManager(this, request, SOME_URL, null, null);
 
-        new VfcManager(this, request, "http://somewhere.over.the.rainbow", "Dorothy", "Toto");
+        new VfcManager(this, request, SOME_URL, DOROTHY, "Toto");
     }
 
     @Test
     public void testVfcExecutionException() throws InterruptedException {
-        VfcManager manager = new VfcManager(this, request, "http://somewhere.over.the.rainbow", "Dorothy", "Exception");
+        VfcManager manager = new VfcManager(this, request, SOME_URL, DOROTHY, "Exception");
         manager.setRestManager(mockedRestManager);
 
         Thread managerThread = new Thread(manager);
         managerThread.start();
 
         when(mockedRestManager.post(
-            startsWith("http://somewhere.over.the.rainbow"),
-            eq("Dorothy"),
+            startsWith(SOME_URL),
+            eq(DOROTHY),
             eq("Exception"),
             anyMap(),
             anyString(),
@@ -164,14 +148,14 @@ public class VfcManagerTest implements VfcCallback {
 
     @Test
     public void testVfcExecutionNull() throws InterruptedException {
-        VfcManager manager = new VfcManager(this, request, "http://somewhere.over.the.rainbow", "Dorothy", "Null");
+        VfcManager manager = new VfcManager(this, request, SOME_URL, DOROTHY, "Null");
         manager.setRestManager(mockedRestManager);
 
         Thread managerThread = new Thread(manager);
         managerThread.start();
 
-        when(mockedRestManager.post(startsWith("http://somewhere.over.the.rainbow"),
-                eq("Dorothy"), eq("Null"), anyMap(), anyString(), anyString()))
+        when(mockedRestManager.post(startsWith(SOME_URL),
+                eq(DOROTHY), eq("Null"), anyMap(), anyString(), anyString()))
                 .thenReturn(null);
 
         managerThread.join();
@@ -179,14 +163,14 @@ public class VfcManagerTest implements VfcCallback {
 
     @Test
     public void testVfcExecutionError0() throws InterruptedException {
-        VfcManager manager = new VfcManager(this, request, "http://somewhere.over.the.rainbow", "Dorothy", "Error0");
+        VfcManager manager = new VfcManager(this, request, SOME_URL, DOROTHY, "Error0");
         manager.setRestManager(mockedRestManager);
 
         Thread managerThread = new Thread(manager);
         managerThread.start();
 
-        when(mockedRestManager.post(startsWith("http://somewhere.over.the.rainbow"),
-                eq("Dorothy"), eq("Error0"), anyMap(), anyString(), anyString()))
+        when(mockedRestManager.post(startsWith(SOME_URL),
+                eq(DOROTHY), eq("Error0"), anyMap(), anyString(), anyString()))
                 .thenReturn(httpResponseErr);
 
         managerThread.join();
@@ -194,14 +178,14 @@ public class VfcManagerTest implements VfcCallback {
 
     @Test
     public void testVfcExecutionBadResponse() throws InterruptedException {
-        VfcManager manager = new VfcManager(this, request, "http://somewhere.over.the.rainbow", "Dorothy", "BadResponse");
+        VfcManager manager = new VfcManager(this, request, SOME_URL, DOROTHY, "BadResponse");
         manager.setRestManager(mockedRestManager);
 
         Thread managerThread = new Thread(manager);
         managerThread.start();
 
-        when(mockedRestManager.post(startsWith("http://somewhere.over.the.rainbow"),
-                eq("Dorothy"), eq("OK"), anyMap(), anyString(), anyString()))
+        when(mockedRestManager.post(startsWith(SOME_URL),
+                eq(DOROTHY), eq("OK"), anyMap(), anyString(), anyString()))
                 .thenReturn(httpResponseBadResponse);
 
         managerThread.join();
@@ -209,17 +193,17 @@ public class VfcManagerTest implements VfcCallback {
 
     @Test
     public void testVfcExecutionOk() throws InterruptedException {
-        VfcManager manager = new VfcManager(this, request, "http://somewhere.over.the.rainbow", "Dorothy", "Ok");
+        VfcManager manager = new VfcManager(this, request, SOME_URL, DOROTHY, "Ok");
         manager.setRestManager(mockedRestManager);
 
         Thread managerThread = new Thread(manager);
         managerThread.start();
 
-        when(mockedRestManager.post(startsWith("http://somewhere.over.the.rainbow"),
-                eq("Dorothy"), eq("OK"), anyMap(), anyString(), anyString()))
+        when(mockedRestManager.post(startsWith(SOME_URL),
+                eq(DOROTHY), eq("OK"), anyMap(), anyString(), anyString()))
                 .thenReturn(httpResponsePutOk);
 
-        when(mockedRestManager.get(endsWith("1234"), eq("Dorothy"), eq("OK"), anyMap()))
+        when(mockedRestManager.get(endsWith("1234"), eq(DOROTHY), eq("OK"), anyMap()))
             .thenReturn(httpResponseGetOk);
 
         managerThread.join();

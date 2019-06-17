@@ -4,6 +4,7 @@
  * ================================================================================
  * Copyright (C) 2018 Wipro Limited Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,26 +32,32 @@ import org.junit.Test;
 
 public class PciWrapperTest {
 
+    private static final String YELLOW_BRICK_ROAD = "YellowBrickRoad";
+    private static final String TORNADO = "Tornado";
+    private static final String THE_EMERALD_CITY = "The Emerald City";
+    private static final String MUNCHKIN = "Munchkin";
+    private static final String VERSION_19 = "19.3.9";
+
     @Test
     public void testPciWrapper() {
         PciWrapper wrapper = new PciWrapper();
         assertNotNull(wrapper);
         assertNotEquals(0, wrapper.hashCode());
 
-        wrapper.setVersion("19.3.9");
-        assertEquals("19.3.9", wrapper.getVersion());
+        wrapper.setVersion(VERSION_19);
+        assertEquals(VERSION_19, wrapper.getVersion());
 
-        wrapper.setCambriaPartition("The Emerald City");
-        assertEquals("The Emerald City", wrapper.getCambriaPartition());
+        wrapper.setCambriaPartition(THE_EMERALD_CITY);
+        assertEquals(THE_EMERALD_CITY, wrapper.getCambriaPartition());
 
-        wrapper.setRpcName("Tornado");
-        assertEquals("Tornado", wrapper.getRpcName());
+        wrapper.setRpcName(TORNADO);
+        assertEquals(TORNADO, wrapper.getRpcName());
 
-        wrapper.setCorrelationId("YellowBrickRoad");
-        assertEquals("YellowBrickRoad", wrapper.getCorrelationId());
+        wrapper.setCorrelationId(YELLOW_BRICK_ROAD);
+        assertEquals(YELLOW_BRICK_ROAD, wrapper.getCorrelationId());
 
-        wrapper.setType("Munchkin");
-        assertEquals("Munchkin", wrapper.getType());
+        wrapper.setType(MUNCHKIN);
+        assertEquals(MUNCHKIN, wrapper.getType());
 
         assertNotEquals(0, wrapper.hashCode());
 
@@ -72,45 +79,45 @@ public class PciWrapperTest {
         assertFalse(wrapper.equals(copiedPciWrapper));
         copiedPciWrapper.setVersion(null);
         assertTrue(wrapper.equals(copiedPciWrapper));
-        wrapper.setVersion("19.3.9");
+        wrapper.setVersion(VERSION_19);
         assertFalse(wrapper.equals(copiedPciWrapper));
-        copiedPciWrapper.setVersion("19.3.9");
+        copiedPciWrapper.setVersion(VERSION_19);
         assertTrue(wrapper.equals(copiedPciWrapper));
 
         wrapper.setCambriaPartition(null);
         assertFalse(wrapper.equals(copiedPciWrapper));
         copiedPciWrapper.setCambriaPartition(null);
         assertTrue(wrapper.equals(copiedPciWrapper));
-        wrapper.setCambriaPartition("The Emerald City");
+        wrapper.setCambriaPartition(THE_EMERALD_CITY);
         assertFalse(wrapper.equals(copiedPciWrapper));
-        copiedPciWrapper.setCambriaPartition("The Emerald City");
+        copiedPciWrapper.setCambriaPartition(THE_EMERALD_CITY);
         assertTrue(wrapper.equals(copiedPciWrapper));
 
         wrapper.setRpcName(null);
         assertFalse(wrapper.equals(copiedPciWrapper));
         copiedPciWrapper.setRpcName(null);
         assertTrue(wrapper.equals(copiedPciWrapper));
-        wrapper.setRpcName("Tornado");
+        wrapper.setRpcName(TORNADO);
         assertFalse(wrapper.equals(copiedPciWrapper));
-        copiedPciWrapper.setRpcName("Tornado");
+        copiedPciWrapper.setRpcName(TORNADO);
         assertTrue(wrapper.equals(copiedPciWrapper));
 
         wrapper.setCorrelationId(null);
         assertFalse(wrapper.equals(copiedPciWrapper));
         copiedPciWrapper.setCorrelationId(null);
         assertTrue(wrapper.equals(copiedPciWrapper));
-        wrapper.setCorrelationId("YellowBrickRoad");
+        wrapper.setCorrelationId(YELLOW_BRICK_ROAD);
         assertFalse(wrapper.equals(copiedPciWrapper));
-        copiedPciWrapper.setCorrelationId("YellowBrickRoad");
+        copiedPciWrapper.setCorrelationId(YELLOW_BRICK_ROAD);
         assertTrue(wrapper.equals(copiedPciWrapper));
 
         wrapper.setType(null);
         assertFalse(wrapper.equals(copiedPciWrapper));
         copiedPciWrapper.setType(null);
         assertTrue(wrapper.equals(copiedPciWrapper));
-        wrapper.setType("Munchkin");
+        wrapper.setType(MUNCHKIN);
         assertFalse(wrapper.equals(copiedPciWrapper));
-        copiedPciWrapper.setType("Munchkin");
+        copiedPciWrapper.setType(MUNCHKIN);
         assertTrue(wrapper.equals(copiedPciWrapper));
     }
 }

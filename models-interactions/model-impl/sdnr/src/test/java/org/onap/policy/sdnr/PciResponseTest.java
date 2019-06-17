@@ -4,6 +4,7 @@
  * ================================================================================
  * Copyright (C) 2018 Wipro Limited Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -97,9 +98,9 @@ public class PciResponseTest {
         response2.setStatus(response.getStatus());
         assertTrue(response.equals(response2));
 
-        Status status = new Status();
-        status.setCode(5);
-        response.setStatus(status);
+        Status stat = new Status();
+        stat.setCode(5);
+        response.setStatus(stat);
         response2.setStatus(new Status());
         assertFalse(response.equals(response2));
     }

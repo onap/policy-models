@@ -32,19 +32,21 @@ import org.junit.Test;
 
 public class SoResponseWrapperTest {
 
+    private static final String REQ_ID = "reqID";
+
     @Test
     public void testConstructor() {
         SoResponse response = new SoResponse();
-        SoResponseWrapper obj = new SoResponseWrapper(response, "reqID");
+        SoResponseWrapper obj = new SoResponseWrapper(response, REQ_ID);
 
         assertEquals(response, obj.getSoResponse());
-        assertEquals("reqID", obj.getRequestId());
+        assertEquals(REQ_ID, obj.getRequestId());
     }
 
     @Test
     public void testSetGet() {
         SoResponse response = new SoResponse();
-        SoResponseWrapper obj = new SoResponseWrapper(response, "reqID");
+        SoResponseWrapper obj = new SoResponseWrapper(response, REQ_ID);
 
         SoResponse response2 = new SoResponse();
         response2.setHttpResponseCode(2008);

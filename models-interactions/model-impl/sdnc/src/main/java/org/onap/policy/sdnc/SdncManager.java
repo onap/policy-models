@@ -49,6 +49,7 @@ public final class SdncManager implements Runnable {
     // The REST manager used for processing REST calls for this Sdnc manager
     private RestManager restManager;
 
+    @FunctionalInterface
     public interface SdncCallback {
         public void onCallback(SdncResponse response);
     }
@@ -133,7 +134,7 @@ public final class SdncManager implements Runnable {
             logger.info(body);
             response.setRequestId(sdncRequest.getRequestId().toString());
 
-            if (!response.getResponseOutput().getResponseCode().equals("200")) {
+            if (!"200".equals(response.getResponseOutput().getResponseCode())) {
                 logger.info(
                     "Sdnc Heal Restcall failed with http error code {} {}", httpDetails.first, httpDetails.second
                 );
