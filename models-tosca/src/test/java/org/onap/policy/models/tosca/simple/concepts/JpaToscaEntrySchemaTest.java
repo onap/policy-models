@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,20 +21,17 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfValidationResult;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaConstraint;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaEntrySchema;
 
 /**
  * DAO test for ToscaEntrySchema.
@@ -42,30 +40,24 @@ import org.onap.policy.models.tosca.simple.concepts.JpaToscaEntrySchema;
  */
 public class JpaToscaEntrySchemaTest {
 
+    private static final String A_DESCRIPTION = "A Description";
+
     @Test
     public void testEntrySchemaPojo() {
         assertNotNull(new JpaToscaEntrySchema(new PfConceptKey()));
         assertNotNull(new JpaToscaEntrySchema(new JpaToscaEntrySchema(new PfConceptKey())));
 
-        try {
-            new JpaToscaEntrySchema((PfConceptKey) null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("type is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaEntrySchema((PfConceptKey) null))
+                        .hasMessage("type is marked @NonNull but is null");
 
-        try {
-            new JpaToscaEntrySchema((JpaToscaEntrySchema) null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("copyConcept is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaEntrySchema((JpaToscaEntrySchema) null))
+                        .hasMessage("copyConcept is marked @NonNull but is null");
 
         PfConceptKey typeKey = new PfConceptKey("type", "0.0.1");
         JpaToscaEntrySchema tes = new JpaToscaEntrySchema(typeKey);
 
-        tes.setDescription("A Description");
-        assertEquals("A Description", tes.getDescription());
+        tes.setDescription(A_DESCRIPTION);
+        assertEquals(A_DESCRIPTION, tes.getDescription());
 
         List<JpaToscaConstraint> constraints = new ArrayList<>();
         JpaToscaConstraintLogical lsc = new JpaToscaConstraintLogical(JpaToscaConstraintOperation.EQ, "hello");
@@ -89,17 +81,12 @@ public class JpaToscaEntrySchemaTest {
         assertFalse(tes.compareTo(otherEs) == 0);
         otherEs.setType(typeKey);
         assertFalse(tes.compareTo(otherEs) == 0);
-        otherEs.setDescription("A Description");
+        otherEs.setDescription(A_DESCRIPTION);
         assertFalse(tes.compareTo(otherEs) == 0);
         otherEs.setConstraints(constraints);
         assertEquals(0, tes.compareTo(otherEs));
 
-        try {
-            tes.copyTo(null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("target is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> tes.copyTo(null)).hasMessage("target is marked @NonNull but is null");
 
         assertEquals(1, tes.getKeys().size());
         assertEquals(1, new JpaToscaEntrySchema(typeKey).getKeys().size());
@@ -120,7 +107,7 @@ public class JpaToscaEntrySchemaTest {
 
         tes.setDescription("");;
         assertFalse(tes.validate(new PfValidationResult()).isValid());
-        tes.setDescription("A Description");
+        tes.setDescription(A_DESCRIPTION);
         assertTrue(tes.validate(new PfValidationResult()).isValid());
 
         tes.getConstraints().add(null);
@@ -128,11 +115,6 @@ public class JpaToscaEntrySchemaTest {
         tes.getConstraints().remove(null);
         assertTrue(tes.validate(new PfValidationResult()).isValid());
 
-        try {
-            tes.validate(null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("resultIn is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> tes.validate(null)).hasMessage("resultIn is marked @NonNull but is null");
     }
 }

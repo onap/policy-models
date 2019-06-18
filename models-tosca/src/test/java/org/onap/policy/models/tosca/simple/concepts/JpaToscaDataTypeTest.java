@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,6 +49,8 @@ import org.onap.policy.models.tosca.simple.concepts.JpaToscaProperty;
  */
 public class JpaToscaDataTypeTest {
 
+    private static final String VERSION_001 = "0.0.1";
+
     @Test
     public void testDataTypePojo() {
         assertNotNull(new JpaToscaDataType());
@@ -63,7 +66,7 @@ public class JpaToscaDataTypeTest {
             new JpaToscaDataType((JpaToscaDataType) null);
         }).hasMessage("copyConcept is marked @NonNull but is null");
 
-        PfConceptKey dtKey = new PfConceptKey("tdt", "0.0.1");
+        PfConceptKey dtKey = new PfConceptKey("tdt", VERSION_001);
         JpaToscaDataType tdt = new JpaToscaDataType(dtKey);
 
         List<JpaToscaConstraint> constraints = new ArrayList<>();
@@ -73,7 +76,8 @@ public class JpaToscaDataTypeTest {
         assertEquals(constraints, tdt.getConstraints());
 
         Map<String, JpaToscaProperty> properties = new LinkedHashMap<>();
-        JpaToscaProperty tp = new JpaToscaProperty(new PfReferenceKey(dtKey, "pr"), new PfConceptKey("type", "0.0.1"));
+        JpaToscaProperty tp =
+                        new JpaToscaProperty(new PfReferenceKey(dtKey, "pr"), new PfConceptKey("type", VERSION_001));
         properties.put(tp.getKey().getLocalName(), tp);
         tdt.setProperties(properties);
         assertEquals(properties, tdt.getProperties());
@@ -91,7 +95,7 @@ public class JpaToscaDataTypeTest {
         assertEquals(0, tdt.compareTo(tdt));
         assertFalse(tdt.compareTo(tdt.getKey()) == 0);
 
-        PfConceptKey otherDtKey = new PfConceptKey("otherDt", "0.0.1");
+        PfConceptKey otherDtKey = new PfConceptKey("otherDt", VERSION_001);
         JpaToscaDataType otherDt = new JpaToscaDataType(otherDtKey);
 
         assertFalse(tdt.compareTo(otherDt) == 0);

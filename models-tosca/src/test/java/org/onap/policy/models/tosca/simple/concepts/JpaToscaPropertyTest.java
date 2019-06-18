@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,21 +21,19 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaProperty;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaConstraint;
 
 /**
  * DAO test for ToscaProperty.
@@ -43,6 +42,11 @@ import org.onap.policy.models.tosca.simple.concepts.JpaToscaConstraint;
  */
 public class JpaToscaPropertyTest {
 
+    private static final String KEY_IS_NULL = "key is marked @NonNull but is null";
+    private static final String DEFAULT_KEY = "defaultKey";
+    private static final String A_DESCRIPTION = "A Description";
+    private static final String VERSION_001 = "0.0.1";
+
     @Test
     public void testPropertyPojo() {
         assertNotNull(new JpaToscaProperty());
@@ -50,53 +54,30 @@ public class JpaToscaPropertyTest {
         assertNotNull(new JpaToscaProperty(new PfReferenceKey(), new PfConceptKey()));
         assertNotNull(new JpaToscaProperty(new JpaToscaProperty()));
 
-        try {
-            new JpaToscaProperty((PfReferenceKey) null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("key is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaProperty((PfReferenceKey) null)).hasMessage(KEY_IS_NULL);
 
-        try {
-            new JpaToscaProperty(null, null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("key is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaProperty(null, null)).hasMessage(KEY_IS_NULL);
 
-        try {
-            new JpaToscaProperty(null, new PfConceptKey());
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("key is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaProperty(null, new PfConceptKey())).hasMessage(KEY_IS_NULL);
 
-        try {
-            new JpaToscaProperty(new PfReferenceKey(), null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("type is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaProperty(new PfReferenceKey(), null))
+                        .hasMessage("type is marked @NonNull but is null");
 
-        try {
-            new JpaToscaProperty((JpaToscaProperty) null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("copyConcept is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaProperty((JpaToscaProperty) null))
+                        .hasMessage("copyConcept is marked @NonNull but is null");
 
-        PfConceptKey pparentKey = new PfConceptKey("tParentKey", "0.0.1");
+        PfConceptKey pparentKey = new PfConceptKey("tParentKey", VERSION_001);
         PfReferenceKey pkey = new PfReferenceKey(pparentKey, "trigger0");
-        PfConceptKey ptypeKey = new PfConceptKey("TTypeKey", "0.0.1");
+        PfConceptKey ptypeKey = new PfConceptKey("TTypeKey", VERSION_001);
         JpaToscaProperty tp = new JpaToscaProperty(pkey, ptypeKey);
 
-        tp.setDescription("A Description");
-        assertEquals("A Description", tp.getDescription());
+        tp.setDescription(A_DESCRIPTION);
+        assertEquals(A_DESCRIPTION, tp.getDescription());
 
         tp.setRequired(false);
         assertFalse(tp.isRequired());
 
-        tp.setDefaultValue("defaultKey");
+        tp.setDefaultValue(DEFAULT_KEY);
 
         tp.setStatus(ToscaProperty.Status.SUPPORTED);
 
@@ -106,7 +87,7 @@ public class JpaToscaPropertyTest {
         tp.setConstraints(constraints);
         assertEquals(constraints, tp.getConstraints());
 
-        PfConceptKey typeKey = new PfConceptKey("type", "0.0.1");
+        PfConceptKey typeKey = new PfConceptKey("type", VERSION_001);
         JpaToscaEntrySchema tes = new JpaToscaEntrySchema(typeKey);
         tp.setEntrySchema(tes);
 
@@ -123,7 +104,7 @@ public class JpaToscaPropertyTest {
         assertEquals(0, tp.compareTo(tp));
         assertFalse(tp.compareTo(tp.getKey()) == 0);
 
-        PfReferenceKey otherDtKey = new PfReferenceKey("otherDt", "0.0.1", "OtherProperty");
+        PfReferenceKey otherDtKey = new PfReferenceKey("otherDt", VERSION_001, "OtherProperty");
         JpaToscaProperty otherDt = new JpaToscaProperty(otherDtKey);
 
         assertFalse(tp.compareTo(otherDt) == 0);
@@ -131,11 +112,11 @@ public class JpaToscaPropertyTest {
         assertFalse(tp.compareTo(otherDt) == 0);
         otherDt.setType(ptypeKey);
         assertFalse(tp.compareTo(otherDt) == 0);
-        otherDt.setDescription("A Description");
+        otherDt.setDescription(A_DESCRIPTION);
         assertFalse(tp.compareTo(otherDt) == 0);
         otherDt.setRequired(false);
         assertFalse(tp.compareTo(otherDt) == 0);
-        otherDt.setDefaultValue("defaultKey");
+        otherDt.setDefaultValue(DEFAULT_KEY);
         assertFalse(tp.compareTo(otherDt) == 0);
         otherDt.setStatus(ToscaProperty.Status.SUPPORTED);
         assertFalse(tp.compareTo(otherDt) == 0);
@@ -155,12 +136,7 @@ public class JpaToscaPropertyTest {
         otherDt.setStatus(ToscaProperty.Status.SUPPORTED);
         assertEquals(0, tp.compareTo(otherDt));
 
-        try {
-            tp.copyTo(null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("target is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> tp.copyTo(null)).hasMessage("target is marked @NonNull but is null");
 
         assertEquals(3, tp.getKeys().size());
         assertEquals(2, new JpaToscaProperty().getKeys().size());
@@ -176,7 +152,7 @@ public class JpaToscaPropertyTest {
         assertTrue(tp.validate(new PfValidationResult()).isValid());
         tp.setDescription("");
         assertFalse(tp.validate(new PfValidationResult()).isValid());
-        tp.setDescription("A Description");
+        tp.setDescription(A_DESCRIPTION);
         assertTrue(tp.validate(new PfValidationResult()).isValid());
 
         tp.setType(null);
@@ -193,7 +169,7 @@ public class JpaToscaPropertyTest {
         assertTrue(tp.validate(new PfValidationResult()).isValid());
         tp.setDefaultValue("");
         assertFalse(tp.validate(new PfValidationResult()).isValid());
-        tp.setDefaultValue("defaultKey");
+        tp.setDefaultValue(DEFAULT_KEY);
         assertTrue(tp.validate(new PfValidationResult()).isValid());
 
         tp.getConstraints().add(null);
@@ -201,11 +177,6 @@ public class JpaToscaPropertyTest {
         tp.getConstraints().remove(null);
         assertTrue(tp.validate(new PfValidationResult()).isValid());
 
-        try {
-            tp.validate(null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("resultIn is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> tp.validate(null)).hasMessage("resultIn is marked @NonNull but is null");
     }
 }

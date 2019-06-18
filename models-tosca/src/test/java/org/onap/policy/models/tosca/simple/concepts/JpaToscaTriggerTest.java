@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,22 +21,18 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.time.Duration;
 import java.util.Date;
-
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfValidationResult;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaEventFilter;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaTimeInterval;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaTrigger;
 
 /**
  * DAO test for ToscaTrigger.
@@ -44,86 +41,52 @@ import org.onap.policy.models.tosca.simple.concepts.JpaToscaTrigger;
  */
 public class JpaToscaTriggerTest {
 
+    private static final String KEY_IS_NULL = "key is marked @NonNull but is null";
+    private static final String EVENT_TYPE = "EventType";
+    private static final String ACTION = "Action";
+    private static final String A_METHOD = "A Method";
+    private static final String A_DESCRIPTION = "A Description";
+    private static final String VERSION_001 = "0.0.1";
+
     @Test
     public void testTriggerPojo() {
         assertNotNull(new JpaToscaTrigger());
         assertNotNull(new JpaToscaTrigger(new PfReferenceKey()));
-        assertNotNull(new JpaToscaTrigger(new PfReferenceKey(), "EventType", "Action"));
+        assertNotNull(new JpaToscaTrigger(new PfReferenceKey(), EVENT_TYPE, ACTION));
         assertNotNull(new JpaToscaTrigger(new JpaToscaTrigger()));
 
-        try {
-            new JpaToscaTrigger((PfReferenceKey) null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("key is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaTrigger((PfReferenceKey) null)).hasMessage(KEY_IS_NULL);
 
-        try {
-            new JpaToscaTrigger(null, null, null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("key is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaTrigger(null, null, null)).hasMessage(KEY_IS_NULL);
 
-        try {
-            new JpaToscaTrigger(null, "EventType", null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("key is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaTrigger(null, EVENT_TYPE, null)).hasMessage(KEY_IS_NULL);
 
-        try {
-            new JpaToscaTrigger(null, "EventType", "Action");
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("key is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaTrigger(null, EVENT_TYPE, ACTION)).hasMessage(KEY_IS_NULL);
 
-        try {
-            new JpaToscaTrigger(null, null, "Action");
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("key is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaTrigger(null, null, ACTION)).hasMessage(KEY_IS_NULL);
 
-        try {
-            new JpaToscaTrigger(new PfReferenceKey(), null, null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("eventType is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaTrigger(new PfReferenceKey(), null, null))
+                        .hasMessage("eventType is marked @NonNull but is null");
 
-        try {
-            new JpaToscaTrigger(new PfReferenceKey(), "EventType", null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("action is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaTrigger(new PfReferenceKey(), EVENT_TYPE, null))
+                        .hasMessage("action is marked @NonNull but is null");
 
-        try {
-            new JpaToscaTrigger(new PfReferenceKey(), null, "Action");
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("eventType is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaTrigger(new PfReferenceKey(), null, ACTION))
+                        .hasMessage("eventType is marked @NonNull but is null");
 
-        try {
-            new JpaToscaTrigger((JpaToscaTrigger) null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("copyConcept is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaTrigger((JpaToscaTrigger) null))
+                        .hasMessage("copyConcept is marked @NonNull but is null");
 
-        PfConceptKey tparentKey = new PfConceptKey("tParentKey", "0.0.1");
+        PfConceptKey tparentKey = new PfConceptKey("tParentKey", VERSION_001);
         PfReferenceKey tkey = new PfReferenceKey(tparentKey, "trigger0");
-        JpaToscaTrigger tdt = new JpaToscaTrigger(tkey, "EventType", "Action");
+        JpaToscaTrigger tdt = new JpaToscaTrigger(tkey, EVENT_TYPE, ACTION);
 
         JpaToscaTimeInterval schedule =
                 new JpaToscaTimeInterval(new PfReferenceKey(tkey, "sched"), new Date(), new Date());
         tdt.setSchedule(schedule);
 
         JpaToscaEventFilter targetFilter =
-                new JpaToscaEventFilter(new PfReferenceKey(tkey, "filter"), new PfConceptKey("NodeName", "0.0.1"));
+                new JpaToscaEventFilter(new PfReferenceKey(tkey, "filter"), new PfConceptKey("NodeName", VERSION_001));
         tdt.setTargetFilter(targetFilter);
 
         JpaToscaConstraintLogical lsc = new JpaToscaConstraintLogical(JpaToscaConstraintOperation.EQ, "hello");
@@ -135,11 +98,11 @@ public class JpaToscaTriggerTest {
         tdt.setPeriod(Duration.ZERO);
         assertEquals(Duration.ZERO, tdt.getPeriod());
 
-        tdt.setDescription("A Description");
-        assertEquals("A Description", tdt.getDescription());
+        tdt.setDescription(A_DESCRIPTION);
+        assertEquals(A_DESCRIPTION, tdt.getDescription());
 
-        tdt.setMethod("A Method");
-        assertEquals("A Method", tdt.getMethod());
+        tdt.setMethod(A_METHOD);
+        assertEquals(A_METHOD, tdt.getMethod());
 
         JpaToscaTrigger tdtClone0 = new JpaToscaTrigger(tdt);
         assertEquals(tdt, tdtClone0);
@@ -154,15 +117,15 @@ public class JpaToscaTriggerTest {
         assertEquals(0, tdt.compareTo(tdt));
         assertFalse(tdt.compareTo(tdt.getKey()) == 0);
 
-        PfReferenceKey otherDtKey = new PfReferenceKey("otherDt", "0.0.1", "OtherTrigger");
+        PfReferenceKey otherDtKey = new PfReferenceKey("otherDt", VERSION_001, "OtherTrigger");
         JpaToscaTrigger otherDt = new JpaToscaTrigger(otherDtKey);
 
         assertFalse(tdt.compareTo(otherDt) == 0);
         otherDt.setKey(tkey);
         assertFalse(tdt.compareTo(otherDt) == 0);
-        otherDt.setDescription("A Description");
+        otherDt.setDescription(A_DESCRIPTION);
         assertFalse(tdt.compareTo(otherDt) == 0);
-        otherDt.setEventType("EventType");
+        otherDt.setEventType(EVENT_TYPE);
         assertFalse(tdt.compareTo(otherDt) == 0);
         otherDt.setSchedule(schedule);
         assertFalse(tdt.compareTo(otherDt) == 0);
@@ -174,9 +137,9 @@ public class JpaToscaTriggerTest {
         assertFalse(tdt.compareTo(otherDt) == 0);
         otherDt.setPeriod(Duration.ZERO);
         assertFalse(tdt.compareTo(otherDt) == 0);
-        otherDt.setMethod("A Method");
+        otherDt.setMethod(A_METHOD);
         assertFalse(tdt.compareTo(otherDt) == 0);
-        otherDt.setAction("Action");
+        otherDt.setAction(ACTION);
         assertEquals(0, tdt.compareTo(otherDt));
 
         otherDt.setEvaluations(100);
@@ -184,12 +147,7 @@ public class JpaToscaTriggerTest {
         otherDt.setEvaluations(0);
         assertEquals(0, tdt.compareTo(otherDt));
 
-        try {
-            tdt.copyTo(null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("target is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> tdt.copyTo(null)).hasMessage("target is marked @NonNull but is null");
 
         assertEquals(4, tdt.getKeys().size());
         assertEquals(1, new JpaToscaTrigger().getKeys().size());
@@ -205,7 +163,7 @@ public class JpaToscaTriggerTest {
         assertTrue(tdt.validate(new PfValidationResult()).isValid());
         tdt.setDescription("");
         assertFalse(tdt.validate(new PfValidationResult()).isValid());
-        tdt.setDescription("A Description");
+        tdt.setDescription(A_DESCRIPTION);
         assertTrue(tdt.validate(new PfValidationResult()).isValid());
 
         tdt.setEvaluations(-1);
@@ -217,14 +175,9 @@ public class JpaToscaTriggerTest {
         assertTrue(tdt.validate(new PfValidationResult()).isValid());
         tdt.setMethod("");
         assertFalse(tdt.validate(new PfValidationResult()).isValid());
-        tdt.setMethod("A Method");
+        tdt.setMethod(A_METHOD);
         assertTrue(tdt.validate(new PfValidationResult()).isValid());
 
-        try {
-            tdt.validate(null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("resultIn is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> tdt.validate(null)).hasMessage("resultIn is marked @NonNull but is null");
     }
 }

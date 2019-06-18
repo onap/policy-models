@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,6 +50,10 @@ import org.yaml.snakeyaml.Yaml;
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 public class LegacyProvider4LegacyOperationalTest {
+    private static final String POLICY_ID_IS_NULL = "policyId is marked @NonNull but is null";
+    private static final String VCPE_OUTPUT_JSON = "policies/vCPE.policy.operational.output.json";
+    private static final String VCPE_INPUT_JSON = "policies/vCPE.policy.operational.input.json";
+    private static final String DAO_IS_NULL = "dao is marked @NonNull but is null";
     private PfDao pfDao;
     private StandardCoder standardCoder;
 
@@ -87,7 +92,7 @@ public class LegacyProvider4LegacyOperationalTest {
     }
 
     @After
-    public void teardown() throws Exception {
+    public void teardown() {
         pfDao.close();
     }
 
@@ -95,15 +100,15 @@ public class LegacyProvider4LegacyOperationalTest {
     public void testPoliciesGet() throws Exception {
         assertThatThrownBy(() -> {
             new LegacyProvider().getOperationalPolicy(null, null, null);
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().getOperationalPolicy(null, "", null);
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().getOperationalPolicy(pfDao, null, null);
-        }).hasMessage("policyId is marked @NonNull but is null");
+        }).hasMessage(POLICY_ID_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().getOperationalPolicy(pfDao, "I Dont Exist", null);
@@ -112,7 +117,7 @@ public class LegacyProvider4LegacyOperationalTest {
         createPolicyTypes();
 
         LegacyOperationalPolicy originalLop =
-                standardCoder.decode(ResourceUtils.getResourceAsString("policies/vCPE.policy.operational.input.json"),
+                standardCoder.decode(ResourceUtils.getResourceAsString(VCPE_INPUT_JSON),
                         LegacyOperationalPolicy.class);
 
         assertNotNull(originalLop);
@@ -126,7 +131,7 @@ public class LegacyProvider4LegacyOperationalTest {
 
         assertEquals(gotLop, originalLop);
 
-        String expectedJsonOutput = ResourceUtils.getResourceAsString("policies/vCPE.policy.operational.output.json");
+        String expectedJsonOutput = ResourceUtils.getResourceAsString(VCPE_OUTPUT_JSON);
         String actualJsonOutput = standardCoder.encode(gotLop);
 
         assertEquals(expectedJsonOutput.replaceAll("\\s+", ""), actualJsonOutput.replaceAll("\\s+", ""));
@@ -141,11 +146,11 @@ public class LegacyProvider4LegacyOperationalTest {
     public void testPolicyCreate() throws Exception {
         assertThatThrownBy(() -> {
             new LegacyProvider().createOperationalPolicy(null, null);
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().createOperationalPolicy(null, new LegacyOperationalPolicy());
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().createOperationalPolicy(pfDao, null);
@@ -154,7 +159,7 @@ public class LegacyProvider4LegacyOperationalTest {
         createPolicyTypes();
 
         LegacyOperationalPolicy originalLop =
-                standardCoder.decode(ResourceUtils.getResourceAsString("policies/vCPE.policy.operational.input.json"),
+                standardCoder.decode(ResourceUtils.getResourceAsString(VCPE_INPUT_JSON),
                         LegacyOperationalPolicy.class);
 
         assertNotNull(originalLop);
@@ -168,7 +173,7 @@ public class LegacyProvider4LegacyOperationalTest {
 
         assertEquals(gotLop, originalLop);
 
-        String expectedJsonOutput = ResourceUtils.getResourceAsString("policies/vCPE.policy.operational.output.json");
+        String expectedJsonOutput = ResourceUtils.getResourceAsString(VCPE_OUTPUT_JSON);
         String actualJsonOutput = standardCoder.encode(gotLop);
 
         assertEquals(expectedJsonOutput.replaceAll("\\s+", ""), actualJsonOutput.replaceAll("\\s+", ""));
@@ -178,11 +183,11 @@ public class LegacyProvider4LegacyOperationalTest {
     public void testPolicyUpdate() throws Exception {
         assertThatThrownBy(() -> {
             new LegacyProvider().updateOperationalPolicy(null, null);
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().updateOperationalPolicy(null, new LegacyOperationalPolicy());
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().updateOperationalPolicy(pfDao, null);
@@ -195,7 +200,7 @@ public class LegacyProvider4LegacyOperationalTest {
         createPolicyTypes();
 
         LegacyOperationalPolicy originalLop =
-                standardCoder.decode(ResourceUtils.getResourceAsString("policies/vCPE.policy.operational.input.json"),
+                standardCoder.decode(ResourceUtils.getResourceAsString(VCPE_INPUT_JSON),
                         LegacyOperationalPolicy.class);
 
         assertNotNull(originalLop);
@@ -221,29 +226,29 @@ public class LegacyProvider4LegacyOperationalTest {
     public void testPoliciesDelete() throws Exception {
         assertThatThrownBy(() -> {
             new LegacyProvider().deleteOperationalPolicy(null, null, null);
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().deleteOperationalPolicy(null, null, "");
 
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().deleteOperationalPolicy(null, "", null);
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().deleteOperationalPolicy(null, "", "");
 
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().deleteOperationalPolicy(pfDao, null, null);
-        }).hasMessage("policyId is marked @NonNull but is null");
+        }).hasMessage(POLICY_ID_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().deleteOperationalPolicy(pfDao, null, "");
-        }).hasMessage("policyId is marked @NonNull but is null");
+        }).hasMessage(POLICY_ID_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().deleteOperationalPolicy(pfDao, "", null);
@@ -256,7 +261,7 @@ public class LegacyProvider4LegacyOperationalTest {
         createPolicyTypes();
 
         LegacyOperationalPolicy originalLop =
-                standardCoder.decode(ResourceUtils.getResourceAsString("policies/vCPE.policy.operational.input.json"),
+                standardCoder.decode(ResourceUtils.getResourceAsString(VCPE_INPUT_JSON),
                         LegacyOperationalPolicy.class);
 
         assertNotNull(originalLop);
@@ -269,7 +274,7 @@ public class LegacyProvider4LegacyOperationalTest {
 
         assertEquals(gotLop, originalLop);
 
-        String expectedJsonOutput = ResourceUtils.getResourceAsString("policies/vCPE.policy.operational.output.json");
+        String expectedJsonOutput = ResourceUtils.getResourceAsString(VCPE_OUTPUT_JSON);
         String actualJsonOutput = standardCoder.encode(gotLop);
 
         assertEquals(expectedJsonOutput.replaceAll("\\s+", ""), actualJsonOutput.replaceAll("\\s+", ""));

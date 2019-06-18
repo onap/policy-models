@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,22 +21,18 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.Map;
 import java.util.TreeMap;
-
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelService;
 import org.onap.policy.models.base.PfValidationResult;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaModel;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplates;
 
 /**
  * DAO test for ToscaDatatype.
@@ -44,6 +41,9 @@ import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplates;
  */
 public class JpaToscaModelTest {
 
+    private static final String KEY_IS_NULL = "key is marked @NonNull but is null";
+    private static final String VERSION_001 = "0.0.1";
+
     @Test
     public void testModelPojo() {
         assertNotNull(new JpaToscaModel());
@@ -51,45 +51,22 @@ public class JpaToscaModelTest {
         assertNotNull(new JpaToscaModel(new PfConceptKey(), new JpaToscaServiceTemplates()));
         assertNotNull(new JpaToscaModel(new JpaToscaModel()));
 
-        try {
-            new JpaToscaModel((PfConceptKey) null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("key is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaModel((PfConceptKey) null)).hasMessage(KEY_IS_NULL);
 
-        try {
-            new JpaToscaModel(null, null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("key is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaModel(null, null)).hasMessage(KEY_IS_NULL);
 
-        try {
-            new JpaToscaModel(null, new JpaToscaServiceTemplates());
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("key is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaModel(null, new JpaToscaServiceTemplates())).hasMessage(KEY_IS_NULL);
 
-        try {
-            new JpaToscaModel(new PfConceptKey(), null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("serviceTemplates is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaModel(new PfConceptKey(), null))
+                        .hasMessage("serviceTemplates is marked @NonNull but is null");
 
-        try {
-            new JpaToscaModel((JpaToscaModel) null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("copyConcept is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaModel((JpaToscaModel) null))
+                        .hasMessage("copyConcept is marked @NonNull but is null");
 
-        PfConceptKey tstsKey = new PfConceptKey("tsts", "0.0.1");
+        PfConceptKey tstsKey = new PfConceptKey("tsts", VERSION_001);
         Map<PfConceptKey, JpaToscaServiceTemplate> tstMap = new TreeMap<>();
         JpaToscaServiceTemplates tsts = new JpaToscaServiceTemplates(tstsKey, tstMap);
-        PfConceptKey tmKey = new PfConceptKey("tst", "0.0.1");
+        PfConceptKey tmKey = new PfConceptKey("tst", VERSION_001);
         JpaToscaModel tm = new JpaToscaModel(tmKey, tsts);
 
         JpaToscaModel tttClone0 = new JpaToscaModel(tm);
@@ -105,7 +82,7 @@ public class JpaToscaModelTest {
         assertEquals(0, tm.compareTo(tm));
         assertFalse(tm.compareTo(tm.getKey()) == 0);
 
-        PfConceptKey otherDtKey = new PfConceptKey("otherDt", "0.0.1");
+        PfConceptKey otherDtKey = new PfConceptKey("otherDt", VERSION_001);
         JpaToscaModel otherDt = new JpaToscaModel(otherDtKey);
 
         assertFalse(tm.compareTo(otherDt) == 0);
@@ -114,12 +91,7 @@ public class JpaToscaModelTest {
         otherDt.setServiceTemplates(tsts);
         assertEquals(0, tm.compareTo(otherDt));
 
-        try {
-            tm.copyTo(null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("targetObject is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> tm.copyTo(null)).hasMessage("targetObject is marked @NonNull but is null");
 
         assertEquals(2, tm.getKeys().size());
         assertEquals(2, new JpaToscaModel().getKeys().size());
@@ -135,11 +107,6 @@ public class JpaToscaModelTest {
         assertTrue(PfModelService.existsModel(tm.getServiceTemplates().getId()));
         PfModelService.deregisterModel(tm.getServiceTemplates().getId());
 
-        try {
-            tm.validate(null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("resultIn is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> tm.validate(null)).hasMessage("resultIn is marked @NonNull but is null");
     }
 }

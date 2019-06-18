@@ -85,6 +85,7 @@ public class ToscaPolicyIdentifierTest extends ToscaIdentifierTestBase<ToscaPoli
     }
 
     @Test
+    @Override
     public void testCompareTo() throws Exception {
         super.testCompareTo();
     }

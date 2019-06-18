@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,6 +36,7 @@ public class DummyToscaConstraint extends JpaToscaConstraint {
      * The Default Constructor creates a {@link DummyToscaConstraint} object with a null key.
      */
     public DummyToscaConstraint() {
+        // do nothing
     }
 
     @Override
@@ -44,6 +46,7 @@ public class DummyToscaConstraint extends JpaToscaConstraint {
 
     @Override
     public void fromAuthorative(ToscaConstraint authorativeConcept) {
+        // do nothing
     }
 
     @Override

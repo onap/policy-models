@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,19 +21,17 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.Date;
-
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfValidationResult;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaTimeInterval;
 
 /**
  * DAO test for ToscaTimeInterval.
@@ -41,6 +40,8 @@ import org.onap.policy.models.tosca.simple.concepts.JpaToscaTimeInterval;
  */
 public class JpaToscaTimeIntervalTest {
 
+    private static final String KEY_IS_NULL = "key is marked @NonNull but is null";
+
     @Test
     public void testTimeIntervalPojo() {
         assertNotNull(new JpaToscaTimeInterval());
@@ -48,68 +49,27 @@ public class JpaToscaTimeIntervalTest {
         assertNotNull(new JpaToscaTimeInterval(new PfReferenceKey(), new Date(), new Date()));
         assertNotNull(new JpaToscaTimeInterval(new JpaToscaTimeInterval()));
 
-        try {
-            new JpaToscaTimeInterval((PfReferenceKey) null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("key is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaTimeInterval((PfReferenceKey) null)).hasMessage(KEY_IS_NULL);
 
-        try {
-            new JpaToscaTimeInterval(null, null, null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("key is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaTimeInterval(null, null, null)).hasMessage(KEY_IS_NULL);
 
-        try {
-            new JpaToscaTimeInterval(null, null, new Date());
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("key is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaTimeInterval(null, null, new Date())).hasMessage(KEY_IS_NULL);
 
-        try {
-            new JpaToscaTimeInterval(null, new Date(), null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("key is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaTimeInterval(null, new Date(), null)).hasMessage(KEY_IS_NULL);
 
-        try {
-            new JpaToscaTimeInterval(null, new Date(), new Date());
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("key is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaTimeInterval(null, new Date(), new Date())).hasMessage(KEY_IS_NULL);
 
-        try {
-            new JpaToscaTimeInterval(new PfReferenceKey(), null, null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("startTime is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaTimeInterval(new PfReferenceKey(), null, null))
+                        .hasMessage("startTime is marked @NonNull but is null");
 
-        try {
-            new JpaToscaTimeInterval(new PfReferenceKey(), null, new Date());
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("startTime is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaTimeInterval(new PfReferenceKey(), null, new Date()))
+                        .hasMessage("startTime is marked @NonNull but is null");
 
-        try {
-            new JpaToscaTimeInterval(new PfReferenceKey(), new Date(), null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("endTime is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaTimeInterval(new PfReferenceKey(), new Date(), null))
+                        .hasMessage("endTime is marked @NonNull but is null");
 
-        try {
-            new JpaToscaTimeInterval((JpaToscaTimeInterval) null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("copyConcept is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> new JpaToscaTimeInterval((JpaToscaTimeInterval) null))
+                        .hasMessage("copyConcept is marked @NonNull but is null");
 
         PfConceptKey ttiParentKey = new PfConceptKey("tParentKey", "0.0.1");
         PfReferenceKey ttiKey = new PfReferenceKey(ttiParentKey, "trigger0");
@@ -141,12 +101,7 @@ public class JpaToscaTimeIntervalTest {
         otherDt.setEndTime(endTime);
         assertEquals(0, tti.compareTo(otherDt));
 
-        try {
-            tti.copyTo(null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("target is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> tti.copyTo(null)).hasMessage("target is marked @NonNull but is null");
 
         assertEquals(1, tti.getKeys().size());
         assertEquals(1, new JpaToscaTimeInterval().getKeys().size());
@@ -172,11 +127,6 @@ public class JpaToscaTimeIntervalTest {
         tti.setEndTime(endTime);
         assertTrue(tti.validate(new PfValidationResult()).isValid());
 
-        try {
-            tti.validate(null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("resultIn is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> tti.validate(null)).hasMessage("resultIn is marked @NonNull but is null");
     }
 }

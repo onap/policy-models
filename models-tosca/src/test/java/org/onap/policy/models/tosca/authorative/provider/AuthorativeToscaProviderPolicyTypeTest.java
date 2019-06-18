@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,11 +27,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import com.google.gson.GsonBuilder;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-
 import org.apache.commons.lang3.ObjectUtils;
 import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.junit.After;
@@ -40,7 +39,6 @@ import org.junit.Test;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.base.PfConceptKey;
-import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.dao.DaoParameters;
 import org.onap.policy.models.dao.PfDao;
 import org.onap.policy.models.dao.PfDaoFactory;
@@ -57,6 +55,12 @@ import org.yaml.snakeyaml.Yaml;
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 public class AuthorativeToscaProviderPolicyTypeTest {
+    private static final String VERSION = "version";
+    private static final String POLICY_AFFINITY_VERSION0 = "onap.policies.optimization.AffinityPolicy:0.0.0";
+    private static final String POLICY_AFFINITY = "onap.policies.optimization.AffinityPolicy";
+    private static final String MISSING_POLICY_TYPES = "no policy types specified on service template";
+    private static final String DAO_IS_NULL = "dao is marked @NonNull but is null";
+    private static final String VERSION_000 = "0.0.0";
     private static String yamlAsJsonString;
     private PfDao pfDao;
     private StandardCoder standardCoder;
@@ -111,7 +115,7 @@ public class AuthorativeToscaProviderPolicyTypeTest {
     }
 
     @After
-    public void teardown() throws Exception {
+    public void teardown() {
         pfDao.close();
     }
 
@@ -119,11 +123,11 @@ public class AuthorativeToscaProviderPolicyTypeTest {
     public void testPolicyTypesGet() throws Exception {
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().getPolicyTypes(null, null, null);
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().getPolicyList(null, null, null);
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         ToscaServiceTemplate toscaServiceTemplate = standardCoder.decode(yamlAsJsonString, ToscaServiceTemplate.class);
 
@@ -131,7 +135,7 @@ public class AuthorativeToscaProviderPolicyTypeTest {
         ToscaServiceTemplate createdServiceTemplate =
                 new AuthorativeToscaProvider().createPolicyTypes(pfDao, toscaServiceTemplate);
 
-        PfConceptKey policyTypeKey = new PfConceptKey("onap.policies.optimization.AffinityPolicy:0.0.0");
+        PfConceptKey policyTypeKey = new PfConceptKey(POLICY_AFFINITY_VERSION0);
 
         ToscaPolicyType beforePolicyType = toscaServiceTemplate.getPolicyTypes().get(1).get(policyTypeKey.getName());
         ToscaPolicyType createdPolicyType = createdServiceTemplate.getPolicyTypes().get(1).get(policyTypeKey.getName());
@@ -146,12 +150,12 @@ public class AuthorativeToscaProviderPolicyTypeTest {
         assertEquals(0, ObjectUtils.compare(beforePolicyType.getDescription(), createdPolicyType.getDescription()));
 
         List<ToscaPolicyType> gotPolicyTypeList = new AuthorativeToscaProvider().getPolicyTypeList(pfDao,
-                "onap.policies.optimization.AffinityPolicy", "0.0.0");
+                POLICY_AFFINITY, VERSION_000);
         assertEquals(1, gotPolicyTypeList.size());
         assertEquals(true, beforePolicyType.getName().equals(gotPolicyType.getName()));
 
         gotPolicyTypeList = new AuthorativeToscaProvider().getPolicyTypeList(pfDao,
-                "onap.policies.optimization.AffinityPolicy", null);
+                POLICY_AFFINITY, null);
         assertEquals(1, gotPolicyTypeList.size());
         assertEquals(true, beforePolicyType.getName().equals(gotPolicyType.getName()));
 
@@ -159,7 +163,7 @@ public class AuthorativeToscaProviderPolicyTypeTest {
         assertEquals(2, gotPolicyTypeList.size());
         assertEquals(true, beforePolicyType.getName().equals(gotPolicyType.getName()));
 
-        gotPolicyTypeList = new AuthorativeToscaProvider().getPolicyTypeList(pfDao, null, "0.0.0");
+        gotPolicyTypeList = new AuthorativeToscaProvider().getPolicyTypeList(pfDao, null, VERSION_000);
         assertEquals(2, gotPolicyTypeList.size());
         assertEquals(true, beforePolicyType.getName().equals(gotPolicyType.getName()));
     }
@@ -169,11 +173,11 @@ public class AuthorativeToscaProviderPolicyTypeTest {
     public void testPolicyTypesGetFiltered() throws Exception {
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().getFilteredPolicyTypes(null, null);
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().getFilteredPolicyTypes(null, ToscaPolicyTypeFilter.builder().build());
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().getFilteredPolicyTypes(pfDao, null);
@@ -181,11 +185,11 @@ public class AuthorativeToscaProviderPolicyTypeTest {
 
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().getFilteredPolicyTypeList(null, null);
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().getFilteredPolicyTypeList(null, ToscaPolicyTypeFilter.builder().build());
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().getFilteredPolicyTypeList(pfDao, null);
@@ -197,7 +201,7 @@ public class AuthorativeToscaProviderPolicyTypeTest {
         ToscaServiceTemplate createdServiceTemplate =
                 new AuthorativeToscaProvider().createPolicyTypes(pfDao, toscaServiceTemplate);
 
-        PfConceptKey policyTypeKey = new PfConceptKey("onap.policies.optimization.AffinityPolicy:0.0.0");
+        PfConceptKey policyTypeKey = new PfConceptKey(POLICY_AFFINITY_VERSION0);
 
         ToscaPolicyType beforePolicyType = toscaServiceTemplate.getPolicyTypes().get(1).get(policyTypeKey.getName());
         ToscaPolicyType createdPolicyType = createdServiceTemplate.getPolicyTypes().get(1).get(policyTypeKey.getName());
@@ -219,14 +223,14 @@ public class AuthorativeToscaProviderPolicyTypeTest {
         assertEquals(0, ObjectUtils.compare(beforePolicyType.getDescription(), gotPolicyType.getDescription()));
 
         gotServiceTemplate = new AuthorativeToscaProvider().getFilteredPolicyTypes(pfDao,
-                ToscaPolicyTypeFilter.builder().name(policyTypeKey.getName()).version("0.0.0").build());
+                ToscaPolicyTypeFilter.builder().name(policyTypeKey.getName()).version(VERSION_000).build());
 
         gotPolicyType = gotServiceTemplate.getPolicyTypes().get(0).get(policyTypeKey.getName());
         assertEquals(true, beforePolicyType.getName().equals(gotPolicyType.getName()));
         assertEquals(0, ObjectUtils.compare(beforePolicyType.getDescription(), gotPolicyType.getDescription()));
 
         List<ToscaPolicyType> gotPolicyTypeList = new AuthorativeToscaProvider().getPolicyTypeList(pfDao,
-                "onap.policies.optimization.AffinityPolicy", "0.0.0");
+                POLICY_AFFINITY, VERSION_000);
         assertEquals(1, gotPolicyTypeList.size());
         assertEquals(true, beforePolicyType.getName().equals(gotPolicyType.getName()));
 
@@ -241,7 +245,7 @@ public class AuthorativeToscaProviderPolicyTypeTest {
         assertEquals(true, beforePolicyType.getName().equals(gotPolicyType.getName()));
 
         gotPolicyTypeList = new AuthorativeToscaProvider().getFilteredPolicyTypeList(pfDao,
-                ToscaPolicyTypeFilter.builder().name(policyTypeKey.getName()).version("0.0.0").build());
+                ToscaPolicyTypeFilter.builder().name(policyTypeKey.getName()).version(VERSION_000).build());
         assertEquals(1, gotPolicyTypeList.size());
         assertEquals(true, beforePolicyType.getName().equals(gotPolicyType.getName()));
 
@@ -255,11 +259,11 @@ public class AuthorativeToscaProviderPolicyTypeTest {
     public void testPolicyTypesCreate() throws Exception {
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().createPolicyTypes(null, null);
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().createPolicyTypes(null, new ToscaServiceTemplate());
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().createPolicyTypes(pfDao, null);
@@ -268,7 +272,7 @@ public class AuthorativeToscaProviderPolicyTypeTest {
         ToscaServiceTemplate testToscaServiceTemplate = new ToscaServiceTemplate();
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().createPolicyTypes(pfDao, testToscaServiceTemplate);
-        }).hasMessage("no policy types specified on service template");
+        }).hasMessage(MISSING_POLICY_TYPES);
 
         testToscaServiceTemplate.setPolicyTypes(new ArrayList<>());
         assertThatThrownBy(() -> {
@@ -281,7 +285,7 @@ public class AuthorativeToscaProviderPolicyTypeTest {
         ToscaServiceTemplate createdServiceTemplate =
                 new AuthorativeToscaProvider().createPolicyTypes(pfDao, toscaServiceTemplate);
 
-        PfConceptKey policyTypeKey = new PfConceptKey("onap.policies.optimization.AffinityPolicy:0.0.0");
+        PfConceptKey policyTypeKey = new PfConceptKey(POLICY_AFFINITY_VERSION0);
 
         ToscaPolicyType beforePolicyType = toscaServiceTemplate.getPolicyTypes().get(1).get(policyTypeKey.getName());
         ToscaPolicyType createdPolicyType = createdServiceTemplate.getPolicyTypes().get(1).get(policyTypeKey.getName());
@@ -293,15 +297,15 @@ public class AuthorativeToscaProviderPolicyTypeTest {
     public void testPolicyTypesUpdate() throws Exception {
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().createPolicyTypes(null, null);
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().updatePolicyTypes(null, null);
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().updatePolicyTypes(null, new ToscaServiceTemplate());
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().updatePolicyTypes(pfDao, null);
@@ -313,7 +317,7 @@ public class AuthorativeToscaProviderPolicyTypeTest {
         ToscaServiceTemplate createdServiceTemplate =
                 new AuthorativeToscaProvider().createPolicyTypes(pfDao, toscaServiceTemplate);
 
-        PfConceptKey policyTypeKey = new PfConceptKey("onap.policies.optimization.AffinityPolicy:0.0.0");
+        PfConceptKey policyTypeKey = new PfConceptKey(POLICY_AFFINITY_VERSION0);
 
         ToscaPolicyType beforePolicyType = toscaServiceTemplate.getPolicyTypes().get(1).get(policyTypeKey.getName());
         ToscaPolicyType createdPolicyType = createdServiceTemplate.getPolicyTypes().get(1).get(policyTypeKey.getName());
@@ -332,26 +336,26 @@ public class AuthorativeToscaProviderPolicyTypeTest {
     public void testPolicyTypesDelete() throws Exception {
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().deletePolicyType(null, null, null);
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
-            new AuthorativeToscaProvider().deletePolicyType(null, null, "version");
-        }).hasMessage("dao is marked @NonNull but is null");
+            new AuthorativeToscaProvider().deletePolicyType(null, null, VERSION);
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().deletePolicyType(null, "name", null);
-        }).hasMessage("dao is marked @NonNull but is null");
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
-            new AuthorativeToscaProvider().deletePolicyType(null, "name", "version");
-        }).hasMessage("dao is marked @NonNull but is null");
+            new AuthorativeToscaProvider().deletePolicyType(null, "name", VERSION);
+        }).hasMessage(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().deletePolicyType(pfDao, null, null);
         }).hasMessage("name is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
-            new AuthorativeToscaProvider().deletePolicyType(pfDao, null, "version");
+            new AuthorativeToscaProvider().deletePolicyType(pfDao, null, VERSION);
         }).hasMessage("name is marked @NonNull but is null");
 
         assertThatThrownBy(() -> {
@@ -364,7 +368,7 @@ public class AuthorativeToscaProviderPolicyTypeTest {
         ToscaServiceTemplate createdServiceTemplate =
                 new AuthorativeToscaProvider().createPolicyTypes(pfDao, toscaServiceTemplate);
 
-        PfConceptKey policyTypeKey = new PfConceptKey("onap.policies.optimization.AffinityPolicy:0.0.0");
+        PfConceptKey policyTypeKey = new PfConceptKey(POLICY_AFFINITY_VERSION0);
 
         ToscaPolicyType beforePolicyType = toscaServiceTemplate.getPolicyTypes().get(1).get(policyTypeKey.getName());
         ToscaPolicyType createdPolicyType = createdServiceTemplate.getPolicyTypes().get(1).get(policyTypeKey.getName());
@@ -385,7 +389,7 @@ public class AuthorativeToscaProviderPolicyTypeTest {
     }
 
     @Test
-    public void testAssertPoliciesExist() throws PfModelException {
+    public void testAssertPoliciesExist() {
         ToscaServiceTemplate testServiceTemplate = new ToscaServiceTemplate();
 
         assertThatThrownBy(() -> {
@@ -394,12 +398,12 @@ public class AuthorativeToscaProviderPolicyTypeTest {
 
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().createPolicyTypes(pfDao, testServiceTemplate);
-        }).hasMessage("no policy types specified on service template");
+        }).hasMessage(MISSING_POLICY_TYPES);
 
         testServiceTemplate.setToscaTopologyTemplate(new ToscaTopologyTemplate());
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().createPolicyTypes(pfDao, testServiceTemplate);
-        }).hasMessage("no policy types specified on service template");
+        }).hasMessage(MISSING_POLICY_TYPES);
 
         testServiceTemplate.setPolicyTypes(new ArrayList<>());
         assertThatThrownBy(() -> {
