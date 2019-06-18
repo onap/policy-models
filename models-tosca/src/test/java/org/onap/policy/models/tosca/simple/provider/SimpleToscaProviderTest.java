@@ -67,7 +67,7 @@ public class SimpleToscaProviderTest {
     @Before
     public void setupDao() throws Exception {
         final DaoParameters daoParameters = new DaoParameters();
-        daoParameters.setPluginClass(DefaultPfDao.class.getCanonicalName());
+        daoParameters.setPluginClass(DefaultPfDao.class.getName());
 
         daoParameters.setPersistenceUnit("ToscaConceptTest");
 

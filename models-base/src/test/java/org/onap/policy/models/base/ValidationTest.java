@@ -88,7 +88,7 @@ public class ValidationTest {
 
         assertEquals(PfValidationResult.ValidationResult.INVALID, result.getMessageList().get(3).getValidationResult());
         assertEquals(SOME_MESSAGE, result.getMessageList().get(3).getMessage());
-        assertEquals(PfConceptKey.class.getCanonicalName(), result.getMessageList().get(3).getObservedClass());
+        assertEquals(PfConceptKey.class.getName(), result.getMessageList().get(3).getObservedClass());
         assertEquals(PfConceptKey.getNullKey(), result.getMessageList().get(3).getObservedKey());
     }
 }

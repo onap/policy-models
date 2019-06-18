@@ -290,13 +290,13 @@ public class ValidatedTest {
 
         // check first item
         PfValidationMessage msg = it.next();
-        assertEquals(MyValid.class.getName().replace('$', '.'), msg.getObservedClass());
+        assertEquals(MyValid.class.getName(), msg.getObservedClass());
         assertEquals(MY_TO_STRING, msg.getObservedKey().toString());
         assertTrue(msg.getMessage().contains("index.0 invalid-wrong value"));
 
         // check null value
         msg = it.next();
-        assertEquals(MyValid.class.getName().replace('$', '.'), msg.getObservedClass());
+        assertEquals(MyValid.class.getName(), msg.getObservedClass());
         assertEquals(MY_TO_STRING, msg.getObservedKey().toString());
         assertTrue(msg.getMessage().contains("index.2 invalid-wrong value"));
 
@@ -327,13 +327,13 @@ public class ValidatedTest {
 
         // check first item
         PfValidationMessage msg = it.next();
-        assertEquals(MyConcept.class.getName().replace('$', '.'), msg.getObservedClass());
+        assertEquals(MyConcept.class.getName(), msg.getObservedClass());
         assertEquals(MY_TO_STRING, msg.getObservedKey().toString());
         assertTrue(msg.getMessage().contains("index.0 invalid-wrong value"));
 
         // check null value
         msg = it.next();
-        assertEquals(MyConcept.class.getName().replace('$', '.'), msg.getObservedClass());
+        assertEquals(MyConcept.class.getName(), msg.getObservedClass());
         assertEquals(MY_TO_STRING, msg.getObservedKey().toString());
         assertTrue(msg.getMessage().contains("index.2 invalid-wrong value"));
 

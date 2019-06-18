@@ -124,7 +124,7 @@ public class ControlLoopPolicyTest {
     }
 
     public void dump(Object obj) {
-        logger.debug("Dumping ", obj.getClass().getCanonicalName());
+        logger.debug("Dumping ", obj.getClass().getName());
         logger.debug("{}", obj);
     }
 }

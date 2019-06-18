@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -330,7 +331,7 @@ public class DefaultPfDao implements PfDao {
                     t.copyTo(clonedT);
                     return clonedT;
                 } catch (final Exception e) {
-                    LOGGER.warn("Could not clone object of class \"" + someClass.getCanonicalName() + "\"", e);
+                    LOGGER.warn("Could not clone object of class \"" + someClass.getName() + "\"", e);
                     return null;
                 }
             } else {
@@ -355,7 +356,7 @@ public class DefaultPfDao implements PfDao {
                     t.copyTo(clonedT);
                     return clonedT;
                 } catch (final Exception e) {
-                    LOGGER.warn("Could not clone object of class \"" + someClass.getCanonicalName() + "\"", e);
+                    LOGGER.warn("Could not clone object of class \"" + someClass.getName() + "\"", e);
                     return null;
                 }
             } else {

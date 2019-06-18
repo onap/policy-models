@@ -285,7 +285,7 @@ public class JpaPdpGroup extends PfConcept implements PfAuthorative<PdpGroup> {
             return 0;
         }
         if (getClass() != otherConcept.getClass()) {
-            return this.getClass().getCanonicalName().compareTo(otherConcept.getClass().getCanonicalName());
+            return this.getClass().getName().compareTo(otherConcept.getClass().getName());
         }
 
         final JpaPdpGroup other = (JpaPdpGroup) otherConcept;
