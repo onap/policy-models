@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -116,6 +117,6 @@ public class DummyReferenceEntity extends PfConcept {
 
         final DummyReferenceEntity other = (DummyReferenceEntity) otherObj;
 
-        return  new Double(doubleValue).compareTo(new Double(other.doubleValue));
+        return Double.compare(doubleValue, other.doubleValue);
     }
 }

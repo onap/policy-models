@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,86 +21,58 @@
 
 package org.onap.policy.models.base;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import org.junit.Test;
 import org.onap.policy.models.base.testconcepts.DummyPfModel;
 
 public class ModelServiceTest {
 
+    private static final String MODEL_KEY_IS_NULL = "modelKey is marked @NonNull but is null";
+    private static final String MODEL_NAME = "ModelName";
+
     @Test
     public void testModelService() {
         PfModelService.clear();
 
         assertFalse(PfModelService.existsModel("NonExistantName"));
-        try {
-            PfModelService.getModel("NonExistantName");
-        } catch (final Exception e) {
-            assertEquals("Model for name NonExistantName not found in model service", e.getMessage());
-        }
+        assertThatThrownBy(() -> PfModelService.getModel("NonExistantName"))
+                        .hasMessage("Model for name NonExistantName not found in model service");
 
-        PfModelService.registerModel("ModelName", new DummyPfModel());
-        assertTrue(PfModelService.existsModel("ModelName"));
-        assertNotNull(PfModelService.getModel("ModelName"));
+        PfModelService.registerModel(MODEL_NAME, new DummyPfModel());
+        assertTrue(PfModelService.existsModel(MODEL_NAME));
+        assertNotNull(PfModelService.getModel(MODEL_NAME));
 
-        PfModelService.deregisterModel("ModelName");
+        PfModelService.deregisterModel(MODEL_NAME);
 
-        assertFalse(PfModelService.existsModel("ModelName"));
-        try {
-            PfModelService.getModel("ModelName");
-        } catch (final Exception e) {
-            assertEquals("Model for name ModelName not found in model service", e.getMessage());
-        }
+        assertFalse(PfModelService.existsModel(MODEL_NAME));
+        assertThatThrownBy(() -> PfModelService.getModel(MODEL_NAME))
+                        .hasMessage("Model for name ModelName not found in model service");
 
-        PfModelService.registerModel("ModelName", new DummyPfModel());
-        assertTrue(PfModelService.existsModel("ModelName"));
-        assertNotNull(PfModelService.getModel("ModelName"));
+        PfModelService.registerModel(MODEL_NAME, new DummyPfModel());
+        assertTrue(PfModelService.existsModel(MODEL_NAME));
+        assertNotNull(PfModelService.getModel(MODEL_NAME));
 
         PfModelService.clear();
-        assertFalse(PfModelService.existsModel("ModelName"));
-        try {
-            PfModelService.getModel("ModelName");
-        } catch (final Exception e) {
-            assertEquals("Model for name ModelName not found in model service", e.getMessage());
-        }
+        assertFalse(PfModelService.existsModel(MODEL_NAME));
+        assertThatThrownBy(() -> PfModelService.getModel(MODEL_NAME))
+                        .hasMessage("Model for name ModelName not found in model service");
 
-        try {
-            PfModelService.registerModel(null, null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("modelKey is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> PfModelService.registerModel(null, null))
+                        .hasMessage(MODEL_KEY_IS_NULL);
 
-        try {
-            PfModelService.registerModel("nullModelName", null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("model is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> PfModelService.registerModel("nullModelName", null))
+                        .hasMessage("model is marked @NonNull but is null");
 
-        try {
-            PfModelService.registerModel(null, new DummyPfModel());
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("modelKey is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> PfModelService.registerModel(null, new DummyPfModel()))
+                        .hasMessage(MODEL_KEY_IS_NULL);
 
-        try {
-            PfModelService.deregisterModel(null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("modelKey is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> PfModelService.deregisterModel(null))
+                        .hasMessage(MODEL_KEY_IS_NULL);
 
-        try {
-            PfModelService.getModel(null);
-            fail("test should throw an exception");
-        } catch (Exception exc) {
-            assertEquals("modelKey is marked @NonNull but is null", exc.getMessage());
-        }
+        assertThatThrownBy(() -> PfModelService.getModel(null)).hasMessage(MODEL_KEY_IS_NULL);
     }
 }

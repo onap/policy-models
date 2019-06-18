@@ -2,15 +2,15 @@
  * ============LICENSE_START=======================================================
  * policy-yaml
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -44,16 +44,16 @@ import org.yaml.snakeyaml.Yaml;
 
 public class ControlLoopGuardBuilderImpl implements ControlLoopGuardBuilder {
     private static final String NO_EXISTING_GUARD_POLICY_MATCHING_THE_ID = "No existing guard policy matching the id: ";
-    private static final String THE_ID_OF_TARGET_GUARD_POLICY_MUST_NOT_BE_NULL = 
+    private static final String THE_ID_OF_TARGET_GUARD_POLICY_MUST_NOT_BE_NULL =
                     "The id of target guard policy must not be null";
     private static Logger logger = LoggerFactory.getLogger(ControlLoopGuardBuilderImpl.class.getName());
     private ControlLoopGuard clGuard;
-    
+
     public ControlLoopGuardBuilderImpl(Guard guard) {
         clGuard = new ControlLoopGuard();
         clGuard.setGuard(guard);
     }
-    
+
     @Override
     public ControlLoopGuardBuilder addGuardPolicy(GuardPolicy... policies) throws BuilderException {
         if (policies == null) {
@@ -112,26 +112,28 @@ public class ControlLoopGuardBuilderImpl implements ControlLoopGuardBuilder {
     }
 
     private boolean addLimitConstraints(String id, Constraint... constraints) throws BuilderException {
-        boolean exist = false;
         for (GuardPolicy policy: clGuard.getGuards()) {
             //
             // We could have only one guard policy matching the id
             //
             if (policy.getId().equals(id)) {
-                exist = true;
-                for (Constraint cons: constraints) {
-                    if (!cons.isValid()) {
-                        throw new BuilderException("Invalid guard constraint - some required fields are missing");
-                    }
-                    if (policy.getLimit_constraints() == null) {
-                        policy.setLimit_constraints(new LinkedList<>());
-                    }
-                    policy.getLimit_constraints().add(cons);
-                }
-                break;
+                addConstraints(policy, constraints);
+                return true;
             }
         }
-        return exist;
+        return false;
+    }
+
+    private void addConstraints(GuardPolicy policy, Constraint... constraints) throws BuilderException {
+        for (Constraint cons: constraints) {
+            if (!cons.isValid()) {
+                throw new BuilderException("Invalid guard constraint - some required fields are missing");
+            }
+            if (policy.getLimit_constraints() == null) {
+                policy.setLimit_constraints(new LinkedList<>());
+            }
+            policy.getLimit_constraints().add(cons);
+        }
     }
 
     @Override
@@ -149,33 +151,35 @@ public class ControlLoopGuardBuilderImpl implements ControlLoopGuardBuilder {
     }
 
     private boolean removeConstraints(String id, Constraint... constraints) throws BuilderException {
-        boolean exist = false;
         for (GuardPolicy policy: clGuard.getGuards()) {
             //
             // We could have only one guard policy matching the id
             //
             if (policy.getId().equals(id)) {
-                exist = true;
-                for (Constraint cons: constraints) {
-                    if (!cons.isValid()) {
-                        throw new BuilderException("Invalid guard constraint - some required fields are missing");
-                    }
-                    boolean removed = policy.getLimit_constraints().remove(cons);
-                    if (!removed) {
-                        throw new BuilderException("Unknown guard constraint: " + cons);
-                    }
-                }
-                break;
+                removeConstraints(policy, constraints);
+                return true;
             }
         }
-        return exist;
+        return false;
+    }
+
+    private void removeConstraints(GuardPolicy policy, Constraint... constraints) throws BuilderException {
+        for (Constraint cons: constraints) {
+            if (!cons.isValid()) {
+                throw new BuilderException("Invalid guard constraint - some required fields are missing");
+            }
+            boolean removed = policy.getLimit_constraints().remove(cons);
+            if (!removed) {
+                throw new BuilderException("Unknown guard constraint: " + cons);
+            }
+        }
     }
 
     @Override
     public ControlLoopGuardBuilder removeAllLimitConstraints(String id) throws BuilderException {
         if (clGuard.getGuards() == null || clGuard.getGuards().isEmpty()) {
             throw new BuilderException("No guard policies exist");
-        } 
+        }
         if (id == null) {
             throw new BuilderException(THE_ID_OF_TARGET_GUARD_POLICY_MUST_NOT_BE_NULL);
         }
@@ -192,11 +196,11 @@ public class ControlLoopGuardBuilderImpl implements ControlLoopGuardBuilder {
         return this;
     }
 
-    
+
     private class BuilderCompilerCallback implements ControlLoopCompilerCallback {
 
         private ResultsImpl results = new ResultsImpl();
-        
+
         @Override
         public boolean onWarning(String message) {
             results.addMessage(new MessageImpl(message, MessageLevel.WARNING));
@@ -209,13 +213,13 @@ public class ControlLoopGuardBuilderImpl implements ControlLoopGuardBuilder {
             return false;
         }
     }
-    
+
     @Override
     public ControlLoopGuard getControlLoopGuard() {
         return new ControlLoopGuard(this.clGuard);
-    }   
-    
-    
+    }
+
+
     @Override
     public Results buildSpecification() {
         //

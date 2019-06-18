@@ -1,4 +1,4 @@
-# Copyright 2018 AT&T Intellectual Property. All rights reserved
+# Copyright 2018-2019 AT&T Intellectual Property. All rights reserved
 # Modifications Copyright (C) 2019 Nordix Foundation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +21,7 @@ controlLoop:
     - resourceName: Bar VNF
       resourceType: VF
   trigger_policy: unique-policy-id-1-restart
-  timeout: 1200
+  timeout: NOT_A_NUMBER
 
 policies:
   - id: unique-policy-id-1-restart

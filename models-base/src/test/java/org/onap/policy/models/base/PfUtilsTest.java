@@ -36,13 +36,15 @@ import org.junit.Test;
  */
 public class PfUtilsTest {
 
+    private static final String HELLO = "hello";
+
     @Test
     public void testCompareObjects() {
         assertEquals(0, PfUtils.compareObjects(null, null));
-        assertEquals(-1, PfUtils.compareObjects("hello", null));
-        assertEquals(1, PfUtils.compareObjects(null, "hello"));
-        assertFalse(PfUtils.compareObjects("hello", "goodbye") == 0);
-        assertEquals(0, PfUtils.compareObjects("hello", "hello"));
+        assertEquals(-1, PfUtils.compareObjects(HELLO, null));
+        assertEquals(1, PfUtils.compareObjects(null, HELLO));
+        assertFalse(PfUtils.compareObjects(HELLO, "goodbye") == 0);
+        assertEquals(0, PfUtils.compareObjects(HELLO, HELLO));
     }
 
     @Test

@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,23 +49,6 @@ public class DummyPfConcept extends PfConcept implements PfAuthorative<DummyAuth
     private String description;
 
 
-    @Override
-    public DummyAuthorativeConcept toAuthorative() {
-        DummyAuthorativeConcept dac = new DummyAuthorativeConcept();
-        dac.setName(key.getName());
-        dac.setVersion(key.getVersion());
-        dac.setDescription(description);
-
-        return dac;
-    }
-
-    @Override
-    public void fromAuthorative(DummyAuthorativeConcept dac) {
-        key.setName(dac.getName());
-        key.setVersion(dac.getVersion());
-        description = dac.getDescription();
-    }
-
     /**
      * The Default Constructor creates a {@link DummyPfConcept} object with a null key.
      */
@@ -91,9 +75,25 @@ public class DummyPfConcept extends PfConcept implements PfAuthorative<DummyAuth
     }
 
     @Override
+    public DummyAuthorativeConcept toAuthorative() {
+        DummyAuthorativeConcept dac = new DummyAuthorativeConcept();
+        dac.setName(key.getName());
+        dac.setVersion(key.getVersion());
+        dac.setDescription(description);
+
+        return dac;
+    }
+
+    @Override
+    public void fromAuthorative(DummyAuthorativeConcept dac) {
+        key.setName(dac.getName());
+        key.setVersion(dac.getVersion());
+        description = dac.getDescription();
+    }
+
+    @Override
     public List<PfKey> getKeys() {
-        final List<PfKey> keyList = getKey().getKeys();
-        return keyList;
+        return getKey().getKeys();
     }
 
     @Override
