@@ -27,6 +27,7 @@ import static org.junit.Assert.fail;
 import com.google.gson.GsonBuilder;
 
 import java.util.Base64;
+import java.util.List;
 import java.util.Map;
 
 import lombok.NonNull;
@@ -162,8 +163,9 @@ public class PolicyPersistenceTest {
 
                 gotToscaServiceTemplate = databaseProvider.getFilteredPolicies(ToscaPolicyFilter.builder().build());
 
-                assertEquals(gotToscaServiceTemplate.getToscaTopologyTemplate().getPolicies().get(0)
-                        .get(policy.getName()).getType(), policy.getType());
+                assertEquals(getToscaPolicyFromMapList(
+                        gotToscaServiceTemplate.getToscaTopologyTemplate().getPolicies(), policy.getName()).getType(),
+                        policy.getType());
 
                 gotToscaServiceTemplate = databaseProvider.getFilteredPolicies(
                         ToscaPolicyFilter.builder().name(policy.getName()).version(policy.getVersion()).build());
@@ -172,6 +174,18 @@ public class PolicyPersistenceTest {
                         .get(policy.getName()).getType(), policy.getType());
             }
         }
+    }
+
+    private ToscaPolicy getToscaPolicyFromMapList(List<Map<String, ToscaPolicy>> toscaPolicyMapList,
+            String policyName) {
+        ToscaPolicy toscaPolicy = new ToscaPolicy();
+        for (Map<String, ToscaPolicy> policyMap: toscaPolicyMapList) {
+            if (policyMap.get(policyName) != null) {
+                toscaPolicy = policyMap.get(policyName);
+                break;
+            }
+        }
+        return toscaPolicy;
     }
 
     private void createPolicyTypes() throws CoderException, PfModelException {

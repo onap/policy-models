@@ -211,7 +211,7 @@ public class AuthorativeToscaProviderPolicyTypeTest {
         ToscaServiceTemplate gotServiceTemplate =
                 new AuthorativeToscaProvider().getFilteredPolicyTypes(pfDao, ToscaPolicyTypeFilter.builder().build());
 
-        ToscaPolicyType gotPolicyType = gotServiceTemplate.getPolicyTypes().get(0).get(policyTypeKey.getName());
+        ToscaPolicyType gotPolicyType = gotServiceTemplate.getPolicyTypes().get(1).get(policyTypeKey.getName());
         assertEquals(true, beforePolicyType.getName().equals(gotPolicyType.getName()));
         assertEquals(0, ObjectUtils.compare(beforePolicyType.getDescription(), gotPolicyType.getDescription()));
 

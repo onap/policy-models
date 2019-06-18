@@ -403,7 +403,7 @@ public class DatabasePolicyModelsProviderTest {
             assertTrue(databaseProvider.getPolicyTypes("name", "1.0.0").getPolicyTypes().isEmpty());
             assertEquals(0, databaseProvider.getPolicyTypeList("name", "1.0.0").size());
             assertEquals(0, databaseProvider.getFilteredPolicyTypes(ToscaPolicyTypeFilter.builder().build())
-                    .getPolicyTypes().get(0).size());
+                    .getPolicyTypes().size());
             assertEquals(0, databaseProvider.getFilteredPolicyTypeList(ToscaPolicyTypeFilter.builder().build()).size());
 
             assertThatThrownBy(() -> {
@@ -422,7 +422,7 @@ public class DatabasePolicyModelsProviderTest {
                     databaseProvider.getPolicies("name", "1.0.0").getToscaTopologyTemplate().getPolicies().isEmpty());
             assertEquals(0, databaseProvider.getPolicyList("name", "1.0.0").size());
             assertEquals(0, databaseProvider.getFilteredPolicies(ToscaPolicyFilter.builder().build())
-                    .getToscaTopologyTemplate().getPolicies().get(0).size());
+                    .getToscaTopologyTemplate().getPolicies().size());
             assertEquals(0, databaseProvider.getFilteredPolicyList(ToscaPolicyFilter.builder().build()).size());
 
             assertThatThrownBy(() -> {
