@@ -30,7 +30,7 @@ import org.junit.Test;
 import org.onap.policy.models.pdp.enums.PdpMessageType;
 
 public class PdpMessageTest {
-    private static final String PDP_GROUP_STRING = " pdp group ";
+    private static final String PDP_GROUP_MSG = " pdp group ";
     private static final String PDP_NAME = "pdpA";
     private static final String PDP_GROUP = "groupA";
     private static final String PDP_SUBGROUP = "subgroupA";
@@ -65,13 +65,7 @@ public class PdpMessageTest {
         for (String msgGroup : new String[] {null, PDP_GROUP, DIFFERENT}) {
             for (String msgSubgroup : new String[] {null, PDP_SUBGROUP, DIFFERENT}) {
                 message = makeMessage(PDP_NAME, msgGroup, msgSubgroup);
-
-                for (String pdpGroup : new String[] {null, PDP_GROUP, DIFFERENT}) {
-                    for (String pdpSubgroup : new String[] {null, PDP_SUBGROUP, DIFFERENT}) {
-                        assertTrue("name msg " + message + PDP_GROUP_STRING + pdpGroup + "/" + pdpSubgroup,
-                                        message.appliesTo(PDP_NAME, pdpGroup, pdpSubgroup));
-                    }
-                }
+                testName(PDP_NAME, true);
             }
         }
 
@@ -81,13 +75,16 @@ public class PdpMessageTest {
         for (String msgGroup : new String[] {null, PDP_GROUP, DIFFERENT}) {
             for (String msgSubgroup : new String[] {null, PDP_SUBGROUP, DIFFERENT}) {
                 message = makeMessage(PDP_NAME, msgGroup, msgSubgroup);
+                testName(DIFFERENT, false);
+            }
+        }
+    }
 
-                for (String pdpGroup : new String[] {null, PDP_GROUP, DIFFERENT}) {
-                    for (String pdpSubgroup : new String[] {null, PDP_SUBGROUP, DIFFERENT}) {
-                        assertFalse("name msg " + message + PDP_GROUP_STRING + pdpGroup + "/" + pdpSubgroup,
-                                        message.appliesTo(DIFFERENT, pdpGroup, pdpSubgroup));
-                    }
-                }
+    private void testName(String pdpName, boolean expectMatch) {
+        for (String pdpGroup : new String[] {null, PDP_GROUP, DIFFERENT}) {
+            for (String pdpSubgroup : new String[] {null, PDP_SUBGROUP, DIFFERENT}) {
+                assertEquals("name msg " + message + PDP_GROUP_MSG + pdpGroup + "/" + pdpSubgroup, expectMatch,
+                                message.appliesTo(pdpName, pdpGroup, pdpSubgroup));
             }
         }
     }
@@ -111,7 +108,7 @@ public class PdpMessageTest {
                 message = makeMessage(null, msgGroup, msgSubgroup);
 
                 for (String pdpGroup : new String[] {null, DIFFERENT}) {
-                    assertFalse("group msg " + message + PDP_GROUP_STRING + pdpGroup,
+                    assertFalse("group msg " + message + PDP_GROUP_MSG + pdpGroup,
                                     message.appliesTo(PDP_NAME, pdpGroup, PDP_SUBGROUP));
                 }
             }

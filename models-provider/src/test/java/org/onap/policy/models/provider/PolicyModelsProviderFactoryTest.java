@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,11 +21,9 @@
 
 package org.onap.policy.models.provider;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import lombok.ToString;
-
 import org.junit.Test;
 
 /**
@@ -39,52 +38,38 @@ public class PolicyModelsProviderFactoryTest {
     public void testFactory() {
         PolicyModelsProviderFactory factory = new PolicyModelsProviderFactory();
 
-        try {
+        assertThatThrownBy(() -> {
             factory.createPolicyModelsProvider(null);
-            fail("test should throw an exception here");
-        } catch (Exception exc) {
-            assertEquals("parameters is marked @NonNull but is null", exc.getMessage());
-        }
+        }).hasMessage("parameters is marked @NonNull but is null");
 
-        try {
+        assertThatThrownBy(() -> {
             PolicyModelsProviderParameters pars = new PolicyModelsProviderParameters();
             pars.setImplementation(null);
             factory.createPolicyModelsProvider(pars);
-            fail("test should throw an exception here");
-        } catch (Exception exc) {
-            assertEquals("could not find implementation of the \"PolicyModelsProvider\" interface \"null\"",
-                    exc.getMessage());
-        }
+        }).hasMessage("could not find implementation of the \"PolicyModelsProvider\" interface \"null\"");
 
-        try {
+        assertThatThrownBy(() -> {
             PolicyModelsProviderParameters pars = new PolicyModelsProviderParameters();
             pars.setImplementation("com.acmecorp.RoadRunner");
             factory.createPolicyModelsProvider(pars);
-            fail("test should throw an exception here");
-        } catch (Exception exc) {
-            assertEquals("could not find implementation of the \"PolicyModelsProvider\" "
-                    + "interface \"com.acmecorp.RoadRunner\"", exc.getMessage());
-        }
+        })
+            .hasMessage("could not find implementation of the \"PolicyModelsProvider\" "
+                        + "interface \"com.acmecorp.RoadRunner\"");
 
-        try {
+        assertThatThrownBy(() -> {
             PolicyModelsProviderParameters pars = new PolicyModelsProviderParameters();
             pars.setImplementation("java.lang.String");
             factory.createPolicyModelsProvider(pars);
-            fail("test should throw an exception here");
-        } catch (Exception exc) {
-            assertEquals(
-                    "the class \"java.lang.String\" is not an implementation of the \"PolicyModelsProvider\" interface",
-                    exc.getMessage());
-        }
+        })
+            .hasMessage(
+                "the class \"java.lang.String\" is not an implementation of the \"PolicyModelsProvider\" interface");
 
-        try {
+        assertThatThrownBy(() -> {
             PolicyModelsProviderParameters pars = new PolicyModelsProviderParameters();
             pars.setImplementation("org.onap.policy.models.provider.impl.DummyBadProviderImpl");
             factory.createPolicyModelsProvider(pars);
-            fail("test should throw an exception here");
-        } catch (Exception exc) {
-            assertEquals("could not create an instance of PolicyModelsProvider "
-                    + "\"org.onap.policy.models.provider.impl.DummyBadProviderImpl\"", exc.getMessage());
-        }
+        })
+            .hasMessage("could not create an instance of PolicyModelsProvider "
+                        + "\"org.onap.policy.models.provider.impl.DummyBadProviderImpl\"");
     }
 }
