@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -94,7 +95,7 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
 
         // Parameters for the DAO
         final DaoParameters daoParameters = new DaoParameters();
-        daoParameters.setPluginClass(DefaultPfDao.class.getCanonicalName());
+        daoParameters.setPluginClass(DefaultPfDao.class.getName());
         daoParameters.setPersistenceUnit(parameters.getPersistenceUnit());
 
         // Decode the password using Base64

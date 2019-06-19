@@ -205,7 +205,7 @@ public class MonitoringPolicyTypeSerializationTest {
                 firstDataTypeFirstProperty.getDescription());
         assertTrue(firstDataTypeFirstProperty.getConstraints().size() == 1);
         assertEquals("org.onap.policy.models.tosca.simple.concepts.JpaToscaConstraintValidValues",
-                firstDataTypeFirstProperty.getConstraints().iterator().next().getClass().getCanonicalName());
+                firstDataTypeFirstProperty.getConstraints().iterator().next().getClass().getName());
         assertTrue(((JpaToscaConstraintValidValues) (firstDataTypeFirstProperty.getConstraints().iterator().next()))
                 .getValidValues().size() == 2);
 

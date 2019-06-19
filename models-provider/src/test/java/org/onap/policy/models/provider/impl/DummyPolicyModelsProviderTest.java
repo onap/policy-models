@@ -55,7 +55,7 @@ public class DummyPolicyModelsProviderTest {
     @Test
     public void testProvider() throws Exception {
         PolicyModelsProviderParameters parameters = new PolicyModelsProviderParameters();
-        parameters.setImplementation(DummyPolicyModelsProviderImpl.class.getCanonicalName());
+        parameters.setImplementation(DummyPolicyModelsProviderImpl.class.getName());
         parameters.setDatabaseUrl("jdbc:dummy");
         parameters.setPersistenceUnit("dummy");
 
@@ -74,7 +74,7 @@ public class DummyPolicyModelsProviderTest {
     @Test
     public void testProviderMethods() throws Exception {
         PolicyModelsProviderParameters parameters = new PolicyModelsProviderParameters();
-        parameters.setImplementation(DummyPolicyModelsProviderImpl.class.getCanonicalName());
+        parameters.setImplementation(DummyPolicyModelsProviderImpl.class.getName());
         parameters.setDatabaseUrl("jdbc:dummy");
         parameters.setPersistenceUnit("dummy");
 

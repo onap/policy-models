@@ -93,7 +93,7 @@ public class EntityTest {
     public void testEntityTestAllOpsJpa() throws PfModelException {
 
         final DaoParameters daoParameters = new DaoParameters();
-        daoParameters.setPluginClass(DefaultPfDao.class.getCanonicalName());
+        daoParameters.setPluginClass(DefaultPfDao.class.getName());
         daoParameters.setPersistenceUnit("DaoTest");
 
         Properties jdbcProperties = new Properties();
@@ -119,7 +119,7 @@ public class EntityTest {
     @Test
     public void testEntityTestBadVals() throws PfModelException {
         final DaoParameters daoParameters = new DaoParameters();
-        daoParameters.setPluginClass(DefaultPfDao.class.getCanonicalName());
+        daoParameters.setPluginClass(DefaultPfDao.class.getName());
         daoParameters.setPersistenceUnit("DaoTest");
 
         pfDao = new PfDaoFactory().createPfDao(daoParameters);
