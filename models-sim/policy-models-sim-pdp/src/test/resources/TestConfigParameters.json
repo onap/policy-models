@@ -5,5 +5,33 @@
         "pdpType":"apex",
         "description":"Pdp heartbeat",
         "supportedPolicyTypes":[{"name":"onap.policies.controlloop.operational.Apex","version":"1.0.0"}]
+    },
+    "topicParameterGroup": {
+        "topicSources" : [ {
+            "topic" : "ueb-source",
+            "servers" : [ "my-server" ],
+            "topicCommInfrastructure" : "ueb"
+        },{
+            "topic" : "POLICY-PDP-PAP1",
+            "servers" : [ "message-router1, message-router2" ],
+            "topicCommInfrastructure" : "dmaap"
+        },{
+            "topic" : "POLICY-PDP-PAP2",
+            "servers" : [ "message-router2, message-router3" ],
+            "topicCommInfrastructure" : "dmaap"
+        }],
+        "topicSinks" : [ {
+            "topic" : "ueb-sink",
+            "servers" : [ "my-server" ],
+            "topicCommInfrastructure" : "ueb"
+        },{
+            "topic" : "POLICY-PDP-PAP2",
+            "servers" : [ "message-router1, message-router2" ],
+            "topicCommInfrastructure" : "dmaap"
+        },{
+            "topic" : "POLICY-PDP-PAP3",
+            "servers" : [ "message-router2, message-router3" ],
+            "topicCommInfrastructure" : "dmaap"
+        }]
     }
 }

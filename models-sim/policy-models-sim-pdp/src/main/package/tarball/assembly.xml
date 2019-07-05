@@ -50,7 +50,6 @@
             </directory>
             <includes>
                 <include>OnapPfConfig.json</include>
-                <include>topic.properties</include>
             </includes>
             <outputDirectory>etc/config</outputDirectory>
             <lineEnding>unix</lineEnding>

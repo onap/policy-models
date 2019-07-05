@@ -21,9 +21,9 @@
 
 package org.onap.policy.models.sim.pdp;
 
-import java.io.FileInputStream;
 import java.util.Arrays;
 import java.util.Properties;
+import org.onap.policy.common.endpoints.utils.ParameterUtils;
 import org.onap.policy.common.utils.services.Registry;
 import org.onap.policy.models.sim.pdp.exception.PdpSimulatorException;
 import org.onap.policy.models.sim.pdp.parameters.PdpSimulatorParameterGroup;
@@ -80,16 +80,7 @@ public class PdpSimulatorMain {
         }
 
         // Read the properties
-        final Properties topicProperties = new Properties();
-        try {
-            final String propFile = arguments.getFullPropertyFilePath();
-            try (FileInputStream stream = new FileInputStream(propFile)) {
-                topicProperties.load(stream);
-            }
-        } catch (final Exception e) {
-            LOGGER.error(PDP_SIMULATOR_FAIL_MSG, e);
-            return;
-        }
+        Properties topicProperties = ParameterUtils.getTopicProperties(parameterGroup.getTopicParameterGroup());
 
         // create the activator
         activator = new PdpSimulatorActivator(parameterGroup, topicProperties);

@@ -165,7 +165,6 @@ public class PdpSimulatorCommandLineArguments {
      */
     public void validate() throws PdpSimulatorException {
         validateReadableFile("pdp simulator configuration", configurationFilePath);
-        validateReadableFile("pdp simulator properties", propertyFilePath);
     }
 
     /**

@@ -27,6 +27,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.Map;
 
 import org.junit.Test;
+import org.onap.policy.common.endpoints.parameters.TopicParameterGroup;
 import org.onap.policy.common.parameters.GroupValidationResult;
 
 /**
@@ -49,6 +50,7 @@ public class TestPdpSimulatorParameterGroup {
                 commonTestData.getPdpSimulatorParameterGroupMap(CommonTestData.PDP_SIMULATOR_GROUP_NAME),
                 PdpSimulatorParameterGroup.class);
         final PdpStatusParameters pdpStatusParameters = pdpSimulatorParameters.getPdpStatusParameters();
+        final TopicParameterGroup topicParameterGroup  = pdpSimulatorParameters.getTopicParameterGroup();
         final GroupValidationResult validationResult = pdpSimulatorParameters.validate();
         assertTrue(validationResult.isValid());
         assertEquals(CommonTestData.PDP_SIMULATOR_GROUP_NAME, pdpSimulatorParameters.getName());
@@ -56,6 +58,8 @@ public class TestPdpSimulatorParameterGroup {
         assertEquals(CommonTestData.PDP_TYPE, pdpStatusParameters.getPdpType());
         assertEquals(CommonTestData.DESCRIPTION, pdpStatusParameters.getDescription());
         assertEquals(CommonTestData.SUPPORTED_POLICY_TYPES, pdpStatusParameters.getSupportedPolicyTypes());
+        assertEquals(CommonTestData.TOPIC_PARAMS, topicParameterGroup.getTopicSinks());
+        assertEquals(CommonTestData.TOPIC_PARAMS, topicParameterGroup.getTopicSources());
     }
 
     @Test
@@ -101,6 +105,21 @@ public class TestPdpSimulatorParameterGroup {
         assertFalse(validationResult.isValid());
         assertTrue(validationResult.getResult()
                 .contains("\"org.onap.policy.models.sim.pdp.parameters.PdpSimulatorParameterGroup\" INVALID, "
+                        + "parameter group has status INVALID"));
+    }
+
+    @Test
+    public void testApexStarterParameterGroupp_EmptyTopicParameters() {
+        final Map<String, Object> map =
+                commonTestData.getPdpSimulatorParameterGroupMap(CommonTestData.PDP_SIMULATOR_GROUP_NAME);
+        map.put("topicParameterGroup", commonTestData.getTopicParametersMap(true));
+
+        final PdpSimulatorParameterGroup parGroup =
+                commonTestData.toObject(map, PdpSimulatorParameterGroup.class);
+        final GroupValidationResult validationResult = parGroup.validate();
+        assertFalse(validationResult.isValid());
+        assertTrue(validationResult.getResult()
+                .contains("\"org.onap.policy.common.endpoints.parameters.TopicParameterGroup\" INVALID, "
                         + "parameter group has status INVALID"));
     }
 

@@ -30,13 +30,11 @@ KEYSTORE_PASSWD="Pol1cy_0nap"
 TRUSTSTORE="${PDP_SIM_HOME}/etc/ssl/policy-truststore"
 TRUSTSTORE_PASSWD="Pol1cy_0nap"
 
-if [ "$#" -eq 2 ]
+if [ "$#" -eq 1 ]
 then
     CONFIG_FILE=$1
-    PROPERTIES_FILE=$2
 else
     CONFIG_FILE=${CONFIG_FILE}
-    PROPERTIES_FILE=${PROPERTIES_FILE}
 fi
 
 if [ -z "$CONFIG_FILE" ]
@@ -44,12 +42,7 @@ then
     CONFIG_FILE="$PDP_SIM_HOME/etc/config/OnapPfConfig.json"
 fi
 
-if [ -z "$PROPERTIES_FILE" ]
-then
-    PROPERTIES_FILE="$PDP_SIM_HOME/etc/config/topic.properties"
-fi
-
-echo "PDP simulatior configuration file: $CONFIG_FILE and properties file: $PROPERTIES_FILE"
+echo "PDP simulatior configuration file: $CONFIG_FILE
 
 $JAVA_HOME/bin/java \
     -cp "$PDP_SIM_HOME/etc:$PDP_SIM_HOME/lib/*" \
@@ -59,4 +52,4 @@ $JAVA_HOME/bin/java \
     -Djavax.net.ssl.trustStorePassword="$TRUSTSTORE_PASSWD" \
     -Dlogback.configurationFile=$PDP_SIM_HOME/etc/logback.xml \
     org.onap.policy.models.sim.pdp.PdpSimulatorMain \
-    -c $CONFIG_FILE -p $PROPERTIES_FILE
+    -c $CONFIG_FILE

@@ -21,7 +21,7 @@
 package org.onap.policy.models.sim.pdp.parameters;
 
 import lombok.Getter;
-
+import org.onap.policy.common.endpoints.parameters.TopicParameterGroup;
 import org.onap.policy.common.parameters.ParameterGroupImpl;
 import org.onap.policy.common.parameters.annotations.NotBlank;
 import org.onap.policy.common.parameters.annotations.NotNull;
@@ -36,6 +36,7 @@ import org.onap.policy.common.parameters.annotations.NotNull;
 @Getter
 public class PdpSimulatorParameterGroup extends ParameterGroupImpl {
     private PdpStatusParameters pdpStatusParameters;
+    private TopicParameterGroup topicParameterGroup;
 
     /**
      * Create the pdp simulator parameter group.

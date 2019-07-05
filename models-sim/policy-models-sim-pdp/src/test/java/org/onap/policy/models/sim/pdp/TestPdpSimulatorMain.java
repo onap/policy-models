@@ -64,8 +64,7 @@ public class TestPdpSimulatorMain {
 
     @Test
     public void testPdpSimulator() throws PdpSimulatorException {
-        final String[] pdpSimulatorConfigParameters = { "-c", "src/test/resources/PdpSimulatorConfigParameters.json",
-            "-p", "src/test/resources/topic.properties" };
+        final String[] pdpSimulatorConfigParameters = { "-c", "src/test/resources/PdpSimulatorConfigParameters.json" };
         pdpSimulator = new PdpSimulatorMain(pdpSimulatorConfigParameters);
         assertTrue(pdpSimulator.getParameters().isValid());
         assertEquals(CommonTestData.PDP_SIMULATOR_GROUP_NAME, pdpSimulator.getParameters().getName());

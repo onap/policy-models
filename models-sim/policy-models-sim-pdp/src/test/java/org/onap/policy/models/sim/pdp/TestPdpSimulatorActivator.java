@@ -33,6 +33,7 @@ import java.util.Properties;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.onap.policy.common.endpoints.utils.ParameterUtils;
 import org.onap.policy.common.utils.services.Registry;
 import org.onap.policy.models.pdp.concepts.PdpStatus;
 import org.onap.policy.models.sim.pdp.exception.PdpSimulatorException;
@@ -57,18 +58,12 @@ public class TestPdpSimulatorActivator {
     @Before
     public void setUp() throws Exception {
         Registry.newRegistry();
-        final String[] pdpSimulatorConfigParameters = { "-c", "src/test/resources/PdpSimulatorConfigParameters.json",
-            "-p", "src/test/resources/topic.properties" };
+        final String[] pdpSimulatorConfigParameters = { "-c", "src/test/resources/PdpSimulatorConfigParameters.json" };
         final PdpSimulatorCommandLineArguments arguments =
                 new PdpSimulatorCommandLineArguments(pdpSimulatorConfigParameters);
         final PdpSimulatorParameterGroup parGroup = new PdpSimulatorParameterHandler().getParameters(arguments);
 
-        final Properties props = new Properties();
-        final String propFile = arguments.getFullPropertyFilePath();
-        try (FileInputStream stream = new FileInputStream(propFile)) {
-            props.load(stream);
-        }
-
+        final Properties props = ParameterUtils.getTopicProperties(parGroup.getTopicParameterGroup());
         activator = new PdpSimulatorActivator(parGroup, props);
     }
 

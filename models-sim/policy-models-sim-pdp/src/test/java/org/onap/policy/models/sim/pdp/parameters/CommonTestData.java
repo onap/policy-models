@@ -25,7 +25,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
+import org.onap.policy.common.endpoints.parameters.TopicParameters;
 import org.onap.policy.common.parameters.ParameterGroup;
 import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
@@ -48,6 +48,7 @@ public class CommonTestData {
     public static final String POLICY_VERSION = "0.0.1";
     protected static final List<ToscaPolicyTypeIdentifierParameters> SUPPORTED_POLICY_TYPES =
             Arrays.asList(getSupportedPolicyTypes(POLICY_NAME, POLICY_VERSION));
+    public static final List<TopicParameters> TOPIC_PARAMS = Arrays.asList(getTopicParams());
     private static final String REST_SERVER_PASS = "zb!XztG34";
     private static final String REST_SERVER_USER = "healthcheck";
     private static final int REST_SERVER_PORT = 6969;
@@ -67,6 +68,19 @@ public class CommonTestData {
         policyTypeIdentParameters.setName(name);
         policyTypeIdentParameters.setVersion(version);
         return policyTypeIdentParameters;
+    }
+
+    /**
+     * Returns topic parameters for test cases.
+     *
+     * @return topic parameters
+     */
+    public static TopicParameters getTopicParams() {
+        final TopicParameters topicParams = new TopicParameters();
+        topicParams.setTopic("POLICY-PDP-PAP");
+        topicParams.setTopicCommInfrastructure("dmaap");
+        topicParams.setServers(Arrays.asList("message-router"));
+        return topicParams;
     }
 
     /**
@@ -98,7 +112,7 @@ public class CommonTestData {
         map.put("name", name);
         map.put("restServerParameters", getRestServerParametersMap(false));
         map.put("pdpStatusParameters", getPdpStatusParametersMap(false));
-
+        map.put("topicParameterGroup", getTopicParametersMap(false));
         return map;
     }
 
@@ -140,6 +154,21 @@ public class CommonTestData {
             map.put("supportedPolicyTypes", SUPPORTED_POLICY_TYPES);
         }
 
+        return map;
+    }
+
+    /**
+     * Returns a property map for a TopicParameters map for test cases.
+     *
+     * @param isEmpty boolean value to represent that object created should be empty or not
+     * @return a property map suitable for constructing an object
+     */
+    public Map<String, Object> getTopicParametersMap(final boolean isEmpty) {
+        final Map<String, Object> map = new TreeMap<>();
+        if (!isEmpty) {
+            map.put("topicSources", TOPIC_PARAMS);
+            map.put("topicSinks", TOPIC_PARAMS);
+        }
         return map;
     }
 }

@@ -23,7 +23,6 @@ package org.onap.policy.models.sim.pdp.comm;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -37,6 +36,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
+import org.onap.policy.common.endpoints.utils.ParameterUtils;
 import org.onap.policy.common.utils.services.Registry;
 import org.onap.policy.models.pdp.concepts.PdpStateChange;
 import org.onap.policy.models.pdp.concepts.PdpStatus;
@@ -73,8 +73,7 @@ public class TestPdpStateChangeListener {
         pdpUpdateMessageListener = new PdpUpdateListener();
         pdpStateChangeListener = new PdpStateChangeListener();
         Registry.newRegistry();
-        final String[] pdpSimulatorConfigParameters = { "-c", "src/test/resources/PdpSimulatorConfigParameters.json",
-            "-p", "src/test/resources/topic.properties" };
+        final String[] pdpSimulatorConfigParameters = { "-c", "src/test/resources/PdpSimulatorConfigParameters.json" };
         final PdpSimulatorCommandLineArguments arguments = new PdpSimulatorCommandLineArguments();
         PdpSimulatorParameterGroup pdpSimulatorParameterGroup;
         // The arguments return a string if there is a message to print and we should
@@ -90,11 +89,8 @@ public class TestPdpStateChangeListener {
         pdpSimulatorParameterGroup = new PdpSimulatorParameterHandler().getParameters(arguments);
 
         // Read the properties
-        final Properties topicProperties = new Properties();
-        final String propFile = arguments.getFullPropertyFilePath();
-        try (FileInputStream stream = new FileInputStream(propFile)) {
-            topicProperties.load(stream);
-        }
+        final Properties topicProperties =
+            ParameterUtils.getTopicProperties(pdpSimulatorParameterGroup.getTopicParameterGroup());
         activator = new PdpSimulatorActivator(pdpSimulatorParameterGroup, topicProperties);
         Registry.register(PdpSimulatorConstants.REG_PDP_SIMULATOR_ACTIVATOR, activator);
         activator.initialize();
