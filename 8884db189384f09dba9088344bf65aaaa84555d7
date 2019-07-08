@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6733a69c_3569a908",
+        "filename": "models-interactions/model-impl/rest/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-07-08T14:49:04Z",
+      "side": 1,
+      "message": "yes, let\u0027s use policy-endpoints instead",
+      "parentUuid": "7e65194d_b6689438",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 0
+      },
+      "revId": "8884db189384f09dba9088344bf65aaaa84555d7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b3b4b2ca_81e993e0",
         "filename": "models-interactions/model-impl/rest/src/test/java/org/onap/policy/rest/HttpDeleteWithBodyTest.java",
         "patchSetId": 1
@@ -45,6 +69,64 @@
       "revId": "8884db189384f09dba9088344bf65aaaa84555d7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4efbe38f_4b0b77f3",
+        "filename": "models-interactions/model-impl/rest/src/test/java/org/onap/policy/rest/HttpDeleteWithBodyTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-07-08T14:49:04Z",
+      "side": 1,
+      "message": "I\u0027m not sure this actually issues a request.  If not, then the hard-coded port is fine (maybe add a comment to that effect).  Otherwise, yes, NetworkUtil.allocPort() should be used to allocate an unused port.",
+      "parentUuid": "b3b4b2ca_81e993e0",
+      "range": {
+        "startLine": 30,
+        "startChar": 61,
+        "endLine": 30,
+        "endChar": 66
+      },
+      "revId": "8884db189384f09dba9088344bf65aaaa84555d7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9828b137_9e186e91",
+        "filename": "models-interactions/model-impl/rest/src/test/java/org/onap/policy/rest/RestTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-07-08T14:49:04Z",
+      "side": 1,
+      "message": "definitely want to use NetworkUtil.allocPort() here",
+      "revId": "8884db189384f09dba9088344bf65aaaa84555d7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e13047ba_591f9fba",
+        "filename": "models-interactions/model-impl/rest/src/test/java/org/onap/policy/rest/RestTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-07-08T14:49:04Z",
+      "side": 1,
+      "message": "Can use policy-endpoints to create a test server.  Can look at the first couple of lines of HttpClientTest.setUpBeforeClass() for an example of its use - but use the allocated port and a timeout of 1000L instead of 10000L.",
+      "revId": "8884db189384f09dba9088344bf65aaaa84555d7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
