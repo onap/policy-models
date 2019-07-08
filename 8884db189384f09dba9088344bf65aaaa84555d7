@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e65194d_b6689438",
+        "filename": "models-interactions/model-impl/rest/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-07-08T14:10:23Z",
+      "side": 1,
+      "message": "Do we need to introduce this? Can we use common/policy-endpoints?",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 0
+      },
+      "revId": "8884db189384f09dba9088344bf65aaaa84555d7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3b4b2ca_81e993e0",
+        "filename": "models-interactions/model-impl/rest/src/test/java/org/onap/policy/rest/HttpDeleteWithBodyTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-07-08T14:10:23Z",
+      "side": 1,
+      "message": "I think Jim knows a way to get an available port vs hardcoding the port. Or is this really ok?",
+      "range": {
+        "startLine": 30,
+        "startChar": 61,
+        "endLine": 30,
+        "endChar": 66
+      },
+      "revId": "8884db189384f09dba9088344bf65aaaa84555d7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
