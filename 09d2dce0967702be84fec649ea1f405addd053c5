@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2dbc263_d8eca9b8",
+        "filename": "models-interactions/model-impl/rest/src/test/java/org/onap/policy/rest/RestTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-07-08T19:36:57Z",
+      "side": 1,
+      "message": "The other review has been merged, so this should build now.  However, first, you\u0027ll need to change:\n\n  HttpServletServer.factory\n\nto:\n\n  HttpServletServerFactoryInstance.getServerFactory()",
+      "revId": "09d2dce0967702be84fec649ea1f405addd053c5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
