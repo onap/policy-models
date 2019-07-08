@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * simulators
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,6 +24,7 @@ package org.onap.policy.simulators;
 import java.io.IOException;
 
 import org.onap.policy.common.endpoints.http.server.HttpServletServer;
+import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.common.gson.GsonMessageBodyHandler;
 import org.onap.policy.common.utils.network.NetworkUtil;
 
@@ -55,8 +56,8 @@ public class Util {
      * @throws IOException if an IO errror occurs
      */
     public static HttpServletServer buildAaiSim() throws InterruptedException, IOException {
-        final HttpServletServer testServer =
-                HttpServletServer.factory.build(AAISIM_SERVER_NAME, LOCALHOST, AAISIM_SERVER_PORT, "/", false, true);
+        final HttpServletServer testServer = HttpServletServerFactoryInstance.getServerFactory()
+                        .build(AAISIM_SERVER_NAME, LOCALHOST, AAISIM_SERVER_PORT, "/", false, true);
         testServer.addServletClass("/*", AaiSimulatorJaxRs.class.getName());
         testServer.waitedStart(5000);
         if (!NetworkUtil.isTcpPortOpen(LOCALHOST, testServer.getPort(), 5, 10000L)) {
@@ -73,8 +74,8 @@ public class Util {
      * @throws IOException if an IO errror occurs
      */
     public static HttpServletServer buildSdncSim() throws InterruptedException, IOException {
-        final HttpServletServer testServer =
-                HttpServletServer.factory.build(SDNCSIM_SERVER_NAME, LOCALHOST, SDNCSIM_SERVER_PORT, "/", false, true);
+        final HttpServletServer testServer = HttpServletServerFactoryInstance.getServerFactory()
+                        .build(SDNCSIM_SERVER_NAME, LOCALHOST, SDNCSIM_SERVER_PORT, "/", false, true);
         testServer.addServletClass("/*", SdncSimulatorJaxRs.class.getName());
         testServer.waitedStart(5000);
         if (!NetworkUtil.isTcpPortOpen(LOCALHOST, testServer.getPort(), 5, 10000L)) {
@@ -92,8 +93,8 @@ public class Util {
      * @throws IOException if an IO errror occurs
      */
     public static HttpServletServer buildSoSim() throws InterruptedException, IOException {
-        final HttpServletServer testServer =
-                HttpServletServer.factory.build(SOSIM_SERVER_NAME, LOCALHOST, SOSIM_SERVER_PORT, "/", false, true);
+        final HttpServletServer testServer = HttpServletServerFactoryInstance.getServerFactory()
+                        .build(SOSIM_SERVER_NAME, LOCALHOST, SOSIM_SERVER_PORT, "/", false, true);
         testServer.addServletClass("/*", SoSimulatorJaxRs.class.getName());
         testServer.waitedStart(5000);
         if (!NetworkUtil.isTcpPortOpen(LOCALHOST, testServer.getPort(), 5, 10000L)) {
@@ -110,8 +111,8 @@ public class Util {
      * @throws IOException if an IO errror occurs
      */
     public static HttpServletServer buildVfcSim() throws InterruptedException, IOException {
-        final HttpServletServer testServer =
-                HttpServletServer.factory.build(VFCSIM_SERVER_NAME,LOCALHOST, VFCSIM_SERVER_PORT, "/", false, true);
+        final HttpServletServer testServer = HttpServletServerFactoryInstance.getServerFactory()
+                        .build(VFCSIM_SERVER_NAME, LOCALHOST, VFCSIM_SERVER_PORT, "/", false, true);
         testServer.addServletClass("/*", VfcSimulatorJaxRs.class.getName());
         testServer.waitedStart(5000);
         if (!NetworkUtil.isTcpPortOpen(LOCALHOST, testServer.getPort(), 5, 10000L)) {
@@ -128,8 +129,8 @@ public class Util {
      * @throws IOException if an IO errror occurs
      */
     public static HttpServletServer buildGuardSim() throws InterruptedException, IOException {
-        HttpServletServer testServer = HttpServletServer.factory.build(GUARDSIM_SERVER_NAME, LOCALHOST,
-                GUARDSIM_SERVER_PORT, "/", false, true);
+        HttpServletServer testServer = HttpServletServerFactoryInstance.getServerFactory().build(GUARDSIM_SERVER_NAME,
+                        LOCALHOST, GUARDSIM_SERVER_PORT, "/", false, true);
         testServer.setSerializationProvider(GsonMessageBodyHandler.class.getName());
         testServer.addServletClass("/*", GuardSimulatorJaxRs.class.getName());
         testServer.waitedStart(5000);

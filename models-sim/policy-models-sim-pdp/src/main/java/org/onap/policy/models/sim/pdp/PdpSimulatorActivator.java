@@ -26,7 +26,7 @@ import java.util.Properties;
 import java.util.Random;
 import lombok.Getter;
 import lombok.Setter;
-import org.onap.policy.common.endpoints.event.comm.TopicEndpoint;
+import org.onap.policy.common.endpoints.event.comm.TopicEndpointManager;
 import org.onap.policy.common.endpoints.event.comm.TopicSink;
 import org.onap.policy.common.endpoints.event.comm.TopicSource;
 import org.onap.policy.common.endpoints.listeners.MessageTypeDispatcher;
@@ -82,8 +82,8 @@ public class PdpSimulatorActivator {
     public PdpSimulatorActivator(final PdpSimulatorParameterGroup pdpSimulatorParameterGroup,
             final Properties topicProperties) {
 
-        topicSinks = TopicEndpoint.manager.addTopicSinks(topicProperties);
-        topicSources = TopicEndpoint.manager.addTopicSources(topicProperties);
+        topicSinks = TopicEndpointManager.getManager().addTopicSinks(topicProperties);
+        topicSources = TopicEndpointManager.getManager().addTopicSources(topicProperties);
 
         final int random = RANDOM.nextInt();
         final String instanceId = "pdp_" + random;
@@ -100,8 +100,8 @@ public class PdpSimulatorActivator {
         // @formatter:off
         this.manager = new ServiceManager()
             .addAction("topics",
-                TopicEndpoint.manager::start,
-                TopicEndpoint.manager::shutdown)
+                TopicEndpointManager.getManager()::start,
+                TopicEndpointManager.getManager()::shutdown)
             .addAction("set alive",
                 () -> setAlive(true),
                 () -> setAlive(false))

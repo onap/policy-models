@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +27,7 @@ import java.util.Properties;
 
 import org.onap.policy.common.capabilities.Startable;
 import org.onap.policy.common.endpoints.http.server.HttpServletServer;
+import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.common.endpoints.properties.PolicyEndPointProperties;
 import org.onap.policy.models.sim.dmaap.parameters.RestServerParameters;
 import org.slf4j.Logger;
@@ -57,7 +59,7 @@ public class DmaapSimRestServer implements Startable {
     @Override
     public boolean start() {
         try {
-            servers = HttpServletServer.factory.build(getServerProperties());
+            servers = HttpServletServerFactoryInstance.getServerFactory().build(getServerProperties());
             for (final HttpServletServer server : servers) {
                 server.start();
             }

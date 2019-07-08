@@ -43,7 +43,7 @@ import org.onap.policy.aai.AaiNqNamedQuery;
 import org.onap.policy.aai.AaiNqQueryParameters;
 import org.onap.policy.aai.AaiNqRequest;
 import org.onap.policy.aai.AaiNqResponse;
-import org.onap.policy.common.endpoints.http.server.HttpServletServer;
+import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.rest.RestManager;
 
 public class AaiSimulatorTest {
@@ -62,7 +62,7 @@ public class AaiSimulatorTest {
 
     @AfterClass
     public static void tearDownSimulator() {
-        HttpServletServer.factory.destroy();
+        HttpServletServerFactoryInstance.getServerFactory().destroy();
     }
 
     @Test

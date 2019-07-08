@@ -37,7 +37,7 @@ import org.onap.policy.appclcm.LcmRequest;
 import org.onap.policy.appclcm.LcmRequestWrapper;
 import org.onap.policy.appclcm.LcmResponse;
 import org.onap.policy.appclcm.LcmResponseWrapper;
-import org.onap.policy.common.endpoints.http.server.HttpServletServer;
+import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.ControlLoopTargetType;
@@ -166,7 +166,7 @@ public class AppcLcmActorServiceProviderTest {
      */
     @AfterClass
     public static void tearDownSimulator() {
-        HttpServletServer.factory.destroy();
+        HttpServletServerFactoryInstance.getServerFactory().destroy();
     }
 
     /**
