@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "c96eb370_0a4014eb",
+        "filename": "models-interactions/model-impl/rest/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2019-07-08T17:01:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6733a69c_3569a908",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 0
+      },
+      "revId": "8884db189384f09dba9088344bf65aaaa84555d7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3b4b2ca_81e993e0",
         "filename": "models-interactions/model-impl/rest/src/test/java/org/onap/policy/rest/HttpDeleteWithBodyTest.java",
         "patchSetId": 1
@@ -120,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "b18a11b5_056f28f8",
+        "filename": "models-interactions/model-impl/rest/src/test/java/org/onap/policy/rest/HttpDeleteWithBodyTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2019-07-08T17:01:37Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "944866a3_95f3d590",
+      "range": {
+        "startLine": 30,
+        "startChar": 61,
+        "endLine": 30,
+        "endChar": 66
+      },
+      "revId": "8884db189384f09dba9088344bf65aaaa84555d7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9828b137_9e186e91",
         "filename": "models-interactions/model-impl/rest/src/test/java/org/onap/policy/rest/RestTest.java",
         "patchSetId": 1
@@ -137,6 +185,24 @@
     },
     {
       "key": {
+        "uuid": "640ac2b8_7677624d",
+        "filename": "models-interactions/model-impl/rest/src/test/java/org/onap/policy/rest/RestTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2019-07-08T17:01:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9828b137_9e186e91",
+      "revId": "8884db189384f09dba9088344bf65aaaa84555d7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e13047ba_591f9fba",
         "filename": "models-interactions/model-impl/rest/src/test/java/org/onap/policy/rest/RestTest.java",
         "patchSetId": 1
@@ -148,6 +214,24 @@
       "writtenOn": "2019-07-08T14:49:04Z",
       "side": 1,
       "message": "Can use policy-endpoints to create a test server.  Can look at the first couple of lines of HttpClientTest.setUpBeforeClass() for an example of its use - but use the allocated port and a timeout of 1000L instead of 10000L.",
+      "revId": "8884db189384f09dba9088344bf65aaaa84555d7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0125c267_b58f6e61",
+        "filename": "models-interactions/model-impl/rest/src/test/java/org/onap/policy/rest/RestTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2019-07-08T17:01:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e13047ba_591f9fba",
       "revId": "8884db189384f09dba9088344bf65aaaa84555d7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
