@@ -27,11 +27,12 @@ import org.junit.Test;
 
 public class HttpDeleteWithBodyTest {
 
+    private static final String BASE_URI = "http://localhost:32802/base/";
+
     @Test
     public void getMethod() {
-        String url = "http://www.example.org";
-        HttpDeleteWithBody deleteWithBody = new HttpDeleteWithBody(url);
+        HttpDeleteWithBody deleteWithBody = new HttpDeleteWithBody(BASE_URI);
         assertEquals("DELETE", deleteWithBody.getMethod());
-        assertEquals(url, deleteWithBody.getURI().toString());
+        assertEquals(BASE_URI, deleteWithBody.getURI().toString());
     }
 }
