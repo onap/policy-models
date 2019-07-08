@@ -27,6 +27,7 @@ import java.util.Map.Entry;
 import javax.xml.bind.DatatypeConverter;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
@@ -124,7 +125,8 @@ public class RestManager {
     }
 
     /**
-     * Perform REST Delete.
+     * Perform REST Delete. <br/>
+     * <i>Note: Many REST endpoints will return a 400 error for delete requests with a non-empty body</i>
      *
      * @param url         the url
      * @param username    the user name
@@ -138,8 +140,8 @@ public class RestManager {
                                         String contentType, String body) {
         HttpDeleteWithBody delete = new HttpDeleteWithBody(url);
         addHeaders(delete, username, password, headers);
-        delete.addHeader("Content-Type", contentType);
         if (body != null && !body.isEmpty()) {
+            delete.addHeader("Content-Type", contentType);
             try {
                 StringEntity input = new StringEntity(body);
                 input.setContentType(contentType);
@@ -149,6 +151,21 @@ public class RestManager {
                 return null;
             }
         }
+        return sendRequest(delete);
+    }
+
+    /**
+     * Perform REST Delete.
+     *
+     * @param url         the url
+     * @param username    the user name
+     * @param password    the password
+     * @param headers     any headers
+     * @return the response status code and the body
+     */
+    public Pair<Integer, String> delete(String url, String username, String password, Map<String, String> headers) {
+        HttpDelete delete = new HttpDelete(url);
+        addHeaders(delete, username, password, headers);
         return sendRequest(delete);
     }
 
