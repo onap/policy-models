@@ -39,7 +39,7 @@ public class ResourceInstanceTest {
         ResourceInstance ri = new ResourceInstance();
         assertEquals(null, ri.getResourceInstanceName());
         assertEquals(null, ri.getResourceUuid());
-        assertEquals(null, ri.getResourceInvariantUUID());
+        assertEquals(null, ri.getResourceInvariantUuid());
         assertEquals(null, ri.getResourceName());
         assertEquals(null, ri.getResourceType());
         assertEquals(null, ri.getResourceVersion());
@@ -47,7 +47,7 @@ public class ResourceInstanceTest {
         ResourceInstance ri2 = new ResourceInstance((ResourceInstance) null);
         assertEquals(null, ri2.getResourceInstanceName());
         assertEquals(null, ri2.getResourceUuid());
-        assertEquals(null, ri2.getResourceInvariantUUID());
+        assertEquals(null, ri2.getResourceInvariantUuid());
         assertEquals(null, ri2.getResourceName());
         assertEquals(null, ri2.getResourceType());
         assertEquals(null, ri2.getResourceVersion());
@@ -55,7 +55,7 @@ public class ResourceInstanceTest {
         ri2 = new ResourceInstance(ri);
         assertEquals(ri2.getResourceInstanceName(), ri.getResourceInstanceName());
         assertEquals(ri2.getResourceUuid(), ri.getResourceUuid());
-        assertEquals(ri2.getResourceInvariantUUID(), ri.getResourceInvariantUUID());
+        assertEquals(ri2.getResourceInvariantUuid(), ri.getResourceInvariantUuid());
         assertEquals(ri2.getResourceName(), ri.getResourceName());
         assertEquals(ri2.getResourceType(), ri.getResourceType());
         assertEquals(ri2.getResourceVersion(), ri.getResourceVersion());
@@ -81,8 +81,8 @@ public class ResourceInstanceTest {
     public void testInvariantUuid() {
         ResourceInstance ri = new ResourceInstance();
         UUID uuid = UUID.randomUUID();
-        ri.setResourceInvariantUUID(uuid);
-        assertEquals(uuid, ri.getResourceInvariantUUID());
+        ri.setResourceInvariantUuid(uuid);
+        assertEquals(uuid, ri.getResourceInvariantUuid());
     }
 
     @Test
@@ -117,8 +117,8 @@ public class ResourceInstanceTest {
 
         ri1.setResourceInstanceName(INSTANCE);
         ri1.setResourceName(RESOURCE);
-        ri1.setResourceInvariantUUID(UUID.randomUUID());
-        ri1.setResourceInvariantUUID(UUID.randomUUID());
+        ri1.setResourceInvariantUuid(UUID.randomUUID());
+        ri1.setResourceInvariantUuid(UUID.randomUUID());
         ri1.setResourceVersion(VERSION_000);
         ri1.setResourceType(ResourceType.VL);
         ri2 = new ResourceInstance(ri1);
@@ -134,8 +134,8 @@ public class ResourceInstanceTest {
 
         ri1.setResourceInstanceName(INSTANCE);
         ri1.setResourceName(RESOURCE);
-        ri1.setResourceInvariantUUID(UUID.randomUUID());
-        ri1.setResourceInvariantUUID(UUID.randomUUID());
+        ri1.setResourceInvariantUuid(UUID.randomUUID());
+        ri1.setResourceInvariantUuid(UUID.randomUUID());
         ri1.setResourceVersion(VERSION_000);
         ri1.setResourceType(ResourceType.VL);
         ri2 = new ResourceInstance(ri1);
@@ -150,8 +150,8 @@ public class ResourceInstanceTest {
 
         ri1.setResourceInstanceName(INSTANCE);
         ri1.setResourceName(RESOURCE);
-        ri1.setResourceInvariantUUID(UUID.randomUUID());
-        ri1.setResourceInvariantUUID(UUID.randomUUID());
+        ri1.setResourceInvariantUuid(UUID.randomUUID());
+        ri1.setResourceInvariantUuid(UUID.randomUUID());
         ri1.setResourceVersion(VERSION_000);
         ri1.setResourceType(ResourceType.VL);
         ri2 = new ResourceInstance(ri1);

@@ -38,29 +38,29 @@ public class ServiceInstanceTest {
     public void testConstructors() {
         ServiceInstance si = new ServiceInstance();
         assertEquals(null, si.getServiceInstanceName());
-        assertEquals(null, si.getServiceUUID());
-        assertEquals(null, si.getServiceInstanceUUID());
+        assertEquals(null, si.getServiceUuid());
+        assertEquals(null, si.getServiceInstanceUuid());
         assertEquals(null, si.getServiceName());
-        assertEquals(null, si.getPersonaModelUUID());
-        assertEquals(null, si.getWidgetModelUUID());
+        assertEquals(null, si.getPersonaModelUuid());
+        assertEquals(null, si.getWidgetModelUuid());
         assertEquals(null, si.getWidgetModelVersion());
 
         ServiceInstance si2 = new ServiceInstance((ServiceInstance) null);
         assertEquals(null, si2.getServiceInstanceName());
-        assertEquals(null, si2.getServiceUUID());
-        assertEquals(null, si2.getServiceInstanceUUID());
+        assertEquals(null, si2.getServiceUuid());
+        assertEquals(null, si2.getServiceInstanceUuid());
         assertEquals(null, si2.getServiceName());
-        assertEquals(null, si2.getPersonaModelUUID());
-        assertEquals(null, si2.getWidgetModelUUID());
+        assertEquals(null, si2.getPersonaModelUuid());
+        assertEquals(null, si2.getWidgetModelUuid());
         assertEquals(null, si2.getWidgetModelVersion());
 
         si2 = new ServiceInstance(si);
         assertEquals(si2.getServiceInstanceName(), si.getServiceInstanceName());
-        assertEquals(si2.getServiceUUID(), si.getServiceUUID());
-        assertEquals(si2.getServiceInstanceUUID(), si.getServiceInstanceUUID());
+        assertEquals(si2.getServiceUuid(), si.getServiceUuid());
+        assertEquals(si2.getServiceInstanceUuid(), si.getServiceInstanceUuid());
         assertEquals(si2.getServiceName(), si.getServiceName());
-        assertEquals(si2.getPersonaModelUUID(), si.getPersonaModelUUID());
-        assertEquals(si2.getWidgetModelUUID(), si.getWidgetModelUUID());
+        assertEquals(si2.getPersonaModelUuid(), si.getPersonaModelUuid());
+        assertEquals(si2.getWidgetModelUuid(), si.getWidgetModelUuid());
         assertEquals(si2.getWidgetModelVersion(), si.getWidgetModelVersion());
     }
 
@@ -76,16 +76,16 @@ public class ServiceInstanceTest {
     public void testUuid() {
         ServiceInstance si = new ServiceInstance();
         UUID uuid = UUID.randomUUID();
-        si.setServiceUUID(uuid);
-        assertEquals(uuid, si.getServiceUUID());
+        si.setServiceUuid(uuid);
+        assertEquals(uuid, si.getServiceUuid());
     }
 
     @Test
     public void testInstanceUuid() {
         ServiceInstance si = new ServiceInstance();
         UUID uuid = UUID.randomUUID();
-        si.setServiceInstanceUUID(uuid);
-        assertEquals(uuid, si.getServiceInstanceUUID());
+        si.setServiceInstanceUuid(uuid);
+        assertEquals(uuid, si.getServiceInstanceUuid());
     }
 
     @Test
@@ -100,16 +100,16 @@ public class ServiceInstanceTest {
     public void testPersonaModelUuid() {
         ServiceInstance si = new ServiceInstance();
         UUID uuid = UUID.randomUUID();
-        si.setPersonaModelUUID(uuid);
-        assertEquals(uuid, si.getPersonaModelUUID());
+        si.setPersonaModelUuid(uuid);
+        assertEquals(uuid, si.getPersonaModelUuid());
     }
 
     @Test
     public void testWidgetModelUuid() {
         ServiceInstance si = new ServiceInstance();
         UUID uuid = UUID.randomUUID();
-        si.setWidgetModelUUID(uuid);
-        assertEquals(uuid, si.getWidgetModelUUID());
+        si.setWidgetModelUuid(uuid);
+        assertEquals(uuid, si.getWidgetModelUuid());
     }
 
     @Test
@@ -129,10 +129,10 @@ public class ServiceInstanceTest {
 
         si1.setServiceInstanceName(INSTANCE);
         si1.setServiceName(SERVICE);
-        si1.setServiceInstanceUUID(UUID.randomUUID());
-        si1.setServiceUUID(UUID.randomUUID());
-        si1.setPersonaModelUUID(UUID.randomUUID());
-        si1.setWidgetModelUUID(UUID.randomUUID());
+        si1.setServiceInstanceUuid(UUID.randomUUID());
+        si1.setServiceUuid(UUID.randomUUID());
+        si1.setPersonaModelUuid(UUID.randomUUID());
+        si1.setWidgetModelUuid(UUID.randomUUID());
         si1.setWidgetModelVersion(VERSION_333);
         si2 = new ServiceInstance(si1);
         assertTrue(si1.equals(si2));
@@ -147,10 +147,10 @@ public class ServiceInstanceTest {
 
         si1.setServiceInstanceName(INSTANCE);
         si1.setServiceName(SERVICE);
-        si1.setServiceInstanceUUID(UUID.randomUUID());
-        si1.setServiceUUID(UUID.randomUUID());
-        si1.setPersonaModelUUID(UUID.randomUUID());
-        si1.setWidgetModelUUID(UUID.randomUUID());
+        si1.setServiceInstanceUuid(UUID.randomUUID());
+        si1.setServiceUuid(UUID.randomUUID());
+        si1.setPersonaModelUuid(UUID.randomUUID());
+        si1.setWidgetModelUuid(UUID.randomUUID());
         si1.setWidgetModelVersion(VERSION_333);
         si2 = new ServiceInstance(si1);
         assertEquals(si1.toString(), si2.toString());
@@ -164,10 +164,10 @@ public class ServiceInstanceTest {
 
         si1.setServiceInstanceName(INSTANCE);
         si1.setServiceName(SERVICE);
-        si1.setServiceInstanceUUID(UUID.randomUUID());
-        si1.setServiceUUID(UUID.randomUUID());
-        si1.setPersonaModelUUID(UUID.randomUUID());
-        si1.setWidgetModelUUID(UUID.randomUUID());
+        si1.setServiceInstanceUuid(UUID.randomUUID());
+        si1.setServiceUuid(UUID.randomUUID());
+        si1.setPersonaModelUuid(UUID.randomUUID());
+        si1.setWidgetModelUuid(UUID.randomUUID());
         si1.setWidgetModelVersion(VERSION_333);
         si2 = new ServiceInstance(si1);
         assertEquals(si1.hashCode(), si2.hashCode());

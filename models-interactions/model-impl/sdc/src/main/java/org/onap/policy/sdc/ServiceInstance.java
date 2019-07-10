@@ -23,15 +23,19 @@ package org.onap.policy.sdc;
 
 import java.io.Serializable;
 import java.util.UUID;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class ServiceInstance implements Serializable {
 
     private static final long serialVersionUID = 6285260780966679625L;
 
-    private UUID personaModelUUID;
-    private UUID serviceUUID;
-    private UUID serviceInstanceUUID;
-    private UUID widgetModelUUID;
+    private UUID personaModelUuid;
+    private UUID serviceUuid;
+    private UUID serviceInstanceUuid;
+    private UUID widgetModelUuid;
     private String widgetModelVersion;
     private String serviceName;
     private String serviceInstanceName;
@@ -49,75 +53,19 @@ public class ServiceInstance implements Serializable {
         if (instance == null) {
             return;
         }
-        this.personaModelUUID = instance.personaModelUUID;
-        this.serviceUUID = instance.serviceUUID;
-        this.serviceInstanceUUID = instance.serviceInstanceUUID;
-        this.widgetModelUUID = instance.widgetModelUUID;
+        this.personaModelUuid = instance.personaModelUuid;
+        this.serviceUuid = instance.serviceUuid;
+        this.serviceInstanceUuid = instance.serviceInstanceUuid;
+        this.widgetModelUuid = instance.widgetModelUuid;
         this.widgetModelVersion = instance.widgetModelVersion;
         this.serviceName = instance.serviceName;
         this.serviceInstanceName = instance.serviceInstanceName;
     }
 
-    public UUID getPersonaModelUUID() {
-        return personaModelUUID;
-    }
-
-    public void setPersonaModelUUID(UUID personaModelUUID) {
-        this.personaModelUUID = personaModelUUID;
-    }
-
-    public UUID getServiceUUID() {
-        return serviceUUID;
-    }
-
-    public void setServiceUUID(UUID serviceUUID) {
-        this.serviceUUID = serviceUUID;
-    }
-
-    public UUID getServiceInstanceUUID() {
-        return serviceInstanceUUID;
-    }
-
-    public void setServiceInstanceUUID(UUID serviceInstanceUUID) {
-        this.serviceInstanceUUID = serviceInstanceUUID;
-    }
-
-    public UUID getWidgetModelUUID() {
-        return widgetModelUUID;
-    }
-
-    public void setWidgetModelUUID(UUID widgetModelUUID) {
-        this.widgetModelUUID = widgetModelUUID;
-    }
-
-    public String getWidgetModelVersion() {
-        return widgetModelVersion;
-    }
-
-    public void setWidgetModelVersion(String widgetModelVersion) {
-        this.widgetModelVersion = widgetModelVersion;
-    }
-
-    public String getServiceName() {
-        return serviceName;
-    }
-
-    public void setServiceName(String serviceName) {
-        this.serviceName = serviceName;
-    }
-
-    public String getServiceInstanceName() {
-        return serviceInstanceName;
-    }
-
-    public void setServiceInstanceName(String serviceInstanceName) {
-        this.serviceInstanceName = serviceInstanceName;
-    }
-
     @Override
     public String toString() {
-        return "ServiceInstance [personaModelUUID=" + personaModelUUID + ", serviceUUID=" + serviceUUID
-            + ", serviceInstanceUUID=" + serviceInstanceUUID + ", widgetModelUUID=" + widgetModelUUID
+        return "ServiceInstance [personaModelUUID=" + personaModelUuid + ", serviceUUID=" + serviceUuid
+            + ", serviceInstanceUUID=" + serviceInstanceUuid + ", widgetModelUUID=" + widgetModelUuid
             + ", widgetModelVersion=" + widgetModelVersion + ", serviceName=" + serviceName
             + ", serviceInstanceName=" + serviceInstanceName + "]";
     }
@@ -126,12 +74,12 @@ public class ServiceInstance implements Serializable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((personaModelUUID == null) ? 0 : personaModelUUID.hashCode());
+        result = prime * result + ((personaModelUuid == null) ? 0 : personaModelUuid.hashCode());
         result = prime * result + ((serviceInstanceName == null) ? 0 : serviceInstanceName.hashCode());
-        result = prime * result + ((serviceInstanceUUID == null) ? 0 : serviceInstanceUUID.hashCode());
+        result = prime * result + ((serviceInstanceUuid == null) ? 0 : serviceInstanceUuid.hashCode());
         result = prime * result + ((serviceName == null) ? 0 : serviceName.hashCode());
-        result = prime * result + ((serviceUUID == null) ? 0 : serviceUUID.hashCode());
-        result = prime * result + ((widgetModelUUID == null) ? 0 : widgetModelUUID.hashCode());
+        result = prime * result + ((serviceUuid == null) ? 0 : serviceUuid.hashCode());
+        result = prime * result + ((widgetModelUuid == null) ? 0 : widgetModelUuid.hashCode());
         result = prime * result + ((widgetModelVersion == null) ? 0 : widgetModelVersion.hashCode());
         return result;
     }
@@ -148,11 +96,11 @@ public class ServiceInstance implements Serializable {
             return false;
         }
         ServiceInstance other = (ServiceInstance) obj;
-        if (personaModelUUID == null) {
-            if (other.personaModelUUID != null) {
+        if (personaModelUuid == null) {
+            if (other.personaModelUuid != null) {
                 return false;
             }
-        } else if (!personaModelUUID.equals(other.personaModelUUID)) {
+        } else if (!personaModelUuid.equals(other.personaModelUuid)) {
             return false;
         }
         if (serviceInstanceName == null) {
@@ -162,11 +110,11 @@ public class ServiceInstance implements Serializable {
         } else if (!serviceInstanceName.equals(other.serviceInstanceName)) {
             return false;
         }
-        if (serviceInstanceUUID == null) {
-            if (other.serviceInstanceUUID != null) {
+        if (serviceInstanceUuid == null) {
+            if (other.serviceInstanceUuid != null) {
                 return false;
             }
-        } else if (!serviceInstanceUUID.equals(other.serviceInstanceUUID)) {
+        } else if (!serviceInstanceUuid.equals(other.serviceInstanceUuid)) {
             return false;
         }
         if (serviceName == null) {
@@ -176,18 +124,18 @@ public class ServiceInstance implements Serializable {
         } else if (!serviceName.equals(other.serviceName)) {
             return false;
         }
-        if (serviceUUID == null) {
-            if (other.serviceUUID != null) {
+        if (serviceUuid == null) {
+            if (other.serviceUuid != null) {
                 return false;
             }
-        } else if (!serviceUUID.equals(other.serviceUUID)) {
+        } else if (!serviceUuid.equals(other.serviceUuid)) {
             return false;
         }
-        if (widgetModelUUID == null) {
-            if (other.widgetModelUUID != null) {
+        if (widgetModelUuid == null) {
+            if (other.widgetModelUuid != null) {
                 return false;
             }
-        } else if (!widgetModelUUID.equals(other.widgetModelUUID)) {
+        } else if (!widgetModelUuid.equals(other.widgetModelUuid)) {
             return false;
         }
         if (widgetModelVersion == null) {
