@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b45e2c73_52d5ea75",
+        "filename": "models-interactions/model-actors/actor.appc/src/main/java/org/onap/policy/controlloop/actor/appc/AppcActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-07-23T18:11:57Z",
+      "side": 1,
+      "message": "since the list is immutable, there\u0027s no need to make a copy of it here\n\nsame comment in other files",
+      "revId": "a7867864ddaa4e5908ee073b88296f335543a9e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa1b1e6_9a595a6a",
+        "filename": "models-interactions/model-actors/actor.so/src/test/java/org/onap/policy/controlloop/actor/so/SoActorServiceProviderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-07-23T18:11:57Z",
+      "side": 1,
+      "message": "since don\u0027t care about order, could use contains().  Another option would be something like:\n\n  assertEquals(\"[xxx, yyy]\", sp.operations().toString())\n\ncould do this in the other XxxTest classes, too - I don\u0027t think they currently check their list contents, other than checking its size",
+      "revId": "a7867864ddaa4e5908ee073b88296f335543a9e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "20735f9c_f30c869a",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/spi/Actor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-07-23T18:11:57Z",
+      "side": 1,
+      "message": "Should it throw some type of Exception if it fails to start?",
+      "revId": "a7867864ddaa4e5908ee073b88296f335543a9e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7007744c_2c64c99d",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/spi/ActorOperationCallback.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-07-23T18:11:57Z",
+      "side": 1,
+      "message": "maybe add a success/fail flag (or separate into two methods)",
+      "revId": "a7867864ddaa4e5908ee073b88296f335543a9e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b48be1c4_2d043c63",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/test/java/org/onap/policy/controlloop/actorserviceprovider/ActorServiceProviderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-07-23T18:11:57Z",
+      "side": 1,
+      "message": "what\u0027s the purpose of this class?  No need to test the Actor interface.",
+      "revId": "a7867864ddaa4e5908ee073b88296f335543a9e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09b3d0b8_c2b71665",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/test/java/org/onap/policy/controlloop/actorserviceprovider/DummyActor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-07-23T18:11:57Z",
+      "side": 1,
+      "message": "Is this class actually needed?",
+      "revId": "a7867864ddaa4e5908ee073b88296f335543a9e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
