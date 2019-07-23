@@ -47,11 +47,9 @@ public class ActorServiceProviderTest {
 
         assertEquals("DummyActor", dummyActor.actor());
 
-        assertEquals(2, dummyActor.recipes().size());
-        assertEquals(DOROTHY, dummyActor.recipes().get(0));
-        assertEquals("Wizard", dummyActor.recipes().get(1));
+        assertEquals(2, dummyActor.operations().size());
+        assertEquals(DOROTHY, dummyActor.operations().get(0));
+        assertEquals("Wizard", dummyActor.operations().get(1));
 
-        assertEquals(2, dummyActor.recipeTargets(DOROTHY).size());
-        assertEquals(2, dummyActor.recipePayloads(DOROTHY).size());
     }
 }

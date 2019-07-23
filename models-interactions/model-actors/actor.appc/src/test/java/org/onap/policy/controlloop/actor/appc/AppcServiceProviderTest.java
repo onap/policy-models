@@ -225,8 +225,6 @@ public class AppcServiceProviderTest {
         AppcActorServiceProvider sp = new AppcActorServiceProvider();
 
         assertEquals("APPC", sp.actor());
-        assertEquals(4, sp.recipes().size());
-        assertEquals("VM", sp.recipeTargets("Restart").get(0));
-        assertEquals(0, sp.recipePayloads("Restart").size());
+        assertEquals(4, sp.operations().size());
     }
 }

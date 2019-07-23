@@ -22,15 +22,14 @@
 package org.onap.policy.controlloop.actor.sdnr;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-
-import java.util.Collections;
 import java.util.List;
-
+import java.util.Map;
+import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.ControlLoopResponse;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
+import org.onap.policy.controlloop.actorserviceprovider.spi.ActorOperationCallback;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.sdnr.PciCommonHeader;
@@ -39,7 +38,6 @@ import org.onap.policy.sdnr.PciRequestWrapper;
 import org.onap.policy.sdnr.PciResponse;
 import org.onap.policy.sdnr.PciResponseCode;
 import org.onap.policy.sdnr.PciResponseWrapper;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -75,11 +73,7 @@ public class SdnrActorServiceProvider implements Actor {
     private static final String SDNR_REQUEST_PARAMS = "request-parameters";
     private static final String SDNR_CONFIG_PARAMS = "configuration-parameters";
 
-    private static final ImmutableList<String> recipes = ImmutableList.of(RECIPE_MODIFY);
-    private static final ImmutableMap<String, List<String>> targets = new ImmutableMap.Builder<String, List<String>>()
-            .put(RECIPE_MODIFY, ImmutableList.of(TARGET_VNF)).build();
-    private static final ImmutableMap<String, List<String>> payloads = new ImmutableMap.Builder<String, List<String>>()
-            .put(RECIPE_MODIFY, ImmutableList.of(SDNR_REQUEST_PARAMS, SDNR_CONFIG_PARAMS)).build();
+    private static final ImmutableList<String> operations = ImmutableList.of(RECIPE_MODIFY);
 
     @Override
     public String actor() {
@@ -87,19 +81,25 @@ public class SdnrActorServiceProvider implements Actor {
     }
 
     @Override
-    public List<String> recipes() {
-        return ImmutableList.copyOf(recipes);
+    public List<String> operations() {
+        return ImmutableList.copyOf(operations);
     }
 
     @Override
-    public List<String> recipeTargets(String recipe) {
-        return ImmutableList.copyOf(targets.getOrDefault(recipe, Collections.emptyList()));
+    public ControlLoopOperation startOperation(String operation, AaiCqResponse aaiCqResponse, Map<String, Object> payload,
+            String targetEntity, ActorOperationCallback callback) {
+        return null;
     }
 
     @Override
-    public List<String> recipePayloads(String recipe) {
-        return ImmutableList.copyOf(payloads.getOrDefault(recipe, Collections.emptyList()));
+    public void cancelOperation(ControlLoopOperation operation) {
     }
+
+    /**
+    *
+    * Static Methods below retained until Frankfurt
+    *
+    */
 
     /**
      * Constructs an SDNR request conforming to the pci API. The actual request is

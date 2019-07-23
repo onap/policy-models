@@ -116,10 +116,8 @@ public class VfcActorServiceProviderTest {
         VfcActorServiceProvider sp = new VfcActorServiceProvider();
 
         assertEquals("VFC", sp.actor());
-        assertEquals(1, sp.recipes().size());
-        assertEquals(RESTART, sp.recipes().get(0));
-        assertEquals("VM", sp.recipeTargets(RESTART).get(0));
-        assertEquals(0, sp.recipePayloads(RESTART).size());
+        assertEquals(1, sp.operations().size());
+        assertEquals(RESTART, sp.operations().get(0));
     }
 
     @Test

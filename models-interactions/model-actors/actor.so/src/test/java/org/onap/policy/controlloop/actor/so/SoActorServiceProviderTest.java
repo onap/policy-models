@@ -184,12 +184,9 @@ public class SoActorServiceProviderTest {
         SoActorServiceProvider sp = new SoActorServiceProvider();
 
         assertEquals("SO", sp.actor());
-        assertEquals(2, sp.recipes().size());
-        assertEquals(VF_MODULE_CREATE, sp.recipes().get(0));
-        assertEquals(VF_MODULE_DELETE, sp.recipes().get(1));
-        assertEquals(0, sp.recipePayloads(VF_MODULE_CREATE).size());
-        assertEquals(0, sp.recipeTargets("unknown recipe").size());
-        assertEquals(1, sp.recipeTargets(VF_MODULE_CREATE).size());
+        assertEquals(2, sp.operations().size());
+        assertEquals(VF_MODULE_CREATE, sp.operations().get(0));
+        assertEquals(VF_MODULE_DELETE, sp.operations().get(1));
     }
 
     @Test

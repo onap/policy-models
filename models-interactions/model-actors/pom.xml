@@ -40,15 +40,31 @@
     <module>actor.so</module>
     <module>actor.test</module>
   </modules>
+  
   <dependencies>
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
     </dependency>
+    
     <dependency>
       <groupId>org.onap.policy.models.policy-models-interactions</groupId>
       <artifactId>model-yaml</artifactId>
       <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
+      <artifactId>aai</artifactId>
+      <version>${project.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
+      <artifactId>events</artifactId>
+      <version>${project.version}</version>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
 </project>

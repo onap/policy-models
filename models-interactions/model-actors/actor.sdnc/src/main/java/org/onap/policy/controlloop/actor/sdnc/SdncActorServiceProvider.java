@@ -23,13 +23,14 @@
 package org.onap.policy.controlloop.actor.sdnc;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
+import org.onap.policy.controlloop.actorserviceprovider.spi.ActorOperationCallback;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.sdnc.SdncHealNetworkInfo;
 import org.onap.policy.sdnc.SdncHealRequest;
@@ -62,8 +63,6 @@ public class SdncActorServiceProvider implements Actor {
     private static final String RECIPE_BW_ON_DEMAND = "BandwidthOnDemand";
 
     private static final ImmutableList<String> recipes = ImmutableList.of(RECIPE_REROUTE);
-    private static final ImmutableMap<String, List<String>> targets =
-            new ImmutableMap.Builder<String, List<String>>().put(RECIPE_REROUTE, ImmutableList.of(TARGET_VM)).build();
 
     @Override
     public String actor() {
@@ -71,19 +70,25 @@ public class SdncActorServiceProvider implements Actor {
     }
 
     @Override
-    public List<String> recipes() {
+    public List<String> operations() {
         return ImmutableList.copyOf(recipes);
     }
 
     @Override
-    public List<String> recipeTargets(String recipe) {
-        return ImmutableList.copyOf(targets.getOrDefault(recipe, Collections.emptyList()));
+    public ControlLoopOperation startOperation(String operation, AaiCqResponse aaiCqResponse,
+            Map<String, Object> payload, String targetEntity, ActorOperationCallback callback) {
+        return null;
     }
 
     @Override
-    public List<String> recipePayloads(String recipe) {
-        return Collections.emptyList();
+    public void cancelOperation(ControlLoopOperation operation) {
     }
+
+    /**
+    *
+    * Methods below retained until Frankfurt (Notice these are NOT static)
+    *
+    */
 
     /**
      * Construct a request.
@@ -102,7 +107,7 @@ public class SdncActorServiceProvider implements Actor {
                 logger.info("Construct request for receipe {}" , RECIPE_BW_ON_DEMAND);
                 return constructBwOnDemandRequest(onset);
             default:
-                logger.info("Unsupported recipe {} " + policy.getRecipe());
+                logger.info("Unsupported recipe {} ", policy.getRecipe());
                 return null;
         }
     }
