@@ -22,11 +22,10 @@
 package org.onap.policy.controlloop.actor.appc;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.appc.CommonHeader;
 import org.onap.policy.appc.Request;
 import org.onap.policy.common.utils.coder.CoderException;
@@ -34,6 +33,7 @@ import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
+import org.onap.policy.controlloop.actorserviceprovider.spi.ActorOperationCallback;
 import org.onap.policy.controlloop.policy.Policy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,23 +44,14 @@ public class AppcActorServiceProvider implements Actor {
 
     private static final StandardCoder coder = new StandardCoder();
 
-    // Strings for targets
-    private static final String TARGET_VM = "VM";
-    private static final String TARGET_VNF = "VNF";
-
-    // Strings for recipes
+    // Strings for operations
     private static final String RECIPE_RESTART = "Restart";
     private static final String RECIPE_REBUILD = "Rebuild";
     private static final String RECIPE_MIGRATE = "Migrate";
     private static final String RECIPE_MODIFY = "ModifyConfig";
 
-    private static final ImmutableList<String> recipes =
+    private static final ImmutableList<String> operations =
             ImmutableList.of(RECIPE_RESTART, RECIPE_REBUILD, RECIPE_MIGRATE, RECIPE_MODIFY);
-    private static final ImmutableMap<String, List<String>> targets = new ImmutableMap.Builder<String, List<String>>()
-            .put(RECIPE_RESTART, ImmutableList.of(TARGET_VM)).put(RECIPE_REBUILD, ImmutableList.of(TARGET_VM))
-            .put(RECIPE_MIGRATE, ImmutableList.of(TARGET_VM)).put(RECIPE_MODIFY, ImmutableList.of(TARGET_VNF)).build();
-    private static final ImmutableMap<String, List<String>> payloads = new ImmutableMap.Builder<String, List<String>>()
-            .put(RECIPE_MODIFY, ImmutableList.of("generic-vnf.vnf-id")).build();
 
     @Override
     public String actor() {
@@ -68,19 +59,23 @@ public class AppcActorServiceProvider implements Actor {
     }
 
     @Override
-    public List<String> recipes() {
-        return ImmutableList.copyOf(recipes);
+    public List<String> operations() {
+        return ImmutableList.copyOf(operations);
     }
 
     @Override
-    public List<String> recipeTargets(String recipe) {
-        return ImmutableList.copyOf(targets.getOrDefault(recipe, Collections.emptyList()));
+    public ControlLoopOperation startOperation(String operation, AaiCqResponse aaiCqResponse,
+            Map<String, Object> payload, String targetEntity, ActorOperationCallback callback) {
+        return null;
     }
 
     @Override
-    public List<String> recipePayloads(String recipe) {
-        return ImmutableList.copyOf(payloads.getOrDefault(recipe, Collections.emptyList()));
+    public void cancelOperation(ControlLoopOperation operation) {
     }
+
+    /**
+     * Static Methods below retained until Frankfurt.
+     */
 
     /**
      * Constructs an APPC request conforming to the legacy API. The legacy API will be deprecated in

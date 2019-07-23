@@ -165,8 +165,6 @@ public class SdnrActorServiceProviderTest {
         SdnrActorServiceProvider sp = new SdnrActorServiceProvider();
 
         assertEquals("SDNR", sp.actor());
-        assertEquals(1, sp.recipes().size());
-        assertEquals("VNF", sp.recipeTargets(MODIFY_CONFIG).get(0));
-        assertEquals(2, sp.recipePayloads(MODIFY_CONFIG).size());
+        assertEquals(1, sp.operations().size());
     }
 }

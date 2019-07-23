@@ -327,9 +327,7 @@ public class AppcLcmActorServiceProviderTest {
         AppcLcmActorServiceProvider sp = new AppcLcmActorServiceProvider();
 
         assertEquals("APPC", sp.actor());
-        assertEquals(4, sp.recipes().size());
-        assertEquals("VM", sp.recipeTargets(RECIPE_RESTART).get(0));
-        assertEquals("vm-id", sp.recipePayloads(RECIPE_RESTART).get(0));
+        assertEquals(4, sp.operations().size());
     }
 
     @Test

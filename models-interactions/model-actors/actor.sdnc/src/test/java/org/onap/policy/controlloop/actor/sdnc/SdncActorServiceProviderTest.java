@@ -99,9 +99,7 @@ public class SdncActorServiceProviderTest {
         SdncActorServiceProvider sp = new SdncActorServiceProvider();
 
         assertEquals("SDNC", sp.actor());
-        assertEquals(1, sp.recipes().size());
-        assertEquals(REROUTE, sp.recipes().get(0));
-        assertEquals("VM", sp.recipeTargets(REROUTE).get(0));
-        assertEquals(0, sp.recipePayloads(REROUTE).size());
+        assertEquals(1, sp.operations().size());
+        assertEquals(REROUTE, sp.operations().get(0));
     }
 }

@@ -23,14 +23,13 @@
 package org.onap.policy.controlloop.actor.appclcm;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import java.util.AbstractMap;
 import java.util.AbstractMap.SimpleEntry;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.aai.AaiManager;
 import org.onap.policy.aai.AaiNqInstanceFilters;
 import org.onap.policy.aai.AaiNqInventoryResponseItem;
@@ -48,6 +47,7 @@ import org.onap.policy.appclcm.LcmResponseWrapper;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
+import org.onap.policy.controlloop.actorserviceprovider.spi.ActorOperationCallback;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.rest.RestManager;
@@ -75,14 +75,8 @@ public class AppcLcmActorServiceProvider implements Actor {
     private static final String APPC_REQUEST_PARAMS = "request-parameters";
     private static final String APPC_CONFIG_PARAMS = "configuration-parameters";
 
-    private static final ImmutableList<String> recipes =
+    private static final ImmutableList<String> operations =
             ImmutableList.of(RECIPE_RESTART, RECIPE_REBUILD, RECIPE_MIGRATE, RECIPE_MODIFY);
-    private static final ImmutableMap<String, List<String>> targets = new ImmutableMap.Builder<String, List<String>>()
-            .put(RECIPE_RESTART, ImmutableList.of(TARGET_VM)).put(RECIPE_REBUILD, ImmutableList.of(TARGET_VM))
-            .put(RECIPE_MIGRATE, ImmutableList.of(TARGET_VM)).put(RECIPE_MODIFY, ImmutableList.of(TARGET_VNF)).build();
-    private static final ImmutableMap<String, List<String>> payloads =
-            new ImmutableMap.Builder<String, List<String>>().put(RECIPE_RESTART, ImmutableList.of(APPC_VM_ID))
-                    .put(RECIPE_MODIFY, ImmutableList.of(APPC_REQUEST_PARAMS, APPC_CONFIG_PARAMS)).build();
 
     @Override
     public String actor() {
@@ -90,19 +84,23 @@ public class AppcLcmActorServiceProvider implements Actor {
     }
 
     @Override
-    public List<String> recipes() {
-        return ImmutableList.copyOf(recipes);
+    public List<String> operations() {
+        return ImmutableList.copyOf(operations);
     }
 
     @Override
-    public List<String> recipeTargets(String recipe) {
-        return ImmutableList.copyOf(targets.getOrDefault(recipe, Collections.emptyList()));
+    public ControlLoopOperation startOperation(String operation, AaiCqResponse aaiCqResponse,
+            Map<String, Object> payload, String targetEntity, ActorOperationCallback callback) {
+        return null;
     }
 
     @Override
-    public List<String> recipePayloads(String recipe) {
-        return ImmutableList.copyOf(payloads.getOrDefault(recipe, Collections.emptyList()));
+    public void cancelOperation(ControlLoopOperation operation) {
     }
+
+    /**
+    * Static Methods below retained until Frankfurt.
+    */
 
     /**
      * This method recursively traverses the A&AI named query response to find the generic-vnf
@@ -338,4 +336,5 @@ public class AppcLcmActorServiceProvider implements Actor {
         }
         return new AbstractMap.SimpleEntry<>(result, message);
     }
+
 }

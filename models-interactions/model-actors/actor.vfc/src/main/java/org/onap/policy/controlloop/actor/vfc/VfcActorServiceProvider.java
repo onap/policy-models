@@ -21,9 +21,8 @@
 package org.onap.policy.controlloop.actor.vfc;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.aai.AaiGetVnfResponse;
@@ -31,6 +30,7 @@ import org.onap.policy.aai.AaiManager;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
+import org.onap.policy.controlloop.actorserviceprovider.spi.ActorOperationCallback;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.rest.RestManager;
 import org.onap.policy.vfc.VfcHealActionVmInfo;
@@ -54,9 +54,7 @@ public class VfcActorServiceProvider implements Actor {
     // Strings for recipes
     private static final String RECIPE_RESTART = "Restart";
 
-    private static final ImmutableList<String> recipes = ImmutableList.of(RECIPE_RESTART);
-    private static final ImmutableMap<String, List<String>> targets =
-            new ImmutableMap.Builder<String, List<String>>().put(RECIPE_RESTART, ImmutableList.of(TARGET_VM)).build();
+    private static final ImmutableList<String> operations = ImmutableList.of(RECIPE_RESTART);
 
     @Override
     public String actor() {
@@ -64,19 +62,23 @@ public class VfcActorServiceProvider implements Actor {
     }
 
     @Override
-    public List<String> recipes() {
-        return ImmutableList.copyOf(recipes);
+    public List<String> operations() {
+        return ImmutableList.copyOf(operations);
     }
 
     @Override
-    public List<String> recipeTargets(String recipe) {
-        return ImmutableList.copyOf(targets.getOrDefault(recipe, Collections.emptyList()));
+    public ControlLoopOperation startOperation(String operation, AaiCqResponse aaiCqResponse,
+            Map<String, Object> payload, String targetEntity, ActorOperationCallback callback) {
+        return null;
     }
 
     @Override
-    public List<String> recipePayloads(String recipe) {
-        return Collections.emptyList();
+    public void cancelOperation(ControlLoopOperation operation) {
     }
+
+    /**
+    * Static Methods below retained until Frankfurt.
+    */
 
     /**
      * Construct a request.

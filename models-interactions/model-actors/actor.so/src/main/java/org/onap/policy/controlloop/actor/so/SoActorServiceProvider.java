@@ -22,10 +22,8 @@
 package org.onap.policy.controlloop.actor.so;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.onap.aai.domain.yang.CloudRegion;
@@ -39,6 +37,7 @@ import org.onap.policy.aai.AaiNqResponseWrapper;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
+import org.onap.policy.controlloop.actorserviceprovider.spi.ActorOperationCallback;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.so.SoCloudConfiguration;
 import org.onap.policy.so.SoManager;
@@ -70,11 +69,8 @@ public class SoActorServiceProvider implements Actor {
     private static final String RECIPE_VF_MODULE_CREATE = "VF Module Create";
     private static final String RECIPE_VF_MODULE_DELETE = "VF Module Delete";
 
-    private static final ImmutableList<String> recipes =
+    private static final ImmutableList<String> operations =
             ImmutableList.of(RECIPE_VF_MODULE_CREATE, RECIPE_VF_MODULE_DELETE);
-    private static final ImmutableMap<String, List<String>> targets =
-            new ImmutableMap.Builder<String, List<String>>().put(RECIPE_VF_MODULE_CREATE, ImmutableList.of(TARGET_VFC))
-                    .put(RECIPE_VF_MODULE_DELETE, ImmutableList.of(TARGET_VFC)).build();
 
     // name of request parameters within policy payload
     public static final String REQ_PARAM_NM = "requestParameters";
@@ -102,19 +98,23 @@ public class SoActorServiceProvider implements Actor {
     }
 
     @Override
-    public List<String> recipes() {
-        return ImmutableList.copyOf(recipes);
+    public List<String> operations() {
+        return ImmutableList.copyOf(operations);
     }
 
     @Override
-    public List<String> recipeTargets(String recipe) {
-        return ImmutableList.copyOf(targets.getOrDefault(recipe, Collections.emptyList()));
+    public ControlLoopOperation startOperation(String operation, AaiCqResponse aaiCqResponse,
+            Map<String, Object> payload, String targetEntity, ActorOperationCallback callback) {
+        return null;
     }
 
     @Override
-    public List<String> recipePayloads(String recipe) {
-        return Collections.emptyList();
+    public void cancelOperation(ControlLoopOperation operation) {
     }
+
+    /**
+    * Methods below retained until Frankfurt (Notice most of these are NOT static, few are).
+    */
 
     /**
      * Constructs a SO request conforming to the lcm API. The actual request is constructed and then placed in a wrapper
@@ -128,7 +128,7 @@ public class SoActorServiceProvider implements Actor {
      */
     public SoRequest constructRequest(VirtualControlLoopEvent onset, ControlLoopOperation operation, Policy policy,
             AaiNqResponseWrapper aaiResponseWrapper) {
-        if (!SO_ACTOR.equals(policy.getActor()) || !recipes().contains(policy.getRecipe())) {
+        if (!SO_ACTOR.equals(policy.getActor()) || !operations().contains(policy.getRecipe())) {
             return null;
         }
 
@@ -471,7 +471,7 @@ public class SoActorServiceProvider implements Actor {
      */
     public SoRequest constructRequestCq(VirtualControlLoopEvent onset, ControlLoopOperation operation, Policy policy,
             AaiCqResponse aaiCqResponse) {
-        if (!SO_ACTOR.equals(policy.getActor()) || !recipes().contains(policy.getRecipe())) {
+        if (!SO_ACTOR.equals(policy.getActor()) || !operations().contains(policy.getRecipe())) {
             return null;
         }
 
@@ -677,5 +677,4 @@ public class SoActorServiceProvider implements Actor {
         cloudConfiguration.setLcpCloudRegionId(cloudRegionItem.getCloudRegionId());
         return cloudConfiguration;
     }
-
 }

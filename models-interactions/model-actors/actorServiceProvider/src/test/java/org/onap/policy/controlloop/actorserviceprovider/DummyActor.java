@@ -21,41 +21,41 @@
 
 package org.onap.policy.controlloop.actorserviceprovider;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-
+import java.util.Map;
+import org.onap.policy.aai.AaiCqResponse;
+import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
+import org.onap.policy.controlloop.actorserviceprovider.spi.ActorOperationCallback;
 
 public class DummyActor implements Actor {
+
+    private final List<String> operations = Arrays.asList("Dorothy", "Wizard");
+
     @Override
     public String actor() {
         return this.getClass().getSimpleName();
     }
 
     @Override
-    public List<String> recipes() {
-        List<String> recipeList = new ArrayList<>();
-        recipeList.add("Dorothy");
-        recipeList.add("Wizard");
-
-        return recipeList;
+    public List<String> operations() {
+        return operations;
     }
 
     @Override
-    public List<String> recipeTargets(String recipe) {
-        List<String> recipeTargetList = new ArrayList<>();
-        recipeTargetList.add("Wicked Witch");
-        recipeTargetList.add("Wizard of Oz");
-
-        return recipeTargetList;
+    public ControlLoopOperation startOperation(String operation, AaiCqResponse aaiCqResponse,
+            Map<String, Object> payload, String targetEntity, ActorOperationCallback callback) {
+        if (! this.operations.contains(operation)) {
+            throw new UnsupportedOperationException();
+        }
+        ControlLoopOperation clOperation = new ControlLoopOperation();
+        clOperation.setOperation(operation);
+        return clOperation;
     }
 
     @Override
-    public List<String> recipePayloads(String recipe) {
-        List<String> recipePayloadList = new ArrayList<>();
-        recipePayloadList.add("Dorothy");
-        recipePayloadList.add("Toto");
+    public void cancelOperation(ControlLoopOperation operation) {
 
-        return recipePayloadList;
     }
 }
