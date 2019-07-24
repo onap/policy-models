@@ -36,6 +36,74 @@
     },
     {
       "key": {
+        "uuid": "ca7f7174_89daab3a",
+        "filename": "models-interactions/model-actors/actor.vfc/src/main/java/org/onap/policy/controlloop/actor/vfc/VfcActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-07-24T17:00:22Z",
+      "side": 1,
+      "message": "Same comment that Jim pointed out before on this, since operations ref is final, and list immutable",
+      "revId": "a7867864ddaa4e5908ee073b88296f335543a9e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdbbcb5a_0fcd6636",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/spi/Actor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-07-24T17:00:22Z",
+      "side": 1,
+      "message": "Should available actors be an enum for static typing checking or not for being more flexible?",
+      "revId": "a7867864ddaa4e5908ee073b88296f335543a9e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf854df4_af86d360",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/spi/Actor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-07-24T17:00:22Z",
+      "side": 1,
+      "message": "List or Collection?",
+      "revId": "a7867864ddaa4e5908ee073b88296f335543a9e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a155bee_22f1813a",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/spi/Actor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-07-24T17:00:22Z",
+      "side": 1,
+      "message": "should describe in javadoc on contract how to report error to the caller, ie. null ControlLoopOperation object, checked expcetion, additional info in the ControlLoopOperation object, ..",
+      "revId": "a7867864ddaa4e5908ee073b88296f335543a9e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "20735f9c_f30c869a",
         "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/spi/Actor.java",
         "patchSetId": 2
@@ -47,6 +115,57 @@
       "writtenOn": "2019-07-23T18:11:57Z",
       "side": 1,
       "message": "Should it throw some type of Exception if it fails to start?",
+      "revId": "a7867864ddaa4e5908ee073b88296f335543a9e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2b7a6cb_7f0e9d03",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/spi/Actor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-07-24T17:00:22Z",
+      "side": 1,
+      "message": "I suppose there is not time windows for the actors to complete the operations, correct?  and it is not desired, correct?  Any \"timing\" responsability is assumed to be on the \"client\" code to keep track of time limits.",
+      "revId": "a7867864ddaa4e5908ee073b88296f335543a9e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c00ec21f_01644da7",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/spi/Actor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-07-24T17:00:22Z",
+      "side": 1,
+      "message": "same q, checked exception or return indicating success or failure of the cancellation request",
+      "revId": "a7867864ddaa4e5908ee073b88296f335543a9e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82036905_acdf6917",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/spi/ActorOperationCallback.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-07-24T17:00:22Z",
+      "side": 1,
+      "message": "should there be an operationError() or that is somehow encoded in operationFinished() ?",
       "revId": "a7867864ddaa4e5908ee073b88296f335543a9e7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
