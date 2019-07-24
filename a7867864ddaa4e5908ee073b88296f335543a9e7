@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "03a9092d_0463ea0a",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/spi/Actor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-07-24T17:12:22Z",
+      "side": 1,
+      "message": "I\u0027d opt for flexibility.  Maybe the start-up code could verify that no two actors have the same name?",
+      "parentUuid": "bdbbcb5a_0fcd6636",
+      "revId": "a7867864ddaa4e5908ee073b88296f335543a9e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf854df4_af86d360",
         "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/spi/Actor.java",
         "patchSetId": 2
@@ -81,6 +99,24 @@
       "writtenOn": "2019-07-24T17:00:22Z",
       "side": 1,
       "message": "List or Collection?",
+      "revId": "a7867864ddaa4e5908ee073b88296f335543a9e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b0b00c7_1ad9409d",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/spi/Actor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-07-24T17:12:22Z",
+      "side": 1,
+      "message": "or Set?",
+      "parentUuid": "cf854df4_af86d360",
       "revId": "a7867864ddaa4e5908ee073b88296f335543a9e7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
