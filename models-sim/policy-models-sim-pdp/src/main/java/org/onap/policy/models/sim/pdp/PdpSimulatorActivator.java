@@ -22,7 +22,6 @@
 package org.onap.policy.models.sim.pdp;
 
 import java.util.List;
-import java.util.Properties;
 import java.util.Random;
 import lombok.Getter;
 import lombok.Setter;
@@ -77,13 +76,13 @@ public class PdpSimulatorActivator {
      * Instantiate the activator for onappf PDP-A.
      *
      * @param pdpSimulatorParameterGroup the parameters for the onappf PDP-A service
-     * @param topicProperties properties used to configure the topics
      */
-    public PdpSimulatorActivator(final PdpSimulatorParameterGroup pdpSimulatorParameterGroup,
-            final Properties topicProperties) {
+    public PdpSimulatorActivator(final PdpSimulatorParameterGroup pdpSimulatorParameterGroup) {
 
-        topicSinks = TopicEndpointManager.getManager().addTopicSinks(topicProperties);
-        topicSources = TopicEndpointManager.getManager().addTopicSources(topicProperties);
+        topicSinks = TopicEndpointManager.getManager()
+                        .addTopicSinks(pdpSimulatorParameterGroup.getTopicParameterGroup().getTopicSinks());
+        topicSources = TopicEndpointManager.getManager()
+                        .addTopicSources(pdpSimulatorParameterGroup.getTopicParameterGroup().getTopicSources());
 
         final int random = RANDOM.nextInt();
         final String instanceId = "pdp_" + random;

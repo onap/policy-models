@@ -22,6 +22,7 @@
 package org.onap.policy.controlloop.actor.appc;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -168,6 +169,7 @@ public class AppcServiceProviderTest {
         assertTrue(jsonRequest.contains(KEY2));
         assertTrue(jsonRequest.contains(SUBKEY));
         assertTrue(jsonRequest.contains(SUBVALUE));
+        assertFalse(jsonRequest.contains(SUBVALUE + ".0"));
 
         Response appcResponse = new Response(appcRequest);
         appcResponse.getStatus().setCode(ResponseCode.SUCCESS.getValue());

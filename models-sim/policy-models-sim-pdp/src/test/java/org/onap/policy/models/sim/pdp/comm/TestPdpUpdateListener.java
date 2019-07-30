@@ -31,12 +31,10 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
-import org.onap.policy.common.endpoints.utils.ParameterUtils;
 import org.onap.policy.common.utils.services.Registry;
 import org.onap.policy.models.pdp.concepts.PdpStatus;
 import org.onap.policy.models.pdp.concepts.PdpUpdate;
@@ -82,10 +80,7 @@ public class TestPdpUpdateListener {
         // Read the parameters
         pdpSimulatorParameterGroup = new PdpSimulatorParameterHandler().getParameters(arguments);
 
-        // Read the properties
-        final Properties topicProperties =
-            ParameterUtils.getTopicProperties(pdpSimulatorParameterGroup.getTopicParameterGroup());
-        activator = new PdpSimulatorActivator(pdpSimulatorParameterGroup, topicProperties);
+        activator = new PdpSimulatorActivator(pdpSimulatorParameterGroup);
         Registry.register(PdpSimulatorConstants.REG_PDP_SIMULATOR_ACTIVATOR, activator);
         activator.initialize();
         pdpUpdateMessageListener = new PdpUpdateListener();
