@@ -22,8 +22,6 @@
 package org.onap.policy.models.sim.pdp;
 
 import java.util.Arrays;
-import java.util.Properties;
-import org.onap.policy.common.endpoints.utils.ParameterUtils;
 import org.onap.policy.common.utils.services.Registry;
 import org.onap.policy.models.sim.pdp.exception.PdpSimulatorException;
 import org.onap.policy.models.sim.pdp.parameters.PdpSimulatorParameterGroup;
@@ -79,11 +77,8 @@ public class PdpSimulatorMain {
             return;
         }
 
-        // Read the properties
-        Properties topicProperties = ParameterUtils.getTopicProperties(parameterGroup.getTopicParameterGroup());
-
         // create the activator
-        activator = new PdpSimulatorActivator(parameterGroup, topicProperties);
+        activator = new PdpSimulatorActivator(parameterGroup);
         Registry.register(PdpSimulatorConstants.REG_PDP_SIMULATOR_ACTIVATOR, activator);
         // Start the activator
         try {

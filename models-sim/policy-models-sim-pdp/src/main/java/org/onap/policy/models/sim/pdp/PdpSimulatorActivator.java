@@ -22,10 +22,11 @@
 package org.onap.policy.models.sim.pdp;
 
 import java.util.List;
-import java.util.Properties;
 import java.util.Random;
+import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.Setter;
+import org.onap.policy.common.endpoints.event.comm.Topic;
 import org.onap.policy.common.endpoints.event.comm.TopicEndpointManager;
 import org.onap.policy.common.endpoints.event.comm.TopicSink;
 import org.onap.policy.common.endpoints.event.comm.TopicSource;
@@ -77,13 +78,16 @@ public class PdpSimulatorActivator {
      * Instantiate the activator for onappf PDP-A.
      *
      * @param pdpSimulatorParameterGroup the parameters for the onappf PDP-A service
-     * @param topicProperties properties used to configure the topics
      */
-    public PdpSimulatorActivator(final PdpSimulatorParameterGroup pdpSimulatorParameterGroup,
-            final Properties topicProperties) {
+    public PdpSimulatorActivator(final PdpSimulatorParameterGroup pdpSimulatorParameterGroup) {
 
-        topicSinks = TopicEndpointManager.getManager().addTopicSinks(topicProperties);
-        topicSources = TopicEndpointManager.getManager().addTopicSources(topicProperties);
+        List<Topic> topics = TopicEndpointManager.getManager()
+                        .addTopics(pdpSimulatorParameterGroup.getTopicParameterGroup());
+
+        topicSinks = topics.stream().filter(topic -> topic instanceof TopicSink).map(topic -> (TopicSink) topic)
+                        .collect(Collectors.toList());
+        topicSources = topics.stream().filter(topic -> topic instanceof TopicSource).map(topic -> (TopicSource) topic)
+                        .collect(Collectors.toList());
 
         final int random = RANDOM.nextInt();
         final String instanceId = "pdp_" + random;
