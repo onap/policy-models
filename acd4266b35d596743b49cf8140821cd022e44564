@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "974611a9_5d37f6bc",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaPolicyType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-07-31T10:15:54Z",
+      "side": 1,
+      "message": "We can\u0027t add these to the generic ToscaPolicyType class.",
+      "range": {
+        "startLine": 45,
+        "startChar": 4,
+        "endLine": 56,
+        "endChar": 64
+      },
+      "revId": "acd4266b35d596743b49cf8140821cd022e44564",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
