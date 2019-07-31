@@ -22,11 +22,18 @@
 package org.onap.policy.simulators;
 
 import java.io.IOException;
-
+import java.util.Properties;
 import org.onap.policy.common.endpoints.http.server.HttpServletServer;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
+import org.onap.policy.common.endpoints.properties.PolicyEndPointProperties;
 import org.onap.policy.common.gson.GsonMessageBodyHandler;
+import org.onap.policy.common.utils.coder.CoderException;
+import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.network.NetworkUtil;
+import org.onap.policy.common.utils.resources.ResourceUtils;
+import org.onap.policy.models.sim.dmaap.parameters.DmaapSimParameterGroup;
+import org.onap.policy.models.sim.dmaap.provider.DmaapSimProvider;
+import org.onap.policy.models.sim.dmaap.rest.DmaapSimRestServer;
 
 public class Util {
     public static final String AAISIM_SERVER_NAME = "aaiSim";
@@ -40,6 +47,7 @@ public class Util {
     public static final int VFCSIM_SERVER_PORT = 6668;
     public static final int GUARDSIM_SERVER_PORT = 6669;
     public static final int SDNCSIM_SERVER_PORT = 6670;
+    public static final int DMAAPSIM_SERVER_PORT = 3904;
 
     private static final String CANNOT_CONNECT = "cannot connect to port ";
     private static final String LOCALHOST = "localhost";
@@ -135,6 +143,36 @@ public class Util {
         testServer.addServletClass("/*", GuardSimulatorJaxRs.class.getName());
         testServer.waitedStart(5000);
         if (!NetworkUtil.isTcpPortOpen(LOCALHOST, testServer.getPort(), 5, 10000L)) {
+            throw new IllegalStateException(CANNOT_CONNECT + testServer.getPort());
+        }
+        return testServer;
+    }
+
+    /**
+     * Build a DMaaP simulator.
+     *
+     * @return the simulator
+     * @throws InterruptedException if a thread is interrupted
+     * @throws IOException if an IO errror occurs
+     * @throws CoderException if the server parameters cannot be loaded
+     */
+    public static HttpServletServer buildDmaapSim() throws InterruptedException, IOException, CoderException {
+        String json = ResourceUtils.getResourceAsString("org/onap/policy/simulators/dmaap/DmaapParameters.json");
+        DmaapSimParameterGroup params = new StandardCoder().decode(json, DmaapSimParameterGroup.class);
+
+        DmaapSimProvider.setInstance(new DmaapSimProvider(params));
+
+        Properties props = DmaapSimRestServer.getServerProperties(params.getRestServerParameters());
+
+        final String svcpfx = PolicyEndPointProperties.PROPERTY_HTTP_SERVER_SERVICES + "."
+                        + params.getRestServerParameters().getName();
+        props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_PORT_SUFFIX,
+                        Integer.toString(DMAAPSIM_SERVER_PORT));
+        props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_MANAGED_SUFFIX, "true");
+
+        HttpServletServer testServer = HttpServletServerFactoryInstance.getServerFactory().build(props).get(0);
+        testServer.waitedStart(5000);
+        if (!NetworkUtil.isTcpPortOpen(LOCALHOST, testServer.getPort(), 50, 1000L)) {
             throw new IllegalStateException(CANNOT_CONNECT + testServer.getPort());
         }
         return testServer;

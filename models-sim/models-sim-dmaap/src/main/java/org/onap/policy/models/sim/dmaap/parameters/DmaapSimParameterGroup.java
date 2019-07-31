@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,8 +22,8 @@
 package org.onap.policy.models.sim.dmaap.parameters;
 
 import lombok.Getter;
-
 import org.onap.policy.common.parameters.ParameterGroupImpl;
+import org.onap.policy.common.parameters.annotations.Min;
 import org.onap.policy.common.parameters.annotations.NotBlank;
 import org.onap.policy.common.parameters.annotations.NotNull;
 
@@ -34,6 +35,14 @@ import org.onap.policy.common.parameters.annotations.NotNull;
 @Getter
 public class DmaapSimParameterGroup extends ParameterGroupImpl {
     private RestServerParameters restServerParameters;
+
+    /**
+     * Frequency, in milliseconds, with which to sweep the topics of idle consumers. On
+     * each sweep cycle, if a consumer group has had no new poll requests since the last
+     * sweep cycle, it is removed.
+     */
+    @Min(1)
+    private long topicSweepMs;
 
     /**
      * Create the DMaaP simulator parameter group.
