@@ -1,0 +1,21 @@
+{
+    "topicSources": [
+        {
+            "topic": "MY-TOPIC",
+            "servers": [
+                "localhost:${port}"
+            ],
+            "topicCommInfrastructure": "dmaap",
+            "fetchTimeout": 100
+        }
+    ],
+    "topicSinks": [
+        {
+            "topic": "MY-TOPIC",
+            "servers": [
+                "localhost:${port}"
+            ],
+            "topicCommInfrastructure": "dmaap"
+        }
+    ]
+}
