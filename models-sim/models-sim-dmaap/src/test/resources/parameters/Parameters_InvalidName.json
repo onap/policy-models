@@ -1,5 +1,6 @@
 {
     "name":" ",
+    "topicSweepMs": 1,
     "restServerParameters":{
         "host":"0.0.0.0",
         "port":6969,

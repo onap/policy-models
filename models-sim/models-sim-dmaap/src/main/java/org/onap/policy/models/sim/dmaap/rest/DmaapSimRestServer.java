@@ -21,28 +21,21 @@
 
 package org.onap.policy.models.sim.dmaap.rest;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-
-import org.onap.policy.common.capabilities.Startable;
 import org.onap.policy.common.endpoints.http.server.HttpServletServer;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.common.endpoints.properties.PolicyEndPointProperties;
+import org.onap.policy.common.gson.GsonMessageBodyHandler;
+import org.onap.policy.common.utils.services.ServiceManagerContainer;
 import org.onap.policy.models.sim.dmaap.parameters.RestServerParameters;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Class to manage life cycle of DMaaP Simulator rest server.
  */
-public class DmaapSimRestServer implements Startable {
+public class DmaapSimRestServer extends ServiceManagerContainer {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DmaapSimRestServer.class);
-
-    private List<HttpServletServer> servers = new ArrayList<>();
-
-    private RestServerParameters restServerParameters;
+    private final List<HttpServletServer> servers;
 
     /**
      * Constructor for instantiating DmaapSimRestServer.
@@ -50,91 +43,40 @@ public class DmaapSimRestServer implements Startable {
      * @param restServerParameters the rest server parameters
      */
     public DmaapSimRestServer(final RestServerParameters restServerParameters) {
-        this.restServerParameters = restServerParameters;
-    }
+        this.servers = HttpServletServerFactoryInstance.getServerFactory()
+                        .build(getServerProperties(restServerParameters));
 
-    /**
-     * {@inheritDoc}.
-     */
-    @Override
-    public boolean start() {
-        try {
-            servers = HttpServletServerFactoryInstance.getServerFactory().build(getServerProperties());
-            for (final HttpServletServer server : servers) {
-                server.start();
-            }
-        } catch (final Exception exp) {
-            LOGGER.error("Failed to start DMaaP simulator http server", exp);
-            return false;
+        for (HttpServletServer server : this.servers) {
+            addAction("REST " + server.getName(), server::start, server::stop);
         }
-        return true;
     }
 
     /**
-     * Creates the server properties object using restServerParameters.
+     * Creates a set of properties, suitable for building a REST server, from the
+     * parameters.
      *
-     * @return the properties object
+     * @param restServerParameters parameters from which to build the properties
+     * @return a set of properties representing the given parameters
      */
-    private Properties getServerProperties() {
+    public static Properties getServerProperties(RestServerParameters restServerParameters) {
         final Properties props = new Properties();
         props.setProperty(PolicyEndPointProperties.PROPERTY_HTTP_SERVER_SERVICES, restServerParameters.getName());
 
         final String svcpfx =
-                PolicyEndPointProperties.PROPERTY_HTTP_SERVER_SERVICES + "." + restServerParameters.getName();
+                        PolicyEndPointProperties.PROPERTY_HTTP_SERVER_SERVICES + "." + restServerParameters.getName();
 
         props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_HOST_SUFFIX, restServerParameters.getHost());
         props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_PORT_SUFFIX,
-                Integer.toString(restServerParameters.getPort()));
+                        Integer.toString(restServerParameters.getPort()));
         props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_REST_CLASSES_SUFFIX,
-                String.join(",", DmaapSimRestControllerV1.class.getName()));
+                        DmaapSimRestControllerV1.class.getName());
         props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_MANAGED_SUFFIX, "false");
-        props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_SWAGGER_SUFFIX, "true");
+        props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_SWAGGER_SUFFIX, "false");
+
         props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_SERIALIZATION_PROVIDER,
-                CambriaMessageBodyHandler.class.getName() + "," + JsonMessageBodyHandler.class.getName());
+                        String.join(",", CambriaMessageBodyHandler.class.getName(),
+                                        GsonMessageBodyHandler.class.getName(),
+                                        TextMessageBodyHandler.class.getName()));
         return props;
     }
-
-    /**
-     * {@inheritDoc}.
-     */
-    @Override
-    public boolean stop() {
-        for (final HttpServletServer server : servers) {
-            try {
-                server.stop();
-            } catch (final Exception exp) {
-                LOGGER.error("Failed to stop DMaaP simulator http server", exp);
-            }
-        }
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}.
-     */
-    @Override
-    public void shutdown() {
-        stop();
-    }
-
-    /**
-     * {@inheritDoc}.
-     */
-    @Override
-    public boolean isAlive() {
-        return !servers.isEmpty();
-    }
-
-    /**
-     * {@inheritDoc}.
-     */
-    @Override
-    public String toString() {
-        final StringBuilder builder = new StringBuilder();
-        builder.append("DmaapSimRestServer [servers=");
-        builder.append(servers);
-        builder.append("]");
-        return builder.toString();
-    }
-
 }

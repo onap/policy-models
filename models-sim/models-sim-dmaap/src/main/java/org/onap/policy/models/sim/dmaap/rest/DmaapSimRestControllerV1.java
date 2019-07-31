@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,24 +21,24 @@
 
 package org.onap.policy.models.sim.dmaap.rest;
 
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import io.swagger.annotations.Authorization;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
-
 import org.onap.policy.models.sim.dmaap.provider.DmaapSimProvider;
 
 /**
  * Class to provide REST endpoints for DMaaP simulator component statistics.
  */
 @Path("/events")
+@Produces(DmaapSimRestControllerV1.MEDIA_TYPE_APPLICATION_JSON)
 public class DmaapSimRestControllerV1 extends BaseRestControllerV1 {
+    public static final String MEDIA_TYPE_APPLICATION_JSON = "application/json";
 
     /**
      * Get a DMaaP message.
@@ -45,72 +46,33 @@ public class DmaapSimRestControllerV1 extends BaseRestControllerV1 {
      * @param topicName topic to get message from
      * @param consumerGroup consumer group that is getting the message
      * @param consumerId consumer ID that is getting the message
-     * @param timeout timeout for the message
+     * @param timeoutMs timeout for the message
      * @return the message
      */
     @GET
     @Path("{topicName}/{consumerGroup}/{consumerId}")
-    // @formatter:off
-    @ApiOperation(
-            value = "Get a DMaaP event on a topic",
-            notes = "Returns an event on a DMaaP topic",
-            response = Object.class,
-            authorizations =
-                @Authorization(value = AUTHORIZATION_TYPE)
-        )
-    @ApiResponses(
-            value = {
-                @ApiResponse(
-                        code = AUTHENTICATION_ERROR_CODE,
-                        message = AUTHENTICATION_ERROR_MESSAGE),
-                @ApiResponse(
-                        code = AUTHORIZATION_ERROR_CODE,
-                        message = AUTHORIZATION_ERROR_MESSAGE),
-                @ApiResponse(
-                        code = SERVER_ERROR_CODE,
-                        message = SERVER_ERROR_MESSAGE)
-            }
-        )
-    // @formatter:on
-    public Response getDmaaapMessage(@PathParam("topicName") final String topicName,
-            @PathParam("consumerGroup") final String consumerGroup, @PathParam("consumerId") final String consumerId,
-            @QueryParam("timeout") final int timeout) {
+    public Response getDmaapMessage(@PathParam("topicName") final String topicName,
+                    @PathParam("consumerGroup") final String consumerGroup,
+                    @PathParam("consumerId") final String consumerId,
+                    @QueryParam("limit") @DefaultValue("1") final int limit,
+                    @QueryParam("timeout") @DefaultValue("15000") final long timeoutMs) {
 
-        return new DmaapSimProvider().processDmaapMessageGet(topicName, consumerGroup, consumerId, timeout);
+        return DmaapSimProvider.getInstance().processDmaapMessageGet(topicName, consumerGroup, consumerId, limit,
+                        timeoutMs);
     }
 
     /**
      * Post a DMaaP message.
      *
-     * @param topicName topic to get message from415
+     * @param topicName topic to get message from
      * @return the response to the post
      */
     @POST
     @Path("{topicName}")
-    // @formatter:off
-    @ApiOperation(
-            value = "Post a DMaaP event on a topic",
-            notes = "Returns an event on a DMaaP topic",
-            response = Response.class,
-            authorizations =
-                @Authorization(value = AUTHORIZATION_TYPE)
-        )
-    @ApiResponses(
-            value = {
-                @ApiResponse(
-                        code = AUTHENTICATION_ERROR_CODE,
-                        message = AUTHENTICATION_ERROR_MESSAGE),
-                @ApiResponse(
-                        code = AUTHORIZATION_ERROR_CODE,
-                        message = AUTHORIZATION_ERROR_MESSAGE),
-                @ApiResponse(
-                        code = SERVER_ERROR_CODE,
-                        message = SERVER_ERROR_MESSAGE)
-            }
-        )
-    // @formatter:on
-    public Response postDmaaapMessage(@PathParam("topicName") final String topicName, final Object dmaapMessage) {
+    @Consumes(value = {CambriaMessageBodyHandler.MEDIA_TYPE_APPLICATION_CAMBRIA,
+                    TextMessageBodyHandler.MEDIA_TYPE_TEXT_PLAIN, MEDIA_TYPE_APPLICATION_JSON})
+    public Response postDmaapMessage(@PathParam("topicName") final String topicName, final Object dmaapMessage) {
 
-        return new DmaapSimProvider().processDmaapMessagePut(topicName, dmaapMessage);
+        return DmaapSimProvider.getInstance().processDmaapMessagePut(topicName, dmaapMessage);
     }
 }
