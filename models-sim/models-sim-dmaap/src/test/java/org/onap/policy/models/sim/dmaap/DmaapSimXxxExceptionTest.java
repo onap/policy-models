@@ -1,6 +1,6 @@
-/*
+/*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,15 +18,22 @@
 
 package org.onap.policy.models.sim.dmaap;
 
-/**
- * Names of various items contained in the Registry.
- */
-public class DmaapSimConstants {
+import static org.junit.Assert.assertEquals;
 
-    // Registry keys
-    public static final String REG_DMAAP_SIM_ACTIVATOR = "object:activator/dmaap-sim";
+import org.junit.Test;
+import org.onap.policy.common.utils.test.ExceptionsTester;
+import org.onap.policy.models.sim.dmaap.DmaapSimException;
+import org.onap.policy.models.sim.dmaap.DmaapSimRuntimeException;
 
-    private DmaapSimConstants() {
-        super();
+public class DmaapSimXxxExceptionTest {
+
+    @Test
+    public void testDmaapSimException() {
+        assertEquals(3, new ExceptionsTester().test(DmaapSimException.class));
+    }
+
+    @Test
+    public void testDmaapSimRuntimeException() {
+        assertEquals(3, new ExceptionsTester().test(DmaapSimRuntimeException.class));
     }
 }
