@@ -41,6 +41,19 @@ import lombok.NonNull;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 public class ToscaPolicyType extends ToscaEntity implements Comparable<ToscaPolicyType> {
+
+    public static final String TOSCA_POLICY_TYPE = "type";
+    public static final String TOSCA_POLICY_SERVICE = "service";
+    public static final String TOSCA_POLICY_ONAP_NAME = "onapName";
+    public static final String TOSCA_POLICY_NAME = "policyName";
+    public static final String TOSCA_POLICY_DESCRIPTION = "description";
+    public static final String TOSCA_POLICY_TEMPLATE_VERSION = "templateVersion";
+    public static final String TOSCA_POLICY_VERSION = "version";
+    public static final String TOSCA_POLICY_PRIORITY = "priority";
+    public static final String TOSCA_POLICY_RISK_LEVEL = "riskLevel";
+    public static final String TOSCA_POLICY_RISK_TYPE = "riskType";
+    public static final String TOSCA_POLICY_GUARD = "guard";
+    public static final String TOSCA_POLICY_CONTENT = "content";
     private Map<String, ToscaProperty> properties;
 
     /**
