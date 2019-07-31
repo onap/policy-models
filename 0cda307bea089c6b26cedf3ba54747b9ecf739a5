@@ -22,6 +22,30 @@
       "revId": "0cda307bea089c6b26cedf3ba54747b9ecf739a5",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82cec9f3_3c35a939",
+        "filename": "models-sim/policy-models-sim-pdp/src/main/java/org/onap/policy/models/sim/pdp/PdpSimulatorActivator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-07-31T13:34:34Z",
+      "side": 1,
+      "message": "yeah, I thought of that after I\u0027d already published the review.",
+      "parentUuid": "de625f60_cb738ed5",
+      "range": {
+        "startLine": 87,
+        "startChar": 21,
+        "endLine": 88,
+        "endChar": 54
+      },
+      "revId": "0cda307bea089c6b26cedf3ba54747b9ecf739a5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
