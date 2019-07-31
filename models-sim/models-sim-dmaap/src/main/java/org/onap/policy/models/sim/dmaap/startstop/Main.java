@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,9 +22,6 @@
 package org.onap.policy.models.sim.dmaap.startstop;
 
 import java.util.Arrays;
-
-import org.onap.policy.common.utils.services.Registry;
-import org.onap.policy.models.sim.dmaap.DmaapSimConstants;
 import org.onap.policy.models.sim.dmaap.DmaapSimException;
 import org.onap.policy.models.sim.dmaap.parameters.DmaapSimParameterGroup;
 import org.onap.policy.models.sim.dmaap.parameters.DmaapSimParameterHandler;
@@ -75,14 +73,12 @@ public class Main {
 
         // Now, create the activator for the DMaaP Simulator service
         activator = new DmaapSimActivator(parameterGroup);
-        Registry.register(DmaapSimConstants.REG_DMAAP_SIM_ACTIVATOR, activator);
 
         // Start the activator
         try {
             activator.start();
         } catch (final RuntimeException e) {
             LOGGER.error("start of DMaaP simulator service failed, used parameters are {}", Arrays.toString(args), e);
-            Registry.unregister(DmaapSimConstants.REG_DMAAP_SIM_ACTIVATOR);
             return;
         }
 
@@ -110,7 +106,7 @@ public class Main {
         parameterGroup = null;
 
         // clear the DMaaP simulator activator
-        if (activator != null) {
+        if (activator != null && activator.isAlive()) {
             activator.stop();
         }
     }
@@ -128,8 +124,9 @@ public class Main {
         public void run() {
             try {
                 // Shutdown the DMaaP simulator service and wait for everything to stop
-                activator.stop();
-            } catch (final RuntimeException e) {
+                shutdown();
+
+            } catch (final RuntimeException | DmaapSimException e) {
                 LOGGER.warn("error occured during shut down of the DMaaP simulator service", e);
             }
         }

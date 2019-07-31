@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,7 +39,7 @@ public class DmaapSimParameterHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DmaapSimParameterHandler.class);
 
-    private static final Coder CODER = new StandardCoder();
+    private final Coder coder = new StandardCoder();
 
     /**
      * Read the parameters from the parameter file.
@@ -54,7 +55,7 @@ public class DmaapSimParameterHandler {
         try {
             // Read the parameters from JSON
             File file = new File(arguments.getFullConfigurationFilePath());
-            dmaapSimParameterGroup = CODER.decode(file, DmaapSimParameterGroup.class);
+            dmaapSimParameterGroup = coder.decode(file, DmaapSimParameterGroup.class);
         } catch (final CoderException e) {
             final String errorMessage = "error reading parameters from \"" + arguments.getConfigurationFilePath()
                     + "\"\n" + "(" + e.getClass().getSimpleName() + "):" + e.getMessage();
