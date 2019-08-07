@@ -92,7 +92,7 @@ public class JpaToscaConstraintValidValues extends JpaToscaConstraint {
             return 0;
         }
         if (getClass() != otherConstraint.getClass()) {
-            return this.hashCode() - otherConstraint.hashCode();
+            return getClass().getName().compareTo(otherConstraint.getClass().getName());
         }
 
         final JpaToscaConstraintValidValues other = (JpaToscaConstraintValidValues) otherConstraint;

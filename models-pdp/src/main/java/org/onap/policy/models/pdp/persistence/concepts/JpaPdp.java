@@ -210,7 +210,7 @@ public class JpaPdp extends PfConcept implements PfAuthorative<Pdp>, Serializabl
             return 0;
         }
         if (getClass() != otherConcept.getClass()) {
-            return this.hashCode() - otherConcept.hashCode();
+            return getClass().getName().compareTo(otherConcept.getClass().getName());
         }
 
         final JpaPdp other = (JpaPdp) otherConcept;

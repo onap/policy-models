@@ -261,7 +261,7 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
             return 0;
         }
         if (getClass() != otherConcept.getClass()) {
-            return this.hashCode() - otherConcept.hashCode();
+            return getClass().getName().compareTo(otherConcept.getClass().getName());
         }
 
         @SuppressWarnings("unchecked")

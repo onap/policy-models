@@ -286,7 +286,7 @@ public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaPr
             return 0;
         }
         if (getClass() != otherConcept.getClass()) {
-            return this.hashCode() - otherConcept.hashCode();
+            return getClass().getName().compareTo(otherConcept.getClass().getName());
         }
 
         final JpaToscaProperty other = (JpaToscaProperty) otherConcept;

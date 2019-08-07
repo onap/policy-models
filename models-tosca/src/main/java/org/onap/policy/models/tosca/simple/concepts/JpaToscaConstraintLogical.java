@@ -140,7 +140,7 @@ public class JpaToscaConstraintLogical extends JpaToscaConstraint {
             return 0;
         }
         if (getClass() != otherConstraint.getClass()) {
-            return this.hashCode() - otherConstraint.hashCode();
+            return getClass().getName().compareTo(otherConstraint.getClass().getName());
         }
 
         final JpaToscaConstraintLogical other = (JpaToscaConstraintLogical) otherConstraint;

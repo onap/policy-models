@@ -136,7 +136,7 @@ public class PfKeyTest {
                         .hasMessage("otherObj is marked @NonNull but is null");
 
         assertEquals(0, someKey0.compareTo(someKey0));
-        assertEquals(266127751, someKey0.compareTo(new DummyPfKey()));
+        assertEquals(-36, someKey0.compareTo(new DummyPfKey()));
 
         assertFalse(someKey0.equals(null));
         assertTrue(someKey0.equals(someKey0));

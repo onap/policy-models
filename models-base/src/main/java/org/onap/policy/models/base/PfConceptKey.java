@@ -310,7 +310,7 @@ public class PfConceptKey extends PfKey {
             return 0;
         }
         if (getClass() != otherObj.getClass()) {
-            return this.hashCode() - otherObj.hashCode();
+            return getClass().getName().compareTo(otherObj.getClass().getName());
         }
 
         final PfConceptKey other = (PfConceptKey) otherObj;

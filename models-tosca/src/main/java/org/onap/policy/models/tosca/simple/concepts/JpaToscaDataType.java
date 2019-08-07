@@ -244,7 +244,7 @@ public class JpaToscaDataType extends JpaToscaEntityType<ToscaDataType> implemen
             return 0;
         }
         if (getClass() != otherConcept.getClass()) {
-            return this.hashCode() - otherConcept.hashCode();
+            return getClass().getName().compareTo(otherConcept.getClass().getName());
         }
 
         final JpaToscaDataType other = (JpaToscaDataType) otherConcept;

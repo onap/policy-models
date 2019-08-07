@@ -152,7 +152,7 @@ public class PfKeyUse extends PfKey {
             return 0;
         }
         if (getClass() != otherObj.getClass()) {
-            return this.hashCode() - otherObj.hashCode();
+            return getClass().getName().compareTo(otherObj.getClass().getName());
         }
 
         final PfKeyUse other = (PfKeyUse) otherObj;

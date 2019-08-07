@@ -331,7 +331,7 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
         }
 
         if (getClass() != otherConcept.getClass()) {
-            return this.hashCode() - otherConcept.hashCode();
+            return getClass().getName().compareTo(otherConcept.getClass().getName());
         }
 
         final JpaToscaPolicy other = (JpaToscaPolicy) otherConcept;

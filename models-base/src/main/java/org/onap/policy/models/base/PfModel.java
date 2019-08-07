@@ -274,7 +274,7 @@ public abstract class PfModel extends PfConcept {
             return 0;
         }
         if (getClass() != otherObj.getClass()) {
-            return this.hashCode() - otherObj.hashCode();
+            return getClass().getName().compareTo(otherObj.getClass().getName());
         }
 
         final PfModel other = (PfModel) otherObj;

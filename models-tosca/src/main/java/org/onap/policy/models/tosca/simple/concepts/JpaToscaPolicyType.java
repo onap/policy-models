@@ -280,7 +280,7 @@ public class JpaToscaPolicyType extends JpaToscaEntityType<ToscaPolicyType> impl
             return 0;
         }
         if (getClass() != otherConcept.getClass()) {
-            return this.hashCode() - otherConcept.hashCode();
+            return getClass().getName().compareTo(otherConcept.getClass().getName());
         }
 
         final JpaToscaPolicyType other = (JpaToscaPolicyType) otherConcept;

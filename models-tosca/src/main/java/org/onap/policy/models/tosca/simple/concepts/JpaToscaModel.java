@@ -137,7 +137,7 @@ public class JpaToscaModel extends PfModel {
         }
 
         if (getClass() != otherConcept.getClass()) {
-            return this.hashCode() - otherConcept.hashCode();
+            return getClass().getName().compareTo(otherConcept.getClass().getName());
         }
 
         final JpaToscaModel other = (JpaToscaModel) otherConcept;
