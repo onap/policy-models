@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "94caf5f5_faa18ded",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-08-08T22:12:03Z",
+      "side": 1,
+      "message": "Nexus IQ shows a Critical Security Vulnerability for this library.   The actual vulnerability report indicates the issue into 1.9.2.   Although this is 1.9.3 and the wording doesn\u0027t fit it.   Nexus IQ though shows the critical referring to 1.9.3 so I am not sure.\n\nFor example in sdc project this could be seen:   \n\nhttps://nexus-iq.wl.linuxfoundation.org/assets/index.html#/applicationReport/onap-sdc/6c0632d3f2ad4111844996b4f5f6c8e3/policy\n\nProbably better to wait on Pam for clarity on policies with regards to this library.",
+      "revId": "ba5fc4f354bff1e18b5554b28ec51f98e789a897",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
