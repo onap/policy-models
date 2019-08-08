@@ -32,15 +32,18 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
+import javax.ws.rs.core.Response;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
+import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfValidationMessage;
 import org.onap.policy.models.base.PfValidationResult;
@@ -187,11 +190,14 @@ public class JpaToscaEventFilter extends PfConcept {
         Assertions.instanceOf(copyObject, JpaToscaEventFilter.class);
 
         final JpaToscaEventFilter copy = ((JpaToscaEventFilter) copyObject);
-        copy.setKey(new PfReferenceKey(key));
-        copy.setNode(new PfConceptKey(node));
-        copy.setRequirement(requirement);
-        copy.setCapability(capability);
-
+        try {
+            BeanUtils.copyProperties(copy, this);
+            copy.setKey(new PfReferenceKey(key));
+            copy.setNode(new PfConceptKey(node));
+        } catch (final Exception e) {
+            throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR,
+                    "error copying JpaToscaEventFilter: " + e.getMessage(), e);
+        }
         return copy;
     }
 }

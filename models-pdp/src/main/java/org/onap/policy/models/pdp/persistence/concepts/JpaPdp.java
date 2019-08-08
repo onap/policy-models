@@ -33,16 +33,19 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
+import javax.ws.rs.core.Response;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfKey;
+import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfValidationMessage;
 import org.onap.policy.models.base.PfValidationResult;
@@ -236,11 +239,13 @@ public class JpaPdp extends PfConcept implements PfAuthorative<Pdp>, Serializabl
         Assertions.instanceOf(target, JpaPdp.class);
 
         final JpaPdp copy = ((JpaPdp) target);
+        try {
+            BeanUtils.copyProperties(copy, this);
+        } catch (final Exception e) {
+            throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR,
+                    "error copying JpaPdp: " + e.getMessage(), e);
+        }
         copy.setKey(new PfReferenceKey(key));
-        copy.setPdpState(pdpState);
-        copy.setHealthy(healthy);
-        copy.setMessage(message);
-
         return copy;
     }
 }

@@ -26,10 +26,12 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+import javax.ws.rs.core.Response;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 
@@ -389,10 +391,12 @@ public class PfReferenceKey extends PfKey {
         Assertions.instanceOf(copyObject, PfReferenceKey.class);
 
         final PfReferenceKey copy = ((PfReferenceKey) copyObject);
-        copy.setParentKeyName(parentKeyName);
-        copy.setParentKeyVersion(parentKeyVersion);
-        copy.setLocalName(localName);
-        copy.setParentLocalName(parentLocalName);
+        try {
+            BeanUtils.copyProperties(copy, this);
+        } catch (final Exception e) {
+            throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR,
+                    "error copying PfRefrenceKey: " + e.getMessage(), e);
+        }
 
         return copy;
     }

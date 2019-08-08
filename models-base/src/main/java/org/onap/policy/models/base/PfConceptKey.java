@@ -27,11 +27,13 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+import javax.ws.rs.core.Response;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 
@@ -296,10 +298,13 @@ public class PfConceptKey extends PfKey {
         Assertions.instanceOf(copyObject, PfConceptKey.class);
 
         final PfConceptKey copy = ((PfConceptKey) copyObject);
-        copy.setName(name);
-        copy.setVersion(version);
-
-        return copyObject;
+        try {
+            BeanUtils.copyProperties(copy, this);
+        } catch (final Exception e) {
+            throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR,
+                    "error copying PfConceptKey: " + e.getMessage(), e);
+        }
+        return copy;
     }
 
     @Override

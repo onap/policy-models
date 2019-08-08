@@ -34,13 +34,16 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
+import javax.ws.rs.core.Response;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfKey;
+import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.base.PfValidationMessage;
@@ -179,10 +182,13 @@ public class JpaToscaTimeInterval extends PfConcept {
         Assertions.instanceOf(copyObject, JpaToscaTimeInterval.class);
 
         final JpaToscaTimeInterval copy = ((JpaToscaTimeInterval) copyObject);
-        copy.setKey(new PfReferenceKey(key));
-        copy.setStartTime(startTime);
-        copy.setEndTime(endTime);
-
+        try {
+            BeanUtils.copyProperties(copy, this);
+            copy.setKey(new PfReferenceKey(key));
+        } catch (final Exception e) {
+            throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR,
+                    "error copying JpaToscaTimeInterval: " + e.getMessage(), e);
+        }
         return copy;
     }
 }

@@ -28,6 +28,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.ToString;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 
@@ -168,12 +169,11 @@ public class PfKeyUse extends PfKey {
         final PfKeyUse copy = ((PfKeyUse) copyObject);
         try {
             copy.usedKey = usedKey.getClass().newInstance();
+            BeanUtils.copyProperties(copy, this);
         } catch (final Exception e) {
             throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR,
                     "error copying concept key: " + e.getMessage(), e);
         }
-        usedKey.copyTo(copy.usedKey);
-
         return copy;
     }
 }

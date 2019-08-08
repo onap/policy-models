@@ -34,16 +34,19 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
+import javax.ws.rs.core.Response;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
+import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.base.PfValidationMessage;
@@ -340,12 +343,14 @@ public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaPr
         Assertions.instanceOf(target, JpaToscaProperty.class);
 
         final JpaToscaProperty copy = ((JpaToscaProperty) target);
-        copy.setKey(new PfReferenceKey(key));
-        copy.setType(new PfConceptKey(type));
-        copy.setDescription(description);
-        copy.setRequired(required);
-        copy.setDefaultValue(defaultValue);
-        copy.setStatus(status);
+        try {
+            BeanUtils.copyProperties(copy, this);
+            copy.setKey(new PfReferenceKey(key));
+            copy.setType(new PfConceptKey(type));
+        } catch (final Exception e) {
+            throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR,
+                    "error copying JpaToscaPeoperty: " + e.getMessage(), e);
+        }
 
         if (constraints == null) {
             copy.setConstraints(null);

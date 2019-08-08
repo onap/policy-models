@@ -35,15 +35,18 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
+import javax.ws.rs.core.Response;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.common.utils.validation.ParameterValidationUtils;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfKey;
+import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfValidationMessage;
 import org.onap.policy.models.base.PfValidationResult;
@@ -304,18 +307,15 @@ public class JpaToscaTrigger extends PfConcept {
         Assertions.instanceOf(target, JpaToscaTrigger.class);
 
         final JpaToscaTrigger copy = ((JpaToscaTrigger) target);
-        copy.setKey(new PfReferenceKey(key));
-        copy.setDescription(description);
-        copy.setEventType(eventType);
-        copy.setSchedule(schedule != null ? new JpaToscaTimeInterval(schedule) : null);
-        copy.setTargetFilter(targetFilter != null ? new JpaToscaEventFilter(targetFilter) : null);
-        copy.setCondition(condition);
-        copy.setConstraint(constraint);
-        copy.setPeriod(period);
-        copy.setEvaluations(evaluations);
-        copy.setMethod(method);
-        copy.setAction(action);
-
+        try {
+            BeanUtils.copyProperties(copy, this);
+            copy.setKey(new PfReferenceKey(key));
+            copy.setSchedule(schedule != null ? new JpaToscaTimeInterval(schedule) : null);
+            copy.setTargetFilter(targetFilter != null ? new JpaToscaEventFilter(targetFilter) : null);
+        } catch (final Exception e) {
+            throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR,
+                    "error copying JpaToscaTrigger: " + e.getMessage(), e);
+        }
         return copy;
     }
 }
