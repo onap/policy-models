@@ -48,6 +48,7 @@ import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.base.PfValidationMessage;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.base.utils.BeanCopyUtils;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaEntity;
 
 /**
@@ -272,24 +273,6 @@ public class JpaToscaEntityType<T extends ToscaEntity> extends PfConcept impleme
 
     @Override
     public PfConcept copyTo(@NonNull PfConcept target) {
-        final Object copyObject = target;
-        Assertions.instanceOf(copyObject, PfConcept.class);
-
-        @SuppressWarnings("unchecked")
-        final JpaToscaEntityType<T> copy = ((JpaToscaEntityType<T>) copyObject);
-        copy.setKey(new PfConceptKey(key));
-        copy.setDerivedFrom(derivedFrom != null ? new PfConceptKey(derivedFrom) : null);
-
-        if (metadata != null) {
-            final Map<String, String> newMatadata = new TreeMap<>();
-            for (final Entry<String, String> metadataEntry : metadata.entrySet()) {
-                newMatadata.put(metadataEntry.getKey(), metadataEntry.getValue());
-            }
-            copy.setMetadata(newMatadata);
-        }
-
-        copy.setDescription(description);
-
-        return copy;
+        return BeanCopyUtils.copyTo(this, target, this.getClass());
     }
 }

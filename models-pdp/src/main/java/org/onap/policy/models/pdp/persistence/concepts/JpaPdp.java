@@ -47,6 +47,7 @@ import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfValidationMessage;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.base.utils.BeanCopyUtils;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.enums.PdpHealthStatus;
 import org.onap.policy.models.pdp.enums.PdpState;
@@ -233,14 +234,8 @@ public class JpaPdp extends PfConcept implements PfAuthorative<Pdp>, Serializabl
 
     @Override
     public PfConcept copyTo(@NonNull final PfConcept target) {
-        Assertions.instanceOf(target, JpaPdp.class);
-
-        final JpaPdp copy = ((JpaPdp) target);
+        JpaPdp copy = BeanCopyUtils.copyTo(this, (JpaPdp) target, this.getClass());
         copy.setKey(new PfReferenceKey(key));
-        copy.setPdpState(pdpState);
-        copy.setHealthy(healthy);
-        copy.setMessage(message);
-
         return copy;
     }
 }

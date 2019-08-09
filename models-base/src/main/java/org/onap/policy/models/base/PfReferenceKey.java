@@ -32,6 +32,7 @@ import lombok.NonNull;
 
 import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.base.utils.BeanCopyUtils;
 
 /**
  * A reference key identifies entities in the system that are contained in other entities. Every contained concept in
@@ -384,17 +385,7 @@ public class PfReferenceKey extends PfKey {
     @Override
     public PfConcept copyTo(final PfConcept target) {
         Assertions.argumentNotNull(target, "target may not be null");
-
-        final Object copyObject = target;
-        Assertions.instanceOf(copyObject, PfReferenceKey.class);
-
-        final PfReferenceKey copy = ((PfReferenceKey) copyObject);
-        copy.setParentKeyName(parentKeyName);
-        copy.setParentKeyVersion(parentKeyVersion);
-        copy.setLocalName(localName);
-        copy.setParentLocalName(parentLocalName);
-
-        return copy;
+        return BeanCopyUtils.copyTo(this, target, this.getClass());
     }
 
     @Override

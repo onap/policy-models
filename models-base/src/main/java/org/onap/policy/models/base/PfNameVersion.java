@@ -42,7 +42,7 @@ public interface PfNameVersion {
      *
      * @param left the left name/version implementation
      * @param right the right name/version implementation
-     * @return the comparison resilt
+     * @return the comparison result
      */
     public default int compareNameVersion(final PfNameVersion left, final PfNameVersion right) {
         if (left == null && right == null) {

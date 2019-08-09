@@ -47,6 +47,7 @@ import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfValidationMessage;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.base.utils.BeanCopyUtils;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 
 /**
@@ -278,17 +279,6 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
 
     @Override
     public PfConcept copyTo(@NonNull PfConcept target) {
-        final Object copyObject = target;
-        Assertions.instanceOf(copyObject, PfConcept.class);
-
-        final JpaToscaServiceTemplate copy = ((JpaToscaServiceTemplate) copyObject);
-        super.copyTo(target);
-        copy.setToscaDefinitionsVersion(toscaDefinitionsVersion);
-
-        copy.setDataTypes(dataTypes != null ? new JpaToscaDataTypes(dataTypes) : null);
-        copy.setPolicyTypes(policyTypes != null ? new JpaToscaPolicyTypes(policyTypes) : null);
-        copy.setTopologyTemplate(topologyTemplate != null ? new JpaToscaTopologyTemplate(topologyTemplate) : null);
-
-        return copy;
+        return BeanCopyUtils.copyTo(this, target, this.getClass());
     }
 }
