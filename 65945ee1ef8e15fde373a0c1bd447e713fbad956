@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "af0f1248_9e896760",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/utils/BeanCopyUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-08-12T13:21:53Z",
+      "side": 1,
+      "message": "use multi-catch",
+      "revId": "65945ee1ef8e15fde373a0c1bd447e713fbad956",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
