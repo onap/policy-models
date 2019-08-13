@@ -44,6 +44,7 @@ import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.base.PfValidationMessage;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.base.utils.BeanCopyUtils;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConstraint;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaEntrySchema;
 
@@ -208,20 +209,6 @@ public class JpaToscaEntrySchema
      * @return the copied concept
      */
     public JpaToscaEntrySchema copyTo(@NonNull final JpaToscaEntrySchema target) {
-        Assertions.instanceOf(target, JpaToscaEntrySchema.class);
-
-        final JpaToscaEntrySchema copy = (target);
-        copy.setType(new PfConceptKey(type));
-        copy.setDescription(description);
-
-        if (constraints != null) {
-            final List<JpaToscaConstraint> newConstraints = new ArrayList<>();
-            for (final JpaToscaConstraint constraint : constraints) {
-                newConstraints.add(constraint); // Constraints are immutable
-            }
-            copy.setConstraints(newConstraints);
-        }
-
-        return copy;
+        return BeanCopyUtils.copyTo(this, target, this.getClass());
     }
 }

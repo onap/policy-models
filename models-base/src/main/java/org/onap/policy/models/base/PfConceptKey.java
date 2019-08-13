@@ -34,6 +34,7 @@ import lombok.ToString;
 
 import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.base.utils.BeanCopyUtils;
 
 /**
  * An concept key uniquely identifies every first order entity in the system. Every first order concept in the system
@@ -291,15 +292,7 @@ public class PfConceptKey extends PfKey {
     @Override
     public PfConcept copyTo(final PfConcept target) {
         Assertions.argumentNotNull(target, "target may not be null");
-
-        final PfConcept copyObject = target;
-        Assertions.instanceOf(copyObject, PfConceptKey.class);
-
-        final PfConceptKey copy = ((PfConceptKey) copyObject);
-        copy.setName(name);
-        copy.setVersion(version);
-
-        return copyObject;
+        return BeanCopyUtils.copyTo(this, target, this.getClass());
     }
 
     @Override

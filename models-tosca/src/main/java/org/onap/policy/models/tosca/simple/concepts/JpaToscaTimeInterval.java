@@ -46,6 +46,7 @@ import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.base.PfValidationMessage;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.base.utils.BeanCopyUtils;
 
 /**
  * Class to represent the TimeInterval in TOSCA definition.
@@ -175,14 +176,6 @@ public class JpaToscaTimeInterval extends PfConcept {
 
     @Override
     public PfConcept copyTo(@NonNull final PfConcept target) {
-        final Object copyObject = target;
-        Assertions.instanceOf(copyObject, JpaToscaTimeInterval.class);
-
-        final JpaToscaTimeInterval copy = ((JpaToscaTimeInterval) copyObject);
-        copy.setKey(new PfReferenceKey(key));
-        copy.setStartTime(startTime);
-        copy.setEndTime(endTime);
-
-        return copy;
+        return BeanCopyUtils.copyTo(this, target, this.getClass());
     }
 }

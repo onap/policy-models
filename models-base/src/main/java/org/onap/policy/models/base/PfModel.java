@@ -36,6 +36,7 @@ import lombok.NonNull;
 
 import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.base.utils.BeanCopyUtils;
 
 /**
  * This class is the base class for all models in the Policy Framework. All model classes inherit
@@ -284,11 +285,6 @@ public abstract class PfModel extends PfConcept {
 
     @Override
     public PfConcept copyTo(@NonNull final PfConcept target) {
-        Assertions.instanceOf(target, PfModel.class);
-
-        final PfModel copy = ((PfModel) target);
-        copy.setKey(new PfConceptKey(key));
-
-        return copy;
+        return BeanCopyUtils.copyTo(this, target, this.getClass());
     }
 }

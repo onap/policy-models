@@ -45,6 +45,7 @@ import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfValidationMessage;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.base.utils.BeanCopyUtils;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaTopologyTemplate;
 
 /**
@@ -203,14 +204,6 @@ public class JpaToscaTopologyTemplate extends PfConcept implements PfAuthorative
 
     @Override
     public PfConcept copyTo(@NonNull PfConcept target) {
-        final Object copyObject = target;
-        Assertions.instanceOf(copyObject, PfConcept.class);
-
-        final JpaToscaTopologyTemplate copy = ((JpaToscaTopologyTemplate) copyObject);
-        copy.setKey(new PfReferenceKey(key));
-        copy.setDescription(description);
-        copy.setPolicies(policies != null ? new JpaToscaPolicies(policies) : null);
-
-        return copy;
+        return BeanCopyUtils.copyTo(this, target, this.getClass());
     }
 }

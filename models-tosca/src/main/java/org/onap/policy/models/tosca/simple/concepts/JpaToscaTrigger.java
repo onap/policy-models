@@ -48,6 +48,7 @@ import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfValidationMessage;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.base.utils.BeanCopyUtils;
 
 /**
  * Class to represent the trigger of policy type in TOSCA definition.
@@ -301,21 +302,6 @@ public class JpaToscaTrigger extends PfConcept {
 
     @Override
     public PfConcept copyTo(@NonNull final PfConcept target) {
-        Assertions.instanceOf(target, JpaToscaTrigger.class);
-
-        final JpaToscaTrigger copy = ((JpaToscaTrigger) target);
-        copy.setKey(new PfReferenceKey(key));
-        copy.setDescription(description);
-        copy.setEventType(eventType);
-        copy.setSchedule(schedule != null ? new JpaToscaTimeInterval(schedule) : null);
-        copy.setTargetFilter(targetFilter != null ? new JpaToscaEventFilter(targetFilter) : null);
-        copy.setCondition(condition);
-        copy.setConstraint(constraint);
-        copy.setPeriod(period);
-        copy.setEvaluations(evaluations);
-        copy.setMethod(method);
-        copy.setAction(action);
-
-        return copy;
+        return BeanCopyUtils.copyTo(this, target, this.getClass());
     }
 }

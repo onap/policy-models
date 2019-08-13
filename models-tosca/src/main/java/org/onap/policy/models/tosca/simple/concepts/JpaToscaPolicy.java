@@ -57,6 +57,7 @@ import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.base.PfValidationMessage;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.base.utils.BeanCopyUtils;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 
 /**
@@ -353,30 +354,6 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
 
     @Override
     public PfConcept copyTo(@NonNull PfConcept target) {
-        final Object copyObject = target;
-        Assertions.instanceOf(copyObject, PfConcept.class);
-
-        final JpaToscaPolicy copy = ((JpaToscaPolicy) copyObject);
-        super.copyTo(target);
-
-        copy.setType(new PfConceptKey(type));
-
-        if (properties == null) {
-            copy.setProperties(null);
-        } else {
-            copy.setProperties(properties);
-        }
-
-        if (targets == null) {
-            copy.setTargets(null);
-        } else {
-            final List<PfConceptKey> newTargets = new ArrayList<>();
-            for (final PfConceptKey oldTarget : targets) {
-                newTargets.add(new PfConceptKey(oldTarget));
-            }
-            copy.setTargets(newTargets);
-        }
-
-        return copy;
+        return BeanCopyUtils.copyTo(this, target, this.getClass());
     }
 }

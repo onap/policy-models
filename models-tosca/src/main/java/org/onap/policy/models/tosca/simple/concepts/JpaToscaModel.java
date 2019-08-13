@@ -41,6 +41,7 @@ import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfModel;
 import org.onap.policy.models.base.PfModelService;
 import org.onap.policy.models.base.PfValidationResult;
+import org.onap.policy.models.base.utils.BeanCopyUtils;
 
 /**
  * A container class for a TOSCA model with multiple service templates. This class is a container
@@ -150,12 +151,6 @@ public class JpaToscaModel extends PfModel {
 
     @Override
     public PfConcept copyTo(@NonNull final PfConcept targetObject) {
-        Assertions.instanceOf(targetObject, JpaToscaModel.class);
-
-        final JpaToscaModel copy = ((JpaToscaModel) targetObject);
-        super.copyTo(targetObject);
-        copy.setServiceTemplates(new JpaToscaServiceTemplates(serviceTemplates));
-
-        return copy;
+        return BeanCopyUtils.copyTo(this, targetObject, this.getClass());
     }
 }

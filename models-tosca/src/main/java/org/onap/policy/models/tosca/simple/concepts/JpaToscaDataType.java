@@ -49,6 +49,7 @@ import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.base.PfValidationMessage;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.base.utils.BeanCopyUtils;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConstraint;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaDataType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaProperty;
@@ -267,32 +268,6 @@ public class JpaToscaDataType extends JpaToscaEntityType<ToscaDataType> implemen
 
     @Override
     public PfConcept copyTo(@NonNull PfConcept target) {
-        final Object copyObject = target;
-        Assertions.instanceOf(copyObject, PfConcept.class);
-
-        final JpaToscaDataType copy = ((JpaToscaDataType) copyObject);
-        super.copyTo(target);
-
-        if (constraints == null) {
-            copy.setConstraints(null);
-        } else {
-            final List<JpaToscaConstraint> newConstraints = new ArrayList<>();
-            for (final JpaToscaConstraint constraint : constraints) {
-                newConstraints.add(constraint); // Constraints are immutable
-            }
-            copy.setConstraints(newConstraints);
-        }
-
-        if (properties == null) {
-            copy.setProperties(null);
-        } else {
-            final Map<String, JpaToscaProperty> newProperties = new LinkedHashMap<>();
-            for (final Entry<String, JpaToscaProperty> propertyEntry : properties.entrySet()) {
-                newProperties.put(propertyEntry.getKey(), new JpaToscaProperty(propertyEntry.getValue()));
-            }
-            copy.setProperties(newProperties);
-        }
-
-        return copy;
+        return BeanCopyUtils.copyTo(this, target, this.getClass());
     }
 }

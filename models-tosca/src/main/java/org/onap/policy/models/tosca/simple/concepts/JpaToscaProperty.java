@@ -49,6 +49,7 @@ import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.base.PfValidationMessage;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.base.utils.BeanCopyUtils;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConstraint;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaProperty;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaProperty.Status;
@@ -337,28 +338,6 @@ public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaPr
 
     @Override
     public PfConcept copyTo(@NonNull final PfConcept target) {
-        Assertions.instanceOf(target, JpaToscaProperty.class);
-
-        final JpaToscaProperty copy = ((JpaToscaProperty) target);
-        copy.setKey(new PfReferenceKey(key));
-        copy.setType(new PfConceptKey(type));
-        copy.setDescription(description);
-        copy.setRequired(required);
-        copy.setDefaultValue(defaultValue);
-        copy.setStatus(status);
-
-        if (constraints == null) {
-            copy.setConstraints(null);
-        } else {
-            final List<JpaToscaConstraint> newConstraints = new ArrayList<>();
-            for (final JpaToscaConstraint constraint : constraints) {
-                newConstraints.add(constraint); // Constraints are immutable
-            }
-            copy.setConstraints(newConstraints);
-        }
-
-        copy.setEntrySchema(entrySchema != null ? new JpaToscaEntrySchema(entrySchema) : null);
-
-        return copy;
+        return BeanCopyUtils.copyTo(this, target, this.getClass());
     }
 }

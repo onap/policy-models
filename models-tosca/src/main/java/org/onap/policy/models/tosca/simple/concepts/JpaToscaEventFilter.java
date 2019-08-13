@@ -45,6 +45,7 @@ import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfValidationMessage;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.base.utils.BeanCopyUtils;
 
 /**
  * Class to represent the EventFilter in TOSCA definition.
@@ -183,15 +184,6 @@ public class JpaToscaEventFilter extends PfConcept {
 
     @Override
     public PfConcept copyTo(@NonNull final PfConcept target) {
-        final Object copyObject = target;
-        Assertions.instanceOf(copyObject, JpaToscaEventFilter.class);
-
-        final JpaToscaEventFilter copy = ((JpaToscaEventFilter) copyObject);
-        copy.setKey(new PfReferenceKey(key));
-        copy.setNode(new PfConceptKey(node));
-        copy.setRequirement(requirement);
-        copy.setCapability(capability);
-
-        return copy;
+        return BeanCopyUtils.copyTo(this, target, this.getClass());
     }
 }
