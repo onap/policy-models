@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c27a7208_9fbe19ec",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/utils/BeanCopyUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-08-14T10:13:48Z",
+      "side": 1,
+      "message": "I would say you will run into a Sonar issue here with the level of indentation.",
+      "range": {
+        "startLine": 78,
+        "startChar": 1,
+        "endLine": 101,
+        "endChar": 3
+      },
+      "revId": "a8e5057ac0040a9f9325bc3b53c282cdbc74ce05",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7ca2b35_45dddac7",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/utils/BeanCopyUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-08-14T10:13:48Z",
+      "side": 1,
+      "message": "As far as I can make out, this method does not clone fields that are objects, it just sets a reference to the original object field in the new cloned object. This is not the behaviour of the original copyTo method.\n\nThe copyTo method MUST create a fully cloned copied object becasue they are used for reading from the database and, on database reads, the way JPA behaves means that the DAO must clone all objects to new objects if they are to exist outside the JPA transaction context.",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 7
+      },
+      "revId": "a8e5057ac0040a9f9325bc3b53c282cdbc74ce05",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7d2bd46_62583f29",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/utils/BeanCopyUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-08-14T10:13:48Z",
+      "side": 1,
+      "message": "Sonar will probably complain about the complexity of this method.",
+      "range": {
+        "startLine": 112,
+        "startChar": 24,
+        "endLine": 112,
+        "endChar": 32
+      },
+      "revId": "a8e5057ac0040a9f9325bc3b53c282cdbc74ce05",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "756e436c_7638ce0f",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/utils/BeanCopyUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-08-14T10:13:48Z",
+      "side": 1,
+      "message": "I think that this is not allowed for security reasons, I think for example AT\u0026T have internal tools that prevent this in ECOMP.",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 123,
+        "endChar": 3
+      },
+      "revId": "a8e5057ac0040a9f9325bc3b53c282cdbc74ce05",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e9564d3_7ce0aa39",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/utils/BeanCopyUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-08-14T10:13:48Z",
+      "side": 1,
+      "message": "Again here.",
+      "range": {
+        "startLine": 147,
+        "startChar": 0,
+        "endLine": 147,
+        "endChar": 3
+      },
+      "revId": "a8e5057ac0040a9f9325bc3b53c282cdbc74ce05",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca432f51_066bfb21",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/utils/annotation/ArrayCopy.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-08-14T10:13:48Z",
+      "side": 1,
+      "message": "Can you check the licences for new files.",
+      "range": {
+        "startLine": 5,
+        "startChar": 1,
+        "endLine": 6,
+        "endChar": 54
+      },
+      "revId": "a8e5057ac0040a9f9325bc3b53c282cdbc74ce05",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
