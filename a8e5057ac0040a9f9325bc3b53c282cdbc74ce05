@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "571be657_7548f462",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/utils/BeanCopyUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5307
+      },
+      "writtenOn": "2019-08-16T08:20:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c27a7208_9fbe19ec",
+      "range": {
+        "startLine": 78,
+        "startChar": 1,
+        "endLine": 101,
+        "endChar": 3
+      },
+      "revId": "a8e5057ac0040a9f9325bc3b53c282cdbc74ce05",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b7ca2b35_45dddac7",
         "filename": "models-base/src/main/java/org/onap/policy/models/base/utils/BeanCopyUtils.java",
         "patchSetId": 2
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "c824d818_29c58295",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/utils/BeanCopyUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5307
+      },
+      "writtenOn": "2019-08-16T08:20:51Z",
+      "side": 1,
+      "message": "Yes，this is a poroblem. And we are thinking about another better solution. For the issue with field.setAccessible(true), we think it will certainy cause some poteintial security problem. \nDo you have any suggestions, becasue we can not apply Clone, third party, reflection according to the suggestion...\nWe are tring to focusing on serilazation and deserialization, but I think it is not feasible for its \"final target\".\nSometimes I am feeling confused. Hope to receive you response and sorry for my late reply.",
+      "parentUuid": "b7ca2b35_45dddac7",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 7
+      },
+      "revId": "a8e5057ac0040a9f9325bc3b53c282cdbc74ce05",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53dfc84c_299e2029",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/utils/BeanCopyUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5307
+      },
+      "writtenOn": "2019-08-16T08:20:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e7d2bd46_62583f29",
+      "range": {
+        "startLine": 112,
+        "startChar": 24,
+        "endLine": 112,
+        "endChar": 32
+      },
+      "revId": "a8e5057ac0040a9f9325bc3b53c282cdbc74ce05",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "756e436c_7638ce0f",
         "filename": "models-base/src/main/java/org/onap/policy/models/base/utils/BeanCopyUtils.java",
         "patchSetId": 2
@@ -91,6 +163,30 @@
       "revId": "a8e5057ac0040a9f9325bc3b53c282cdbc74ce05",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61760d9c_fd37da8b",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/utils/BeanCopyUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 5307
+      },
+      "writtenOn": "2019-08-16T08:20:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "756e436c_7638ce0f",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 123,
+        "endChar": 3
+      },
+      "revId": "a8e5057ac0040a9f9325bc3b53c282cdbc74ce05",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "a370234c_e1650f3d",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/utils/BeanCopyUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 5307
+      },
+      "writtenOn": "2019-08-16T08:20:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2e9564d3_7ce0aa39",
+      "range": {
+        "startLine": 147,
+        "startChar": 0,
+        "endLine": 147,
+        "endChar": 3
+      },
+      "revId": "a8e5057ac0040a9f9325bc3b53c282cdbc74ce05",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca432f51_066bfb21",
         "filename": "models-base/src/main/java/org/onap/policy/models/base/utils/annotation/ArrayCopy.java",
         "patchSetId": 2
@@ -137,6 +257,30 @@
       "revId": "a8e5057ac0040a9f9325bc3b53c282cdbc74ce05",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2de3e19d_fe09e0d6",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/utils/annotation/ArrayCopy.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5307
+      },
+      "writtenOn": "2019-08-16T08:20:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ca432f51_066bfb21",
+      "range": {
+        "startLine": 5,
+        "startChar": 1,
+        "endLine": 6,
+        "endChar": 54
+      },
+      "revId": "a8e5057ac0040a9f9325bc3b53c282cdbc74ce05",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
