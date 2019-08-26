@@ -68,8 +68,8 @@ public class JpaToscaTimeIntervalTest {
         assertThatThrownBy(() -> new JpaToscaTimeInterval(new PfReferenceKey(), new Date(), null))
                         .hasMessage("endTime is marked @NonNull but is null");
 
-        assertThatThrownBy(() -> new JpaToscaTimeInterval((JpaToscaTimeInterval) null))
-                        .hasMessage("copyConcept is marked @NonNull but is null");
+        assertThatThrownBy(() -> new JpaToscaServiceTemplate((JpaToscaServiceTemplate) null))
+                        .isInstanceOf(NullPointerException.class);
 
         PfConceptKey ttiParentKey = new PfConceptKey("tParentKey", "0.0.1");
         PfReferenceKey ttiKey = new PfReferenceKey(ttiParentKey, "trigger0");
@@ -81,8 +81,7 @@ public class JpaToscaTimeIntervalTest {
         assertEquals(tti, tdtClone0);
         assertEquals(0, tti.compareTo(tdtClone0));
 
-        JpaToscaTimeInterval tdtClone1 = new JpaToscaTimeInterval();
-        tti.copyTo(tdtClone1);
+        JpaToscaTimeInterval tdtClone1 = new JpaToscaTimeInterval(tti);
         assertEquals(tti, tdtClone1);
         assertEquals(0, tti.compareTo(tdtClone1));
 
@@ -100,8 +99,6 @@ public class JpaToscaTimeIntervalTest {
         assertFalse(tti.compareTo(otherDt) == 0);
         otherDt.setEndTime(endTime);
         assertEquals(0, tti.compareTo(otherDt));
-
-        assertThatThrownBy(() -> tti.copyTo(null)).hasMessage("target is marked @NonNull but is null");
 
         assertEquals(1, tti.getKeys().size());
         assertEquals(1, new JpaToscaTimeInterval().getKeys().size());

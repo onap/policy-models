@@ -56,8 +56,8 @@ public class PdpGroupTest {
         PdpGroup orig = new PdpGroup();
 
         // verify with null values
-        assertEquals("PdpGroup(name=null, description=null, pdpGroupState=null, " + "properties=null, pdpSubgroups=[])",
-                        new PdpGroup(orig).toString());
+        assertEquals("PdpGroup(name=null, description=null, pdpGroupState=null, "
+                        + "properties=null, pdpSubgroups=[])", new PdpGroup(orig).toString());
 
         // verify with all values
         orig.setDescription("my-descript");
@@ -81,8 +81,9 @@ public class PdpGroupTest {
                         + "pdpGroupState=SAFE, properties={key-A=value-A, key-B=value-B}, "
                         + "pdpSubgroups=[PdpSubGroup(pdpType=null, supportedPolicyTypes=[], policies=[], "
                         + "currentInstanceCount=10, desiredInstanceCount=0, properties=null, pdpInstances=[]), "
-                        + "PdpSubGroup(pdpType=null, supportedPolicyTypes=[], policies=[], currentInstanceCount=11, "
-                        + "desiredInstanceCount=0, properties=null, pdpInstances=[])])", new PdpGroup(orig).toString());
+                        + "PdpSubGroup(pdpType=null, supportedPolicyTypes=[], policies=[], "
+                        + "currentInstanceCount=11, desiredInstanceCount=0, properties=null, pdpInstances=[])])",
+                        new PdpGroup(orig).toString());
     }
 
     @Test

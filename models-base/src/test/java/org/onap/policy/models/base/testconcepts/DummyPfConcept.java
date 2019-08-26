@@ -22,15 +22,11 @@
 package org.onap.policy.models.base.testconcepts;
 
 import java.util.List;
-
 import javax.persistence.EmbeddedId;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-
 import org.apache.commons.lang3.ObjectUtils;
-import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
@@ -72,6 +68,8 @@ public class DummyPfConcept extends PfConcept implements PfAuthorative<DummyAuth
      */
     public DummyPfConcept(final DummyPfConcept copyConcept) {
         super(copyConcept);
+        this.key = new PfConceptKey(copyConcept.key);
+        this.description = copyConcept.description;
     }
 
     @Override
@@ -140,17 +138,5 @@ public class DummyPfConcept extends PfConcept implements PfAuthorative<DummyAuth
         }
 
         return ObjectUtils.compare(description, other.description);
-    }
-
-    @Override
-    public PfConcept copyTo(@NonNull PfConcept target) {
-        final Object copyObject = target;
-        Assertions.instanceOf(copyObject, PfConcept.class);
-
-        final DummyPfConcept copy = ((DummyPfConcept) copyObject);
-        copy.setKey(new PfConceptKey(key));
-        copy.setDescription(description);
-
-        return copy;
     }
 }

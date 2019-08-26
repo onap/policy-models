@@ -24,21 +24,16 @@
 package org.onap.policy.models.tosca.simple.concepts;
 
 import com.google.gson.annotations.SerializedName;
-
 import java.util.Date;
 import java.util.List;
-
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-
-import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfReferenceKey;
@@ -106,6 +101,9 @@ public class JpaToscaTimeInterval extends PfConcept {
      */
     public JpaToscaTimeInterval(final JpaToscaTimeInterval copyConcept) {
         super(copyConcept);
+        this.key = new PfReferenceKey(copyConcept.key);
+        this.startTime = copyConcept.startTime;
+        this.endTime = copyConcept.endTime;
     }
 
     @Override
@@ -171,18 +169,5 @@ public class JpaToscaTimeInterval extends PfConcept {
         }
 
         return PfUtils.compareObjects(endTime, other.endTime);
-    }
-
-    @Override
-    public PfConcept copyTo(@NonNull final PfConcept target) {
-        final Object copyObject = target;
-        Assertions.instanceOf(copyObject, JpaToscaTimeInterval.class);
-
-        final JpaToscaTimeInterval copy = ((JpaToscaTimeInterval) copyObject);
-        copy.setKey(new PfReferenceKey(key));
-        copy.setStartTime(startTime);
-        copy.setEndTime(endTime);
-
-        return copy;
     }
 }

@@ -33,6 +33,12 @@ import org.onap.policy.models.base.PfValidationResult;
 public class DummyPfKey extends PfKey {
     private static final long serialVersionUID = 1L;
 
+    public DummyPfKey() { }
+
+    public DummyPfKey(DummyPfKey source) {
+        super(source);
+    }
+
     @Override
     public int compareTo(PfConcept arg0) {
         return 0;
@@ -91,11 +97,6 @@ public class DummyPfKey extends PfKey {
     @Override
     public int hashCode() {
         return 0;
-    }
-
-    @Override
-    public PfConcept copyTo(PfConcept target) {
-        return null;
     }
 
     @Override

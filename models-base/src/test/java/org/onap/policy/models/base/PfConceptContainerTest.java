@@ -113,8 +113,8 @@ public class PfConceptContainerTest {
 
         assertEquals(0, container.compareTo(clonedContainer));
 
-        final DummyPfConceptContainer container2 = container;
-        assertThatThrownBy(() -> container2.copyTo(null)).hasMessage("target is marked @NonNull but is null");
+        assertThatThrownBy(() -> new DummyPfConceptContainer((DummyPfConceptContainer) null))
+                        .isInstanceOf(NullPointerException.class);
 
         assertFalse(container.compareTo(null) == 0);
         assertEquals(0, container.compareTo(container));

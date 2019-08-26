@@ -28,18 +28,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-
-import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
@@ -96,6 +92,9 @@ public class JpaToscaDataType extends JpaToscaEntityType<ToscaDataType> implemen
      */
     public JpaToscaDataType(final JpaToscaDataType copyConcept) {
         super(copyConcept);
+        // Constraints are immutable
+        this.constraints = (copyConcept.constraints != null ? new ArrayList<>(copyConcept.constraints) : null);
+        this.properties = PfUtils.mapMap(copyConcept.properties, JpaToscaProperty::new);
     }
 
     /**
@@ -263,36 +262,5 @@ public class JpaToscaDataType extends JpaToscaEntityType<ToscaDataType> implemen
         }
 
         return 0;
-    }
-
-    @Override
-    public PfConcept copyTo(@NonNull PfConcept target) {
-        final Object copyObject = target;
-        Assertions.instanceOf(copyObject, PfConcept.class);
-
-        final JpaToscaDataType copy = ((JpaToscaDataType) copyObject);
-        super.copyTo(target);
-
-        if (constraints == null) {
-            copy.setConstraints(null);
-        } else {
-            final List<JpaToscaConstraint> newConstraints = new ArrayList<>();
-            for (final JpaToscaConstraint constraint : constraints) {
-                newConstraints.add(constraint); // Constraints are immutable
-            }
-            copy.setConstraints(newConstraints);
-        }
-
-        if (properties == null) {
-            copy.setProperties(null);
-        } else {
-            final Map<String, JpaToscaProperty> newProperties = new LinkedHashMap<>();
-            for (final Entry<String, JpaToscaProperty> propertyEntry : properties.entrySet()) {
-                newProperties.put(propertyEntry.getKey(), new JpaToscaProperty(propertyEntry.getValue()));
-            }
-            copy.setProperties(newProperties);
-        }
-
-        return copy;
     }
 }

@@ -125,14 +125,9 @@ public class PfReferenceKeyTest {
 
         assertFalse(testReferenceKey.equals(null));
 
-        assertThatThrownBy(() -> testReferenceKey.copyTo(null)).hasMessage("target may not be null");
+        assertThatThrownBy(() -> new PfReferenceKey((PfReferenceKey) null)).isInstanceOf(NullPointerException.class);
 
-        assertThatThrownBy(() -> testReferenceKey.copyTo(new PfConceptKey("Key", VERSION001)))
-                        .hasMessage("org.onap.policy.models.base.PfConceptKey"
-                                        + " is not an instance of org.onap.policy.models.base.PfReferenceKey");
-
-        PfReferenceKey targetRefKey = new PfReferenceKey();
-        assertEquals(testReferenceKey, testReferenceKey.copyTo(targetRefKey));
+        assertEquals(testReferenceKey, new PfReferenceKey(testReferenceKey));
     }
 
     @Test

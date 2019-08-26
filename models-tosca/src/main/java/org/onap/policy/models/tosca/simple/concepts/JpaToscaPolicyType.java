@@ -23,24 +23,19 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Lob;
 import javax.persistence.Table;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-
-import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
@@ -101,6 +96,9 @@ public class JpaToscaPolicyType extends JpaToscaEntityType<ToscaPolicyType> impl
      */
     public JpaToscaPolicyType(final JpaToscaPolicyType copyConcept) {
         super(copyConcept);
+        this.properties = PfUtils.mapMap(copyConcept.properties, JpaToscaProperty::new);
+        this.targets = PfUtils.mapList(copyConcept.targets, PfConceptKey::new);
+        this.triggers = PfUtils.mapList(copyConcept.triggers, JpaToscaTrigger::new);
     }
 
     /**
@@ -299,46 +297,5 @@ public class JpaToscaPolicyType extends JpaToscaEntityType<ToscaPolicyType> impl
         }
 
         return PfUtils.compareObjects(triggers, other.triggers);
-    }
-
-    @Override
-    public PfConcept copyTo(@NonNull PfConcept target) {
-        final Object copyObject = target;
-        Assertions.instanceOf(copyObject, PfConcept.class);
-
-        final JpaToscaPolicyType copy = ((JpaToscaPolicyType) copyObject);
-        super.copyTo(target);
-
-        if (properties == null) {
-            copy.setProperties(null);
-        } else {
-            final Map<String, JpaToscaProperty> newProperties = new LinkedHashMap<>();
-            for (final Entry<String, JpaToscaProperty> propertyEntry : properties.entrySet()) {
-                newProperties.put(propertyEntry.getKey(), new JpaToscaProperty(propertyEntry.getValue()));
-            }
-            copy.setProperties(newProperties);
-        }
-
-        if (targets == null) {
-            copy.setTargets(null);
-        } else {
-            final List<PfConceptKey> newTargets = new ArrayList<>();
-            for (final PfConceptKey oldTarget : targets) {
-                newTargets.add(new PfConceptKey(oldTarget));
-            }
-            copy.setTargets(newTargets);
-        }
-
-        if (triggers == null) {
-            copy.setTargets(null);
-        } else {
-            final List<JpaToscaTrigger> newTriggers = new ArrayList<>();
-            for (final JpaToscaTrigger trigger : triggers) {
-                newTriggers.add(new JpaToscaTrigger(trigger));
-            }
-            copy.setTriggers(newTriggers);
-        }
-
-        return copy;
     }
 }

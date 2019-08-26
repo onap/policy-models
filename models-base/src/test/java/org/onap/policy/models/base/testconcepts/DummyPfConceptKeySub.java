@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,5 +50,14 @@ public class DummyPfConceptKeySub extends PfConceptKey {
      */
     public DummyPfConceptKeySub(@NonNull final PfConceptKey usedKey) {
         super(usedKey);
+    }
+
+    /**
+     * Copy constructor.
+     *
+     * @param source object to be copied
+     */
+    public DummyPfConceptKeySub(@NonNull final DummyPfConceptKeySub source) {
+        super(source);
     }
 }

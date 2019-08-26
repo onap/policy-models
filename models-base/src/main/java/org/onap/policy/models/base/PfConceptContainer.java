@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +30,6 @@ import java.util.Map.Entry;
 import java.util.NavigableMap;
 import java.util.Set;
 import java.util.TreeMap;
-
 import javax.persistence.CascadeType;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -37,12 +37,9 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.ws.rs.core.Response;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-
-import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 
 // @formatter:off
@@ -111,6 +108,14 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
      */
     public PfConceptContainer(@NonNull final PfConceptContainer<C, A> copyConcept) {
         super(copyConcept);
+        this.key = new PfConceptKey(copyConcept.key);
+
+        this.conceptMap = new TreeMap<>();
+        for (final Entry<PfConceptKey, C> conceptMapEntry : copyConcept.conceptMap.entrySet()) {
+            PfConceptKey newK = new PfConceptKey(conceptMapEntry.getKey());
+            C newC = PfUtils.makeCopy(conceptMapEntry.getValue());
+            this.conceptMap.put(newK, newC);
+        }
     }
 
     @Override
@@ -276,24 +281,6 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
         }
 
         return 0;
-    }
-
-    @Override
-    public PfConcept copyTo(@NonNull final PfConcept target) {
-        Assertions.instanceOf(target, PfConceptContainer.class);
-
-        @SuppressWarnings("unchecked")
-        final PfConceptContainer<C, A> copy = (PfConceptContainer<C, A>) target;
-        copy.setKey(new PfConceptKey(key));
-        final Map<PfConceptKey, C> newConceptMap = new TreeMap<>();
-        for (final Entry<PfConceptKey, C> conceptMapEntry : conceptMap.entrySet()) {
-            C newC = getConceptNewInstance();
-            conceptMapEntry.getValue().copyTo(newC);
-            newConceptMap.put(new PfConceptKey(conceptMapEntry.getKey()), newC);
-        }
-        copy.setConceptMap(newConceptMap);
-
-        return copy;
     }
 
     @Override

@@ -96,14 +96,9 @@ public class PfKeyUseTest {
         assertThatThrownBy(() -> keyUse.validate(null)).hasMessage("result is marked @NonNull but is null");
 
         PfKeyUse testKeyUse = new PfKeyUse(new DummyPfConceptKeySub(new PfConceptKey()));
-        PfKeyUse targetKeyUse = new PfKeyUse(key);
+        assertEquals(testKeyUse, new PfKeyUse(testKeyUse));
 
-        assertThatThrownBy(() -> keyUse.copyTo(null)).hasMessage("target is marked @NonNull but is null");
-
-        assertThatThrownBy(() -> {
-            testKeyUse.copyTo(targetKeyUse);
-            keyUse.isCompatible(null);
-        }).hasMessage("error copying concept key: Some error message");
+        assertThatThrownBy(() -> new PfKeyUse((PfKeyUse) null)).isInstanceOf(NullPointerException.class);
 
         assertThatThrownBy(() -> keyUse.isNewerThan(null)).hasMessage(OTHER_KEY_IS_NULL);
 

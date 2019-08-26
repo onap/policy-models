@@ -76,9 +76,8 @@ public class JpaToscaPolicyTest {
             new JpaToscaPolicy(null, new PfConceptKey());
         }).hasMessage(KEY_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new JpaToscaPolicy((JpaToscaPolicy) null);
-        }).hasMessage("copyConcept is marked @NonNull but is null");
+        assertThatThrownBy(() -> new JpaToscaPolicy((JpaToscaPolicy) null))
+                        .isInstanceOf(NullPointerException.class);
 
         PfConceptKey tpKey = new PfConceptKey("tdt", VERSION_001);
         PfConceptKey ptKey = new PfConceptKey("policyType", VERSION_001);
@@ -99,8 +98,7 @@ public class JpaToscaPolicyTest {
         assertEquals(tp, tdtClone0);
         assertEquals(0, tp.compareTo(tdtClone0));
 
-        JpaToscaPolicy tdtClone1 = new JpaToscaPolicy();
-        tp.copyTo(tdtClone1);
+        JpaToscaPolicy tdtClone1 = new JpaToscaPolicy(tp);
         assertEquals(tp, tdtClone1);
         assertEquals(0, tp.compareTo(tdtClone1));
 
@@ -120,10 +118,6 @@ public class JpaToscaPolicyTest {
         assertFalse(tp.compareTo(otherDt) == 0);
         otherDt.setTargets(targets);
         assertEquals(0, tp.compareTo(otherDt));
-
-        assertThatThrownBy(() -> {
-            tp.copyTo(null);
-        }).hasMessage("target is marked @NonNull but is null");
 
         assertEquals(3, tp.getKeys().size());
         assertEquals(2, new JpaToscaPolicy().getKeys().size());

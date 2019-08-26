@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,9 +22,7 @@
 package org.onap.policy.models.tosca.simple.concepts;
 
 import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,13 +31,10 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-
 import org.apache.commons.lang3.ObjectUtils;
-import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.common.utils.validation.ParameterValidationUtils;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
@@ -119,6 +115,11 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
      */
     public JpaToscaServiceTemplate(final JpaToscaServiceTemplate copyConcept) {
         super(copyConcept);
+        this.toscaDefinitionsVersion = copyConcept.toscaDefinitionsVersion;
+        this.dataTypes = (copyConcept.dataTypes != null ? new JpaToscaDataTypes(copyConcept.dataTypes) : null);
+        this.policyTypes = (copyConcept.policyTypes != null ? new JpaToscaPolicyTypes(copyConcept.policyTypes) : null);
+        this.topologyTemplate = (copyConcept.topologyTemplate != null
+                        ? new JpaToscaTopologyTemplate(copyConcept.topologyTemplate) : null);
     }
 
     /**
@@ -274,21 +275,5 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
         }
 
         return ObjectUtils.compare(topologyTemplate, other.topologyTemplate);
-    }
-
-    @Override
-    public PfConcept copyTo(@NonNull PfConcept target) {
-        final Object copyObject = target;
-        Assertions.instanceOf(copyObject, PfConcept.class);
-
-        final JpaToscaServiceTemplate copy = ((JpaToscaServiceTemplate) copyObject);
-        super.copyTo(target);
-        copy.setToscaDefinitionsVersion(toscaDefinitionsVersion);
-
-        copy.setDataTypes(dataTypes != null ? new JpaToscaDataTypes(dataTypes) : null);
-        copy.setPolicyTypes(policyTypes != null ? new JpaToscaPolicyTypes(policyTypes) : null);
-        copy.setTopologyTemplate(topologyTemplate != null ? new JpaToscaTopologyTemplate(topologyTemplate) : null);
-
-        return copy;
     }
 }

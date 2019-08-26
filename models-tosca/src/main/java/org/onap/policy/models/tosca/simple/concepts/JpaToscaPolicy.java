@@ -23,12 +23,10 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
@@ -39,14 +37,11 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.ws.rs.core.Response;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
-import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.common.utils.validation.ParameterValidationUtils;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
@@ -129,6 +124,9 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
      */
     public JpaToscaPolicy(@NonNull final JpaToscaPolicy copyConcept) {
         super(copyConcept);
+        this.type = new PfConceptKey(copyConcept.type);
+        this.properties = (copyConcept.properties != null ? new LinkedHashMap<>(copyConcept.properties) : null);
+        this.targets = PfUtils.mapList(copyConcept.targets, PfConceptKey::new);
     }
 
     /**
@@ -349,34 +347,5 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
         }
 
         return PfUtils.compareObjects(targets, other.targets);
-    }
-
-    @Override
-    public PfConcept copyTo(@NonNull PfConcept target) {
-        final Object copyObject = target;
-        Assertions.instanceOf(copyObject, PfConcept.class);
-
-        final JpaToscaPolicy copy = ((JpaToscaPolicy) copyObject);
-        super.copyTo(target);
-
-        copy.setType(new PfConceptKey(type));
-
-        if (properties == null) {
-            copy.setProperties(null);
-        } else {
-            copy.setProperties(properties);
-        }
-
-        if (targets == null) {
-            copy.setTargets(null);
-        } else {
-            final List<PfConceptKey> newTargets = new ArrayList<>();
-            for (final PfConceptKey oldTarget : targets) {
-                newTargets.add(new PfConceptKey(oldTarget));
-            }
-            copy.setTargets(newTargets);
-        }
-
-        return copy;
     }
 }

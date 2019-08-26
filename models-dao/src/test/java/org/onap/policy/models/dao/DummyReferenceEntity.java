@@ -61,6 +61,11 @@ public class DummyReferenceEntity extends PfConcept {
         this.doubleValue = 123.45;
     }
 
+    public DummyReferenceEntity(DummyReferenceEntity source) {
+        this.key = source.key;
+        this.doubleValue = source.doubleValue;
+    }
+
     /**
      * Constructor.
      *
@@ -87,20 +92,6 @@ public class DummyReferenceEntity extends PfConcept {
     @Override
     public void clean() {
         key.clean();
-    }
-
-    @Override
-    public PfConcept copyTo(final PfConcept target) {
-        Assertions.argumentNotNull(target, "target may not be null");
-
-        final PfConcept copyObject = target;
-        Assertions.instanceOf(copyObject, DummyReferenceEntity.class);
-
-        final DummyReferenceEntity copy = ((DummyReferenceEntity) copyObject);
-        copy.setKey(key);
-        copy.setDoubleValue(doubleValue);
-
-        return copyObject;
     }
 
 
