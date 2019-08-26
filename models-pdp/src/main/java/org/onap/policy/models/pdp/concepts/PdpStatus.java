@@ -21,6 +21,7 @@
 
 package org.onap.policy.models.pdp.concepts;
 
+import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -78,8 +79,10 @@ public class PdpStatus extends PdpMessage {
         this.state = source.state;
         this.healthy = source.healthy;
         this.description = source.description;
-        this.supportedPolicyTypes = PfUtils.mapList(source.supportedPolicyTypes, ToscaPolicyTypeIdentifier::new);
-        this.policies = PfUtils.mapList(source.policies, ToscaPolicyIdentifier::new);
+        this.supportedPolicyTypes = (source.supportedPolicyTypes == null ? new ArrayList<>() :
+                        PfUtils.mapList(source.supportedPolicyTypes, ToscaPolicyTypeIdentifier::new));
+        this.policies = (source.policies == null ? new ArrayList<>()
+                        : PfUtils.mapList(source.policies, ToscaPolicyIdentifier::new));
         this.deploymentInstanceInfo = source.deploymentInstanceInfo;
         this.properties = source.properties;
         this.statistics = (source.statistics == null ? null : new PdpStatistics(source.statistics));

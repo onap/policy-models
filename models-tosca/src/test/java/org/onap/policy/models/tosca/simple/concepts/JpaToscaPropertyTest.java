@@ -63,9 +63,6 @@ public class JpaToscaPropertyTest {
         assertThatThrownBy(() -> new JpaToscaProperty(new PfReferenceKey(), null))
                         .hasMessage("type is marked @NonNull but is null");
 
-        assertThatThrownBy(() -> new JpaToscaProperty((JpaToscaProperty) null))
-                        .hasMessage("copyConcept is marked @NonNull but is null");
-
         PfConceptKey pparentKey = new PfConceptKey("tParentKey", VERSION_001);
         PfReferenceKey pkey = new PfReferenceKey(pparentKey, "trigger0");
         PfConceptKey ptypeKey = new PfConceptKey("TTypeKey", VERSION_001);
@@ -95,8 +92,7 @@ public class JpaToscaPropertyTest {
         assertEquals(tp, tdtClone0);
         assertEquals(0, tp.compareTo(tdtClone0));
 
-        JpaToscaProperty tdtClone1 = new JpaToscaProperty();
-        tp.copyTo(tdtClone1);
+        JpaToscaProperty tdtClone1 = new JpaToscaProperty(tp);
         assertEquals(tp, tdtClone1);
         assertEquals(0, tp.compareTo(tdtClone1));
 
@@ -136,7 +132,8 @@ public class JpaToscaPropertyTest {
         otherDt.setStatus(ToscaProperty.Status.SUPPORTED);
         assertEquals(0, tp.compareTo(otherDt));
 
-        assertThatThrownBy(() -> tp.copyTo(null)).hasMessage("target is marked @NonNull but is null");
+        assertThatThrownBy(() -> new JpaToscaProperty((JpaToscaProperty) null))
+                        .isInstanceOf(NullPointerException.class);
 
         assertEquals(3, tp.getKeys().size());
         assertEquals(2, new JpaToscaProperty().getKeys().size());

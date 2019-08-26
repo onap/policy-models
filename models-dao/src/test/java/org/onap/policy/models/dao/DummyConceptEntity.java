@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -62,6 +63,17 @@ public class DummyConceptEntity extends PfConcept {
         this.key = new PfConceptKey();
     }
 
+    /**
+     * Copy constructor.
+     *
+     * @param source object from which to copy
+     */
+    public DummyConceptEntity(DummyConceptEntity source) {
+        this.key = new PfConceptKey(source.key);
+        this.uuid = source.uuid;
+        this.description = source.description;
+    }
+
     public DummyConceptEntity(final Double doubleValue) {
         this.key = new PfConceptKey();
     }
@@ -98,21 +110,6 @@ public class DummyConceptEntity extends PfConcept {
     @Override
     public void clean() {
         key.clean();
-    }
-
-    @Override
-    public PfConcept copyTo(final PfConcept target) {
-        Assertions.argumentNotNull(target, "target may not be null");
-
-        final PfConcept copyObject = target;
-        Assertions.instanceOf(copyObject, DummyConceptEntity.class);
-
-        final DummyConceptEntity copy = ((DummyConceptEntity) copyObject);
-        copy.setKey(key);
-        copy.setUuid(uuid);
-        copy.setDescription(description);
-
-        return copyObject;
     }
 
     @Override

@@ -21,12 +21,17 @@
 
 package org.onap.policy.models.base;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNull;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import lombok.Getter;
+import lombok.ToString;
 import org.junit.Test;
 
 /**
@@ -52,13 +57,7 @@ public class PfUtilsTest {
         List<Object> resultList = PfUtils.mapList(null, item -> {
             throw new RuntimeException("should not be invoked");
         });
-        assertTrue(resultList.isEmpty());
-
-        // verify that we can modify the empty list without throwing an exception
-        resultList.add("xyz");
-        resultList.add("pdq");
-        resultList.remove("xyz");
-
+        assertNull(resultList);
 
         List<String> origList = Arrays.asList("abc", "def");
         List<String> newList = PfUtils.mapList(origList, text -> text + "X");
@@ -68,5 +67,55 @@ public class PfUtilsTest {
         // verify that we can modify the list without throwing an exception
         newList.remove("abcX");
         newList.add("something else");
+    }
+
+    @Test
+    public void testMapMap() {
+        Map<String,String> resultMap = PfUtils.mapMap(null, item -> {
+            throw new RuntimeException("should not be invoked");
+        });
+        assertNull(resultMap);
+
+        Map<String,String> origMap = new TreeMap<>();
+        origMap.put("key2A", "xyz2");
+        origMap.put("key2B", "pdq2");
+        Map<String,String> newMap = PfUtils.mapMap(origMap, text -> text + "X");
+
+        assertEquals("{key2A=xyz2X, key2B=pdq2X}", newMap.toString());
+
+        // verify that we can modify the list without throwing an exception
+        newMap.remove("abcX");
+        newMap.put("something", "else");
+    }
+
+    @Test
+    public void testMakeCopy() {
+        assertNull(PfUtils.makeCopy((Object) null));
+
+        MyObject origObject = new MyObject();
+        origObject.name = HELLO;
+        assertEquals(origObject.toString(), PfUtils.makeCopy(origObject).toString());
+
+        assertThatThrownBy(() -> PfUtils.makeCopy(new NoCopyConstructor())).isInstanceOf(PfModelRuntimeException.class);
+    }
+
+    @Getter
+    @ToString
+    private static class MyObject {
+        private String name;
+
+        public MyObject() {
+            // do nothing
+        }
+
+        @SuppressWarnings("unused")
+        public MyObject(MyObject source) {
+            this.name = source.name;
+        }
+    }
+
+    @Getter
+    private static class NoCopyConstructor {
+        private String name;
     }
 }

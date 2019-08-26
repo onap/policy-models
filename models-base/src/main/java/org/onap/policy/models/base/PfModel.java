@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -91,6 +92,7 @@ public abstract class PfModel extends PfConcept {
      */
     public PfModel(@NonNull final PfModel copyConcept) {
         super(copyConcept);
+        this.key = new PfConceptKey(copyConcept.key);
     }
 
     /**
@@ -280,15 +282,5 @@ public abstract class PfModel extends PfConcept {
         final PfModel other = (PfModel) otherObj;
 
         return key.compareTo(other.key);
-    }
-
-    @Override
-    public PfConcept copyTo(@NonNull final PfConcept target) {
-        Assertions.instanceOf(target, PfModel.class);
-
-        final PfModel copy = ((PfModel) target);
-        copy.setKey(new PfConceptKey(key));
-
-        return copy;
     }
 }

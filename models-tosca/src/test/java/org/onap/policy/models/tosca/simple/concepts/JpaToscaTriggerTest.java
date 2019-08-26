@@ -75,7 +75,7 @@ public class JpaToscaTriggerTest {
                         .hasMessage("eventType is marked @NonNull but is null");
 
         assertThatThrownBy(() -> new JpaToscaTrigger((JpaToscaTrigger) null))
-                        .hasMessage("copyConcept is marked @NonNull but is null");
+                        .isInstanceOf(NullPointerException.class);
 
         PfConceptKey tparentKey = new PfConceptKey("tParentKey", VERSION_001);
         PfReferenceKey tkey = new PfReferenceKey(tparentKey, "trigger0");
@@ -108,8 +108,7 @@ public class JpaToscaTriggerTest {
         assertEquals(tdt, tdtClone0);
         assertEquals(0, tdt.compareTo(tdtClone0));
 
-        JpaToscaTrigger tdtClone1 = new JpaToscaTrigger();
-        tdt.copyTo(tdtClone1);
+        JpaToscaTrigger tdtClone1 = new JpaToscaTrigger(tdt);
         assertEquals(tdt, tdtClone1);
         assertEquals(0, tdt.compareTo(tdtClone1));
 
@@ -146,8 +145,6 @@ public class JpaToscaTriggerTest {
         assertFalse(tdt.compareTo(otherDt) == 0);
         otherDt.setEvaluations(0);
         assertEquals(0, tdt.compareTo(otherDt));
-
-        assertThatThrownBy(() -> tdt.copyTo(null)).hasMessage("target is marked @NonNull but is null");
 
         assertEquals(4, tdt.getKeys().size());
         assertEquals(1, new JpaToscaTrigger().getKeys().size());

@@ -99,9 +99,7 @@ public class JpaPdpTest {
             testJpaPdp.fromAuthorative(null);
         }).hasMessage("pdp is marked @NonNull but is null");
 
-        assertThatThrownBy(() -> {
-            testJpaPdp.copyTo(null);
-        }).hasMessage("target is marked @NonNull but is null");
+        assertThatThrownBy(() -> new JpaPdp((JpaPdp) null)).isInstanceOf(NullPointerException.class);
 
         assertEquals(PDP1, testJpaPdp.getKey().getLocalName());
         assertEquals(PDP1, new JpaPdp(testPdp).getKey().getLocalName());
@@ -184,5 +182,7 @@ public class JpaPdpTest {
         assertEquals(-13, testJpaPdp.compareTo(otherJpaPdp));
         testJpaPdp.setMessage("Valid Message");
         assertEquals(0, testJpaPdp.compareTo(otherJpaPdp));
+
+        assertEquals(testJpaPdp, new JpaPdp(testJpaPdp));
     }
 }

@@ -56,7 +56,7 @@ public class JpaToscaTopologyTemplateTest {
                         .hasMessage("key is marked @NonNull but is null");
 
         assertThatThrownBy(() -> new JpaToscaTopologyTemplate((JpaToscaTopologyTemplate) null))
-                        .hasMessage("copyConcept is marked @NonNull but is null");
+                        .isInstanceOf(NullPointerException.class);
 
         PfReferenceKey tttKey = new PfReferenceKey("tst", VERSION_001, "ttt");
         JpaToscaTopologyTemplate ttt = new JpaToscaTopologyTemplate(tttKey);
@@ -78,8 +78,7 @@ public class JpaToscaTopologyTemplateTest {
         assertEquals(ttt, tttClone0);
         assertEquals(0, ttt.compareTo(tttClone0));
 
-        JpaToscaTopologyTemplate tttClone1 = new JpaToscaTopologyTemplate();
-        ttt.copyTo(tttClone1);
+        JpaToscaTopologyTemplate tttClone1 = new JpaToscaTopologyTemplate(ttt);
         assertEquals(ttt, tttClone1);
         assertEquals(0, ttt.compareTo(tttClone1));
 
@@ -98,7 +97,8 @@ public class JpaToscaTopologyTemplateTest {
         otherDt.setPolicies(policies);
         assertEquals(0, ttt.compareTo(otherDt));
 
-        assertThatThrownBy(() -> ttt.copyTo(null)).hasMessage("target is marked @NonNull but is null");
+        assertThatThrownBy(() -> new JpaToscaTopologyTemplate((JpaToscaTopologyTemplate) null))
+                        .isInstanceOf(NullPointerException.class);
 
         assertEquals(4, ttt.getKeys().size());
         assertEquals(1, new JpaToscaTopologyTemplate().getKeys().size());

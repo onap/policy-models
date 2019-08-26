@@ -61,7 +61,7 @@ public class JpaToscaEventFilterTest {
                         .hasMessage("node is marked @NonNull but is null");
 
         assertThatThrownBy(() -> new JpaToscaEventFilter((JpaToscaEventFilter) null))
-                        .hasMessage("copyConcept is marked @NonNull but is null");
+                        .isInstanceOf(NullPointerException.class);
 
         PfConceptKey efParentKey = new PfConceptKey("tParentKey", VERSION_001);
         PfReferenceKey efKey = new PfReferenceKey(efParentKey, "trigger0");
@@ -78,8 +78,7 @@ public class JpaToscaEventFilterTest {
         assertEquals(tef, tdtClone0);
         assertEquals(0, tef.compareTo(tdtClone0));
 
-        JpaToscaEventFilter tdtClone1 = new JpaToscaEventFilter();
-        tef.copyTo(tdtClone1);
+        JpaToscaEventFilter tdtClone1 = new JpaToscaEventFilter(tef);
         assertEquals(tef, tdtClone1);
         assertEquals(0, tef.compareTo(tdtClone1));
 
@@ -99,8 +98,6 @@ public class JpaToscaEventFilterTest {
         assertFalse(tef.compareTo(otherDt) == 0);
         otherDt.setCapability(A_CAPABILITY);
         assertEquals(0, tef.compareTo(otherDt));
-
-        assertThatThrownBy(() -> tef.copyTo(null)).hasMessage("target is marked @NonNull but is null");
 
         assertEquals(2, tef.getKeys().size());
         assertEquals(2, new JpaToscaEventFilter().getKeys().size());

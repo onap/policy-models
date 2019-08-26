@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +32,7 @@ import javax.persistence.Table;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
+import lombok.ToString;
 import org.onap.policy.models.base.PfConceptContainer;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaDataType;
@@ -45,6 +46,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaDataType;
 @Table(name = "ToscaDataTypes")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
+@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class JpaToscaDataTypes extends PfConceptContainer<JpaToscaDataType, ToscaDataType> {
     private static final long serialVersionUID = 2941102271022190348L;

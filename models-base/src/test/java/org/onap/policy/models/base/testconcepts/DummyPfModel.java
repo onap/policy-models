@@ -23,18 +23,13 @@ package org.onap.policy.models.base.testconcepts;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.ws.rs.core.Response;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfModel;
-import org.onap.policy.models.base.PfModelRuntimeException;
+import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.base.PfValidationResult;
 
 @Data
@@ -83,6 +78,11 @@ public class DummyPfModel extends PfModel {
      */
     public DummyPfModel(final DummyPfModel copyConcept) {
         super(copyConcept);
+
+        this.keyList = new ArrayList<>();
+        for (final PfKey pfKey : copyConcept.keyList) {
+            keyList.add(PfUtils.makeCopy(pfKey));
+        }
     }
 
     @Override
@@ -146,31 +146,5 @@ public class DummyPfModel extends PfModel {
         }
 
         return 0;
-    }
-
-    @Override
-    public PfConcept copyTo(final PfConcept targetObject) {
-        super.copyTo(targetObject);
-
-        Assertions.instanceOf(targetObject, DummyPfModel.class);
-
-        final DummyPfModel copy = ((DummyPfModel) targetObject);
-
-        final List<PfKey> newKeyList = new ArrayList<>();
-        for (final PfKey pfKey : keyList) {
-            PfKey newPfKey;
-            try {
-                newPfKey = pfKey.getClass().newInstance();
-            } catch (final Exception e) {
-                throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR,
-                        "error copying concept key: " + e.getMessage(), e);
-            }
-            newPfKey.copyTo(pfKey);
-            newKeyList.add(newPfKey);
-        }
-        copy.setKeyList(newKeyList);
-
-
-        return copy;
     }
 }

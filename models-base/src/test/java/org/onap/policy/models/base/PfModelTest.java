@@ -60,7 +60,7 @@ public class PfModelTest {
         dpmClone.clean();
         assertEquals(dpm, dpmClone);
 
-        assertThatThrownBy(() -> dpm.copyTo(null)).hasMessage("target is marked @NonNull but is null");
+        assertThatThrownBy(() -> new DummyPfModel((DummyPfModel) null)).isInstanceOf(NullPointerException.class);
 
         assertEquals(0, dpm.compareTo(dpmClone));
         assertEquals(-1, dpm.compareTo(null));

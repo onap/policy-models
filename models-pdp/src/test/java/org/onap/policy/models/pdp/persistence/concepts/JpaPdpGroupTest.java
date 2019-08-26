@@ -119,9 +119,7 @@ public class JpaPdpGroupTest {
         testJpaPdpGroup.setKey(new PfConceptKey(PDP_GROUP0, VERSION));
         testJpaPdpGroup.fromAuthorative(testPdpGroup);
 
-        assertThatThrownBy(() -> {
-            testJpaPdpGroup.copyTo(null);
-        }).hasMessage("target is marked @NonNull but is null");
+        assertThatThrownBy(() -> new JpaPdpGroup((JpaPdpGroup) null)).isInstanceOf(NullPointerException.class);
 
         assertEquals(PDP_GROUP0, testJpaPdpGroup.getKey().getName());
         assertEquals(PDP_GROUP0, new JpaPdpGroup(testPdpGroup).getKey().getName());
@@ -230,5 +228,7 @@ public class JpaPdpGroupTest {
         assertEquals(2, testJpaPdpGroup.getKeys().size());
         testJpaPdpGroup.clean();
         assertEquals(2, testJpaPdpGroup.getKeys().size());
+
+        assertEquals(testJpaPdpGroup, new JpaPdpGroup(testJpaPdpGroup));
     }
 }

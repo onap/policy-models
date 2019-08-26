@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +22,6 @@
 package org.onap.policy.models.tosca.simple.concepts;
 
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -31,13 +31,10 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-
 import org.apache.commons.lang3.ObjectUtils;
-import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfKey;
@@ -97,6 +94,9 @@ public class JpaToscaTopologyTemplate extends PfConcept implements PfAuthorative
      */
     public JpaToscaTopologyTemplate(final JpaToscaTopologyTemplate copyConcept) {
         super(copyConcept);
+        this.key = new PfReferenceKey(copyConcept.key);
+        this.description = copyConcept.description;
+        this.policies = (copyConcept.policies != null ? new JpaToscaPolicies(copyConcept.policies) : null);
     }
 
     /**
@@ -199,18 +199,5 @@ public class JpaToscaTopologyTemplate extends PfConcept implements PfAuthorative
         }
 
         return ObjectUtils.compare(policies, other.policies);
-    }
-
-    @Override
-    public PfConcept copyTo(@NonNull PfConcept target) {
-        final Object copyObject = target;
-        Assertions.instanceOf(copyObject, PfConcept.class);
-
-        final JpaToscaTopologyTemplate copy = ((JpaToscaTopologyTemplate) copyObject);
-        copy.setKey(new PfReferenceKey(key));
-        copy.setDescription(description);
-        copy.setPolicies(policies != null ? new JpaToscaPolicies(policies) : null);
-
-        return copy;
     }
 }

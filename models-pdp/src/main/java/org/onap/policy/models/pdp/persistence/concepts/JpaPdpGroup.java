@@ -28,7 +28,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -41,14 +40,11 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.common.utils.validation.ParameterValidationUtils;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
@@ -135,6 +131,12 @@ public class JpaPdpGroup extends PfConcept implements PfAuthorative<PdpGroup> {
      */
     public JpaPdpGroup(@NonNull final JpaPdpGroup copyConcept) {
         super(copyConcept);
+        this.key = new PfConceptKey(copyConcept.key);
+        this.description = copyConcept.description;
+        this.pdpGroupState = copyConcept.pdpGroupState;
+        this.properties = (copyConcept.properties == null ? null : new LinkedHashMap<>(copyConcept.properties));
+        this.pdpSubGroups = (copyConcept.pdpSubGroups == null ? new ArrayList<>()
+                        : PfUtils.mapList(copyConcept.pdpSubGroups, JpaPdpSubGroup::new));
     }
 
     /**
@@ -309,20 +311,5 @@ public class JpaPdpGroup extends PfConcept implements PfAuthorative<PdpGroup> {
         }
 
         return PfUtils.compareObjects(pdpSubGroups, other.pdpSubGroups);
-    }
-
-    @Override
-    public PfConcept copyTo(@NonNull final PfConcept target) {
-        Assertions.instanceOf(target, JpaPdpGroup.class);
-
-        final JpaPdpGroup copy = ((JpaPdpGroup) target);
-        copy.setKey(new PfConceptKey(key));
-
-        copy.setDescription(description);
-        copy.setPdpGroupState(pdpGroupState);
-        copy.setProperties(properties == null ? null : new LinkedHashMap<>(properties));
-        copy.setPdpSubGroups(PfUtils.mapList(pdpSubGroups, JpaPdpSubGroup::new));
-
-        return copy;
     }
 }

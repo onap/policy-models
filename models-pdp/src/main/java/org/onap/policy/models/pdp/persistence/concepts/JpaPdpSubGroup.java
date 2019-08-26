@@ -28,7 +28,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -44,8 +43,6 @@ import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-
-import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.common.utils.validation.ParameterValidationUtils;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
@@ -145,6 +142,16 @@ public class JpaPdpSubGroup extends PfConcept implements PfAuthorative<PdpSubGro
      */
     public JpaPdpSubGroup(@NonNull final JpaPdpSubGroup copyConcept) {
         super(copyConcept);
+        this.key = new PfReferenceKey(copyConcept.key);
+        this.supportedPolicyTypes = (copyConcept.supportedPolicyTypes == null ? new ArrayList<>()
+                        : PfUtils.mapList(copyConcept.supportedPolicyTypes, PfConceptKey::new));
+        this.policies = (copyConcept.policies == null ? new ArrayList<>() :
+                        PfUtils.mapList(copyConcept.policies, PfConceptKey::new));
+        this.currentInstanceCount = copyConcept.currentInstanceCount;
+        this.desiredInstanceCount = copyConcept.desiredInstanceCount;
+        this.properties = (copyConcept.properties != null ? new LinkedHashMap<>(copyConcept.properties) : null);
+        this.pdpInstances = (copyConcept.pdpInstances == null ? new ArrayList<>() :
+            PfUtils.mapList(copyConcept.pdpInstances, JpaPdp::new));
     }
 
     /**
@@ -392,22 +399,5 @@ public class JpaPdpSubGroup extends PfConcept implements PfAuthorative<PdpSubGro
         }
 
         return PfUtils.compareObjects(pdpInstances, other.pdpInstances);
-    }
-
-    @Override
-    public PfConcept copyTo(@NonNull final PfConcept target) {
-        Assertions.instanceOf(target, JpaPdpSubGroup.class);
-
-        final JpaPdpSubGroup copy = ((JpaPdpSubGroup) target);
-        copy.setKey(new PfReferenceKey(key));
-
-        copy.setSupportedPolicyTypes(PfUtils.mapList(supportedPolicyTypes, PfConceptKey::new));
-        copy.setPolicies(PfUtils.mapList(policies, PfConceptKey::new));
-        copy.setCurrentInstanceCount(currentInstanceCount);
-        copy.setDesiredInstanceCount(desiredInstanceCount);
-        copy.setProperties(properties == null ? null : new LinkedHashMap<>(properties));
-        copy.setPdpInstances(PfUtils.mapList(pdpInstances, JpaPdp::new));
-
-        return copy;
     }
 }

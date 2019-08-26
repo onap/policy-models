@@ -1,7 +1,7 @@
 /*
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  ModificationsCopyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -73,6 +73,8 @@ public class PfConceptKey extends PfKey {
      */
     public PfConceptKey(@NonNull final PfConceptKey copyConcept) {
         super(copyConcept);
+        this.name = copyConcept.name;
+        this.version = copyConcept.version;
     }
 
     /**
@@ -286,20 +288,6 @@ public class PfConceptKey extends PfKey {
     public void clean() {
         name = Assertions.validateStringParameter(NAME_TOKEN, name, NAME_REGEXP);
         version = Assertions.validateStringParameter(VERSION_TOKEN, version, VERSION_REGEXP);
-    }
-
-    @Override
-    public PfConcept copyTo(final PfConcept target) {
-        Assertions.argumentNotNull(target, "target may not be null");
-
-        final PfConcept copyObject = target;
-        Assertions.instanceOf(copyObject, PfConceptKey.class);
-
-        final PfConceptKey copy = ((PfConceptKey) copyObject);
-        copy.setName(name);
-        copy.setVersion(version);
-
-        return copyObject;
     }
 
     @Override

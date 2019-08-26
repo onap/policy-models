@@ -22,6 +22,7 @@
 package org.onap.policy.models.pdp.concepts;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -69,7 +70,8 @@ public class PdpGroup implements PfNameVersion, Comparable<PdpGroup> {
         this.description = source.description;
         this.pdpGroupState = source.pdpGroupState;
         this.properties = (source.properties == null ? null : new LinkedHashMap<>(source.properties));
-        this.pdpSubgroups = PfUtils.mapList(source.pdpSubgroups, PdpSubGroup::new);
+        this.pdpSubgroups = (source.pdpSubgroups == null ? new ArrayList<>()
+                        : PfUtils.mapList(source.pdpSubgroups, PdpSubGroup::new));
     }
 
     @Override

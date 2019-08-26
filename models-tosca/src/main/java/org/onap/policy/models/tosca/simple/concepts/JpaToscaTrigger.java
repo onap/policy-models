@@ -24,23 +24,18 @@
 package org.onap.policy.models.tosca.simple.concepts;
 
 import com.google.gson.annotations.SerializedName;
-
 import java.time.Duration;
 import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-
 import org.apache.commons.lang3.ObjectUtils;
-import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.common.utils.validation.ParameterValidationUtils;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfKey;
@@ -137,6 +132,18 @@ public class JpaToscaTrigger extends PfConcept {
      */
     public JpaToscaTrigger(final JpaToscaTrigger copyConcept) {
         super(copyConcept);
+        this.key = new PfReferenceKey(copyConcept.key);
+        this.description = copyConcept.description;
+        this.eventType = copyConcept.eventType;
+        this.schedule = (copyConcept.schedule != null ? new JpaToscaTimeInterval(copyConcept.schedule) : null);
+        this.targetFilter =
+                        (copyConcept.targetFilter != null ? new JpaToscaEventFilter(copyConcept.targetFilter) : null);
+        this.condition = copyConcept.condition;
+        this.constraint = copyConcept.constraint;
+        this.period = copyConcept.period;
+        this.evaluations = copyConcept.evaluations;
+        this.method = copyConcept.method;
+        this.action = copyConcept.action;
     }
 
     @Override
@@ -297,25 +304,5 @@ public class JpaToscaTrigger extends PfConcept {
         }
 
         return ObjectUtils.compare(action, other.action);
-    }
-
-    @Override
-    public PfConcept copyTo(@NonNull final PfConcept target) {
-        Assertions.instanceOf(target, JpaToscaTrigger.class);
-
-        final JpaToscaTrigger copy = ((JpaToscaTrigger) target);
-        copy.setKey(new PfReferenceKey(key));
-        copy.setDescription(description);
-        copy.setEventType(eventType);
-        copy.setSchedule(schedule != null ? new JpaToscaTimeInterval(schedule) : null);
-        copy.setTargetFilter(targetFilter != null ? new JpaToscaEventFilter(targetFilter) : null);
-        copy.setCondition(condition);
-        copy.setConstraint(constraint);
-        copy.setPeriod(period);
-        copy.setEvaluations(evaluations);
-        copy.setMethod(method);
-        copy.setAction(action);
-
-        return copy;
     }
 }

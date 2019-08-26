@@ -62,9 +62,8 @@ public class JpaToscaDataTypeTest {
             new JpaToscaDataType((PfConceptKey) null);
         }).hasMessage("key is marked @NonNull but is null");
 
-        assertThatThrownBy(() -> {
-            new JpaToscaDataType((JpaToscaDataType) null);
-        }).hasMessage("copyConcept is marked @NonNull but is null");
+        assertThatThrownBy(() -> new JpaToscaDataType((JpaToscaDataType) null))
+                        .isInstanceOf(NullPointerException.class);
 
         PfConceptKey dtKey = new PfConceptKey("tdt", VERSION_001);
         JpaToscaDataType tdt = new JpaToscaDataType(dtKey);
@@ -86,8 +85,7 @@ public class JpaToscaDataTypeTest {
         assertEquals(tdt, tdtClone0);
         assertEquals(0, tdt.compareTo(tdtClone0));
 
-        JpaToscaDataType tdtClone1 = new JpaToscaDataType();
-        tdt.copyTo(tdtClone1);
+        JpaToscaDataType tdtClone1 = new JpaToscaDataType(tdt);
         assertEquals(tdt, tdtClone1);
         assertEquals(0, tdt.compareTo(tdtClone1));
 
@@ -105,10 +103,6 @@ public class JpaToscaDataTypeTest {
         assertFalse(tdt.compareTo(otherDt) == 0);
         otherDt.setProperties(properties);
         assertEquals(0, tdt.compareTo(otherDt));
-
-        assertThatThrownBy(() -> {
-            tdt.copyTo(null);
-        }).hasMessage("target is marked @NonNull but is null");
 
         assertEquals(3, tdt.getKeys().size());
         assertEquals(1, new JpaToscaDataType().getKeys().size());
