@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +22,6 @@
 package org.onap.policy.models.tosca.simple.concepts;
 
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -29,12 +29,9 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-
-import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
@@ -97,6 +94,7 @@ public class JpaToscaModel extends PfModel {
      */
     public JpaToscaModel(@NonNull final JpaToscaModel copyConcept) {
         super(copyConcept);
+        this.serviceTemplates = new JpaToscaServiceTemplates(copyConcept.serviceTemplates);
     }
 
     @Override
@@ -146,16 +144,5 @@ public class JpaToscaModel extends PfModel {
         }
 
         return serviceTemplates.compareTo(other.serviceTemplates);
-    }
-
-    @Override
-    public PfConcept copyTo(@NonNull final PfConcept targetObject) {
-        Assertions.instanceOf(targetObject, JpaToscaModel.class);
-
-        final JpaToscaModel copy = ((JpaToscaModel) targetObject);
-        super.copyTo(targetObject);
-        copy.setServiceTemplates(new JpaToscaServiceTemplates(serviceTemplates));
-
-        return copy;
     }
 }

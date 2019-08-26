@@ -73,8 +73,7 @@ public class JpaToscaModelTest {
         assertEquals(tm, tttClone0);
         assertEquals(0, tm.compareTo(tttClone0));
 
-        JpaToscaModel tttClone1 = new JpaToscaModel();
-        tm.copyTo(tttClone1);
+        JpaToscaModel tttClone1 = new JpaToscaModel(tm);
         assertEquals(tm, tttClone1);
         assertEquals(0, tm.compareTo(tttClone1));
 
@@ -91,7 +90,8 @@ public class JpaToscaModelTest {
         otherDt.setServiceTemplates(tsts);
         assertEquals(0, tm.compareTo(otherDt));
 
-        assertThatThrownBy(() -> tm.copyTo(null)).hasMessage("targetObject is marked @NonNull but is null");
+        assertThatThrownBy(() -> new JpaToscaModel((JpaToscaModel) null))
+                        .isInstanceOf(NullPointerException.class);
 
         assertEquals(2, tm.getKeys().size());
         assertEquals(2, new JpaToscaModel().getKeys().size());

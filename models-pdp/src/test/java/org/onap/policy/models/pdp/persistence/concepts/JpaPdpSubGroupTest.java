@@ -127,9 +127,7 @@ public class JpaPdpSubGroupTest {
             testJpaPdpSubGroup.fromAuthorative(null);
         }).hasMessage("pdpSubgroup is marked @NonNull but is null");
 
-        assertThatThrownBy(() -> {
-            testJpaPdpSubGroup.copyTo(null);
-        }).hasMessage("target is marked @NonNull but is null");
+        assertThatThrownBy(() -> new JpaPdpSubGroup((JpaPdpSubGroup) null)).isInstanceOf(NullPointerException.class);
 
         assertEquals(PDP_A, testJpaPdpSubGroup.getKey().getLocalName());
         assertEquals(PDP_A, new JpaPdpSubGroup(testPdpSubgroup).getKey().getLocalName());
@@ -279,5 +277,7 @@ public class JpaPdpSubGroupTest {
         assertEquals("Prop Value", testJpaPdpSubGroup.getProperties().get("PropKey"));
 
         assertEquals(4, testJpaPdpSubGroup.getKeys().size());
+
+        assertEquals(testJpaPdpSubGroup, new JpaPdpSubGroup(testJpaPdpSubGroup));
     }
 }

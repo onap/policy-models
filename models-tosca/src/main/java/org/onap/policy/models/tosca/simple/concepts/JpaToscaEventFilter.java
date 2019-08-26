@@ -24,20 +24,16 @@
 package org.onap.policy.models.tosca.simple.concepts;
 
 import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-
 import org.apache.commons.lang3.ObjectUtils;
-import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
@@ -105,6 +101,10 @@ public class JpaToscaEventFilter extends PfConcept {
      */
     public JpaToscaEventFilter(final JpaToscaEventFilter copyConcept) {
         super(copyConcept);
+        this.key = new PfReferenceKey(copyConcept.key);
+        this.node = new PfConceptKey(copyConcept.node);
+        this.requirement = copyConcept.requirement;
+        this.capability = copyConcept.capability;
     }
 
     @Override
@@ -179,19 +179,5 @@ public class JpaToscaEventFilter extends PfConcept {
         }
 
         return ObjectUtils.compare(capability, other.capability);
-    }
-
-    @Override
-    public PfConcept copyTo(@NonNull final PfConcept target) {
-        final Object copyObject = target;
-        Assertions.instanceOf(copyObject, JpaToscaEventFilter.class);
-
-        final JpaToscaEventFilter copy = ((JpaToscaEventFilter) copyObject);
-        copy.setKey(new PfReferenceKey(key));
-        copy.setNode(new PfConceptKey(node));
-        copy.setRequirement(requirement);
-        copy.setCapability(capability);
-
-        return copy;
     }
 }

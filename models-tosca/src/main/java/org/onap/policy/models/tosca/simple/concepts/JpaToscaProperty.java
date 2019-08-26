@@ -25,7 +25,6 @@ package org.onap.policy.models.tosca.simple.concepts;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.EmbeddedId;
@@ -33,13 +32,10 @@ import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-
 import org.apache.commons.lang3.ObjectUtils;
-import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
@@ -125,6 +121,15 @@ public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaPr
      */
     public JpaToscaProperty(final JpaToscaProperty copyConcept) {
         super(copyConcept);
+        this.key = new PfReferenceKey(copyConcept.key);
+        this.type = new PfConceptKey(copyConcept.type);
+        this.description = copyConcept.description;
+        this.required = copyConcept.required;
+        this.defaultValue = copyConcept.defaultValue;
+        this.status = copyConcept.status;
+        // Constraints are immutable
+        this.constraints = (copyConcept.constraints != null ? new ArrayList<>(copyConcept.constraints) : null);
+        this.entrySchema = (copyConcept.entrySchema != null ? new JpaToscaEntrySchema(copyConcept.entrySchema) : null);
     }
 
     /**
@@ -333,32 +338,5 @@ public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaPr
         }
 
         return entrySchema.compareTo(other.entrySchema);
-    }
-
-    @Override
-    public PfConcept copyTo(@NonNull final PfConcept target) {
-        Assertions.instanceOf(target, JpaToscaProperty.class);
-
-        final JpaToscaProperty copy = ((JpaToscaProperty) target);
-        copy.setKey(new PfReferenceKey(key));
-        copy.setType(new PfConceptKey(type));
-        copy.setDescription(description);
-        copy.setRequired(required);
-        copy.setDefaultValue(defaultValue);
-        copy.setStatus(status);
-
-        if (constraints == null) {
-            copy.setConstraints(null);
-        } else {
-            final List<JpaToscaConstraint> newConstraints = new ArrayList<>();
-            for (final JpaToscaConstraint constraint : constraints) {
-                newConstraints.add(constraint); // Constraints are immutable
-            }
-            copy.setConstraints(newConstraints);
-        }
-
-        copy.setEntrySchema(entrySchema != null ? new JpaToscaEntrySchema(entrySchema) : null);
-
-        return copy;
     }
 }

@@ -21,6 +21,7 @@
 
 package org.onap.policy.models.pdp.concepts;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,12 +65,13 @@ public class PdpSubGroup {
      */
     public PdpSubGroup(@NonNull final PdpSubGroup source) {
         this.pdpType = source.pdpType;
-        this.supportedPolicyTypes = PfUtils.mapList(source.supportedPolicyTypes, ToscaPolicyTypeIdentifier::new);
-        this.policies = PfUtils.mapList(source.policies, ToscaPolicyIdentifier::new);
+        this.supportedPolicyTypes = PfUtils.mapList(source.supportedPolicyTypes, ToscaPolicyTypeIdentifier::new,
+                        new ArrayList<>(0));
+        this.policies = PfUtils.mapList(source.policies, ToscaPolicyIdentifier::new, new ArrayList<>(0));
         this.currentInstanceCount = source.currentInstanceCount;
         this.desiredInstanceCount = source.desiredInstanceCount;
         this.properties = (source.properties == null ? null : new LinkedHashMap<>(source.properties));
-        this.pdpInstances = PfUtils.mapList(source.pdpInstances, Pdp::new);
+        this.pdpInstances = PfUtils.mapList(source.pdpInstances, Pdp::new, new ArrayList<>(0));
     }
 
     /**

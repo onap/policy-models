@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,7 +45,7 @@ public abstract class PfConcept implements Serializable, Comparable<PfConcept> {
      * @param copyConcept the concept to copy from
      */
     public PfConcept(@NonNull final PfConcept copyConcept) {
-        copyConcept.copyTo(this);
+        // nothing else to do (other than @NonNull check)
     }
 
     /**
@@ -85,15 +86,6 @@ public abstract class PfConcept implements Serializable, Comparable<PfConcept> {
 
     @Override
     public abstract int hashCode();
-
-    /**
-     * Copy this concept to another object. The target object must have the same class as the source
-     * object.
-     *
-     * @param target the target object to which this object is copied
-     * @return the copied object
-     */
-    public abstract PfConcept copyTo(@NonNull PfConcept target);
 
     /**
      * Gets the ID string of this concept.

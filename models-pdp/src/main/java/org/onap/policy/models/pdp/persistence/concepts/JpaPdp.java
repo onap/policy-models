@@ -25,21 +25,17 @@ package org.onap.policy.models.pdp.persistence.concepts;
 
 import java.io.Serializable;
 import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfKey;
@@ -113,6 +109,10 @@ public class JpaPdp extends PfConcept implements PfAuthorative<Pdp>, Serializabl
      */
     public JpaPdp(@NonNull final JpaPdp copyConcept) {
         super(copyConcept);
+        this.key = new PfReferenceKey(copyConcept.key);
+        this.pdpState = copyConcept.pdpState;
+        this.healthy = copyConcept.healthy;
+        this.message = copyConcept.message;
     }
 
     /**
@@ -229,18 +229,5 @@ public class JpaPdp extends PfConcept implements PfAuthorative<Pdp>, Serializabl
         }
 
         return ObjectUtils.compare(message, other.message);
-    }
-
-    @Override
-    public PfConcept copyTo(@NonNull final PfConcept target) {
-        Assertions.instanceOf(target, JpaPdp.class);
-
-        final JpaPdp copy = ((JpaPdp) target);
-        copy.setKey(new PfReferenceKey(key));
-        copy.setPdpState(pdpState);
-        copy.setHealthy(healthy);
-        copy.setMessage(message);
-
-        return copy;
     }
 }

@@ -21,10 +21,14 @@
 
 package org.onap.policy.models.base;
 
-import java.util.ArrayList;
+import java.lang.reflect.InvocationTargetException;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import javax.ws.rs.core.Response;
 
 /**
  * Utility class for Policy Framework concept utilities.
@@ -69,13 +73,88 @@ public final class PfUtils {
      *
      * @param source list whose elements are to be mapped, or {@code null}
      * @param mapFunc mapping function
+     * @param defaultValue value to be returned if source is {@code null}
      * @return a new list, containing mappings of all of the items in the original list
      */
-    public static <T> List<T> mapList(List<T> source, Function<T, T> mapFunc) {
+    public static <T> List<T> mapList(List<T> source, Function<T, T> mapFunc, List<T> defaultValue) {
         if (source == null) {
-            return new ArrayList<>(0);
+            return defaultValue;
         }
 
         return source.stream().map(mapFunc).collect(Collectors.toList());
+    }
+
+    /**
+     * Convenience method to apply a mapping function to all of the elements of a list,
+     * generating a new list.
+     *
+     * @param source list whose elements are to be mapped, or {@code null}
+     * @param mapFunc mapping function
+     * @return a new list, containing mappings of all of the items in the original list,
+     *         or {@code null} if the source is {@code null}
+     */
+    public static <T> List<T> mapList(List<T> source, Function<T, T> mapFunc) {
+        return mapList(source, mapFunc, null);
+    }
+
+    /**
+     * Convenience method to apply a mapping function to all of the values of a map,
+     * generating a new map.
+     *
+     * @param source map whose values are to be mapped, or {@code null}
+     * @param mapFunc mapping function
+     * @param defaultValue value to be returned if source is {@code null}
+     * @return a new map, containing mappings of all of the items in the original map
+     */
+    public static <T> Map<String, T> mapMap(Map<String, T> source, Function<T, T> mapFunc,
+                    Map<String, T> defaultValue) {
+        if (source == null) {
+            return defaultValue;
+        }
+
+        Map<String, T> map = new LinkedHashMap<>();
+        for (Entry<String, T> ent : source.entrySet()) {
+            map.put(ent.getKey(), mapFunc.apply(ent.getValue()));
+        }
+
+        return map;
+    }
+
+    /**
+     * Convenience method to apply a mapping function to all of the values of a map,
+     * generating a new map.
+     *
+     * @param source map whose values are to be mapped, or {@code null}
+     * @param mapFunc mapping function
+     * @return a new map, containing mappings of all of the items in the original map,
+     *         or {@code null} if the source is {@code null}
+     */
+    public static <T> Map<String, T> mapMap(Map<String, T> source, Function<T, T> mapFunc) {
+        return mapMap(source, mapFunc, null);
+    }
+
+    /**
+     * Makes a copy of an object using the copy constructor from the object's class.
+     *
+     * @param source object to be copied
+     * @return a copy of the source, or {@code null} if the source is {@code null}
+     * @throws PfModelRuntimeException if the object cannot be copied
+     */
+    public static <T> T makeCopy(T source) {
+        if (source == null) {
+            return null;
+        }
+
+        try {
+            @SuppressWarnings("unchecked")
+            Class<? extends T> clazz = (Class<? extends T>) source.getClass();
+
+            return clazz.getConstructor(clazz).newInstance(source);
+
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException
+                        | RuntimeException e) {
+            throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR,
+                            "error copying concept key class: " + source.getClass().getName(), e);
+        }
     }
 }

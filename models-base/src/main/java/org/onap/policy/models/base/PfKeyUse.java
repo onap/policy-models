@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,13 +22,9 @@
 package org.onap.policy.models.base;
 
 import java.util.List;
-
-import javax.ws.rs.core.Response;
-
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.ToString;
-
 import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 
@@ -69,6 +66,7 @@ public class PfKeyUse extends PfKey {
      */
     public PfKeyUse(@NonNull final PfKeyUse copyConcept) {
         super(copyConcept);
+        this.usedKey = PfUtils.makeCopy(copyConcept.usedKey);
     }
 
     @Override
@@ -158,22 +156,5 @@ public class PfKeyUse extends PfKey {
         final PfKeyUse other = (PfKeyUse) otherObj;
 
         return usedKey.compareTo(other.usedKey);
-    }
-
-    @Override
-    public PfConcept copyTo(@NonNull final PfConcept target) {
-        final Object copyObject = target;
-        Assertions.instanceOf(copyObject, PfKeyUse.class);
-
-        final PfKeyUse copy = ((PfKeyUse) copyObject);
-        try {
-            copy.usedKey = usedKey.getClass().newInstance();
-        } catch (final Exception e) {
-            throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR,
-                    "error copying concept key: " + e.getMessage(), e);
-        }
-        usedKey.copyTo(copy.usedKey);
-
-        return copy;
     }
 }

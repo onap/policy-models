@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,20 +26,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
-
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.EmbeddedId;
 import javax.persistence.MappedSuperclass;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-
 import org.apache.commons.lang3.ObjectUtils;
-import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.common.utils.validation.ParameterValidationUtils;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
@@ -104,6 +101,10 @@ public class JpaToscaEntityType<T extends ToscaEntity> extends PfConcept impleme
      */
     public JpaToscaEntityType(final JpaToscaEntityType<T> copyConcept) {
         super(copyConcept);
+        this.key = new PfConceptKey(copyConcept.key);
+        this.derivedFrom = (copyConcept.derivedFrom != null ? new PfConceptKey(copyConcept.derivedFrom) : null);
+        this.metadata = (copyConcept.metadata != null ? new TreeMap<>(copyConcept.metadata) : null);
+        this.description = copyConcept.description;
     }
 
     /**
@@ -268,28 +269,5 @@ public class JpaToscaEntityType<T extends ToscaEntity> extends PfConcept impleme
         }
 
         return ObjectUtils.compare(description, other.description);
-    }
-
-    @Override
-    public PfConcept copyTo(@NonNull PfConcept target) {
-        final Object copyObject = target;
-        Assertions.instanceOf(copyObject, PfConcept.class);
-
-        @SuppressWarnings("unchecked")
-        final JpaToscaEntityType<T> copy = ((JpaToscaEntityType<T>) copyObject);
-        copy.setKey(new PfConceptKey(key));
-        copy.setDerivedFrom(derivedFrom != null ? new PfConceptKey(derivedFrom) : null);
-
-        if (metadata != null) {
-            final Map<String, String> newMatadata = new TreeMap<>();
-            for (final Entry<String, String> metadataEntry : metadata.entrySet()) {
-                newMatadata.put(metadataEntry.getKey(), metadataEntry.getValue());
-            }
-            copy.setMetadata(newMatadata);
-        }
-
-        copy.setDescription(description);
-
-        return copy;
     }
 }

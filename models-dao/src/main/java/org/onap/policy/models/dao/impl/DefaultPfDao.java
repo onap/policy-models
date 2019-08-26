@@ -35,6 +35,7 @@ import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.base.PfReferenceKey;
+import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.dao.DaoParameters;
 import org.onap.policy.models.dao.PfDao;
 import org.slf4j.Logger;
@@ -327,9 +328,7 @@ public class DefaultPfDao implements PfDao {
             if (t != null) {
                 // This clone is created to force the JPA DAO to recurse down through the object
                 try {
-                    final T clonedT = someClass.newInstance();
-                    t.copyTo(clonedT);
-                    return clonedT;
+                    return PfUtils.makeCopy(t);
                 } catch (final Exception e) {
                     LOGGER.warn("Could not clone object of class \"" + someClass.getName() + "\"", e);
                     return null;
@@ -352,9 +351,7 @@ public class DefaultPfDao implements PfDao {
             final T t = mg.find(someClass, key);
             if (t != null) {
                 try {
-                    final T clonedT = someClass.newInstance();
-                    t.copyTo(clonedT);
-                    return clonedT;
+                    return PfUtils.makeCopy(t);
                 } catch (final Exception e) {
                     LOGGER.warn("Could not clone object of class \"" + someClass.getName() + "\"", e);
                     return null;
