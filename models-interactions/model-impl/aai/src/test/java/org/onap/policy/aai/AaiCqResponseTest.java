@@ -330,6 +330,21 @@ public class AaiCqResponseTest {
         LOGGER.info(modelVer.getModelName());
 
     }
+    
+    @Test
+    public void testGetVfModuleCount() throws Exception {
+
+        String responseString = "";
+        responseString = new String(Files.readAllBytes(new File(CQ_RESPONSE_SAMPLE).toPath()));
+
+        AaiCqResponse aaiCqResponse;
+        aaiCqResponse = new AaiCqResponse(responseString);
+        int count = aaiCqResponse.getVfModuleCount("47958575-138f-452a-8c8d-d89b595f8164",
+                "e6130d03-56f1-4b0a-9a1d-e1b2ebc30e0e", "94b18b1d-cc91-4f43-911a-e6348665f292");
+        assertEquals(1, count);
+        LOGGER.info(Integer.toString(count));
+
+    }
 
 
     /**
@@ -343,5 +358,6 @@ public class AaiCqResponseTest {
         responseString = new String(Files.readAllBytes(new File(CQ_RESPONSE_SAMPLE).toPath()));
         return responseString;
     }
+    
 
 }
