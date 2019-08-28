@@ -561,6 +561,27 @@ public class AaiCqResponse {
         }
         return modelVer;
     }
+    
+    /**
+     * Get the count of vfModules matching customizationId, InvariantId and VersionId.
+     *
+     * @param custId ModelCustomizationId
+     * @param invId ModelInvariantId
+     * @param verId ModelVersionId
+     * @return Returns the count of vf modules
+     */
+    public int getVfModuleCount(String custId, String invId, String verId) {
+        List<VfModule> vfModuleList = this.getAllVfModules();
+        int count = 0;
+        for (VfModule vfModule : vfModuleList) {
+            if (vfModule.getModelCustomizationId().equals(custId) && vfModule.getModelInvariantId().equals(invId)
+                    && vfModule.getModelVersionId().equals(verId)) {
+                count = count + 1;
+            }
+        }
+        return count;
+
+    }
 
 }
 
