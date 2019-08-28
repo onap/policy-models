@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0283bf20_9aa69164",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/AaiCqResponse.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-08-28T19:44:02Z",
+      "side": 1,
+      "message": "remove tabs",
+      "revId": "e513c6984f82ae60491c99de3aff830b285f4b3f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "324a9b49_6221fd11",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/AaiCqResponse.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-08-28T19:44:02Z",
+      "side": 1,
+      "message": "would be good to check that \"getModelCustomizationId\" and \"getModelInvariantId\" exists and if so to the check.   This is to avoid NullPointerExceptions.",
+      "revId": "e513c6984f82ae60491c99de3aff830b285f4b3f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9fe8eb6_26ae950e",
+        "filename": "models-interactions/model-impl/aai/src/test/java/org/onap/policy/aai/AaiCqResponseTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-08-28T19:44:02Z",
+      "side": 1,
+      "message": "Doesn\u0027t matter match but could put the 2 lines above in a single one.",
+      "revId": "e513c6984f82ae60491c99de3aff830b285f4b3f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "233cc10c_b598ed5c",
+        "filename": "models-interactions/model-impl/aai/src/test/java/org/onap/policy/aai/AaiCqResponseTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-08-28T19:44:02Z",
+      "side": 1,
+      "message": "probably not very meaningful  to just have this logging line with no additional context, in any case, we know that it will be \"1\" per line 344.",
+      "revId": "e513c6984f82ae60491c99de3aff830b285f4b3f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83518b51_68b8c39c",
+        "filename": "models-interactions/model-impl/aai/src/test/java/org/onap/policy/aai/AaiCqResponseTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-08-28T19:44:02Z",
+      "side": 1,
+      "message": "remove tabs",
+      "revId": "e513c6984f82ae60491c99de3aff830b285f4b3f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "146f118b_43a3d957",
+        "filename": "models-interactions/model-simulators/src/main/resources/org/onap/policy/simulators/aai/AaiCqResponse.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-08-28T19:44:02Z",
+      "side": 1,
+      "message": "Are there any side effects in policy/drools-applications with these changes, not sure if it is used by simulator?",
+      "revId": "e513c6984f82ae60491c99de3aff830b285f4b3f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
