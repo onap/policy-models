@@ -87,6 +87,24 @@
     },
     {
       "key": {
+        "uuid": "e7c31c91_9411840b",
+        "filename": "models-interactions/model-impl/aai/src/test/java/org/onap/policy/aai/AaiCqResponseTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-08-29T13:31:26Z",
+      "side": 1,
+      "message": "and trailing spaces",
+      "parentUuid": "83518b51_68b8c39c",
+      "revId": "e513c6984f82ae60491c99de3aff830b285f4b3f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "146f118b_43a3d957",
         "filename": "models-interactions/model-simulators/src/main/resources/org/onap/policy/simulators/aai/AaiCqResponse.json",
         "patchSetId": 4
@@ -98,6 +116,23 @@
       "writtenOn": "2019-08-28T19:44:02Z",
       "side": 1,
       "message": "Are there any side effects in policy/drools-applications with these changes, not sure if it is used by simulator?",
+      "revId": "e513c6984f82ae60491c99de3aff830b285f4b3f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "331065a0_d39057b3",
+        "filename": "models-interactions/model-simulators/src/main/resources/org/onap/policy/simulators/aai/AaiCqResponse.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-08-29T13:31:26Z",
+      "side": 1,
+      "message": "since this is used in the aai simulator, should the IP be replaced with \"localhost\"?  And does the simulator support v2.1 in the uri?\n\nsame comment through-out",
       "revId": "e513c6984f82ae60491c99de3aff830b285f4b3f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
