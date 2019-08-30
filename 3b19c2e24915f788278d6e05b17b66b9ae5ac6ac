@@ -25,6 +25,91 @@
     },
     {
       "key": {
+        "uuid": "c23d557e_ed916e25",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-08-30T13:39:21Z",
+      "side": 1,
+      "message": "I assume this is a place-holder for now",
+      "revId": "3b19c2e24915f788278d6e05b17b66b9ae5ac6ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50cbab6d_89432304",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-08-30T13:39:21Z",
+      "side": 1,
+      "message": "I guess this means that, while the CdsClient is asynchronous,  the actor is not.",
+      "revId": "3b19c2e24915f788278d6e05b17b66b9ae5ac6ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a9f7973_1cdf8f20",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-08-30T13:39:21Z",
+      "side": 1,
+      "message": "cache the output of request.toString() to avoid invoking it twice",
+      "revId": "3b19c2e24915f788278d6e05b17b66b9ae5ac6ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a93025e_85f331cf",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-08-30T13:39:21Z",
+      "side": 1,
+      "message": "typically, the final \"e\" argument does not have a place-holder in the log message.  Either remove the final \"{}\" or add an extra \"e\" argument",
+      "revId": "3b19c2e24915f788278d6e05b17b66b9ae5ac6ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4faebbe_4fc8d6bd",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-08-30T13:39:21Z",
+      "side": 1,
+      "message": "would the message be better understood in the log if it said \"recipe\" instead of \"action name\"?",
+      "revId": "3b19c2e24915f788278d6e05b17b66b9ae5ac6ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc733c29_99a3fedb",
         "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/beans/ConfigDeployRequest.java",
         "patchSetId": 2
@@ -45,6 +130,81 @@
       "revId": "3b19c2e24915f788278d6e05b17b66b9ae5ac6ac",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "584c0719_dd7fb289",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/beans/ConfigDeployRequest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-08-30T13:39:21Z",
+      "side": 1,
+      "message": "With gson, you can use a static Gson object instead of allocating a new ObjectMapper for every request",
+      "parentUuid": "fc733c29_99a3fedb",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 0
+      },
+      "revId": "3b19c2e24915f788278d6e05b17b66b9ae5ac6ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94405954_e4811adc",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/beans/ConfigDeployRequest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-08-30T13:39:21Z",
+      "side": 1,
+      "message": "use lombok @Getter and @Setter at the class level, thus eliminating the need for these explicit methods",
+      "revId": "3b19c2e24915f788278d6e05b17b66b9ae5ac6ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d227a56_abd96088",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/beans/ConfigDeployRequest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-08-30T13:39:21Z",
+      "side": 1,
+      "message": "\"name\" \u003d\u003e \"version\"",
+      "revId": "3b19c2e24915f788278d6e05b17b66b9ae5ac6ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ef1b7f70_2543a0f2",
+        "filename": "models-interactions/model-actors/actor.cds/src/test/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProviderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-08-30T13:39:21Z",
+      "side": 1,
+      "message": "Need test cases for all of the methods (e.g., getRecipes).  Need test cases for all of the branches (e.g., latch.await interrupted - but that one is trickier as you have to run it in a background thread to avoid interrupting the junit test thread)",
+      "revId": "3b19c2e24915f788278d6e05b17b66b9ae5ac6ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
