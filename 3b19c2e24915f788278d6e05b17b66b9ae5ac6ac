@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9b2a197_0bc67089",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-08-30T11:34:48Z",
+      "side": 1,
+      "message": "Need to think this through - and review the WIP I had started. I believe when a service is \"retrieved\" via java.util service API there is one instance of that class returned. So, if we were to support multiple instances of a control loop event happening, then you wouldn\u0027t want to local variables like this. But rather have saved in memory one object per event. This allows for multi-threading etc. \n\nSee this review: https://gerrit.onap.org/r/c/policy/models/+/91882\n\nstartOperation is the method to kick things off. An object such as ControlLoopOperation would contain variables specific to the event (eg Policy, AAI details, response, requestId, subRequestId).",
+      "range": {
+        "startLine": 56,
+        "startChar": 1,
+        "endLine": 63,
+        "endChar": 0
+      },
+      "revId": "3b19c2e24915f788278d6e05b17b66b9ae5ac6ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc733c29_99a3fedb",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/beans/ConfigDeployRequest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-08-30T11:34:48Z",
+      "side": 1,
+      "message": "Let\u0027s not use jackson, we are trying to remove jackson from all the repos per the Security team recommendations. If you can use google gson, that is preferred.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 0
+      },
+      "revId": "3b19c2e24915f788278d6e05b17b66b9ae5ac6ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
