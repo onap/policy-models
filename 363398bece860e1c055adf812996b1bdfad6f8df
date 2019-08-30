@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "c7efaef5_099f4ebf",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/AaiCqResponse.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-08-30T16:34:53Z",
+      "side": 1,
+      "message": "add \"break\" or \"return\" here",
+      "revId": "363398bece860e1c055adf812996b1bdfad6f8df",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd1e5bc0_c0aede67",
         "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/AaiCqResponse.java",
         "patchSetId": 5
@@ -13,6 +30,24 @@
       "writtenOn": "2019-08-30T15:30:46Z",
       "side": 1,
       "message": "I don\u0027t remember the nested loop number that will trigger sonar .. Functionality is good otherwise.",
+      "revId": "363398bece860e1c055adf812996b1bdfad6f8df",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966df629_a909146d",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/AaiCqResponse.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-08-30T16:34:53Z",
+      "side": 1,
+      "message": "I think this is ok - limit is 3",
+      "parentUuid": "cd1e5bc0_c0aede67",
       "revId": "363398bece860e1c055adf812996b1bdfad6f8df",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
