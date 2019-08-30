@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "601cac26_97ebf0ba",
+        "filename": "models-interactions/model-actors/actor.appc/src/main/java/org/onap/policy/controlloop/actor/appc/AppcActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-08-30T12:45:12Z",
+      "side": 1,
+      "message": "should this method be moved to the ControlLoopOperation class, perhaps as an abstract method that the Actors can override?",
+      "revId": "a7867864ddaa4e5908ee073b88296f335543a9e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa1b1e6_9a595a6a",
         "filename": "models-interactions/model-actors/actor.so/src/test/java/org/onap/policy/controlloop/actor/so/SoActorServiceProviderTest.java",
         "patchSetId": 2
@@ -237,6 +254,24 @@
       "side": 1,
       "message": "success, fail, timeout cases",
       "parentUuid": "7007744c_2c64c99d",
+      "revId": "a7867864ddaa4e5908ee073b88296f335543a9e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ade8120c_c90d6d24",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/spi/ActorOperationCallback.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-08-30T12:45:12Z",
+      "side": 1,
+      "message": "thinking about this more, if timeouts are handled by the actor, then it would have to be accommodated within the callback api so the invoker knows the operation failed.  On the other hand, if timeouts are handled by the invoker, then when the invoker detects a timeout, it can just cancel the operation using the cancelOperation method that\u0027s already defined in this review.",
+      "parentUuid": "9a4d2013_df44df80",
       "revId": "a7867864ddaa4e5908ee073b88296f335543a9e7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
