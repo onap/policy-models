@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bf77d564_27a4c589",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-09-03T20:08:49Z",
+      "side": 1,
+      "message": "Sure makes sense, i will remove the local variables. \nRegarding other variables specific to the event, I need VirtualControlLoopEvent (requestId), ControlLoopOperation (subReqId), Policy (payload, actors) objects. I wanted to separate the AAI params as key-value pairs to give flexibility to the rule-engine to do any sort of AAI enrichment/filtering versus bringing in the specific AAI param (e.g.  targetEntity like we have today). This is because CDS actor would need more than one AAI param. What do you think?",
+      "parentUuid": "c9b2a197_0bc67089",
+      "range": {
+        "startLine": 56,
+        "startChar": 1,
+        "endLine": 63,
+        "endChar": 0
+      },
+      "revId": "3b19c2e24915f788278d6e05b17b66b9ae5ac6ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c23d557e_ed916e25",
         "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2019-08-30T13:39:21Z",
       "side": 1,
       "message": "I assume this is a place-holder for now",
+      "revId": "3b19c2e24915f788278d6e05b17b66b9ae5ac6ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "69a9ef20_7aa5effd",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-09-03T20:08:49Z",
+      "side": 1,
+      "message": "Yes, we need to standardize the recipes we want to support for CDS as an actor. Actually with CDS, we should be able to support any new recipe as long as the CDS blueprint is present, so this field is \"open\" and may not necessarily need to be enforced from within policy.",
+      "parentUuid": "c23d557e_ed916e25",
       "revId": "3b19c2e24915f788278d6e05b17b66b9ae5ac6ac",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "f74dc264_36d492b8",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-09-03T20:08:49Z",
+      "side": 1,
+      "message": "Oh thats a mistake, they both should be sync..will fix it",
+      "parentUuid": "50cbab6d_89432304",
+      "revId": "3b19c2e24915f788278d6e05b17b66b9ae5ac6ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a9f7973_1cdf8f20",
         "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
         "patchSetId": 2
@@ -70,6 +130,24 @@
       "writtenOn": "2019-08-30T13:39:21Z",
       "side": 1,
       "message": "cache the output of request.toString() to avoid invoking it twice",
+      "revId": "3b19c2e24915f788278d6e05b17b66b9ae5ac6ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f125bc3a_b7802042",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-09-03T20:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a9f7973_1cdf8f20",
       "revId": "3b19c2e24915f788278d6e05b17b66b9ae5ac6ac",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "43790800_952585fa",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-09-03T20:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a93025e_85f331cf",
+      "revId": "3b19c2e24915f788278d6e05b17b66b9ae5ac6ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4faebbe_4fc8d6bd",
         "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
         "patchSetId": 2
@@ -104,6 +200,24 @@
       "writtenOn": "2019-08-30T13:39:21Z",
       "side": 1,
       "message": "would the message be better understood in the log if it said \"recipe\" instead of \"action name\"?",
+      "revId": "3b19c2e24915f788278d6e05b17b66b9ae5ac6ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "733ca411_4dbfe018",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-09-03T20:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4faebbe_4fc8d6bd",
       "revId": "3b19c2e24915f788278d6e05b17b66b9ae5ac6ac",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -157,6 +271,54 @@
     },
     {
       "key": {
+        "uuid": "ab07fafb_005aabdf",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/beans/ConfigDeployRequest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-09-03T20:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "584c0719_dd7fb289",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 0
+      },
+      "revId": "3b19c2e24915f788278d6e05b17b66b9ae5ac6ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7077b9ed_298c5f59",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/beans/ConfigDeployRequest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-09-03T20:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc733c29_99a3fedb",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 0
+      },
+      "revId": "3b19c2e24915f788278d6e05b17b66b9ae5ac6ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "94405954_e4811adc",
         "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/beans/ConfigDeployRequest.java",
         "patchSetId": 2
@@ -168,6 +330,24 @@
       "writtenOn": "2019-08-30T13:39:21Z",
       "side": 1,
       "message": "use lombok @Getter and @Setter at the class level, thus eliminating the need for these explicit methods",
+      "revId": "3b19c2e24915f788278d6e05b17b66b9ae5ac6ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "857851ba_b792959b",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/beans/ConfigDeployRequest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-09-03T20:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94405954_e4811adc",
       "revId": "3b19c2e24915f788278d6e05b17b66b9ae5ac6ac",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -191,6 +371,24 @@
     },
     {
       "key": {
+        "uuid": "488194cc_512255c2",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/beans/ConfigDeployRequest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-09-03T20:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d227a56_abd96088",
+      "revId": "3b19c2e24915f788278d6e05b17b66b9ae5ac6ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ef1b7f70_2543a0f2",
         "filename": "models-interactions/model-actors/actor.cds/src/test/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProviderTest.java",
         "patchSetId": 2
@@ -202,6 +400,24 @@
       "writtenOn": "2019-08-30T13:39:21Z",
       "side": 1,
       "message": "Need test cases for all of the methods (e.g., getRecipes).  Need test cases for all of the branches (e.g., latch.await interrupted - but that one is trickier as you have to run it in a background thread to avoid interrupting the junit test thread)",
+      "revId": "3b19c2e24915f788278d6e05b17b66b9ae5ac6ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "315d4f6c_da35704a",
+        "filename": "models-interactions/model-actors/actor.cds/src/test/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProviderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-09-03T20:08:49Z",
+      "side": 1,
+      "message": "Sure will cover all the methods and cases",
+      "parentUuid": "ef1b7f70_2543a0f2",
       "revId": "3b19c2e24915f788278d6e05b17b66b9ae5ac6ac",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
