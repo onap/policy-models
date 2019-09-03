@@ -77,9 +77,9 @@ public class AaiSimulatorTest {
     @Test
     public void testCqGet() {
         final AaiCqResponse response = new AaiManager(new RestManager()).getCustomQueryResponse("http://localhost:6666",
-                "testUser", "testPass", UUID.randomUUID(), "vfw-vm-0201-2");
+                "testUser", "testPass", UUID.randomUUID(), "Ete_vFWCLvFWSNK_7ba1fbde_0");
         assertNotNull(response);
-        assertEquals(response.getVserver().getVserverName(), "vfw-vm-0201-2");
+        assertEquals(response.getVserver().getVserverName(), "Ete_vFWCLvFWSNK_7ba1fbde_0");
     }
 
     @Test
