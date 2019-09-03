@@ -83,8 +83,8 @@ public class AuthorativeToscaProvider {
 
         LOGGER.debug("->getPolicyTypeList: name={}, version={}", name, version);
 
-        List<ToscaPolicyType> policyTypeList = asConceptList(
-                new SimpleToscaProvider().getPolicyTypes(dao, name, version).toAuthorative().getPolicyTypes());
+        List<ToscaPolicyType> policyTypeList = new ArrayList<>(
+                new SimpleToscaProvider().getPolicyTypes(dao, name, version).toAuthorative().getPolicyTypes().values());
 
         LOGGER.debug("<-getPolicyTypeList: name={}, version={}, policyTypeList={}", name, version, policyTypeList);
         return policyTypeList;
@@ -106,7 +106,7 @@ public class AuthorativeToscaProvider {
         ToscaServiceTemplate serviceTemplate =
                 new SimpleToscaProvider().getPolicyTypes(dao, null, null).toAuthorative();
 
-        List<ToscaPolicyType> filteredPolicyTypes = asConceptList(serviceTemplate.getPolicyTypes());
+        List<ToscaPolicyType> filteredPolicyTypes = new ArrayList<>(serviceTemplate.getPolicyTypes().values());
         filteredPolicyTypes = filter.filter(filteredPolicyTypes);
 
         serviceTemplate.setPolicyTypes(asConceptMap(filteredPolicyTypes));
@@ -257,7 +257,7 @@ public class AuthorativeToscaProvider {
         List<ToscaPolicy> filteredPolicies = asConceptList(serviceTemplate.getToscaTopologyTemplate().getPolicies());
         filteredPolicies = filter.filter(filteredPolicies);
 
-        serviceTemplate.getToscaTopologyTemplate().setPolicies(asConceptMap(filteredPolicies));
+        serviceTemplate.getToscaTopologyTemplate().setPolicies(asConceptMapList(filteredPolicies));
 
         LOGGER.debug("<-getFilteredPolicies: filter={}, serviceTemplate={}", filter, serviceTemplate);
         return serviceTemplate;
@@ -368,7 +368,7 @@ public class AuthorativeToscaProvider {
      * @param conceptList the concept list
      * @return the list of concept map
      */
-    private <T extends ToscaEntity> List<Map<String, T>> asConceptMap(List<T> conceptList) {
+    private <T extends ToscaEntity> List<Map<String, T>> asConceptMapList(List<T> conceptList) {
         List<Map<String, T>> toscaEntityMapList = new ArrayList<>();
         for (T concept : conceptList) {
             Map<String, T> conceptMap = new LinkedHashMap<>();
@@ -377,5 +377,20 @@ public class AuthorativeToscaProvider {
         }
 
         return toscaEntityMapList;
+    }
+
+    /**
+     * Return the contents of a list of concepts as map of concepts.
+     *
+     * @param conceptList the concept list
+     * @return the list of concept map
+     */
+    private <T extends ToscaEntity> Map<String, T> asConceptMap(List<T> conceptList) {
+        Map<String, T> conceptMap = new LinkedHashMap<>();
+        for (T concept : conceptList) {
+            conceptMap.put(concept.getName(), concept);
+        }
+
+        return conceptMap;
     }
 }
