@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a77c6f0e_bcdbc07a",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.monitoring.cdap.tca.hi.lo.app.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-09-04T07:09:59Z",
+      "side": 1,
+      "message": "I was working off Pam\u0027s originals here. The version defaults to 0.0.0. @Pam, should we add a version to the policy types in all these files?",
+      "parentUuid": "8d6700c8_76e4fda6",
+      "revId": "511a4175ae5cb7460716513c8af3fd8f0c54b32c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96ffa243_dd963f71",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProvider.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2019-09-03T22:02:30Z",
       "side": 1,
       "message": "if only one entry is expected, then a TreeMap may consume less memory",
+      "revId": "511a4175ae5cb7460716513c8af3fd8f0c54b32c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97b8116f_d653f218",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-09-04T07:09:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96ffa243_dd963f71",
       "revId": "511a4175ae5cb7460716513c8af3fd8f0c54b32c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
