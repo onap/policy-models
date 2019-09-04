@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2133bb4c_75c55b37",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-09-04T20:27:07Z",
+      "side": 1,
+      "message": "good point. i need to give some thought to this",
+      "parentUuid": "ccd2f80d_8c7b1b3d",
+      "revId": "77c9c918e89900e5d110ad8bcddc0297c6ba83ec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "05513621_fc53c6c4",
         "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2019-09-04T17:52:31Z",
       "side": 1,
       "message": "I suppose these are callbacks being called through another thread running with the middleware, for my reference, can you point me where the callbacks are performed?",
+      "revId": "77c9c918e89900e5d110ad8bcddc0297c6ba83ec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab5ab334_76811e88",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-09-04T20:27:07Z",
+      "side": 1,
+      "message": "Yeah, it is all withing the CdsProcessorGrpcClient and CdsProcessorHandler. \nhttps://github.com/onap/policy-models/blob/master/models-interactions/model-impl/cds/src/main/java/org/onap/policy/cds/client/CdsProcessorGrpcClient.java#L62\n\nhttps://github.com/onap/policy-models/blob/master/models-interactions/model-impl/cds/src/main/java/org/onap/policy/cds/client/CdsProcessorHandler.java#L53",
+      "parentUuid": "05513621_fc53c6c4",
       "revId": "77c9c918e89900e5d110ad8bcddc0297c6ba83ec",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "1c919fba_73dd9c86",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-09-04T20:27:07Z",
+      "side": 1,
+      "message": "I think yes since the sendRequestToCds will be called from the ControlLoopOperationManager like the other actors. I made this sync since the current code doesnt handle callbacks, i know pam is working on this.. In the meantime i was thinking of relying on non-null sate of the response to decide whether to proceed or not. I can add aTODO or FIXME to come back to it.",
+      "parentUuid": "e15b674d_92f545f5",
+      "revId": "77c9c918e89900e5d110ad8bcddc0297c6ba83ec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9fd7f440_0797ee1c",
         "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2019-09-04T17:52:31Z",
       "side": 1,
       "message": "Probably the the failure or timeout cases deserves more than trace, debug or info instead?",
+      "revId": "77c9c918e89900e5d110ad8bcddc0297c6ba83ec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8da5d321_69f8839b",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-09-04T20:27:07Z",
+      "side": 1,
+      "message": "sure",
+      "parentUuid": "9fd7f440_0797ee1c",
       "revId": "77c9c918e89900e5d110ad8bcddc0297c6ba83ec",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "ace0a339_abe35659",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-09-04T20:27:07Z",
+      "side": 1,
+      "message": "yes thats correct.",
+      "parentUuid": "52d42f44_c4c59be0",
+      "revId": "77c9c918e89900e5d110ad8bcddc0297c6ba83ec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51538233_a2ff2d1e",
         "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
         "patchSetId": 4
@@ -98,6 +188,24 @@
       "writtenOn": "2019-09-04T17:52:31Z",
       "side": 1,
       "message": "cdsResponse may be null, because of timeout or \"onError\", could there some bad interactions because of it?",
+      "revId": "77c9c918e89900e5d110ad8bcddc0297c6ba83ec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23d8be94_bd2ff18f",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-09-04T20:27:07Z",
+      "side": 1,
+      "message": "Yes correct. The cdsResponse is null in my junit since the cdsClient is a mock object and errors/times out. Not sure how i could validate the implications of null cdsResponse unless i am able to test it end-to-end with the cds and policy.",
+      "parentUuid": "51538233_a2ff2d1e",
       "revId": "77c9c918e89900e5d110ad8bcddc0297c6ba83ec",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "780eb797_6209c290",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-09-04T20:27:07Z",
+      "side": 1,
+      "message": "My bad, you are right! I should be aborting when we are unable to embed the payload for whatever reason",
+      "parentUuid": "a2073487_d476030c",
+      "revId": "77c9c918e89900e5d110ad8bcddc0297c6ba83ec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a99cd8f7_d886dc86",
         "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
         "patchSetId": 4
@@ -132,6 +258,24 @@
       "writtenOn": "2019-09-04T17:52:31Z",
       "side": 1,
       "message": "Can getPayload() return null?  If so, watch for NullPointerExceptions below, ie. paylyload.containsKey (case of misprovisioning, I think payload is optional).\n\nCan you remind me what Proconditions.checkState do, does it throw some sort of RuntimeExpection derivative to abort processing?   Where would it be caught and dealt with?",
+      "revId": "77c9c918e89900e5d110ad8bcddc0297c6ba83ec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "039ad644_38e9e5ba",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-09-04T20:27:07Z",
+      "side": 1,
+      "message": "CDS request mandates the blueprint name and version to be provided. For the current operational TOSCA policy model (yaml) these two values are embedded in the payload section, with the new policy type model that Pam is proposing maybe we will be able to move it out from payload in which case we need not enforce the null check. I can improve the javadoc to make it clear.\n\nPreconditions throws an IllegalStateException (RTE) and hence it need not be caught/rethrown. I did not make it a checked exception because the payload is input to policy. Do you think it is better to make it a checked exception?",
+      "parentUuid": "a99cd8f7_d886dc86",
       "revId": "77c9c918e89900e5d110ad8bcddc0297c6ba83ec",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "d38e4206_749d947e",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/beans/ConfigDeployRequest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-09-04T20:27:07Z",
+      "side": 1,
+      "message": "I don\u0027t think this will make its way to drools working memory. It is just a pojo to help build the payload for CDS. I believe for other actors we do not store the payload/event which is consumed by the payload?",
+      "parentUuid": "9a1237a8_43643c8d",
+      "revId": "77c9c918e89900e5d110ad8bcddc0297c6ba83ec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "939615d5_dc64f8a3",
         "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/beans/ConfigDeployRequest.java",
         "patchSetId": 4
@@ -166,6 +328,24 @@
       "writtenOn": "2019-09-04T17:13:40Z",
       "side": 1,
       "message": "@Expose is not needed",
+      "revId": "77c9c918e89900e5d110ad8bcddc0297c6ba83ec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2919c78_a4c3acf0",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/beans/ConfigDeployRequest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-09-04T20:27:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "939615d5_dc64f8a3",
       "revId": "77c9c918e89900e5d110ad8bcddc0297c6ba83ec",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "49befa36_2dbc0a39",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/beans/ConfigDeployRequest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-09-04T20:27:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58f6c9dd_44295e1f",
+      "revId": "77c9c918e89900e5d110ad8bcddc0297c6ba83ec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24706dde_d6d4e5bd",
         "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/beans/ConfigDeployRequest.java",
         "patchSetId": 4
@@ -200,6 +398,24 @@
       "writtenOn": "2019-09-04T17:13:40Z",
       "side": 1,
       "message": "should this really be done in a toString() call?",
+      "revId": "77c9c918e89900e5d110ad8bcddc0297c6ba83ec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d46cacf_2edfc16a",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/beans/ConfigDeployRequest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-09-04T20:27:07Z",
+      "side": 1,
+      "message": "Actually no since I am already validating it in the actor service provider class, will simply remove it.",
+      "parentUuid": "24706dde_d6d4e5bd",
       "revId": "77c9c918e89900e5d110ad8bcddc0297c6ba83ec",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
