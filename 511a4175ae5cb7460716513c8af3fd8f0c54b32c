@@ -127,6 +127,24 @@
     },
     {
       "key": {
+        "uuid": "7c7d6d1d_d30a4764",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.monitoring.cdap.tca.hi.lo.app.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-09-04T17:27:09Z",
+      "side": 1,
+      "message": "Please check it when you get a chance.  I checked out https://gerrit.onap.org/r/#/c/policy/xacml-pdp/+/94706/ and ran test3AddOptimizationPolicies().  It throws an exception about version being null.  However, if I add type_version to the test yaml, vCPE.policies.optimization.input.tosca, then it gets past that (to another error), though if the yaml were \"corrected\", then it might work.",
+      "parentUuid": "15928587_1e2cd725",
+      "revId": "511a4175ae5cb7460716513c8af3fd8f0c54b32c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96ffa243_dd963f71",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProvider.java",
         "patchSetId": 1
