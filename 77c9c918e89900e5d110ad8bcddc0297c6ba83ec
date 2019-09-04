@@ -19,6 +19,57 @@
     },
     {
       "key": {
+        "uuid": "05513621_fc53c6c4",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-09-04T17:52:31Z",
+      "side": 1,
+      "message": "I suppose these are callbacks being called through another thread running with the middleware, for my reference, can you point me where the callbacks are performed?",
+      "revId": "77c9c918e89900e5d110ad8bcddc0297c6ba83ec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e15b674d_92f545f5",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-09-04T17:52:31Z",
+      "side": 1,
+      "message": "Is the \"await\" end up being called from the main drools session thread?   Just want to make sure that this operation is handled asynchronously.\n\nIs it OK to proceed case of timeout?",
+      "revId": "77c9c918e89900e5d110ad8bcddc0297c6ba83ec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9fd7f440_0797ee1c",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-09-04T17:52:31Z",
+      "side": 1,
+      "message": "Probably the the failure or timeout cases deserves more than trace, debug or info instead?",
+      "revId": "77c9c918e89900e5d110ad8bcddc0297c6ba83ec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "52d42f44_c4c59be0",
         "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
         "patchSetId": 4
@@ -30,6 +81,74 @@
       "writtenOn": "2019-09-04T17:13:40Z",
       "side": 1,
       "message": "I assume this is temporarily synchronous on purpose, to support current rules, since the rules don\u0027t handle callbacks yet",
+      "revId": "77c9c918e89900e5d110ad8bcddc0297c6ba83ec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51538233_a2ff2d1e",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-09-04T17:52:31Z",
+      "side": 1,
+      "message": "cdsResponse may be null, because of timeout or \"onError\", could there some bad interactions because of it?",
+      "revId": "77c9c918e89900e5d110ad8bcddc0297c6ba83ec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a2073487_d476030c",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-09-04T17:52:31Z",
+      "side": 1,
+      "message": "Is it OK to continue below and not abort?  struct is used in line 206.",
+      "revId": "77c9c918e89900e5d110ad8bcddc0297c6ba83ec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a99cd8f7_d886dc86",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-09-04T17:52:31Z",
+      "side": 1,
+      "message": "Can getPayload() return null?  If so, watch for NullPointerExceptions below, ie. paylyload.containsKey (case of misprovisioning, I think payload is optional).\n\nCan you remind me what Proconditions.checkState do, does it throw some sort of RuntimeExpection derivative to abort processing?   Where would it be caught and dealt with?",
+      "revId": "77c9c918e89900e5d110ad8bcddc0297c6ba83ec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a1237a8_43643c8d",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/beans/ConfigDeployRequest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-09-04T17:52:31Z",
+      "side": 1,
+      "message": "Should it implement Serializable?   Not sure it will end up in the drools working memory, or not, but native drools persistence would require it.",
       "revId": "77c9c918e89900e5d110ad8bcddc0297c6ba83ec",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
