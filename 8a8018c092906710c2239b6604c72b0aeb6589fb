@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2bd69f4f_7dd8ca4d",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-09-04T21:29:15Z",
+      "side": 1,
+      "message": "better to to use logger place-holder \"{}\" strategy, just don\u0027t include a place-holder for the \"e\" parameter",
+      "revId": "8a8018c092906710c2239b6604c72b0aeb6589fb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
