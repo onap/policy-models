@@ -109,6 +109,24 @@
     },
     {
       "key": {
+        "uuid": "15928587_1e2cd725",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.monitoring.cdap.tca.hi.lo.app.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-09-04T14:15:30Z",
+      "side": 1,
+      "message": "When the version is not set int he Yaml, it becomes 0.0.0 when it\u0027s imported into the service template. I don\u0027t remember where this happens but it does. I\u0027ll check this later tonight if we need to.",
+      "parentUuid": "729171ba_828a9714",
+      "revId": "511a4175ae5cb7460716513c8af3fd8f0c54b32c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96ffa243_dd963f71",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProvider.java",
         "patchSetId": 1
