@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "729171ba_828a9714",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.monitoring.cdap.tca.hi.lo.app.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-09-04T13:36:34Z",
+      "side": 1,
+      "message": "I believe the xacml-pdp code went yaml-\u003ejson-\u003eToscaPolicy and the version was left as \"null\".  To change this behavior, we\u0027d need to modify this line as follows in ToscaPolicy:\n\n  private String typeVersion \u003d \"1.0.0\"; // or \"0.0.0\"\n\nToscaEntity might need something similar for its version.",
+      "parentUuid": "1430d08c_56daf378",
+      "revId": "511a4175ae5cb7460716513c8af3fd8f0c54b32c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96ffa243_dd963f71",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProvider.java",
         "patchSetId": 1
