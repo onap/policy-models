@@ -145,6 +145,24 @@
     },
     {
       "key": {
+        "uuid": "f4900941_5bc57f61",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.monitoring.cdap.tca.hi.lo.app.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-09-04T17:34:14Z",
+      "side": 1,
+      "message": "Yes I\u0027m looking at that now - I think\u0027s because I need to update the policy example in this review to include the type_version. Let\u0027s make sure that this file is for the POST vs the GET. test3AddOptimizationPolicies is the result of a GET",
+      "parentUuid": "7c7d6d1d_d30a4764",
+      "revId": "511a4175ae5cb7460716513c8af3fd8f0c54b32c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96ffa243_dd963f71",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProvider.java",
         "patchSetId": 1
