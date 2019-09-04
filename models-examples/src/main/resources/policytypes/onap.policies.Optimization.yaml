@@ -1,0 +1,41 @@
+tosca_definitions_version: tosca_simple_yaml_1_0_0
+policy_types:
+   onap.policies.Optimization:
+      derived_from: tosca.policies.Root
+      version: 1.0.0
+      description: The base policy type for all policies that govern optimization
+      properties:
+         scope:
+            description: Scope for the policy - could be for a specific release.
+            type: list
+            matchable: true
+            required: true
+         services:
+            description: One or more services that the policy applies to.
+            type: list
+            matchable: true
+            required: true
+            entry_schema:
+               type: string
+         resources:
+            description: One or more VNF resources that the policy applies to.
+            type: list
+            matchable: true
+            required: true
+            entry_schema:
+               type: string
+         geography:
+            description: One or more geographic regions
+            type: list
+            matchable: true
+            required: true
+            entry_schema:
+               type: string
+               constraints:
+               -  valid_values:
+                  - US
+                  - International
+         identity:
+            description: Used internally for identification
+            type: string
+            required: true

@@ -22,7 +22,12 @@
 package org.onap.policy.models.tosca.simple.concepts;
 
 import com.google.gson.annotations.SerializedName;
+
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -43,6 +48,8 @@ import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfValidationMessage;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaDataType;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 
 /**
@@ -141,11 +148,19 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
         toscaServiceTemplate.setToscaDefinitionsVersion(toscaDefinitionsVersion);
 
         if (dataTypes != null) {
-            toscaServiceTemplate.setDataTypes(dataTypes.toAuthorative());
+            toscaServiceTemplate.setDataTypes(new LinkedHashMap<>());
+            List<Map<String, ToscaDataType>> dataTypeMapList = dataTypes.toAuthorative();
+            for (Map<String, ToscaDataType> dataTypeMap : dataTypeMapList) {
+                toscaServiceTemplate.getDataTypes().putAll(dataTypeMap);
+            }
         }
 
         if (policyTypes != null) {
-            toscaServiceTemplate.setPolicyTypes(policyTypes.toAuthorative());
+            toscaServiceTemplate.setPolicyTypes(new LinkedHashMap<>());
+            List<Map<String, ToscaPolicyType>> policyTypeMapList = policyTypes.toAuthorative();
+            for (Map<String, ToscaPolicyType> policyTypeMap : policyTypeMapList) {
+                toscaServiceTemplate.getPolicyTypes().putAll(policyTypeMap);
+            }
         }
 
         if (topologyTemplate != null) {
@@ -171,12 +186,12 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
 
         if (toscaServiceTemplate.getDataTypes() != null) {
             dataTypes = new JpaToscaDataTypes();
-            dataTypes.fromAuthorative(toscaServiceTemplate.getDataTypes());
+            dataTypes.fromAuthorative(Collections.singletonList(toscaServiceTemplate.getDataTypes()));
         }
 
         if (toscaServiceTemplate.getPolicyTypes() != null) {
             policyTypes = new JpaToscaPolicyTypes();
-            policyTypes.fromAuthorative(toscaServiceTemplate.getPolicyTypes());
+            policyTypes.fromAuthorative(Collections.singletonList(toscaServiceTemplate.getPolicyTypes()));
         }
 
 
