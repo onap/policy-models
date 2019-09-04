@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ccd2f80d_8c7b1b3d",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-09-04T17:13:40Z",
+      "side": 1,
+      "message": "this still seems like only one operation can be using the provider at a time.  May need to create another class or a nested class to contain all of the fields/data/responses needed for a given request.  And then onMessage() and onError() would be moved to that class.\n\nAn alternative, though less desirable approach would be to have the provider track all of the outstanding requests.",
+      "revId": "77c9c918e89900e5d110ad8bcddc0297c6ba83ec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52d42f44_c4c59be0",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-09-04T17:13:40Z",
+      "side": 1,
+      "message": "I assume this is temporarily synchronous on purpose, to support current rules, since the rules don\u0027t handle callbacks yet",
+      "revId": "77c9c918e89900e5d110ad8bcddc0297c6ba83ec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "939615d5_dc64f8a3",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/beans/ConfigDeployRequest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-09-04T17:13:40Z",
+      "side": 1,
+      "message": "@Expose is not needed",
+      "revId": "77c9c918e89900e5d110ad8bcddc0297c6ba83ec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "58f6c9dd_44295e1f",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/beans/ConfigDeployRequest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-09-04T17:13:40Z",
+      "side": 1,
+      "message": "@Expose is not needed",
+      "revId": "77c9c918e89900e5d110ad8bcddc0297c6ba83ec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24706dde_d6d4e5bd",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/beans/ConfigDeployRequest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-09-04T17:13:40Z",
+      "side": 1,
+      "message": "should this really be done in a toString() call?",
+      "revId": "77c9c918e89900e5d110ad8bcddc0297c6ba83ec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
