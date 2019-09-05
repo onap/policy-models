@@ -58,16 +58,21 @@ public class ToscaPolicyTypeFilterTest {
 
     // @formatter:off
     private static final String[] policyTypeResourceNames = {
-        "policytypes/onap.policies.monitoring.dcaegen2.collectors.datafile.datafile-app-server.yaml",
-        "policytypes/onap.policies.optimization.AffinityPolicy.yaml",
+        "policytypes/onap.policies.controlloop.Operational.yaml",
         "policytypes/onap.policies.optimization.DistancePolicy.yaml",
-        "policytypes/onap.policies.optimization.HpaPolicy.yaml",
-        "policytypes/onap.policies.optimization.OptimizationPolicy.yaml",
-        "policytypes/onap.policies.optimization.PciPolicy.yaml",
-        "policytypes/onap.policies.optimization.QueryPolicy.yaml",
-        "policytypes/onap.policies.optimization.SubscriberPolicy.yaml",
-        "policytypes/onap.policies.optimization.Vim_fit.yaml",
         "policytypes/onap.policies.optimization.VnfPolicy.yaml",
+        "policytypes/onap.policies.optimization.PciPolicy.yaml",
+        "policytypes/onap.policies.optimization.OptimizationPolicy.yaml",
+        "policytypes/onap.policies.controlloop.guard.Blacklist.yaml",
+        "policytypes/onap.policies.monitoring.dcaegen2.collectors.datafile.datafile-app-server.yaml",
+        "policytypes/onap.policies.optimization.HpaPolicy.yaml",
+        "policytypes/onap.policies.optimization.Vim_fit.yaml",
+        "policytypes/onap.policies.optimization.SubscriberPolicy.yaml",
+        "policytypes/onap.policies.optimization.AffinityPolicy.yaml",
+        "policytypes/onap.policies.optimization.QueryPolicy.yaml",
+        "policytypes/onap.policies.controlloop.guard.MinMax.yaml",
+        "policytypes/onap.policies.controlloop.guard.FrequencyLimiter.yaml",
+        "policytypes/onap.policies.Optimization.yaml",
         "policytypes/onap.policies.monitoring.cdap.tca.hi.lo.app.yaml"
     };
     // @formatter:on
@@ -90,9 +95,7 @@ public class ToscaPolicyTypeFilterTest {
                     new StandardCoder().decode(yamlAsJsonString, ToscaServiceTemplate.class);
             assertNotNull(serviceTemplate);
 
-            for (Map<String, ToscaPolicyType> foundPolicyTypeMap : serviceTemplate.getPolicyTypes()) {
-                addPolicyTypes(foundPolicyTypeMap);
-            }
+            addPolicyTypes(serviceTemplate.getPolicyTypes());
         }
 
         for (ToscaPolicyType type : typeList) {
@@ -138,21 +141,21 @@ public class ToscaPolicyTypeFilterTest {
                 ToscaPolicyTypeFilter.builder().version(ToscaPolicyTypeFilter.LATEST_VERSION).build();
 
         List<ToscaPolicyType> filteredList = filter.filter(typeList);
-        assertEquals(13, filteredList.size());
+        assertEquals(18, filteredList.size());
         assertEquals(VERSION_100, filteredList.get(0).getVersion());
-        assertEquals(VERSION_000, filteredList.get(4).getVersion());
+        assertEquals(VERSION_000, filteredList.get(9).getVersion());
 
         typeList.get(12).setVersion("2.0.0");
         filteredList = filter.filter(typeList);
-        assertEquals(13, filteredList.size());
-        assertEquals("2.0.0", filteredList.get(0).getVersion());
-        assertEquals(VERSION_000, filteredList.get(4).getVersion());
+        assertEquals(18, filteredList.size());
+        assertEquals("2.0.0", filteredList.get(9).getVersion());
+        assertEquals(VERSION_000, filteredList.get(16).getVersion());
 
         typeList.get(12).setVersion(VERSION_100);
         filteredList = filter.filter(typeList);
-        assertEquals(13, filteredList.size());
+        assertEquals(18, filteredList.size());
         assertEquals(VERSION_100, filteredList.get(0).getVersion());
-        assertEquals(VERSION_000, filteredList.get(4).getVersion());
+        assertEquals(VERSION_000, filteredList.get(16).getVersion());
     }
 
     @Test
@@ -174,7 +177,7 @@ public class ToscaPolicyTypeFilterTest {
         assertEquals(9, filteredList.size());
 
         filter = ToscaPolicyTypeFilter.builder().name("onap.policies.optimization.Vim_fit").version(VERSION_000)
-                        .build();
+                .build();
         filteredList = filter.filter(typeList);
         assertEquals(1, filteredList.size());
 
