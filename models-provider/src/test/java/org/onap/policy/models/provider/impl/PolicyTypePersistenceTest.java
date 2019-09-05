@@ -22,6 +22,7 @@ package org.onap.policy.models.provider.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import com.google.gson.GsonBuilder;
@@ -62,16 +63,22 @@ public class PolicyTypePersistenceTest {
 
     // @formatter:off
     private String[] policyTypeResourceNames = {
-        "policytypes/onap.policies.monitoring.dcaegen2.collectors.datafile.datafile-app-server.yaml",
-        "policytypes/onap.policies.optimization.AffinityPolicy.yaml",
+        "policytypes/onap.policies.controlloop.Operational.yaml",
         "policytypes/onap.policies.optimization.DistancePolicy.yaml",
-        "policytypes/onap.policies.optimization.HpaPolicy.yaml",
-        "policytypes/onap.policies.optimization.OptimizationPolicy.yaml",
-        "policytypes/onap.policies.optimization.PciPolicy.yaml",
-        "policytypes/onap.policies.optimization.QueryPolicy.yaml",
-        "policytypes/onap.policies.optimization.SubscriberPolicy.yaml",
-        "policytypes/onap.policies.optimization.Vim_fit.yaml",
         "policytypes/onap.policies.optimization.VnfPolicy.yaml",
+        "policytypes/onap.policies.optimization.PciPolicy.yaml",
+        "policytypes/onap.policies.optimization.OptimizationPolicy.yaml",
+        "policytypes/onap.policies.controlloop.guard.Blacklist.yaml",
+        "policytypes/onap.policies.monitoring.dcaegen2.collectors.datafile.datafile-app-server.yaml",
+        "policytypes/onap.policies.optimization.HpaPolicy.yaml",
+        "policytypes/onap.policies.optimization.Vim_fit.yaml",
+        "policytypes/onap.policies.optimization.SubscriberPolicy.yaml",
+        "policytypes/onap.policies.optimization.AffinityPolicy.yaml",
+        "policytypes/onap.policies.optimization.QueryPolicy.yaml",
+        "policytypes/onap.policies.controlloop.guard.MinMax.yaml",
+        "policytypes/onap.policies.controlloop.guard.FrequencyLimiter.yaml",
+        "policytypes/onap.policies.controlloop.guard.coordination.FirstBlocksSecond.yaml",
+        "policytypes/onap.policies.Optimization.yaml",
         "policytypes/onap.policies.monitoring.cdap.tca.hi.lo.app.yaml"
     };
     // @formatter:on
@@ -141,7 +148,7 @@ public class PolicyTypePersistenceTest {
         ToscaServiceTemplate serviceTemplate = standardCoder.decode(policyTypeString, ToscaServiceTemplate.class);
 
         assertNotNull(serviceTemplate);
-        ToscaPolicyType inPolicyType = serviceTemplate.getPolicyTypes().get(0).values().iterator().next();
+        ToscaPolicyType inPolicyType = serviceTemplate.getPolicyTypes().values().iterator().next();
 
         databaseProvider.createPolicyTypes(serviceTemplate);
         databaseProvider.updatePolicyTypes(serviceTemplate);
@@ -162,7 +169,7 @@ public class PolicyTypePersistenceTest {
         assertEquals(inPolicyType.getName(), policyTypeList.get(0).getName());
 
         policyTypeList = databaseProvider.getFilteredPolicyTypeList(ToscaPolicyTypeFilter.builder().build());
-        assertEquals(2, policyTypeList.size());
+        assertTrue(policyTypeList.size() <= 3);
         assertEquals(inPolicyType.getName(), policyTypeList.get(0).getName());
 
         for (ToscaPolicyType policyType: databaseProvider.getPolicyTypeList(null, null)) {
