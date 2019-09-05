@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "81151431_17c4cbb1",
+        "filename": "models-examples/src/main/resources/policies/onap.policies.controlloop.guard.MinMax.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-09-05T13:58:24Z",
+      "side": 1,
+      "message": "remove \"-\"?",
+      "revId": "12b096e78c4c057ce10ad5292c19e5753b15995d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
