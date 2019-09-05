@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "b767fb39_13b27638",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-09-05T02:20:15Z",
+      "side": 1,
+      "message": "thanks for the info!",
+      "parentUuid": "ab5ab334_76811e88",
+      "revId": "77c9c918e89900e5d110ad8bcddc0297c6ba83ec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e15b674d_92f545f5",
         "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
         "patchSetId": 4
@@ -101,6 +119,24 @@
       "side": 1,
       "message": "I think yes since the sendRequestToCds will be called from the ControlLoopOperationManager like the other actors. I made this sync since the current code doesnt handle callbacks, i know pam is working on this.. In the meantime i was thinking of relying on non-null sate of the response to decide whether to proceed or not. I can add aTODO or FIXME to come back to it.",
       "parentUuid": "e15b674d_92f545f5",
+      "revId": "77c9c918e89900e5d110ad8bcddc0297c6ba83ec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dddfe4f7_e0443a82",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-09-05T02:20:15Z",
+      "side": 1,
+      "message": "we could do a FIXME for now .. is this functionality to be completed in El Alto or Frankfurt?  Problem is that if it halts the session thread will affect all use cases.   Hopefully we can refactor the drools applications and move all async.   As a note, not the prettiest, but folks that use sync calls, run their app code in a new thread, to not hold the session thread.",
+      "parentUuid": "1c919fba_73dd9c86",
       "revId": "77c9c918e89900e5d110ad8bcddc0297c6ba83ec",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -212,6 +248,24 @@
     },
     {
       "key": {
+        "uuid": "5a701c68_a35edb9c",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-09-05T02:20:15Z",
+      "side": 1,
+      "message": "Trying to avoid leaking Exceptions into the \"fireAllRules\" thread, concern that may leave some uncleaned state sometimes.",
+      "parentUuid": "23d8be94_bd2ff18f",
+      "revId": "77c9c918e89900e5d110ad8bcddc0297c6ba83ec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a2073487_d476030c",
         "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
         "patchSetId": 4
@@ -247,6 +301,24 @@
     },
     {
       "key": {
+        "uuid": "5e4a0d47_ca54b916",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-09-05T02:20:15Z",
+      "side": 1,
+      "message": "The issue with RuntimeExceptions is that will be caught by kie session thread.   It is ok as it is in infinite loop for the duration of the application, but always concern may leave some drools state uncleaned as it goes from the apps code to the core drools engine code where is caught.",
+      "parentUuid": "780eb797_6209c290",
+      "revId": "77c9c918e89900e5d110ad8bcddc0297c6ba83ec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a99cd8f7_d886dc86",
         "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
         "patchSetId": 4
@@ -276,6 +348,24 @@
       "side": 1,
       "message": "CDS request mandates the blueprint name and version to be provided. For the current operational TOSCA policy model (yaml) these two values are embedded in the payload section, with the new policy type model that Pam is proposing maybe we will be able to move it out from payload in which case we need not enforce the null check. I can improve the javadoc to make it clear.\n\nPreconditions throws an IllegalStateException (RTE) and hence it need not be caught/rethrown. I did not make it a checked exception because the payload is input to policy. Do you think it is better to make it a checked exception?",
       "parentUuid": "a99cd8f7_d886dc86",
+      "revId": "77c9c918e89900e5d110ad8bcddc0297c6ba83ec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7dc0bcad_ad7cd769",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-09-05T02:20:15Z",
+      "side": 1,
+      "message": "The issue with RuntimeExceptions is that will be caught by kie session thread.   It is ok as it is in infinite loop for the duration of the application, but always concern may leave some drools state uncleaned as it goes from the apps code to the core drools engine code where is caught.",
+      "parentUuid": "039ad644_38e9e5ba",
       "revId": "77c9c918e89900e5d110ad8bcddc0297c6ba83ec",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
