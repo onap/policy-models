@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a76a9c00_f5e99839",
+        "filename": "models-examples/src/main/resources/policies/onap.policies.controlloop.guard.MinMax.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-09-05T20:37:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81151431_17c4cbb1",
+      "revId": "12b096e78c4c057ce10ad5292c19e5753b15995d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eec71fb8_4adcbdbe",
         "filename": "models-examples/src/main/resources/policytypes/onap.policies.optimization.HpaPolicy.yaml",
         "patchSetId": 4
@@ -30,6 +48,30 @@
       "writtenOn": "2019-09-05T14:47:10Z",
       "side": 1,
       "message": "\u0027\u003d\u0027\n\u0027!\u003d\u0027",
+      "range": {
+        "startLine": 95,
+        "startChar": 18,
+        "endLine": 96,
+        "endChar": 22
+      },
+      "revId": "12b096e78c4c057ce10ad5292c19e5753b15995d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5aea9cf2_5cf076ee",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.optimization.HpaPolicy.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-09-05T20:37:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eec71fb8_4adcbdbe",
       "range": {
         "startLine": 95,
         "startChar": 18,
