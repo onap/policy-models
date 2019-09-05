@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1670efed_53ae1cc1",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.optimization.DistancePolicy.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-09-05T13:00:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83a3ef30_68d2064d",
+      "range": {
+        "startLine": 45,
+        "startChar": 26,
+        "endLine": 47,
+        "endChar": 27
+      },
+      "revId": "4158d7cf0b610a57b146c0026df4603c432135c4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "475d2560_eb293c81",
         "filename": "models-examples/src/main/resources/policytypes/onap.policies.optimization.HpaPolicy.yaml",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2019-09-05T11:59:26Z",
       "side": 1,
       "message": "put the old quotes back and retain the values.",
+      "range": {
+        "startLine": 93,
+        "startChar": 26,
+        "endLine": 96,
+        "endChar": 28
+      },
+      "revId": "4158d7cf0b610a57b146c0026df4603c432135c4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e24fce77_a1d32449",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.optimization.HpaPolicy.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-09-05T13:00:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "475d2560_eb293c81",
       "range": {
         "startLine": 93,
         "startChar": 26,
