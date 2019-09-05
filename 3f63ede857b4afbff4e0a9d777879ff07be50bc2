@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b1871d0b_2239a37e",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-09-05T21:28:36Z",
+      "side": 1,
+      "message": "I only used compareAndSet() for cases where we are setting the response outside the scope of the client listener itself. But it wouldnt hurt to put it anyway over here as well.",
+      "parentUuid": "8e547f4e_d1c1057e",
+      "revId": "3f63ede857b4afbff4e0a9d777879ff07be50bc2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "72b7d90d_031bf66f",
         "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2019-09-05T21:17:28Z",
       "side": 1,
       "message": "should this set cdsResponse to error (via compareAndSet())?",
+      "revId": "3f63ede857b4afbff4e0a9d777879ff07be50bc2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4cfa17b_d6254907",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-09-05T21:28:36Z",
+      "side": 1,
+      "message": "yes done",
+      "parentUuid": "72b7d90d_031bf66f",
       "revId": "3f63ede857b4afbff4e0a9d777879ff07be50bc2",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
