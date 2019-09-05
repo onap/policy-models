@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d1a095a_99aef261",
+        "filename": "models-examples/src/main/resources/policies/onap.policies.controlloop.guard.MinMax.yaml",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-09-05T22:08:19Z",
+      "side": 1,
+      "message": "why not tosca_definition_version on top?",
+      "revId": "b0e460abe43d40528da4856f2f3d5ee162ac1830",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "116b3546_f282843e",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.controlloop.guard.FrequencyLimiter.yaml",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-09-05T22:08:19Z",
+      "side": 1,
+      "message": "I noticed these nulls in general, is it a requirement to have an explicit value for description fields, null or something else for the policy type specs?  Can they be omitted?",
+      "revId": "b0e460abe43d40528da4856f2f3d5ee162ac1830",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0719ea68_ecc64caa",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.optimization.SubscriberPolicy.yaml",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-09-05T22:08:19Z",
+      "side": 1,
+      "message": "is this correct?  it seems most of the other times it uses a entry_type.schema field instead",
+      "revId": "b0e460abe43d40528da4856f2f3d5ee162ac1830",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
