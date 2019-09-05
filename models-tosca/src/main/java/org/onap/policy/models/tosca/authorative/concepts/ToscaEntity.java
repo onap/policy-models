@@ -111,4 +111,28 @@ public class ToscaEntity implements PfNameVersion {
 
         return entityMap;
     }
+
+    /**
+     * Convert a map of TOSCA entities into a regular map.
+     *
+     * @param mapOfEntities the incoming list of maps of entities
+     * @return The entities on a regular map
+     * @throws PfModelException on duplicate entity entries
+     */
+    public static <T extends ToscaEntity> Map<ToscaEntityKey, T> getEntityMapAsMap(Map<String, T> mapOfEntities) {
+        // Declare the return map
+        Map<ToscaEntityKey, T> entityMap = new LinkedHashMap<>();
+
+        for (T entityEntry : mapOfEntities.values()) {
+            if (entityMap.containsKey(entityEntry.getKey())) {
+                throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR,
+                        "list of map of entities contains more than one entity with key " + entityEntry.getKey());
+            }
+
+            entityMap.put(entityEntry.getKey(), entityEntry);
+        }
+
+        return entityMap;
+    }
+
 }

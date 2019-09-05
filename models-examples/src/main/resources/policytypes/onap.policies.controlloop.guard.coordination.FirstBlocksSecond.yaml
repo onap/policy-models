@@ -1,0 +1,23 @@
+tosca_definitions_version: tosca_simple_yaml_1_0_0
+policy_types:
+   onap.policies.controlloop.Guard:
+      derived_from: tosca.policies.Root
+      version: 1.0.0
+      description: Guard Policies for Control Loop Operational Policies
+   onap.policies.controlloop.guard.Coordination:
+      derived_from: onap.policies.controlloop.Guard
+      version: 1.0.0
+      description: Guard Policies for Control Loop Coordination
+   onap.policies.controlloop.guard.coordination.FirstBlocksSecond:
+      derived_from: onap.policies.controlloop.guard.Coordination
+      version: 1.0.0
+      description: Supports one Control Loop blocking another
+      properties:
+         controlLoop:
+            type: list
+            description: Specific Control Loops to which to apply this guard
+            required: true
+            constraint:
+               length: 2
+            entry_schema:
+               type: string
