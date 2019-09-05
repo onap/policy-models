@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "1c0fa8d0_f95a42b2",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-09-05T21:35:47Z",
+      "side": 1,
+      "message": "Yeah, I wasn\u0027t sure of the right answer her.  However, if it were to just blindly overwrite it using set(), then the logger message below could still be incorrect (i.e., because this code could set it between the logger call and the return). So it is probably best to use compareAndSet() here, too.",
+      "parentUuid": "b1871d0b_2239a37e",
+      "revId": "3f63ede857b4afbff4e0a9d777879ff07be50bc2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "72b7d90d_031bf66f",
         "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
         "patchSetId": 7
