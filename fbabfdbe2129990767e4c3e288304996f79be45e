@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16cdf219_2fdf9874",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-09-05T20:58:46Z",
+      "side": 1,
+      "message": "leave off the final \"{}\", either that, or add e.getMessage() before the final \"e\" argument",
+      "revId": "fbabfdbe2129990767e4c3e288304996f79be45e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b5940fd6_ff3111ff",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-09-05T20:58:46Z",
+      "side": 1,
+      "message": "there\u0027s a (very slight) possibility that the execution thread can change the response value after this timeout value has been set and before the \"return\" occurs.  I think that\u0027s ok, as the only real downside I can see is that the message that is logged here may not be reflected by the invoking code, as the invoker will actually get a valid response.\n\nAnother option would be to use compareAndSet(null, xxx) through-out, and then use get() to retrieve the correct status for logging.  This would avoid race conditions that might occur as the code is modified in the future.",
+      "revId": "fbabfdbe2129990767e4c3e288304996f79be45e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
