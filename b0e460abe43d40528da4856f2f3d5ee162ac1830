@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "27b25719_f3c77094",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.controlloop.guard.FrequencyLimiter.yaml",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-09-06T08:56:45Z",
+      "side": 1,
+      "message": "no requirement - could just delete the description - these will be fixed in Frankfurt. actually I can do a separate review for these policy types as I cleaned them up in the Control Loop work. Not really being used right now - dark code.",
+      "parentUuid": "116b3546_f282843e",
+      "revId": "b0e460abe43d40528da4856f2f3d5ee162ac1830",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0719ea68_ecc64caa",
         "filename": "models-examples/src/main/resources/policytypes/onap.policies.optimization.SubscriberPolicy.yaml",
         "patchSetId": 8
@@ -47,6 +65,24 @@
       "writtenOn": "2019-09-05T22:08:19Z",
       "side": 1,
       "message": "is this correct?  it seems most of the other times it uses a entry_type.schema field instead",
+      "revId": "b0e460abe43d40528da4856f2f3d5ee162ac1830",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edda3dc4_ab0ef016",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.optimization.SubscriberPolicy.yaml",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-09-06T08:56:45Z",
+      "side": 1,
+      "message": "yes this is right - entry_schema is usually for a list of a datatype",
+      "parentUuid": "0719ea68_ecc64caa",
       "revId": "b0e460abe43d40528da4856f2f3d5ee162ac1830",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
