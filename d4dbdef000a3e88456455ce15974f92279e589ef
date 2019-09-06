@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39ec4efe_b3cdc142",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-09-06T09:18:58Z",
+      "side": 1,
+      "message": "For these big outer if\u0027s that wrap the majority of the code within the method, its more readable and cuts down on pushing the limits of 120 character lines of code if all these checks on the incoming variables are done systematically:\n\nif (! validateCdsMandatoryParams(policy)) {\n    return Optional.empty();\n}\n... and away we go with the code\n\nThis is a big problem in the policy/engine code, over time the cyclomatic complexity grows.",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 49
+      },
+      "revId": "d4dbdef000a3e88456455ce15974f92279e589ef",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bcea70ee_71a87644",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/beans/ConfigDeployRequest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-09-06T09:18:58Z",
+      "side": 1,
+      "message": "deploy???",
+      "range": {
+        "startLine": 41,
+        "startChar": 26,
+        "endLine": 41,
+        "endChar": 32
+      },
+      "revId": "d4dbdef000a3e88456455ce15974f92279e589ef",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
