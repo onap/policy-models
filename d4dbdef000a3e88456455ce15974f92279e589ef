@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d2a88423_b1b8c110",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-09-06T13:17:15Z",
+      "side": 1,
+      "message": "Sure will fix this.",
+      "parentUuid": "39ec4efe_b3cdc142",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 49
+      },
+      "revId": "d4dbdef000a3e88456455ce15974f92279e589ef",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bcea70ee_71a87644",
         "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/beans/ConfigDeployRequest.java",
         "patchSetId": 10
@@ -36,6 +60,30 @@
       "writtenOn": "2019-09-06T09:18:58Z",
       "side": 1,
       "message": "deploy???",
+      "range": {
+        "startLine": 41,
+        "startChar": 26,
+        "endLine": 41,
+        "endChar": 32
+      },
+      "revId": "d4dbdef000a3e88456455ce15974f92279e589ef",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f08e2e03_66dd6444",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/beans/ConfigDeployRequest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-09-06T13:17:15Z",
+      "side": 1,
+      "message": "Yes correct! Thanks for pointing it out",
+      "parentUuid": "bcea70ee_71a87644",
       "range": {
         "startLine": 41,
         "startChar": 26,
