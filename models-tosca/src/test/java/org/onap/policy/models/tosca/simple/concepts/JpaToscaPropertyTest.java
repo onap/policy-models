@@ -25,10 +25,12 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfReferenceKey;
@@ -68,6 +70,8 @@ public class JpaToscaPropertyTest {
         PfConceptKey ptypeKey = new PfConceptKey("TTypeKey", VERSION_001);
         JpaToscaProperty tp = new JpaToscaProperty(pkey, ptypeKey);
 
+        assertEquals(tp, new JpaToscaProperty(tp));
+
         tp.setDescription(A_DESCRIPTION);
         assertEquals(A_DESCRIPTION, tp.getDescription());
 
@@ -88,9 +92,17 @@ public class JpaToscaPropertyTest {
         JpaToscaEntrySchema tes = new JpaToscaEntrySchema(typeKey);
         tp.setEntrySchema(tes);
 
+        TreeMap<String,String> metadata = new TreeMap<>();
+        metadata.put("metaA", "dataA");
+        metadata.put("metaB", "dataB");
+        tp.setMetadata(metadata);
+        assertSame(metadata, tp.getMetadata());
+
         JpaToscaProperty tdtClone0 = new JpaToscaProperty(tp);
         assertEquals(tp, tdtClone0);
         assertEquals(0, tp.compareTo(tdtClone0));
+
+        assertTrue(tdtClone0.getMetadata() != tp.getMetadata());
 
         JpaToscaProperty tdtClone1 = new JpaToscaProperty(tp);
         assertEquals(tp, tdtClone1);
@@ -174,6 +186,54 @@ public class JpaToscaPropertyTest {
         tp.getConstraints().remove(null);
         assertTrue(tp.validate(new PfValidationResult()).isValid());
 
+        tp.setMetadata(null);
+        assertTrue(tp.validate(new PfValidationResult()).isValid());
+
         assertThatThrownBy(() -> tp.validate(null)).hasMessage("resultIn is marked @NonNull but is null");
+    }
+
+    @Test
+    public void testToAuthorative_testFromAuthorative() {
+        // check with empty structure
+        JpaToscaProperty tp = new JpaToscaProperty();
+        ToscaProperty auth = tp.toAuthorative();
+        JpaToscaProperty tp2 = new JpaToscaProperty();
+        tp2.fromAuthorative(auth);
+        assertEquals(tp, tp2);
+
+        // populate and try again
+        PfConceptKey pparentKey = new PfConceptKey("tParentKey", VERSION_001);
+        PfReferenceKey pkey = new PfReferenceKey(pparentKey, "trigger0");
+        PfConceptKey ptypeKey = new PfConceptKey("TTypeKey", VERSION_001);
+        tp = new JpaToscaProperty(pkey, ptypeKey);
+
+        tp.setDescription(A_DESCRIPTION);
+        tp.setRequired(true);
+        tp.setDefaultValue(DEFAULT_KEY);
+        tp.setStatus(ToscaProperty.Status.SUPPORTED);
+
+        List<JpaToscaConstraint> constraints = new ArrayList<>();
+        JpaToscaConstraintLogical lsc = new JpaToscaConstraintLogical(JpaToscaConstraintOperation.EQ, "hello");
+        constraints.add(lsc);
+        tp.setConstraints(constraints);
+
+        PfConceptKey typeKey = new PfConceptKey("type", VERSION_001);
+        JpaToscaEntrySchema tes = new JpaToscaEntrySchema(typeKey);
+        tp.setEntrySchema(tes);
+
+        TreeMap<String,String> metadata = new TreeMap<>();
+        metadata.put("metaA", "dataA");
+        metadata.put("metaB", "dataB");
+        tp.setMetadata(metadata);
+
+        auth = tp.toAuthorative();
+        tp2 = new JpaToscaProperty();
+        tp2.fromAuthorative(auth);
+
+        // note: parent key info is not copied, so we manually copy it
+        tp2.getKey().setParentConceptKey(tp.getKey().getParentConceptKey());
+
+        assertEquals(tp.toString(), tp2.toString());
+        assertEquals(tp, tp2);
     }
 }
