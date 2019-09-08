@@ -26,6 +26,7 @@ package org.onap.policy.models.tosca.authorative.concepts;
 import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.List;
+import java.util.Map;
 import lombok.Data;
 
 /**
@@ -60,4 +61,6 @@ public class ToscaProperty {
     @ApiModelProperty(name = "entry_schema")
     @SerializedName("entry_schema")
     private ToscaEntrySchema entrySchema;
+
+    private Map<String, String> metadata;
 }

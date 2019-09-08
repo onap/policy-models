@@ -24,7 +24,11 @@
 package org.onap.policy.models.tosca.simple.concepts;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.EmbeddedId;
@@ -87,6 +91,9 @@ public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaPr
     @Column
     private JpaToscaEntrySchema entrySchema;
 
+    @ElementCollection
+    private Map<String, String> metadata;
+
     /**
      * The Default Constructor creates a {@link JpaToscaProperty} object with a null key.
      */
@@ -130,6 +137,7 @@ public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaPr
         // Constraints are immutable
         this.constraints = (copyConcept.constraints != null ? new ArrayList<>(copyConcept.constraints) : null);
         this.entrySchema = (copyConcept.entrySchema != null ? new JpaToscaEntrySchema(copyConcept.entrySchema) : null);
+        this.metadata = (copyConcept.metadata != null ? new TreeMap<>(copyConcept.metadata) : null);
     }
 
     /**
@@ -169,6 +177,10 @@ public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaPr
             toscaProperty.setEntrySchema(entrySchema.toAuthorative());
         }
 
+        if (metadata != null) {
+            toscaProperty.setMetadata(metadata);
+        }
+
         return toscaProperty;
     }
 
@@ -199,6 +211,13 @@ public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaPr
         if (toscaProperty.getEntrySchema() != null) {
             entrySchema = new JpaToscaEntrySchema(toscaProperty.getEntrySchema());
         }
+
+        // Add the property metadata if it doesn't exist already
+        if (toscaProperty.getMetadata() != null) {
+            setMetadata(new LinkedHashMap<>());
+            this.metadata.putAll(toscaProperty.getMetadata());
+        }
+
     }
 
     @Override
@@ -230,6 +249,12 @@ public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaPr
 
         if (entrySchema != null) {
             entrySchema.clean();
+        }
+
+        if (metadata != null) {
+            for (Entry<String, String> metadataEntry : metadata.entrySet()) {
+                metadataEntry.setValue(metadataEntry.getValue().trim());
+            }
         }
     }
 
