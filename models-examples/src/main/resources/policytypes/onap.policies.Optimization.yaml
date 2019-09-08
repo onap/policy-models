@@ -8,26 +8,32 @@ policy_types:
          scope:
             description: Scope for the policy - could be for a specific release.
             type: list
-            matchable: true
+            metadata:
+               matchable: true
             required: true
+            entry_schema:
+               type: string
          services:
             description: One or more services that the policy applies to.
             type: list
-            matchable: true
+            metadata:
+               matchable: true
             required: true
             entry_schema:
                type: string
          resources:
             description: One or more VNF resources that the policy applies to.
             type: list
-            matchable: true
+            metadata:
+               matchable: true
             required: true
             entry_schema:
                type: string
          geography:
             description: One or more geographic regions
             type: list
-            matchable: true
+            metadata:
+               matchable: true
             required: true
             entry_schema:
                type: string
