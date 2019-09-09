@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dd29a095_f938e80b",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaProperty.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-09-09T13:17:41Z",
+      "side": 1,
+      "message": "probably need to make a copy",
+      "revId": "2ca3d745c32bf98a170e2766d251c2d56c8c57cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "20044813_29a993c8",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaProperty.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-09-09T13:17:41Z",
+      "side": 1,
+      "message": "can remove this line and just put it in the constructor on the previous line",
+      "revId": "2ca3d745c32bf98a170e2766d251c2d56c8c57cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
