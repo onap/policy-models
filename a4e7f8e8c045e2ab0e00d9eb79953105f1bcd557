@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "5b677979_0eb4b246",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaProperty.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-09-09T12:46:27Z",
+      "side": 1,
+      "message": "Looking at what I did on the policy metadata, it\u0027s OK to be null in the database and if it\u0027s null in the database, it\u0027s passed back as null in the authorative concept.\n\nHowever, it\u0027s never actually null because the fromAuthorative() method in the JpaToscaPolicy class has this:\n\n\n        // Add the property metadata if it doesn\u0027t exist already\n        if (toscaPolicy.getMetadata() \u003d\u003d null) {\n            setMetadata(new LinkedHashMap\u003c\u003e());\n        }\n\n        // Add the policy name and version fields to the metadata\n        getMetadata().put(METADATA_POLICY_ID_TAG, getKey().getName());\n        getMetadata().put(METADATA_POLICY_VERSION_TAG, Integer.toString(getKey().getMajorVersion()));\n\nIt looks like the value of \"matchable\" always comes in from the TOSCA policy, so then I don\u0027t think you need to do anything.\n\nIn the JpaToscaPolicy, we had to add metadata because the name and version have to be added \"magically\" by the system.\n\nSo in summary, I think what you have is fine. We should write a few test cases to try it out, or just extend the existing test classes.",
+      "parentUuid": "e2b785eb_575c943c",
+      "range": {
+        "startLine": 214,
+        "startChar": 1,
+        "endLine": 220,
+        "endChar": 0
+      },
+      "revId": "a4e7f8e8c045e2ab0e00d9eb79953105f1bcd557",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "20240e1f_dd437a79",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaProperty.java",
         "patchSetId": 1
