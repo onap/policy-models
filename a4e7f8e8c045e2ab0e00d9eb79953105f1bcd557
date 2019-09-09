@@ -25,6 +25,53 @@
     },
     {
       "key": {
+        "uuid": "0a9a71d5_e45ef284",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaProperty.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-09-09T12:16:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "379eaa34_ca4c3ef0",
+      "range": {
+        "startLine": 95,
+        "startChar": 1,
+        "endLine": 96,
+        "endChar": 1
+      },
+      "revId": "a4e7f8e8c045e2ab0e00d9eb79953105f1bcd557",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2b785eb_575c943c",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaProperty.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-09-09T12:16:09Z",
+      "side": 1,
+      "message": "I changed this up a bit also - may need advice on this. Seems like I have to at least have an existing map setup.",
+      "range": {
+        "startLine": 214,
+        "startChar": 1,
+        "endLine": 220,
+        "endChar": 0
+      },
+      "revId": "a4e7f8e8c045e2ab0e00d9eb79953105f1bcd557",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "20240e1f_dd437a79",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaProperty.java",
         "patchSetId": 1
@@ -48,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "2458c3b7_9acf9e95",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaProperty.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-09-09T12:16:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20240e1f_dd437a79",
+      "range": {
+        "startLine": 221,
+        "startChar": 1,
+        "endLine": 225,
+        "endChar": 104
+      },
+      "revId": "a4e7f8e8c045e2ab0e00d9eb79953105f1bcd557",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ee5268a_f2716214",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaProperty.java",
         "patchSetId": 1
@@ -59,6 +130,24 @@
       "writtenOn": "2019-09-09T10:59:51Z",
       "side": 1,
       "message": "I think this will cause problems, if clean(0 is called it will clear the map.\n\nThe code I have in ToscaEntityType for metadata cleaning trims all string values:\n\n        if (metadata !\u003d null) {\n            for (Entry\u003cString, String\u003e metadataEntry : metadata.entrySet()) {\n                metadataEntry.setValue(metadataEntry.getValue().trim());\n            }\n        }",
+      "revId": "a4e7f8e8c045e2ab0e00d9eb79953105f1bcd557",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa97c39a_309c3617",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaProperty.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-09-09T12:16:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ee5268a_f2716214",
       "revId": "a4e7f8e8c045e2ab0e00d9eb79953105f1bcd557",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
