@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "379eaa34_ca4c3ef0",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaProperty.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-09-09T10:59:51Z",
+      "side": 1,
+      "message": "Blank line ;-)",
+      "range": {
+        "startLine": 95,
+        "startChar": 1,
+        "endLine": 96,
+        "endChar": 1
+      },
+      "revId": "a4e7f8e8c045e2ab0e00d9eb79953105f1bcd557",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "20240e1f_dd437a79",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaProperty.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-09-09T10:59:51Z",
+      "side": 1,
+      "message": "We need this on policy metadata but I guess we don\u0027t need it here.",
+      "range": {
+        "startLine": 221,
+        "startChar": 1,
+        "endLine": 225,
+        "endChar": 104
+      },
+      "revId": "a4e7f8e8c045e2ab0e00d9eb79953105f1bcd557",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ee5268a_f2716214",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaProperty.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-09-09T10:59:51Z",
+      "side": 1,
+      "message": "I think this will cause problems, if clean(0 is called it will clear the map.\n\nThe code I have in ToscaEntityType for metadata cleaning trims all string values:\n\n        if (metadata !\u003d null) {\n            for (Entry\u003cString, String\u003e metadataEntry : metadata.entrySet()) {\n                metadataEntry.setValue(metadataEntry.getValue().trim());\n            }\n        }",
+      "revId": "a4e7f8e8c045e2ab0e00d9eb79953105f1bcd557",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
