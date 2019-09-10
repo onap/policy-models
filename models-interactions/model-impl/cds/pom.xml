@@ -34,7 +34,7 @@
   <properties>
     <grpc.version>1.17.1</grpc.version>
     <protobuf.version>3.6.1</protobuf.version>
-    <grpc.netty.version>4.1.30.Final</grpc.netty.version>
+    <grpc.netty.version>4.1.39.Final</grpc.netty.version>
     <ccsdk.version>0.4.4</ccsdk.version>
   </properties>
 
@@ -54,6 +54,18 @@
     </dependency>
 
     <!-- gRPC dependencies -->
+    <!-- io.netty artifacts have security issues and are transitive dependencies from io.grpc:grpc-netty:1.17.1.
+    Override io.netty dependencies and add exclusions to io.grpc:grpc-netty where io.netty version is mandated. -->
+    <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-codec-http2</artifactId>
+      <version>${grpc.netty.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-handler-proxy</artifactId>
+      <version>${grpc.netty.version}</version>
+    </dependency>
     <dependency>
       <groupId>io.grpc</groupId>
       <artifactId>grpc-protobuf</artifactId>
@@ -74,6 +86,12 @@
       <groupId>io.grpc</groupId>
       <artifactId>grpc-netty</artifactId>
       <version>${grpc.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>io.netty</groupId>
+          <artifactId>netty-codec-http2</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>io.grpc</groupId>
