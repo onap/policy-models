@@ -122,7 +122,7 @@ public class JpaToscaEntityType<T extends ToscaEntity> extends PfConcept impleme
         toscaEntity.setVersion(getKey().getVersion());
 
         if (derivedFrom != null) {
-            toscaEntity.setDerivedFrom(derivedFrom.getId());
+            toscaEntity.setDerivedFrom(derivedFrom.getName());
         }
 
         if (description != null) {
