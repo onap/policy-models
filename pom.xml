@@ -48,7 +48,7 @@
         <sonar.jacoco.itReportPath>${project.basedir}/../target/code-coverage/jacoco-it.exec</sonar.jacoco.itReportPath>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 
-        <policy.common.version>1.5.2</policy.common.version>
+        <policy.common.version>1.6.0-SNAPSHOT</policy.common.version>
     </properties>
 
     <modules>
