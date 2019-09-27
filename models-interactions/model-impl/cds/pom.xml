@@ -35,7 +35,6 @@
     <grpc.version>1.17.1</grpc.version>
     <protobuf.version>3.6.1</protobuf.version>
     <grpc.netty.version>4.1.39.Final</grpc.netty.version>
-    <ccsdk.version>0.4.4</ccsdk.version>
   </properties>
 
   <dependencies>
@@ -43,7 +42,6 @@
     <dependency>
       <groupId>org.onap.ccsdk.cds.components</groupId>
       <artifactId>proto-definition</artifactId>
-      <version>${ccsdk.version}</version>
     </dependency>
 
     <!-- protobuf dependencies -->
