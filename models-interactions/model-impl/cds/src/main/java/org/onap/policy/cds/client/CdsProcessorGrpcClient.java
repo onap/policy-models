@@ -37,20 +37,18 @@ import org.slf4j.LoggerFactory;
  * a streaming approach, which means the client sends an event to which the server can reply with multiple
  * sub-responses, until full completion of the processing.
  * </p>
+ * The client is implemented as a singleton in order to use the same channel for all requests.
  */
 public class CdsProcessorGrpcClient implements AutoCloseable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CdsProcessorGrpcClient.class);
 
+    private static CdsProcessorGrpcClient instance = null;
+
     private ManagedChannel channel;
     private CdsProcessorHandler handler;
 
-    /**
-     * Constructor, create a CDS processor gRPC client.
-     *
-     * @param listener the listener to listen on
-     */
-    public CdsProcessorGrpcClient(final CdsProcessorListener listener, CdsServerProperties props) {
+    private CdsProcessorGrpcClient(final CdsProcessorListener listener, CdsServerProperties props) {
         final GroupValidationResult validationResult = props.validate();
         Preconditions.checkState(validationResult.getStatus().isValid(), "Error validating CDS server "
             + "properties: " + validationResult.getResult());
@@ -63,9 +61,59 @@ public class CdsProcessorGrpcClient implements AutoCloseable {
         LOGGER.info("CdsProcessorListener started");
     }
 
-    CdsProcessorGrpcClient(final ManagedChannel channel, final CdsProcessorHandler handler) {
+    private CdsProcessorGrpcClient(final ManagedChannel channel, final CdsProcessorHandler handler) {
         this.channel = channel;
         this.handler = handler;
+    }
+
+    /**
+     * Indicate if the client instance is initialized.
+     * @return true if the instance is initialized and false otherwise.
+     */
+    public static boolean isInstanceInitialized() {
+        return instance != null;
+    }
+
+    /**
+     * Initialize the unique client instance.
+     * @param listener the client listener.
+     * @param props the client properties.
+     * @throws IllegalArgumentException if the instance is already initialized.
+     */
+    public static void initInstance(final CdsProcessorListener listener, CdsServerProperties props) {
+        synchronized (CdsProcessorGrpcClient.class) {
+            if (instance != null) {
+                throw new IllegalArgumentException("Instance is already initialized.");
+            }
+            instance = new CdsProcessorGrpcClient(listener, props);
+        }
+    }
+
+    static void initInstance(final ManagedChannel channel, final CdsProcessorHandler handler) {
+        synchronized (CdsProcessorGrpcClient.class) {
+            if (instance != null) {
+                throw new IllegalArgumentException("Instance is already initialized.");
+            }
+            instance = new CdsProcessorGrpcClient(channel, handler);
+        }
+    }
+
+    static void cleanInstance() {
+        synchronized (CdsProcessorGrpcClient.class) {
+            instance = null;
+        }
+    }
+
+    /**
+     * Get the unique client instance.
+     * @return the client.
+     * @throws IllegalArgumentException if the instance is not initialized yet.
+     */
+    public static CdsProcessorGrpcClient getInstance() {
+        if (instance == null) {
+            throw new IllegalArgumentException("Instance is not initialized.");
+        }
+        return instance;
     }
 
     /**

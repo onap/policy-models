@@ -20,6 +20,7 @@ package org.onap.policy.controlloop.actor.cds;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
@@ -48,6 +49,7 @@ import org.onap.ccsdk.cds.controllerblueprints.common.api.EventType;
 import org.onap.ccsdk.cds.controllerblueprints.common.api.Status;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceInput;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceOutput;
+import org.onap.policy.cds.CdsResponse;
 import org.onap.policy.cds.client.CdsProcessorGrpcClient;
 import org.onap.policy.cds.properties.CdsServerProperties;
 import org.onap.policy.controlloop.ControlLoopOperation;
@@ -184,18 +186,20 @@ public class CdsActorServiceProviderTest {
         when(cdsClient.sendRequest(any(ExecutionServiceInput.class))).thenReturn(countDownLatch);
 
         CdsActorServiceProvider.CdsActorServiceManager cdsActorSvcMgr = cdsActor.new CdsActorServiceManager();
-        String response = cdsActorSvcMgr
+        CdsResponse response = cdsActorSvcMgr
             .sendRequestToCds(cdsClient, cdsProps, ExecutionServiceInput.newBuilder().build());
         assertTrue(Thread.interrupted());
-        assertEquals(response, CdsActorConstants.INTERRUPTED);
+        assertNotNull(response);
+        assertEquals(CdsActorConstants.INTERRUPTED, response.getStatus());
     }
 
     @Test
     public void testSendRequestToCdsLatchTimedOut() {
         CdsActorServiceProvider.CdsActorServiceManager cdsActorSvcMgr = cdsActor.new CdsActorServiceManager();
-        String response = cdsActorSvcMgr
+        CdsResponse response = cdsActorSvcMgr
             .sendRequestToCds(cdsClient, cdsProps, ExecutionServiceInput.newBuilder().build());
-        assertEquals(response, CdsActorConstants.TIMED_OUT);
+        assertNotNull(response);
+        assertEquals(CdsActorConstants.TIMED_OUT, response.getStatus());
     }
 
     @Test
@@ -212,21 +216,21 @@ public class CdsActorServiceProviderTest {
 
         // #1: Failure test
         cdsActorSvcMgr.onMessage(message);
-        assertEquals(cdsActorSvcMgr.getCdsResponse(), CdsActorConstants.FAILED);
+        assertEquals(cdsActorSvcMgr.getCdsStatus(), CdsActorConstants.FAILED);
 
         // #2: Success test
         cdsActorSvcMgr = sendRequestToCds();
         message = ExecutionServiceOutput.newBuilder()
             .setStatus(Status.newBuilder().setEventType(EventType.EVENT_COMPONENT_EXECUTED).build()).build();
         cdsActorSvcMgr.onMessage(message);
-        assertEquals(cdsActorSvcMgr.getCdsResponse(), CdsActorConstants.SUCCESS);
+        assertEquals(cdsActorSvcMgr.getCdsStatus(), CdsActorConstants.SUCCESS);
 
         // #3: Processing test
         cdsActorSvcMgr = sendRequestToCds();
         message = ExecutionServiceOutput.newBuilder()
             .setStatus(Status.newBuilder().setEventType(EventType.EVENT_COMPONENT_PROCESSING).build()).build();
         cdsActorSvcMgr.onMessage(message);
-        assertEquals(cdsActorSvcMgr.getCdsResponse(), CdsActorConstants.PROCESSING);
+        assertEquals(cdsActorSvcMgr.getCdsStatus(), CdsActorConstants.PROCESSING);
     }
 
     private CdsActorServiceManager sendRequestToCds() {
