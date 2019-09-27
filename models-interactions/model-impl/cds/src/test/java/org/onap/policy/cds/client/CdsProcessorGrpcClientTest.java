@@ -20,6 +20,8 @@
 package org.onap.policy.cds.client;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.spy;
@@ -90,8 +92,10 @@ public class CdsProcessorGrpcClientTest {
         ManagedChannel channel = grpcCleanup
             .register(InProcessChannelBuilder.forName(SERVER_NAME).directExecutor().build());
 
-        // Create an instance of the gRPC client
-        client = new CdsProcessorGrpcClient(channel, new CdsProcessorHandler(listener));
+        // Get gRPC client instance
+        CdsProcessorGrpcClient.cleanInstance();
+        CdsProcessorGrpcClient.initInstance(channel, new CdsProcessorHandler(listener));
+        client = CdsProcessorGrpcClient.getInstance();
 
         // Implement the test gRPC server
         BluePrintProcessingServiceImplBase testCdsBlueprintServerImpl = new BluePrintProcessingServiceImplBase() {
@@ -127,14 +131,28 @@ public class CdsProcessorGrpcClientTest {
     }
 
     @Test
-    public void testCdsProcessorGrpcClientConstructor() {
-        new CdsProcessorGrpcClient(listener, props).close();
+    public void testCdsProcessorGrpcClientGetInstance() {
+        // Prepare
+        CdsProcessorGrpcClient.cleanInstance();
+        CdsProcessorGrpcClient.initInstance(listener, props);
+        // Run
+        CdsProcessorGrpcClient result = CdsProcessorGrpcClient.getInstance();
+        // Verify
+        assertNotNull(result);
     }
 
     @Test(expected = IllegalStateException.class)
-    public void testCdsProcessorGrpcClientConstructorFailure() {
+    public void testCdsProcessorGrpcClientGetInstanceFailure() {
         props.setHost(null);
-        new CdsProcessorGrpcClient(listener, props).close();
+        CdsProcessorGrpcClient.cleanInstance();
+        CdsProcessorGrpcClient.initInstance(listener, props);
+        CdsProcessorGrpcClient.getInstance();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testCdsProcessorGrpcClientGetInstanceNotInitialized() {
+        CdsProcessorGrpcClient.cleanInstance();
+        CdsProcessorGrpcClient.getInstance();
     }
 
     @Test
@@ -179,4 +197,16 @@ public class CdsProcessorGrpcClientTest {
         responseObserverRef.get().onCompleted();
         assertTrue(finishLatch.await(0, TimeUnit.SECONDS));
     }
+
+    @Test
+    public void testIsInstanceInitializedTrue() {
+        assertTrue(CdsProcessorGrpcClient.isInstanceInitialized());
+    }
+
+    @Test
+    public void testIsInstanceInitializedFalse() {
+        CdsProcessorGrpcClient.cleanInstance();
+        assertFalse(CdsProcessorGrpcClient.isInstanceInitialized());
+    }
+
 }
