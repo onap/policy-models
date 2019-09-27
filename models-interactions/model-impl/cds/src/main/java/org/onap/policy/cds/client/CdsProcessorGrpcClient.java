@@ -24,6 +24,7 @@ import io.grpc.internal.DnsNameResolverProvider;
 import io.grpc.internal.PickFirstLoadBalancerProvider;
 import io.grpc.netty.NettyChannelBuilder;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicReference;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceInput;
 import org.onap.policy.cds.api.CdsProcessorListener;
 import org.onap.policy.cds.properties.CdsServerProperties;
@@ -37,20 +38,18 @@ import org.slf4j.LoggerFactory;
  * a streaming approach, which means the client sends an event to which the server can reply with multiple
  * sub-responses, until full completion of the processing.
  * </p>
+ * The client is implemented as a singleton in order to use the same channel for all requests.
  */
 public class CdsProcessorGrpcClient implements AutoCloseable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CdsProcessorGrpcClient.class);
 
+    private static AtomicReference<CdsProcessorGrpcClient> instance = new AtomicReference<>();
+
     private ManagedChannel channel;
     private CdsProcessorHandler handler;
 
-    /**
-     * Constructor, create a CDS processor gRPC client.
-     *
-     * @param listener the listener to listen on
-     */
-    public CdsProcessorGrpcClient(final CdsProcessorListener listener, CdsServerProperties props) {
+    private CdsProcessorGrpcClient(final CdsProcessorListener listener, CdsServerProperties props) {
         final GroupValidationResult validationResult = props.validate();
         Preconditions.checkState(validationResult.getStatus().isValid(), "Error validating CDS server "
             + "properties: " + validationResult.getResult());
@@ -63,9 +62,32 @@ public class CdsProcessorGrpcClient implements AutoCloseable {
         LOGGER.info("CdsProcessorListener started");
     }
 
-    CdsProcessorGrpcClient(final ManagedChannel channel, final CdsProcessorHandler handler) {
+    private CdsProcessorGrpcClient(final ManagedChannel channel, final CdsProcessorHandler handler) {
         this.channel = channel;
         this.handler = handler;
+    }
+
+    static void cleanInstance() {
+        instance.set(null);
+    }
+
+    /**
+     * Get the unique client instance.
+     * Initialize the instance if not already done.
+     * @return the client.
+     */
+    public static CdsProcessorGrpcClient getInstance(final CdsProcessorListener listener, CdsServerProperties props) {
+        if (instance.get() == null) {
+            instance.compareAndSet(null, new CdsProcessorGrpcClient(listener, props));
+        }
+        return instance.get();
+    }
+
+    static CdsProcessorGrpcClient getInstance(final ManagedChannel channel, final CdsProcessorHandler handler) {
+        if (instance.get() == null) {
+            instance.compareAndSet(null, new CdsProcessorGrpcClient(channel, handler));
+        }
+        return instance.get();
     }
 
     /**

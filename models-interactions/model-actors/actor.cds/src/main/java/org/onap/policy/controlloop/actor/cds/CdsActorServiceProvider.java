@@ -38,6 +38,7 @@ import org.onap.ccsdk.cds.controllerblueprints.common.api.CommonHeader;
 import org.onap.ccsdk.cds.controllerblueprints.common.api.EventType;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceInput;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceOutput;
+import org.onap.policy.cds.CdsResponse;
 import org.onap.policy.cds.api.CdsProcessorListener;
 import org.onap.policy.cds.client.CdsProcessorGrpcClient;
 import org.onap.policy.cds.properties.CdsServerProperties;
@@ -171,9 +172,9 @@ public class CdsActorServiceProvider implements Actor {
             .isNullOrEmpty(cbaActionName);
     }
 
-    class CdsActorServiceManager implements CdsProcessorListener {
+    public class CdsActorServiceManager implements CdsProcessorListener {
 
-        private final AtomicReference<String> cdsResponse = new AtomicReference<>();
+        private final AtomicReference<String> cdsStatus = new AtomicReference<>();
 
         /**
          * {@inheritDoc}.
@@ -184,16 +185,16 @@ public class CdsActorServiceProvider implements Actor {
             EventType eventType = message.getStatus().getEventType();
             switch (eventType) {
                 case EVENT_COMPONENT_FAILURE:
-                    cdsResponse.compareAndSet(null, CdsActorConstants.FAILED);
+                    cdsStatus.compareAndSet(null, CdsActorConstants.FAILED);
                     break;
                 case EVENT_COMPONENT_PROCESSING:
-                    cdsResponse.compareAndSet(null, CdsActorConstants.PROCESSING);
+                    cdsStatus.compareAndSet(null, CdsActorConstants.PROCESSING);
                     break;
                 case EVENT_COMPONENT_EXECUTED:
-                    cdsResponse.compareAndSet(null, CdsActorConstants.SUCCESS);
+                    cdsStatus.compareAndSet(null, CdsActorConstants.SUCCESS);
                     break;
                 default:
-                    cdsResponse.compareAndSet(null, CdsActorConstants.FAILED);
+                    cdsStatus.compareAndSet(null, CdsActorConstants.FAILED);
                     break;
             }
         }
@@ -204,7 +205,7 @@ public class CdsActorServiceProvider implements Actor {
         @Override
         public void onError(final Throwable throwable) {
             Status status = Status.fromThrowable(throwable);
-            cdsResponse.compareAndSet(null, CdsActorConstants.ERROR);
+            cdsStatus.compareAndSet(null, CdsActorConstants.ERROR);
             LOGGER.error("Failed processing blueprint {} {}", status, throwable);
         }
 
@@ -214,30 +215,36 @@ public class CdsActorServiceProvider implements Actor {
          * @param cdsClient CDS grpc client object.
          * @param cdsProps CDS properties.
          * @param executionServiceInput a valid CDS grpc request object.
-         * @return Status of the CDS request, null if timeout happens or onError is invoked for any reason.
+         * @return the cds response.
          */
-        public String sendRequestToCds(CdsProcessorGrpcClient cdsClient, CdsServerProperties cdsProps,
-            ExecutionServiceInput executionServiceInput) {
+        public CdsResponse sendRequestToCds(CdsProcessorGrpcClient cdsClient, CdsServerProperties cdsProps,
+                                            ExecutionServiceInput executionServiceInput) {
             try {
                 LOGGER.trace("Start CdsActorServiceProvider.executeCdsBlueprintProcessor {}.", executionServiceInput);
                 // TO-DO: Handle requests asynchronously once the callback support is added to actors.
                 CountDownLatch countDownLatch = cdsClient.sendRequest(executionServiceInput);
                 boolean status = countDownLatch.await(cdsProps.getTimeout(), TimeUnit.SECONDS);
                 if (!status) {
-                    cdsResponse.compareAndSet(null, CdsActorConstants.TIMED_OUT);
+                    cdsStatus.compareAndSet(null, CdsActorConstants.TIMED_OUT);
                 }
-                LOGGER.info("CDS response {}", getCdsResponse());
+                LOGGER.info("CDS status response {}", getCdsStatus());
             } catch (InterruptedException ex) {
                 LOGGER.error("Caught exception in executeCdsBlueprintProcessor in CdsActorServiceProvider: ", ex);
-                cdsResponse.compareAndSet(null, CdsActorConstants.INTERRUPTED);
+                cdsStatus.compareAndSet(null, CdsActorConstants.INTERRUPTED);
                 Thread.currentThread().interrupt();
             }
-            LOGGER.info("Status of the CDS gRPC request is: {}", getCdsResponse());
-            return getCdsResponse();
+            LOGGER.info("Status of the CDS gRPC request is: {}", getCdsStatus());
+
+            CdsResponse response = new CdsResponse();
+            response.setRequestId(
+                    executionServiceInput != null && executionServiceInput.getCommonHeader() != null
+                        ? executionServiceInput.getCommonHeader().getRequestId() : null);
+            response.setStatus(this.getCdsStatus());
+            return response;
         }
 
-        String getCdsResponse() {
-            return cdsResponse.get();
+        String getCdsStatus() {
+            return cdsStatus.get();
         }
     }
 }

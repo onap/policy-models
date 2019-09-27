@@ -42,6 +42,8 @@ public class CdsServerProperties implements ParameterGroup {
     private static final String SERVER_PROPERTIES_TYPE = "CDS gRPC Server Properties";
 
     // CDS carrier properties
+
+    // Request timeout in seconds
     @Min(value = 1)
     private int timeout;
 
