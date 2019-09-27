@@ -20,6 +20,8 @@
 package org.onap.policy.cds.client;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.spy;
@@ -90,8 +92,8 @@ public class CdsProcessorGrpcClientTest {
         ManagedChannel channel = grpcCleanup
             .register(InProcessChannelBuilder.forName(SERVER_NAME).directExecutor().build());
 
-        // Create an instance of the gRPC client
-        client = new CdsProcessorGrpcClient(channel, new CdsProcessorHandler(listener));
+        // Get gRPC client instance
+        client = CdsProcessorGrpcClient.getInstance(channel, new CdsProcessorHandler(listener));
 
         // Implement the test gRPC server
         BluePrintProcessingServiceImplBase testCdsBlueprintServerImpl = new BluePrintProcessingServiceImplBase() {
@@ -124,17 +126,15 @@ public class CdsProcessorGrpcClientTest {
     @After
     public void tearDown() {
         client.close();
+        CdsProcessorGrpcClient.cleanInstance();
     }
 
     @Test
-    public void testCdsProcessorGrpcClientConstructor() {
-        new CdsProcessorGrpcClient(listener, props).close();
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void testCdsProcessorGrpcClientConstructorFailure() {
-        props.setHost(null);
-        new CdsProcessorGrpcClient(listener, props).close();
+    public void testCdsProcessorGrpcClientGetInstance() {
+        // Run
+        CdsProcessorGrpcClient result = CdsProcessorGrpcClient.getInstance(listener, props);
+        // Verify
+        assertNotNull(result);
     }
 
     @Test
@@ -179,4 +179,5 @@ public class CdsProcessorGrpcClientTest {
         responseObserverRef.get().onCompleted();
         assertTrue(finishLatch.await(0, TimeUnit.SECONDS));
     }
+
 }
