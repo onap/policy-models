@@ -29,6 +29,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.protobuf.Struct;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -63,6 +64,7 @@ public class CdsActorServiceProviderTest {
     private static final String CDS_BLUEPRINT_VERSION = "1.0.0";
     private static final UUID REQUEST_ID = UUID.randomUUID();
     private static final String SUBREQUEST_ID = "123456";
+    private static final String CDS_RECIPE = "test-cds-recipe";
 
     @Rule
     public ExpectedException exceptionRule = ExpectedException.none();
@@ -90,7 +92,7 @@ public class CdsActorServiceProviderTest {
             }
         };
         policy.setPayload(payloadMap);
-        policy.setRecipe("CDS");
+        policy.setRecipe(CDS_RECIPE);
 
         // Setup the CDS properties
         cdsProps = new CdsServerProperties();
@@ -124,7 +126,7 @@ public class CdsActorServiceProviderTest {
     }
 
     @Test
-    public void testConstructRequest() {
+    public void testConstructRequestWhenMissingCdsParamsInPolicyPayload() {
         policy.setPayload(new HashMap<>());
         Optional<ExecutionServiceInput> cdsRequestOpt = cdsActor
             .constructRequest(onset, operation, policy, aaiParams);
@@ -133,7 +135,7 @@ public class CdsActorServiceProviderTest {
     }
 
     @Test
-    public void testConstructRequestWhenMissingCdsParamsInPolicyPayload() {
+    public void testConstructRequest() {
         Optional<ExecutionServiceInput> cdsRequestOpt = cdsActor
             .constructRequest(onset, operation, policy, aaiParams);
 
@@ -146,10 +148,12 @@ public class CdsActorServiceProviderTest {
         assertEquals(commonHeader.getSubRequestId(), SUBREQUEST_ID);
 
         assertTrue(cdsRequest.hasPayload());
+        Struct cdsPayload = cdsRequest.getPayload();
+        assertTrue(cdsPayload.containsFields(CDS_RECIPE + "-request"));
 
         assertTrue(cdsRequest.hasActionIdentifiers());
         ActionIdentifiers actionIdentifiers = cdsRequest.getActionIdentifiers();
-        assertEquals(actionIdentifiers.getActionName(), CdsActorConstants.CDS_ACTOR);
+        assertEquals(actionIdentifiers.getActionName(), CDS_RECIPE);
         assertEquals(actionIdentifiers.getBlueprintName(), CDS_BLUEPRINT_NAME);
         assertEquals(actionIdentifiers.getBlueprintVersion(), CDS_BLUEPRINT_VERSION);
     }
