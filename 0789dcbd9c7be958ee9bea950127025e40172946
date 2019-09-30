@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51035ca6_d17b5d72",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/beans/CdsActionRequest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-09-30T20:21:39Z",
+      "side": 1,
+      "message": "Prefer to use StandardCoder instead of gson",
+      "revId": "0789dcbd9c7be958ee9bea950127025e40172946",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8e22b94_92d56a6f",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/beans/CdsActionRequest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-09-30T20:21:39Z",
+      "side": 1,
+      "message": "When this is serialized, it shouldn\u0027t include the action name?",
+      "revId": "0789dcbd9c7be958ee9bea950127025e40172946",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
