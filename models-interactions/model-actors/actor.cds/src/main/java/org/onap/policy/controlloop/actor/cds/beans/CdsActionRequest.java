@@ -18,26 +18,41 @@
 
 package org.onap.policy.controlloop.actor.cds.beans;
 
-import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
+import org.onap.policy.common.utils.coder.Coder;
+import org.onap.policy.common.utils.coder.CoderException;
+import org.onap.policy.common.utils.coder.StandardCoder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Getter
 @Setter
-public class ConfigDeployRequest {
+public class CdsActionRequest {
 
-    private static final Gson GSON = new Gson();
+    private static final Logger LOGGER = LoggerFactory.getLogger(CdsActionRequest.class);
+    private static final Coder CODER = new StandardCoder();
 
-    @SerializedName("config-deploy-properties")
+    @SerializedName("policy-payload")
     private Map<String, String> configDeployProperties;
 
     @SerializedName("aai-properties")
     private Map<String, String> aaiProperties;
 
+    @SerializedName("resolution-key")
+    private String resolutionKey;
+
+    private transient String actionName;
+
     @Override
     public String toString() {
-        return "{\"config-deploy-request\":" + GSON.toJson(this) + '}';
+        try {
+            return "{" + "\"" + actionName + "-request\":" + CODER.encode(this) + '}';
+        } catch (CoderException e) {
+            LOGGER.error("Failure serializing CdsActionRequest object: ", e);
+            return "";
+        }
     }
 }
