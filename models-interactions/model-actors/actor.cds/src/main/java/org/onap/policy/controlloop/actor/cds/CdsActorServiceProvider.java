@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
@@ -42,7 +43,7 @@ import org.onap.policy.cds.client.CdsProcessorGrpcClient;
 import org.onap.policy.cds.properties.CdsServerProperties;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
-import org.onap.policy.controlloop.actor.cds.beans.ConfigDeployRequest;
+import org.onap.policy.controlloop.actor.cds.beans.CdsActionRequest;
 import org.onap.policy.controlloop.actor.cds.constants.CdsActorConstants;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.onap.policy.controlloop.policy.Policy;
@@ -112,8 +113,10 @@ public class CdsActorServiceProvider implements Actor {
         String cbaActionName = policy.getRecipe();
 
         // Embed payload from policy to ConfigDeployRequest object, serialize and inject into grpc request.
-        ConfigDeployRequest request = new ConfigDeployRequest();
+        CdsActionRequest request = new CdsActionRequest();
         request.setConfigDeployProperties(payload);
+        request.setActionName(cbaActionName);
+        request.setResolutionKey(UUID.randomUUID().toString());
 
         // Inject AAI properties into payload map. Offer flexibility to the usecase
         // implementation to inject whatever AAI parameters are of interest to them.

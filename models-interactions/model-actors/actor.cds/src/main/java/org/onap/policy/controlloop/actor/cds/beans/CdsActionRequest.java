@@ -26,18 +26,23 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ConfigDeployRequest {
+public class CdsActionRequest {
 
     private static final Gson GSON = new Gson();
 
-    @SerializedName("config-deploy-properties")
+    @SerializedName("policy-payload")
     private Map<String, String> configDeployProperties;
 
     @SerializedName("aai-properties")
     private Map<String, String> aaiProperties;
 
+    @SerializedName("resolution-key")
+    private String resolutionKey;
+
+    private transient String actionName;
+
     @Override
     public String toString() {
-        return "{\"config-deploy-request\":" + GSON.toJson(this) + '}';
+        return "{" + "\"" + actionName + "-request\":" + GSON.toJson(this) + '}';
     }
 }
