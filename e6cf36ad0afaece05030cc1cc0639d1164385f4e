@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c554888_40505f8b",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/beans/CdsActionRequest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-09-30T21:50:54Z",
+      "side": 1,
+      "message": "Should be able to delete this line now",
+      "revId": "e6cf36ad0afaece05030cc1cc0639d1164385f4e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "816b3f14_f6f54243",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/beans/CdsActionRequest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-09-30T21:50:54Z",
+      "side": 1,
+      "message": "Delete this line",
+      "revId": "e6cf36ad0afaece05030cc1cc0639d1164385f4e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
