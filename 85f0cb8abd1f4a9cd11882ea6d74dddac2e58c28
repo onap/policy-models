@@ -244,6 +244,24 @@
       "revId": "85f0cb8abd1f4a9cd11882ea6d74dddac2e58c28",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1000ed05_e4f1b684",
+        "filename": "pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-03T22:13:01Z",
+      "side": 1,
+      "message": "which does it need to be?  if it needs to be 3.1.0-SNAPSHOT, then that\u0027s probably fine; we\u0027ll just need to change the other repos to use 3.1.0-SNAPSHOT, too",
+      "parentUuid": "84cee655_58f41e20",
+      "revId": "85f0cb8abd1f4a9cd11882ea6d74dddac2e58c28",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
