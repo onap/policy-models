@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab3a2798_4e4f96d2",
+        "filename": "models-interactions/model-impl/cds/src/main/java/org/onap/policy/cds/client/CdsProcessorGrpcClient.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-03T22:13:01Z",
+      "side": 1,
+      "message": "probably want to avoid doing the construction if there\u0027s already a value in the cache.  There may still be a race condition, but that should only happen at start-up.\n\nsame comment below",
+      "revId": "b368d3c91d937bc38493ade8d655b1187213cfa9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
