@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3863fe86_c33d09c4",
+        "filename": "models-interactions/model-actors/actor.cds/src/test/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProviderTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2019-10-03T21:16:50Z",
+      "side": 1,
+      "message": "We are ok, the timeout is 1s.\nComment added to CdsServerProperties.",
+      "parentUuid": "2039a51f_03439d52",
+      "revId": "85f0cb8abd1f4a9cd11882ea6d74dddac2e58c28",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b62743b7_ec08e569",
         "filename": "models-interactions/model-actors/actor.cds/src/test/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProviderTest.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2019-10-03T14:33:36Z",
       "side": 1,
       "message": "swap the arguments - the expected value should be on the left\n\nsame comment in other assertEquals() below",
+      "revId": "85f0cb8abd1f4a9cd11882ea6d74dddac2e58c28",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11987601_f4b348da",
+        "filename": "models-interactions/model-actors/actor.cds/src/test/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProviderTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2019-10-03T21:16:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b62743b7_ec08e569",
       "revId": "85f0cb8abd1f4a9cd11882ea6d74dddac2e58c28",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "7d9003ff_04e14ac9",
+        "filename": "models-interactions/model-impl/cds/src/main/java/org/onap/policy/cds/CdsResponse.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2019-10-03T21:16:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "450aa3c8_4c9ff9e4",
+      "revId": "85f0cb8abd1f4a9cd11882ea6d74dddac2e58c28",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cddbbaf9_d9cd49a3",
         "filename": "models-interactions/model-impl/cds/src/main/java/org/onap/policy/cds/CdsResponse.java",
         "patchSetId": 5
@@ -64,6 +118,24 @@
       "writtenOn": "2019-10-03T14:33:36Z",
       "side": 1,
       "message": "use Lombok @ToString OR use auto-generated toString() by eclipse (or intellij)",
+      "revId": "85f0cb8abd1f4a9cd11882ea6d74dddac2e58c28",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdac9e82_1acb2f69",
+        "filename": "models-interactions/model-impl/cds/src/main/java/org/onap/policy/cds/CdsResponse.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2019-10-03T21:16:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cddbbaf9_d9cd49a3",
       "revId": "85f0cb8abd1f4a9cd11882ea6d74dddac2e58c28",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "26a4247d_c1b53075",
+        "filename": "models-interactions/model-impl/cds/src/main/java/org/onap/policy/cds/client/CdsProcessorGrpcClient.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2019-10-03T21:16:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a75052d_07e84551",
+      "revId": "85f0cb8abd1f4a9cd11882ea6d74dddac2e58c28",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "414b45b5_b2891b9a",
         "filename": "models-interactions/model-impl/cds/src/main/java/org/onap/policy/cds/client/CdsProcessorGrpcClient.java",
         "patchSetId": 5
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "0bcb0ba4_aeadf2b5",
+        "filename": "models-interactions/model-impl/cds/src/main/java/org/onap/policy/cds/client/CdsProcessorGrpcClient.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2019-10-03T21:16:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "414b45b5_b2891b9a",
+      "revId": "85f0cb8abd1f4a9cd11882ea6d74dddac2e58c28",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9bc3ae24_41c4072d",
         "filename": "pom.xml",
         "patchSetId": 5
@@ -115,6 +223,24 @@
       "writtenOn": "2019-10-03T14:33:36Z",
       "side": 1,
       "message": "remove this comment",
+      "revId": "85f0cb8abd1f4a9cd11882ea6d74dddac2e58c28",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84cee655_58f41e20",
+        "filename": "pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2019-10-03T21:16:50Z",
+      "side": 1,
+      "message": "Revert back the change to upgrade ccsdk version using parent dependency management.\nNeed to wait next parent release.",
+      "parentUuid": "9bc3ae24_41c4072d",
       "revId": "85f0cb8abd1f4a9cd11882ea6d74dddac2e58c28",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
