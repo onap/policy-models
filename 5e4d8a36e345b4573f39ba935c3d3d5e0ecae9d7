@@ -109,6 +109,24 @@
     },
     {
       "key": {
+        "uuid": "001ece3a_6198a635",
+        "filename": "models-interactions/model-impl/cds/src/main/java/org/onap/policy/cds/client/CdsProcessorGrpcClient.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-10-04T19:16:59Z",
+      "side": 1,
+      "message": "I\u0027m concerned with this scenario:\n\nThread-1: line 80: if (instance.get() \u003d\u003d null) {\nThread-1: line 81: instance.compareAndSet(null, new CdsProcessorGrpcClient(listener, props));\nThread-1: line 82: }\nThread-2: line 71: instance.set(null);      /* another thread running into cleanInstance */\nThread-1: line 83: return instance.get();  /* returns null */\n\n??",
+      "parentUuid": "2a356a36_341e9bd2",
+      "revId": "5e4d8a36e345b4573f39ba935c3d3d5e0ecae9d7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6c6e5537_5e586398",
         "filename": "models-interactions/model-impl/cds/src/main/java/org/onap/policy/cds/client/CdsProcessorGrpcClient.java",
         "patchSetId": 7
