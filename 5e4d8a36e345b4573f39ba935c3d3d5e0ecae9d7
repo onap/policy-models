@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "599660e7_4c6a963f",
+        "filename": "models-interactions/model-impl/cds/src/main/java/org/onap/policy/cds/client/CdsProcessorGrpcClient.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2019-10-04T16:27:02Z",
+      "side": 1,
+      "message": "Exact, once set the instance is not supposed to return back to null.\n\nClean instance method has package visibility and can not be called from outside. It is used in CdsProcessorGrpcClientTest.",
+      "parentUuid": "71c780e1_e1f2e51d",
+      "revId": "5e4d8a36e345b4573f39ba935c3d3d5e0ecae9d7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6c6e5537_5e586398",
         "filename": "models-interactions/model-impl/cds/src/main/java/org/onap/policy/cds/client/CdsProcessorGrpcClient.java",
         "patchSetId": 7
