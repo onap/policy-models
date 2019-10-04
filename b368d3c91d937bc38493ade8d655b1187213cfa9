@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "d3e4e49e_c80b9174",
+        "filename": "models-interactions/model-impl/cds/src/main/java/org/onap/policy/cds/client/CdsProcessorGrpcClient.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-10-04T08:06:54Z",
+      "side": 1,
+      "message": "Just a question, are we restricted to using a single client for all requests and if so, why?",
+      "range": {
+        "startLine": 41,
+        "startChar": 46,
+        "endLine": 41,
+        "endChar": 47
+      },
+      "revId": "b368d3c91d937bc38493ade8d655b1187213cfa9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab3a2798_4e4f96d2",
         "filename": "models-interactions/model-impl/cds/src/main/java/org/onap/policy/cds/client/CdsProcessorGrpcClient.java",
         "patchSetId": 6
