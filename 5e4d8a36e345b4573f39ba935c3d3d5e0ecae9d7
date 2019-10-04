@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "2a356a36_341e9bd2",
+        "filename": "models-interactions/model-impl/cds/src/main/java/org/onap/policy/cds/client/CdsProcessorGrpcClient.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2019-10-04T18:01:51Z",
+      "side": 1,
+      "message": "Correct. There is a potential race condition at startup to instantiate the instance at the same time, but because of the AtomicReference we are protected if ever this happens. Also it could only be once at startup.",
+      "parentUuid": "c185cc57_d0660644",
+      "revId": "5e4d8a36e345b4573f39ba935c3d3d5e0ecae9d7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6c6e5537_5e586398",
         "filename": "models-interactions/model-impl/cds/src/main/java/org/onap/policy/cds/client/CdsProcessorGrpcClient.java",
         "patchSetId": 7
