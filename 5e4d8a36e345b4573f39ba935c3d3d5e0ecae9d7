@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "71c780e1_e1f2e51d",
+        "filename": "models-interactions/model-impl/cds/src/main/java/org/onap/policy/cds/client/CdsProcessorGrpcClient.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-04T16:21:21Z",
+      "side": 1,
+      "message": "no, it can\u0027t return null after this; once it has a value, it will always have that value, as it is never set back to null.",
+      "parentUuid": "9050c71a_1d6932a1",
+      "revId": "5e4d8a36e345b4573f39ba935c3d3d5e0ecae9d7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6c6e5537_5e586398",
         "filename": "models-interactions/model-impl/cds/src/main/java/org/onap/policy/cds/client/CdsProcessorGrpcClient.java",
         "patchSetId": 7
