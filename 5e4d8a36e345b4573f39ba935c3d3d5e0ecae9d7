@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "c185cc57_d0660644",
+        "filename": "models-interactions/model-impl/cds/src/main/java/org/onap/policy/cds/client/CdsProcessorGrpcClient.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-10-04T17:50:16Z",
+      "side": 1,
+      "message": "So you don\u0027t need \u0027synchronized\u0027 correct?",
+      "parentUuid": "599660e7_4c6a963f",
+      "revId": "5e4d8a36e345b4573f39ba935c3d3d5e0ecae9d7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6c6e5537_5e586398",
         "filename": "models-interactions/model-impl/cds/src/main/java/org/onap/policy/cds/client/CdsProcessorGrpcClient.java",
         "patchSetId": 7
