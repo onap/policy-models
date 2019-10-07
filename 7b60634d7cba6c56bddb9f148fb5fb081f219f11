@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e317bdfc_30a8cd84",
+        "filename": "models-interactions/model-simulators/src/test/resources/org/onap/policy/simulators/dmaap/TopicParameters.json",
+        "patchSetId": 6
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-07T15:49:02Z",
+      "side": 1,
+      "message": "yes - it will be replaced by the junit test\n\nsame comment for all of these",
+      "parentUuid": "3ad118fc_88918179",
+      "revId": "7b60634d7cba6c56bddb9f148fb5fb081f219f11",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a7ec881_3b9e30f4",
         "filename": "models-interactions/model-simulators/src/test/resources/org/onap/policy/simulators/dmaap/TopicParameters.json",
         "patchSetId": 6
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "b513e721_702005cf",
+        "filename": "models-sim/models-sim-dmaap/src/main/java/org/onap/policy/models/sim/dmaap/startstop/DmaapSimCommandLineArguments.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-07T15:49:02Z",
+      "side": 1,
+      "message": "good catch - thx!",
+      "parentUuid": "885fe85a_ecea259d",
+      "revId": "7b60634d7cba6c56bddb9f148fb5fb081f219f11",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5cd382f7_3eaf2361",
         "filename": "models-sim/models-sim-dmaap/src/test/java/org/onap/policy/sim/dmaap/startstop/MainTest.java",
         "patchSetId": 6
@@ -64,6 +100,30 @@
       "writtenOn": "2019-10-07T15:41:59Z",
       "side": 1,
       "message": "this has invalid arguments in it?",
+      "range": {
+        "startLine": 82,
+        "startChar": 44,
+        "endLine": 82,
+        "endChar": 77
+      },
+      "revId": "7b60634d7cba6c56bddb9f148fb5fb081f219f11",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3f4446a_ac407b46",
+        "filename": "models-sim/models-sim-dmaap/src/test/java/org/onap/policy/sim/dmaap/startstop/MainTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-07T15:49:02Z",
+      "side": 1,
+      "message": "well isn\u0027t that interesting - I\u0027ll take a look.",
+      "parentUuid": "5cd382f7_3eaf2361",
       "range": {
         "startLine": 82,
         "startChar": 44,
