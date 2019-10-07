@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ad118fc_88918179",
+        "filename": "models-interactions/model-simulators/src/test/resources/org/onap/policy/simulators/dmaap/TopicParameters.json",
+        "patchSetId": 6
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-10-07T15:37:01Z",
+      "side": 1,
+      "message": "Is this correct?",
+      "revId": "7b60634d7cba6c56bddb9f148fb5fb081f219f11",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a7ec881_3b9e30f4",
+        "filename": "models-interactions/model-simulators/src/test/resources/org/onap/policy/simulators/dmaap/TopicParameters.json",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-10-07T15:37:01Z",
+      "side": 1,
+      "message": "Is this correct?",
+      "revId": "7b60634d7cba6c56bddb9f148fb5fb081f219f11",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "885fe85a_ecea259d",
+        "filename": "models-sim/models-sim-dmaap/src/main/java/org/onap/policy/models/sim/dmaap/startstop/DmaapSimCommandLineArguments.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-10-07T15:37:01Z",
+      "side": 1,
+      "message": "Use apache commons library instead",
+      "revId": "7b60634d7cba6c56bddb9f148fb5fb081f219f11",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3703278_7806f91c",
+        "filename": "models-sim/models-sim-dmaap/src/test/resources/parameters/TopicParameters.json",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-10-07T15:37:01Z",
+      "side": 1,
+      "message": "is this correct?",
+      "revId": "7b60634d7cba6c56bddb9f148fb5fb081f219f11",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
