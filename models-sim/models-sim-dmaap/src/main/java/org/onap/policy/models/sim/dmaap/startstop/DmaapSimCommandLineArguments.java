@@ -26,13 +26,15 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URL;
 import java.util.Arrays;
-
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.apache.commons.lang3.StringUtils;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.sim.dmaap.DmaapSimException;
 import org.onap.policy.models.sim.dmaap.DmaapSimRuntimeException;
@@ -46,6 +48,9 @@ public class DmaapSimCommandLineArguments {
     private static final int HELP_LINE_LENGTH = 120;
 
     private final Options options;
+
+    @Getter
+    @Setter
     private String configurationFilePath = null;
 
     /**
@@ -145,7 +150,7 @@ public class DmaapSimCommandLineArguments {
      * @throws DmaapSimException on command argument validation errors
      */
     public void validate() throws DmaapSimException {
-        validateReadableFile("DMaaP simulator configuration", configurationFilePath);
+        validateFileExists("DMaaP simulator configuration", configurationFilePath);
     }
 
     /**
@@ -175,31 +180,12 @@ public class DmaapSimCommandLineArguments {
     }
 
     /**
-     * Gets the configuration file path.
-     *
-     * @return the configuration file path
-     */
-    public String getConfigurationFilePath() {
-        return configurationFilePath;
-    }
-
-    /**
      * Gets the full expanded configuration file path.
      *
      * @return the configuration file path
      */
     public String getFullConfigurationFilePath() {
         return ResourceUtils.getFilePath4Resource(getConfigurationFilePath());
-    }
-
-    /**
-     * Sets the configuration file path.
-     *
-     * @param configurationFilePath the configuration file path
-     */
-    public void setConfigurationFilePath(final String configurationFilePath) {
-        this.configurationFilePath = configurationFilePath;
-
     }
 
     /**
@@ -212,14 +198,14 @@ public class DmaapSimCommandLineArguments {
     }
 
     /**
-     * Validate readable file.
+     * Validate file exists.
      *
      * @param fileTag the file tag
      * @param fileName the file name
      * @throws DmaapSimException on the file name passed as a parameter
      */
-    private void validateReadableFile(final String fileTag, final String fileName) throws DmaapSimException {
-        if (fileName == null || fileName.length() == 0) {
+    private void validateFileExists(final String fileTag, final String fileName) throws DmaapSimException {
+        if (StringUtils.isBlank(fileName)) {
             throw new DmaapSimException(fileTag + " file was not specified as an argument");
         }
 
@@ -232,12 +218,6 @@ public class DmaapSimCommandLineArguments {
         final File theFile = new File(fileUrl.getPath());
         if (!theFile.exists()) {
             throw new DmaapSimException(fileTag + FILE_MESSAGE_PREAMBLE + fileName + "\" does not exist");
-        }
-        if (!theFile.isFile()) {
-            throw new DmaapSimException(fileTag + FILE_MESSAGE_PREAMBLE + fileName + "\" is not a normal file");
-        }
-        if (!theFile.canRead()) {
-            throw new DmaapSimException(fileTag + FILE_MESSAGE_PREAMBLE + fileName + "\" is ureadable");
         }
     }
 }
