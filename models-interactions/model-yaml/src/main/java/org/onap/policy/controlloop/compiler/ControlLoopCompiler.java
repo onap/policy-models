@@ -402,17 +402,6 @@ public class ControlLoopCompiler implements Serializable {
             }
             isOk = false;
         }
-        //
-        // Construct a list for all valid actors
-        //
-        ImmutableList<String> actors = ImmutableList.of("APPC", "SDNC", "SDNR", "SO", "VFC");
-        //
-        if (operPolicy.getActor() != null && (!actors.contains(operPolicy.getActor())) ) {
-            if (callback != null) {
-                callback.onError("Policy actor is invalid");
-            }
-            isOk = false;
-        }
         return isOk;
     }
 
@@ -421,25 +410,6 @@ public class ControlLoopCompiler implements Serializable {
         if (operPolicy.getRecipe() == null) {
             if (callback != null) {
                 callback.onError("Policy recipe is null");
-            }
-            isOk = false;
-        }
-        //
-        // NOTE: We need a way to find the acceptable recipe values (either Enum or a database that has these)
-        //
-        ImmutableMap<String, List<String>> recipes = new ImmutableMap.Builder<String, List<String>>()
-                .put("APPC", ImmutableList.of("Restart", "Rebuild", "Migrate", "ModifyConfig"))
-                .put("SDNC", ImmutableList.of("Reroute"))
-                .put("SDNR", ImmutableList.of("ModifyConfig"))
-                .put("SO", ImmutableList.of("VF Module Create", "VF Module Delete"))
-                .put("VFC", ImmutableList.of("Restart"))
-                .build();
-        //
-        if (operPolicy.getRecipe() != null
-                        && (!recipes.getOrDefault(operPolicy.getActor(),
-                                        Collections.emptyList()).contains(operPolicy.getRecipe()))) {
-            if (callback != null) {
-                callback.onError("Policy recipe is invalid");
             }
             isOk = false;
         }
