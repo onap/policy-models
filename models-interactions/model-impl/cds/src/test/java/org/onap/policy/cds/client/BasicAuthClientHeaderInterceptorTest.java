@@ -120,7 +120,7 @@ public class BasicAuthClientHeaderInterceptorTest {
 
         Key<String> authHeader = Key
             .of(BasicAuthClientHeaderInterceptor.BASIC_AUTH_HEADER_KEY, Metadata.ASCII_STRING_MARSHALLER);
-        String expectedBaseAuth = Base64.getEncoder().encodeToString(String.format("%s:%s", CREDS, CREDS)
+        String expectedBaseAuth = "Basic " + Base64.getEncoder().encodeToString(String.format("%s:%s", CREDS, CREDS)
             .getBytes(StandardCharsets.UTF_8));
         assertEquals(expectedBaseAuth, metadataCaptor.getValue().get(authHeader));
     }

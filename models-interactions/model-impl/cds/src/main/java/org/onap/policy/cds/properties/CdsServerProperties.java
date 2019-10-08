@@ -82,7 +82,9 @@ public class CdsServerProperties implements ParameterGroup {
      * @return Base64 encoded string
      */
     public String getBasicAuth() {
-        return Base64.getEncoder().encodeToString(String.format("%s:%s", getUsername(), getPassword())
-            .getBytes(StandardCharsets.UTF_8));
+        String encodedAuth = Base64.getEncoder().encodeToString(
+                String.format("%s:%s", getUsername(), getPassword()).getBytes(StandardCharsets.UTF_8));
+        // Return encoded basic auth header
+        return "Basic " + encodedAuth;
     }
 }
