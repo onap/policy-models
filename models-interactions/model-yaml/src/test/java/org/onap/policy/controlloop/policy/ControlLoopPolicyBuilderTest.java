@@ -697,7 +697,7 @@ public class ControlLoopPolicyBuilderTest {
                 .description(TRIGGER_RESTART)
                 .actor(null)
                 .target(null)
-                .recipe("Instantiate")
+                .recipe(null)
                 .payload(null)
                 .retries(2)
                 .timeout(300).build());
@@ -712,7 +712,7 @@ public class ControlLoopPolicyBuilderTest {
             if ("Policy actor is null".equals(m.getMessage()) && m.getLevel() == MessageLevel.ERROR) {
                 invalidActor = true;
             }
-            if ("Policy recipe is invalid".equals(m.getMessage()) && m.getLevel() == MessageLevel.ERROR) {
+            if ("Policy recipe is null".equals(m.getMessage()) && m.getLevel() == MessageLevel.ERROR) {
                 invalidRecipe = true;
             }
             if ("Policy target is null".equals(m.getMessage()) && m.getLevel() == MessageLevel.ERROR) {
