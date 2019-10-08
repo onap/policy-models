@@ -51,11 +51,11 @@ public class ControlLoopCompilerTest {
         expectedOnErrorMessages.add("Policy id is set to a PolicyResult SUCCESS");
         expectedOnErrorMessages.add("Policy id is set to a FinalResult FINAL_SUCCESS");
         expectedOnErrorMessages.add("Policy actor is null");
-        expectedOnErrorMessages.add("Policy actor is invalid");
+        //expectedOnErrorMessages.add("Policy actor is invalid");
         expectedOnErrorMessages.add("Policy recipe is null");
-        expectedOnErrorMessages.add(POLICY_RECIPE_IS_INVALID);
-        expectedOnErrorMessages.add(POLICY_RECIPE_IS_INVALID);
-        expectedOnErrorMessages.add(POLICY_RECIPE_IS_INVALID);
+        //expectedOnErrorMessages.add(POLICY_RECIPE_IS_INVALID);
+        //expectedOnErrorMessages.add(POLICY_RECIPE_IS_INVALID);
+        //expectedOnErrorMessages.add(POLICY_RECIPE_IS_INVALID);
         expectedOnErrorMessages.add("Policy target is null");
         expectedOnErrorMessages.add("Policy target is invalid");
         expectedOnErrorMessages.add("Policy success is neither another policy nor FINAL_SUCCESS");
