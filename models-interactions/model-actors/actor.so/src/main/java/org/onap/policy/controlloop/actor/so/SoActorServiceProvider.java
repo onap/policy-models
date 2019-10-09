@@ -207,6 +207,7 @@ public class SoActorServiceProvider implements Actor {
         soModelInfo.setModelName(policy.getTarget().getModelName());
         soModelInfo.setModelVersion(policy.getTarget().getModelVersion());
         soModelInfo.setModelVersionId(policy.getTarget().getModelVersionId());
+        soModelInfo.setModelType("vfModule");
         return soModelInfo;
     }
 
