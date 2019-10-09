@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5feef9c5_911a5694",
+        "filename": "models-examples/src/main/resources/policies/onap.policies.controlloop.guard.MinMax.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-10-09T23:24:37Z",
+      "side": 0,
+      "message": "Did you mean to delete this???",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 2
+      },
+      "revId": "0ee2ca49f61f75179f3118cbadd2406f7c72cfb3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
