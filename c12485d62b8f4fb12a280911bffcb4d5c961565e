@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9dc89e2f_cc6c293c",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/beans/CdsActionRequest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-11T14:34:46Z",
+      "side": 1,
+      "message": "should this be included in the json serialization?  I had asked this before and the answer was no, thus this should be marked \"transient\".  However, if we\u0027ve decided that it should be included in the json, then the question becomes: is \"actionName\" a reasonable field name within the json?",
+      "revId": "c12485d62b8f4fb12a280911bffcb4d5c961565e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70adecff_4c1807cd",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/constants/CdsActorConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-11T14:34:46Z",
+      "side": 1,
+      "message": "this should be moved after all of the field declarations (that\u0027s another sonar issue)",
+      "revId": "c12485d62b8f4fb12a280911bffcb4d5c961565e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
