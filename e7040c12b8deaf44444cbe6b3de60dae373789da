@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "686b03bf_6e3524ab",
+        "filename": "models-interactions/model-yaml/src/main/java/org/onap/policy/controlloop/compiler/ControlLoopCompiler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-11T16:07:34Z",
+      "side": 1,
+      "message": "delete this variable and simply return true or false\n\nsame comment below",
+      "revId": "e7040c12b8deaf44444cbe6b3de60dae373789da",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
