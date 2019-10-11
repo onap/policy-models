@@ -44,7 +44,7 @@ public class CdsActionRequest {
     @SerializedName("resolution-key")
     private String resolutionKey;
 
-    private transient String actionName;
+    private String actionName;
 
     @Override
     public String toString() {

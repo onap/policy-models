@@ -19,6 +19,9 @@
 package org.onap.policy.controlloop.actor.cds.constants;
 
 public class CdsActorConstants {
+    private CdsActorConstants() {
+        // Hide implicit public constructor
+    }
 
     public static final String CDS_ACTOR = "CDS";
 
