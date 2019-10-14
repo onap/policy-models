@@ -16,6 +16,41 @@
       "revId": "45605a577b6607c1b885b4ae70d1c547b06b7e88",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cead3965_fefd1652",
+        "filename": "models-interactions/model-impl/vfc/src/main/java/org/onap/policy/vfc/VfcManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-10-14T15:13:09Z",
+      "side": 1,
+      "message": "I think you\u0027re right, seems could return directly here.",
+      "parentUuid": "5c461035_a1383203",
+      "revId": "45605a577b6607c1b885b4ae70d1c547b06b7e88",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6468fc01_f7db807c",
+        "filename": "models-sim/policy-models-sim-pdp/src/main/java/org/onap/policy/models/sim/pdp/handler/PdpUpdateMessageHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-10-14T15:13:09Z",
+      "side": 1,
+      "message": "To me the use of the short-circuit ORs make it less readable and less concise than the previous version of this method.  Is this sonar related?",
+      "revId": "45605a577b6607c1b885b4ae70d1c547b06b7e88",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
