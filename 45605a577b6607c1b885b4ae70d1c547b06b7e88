@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c461035_a1383203",
+        "filename": "models-interactions/model-impl/vfc/src/main/java/org/onap/policy/vfc/VfcManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-14T14:45:04Z",
+      "side": 1,
+      "message": "part of me wonders if this should be a \"return\" since a response was received and the callback invoked",
+      "revId": "45605a577b6607c1b885b4ae70d1c547b06b7e88",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
