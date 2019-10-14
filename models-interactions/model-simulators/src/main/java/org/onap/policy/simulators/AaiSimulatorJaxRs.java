@@ -157,8 +157,8 @@ public class AaiSimulatorJaxRs {
     @Produces("application/json")
     public String getByVnfName(@QueryParam("vnf-name") final String vnfName) {
         if (GETFAIL.equals(vnfName)) {
-            return "{\"requestError\":{\"serviceException\":{\"messageId\":\"SVC3001\",\"text\":\"Resource not found"
-                    + " for %1 using id %2 (msg=%3) (ec=%4)\",\"variables\":[\"GET\",\"network/generic-vnfs/"
+            return "{\"requestError\":{\"serviceException\":{\"messageId\":\"SVC3001\",\"text\":\"Resource not"
+                    + " found for %1 using id %2 (msg=%3) (ec=%4)\",\"variables\":[\"GET\",\"network/generic-vnfs/"
                     + "generic-vnf\",\"Node Not Found:No Node of type generic-vnf found at network/generic-vnfs"
                     + "/generic-vnf\",\"ERR.5.4.6114\"]}}}";
         }

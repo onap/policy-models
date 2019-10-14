@@ -26,7 +26,9 @@ import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceOu
  * the received messages appropriately, it needs to implement {@link CdsProcessorListener}.
  * </p>
  *
- * <p>Here is a sample implementation of a listener:
+ * <p>
+ * Here is a sample implementation of a listener:
+ *
  * <pre>
  * new CdsProcessorListener {
  *
@@ -49,11 +51,10 @@ public interface CdsProcessorListener {
     /**
      * Implements the workflow upon receiving the message from the server side.
      *
-     * <p>Note that the CDS client-server communication is configured to use a streaming approach, which means when
-     * client
-     * sends an event, the server can reply with multiple sub-responses until full completion of the processing. Hence,
-     * it is up to the implementation of this method to process the received message using {@link
-     * ExecutionServiceOutput#getStatus()#getEventType()}</p>
+     * <p>Note that the CDS client-server communication is configured to use a streaming approach, which means when a
+     * client sends an event, the server can reply with multiple sub-responses until full completion of the processing.
+     * Hence, it is up to the implementation of this method to process the received message using the
+     * getStatus().getEventType() method of {@link ExecutionServiceOutput}
      *
      * @param message ExecutionServiceOutput received by the CDS grpc server
      */

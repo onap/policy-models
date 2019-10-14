@@ -31,6 +31,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class CdsResponse implements Serializable {
+    private static final long serialVersionUID = 2590429952699969650L;
 
     private String requestId;
     private String status;

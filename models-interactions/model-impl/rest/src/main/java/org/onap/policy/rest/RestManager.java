@@ -41,8 +41,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class RestManager {
-
     private static final Logger logger = LoggerFactory.getLogger(RestManager.class);
+
+    // Constants for string literals
+    private static final String CONTENT_TYPE = "Content-Type";
 
     public class Pair<A, B> {
         public final A first;
@@ -69,7 +71,7 @@ public class RestManager {
                                       Map<String, String> headers, String contentType, String body) {
         HttpPut put = new HttpPut(url);
         addHeaders(put, username, password, headers);
-        put.addHeader("Content-Type", contentType);
+        put.addHeader(CONTENT_TYPE, contentType);
         try {
             StringEntity input = new StringEntity(body);
             input.setContentType(contentType);
@@ -96,7 +98,7 @@ public class RestManager {
                                       Map<String, String> headers, String contentType, String body) {
         HttpPost post = new HttpPost(url);
         addHeaders(post, username, password, headers);
-        post.addHeader("Content-Type", contentType);
+        post.addHeader(CONTENT_TYPE, contentType);
         try {
             StringEntity input = new StringEntity(body);
             input.setContentType(contentType);
@@ -141,7 +143,7 @@ public class RestManager {
         HttpDeleteWithBody delete = new HttpDeleteWithBody(url);
         addHeaders(delete, username, password, headers);
         if (body != null && !body.isEmpty()) {
-            delete.addHeader("Content-Type", contentType);
+            delete.addHeader(CONTENT_TYPE, contentType);
             try {
                 StringEntity input = new StringEntity(body);
                 input.setContentType(contentType);
