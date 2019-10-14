@@ -87,6 +87,8 @@ public class CdsActorServiceProviderTest {
         // Setup policy
         policy = new Policy();
         Map<String, String> payloadMap = new HashMap<String, String>() {
+            private static final long serialVersionUID = 1L;
+
             {
                 put(CdsActorConstants.KEY_CBA_NAME, CDS_BLUEPRINT_NAME);
                 put(CdsActorConstants.KEY_CBA_VERSION, CDS_BLUEPRINT_VERSION);
@@ -124,7 +126,7 @@ public class CdsActorServiceProviderTest {
 
     @Test
     public void testActor() {
-        assertEquals(cdsActor.actor(), CdsActorConstants.CDS_ACTOR);
+        assertEquals(CdsActorConstants.CDS_ACTOR, cdsActor.actor());
     }
 
     @Test
@@ -147,7 +149,7 @@ public class CdsActorServiceProviderTest {
         assertTrue(cdsRequest.hasCommonHeader());
         CommonHeader commonHeader = cdsRequest.getCommonHeader();
         assertEquals(commonHeader.getRequestId(), REQUEST_ID.toString());
-        assertEquals(commonHeader.getSubRequestId(), SUBREQUEST_ID);
+        assertEquals(SUBREQUEST_ID, commonHeader.getSubRequestId());
 
         assertTrue(cdsRequest.hasPayload());
         Struct cdsPayload = cdsRequest.getPayload();
@@ -155,24 +157,24 @@ public class CdsActorServiceProviderTest {
 
         assertTrue(cdsRequest.hasActionIdentifiers());
         ActionIdentifiers actionIdentifiers = cdsRequest.getActionIdentifiers();
-        assertEquals(actionIdentifiers.getActionName(), CDS_RECIPE);
-        assertEquals(actionIdentifiers.getBlueprintName(), CDS_BLUEPRINT_NAME);
-        assertEquals(actionIdentifiers.getBlueprintVersion(), CDS_BLUEPRINT_VERSION);
+        assertEquals(CDS_RECIPE, actionIdentifiers.getActionName());
+        assertEquals(CDS_BLUEPRINT_NAME, actionIdentifiers.getBlueprintName());
+        assertEquals(CDS_BLUEPRINT_VERSION, actionIdentifiers.getBlueprintVersion());
     }
 
     @Test
     public void testRecipePayloads() {
-        assertEquals(cdsActor.recipePayloads("").size(), 0);
+        assertEquals(0, cdsActor.recipePayloads("").size());
     }
 
     @Test
     public void testRecipes() {
-        assertEquals(cdsActor.recipes().size(), 0);
+        assertEquals(0, cdsActor.recipes().size());
     }
 
     @Test
     public void testRecipeTargets() {
-        assertEquals(cdsActor.recipeTargets("").size(), 0);
+        assertEquals(0, cdsActor.recipeTargets("").size());
     }
 
     @Test

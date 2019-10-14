@@ -63,7 +63,7 @@ public class Util {
      * @throws InterruptedException if a thread is interrupted
      * @throws IOException if an IO errror occurs
      */
-    public static HttpServletServer buildAaiSim() throws InterruptedException, IOException {
+    public static HttpServletServer buildAaiSim() throws InterruptedException {
         final HttpServletServer testServer = HttpServletServerFactoryInstance.getServerFactory()
                         .build(AAISIM_SERVER_NAME, LOCALHOST, AAISIM_SERVER_PORT, "/", false, true);
         testServer.addServletClass("/*", AaiSimulatorJaxRs.class.getName());
@@ -81,7 +81,7 @@ public class Util {
      * @throws InterruptedException if a thread is interrupted
      * @throws IOException if an IO errror occurs
      */
-    public static HttpServletServer buildSdncSim() throws InterruptedException, IOException {
+    public static HttpServletServer buildSdncSim() throws InterruptedException {
         final HttpServletServer testServer = HttpServletServerFactoryInstance.getServerFactory()
                         .build(SDNCSIM_SERVER_NAME, LOCALHOST, SDNCSIM_SERVER_PORT, "/", false, true);
         testServer.addServletClass("/*", SdncSimulatorJaxRs.class.getName());
@@ -100,7 +100,7 @@ public class Util {
      * @throws InterruptedException if a thread is interrupted
      * @throws IOException if an IO errror occurs
      */
-    public static HttpServletServer buildSoSim() throws InterruptedException, IOException {
+    public static HttpServletServer buildSoSim() throws InterruptedException {
         final HttpServletServer testServer = HttpServletServerFactoryInstance.getServerFactory()
                         .build(SOSIM_SERVER_NAME, LOCALHOST, SOSIM_SERVER_PORT, "/", false, true);
         testServer.addServletClass("/*", SoSimulatorJaxRs.class.getName());
@@ -118,7 +118,7 @@ public class Util {
      * @throws InterruptedException if a thread is interrupted
      * @throws IOException if an IO errror occurs
      */
-    public static HttpServletServer buildVfcSim() throws InterruptedException, IOException {
+    public static HttpServletServer buildVfcSim() throws InterruptedException {
         final HttpServletServer testServer = HttpServletServerFactoryInstance.getServerFactory()
                         .build(VFCSIM_SERVER_NAME, LOCALHOST, VFCSIM_SERVER_PORT, "/", false, true);
         testServer.addServletClass("/*", VfcSimulatorJaxRs.class.getName());
@@ -136,7 +136,7 @@ public class Util {
      * @throws InterruptedException if a thread is interrupted
      * @throws IOException if an IO errror occurs
      */
-    public static HttpServletServer buildGuardSim() throws InterruptedException, IOException {
+    public static HttpServletServer buildGuardSim() throws InterruptedException {
         HttpServletServer testServer = HttpServletServerFactoryInstance.getServerFactory().build(GUARDSIM_SERVER_NAME,
                         LOCALHOST, GUARDSIM_SERVER_PORT, "/", false, true);
         testServer.setSerializationProvider(GsonMessageBodyHandler.class.getName());
@@ -156,7 +156,7 @@ public class Util {
      * @throws IOException if an IO errror occurs
      * @throws CoderException if the server parameters cannot be loaded
      */
-    public static HttpServletServer buildDmaapSim() throws InterruptedException, IOException, CoderException {
+    public static HttpServletServer buildDmaapSim() throws InterruptedException, CoderException {
         String json = ResourceUtils.getResourceAsString("org/onap/policy/simulators/dmaap/DmaapParameters.json");
         DmaapSimParameterGroup params = new StandardCoder().decode(json, DmaapSimParameterGroup.class);
 

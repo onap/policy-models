@@ -62,12 +62,17 @@ public class AaiCqResponse {
         properties.put(JAXBContextProperties.JSON_INCLUDE_ROOT, false);
         // Define JAXB context
         try {
-            jaxbContext =
-                JAXBContextFactory
-                    .createContext(
-                        new Class[] {Vserver.class, GenericVnf.class, VfModule.class,
-                            CloudRegion.class, ServiceInstance.class, Tenant.class, ModelVer.class},
-                        properties);
+            // @formatter:off
+            jaxbContext = JAXBContextFactory.createContext(new Class[] {
+                Vserver.class,
+                GenericVnf.class,
+                VfModule.class,
+                CloudRegion.class,
+                ServiceInstance.class,
+                Tenant.class,
+                ModelVer.class
+            }, properties);
+            // @formatter:on
             unmarshaller = jaxbContext.createUnmarshaller();
         } catch (JAXBException e) {
             LOGGER.error("Could not initialize JAXBContext", e);
@@ -81,8 +86,7 @@ public class AaiCqResponse {
     /**
      * Constructor creates a custom query response from a valid json string.
      *
-     * @param jsonString
-     *        A&AI Custom Query response JSON string
+     * @param jsonString A&AI Custom Query response JSON string
      */
     public AaiCqResponse(String jsonString) {
 
@@ -98,8 +102,8 @@ public class AaiCqResponse {
 
                 // Create the StreamSource by creating StringReader using the
                 // JSON input
-                StreamSource json = new StreamSource(new StringReader(
-                    resultsArray.getJSONObject(i).getJSONObject("vserver").toString()));
+                StreamSource json = new StreamSource(
+                        new StringReader(resultsArray.getJSONObject(i).getJSONObject("vserver").toString()));
 
                 // Getting the vserver pojo again from the json
                 Vserver vserver = this.getAaiObject(json, Vserver.class);
@@ -110,8 +114,8 @@ public class AaiCqResponse {
             if (resultsArray.getJSONObject(i).has(GENERIC_VNF)) {
                 // Create the StreamSource by creating StringReader using the
                 // JSON input
-                StreamSource json = new StreamSource(new StringReader(
-                    resultsArray.getJSONObject(i).getJSONObject(GENERIC_VNF).toString()));
+                StreamSource json = new StreamSource(
+                        new StringReader(resultsArray.getJSONObject(i).getJSONObject(GENERIC_VNF).toString()));
 
                 // Getting the generic vnf pojo again from the json
                 GenericVnf genericVnf = this.getAaiObject(json, GenericVnf.class);
@@ -124,8 +128,8 @@ public class AaiCqResponse {
 
                 // Create the StreamSource by creating StringReader using the
                 // JSON input
-                StreamSource json = new StreamSource(new StringReader(
-                    resultsArray.getJSONObject(i).getJSONObject("service-instance").toString()));
+                StreamSource json = new StreamSource(
+                        new StringReader(resultsArray.getJSONObject(i).getJSONObject("service-instance").toString()));
 
                 // Getting the employee pojo again from the json
                 ServiceInstance serviceInstance = this.getAaiObject(json, ServiceInstance.class);
@@ -137,8 +141,8 @@ public class AaiCqResponse {
             if (resultsArray.getJSONObject(i).has(VF_MODULE)) {
                 // Create the StreamSource by creating StringReader using the
                 // JSON input
-                StreamSource json = new StreamSource(new StringReader(
-                    resultsArray.getJSONObject(i).getJSONObject(VF_MODULE).toString()));
+                StreamSource json = new StreamSource(
+                        new StringReader(resultsArray.getJSONObject(i).getJSONObject(VF_MODULE).toString()));
 
                 // Getting the vf module pojo again from the json
                 VfModule vfModule = this.getAaiObject(json, VfModule.class);
@@ -150,8 +154,8 @@ public class AaiCqResponse {
             if (resultsArray.getJSONObject(i).has("cloud-region")) {
                 // Create the StreamSource by creating StringReader using the
                 // JSON input
-                StreamSource json = new StreamSource(new StringReader(
-                    resultsArray.getJSONObject(i).getJSONObject("cloud-region").toString()));
+                StreamSource json = new StreamSource(
+                        new StringReader(resultsArray.getJSONObject(i).getJSONObject("cloud-region").toString()));
 
                 // Getting the cloud region pojo again from the json
                 CloudRegion cloudRegion = this.getAaiObject(json, CloudRegion.class);
@@ -163,8 +167,8 @@ public class AaiCqResponse {
             if (resultsArray.getJSONObject(i).has("tenant")) {
                 // Create the StreamSource by creating StringReader using the
                 // JSON input
-                StreamSource json = new StreamSource(new StringReader(
-                    resultsArray.getJSONObject(i).getJSONObject("tenant").toString()));
+                StreamSource json = new StreamSource(
+                        new StringReader(resultsArray.getJSONObject(i).getJSONObject("tenant").toString()));
 
                 // Getting the tenant pojo again from the json
                 Tenant tenant = this.getAaiObject(json, Tenant.class);
@@ -176,8 +180,8 @@ public class AaiCqResponse {
             if (resultsArray.getJSONObject(i).has("model-ver")) {
                 // Create the StreamSource by creating StringReader using the
                 // JSON input
-                StreamSource json = new StreamSource(new StringReader(
-                    resultsArray.getJSONObject(i).getJSONObject("model-ver").toString()));
+                StreamSource json = new StreamSource(
+                        new StringReader(resultsArray.getJSONObject(i).getJSONObject("model-ver").toString()));
 
                 // Getting the ModelVer pojo again from the json
                 ModelVer modelVer = this.getAaiObject(json, ModelVer.class);
@@ -209,8 +213,7 @@ public class AaiCqResponse {
     /**
      * Get list of A&AI objects in the custom query.
      *
-     * @param classOfResponse
-     *        Class of the type of A&AI objects to be returned
+     * @param classOfResponse Class of the type of A&AI objects to be returned
      * @return List A&AI objects matching the class
      */
     @SuppressWarnings("unchecked")
@@ -292,8 +295,7 @@ public class AaiCqResponse {
     /**
      * Returns a generic Vnf matching vnf name.
      *
-     * @param vnfName
-     *        Name of the vnf to match
+     * @param vnfName Name of the vnf to match
      * @return generic Vnf
      */
     public GenericVnf getGenericVnfByVnfName(String vnfName) {
@@ -318,8 +320,7 @@ public class AaiCqResponse {
     /**
      * Returns a generic Vnf matching model invariant ID.
      *
-     * @param modelInvariantId
-     *        Name of the vnf to match
+     * @param modelInvariantId Name of the vnf to match
      * @return generic Vnf
      */
     public GenericVnf getGenericVnfByModelInvariantId(String modelInvariantId) {
@@ -344,8 +345,7 @@ public class AaiCqResponse {
     /**
      * Returns a generic Vnf of a given VF Module ID.
      *
-     * @param vfModuleModelInvariantId
-     *        of the vf module for which vnf is to be returned
+     * @param vfModuleModelInvariantId of the vf module for which vnf is to be returned
      * @return generic Vnf
      */
     public GenericVnf getGenericVnfByVfModuleModelInvariantId(String vfModuleModelInvariantId) {
@@ -355,7 +355,7 @@ public class AaiCqResponse {
             // Iterate through all the vfModules of that generic Vnf
             for (VfModule vfMod : genVnf.getVfModules().getVfModule()) {
                 if (vfMod.getModelInvariantId() != null
-                    && vfMod.getModelInvariantId().equals(vfModuleModelInvariantId)) {
+                        && vfMod.getModelInvariantId().equals(vfModuleModelInvariantId)) {
                     return genVnf;
                 }
             }
@@ -502,8 +502,7 @@ public class AaiCqResponse {
         VfModule vfModule = null;
 
         for (VfModule vfMod : this.getAllVfModules()) {
-            if (vfMod.getModelInvariantId() != null
-                && vfModelInvariantId.equals(vfMod.getModelInvariantId())) {
+            if (vfMod.getModelInvariantId() != null && vfModelInvariantId.equals(vfMod.getModelInvariantId())) {
                 vfModule = vfMod;
             }
 
@@ -560,28 +559,25 @@ public class AaiCqResponse {
     }
 
     /**
-     * Get the count of vfModules matching customizationId, InvariantId and
-     * VersionId.
+     * Get the count of vfModules matching customizationId, InvariantId and VersionId.
      *
-     * @param custId
-     *        ModelCustomizationId
-     * @param invId
-     *        ModelInvariantId
-     * @param verId
-     *        ModelVersionId
+     * @param custId ModelCustomizationId
+     * @param invId ModelInvariantId
+     * @param verId ModelVersionId
      * @return Returns the count of vf modules
      */
     public int getVfModuleCount(String custId, String invId, String verId) {
         List<VfModule> vfModuleList = this.getAllVfModules();
         int count = 0;
         for (VfModule vfModule : vfModuleList) {
-            if (vfModule.getModelCustomizationId() != null && vfModule.getModelInvariantId() != null
-                && vfModule.getModelVersionId() != null) {
-                if (vfModule.getModelCustomizationId().equals(custId)
-                    && vfModule.getModelInvariantId().equals(invId)
+            if (vfModule.getModelCustomizationId() == null || vfModule.getModelInvariantId() == null
+                    || vfModule.getModelVersionId() == null) {
+                continue;
+            }
+
+            if (vfModule.getModelCustomizationId().equals(custId) && vfModule.getModelInvariantId().equals(invId)
                     && vfModule.getModelVersionId().equals(verId)) {
-                    count = count + 1;
-                }
+                count = count + 1;
             }
         }
         return count;
