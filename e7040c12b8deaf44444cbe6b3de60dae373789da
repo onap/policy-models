@@ -16,6 +16,23 @@
       "revId": "e7040c12b8deaf44444cbe6b3de60dae373789da",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f983687_3ed2da91",
+        "filename": "models-interactions/model-yaml/src/main/java/org/onap/policy/controlloop/compiler/ControlLoopCompiler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-10-14T14:40:05Z",
+      "side": 1,
+      "message": "Check also for empty string or whitespaces, this should do it:   StringUtils.isBlank(operPolicy.getActor())",
+      "revId": "e7040c12b8deaf44444cbe6b3de60dae373789da",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
