@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "d6c1873b_ef0e97a3",
+        "filename": "models-interactions/model-impl/vfc/src/main/java/org/onap/policy/vfc/VfcManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-10-14T15:28:25Z",
+      "side": 1,
+      "message": "OK, I just copy/pasted the original code. SHould have checked it.",
+      "parentUuid": "cead3965_fefd1652",
+      "revId": "45605a577b6607c1b885b4ae70d1c547b06b7e88",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6468fc01_f7db807c",
         "filename": "models-sim/policy-models-sim-pdp/src/main/java/org/onap/policy/models/sim/pdp/handler/PdpUpdateMessageHandler.java",
         "patchSetId": 2
@@ -48,6 +66,24 @@
       "writtenOn": "2019-10-14T15:13:09Z",
       "side": 1,
       "message": "To me the use of the short-circuit ORs make it less readable and less concise than the previous version of this method.  Is this sonar related?",
+      "revId": "45605a577b6607c1b885b4ae70d1c547b06b7e88",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61284ed4_1c9962fa",
+        "filename": "models-sim/policy-models-sim-pdp/src/main/java/org/onap/policy/models/sim/pdp/handler/PdpUpdateMessageHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-10-14T15:28:25Z",
+      "side": 1,
+      "message": "Yes, can\u0027t have more than 5 conditions in a return.",
+      "parentUuid": "6468fc01_f7db807c",
       "revId": "45605a577b6607c1b885b4ae70d1c547b06b7e88",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
