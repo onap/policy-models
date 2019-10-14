@@ -19,7 +19,6 @@
 package org.onap.policy.controlloop.actor.cds.constants;
 
 public class CdsActorConstants {
-
     public static final String CDS_ACTOR = "CDS";
 
     // CDS Status
@@ -36,4 +35,8 @@ public class CdsActorConstants {
     public static final String ORIGINATOR_ID = "POLICY";
     // Temporarily set to synchronous mode to support current rules, since callbacks aren't supported yet
     public static final String CDS_MODE = "sync";
+
+    private CdsActorConstants() {
+        // Hide implicit public constructor
+    }
 }
