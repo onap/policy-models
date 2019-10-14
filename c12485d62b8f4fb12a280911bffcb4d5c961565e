@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bf99dd50_777e7595",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/beans/CdsActionRequest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-10-14T08:21:16Z",
+      "side": 1,
+      "message": "That\u0027s what comes from following Sonar blindly, I should have switched my brain on.",
+      "parentUuid": "9dc89e2f_cc6c293c",
+      "revId": "c12485d62b8f4fb12a280911bffcb4d5c961565e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70adecff_4c1807cd",
         "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/constants/CdsActorConstants.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2019-10-11T14:34:46Z",
       "side": 1,
       "message": "this should be moved after all of the field declarations (that\u0027s another sonar issue)",
+      "revId": "c12485d62b8f4fb12a280911bffcb4d5c961565e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3457d8c7_3d387569",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/constants/CdsActorConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-10-14T08:21:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70adecff_4c1807cd",
       "revId": "c12485d62b8f4fb12a280911bffcb4d5c961565e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
