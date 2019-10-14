@@ -53,7 +53,7 @@ public interface CdsProcessorListener {
      * client
      * sends an event, the server can reply with multiple sub-responses until full completion of the processing. Hence,
      * it is up to the implementation of this method to process the received message using {@link
-     * ExecutionServiceOutput#getStatus()#getEventType()}</p>
+     * ExecutionServiceOutput#getStatus()#getEventType()}
      *
      * @param message ExecutionServiceOutput received by the CDS grpc server
      */
