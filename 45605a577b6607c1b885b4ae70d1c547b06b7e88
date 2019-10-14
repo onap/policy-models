@@ -87,6 +87,24 @@
       "revId": "45605a577b6607c1b885b4ae70d1c547b06b7e88",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffd19fad_3d364f22",
+        "filename": "models-sim/policy-models-sim-pdp/src/main/java/org/onap/policy/models/sim/pdp/handler/PdpUpdateMessageHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-10-14T15:32:51Z",
+      "side": 1,
+      "message": "One of those silly Sonar rules that make it more unreadable. We could always just not do them. I\u0027m neutral on it.",
+      "parentUuid": "61284ed4_1c9962fa",
+      "revId": "45605a577b6607c1b885b4ae70d1c547b06b7e88",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
