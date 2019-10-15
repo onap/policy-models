@@ -16,6 +16,24 @@
       "revId": "30936395096462179922e08eb589179b135ddcd2",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b6a2b50_d1f11f55",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/concepts/PolicyStatus.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-10-15T09:20:58Z",
+      "side": 1,
+      "message": "If we\u0027re notifying on policy type changes, then yes.\n\nWill it be an either/or, I guess so, specifying a policy identifier will imply the policy type.",
+      "parentUuid": "3647052d_bf02a8ab",
+      "revId": "30936395096462179922e08eb589179b135ddcd2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
