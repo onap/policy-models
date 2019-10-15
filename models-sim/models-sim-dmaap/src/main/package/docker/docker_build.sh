@@ -45,7 +45,7 @@ then
 fi
 
 # Check for the tarball
-tarball_count=`ls $DMAAP_SIM_HOME/target/policy-models-sim-dmaap-*-SNAPSHOT-tarball.tar.gz 2> /dev/null | wc | awk '{print $1}'`
+tarball_count=`ls $DMAAP_SIM_HOME/target/policy-models-sim-dmaap-*-tarball.tar.gz 2> /dev/null | wc | awk '{print $1}'`
 if [ "$tarball_count" -ne "1" ]
 then
 	echo one and only one tarball should exist in the target directory
@@ -57,7 +57,7 @@ rm -fr $DMAAP_SIM_HOME/target/docker
 mkdir $DMAAP_SIM_HOME/target/docker
 cp $DMAAP_SIM_HOME/src/main/package/docker/Dockerfile $DMAAP_SIM_HOME/target/docker
 cp $DMAAP_SIM_HOME/src/main/package/docker/dmaap-sim.sh $DMAAP_SIM_HOME/target/docker
-cp $DMAAP_SIM_HOME/target/policy-models-sim-dmaap-*-SNAPSHOT-tarball.tar.gz $DMAAP_SIM_HOME/target/docker/policy-models-sim-dmaap-tarball.tar.gz
+cp $DMAAP_SIM_HOME/target/policy-models-sim-dmaap-*-tarball.tar.gz $DMAAP_SIM_HOME/target/docker/policy-models-sim-dmaap-tarball.tar.gz
 
 # Run the docker build
 cd $DMAAP_SIM_HOME/target
