@@ -19,6 +19,8 @@
 package org.onap.policy.controlloop.actor.cds.beans;
 
 import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,7 +32,8 @@ import org.slf4j.LoggerFactory;
 
 @Getter
 @Setter
-public class CdsActionRequest {
+public class CdsActionRequest implements Serializable {
+    private static final long serialVersionUID = -4172157702597791493L;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CdsActionRequest.class);
     private static final Coder CODER = new StandardCoder();

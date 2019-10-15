@@ -142,7 +142,7 @@ public final class SoManager {
             final String vfModuleInstanceId,
             final SoRequest request) {
         return executors.submit(new AsyncSoRestCallThread(requestId, callback, serviceInstanceId, vnfInstanceId,
-                vfModuleInstanceId, request, this.url, this.user, this.password));
+                vfModuleInstanceId, request, this));
     }
 
     /**
@@ -173,18 +173,16 @@ public final class SoManager {
                 final SoCallback callback, final String serviceInstanceId,
                 final String vnfInstanceId, final String vfModuleInstanceId,
                 final SoRequest request,
-                final String url,
-                final String user,
-                final String password) {
+                final SoManager callingSoManager) {
             this.requestId = requestId;
             this.callback = callback;
             this.serviceInstanceId = serviceInstanceId;
             this.vnfInstanceId = vnfInstanceId;
             this.vfModuleInstanceId = vfModuleInstanceId;
             this.request = request;
-            this.baseUrl = url;
-            this.user = user;
-            this.password = password;
+            this.baseUrl = callingSoManager.url;
+            this.user = callingSoManager.user;
+            this.password = callingSoManager.password;
         }
 
         /**
