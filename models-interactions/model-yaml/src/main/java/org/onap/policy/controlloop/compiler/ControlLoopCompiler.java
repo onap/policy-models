@@ -395,55 +395,23 @@ public class ControlLoopCompiler implements Serializable {
     }
 
     private static boolean isActorOk(Policy operPolicy, ControlLoopCompilerCallback callback) {
-        boolean isOk = true;
-        if (operPolicy.getActor() == null) {
+        if (StringUtils.isBlank(operPolicy.getActor())) {
             if (callback != null) {
                 callback.onError("Policy actor is null");
             }
-            isOk = false;
+            return false;
         }
-        //
-        // Construct a list for all valid actors
-        //
-        ImmutableList<String> actors = ImmutableList.of("APPC", "SDNC", "SDNR", "SO", "VFC");
-        //
-        if (operPolicy.getActor() != null && (!actors.contains(operPolicy.getActor())) ) {
-            if (callback != null) {
-                callback.onError("Policy actor is invalid");
-            }
-            isOk = false;
-        }
-        return isOk;
+        return true;
     }
 
     private static boolean isRecipeOk(Policy operPolicy, ControlLoopCompilerCallback callback) {
-        boolean isOk = true;
-        if (operPolicy.getRecipe() == null) {
+        if (StringUtils.isBlank(operPolicy.getRecipe())) {
             if (callback != null) {
                 callback.onError("Policy recipe is null");
             }
-            isOk = false;
+            return false;
         }
-        //
-        // NOTE: We need a way to find the acceptable recipe values (either Enum or a database that has these)
-        //
-        ImmutableMap<String, List<String>> recipes = new ImmutableMap.Builder<String, List<String>>()
-                .put("APPC", ImmutableList.of("Restart", "Rebuild", "Migrate", "ModifyConfig"))
-                .put("SDNC", ImmutableList.of("Reroute"))
-                .put("SDNR", ImmutableList.of("ModifyConfig"))
-                .put("SO", ImmutableList.of("VF Module Create", "VF Module Delete"))
-                .put("VFC", ImmutableList.of("Restart"))
-                .build();
-        //
-        if (operPolicy.getRecipe() != null
-                        && (!recipes.getOrDefault(operPolicy.getActor(),
-                                        Collections.emptyList()).contains(operPolicy.getRecipe()))) {
-            if (callback != null) {
-                callback.onError("Policy recipe is invalid");
-            }
-            isOk = false;
-        }
-        return isOk;
+        return true;
     }
 
     private static boolean isTargetOk(Policy operPolicy, ControlLoopCompilerCallback callback) {
@@ -490,75 +458,69 @@ public class ControlLoopCompiler implements Serializable {
     }
 
     private static boolean isSuccessPolicyResultOk(Policy operPolicy, ControlLoopCompilerCallback callback) {
-        boolean isOk = true;
         if (FinalResult.toResult(operPolicy.getSuccess()) != null
                         && !operPolicy.getSuccess().equals(FinalResult.FINAL_SUCCESS.toString())) {
             if (callback != null) {
                 callback.onError("Policy success is neither another policy nor FINAL_SUCCESS");
             }
-            isOk = false;
+            return false;
         }
-        return isOk;
+        return true;
     }
 
     private static boolean isFailurePolicyResultOk(Policy operPolicy, ControlLoopCompilerCallback callback) {
-        boolean isOk = true;
         if (FinalResult.toResult(operPolicy.getFailure()) != null
                         && !operPolicy.getFailure().equals(FinalResult.FINAL_FAILURE.toString())) {
             if (callback != null) {
                 callback.onError("Policy failure is neither another policy nor FINAL_FAILURE");
             }
-            isOk = false;
+            return false;
         }
-        return isOk;
+        return true;
     }
 
     private static boolean isFailureRetriesPolicyResultOk(Policy operPolicy, ControlLoopCompilerCallback callback) {
-        boolean isOk = true;
         if (FinalResult.toResult(operPolicy.getFailure_retries()) != null
                         && !operPolicy.getFailure_retries().equals(FinalResult.FINAL_FAILURE_RETRIES.toString())) {
             if (callback != null) {
                 callback.onError("Policy failure retries is neither another policy nor FINAL_FAILURE_RETRIES");
             }
-            isOk = false;
+            return false;
         }
-        return isOk;
+        return true;
     }
 
     private static boolean isFailureTimeoutPolicyResultOk(Policy operPolicy, ControlLoopCompilerCallback callback) {
-        boolean isOk = true;
         if (FinalResult.toResult(operPolicy.getFailure_timeout()) != null
                         && !operPolicy.getFailure_timeout().equals(FinalResult.FINAL_FAILURE_TIMEOUT.toString())) {
             if (callback != null) {
                 callback.onError("Policy failure timeout is neither another policy nor FINAL_FAILURE_TIMEOUT");
             }
-            isOk = false;
+            return false;
         }
-        return isOk;
+        return true;
     }
 
     private static boolean isFailureExceptionPolicyResultOk(Policy operPolicy, ControlLoopCompilerCallback callback) {
-        boolean isOk = true;
         if (FinalResult.toResult(operPolicy.getFailure_exception()) != null
                         && !operPolicy.getFailure_exception().equals(FinalResult.FINAL_FAILURE_EXCEPTION.toString())) {
             if (callback != null) {
                 callback.onError("Policy failure exception is neither another policy nor FINAL_FAILURE_EXCEPTION");
             }
-            isOk = false;
+            return false;
         }
-        return isOk;
+        return true;
     }
 
     private static boolean isFailureGuardPolicyResultOk(Policy operPolicy, ControlLoopCompilerCallback callback) {
-        boolean isOk = true;
         if (FinalResult.toResult(operPolicy.getFailure_guard()) != null
                         && !operPolicy.getFailure_guard().equals(FinalResult.FINAL_FAILURE_GUARD.toString())) {
             if (callback != null) {
                 callback.onError("Policy failure guard is neither another policy nor FINAL_FAILURE_GUARD");
             }
-            isOk = false;
+            return false;
         }
-        return isOk;
+        return true;
     }
 
     private static PolicyNodeWrapper findPolicyNode(Map<Policy, PolicyNodeWrapper> mapNodes, String id) {
