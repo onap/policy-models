@@ -44,7 +44,7 @@ then
 fi
 
 # Check for the tarball
-tarball_count=`ls $PDP_SIM_HOME/target/policy-models-sim-pdp-*-SNAPSHOT-tarball.tar.gz 2> /dev/null | wc | awk '{print $1}'`
+tarball_count=`ls $PDP_SIM_HOME/target/policy-models-sim-pdp-*-tarball.tar.gz 2> /dev/null | wc | awk '{print $1}'`
 if [ "$tarball_count" -ne "1" ]
 then
 	echo one and only one tarball should exist in the target directory
@@ -56,7 +56,7 @@ rm -fr $PDP_SIM_HOME/target/docker
 mkdir $PDP_SIM_HOME/target/docker
 cp $PDP_SIM_HOME/src/main/package/docker/Dockerfile $PDP_SIM_HOME/target/docker
 cp $PDP_SIM_HOME/src/main/package/docker/pdp-sim.sh $PDP_SIM_HOME/target/docker
-cp $PDP_SIM_HOME/target/policy-models-sim-pdp-*-SNAPSHOT-tarball.tar.gz $PDP_SIM_HOME/target/docker/policy-models-sim-pdp-tarball.tar.gz
+cp $PDP_SIM_HOME/target/policy-models-sim-pdp-*-tarball.tar.gz $PDP_SIM_HOME/target/docker/policy-models-sim-pdp-tarball.tar.gz
 
 # Run the docker build
 cd $PDP_SIM_HOME/target
