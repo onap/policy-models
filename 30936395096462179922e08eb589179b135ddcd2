@@ -34,6 +34,24 @@
       "revId": "30936395096462179922e08eb589179b135ddcd2",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8c532959_4a2473b6",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/concepts/PolicyStatus.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-10-15T13:11:29Z",
+      "side": 1,
+      "message": "Yes we definitely need policy type - so truly model driven clients can ignore changes to policies they don\u0027t care about and specifically look for their policy types.",
+      "parentUuid": "7b6a2b50_d1f11f55",
+      "revId": "30936395096462179922e08eb589179b135ddcd2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
