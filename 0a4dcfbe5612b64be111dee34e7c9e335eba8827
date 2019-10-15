@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c624ea4b_8db9f35b",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/beans/CdsActionRequest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-10-15T11:42:27Z",
+      "side": 1,
+      "message": "Making this class Serializable removes the \"transient\" warning :-)",
+      "range": {
+        "startLine": 35,
+        "startChar": 30,
+        "endLine": 35,
+        "endChar": 53
+      },
+      "revId": "0a4dcfbe5612b64be111dee34e7c9e335eba8827",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f2edebf_090dd526",
+        "filename": "models-interactions/model-impl/so/src/main/java/org/onap/policy/so/SoManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-10-15T11:42:27Z",
+      "side": 1,
+      "message": "Reduces the number of parameters below 7",
+      "range": {
+        "startLine": 176,
+        "startChar": 22,
+        "endLine": 176,
+        "endChar": 48
+      },
+      "revId": "0a4dcfbe5612b64be111dee34e7c9e335eba8827",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
