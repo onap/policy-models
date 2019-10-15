@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3647052d_bf02a8ab",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/concepts/PolicyStatus.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-10-15T01:29:35Z",
+      "side": 1,
+      "message": "I think we also need the ToscaPolicyTypeIdentifier, don\u0027t we? to guarantee uniqueness.",
+      "revId": "30936395096462179922e08eb589179b135ddcd2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
