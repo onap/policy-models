@@ -39,7 +39,7 @@ public class CdsActionRequest implements Serializable {
     private static final Coder CODER = new StandardCoder();
 
     @SerializedName("policy-payload")
-    private Map<String, String> configDeployProperties;
+    private Map<String, String> policyPayload;
 
     @SerializedName("aai-properties")
     private Map<String, String> aaiProperties;
