@@ -111,11 +111,16 @@ public class CdsActorServiceProvider implements Actor {
         }
         String cbaName = payload.get(CdsActorConstants.KEY_CBA_NAME);
         String cbaVersion = payload.get(CdsActorConstants.KEY_CBA_VERSION);
-        String cbaActionName = policy.getRecipe();
+
+        // Retain only the payload by removing CBA name and version once they are extracted
+        // to be put in CDS request header.
+        payload.remove(CdsActorConstants.KEY_CBA_NAME);
+        payload.remove(CdsActorConstants.KEY_CBA_VERSION);
 
         // Embed payload from policy to ConfigDeployRequest object, serialize and inject into grpc request.
+        String cbaActionName = policy.getRecipe();
         CdsActionRequest request = new CdsActionRequest();
-        request.setConfigDeployProperties(payload);
+        request.setPolicyPayload(payload);
         request.setActionName(cbaActionName);
         request.setResolutionKey(UUID.randomUUID().toString());
 
