@@ -45,4 +45,14 @@ public class PolicyNotification {
         this.added = added;
         this.deleted = deleted;
     }
+
+    /**
+     * Determines if the notification is empty (i.e., has no added or delete policy
+     * notifications).
+     *
+     * @return {@code true} if the notification is empty, {@code false} otherwise
+     */
+    public boolean isEmpty() {
+        return (added.isEmpty() && deleted.isEmpty());
+    }
 }
