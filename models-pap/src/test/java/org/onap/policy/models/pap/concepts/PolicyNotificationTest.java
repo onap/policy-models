@@ -19,9 +19,12 @@
 package org.onap.policy.models.pap.concepts;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.junit.Test;
 import org.onap.policy.common.utils.coder.CoderException;
@@ -56,5 +59,14 @@ public class PolicyNotificationTest {
 
         // test equals() method (and verify encode/decode worked)
         assertEquals(notify, notify2);
+
+        /*
+         * Test isEmpty()
+         */
+        assertFalse(notify.isEmpty());
+        assertFalse(notify2.isEmpty());
+        assertTrue(new PolicyNotification().isEmpty());
+        assertFalse(new PolicyNotification(add, Collections.emptyList()).isEmpty());
+        assertFalse(new PolicyNotification(Collections.emptyList(), del).isEmpty());
     }
 }
