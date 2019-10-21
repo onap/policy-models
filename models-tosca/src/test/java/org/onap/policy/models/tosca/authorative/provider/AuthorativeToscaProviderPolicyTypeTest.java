@@ -56,8 +56,8 @@ import org.yaml.snakeyaml.Yaml;
  */
 public class AuthorativeToscaProviderPolicyTypeTest {
     private static final String VERSION = "version";
-    private static final String POLICY_AFFINITY_VERSION0 = "onap.policies.optimization.AffinityPolicy:0.0.0";
-    private static final String POLICY_AFFINITY = "onap.policies.optimization.AffinityPolicy";
+    private static final String POLICY_AFFINITY_VERSION0 = "onap.policies.NoVersion:0.0.0";
+    private static final String POLICY_AFFINITY = "onap.policies.NoVersion";
     private static final String MISSING_POLICY_TYPES = "no policy types specified on service template";
     private static final String DAO_IS_NULL = "dao is marked @NonNull but is null";
     private static final String VERSION_000 = "0.0.0";
@@ -74,7 +74,7 @@ public class AuthorativeToscaProviderPolicyTypeTest {
     @BeforeClass
     public static void readPolicyDefinition() {
         String yamlString =
-                ResourceUtils.getResourceAsString("policytypes/onap.policies.optimization.AffinityPolicy.yaml");
+                ResourceUtils.getResourceAsString("src/test/resources/onap.policies.NoVersion.yaml");
 
         Object yamlObject = new Yaml().load(yamlString);
         yamlAsJsonString = new GsonBuilder().setPrettyPrinting().create().toJson(yamlObject);

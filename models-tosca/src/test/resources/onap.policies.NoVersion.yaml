@@ -1,8 +1,7 @@
 tosca_definitions_version: tosca_simple_yaml_1_0_0
 policy_types:
-   onap.policies.optimization.AffinityPolicy:
+   onap.policies.NoVersion:
       derived_from: onap.policies.Optimization
-      version: 1.0.0
       properties:
          applicableResources:
             type: list
