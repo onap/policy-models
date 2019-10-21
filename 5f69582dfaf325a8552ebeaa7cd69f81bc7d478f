@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3bb47100_9832db0c",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.optimization.OptimizationPolicy.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-10-21T19:46:26Z",
+      "side": 1,
+      "message": "Don\u0027t confuse this with the derived_from",
+      "range": {
+        "startLine": 3,
+        "startChar": 3,
+        "endLine": 3,
+        "endChar": 48
+      },
+      "revId": "5f69582dfaf325a8552ebeaa7cd69f81bc7d478f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
