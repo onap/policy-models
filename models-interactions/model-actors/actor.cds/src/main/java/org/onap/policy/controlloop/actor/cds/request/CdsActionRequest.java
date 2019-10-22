@@ -16,46 +16,29 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.controlloop.actor.cds.beans;
+package org.onap.policy.controlloop.actor.cds.request;
 
-import com.google.gson.annotations.SerializedName;
-
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.io.Serializable;
 import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
-import org.onap.policy.common.utils.coder.Coder;
-import org.onap.policy.common.utils.coder.CoderException;
-import org.onap.policy.common.utils.coder.StandardCoder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Getter
 @Setter
 public class CdsActionRequest implements Serializable {
+
     private static final long serialVersionUID = -4172157702597791493L;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CdsActionRequest.class);
-    private static final Coder CODER = new StandardCoder();
-
-    @SerializedName("policy-payload")
-    private Map<String, String> policyPayload;
-
-    @SerializedName("aai-properties")
-    private Map<String, String> aaiProperties;
-
-    @SerializedName("resolution-key")
+    private String actionName;
     private String resolutionKey;
-
-    private transient String actionName;
+    private Map<String, String> aaiProperties;
+    private Map<String, String> policyPayload;
 
     @Override
     public String toString() {
-        try {
-            return "{" + "\"" + actionName + "-request\":" + CODER.encode(this) + '}';
-        } catch (CoderException e) {
-            LOGGER.error("Failure serializing CdsActionRequest object: ", e);
-            return "";
-        }
+        Gson gson = new GsonBuilder().registerTypeAdapter(CdsActionRequest.class, new CdsRequestGenerator()).create();
+        return gson.toJson(this);
     }
 }
