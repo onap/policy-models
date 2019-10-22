@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a16e1455_76c4a665",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/request/CdsActionRequest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-22T22:18:24Z",
+      "side": 1,
+      "message": "if this method is invoked very often, then this \"gson\" object should be made static, as it may be costly to create.\n\nThis all seems kind of tricky to me.  First, I\u0027m not sure that toString() should be used to serialize the data - perhaps another method name would be better.  Second, rather than doing structure conversion during the gson translation, perhaps a more clear alternative would be to copy the fields to a class that has the same structure as the desired output, which could then be encoded using a StandardCoder so-as not to be as dependent on gson.",
+      "revId": "62aae1aa5c0143646d8fa4afe1054b92687d9d01",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
