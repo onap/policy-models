@@ -36,7 +36,6 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 import org.onap.policy.controlloop.ControlLoopNotificationType;
-import org.onap.policy.controlloop.ControlLoopTargetType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,19 +44,19 @@ public final class Serialization {
             new GsonBuilder().disableHtmlEscaping().registerTypeAdapter(ZonedDateTime.class, new GsonUtcAdapter())
                     .registerTypeAdapter(Instant.class, new GsonInstantAdapter())
                     .registerTypeAdapter(ControlLoopNotificationType.class, new NotificationTypeAdapter())
-                    .registerTypeAdapter(ControlLoopTargetType.class, new TargetTypeAdapter()).create();
+                    .create();
 
 
     public static final Gson gsonPretty = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
             .registerTypeAdapter(ZonedDateTime.class, new GsonUtcAdapter())
             .registerTypeAdapter(Instant.class, new GsonInstantAdapter())
             .registerTypeAdapter(ControlLoopNotificationType.class, new NotificationTypeAdapter())
-            .registerTypeAdapter(ControlLoopTargetType.class, new TargetTypeAdapter()).create();
+            .create();
 
     public static final Gson gsonJunit = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
             .registerTypeAdapter(ZonedDateTime.class, new GsonUtcAdapter())
             .registerTypeAdapter(Instant.class, new GsonInstantAdapter())
-            .registerTypeAdapter(ControlLoopTargetType.class, new TargetTypeAdapter()).create();
+            .create();
 
     private Serialization() {}
 
@@ -73,19 +72,6 @@ public final class Serialization {
         public ControlLoopNotificationType deserialize(JsonElement json, Type typeOfT,
                 JsonDeserializationContext context) {
             return ControlLoopNotificationType.toType(json.getAsString());
-        }
-    }
-
-    public static class TargetTypeAdapter
-            implements JsonSerializer<ControlLoopTargetType>, JsonDeserializer<ControlLoopTargetType> {
-        @Override
-        public JsonElement serialize(ControlLoopTargetType src, Type typeOfSrc, JsonSerializationContext context) {
-            return new JsonPrimitive(src.toString());
-        }
-
-        @Override
-        public ControlLoopTargetType deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
-            return ControlLoopTargetType.toType(json.getAsString());
         }
     }
 
