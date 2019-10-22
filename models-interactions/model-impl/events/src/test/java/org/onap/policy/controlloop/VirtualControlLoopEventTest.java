@@ -37,6 +37,9 @@ public class VirtualControlLoopEventTest {
         assertNotNull(event);
         assertNotNull(event.getAai());
 
+        event.setPayload("payload");
+        assertEquals("payload", event.getPayload());
+
         Instant now = Instant.now();
         event.setClosedLoopAlarmStart(now);
         event.setClosedLoopAlarmEnd(now);

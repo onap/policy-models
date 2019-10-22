@@ -27,7 +27,11 @@ import java.time.ZonedDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public abstract class ControlLoopNotification implements Serializable {
 
     private static final long serialVersionUID = 7538596984567127915L;
@@ -36,7 +40,7 @@ public abstract class ControlLoopNotification implements Serializable {
     private String version = "1.0.2";
     private UUID requestId;
     private String closedLoopEventClient;
-    private ControlLoopTargetType targetType;
+    private String targetType;
     private String target;
     private String from;
     private String policyScope;
@@ -67,125 +71,5 @@ public abstract class ControlLoopNotification implements Serializable {
         this.setClosedLoopEventClient(event.getClosedLoopEventClient());
         this.setTargetType(event.getTargetType());
         this.setTarget(event.getTarget());
-    }
-
-    public String getClosedLoopControlName() {
-        return closedLoopControlName;
-    }
-
-    public void setClosedLoopControlName(String closedLoopControlName) {
-        this.closedLoopControlName = closedLoopControlName;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    public UUID getRequestId() {
-        return requestId;
-    }
-
-    public void setRequestId(UUID requestId) {
-        this.requestId = requestId;
-    }
-
-    public String getClosedLoopEventClient() {
-        return closedLoopEventClient;
-    }
-
-    public void setClosedLoopEventClient(String closedLoopEventClient) {
-        this.closedLoopEventClient = closedLoopEventClient;
-    }
-
-    public ControlLoopTargetType getTargetType() {
-        return targetType;
-    }
-
-    public void setTargetType(ControlLoopTargetType targetType) {
-        this.targetType = targetType;
-    }
-
-    public String getTarget() {
-        return target;
-    }
-
-    public void setTarget(String target) {
-        this.target = target;
-    }
-
-    public String getFrom() {
-        return from;
-    }
-
-    public void setFrom(String from) {
-        this.from = from;
-    }
-
-    public String getPolicyScope() {
-        return policyScope;
-    }
-
-    public void setPolicyScope(String policyScope) {
-        this.policyScope = policyScope;
-    }
-
-    public String getPolicyName() {
-        return policyName;
-    }
-
-    public void setPolicyName(String policyName) {
-        this.policyName = policyName;
-    }
-
-    public String getPolicyVersion() {
-        return policyVersion;
-    }
-
-    public void setPolicyVersion(String policyVersion) {
-        this.policyVersion = policyVersion;
-    }
-
-    public ControlLoopNotificationType getNotification() {
-        return notification;
-    }
-
-    public void setNotification(ControlLoopNotificationType notification) {
-        this.notification = notification;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public ZonedDateTime getNotificationTime() {
-        return notificationTime;
-    }
-
-    public void setNotificationTime(ZonedDateTime notificationTime) {
-        this.notificationTime = notificationTime;
-    }
-
-    public Integer getOpsClTimer() {
-        return opsClTimer;
-    }
-
-    public void setOpsClTimer(Integer opsClTimer) {
-        this.opsClTimer = opsClTimer;
-    }
-
-    public List<ControlLoopOperation> getHistory() {
-        return history;
-    }
-
-    public void setHistory(List<ControlLoopOperation> history) {
-        this.history = history;
     }
 }

@@ -26,17 +26,24 @@ import com.google.gson.annotations.SerializedName;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class VirtualControlLoopEvent extends ControlLoopEvent {
 
     private static final long serialVersionUID = -5752405682246066226L;
-    
+
+    @SerializedName("payload")
+    private String payload;
+
     @SerializedName("closedLoopAlarmStart")
     private Instant closedLoopAlarmStart;
-    
+
     @SerializedName("closedLoopAlarmEnd")
     private Instant closedLoopAlarmEnd;
-    
+
     @SerializedName("AAI")
     private Map<String, String> aai = new HashMap<>();
 
@@ -56,31 +63,8 @@ public class VirtualControlLoopEvent extends ControlLoopEvent {
         if (event.aai != null) {
             this.aai = new HashMap<>(event.aai);
         }
+        this.payload = event.payload;
         this.closedLoopAlarmStart = event.closedLoopAlarmStart;
         this.closedLoopAlarmEnd = event.closedLoopAlarmEnd;
-    }
-
-    public Instant getClosedLoopAlarmStart() {
-        return closedLoopAlarmStart;
-    }
-
-    public void setClosedLoopAlarmStart(Instant closedLoopAlarmStart) {
-        this.closedLoopAlarmStart = closedLoopAlarmStart;
-    }
-
-    public Instant getClosedLoopAlarmEnd() {
-        return closedLoopAlarmEnd;
-    }
-
-    public void setClosedLoopAlarmEnd(Instant closedLoopAlarmEnd) {
-        this.closedLoopAlarmEnd = closedLoopAlarmEnd;
-    }
-
-    public Map<String, String> getAai() {
-        return aai;
-    }
-
-    public void setAai(Map<String, String> aai) {
-        this.aai = aai;
     }
 }

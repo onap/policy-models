@@ -21,40 +21,9 @@
 
 package org.onap.policy.controlloop;
 
-public enum ControlLoopTargetType {
-    VM("VM"), VF("VF"), VFC("VFC"), VNF("VNF");
-
-    private String type;
-
-    private ControlLoopTargetType(String type) {
-        this.type = type;
-    }
-
-    @Override
-    public String toString() {
-        return this.type;
-    }
-
-    /**
-     * Convert a String type to a ControlLoopTargetType.
-     *
-     * @param type the String type
-     * @return the ControlLoopTargetType
-     */
-    public static ControlLoopTargetType toType(String type) {
-        if (VM.toString().equals(type)) {
-            return VM;
-        }
-        if (VF.toString().equals(type)) {
-            return VF;
-        }
-        if (VFC.toString().equals(type)) {
-            return VFC;
-        }
-        if (VNF.toString().equals(type)) {
-            return VNF;
-        }
-
-        return null;
-    }
+public class ControlLoopTargetType {
+    public static final String VM = "VM";
+    public static final String VF = "VF";
+    public static final String VFC = "VFC";
+    public static final String VNF = "VNF";
 }
