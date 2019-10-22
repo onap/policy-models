@@ -42,7 +42,7 @@ public abstract class ControlLoopEvent implements Serializable {
     private String closedLoopEventClient;
     
     @SerializedName("target_type")
-    private ControlLoopTargetType targetType;
+    private String targetType;
     
     @SerializedName("target")
     private String target;
@@ -61,9 +61,6 @@ public abstract class ControlLoopEvent implements Serializable {
     
     @SerializedName("closedLoopEventStatus")
     private ControlLoopEventStatus closedLoopEventStatus;
-
-    @SerializedName("payload")
-    private String payload;
     
     public ControlLoopEvent() {
 
@@ -88,7 +85,6 @@ public abstract class ControlLoopEvent implements Serializable {
         this.policyName = event.policyName;
         this.policyVersion = event.policyVersion;
         this.closedLoopEventStatus = event.closedLoopEventStatus;
-        this.payload = event.payload;
     }
 
     public boolean isEventStatusValid() {
@@ -127,11 +123,11 @@ public abstract class ControlLoopEvent implements Serializable {
         this.closedLoopEventClient = closedLoopEventClient;
     }
 
-    public ControlLoopTargetType getTargetType() {
+    public String getTargetType() {
         return targetType;
     }
 
-    public void setTargetType(ControlLoopTargetType targetType) {
+    public void setTargetType(String targetType) {
         this.targetType = targetType;
     }
 
@@ -181,13 +177,5 @@ public abstract class ControlLoopEvent implements Serializable {
 
     public void setClosedLoopEventStatus(ControlLoopEventStatus closedLoopEventStatus) {
         this.closedLoopEventStatus = closedLoopEventStatus;
-    }
-
-    public String getPayload() {
-        return payload;
-    }
-
-    public void setPayload(String payload) {
-        this.payload = payload;
     }
 }

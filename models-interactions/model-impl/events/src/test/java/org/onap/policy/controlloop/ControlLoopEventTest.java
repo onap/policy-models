@@ -63,9 +63,6 @@ public class ControlLoopEventTest {
         event.setFrom("from");
         assertEquals("from", event.getFrom());
 
-        event.setPayload("payload");
-        assertEquals("payload", event.getPayload());
-
         event.setPolicyName("policyname");
         assertEquals("policyname", event.getPolicyName());
 

@@ -31,6 +31,9 @@ public class VirtualControlLoopEvent extends ControlLoopEvent {
 
     private static final long serialVersionUID = -5752405682246066226L;
     
+    @SerializedName("payload")
+    private String payload;
+
     @SerializedName("closedLoopAlarmStart")
     private Instant closedLoopAlarmStart;
     
@@ -56,8 +59,17 @@ public class VirtualControlLoopEvent extends ControlLoopEvent {
         if (event.aai != null) {
             this.aai = new HashMap<>(event.aai);
         }
+        this.payload = event.payload;
         this.closedLoopAlarmStart = event.closedLoopAlarmStart;
         this.closedLoopAlarmEnd = event.closedLoopAlarmEnd;
+    }
+
+    public String getPayload() {
+        return payload;
+    }
+
+    public void setPayload(String payload) {
+        this.payload = payload;
     }
 
     public Instant getClosedLoopAlarmStart() {

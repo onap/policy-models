@@ -36,7 +36,7 @@ public abstract class ControlLoopNotification implements Serializable {
     private String version = "1.0.2";
     private UUID requestId;
     private String closedLoopEventClient;
-    private ControlLoopTargetType targetType;
+    private String targetType;
     private String target;
     private String from;
     private String policyScope;
@@ -101,11 +101,11 @@ public abstract class ControlLoopNotification implements Serializable {
         this.closedLoopEventClient = closedLoopEventClient;
     }
 
-    public ControlLoopTargetType getTargetType() {
+    public String getTargetType() {
         return targetType;
     }
 
-    public void setTargetType(ControlLoopTargetType targetType) {
+    public void setTargetType(String targetType) {
         this.targetType = targetType;
     }
 
