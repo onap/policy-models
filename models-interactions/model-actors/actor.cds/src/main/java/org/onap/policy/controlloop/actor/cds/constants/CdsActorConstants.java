@@ -32,6 +32,9 @@ public class CdsActorConstants {
     // CDS blueprint archive parameters
     public static final String KEY_CBA_NAME = "artifact_name";
     public static final String KEY_CBA_VERSION = "artifact_version";
+    public static final String KEY_RESOLUTION_KEY = "resolution-key";
+    public static final String CDS_REQUEST_SUFFIX = "-request";
+    public static final String CDS_REQUEST_PROPERTIES_SUFFIX = "-properties";
     public static final String ORIGINATOR_ID = "POLICY";
     // Temporarily set to synchronous mode to support current rules, since callbacks aren't supported yet
     public static final String CDS_MODE = "sync";
