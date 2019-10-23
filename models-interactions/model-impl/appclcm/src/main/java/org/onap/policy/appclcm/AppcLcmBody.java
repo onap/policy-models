@@ -1,8 +1,8 @@
-/*-
+/*
  * ============LICENSE_START=======================================================
  * appclcm
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,48 +22,64 @@
 package org.onap.policy.appclcm;
 
 import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 
-public class LcmResponseWrapper extends LcmWrapper implements Serializable {
+public class AppcLcmBody implements Serializable {
 
-    private static final long serialVersionUID = 463937813781086802L;
+    private static final long serialVersionUID = -466220696716397231L;
 
-    @SerializedName(value = "body")
-    private LcmResponse body;
+    @SerializedName("input")
+    private AppcLcmInput input;
 
-    public LcmResponseWrapper() {
-        super();
+    @SerializedName("output")
+    private AppcLcmOutput output;
+
+    public AppcLcmBody() {
+        // Create a default AppcLcmBody instance
     }
 
     /**
-     * Get the body.
+     * Get the input.
      *
-     * @return the body
+     * @return the input
      */
-    public LcmResponse getBody() {
-        return body;
+    public AppcLcmInput getInput() {
+        return input;
     }
 
     /**
-     * Set the body.
+     * Set the input.
      *
-     * @param body the body to set
+     * @param input the input to set
      */
-    public void setBody(LcmResponse body) {
-        this.body = body;
+    public void setInput(AppcLcmInput input) {
+        this.input = input;
+    }
+
+    public AppcLcmOutput getOutput() {
+        return output;
+    }
+
+    /**
+     * Set the output.
+     *
+     * @param output the output to set
+     */
+    public void setOutput(AppcLcmOutput output) {
+        this.output = output;
     }
 
     @Override
     public String toString() {
-        return "ResponseWrapper [body=" + body + ", toString()=" + super.toString() + "]";
+        return "AppcLcmBody [input=" + input + ", output=" + output + "]";
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + ((body == null) ? 0 : body.hashCode());
+        int result = 1;
+        result = prime * result + ((input == null) ? 0 : input.hashCode());
+        result = prime * result + ((output == null) ? 0 : output.hashCode());
         return result;
     }
 
@@ -72,20 +88,28 @@ public class LcmResponseWrapper extends LcmWrapper implements Serializable {
         if (this == obj) {
             return true;
         }
-        if (!super.equals(obj)) {
+        if (obj == null) {
             return false;
         }
         if (getClass() != obj.getClass()) {
             return false;
         }
-        LcmResponseWrapper other = (LcmResponseWrapper) obj;
-        if (body == null) {
-            if (other.body != null) {
+        AppcLcmBody other = (AppcLcmBody) obj;
+        if (input == null) {
+            if (other.input != null) {
                 return false;
             }
-        } else if (!body.equals(other.body)) {
+        } else if (!input.equals(other.input)) {
+            return false;
+        }
+        if (output == null) {
+            if (other.output != null) {
+                return false;
+            }
+        } else if (!output.equals(other.output)) {
             return false;
         }
         return true;
     }
+
 }

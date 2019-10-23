@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * appc
+ * appclcm
  * ================================================================================
  * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
@@ -29,7 +29,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-public class LcmWrapperTest {
+public class AppcLcmDmaapWrapperTest {
 
     private static final String YELLOW_BRICK_ROAD = "YellowBrickRoad";
     private static final String TORNADO = "Tornado";
@@ -38,8 +38,8 @@ public class LcmWrapperTest {
     private static final String VERSION19 = "19.3.9";
 
     @Test
-    public void testLcmWrapper() {
-        LcmWrapper wrapper = new LcmWrapper();
+    public void testAppcLcmDmaapWrapper() {
+        AppcLcmDmaapWrapper wrapper = new AppcLcmDmaapWrapper();
         assertNotNull(wrapper);
         assertNotEquals(0, wrapper.hashCode());
 
@@ -58,16 +58,21 @@ public class LcmWrapperTest {
         wrapper.setType(MUNCHKIN);
         assertEquals(MUNCHKIN, wrapper.getType());
 
+        AppcLcmBody body = new AppcLcmBody();
+        wrapper.setBody(body);
+        assertEquals(body, wrapper.getBody());
+
         assertNotEquals(0, wrapper.hashCode());
 
-        assertEquals("Wrapper [version=19.3.9, cambriaPartition=The ", wrapper.toString().substring(0, 46));
+        assertEquals("AppcLcmDmaapWrapper [version=19.3.9, cambriaPartition=The ", wrapper.toString().substring(0, 58));
 
-        LcmWrapper copiedLcmWrapper = new LcmWrapper();
+        AppcLcmDmaapWrapper copiedLcmWrapper = new AppcLcmDmaapWrapper();
         copiedLcmWrapper.setVersion(wrapper.getVersion());
         copiedLcmWrapper.setCambriaPartition(wrapper.getCambriaPartition());
         copiedLcmWrapper.setRpcName(wrapper.getRpcName());
         copiedLcmWrapper.setCorrelationId(wrapper.getCorrelationId());
         copiedLcmWrapper.setType(wrapper.getType());
+        copiedLcmWrapper.setBody(body);
 
         assertTrue(wrapper.equals(wrapper));
         assertTrue(wrapper.equals(copiedLcmWrapper));
@@ -117,6 +122,16 @@ public class LcmWrapperTest {
         wrapper.setType(MUNCHKIN);
         assertFalse(wrapper.equals(copiedLcmWrapper));
         copiedLcmWrapper.setType(MUNCHKIN);
+        assertTrue(wrapper.equals(copiedLcmWrapper));
+
+        wrapper.setBody(null);
+        assertFalse(wrapper.equals(copiedLcmWrapper));
+        copiedLcmWrapper.setBody(null);
+        assertTrue(wrapper.equals(copiedLcmWrapper));
+        AppcLcmBody someOtherBody = new AppcLcmBody();
+        wrapper.setBody(someOtherBody);
+        assertFalse(wrapper.equals(copiedLcmWrapper));
+        copiedLcmWrapper.setBody(someOtherBody);
         assertTrue(wrapper.equals(copiedLcmWrapper));
     }
 }

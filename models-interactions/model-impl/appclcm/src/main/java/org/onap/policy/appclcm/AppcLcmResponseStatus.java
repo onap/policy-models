@@ -25,49 +25,67 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class LcmRequestWrapper extends LcmWrapper implements Serializable {
+public class AppcLcmResponseStatus implements Serializable {
 
-    private static final long serialVersionUID = 424866914715980798L;
+    private static final long serialVersionUID = 974891505135467199L;
 
-    @SerializedName(value = "body")
-    private LcmRequest body;
+    @SerializedName(value = "code")
+    private int code;
 
-    public LcmRequestWrapper() {
-        super();
-    }
+    @SerializedName(value = "message")
+    private String message;
 
-    public LcmRequestWrapper(LcmRequest request) {
-        body = request;
-    }
-
-    /**
-     * Get the body.
-     *
-     * @return the body
-     */
-    public LcmRequest getBody() {
-        return body;
+    public AppcLcmResponseStatus() {
+        // Create a default AppcLcmResponseStatus instance
     }
 
     /**
-     * Set the body.
+     * Get the code.
      *
-     * @param body the body to set
+     * @return the code
      */
-    public void setBody(LcmRequest body) {
-        this.body = body;
+    public int getCode() {
+        return code;
+    }
+
+    /**
+     * Set the code.
+     *
+     * @param code the code to set
+     */
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    /**
+     * Get the message.
+     *
+     * @return the message
+     */
+    public String getMessage() {
+        return message;
+    }
+
+    /**
+     * Set the message.
+     *
+     * @param message the message to set
+     */
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     @Override
     public String toString() {
-        return "RequestWrapper [body=" + body + ", toString()=" + super.toString() + "]";
+        return "AppcLcmResponseStatus [code=" + code + ", message=" + message + "]";
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + ((body == null) ? 0 : body.hashCode());
+        int result = 1;
+        result = prime * result + code;
+        result = prime * result + ((message == null) ? 0 : message.hashCode());
         return result;
     }
 
@@ -76,18 +94,21 @@ public class LcmRequestWrapper extends LcmWrapper implements Serializable {
         if (this == obj) {
             return true;
         }
-        if (!super.equals(obj)) {
+        if (obj == null) {
             return false;
         }
         if (getClass() != obj.getClass()) {
             return false;
         }
-        LcmRequestWrapper other = (LcmRequestWrapper) obj;
-        if (body == null) {
-            if (other.body != null) {
+        AppcLcmResponseStatus other = (AppcLcmResponseStatus) obj;
+        if (code != other.code) {
+            return false;
+        }
+        if (message == null) {
+            if (other.message != null) {
                 return false;
             }
-        } else if (!body.equals(other.body)) {
+        } else if (!message.equals(other.message)) {
             return false;
         }
         return true;

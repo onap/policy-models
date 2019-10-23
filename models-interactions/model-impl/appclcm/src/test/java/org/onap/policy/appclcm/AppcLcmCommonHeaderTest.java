@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * appc
+ * appclcm
  * ================================================================================
  * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
@@ -34,17 +34,17 @@ import java.util.UUID;
 
 import org.junit.Test;
 
-public class LcmCommonHeaderTest {
+public class AppcLcmCommonHeaderTest {
 
     private static final String KANSAS = "Kansas";
     private static final String DOROTHY = "Dorothy";
     private static final String CAN_I_GO_HOME = "Can I go home?";
 
     @Test
-    public void testLcmCommonHeader() {
-        LcmCommonHeader commonHeader = new LcmCommonHeader();
+    public void testAppcLcmCommonHeader() {
+        AppcLcmCommonHeader commonHeader = new AppcLcmCommonHeader();
         assertNotNull(commonHeader);
-        assertNotNull(new LcmCommonHeader(commonHeader));
+        assertNotNull(new AppcLcmCommonHeader(commonHeader));
         assertNotEquals(0, commonHeader.hashCode());
 
         commonHeader.setApiVer(KANSAS);
@@ -70,9 +70,9 @@ public class LcmCommonHeaderTest {
 
         assertNotEquals(0, commonHeader.hashCode());
 
-        assertEquals("CommonHeader [timeStamp=", commonHeader.toString().substring(0, 24));
+        assertEquals("AppcLcmCommonHeader [timeStamp=", commonHeader.toString().substring(0, 31));
 
-        LcmCommonHeader copiedLcmCommonHeader = new LcmCommonHeader();
+        AppcLcmCommonHeader copiedLcmCommonHeader = new AppcLcmCommonHeader();
         copiedLcmCommonHeader.setApiVer(commonHeader.getApiVer());
         copiedLcmCommonHeader.setFlags(commonHeader.getFlags());
         copiedLcmCommonHeader.setOriginatorId(commonHeader.getOriginatorId());
@@ -85,7 +85,7 @@ public class LcmCommonHeaderTest {
         assertFalse(commonHeader.equals(null));
         assertFalse(commonHeader.equals("Hello"));
 
-        LcmCommonHeader clonedLcmCommonHeader = new LcmCommonHeader(commonHeader);
+        AppcLcmCommonHeader clonedLcmCommonHeader = new AppcLcmCommonHeader(commonHeader);
         clonedLcmCommonHeader.setApiVer(commonHeader.getApiVer());
         clonedLcmCommonHeader.setTimeStamp(commonHeader.getTimeStamp());
 

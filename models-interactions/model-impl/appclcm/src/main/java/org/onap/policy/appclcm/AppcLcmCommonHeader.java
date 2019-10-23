@@ -29,7 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class LcmCommonHeader implements Serializable {
+public class AppcLcmCommonHeader implements Serializable {
 
     private static final long serialVersionUID = 6581963539127062114L;
 
@@ -51,7 +51,7 @@ public class LcmCommonHeader implements Serializable {
     @SerializedName(value = "flags")
     private Map<String, String> flags = new HashMap<>();
 
-    public LcmCommonHeader() {
+    public AppcLcmCommonHeader() {
 
     }
 
@@ -61,7 +61,7 @@ public class LcmCommonHeader implements Serializable {
      * @param commonHeader a header that is defined by the lcm api guide that contains information
      *        about the request (requestId, flags, etc.)
      */
-    public LcmCommonHeader(LcmCommonHeader commonHeader) {
+    public AppcLcmCommonHeader(AppcLcmCommonHeader commonHeader) {
         this.originatorId = commonHeader.originatorId;
         this.requestId = commonHeader.requestId;
         this.subRequestId = commonHeader.subRequestId;
@@ -180,7 +180,7 @@ public class LcmCommonHeader implements Serializable {
 
     @Override
     public String toString() {
-        return "CommonHeader [timeStamp=" + timeStamp + ", apiVer=" + apiVer + ", originatorId=" + originatorId
+        return "AppcLcmCommonHeader [timeStamp=" + timeStamp + ", apiVer=" + apiVer + ", originatorId=" + originatorId
                 + ", requestId=" + requestId + ", subRequestId=" + subRequestId + ", flags=" + flags + "]";
     }
 
@@ -208,7 +208,7 @@ public class LcmCommonHeader implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        LcmCommonHeader other = (LcmCommonHeader) obj;
+        AppcLcmCommonHeader other = (AppcLcmCommonHeader) obj;
         if (apiVer == null) {
             if (other.apiVer != null) {
                 return false;

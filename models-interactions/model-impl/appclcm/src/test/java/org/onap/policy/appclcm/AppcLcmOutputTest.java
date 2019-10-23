@@ -28,15 +28,15 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-public class LcmResponseTest {
+public class AppcLcmOutputTest {
 
     private static final String PAYLOAD = "payload";
 
     @Test
     public void testHashCode() {
-        LcmResponse response = new LcmResponse();
+        AppcLcmOutput response = new AppcLcmOutput();
         assertTrue(response.hashCode() != 0);
-        response.setCommonHeader(new LcmCommonHeader());
+        response.setCommonHeader(new AppcLcmCommonHeader());
         assertTrue(response.hashCode() != 0);
         response.setPayload(PAYLOAD);
         assertTrue(response.hashCode() != 0);
@@ -45,8 +45,8 @@ public class LcmResponseTest {
     }
 
     @Test
-    public void testLcmResponse() {
-        LcmResponse response = new LcmResponse();
+    public void testAppcLcmOutput() {
+        AppcLcmOutput response = new AppcLcmOutput();
         assertNull(response.getCommonHeader());
         assertNull(response.getPayload());
         assertNotNull(response.getStatus());
@@ -54,21 +54,21 @@ public class LcmResponseTest {
 
     @Test
     public void testToString() {
-        LcmResponse response = new LcmResponse();
+        AppcLcmOutput response = new AppcLcmOutput();
         assertFalse(response.toString().isEmpty());
     }
 
     @Test
     public void testEqualsObject() {
-        LcmResponse response = new LcmResponse();
+        AppcLcmOutput response = new AppcLcmOutput();
         assertTrue(response.equals(response));
         assertFalse(response.equals(null));
         assertFalse(response.equals(new Object()));
 
-        LcmResponse response2 = new LcmResponse();
+        AppcLcmOutput response2 = new AppcLcmOutput();
         assertTrue(response.equals(response2));
 
-        response.setCommonHeader(new LcmCommonHeader());
+        response.setCommonHeader(new AppcLcmCommonHeader());
         assertFalse(response.equals(response2));
         response2.setCommonHeader(response.getCommonHeader());
         assertTrue(response.equals(response2));
@@ -93,20 +93,20 @@ public class LcmResponseTest {
         response2.setStatus(response.getStatus());
         assertTrue(response.equals(response2));
 
-        LcmResponseStatus status = new LcmResponseStatus();
+        AppcLcmResponseStatus status = new AppcLcmResponseStatus();
         status.setCode(5);
         response.setStatus(status);
-        response2.setStatus(new LcmResponseStatus());
+        response2.setStatus(new AppcLcmResponseStatus());
         assertFalse(response.equals(response2));
     }
 
     @Test
-    public void testResponseRequest() {
-        LcmRequest request = new LcmRequest();
-        request.setCommonHeader(new LcmCommonHeader());
+    public void testInputOutput() {
+        AppcLcmInput request = new AppcLcmInput();
+        request.setCommonHeader(new AppcLcmCommonHeader());
         request.setPayload(PAYLOAD);
 
-        LcmResponse response = new LcmResponse(request);
+        AppcLcmOutput response = new AppcLcmOutput(request);
 
         assertTrue(response.getPayload().equals(PAYLOAD));
     }
