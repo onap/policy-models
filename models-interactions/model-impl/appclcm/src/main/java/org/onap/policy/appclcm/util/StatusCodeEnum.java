@@ -75,7 +75,7 @@ public enum StatusCodeEnum {
     }
 
     private static boolean isRejectStatusCode(final int statusCode) {
-        return statusCode >= 300 && statusCode <= 313;
+        return statusCode >= 300 && statusCode <= 316;
     }
 
     private static boolean isFailureStatusCode(final int statusCode) {

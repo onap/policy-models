@@ -32,11 +32,11 @@ import java.util.UUID;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.onap.policy.appclcm.LcmCommonHeader;
-import org.onap.policy.appclcm.LcmRequest;
-import org.onap.policy.appclcm.LcmRequestWrapper;
-import org.onap.policy.appclcm.LcmResponse;
-import org.onap.policy.appclcm.LcmResponseWrapper;
+import org.onap.policy.appclcm.AppcLcmBody;
+import org.onap.policy.appclcm.AppcLcmCommonHeader;
+import org.onap.policy.appclcm.AppcLcmDmaapWrapper;
+import org.onap.policy.appclcm.AppcLcmInput;
+import org.onap.policy.appclcm.AppcLcmOutput;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopOperation;
@@ -68,7 +68,7 @@ public class AppcLcmActorServiceProviderTest {
     private static final VirtualControlLoopEvent onsetEvent;
     private static final ControlLoopOperation operation;
     private static final Policy policy;
-    private static final LcmResponseWrapper dmaapResponse;
+    private static final AppcLcmDmaapWrapper dmaapResponse;
 
     private static final String RECIPE_RESTART = "Restart";
     private static final String RECIPE_REBUILD = "Rebuild";
@@ -111,19 +111,19 @@ public class AppcLcmActorServiceProviderTest {
         policy.setTimeout(300);
 
         /* A sample DMAAP request wrapper. */
-        LcmRequestWrapper dmaapRequest = new LcmRequestWrapper();
+        AppcLcmDmaapWrapper dmaapRequest = new AppcLcmDmaapWrapper();
         dmaapRequest.setCorrelationId(onsetEvent.getRequestId().toString() + "-" + "1");
         dmaapRequest.setRpcName(policy.getRecipe().toLowerCase());
         dmaapRequest.setType("request");
 
         /* A sample DMAAP response wrapper */
-        dmaapResponse = new LcmResponseWrapper();
+        dmaapResponse = new AppcLcmDmaapWrapper();
         dmaapResponse.setCorrelationId(onsetEvent.getRequestId().toString() + "-" + "1");
         dmaapResponse.setRpcName(policy.getRecipe().toLowerCase());
         dmaapResponse.setType("response");
 
         /* A sample APPC LCM request. */
-        LcmRequest appcRequest = new LcmRequest();
+        AppcLcmInput appcRequest = new AppcLcmInput();
 
         /* The following code constructs a sample APPC LCM Request */
         appcRequest.setAction("restart");
@@ -133,7 +133,7 @@ public class AppcLcmActorServiceProviderTest {
 
         appcRequest.setActionIdentifiers(actionIdentifiers);
 
-        LcmCommonHeader commonHeader = new LcmCommonHeader();
+        AppcLcmCommonHeader commonHeader = new AppcLcmCommonHeader();
         commonHeader.setRequestId(onsetEvent.getRequestId());
         commonHeader.setSubRequestId("1");
         commonHeader.setOriginatorId(onsetEvent.getRequestId().toString());
@@ -142,14 +142,19 @@ public class AppcLcmActorServiceProviderTest {
 
         appcRequest.setPayload(null);
 
-        dmaapRequest.setBody(appcRequest);
+        AppcLcmBody appcBody = new AppcLcmBody();
+        appcBody.setInput(appcRequest);
+
+        dmaapRequest.setBody(appcBody);
 
         /* The following code constructs a sample APPC LCM Response */
-        LcmResponse appcResponse = new LcmResponse(appcRequest);
+        AppcLcmOutput appcResponse = new AppcLcmOutput(appcRequest);
         appcResponse.getStatus().setCode(400);
         appcResponse.getStatus().setMessage("Restart Successful");
 
-        dmaapResponse.setBody(appcResponse);
+        appcBody.setOutput(appcResponse);
+
+        dmaapResponse.setBody(appcBody);
     }
 
     /**
@@ -175,7 +180,7 @@ public class AppcLcmActorServiceProviderTest {
     @Test
     public void constructRestartRequestTest() {
 
-        LcmRequestWrapper dmaapRequest =
+        AppcLcmDmaapWrapper dmaapRequest =
                 AppcLcmActorServiceProvider.constructRequest(onsetEvent, operation, policy, VNF01);
 
         /* The service provider must return a non null DMAAP request wrapper */
@@ -187,7 +192,7 @@ public class AppcLcmActorServiceProviderTest {
         /* The DMAAP wrapper's body field cannot be null */
         assertNotNull(dmaapRequest.getBody());
 
-        LcmRequest appcRequest = dmaapRequest.getBody();
+        AppcLcmInput appcRequest = dmaapRequest.getBody().getInput();
 
         /* A common header is required and cannot be null */
         assertNotNull(appcRequest.getCommonHeader());
@@ -225,83 +230,83 @@ public class AppcLcmActorServiceProviderTest {
         AbstractMap.SimpleEntry<PolicyResult, String> result;
 
         /* If APPC accepts, PolicyResult is null */
-        dmaapResponse.getBody().getStatus().setCode(100);
-        dmaapResponse.getBody().getStatus().setMessage("ACCEPTED");
+        dmaapResponse.getBody().getOutput().getStatus().setCode(100);
+        dmaapResponse.getBody().getOutput().getStatus().setMessage("ACCEPTED");
         result = AppcLcmActorServiceProvider.processResponse(dmaapResponse);
         assertNull(result.getKey());
 
         /* If APPC is successful, PolicyResult is success */
-        dmaapResponse.getBody().getStatus().setCode(400);
-        dmaapResponse.getBody().getStatus().setMessage("SUCCESS");
+        dmaapResponse.getBody().getOutput().getStatus().setCode(400);
+        dmaapResponse.getBody().getOutput().getStatus().setMessage("SUCCESS");
         result = AppcLcmActorServiceProvider.processResponse(dmaapResponse);
         assertEquals(PolicyResult.SUCCESS, result.getKey());
 
         /* If APPC returns an error, PolicyResult is failure exception */
-        dmaapResponse.getBody().getStatus().setCode(200);
-        dmaapResponse.getBody().getStatus().setMessage("ERROR");
+        dmaapResponse.getBody().getOutput().getStatus().setCode(200);
+        dmaapResponse.getBody().getOutput().getStatus().setMessage("ERROR");
         result = AppcLcmActorServiceProvider.processResponse(dmaapResponse);
         assertEquals(PolicyResult.FAILURE_EXCEPTION, result.getKey());
 
         /* If APPC rejects, PolicyResult is failure exception */
-        dmaapResponse.getBody().getStatus().setCode(300);
-        dmaapResponse.getBody().getStatus().setMessage(REJECT);
+        dmaapResponse.getBody().getOutput().getStatus().setCode(300);
+        dmaapResponse.getBody().getOutput().getStatus().setMessage(REJECT);
         result = AppcLcmActorServiceProvider.processResponse(dmaapResponse);
         assertEquals(PolicyResult.FAILURE_EXCEPTION, result.getKey());
 
         /* Test multiple reject codes */
-        dmaapResponse.getBody().getStatus().setCode(306);
-        dmaapResponse.getBody().getStatus().setMessage(REJECT);
+        dmaapResponse.getBody().getOutput().getStatus().setCode(306);
+        dmaapResponse.getBody().getOutput().getStatus().setMessage(REJECT);
         result = AppcLcmActorServiceProvider.processResponse(dmaapResponse);
         assertEquals(PolicyResult.FAILURE_EXCEPTION, result.getKey());
 
-        dmaapResponse.getBody().getStatus().setCode(313);
-        dmaapResponse.getBody().getStatus().setMessage(REJECT);
+        dmaapResponse.getBody().getOutput().getStatus().setCode(313);
+        dmaapResponse.getBody().getOutput().getStatus().setMessage(REJECT);
         result = AppcLcmActorServiceProvider.processResponse(dmaapResponse);
         assertEquals(PolicyResult.FAILURE_EXCEPTION, result.getKey());
 
         /* If APPC returns failure, PolicyResult is failure */
-        dmaapResponse.getBody().getStatus().setCode(401);
-        dmaapResponse.getBody().getStatus().setMessage(FAILURE);
+        dmaapResponse.getBody().getOutput().getStatus().setCode(401);
+        dmaapResponse.getBody().getOutput().getStatus().setMessage(FAILURE);
         result = AppcLcmActorServiceProvider.processResponse(dmaapResponse);
         assertEquals(PolicyResult.FAILURE, result.getKey());
 
         /* Test multiple failure codes */
-        dmaapResponse.getBody().getStatus().setCode(406);
-        dmaapResponse.getBody().getStatus().setMessage(FAILURE);
+        dmaapResponse.getBody().getOutput().getStatus().setCode(406);
+        dmaapResponse.getBody().getOutput().getStatus().setMessage(FAILURE);
         result = AppcLcmActorServiceProvider.processResponse(dmaapResponse);
         assertEquals(PolicyResult.FAILURE, result.getKey());
 
-        dmaapResponse.getBody().getStatus().setCode(450);
-        dmaapResponse.getBody().getStatus().setMessage(FAILURE);
+        dmaapResponse.getBody().getOutput().getStatus().setCode(450);
+        dmaapResponse.getBody().getOutput().getStatus().setMessage(FAILURE);
         result = AppcLcmActorServiceProvider.processResponse(dmaapResponse);
         assertEquals(PolicyResult.FAILURE, result.getKey());
 
         /* If APPC returns partial success, PolicyResult is failure exception */
-        dmaapResponse.getBody().getStatus().setCode(500);
-        dmaapResponse.getBody().getStatus().setMessage("PARTIAL SUCCESS");
+        dmaapResponse.getBody().getOutput().getStatus().setCode(500);
+        dmaapResponse.getBody().getOutput().getStatus().setMessage("PARTIAL SUCCESS");
         result = AppcLcmActorServiceProvider.processResponse(dmaapResponse);
         assertEquals(PolicyResult.FAILURE_EXCEPTION, result.getKey());
 
         /* If APPC returns partial failure, PolicyResult is failure exception */
-        dmaapResponse.getBody().getStatus().setCode(501);
-        dmaapResponse.getBody().getStatus().setMessage(PARTIAL_FAILURE);
+        dmaapResponse.getBody().getOutput().getStatus().setCode(501);
+        dmaapResponse.getBody().getOutput().getStatus().setMessage(PARTIAL_FAILURE);
         result = AppcLcmActorServiceProvider.processResponse(dmaapResponse);
         assertEquals(PolicyResult.FAILURE_EXCEPTION, result.getKey());
 
         /* Test multiple partial failure codes */
-        dmaapResponse.getBody().getStatus().setCode(599);
-        dmaapResponse.getBody().getStatus().setMessage(PARTIAL_FAILURE);
+        dmaapResponse.getBody().getOutput().getStatus().setCode(599);
+        dmaapResponse.getBody().getOutput().getStatus().setMessage(PARTIAL_FAILURE);
         result = AppcLcmActorServiceProvider.processResponse(dmaapResponse);
         assertEquals(PolicyResult.FAILURE_EXCEPTION, result.getKey());
 
-        dmaapResponse.getBody().getStatus().setCode(550);
-        dmaapResponse.getBody().getStatus().setMessage(PARTIAL_FAILURE);
+        dmaapResponse.getBody().getOutput().getStatus().setCode(550);
+        dmaapResponse.getBody().getOutput().getStatus().setMessage(PARTIAL_FAILURE);
         result = AppcLcmActorServiceProvider.processResponse(dmaapResponse);
         assertEquals(PolicyResult.FAILURE_EXCEPTION, result.getKey());
 
         /* If APPC code is unknown to Policy, PolicyResult is failure exception */
-        dmaapResponse.getBody().getStatus().setCode(700);
-        dmaapResponse.getBody().getStatus().setMessage("UNKNOWN");
+        dmaapResponse.getBody().getOutput().getStatus().setCode(700);
+        dmaapResponse.getBody().getOutput().getStatus().setMessage("UNKNOWN");
         result = AppcLcmActorServiceProvider.processResponse(dmaapResponse);
         assertEquals(PolicyResult.FAILURE_EXCEPTION, result.getKey());
     }
@@ -340,17 +345,17 @@ public class AppcLcmActorServiceProviderTest {
         Policy restartPolicy = constructPolicyWithRecipe(RECIPE_RESTART);
 
         // when
-        LcmRequestWrapper migrateRequest =
+        AppcLcmDmaapWrapper migrateRequest =
             AppcLcmActorServiceProvider.constructRequest(onsetEvent, operation, migratePolicy, VNF01);
-        LcmRequestWrapper rebuildRequest =
+        AppcLcmDmaapWrapper rebuildRequest =
             AppcLcmActorServiceProvider.constructRequest(onsetEvent, operation, rebuildPolicy, VNF01);
-        LcmRequestWrapper restartRequest =
+        AppcLcmDmaapWrapper restartRequest =
             AppcLcmActorServiceProvider.constructRequest(onsetEvent, operation, restartPolicy, VNF01);
 
         // then
-        assertNull(migrateRequest.getBody().getPayload());
-        assertNull(rebuildRequest.getBody().getPayload());
-        assertNull(restartRequest.getBody().getPayload());
+        assertNull(migrateRequest.getBody().getInput().getPayload());
+        assertNull(rebuildRequest.getBody().getInput().getPayload());
+        assertNull(restartRequest.getBody().getInput().getPayload());
     }
 
     @Test
@@ -360,15 +365,15 @@ public class AppcLcmActorServiceProviderTest {
         Policy emptyPayloadPolicy = constructHealthCheckPolicyWithPayload(new HashMap<>());
 
         // when
-        LcmRequestWrapper noPayloadRequest =
+        AppcLcmDmaapWrapper noPayloadRequest =
             AppcLcmActorServiceProvider.constructRequest(onsetEvent, operation, noPayloadPolicy, VNF01);
-        LcmRequestWrapper emptyPayloadRequest =
+        AppcLcmDmaapWrapper emptyPayloadRequest =
             AppcLcmActorServiceProvider.constructRequest(onsetEvent, operation, emptyPayloadPolicy, VNF01);
 
 
         // then
-        assertNull(noPayloadRequest.getBody().getPayload());
-        assertNull(emptyPayloadRequest.getBody().getPayload());
+        assertNull(noPayloadRequest.getBody().getInput().getPayload());
+        assertNull(emptyPayloadRequest.getBody().getInput().getPayload());
     }
 
     @Test
@@ -379,11 +384,11 @@ public class AppcLcmActorServiceProviderTest {
         Policy otherPolicy = constructHealthCheckPolicyWithPayload(payload);
 
         // when
-        LcmRequestWrapper dmaapRequest =
+        AppcLcmDmaapWrapper dmaapRequest =
             AppcLcmActorServiceProvider.constructRequest(onsetEvent, operation, otherPolicy, VNF01);
 
         // then
-        assertEquals(dmaapRequest.getBody().getPayload(),
+        assertEquals(dmaapRequest.getBody().getInput().getPayload(),
             "{\"requestParameters\": {\"host-ip-address\":\"10.183.37.25\"}}");
     }
 
@@ -399,11 +404,11 @@ public class AppcLcmActorServiceProviderTest {
         Policy otherPolicy = constructHealthCheckPolicyWithPayload(payload);
 
         // when
-        LcmRequestWrapper dmaapRequest =
+        AppcLcmDmaapWrapper dmaapRequest =
             AppcLcmActorServiceProvider.constructRequest(onsetEvent, operation, otherPolicy, VNF01);
 
         // then
-        assertEquals(dmaapRequest.getBody().getPayload(),
+        assertEquals(dmaapRequest.getBody().getInput().getPayload(),
             "{\"requestParameters\": "
                 + "{\"host-ip-address\":\"10.183.37.25\"},"
                 + "\"configurationParameters\": "

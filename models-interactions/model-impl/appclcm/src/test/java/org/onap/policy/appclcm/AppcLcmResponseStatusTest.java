@@ -29,13 +29,13 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-public class LcmResponseStatusTest {
+public class AppcLcmResponseStatusTest {
 
     private static final String THE_WONDERFUL_LAND_OF_OZ = "The wonderful land of Oz";
 
     @Test
-    public void testResonseStatus() {
-        LcmResponseStatus status = new LcmResponseStatus();
+    public void testResponseStatus() {
+        AppcLcmResponseStatus status = new AppcLcmResponseStatus();
         assertNotNull(status);
         assertNotEquals(0, status.hashCode());
 
@@ -45,9 +45,9 @@ public class LcmResponseStatusTest {
         status.setMessage(THE_WONDERFUL_LAND_OF_OZ);
         assertEquals(THE_WONDERFUL_LAND_OF_OZ, status.getMessage());
 
-        assertEquals("ResponseStatus [code=1234, message=The wonderfu", status.toString().substring(0, 47));
+        assertEquals("AppcLcmResponseStatus [code=1234, message=The wonderfu", status.toString().substring(0, 54));
 
-        LcmResponseStatus copiedStatus = new LcmResponseStatus();
+        AppcLcmResponseStatus copiedStatus = new AppcLcmResponseStatus();
         copiedStatus.setCode(status.getCode());
         copiedStatus.setMessage(status.getMessage());
 

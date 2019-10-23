@@ -43,24 +43,24 @@ public class AppcLcmTest {
 
     private static final Logger logger = LoggerFactory.getLogger(AppcLcmTest.class);
 
-    private static LcmRequestWrapper dmaapRequest;
-    private static LcmResponseWrapper dmaapResponse;
+    private static AppcLcmDmaapWrapper dmaapRequest;
+    private static AppcLcmDmaapWrapper dmaapResponse;
 
     static {
         /*
          * Construct an APPCLCM Request to be Serialized
          */
-        dmaapRequest = new LcmRequestWrapper();
+        dmaapRequest = new AppcLcmDmaapWrapper();
         dmaapRequest.setCorrelationId(CORRELATION_ID + "-" + "1");
         dmaapRequest.setRpcName(RESTART);
         dmaapRequest.setType("request");
 
-        dmaapResponse = new LcmResponseWrapper();
+        dmaapResponse = new AppcLcmDmaapWrapper();
         dmaapResponse.setCorrelationId(CORRELATION_ID + "-" + "1");
         dmaapResponse.setRpcName(RESTART);
         dmaapResponse.setType("response");
 
-        LcmRequest appcRequest = new LcmRequest();
+        AppcLcmInput appcRequest = new AppcLcmInput();
 
         appcRequest.setAction(RESTART);
 
@@ -70,7 +70,7 @@ public class AppcLcmTest {
 
         appcRequest.setActionIdentifiers(actionIdentifiers);
 
-        LcmCommonHeader commonHeader = new LcmCommonHeader();
+        AppcLcmCommonHeader commonHeader = new AppcLcmCommonHeader();
         commonHeader.setRequestId(UUID.fromString(CORRELATION_ID));
         commonHeader.setSubRequestId("1");
         commonHeader.setOriginatorId(CORRELATION_ID);
@@ -79,17 +79,23 @@ public class AppcLcmTest {
 
         appcRequest.setPayload(null);
 
-        dmaapRequest.setBody(appcRequest);
+        AppcLcmBody dmaapRequestBody = new AppcLcmBody();
+        dmaapRequestBody.setInput(appcRequest);
+
+        dmaapRequest.setBody(dmaapRequestBody);
 
         /*
          * Construct an APPCLCM Response to be Serialized
          */
-        LcmResponse appcResponse = new LcmResponse(appcRequest);
+        AppcLcmOutput appcResponse = new AppcLcmOutput(appcRequest);
         appcResponse.getStatus().setCode(400);
         appcResponse.getStatus().setMessage("Restart Successful");
         appcResponse.setPayload(null);
 
-        dmaapResponse.setBody(appcResponse);
+        AppcLcmBody dmaapResponseBody = new AppcLcmBody();
+        dmaapResponseBody.setOutput(appcResponse);
+
+        dmaapResponse.setBody(dmaapResponseBody);
     }
 
     @Test
@@ -98,7 +104,7 @@ public class AppcLcmTest {
         /*
          * Use the gson serializer to obtain json
          */
-        String jsonRequest = Serialization.gson.toJson(dmaapRequest, LcmRequestWrapper.class);
+        String jsonRequest = Serialization.gson.toJson(dmaapRequest, AppcLcmDmaapWrapper.class);
         assertNotNull(jsonRequest);
 
         /*
@@ -133,12 +139,12 @@ public class AppcLcmTest {
         /*
          * Convert the LCM request object into json so we have a string of json to use for testing
          */
-        String jsonRequest = Serialization.gson.toJson(dmaapRequest, LcmRequestWrapper.class);
+        String jsonRequest = Serialization.gson.toJson(dmaapRequest, AppcLcmDmaapWrapper.class);
 
         /*
          * Use the serializer to convert the json string into a java object
          */
-        LcmRequestWrapper req = Serialization.gson.fromJson(jsonRequest, LcmRequestWrapper.class);
+        AppcLcmDmaapWrapper req = Serialization.gson.fromJson(jsonRequest, AppcLcmDmaapWrapper.class);
         assertNotNull(req);
 
         /*
@@ -150,7 +156,7 @@ public class AppcLcmTest {
          * The DMAAP wrapper must have a body as that is the true APPC request
          */
         assertNotNull(req.getBody());
-        LcmRequest appcRequest = req.getBody();
+        AppcLcmInput appcRequest = req.getBody().getInput();
         assertNotNull(appcRequest);
 
         /*
@@ -179,7 +185,7 @@ public class AppcLcmTest {
         /*
          * Use the serializer to convert the object into json
          */
-        String jsonResponse = Serialization.gson.toJson(dmaapResponse, LcmResponseWrapper.class);
+        String jsonResponse = Serialization.gson.toJson(dmaapResponse, AppcLcmDmaapWrapper.class);
         assertNotNull(jsonResponse);
 
         /*
@@ -203,12 +209,12 @@ public class AppcLcmTest {
         /*
          * Convert the LCM response object into json so we have a string of json to use for testing
          */
-        String jsonResponse = Serialization.gson.toJson(dmaapResponse, LcmResponseWrapper.class);
+        String jsonResponse = Serialization.gson.toJson(dmaapResponse, AppcLcmDmaapWrapper.class);
 
         /*
          * Use the serializer to convert the json string into a java object
          */
-        LcmResponseWrapper resp = Serialization.gson.fromJson(jsonResponse, LcmResponseWrapper.class);
+        AppcLcmDmaapWrapper resp = Serialization.gson.fromJson(jsonResponse, AppcLcmDmaapWrapper.class);
         assertNotNull(resp);
 
         /*
@@ -220,7 +226,7 @@ public class AppcLcmTest {
          * The DMAAP wrapper must have a body as that is the true APPC response
          */
         assertNotNull(resp.getBody());
-        LcmResponse appcResponse = resp.getBody();
+        AppcLcmOutput appcResponse = resp.getBody().getOutput();
         assertNotNull(appcResponse);
 
         /*

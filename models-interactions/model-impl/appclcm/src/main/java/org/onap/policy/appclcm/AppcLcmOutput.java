@@ -24,66 +24,71 @@ package org.onap.policy.appclcm;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.Map;
 
-public class LcmRequest implements Serializable {
+public class AppcLcmOutput implements Serializable {
 
-    private static final long serialVersionUID = 219375564922846624L;
+    private static final long serialVersionUID = 6332508597287669750L;
 
     @SerializedName(value = "common-header")
-    private LcmCommonHeader commonHeader;
+    private AppcLcmCommonHeader commonHeader;
 
-    @SerializedName(value = "action")
-    private String action;
-
-    @SerializedName(value = "action-identifiers")
-    private Map<String, String> actionIdentifiers;
+    @SerializedName(value = "status")
+    private AppcLcmResponseStatus status = new AppcLcmResponseStatus();
 
     @SerializedName(value = "payload")
     private String payload;
 
-    public LcmRequest() {
-        // Create a default LCM request
+    public AppcLcmOutput() {
+        // EMPTY
     }
 
-    public LcmCommonHeader getCommonHeader() {
+    /**
+     * Constructs a response using the common header of the request since they will be the same.
+     *
+     * @param request an appc lcm request object specified by the lcm api guide
+     */
+    public AppcLcmOutput(AppcLcmInput request) {
+        this.commonHeader = new AppcLcmCommonHeader(request.getCommonHeader());
+        String requestPayload = request.getPayload();
+        if (requestPayload != null) {
+            this.payload = requestPayload;
+        }
+    }
+
+    /**
+     * Get the common header.
+     *
+     * @return the commonHeader
+     */
+    public AppcLcmCommonHeader getCommonHeader() {
         return commonHeader;
     }
 
     /**
-     * Get the action.
+     * Set the common header.
      *
-     * @return the action
+     * @param commonHeader the commonHeader to set
      */
-    public String getAction() {
-        return action;
+    public void setCommonHeader(AppcLcmCommonHeader commonHeader) {
+        this.commonHeader = commonHeader;
     }
 
     /**
-     * Set the action.
+     * Get the status.
      *
-     * @param action the action to set
+     * @return the status
      */
-    public void setAction(String action) {
-        this.action = action;
+    public AppcLcmResponseStatus getStatus() {
+        return status;
     }
 
     /**
-     * Get the action identifiers.
+     * Set the status.
      *
-     * @return the actionIdentifiers
+     * @param status the status to set
      */
-    public Map<String, String> getActionIdentifiers() {
-        return actionIdentifiers;
-    }
-
-    /**
-     * Set the action identifiers.
-     *
-     * @param actionIdentifiers the actionIdentifiers to set
-     */
-    public void setActionIdentifiers(Map<String, String> actionIdentifiers) {
-        this.actionIdentifiers = actionIdentifiers;
+    public void setStatus(AppcLcmResponseStatus status) {
+        this.status = status;
     }
 
     /**
@@ -104,19 +109,9 @@ public class LcmRequest implements Serializable {
         this.payload = payload;
     }
 
-    /**
-     * Get the common header.
-     *
-     * @param commonHeader the commonHeader to set
-     */
-    public void setCommonHeader(LcmCommonHeader commonHeader) {
-        this.commonHeader = commonHeader;
-    }
-
     @Override
     public String toString() {
-        return "Request [commonHeader=" + commonHeader + ", action=" + action + ", actionIdentifiers="
-                + actionIdentifiers + ", payload=" + payload + "]";
+        return "AppcLcmOutput [commonHeader=" + commonHeader + ", status=" + status + ", payload=" + payload + "]";
     }
 
     @Override
@@ -124,9 +119,8 @@ public class LcmRequest implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((commonHeader == null) ? 0 : commonHeader.hashCode());
-        result = prime * result + ((action == null) ? 0 : action.hashCode());
-        result = prime * result + ((actionIdentifiers == null) ? 0 : actionIdentifiers.hashCode());
         result = prime * result + ((payload == null) ? 0 : payload.hashCode());
+        result = prime * result + ((status == null) ? 0 : status.hashCode());
         return result;
     }
 
@@ -141,26 +135,12 @@ public class LcmRequest implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        LcmRequest other = (LcmRequest) obj;
+        AppcLcmOutput other = (AppcLcmOutput) obj;
         if (commonHeader == null) {
             if (other.commonHeader != null) {
                 return false;
             }
         } else if (!commonHeader.equals(other.commonHeader)) {
-            return false;
-        }
-        if (action == null) {
-            if (other.action != null) {
-                return false;
-            }
-        } else if (!action.equals(other.action)) {
-            return false;
-        }
-        if (actionIdentifiers == null) {
-            if (other.actionIdentifiers != null) {
-                return false;
-            }
-        } else if (!actionIdentifiers.equals(other.actionIdentifiers)) {
             return false;
         }
         if (payload == null) {
@@ -170,7 +150,13 @@ public class LcmRequest implements Serializable {
         } else if (!payload.equals(other.payload)) {
             return false;
         }
+        if (status == null) {
+            if (other.status != null) {
+                return false;
+            }
+        } else if (!status.equals(other.status)) {
+            return false;
+        }
         return true;
     }
-
 }

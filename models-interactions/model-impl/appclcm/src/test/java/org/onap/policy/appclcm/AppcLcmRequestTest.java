@@ -32,18 +32,18 @@ import java.util.Map;
 
 import org.junit.Test;
 
-public class LcmRequestTest {
+public class AppcLcmRequestTest {
 
     private static final String THE_EMERALD_CITY = "The Emerald City";
     private static final String GO_TO_OZ = "Go to Oz";
 
     @Test
-    public void testLcmRequest() {
-        LcmRequest request = new LcmRequest();
+    public void testAppcLcmRequest() {
+        AppcLcmInput request = new AppcLcmInput();
         assertNotNull(request);
         assertNotEquals(0, request.hashCode());
 
-        LcmCommonHeader commonHeader = new LcmCommonHeader();
+        AppcLcmCommonHeader commonHeader = new AppcLcmCommonHeader();
 
         request.setCommonHeader(commonHeader);
         assertEquals(commonHeader, request.getCommonHeader());
@@ -63,9 +63,9 @@ public class LcmRequestTest {
 
         assertNotEquals(0, request.hashCode());
 
-        assertEquals("Request [commonHeader=CommonHeader [timeStamp=", request.toString().substring(0, 46));
+        assertEquals("AppcLcmInput [commonHeader=AppcLcmCommonHeader [timeStamp=", request.toString().substring(0, 58));
 
-        LcmRequest copiedLcmRequest = new LcmRequest();
+        AppcLcmInput copiedLcmRequest = new AppcLcmInput();
         copiedLcmRequest.setCommonHeader(request.getCommonHeader());
         copiedLcmRequest.setAction(request.getAction());
         copiedLcmRequest.setActionIdentifiers(request.getActionIdentifiers());

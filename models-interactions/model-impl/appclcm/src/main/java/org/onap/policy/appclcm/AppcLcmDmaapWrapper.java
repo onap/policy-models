@@ -25,7 +25,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class LcmWrapper implements Serializable {
+public class AppcLcmDmaapWrapper implements Serializable {
 
     private static final long serialVersionUID = 753005805432396532L;
 
@@ -44,8 +44,15 @@ public class LcmWrapper implements Serializable {
     @SerializedName(value = "type")
     private String type;
 
-    public LcmWrapper() {
-        // Create a default LCMWrapper instance
+    @SerializedName("body")
+    private AppcLcmBody body;
+
+    public AppcLcmDmaapWrapper() {
+        // Create a default AppcLcmWrapper instance
+    }
+
+    public AppcLcmDmaapWrapper(AppcLcmBody body) {
+        this.body = body;
     }
 
     /**
@@ -138,10 +145,29 @@ public class LcmWrapper implements Serializable {
         this.type = type;
     }
 
+    /**
+     * Get the body.
+     *
+     * @return the body
+     */
+    public AppcLcmBody getBody() {
+        return body;
+    }
+
+    /**
+     * Set the body.
+     *
+     * @param body the body to set
+     */
+    public void setBody(AppcLcmBody body) {
+        this.body = body;
+    }
+
     @Override
     public String toString() {
-        return "Wrapper [version=" + version + ", cambriaPartition=" + cambriaPartition + ", rpcName=" + rpcName
-                + ", correlationId=" + correlationId + ", type=" + type + "]";
+        return "AppcLcmDmaapWrapper [version=" + version + ", cambriaPartition=" + cambriaPartition
+                + ", rpcName=" + rpcName + ", correlationId=" + correlationId + ", type=" + type
+                + ", body=" + body + "]";
     }
 
     @Override
@@ -153,6 +179,7 @@ public class LcmWrapper implements Serializable {
         result = prime * result + ((rpcName == null) ? 0 : rpcName.hashCode());
         result = prime * result + ((type == null) ? 0 : type.hashCode());
         result = prime * result + ((version == null) ? 0 : version.hashCode());
+        result = prime * result + ((body == null) ? 0 : body.hashCode());
         return result;
     }
 
@@ -167,7 +194,7 @@ public class LcmWrapper implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        LcmWrapper other = (LcmWrapper) obj;
+        AppcLcmDmaapWrapper other = (AppcLcmDmaapWrapper) obj;
         if (cambriaPartition == null) {
             if (other.cambriaPartition != null) {
                 return false;
@@ -201,6 +228,13 @@ public class LcmWrapper implements Serializable {
                 return false;
             }
         } else if (!version.equals(other.version)) {
+            return false;
+        }
+        if (body == null) {
+            if (other.body != null) {
+                return false;
+            }
+        } else if (!body.equals(other.body)) {
             return false;
         }
         return true;
