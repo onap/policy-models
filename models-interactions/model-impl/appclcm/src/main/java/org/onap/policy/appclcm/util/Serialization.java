@@ -1,6 +1,6 @@
-/*-
+/*
  * ============LICENSE_START=======================================================
- * appc
+ * appclcm
  * ================================================================================
  * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
@@ -26,7 +26,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
@@ -34,54 +33,17 @@ import com.google.gson.JsonSerializer;
 import java.lang.reflect.Type;
 import java.time.Instant;
 
-import org.onap.policy.appclcm.LcmRequest;
-import org.onap.policy.appclcm.LcmResponse;
-
 public final class Serialization {
     public static final Gson gsonPretty = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
             .registerTypeAdapter(Instant.class, new InstantAdapter()).create();
 
-    public static final Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
-            .registerTypeAdapter(LcmRequest.class, new RequestAdapter())
-            .registerTypeAdapter(LcmResponse.class, new ResponseAdapter()).create();
+    public static final Gson gson = new GsonBuilder().disableHtmlEscaping()
+            .registerTypeAdapter(Instant.class, new InstantAdapter()).create();
 
     public static final Gson gsonJunit = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
             .registerTypeAdapter(Instant.class, new InstantJunitAdapter()).create();
 
     private Serialization() {}
-
-    public static class RequestAdapter implements JsonSerializer<LcmRequest>, JsonDeserializer<LcmRequest> {
-
-        @Override
-        public JsonElement serialize(LcmRequest src, Type typeOfSrc, JsonSerializationContext context) {
-            JsonElement requestJson = gsonPretty.toJsonTree(src, LcmRequest.class);
-            JsonObject input = new JsonObject();
-            input.add("input", requestJson);
-
-            return input;
-        }
-
-        @Override
-        public LcmRequest deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
-            return gsonPretty.fromJson(json.getAsJsonObject().get("input"), LcmRequest.class);
-        }
-    }
-
-    public static class ResponseAdapter implements JsonSerializer<LcmResponse>, JsonDeserializer<LcmResponse> {
-
-        @Override
-        public JsonElement serialize(LcmResponse src, Type typeOfSrc, JsonSerializationContext context) {
-            JsonElement responseJson = gsonPretty.toJsonTree(src, LcmResponse.class);
-            JsonObject output = new JsonObject();
-            output.add("output", responseJson);
-            return output;
-        }
-
-        @Override
-        public LcmResponse deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
-            return gsonPretty.fromJson(json.getAsJsonObject().get("output"), LcmResponse.class);
-        }
-    }
 
     public static class InstantAdapter implements JsonSerializer<Instant>, JsonDeserializer<Instant> {
 

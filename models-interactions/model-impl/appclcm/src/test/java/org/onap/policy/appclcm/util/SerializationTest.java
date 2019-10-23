@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * appc
+ * appclcm
  * ================================================================================
  * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.

@@ -25,7 +25,7 @@ package org.onap.policy.appclcm;
 import java.io.Serializable;
 import org.onap.policy.appclcm.util.StatusCodeEnum;
 
-public class LcmResponseCode implements Serializable {
+public class AppcLcmResponseCode implements Serializable {
 
     /* These fields define the key to the response code value. */
     public static final String ACCEPTED = "ACCEPTED";
@@ -39,7 +39,7 @@ public class LcmResponseCode implements Serializable {
 
     private final Integer code;
 
-    protected LcmResponseCode(final int code) {
+    protected AppcLcmResponseCode(final int code) {
         this.code = code;
     }
 
