@@ -34,6 +34,24 @@
       "revId": "62aae1aa5c0143646d8fa4afe1054b92687d9d01",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03528e56_c0aeee71",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/request/CdsActionRequest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-23T14:48:24Z",
+      "side": 1,
+      "message": "Got it.  So could create a method within this class to do the serialization.  That method could simply populate a Map\u003cString,Object\u003e and then pass the map to a StandardCoder",
+      "parentUuid": "ed45df56_766f26db",
+      "revId": "62aae1aa5c0143646d8fa4afe1054b92687d9d01",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
