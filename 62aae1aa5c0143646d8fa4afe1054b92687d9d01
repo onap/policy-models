@@ -16,6 +16,24 @@
       "revId": "62aae1aa5c0143646d8fa4afe1054b92687d9d01",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed45df56_766f26db",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/request/CdsActionRequest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-10-23T14:17:34Z",
+      "side": 1,
+      "message": "Sure will make the gson object static and also use another method instead of toString().\n\nRegarding the second comment: The structure can be achieved through a class. Where I was having issues was to be able to dynamically generate the keys for the root-node and child-node. The @SerializedName accepts only constants. The generation logic for CDS payload is as below where $actionName is a dynamic field:\n\n{\n    \"$actionName-request\":{\n        \"resolution-key\":\"\",\n        \"$actionName-properties\":{\n            \"service-instance.service-instance-id\":\"\",\n            \"generic-vnf.vnf-id\":\"\",\n            \"data\":\"{\\\"active-streams\\\":\\\"7\\\"}\"\n        }\n    }\n}\n\nThe only way I could generate such a JSON object was to use a custom serializer.",
+      "parentUuid": "a16e1455_76c4a665",
+      "revId": "62aae1aa5c0143646d8fa4afe1054b92687d9d01",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
