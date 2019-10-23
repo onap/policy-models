@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f3baada3_1a6401d9",
+        "filename": "models-interactions/model-impl/events/src/main/java/org/onap/policy/controlloop/ControlLoopEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-23T13:38:00Z",
+      "side": 1,
+      "message": "suggestion: since we\u0027re touching this file, perhaps we could also remove trailing spaces and add class-level (or field-level, whichever is appropriate) @Getter and @Setter annotations, and remove all of the get \u0026 set methods\n\nsame comment applies to the other files",
+      "revId": "23fda4393d073ec245ba25454c35f34e49647760",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "499fa709_051c6321",
+        "filename": "models-interactions/model-impl/events/src/test/java/org/onap/policy/controlloop/ControlLoopTargetTypeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-23T13:38:00Z",
+      "side": 1,
+      "message": "swap arguments - expected value goes on the left",
+      "revId": "23fda4393d073ec245ba25454c35f34e49647760",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
