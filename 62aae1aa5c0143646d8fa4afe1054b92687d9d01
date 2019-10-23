@@ -52,6 +52,24 @@
       "revId": "62aae1aa5c0143646d8fa4afe1054b92687d9d01",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddd05fd8_d801496d",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/request/CdsActionRequest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-23T14:53:48Z",
+      "side": 1,
+      "message": "a LinkedHashMap, so that order is maintained",
+      "parentUuid": "03528e56_c0aeee71",
+      "revId": "62aae1aa5c0143646d8fa4afe1054b92687d9d01",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
