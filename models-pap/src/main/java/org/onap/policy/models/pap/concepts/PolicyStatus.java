@@ -31,7 +31,7 @@ public class PolicyStatus {
     @SerializedName("policy-type")
     private ToscaPolicyTypeIdentifier policyType;
 
-    @SerializedName("policy")
+    @SerializedName("policy-id")
     private ToscaPolicyIdentifier policy;
 
     /**
