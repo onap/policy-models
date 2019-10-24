@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "8e97b3b1_a1067761",
+        "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmCommonHeader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-24T22:16:46Z",
+      "side": 1,
+      "message": "oh, thanks for that.  Guess you want the @NoArgs, too, then - for this class",
+      "parentUuid": "8699c759_771d876b",
+      "revId": "a8a297a6462fbd88a5d8aef45b390f52c883a5be",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "854cb4f2_910db8ab",
         "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmInput.java",
         "patchSetId": 3
