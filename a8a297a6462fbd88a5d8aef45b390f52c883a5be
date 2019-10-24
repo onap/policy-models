@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "0eb29b7f_ce3ad957",
+        "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmCommonHeader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2019-10-24T21:21:34Z",
+      "side": 1,
+      "message": "The all required args constructor is used in the junits. Basically for any constructors that were used prior I tried to generate via lombok. Most of them are used in unit tests.\n\nIf the no args constructor annotation is explicitly listed then it will be generated. This is verified by its usage in unit tests in models and drools-applications",
+      "parentUuid": "b32d761f_301a9b49",
+      "revId": "a8a297a6462fbd88a5d8aef45b390f52c883a5be",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "854cb4f2_910db8ab",
         "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmInput.java",
         "patchSetId": 3
@@ -71,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "bf1dfead_181c95d1",
+        "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmInput.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2019-10-24T21:21:34Z",
+      "side": 1,
+      "message": "Its used in the AppcLcmOutputTest",
+      "parentUuid": "854cb4f2_910db8ab",
+      "revId": "a8a297a6462fbd88a5d8aef45b390f52c883a5be",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82e9c7b9_8bfa5a85",
         "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmOutput.java",
         "patchSetId": 3
@@ -82,6 +118,24 @@
       "writtenOn": "2019-10-24T21:02:37Z",
       "side": 1,
       "message": "same question: is this needed since a constructor is specified?",
+      "revId": "a8a297a6462fbd88a5d8aef45b390f52c883a5be",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61c6d079_00f6196c",
+        "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmOutput.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2019-10-24T21:21:34Z",
+      "side": 1,
+      "message": "It is used throughout some tests in drools-applications",
+      "parentUuid": "82e9c7b9_8bfa5a85",
       "revId": "a8a297a6462fbd88a5d8aef45b390f52c883a5be",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
