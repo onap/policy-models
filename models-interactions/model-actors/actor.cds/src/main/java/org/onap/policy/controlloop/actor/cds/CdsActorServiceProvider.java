@@ -42,10 +42,11 @@ import org.onap.policy.cds.CdsResponse;
 import org.onap.policy.cds.api.CdsProcessorListener;
 import org.onap.policy.cds.client.CdsProcessorGrpcClient;
 import org.onap.policy.cds.properties.CdsServerProperties;
+import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
-import org.onap.policy.controlloop.actor.cds.beans.CdsActionRequest;
 import org.onap.policy.controlloop.actor.cds.constants.CdsActorConstants;
+import org.onap.policy.controlloop.actor.cds.request.CdsActionRequest;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.onap.policy.controlloop.policy.Policy;
 import org.slf4j.Logger;
@@ -131,13 +132,13 @@ public class CdsActorServiceProvider implements Actor {
 
         Builder struct = Struct.newBuilder();
         try {
-            String requestStr = request.toString();
+            String requestStr = request.generateCdsPayload();
             Preconditions.checkState(!Strings.isNullOrEmpty(requestStr), "Unable to build "
                 + "config-deploy-request from payload parameters: {}", payload);
             JsonFormat.parser().merge(requestStr, struct);
-        } catch (InvalidProtocolBufferException e) {
-            LOGGER.error("Failed to parse received message. blueprint({}:{}) for action({})", cbaName, cbaVersion,
-                cbaActionName, e);
+        } catch (InvalidProtocolBufferException | CoderException e) {
+            LOGGER.error("Failed to embed CDS payload string into the input request. blueprint({}:{}) for action({})",
+                    cbaName, cbaVersion, cbaActionName, e);
             return Optional.empty();
         }
 
