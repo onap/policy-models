@@ -146,6 +146,23 @@
     },
     {
       "key": {
+        "uuid": "f52e7015_37ee0053",
+        "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/util/Serialization.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-10-24T18:33:54Z",
+      "side": 1,
+      "message": "is the output formatting identical with these changes, in other words, can APPC handle it, and do we decode it correctly?\n\nthe pretty printing even though more verbose, makes life easier for testing, don\u0027t think there\u0027s big gains by removing the pretty printing?",
+      "revId": "a06c31eaebaf7cb4b8b936990ec0b9e212e1199a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ecc3c936_69b8a926",
         "filename": "models-interactions/model-impl/appclcm/src/test/java/org/onap/policy/appclcm/AppcLcmBodyTest.java",
         "patchSetId": 2
