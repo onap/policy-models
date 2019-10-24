@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fdd49f14_1a7023b2",
+        "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmBody.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-10-24T12:25:33Z",
+      "side": 1,
+      "message": "Could we simply use lombok for all these methods?",
+      "revId": "a06c31eaebaf7cb4b8b936990ec0b9e212e1199a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80977d1a_5078c57e",
+        "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmBody.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-10-24T12:25:33Z",
+      "side": 1,
+      "message": "If this is a new file - then probably remove this.",
+      "range": {
+        "startLine": 6,
+        "startChar": 1,
+        "endLine": 6,
+        "endChar": 54
+      },
+      "revId": "a06c31eaebaf7cb4b8b936990ec0b9e212e1199a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45e5ee23_14cd7654",
+        "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmCommonHeader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-10-24T12:25:33Z",
+      "side": 1,
+      "message": "Let\u0027s lombok cleanup this file also.",
+      "revId": "a06c31eaebaf7cb4b8b936990ec0b9e212e1199a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eaa86189_bf0a3f92",
+        "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmDmaapWrapper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-10-24T12:25:33Z",
+      "side": 1,
+      "message": "lombok",
+      "revId": "a06c31eaebaf7cb4b8b936990ec0b9e212e1199a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
