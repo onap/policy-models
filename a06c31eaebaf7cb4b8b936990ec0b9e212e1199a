@@ -206,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "fb5eba6e_ad58e996",
+        "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmDmaapWrapper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-24T21:02:37Z",
+      "side": 1,
+      "message": "Dmaap is ok with me.  UEB is just the old name for DMaap.",
+      "parentUuid": "44c8dd76_ca1adac3",
+      "revId": "a06c31eaebaf7cb4b8b936990ec0b9e212e1199a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7354450_13a9a286",
         "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/util/Serialization.java",
         "patchSetId": 2
