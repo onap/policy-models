@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "93c8226a_3766a727",
+        "filename": "models-interactions/model-impl/events/src/main/java/org/onap/policy/controlloop/ControlLoopEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2019-10-24T16:22:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31238c80_ddaecca1",
+      "revId": "23fda4393d073ec245ba25454c35f34e49647760",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f1384cc6_8e49835c",
         "filename": "models-interactions/model-impl/events/src/main/java/org/onap/policy/controlloop/ControlLoopEvent.java",
         "patchSetId": 1
@@ -78,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "93a9cf1b_918ce336",
+        "filename": "models-interactions/model-impl/events/src/main/java/org/onap/policy/controlloop/ControlLoopEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2019-10-24T16:22:33Z",
+      "side": 1,
+      "message": "This would change the protocol, and would need to be negotiated with all affected parties.",
+      "parentUuid": "f1384cc6_8e49835c",
+      "range": {
+        "startLine": 44,
+        "startChar": 21,
+        "endLine": 44,
+        "endChar": 32
+      },
+      "revId": "23fda4393d073ec245ba25454c35f34e49647760",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1e1e53d5_e782282f",
         "filename": "models-interactions/model-impl/events/src/main/java/org/onap/policy/controlloop/ControlLoopNotification.java",
         "patchSetId": 1
@@ -92,6 +134,24 @@
       "revId": "23fda4393d073ec245ba25454c35f34e49647760",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2ff1998_2958d39a",
+        "filename": "models-interactions/model-impl/events/src/main/java/org/onap/policy/controlloop/ControlLoopNotification.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2019-10-24T16:22:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e1e53d5_e782282f",
+      "revId": "23fda4393d073ec245ba25454c35f34e49647760",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -112,6 +172,24 @@
     },
     {
       "key": {
+        "uuid": "4e37ed63_38879bc2",
+        "filename": "models-interactions/model-impl/events/src/main/java/org/onap/policy/controlloop/VirtualControlLoopEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2019-10-24T16:22:33Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "dc5a9128_1eab0002",
+      "revId": "23fda4393d073ec245ba25454c35f34e49647760",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "499fa709_051c6321",
         "filename": "models-interactions/model-impl/events/src/test/java/org/onap/policy/controlloop/ControlLoopTargetTypeTest.java",
         "patchSetId": 1
@@ -123,6 +201,24 @@
       "writtenOn": "2019-10-23T13:38:00Z",
       "side": 1,
       "message": "swap arguments - expected value goes on the left",
+      "revId": "23fda4393d073ec245ba25454c35f34e49647760",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81a76f0d_15aa7366",
+        "filename": "models-interactions/model-impl/events/src/test/java/org/onap/policy/controlloop/ControlLoopTargetTypeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2019-10-24T16:22:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "499fa709_051c6321",
       "revId": "23fda4393d073ec245ba25454c35f34e49647760",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
