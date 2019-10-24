@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "5859f020_1e23bb03",
+        "filename": "models-interactions/model-actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-24T14:51:16Z",
+      "side": 1,
+      "message": "do we care if body or output are null (i.e., is it ok to throw NPE here)?",
+      "revId": "a06c31eaebaf7cb4b8b936990ec0b9e212e1199a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fdd49f14_1a7023b2",
         "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmBody.java",
         "patchSetId": 2
@@ -13,6 +30,24 @@
       "writtenOn": "2019-10-24T12:25:33Z",
       "side": 1,
       "message": "Could we simply use lombok for all these methods?",
+      "revId": "a06c31eaebaf7cb4b8b936990ec0b9e212e1199a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08f86569_745faf21",
+        "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmBody.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-24T14:51:16Z",
+      "side": 1,
+      "message": "yes, every single method can be eliminated by adding @Data (and possibly @NoArgConstructor)",
+      "parentUuid": "fdd49f14_1a7023b2",
       "revId": "a06c31eaebaf7cb4b8b936990ec0b9e212e1199a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
@@ -59,6 +94,24 @@
     },
     {
       "key": {
+        "uuid": "66bba8b5_bc530890",
+        "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmCommonHeader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-24T14:51:16Z",
+      "side": 1,
+      "message": "yes, all but the copy constructor",
+      "parentUuid": "45e5ee23_14cd7654",
+      "revId": "a06c31eaebaf7cb4b8b936990ec0b9e212e1199a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "eaa86189_bf0a3f92",
         "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmDmaapWrapper.java",
         "patchSetId": 2
@@ -73,6 +126,74 @@
       "revId": "a06c31eaebaf7cb4b8b936990ec0b9e212e1199a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7354450_13a9a286",
+        "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/util/Serialization.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-24T14:51:16Z",
+      "side": 1,
+      "message": "I was told to leave the \"-\", as it prevents some IDEs from reformatting the license.",
+      "revId": "a06c31eaebaf7cb4b8b936990ec0b9e212e1199a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ecc3c936_69b8a926",
+        "filename": "models-interactions/model-impl/appclcm/src/test/java/org/onap/policy/appclcm/AppcLcmBodyTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-24T14:51:16Z",
+      "side": 1,
+      "message": "let\u0027s use assertEquals instead of assertTrue(xxx.equals()).  For that matter, there\u0027s some test module that will test most of the methods in a POJO. It\u0027s used in policy-models/pdp.  With that, most, if not all, of these tests would go away.\n\nsame comment below",
+      "revId": "a06c31eaebaf7cb4b8b936990ec0b9e212e1199a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "446c445f_bfffc0b8",
+        "filename": "models-interactions/model-impl/appclcm/src/test/java/org/onap/policy/appclcm/AppcLcmCommonHeaderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-24T14:51:16Z",
+      "side": 1,
+      "message": "use assertEquals",
+      "revId": "a06c31eaebaf7cb4b8b936990ec0b9e212e1199a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4c815c9_b8be1fac",
+        "filename": "models-interactions/model-impl/appclcm/src/test/java/org/onap/policy/appclcm/AppcLcmDmaapWrapperTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-24T14:51:16Z",
+      "side": 1,
+      "message": "fyi: I often use assertSame(), if I expect it to return the original object",
+      "revId": "a06c31eaebaf7cb4b8b936990ec0b9e212e1199a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
