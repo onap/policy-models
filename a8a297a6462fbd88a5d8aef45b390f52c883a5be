@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e6c9be0_c5916823",
+        "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmCommonHeader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2019-10-24T20:35:11Z",
+      "side": 1,
+      "message": "Note: I know @Data should take care of the required args constructor but I\u0027ve discovered that @Data will not generate a constructor if there is one already defined (i.e. the copy constructor in this file). So in order to get the required args constructor you have to explicitly include it.",
+      "revId": "a8a297a6462fbd88a5d8aef45b390f52c883a5be",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9e331c0_b701a919",
+        "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmResponseCode.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2019-10-24T20:35:11Z",
+      "side": 1,
+      "message": "Was going back and forth on whether or not to use lombok here.. Eclipse complains about the code field not being initialized if there isn\u0027t a constructor included. That being said it still builds without it. Let me know what you all prefer.",
+      "revId": "a8a297a6462fbd88a5d8aef45b390f52c883a5be",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
