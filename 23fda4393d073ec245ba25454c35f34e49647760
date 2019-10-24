@@ -37,6 +37,47 @@
     },
     {
       "key": {
+        "uuid": "31238c80_ddaecca1",
+        "filename": "models-interactions/model-impl/events/src/main/java/org/onap/policy/controlloop/ControlLoopEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-10-24T13:37:03Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "9a5024de_2663aebe",
+      "revId": "23fda4393d073ec245ba25454c35f34e49647760",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f1384cc6_8e49835c",
+        "filename": "models-interactions/model-impl/events/src/main/java/org/onap/policy/controlloop/ControlLoopEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-10-24T13:37:03Z",
+      "side": 1,
+      "message": "Not sure if it is within the scope of this patch but it would be nice to align the case for all the onset event fields.",
+      "range": {
+        "startLine": 44,
+        "startChar": 21,
+        "endLine": 44,
+        "endChar": 32
+      },
+      "revId": "23fda4393d073ec245ba25454c35f34e49647760",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e1e53d5_e782282f",
         "filename": "models-interactions/model-impl/events/src/main/java/org/onap/policy/controlloop/ControlLoopNotification.java",
         "patchSetId": 1
