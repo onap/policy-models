@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "1e18729c_57704b19",
+        "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmBody.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-24T21:02:37Z",
+      "side": 1,
+      "message": "is this needed?  since there is no constructor defined in this class, it seems that java will provide it, if @Data does not.\n\nsame comment in other files",
+      "revId": "a8a297a6462fbd88a5d8aef45b390f52c883a5be",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5e6c9be0_c5916823",
         "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmCommonHeader.java",
         "patchSetId": 3
@@ -19,6 +36,58 @@
     },
     {
       "key": {
+        "uuid": "b32d761f_301a9b49",
+        "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmCommonHeader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-24T21:02:37Z",
+      "side": 1,
+      "message": "doesn\u0027t look like the required args constructor is needed.\n\nDo other constructors prevent the no-arg constructor from being created, too?  If not, then leave that out.",
+      "parentUuid": "5e6c9be0_c5916823",
+      "revId": "a8a297a6462fbd88a5d8aef45b390f52c883a5be",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "854cb4f2_910db8ab",
+        "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmInput.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-24T21:02:37Z",
+      "side": 1,
+      "message": "don\u0027t think this is needed",
+      "revId": "a8a297a6462fbd88a5d8aef45b390f52c883a5be",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82e9c7b9_8bfa5a85",
+        "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmOutput.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-24T21:02:37Z",
+      "side": 1,
+      "message": "same question: is this needed since a constructor is specified?",
+      "revId": "a8a297a6462fbd88a5d8aef45b390f52c883a5be",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c9e331c0_b701a919",
         "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmResponseCode.java",
         "patchSetId": 3
@@ -33,6 +102,23 @@
       "revId": "a8a297a6462fbd88a5d8aef45b390f52c883a5be",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b95e6af_53ae87cc",
+        "filename": "models-interactions/model-impl/appclcm/src/test/java/org/onap/policy/appclcm/AppcLcmOutputTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-24T21:02:37Z",
+      "side": 1,
+      "message": "swap arguments\n\nsame comment below",
+      "revId": "a8a297a6462fbd88a5d8aef45b390f52c883a5be",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
