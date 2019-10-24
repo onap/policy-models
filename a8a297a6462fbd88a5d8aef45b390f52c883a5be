@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "99211e75_0d06312d",
+        "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmCommonHeader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-24T21:41:06Z",
+      "side": 1,
+      "message": "@RequiredArgsConstructor only generates a constructor for final fields.  Since there are no final fields, it isn\u0027t needed.\n@NoArgsConstructor IS needed, because there\u0027s another constructor in the class and thus it wouldn\u0027t be available otherwise.  That\u0027s normal with java and not specific to lombok.",
+      "parentUuid": "0eb29b7f_ce3ad957",
+      "revId": "a8a297a6462fbd88a5d8aef45b390f52c883a5be",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "854cb4f2_910db8ab",
         "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmInput.java",
         "patchSetId": 3
