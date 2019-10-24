@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "8699c759_771d876b",
+        "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmCommonHeader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2019-10-24T22:13:51Z",
+      "side": 1,
+      "message": "Fair point on the no args constructor, I can remove that. For required args, it works for fields that are not final if they are marked with @NonNull and are not initialized when they are declared. If you look in the AppcLcmCommonHeaderTest, I\u0027m using a constructor that passes in originatorId, requestId, and subRequestId in which all those fields are marked as NonNull. I suppose this constructor isn\u0027t needed but it is nice to just pass in those fields when creating the object rather than creating the object and then calling three setter methods.",
+      "parentUuid": "99211e75_0d06312d",
+      "revId": "a8a297a6462fbd88a5d8aef45b390f52c883a5be",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "854cb4f2_910db8ab",
         "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmInput.java",
         "patchSetId": 3
