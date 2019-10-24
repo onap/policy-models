@@ -19,6 +19,58 @@
     },
     {
       "key": {
+        "uuid": "9a5024de_2663aebe",
+        "filename": "models-interactions/model-impl/events/src/main/java/org/onap/policy/controlloop/ControlLoopEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-10-24T12:20:12Z",
+      "side": 1,
+      "message": "Yes I\u0027d like to start seeing that also in these classes. Sorry Ralph!! Can you bring in lombok for this file?",
+      "parentUuid": "f3baada3_1a6401d9",
+      "revId": "23fda4393d073ec245ba25454c35f34e49647760",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e1e53d5_e782282f",
+        "filename": "models-interactions/model-impl/events/src/main/java/org/onap/policy/controlloop/ControlLoopNotification.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-10-24T12:20:12Z",
+      "side": 1,
+      "message": "Here\u0027s another lombok opportunity. :)",
+      "revId": "23fda4393d073ec245ba25454c35f34e49647760",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc5a9128_1eab0002",
+        "filename": "models-interactions/model-impl/events/src/main/java/org/onap/policy/controlloop/VirtualControlLoopEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-10-24T12:20:12Z",
+      "side": 1,
+      "message": "Lombok also please!",
+      "revId": "23fda4393d073ec245ba25454c35f34e49647760",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "499fa709_051c6321",
         "filename": "models-interactions/model-impl/events/src/test/java/org/onap/policy/controlloop/ControlLoopTargetTypeTest.java",
         "patchSetId": 1
