@@ -1,0 +1,234 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9bdfab40_393b752c",
+        "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmCommonHeader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-10-25T14:53:43Z",
+      "side": 1,
+      "message": "Remove",
+      "range": {
+        "startLine": 5,
+        "startChar": 17,
+        "endLine": 5,
+        "endChar": 22
+      },
+      "revId": "1db4b8025ce3b0a77e8122851aab2096e360408b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43ffd2f4_7885535b",
+        "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmCommonHeader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-10-25T14:53:43Z",
+      "side": 1,
+      "message": "remove since this is a new file.",
+      "range": {
+        "startLine": 6,
+        "startChar": 1,
+        "endLine": 6,
+        "endChar": 54
+      },
+      "revId": "1db4b8025ce3b0a77e8122851aab2096e360408b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "397152da_304dd96d",
+        "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmDmaapWrapper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-10-25T14:53:43Z",
+      "side": 1,
+      "message": "Remove",
+      "range": {
+        "startLine": 5,
+        "startChar": 17,
+        "endLine": 5,
+        "endChar": 22
+      },
+      "revId": "1db4b8025ce3b0a77e8122851aab2096e360408b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9bc93e4_1d6f7e71",
+        "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmDmaapWrapper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-10-25T14:53:43Z",
+      "side": 1,
+      "message": "remove since this is a new file.",
+      "range": {
+        "startLine": 6,
+        "startChar": 1,
+        "endLine": 6,
+        "endChar": 54
+      },
+      "revId": "1db4b8025ce3b0a77e8122851aab2096e360408b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17b01335_35f1579a",
+        "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmInput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-10-25T14:53:43Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 5,
+        "startChar": 17,
+        "endLine": 5,
+        "endChar": 22
+      },
+      "revId": "1db4b8025ce3b0a77e8122851aab2096e360408b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48417060_8d915128",
+        "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmInput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-10-25T14:53:43Z",
+      "side": 1,
+      "message": "remove since this is a new file.",
+      "range": {
+        "startLine": 6,
+        "startChar": 1,
+        "endLine": 6,
+        "endChar": 54
+      },
+      "revId": "1db4b8025ce3b0a77e8122851aab2096e360408b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "028a26ec_5fb92783",
+        "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmOutput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-10-25T14:53:43Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 5,
+        "startChar": 17,
+        "endLine": 5,
+        "endChar": 22
+      },
+      "revId": "1db4b8025ce3b0a77e8122851aab2096e360408b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbb3fed3_b51067b3",
+        "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmOutput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-10-25T14:53:43Z",
+      "side": 1,
+      "message": "remove since this is a new file.",
+      "range": {
+        "startLine": 6,
+        "startChar": 1,
+        "endLine": 6,
+        "endChar": 54
+      },
+      "revId": "1db4b8025ce3b0a77e8122851aab2096e360408b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2095114c_1125ef00",
+        "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmResponseStatus.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-10-25T14:53:43Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 5,
+        "startChar": 17,
+        "endLine": 5,
+        "endChar": 22
+      },
+      "revId": "1db4b8025ce3b0a77e8122851aab2096e360408b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52005b60_d3fb9301",
+        "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmResponseStatus.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-10-25T14:53:43Z",
+      "side": 1,
+      "message": "remove since this is a new file.",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 54
+      },
+      "revId": "1db4b8025ce3b0a77e8122851aab2096e360408b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
