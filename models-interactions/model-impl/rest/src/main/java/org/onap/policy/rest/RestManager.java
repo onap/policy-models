@@ -29,6 +29,7 @@ import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPatch;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
@@ -169,6 +170,33 @@ public class RestManager {
         HttpDelete delete = new HttpDelete(url);
         addHeaders(delete, username, password, headers);
         return sendRequest(delete);
+    }
+
+    /**
+     * Perform REST Patch.
+     *
+     * @param url         the url
+     * @param username    the user name
+     * @param password    the password
+     * @param headers     any headers
+     * @param body        body to send
+     * @return the response status code and the body
+     */
+    public Pair<Integer, String> patch(String url, String username, String password,
+                                       Map<String, String> headers, String body) {
+        String contentType = "application/merge-patch+json";
+        HttpPatch patch = new HttpPatch(url);
+        addHeaders(patch, username, password, headers);
+        patch.addHeader(CONTENT_TYPE, contentType);
+        try {
+            StringEntity input = new StringEntity(body);
+            input.setContentType(contentType);
+            patch.setEntity(input);
+        } catch (Exception e) {
+            logger.error("patch threw: ", e);
+            return null;
+        }
+        return sendRequest(patch);
     }
 
     /**

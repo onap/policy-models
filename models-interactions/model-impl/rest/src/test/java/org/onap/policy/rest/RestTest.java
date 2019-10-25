@@ -24,10 +24,17 @@ package org.onap.policy.rest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
+import javax.ws.rs.HttpMethod;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -45,7 +52,7 @@ import org.onap.policy.rest.RestManager.Pair;
 
 @Path("RestTest")
 public class RestTest {
-
+    private static final String MERGE_PATCH_PLUS_JSON = "application/merge-patch+json";
 
     private static final String NAME_PARAM = "Bob";
     private static final String AGE_PARAM = "10";
@@ -64,6 +71,8 @@ public class RestTest {
     private static String putUriBlank;
     private static String postUri;
     private static String postUriBlank;
+    private static String patchUri;
+    private static String patchUriBlank;
 
     private static HttpServletServer server;
 
@@ -81,6 +90,8 @@ public class RestTest {
         putUriBlank = baseUri + "RestTest/PutBlank";
         postUri = baseUri + "RestTest/PostHello/" + NAME_PARAM + "?age=" + AGE_PARAM;
         postUriBlank = baseUri + "RestTest/PostBlank";
+        patchUri = baseUri + "RestTest/PatchHello/" + NAME_PARAM + "?age=" + AGE_PARAM;
+        patchUriBlank = baseUri + "RestTest/PatchBlank";
 
         server = HttpServletServerFactoryInstance.getServerFactory()
             .build("RestTest", LOCALHOST, port, "/" + BASE, false, true);
@@ -121,6 +132,12 @@ public class RestTest {
     public void testDeleteUrlNull() {
         RestManager mgr = new RestManager();
         mgr.delete(null, "user", null, null, null, null);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testPatchUrlNull() {
+        RestManager mgr = new RestManager();
+        mgr.patch(null, "user", null, null, PAYLOAD);
     }
 
     @Test
@@ -168,6 +185,18 @@ public class RestTest {
         assertTrue(result.second != null);
         assertTrue(result.second.length() > 0);
         assertEquals("POST: " + PAYLOAD + RETURN_STRING, result.second);
+
+        result = mgr.patch(patchUri, null, null, null, PAYLOAD);
+        assertEquals((Integer)200, result.first);
+        assertTrue(result.second != null);
+        assertTrue(result.second.length() > 0);
+        assertEquals("PATCH: " + PAYLOAD + EXPECT_STRING, result.second);
+
+        result = mgr.patch(patchUriBlank, null, null, null, PAYLOAD);
+        assertEquals((Integer)200, result.first);
+        assertTrue(result.second != null);
+        assertTrue(result.second.length() > 0);
+        assertEquals("PATCH: " + PAYLOAD + RETURN_STRING, result.second);
     }
 
     @Test
@@ -209,6 +238,18 @@ public class RestTest {
         assertTrue(result.second != null);
         assertTrue(result.second.length() > 0);
         assertEquals("POST: " + PAYLOAD + RETURN_STRING, result.second);
+
+        result = mgr.patch(patchUri, "", null, null, PAYLOAD);
+        assertEquals((Integer)200, result.first);
+        assertTrue(result.second != null);
+        assertTrue(result.second.length() > 0);
+        assertEquals("PATCH: " + PAYLOAD + EXPECT_STRING, result.second);
+
+        result = mgr.patch(patchUriBlank, "", null, null, PAYLOAD);
+        assertEquals((Integer)200, result.first);
+        assertTrue(result.second != null);
+        assertTrue(result.second.length() > 0);
+        assertEquals("PATCH: " + PAYLOAD + RETURN_STRING, result.second);
     }
 
     @Test
@@ -250,6 +291,18 @@ public class RestTest {
         assertTrue(result.second != null);
         assertTrue(result.second.length() > 0);
         assertEquals("POST: " + PAYLOAD + RETURN_STRING, result.second);
+
+        result = mgr.patch(patchUri, "user", null, null, PAYLOAD);
+        assertEquals((Integer)200, result.first);
+        assertTrue(result.second != null);
+        assertTrue(result.second.length() > 0);
+        assertEquals("PATCH: " + PAYLOAD + EXPECT_STRING, result.second);
+
+        result = mgr.patch(patchUriBlank, "user", null, null, PAYLOAD);
+        assertEquals((Integer)200, result.first);
+        assertTrue(result.second != null);
+        assertTrue(result.second.length() > 0);
+        assertEquals("PATCH: " + PAYLOAD + RETURN_STRING, result.second);
     }
 
     @Test
@@ -266,6 +319,9 @@ public class RestTest {
         assertEquals((Integer)404, result.first);
 
         result = mgr.post(baseUri + "RestTest/PostHello/", null, null, null, MediaType.TEXT_PLAIN, PAYLOAD);
+        assertEquals((Integer)404, result.first);
+
+        result = mgr.patch(baseUri + "RestTest/PatchHello/", null, null, null, PAYLOAD);
         assertEquals((Integer)404, result.first);
     }
 
@@ -297,6 +353,13 @@ public class RestTest {
         assertTrue(result.second != null);
         assertTrue(result.second.length() > 0);
         assertEquals("POST: " + PAYLOAD + RETURN_STRING + NAME_PARAM + " aged 90", result.second);
+
+        result = mgr.patch(baseUri + "RestTest/PatchHello/" + NAME_PARAM, null, null,
+            null, PAYLOAD);
+        assertEquals((Integer)200, result.first);
+        assertTrue(result.second != null);
+        assertTrue(result.second.length() > 0);
+        assertEquals("PATCH: " + PAYLOAD + RETURN_STRING + NAME_PARAM + " aged 90", result.second);
     }
 
     @Test
@@ -313,6 +376,9 @@ public class RestTest {
         assertEquals((Integer)404, result.first);
 
         result = mgr.post(baseUri + "NonExistant/URL/", null, null, null, MediaType.TEXT_PLAIN, PAYLOAD);
+        assertEquals((Integer)404, result.first);
+
+        result = mgr.patch(baseUri + "NonExistant/URL/", null, null, null, PAYLOAD);
         assertEquals((Integer)404, result.first);
     }
 
@@ -333,6 +399,9 @@ public class RestTest {
         assertEquals((Integer)405, result.first);
 
         result = mgr.post(getUri, null, null, null, MediaType.TEXT_PLAIN, PAYLOAD);
+        assertEquals((Integer)405, result.first);
+
+        result = mgr.patch(getUri, null, null, null, PAYLOAD);
         assertEquals((Integer)405, result.first);
     }
 
@@ -386,5 +455,31 @@ public class RestTest {
     @Produces(MediaType.TEXT_PLAIN)
     public String postBlank( String payload) {
         return "POST: " + payload + RETURN_STRING;
+    }
+
+    @Target({ElementType.METHOD})
+    @Retention(RetentionPolicy.RUNTIME)
+    @HttpMethod("PATCH")
+    @Documented
+    public static @interface Patch {
+    }
+
+    @Patch
+    @Path("/PatchHello/{name}")
+    @Consumes(MERGE_PATCH_PLUS_JSON)
+    @Produces(MERGE_PATCH_PLUS_JSON)
+    public String patchIt(
+        String payload,
+        @PathParam("name") String name,
+        @DefaultValue("90") @QueryParam("age") String age) {
+
+        return "PATCH: " + payload + RETURN_STRING + name + " aged " + age;
+    }
+
+    @Patch
+    @Path("/PatchBlank")
+    @Produces(MERGE_PATCH_PLUS_JSON)
+    public String patchBlank( String payload) {
+        return "PATCH: " + payload + RETURN_STRING;
     }
 }
