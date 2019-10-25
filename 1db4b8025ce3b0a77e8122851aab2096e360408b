@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "c574de3c_b7819413",
+        "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmCommonHeader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-25T14:55:42Z",
+      "side": 1,
+      "message": "these files were simply renamed - should the license still be completely replaced as if it were new?",
+      "parentUuid": "43ffd2f4_7885535b",
+      "range": {
+        "startLine": 6,
+        "startChar": 1,
+        "endLine": 6,
+        "endChar": 54
+      },
+      "revId": "1db4b8025ce3b0a77e8122851aab2096e360408b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "397152da_304dd96d",
         "filename": "models-interactions/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/AppcLcmDmaapWrapper.java",
         "patchSetId": 4
