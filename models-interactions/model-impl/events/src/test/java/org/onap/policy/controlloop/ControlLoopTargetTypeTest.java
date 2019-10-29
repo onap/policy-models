@@ -33,5 +33,6 @@ public class ControlLoopTargetTypeTest {
         assertEquals("VF", ControlLoopTargetType.VF);
         assertEquals("VFC", ControlLoopTargetType.VFC);
         assertEquals("VNF", ControlLoopTargetType.VNF);
+        assertEquals("PNF", ControlLoopTargetType.PNF);
     }
 }

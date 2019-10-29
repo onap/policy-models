@@ -26,4 +26,5 @@ public class ControlLoopTargetType {
     public static final String VF = "VF";
     public static final String VFC = "VFC";
     public static final String VNF = "VNF";
+    public static final String PNF = "PNF";
 }
