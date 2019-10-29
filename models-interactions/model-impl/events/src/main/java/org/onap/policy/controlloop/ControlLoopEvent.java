@@ -23,6 +23,7 @@ package org.onap.policy.controlloop;
 
 import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
+import java.util.Map;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,45 +34,27 @@ public abstract class ControlLoopEvent implements Serializable {
 
     private static final long serialVersionUID = 2391252138583119195L;
 
-    @SerializedName("closedLoopControlName")
-    private String closedLoopControlName;
-
-    @SerializedName("version")
-    private String version = "1.0.2";
-
     @SerializedName("requestID")
     private UUID requestId;
-
-    @SerializedName("closedLoopEventClient")
-    private String closedLoopEventClient;
-
     @SerializedName("target_type")
     private String targetType;
-
-    @SerializedName("target")
+    private String closedLoopControlName;
+    private String version = "1.0.2";
+    private String closedLoopEventClient;
     private String target;
-
-    @SerializedName("from")
     private String from;
-
-    @SerializedName("policyScope")
     private String policyScope;
-
-    @SerializedName("policyName")
     private String policyName;
-
-    @SerializedName("policyVersion")
     private String policyVersion;
-
-    @SerializedName("closedLoopEventStatus")
     private ControlLoopEventStatus closedLoopEventStatus;
+    private Map<String, String> additionalEventParams;
 
     public ControlLoopEvent() {
 
     }
 
     /**
-     * Construct an instace from an existing instance.
+     * Construct an instance from an existing instance.
      *
      * @param event the existing instance
      */
@@ -79,6 +62,7 @@ public abstract class ControlLoopEvent implements Serializable {
         if (event == null) {
             return;
         }
+        this.version =  event.version;
         this.closedLoopControlName = event.closedLoopControlName;
         this.requestId = event.requestId;
         this.closedLoopEventClient = event.closedLoopEventClient;
@@ -89,6 +73,7 @@ public abstract class ControlLoopEvent implements Serializable {
         this.policyName = event.policyName;
         this.policyVersion = event.policyVersion;
         this.closedLoopEventStatus = event.closedLoopEventStatus;
+        this.additionalEventParams = event.additionalEventParams;
     }
 
     public boolean isEventStatusValid() {
