@@ -38,16 +38,18 @@ public class CdsActionRequest implements Serializable {
     private String resolutionKey;
     private Map<String, String> aaiProperties;
     private Map<String, String> policyPayload;
+    private Map<String, String> additionalEventParams;
 
     /**
      * Generate the CDS gRPC request payload from the action-name (aka operational policy recipe).
      * The CDS gRPC request payload generation follows the below pattern:
      *  {
      *    "{@link CdsActionRequest#getActionName()}-request": {
-     *      "resolution-key": "{@link CdsActionRequest#getResolutionKey()} ()}",
+     *      "resolution-key": "{@link CdsActionRequest#getResolutionKey()}",
      *      "{@link CdsActionRequest#getActionName()}-properties": {
-     *        "{@link CdsActionRequest#getAaiProperties()} ()}",
-     *        "{@link CdsActionRequest#getPolicyPayload()} ()}"
+     *        "{@link CdsActionRequest#getAaiProperties()}",
+     *        "{@link CdsActionRequest#getPolicyPayload()}",
+     *        "{@link CdsActionRequest#getAdditionalEventParams()}"
      *      }
      *    }
      *  }
@@ -59,6 +61,9 @@ public class CdsActionRequest implements Serializable {
         Map<String, String> cdsActionPropsMap = new LinkedHashMap<>();
         cdsActionPropsMap.putAll(aaiProperties);
         cdsActionPropsMap.putAll(policyPayload);
+        if (additionalEventParams != null) {
+            cdsActionPropsMap.putAll(additionalEventParams);
+        }
 
         // 2. Build the enclosing CDS action request properties object to contain (1) and the resolution-key
         Map<String, Object> cdsActionRequestMap = new LinkedHashMap<>();
