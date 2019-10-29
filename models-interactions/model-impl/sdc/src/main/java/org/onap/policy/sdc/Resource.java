@@ -32,7 +32,7 @@ public class Resource implements Serializable {
     private UUID    resourceInvariantUuid;
     private String  resourceName;
     private String  resourceVersion;
-    private ResourceType    resourceType;
+    private String    resourceType;
 
     public Resource() {
         //Empty Constructor
@@ -55,7 +55,7 @@ public class Resource implements Serializable {
         this.resourceUuid = uuid;
     }
 
-    public Resource(String name, ResourceType type) {
+    public Resource(String name, String type) {
         this.resourceName = name;
         this.resourceType = type;
     }
@@ -69,7 +69,7 @@ public class Resource implements Serializable {
      * @param version version
      * @param type type
      */
-    public Resource(UUID uuid, UUID invariantUuid, String name, String version, ResourceType type) {
+    public Resource(UUID uuid, UUID invariantUuid, String name, String version, String type) {
         this.resourceUuid = uuid;
         this.resourceInvariantUuid = invariantUuid;
         this.resourceName = name;
@@ -109,11 +109,11 @@ public class Resource implements Serializable {
         this.resourceVersion = resourceVersion;
     }
 
-    public ResourceType getResourceType() {
+    public String getResourceType() {
         return resourceType;
     }
 
-    public void setResourceType(ResourceType resourceType) {
+    public void setResourceType(String resourceType) {
         this.resourceType = resourceType;
     }
 

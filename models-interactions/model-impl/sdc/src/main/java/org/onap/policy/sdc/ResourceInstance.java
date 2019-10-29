@@ -32,7 +32,7 @@ public class ResourceInstance implements Serializable {
     private String resourceName;
     private UUID resourceInvariantUuid;
     private String resourceVersion;
-    private ResourceType resourceType;
+    private String resourceType;
     private UUID resourceUuid;
 
     public ResourceInstance() {
@@ -88,11 +88,11 @@ public class ResourceInstance implements Serializable {
         this.resourceVersion = resourceVersion;
     }
 
-    public ResourceType getResourceType() {
+    public String getResourceType() {
         return resourceType;
     }
 
-    public void setResourceType(ResourceType resourceType) {
+    public void setResourceType(String resourceType) {
         this.resourceType = resourceType;
     }
 
