@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61101834_1d870bc1",
+        "filename": "models-interactions/model-impl/sdc/src/main/java/org/onap/policy/sdc/Resource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-29T13:06:12Z",
+      "side": 1,
+      "message": "suggest to use lombok annotations here",
+      "revId": "1cd6b46d2132ddb63b3572a4bd47ef3b07eeb42d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
