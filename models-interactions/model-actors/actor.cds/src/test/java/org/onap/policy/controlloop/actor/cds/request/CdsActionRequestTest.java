@@ -43,6 +43,10 @@ public class CdsActionRequestTest {
                 ImmutableMap.of("service-instance.service-instance-id", "1234", "generic-vnf.vnf-id", "5678");
         req.setAaiProperties(aaiParams);
 
+        Map<String, String> eventParams =
+                ImmutableMap.of("event-param-1", "1234", "event-param-2", "5678");
+        req.setAdditionalEventParams(eventParams);
+
         // Act
         String result = req.generateCdsPayload();
 

@@ -23,6 +23,7 @@ package org.onap.policy.controlloop;
 
 import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
+import java.util.Map;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
@@ -66,12 +67,15 @@ public abstract class ControlLoopEvent implements Serializable {
     @SerializedName("closedLoopEventStatus")
     private ControlLoopEventStatus closedLoopEventStatus;
 
+    @SerializedName("additionalEventParams")
+    private Map<String, String> additionalEventParams;
+
     public ControlLoopEvent() {
 
     }
 
     /**
-     * Construct an instace from an existing instance.
+     * Construct an instance from an existing instance.
      *
      * @param event the existing instance
      */
@@ -79,6 +83,7 @@ public abstract class ControlLoopEvent implements Serializable {
         if (event == null) {
             return;
         }
+        this.version =  event.version;
         this.closedLoopControlName = event.closedLoopControlName;
         this.requestId = event.requestId;
         this.closedLoopEventClient = event.closedLoopEventClient;
@@ -89,6 +94,7 @@ public abstract class ControlLoopEvent implements Serializable {
         this.policyName = event.policyName;
         this.policyVersion = event.policyVersion;
         this.closedLoopEventStatus = event.closedLoopEventStatus;
+        this.additionalEventParams = event.additionalEventParams;
     }
 
     public boolean isEventStatusValid() {
