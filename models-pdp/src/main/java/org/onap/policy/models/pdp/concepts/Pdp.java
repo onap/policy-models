@@ -46,7 +46,7 @@ public class Pdp {
 
     private PdpHealthStatus healthy;
     private String message;
-
+    private PdpStatistics pdpStatistics;
     /**
      * Constructs the object, creating a deep copy of the fields from the source.
      *
@@ -57,5 +57,6 @@ public class Pdp {
         this.pdpState = source.pdpState;
         this.healthy = source.healthy;
         this.message = source.message;
+        this.pdpStatistics = source.pdpStatistics;
     }
 }

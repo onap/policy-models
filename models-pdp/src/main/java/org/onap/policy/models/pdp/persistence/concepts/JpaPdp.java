@@ -25,11 +25,16 @@ package org.onap.policy.models.pdp.persistence.concepts;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -72,6 +77,18 @@ public class JpaPdp extends PfConcept implements PfAuthorative<Pdp>, Serializabl
     @Column
     private String message;
 
+    // @formatter:off
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinTable (
+            joinColumns = {
+                @JoinColumn(name = "pdpStatisticsParentKeyName",    referencedColumnName = "parentKeyName"),
+                @JoinColumn(name = "pdpStatisticsParentKeyVersion", referencedColumnName = "parentKeyVersion"),
+                @JoinColumn(name = "pdpStatisticsParentLocalName",  referencedColumnName = "parentLocalName"),
+                @JoinColumn(name = "pdpStatisticsLocalName",        referencedColumnName = "localName")
+            }
+        )
+    // formatter:on
+    private JpaPdpStatistics pdpStatistics;
     /**
      * The Default Constructor creates a {@link JpaPdp} object with a null key.
      */
@@ -97,9 +114,23 @@ public class JpaPdp extends PfConcept implements PfAuthorative<Pdp>, Serializabl
      */
     public JpaPdp(@NonNull final PfReferenceKey key, @NonNull final PdpState pdpState,
             @NonNull PdpHealthStatus healthy) {
+       this(key, pdpState, healthy,null);
+    }
+
+    /**
+     * The Key Constructor creates a {@link JpaPdp} object with all mandatory fields.
+     *
+     * @param key the key
+     * @param pdpState the state of the PDP
+     * @param healthy the health state of the PDP
+     * @param pdpStatistics the health state of the PDP
+     */
+    public JpaPdp(@NonNull final PfReferenceKey key, @NonNull final PdpState pdpState,
+            @NonNull PdpHealthStatus healthy, final JpaPdpStatistics pdpStatistics) {
         this.key = key;
         this.pdpState = pdpState;
         this.healthy = healthy;
+        this.pdpStatistics = pdpStatistics;
     }
 
     /**
@@ -113,6 +144,7 @@ public class JpaPdp extends PfConcept implements PfAuthorative<Pdp>, Serializabl
         this.pdpState = copyConcept.pdpState;
         this.healthy = copyConcept.healthy;
         this.message = copyConcept.message;
+        this.pdpStatistics = copyConcept.pdpStatistics;
     }
 
     /**
@@ -132,7 +164,7 @@ public class JpaPdp extends PfConcept implements PfAuthorative<Pdp>, Serializabl
         pdp.setPdpState(pdpState);
         pdp.setHealthy(healthy);
         pdp.setMessage(message);
-
+        pdp.setPdpStatistics(pdpStatistics == null ? null : pdpStatistics.toAuthorative());
         return pdp;
     }
 
@@ -146,6 +178,12 @@ public class JpaPdp extends PfConcept implements PfAuthorative<Pdp>, Serializabl
         this.setPdpState(pdp.getPdpState());
         this.setHealthy(pdp.getHealthy());
         this.setMessage(pdp.getMessage());
+        if (pdp.getPdpStatistics() != null) {
+            JpaPdpStatistics jpaPdpStatistics = new JpaPdpStatistics();
+            jpaPdpStatistics.setKey(new PfReferenceKey(getKey(), pdp.getInstanceId()));
+            jpaPdpStatistics.fromAuthorative(pdp.getPdpStatistics());
+            this.setPdpStatistics(jpaPdpStatistics);
+        }
     }
 
     @Override
