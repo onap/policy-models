@@ -21,10 +21,12 @@
 
 package org.onap.policy.aai;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.contains;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.ArgumentMatchers.startsWith;
@@ -34,7 +36,6 @@ import static org.mockito.Mockito.when;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import org.junit.Before;
@@ -50,19 +51,17 @@ public class AaiManagerTest {
     private static final String DOROTHY = "Dorothy";
     private static final String SOME_URL = "http://somewhere.over.the.rainbow";
     private static final String ANOTHER_URL = "http://somewhere.under.the.rainbow";
-    RestManager restManagerMock;
-    UUID aaiNqRequestUuid = UUID.randomUUID();
-    Pair<Integer, String> httpResponseOk;
-    Pair<Integer, String> httpResponseErr0;
-    Pair<Integer, String> httpResponseErr1;
-    Pair<Integer, String> httpResponseWait;
-    Pair<Integer, String> httpTenantResponseOk;
-    Pair<Integer, String> httpCqResponseOk;
-
     private static final String TENANT_RESPONSE_SAMPLE =
             "src/test/resources/org/onap/policy/aai/AaiTenantResponse.json";
 
-
+    private RestManager restManagerMock;
+    private UUID aaiNqRequestUuid = UUID.randomUUID();
+    private Pair<Integer, String> httpResponseOk;
+    private Pair<Integer, String> httpResponseErr0;
+    private Pair<Integer, String> httpResponseErr1;
+    private Pair<Integer, String> httpResponseWait;
+    private Pair<Integer, String> httpTenantResponseOk;
+    private Pair<Integer, String> httpCqResponseOk;
 
     /**
      * Set up test cases.
@@ -72,11 +71,6 @@ public class AaiManagerTest {
     @Before
     public void beforeTestAaiManager() throws Exception {
         restManagerMock = mock(RestManager.class);
-
-        Map<String, String> expectedHeaders = new HashMap<>();
-        expectedHeaders.put("X-FromAppId", "POLICY");
-        expectedHeaders.put("X-TransactionId", aaiNqRequestUuid.toString());
-        expectedHeaders.put("Accept", "application/json");
 
         String aaiCqResponse = new AaiCqResponseTest().getAaiCqResponse();
         String tenantResponse = this.getTenantQueryResponse();
@@ -234,5 +228,24 @@ public class AaiManagerTest {
         AaiGetVnfResponse vnfResponse = aaiManager.getQueryByVnfId(SOME_URL, DOROTHY,
                 "Gale", vserverNameRequestId, "vnfName");
         assertNotNull(vnfResponse);
+    }
+
+    @Test
+    public void testAaiManagerGetPnf() {
+        AaiManager aaiManager = new AaiManager(restManagerMock);
+        assertNotNull(aaiManager);
+        String pnfName = "test-pnf";
+        String pnfResponse = "{\"pnf-name\":" + pnfName
+                                     + ",\"pnf-id\":\"123456\",\"in-maint\":false,\"ipaddress-v4-oam\":\"1.1.1.1\"}";
+
+        Pair<Integer, String> pnfHttpResponse = restManagerMock.new Pair<>(200, pnfResponse);
+        
+        when(restManagerMock.get(contains(pnfName), eq(DOROTHY), eq("Gale"), anyMap()))
+                .thenReturn(pnfHttpResponse);
+
+        Map<String, String> pnfParams = aaiManager.getPnf(SOME_URL, DOROTHY, "Gale", UUID.randomUUID(), pnfName);
+        assertNotNull(pnfParams);
+        assertNotNull(pnfParams.get("pnf.pnf-name"));
+        assertEquals(pnfParams.get("pnf.pnf-name"), pnfName);
     }
 }
