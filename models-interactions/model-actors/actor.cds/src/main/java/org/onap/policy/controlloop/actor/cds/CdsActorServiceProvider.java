@@ -130,6 +130,9 @@ public class CdsActorServiceProvider implements Actor {
         // E.g. For vFW usecase El-Alto inject service-instance-id, generic-vnf-id as needed by CDS.
         request.setAaiProperties(aaiParams);
 
+        // Inject and additional event parameters that are present in the onset event
+        request.setAdditionalEventParams(onset.getAdditionalEventParams());
+
         Builder struct = Struct.newBuilder();
         try {
             String requestStr = request.generateCdsPayload();
