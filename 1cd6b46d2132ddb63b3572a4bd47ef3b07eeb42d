@@ -34,6 +34,24 @@
       "revId": "1cd6b46d2132ddb63b3572a4bd47ef3b07eeb42d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c62fadd3_4cd35fae",
+        "filename": "models-interactions/model-impl/sdc/src/main/java/org/onap/policy/sdc/Resource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-30T12:54:33Z",
+      "side": 1,
+      "message": "Ah, yes, one of the ones I didn\u0027t update when fixing checkstyle issues.",
+      "parentUuid": "7b0b6471_7a504254",
+      "revId": "1cd6b46d2132ddb63b3572a4bd47ef3b07eeb42d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
