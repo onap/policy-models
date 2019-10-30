@@ -23,7 +23,11 @@ package org.onap.policy.sdc;
 
 import java.io.Serializable;
 import java.util.UUID;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class ResourceInstance implements Serializable {
 
     private static final long serialVersionUID = -5506162340393802424L;
@@ -32,7 +36,7 @@ public class ResourceInstance implements Serializable {
     private String resourceName;
     private UUID resourceInvariantUuid;
     private String resourceVersion;
-    private ResourceType resourceType;
+    private String resourceType;
     private UUID resourceUuid;
 
     public ResourceInstance() {
@@ -56,52 +60,12 @@ public class ResourceInstance implements Serializable {
         this.resourceUuid = instance.resourceUuid;
     }
 
-    public String getResourceInstanceName() {
-        return resourceInstanceName;
-    }
-
-    public void setResourceInstanceName(String resourceInstanceName) {
-        this.resourceInstanceName = resourceInstanceName;
-    }
-
-    public String getResourceName() {
-        return resourceName;
-    }
-
-    public void setResourceName(String resourceName) {
-        this.resourceName = resourceName;
-    }
-
     public UUID getResourceInvariantUUID() {
         return resourceInvariantUuid;
     }
 
     public void setResourceInvariantUUID(UUID resourceInvariantUuid) {
         this.resourceInvariantUuid = resourceInvariantUuid;
-    }
-
-    public String getResourceVersion() {
-        return resourceVersion;
-    }
-
-    public void setResourceVersion(String resourceVersion) {
-        this.resourceVersion = resourceVersion;
-    }
-
-    public ResourceType getResourceType() {
-        return resourceType;
-    }
-
-    public void setResourceType(ResourceType resourceType) {
-        this.resourceType = resourceType;
-    }
-
-    public UUID getResourceUuid() {
-        return resourceUuid;
-    }
-
-    public void setResourceUuid(UUID resourceUuid) {
-        this.resourceUuid = resourceUuid;
     }
 
     @Override

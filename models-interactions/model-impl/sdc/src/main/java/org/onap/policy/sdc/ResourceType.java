@@ -21,22 +21,12 @@
 
 package org.onap.policy.sdc;
 
-public enum ResourceType {
-    VF("VF"),
-    VFC("VFC"),
-    VL("VL"),
-    CP("CP")
-    ;
+public class ResourceType {
+    public static final String VF = "VF";
+    public static final String VFC = "VFC";
+    public static final String VL = "VL";
+    public static final String CP = "CP";
 
-    private String type;
-
-    private ResourceType(String type) {
-        this.type = type;
+    private ResourceType() {
     }
-
-    @Override
-    public String toString() {
-        return this.type;
-    }
-
 }

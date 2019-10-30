@@ -23,7 +23,11 @@ package org.onap.policy.sdc;
 
 import java.io.Serializable;
 import java.util.UUID;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class Resource implements Serializable {
 
     private static final long serialVersionUID = -913729158733348027L;
@@ -32,7 +36,7 @@ public class Resource implements Serializable {
     private UUID    resourceInvariantUuid;
     private String  resourceName;
     private String  resourceVersion;
-    private ResourceType    resourceType;
+    private String    resourceType;
 
     public Resource() {
         //Empty Constructor
@@ -55,7 +59,7 @@ public class Resource implements Serializable {
         this.resourceUuid = uuid;
     }
 
-    public Resource(String name, ResourceType type) {
+    public Resource(String name, String type) {
         this.resourceName = name;
         this.resourceType = type;
     }
@@ -69,52 +73,12 @@ public class Resource implements Serializable {
      * @param version version
      * @param type type
      */
-    public Resource(UUID uuid, UUID invariantUuid, String name, String version, ResourceType type) {
+    public Resource(UUID uuid, UUID invariantUuid, String name, String version, String type) {
         this.resourceUuid = uuid;
         this.resourceInvariantUuid = invariantUuid;
         this.resourceName = name;
         this.resourceVersion = version;
         this.resourceType = type;
-    }
-
-    public UUID getResourceUuid() {
-        return resourceUuid;
-    }
-
-    public void setResourceUuid(UUID resourceUuid) {
-        this.resourceUuid = resourceUuid;
-    }
-
-    public UUID getResourceInvariantUuid() {
-        return resourceInvariantUuid;
-    }
-
-    public void setResourceInvariantUuid(UUID resourceInvariantUuid) {
-        this.resourceInvariantUuid = resourceInvariantUuid;
-    }
-
-    public String getResourceName() {
-        return resourceName;
-    }
-
-    public void setResourceName(String resourceName) {
-        this.resourceName = resourceName;
-    }
-
-    public String getResourceVersion() {
-        return resourceVersion;
-    }
-
-    public void setResourceVersion(String resourceVersion) {
-        this.resourceVersion = resourceVersion;
-    }
-
-    public ResourceType getResourceType() {
-        return resourceType;
-    }
-
-    public void setResourceType(ResourceType resourceType) {
-        this.resourceType = resourceType;
     }
 
     @Override
