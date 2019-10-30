@@ -16,6 +16,24 @@
       "revId": "1cd6b46d2132ddb63b3572a4bd47ef3b07eeb42d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b0b6471_7a504254",
+        "filename": "models-interactions/model-impl/sdc/src/main/java/org/onap/policy/sdc/Resource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2019-10-30T08:17:26Z",
+      "side": 1,
+      "message": "I added this here, and in \u0027ResourceInstance.java\u0027 as well. However, I left the \u0027getResourceInvariantUUID()\u0027 and \u0027setResourceInvariantUUID(...)\u0027 methods, because the \u0027UUID\u0027 part at the end didn\u0027t match the instance variable name \u0027resourceInvariantUuid\u0027.",
+      "parentUuid": "61101834_1d870bc1",
+      "revId": "1cd6b46d2132ddb63b3572a4bd47ef3b07eeb42d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
