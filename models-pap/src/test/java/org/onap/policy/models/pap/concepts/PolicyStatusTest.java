@@ -19,7 +19,6 @@
 package org.onap.policy.models.pap.concepts;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
 
 import org.junit.Test;
 import org.onap.policy.common.utils.coder.CoderException;
@@ -39,8 +38,13 @@ public class PolicyStatusTest {
 
         // test constructor with arguments
         PolicyStatus status = new PolicyStatus(type, policy);
-        assertSame(type, status.getPolicyType());
-        assertSame(policy, status.getPolicy());
+        assertEquals("my-type", status.getPolicyTypeId());
+        assertEquals("3.2.1", status.getPolicyTypeVersion());
+        assertEquals("my-name", status.getPolicyId());
+        assertEquals("1.2.3", status.getPolicyVersion());
+
+        assertEquals(type, status.getPolicyType());
+        assertEquals(policy, status.getPolicy());
 
         assertEquals(0, status.getSuccessCount());
         assertEquals(0, status.getFailureCount());
