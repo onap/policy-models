@@ -91,7 +91,7 @@ public interface ControlLoopPolicyBuilder {
      * @return builder object
      * @throws BuilderException builder exception
      */
-    public ControlLoopPolicyBuilder setPNF(Pnf pnf) throws BuilderException;
+    public ControlLoopPolicyBuilder setPnf(Pnf pnf) throws BuilderException;
 
     /**
      * Remove PNF.
@@ -99,7 +99,7 @@ public interface ControlLoopPolicyBuilder {
      * @return the object
      * @throws BuilderException builder exception
      */
-    public ControlLoopPolicyBuilder removePNF() throws BuilderException;
+    public ControlLoopPolicyBuilder removePnf() throws BuilderException;
 
     /**
      * Set the abatement.

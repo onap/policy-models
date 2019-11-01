@@ -37,8 +37,6 @@ import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.controlloop.policy.FinalResult;
 
 public class ControlLoopCompilerTest {
-
-    private static final String POLICY_RECIPE_IS_INVALID = "Policy recipe is invalid";
     private static final String RESTART_UNKNOWN_POLICY =
                     "Operation Policy unique-policy-id-1-restart is connected to unknown policy unknown-policy";
     @Rule

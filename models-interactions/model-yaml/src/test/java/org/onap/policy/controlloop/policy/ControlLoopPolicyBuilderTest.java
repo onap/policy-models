@@ -244,7 +244,7 @@ public class ControlLoopPolicyBuilderTest {
                 ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400, pnf);
         assertEquals(pnf, builder.getControlLoop().getPnf());
 
-        builder.removePNF();
+        builder.removePnf();
         assertNull(builder.getControlLoop().getPnf());
     }
 
@@ -258,10 +258,10 @@ public class ControlLoopPolicyBuilderTest {
 
         Pnf pnf = new Pnf();
         pnf.setPnfType(PnfType.ENODEB);
-        builder.setPNF(pnf);
+        builder.setPnf(pnf);
         assertEquals(pnf, builder.getControlLoop().getPnf());
 
-        builder.removePNF();
+        builder.removePnf();
         assertNull(builder.getControlLoop().getPnf());
     }
 
@@ -271,7 +271,7 @@ public class ControlLoopPolicyBuilderTest {
                 ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
         expectedException.expect(BuilderException.class);
         expectedException.expectMessage("PNF must not be null");
-        builder.setPNF(null);
+        builder.setPnf(null);
     }
 
     @Test
@@ -280,7 +280,7 @@ public class ControlLoopPolicyBuilderTest {
                 ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
         expectedException.expect(BuilderException.class);
         expectedException.expectMessage("Invalid PNF - need either pnfName or pnfType");
-        builder.setPNF(new Pnf());
+        builder.setPnf(new Pnf());
     }
 
     @Test
@@ -862,7 +862,7 @@ public class ControlLoopPolicyBuilderTest {
             // Set pnf
             //
             if (policyTobuild.getControlLoop().getPnf() != null) {
-                builder = builder.setPNF(policyTobuild.getControlLoop().getPnf());
+                builder = builder.setPnf(policyTobuild.getControlLoop().getPnf());
             }
             //
             // Add the policies and be sure to set the trigger policy

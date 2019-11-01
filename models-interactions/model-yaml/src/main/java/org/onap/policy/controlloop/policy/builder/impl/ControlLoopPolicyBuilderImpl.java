@@ -85,7 +85,7 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
 
     public ControlLoopPolicyBuilderImpl(String controlLoopName, Integer timeout, Pnf pnf) throws BuilderException {
         this(controlLoopName, timeout);
-        this.setPNF(pnf);
+        this.setPnf(pnf);
     }
 
     /**
@@ -105,7 +105,7 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
     }
 
     @Override
-    public ControlLoopPolicyBuilder removePNF() throws BuilderException {
+    public ControlLoopPolicyBuilder removePnf() throws BuilderException {
         controlLoopPolicy.getControlLoop().setPnf(null);
         return this;
     }
@@ -172,7 +172,7 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
     }
 
     @Override
-    public ControlLoopPolicyBuilder setPNF(Pnf pnf) throws BuilderException {
+    public ControlLoopPolicyBuilder setPnf(Pnf pnf) throws BuilderException {
         if (pnf == null) {
             throw new BuilderException("PNF must not be null");
         }
