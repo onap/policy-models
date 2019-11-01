@@ -1,0 +1,95 @@
+tosca_definitions_version: tosca_simple_yaml_1_0_0
+           
+policy_types:
+    onap.policies.Naming:
+        derived_from: tosca.policies.Root
+        version: 1.0.0
+        description: Virtual policy node for naming
+        properties:        
+            policy-instance-name:
+                type: string
+            naming-models:
+                type: list
+                entry_schema:
+                    type: policy.data.naming-model-entity 
+
+data_types:
+    # custom data type
+    policy.data.naming-model-entity:
+        derived_from: tosca.nodes.Root
+        properties:
+            nfRole: 
+                type: string
+                required: false
+                metadata:
+                    matchable: true
+            naming-type:
+                type: string
+                required: true
+                metadata:
+                    matchable: true
+            naming-recipe:
+                type: String
+                required: true
+            name-operation:
+                type: string
+                required: false
+            naming-properties:
+                type: list
+                required: true
+                entry_schema:
+                    type: policy.data.naming-property
+                
+    policy.data.naming-property:
+        derived_from: tosca.nodes.Root
+        properties:
+            property-name:
+                type: string
+                required: true
+                metadata:
+                    matchable: true
+            property-value:
+                type: string
+                required: false
+            property-operation:
+                type: string
+                required: false
+            source-system:
+                type: string
+                required: false
+            source-endpoint:
+                type: string
+                required: false
+            increment-sequence:
+                type: policy.data.increment-sequence
+                required: false
+        
+    policy.data.increment-sequence:
+        derived_from: tosca.nodes.Root
+        properties:
+            scope:
+                type: list
+                required: true
+                entry_schema:
+                    type: string
+                    constraints:
+                       - valid_values: ["CLOUD_REGION_ID","LOCATION_CLLI","VNF","VM","VFMODULE","PRECEEDING","TRAILING","ENTIRETY"]
+            sequence-type:
+                type: string
+                require: true
+                entry_schema:
+                    type: string
+                    constraints:
+                       - valid_values: ["numeric", "alpha-numeric"]
+            start-value: 
+                type: string
+                required: true
+            max:
+                type: string
+                required: false
+            increment:
+                type: string
+                required: true
+            length: 
+                type: integer 
+                required: true
