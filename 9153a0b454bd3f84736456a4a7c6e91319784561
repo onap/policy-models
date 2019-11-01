@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0ef80cc2_7a762484",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/AaiManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-11-01T16:57:02Z",
+      "side": 1,
+      "message": "Sure will fix this",
+      "parentUuid": "ee82ca8c_0eaf4c9a",
+      "revId": "9153a0b454bd3f84736456a4a7c6e91319784561",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9166710b_43cdaa7a",
         "filename": "models-interactions/model-impl/events/src/main/java/org/onap/policy/controlloop/ControlLoopEvent.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2019-10-30T13:15:32Z",
       "side": 1,
       "message": "don\u0027t really need these annotations, since the encoded name matches the field name",
+      "revId": "9153a0b454bd3f84736456a4a7c6e91319784561",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99f8936b_11900656",
+        "filename": "models-interactions/model-impl/events/src/main/java/org/onap/policy/controlloop/ControlLoopEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-11-01T16:57:02Z",
+      "side": 1,
+      "message": "Okie. I will update all the properties in the class for sake of consistency?",
+      "parentUuid": "9166710b_43cdaa7a",
       "revId": "9153a0b454bd3f84736456a4a7c6e91319784561",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
