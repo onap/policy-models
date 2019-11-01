@@ -29,10 +29,16 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifi
 public class PolicyStatus {
 
     @SerializedName("policy-type")
-    private ToscaPolicyTypeIdentifier policyType;
+    private String policyTypeId;
+
+    @SerializedName("policy-type-version")
+    private String policyTypeVersion;
 
     @SerializedName("policy-id")
-    private ToscaPolicyIdentifier policy;
+    private String policyId;
+
+    @SerializedName("policy-version")
+    private String policyVersion;
 
     /**
      * Number of PDPs that have successfully added/deleted the policy.
@@ -53,8 +59,25 @@ public class PolicyStatus {
     private int incompleteCount = 0;
 
 
+    /**
+     * Constructs the object.
+     *
+     * @param policyType policy type, from which the name and version are to be extracted
+     * @param policy policy identifier, from which the name and version are to be
+     *        extracted
+     */
     public PolicyStatus(ToscaPolicyTypeIdentifier policyType, ToscaPolicyIdentifier policy) {
-        this.policyType = policyType;
-        this.policy = policy;
+        this.policyTypeId = policyType.getName();
+        this.policyTypeVersion = policyType.getVersion();
+        this.policyId = policy.getName();
+        this.policyVersion = policy.getVersion();
+    }
+
+    public ToscaPolicyTypeIdentifier getPolicyType() {
+        return new ToscaPolicyTypeIdentifier(policyTypeId, policyTypeVersion);
+    }
+
+    public ToscaPolicyIdentifier getPolicy() {
+        return new ToscaPolicyIdentifier(policyId, policyVersion);
     }
 }

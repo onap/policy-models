@@ -31,13 +31,13 @@ public class PolicyNotification {
     /**
      * Status of policies that are being added to PDPs.
      */
-    @SerializedName("added-policies")
+    @SerializedName("deployed-policies")
     private List<PolicyStatus> added = new ArrayList<>();
 
     /**
      * Status of policies that are being deleted from PDPs.
      */
-    @SerializedName("deleted-policies")
+    @SerializedName("undeployed-policies")
     private List<PolicyStatus> deleted = new ArrayList<>();
 
 
