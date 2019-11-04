@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c927fe69_bb75b8d3",
+        "filename": "models-interactions/model-impl/aai/src/test/java/org/onap/policy/aai/AaiManagerTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-04T12:40:23Z",
+      "side": 1,
+      "message": "ok, but not needed, given the following assert",
+      "revId": "60bac02c22b9746c947bc2d81f3dff5a40123e89",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28e60133_ee6639df",
+        "filename": "models-interactions/model-impl/aai/src/test/java/org/onap/policy/aai/AaiManagerTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-04T12:40:23Z",
+      "side": 1,
+      "message": "swap arguments - \"expected\" value goes on the left",
+      "revId": "60bac02c22b9746c947bc2d81f3dff5a40123e89",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
