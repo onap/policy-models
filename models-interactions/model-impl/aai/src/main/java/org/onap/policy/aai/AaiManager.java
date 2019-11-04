@@ -23,15 +23,21 @@
 package org.onap.policy.aai;
 
 import com.google.gson.JsonSyntaxException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.onap.policy.aai.util.Serialization;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
+import org.onap.policy.common.utils.coder.CoderException;
+import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.rest.RestManager;
 import org.onap.policy.rest.RestManager.Pair;
 import org.slf4j.Logger;
@@ -47,16 +53,19 @@ public final class AaiManager {
 
     private static final String APPLICATION_JSON = "application/json";
 
+    private static final StandardCoder CODER = new StandardCoder();
+
     /** The rest manager. */
     // The REST manager used for processing REST calls for this AAI manager
     private final RestManager restManager;
 
-    /** custom query URLs. */
+    /** custom query and other AAI resource URLs. */
     private static final String CQ_URL = "/aai/v16/query?format=resource";
     private static final String TENANT_URL =
             "/aai/v16/search/nodes-query?search-node-type=vserver&filter=vserver-name:EQUALS:";
     private static final String PREFIX = "/aai/v16";
-
+    private static final String PNF_URL = PREFIX + "/network/pnfs/pnf/";
+    private static final String AAI_DEPTH_SUFFIX = "?depth=0";
 
     /**
      * Constructor, create the AAI manager with the specified REST manager.
@@ -96,7 +105,6 @@ public final class AaiManager {
         }
     }
 
-
     /**
      * This method is used to get the information for custom query.
      *
@@ -115,8 +123,6 @@ public final class AaiManager {
         String getResponse = getStringQuery(urlGet, username, password, requestId, vserver);
         return createCustomQueryPayload(getResponse);
     }
-
-
 
     /**
      * Calls Aai and returns a custom query response for a vserver.
@@ -160,8 +166,6 @@ public final class AaiManager {
         }
         return null;
     }
-
-
 
     /**
      * Returns the string response of a get query.
@@ -212,7 +216,6 @@ public final class AaiManager {
 
         return null;
     }
-
 
     /**
      * Post a query to A&AI.
@@ -303,12 +306,12 @@ public final class AaiManager {
      * Perform a GET query for a particular entity towards A&AI.
      *
      * @param <T> the generic type for the response
-     * @param urlGet the A&AI URL
+     * @param url the A&AI URL
      * @param username the user name for authentication
      * @param password the password for authentication
      * @param requestId the UUID of the request
      * @param key the name of the VNF
-     * @param classOfT the class of the response to return
+     * @param classOfResponse the class of the response to return
      * @return the response for the virtual server from A&AI
      */
     private <T> T getQuery(final String url, final String username, final String password, final UUID requestId,
@@ -367,7 +370,6 @@ public final class AaiManager {
         return headers;
     }
 
-
     /**
      * This method uses Google's GSON to create a response object from a JSON string.
      *
@@ -386,6 +388,41 @@ public final class AaiManager {
             return response;
         } catch (JsonSyntaxException e) {
             logger.error("postQuery threw: ", e);
+            return null;
+        }
+    }
+
+    /**
+     * Perform a GET request for a particular PNF by PNF ID towards A&AI.
+     *
+     * @param url the A&AI URL
+     * @param username the user name for authentication
+     * @param password the password for authentication
+     * @param requestId the UUID of the request
+     * @param pnfName the AAI unique identifier for PNF object
+     * @return HashMap of PNF properties
+     */
+    public Map<String, String> getPnf(String url, String username, String password, UUID requestId, String pnfName) {
+        String urlGet;
+        try {
+            urlGet = url + PNF_URL;
+            pnfName = URLEncoder.encode(pnfName, StandardCharsets.UTF_8.toString()) + AAI_DEPTH_SUFFIX;
+        } catch (UnsupportedEncodingException e) {
+            logger.error("Failed to encode the pnfName: {} using UTF-8 encoding. {}", pnfName, e);
+            return null;
+        }
+        String responseGet = getStringQuery(urlGet, username, password, requestId, pnfName);
+        if (responseGet == null) {
+            logger.error("Null response from AAI for the url: {}.", urlGet);
+            return null;
+        }
+        try {
+            Map<String, String> pnfParams = CODER.decode(responseGet, HashMap.class);
+            // Map to AAI node.attribute notation
+            return pnfParams.entrySet().stream()
+                           .collect(Collectors.toMap(e -> "pnf." + e.getKey(), Map.Entry::getValue));
+        } catch (CoderException e) {
+            logger.error("Failed to fetch PNF from AAI");
             return null;
         }
     }
