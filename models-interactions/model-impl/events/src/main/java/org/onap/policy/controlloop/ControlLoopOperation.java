@@ -23,7 +23,11 @@ package org.onap.policy.controlloop;
 
 import java.io.Serializable;
 import java.time.Instant;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class ControlLoopOperation implements Serializable {
 
     private static final long serialVersionUID = 8662706581293017099L;
@@ -38,7 +42,6 @@ public class ControlLoopOperation implements Serializable {
     private String message;
 
     public ControlLoopOperation() {
-
     }
 
     /**
@@ -68,70 +71,6 @@ public class ControlLoopOperation implements Serializable {
     public String toHistory() {
         return "actor=" + actor + ",operation=" + operation + ",target=" + target + ",start=" + start + ",end=" + end
                 + ",subRequestId=" + subRequestId + ",outcome=" + outcome + ",message=" + message;
-    }
-
-    public String getActor() {
-        return actor;
-    }
-
-    public void setActor(String actor) {
-        this.actor = actor;
-    }
-
-    public String getOperation() {
-        return operation;
-    }
-
-    public void setOperation(String operation) {
-        this.operation = operation;
-    }
-
-    public String getTarget() {
-        return target;
-    }
-
-    public void setTarget(String target) {
-        this.target = target;
-    }
-
-    public Instant getStart() {
-        return start;
-    }
-
-    public void setStart(Instant start) {
-        this.start = start;
-    }
-
-    public Instant getEnd() {
-        return end;
-    }
-
-    public void setEnd(Instant end) {
-        this.end = end;
-    }
-
-    public String getSubRequestId() {
-        return subRequestId;
-    }
-
-    public void setSubRequestId(String subRequestId) {
-        this.subRequestId = subRequestId;
-    }
-
-    public String getOutcome() {
-        return outcome;
-    }
-
-    public void setOutcome(String outcome) {
-        this.outcome = outcome;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
     }
 
     @Override
@@ -218,13 +157,8 @@ public class ControlLoopOperation implements Serializable {
             return false;
         }
         if (target == null) {
-            if (other.target != null) {
-                return false;
-            }
-        } else if (!target.equals(other.target)) {
-            return false;
-        }
-        return true;
+            return other.target == null;
+        } else
+            return target.equals(other.target);
     }
-
 }
