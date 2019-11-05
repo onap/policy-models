@@ -29,7 +29,11 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class PciCommonHeader implements Serializable {
 
     private static final long serialVersionUID = 5435363539127062114L;
@@ -66,126 +70,13 @@ public class PciCommonHeader implements Serializable {
         this.timeStamp = commonHeader.timeStamp;
         this.requestId = commonHeader.requestId;
         this.subRequestId = commonHeader.subRequestId;
+        this.apiVer = commonHeader.getApiVer();
         if (commonHeader.requestTrack != null) {
             this.requestTrack.putAll(commonHeader.requestTrack);
         }
         if (commonHeader.flags != null) {
             this.flags.putAll(commonHeader.flags);
         }
-    }
-
-    /**
-     * Get the timestamp.
-     *
-     * @return the timeStamp
-     */
-    public Instant getTimeStamp() {
-        return timeStamp;
-    }
-
-    /**
-     * Set the timestamp.
-     *
-     * @param timeStamp
-     *            the timeStamp to set
-     */
-    public void setTimeStamp(Instant timeStamp) {
-        this.timeStamp = timeStamp;
-    }
-
-    /**
-     * Get the API version.
-     *
-     * @return the apiVer
-     */
-    public String getApiVer() {
-        return apiVer;
-    }
-
-    /**
-     * Set the API version.
-     *
-     * @param apiVer
-     *            the apiVer to set
-     */
-    public void setApiVer(String apiVer) {
-        this.apiVer = apiVer;
-    }
-
-    /**
-     * Get the request Id.
-     *
-     * @return the requestId
-     */
-    public UUID getRequestId() {
-        return requestId;
-    }
-
-    /**
-     * Set the request Id.
-     *
-     * @param requestId
-     *            the requestId to set
-     */
-    public void setRequestId(UUID requestId) {
-        this.requestId = requestId;
-    }
-
-    /**
-     * Get the sub request Id.
-     *
-     * @return the subRequestId
-     */
-    public String getSubRequestId() {
-        return subRequestId;
-    }
-
-    /**
-     * Set the sub request Id.
-     *
-     * @param subRequestId
-     *            the subRequestId to set
-     */
-    public void setSubRequestId(String subRequestId) {
-        this.subRequestId = subRequestId;
-    }
-
-    /**
-     * Set the request track.
-     *
-     * @param requestTrack
-     *            the requestTrack to set
-     */
-    public void setRequestTrack(Map<String, String> requestTrack) {
-        this.requestTrack = requestTrack;
-    }
-
-    /**
-     * Get the request track.
-     *
-     * @return the requestTrack
-     */
-    public Map<String, String> getRequestTrack() {
-        return requestTrack;
-    }
-
-    /**
-     * Get the flags.
-     *
-     * @return the flags
-     */
-    public Map<String, String> getFlags() {
-        return flags;
-    }
-
-    /**
-     * Set the flags.
-     *
-     * @param flags
-     *            the flags to set
-     */
-    public void setFlags(Map<String, String> flags) {
-        this.flags = flags;
     }
 
     @Override
@@ -256,13 +147,9 @@ public class PciCommonHeader implements Serializable {
             return false;
         }
         if (timeStamp == null) {
-            if (other.timeStamp != null) {
-                return false;
-            }
-        } else if (!timeStamp.equals(other.timeStamp)) {
-            return false;
+            return other.timeStamp == null;
+        } else {
+            return timeStamp.equals(other.timeStamp);
         }
-        return true;
     }
-
 }

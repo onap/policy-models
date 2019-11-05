@@ -23,12 +23,15 @@ package org.onap.policy.vfc;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class VfcHealAdditionalParams implements Serializable {
 
     private static final long serialVersionUID = 2656694137285096191L;
 
-    @SerializedName("action")
     private String action;
 
     @SerializedName("actionvminfo")
@@ -36,21 +39,5 @@ public class VfcHealAdditionalParams implements Serializable {
 
     public VfcHealAdditionalParams() {
         // Default constructor
-    }
-
-    public String getAction() {
-        return action;
-    }
-
-    public void setAction(String action) {
-        this.action = action;
-    }
-
-    public VfcHealActionVmInfo getActionInfo() {
-        return actionInfo;
-    }
-
-    public void setActionInfo(VfcHealActionVmInfo actionInfo) {
-        this.actionInfo = actionInfo;
     }
 }

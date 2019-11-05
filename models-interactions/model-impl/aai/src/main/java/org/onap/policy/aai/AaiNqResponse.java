@@ -26,7 +26,11 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
 public class AaiNqResponse implements Serializable {
     private static final long serialVersionUID = 8411407444051746101L;
 
@@ -35,20 +39,4 @@ public class AaiNqResponse implements Serializable {
 
     @SerializedName("requestError")
     private AaiNqRequestError requestError;
-
-    public List<AaiNqInventoryResponseItem> getInventoryResponseItems() {
-        return inventoryResponseItems;
-    }
-
-    public AaiNqRequestError getRequestError() {
-        return requestError;
-    }
-
-    public void setRequestError(AaiNqRequestError requestError) {
-        this.requestError = requestError;
-    }
-
-    public void setInventoryResponseItems(List<AaiNqInventoryResponseItem> inventoryResponseItems) {
-        this.inventoryResponseItems = inventoryResponseItems;
-    }
 }

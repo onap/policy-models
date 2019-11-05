@@ -24,7 +24,11 @@ package org.onap.policy.sdnr;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class PciResponse implements Serializable {
 
     private static final long serialVersionUID = 8375708697287669750L;
@@ -51,59 +55,6 @@ public class PciResponse implements Serializable {
      */
     public PciResponse(PciRequest request) {
         this.commonHeader = new PciCommonHeader(request.getCommonHeader());
-
-    }
-
-    /**
-     * Get the common header.
-     *
-     * @return the commonHeader
-     */
-    public PciCommonHeader getCommonHeader() {
-        return commonHeader;
-    }
-
-    /**
-     * Set the common header.
-     *
-     * @param commonHeader
-     *            the commonHeader to set
-     */
-    public void setCommonHeader(PciCommonHeader commonHeader) {
-        this.commonHeader = commonHeader;
-    }
-
-    /**
-     * Get the status.
-     *
-     * @return the status
-     */
-    public Status getStatus() {
-        return status;
-    }
-
-    /**
-     * Set the status.
-     *
-     * @param status
-     *            the status to set
-     */
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    /**
-     * Get the payload.
-     *
-     * @return the payload
-     */
-
-    public String getPayload() {
-        return payload;
-    }
-
-    public void setPayload(String payload) {
-        this.payload = payload;
     }
 
     @Override
@@ -149,12 +100,9 @@ public class PciResponse implements Serializable {
             return false;
         }
         if (status == null) {
-            if (other.status != null) {
-                return false;
-            }
-        } else if (!status.equals(other.status)) {
-            return false;
+            return other.status == null;
+        } else {
+            return status.equals(other.status);
         }
-        return true;
     }
 }

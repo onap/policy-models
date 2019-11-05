@@ -25,18 +25,14 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.UUID;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
 public class AaiNqNamedQuery implements Serializable {
     private static final long serialVersionUID = -3277980060302645333L;
 
     @SerializedName("named-query-uuid")
     private UUID namedQueryUuid;
-
-    public UUID getNamedQueryUuid() {
-        return namedQueryUuid;
-    }
-
-    public void setNamedQueryUuid(UUID namedQueryUuid) {
-        this.namedQueryUuid = namedQueryUuid;
-    }
 }

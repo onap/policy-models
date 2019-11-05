@@ -21,38 +21,20 @@
 
 package org.onap.policy.so;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class SoCloudConfiguration implements Serializable {
 
     private static final long serialVersionUID = -3283942659786236032L;
 
-    @SerializedName("lcpCloudRegionId")
     private String lcpCloudRegionId;
-
-    @SerializedName("tenantId")
     private String tenantId;
 
     public SoCloudConfiguration() {
         //required by author
     }
-
-    public String getLcpCloudRegionId() {
-        return lcpCloudRegionId;
-    }
-
-    public String getTenantId() {
-        return tenantId;
-    }
-
-    public void setLcpCloudRegionId(String lcpCloudRegionId) {
-        this.lcpCloudRegionId = lcpCloudRegionId;
-    }
-
-    public void setTenantId(String tenantId) {
-        this.tenantId = tenantId;
-    }
-
 }

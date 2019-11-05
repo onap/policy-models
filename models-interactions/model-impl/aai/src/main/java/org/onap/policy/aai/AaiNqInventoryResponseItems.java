@@ -26,18 +26,14 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
 public class AaiNqInventoryResponseItems implements Serializable {
     private static final long serialVersionUID = 7602807659381179004L;
 
     @SerializedName("inventory-response-item")
     private List<AaiNqInventoryResponseItem> inventoryResponseItems = new LinkedList<>();
-
-    public List<AaiNqInventoryResponseItem> getInventoryResponseItems() {
-        return inventoryResponseItems;
-    }
-
-    public void setInventoryResponseItems(List<AaiNqInventoryResponseItem> inventoryResponseItems) {
-        this.inventoryResponseItems = inventoryResponseItems;
-    }
 }

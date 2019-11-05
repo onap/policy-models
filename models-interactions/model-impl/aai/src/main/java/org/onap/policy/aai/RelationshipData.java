@@ -24,7 +24,11 @@ package org.onap.policy.aai;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
 public class RelationshipData implements Serializable {
     private static final long serialVersionUID = 550450041634939768L;
 
@@ -32,20 +36,4 @@ public class RelationshipData implements Serializable {
     private String relationshipKey;
     @SerializedName("relationship-value")
     private String relationshipValue;
-
-    public String getRelationshipKey() {
-        return relationshipKey;
-    }
-
-    public String getRelationshipValue() {
-        return relationshipValue;
-    }
-
-    public void setRelationshipKey(String relationshipKey) {
-        this.relationshipKey = relationshipKey;
-    }
-
-    public void setRelationshipValue(String relationshipValue) {
-        this.relationshipValue = relationshipValue;
-    }
 }

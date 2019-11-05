@@ -22,7 +22,13 @@
 package org.onap.policy.controlloop.params;
 
 import java.io.Serializable;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ControlLoopParams implements Serializable {
 
     private static final long serialVersionUID = 970755684770982776L;
@@ -32,10 +38,6 @@ public class ControlLoopParams implements Serializable {
     private String policyName;
     private String policyScope;
     private String policyVersion;
-
-    public ControlLoopParams() {
-        super();
-    }
 
     /**
      * Construct an instance from an existing instance.
@@ -49,45 +51,4 @@ public class ControlLoopParams implements Serializable {
         this.policyScope = params.policyScope;
         this.policyVersion = params.policyVersion;
     }
-
-    public String getClosedLoopControlName() {
-        return closedLoopControlName;
-    }
-
-    public void setClosedLoopControlName(String closedLoopControlName) {
-        this.closedLoopControlName = closedLoopControlName;
-    }
-
-    public String getControlLoopYaml() {
-        return controlLoopYaml;
-    }
-
-    public void setControlLoopYaml(String controlLoopYaml) {
-        this.controlLoopYaml = controlLoopYaml;
-    }
-
-    public String getPolicyName() {
-        return policyName;
-    }
-
-    public void setPolicyName(String policyName) {
-        this.policyName = policyName;
-    }
-
-    public String getPolicyScope() {
-        return policyScope;
-    }
-
-    public void setPolicyScope(String policyScope) {
-        this.policyScope = policyScope;
-    }
-
-    public String getPolicyVersion() {
-        return policyVersion;
-    }
-
-    public void setPolicyVersion(String policyVersion) {
-        this.policyVersion = policyVersion;
-    }
-
 }

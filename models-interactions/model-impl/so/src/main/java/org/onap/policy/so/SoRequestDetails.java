@@ -21,40 +21,28 @@
 
 package org.onap.policy.so;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class SoRequestDetails implements Serializable {
 
     private static final long serialVersionUID = -3283942659786236032L;
 
-    @SerializedName("modelInfo")
     private SoModelInfo modelInfo;
-
-    @SerializedName("cloudConfiguration")
     private SoCloudConfiguration cloudConfiguration;
-
-    @SerializedName("requestInfo")
     private SoRequestInfo requestInfo;
-
-    @SerializedName("subscriberInfo")
     private SoSubscriberInfo subscriberInfo;
-
-    @SerializedName("relatedInstanceList")
     private List<SoRelatedInstanceListElement> relatedInstanceList = new LinkedList<>();
-
-    @SerializedName("requestParameters")
     private SoRequestParameters requestParameters;
-
-    @SerializedName("configurationParameters")
     private List<Map<String, String>> configurationParameters = new LinkedList<>();
 
     public SoRequestDetails() {
-
     }
 
     /**
@@ -126,41 +114,10 @@ public class SoRequestDetails implements Serializable {
             return false;
         }
         if (subscriberInfo == null) {
-            if (other.subscriberInfo != null) {
-                return false;
-            }
-        } else if (!subscriberInfo.equals(other.subscriberInfo)) {
-            return false;
+            return other.subscriberInfo == null;
+        } else {
+            return subscriberInfo.equals(other.subscriberInfo);
         }
-        return true;
-    }
-
-    public SoCloudConfiguration getCloudConfiguration() {
-        return cloudConfiguration;
-    }
-
-    public SoModelInfo getModelInfo() {
-        return modelInfo;
-    }
-
-    public List<SoRelatedInstanceListElement> getRelatedInstanceList() {
-        return relatedInstanceList;
-    }
-
-    public SoRequestInfo getRequestInfo() {
-        return requestInfo;
-    }
-
-    public SoRequestParameters getRequestParameters() {
-        return requestParameters;
-    }
-
-    public List<Map<String, String>> getConfigurationParameters() {
-        return configurationParameters;
-    }
-
-    public SoSubscriberInfo getSubscriberInfo() {
-        return subscriberInfo;
     }
 
     @Override
@@ -175,34 +132,6 @@ public class SoRequestDetails implements Serializable {
         result = prime * result + ((requestParameters == null) ? 0 : requestParameters.hashCode());
         result = prime * result + ((subscriberInfo == null) ? 0 : subscriberInfo.hashCode());
         return result;
-    }
-
-    public void setCloudConfiguration(SoCloudConfiguration cloudConfiguration) {
-        this.cloudConfiguration = cloudConfiguration;
-    }
-
-    public void setModelInfo(SoModelInfo modelInfo) {
-        this.modelInfo = modelInfo;
-    }
-
-    public void setRequestInfo(SoRequestInfo requestInfo) {
-        this.requestInfo = requestInfo;
-    }
-
-    public void setRequestParameters(SoRequestParameters requestParameters) {
-        this.requestParameters = requestParameters;
-    }
-
-    public void setConfigurationParameters(List<Map<String, String>> configurationParameters) {
-        this.configurationParameters = configurationParameters;
-    }
-
-    public void setSubscriberInfo(SoSubscriberInfo subscriberInfo) {
-        this.subscriberInfo = subscriberInfo;
-    }
-
-    public void setRelatedInstanceList(List<SoRelatedInstanceListElement> relatedInstanceList) {
-        this.relatedInstanceList = relatedInstanceList;
     }
 
     @Override

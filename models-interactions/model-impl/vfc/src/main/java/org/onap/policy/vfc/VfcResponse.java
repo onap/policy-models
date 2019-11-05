@@ -20,47 +20,22 @@
 
 package org.onap.policy.vfc;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class VfcResponse implements Serializable {
 
     private static final long serialVersionUID = 9151443891238218455L;
 
-    @SerializedName("jobId")
     private String jobId;
-
-    @SerializedName("responseDescriptor")
     private VfcResponseDescriptor responseDescriptor;
 
     private transient String requestId;
 
     public VfcResponse() {
         // Default constructor
-    }
-
-    public String getJobId() {
-        return jobId;
-    }
-
-    public void setJobId(String jobId) {
-        this.jobId = jobId;
-    }
-
-    public VfcResponseDescriptor getResponseDescriptor() {
-        return responseDescriptor;
-    }
-
-    public void setResponseDescriptor(VfcResponseDescriptor responseDescriptor) {
-        this.responseDescriptor = responseDescriptor;
-    }
-
-    public String getRequestId() {
-        return requestId;
-    }
-
-    public void setRequestId(String requestId) {
-        this.requestId = requestId;
     }
 }

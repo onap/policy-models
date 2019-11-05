@@ -25,41 +25,27 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.UUID;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
 public class ControlLoopResponse implements Serializable {
 
     private static final long serialVersionUID = 2391252138583119195L;
 
-    @SerializedName("closedLoopControlName")
-    private String closedLoopControlName;
-
-    @SerializedName("version")
-    private String version = "1.0.0";
-
     @SerializedName("requestID")
     private UUID requestId;
-
-    @SerializedName("target")
+    private String closedLoopControlName;
+    private String version = "1.0.0";
     private String target;
-
-    @SerializedName("from")
     private String from;
-
-    @SerializedName("policyName")
     private String policyName;
-
-    @SerializedName("policyVersion")
     private String policyVersion;
-
-    @SerializedName("payload")
     private String payload;
 
-    public ControlLoopResponse() {
-
-    }
-
     /**
-     * Construct an instace from an existing instance.
+     * Construct an instance from an existing instance.
      *
      * @param response
      *            the existing instance
@@ -75,69 +61,6 @@ public class ControlLoopResponse implements Serializable {
         this.policyName = response.policyName;
         this.policyVersion = response.policyVersion;
         this.payload = response.payload;
-    }
-
-    public String getClosedLoopControlName() {
-        return closedLoopControlName;
-    }
-
-    public void setClosedLoopControlName(String closedLoopControlName) {
-        this.closedLoopControlName = closedLoopControlName;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    public UUID getRequestId() {
-        return requestId;
-    }
-
-    public void setRequestId(UUID requestId) {
-        this.requestId = requestId;
-    }
-
-    public String getTarget() {
-        return target;
-    }
-
-    public void setTarget(String target) {
-        this.target = target;
-    }
-
-    public String getFrom() {
-        return from;
-    }
-
-    public void setFrom(String from) {
-        this.from = from;
-    }
-
-    public String getPolicyName() {
-        return policyName;
-    }
-
-    public void setPolicyName(String policyName) {
-        this.policyName = policyName;
-    }
-
-    public String getPolicyVersion() {
-        return policyVersion;
-    }
-
-    public void setPolicyVersion(String policyVersion) {
-        this.policyVersion = policyVersion;
-    }
-
-    public String getPayload() {
-        return payload;
-    }
-
-    public void setPayload(String payload) {
-        this.payload = payload;
+        this.version = response.version;
     }
 }

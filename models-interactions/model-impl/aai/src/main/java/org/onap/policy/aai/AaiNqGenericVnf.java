@@ -23,7 +23,11 @@ package org.onap.policy.aai;
 
 import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
 public class AaiNqGenericVnf implements Serializable {
 
     private static final long serialVersionUID = 834322706248060560L;
@@ -81,148 +85,4 @@ public class AaiNqGenericVnf implements Serializable {
 
     @SerializedName("model-customization-id")
     private String modelCustomizationId = null;
-
-    public String getVnfId() {
-        return vnfId;
-    }
-
-    public String getVnfName() {
-        return vnfName;
-    }
-
-    public String getVnfName2() {
-        return vnfName2;
-    }
-
-    public String getVnfType() {
-        return vnfType;
-    }
-
-    public String getServiceId() {
-        return serviceId;
-    }
-
-    public String getProvStatus() {
-        return provStatus;
-    }
-
-    public String getOperationalState() {
-        return operationalState;
-    }
-
-    public String getIpv4OamAddress() {
-        return ipv4OamAddress;
-    }
-
-    public String getIpv4Loopback0Address() {
-        return ipv4Loopback0Address;
-    }
-
-    public Boolean getInMaint() {
-        return inMaint;
-    }
-
-    public Boolean getIsClosedLoopDisabled() {
-        return isClosedLoopDisabled;
-    }
-
-    public String getResourceVersion() {
-        return resourceVersion;
-    }
-
-    public Boolean getEncrypedAccessFlag() {
-        return encrypedAccessFlag;
-    }
-
-    public String getPersonaModelId() {
-        return personaModelId;
-    }
-
-    public String getPersonaModelVersion() {
-        return personaModelVersion;
-    }
-
-    public String getModelInvariantId() {
-        return modelInvariantId;
-    }
-
-    public String getModelVersionId() {
-        return modelVersionId;
-    }
-
-    public String getModelCustomizationId() {
-        return modelCustomizationId;
-    }
-
-    public void setVnfId(String vnfId) {
-        this.vnfId = vnfId;
-    }
-
-    public void setVnfName(String vnfName) {
-        this.vnfName = vnfName;
-    }
-
-    public void setVnfName2(String vnfName2) {
-        this.vnfName2 = vnfName2;
-    }
-
-    public void setVnfType(String vnfType) {
-        this.vnfType = vnfType;
-    }
-
-    public void setServiceId(String serviceId) {
-        this.serviceId = serviceId;
-    }
-
-    public void setProvStatus(String provStatus) {
-        this.provStatus = provStatus;
-    }
-
-    public void setOperationalState(String operationalState) {
-        this.operationalState = operationalState;
-    }
-
-    public void setIpv4OamAddress(String ipv4OamAddress) {
-        this.ipv4OamAddress = ipv4OamAddress;
-    }
-
-    public void setIpv4Loopback0Address(String ipv4Loopback0Address) {
-        this.ipv4Loopback0Address = ipv4Loopback0Address;
-    }
-
-    public void setInMaint(Boolean inMaint) {
-        this.inMaint = inMaint;
-    }
-
-    public void setIsClosedLoopDisabled(Boolean isClosedLoopDisabled) {
-        this.isClosedLoopDisabled = isClosedLoopDisabled;
-    }
-
-    public void setResourceVersion(String resourceVersion) {
-        this.resourceVersion = resourceVersion;
-    }
-
-    public void setEncrypedAccessFlag(Boolean encrypedAccessFlag) {
-        this.encrypedAccessFlag = encrypedAccessFlag;
-    }
-
-    public void setPersonaModelId(String personaModelId) {
-        this.personaModelId = personaModelId;
-    }
-
-    public void setPersonaModelVersion(String personaModelVersion) {
-        this.personaModelVersion = personaModelVersion;
-    }
-
-    public void setModelInvariantId(String modelInvariantId) {
-        this.modelInvariantId = modelInvariantId;
-    }
-
-    public void setModelVersionId(String modelVersionId) {
-        this.modelVersionId = modelVersionId;
-    }
-
-    public void setModelCustomizationId(String modelCustomizationId) {
-        this.modelCustomizationId = modelCustomizationId;
-    }
 }

@@ -24,7 +24,11 @@ package org.onap.policy.aai;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
 public class AaiNqServiceInstance implements Serializable {
     private static final long serialVersionUID = -8000944396593889586L;
 
@@ -51,68 +55,4 @@ public class AaiNqServiceInstance implements Serializable {
 
     @SerializedName("model-version-id")
     private String modelVersionId;
-
-    public String getServiceInstanceId() {
-        return serviceInstanceId;
-    }
-
-    public String getServiceInstanceName() {
-        return serviceInstanceName;
-    }
-
-    public String getPersonaModelId() {
-        return personaModelId;
-    }
-
-    public String getPersonaModelVersion() {
-        return personaModelVersion;
-    }
-
-    public String getServiceInstanceLocationId() {
-        return serviceInstanceLocationId;
-    }
-
-    public String getResourceVersion() {
-        return resourceVersion;
-    }
-
-    public String getModelInvariantId() {
-        return modelInvariantId;
-    }
-
-    public String getModelVersionId() {
-        return modelVersionId;
-    }
-
-    public void setServiceInstanceId(String serviceInstanceId) {
-        this.serviceInstanceId = serviceInstanceId;
-    }
-
-    public void setServiceInstanceName(String serviceInstanceName) {
-        this.serviceInstanceName = serviceInstanceName;
-    }
-
-    public void setPersonaModelId(String personaModelId) {
-        this.personaModelId = personaModelId;
-    }
-
-    public void setPersonaModelVersion(String personaModelVersion) {
-        this.personaModelVersion = personaModelVersion;
-    }
-
-    public void setServiceInstanceLocationId(String serviceInstanceLocationId) {
-        this.serviceInstanceLocationId = serviceInstanceLocationId;
-    }
-
-    public void setResourceVersion(String resourceVersion) {
-        this.resourceVersion = resourceVersion;
-    }
-
-    public void setModelInvariantId(String modelInvariantId) {
-        this.modelInvariantId = modelInvariantId;
-    }
-
-    public void setModelVersionId(String modelVersionId) {
-        this.modelVersionId = modelVersionId;
-    }
 }

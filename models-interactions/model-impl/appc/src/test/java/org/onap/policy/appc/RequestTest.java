@@ -75,54 +75,54 @@ public class RequestTest {
         copiedRequest.setPayload(request.getPayload());
         copiedRequest.setTargetId(request.getTargetId());
 
-        assertTrue(request.equals(request));
-        assertTrue(request.equals(copiedRequest));
-        assertFalse(request.equals(null));
-        assertFalse(request.equals("Hello"));
+        assertEquals(request, request);
+        assertEquals(request, copiedRequest);
+        assertNotEquals(null, request);
+        assertNotEquals("Hello", request);
 
         request.setCommonHeader(null);
-        assertFalse(request.equals(copiedRequest));
+        assertNotEquals(request, copiedRequest);
         copiedRequest.setCommonHeader(null);
-        assertTrue(request.equals(copiedRequest));
+        assertEquals(request, copiedRequest);
         request.setCommonHeader(commonHeader);
-        assertFalse(request.equals(copiedRequest));
+        assertNotEquals(request, copiedRequest);
         copiedRequest.setCommonHeader(commonHeader);
-        assertTrue(request.equals(copiedRequest));
+        assertEquals(request, copiedRequest);
 
         request.setAction(null);
-        assertFalse(request.equals(copiedRequest));
+        assertNotEquals(request, copiedRequest);
         copiedRequest.setAction(null);
-        assertTrue(request.equals(copiedRequest));
+        assertEquals(request, copiedRequest);
         request.setAction(GO_TO_OZ);
-        assertFalse(request.equals(copiedRequest));
+        assertNotEquals(request, copiedRequest);
         copiedRequest.setAction(GO_TO_OZ);
-        assertTrue(request.equals(copiedRequest));
+        assertEquals(request, copiedRequest);
 
         request.setObjectId(null);
-        assertFalse(request.equals(copiedRequest));
+        assertNotEquals(request, copiedRequest);
         copiedRequest.setObjectId(null);
-        assertTrue(request.equals(copiedRequest));
+        assertEquals(request, copiedRequest);
         request.setObjectId(WIZARD);
-        assertFalse(request.equals(copiedRequest));
+        assertNotEquals(request, copiedRequest);
         copiedRequest.setObjectId(WIZARD);
-        assertTrue(request.equals(copiedRequest));
+        assertEquals(request, copiedRequest);
 
         request.setTargetId(null);
-        assertFalse(request.equals(copiedRequest));
+        assertNotEquals(request, copiedRequest);
         copiedRequest.setTargetId(null);
-        assertTrue(request.equals(copiedRequest));
+        assertEquals(request, copiedRequest);
         request.setTargetId("Oz");
-        assertFalse(request.equals(copiedRequest));
+        assertNotEquals(request, copiedRequest);
         copiedRequest.setTargetId("Oz");
-        assertTrue(request.equals(copiedRequest));
+        assertEquals(request, copiedRequest);
 
-        request.setPayload(new HashMap<String, Object>());
-        assertFalse(request.equals(copiedRequest));
-        copiedRequest.setPayload(new HashMap<String, Object>());
-        assertTrue(request.equals(copiedRequest));
+        request.setPayload(new HashMap<>());
+        assertNotEquals(request, copiedRequest);
+        copiedRequest.setPayload(new HashMap<>());
+        assertEquals(request, copiedRequest);
         request.setPayload(payload);
-        assertFalse(request.equals(copiedRequest));
+        assertNotEquals(request, copiedRequest);
         copiedRequest.setPayload(payload);
-        assertTrue(request.equals(copiedRequest));
+        assertEquals(request, copiedRequest);
     }
 }

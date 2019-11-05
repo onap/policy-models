@@ -21,38 +21,20 @@
 
 package org.onap.policy.sdnr;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class PciResponseWrapper extends PciWrapper implements Serializable {
 
     private static final long serialVersionUID = 109837814781086802L;
 
-    @SerializedName(value = "body")
     private PciResponse body;
 
     public PciResponseWrapper() {
         super();
-    }
-
-    /**
-     * Get the body.
-     *
-     * @return the body
-     */
-    public PciResponse getBody() {
-        return body;
-    }
-
-    /**
-     * Set the body.
-     *
-     * @param body
-     *            the body to set
-     */
-    public void setBody(PciResponse body) {
-        this.body = body;
     }
 
     @Override
@@ -81,12 +63,9 @@ public class PciResponseWrapper extends PciWrapper implements Serializable {
         }
         PciResponseWrapper other = (PciResponseWrapper) obj;
         if (body == null) {
-            if (other.body != null) {
-                return false;
-            }
-        } else if (!body.equals(other.body)) {
-            return false;
+            return other.body == null;
+        } else {
+            return body.equals(other.body);
         }
-        return true;
     }
 }

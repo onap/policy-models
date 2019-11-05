@@ -26,7 +26,11 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class Request implements Serializable {
     private static final long serialVersionUID = -3912323643990646431L;
 
@@ -43,50 +47,10 @@ public class Request implements Serializable {
     private String objectId;
 
     @SerializedName("Payload")
-    private HashMap<String, Object> payload = new HashMap<>();
+    private Map<String, Object> payload = new HashMap<>();
 
     public Request() {
         // Initiate an empty Request instance
-    }
-
-    public CommonHeader getCommonHeader() {
-        return commonHeader;
-    }
-
-    public Map<String, Object> getPayload() {
-        return payload;
-    }
-
-    public String getAction() {
-        return action;
-    }
-
-    public void setAction(String action) {
-        this.action = action;
-    }
-
-    public String getTargetId() {
-        return targetId;
-    }
-
-    public void setTargetId(String targetId) {
-        this.targetId = targetId;
-    }
-
-    public String getObjectId() {
-        return objectId;
-    }
-
-    public void setObjectId(String objectId) {
-        this.objectId = objectId;
-    }
-
-    public void setCommonHeader(CommonHeader commonHeader) {
-        this.commonHeader = commonHeader;
-    }
-
-    public void setPayload(Map<String, Object> payload) {
-        this.payload = new HashMap<>(payload);
     }
 
     @Override

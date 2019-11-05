@@ -56,8 +56,7 @@ public class PnfInstanceTest {
         assertEquals(PnfType.ENODEB, pnfInstanceClone.getPnfType());
         assertEquals("pnf-serial-test", pnfInstanceClone.getPnfSerial());
 
-        assertEquals("PNFInstance [PNFName=pnf-name-test, PNFInstanceName=pnf-instance-name-test, PNFType=eNodeB, "
-                + "PNFSerial=pnf-serial-test]", pnfInstanceClone.toString());
+        assertNotNull(pnfInstanceClone.toString());
         assertNotEquals(0, pnfInstanceClone.hashCode());
         assertNotEquals(0, new Pnf().hashCode());
 
@@ -79,19 +78,19 @@ public class PnfInstanceTest {
         PnfInstance pnfInstanceOther5 = new PnfInstance(pnfInstance);
         pnfInstanceOther5.setPnfSerial("pnf-serial-test-diff");
 
-        assertTrue(pnfInstance.equals(pnfInstance));
-        assertFalse(pnfInstance.equals(null));
-        assertFalse(pnfInstance.equals("hello"));
-        assertTrue(pnfInstance.equals(pnfInstanceClone));
-        assertFalse(pnfInstance.equals(new Pnf()));
-        assertFalse(new Pnf().equals(pnfInstance));
-        assertFalse(new Pnf().equals(pnfInstanceOther0));
-        assertFalse(pnfInstanceOther0.equals(pnfInstance));
-        assertFalse(pnfInstanceOther1.equals(pnfInstance));
-        assertFalse(pnfInstanceOther2.equals(pnfInstance));
-        assertFalse(pnfInstanceOther3.equals(pnfInstance));
-        assertFalse(pnfInstanceOther4.equals(pnfInstance));
-        assertFalse(pnfInstanceOther5.equals(pnfInstance));
+        assertEquals(pnfInstance, pnfInstance);
+        assertNotEquals(null, pnfInstance);
+        assertNotEquals("hello", pnfInstance);
+        assertEquals(pnfInstance, pnfInstanceClone);
+        assertNotEquals(pnfInstance, new Pnf());
+        assertNotEquals(new Pnf(), pnfInstance);
+        assertNotEquals(new Pnf(), pnfInstanceOther0);
+        assertNotEquals(pnfInstanceOther0, pnfInstance);
+        assertNotEquals(pnfInstanceOther1, pnfInstance);
+        assertNotEquals(pnfInstanceOther2, pnfInstance);
+        assertNotEquals(pnfInstanceOther3, pnfInstance);
+        assertNotEquals(pnfInstanceOther4, pnfInstance);
+        assertNotEquals(pnfInstanceOther5, pnfInstance);
 
         logger.info(Serialization.gsonPretty.toJson(pnfInstance));
     }

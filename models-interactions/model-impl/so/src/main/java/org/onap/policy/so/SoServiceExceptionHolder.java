@@ -21,47 +21,23 @@
 
 package org.onap.policy.so;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class SoServiceExceptionHolder implements Serializable {
 
     private static final long serialVersionUID = -3283942659786236032L;
 
-    @SerializedName("messageId")
     private String messageId;
-
-    @SerializedName("text")
     private String text;
-
-    @SerializedName("variables")
     private List<String> variables = new LinkedList<>();
 
     public SoServiceExceptionHolder() {
         // required by author
     }
-
-    public String getMessageId() {
-        return messageId;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public List<String> getVariables() {
-        return variables;
-    }
-
-    public void setMessageId(String messageId) {
-        this.messageId = messageId;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
 }

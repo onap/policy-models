@@ -22,34 +22,15 @@
 package org.onap.policy.controlloop;
 
 import java.util.UUID;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ControlLoopOperationWrapper {
 
     private UUID requestId;
     private ControlLoopOperation operation;
-
-    public ControlLoopOperationWrapper() {
-
-    }
-
-    public ControlLoopOperationWrapper(UUID requestId, ControlLoopOperation operation) {
-        this.requestId = requestId;
-        this.operation = operation;
-    }
-
-    public UUID getRequestId() {
-        return requestId;
-    }
-
-    public void setRequestId(UUID requestId) {
-        this.requestId = requestId;
-    }
-
-    public ControlLoopOperation getOperation() {
-        return operation;
-    }
-
-    public void setOperation(ControlLoopOperation operation) {
-        this.operation = operation;
-    }
 }

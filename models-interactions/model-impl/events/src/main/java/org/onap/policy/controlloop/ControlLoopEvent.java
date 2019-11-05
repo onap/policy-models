@@ -25,11 +25,11 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.UUID;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
 public abstract class ControlLoopEvent implements Serializable {
 
     private static final long serialVersionUID = 2391252138583119195L;
@@ -48,10 +48,6 @@ public abstract class ControlLoopEvent implements Serializable {
     private String policyVersion;
     private ControlLoopEventStatus closedLoopEventStatus;
     private Map<String, String> additionalEventParams;
-
-    public ControlLoopEvent() {
-
-    }
 
     /**
      * Construct an instance from an existing instance.

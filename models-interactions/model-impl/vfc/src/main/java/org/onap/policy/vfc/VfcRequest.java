@@ -24,7 +24,11 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.UUID;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class VfcRequest implements Serializable {
 
     private static final long serialVersionUID = 3736300970326332512L;
@@ -37,29 +41,5 @@ public class VfcRequest implements Serializable {
 
     public VfcRequest() {
         // Default constructor
-    }
-
-    public String getNsInstanceId() {
-        return nsInstanceId;
-    }
-
-    public void setNsInstanceId(String nsInstanceId) {
-        this.nsInstanceId = nsInstanceId;
-    }
-
-    public UUID getRequestId() {
-        return requestId;
-    }
-
-    public void setRequestId(UUID requestId) {
-        this.requestId = requestId;
-    }
-
-    public VfcHealRequest getHealRequest() {
-        return healRequest;
-    }
-
-    public void setHealRequest(VfcHealRequest healRequest) {
-        this.healRequest = healRequest;
     }
 }

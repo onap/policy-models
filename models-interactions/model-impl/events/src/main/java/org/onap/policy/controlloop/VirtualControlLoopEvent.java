@@ -26,29 +26,22 @@ import com.google.gson.annotations.SerializedName;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
+@Data
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
 public class VirtualControlLoopEvent extends ControlLoopEvent {
 
     private static final long serialVersionUID = -5752405682246066226L;
 
-    @SerializedName("payload")
-    private String payload;
-
-    @SerializedName("closedLoopAlarmStart")
-    private Instant closedLoopAlarmStart;
-
-    @SerializedName("closedLoopAlarmEnd")
-    private Instant closedLoopAlarmEnd;
-
     @SerializedName("AAI")
     private Map<String, String> aai = new HashMap<>();
-
-    public VirtualControlLoopEvent() {}
-
+    private String payload;
+    private Instant closedLoopAlarmStart;
+    private Instant closedLoopAlarmEnd;
 
     /**
      * Construct an instance from an existing instance.

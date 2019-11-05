@@ -23,7 +23,11 @@ package org.onap.policy.aai;
 
 import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
 public class AaiNqVfModule implements Serializable {
     private static final long serialVersionUID = 8019133081429638232L;
 
@@ -68,116 +72,4 @@ public class AaiNqVfModule implements Serializable {
 
     @SerializedName("model-customization-id")
     private String modelCustomizationId = null;
-
-    public String getVfModuleId() {
-        return vfModuleId;
-    }
-
-    public String getVfModuleName() {
-        return vfModuleName;
-    }
-
-    public String getHeatStackId() {
-        return heatStackId;
-    }
-
-    public String getOrchestrationStatus() {
-        return orchestrationStatus;
-    }
-
-    public Boolean getIsBaseVfModule() {
-        return isBaseVfModule;
-    }
-
-    public String getResourceVersion() {
-        return resourceVersion;
-    }
-
-    public String getPersonaModelId() {
-        return personaModelId;
-    }
-
-    public String getPersonaModelVersion() {
-        return personaModelVersion;
-    }
-
-    public String getWidgetModelId() {
-        return widgetModelId;
-    }
-
-    public String getWidgetModelVersion() {
-        return widgetModelVersion;
-    }
-
-    public String getContrailServiceInstanceFqdn() {
-        return contrailServiceInstanceFqdn;
-    }
-
-    public String getModelInvariantId() {
-        return modelInvariantId;
-    }
-
-    public String getModelVersionId() {
-        return modelVersionId;
-    }
-
-    public String getModelCustomizationId() {
-        return modelCustomizationId;
-    }
-
-    public void setVfModuleId(String vfModuleId) {
-        this.vfModuleId = vfModuleId;
-    }
-
-    public void setVfModuleName(String vfModuleName) {
-        this.vfModuleName = vfModuleName;
-    }
-
-    public void setHeatStackId(String heatStackId) {
-        this.heatStackId = heatStackId;
-    }
-
-    public void setOrchestrationStatus(String orchestrationStatus) {
-        this.orchestrationStatus = orchestrationStatus;
-    }
-
-    public void setIsBaseVfModule(Boolean isBaseVfModule) {
-        this.isBaseVfModule = isBaseVfModule;
-    }
-
-    public void setResourceVersion(String resourceVersion) {
-        this.resourceVersion = resourceVersion;
-    }
-
-    public void setPersonaModelId(String personaModelId) {
-        this.personaModelId = personaModelId;
-    }
-
-    public void setPersonaModelVersion(String personaModelVersion) {
-        this.personaModelVersion = personaModelVersion;
-    }
-
-    public void setWidgetModelId(String widgetModelId) {
-        this.widgetModelId = widgetModelId;
-    }
-
-    public void setWidgetModelVersion(String widgetModelVersion) {
-        this.widgetModelVersion = widgetModelVersion;
-    }
-
-    public void setContrailServiceInstanceFqdn(String contrailServiceInstanceFqdn) {
-        this.contrailServiceInstanceFqdn = contrailServiceInstanceFqdn;
-    }
-
-    public void setModelInvariantId(String modelInvariantId) {
-        this.modelInvariantId = modelInvariantId;
-    }
-
-    public void setModelVersionId(String modelVersionId) {
-        this.modelVersionId = modelVersionId;
-    }
-
-    public void setModelCustomizationId(String modelCustomizationId) {
-        this.modelCustomizationId = modelCustomizationId;
-    }
 }

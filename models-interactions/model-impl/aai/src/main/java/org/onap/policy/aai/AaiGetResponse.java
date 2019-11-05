@@ -21,21 +21,14 @@
 
 package org.onap.policy.aai;
 
-import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
 public class AaiGetResponse implements Serializable {
     private static final long serialVersionUID = 7311418432051756162L;
 
-    @SerializedName("requestError")
     private AaiNqRequestError requestError;
-
-    public AaiNqRequestError getRequestError() {
-        return requestError;
-    }
-
-    public void setRequestError(AaiNqRequestError requestError) {
-        this.requestError = requestError;
-    }
-
 }

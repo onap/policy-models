@@ -27,11 +27,11 @@ import java.time.ZonedDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
 public abstract class ControlLoopNotification implements Serializable {
 
     private static final long serialVersionUID = 7538596984567127915L;
@@ -51,10 +51,6 @@ public abstract class ControlLoopNotification implements Serializable {
     private ZonedDateTime notificationTime = ZonedDateTime.now(ZoneOffset.UTC);
     private Integer opsClTimer;
     private List<ControlLoopOperation> history = new LinkedList<>();
-
-    public ControlLoopNotification() {
-
-    }
 
     /**
      * Construct an instance.

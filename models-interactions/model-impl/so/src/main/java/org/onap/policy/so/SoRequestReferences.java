@@ -21,34 +21,16 @@
 
 package org.onap.policy.so;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class SoRequestReferences implements Serializable {
 
     private static final long serialVersionUID = -3283942659786236032L;
 
-    @SerializedName("instanceId")
     private String instanceId;
-
-    @SerializedName("requestId")
     private String requestId;
-
-    public String getInstanceId() {
-        return instanceId;
-    }
-
-    public String getRequestId() {
-        return requestId;
-    }
-
-    public void setInstanceId(String instanceId) {
-        this.instanceId = instanceId;
-    }
-
-    public void setRequestId(String requestId) {
-        this.requestId = requestId;
-    }
-
 }

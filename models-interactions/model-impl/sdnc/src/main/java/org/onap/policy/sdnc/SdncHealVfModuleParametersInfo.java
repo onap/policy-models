@@ -24,7 +24,11 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class SdncHealVfModuleParametersInfo implements Serializable {
 
     private static final long serialVersionUID = 3208673205100673119L;
@@ -35,14 +39,6 @@ public class SdncHealVfModuleParametersInfo implements Serializable {
     public SdncHealVfModuleParametersInfo() {
         // Default constructor for SdncHealVfModuleParametersInfo
         parameters = new LinkedList<>();
-    }
-
-    public List<SdncHealVfModuleParameter> getParameters() {
-        return parameters;
-    }
-
-    public void setParameters(List<SdncHealVfModuleParameter> parameters) {
-        this.parameters = parameters;
     }
 
     public void addParameters(SdncHealVfModuleParameter parameter) {

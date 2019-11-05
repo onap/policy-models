@@ -24,7 +24,11 @@ package org.onap.policy.aai;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
 public class AaiNqTenant implements Serializable {
     private static final long serialVersionUID = 4702784101671984364L;
 
@@ -36,30 +40,4 @@ public class AaiNqTenant implements Serializable {
 
     @SerializedName("resource-version")
     private String resourceVersion;
-
-    public String getTenantId() {
-        return tenantId;
-    }
-
-    public String getTenantName() {
-        return tenantName;
-    }
-
-    public String getResourceVersion() {
-        return resourceVersion;
-    }
-
-    public void setTenantId(String tenantId) {
-        this.tenantId = tenantId;
-    }
-
-    public void setTenantName(String tenantName) {
-        this.tenantName = tenantName;
-    }
-
-    public void setResourceVersion(String resourceVersion) {
-        this.resourceVersion = resourceVersion;
-    }
-
-
 }
