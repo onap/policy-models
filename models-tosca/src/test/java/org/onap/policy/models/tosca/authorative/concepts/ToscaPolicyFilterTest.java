@@ -213,7 +213,11 @@ public class ToscaPolicyFilterTest {
     public void testFilterTypeVersion() {
         ToscaPolicyFilter filter = ToscaPolicyFilter.builder().type("onap.policies.controlloop.Operational").build();
         List<ToscaPolicy> filteredList = filter.filter(policyList);
-        assertEquals(4, filteredList.size());
+        assertEquals(1, filteredList.size());
+
+        filter = ToscaPolicyFilter.builder().type("onap.policies.controlloop.operational.common.Drools").build();
+        filteredList = filter.filter(policyList);
+        assertEquals(3, filteredList.size());
 
         filter = ToscaPolicyFilter.builder().type("onap.policies.monitoring.cdap.tca.hi.lo.app").build();
         filteredList = filter.filter(policyList);
@@ -235,6 +239,6 @@ public class ToscaPolicyFilterTest {
         filter = ToscaPolicyFilter.builder().type("onap.policies.controlloop.Operational").typeVersion(VERSION_000)
                         .build();
         filteredList = filter.filter(policyList);
-        assertEquals(4, filteredList.size());
+        assertEquals(1, filteredList.size());
     }
 }
