@@ -22,6 +22,11 @@ topology_template:
                             targetType: VNF
                             entityId:
                                 resourceID: bbb3cefd-01c8-413c-9bdd-2b92f9ca3d38
+                        payload:
+                            artifact_name: vfw-cds
+                            artifact_version: 1.0.0
+                            mode: async
+                            data: '{"mapInfo":{"key":"val"},"arrayInfo":["one","two"],"paramInfo":"val"}'
                     timeout: 300
                     retries: 0
                     success: final_success
@@ -31,4 +36,3 @@ topology_template:
                     failure_exception: final_failure_exception
                     failure_guard: final_failure_guard
                 controllerName: usecases
-                
