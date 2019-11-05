@@ -22,7 +22,9 @@
 package org.onap.policy.aai;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -47,8 +49,8 @@ public class AaiGetVnfResponseTest {
         assertEquals("vLoadBalancerMS-Vnf-0809-2", resp.getVnfName());
         assertEquals("vLoadBalancerMS/vLoadBalancerMS 0", resp.getVnfType());
         assertEquals("1533850960381", resp.getResourceVersion());
-        assertEquals(false, resp.getInMaint());
-        assertEquals(true, resp.getIsClosedLoopDisabled());
+        assertFalse(resp.isInMaint());
+        assertTrue(resp.isClosedLoopDisabled());
         assertEquals("53638a85-361a-437d-8830-4b0d5329225e", resp.getModelInvariantId());
         assertEquals("PROV", resp.getProvStatus());
         assertEquals("Active", resp.getOrchestrationStatus());
@@ -71,7 +73,7 @@ public class AaiGetVnfResponseTest {
         relationshipList = new RelationshipList();
 
         resp.setInMaint(true);
-        resp.setIsClosedLoopDisabled(false);
+        resp.setClosedLoopDisabled(false);
         resp.setModelInvariantId("modiv");
         resp.setOrchestrationStatus("orch");
         resp.setProvStatus("mystatus");
@@ -86,8 +88,8 @@ public class AaiGetVnfResponseTest {
         assertEquals("vnfname", resp.getVnfName());
         assertEquals("vnftype", resp.getVnfType());
         assertEquals("vers", resp.getResourceVersion());
-        assertEquals(true, resp.getInMaint());
-        assertEquals(false, resp.getIsClosedLoopDisabled());
+        assertTrue(resp.isInMaint());
+        assertFalse(resp.isClosedLoopDisabled());
         assertEquals("modiv", resp.getModelInvariantId());
         assertEquals("mystatus", resp.getProvStatus());
         assertEquals("orch", resp.getOrchestrationStatus());

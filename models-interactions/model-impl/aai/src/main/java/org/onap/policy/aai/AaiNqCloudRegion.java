@@ -24,7 +24,11 @@ package org.onap.policy.aai;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class AaiNqCloudRegion implements Serializable {
 
     private static final long serialVersionUID = -897231529157222683L;
@@ -43,44 +47,4 @@ public class AaiNqCloudRegion implements Serializable {
 
     @SerializedName("resource-version")
     private String resourceVersion;
-
-    public String getCloudOwner() {
-        return cloudOwner;
-    }
-
-    public String getCloudRegionId() {
-        return cloudRegionId;
-    }
-
-    public String getCloudRegionVersion() {
-        return cloudRegionVersion;
-    }
-
-    public String getComplexName() {
-        return complexName;
-    }
-
-    public String getResourceVersion() {
-        return resourceVersion;
-    }
-
-    public void setCloudOwner(String cloudOwner) {
-        this.cloudOwner = cloudOwner;
-    }
-
-    public void setCloudRegionId(String cloudRegionId) {
-        this.cloudRegionId = cloudRegionId;
-    }
-
-    public void setCloudRegionVersion(String cloudRegionVersion) {
-        this.cloudRegionVersion = cloudRegionVersion;
-    }
-
-    public void setComplexName(String complexName) {
-        this.complexName = complexName;
-    }
-
-    public void setResourceVersion(String resourceVersion) {
-        this.resourceVersion = resourceVersion;
-    }
 }

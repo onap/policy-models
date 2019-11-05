@@ -26,7 +26,11 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class Relationship implements Serializable {
     private static final long serialVersionUID = -68508443869003055L;
 
@@ -41,36 +45,4 @@ public class Relationship implements Serializable {
 
     @SerializedName("related-to-property")
     private List<RelatedToProperty> relatedToProperty = new LinkedList<>();
-
-    public String getRelatedTo() {
-        return relatedTo;
-    }
-
-    public String getRelatedLink() {
-        return relatedLink;
-    }
-
-    public List<RelationshipData> getRelationshipData() {
-        return relationshipData;
-    }
-
-    public List<RelatedToProperty> getRelatedToProperty() {
-        return relatedToProperty;
-    }
-
-    public void setRelatedTo(String relatedTo) {
-        this.relatedTo = relatedTo;
-    }
-
-    public void setRelatedLink(String relatedLink) {
-        this.relatedLink = relatedLink;
-    }
-
-    public void setRelationshipData(List<RelationshipData> relationshipData) {
-        this.relationshipData = relationshipData;
-    }
-
-    public void setRelatedToProperty(List<RelatedToProperty> relatedToProperty) {
-        this.relatedToProperty = relatedToProperty;
-    }
 }

@@ -24,7 +24,11 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.UUID;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class SdncRequest implements Serializable {
 
     private static final long serialVersionUID = 3736300970326332512L;
@@ -38,37 +42,5 @@ public class SdncRequest implements Serializable {
 
     public SdncRequest() {
             // Default constructor for SdncRequest
-    }
-
-    public String getNsInstanceId() {
-        return nsInstanceId;
-    }
-
-    public void setNsInstanceId(String nsInstanceId) {
-        this.nsInstanceId = nsInstanceId;
-    }
-
-    public UUID getRequestId() {
-        return requestId;
-    }
-
-    public void setRequestId(UUID requestId) {
-        this.requestId = requestId;
-    }
-
-    public SdncHealRequest getHealRequest() {
-        return healRequest;
-    }
-
-    public void setHealRequest(SdncHealRequest healRequest) {
-        this.healRequest = healRequest;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 }

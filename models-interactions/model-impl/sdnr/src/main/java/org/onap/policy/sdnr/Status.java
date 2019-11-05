@@ -24,7 +24,11 @@ package org.onap.policy.sdnr;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class Status implements Serializable {
 
     private static final long serialVersionUID = 877641506135467199L;
@@ -47,22 +51,6 @@ public class Status implements Serializable {
         super();
         this.code = code;
         this.value = value;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
     }
 
     @Override
@@ -95,13 +83,9 @@ public class Status implements Serializable {
             return false;
         }
         if (value == null) {
-            if (other.value != null) {
-                return false;
-            }
-        } else if (!value.equals(other.value)) {
-            return false;
+            return other.value == null;
+        } else {
+            return value.equals(other.value);
         }
-        return true;
     }
-
 }

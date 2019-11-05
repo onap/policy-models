@@ -21,52 +21,24 @@
 
 package org.onap.policy.so;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class SoRequestParameters implements Serializable {
 
     private static final long serialVersionUID = -3283942659786236033L;
 
-    @SerializedName("subscriptionServiceType")
     private String subscriptionServiceType;
-
-    @SerializedName("usePreload")
     private boolean usePreload;
-
-    @SerializedName("userParams")
     private List<Map<String, String>> userParams = new LinkedList<>();
 
     public SoRequestParameters() {
         // required by author
     }
-
-    public String getSubscriptionServiceType() {
-        return subscriptionServiceType;
-    }
-
-    public boolean isUsePreload() {
-        return usePreload;
-    }
-
-    public List<Map<String, String>> getUserParams() {
-        return userParams;
-    }
-
-    public void setSubscriptionServiceType(String subscriptionServiceType) {
-        this.subscriptionServiceType = subscriptionServiceType;
-    }
-
-    public void setUsePreload(boolean usePreload) {
-        this.usePreload = usePreload;
-    }
-
-    public void setUserParams(List<Map<String, String>> userParams) {
-        this.userParams = userParams;
-    }
-
 }

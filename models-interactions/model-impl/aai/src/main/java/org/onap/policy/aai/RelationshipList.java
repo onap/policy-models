@@ -26,20 +26,14 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class RelationshipList implements Serializable {
     private static final long serialVersionUID = 6115655704973981990L;
 
     @SerializedName("relationship")
     private List<Relationship> relationships = new LinkedList<>();
-
-    public List<Relationship> getRelationships() {
-        return relationships;
-    }
-
-    public void setRelationships(List<Relationship> relationships) {
-        this.relationships = relationships;
-    }
-
-
 }

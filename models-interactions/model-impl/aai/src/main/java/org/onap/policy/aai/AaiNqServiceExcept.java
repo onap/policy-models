@@ -24,7 +24,9 @@ package org.onap.policy.aai;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import lombok.Getter;
 
+@Getter
 public class AaiNqServiceExcept implements Serializable {
     private static final long serialVersionUID = 2858343404484338546L;
 
@@ -36,16 +38,4 @@ public class AaiNqServiceExcept implements Serializable {
 
     @SerializedName("variables")
     private String[] variables;
-
-    public String getMessageId() {
-        return messageId;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public String[] getVariables() {
-        return variables;
-    }
 }

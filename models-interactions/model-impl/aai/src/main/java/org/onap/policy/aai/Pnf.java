@@ -22,7 +22,11 @@
 package org.onap.policy.aai;
 
 import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class Pnf implements Serializable {
     private static final long serialVersionUID = -3535108358668248501L;
 
@@ -30,28 +34,11 @@ public class Pnf implements Serializable {
     private PnfType pnfType;
 
     public Pnf() {
-
     }
 
     public Pnf(Pnf pnf) {
         this.pnfName = pnf.pnfName;
         this.pnfType = pnf.pnfType;
-    }
-
-    public String getPnfName() {
-        return pnfName;
-    }
-
-    public void setPnfName(String pnfName) {
-        this.pnfName = pnfName;
-    }
-
-    public PnfType getPnfType() {
-        return pnfType;
-    }
-
-    public void setPnfType(PnfType pnfType) {
-        this.pnfType = pnfType;
     }
 
     @Override

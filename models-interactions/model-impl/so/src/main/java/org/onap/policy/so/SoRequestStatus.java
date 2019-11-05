@@ -21,60 +21,22 @@
 
 package org.onap.policy.so;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class SoRequestStatus implements Serializable {
 
     private static final long serialVersionUID = -3283942659786236032L;
 
-    @SerializedName("percentProgress")
     private int percentProgress;
-
-    @SerializedName("requestState")
     private String requestState;
-
-    @SerializedName("timestamp")
     private String timestamp;
-
-    @SerializedName("wasRolledBack")
     private boolean wasRolledBack;
 
     public SoRequestStatus() {
       //required by author
     }
-
-    public int getPercentProgress() {
-        return percentProgress;
-    }
-
-    public String getRequestState() {
-        return requestState;
-    }
-
-    public String getTimestamp() {
-        return timestamp;
-    }
-
-    public boolean isWasRolledBack() {
-        return wasRolledBack;
-    }
-
-    public void setPercentProgress(int percentProgress) {
-        this.percentProgress = percentProgress;
-    }
-
-    public void setRequestState(String requestState) {
-        this.requestState = requestState;
-    }
-
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public void setWasRolledBack(boolean wasRolledBack) {
-        this.wasRolledBack = wasRolledBack;
-    }
-
 }

@@ -29,7 +29,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.UUID;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class CommonHeader implements Serializable {
     private static final long serialVersionUID = -3581658269910980336L;
 
@@ -65,68 +69,14 @@ public class CommonHeader implements Serializable {
         this.originatorId = commonHeader.originatorId;
         this.requestId = commonHeader.requestId;
         this.subRequestId = commonHeader.subRequestId;
+        this.timeStamp = commonHeader.getTimeStamp();
+        this.apiVer = commonHeader.getApiVer();
         if (commonHeader.requestTrack != null) {
             this.requestTrack.addAll(commonHeader.requestTrack);
         }
         if (commonHeader.flags != null) {
             this.flags.addAll(commonHeader.flags);
         }
-    }
-
-    public Instant getTimeStamp() {
-        return timeStamp;
-    }
-
-    public void setTimeStamp(Instant timeStamp) {
-        this.timeStamp = timeStamp;
-    }
-
-    public String getApiVer() {
-        return apiVer;
-    }
-
-    public void setApiVer(String apiVer) {
-        this.apiVer = apiVer;
-    }
-
-    public String getOriginatorId() {
-        return originatorId;
-    }
-
-    public void setOriginatorId(String originatorId) {
-        this.originatorId = originatorId;
-    }
-
-    public UUID getRequestId() {
-        return requestId;
-    }
-
-    public void setRequestId(UUID requestId) {
-        this.requestId = requestId;
-    }
-
-    public String getSubRequestId() {
-        return subRequestId;
-    }
-
-    public void setSubRequestId(String subRequestId) {
-        this.subRequestId = subRequestId;
-    }
-
-    public Collection<String> getRequestTrack() {
-        return requestTrack;
-    }
-
-    public void setRequestTrack(Collection<String> requestTrack) {
-        this.requestTrack = requestTrack;
-    }
-
-    public Collection<Map<String, String>> getFlags() {
-        return flags;
-    }
-
-    public void setFlags(Collection<Map<String, String>> flags) {
-        this.flags = flags;
     }
 
     @Override
@@ -205,13 +155,9 @@ public class CommonHeader implements Serializable {
             return false;
         }
         if (timeStamp == null) {
-            if (other.timeStamp != null) {
-                return false;
-            }
-        } else if (!timeStamp.equals(other.timeStamp)) {
-            return false;
+            return other.timeStamp == null;
+        } else {
+            return timeStamp.equals(other.timeStamp);
         }
-        return true;
     }
-
 }

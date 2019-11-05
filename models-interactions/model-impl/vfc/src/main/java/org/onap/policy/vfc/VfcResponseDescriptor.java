@@ -20,82 +20,25 @@
 
 package org.onap.policy.vfc;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class VfcResponseDescriptor implements Serializable {
 
     private static final long serialVersionUID = 6827782899144150158L;
 
-    @SerializedName("progress")
     private String progress;
-
-    @SerializedName("status")
     private String status;
-
-    @SerializedName("statusDescription")
     private String statusDescription;
-
-    @SerializedName("errorCode")
     private String errorCode;
-
-    @SerializedName("responseId")
     private String responseId;
-
-    @SerializedName("responseHistoryList")
     private List<VfcResponseDescriptor> responseHistoryList;
 
     public VfcResponseDescriptor() {
         // Default constructor
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public String getProgress() {
-        return progress;
-    }
-
-    public void setProgress(String progress) {
-        this.progress = progress;
-    }
-
-    public String getStatusDescription() {
-        return statusDescription;
-    }
-
-    public void setStatusDescription(String statusDescription) {
-        this.statusDescription = statusDescription;
-    }
-
-    public String getErrorCode() {
-        return errorCode;
-    }
-
-    public void setErrorCode(String errorCode) {
-        this.errorCode = errorCode;
-    }
-
-    public String getResponseId() {
-        return responseId;
-    }
-
-    public void setResponseId(String responseId) {
-        this.responseId = responseId;
-    }
-
-    public List<VfcResponseDescriptor> getResponseHistoryList() {
-        return responseHistoryList;
-    }
-
-    public void setResponseHistoryList(List<VfcResponseDescriptor> responseHistoryList) {
-        this.responseHistoryList = responseHistoryList;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 }

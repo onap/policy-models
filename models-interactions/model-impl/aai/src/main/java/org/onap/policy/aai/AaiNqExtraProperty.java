@@ -24,7 +24,11 @@ package org.onap.policy.aai;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class AaiNqExtraProperty implements Serializable {
 
     private static final long serialVersionUID = -3861240617222397736L;
@@ -39,22 +43,6 @@ public class AaiNqExtraProperty implements Serializable {
 
     public AaiNqExtraProperty(String propertyName, String propertyValue) {
         this.propertyName = propertyName;
-        this.propertyValue = propertyValue;
-    }
-
-    public String getPropertyName() {
-        return propertyName;
-    }
-
-    public String getPropertyValue() {
-        return propertyValue;
-    }
-
-    public void setPropertyName(String propertyName) {
-        this.propertyName = propertyName;
-    }
-
-    public void setPropertyValue(String propertyValue) {
         this.propertyValue = propertyValue;
     }
 }

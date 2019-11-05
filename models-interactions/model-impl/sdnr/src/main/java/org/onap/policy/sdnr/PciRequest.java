@@ -25,7 +25,11 @@ package org.onap.policy.sdnr;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class PciRequest implements Serializable {
 
     private static final long serialVersionUID = 323235565922846624L;
@@ -133,13 +137,9 @@ public class PciRequest implements Serializable {
             return false;
         }
         if (payload == null) {
-            if (other.payload != null) {
-                return false;
-            }
-        } else if (!payload.equals(other.payload)) {
-            return false;
+            return other.payload == null;
+        } else {
+            return payload.equals(other.payload);
         }
-        return true;
     }
-
 }

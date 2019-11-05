@@ -21,24 +21,17 @@
 
 package org.onap.policy.aai;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class AaiGetVserverResponse extends AaiGetResponse implements Serializable {
 
     private static final long serialVersionUID = -6247505944905898871L;
 
-    @SerializedName("vserver")
     private List<AaiNqVServer> vserver = new LinkedList<>();
-
-    public List<AaiNqVServer> getVserver() {
-        return vserver;
-    }
-
-    public void setVserver(List<AaiNqVServer> vserver) {
-        this.vserver = vserver;
-    }
 }

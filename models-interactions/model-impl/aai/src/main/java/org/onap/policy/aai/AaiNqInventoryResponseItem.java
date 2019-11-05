@@ -24,7 +24,11 @@ package org.onap.policy.aai;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class AaiNqInventoryResponseItem implements Serializable {
 
     private static final long serialVersionUID = 7142072567154675183L;
@@ -55,76 +59,4 @@ public class AaiNqInventoryResponseItem implements Serializable {
 
     @SerializedName("inventory-response-items")
     private AaiNqInventoryResponseItems items;
-
-    public String getModelName() {
-        return modelName;
-    }
-
-    public AaiNqVfModule getVfModule() {
-        return vfModule;
-    }
-
-    public AaiNqServiceInstance getServiceInstance() {
-        return serviceInstance;
-    }
-
-    public AaiNqVServer getVserver() {
-        return vserver;
-    }
-
-    public AaiNqTenant getTenant() {
-        return tenant;
-    }
-
-    public AaiNqCloudRegion getCloudRegion() {
-        return cloudRegion;
-    }
-
-    public AaiNqGenericVnf getGenericVnf() {
-        return genericVnf;
-    }
-
-    public AaiNqExtraProperties getExtraProperties() {
-        return extraProperties;
-    }
-
-    public AaiNqInventoryResponseItems getItems() {
-        return items;
-    }
-
-    public void setModelName(String modelName) {
-        this.modelName = modelName;
-    }
-
-    public void setVfModule(AaiNqVfModule vfModule) {
-        this.vfModule = vfModule;
-    }
-
-    public void setServiceInstance(AaiNqServiceInstance serviceInstance) {
-        this.serviceInstance = serviceInstance;
-    }
-
-    public void setVserver(AaiNqVServer vserver) {
-        this.vserver = vserver;
-    }
-
-    public void setTenant(AaiNqTenant tenant) {
-        this.tenant = tenant;
-    }
-
-    public void setCloudRegion(AaiNqCloudRegion cloudRegion) {
-        this.cloudRegion = cloudRegion;
-    }
-
-    public void setGenericVnf(AaiNqGenericVnf genericVnf) {
-        this.genericVnf = genericVnf;
-    }
-
-    public void setExtraProperties(AaiNqExtraProperties extraProperties) {
-        this.extraProperties = extraProperties;
-    }
-
-    public void setItems(AaiNqInventoryResponseItems items) {
-        this.items = items;
-    }
 }

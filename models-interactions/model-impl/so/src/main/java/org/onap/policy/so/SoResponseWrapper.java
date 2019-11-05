@@ -24,7 +24,11 @@ package org.onap.policy.so;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class SoResponseWrapper implements Serializable {
 
     private static final long serialVersionUID = 7673023687132889069L;
@@ -55,27 +59,14 @@ public class SoResponseWrapper implements Serializable {
             if (other.soResponse != null) {
                 return false;
             }
-        }
-        else if (!soResponse.equals(other.soResponse)) {
+        } else if (!soResponse.equals(other.soResponse)) {
             return false;
         }
         if (requestId == null) {
-            if (other.requestId != null) {
-                return false;
-            }
+            return other.requestId == null;
+        } else {
+            return requestId.equals(other.requestId);
         }
-        else if (!requestId.equals(other.requestId)) {
-            return false;
-        }
-        return true;
-    }
-
-    public String getRequestId() {
-        return requestId;
-    }
-
-    public SoResponse getSoResponse() {
-        return soResponse;
     }
 
     @Override
@@ -85,14 +76,6 @@ public class SoResponseWrapper implements Serializable {
         result = prime * result + ((soResponse == null) ? 0 : soResponse.hashCode());
         result = prime * result + ((requestId == null) ? 0 : requestId.hashCode());
         return result;
-    }
-
-    public void setRequestId(String requestId) {
-        this.requestId = requestId;
-    }
-
-    public void setSoResponse(SoResponse response) {
-        soResponse = response;
     }
 
     @Override

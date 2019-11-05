@@ -26,7 +26,11 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class Response implements Serializable {
 
     private static final long serialVersionUID = 434953706339865151L;
@@ -38,7 +42,7 @@ public class Response implements Serializable {
     private ResponseStatus status = new ResponseStatus();
 
     @SerializedName("Payload")
-    private HashMap<String, Object> payload = new HashMap<>();
+    private Map<String, Object> payload = new HashMap<>();
 
     public Response() {
 
@@ -56,30 +60,6 @@ public class Response implements Serializable {
         if (request.getPayload() != null) {
             this.payload.putAll(request.getPayload());
         }
-    }
-
-    public CommonHeader getCommonHeader() {
-        return commonHeader;
-    }
-
-    public void setCommonHeader(CommonHeader commonHeader) {
-        this.commonHeader = commonHeader;
-    }
-
-    public ResponseStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(ResponseStatus status) {
-        this.status = status;
-    }
-
-    public Map<String, Object> getPayload() {
-        return payload;
-    }
-
-    public void setPayload(Map<String, Object> payload) {
-        this.payload = new HashMap<>(payload);
     }
 
     @Override
@@ -124,14 +104,9 @@ public class Response implements Serializable {
             return false;
         }
         if (status == null) {
-            if (other.status != null) {
-                return false;
-            }
-        } else if (!status.equals(other.status)) {
-            return false;
+            return other.status == null;
+        } else {
+            return status.equals(other.status);
         }
-        return true;
     }
-
-
 }
