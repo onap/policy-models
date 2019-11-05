@@ -22,7 +22,11 @@ package org.onap.policy.sdnc;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class SdncHealRequest implements Serializable {
 
     private static final long serialVersionUID = -7341931593089709247L;
@@ -58,53 +62,5 @@ public class SdncHealRequest implements Serializable {
 
     public void setRequestHeaderInfo(SdncHealRequestHeaderInfo requestHeaderInfo) {
         this.requestHeaderInfo = requestHeaderInfo;
-    }
-
-    public SdncHealRequestInfo getRequestInfo() {
-        return requestInfo;
-    }
-
-    public void setRequestInfo(SdncHealRequestInfo requestInfo) {
-        this.requestInfo = requestInfo;
-    }
-
-    public SdncHealServiceInfo getServiceInfo() {
-        return serviceInfo;
-    }
-
-    public void setServiceInfo(SdncHealServiceInfo serviceInfo) {
-        this.serviceInfo = serviceInfo;
-    }
-
-    public SdncHealNetworkInfo getNetworkInfo() {
-        return networkInfo;
-    }
-
-    public void setNetworkInfo(SdncHealNetworkInfo networkInfo) {
-        this.networkInfo = networkInfo;
-    }
-
-    public SdncHealVnfInfo getVnfInfo() {
-        return vnfInfo;
-    }
-
-    public void setVnfInfo(SdncHealVnfInfo vnfInfo) {
-        this.vnfInfo = vnfInfo;
-    }
-
-    public SdncHealVfModuleRequestInput getVfModuleRequestInput() {
-        return vfModuleRequestInput;
-    }
-
-    public void setVfModuleRequestInput(SdncHealVfModuleRequestInput input) {
-        this.vfModuleRequestInput = input;
-    }
-
-    public SdncHealVfModuleInfo getVfModuleInfo() {
-        return vfModuleInfo;
-    }
-
-    public void setVfModuleInfo(SdncHealVfModuleInfo vfModuleInfo) {
-        this.vfModuleInfo = vfModuleInfo;
     }
 }

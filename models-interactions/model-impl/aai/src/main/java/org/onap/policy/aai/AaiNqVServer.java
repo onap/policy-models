@@ -24,7 +24,11 @@ package org.onap.policy.aai;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class AaiNqVServer implements Serializable {
     private static final long serialVersionUID = -6718526692734215643L;
 
@@ -54,77 +58,4 @@ public class AaiNqVServer implements Serializable {
 
     @SerializedName("relationship-list")
     private RelationshipList relationshipList;
-
-    public String getVserverId() {
-        return vserverId;
-    }
-
-    public String getVserverName() {
-        return vserverName;
-    }
-
-    public String getVserverName2() {
-        return vserverName2;
-    }
-
-    public String getProvStatus() {
-        return provStatus;
-    }
-
-    public String getVserverSelflink() {
-        return vserverSelflink;
-    }
-
-    public Boolean getInMaint() {
-        return inMaint;
-    }
-
-    public Boolean getIsClosedLoopDisabled() {
-        return isClosedLoopDisabled;
-    }
-
-    public String getResourceVersion() {
-        return resourceVersion;
-    }
-
-    public RelationshipList getRelationshipList() {
-        return relationshipList;
-    }
-
-    public void setVserverId(String vserverId) {
-        this.vserverId = vserverId;
-    }
-
-    public void setVserverName(String vserverName) {
-        this.vserverName = vserverName;
-    }
-
-    public void setVserverName2(String vserverName2) {
-        this.vserverName2 = vserverName2;
-    }
-
-    public void setProvStatus(String provStatus) {
-        this.provStatus = provStatus;
-    }
-
-    public void setVserverSelflink(String vserverSelflink) {
-        this.vserverSelflink = vserverSelflink;
-    }
-
-    public void setInMaint(Boolean inMaint) {
-        this.inMaint = inMaint;
-    }
-
-    public void setIsClosedLoopDisabled(Boolean isClosedLoopDisabled) {
-        this.isClosedLoopDisabled = isClosedLoopDisabled;
-    }
-
-    public void setResourceVersion(String resourceVersion) {
-        this.resourceVersion = resourceVersion;
-    }
-
-    public void setRelationshipList(RelationshipList relationshipList) {
-        this.relationshipList = relationshipList;
-    }
-
 }

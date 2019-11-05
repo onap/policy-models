@@ -23,7 +23,11 @@ package org.onap.policy.sdc;
 
 import java.io.Serializable;
 import java.util.UUID;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class ServiceInstance implements Serializable {
 
     private static final long serialVersionUID = 6285260780966679625L;
@@ -56,62 +60,6 @@ public class ServiceInstance implements Serializable {
         this.widgetModelVersion = instance.widgetModelVersion;
         this.serviceName = instance.serviceName;
         this.serviceInstanceName = instance.serviceInstanceName;
-    }
-
-    public UUID getPersonaModelUUID() {
-        return personaModelUUID;
-    }
-
-    public void setPersonaModelUUID(UUID personaModelUUID) {
-        this.personaModelUUID = personaModelUUID;
-    }
-
-    public UUID getServiceUUID() {
-        return serviceUUID;
-    }
-
-    public void setServiceUUID(UUID serviceUUID) {
-        this.serviceUUID = serviceUUID;
-    }
-
-    public UUID getServiceInstanceUUID() {
-        return serviceInstanceUUID;
-    }
-
-    public void setServiceInstanceUUID(UUID serviceInstanceUUID) {
-        this.serviceInstanceUUID = serviceInstanceUUID;
-    }
-
-    public UUID getWidgetModelUUID() {
-        return widgetModelUUID;
-    }
-
-    public void setWidgetModelUUID(UUID widgetModelUUID) {
-        this.widgetModelUUID = widgetModelUUID;
-    }
-
-    public String getWidgetModelVersion() {
-        return widgetModelVersion;
-    }
-
-    public void setWidgetModelVersion(String widgetModelVersion) {
-        this.widgetModelVersion = widgetModelVersion;
-    }
-
-    public String getServiceName() {
-        return serviceName;
-    }
-
-    public void setServiceName(String serviceName) {
-        this.serviceName = serviceName;
-    }
-
-    public String getServiceInstanceName() {
-        return serviceInstanceName;
-    }
-
-    public void setServiceInstanceName(String serviceInstanceName) {
-        this.serviceInstanceName = serviceInstanceName;
     }
 
     @Override
@@ -191,13 +139,9 @@ public class ServiceInstance implements Serializable {
             return false;
         }
         if (widgetModelVersion == null) {
-            if (other.widgetModelVersion != null) {
-                return false;
-            }
-        } else if (!widgetModelVersion.equals(other.widgetModelVersion)) {
-            return false;
+            return other.widgetModelVersion == null;
+        } else {
+            return widgetModelVersion.equals(other.widgetModelVersion);
         }
-        return true;
     }
-
 }

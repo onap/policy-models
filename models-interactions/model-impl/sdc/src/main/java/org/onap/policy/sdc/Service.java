@@ -23,7 +23,11 @@ package org.onap.policy.sdc;
 
 import java.io.Serializable;
 import java.util.UUID;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class Service implements Serializable {
 
     private static final long serialVersionUID = -1249276698549996806L;
@@ -70,38 +74,6 @@ public class Service implements Serializable {
         this.serviceInvariantUUID = service.serviceInvariantUUID;
         this.serviceName = service.serviceName;
         this.serviceVersion = service.serviceVersion;
-    }
-
-    public UUID getServiceUUID() {
-        return serviceUUID;
-    }
-
-    public void setServiceUUID(UUID serviceUUID) {
-        this.serviceUUID = serviceUUID;
-    }
-
-    public UUID getServiceInvariantUUID() {
-        return serviceInvariantUUID;
-    }
-
-    public void setServiceInvariantUUID(UUID serviceInvariantUUID) {
-        this.serviceInvariantUUID = serviceInvariantUUID;
-    }
-
-    public String getServiceName() {
-        return serviceName;
-    }
-
-    public void setServiceName(String serviceName) {
-        this.serviceName = serviceName;
-    }
-
-    public String getServiceVersion() {
-        return serviceVersion;
-    }
-
-    public void setServiceVersion(String serviceVersion) {
-        this.serviceVersion = serviceVersion;
     }
 
     @Override
@@ -155,13 +127,9 @@ public class Service implements Serializable {
             return false;
         }
         if (serviceVersion == null) {
-            if (other.serviceVersion != null) {
-                return false;
-            }
-        } else if (!serviceVersion.equals(other.serviceVersion)) {
-            return false;
+            return other.serviceVersion == null;
+        } else {
+            return serviceVersion.equals(other.serviceVersion);
         }
-        return true;
     }
-
 }

@@ -24,7 +24,11 @@ package org.onap.policy.aai;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class AaiNqRequest implements Serializable {
     private static final long serialVersionUID = -3283942659786236032L;
 
@@ -33,20 +37,4 @@ public class AaiNqRequest implements Serializable {
 
     @SerializedName("instance-filters")
     private AaiNqInstanceFilters instanceFilters;
-
-    public AaiNqQueryParameters getQueryParameters() {
-        return queryParameters;
-    }
-
-    public AaiNqInstanceFilters getInstanceFilters() {
-        return instanceFilters;
-    }
-
-    public void setQueryParameters(AaiNqQueryParameters queryParameters) {
-        this.queryParameters = queryParameters;
-    }
-
-    public void setInstanceFilters(AaiNqInstanceFilters instanceFilters) {
-        this.instanceFilters = instanceFilters;
-    }
 }

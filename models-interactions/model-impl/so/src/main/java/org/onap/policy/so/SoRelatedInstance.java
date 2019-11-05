@@ -21,51 +21,21 @@
 
 package org.onap.policy.so;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class SoRelatedInstance implements Serializable {
 
     private static final long serialVersionUID = -3283942659786236032L;
 
-    @SerializedName("instanceId")
     private String instanceId;
-
-    @SerializedName("instanceName")
     private String instanceName;
-
-    @SerializedName("modelInfo")
     private SoModelInfo modelInfo;
 
     public SoRelatedInstance() {
       //required by author
     }
-
-    public String getInstanceId() {
-        return instanceId;
-    }
-
-
-    public String getInstanceName() {
-        return instanceName;
-    }
-
-    public SoModelInfo getModelInfo() {
-        return modelInfo;
-    }
-
-    public void setInstanceId(String instanceId) {
-        this.instanceId = instanceId;
-    }
-
-    public void setInstanceName(String instanceName) {
-        this.instanceName = instanceName;
-    }
-
-
-    public void setModelInfo(SoModelInfo modelInfo) {
-        this.modelInfo = modelInfo;
-    }
-
 }

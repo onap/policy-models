@@ -24,18 +24,14 @@ package org.onap.policy.aai;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class AaiNqQueryParameters implements Serializable {
     private static final long serialVersionUID = -4291227193197126982L;
 
     @SerializedName("named-query")
     private AaiNqNamedQuery namedQuery;
-
-    public AaiNqNamedQuery getNamedQuery() {
-        return namedQuery;
-    }
-
-    public void setNamedQuery(AaiNqNamedQuery namedQuery) {
-        this.namedQuery = namedQuery;
-    }
 }

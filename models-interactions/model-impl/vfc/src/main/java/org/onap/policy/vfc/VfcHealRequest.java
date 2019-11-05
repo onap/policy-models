@@ -20,48 +20,21 @@
 
 package org.onap.policy.vfc;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class VfcHealRequest implements Serializable {
 
     private static final long serialVersionUID = -7341931593089709247L;
 
-    @SerializedName("vnfInstanceId")
     private String vnfInstanceId;
-
-    @SerializedName("cause")
     private String cause;
-
-    @SerializedName("additionalParams")
     private VfcHealAdditionalParams additionalParams;
 
     public VfcHealRequest() {
         // Default constructor
-    }
-
-    public String getVnfInstanceId() {
-        return vnfInstanceId;
-    }
-
-    public void setVnfInstanceId(String vnfInstanceId) {
-        this.vnfInstanceId = vnfInstanceId;
-    }
-
-    public String getCause() {
-        return cause;
-    }
-
-    public void setCause(String cause) {
-        this.cause = cause;
-    }
-
-    public VfcHealAdditionalParams getAdditionalParams() {
-        return additionalParams;
-    }
-
-    public void setAdditionalParams(VfcHealAdditionalParams additionalParams) {
-        this.additionalParams = additionalParams;
     }
 }

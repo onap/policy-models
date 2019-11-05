@@ -22,7 +22,11 @@ package org.onap.policy.sdnc;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class SdncResponse implements Serializable {
 
     private static final long serialVersionUID = 9151443891238218455L;
@@ -35,21 +39,4 @@ public class SdncResponse implements Serializable {
     public SdncResponse() {
         // Default constructor for SdncResponse
     }
-
-    public String getRequestId() {
-        return requestId;
-    }
-
-    public void setRequestId(String requestId) {
-        this.requestId = requestId;
-    }
-
-    public SdncResponseOutput getResponseOutput() {
-        return responseOutput;
-    }
-
-    public void setResponseOutput(SdncResponseOutput responseOutput) {
-        this.responseOutput = responseOutput;
-    }
-
 }

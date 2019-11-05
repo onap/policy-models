@@ -21,59 +21,22 @@
 
 package org.onap.policy.so;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class SoResponse implements Serializable {
 
     private static final long serialVersionUID = -3283942659786236032L;
 
-    @SerializedName("requestReferences")
     private SoRequestReferences requestReferences;
-
-    @SerializedName("requestError")
     private SoRequestError requestError;
-
-    @SerializedName("request")
     private SoRequest request;
-
     private int httpResponseCode;
 
     public SoResponse() {
         // required by author
     }
-
-    public int getHttpResponseCode() {
-        return httpResponseCode;
-    }
-
-    public SoRequest getRequest() {
-        return request;
-    }
-
-    public SoRequestError getRequestError() {
-        return requestError;
-    }
-
-    public SoRequestReferences getRequestReferences() {
-        return requestReferences;
-    }
-
-    public void setHttpResponseCode(int httpResponseCode) {
-        this.httpResponseCode = httpResponseCode;
-    }
-
-    public void setRequest(SoRequest request) {
-        this.request = request;
-    }
-
-    public void setRequestError(SoRequestError requestError) {
-        this.requestError = requestError;
-    }
-
-    public void setRequestReferences(SoRequestReferences requestReferences) {
-        this.requestReferences = requestReferences;
-    }
-
 }

@@ -22,7 +22,11 @@ package org.onap.policy.sdnc;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class SdncHealVnfInfo implements Serializable {
 
     private static final long serialVersionUID = 3208673205100673119L;
@@ -32,13 +36,5 @@ public class SdncHealVnfInfo implements Serializable {
 
     public SdncHealVnfInfo() {
         // Default constructor for SdncHealVnfInfo
-    }
-
-    public String getVnfId() {
-        return vnfId;
-    }
-
-    public void setVnfId(String vnfId) {
-        this.vnfId = vnfId;
     }
 }

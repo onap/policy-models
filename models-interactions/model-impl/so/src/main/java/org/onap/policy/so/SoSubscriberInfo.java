@@ -21,49 +21,21 @@
 
 package org.onap.policy.so;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class SoSubscriberInfo implements Serializable {
 
     private static final long serialVersionUID = -3283942659786236032L;
 
-    @SerializedName("globalSubscriberId")
     private String globalSubscriberId;
-
-    @SerializedName("subscriberCommonSiteId")
     private String subscriberCommonSiteId;
-
-    @SerializedName("subscriberName")
     private String subscriberName;
 
     public SoSubscriberInfo() {
         //required by author
     }
-
-    public String getGlobalSubscriberId() {
-        return globalSubscriberId;
-    }
-
-    public String getSubscriberCommonSiteId() {
-        return subscriberCommonSiteId;
-    }
-
-    public String getSubscriberName() {
-        return subscriberName;
-    }
-
-    public void setGlobalSubscriberId(String globalSubscriberId) {
-        this.globalSubscriberId = globalSubscriberId;
-    }
-
-    public void setSubscriberCommonSiteId(String subscriberCommonSiteId) {
-        this.subscriberCommonSiteId = subscriberCommonSiteId;
-    }
-
-    public void setSubscriberName(String subscriberName) {
-        this.subscriberName = subscriberName;
-    }
-
 }

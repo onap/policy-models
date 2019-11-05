@@ -26,18 +26,14 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class AaiNqExtraProperties implements Serializable {
     private static final long serialVersionUID = 4109625574744702319L;
 
     @SerializedName("extra-property")
     private List<AaiNqExtraProperty> extraProperty = new LinkedList<>();
-
-    public List<AaiNqExtraProperty> getExtraProperty() {
-        return extraProperty;
-    }
-
-    public void setExtraProperty(List<AaiNqExtraProperty> extraProperty) {
-        this.extraProperty = extraProperty;
-    }
 }

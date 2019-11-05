@@ -21,38 +21,20 @@
 
 package org.onap.policy.so;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class SoPolicyExceptionHolder implements Serializable {
 
     private static final long serialVersionUID = -3283942659786236032L;
 
-    @SerializedName("messageId")
     private String messageId;
-
-    @SerializedName("text")
     private String text;
 
     public SoPolicyExceptionHolder() {
       //required by author
     }
-
-    public String getMessageId() {
-        return messageId;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setMessageId(String messageId) {
-        this.messageId = messageId;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
 }

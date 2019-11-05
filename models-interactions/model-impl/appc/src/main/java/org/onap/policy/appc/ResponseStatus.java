@@ -24,7 +24,11 @@ package org.onap.policy.appc;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class ResponseStatus implements Serializable {
     private static final long serialVersionUID = 2421770469587860452L;
 
@@ -40,30 +44,6 @@ public class ResponseStatus implements Serializable {
     @Override
     public String toString() {
         return "ResponseStatus [Code=" + code + ", Value=" + value + ", Description=" + description + "]";
-    }
-
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     @Override

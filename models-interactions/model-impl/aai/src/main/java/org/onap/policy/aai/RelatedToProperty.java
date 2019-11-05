@@ -24,7 +24,11 @@ package org.onap.policy.aai;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class RelatedToProperty implements Serializable {
     private static final long serialVersionUID = 5644372985092588638L;
 
@@ -32,20 +36,4 @@ public class RelatedToProperty implements Serializable {
     private String propertyKey;
     @SerializedName("property-value")
     private String propertyValue;
-
-    public String getPropertyKey() {
-        return propertyKey;
-    }
-
-    public String getPropertyValue() {
-        return propertyValue;
-    }
-
-    public void setPropertyKey(String propertyKey) {
-        this.propertyKey = propertyKey;
-    }
-
-    public void setPropertyValue(String propertyValue) {
-        this.propertyValue = propertyValue;
-    }
 }

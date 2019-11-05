@@ -24,12 +24,15 @@ package org.onap.policy.sdnr;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class PciWrapper implements Serializable {
 
     private static final long serialVersionUID = 375215806432396532L;
 
-    @SerializedName(value = "version")
     private String version;
 
     @SerializedName(value = "cambria-partition")
@@ -41,101 +44,10 @@ public class PciWrapper implements Serializable {
     @SerializedName(value = "correlation-id")
     private String correlationId;
 
-    @SerializedName(value = "type")
     private String type;
 
     public PciWrapper() {
         // Create a default PciWrapper instance
-    }
-
-    /**
-     * Get the version.
-     *
-     * @return the version
-     */
-    public String getVersion() {
-        return version;
-    }
-
-    /**
-     * Set the version.
-     *
-     * @param version the version to set
-     */
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    /**
-     * Get the cambria partition.
-     *
-     * @return the cambriaPartition
-     */
-    public String getCambriaPartition() {
-        return cambriaPartition;
-    }
-
-    /**
-     * Set the cambria partition.
-     *
-     * @param cambriaPartition the cambriaPartition to set
-     */
-    public void setCambriaPartition(String cambriaPartition) {
-        this.cambriaPartition = cambriaPartition;
-    }
-
-    /**
-     * Get the RPN name.
-     *
-     * @return the rpcName
-     */
-    public String getRpcName() {
-        return rpcName;
-    }
-
-    /**
-     * Set the RPC name.
-     *
-     * @param rpcName the rpcName to set
-     */
-    public void setRpcName(String rpcName) {
-        this.rpcName = rpcName;
-    }
-
-    /**
-     * Get the correlation Id.
-     *
-     * @return the correlationId
-     */
-    public String getCorrelationId() {
-        return correlationId;
-    }
-
-    /**
-     * Set the correclation Id.
-     *
-     * @param correlationId the correlationId to set
-     */
-    public void setCorrelationId(String correlationId) {
-        this.correlationId = correlationId;
-    }
-
-    /**
-     * Get the type.
-     *
-     * @return the type
-     */
-    public String getType() {
-        return type;
-    }
-
-    /**
-     * Set the type.
-     *
-     * @param type the type to set
-     */
-    public void setType(String type) {
-        this.type = type;
     }
 
     @Override
@@ -197,13 +109,9 @@ public class PciWrapper implements Serializable {
             return false;
         }
         if (version == null) {
-            if (other.version != null) {
-                return false;
-            }
-        } else if (!version.equals(other.version)) {
-            return false;
+            return other.version == null;
+        } else {
+            return version.equals(other.version);
         }
-        return true;
     }
-
 }
