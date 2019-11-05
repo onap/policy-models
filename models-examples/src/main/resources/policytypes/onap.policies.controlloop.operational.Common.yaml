@@ -1,0 +1,250 @@
+tosca_definitions_version: tosca_simple_yaml_1_0_0
+policy_types:
+    onap.policies.controlloop.operational.Common:
+        derived_from: tosca.policies.Root
+        version: 2.0.0
+        description: Operational Policy for Control Loop execution
+        properties:
+            id:
+                type: String
+                description: The unique control loop id
+                required: true
+            timeout:
+                type: Integer
+                description: Overall timeout for executing all the operations.
+                required: true
+            abatement:
+                type: Boolean
+                description: Whether an abatement will be expected for the control loop.
+                required: true
+                default: false
+            operation:
+                description: Operation to execute upon receiving an Onset event for the Control Loop.
+                required: true
+                entry_schema:
+                    type: onap.datatype.controlloop.operation.Directive
+
+    onap.policies.controlloop.operational.Apex:
+        derived_from: onap.policies.controlloop.operational.Common
+        version: 1.0.0
+        description: Operational policies for Apex PDP
+        properties:
+
+    onap.policies.controlloop.operational.Drools:
+        derived_from: onap.policies.controlloop.operational.Common
+        version: 1.0.0
+        description: Operational policies for Drools PDP
+        properties:
+            controller:
+                description: Drools controller properties
+                required: true
+                entry_schema:
+                    type: onap.datatype:controlloop.controller.Drools
+                                
+data_types:
+    onap.datatype:controlloop.controller.Drools:
+        derived_from: tosca.datatypes.Root
+        version: 1.0.0
+        description: Definition of the target type for operations during control loops
+        properties:
+        
+    onap.datatype.controlloop.TargetType:
+        derived_from: tosca.datatypes.Root
+        version: 1.0.0
+        description: Definition of the target type for operations during control loops
+        properties:
+            target:
+                type: String
+                description: The type target the operation is performed against.
+                required: true
+                constraints:
+                    valid_values: [VNF, VM, VNFC, VFMODULE, PNF]
+            resources:
+                type: String
+                description: |
+                    The resource in which the operation is be performed against. By default,
+                    an onset event will contain resource identification which should be used
+                    for the operation (if applicable) if this field is missing.
+                    
+    onap.datatype.controlloop.Operation:
+        derived_from: tosca.datatypes.Root
+        version: 1.0.0
+        description: An operation supported by an actor
+        properties:
+            id:
+                type: String
+                description: Unique identifier for the operation
+                required: true
+            targettype:
+                description: The target type supported by the operation
+                required: true
+                entry_schema:
+                    type: onap.datatype.controlloop.TargetType
+            parameters:
+                type: Map
+                description: Optional parameters required by the operation
+                required: false
+            payload:
+                type: Map
+                description: Optional payload that is passed from the policy to the actor for operation execution.
+    
+    onap.datatype.controlloop.operation.Directive:
+        derived_from: tosca.datatypes.Root
+        version: 1.0.0
+        description: Policy definitions for taking actions during a Control Loop event
+        properties:
+            id:
+                type: String
+                description: Unique ID for the operation
+                required: true
+            description:
+                type: String
+                description: A user-friendly description of the directive
+                required: false
+            actor:
+                description: The actor that will perform the operation
+                required: true
+                entry_schema:
+                    type: onap.nodetype.controlloop.Actor
+            operation:
+                description: The operation the actor should perform on the target
+                required: true
+                entry_schema:
+                    type: onap.datatype.controlloop.operation
+            target:
+                description: The target this operation is performed against
+                required: true
+                entry_schema:
+                    type: onap.datatype.controlloop.targettype
+            timeout:
+                type: Integer
+                description: The amount of time for the actor to perform the operation.
+                required: true
+            retries:
+                type: Integer
+                description: The number of retries the actor should attempt to perform the operation.
+                required: true
+                default: 0
+            success: 
+                description: Points to the operation to invoke on success.
+                required: false
+                default: final_success
+                entry_schema:
+                    type: onap.datatype.controlloop.operation.directive
+            failure:
+                description: Points to the operation to invoke on Actor operation failure.
+                required: false
+                default: final_failure
+                entry_schema:
+                    type: onap.datatype.controlloop.operation.directive
+            failure_timeout:
+                description: Points to the operation to invoke when the time out for the operation occurs.
+                required: false
+                default: final_failure_timeout
+                entry_schema:
+                    type: onap.datatype.controlloop.operation.directive
+            failure_retries:
+                description: Points to the operation to invoke when the current operation has exceeded its max retries.
+                required: false
+                default: final_failure_retries
+                entry_schema:
+                    type: onap.datatype.controlloop.operation.directive
+            failure_exception: 
+                description: Points to the operation to invoke when the current operation causes an exception.
+                required: false
+                default: final_failure_exception
+                entry_schema:
+                    type: onap.datatype.controlloop.operation.directive
+            failure_guard: 
+                description: Points to the operation to invoke when the current operation is blocked due to guard policy enforcement.
+                required: false
+                default: final_failure_guard     
+                entry_schema:
+                    type: onap.datatype.controlloop.operation.directive
+
+node_types:
+    onap.nodetype.controlloop.Actor:
+        derived_from: tosca.nodes.Root
+        version: 1.0.0
+        description: Actor involved in executing operations in a control loop
+        properties:
+            id:
+                type: String
+                description: Unique identifier for the actor
+                required: true
+        capabilities:
+            operation:
+                type: onap.controlloop.capability.Operation
+            capabilities:
+                type: List
+                description: List of operations available for the actor
+                required: true
+                entry_schema:
+                    type: onap.datatype.controlloop.Operation
+capability_types:
+    onap.controlloop.capability.appc.ModifyConfig:
+        derived_from: tosca.nodes.Capabilities
+        properties:
+
+topology_template:
+    node_templates:
+        onap.nodetype.controlloop.actor.Appc:
+            type: onap.nodetype.controlloop.Actor
+            id: APPC
+            description: APPC control loop actor
+            capabilities:
+                ModifyConfig:
+                    type: onap.controlloop.capability.appc.ModifyConfig
+        onap.nodetype.controlloop.actor.AppcLcm:
+            type: onap.nodetype.controlloop.Actor
+            id: APPCLCM
+            description: APPC LCM control loop actor
+            capabilities:
+                Restart:
+                    type: onap.controlloop.capability.appclcm.Restart
+                Rebuild:
+                    type: onap.controlloop.capability.appclcm.Rebuild
+                Migrate:
+                    type: onap.controlloop.capability.appclcm.Migrate
+                ConfigModify:
+                    type: onap.controlloop.capability.appclcm.ConfigModify
+        onap.nodetype.controlloop.actor.Cds:
+            type: onap.nodetype.controlloop.Actor
+            id: CDS
+            description: CDS control loop actor
+            capabilities:
+                ModifyConfig:
+                    type: onap.controlloop.capability.cds.ModifyConfig
+        onap.nodetype.controlloop.actor.Sdnc:
+            type: onap.nodetype.controlloop.Actor
+            id: SDNC
+            description: SDNC control loop actor
+            capabilities:
+                reroute:
+                    type: onap.controlloop.capability.sdnc.reroute
+                BandwidthOnDemand:
+                    type: onap.controlloop.capability.sdnc.BandwidthOnDemand
+        onap.nodetype.controlloop.actor.Sdnr:
+            type: onap.nodetype.controlloop.Actor
+            id: SDNR
+            description: SDNR control loop actor
+            capabilities:
+                ModifyConfig:
+                    type: onap.controlloop.capability.sdnr.ModifyConfig
+        onap.nodetype.controlloop.actor.So:
+            type: onap.nodetype.controlloop.Actor
+            id: SO
+            description: SO control loop actor
+            capabilities:
+                VFModuleCreate:
+                    type: onap.controlloop.capability.so.VFModuleCreate
+                VFModuleDelete:
+                    type: onap.controlloop.capability.so.VFModuleDelete
+        onap.nodetype.controlloop.actor.Vfc:
+            type: onap.nodetype.controlloop.Actor
+            id: VFC
+            description: VFC control loop actor
+            capabilities:
+                Restart:
+                    type: onap.controlloop.capability.vfc.Restart
+                    
