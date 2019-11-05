@@ -209,6 +209,15 @@ public class PolicyPersistenceTest {
         databaseProvider.createPolicyTypes(toscaServiceTemplatePolicyType);
 
         yamlObject = new Yaml().load(
+                ResourceUtils.getResourceAsString("policytypes/onap.policies.controlloop.operational.Common.yaml"));
+        yamlAsJsonString = new StandardCoder().encode(yamlObject);
+
+        toscaServiceTemplatePolicyType = standardCoder.decode(yamlAsJsonString, ToscaServiceTemplate.class);
+
+        assertNotNull(toscaServiceTemplatePolicyType);
+        databaseProvider.createPolicyTypes(toscaServiceTemplatePolicyType);
+
+        yamlObject = new Yaml().load(
                 ResourceUtils.getResourceAsString("policytypes/onap.policies.controlloop.guard.FrequencyLimiter.yaml"));
         yamlAsJsonString = new StandardCoder().encode(yamlObject);
 
