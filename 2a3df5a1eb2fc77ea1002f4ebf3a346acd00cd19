@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d1a1dd73_2db103cb",
+        "filename": "models-interactions/model-impl/events/src/main/java/org/onap/policy/controlloop/VirtualControlLoopNotification.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-06T20:31:59Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "2a3df5a1eb2fc77ea1002f4ebf3a346acd00cd19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
