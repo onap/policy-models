@@ -22,6 +22,30 @@
       "revId": "962b335aa92a25996749758cb88ae2967d9d9e9d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d69d7def_20e4e412",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-11-07T16:16:55Z",
+      "side": 1,
+      "message": "I agree.\n\nActually we must have this table, otherwise we have no history of the statistics, only the most recent ones.\n\nAlso then we wouldn\u0027t need to update the PDP table every time just for a statistics update change.",
+      "parentUuid": "a6b9fd7c_bb1b4b54",
+      "range": {
+        "startLine": 80,
+        "startChar": 4,
+        "endLine": 91,
+        "endChar": 43
+      },
+      "revId": "962b335aa92a25996749758cb88ae2967d9d9e9d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
