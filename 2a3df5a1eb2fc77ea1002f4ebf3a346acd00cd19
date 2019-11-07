@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "8babb771_0412d4c6",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/Pnf.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-11-07T14:24:57Z",
+      "side": 1,
+      "message": "@Data gives you getters, setters, toString, hashcode and equals",
+      "range": {
+        "startLine": 28,
+        "startChar": 1,
+        "endLine": 30,
+        "endChar": 2
+      },
+      "revId": "2a3df5a1eb2fc77ea1002f4ebf3a346acd00cd19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab47b41c_e8e078c4",
+        "filename": "models-interactions/model-impl/appc/src/main/java/org/onap/policy/appc/ResponseStatus.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-11-07T14:24:57Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 49,
+        "startChar": 1,
+        "endLine": 57,
+        "endChar": 5
+      },
+      "revId": "2a3df5a1eb2fc77ea1002f4ebf3a346acd00cd19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62a1d6f7_807e96b1",
+        "filename": "models-interactions/model-impl/events/src/main/java/org/onap/policy/controlloop/ControlLoopOperation.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-11-07T14:24:57Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 76,
+        "startChar": 2,
+        "endLine": 164,
+        "endChar": 5
+      },
+      "revId": "2a3df5a1eb2fc77ea1002f4ebf3a346acd00cd19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d1a1dd73_2db103cb",
         "filename": "models-interactions/model-impl/events/src/main/java/org/onap/policy/controlloop/VirtualControlLoopNotification.java",
         "patchSetId": 2
@@ -13,6 +82,259 @@
       "writtenOn": "2019-11-06T20:31:59Z",
       "side": 1,
       "message": "trailing space",
+      "revId": "2a3df5a1eb2fc77ea1002f4ebf3a346acd00cd19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73c8a7f3_732ae5bf",
+        "filename": "models-interactions/model-impl/sdc/src/main/java/org/onap/policy/sdc/Service.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-11-07T14:24:57Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 5
+      },
+      "revId": "2a3df5a1eb2fc77ea1002f4ebf3a346acd00cd19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2fa2ea9_92028eb4",
+        "filename": "models-interactions/model-impl/sdc/src/main/java/org/onap/policy/sdc/ServiceInstance.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-11-07T14:24:57Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 65,
+        "startChar": 3,
+        "endLine": 146,
+        "endChar": 5
+      },
+      "revId": "2a3df5a1eb2fc77ea1002f4ebf3a346acd00cd19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d1946fb8_43e48df5",
+        "filename": "models-interactions/model-impl/sdnr/src/main/java/org/onap/policy/sdnr/PciCommonHeader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-11-07T14:24:57Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 82,
+        "startChar": 3,
+        "endLine": 154,
+        "endChar": 5
+      },
+      "revId": "2a3df5a1eb2fc77ea1002f4ebf3a346acd00cd19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3b64f87_ed5575f9",
+        "filename": "models-interactions/model-impl/sdnr/src/main/java/org/onap/policy/sdnr/PciRequest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-11-07T14:24:57Z",
+      "side": 1,
+      "message": "Did you miss those, maybe do in another review?",
+      "range": {
+        "startLine": 58,
+        "startChar": 3,
+        "endLine": 144,
+        "endChar": 5
+      },
+      "revId": "2a3df5a1eb2fc77ea1002f4ebf3a346acd00cd19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f311b02_32d0fbbe",
+        "filename": "models-interactions/model-impl/sdnr/src/main/java/org/onap/policy/sdnr/PciRequestWrapper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-11-07T14:24:57Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 44,
+        "startChar": 3,
+        "endLine": 75,
+        "endChar": 1
+      },
+      "revId": "2a3df5a1eb2fc77ea1002f4ebf3a346acd00cd19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c0b78b9_53a98ac9",
+        "filename": "models-interactions/model-impl/sdnr/src/main/java/org/onap/policy/sdnr/PciResponse.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-11-07T14:24:57Z",
+      "side": 1,
+      "message": "Ditto",
+      "range": {
+        "startLine": 58,
+        "startChar": 3,
+        "endLine": 108,
+        "endChar": 1
+      },
+      "revId": "2a3df5a1eb2fc77ea1002f4ebf3a346acd00cd19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d6be792_2b753750",
+        "filename": "models-interactions/model-impl/sdnr/src/main/java/org/onap/policy/sdnr/PciResponseWrapper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-11-07T14:24:57Z",
+      "side": 1,
+      "message": "Ditto",
+      "range": {
+        "startLine": 40,
+        "startChar": 3,
+        "endLine": 70,
+        "endChar": 5
+      },
+      "revId": "2a3df5a1eb2fc77ea1002f4ebf3a346acd00cd19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2966a24_ce60c8e1",
+        "filename": "models-interactions/model-impl/sdnr/src/main/java/org/onap/policy/sdnr/PciWrapper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-11-07T14:24:57Z",
+      "side": 1,
+      "message": "Ditto",
+      "range": {
+        "startLine": 53,
+        "startChar": 3,
+        "endLine": 116,
+        "endChar": 5
+      },
+      "revId": "2a3df5a1eb2fc77ea1002f4ebf3a346acd00cd19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1645cd43_76afc158",
+        "filename": "models-interactions/model-impl/sdnr/src/main/java/org/onap/policy/sdnr/Status.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-11-07T14:24:57Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 56,
+        "startChar": 4,
+        "endLine": 91,
+        "endChar": 1
+      },
+      "revId": "2a3df5a1eb2fc77ea1002f4ebf3a346acd00cd19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c1b45bf_32d114cd",
+        "filename": "models-interactions/model-impl/so/src/main/java/org/onap/policy/so/SoRequestDetails.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-11-07T14:24:57Z",
+      "side": 1,
+      "message": "Ditto",
+      "range": {
+        "startLine": 121,
+        "startChar": 4,
+        "endLine": 145,
+        "endChar": 1
+      },
+      "revId": "2a3df5a1eb2fc77ea1002f4ebf3a346acd00cd19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e20273f5_b7879155",
+        "filename": "models-interactions/model-impl/so/src/main/java/org/onap/policy/so/SoResponseWrapper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-11-07T14:24:57Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 70,
+        "startChar": 2,
+        "endLine": 84,
+        "endChar": 5
+      },
       "revId": "2a3df5a1eb2fc77ea1002f4ebf3a346acd00cd19",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
