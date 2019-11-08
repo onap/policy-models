@@ -21,6 +21,7 @@
 
 package org.onap.policy.models.pdp.concepts;
 
+import java.util.Date;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -38,6 +39,7 @@ import lombok.ToString;
 public class PdpStatistics {
 
     private String pdpInstanceId;
+    private Date timeStamp;
     private long policyDeployCount;
     private long policyDeploySuccessCount;
     private long policyDeployFailCount;
@@ -52,6 +54,7 @@ public class PdpStatistics {
      */
     public PdpStatistics(PdpStatistics source) {
         this.pdpInstanceId = source.pdpInstanceId;
+        this.timeStamp = source.timeStamp == null ? null : new Date(source.timeStamp.getTime());
         this.policyDeployCount = source.policyDeployCount;
         this.policyDeployFailCount = source.policyDeployFailCount;
         this.policyDeploySuccessCount = source.policyDeploySuccessCount;
@@ -59,4 +62,5 @@ public class PdpStatistics {
         this.policyExecutedFailCount = source.policyExecutedFailCount;
         this.policyExecutedSuccessCount = source.policyExecutedSuccessCount;
     }
+
 }
