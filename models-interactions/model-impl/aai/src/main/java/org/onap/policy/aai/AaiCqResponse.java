@@ -21,6 +21,7 @@
 package org.onap.policy.aai;
 
 import com.google.gson.annotations.SerializedName;
+import java.io.Serializable;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,8 +48,8 @@ import org.onap.aai.domain.yang.Vserver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AaiCqResponse {
-
+public class AaiCqResponse implements Serializable {
+    private static final long serialVersionUID = 1L;
     private static final String GENERIC_VNF = "generic-vnf";
     private static final String VF_MODULE = "vf-module";
     private static final Logger LOGGER = LoggerFactory.getLogger(AaiCqResponse.class);
@@ -81,7 +82,7 @@ public class AaiCqResponse {
     }
 
     @SerializedName("results")
-    private List<Object> inventoryResponseItems = new LinkedList<>();
+    private List<Serializable> inventoryResponseItems = new LinkedList<>();
 
     /**
      * Constructor creates a custom query response from a valid json string.
@@ -202,11 +203,11 @@ public class AaiCqResponse {
         }
     }
 
-    public List<Object> getInventoryResponseItems() {
+    public List<Serializable> getInventoryResponseItems() {
         return inventoryResponseItems;
     }
 
-    public void setInventoryResponseItems(List<Object> inventoryResponseItems) {
+    public void setInventoryResponseItems(List<Serializable> inventoryResponseItems) {
         this.inventoryResponseItems = inventoryResponseItems;
     }
 
@@ -219,7 +220,7 @@ public class AaiCqResponse {
     @SuppressWarnings("unchecked")
     public <T> List<T> getItemListByType(Class<T> classOfResponse) {
         List<T> returnItemList = new ArrayList<>();
-        for (Object i : this.inventoryResponseItems) {
+        for (Serializable i : this.inventoryResponseItems) {
             if (i.getClass() == classOfResponse) {
                 returnItemList.add((T) i);
             }
@@ -235,7 +236,7 @@ public class AaiCqResponse {
      */
     public ServiceInstance getServiceInstance() {
         ServiceInstance serviceInstance = null;
-        for (Object i : this.inventoryResponseItems) {
+        for (Serializable i : this.inventoryResponseItems) {
             if (i.getClass() == ServiceInstance.class) {
                 serviceInstance = (ServiceInstance) i;
             }
@@ -251,7 +252,7 @@ public class AaiCqResponse {
      */
     public Tenant getDefaultTenant() {
         Tenant tenant = null;
-        for (Object i : this.inventoryResponseItems) {
+        for (Serializable i : this.inventoryResponseItems) {
             if (i.getClass() == Tenant.class) {
                 tenant = (Tenant) i;
             }
@@ -267,7 +268,7 @@ public class AaiCqResponse {
      */
     public CloudRegion getDefaultCloudRegion() {
         CloudRegion cloudRegion = null;
-        for (Object i : this.inventoryResponseItems) {
+        for (Serializable i : this.inventoryResponseItems) {
             if (i.getClass() == CloudRegion.class) {
                 cloudRegion = (CloudRegion) i;
             }
@@ -283,7 +284,7 @@ public class AaiCqResponse {
      */
     public List<GenericVnf> getGenericVnfs() {
         List<GenericVnf> genericVnfList = new ArrayList<>();
-        for (Object i : this.inventoryResponseItems) {
+        for (Serializable i : this.inventoryResponseItems) {
             if (i.getClass() == GenericVnf.class) {
                 genericVnfList.add((GenericVnf) i);
             }
@@ -301,7 +302,7 @@ public class AaiCqResponse {
     public GenericVnf getGenericVnfByVnfName(String vnfName) {
         List<GenericVnf> genericVnfList = new ArrayList<>();
         GenericVnf genericVnf = null;
-        for (Object i : this.inventoryResponseItems) {
+        for (Serializable i : this.inventoryResponseItems) {
             if (i.getClass() == GenericVnf.class) {
                 genericVnfList.add((GenericVnf) i);
             }
@@ -326,7 +327,7 @@ public class AaiCqResponse {
     public GenericVnf getGenericVnfByModelInvariantId(String modelInvariantId) {
         List<GenericVnf> genericVnfList = new ArrayList<>();
         GenericVnf genericVnf = null;
-        for (Object i : this.inventoryResponseItems) {
+        for (Serializable i : this.inventoryResponseItems) {
             if (i.getClass() == GenericVnf.class) {
                 genericVnfList.add((GenericVnf) i);
             }
@@ -533,7 +534,7 @@ public class AaiCqResponse {
      */
     public List<ModelVer> getAllModelVer() {
         List<ModelVer> modelVerList = new ArrayList<>();
-        for (Object i : this.inventoryResponseItems) {
+        for (Serializable i : this.inventoryResponseItems) {
             if (i.getClass() == ModelVer.class) {
                 modelVerList.add((ModelVer) i);
             }
