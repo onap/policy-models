@@ -21,10 +21,13 @@
 
 package org.onap.policy.models.pdp.concepts;
 
+import java.util.Date;
+import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.onap.policy.models.base.PfUtils;
 
 /**
  * Class to represent statistics of a running PDP.
@@ -38,12 +41,16 @@ import lombok.ToString;
 public class PdpStatistics {
 
     private String pdpInstanceId;
+    private Date timeStamp;
+    private String pdpGroupName;
+    private String pdpSubGroupName;
     private long policyDeployCount;
     private long policyDeploySuccessCount;
     private long policyDeployFailCount;
     private long policyExecutedCount;
     private long policyExecutedSuccessCount;
     private long policyExecutedFailCount;
+    private List<PdpEngineWorkerStatistics> engineStats;
 
     /**
      * Constructs the object, making a deep copy.
@@ -52,11 +59,16 @@ public class PdpStatistics {
      */
     public PdpStatistics(PdpStatistics source) {
         this.pdpInstanceId = source.pdpInstanceId;
+        this.timeStamp = source.timeStamp == null ? null : new Date(source.timeStamp.getTime());
+        this.pdpGroupName = source.pdpGroupName;
+        this.pdpSubGroupName = source.pdpSubGroupName;
         this.policyDeployCount = source.policyDeployCount;
         this.policyDeployFailCount = source.policyDeployFailCount;
         this.policyDeploySuccessCount = source.policyDeploySuccessCount;
         this.policyExecutedCount = source.policyExecutedCount;
         this.policyExecutedFailCount = source.policyExecutedFailCount;
         this.policyExecutedSuccessCount = source.policyExecutedSuccessCount;
+        this.engineStats = PfUtils.mapList(source.engineStats, PdpEngineWorkerStatistics::new, null);
     }
+
 }
