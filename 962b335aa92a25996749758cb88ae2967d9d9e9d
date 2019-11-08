@@ -46,6 +46,30 @@
       "revId": "962b335aa92a25996749758cb88ae2967d9d9e9d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48ecf987_b0e46877",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 5257
+      },
+      "writtenOn": "2019-11-08T02:58:31Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d69d7def_20e4e412",
+      "range": {
+        "startLine": 80,
+        "startChar": 4,
+        "endLine": 91,
+        "endChar": 43
+      },
+      "revId": "962b335aa92a25996749758cb88ae2967d9d9e9d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
