@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee19a8c3_e6ba96d7",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfTimestampConceptKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-11-11T10:00:22Z",
+      "side": 1,
+      "message": "If you inherit from PfConceptKey then I think you can remove much/most of the code in this class.",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 50
+      },
+      "revId": "972d8c24ff0f6f28847683d6a34f9ce66903b9b9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
