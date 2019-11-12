@@ -22,6 +22,30 @@
       "revId": "972d8c24ff0f6f28847683d6a34f9ce66903b9b9",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb5ffd08_4fda48ea",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfTimestampConceptKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5257
+      },
+      "writtenOn": "2019-11-12T07:47:32Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ee19a8c3_e6ba96d7",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 50
+      },
+      "revId": "972d8c24ff0f6f28847683d6a34f9ce66903b9b9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
