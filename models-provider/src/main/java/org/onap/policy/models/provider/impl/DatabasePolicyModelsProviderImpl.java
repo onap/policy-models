@@ -111,7 +111,6 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
 
         daoParameters.setJdbcProperties(jdbcProperties);
 
-        pfDao = new PfDaoFactory().createPfDao(daoParameters);
         try {
             pfDao = new PfDaoFactory().createPfDao(daoParameters);
             pfDao.init(daoParameters);
