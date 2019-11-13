@@ -30,15 +30,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
-import org.onap.policy.aai.AaiManager;
-import org.onap.policy.aai.AaiNqInstanceFilters;
-import org.onap.policy.aai.AaiNqInventoryResponseItem;
-import org.onap.policy.aai.AaiNqNamedQuery;
-import org.onap.policy.aai.AaiNqQueryParameters;
-import org.onap.policy.aai.AaiNqRequest;
-import org.onap.policy.aai.AaiNqResponse;
-import org.onap.policy.aai.util.AaiException;
 import org.onap.policy.appclcm.AppcLcmBody;
 import org.onap.policy.appclcm.AppcLcmCommonHeader;
 import org.onap.policy.appclcm.AppcLcmDmaapWrapper;
@@ -50,7 +41,6 @@ import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
-import org.onap.policy.rest.RestManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -104,77 +94,6 @@ public class AppcLcmActorServiceProvider implements Actor {
         return ImmutableList.copyOf(payloads.getOrDefault(recipe, Collections.emptyList()));
     }
 
-    /**
-     * This method recursively traverses the A&AI named query response to find the generic-vnf
-     * object that contains a model-invariant-id that matches the resourceId of the policy. Once
-     * this match is found the generic-vnf object's vnf-id is returned.
-     *
-     * @param items the list of items related to the vnf returned by A&AI
-     * @param resourceId the id of the target from the sdc catalog
-     *
-     * @return the vnf-id of the target vnf to act upon or null if not found
-     */
-    private static String parseAaiResponse(List<AaiNqInventoryResponseItem> items, String resourceId) {
-        String vnfId = null;
-        for (AaiNqInventoryResponseItem item : items) {
-            if ((item.getGenericVnf() != null) && (item.getGenericVnf().getModelInvariantId() != null)
-                    && (resourceId.equals(item.getGenericVnf().getModelInvariantId()))) {
-                vnfId = item.getGenericVnf().getVnfId();
-                break;
-            } else {
-                if ((item.getItems() != null) && (item.getItems().getInventoryResponseItems() != null)) {
-                    vnfId = parseAaiResponse(item.getItems().getInventoryResponseItems(), resourceId);
-                }
-            }
-        }
-        return vnfId;
-    }
-
-    /**
-     * Constructs an A&AI Named Query using a source vnf-id to determine the vnf-id of the target
-     * entity specified in the policy to act upon.
-     *
-     * @param resourceId the id of the target from the sdc catalog
-     *
-     * @param sourceVnfId the vnf id of the source entity reporting the alert
-     *
-     * @return the target entities vnf id to act upon
-     * @throws AaiException it an error occurs
-     */
-    public static String vnfNamedQuery(String resourceId, String sourceVnfId, String aaiUrl,
-            String aaiUser, String aaiPassword) throws AaiException {
-
-        // TODO: This request id should not be hard coded in future releases
-        UUID requestId = UUID.fromString("a93ac487-409c-4e8c-9e5f-334ae8f99087");
-
-        AaiNqRequest aaiRequest = new AaiNqRequest();
-        aaiRequest.setQueryParameters(new AaiNqQueryParameters());
-        aaiRequest.getQueryParameters().setNamedQuery(new AaiNqNamedQuery());
-        aaiRequest.getQueryParameters().getNamedQuery().setNamedQueryUuid(requestId);
-
-        Map<String, Map<String, String>> filter = new HashMap<>();
-        Map<String, String> filterItem = new HashMap<>();
-
-        filterItem.put("vnf-id", sourceVnfId);
-        filter.put("generic-vnf", filterItem);
-
-        aaiRequest.setInstanceFilters(new AaiNqInstanceFilters());
-        aaiRequest.getInstanceFilters().getInstanceFilter().add(filter);
-
-        AaiNqResponse aaiResponse = new AaiManager(new RestManager()).postQuery(aaiUrl,
-                aaiUser, aaiPassword, aaiRequest, requestId);
-
-        if (aaiResponse == null) {
-            throw new AaiException("The named query response was null");
-        }
-
-        String targetVnfId = parseAaiResponse(aaiResponse.getInventoryResponseItems(), resourceId);
-        if (targetVnfId == null) {
-            throw new AaiException("Target vnf-id could not be found");
-        }
-
-        return targetVnfId;
-    }
 
     /**
      * Constructs an APPC request conforming to the lcm API. The actual request is constructed and

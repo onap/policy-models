@@ -21,7 +21,7 @@
 
 package org.onap.policy.controlloop.policy.builder;
 
-import org.onap.policy.aai.Pnf;
+import org.onap.aai.domain.yang.Pnf;
 import org.onap.policy.controlloop.policy.ControlLoop;
 import org.onap.policy.controlloop.policy.OperationsAccumulateParams;
 import org.onap.policy.controlloop.policy.Policy;

@@ -332,19 +332,6 @@ public class AppcLcmActorServiceProviderTest {
     }
 
     /*
-     * This test ensures that that if the the source entity is also the target entity, the source
-     * will be used for the APPC request.
-     */
-    @Test
-    public void sourceIsTargetTest() throws Exception {
-        String resourceId = "82194af1-3c2c-485a-8f44-420e22a9eaa4";
-        String targetVnfId = AppcLcmActorServiceProvider.vnfNamedQuery(resourceId, VNF01, "http://localhost:6666",
-                        "AAI", "AAI");
-        assertNotNull(targetVnfId);
-        assertEquals(VNF01, targetVnfId);
-    }
-
-    /*
      * This test exercises getters not exercised in other tests.
      */
     @Test

@@ -25,7 +25,7 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.onap.policy.aai.Pnf;
+import org.onap.aai.domain.yang.Pnf;
 import org.onap.policy.sdc.Resource;
 import org.onap.policy.sdc.Service;
 
