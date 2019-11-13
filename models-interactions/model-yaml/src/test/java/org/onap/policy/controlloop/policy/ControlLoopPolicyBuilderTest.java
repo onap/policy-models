@@ -36,8 +36,7 @@ import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.onap.policy.aai.Pnf;
-import org.onap.policy.aai.PnfType;
+import org.onap.aai.domain.yang.Pnf;
 import org.onap.policy.controlloop.policy.builder.BuilderException;
 import org.onap.policy.controlloop.policy.builder.ControlLoopPolicyBuilder;
 import org.onap.policy.controlloop.policy.builder.Message;
@@ -239,7 +238,7 @@ public class ControlLoopPolicyBuilderTest {
     // PLEASE ADVISE IF THE BEHAVIOUR IS INCORRECT OR THE TEST CASE IS INVALID
     public void testControlLoopForPnf() throws BuilderException {
         Pnf pnf = new Pnf();
-        pnf.setPnfType(PnfType.ENODEB);
+        //pnf.setPnfType(PnfType.ENODEB);
         ControlLoopPolicyBuilder builder =
                 ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400, pnf);
         assertEquals(pnf, builder.getControlLoop().getPnf());
@@ -257,7 +256,7 @@ public class ControlLoopPolicyBuilderTest {
         assertNull(builder.getControlLoop().getPnf());
 
         Pnf pnf = new Pnf();
-        pnf.setPnfType(PnfType.ENODEB);
+        //pnf.setPnfType(PnfType.ENODEB);
         builder.setPnf(pnf);
         assertEquals(pnf, builder.getControlLoop().getPnf());
 

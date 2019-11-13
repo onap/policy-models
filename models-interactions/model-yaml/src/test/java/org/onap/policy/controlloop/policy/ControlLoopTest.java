@@ -31,7 +31,7 @@ import java.util.List;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import org.onap.policy.aai.Pnf;
+import org.onap.aai.domain.yang.Pnf;
 import org.onap.policy.common.utils.io.Serializer;
 import org.onap.policy.sdc.Resource;
 import org.onap.policy.sdc.ResourceType;
