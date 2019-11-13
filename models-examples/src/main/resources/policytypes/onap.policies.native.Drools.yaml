@@ -1,0 +1,76 @@
+tosca_definitions_version: tosca_simple_yaml_1_0_0
+policy_types:
+    onap.policies.Native:
+        derived_from: tosca.policies.Root
+        description: a base policy type for all native PDP policies
+        version: 1.0.0
+    onap.policies.native.Drools:
+        derived_from: onap.policies.Native
+        description: a policy type for native drools policies
+        version: 1.0.0
+        properties:
+            rule_artifact:
+                type: onap.datatypes.native.rule_artifact
+                required: true
+                description: specifies rule artifact pointer
+            drools_controller:
+                type: onap.datatypes.native.drools_controller
+                required: false
+                description: specifies information for drools controller instantiation
+
+data_types:
+    onap.datatypes.native.rule_artifact:
+        derived_from: tosca.datatypes.Root
+        properties:
+            groupId:
+                type: string
+                required: true
+            artifactId:
+                type: string
+                required: true
+            version:
+                type: string
+                required: true
+    onap.datatypes.native.drools_controller:
+        derived_from: tosca.datatypes.Root
+        properties:
+            controllerName:
+                type: string
+                required: true
+            isNewController:
+                type: boolean
+                required: true
+                description: a flag to indicate if the controller is a new one to instantiate or not
+            sourceTopics:
+                type: list
+                required: false
+                entry_schema:
+                    type: onap.datatypes.native.dmaap_config
+            sinkTopics:
+                type: list
+                required: false
+                entry_schema:
+                    type: onap.datatypes.native.dmaap_config
+    onap.datatypes.native.dmaap_config:
+        derived_from: tosca.datatypes.Root
+        properties:
+            topicName:
+                type: string
+                required: true
+            serialization:
+                type: list
+                required: true
+                entry_schema:
+                    type: onap.datatypes.native.dmaap.serialization
+    onap.datatypes.native.dmaap.serialization:
+        derived_from: tosca.datatypes.Root
+        properties:
+            eventCanonicalName:
+                type: string
+                required: true
+            eventFilter:
+                type: string
+                required: false
+            customSerializer:
+                type: string
+                required: false
