@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "8a990283_9a174dca",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.controlloop.native.Drools.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-11-13T16:19:52Z",
+      "side": 1,
+      "message": "Yes we happen to use these internally for use cases on controlloops, but this implies that native is ONLY for controlloop. Which should not be the case.",
+      "range": {
+        "startLine": 3,
+        "startChar": 18,
+        "endLine": 3,
+        "endChar": 30
+      },
+      "revId": "16006e7618431067472bc10deb5c45d8fd7377ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "76ecb499_4eda851c",
         "filename": "models-examples/src/main/resources/policytypes/onap.policies.controlloop.native.Drools.yaml",
         "patchSetId": 2
@@ -16,6 +39,46 @@
       "revId": "16006e7618431067472bc10deb5c45d8fd7377ac",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37007126_23108c65",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.controlloop.native.Drools.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-11-13T16:19:52Z",
+      "side": 1,
+      "message": "perhaps better to actually add the default values currently used.\n\ndefault: {THE DEFAULT VALUE}",
+      "range": {
+        "startLine": 54,
+        "startChar": 34,
+        "endLine": 54,
+        "endChar": 58
+      },
+      "revId": "16006e7618431067472bc10deb5c45d8fd7377ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a33c5ad_95309737",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.controlloop.native.Xacml.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-11-13T16:19:52Z",
+      "side": 1,
+      "message": "We should add metadata that indicates how the policy is encoded\n\nmetadata:\n    encoding: {URL encoding}",
+      "revId": "16006e7618431067472bc10deb5c45d8fd7377ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
