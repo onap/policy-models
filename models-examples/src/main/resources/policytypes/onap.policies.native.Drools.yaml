@@ -1,0 +1,100 @@
+tosca_definitions_version: tosca_simple_yaml_1_0_0
+policy_types:
+    onap.policies.Native:
+        derived_from: tosca.policies.Root
+        description: a base policy type for all native PDP policies
+        version: 1.0.0
+    onap.policies.native.Drools:
+        derived_from: onap.policies.Native
+        description: a policy type for native drools policies
+        version: 1.0.0
+        properties:
+            rule_artifact:
+                type: onap.datatypes.native.rule_artifact
+                required: true
+                description: specifies GAV information of the rule artifact
+            drools_controller:
+                type: onap.datatypes.native.drools_controller
+                required: false
+                description: specifies the configurations for drools controller
+            custom_config:
+                type: map
+                required: false
+                description: specifies custom configurations needed for this particular native policy
+                entry_schema:
+                    type: string
+
+data_types:
+    onap.datatypes.native.rule_artifact:
+        derived_from: tosca.datatypes.Root
+        properties:
+            groupId:
+                type: string
+                required: true
+                description: specifies groupId of the maven artifact
+            artifactId:
+                type: string
+                required: true
+                description: specifies artifactId of the maven artifact
+            version:
+                type: string
+                required: true
+                description: sepcifies version of the maven artifact
+    onap.datatypes.native.drools_controller:
+        derived_from: tosca.datatypes.Root
+        properties:
+            controllerName:
+                type: string
+                required: true
+                description: specifies the controller name which could be new or existing
+            sourceTopics:
+                type: list
+                required: false
+                description: includes all source topices and configs needed for the events coming under each topic
+                entry_schema:
+                    type: onap.datatypes.native.dmaap.topic
+            sinkTopics:
+                type: list
+                required: false
+                description: includes all sink topices and configs needed for the events sending under each topic
+                entry_schema:
+                    type: onap.datatypes.native.dmaap.topic
+    onap.datatypes.native.dmaap.topic:
+        derived_from: tosca.datatypes.Root
+        properties:
+            topicName:
+                type: string
+                required: true
+                description: specifies the name of the dmaap topic
+            serialization:
+                type: list
+                required: true
+                description: includes all configs needed for serializing all kinds of events under current topic
+                entry_schema:
+                    type: onap.datatypes.native.dmaap.serialization
+    onap.datatypes.native.dmaap.serialization:
+        derived_from: tosca.datatypes.Root
+        properties:
+            eventCanonicalName:
+                type: string
+                required: true
+                description: specifies the event canonical class for serialization
+            eventFilter:
+                type: string
+                required: false
+                description: specifies json path based condition to filter out the events to serialize
+            customSerializer:
+                type: onap.datatypes.native.dmaap.custom_serializer
+                required: false
+                description: specifies custom serializer to use for serializing current event
+    onap.datatypes.native.dmaap.custom_serializer:
+        derived_from: tosca.datatypes.Root
+        properties:
+            customSerializerClass:
+                type: string
+                required: true
+                description: specifies the class of custom serializer
+            jsonParser:
+                type: string
+                required: true
+                description: specifies the json parser to use which is implemented in custom serializer class
