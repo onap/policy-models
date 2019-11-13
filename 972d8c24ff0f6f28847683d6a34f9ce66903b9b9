@@ -70,6 +70,30 @@
       "revId": "972d8c24ff0f6f28847683d6a34f9ce66903b9b9",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42b254a8_db55f9b7",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfTimestampConceptKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-13T15:10:42Z",
+      "side": 1,
+      "message": "The question would be as this would create tight coupling to an specific library, if in the future there is the possibility to use a different JPA library that many not support this functionality (to keep the code portable)?   This is just a question.",
+      "parentUuid": "9f6aec6a_0064b9f8",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 50
+      },
+      "revId": "972d8c24ff0f6f28847683d6a34f9ce66903b9b9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
