@@ -46,6 +46,30 @@
       "revId": "972d8c24ff0f6f28847683d6a34f9ce66903b9b9",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f6aec6a_0064b9f8",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfTimestampConceptKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5257
+      },
+      "writtenOn": "2019-11-13T08:51:12Z",
+      "side": 1,
+      "message": "Hi Liam,\nAccording to the JPA wiki, the JPA spec does not allow inheritance in embeddable objects \nBut EclipseLink does support inheritance with embeddables through the native API(To define inheritance with a hierarchy of embedded classes a DescriptorCustomizer and SessionCustomizer can be used.).\nI will try this solution.\nhttps://wiki.eclipse.org/EclipseLink/UserGuide/JPA/Basic_JPA_Development/Entities/Embeddable#Inheritance",
+      "parentUuid": "eb5ffd08_4fda48ea",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 50
+      },
+      "revId": "972d8c24ff0f6f28847683d6a34f9ce66903b9b9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
