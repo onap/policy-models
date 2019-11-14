@@ -227,6 +227,23 @@
     },
     {
       "key": {
+        "uuid": "55c97ed7_91af84d7",
+        "filename": "models-interactions/model-simulators/src/test/java/org/onap/policy/simulators/AaiSimulatorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2019-11-14T19:48:31Z",
+      "side": 1,
+      "message": "Arguments should be switched: expected value is the 1st parameter and actual value the 2nd one.",
+      "revId": "6de5a0c9e2acf3a799f53c9fedf8a40861b6ddbe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7fa7f262_df75229a",
         "filename": "models-interactions/model-yaml/src/test/java/org/onap/policy/controlloop/policy/ControlLoopPolicyBuilderTest.java",
         "patchSetId": 2
