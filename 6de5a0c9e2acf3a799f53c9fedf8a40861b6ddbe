@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1bd99a46_1a4c9efe",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/Pnf.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-11-14T13:12:33Z",
+      "side": 1,
+      "message": "Are we sure that this isn\u0027t needed anymore - what about the 5G SON OFF use case? eg SDNR actor",
+      "revId": "6de5a0c9e2acf3a799f53c9fedf8a40861b6ddbe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fa7f262_df75229a",
+        "filename": "models-interactions/model-yaml/src/test/java/org/onap/policy/controlloop/policy/ControlLoopPolicyBuilderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-11-14T13:12:33Z",
+      "side": 1,
+      "message": "1. Remove the code\n2. Should this PNF code be removed? What about the 5G SON OOF Use Case that uses this?",
+      "range": {
+        "startLine": 241,
+        "startChar": 7,
+        "endLine": 241,
+        "endChar": 41
+      },
+      "revId": "6de5a0c9e2acf3a799f53c9fedf8a40861b6ddbe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
