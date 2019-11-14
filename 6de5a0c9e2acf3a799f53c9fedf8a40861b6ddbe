@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "a2b65d0a_88405cf9",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/AaiGetVnfResponse.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-11-14T15:35:50Z",
+      "side": 1,
+      "message": "drools-application JUNIT are failing due to these files being deleted, might need another patch to fix the dependent projects to avoid build failures",
+      "revId": "6de5a0c9e2acf3a799f53c9fedf8a40861b6ddbe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1bd99a46_1a4c9efe",
         "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/Pnf.java",
         "patchSetId": 2
@@ -48,6 +65,24 @@
       "side": 1,
       "message": "Yeah, I thought Rashmi just added this not too long ago",
       "parentUuid": "1bd99a46_1a4c9efe",
+      "revId": "6de5a0c9e2acf3a799f53c9fedf8a40861b6ddbe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d066adad_db7cd16e",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/Pnf.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-11-14T15:35:50Z",
+      "side": 1,
+      "message": "This class has existed for some other usecase. For the PNF support this class is not used.",
+      "parentUuid": "49e4c08d_5073e5bc",
       "revId": "6de5a0c9e2acf3a799f53c9fedf8a40861b6ddbe",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
