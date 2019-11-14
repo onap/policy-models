@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "d5e7d454_fd8bf236",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-14T13:53:39Z",
+      "side": 1,
+      "message": "looks like we\u0027re also removing the policy version of \"Pnf\" and replacing it with the version from aai.",
+      "revId": "6de5a0c9e2acf3a799f53c9fedf8a40861b6ddbe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1bd99a46_1a4c9efe",
         "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/Pnf.java",
         "patchSetId": 2
@@ -16,6 +33,126 @@
       "revId": "6de5a0c9e2acf3a799f53c9fedf8a40861b6ddbe",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49e4c08d_5073e5bc",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/Pnf.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-14T13:53:39Z",
+      "side": 1,
+      "message": "Yeah, I thought Rashmi just added this not too long ago",
+      "parentUuid": "1bd99a46_1a4c9efe",
+      "revId": "6de5a0c9e2acf3a799f53c9fedf8a40861b6ddbe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eddc239a_b910129b",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/PnfInstance.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-14T13:53:39Z",
+      "side": 1,
+      "message": "still needed?",
+      "revId": "6de5a0c9e2acf3a799f53c9fedf8a40861b6ddbe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e28ac152_58115386",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/PnfType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-14T13:53:39Z",
+      "side": 1,
+      "message": "still needed?",
+      "revId": "6de5a0c9e2acf3a799f53c9fedf8a40861b6ddbe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a7f2148_c8bdf99e",
+        "filename": "models-interactions/model-impl/aai/src/test/java/org/onap/policy/aai/PnfInstanceTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-14T13:53:39Z",
+      "side": 1,
+      "message": "still needed?",
+      "revId": "6de5a0c9e2acf3a799f53c9fedf8a40861b6ddbe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ec8f7f74_5997920c",
+        "filename": "models-interactions/model-impl/aai/src/test/java/org/onap/policy/aai/PnfTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-14T13:53:39Z",
+      "side": 1,
+      "message": "still needed?",
+      "revId": "6de5a0c9e2acf3a799f53c9fedf8a40861b6ddbe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7739a067_538c8bb7",
+        "filename": "models-interactions/model-impl/aai/src/test/java/org/onap/policy/aai/PnfTypeTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-14T13:53:39Z",
+      "side": 1,
+      "message": "still needed?",
+      "revId": "6de5a0c9e2acf3a799f53c9fedf8a40861b6ddbe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4ca5629_3cc65a4b",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/AaiSimulatorJaxRs.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-14T13:53:39Z",
+      "side": 1,
+      "message": "hope this doesn\u0027t break any junits in downstream repos (e.g., drools-applications).\n\nfor that matter, is this method even still needed?  I thought the response for this uses an \"Nq\" object.  I also thought I saw that the test for invoking this API was removed from AaiManagerTest.\n\nI have similar questions for the other get-XXX-by-YYY() methods below.  Do they return \"Nq\" responses?",
+      "revId": "6de5a0c9e2acf3a799f53c9fedf8a40861b6ddbe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
