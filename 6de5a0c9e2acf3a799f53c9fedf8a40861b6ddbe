@@ -227,6 +227,24 @@
     },
     {
       "key": {
+        "uuid": "3d1de1e7_7152acfe",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/AaiSimulatorJaxRs.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2019-11-14T20:16:17Z",
+      "side": 1,
+      "message": "You are correct, only the queries with with /v16 return custom query. The rest have to be removed. I will remove them, they return a named query.",
+      "parentUuid": "d6e8edcf_55632056",
+      "revId": "6de5a0c9e2acf3a799f53c9fedf8a40861b6ddbe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55c97ed7_91af84d7",
         "filename": "models-interactions/model-simulators/src/test/java/org/onap/policy/simulators/AaiSimulatorTest.java",
         "patchSetId": 2
