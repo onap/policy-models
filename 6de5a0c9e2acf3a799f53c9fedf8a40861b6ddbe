@@ -245,6 +245,24 @@
     },
     {
       "key": {
+        "uuid": "b264c1f3_ba2fb644",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/AaiSimulatorJaxRs.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2019-11-14T21:09:42Z",
+      "side": 1,
+      "message": "I removed the rest of the NQ query simulation functions, and tried building the projects again. /models builds successfully. \nHowever, in /drools-applications 4 tests under feature-controlloop-trans/ConrolLoopMetricsFeatureTest.java fail (If I ignore them, the rest of of the drools-application package builds fine). I tried some preliminary efforts to fix it, but was unsuccessful. Any idea who wrote those tests, and anyone who can help me understand the details as to what\u0027s happening in those tests?",
+      "parentUuid": "3d1de1e7_7152acfe",
+      "revId": "6de5a0c9e2acf3a799f53c9fedf8a40861b6ddbe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "55c97ed7_91af84d7",
         "filename": "models-interactions/model-simulators/src/test/java/org/onap/policy/simulators/AaiSimulatorTest.java",
         "patchSetId": 2
