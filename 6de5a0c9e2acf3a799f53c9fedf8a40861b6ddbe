@@ -211,6 +211,30 @@
       "revId": "6de5a0c9e2acf3a799f53c9fedf8a40861b6ddbe",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74ea4e1f_a9afab5d",
+        "filename": "models-interactions/model-yaml/src/test/java/org/onap/policy/controlloop/policy/ControlLoopPolicyBuilderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2019-11-14T18:49:05Z",
+      "side": 1,
+      "message": "So is it okay if I remove these two functions. They were originally ignored anyway.",
+      "parentUuid": "7fa7f262_df75229a",
+      "range": {
+        "startLine": 241,
+        "startChar": 7,
+        "endLine": 241,
+        "endChar": 41
+      },
+      "revId": "6de5a0c9e2acf3a799f53c9fedf8a40861b6ddbe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
