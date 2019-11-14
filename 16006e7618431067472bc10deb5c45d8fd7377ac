@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "928183db_28d88c5c",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.controlloop.native.Drools.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-11-14T10:45:48Z",
+      "side": 1,
+      "message": "Should there be such a thing as a native policy type or is a native policy an implementation of a policy type?",
+      "parentUuid": "8a990283_9a174dca",
+      "range": {
+        "startLine": 3,
+        "startChar": 18,
+        "endLine": 3,
+        "endChar": 30
+      },
+      "revId": "16006e7618431067472bc10deb5c45d8fd7377ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "76ecb499_4eda851c",
         "filename": "models-examples/src/main/resources/policytypes/onap.policies.controlloop.native.Drools.yaml",
         "patchSetId": 2
