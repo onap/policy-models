@@ -191,6 +191,24 @@
     },
     {
       "key": {
+        "uuid": "d6e8edcf_55632056",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/AaiSimulatorJaxRs.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2019-11-14T18:52:34Z",
+      "side": 1,
+      "message": "This is the original server name against which this query is written and which is included in the sample custom query response. I have also included \"OzVserver\" and \"testVserverName\" to match against this query response because those are used in many of the use cases. What this code essentially does is: It will return a valid response if the vserver name is any of these three values. If it it is anything else, it will return a null. I had to do this to make sure all the control loop test cases work correctly.",
+      "parentUuid": "f4ca5629_3cc65a4b",
+      "revId": "6de5a0c9e2acf3a799f53c9fedf8a40861b6ddbe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7fa7f262_df75229a",
         "filename": "models-interactions/model-yaml/src/test/java/org/onap/policy/controlloop/policy/ControlLoopPolicyBuilderTest.java",
         "patchSetId": 2
