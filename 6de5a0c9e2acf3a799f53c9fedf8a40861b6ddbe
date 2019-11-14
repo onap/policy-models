@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "93203eac_6b565b31",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/Pnf.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2019-11-14T18:54:26Z",
+      "side": 1,
+      "message": "All the pnf related classes under /aai are deleted and seems to be okay as discussed in today\u0027s scrum meeting.",
+      "parentUuid": "d066adad_db7cd16e",
+      "revId": "6de5a0c9e2acf3a799f53c9fedf8a40861b6ddbe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "eddc239a_b910129b",
         "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/PnfInstance.java",
         "patchSetId": 2
