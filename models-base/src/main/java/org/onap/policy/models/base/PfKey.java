@@ -30,7 +30,7 @@ public abstract class PfKey extends PfConcept {
     private static final long serialVersionUID = 6281159885962014041L;
 
     /** Regular expression to specify the structure of key names. */
-    public static final String NAME_REGEXP = "^[A-Za-z0-9\\-_\\.]+$";
+    public static final String NAME_REGEXP = "^[A-Za-z0-9\\-_\\.]+(?:\\.\\*)?$";
 
     /** Regular expression to specify the structure of key versions. */
     public static final String VERSION_REGEXP = "^(\\d+.){2}\\d+$";

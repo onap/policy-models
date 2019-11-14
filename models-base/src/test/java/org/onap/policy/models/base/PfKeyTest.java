@@ -164,6 +164,9 @@ public class PfKeyTest {
         PfConceptKey testKey = new PfConceptKey("TheKey", VERSION001);
         assertEquals("TheKey:0.0.1", testKey.getId());
 
+        PfConceptKey testKey2 = new PfConceptKey("TheKey.*", VERSION001);
+        assertEquals("TheKey.*:0.0.1", testKey2.getId());
+
         Field nameField = testKey.getClass().getDeclaredField("name");
         nameField.setAccessible(true);
         nameField.set(testKey, "Key Name");
