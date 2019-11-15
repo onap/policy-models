@@ -36,6 +36,7 @@ import java.util.List;
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfReferenceKey;
+import org.onap.policy.models.base.PfSearchableKey;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.pdp.testconcepts.DummyJpaPdpSubgroupChild;
@@ -152,7 +153,7 @@ public class JpaPdpSubGroupTest {
                 .contains("INVALID:a PDP subgroup must support at least one policy type"));
 
         testJpaPdpSubGroup.setSupportedPolicyTypes(new ArrayList<>());
-        testJpaPdpSubGroup.getSupportedPolicyTypes().add(new PfConceptKey("APolicyType:1.0.0"));
+        testJpaPdpSubGroup.getSupportedPolicyTypes().add(new PfSearchableKey("APolicyType:1.0.0"));
         assertTrue(testJpaPdpSubGroup.validate(new PfValidationResult()).isOk());
         assertFalse(testJpaPdpSubGroup.validate(new PfValidationResult()).toString()
                 .contains("INVALID:a PDP subgroup must support at least one policy type"));
@@ -188,7 +189,7 @@ public class JpaPdpSubGroupTest {
         testJpaPdpSubGroup.setProperties(null);
         assertTrue(testJpaPdpSubGroup.validate(new PfValidationResult()).isOk());
 
-        List<PfConceptKey> supportedPolicyTypes = testJpaPdpSubGroup.getSupportedPolicyTypes();
+        List<PfSearchableKey> supportedPolicyTypes = testJpaPdpSubGroup.getSupportedPolicyTypes();
         assertNotNull(supportedPolicyTypes);
         testJpaPdpSubGroup.setSupportedPolicyTypes(null);
         assertFalse(testJpaPdpSubGroup.validate(new PfValidationResult()).isOk());
@@ -236,7 +237,7 @@ public class JpaPdpSubGroupTest {
         testJpaPdpSubGroup.setDesiredInstanceCount(0);
         assertEquals(0, testJpaPdpSubGroup.compareTo(otherJpaPdpSubGroup));
 
-        PfConceptKey anotherPolicyType = new PfConceptKey("AnotherPolicyType", "1.0.0");
+        PfSearchableKey anotherPolicyType = new PfSearchableKey("AnotherPolicyType.*", "1.0.0");
         testJpaPdpSubGroup.getSupportedPolicyTypes().add(anotherPolicyType);
         assertNotEquals(0, testJpaPdpSubGroup.compareTo(otherJpaPdpSubGroup));
         testJpaPdpSubGroup.getSupportedPolicyTypes().remove(anotherPolicyType);

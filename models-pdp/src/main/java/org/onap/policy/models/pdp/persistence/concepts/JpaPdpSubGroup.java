@@ -50,6 +50,7 @@ import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfKeyUse;
 import org.onap.policy.models.base.PfReferenceKey;
+import org.onap.policy.models.base.PfSearchableKey;
 import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.base.PfValidationMessage;
 import org.onap.policy.models.base.PfValidationResult;
@@ -76,7 +77,7 @@ public class JpaPdpSubGroup extends PfConcept implements PfAuthorative<PdpSubGro
     private PfReferenceKey key;
 
     @ElementCollection
-    private List<PfConceptKey> supportedPolicyTypes;
+    private List<PfSearchableKey> supportedPolicyTypes;
 
     @ElementCollection
     private List<PfConceptKey> policies;
@@ -127,7 +128,7 @@ public class JpaPdpSubGroup extends PfConcept implements PfAuthorative<PdpSubGro
      * @param policies policies deployed on this PDP subgroups
      * @param pdpInstances the PDP instances on this PDP subgroups
      */
-    public JpaPdpSubGroup(@NonNull final PfReferenceKey key, @NonNull final List<PfConceptKey> supportedPolicyTypes,
+    public JpaPdpSubGroup(@NonNull final PfReferenceKey key, @NonNull final List<PfSearchableKey> supportedPolicyTypes,
             @NonNull List<PfConceptKey> policies, @NonNull final List<JpaPdp> pdpInstances) {
         this.key = key;
         this.supportedPolicyTypes = supportedPolicyTypes;
@@ -144,7 +145,7 @@ public class JpaPdpSubGroup extends PfConcept implements PfAuthorative<PdpSubGro
         super(copyConcept);
         this.key = new PfReferenceKey(copyConcept.key);
         this.supportedPolicyTypes = PfUtils.mapList(copyConcept.supportedPolicyTypes,
-                                        PfConceptKey::new, new ArrayList<>(0));
+                                        PfSearchableKey::new, new ArrayList<>(0));
         this.policies = PfUtils.mapList(copyConcept.policies, PfConceptKey::new, new ArrayList<>(0));
         this.currentInstanceCount = copyConcept.currentInstanceCount;
         this.desiredInstanceCount = copyConcept.desiredInstanceCount;
@@ -168,7 +169,7 @@ public class JpaPdpSubGroup extends PfConcept implements PfAuthorative<PdpSubGro
         pdpSubgroup.setPdpType(getKey().getLocalName());
 
         pdpSubgroup.setSupportedPolicyTypes(new ArrayList<>());
-        for (PfConceptKey supportedPolicyTypeKey : supportedPolicyTypes) {
+        for (PfSearchableKey supportedPolicyTypeKey : supportedPolicyTypes) {
             ToscaPolicyTypeIdentifier supportedPolicyTypeIdent = new ToscaPolicyTypeIdentifier(
                     supportedPolicyTypeKey.getName(), supportedPolicyTypeKey.getVersion());
             pdpSubgroup.getSupportedPolicyTypes().add(supportedPolicyTypeIdent);
@@ -205,7 +206,7 @@ public class JpaPdpSubGroup extends PfConcept implements PfAuthorative<PdpSubGro
         if (pdpSubgroup.getSupportedPolicyTypes() != null) {
             for (ToscaPolicyTypeIdentifier supportedPolicyType : pdpSubgroup.getSupportedPolicyTypes()) {
                 this.supportedPolicyTypes
-                        .add(new PfConceptKey(supportedPolicyType.getName(), supportedPolicyType.getVersion()));
+                        .add(new PfSearchableKey(supportedPolicyType.getName(), supportedPolicyType.getVersion()));
             }
         }
 
@@ -236,7 +237,7 @@ public class JpaPdpSubGroup extends PfConcept implements PfAuthorative<PdpSubGro
     public List<PfKey> getKeys() {
         List<PfKey> keyList = getKey().getKeys();
 
-        for (PfConceptKey ptkey : supportedPolicyTypes) {
+        for (PfSearchableKey ptkey : supportedPolicyTypes) {
             keyList.add(new PfKeyUse(ptkey));
         }
 
@@ -256,7 +257,7 @@ public class JpaPdpSubGroup extends PfConcept implements PfAuthorative<PdpSubGro
     public void clean() {
         key.clean();
 
-        for (PfConceptKey ptkey : supportedPolicyTypes) {
+        for (PfSearchableKey ptkey : supportedPolicyTypes) {
             ptkey.clean();
         }
 
@@ -330,7 +331,7 @@ public class JpaPdpSubGroup extends PfConcept implements PfAuthorative<PdpSubGro
             result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
                     "a PDP subgroup must support at least one policy type"));
         } else {
-            for (PfConceptKey supportedPolicyType : supportedPolicyTypes) {
+            for (PfSearchableKey supportedPolicyType : supportedPolicyTypes) {
                 result = supportedPolicyType.validate(result);
             }
         }

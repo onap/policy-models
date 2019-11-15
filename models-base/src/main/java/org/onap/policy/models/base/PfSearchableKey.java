@@ -29,18 +29,17 @@ import lombok.NonNull;
 import org.onap.policy.common.utils.validation.Assertions;
 
 /**
- * An concept key uniquely identifies every first order entity in the system. Every first order concept in the system
- * must have an {@link PfConceptKey} to identify it. Concepts that are wholly contained in another concept are
- * identified using a {@link PfReferenceKey} key.
- *
- * <p>Key validation checks that the name and version fields match the NAME_REGEXP and VERSION_REGEXP
- * regular expressions respectively.
+ * A key that is used to search for other concept keys. The name field may contain a
+ * trailing ".*", to indicate wild-card matching.
  */
 @Embeddable
 @Getter
 @EqualsAndHashCode(callSuper = false)
-public class PfConceptKey extends PfKeyImpl {
+public class PfSearchableKey extends PfKeyImpl {
     private static final long serialVersionUID = 8932717618579392561L;
+
+    /** Regular expression to specify the structure of key names. */
+    public static final String WILDCARD_NAME_REGEXP = "^[A-Za-z0-9\\-_\\.]+(?:\\.\\*)?$";
 
     @Column(name = NAME_TOKEN, length = 120)
     private String name;
@@ -49,19 +48,19 @@ public class PfConceptKey extends PfKeyImpl {
     private String version;
 
     /**
-     * The default constructor creates a null concept key.
+     * The default constructor creates a null key.
      */
-    public PfConceptKey() {
+    public PfSearchableKey() {
         this(NULL_KEY_NAME, NULL_KEY_VERSION);
     }
 
     /**
      * Copy constructor.
      *
-     * @param copyConcept the concept to copy from
+     * @param copyKey the key to copy from
      */
-    public PfConceptKey(final PfConceptKey copyConcept) {
-        super(copyConcept);
+    public PfSearchableKey(final PfSearchableKey copyKey) {
+        super(copyKey);
     }
 
     /**
@@ -70,7 +69,7 @@ public class PfConceptKey extends PfKeyImpl {
      * @param name the key name
      * @param version the key version
      */
-    public PfConceptKey(final String name, final String version) {
+    public PfSearchableKey(final String name, final String version) {
         super(name, version);
     }
 
@@ -79,7 +78,7 @@ public class PfConceptKey extends PfKeyImpl {
      *
      * @param id the key ID in a format that respects the KEY_ID_REGEXP
      */
-    public PfConceptKey(final String id) {
+    public PfSearchableKey(final String id) {
         super(id);
     }
 
@@ -92,16 +91,21 @@ public class PfConceptKey extends PfKeyImpl {
     }
 
     /**
-     * Get a null concept key.
+     * Get a null key.
      *
-     * @return a null concept key
+     * @return a null key
      */
-    public static final PfConceptKey getNullKey() {
-        return new PfConceptKey(PfKey.NULL_KEY_NAME, PfKey.NULL_KEY_VERSION);
+    public static final PfSearchableKey getNullKey() {
+        return new PfSearchableKey(PfKey.NULL_KEY_NAME, PfKey.NULL_KEY_VERSION);
+    }
+
+    @Override
+    protected String getNameRegEx() {
+        return WILDCARD_NAME_REGEXP;
     }
 
     @Override
     public String toString() {
-        return "PfConceptKey(name=" + getName() + ", version=" + getVersion() + ")";
+        return "PfSearchableKey(name=" + getName() + ", version=" + getVersion() + ")";
     }
 }
