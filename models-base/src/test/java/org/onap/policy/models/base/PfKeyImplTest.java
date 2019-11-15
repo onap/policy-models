@@ -29,12 +29,15 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Field;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.junit.Test;
 import org.onap.policy.models.base.PfKey.Compatibility;
-import org.onap.policy.models.base.testconcepts.DummyPfConcept;
 import org.onap.policy.models.base.testconcepts.DummyPfKey;
 
-public class PfKeyTest {
+public class PfKeyImplTest {
 
     private static final String OTHER_IS_NULL = "otherKey is marked @NonNull but is null";
     private static final String ID_IS_NULL = "id is marked @NonNull but is null";
@@ -44,21 +47,23 @@ public class PfKeyTest {
 
     @Test
     public void testConceptKey() {
-        assertThatIllegalArgumentException().isThrownBy(() -> new PfConceptKey("some bad key id"))
+        assertThatIllegalArgumentException().isThrownBy(() -> new MyKey("some bad key id"))
                         .withMessage("parameter \"id\": value \"some bad key id\", "
                                         + "does not match regular expression \"" + PfKey.KEY_ID_REGEXP + "\"");
 
-        assertThatThrownBy(() -> new PfConceptKey((PfConceptKey) null))
+        assertThatThrownBy(() -> new MyKey((MyKey) null))
                         .hasMessage("copyConcept is marked @NonNull but is null");
 
-        PfConceptKey someKey0 = new PfConceptKey();
-        assertEquals(PfConceptKey.getNullKey(), someKey0);
+        MyKey someKey0 = new MyKey();
+        assertTrue(someKey0.isNullKey());
+        assertEquals(new MyKey(PfKey.NULL_KEY_NAME, PfKey.NULL_KEY_VERSION), someKey0);
 
-        PfConceptKey someKey1 = new PfConceptKey("name", VERSION001);
-        PfConceptKey someKey2 = new PfConceptKey(someKey1);
-        PfConceptKey someKey3 = new PfConceptKey(someKey1.getId());
+        MyKey someKey1 = new MyKey("name", VERSION001);
+        MyKey someKey2 = new MyKey(someKey1);
+        MyKey someKey3 = new MyKey(someKey1.getId());
         assertEquals(someKey1, someKey2);
         assertEquals(someKey1, someKey3);
+        assertFalse(someKey1.isNullKey());
         assertFalse(someKey1.isNullVersion());
 
         assertEquals(someKey2, someKey1.getKey());
@@ -69,28 +74,22 @@ public class PfKeyTest {
 
         someKey3.setVersion("0.0.2");
 
-        PfConceptKey someKey4 = new PfConceptKey(someKey1);
+        MyKey someKey4 = new MyKey(someKey1);
         someKey4.setVersion("0.1.2");
 
-        PfConceptKey someKey4a = new PfConceptKey(someKey1);
+        MyKey someKey4a = new MyKey(someKey1);
         someKey4a.setVersion("0.0.0");
 
-        PfConceptKey someKey5 = new PfConceptKey(someKey1);
+        MyKey someKey5 = new MyKey(someKey1);
         someKey5.setVersion("1.2.2");
 
-        PfConceptKey someKey6 = new PfConceptKey(someKey1);
+        MyKey someKey6 = new MyKey(someKey1);
         someKey6.setVersion("3.0.0");
 
         assertEquals("name:0.1.2", someKey4.getId());
 
-        PfConcept pfc = new DummyPfConcept();
-        assertEquals(PfConceptKey.getNullKey().getId(), pfc.getId());
-
-        assertTrue(PfConceptKey.getNullKey().matchesId(pfc.getId()));
-
-        assertTrue(PfConceptKey.getNullKey().isNullKey());
-
-        assertThatThrownBy(() -> PfConceptKey.getNullKey().matchesId(null)).hasMessage(ID_IS_NULL);
+        assertThatThrownBy(() -> someKey0.getCompatibility(null)).isInstanceOf(NullPointerException.class)
+                        .hasMessage("otherKey is marked @NonNull but is null");
 
         assertEquals(Compatibility.DIFFERENT, someKey0.getCompatibility(new DummyPfKey()));
         assertEquals(Compatibility.DIFFERENT, someKey0.getCompatibility(someKey1));
@@ -127,7 +126,7 @@ public class PfKeyTest {
         someKey0.clean();
         assertNotNull(someKey0.toString());
 
-        PfConceptKey someKey7 = new PfConceptKey(someKey1);
+        MyKey someKey7 = new MyKey(someKey1);
         assertEquals(244799191, someKey7.hashCode());
         assertEquals(0, someKey7.compareTo(someKey1));
         assertEquals(-12, someKey7.compareTo(someKey0));
@@ -141,27 +140,31 @@ public class PfKeyTest {
         assertFalse(someKey0.equals(null));
         assertTrue(someKey0.equals(someKey0));
         assertFalse(someKey0.equals(new DummyPfKey()));
+
+        MyKey someKey8 = new MyKey();
+        someKey8.setVersion(VERSION001);
+        assertFalse(someKey8.isNullKey());
     }
 
     @Test
     public void testNullArguments() {
-        assertThatThrownBy(() -> new PfConceptKey((String) null)).hasMessage(ID_IS_NULL);
+        assertThatThrownBy(() -> new MyKey((String) null)).hasMessage(ID_IS_NULL);
 
-        assertThatThrownBy(() -> new PfConceptKey((PfConceptKey) null))
+        assertThatThrownBy(() -> new MyKey((MyKey) null))
                         .hasMessage("copyConcept is marked @NonNull but is null");
 
-        assertThatThrownBy(() -> new PfConceptKey(null, null)).hasMessage("name is marked @NonNull but is null");
+        assertThatThrownBy(() -> new MyKey(null, null)).hasMessage("name is marked @NonNull but is null");
 
-        assertThatThrownBy(() -> new PfConceptKey("name", null)).hasMessage("version is marked @NonNull but is null");
+        assertThatThrownBy(() -> new MyKey("name", null)).hasMessage("version is marked @NonNull but is null");
 
-        assertThatThrownBy(() -> new PfConceptKey(null, VERSION001)).hasMessage("name is marked @NonNull but is null");
+        assertThatThrownBy(() -> new MyKey(null, VERSION001)).hasMessage("name is marked @NonNull but is null");
 
-        assertThatThrownBy(() -> new PfConceptKey("AKey", VERSION001).isCompatible(null)).hasMessage(OTHER_IS_NULL);
+        assertThatThrownBy(() -> new MyKey("AKey", VERSION001).isCompatible(null)).hasMessage(OTHER_IS_NULL);
     }
 
     @Test
     public void testValidation() throws Exception {
-        PfConceptKey testKey = new PfConceptKey("TheKey", VERSION001);
+        MyKey testKey = new MyKey("TheKey", VERSION001);
         assertEquals("TheKey:0.0.1", testKey.getId());
 
         Field nameField = testKey.getClass().getDeclaredField("name");
@@ -191,20 +194,20 @@ public class PfKeyTest {
 
     @Test
     public void testkeynewerThan() {
-        PfConceptKey key1 = new PfConceptKey("Key1", VERSION123);
+        MyKey key1 = new MyKey("Key1", VERSION123);
 
         assertThatThrownBy(() -> key1.isNewerThan(null)).hasMessage(OTHER_IS_NULL);
 
         assertThatThrownBy(() -> key1.isNewerThan(new PfReferenceKey()))
                         .hasMessage("org.onap.policy.models.base.PfReferenceKey is not "
-                                        + "an instance of org.onap.policy.models.base.PfConceptKey");
+                                        + "an instance of " + PfKeyImpl.class.getName());
 
         assertFalse(key1.isNewerThan(key1));
 
-        PfConceptKey key1a = new PfConceptKey("Key1a", VERSION123);
+        MyKey key1a = new MyKey("Key1a", VERSION123);
         assertFalse(key1.isNewerThan(key1a));
 
-        PfConceptKey key1b = new PfConceptKey("Key0", VERSION123);
+        MyKey key1b = new MyKey("Key0", VERSION123);
         assertTrue(key1.isNewerThan(key1b));
 
         key1a.setName("Key1");
@@ -240,8 +243,8 @@ public class PfKeyTest {
 
         assertThatThrownBy(() -> refKey.isNewerThan(null)).hasMessage(OTHER_IS_NULL);
 
-        assertThatThrownBy(() -> refKey.isNewerThan(new PfConceptKey()))
-                        .hasMessage("org.onap.policy.models.base.PfConceptKey is not "
+        assertThatThrownBy(() -> refKey.isNewerThan(new MyKey()))
+                        .hasMessage(MyKey.class.getName() + " is not "
                                         + "an instance of org.onap.policy.models.base.PfReferenceKey");
 
         assertFalse(refKey.isNewerThan(refKey));
@@ -249,19 +252,42 @@ public class PfKeyTest {
 
     @Test
     public void testmajorMinorPatch() {
-        PfConceptKey key = new PfConceptKey("Key", VERSION100);
+        MyKey key = new MyKey("Key", VERSION100);
         assertEquals(1, key.getMajorVersion());
         assertEquals(0, key.getMinorVersion());
         assertEquals(0, key.getPatchVersion());
 
-        key = new PfConceptKey("Key", "1.2.0");
+        key = new MyKey("Key", "1.2.0");
         assertEquals(1, key.getMajorVersion());
         assertEquals(2, key.getMinorVersion());
         assertEquals(0, key.getPatchVersion());
 
-        key = new PfConceptKey("Key", VERSION123);
+        key = new MyKey("Key", VERSION123);
         assertEquals(1, key.getMajorVersion());
         assertEquals(2, key.getMinorVersion());
         assertEquals(3, key.getPatchVersion());
+    }
+
+    @Getter
+    @Setter
+    @EqualsAndHashCode(callSuper = false)
+    @NoArgsConstructor
+    private static class MyKey extends PfKeyImpl {
+        private static final long serialVersionUID = 1L;
+
+        private String name;
+        private String version;
+
+        public MyKey(String name, String version) {
+            super(name, version);
+        }
+
+        public MyKey(String id) {
+            super(id);
+        }
+
+        public MyKey(MyKey myKey) {
+            super(myKey);
+        }
     }
 }
