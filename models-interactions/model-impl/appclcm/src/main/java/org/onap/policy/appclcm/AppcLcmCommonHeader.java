@@ -71,6 +71,7 @@ public class AppcLcmCommonHeader implements Serializable {
         this.originatorId = commonHeader.originatorId;
         this.requestId = commonHeader.requestId;
         this.subRequestId = commonHeader.subRequestId;
+        this.timeStamp = commonHeader.timeStamp;
         if (commonHeader.flags != null) {
             this.flags.putAll(commonHeader.flags);
         }

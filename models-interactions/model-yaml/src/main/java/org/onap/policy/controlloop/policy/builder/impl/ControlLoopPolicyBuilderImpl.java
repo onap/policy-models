@@ -25,7 +25,7 @@ import com.google.common.base.Strings;
 import java.util.LinkedList;
 import java.util.UUID;
 
-import org.onap.policy.aai.Pnf;
+import org.onap.aai.domain.yang.Pnf;
 import org.onap.policy.controlloop.compiler.CompilerException;
 import org.onap.policy.controlloop.compiler.ControlLoopCompiler;
 import org.onap.policy.controlloop.compiler.ControlLoopCompilerCallback;
@@ -176,7 +176,7 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
         if (pnf == null) {
             throw new BuilderException("PNF must not be null");
         }
-        if (pnf.getPnfName() == null && pnf.getPnfType() == null) {
+        if (pnf.getPnfName() == null && pnf.getEquipType() == null) {
             throw new BuilderException("Invalid PNF - need either pnfName or pnfType");
         }
         controlLoopPolicy.getControlLoop().setPnf(pnf);

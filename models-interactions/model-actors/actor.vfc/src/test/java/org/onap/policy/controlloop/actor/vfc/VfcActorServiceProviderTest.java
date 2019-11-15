@@ -35,7 +35,6 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.aai.AaiCqResponse;
-import org.onap.policy.aai.AaiGetVnfResponse;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
@@ -45,7 +44,6 @@ import org.onap.policy.vfc.VfcRequest;
 
 public class VfcActorServiceProviderTest {
 
-    private static final String LOCAL_URL = "http://localhost:6666";
     private static final String DOROTHY_GALE_1939 = "dorothy.gale.1939";
     private static final String CQ_RESPONSE_JSON = "aai/AaiCqResponse.json";
     private static final String RESTART = "Restart";
@@ -62,53 +60,6 @@ public class VfcActorServiceProviderTest {
     @AfterClass
     public static void tearDownSimulator() {
         HttpServletServerFactoryInstance.getServerFactory().destroy();
-    }
-
-    @Test
-    public void testConstructRequest() {
-        VirtualControlLoopEvent onset = new VirtualControlLoopEvent();
-        ControlLoopOperation operation = new ControlLoopOperation();
-
-        Policy policy = new Policy();
-        policy.setRecipe("GoToOz");
-
-        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null, null, null, null));
-
-        onset.getAai().put("generic-vnf.vnf-id", DOROTHY_GALE_1939);
-        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null, null, null, null));
-
-        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null, LOCAL_URL,
-                "AAI", "AAI"));
-
-        UUID requestId = UUID.randomUUID();
-        onset.setRequestId(requestId);
-        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null, LOCAL_URL,
-                "AAI", "AAI"));
-
-        onset.getAai().put("generic-vnf.vnf-name", "Dorothy");
-        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null, LOCAL_URL,
-                "AAI", null));
-
-        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null, LOCAL_URL,
-                "AAI", "AAI"));
-
-        onset.getAai().put("service-instance.service-instance-id", "");
-        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null, LOCAL_URL,
-                "AAI", "AAI"));
-
-        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, new AaiGetVnfResponse(),
-                LOCAL_URL, "AAI", "AAI"));
-
-        policy.setRecipe(RESTART);
-        assertNotNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, new AaiGetVnfResponse(),
-                LOCAL_URL, "AAI", "AAI"));
-
-        VfcRequest request = VfcActorServiceProvider.constructRequest(onset, operation, policy, new AaiGetVnfResponse(),
-                LOCAL_URL, "AAI", "AAI");
-
-        assertEquals(requestId, Objects.requireNonNull(request).getRequestId());
-        assertEquals(DOROTHY_GALE_1939, request.getHealRequest().getVnfInstanceId());
-        assertEquals("restartvm", request.getHealRequest().getAdditionalParams().getAction());
     }
 
     @Test
