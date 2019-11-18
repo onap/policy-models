@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b85b2676_bf117a5e",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Xacml.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-11-18T16:04:40Z",
+      "side": 1,
+      "message": "extra space",
+      "range": {
+        "startLine": 8,
+        "startChar": 42,
+        "endLine": 8,
+        "endChar": 43
+      },
+      "revId": "5f58db90f32dc29a396e07dddaad698f665a7686",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2a2187c_d3fcf1a6",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Xacml.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-11-18T16:04:40Z",
+      "side": 1,
+      "message": "wrong spot - should be under the \"policy\" property - since that is what is going to be encoded",
+      "range": {
+        "startLine": 11,
+        "startChar": 1,
+        "endLine": 13,
+        "endChar": 1
+      },
+      "revId": "5f58db90f32dc29a396e07dddaad698f665a7686",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
