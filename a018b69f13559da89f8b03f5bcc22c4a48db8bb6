@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f586fe9_da85e5a5",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Drools.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-18T20:13:57Z",
+      "side": 1,
+      "message": "I this we need a generic arbitrary/value pair structure, as the application may have some need for it, ie. any free form arbitrary property support.",
+      "revId": "a018b69f13559da89f8b03f5bcc22c4a48db8bb6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1e79651_f5d5d67a",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Drools.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-18T20:13:57Z",
+      "side": 1,
+      "message": "I don\u0027t think this is needed.",
+      "revId": "a018b69f13559da89f8b03f5bcc22c4a48db8bb6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "58de2612_9a70ebb0",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Drools.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-18T20:13:57Z",
+      "side": 1,
+      "message": "I think this may not be needed as it is covered in the serialization part",
+      "revId": "a018b69f13559da89f8b03f5bcc22c4a48db8bb6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bc7d75c_6663cb33",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Drools.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-18T20:13:57Z",
+      "side": 1,
+      "message": "I think this may be not needed as it is covered in the serialization part",
+      "revId": "a018b69f13559da89f8b03f5bcc22c4a48db8bb6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce942f80_0ef1e9a4",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Drools.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-18T20:13:57Z",
+      "side": 1,
+      "message": "I think we need source or sink as they make a difference in dmaap.",
+      "revId": "a018b69f13559da89f8b03f5bcc22c4a48db8bb6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
