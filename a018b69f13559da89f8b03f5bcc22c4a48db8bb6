@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9775ee73_67e922d1",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Drools.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-11-19T15:14:46Z",
+      "side": 1,
+      "message": "Maybe I can add \"custom_config\" as additional property which is of type map. How do you think",
+      "parentUuid": "1f586fe9_da85e5a5",
+      "revId": "a018b69f13559da89f8b03f5bcc22c4a48db8bb6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c1e79651_f5d5d67a",
         "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Drools.yaml",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2019-11-18T20:13:57Z",
       "side": 1,
       "message": "I don\u0027t think this is needed.",
+      "revId": "a018b69f13559da89f8b03f5bcc22c4a48db8bb6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9342eac_d51c32b3",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Drools.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-11-19T15:14:46Z",
+      "side": 1,
+      "message": "I can remove it but PDP needs to check if the controller specified here is new or not. If not, it also needs to check if the existing controller needs to be overridden/updated.",
+      "parentUuid": "c1e79651_f5d5d67a",
       "revId": "a018b69f13559da89f8b03f5bcc22c4a48db8bb6",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -81,6 +117,24 @@
       "writtenOn": "2019-11-18T20:13:57Z",
       "side": 1,
       "message": "I think we need source or sink as they make a difference in dmaap.",
+      "revId": "a018b69f13559da89f8b03f5bcc22c4a48db8bb6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7e79e00_3ac0ba99",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Drools.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-11-19T15:14:46Z",
+      "side": 1,
+      "message": "I don\u0027t get this comment. Currently, serialization datatype is the entry of the \"serialization\" list which is ins dmaap_config datatype. And dmaap_config is the entry of the \"sourceTopics\"/\"sinkTopics\" list. In other words, each source/sink topic can have one or more serialization events. That\u0027s why I put serialization in a list.\n\nDo you suggest move source/sink topics under serialization datatype? If so, there would be duplicate topics under each serialization.",
+      "parentUuid": "ce942f80_0ef1e9a4",
       "revId": "a018b69f13559da89f8b03f5bcc22c4a48db8bb6",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
