@@ -22,6 +22,30 @@
       "revId": "4e599e0e7e25cf7f0d3417b1b520d7f5616632b3",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d89adcf_66c07e9f",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Drools.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-11-19T18:46:33Z",
+      "side": 1,
+      "message": "Good catch!",
+      "parentUuid": "d24b84e1_01ae73bb",
+      "range": {
+        "startLine": 21,
+        "startChar": 1,
+        "endLine": 24,
+        "endChar": 0
+      },
+      "revId": "4e599e0e7e25cf7f0d3417b1b520d7f5616632b3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
