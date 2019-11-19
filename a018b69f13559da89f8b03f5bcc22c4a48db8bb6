@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "49ca5536_ef2d9875",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Drools.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-19T16:53:14Z",
+      "side": 1,
+      "message": "sounds good, thanks",
+      "parentUuid": "9775ee73_67e922d1",
+      "revId": "a018b69f13559da89f8b03f5bcc22c4a48db8bb6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c1e79651_f5d5d67a",
         "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Drools.yaml",
         "patchSetId": 5
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "I can remove it but PDP needs to check if the controller specified here is new or not. If not, it also needs to check if the existing controller needs to be overridden/updated.",
       "parentUuid": "c1e79651_f5d5d67a",
+      "revId": "a018b69f13559da89f8b03f5bcc22c4a48db8bb6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce922c02_25412035",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Drools.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-19T16:53:14Z",
+      "side": 1,
+      "message": "I think we have to do check on the pdp-d side regardless, every time we get one of these policies.   It has to be  defined as well what can and cannot be updated (may be on wiki page) in terms of priority, some configuration may be more important than other to support initially.   In case we need to stage the dev. in multiple phases.",
+      "parentUuid": "b9342eac_d51c32b3",
       "revId": "a018b69f13559da89f8b03f5bcc22c4a48db8bb6",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -135,6 +171,24 @@
       "side": 1,
       "message": "I don\u0027t get this comment. Currently, serialization datatype is the entry of the \"serialization\" list which is ins dmaap_config datatype. And dmaap_config is the entry of the \"sourceTopics\"/\"sinkTopics\" list. In other words, each source/sink topic can have one or more serialization events. That\u0027s why I put serialization in a list.\n\nDo you suggest move source/sink topics under serialization datatype? If so, there would be duplicate topics under each serialization.",
       "parentUuid": "ce942f80_0ef1e9a4",
+      "revId": "a018b69f13559da89f8b03f5bcc22c4a48db8bb6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07bd49a0_b82b2b7d",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Drools.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-19T16:53:14Z",
+      "side": 1,
+      "message": "Yes get rid of \"sourceTopics\" and \"sinkTopics\" above, and move them here.   A topic source or sink is coupled to a message mapping within the application, otherwise there is no point for them.   Example:\n\n{source, APPC-CL, org.onap.policy.appc.Response, $.CommonHeader.blah}\n{sink, APPC-CL, org.onap.policy.appc.Request, $.CommonHeader.Foo}\n\nThere is no duplication.   There is no much usage to define the topics above (per my previous comment) in the drools_controller section.",
+      "parentUuid": "c7e79e00_3ac0ba99",
       "revId": "a018b69f13559da89f8b03f5bcc22c4a48db8bb6",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
