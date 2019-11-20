@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58f5b1e3_0548cb89",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Drools.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-20T18:29:17Z",
+      "side": 1,
+      "message": "\"which current\" \u003d\u003e \"which the current\"",
+      "revId": "87bae78a025f47619fa05576d506ff1d647c5f94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d751402f_06c67464",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Drools.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-20T18:29:17Z",
+      "side": 1,
+      "message": "\"for current\" \u003d\u003e \"for the current\"",
+      "revId": "87bae78a025f47619fa05576d506ff1d647c5f94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
