@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "605fa3b9_dc65f4a6",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Drools.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-11-20T19:45:44Z",
+      "side": 1,
+      "message": "Yeah. Maybe better to leave it optional. If it is not specified, this policy will be assigned to a default controller. How do you think, Jorge?",
+      "parentUuid": "08bbbe66_16c9d5ec",
+      "revId": "87bae78a025f47619fa05576d506ff1d647c5f94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "58f5b1e3_0548cb89",
         "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Drools.yaml",
         "patchSetId": 9
@@ -77,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "abb10f56_d1b15f1d",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Drools.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-11-20T19:45:44Z",
+      "side": 1,
+      "message": "I don\u0027t know either. Jorge mentioned some use case like 5G PCI might need to have custom name/value paired configurations. I don\u0027t know what they are exactly. We need Jorge to explain a bit more. This custom_config requirements comes from Jorge.",
+      "parentUuid": "0de8462f_4c12fc61",
+      "range": {
+        "startLine": 20,
+        "startChar": 12,
+        "endLine": 20,
+        "endChar": 26
+      },
+      "revId": "87bae78a025f47619fa05576d506ff1d647c5f94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d751402f_06c67464",
         "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Drools.yaml",
         "patchSetId": 9
@@ -88,6 +130,24 @@
       "writtenOn": "2019-11-20T18:29:17Z",
       "side": 1,
       "message": "\"for current\" \u003d\u003e \"for the current\"",
+      "revId": "87bae78a025f47619fa05576d506ff1d647c5f94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddbc06f7_320d6b3c",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Drools.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-11-20T19:45:44Z",
+      "side": 1,
+      "message": "Thanks for correcting the grammar. Appreciate it",
+      "parentUuid": "d751402f_06c67464",
       "revId": "87bae78a025f47619fa05576d506ff1d647c5f94",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
