@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "74277f2e_28e02b7e",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Drools.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-20T20:08:34Z",
+      "side": 1,
+      "message": "OK, we can always come back to it and change it if we need to.    \n\nFrom the coordinates we may be able to infer a controller too if there\u0027s one installed and running, but if there\u0027s not, it will be sitting there with no matching controller \"home\" for it.  That\u0027s what I am having more trouble seeing it clear.    What do you guys think to handle this case?",
+      "parentUuid": "605fa3b9_dc65f4a6",
+      "revId": "87bae78a025f47619fa05576d506ff1d647c5f94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "58f5b1e3_0548cb89",
         "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Drools.yaml",
         "patchSetId": 9
@@ -107,6 +125,30 @@
       "side": 1,
       "message": "I don\u0027t know either. Jorge mentioned some use case like 5G PCI might need to have custom name/value paired configurations. I don\u0027t know what they are exactly. We need Jorge to explain a bit more. This custom_config requirements comes from Jorge.",
       "parentUuid": "0de8462f_4c12fc61",
+      "range": {
+        "startLine": 20,
+        "startChar": 12,
+        "endLine": 20,
+        "endChar": 26
+      },
+      "revId": "87bae78a025f47619fa05576d506ff1d647c5f94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31ab2bff_5e6363d1",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Drools.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-20T20:08:34Z",
+      "side": 1,
+      "message": "I\u0027ve seen ATT folks embedding custom information in their controller.   These are custom value/pair names that may be difficult to standardize a priori and may vary from controller to controller.  This info can be accessed through the PolicyEngine APIs within their drl or java support code.",
+      "parentUuid": "abb10f56_d1b15f1d",
       "range": {
         "startLine": 20,
         "startChar": 12,
