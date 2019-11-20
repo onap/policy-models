@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "08bbbe66_16c9d5ec",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Drools.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-11-20T19:16:43Z",
+      "side": 1,
+      "message": "I don\u0027t think so - may not know the controller ahead of time. I was thinking this would be optional.",
+      "parentUuid": "3421dda4_7d33cab6",
+      "revId": "87bae78a025f47619fa05576d506ff1d647c5f94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "58f5b1e3_0548cb89",
         "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Drools.yaml",
         "patchSetId": 9
@@ -33,6 +51,29 @@
       "revId": "87bae78a025f47619fa05576d506ff1d647c5f94",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0de8462f_4c12fc61",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Drools.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-11-20T19:16:43Z",
+      "side": 1,
+      "message": "How do we envision these being \"utilized\" by the native policy? Do we expect the Drools PDP Controller to \"pass\" them to the native policy somehow? Insert into working memory?",
+      "range": {
+        "startLine": 20,
+        "startChar": 12,
+        "endLine": 20,
+        "endChar": 26
+      },
+      "revId": "87bae78a025f47619fa05576d506ff1d647c5f94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     },
     {
       "key": {
