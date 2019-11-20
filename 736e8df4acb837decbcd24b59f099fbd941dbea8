@@ -22,6 +22,52 @@
       "revId": "736e8df4acb837decbcd24b59f099fbd941dbea8",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26bf8b16_380fd9fe",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.controlloop.operational.Common.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-11-20T16:16:21Z",
+      "side": 1,
+      "message": "maybe we just need controller name here. So type could be just string. Drools controller will be an additional policy type. Here perhaps we just need to give a referenced name.",
+      "range": {
+        "startLine": 48,
+        "startChar": 16,
+        "endLine": 48,
+        "endChar": 65
+      },
+      "revId": "736e8df4acb837decbcd24b59f099fbd941dbea8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df16b6e8_f6add49d",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.controlloop.operational.Common.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-11-20T16:16:21Z",
+      "side": 1,
+      "message": "if we need this nested property, this name is required?",
+      "range": {
+        "startLine": 60,
+        "startChar": 26,
+        "endLine": 60,
+        "endChar": 31
+      },
+      "revId": "736e8df4acb837decbcd24b59f099fbd941dbea8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
