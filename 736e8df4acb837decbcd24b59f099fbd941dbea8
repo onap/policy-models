@@ -116,6 +116,30 @@
       "revId": "736e8df4acb837decbcd24b59f099fbd941dbea8",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "580cebaf_ce77e813",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.controlloop.operational.Common.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-20T23:05:14Z",
+      "side": 1,
+      "message": "I am a little uneasy requiring user to know the controllerName here.   So far, we have been going through the \"policyType\" to match it against a controller supporting that type.  I guess this is another level of distinction that can make our lives easier, but doesn\u0027t seem very user friendly to have them being entered.",
+      "parentUuid": "9837065e_ff4cb63f",
+      "range": {
+        "startLine": 60,
+        "startChar": 26,
+        "endLine": 60,
+        "endChar": 31
+      },
+      "revId": "736e8df4acb837decbcd24b59f099fbd941dbea8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
