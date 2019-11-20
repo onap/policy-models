@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "157c56ef_717cba57",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Drools.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-11-20T20:22:27Z",
+      "side": 1,
+      "message": "in this case, just raise an error saying no default controller is running. \n\nSo far, all the use cases will have a specific controller and all AT\u0026T use case owners will know desirable controller config, e.g. dmaap source/sink topics. This controller name is just a custom string. Before specifying controller name here, someone needs to create and deploy a controller policy based on controller policy type first.",
+      "parentUuid": "74277f2e_28e02b7e",
+      "revId": "87bae78a025f47619fa05576d506ff1d647c5f94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "58f5b1e3_0548cb89",
         "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Drools.yaml",
         "patchSetId": 9
@@ -149,6 +167,30 @@
       "side": 1,
       "message": "I\u0027ve seen ATT folks embedding custom information in their controller.   These are custom value/pair names that may be difficult to standardize a priori and may vary from controller to controller.  This info can be accessed through the PolicyEngine APIs within their drl or java support code.",
       "parentUuid": "abb10f56_d1b15f1d",
+      "range": {
+        "startLine": 20,
+        "startChar": 12,
+        "endLine": 20,
+        "endChar": 26
+      },
+      "revId": "87bae78a025f47619fa05576d506ff1d647c5f94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fca404c_5a108047",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Drools.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-11-20T20:22:27Z",
+      "side": 1,
+      "message": "Seems I remember some of those custom configs. To me, they are just configurable properties which can now be put in TOSCA policy. At the time of leaving custom configurations in controller properties file, we didn\u0027t use Dublin yet so no TOSCA policy can be created. All legacy stuffs. \n\nNow we can remove them from here. If they need custom configurations, they can just go ahead to create a new policy type and policy for their own use case. How do you think?",
+      "parentUuid": "31ab2bff_5e6363d1",
       "range": {
         "startLine": 20,
         "startChar": 12,
