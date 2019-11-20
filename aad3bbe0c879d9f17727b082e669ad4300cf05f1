@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dea579fc_18abc747",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Drools.yaml",
+        "patchSetId": 8
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-11-20T12:31:32Z",
+      "side": 1,
+      "message": "This is going to be a shared datatype between native drools policies as well as operational drools policies. I guess there is no one place to specify it - we will have to be careful and ensure that both policy types declare the data type identically. Unless someone has ideas.",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 43
+      },
+      "revId": "aad3bbe0c879d9f17727b082e669ad4300cf05f1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
