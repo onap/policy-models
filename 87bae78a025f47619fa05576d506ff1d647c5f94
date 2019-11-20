@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "3676f0a7_7f7007cb",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Drools.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-20T22:07:40Z",
+      "side": 1,
+      "message": "A set of coordinates in a policy by themselves don\u0027t mean much.\n\nBased on :\n\n\"Before specifying controller name here, someone needs to create and deploy a controller policy based on controller policy type first.\"\n\nIn any case if there\u0027s a direct relationship with the controller policy, this policy should refer to something in the other policy to match them up, call it controller name, or may be the *policy id* as a stronger relationship as there could be multiple versions of a controller policy .. something safe with no ambiguities, and guess work on the server side, I think is better.   I tend to think that users with lots of freedom on what they can do, will use the system in obscured ways and bring more trouble than benefit in the long run.\n\nAs a side comment there no concept of \"default controller\" in drools pdp, nor enforcement.  I think it is better to make no assumptions in that regard.",
+      "parentUuid": "157c56ef_717cba57",
+      "revId": "87bae78a025f47619fa05576d506ff1d647c5f94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "58f5b1e3_0548cb89",
         "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Drools.yaml",
         "patchSetId": 9
@@ -191,6 +209,30 @@
       "side": 1,
       "message": "Seems I remember some of those custom configs. To me, they are just configurable properties which can now be put in TOSCA policy. At the time of leaving custom configurations in controller properties file, we didn\u0027t use Dublin yet so no TOSCA policy can be created. All legacy stuffs. \n\nNow we can remove them from here. If they need custom configurations, they can just go ahead to create a new policy type and policy for their own use case. How do you think?",
       "parentUuid": "31ab2bff_5e6363d1",
+      "range": {
+        "startLine": 20,
+        "startChar": 12,
+        "endLine": 20,
+        "endChar": 26
+      },
+      "revId": "87bae78a025f47619fa05576d506ff1d647c5f94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29230f19_4b51c3b5",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Drools.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-20T22:07:40Z",
+      "side": 1,
+      "message": "Actually these should go in the \"controller\" policy and not here.   I think it is better to define them now in this iteration. So, the ask is to have a way to define per \"controller custom properties\" without having to create a custom policy type every time there is such a need.  \n\nThere is already controller properties not in used that control some behavior such as  \"persistence\" strategy, to override \"policy types\" advertised to pap, and I know folks use them for arbitrary data they need for their application needs.   I think all of these are just going to be difficult to spec a priory, and probably excessive requiring folks to go through policy-type/policy creation exercise for such.",
+      "parentUuid": "3fca404c_5a108047",
       "range": {
         "startLine": 20,
         "startChar": 12,
