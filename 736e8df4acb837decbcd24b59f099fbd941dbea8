@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "69b2e23b_061151ff",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.controlloop.operational.Common.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-11-20T17:53:40Z",
+      "side": 1,
+      "message": "Yep ok - I think we go with properties directly vs data type.",
+      "parentUuid": "26bf8b16_380fd9fe",
+      "range": {
+        "startLine": 48,
+        "startChar": 16,
+        "endLine": 48,
+        "endChar": 65
+      },
+      "revId": "736e8df4acb837decbcd24b59f099fbd941dbea8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df16b6e8_f6add49d",
         "filename": "models-examples/src/main/resources/policytypes/onap.policies.controlloop.operational.Common.yaml",
         "patchSetId": 9
@@ -59,6 +83,30 @@
       "writtenOn": "2019-11-20T16:16:21Z",
       "side": 1,
       "message": "if we need this nested property, this name is required?",
+      "range": {
+        "startLine": 60,
+        "startChar": 26,
+        "endLine": 60,
+        "endChar": 31
+      },
+      "revId": "736e8df4acb837decbcd24b59f099fbd941dbea8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9837065e_ff4cb63f",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.controlloop.operational.Common.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-11-20T17:53:40Z",
+      "side": 1,
+      "message": "I still think this should be optional - as from our meeting last week. Some users may not know the controller.",
+      "parentUuid": "df16b6e8_f6add49d",
       "range": {
         "startLine": 60,
         "startChar": 26,
