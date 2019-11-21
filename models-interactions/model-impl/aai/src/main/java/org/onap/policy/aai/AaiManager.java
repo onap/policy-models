@@ -22,7 +22,6 @@
 
 package org.onap.policy.aai;
 
-import com.google.gson.JsonSyntaxException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -30,9 +29,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.onap.policy.aai.util.Serialization;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
@@ -55,14 +54,13 @@ public final class AaiManager {
 
     private static final StandardCoder CODER = new StandardCoder();
 
-    /** The rest manager. */
     // The REST manager used for processing REST calls for this AAI manager
     private final RestManager restManager;
 
     /** custom query and other AAI resource URLs. */
     private static final String CQ_URL = "/aai/v16/query?format=resource";
-    private static final String TENANT_URL =
-            "/aai/v16/search/nodes-query?search-node-type=vserver&filter=vserver-name:EQUALS:";
+    private static final String TENANT_URL = "/aai/v16/search/nodes-query?"
+                    + "search-node-type=vserver&filter=vserver-name:EQUALS:";
     private static final String PREFIX = "/aai/v16";
     private static final String PNF_URL = PREFIX + "/network/pnfs/pnf/";
     private static final String AAI_DEPTH_SUFFIX = "?depth=0";
@@ -116,7 +114,7 @@ public final class AaiManager {
      * @return String
      */
     private String getCustomQueryRequestPayload(String url, String username, String password, UUID requestId,
-            String vserver) {
+                    String vserver) {
 
         String urlGet = url + TENANT_URL;
 
@@ -135,7 +133,7 @@ public final class AaiManager {
      * @return AaiCqResponse response from Aai for custom query
      */
     public AaiCqResponse getCustomQueryResponse(String url, String username, String password, UUID requestId,
-            String vserver) {
+                    String vserver) {
 
         final Map<String, String> headers = createHeaders(requestId);
 
@@ -145,8 +143,8 @@ public final class AaiManager {
 
         url = url + CQ_URL;
 
-        Pair<Integer, String> httpDetails =
-                this.restManager.put(url, username, password, headers, APPLICATION_JSON, requestJson);
+        Pair<Integer, String> httpDetails = this.restManager.put(url, username, password, headers, APPLICATION_JSON,
+                        requestJson);
         logger.debug("RestManager.put after");
 
         if (httpDetails == null) {
@@ -178,7 +176,7 @@ public final class AaiManager {
      * @return String returns the string from the get query
      */
     private String getStringQuery(final String url, final String username, final String password, final UUID requestId,
-            final String key) {
+                    final String key) {
 
         Map<String, String> headers = createHeaders(requestId);
 
@@ -216,7 +214,6 @@ public final class AaiManager {
 
         return null;
     }
-
 
     /**
      * Create the headers for the HTTP request.
@@ -259,12 +256,13 @@ public final class AaiManager {
             return null;
         }
         try {
+            @SuppressWarnings("unchecked")
             Map<String, String> pnfParams = CODER.decode(responseGet, HashMap.class);
             // Map to AAI node.attribute notation
             return pnfParams.entrySet().stream()
-                           .collect(Collectors.toMap(e -> "pnf." + e.getKey(), Map.Entry::getValue));
+                            .collect(Collectors.toMap(e -> "pnf." + e.getKey(), Map.Entry::getValue));
         } catch (CoderException e) {
-            logger.error("Failed to fetch PNF from AAI");
+            logger.error("Failed to fetch PNF from AAI", e);
             return null;
         }
     }
