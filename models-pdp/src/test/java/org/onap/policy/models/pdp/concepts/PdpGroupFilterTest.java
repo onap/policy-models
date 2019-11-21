@@ -27,7 +27,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.stream.Collectors;
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.common.utils.coder.CoderException;
@@ -178,9 +178,25 @@ public class PdpGroupFilterTest {
 
         identifierList.add(new ToscaPolicyTypeIdentifier(NON_EXISTANT, VERSION1));
         PdpGroupFilter filter =
-                PdpGroupFilter.builder().policyTypeList(identifierList).build();
+                        PdpGroupFilter.builder().policyTypeList(identifierList).build();
         List<PdpGroup> filteredList = filter.filter(pdpGroupList);
         assertEquals(0, filteredList.size());
+        identifierList.clear();
+
+        // don't match wild cards
+        identifierList.add(new ToscaPolicyTypeIdentifier(NON_EXISTANT, VERSION1));
+        filter = PdpGroupFilter.builder().policyTypeList(identifierList).build();
+        final List<PdpGroup> wildCards =
+                        pdpGroupList.stream().map(this::makeWildCardPolicyTypes).collect(Collectors.toList());
+        filteredList = filter.filter(wildCards);
+        assertEquals(0, filteredList.size());
+        identifierList.clear();
+
+        // match wild cards
+        identifierList.add(new ToscaPolicyTypeIdentifier(POLICY_TYPE0, VERSION1));
+        filter = PdpGroupFilter.builder().policyTypeList(identifierList).build();
+        filteredList = filter.filter(wildCards);
+        assertEquals(4, filteredList.size());
         identifierList.clear();
 
         identifierList.add(new ToscaPolicyTypeIdentifier(POLICY_TYPE0, VERSION1));
@@ -249,6 +265,27 @@ public class PdpGroupFilterTest {
         filter = PdpGroupFilter.builder().policyTypeList(identifierList).matchPolicyTypesExactly(true).build();
         filteredList = filter.filter(pdpGroupList);
         assertEquals(1, filteredList.size());
+    }
+
+    /**
+     * Makes a clone of a PdpGroup, changing all occurrences of supported policy type,
+     * "policy.type.0", to a wild card type, "policy.type.*".
+     *
+     * @param group group to be cloned
+     * @return a new PdpGroup containing wild card policy types
+     */
+    private PdpGroup makeWildCardPolicyTypes(PdpGroup group) {
+        PdpGroup newGroup = new PdpGroup(group);
+
+        for (PdpSubGroup subgroup : newGroup.getPdpSubgroups()) {
+            for (ToscaPolicyTypeIdentifier subType : subgroup.getSupportedPolicyTypes()) {
+                if (POLICY_TYPE0.equals(subType.getName())) {
+                    subType.setName("policy.type.*");
+                }
+            }
+        }
+
+        return newGroup;
     }
 
     @Test
