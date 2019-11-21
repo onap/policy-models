@@ -109,6 +109,24 @@
     },
     {
       "key": {
+        "uuid": "1f576b26_cca49456",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Drools.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-11-21T15:25:15Z",
+      "side": 1,
+      "message": "I agree that we should not use only controllerName as the only link reference as controller policy can end up with multiple versions that would share the same controllerName. Perhaps better to specify linked controller policy id and version. How do you think?\n\nIf we don\u0027t want to enforce default controller, we can just set controller field as required.",
+      "parentUuid": "3676f0a7_7f7007cb",
+      "revId": "87bae78a025f47619fa05576d506ff1d647c5f94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "58f5b1e3_0548cb89",
         "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Drools.yaml",
         "patchSetId": 9
@@ -233,6 +251,30 @@
       "side": 1,
       "message": "Actually these should go in the \"controller\" policy and not here.   I think it is better to define them now in this iteration. So, the ask is to have a way to define per \"controller custom properties\" without having to create a custom policy type every time there is such a need.  \n\nThere is already controller properties not in used that control some behavior such as  \"persistence\" strategy, to override \"policy types\" advertised to pap, and I know folks use them for arbitrary data they need for their application needs.   I think all of these are just going to be difficult to spec a priory, and probably excessive requiring folks to go through policy-type/policy creation exercise for such.",
       "parentUuid": "3fca404c_5a108047",
+      "range": {
+        "startLine": 20,
+        "startChar": 12,
+        "endLine": 20,
+        "endChar": 26
+      },
+      "revId": "87bae78a025f47619fa05576d506ff1d647c5f94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35c6e5cb_7c5e4702",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Drools.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-11-21T15:25:15Z",
+      "side": 1,
+      "message": "I\u0027d like to see one example of those custom configs AT\u0026T folks put in controller.properties file. I thought they were not configs relevant to controller. Maybe I am wrong. Better to see examples and then we decide if we need to include them here",
+      "parentUuid": "29230f19_4b51c3b5",
       "range": {
         "startLine": 20,
         "startChar": 12,
