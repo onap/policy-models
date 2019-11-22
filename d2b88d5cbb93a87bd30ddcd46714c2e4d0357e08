@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e77a6fc7_a895f2ec",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/AaiManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-22T19:39:21Z",
+      "side": 1,
+      "message": "Ideally in the network.log, we should support INFO and DEBUG, INFO with a meaningul header and not the full message, and DEBUG with the full message.  The shortcoming right now is that we only support INFO, or OFF (FATAL-WARN).   One other option would be to have these statements as debug in Network Logger, but it would be inconsistent on how it is used all over, and then the individual componet set up could set it up to however if pleases to set the logger.   In any case, we should always use the Network logger for message exchanges.",
+      "parentUuid": "743462da_d266d5a7",
+      "revId": "d2b88d5cbb93a87bd30ddcd46714c2e4d0357e08",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "242ac918_664cf328",
         "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/AaiManager.java",
         "patchSetId": 1
