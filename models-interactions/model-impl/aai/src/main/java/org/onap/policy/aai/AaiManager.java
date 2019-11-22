@@ -148,15 +148,15 @@ public final class AaiManager {
         logger.debug("RestManager.put after");
 
         if (httpDetails == null) {
-            logger.info("AAI POST Null Response to {}", url);
+            logger.debug("AAI POST Null Response to {}", url);
             return null;
         }
 
         int httpResponseCode = httpDetails.first;
 
-        logger.info(url);
-        logger.info("{}", httpResponseCode);
-        logger.info(httpDetails.second);
+        logger.debug(url);
+        logger.debug("{}", httpResponseCode);
+        logger.debug(httpDetails.second);
 
         if (httpDetails.second != null) {
             String resp = httpDetails.second;
@@ -188,15 +188,15 @@ public final class AaiManager {
             NetLoggerUtil.getNetworkLogger().info("[OUT|{}|{}|]", CommInfrastructure.REST, urlGet);
             Pair<Integer, String> httpDetailsGet = restManager.get(urlGet, username, password, headers);
             if (httpDetailsGet == null) {
-                logger.info("AAI GET Null Response to {}", urlGet);
+                logger.debug("AAI GET Null Response to {}", urlGet);
                 return null;
             }
 
             int httpResponseCode = httpDetailsGet.first;
 
-            logger.info(urlGet);
-            logger.info("{}", httpResponseCode);
-            logger.info(httpDetailsGet.second);
+            logger.debug(urlGet);
+            logger.debug("{}", httpResponseCode);
+            logger.debug(httpDetailsGet.second);
 
             if (httpResponseCode == 200) {
                 String responseGet = httpDetailsGet.second;
