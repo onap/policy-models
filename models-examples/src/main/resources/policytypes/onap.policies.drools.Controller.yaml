@@ -1,0 +1,70 @@
+tosca_definitions_version: tosca_simple_yaml_1_0_0
+policy_types:
+    onap.policies.drools.Controller:
+        derived_from: tosca.policies.Root
+        description: a policy type for drools controller configuration
+        version: 1.0.0
+        properties:
+            controllerName:
+                type: string
+                required: true
+                description: the drools controller name
+            sourceTopics:
+                type: list
+                required: false
+                description: all the source topices and configurations needed for the events coming under each topic
+                entry_schema:
+                    type: onap.datatypes.dmaap.topic
+            sinkTopics:
+                type: list
+                required: false
+                description: all the sink topices and configurations needed for the events sending under each topic
+                entry_schema:
+                    type: onap.datatypes.dmaap.topic
+            customConfig:
+                type: map
+                required: false
+                description: any use case specific configurations relevant to the drools controller
+                entry_schema:
+                    type: string
+
+data_types:
+    onap.datatypes.dmaap.topic:
+        derived_from: tosca.datatypes.Root
+        properties:
+            topicName:
+                type: string
+                required: true
+                description: the dmaap topic name
+            serialization:
+                type: list
+                required: true
+                description: all the configurations needed for serializing all kinds of events under current topic
+                entry_schema:
+                    type: onap.datatypes.dmaap.serialization
+    onap.datatypes.dmaap.serialization:
+        derived_from: tosca.datatypes.Root
+        properties:
+            eventCanonicalName:
+                type: string
+                required: true
+                description: the event canonical class for serialization
+            eventFilter:
+                type: string
+                required: false
+                description: the JSONPath based condition to filter out the events to serialize
+            customSerializer:
+                type: onap.datatypes.dmaap.custom_serializer
+                required: false
+                description:  a custom serializer to use for serializing current event
+    onap.datatypes.dmaap.custom_serializer:
+        derived_from: tosca.datatypes.Root
+        properties:
+            customSerializerClass:
+                type: string
+                required: true
+                description: the class of custom serializer
+            jsonParser:
+                type: string
+                required: true
+                description: a json parser to use which is implemented in custom serializer class

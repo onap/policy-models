@@ -1,0 +1,17 @@
+tosca_definitions_version: tosca_simple_yaml_1_0_0
+policy_types:
+    onap.policies.Native:
+        derived_from: tosca.policies.Root
+        description: a base policy type for all native PDP policies
+        version: 1.0.0
+    onap.policies.native.Xacml:
+        derived_from: onap.policies.Native
+        description: a policy type for native xacml policies
+        version: 1.0.0
+        properties:
+            policy:
+                type: String
+                required: true
+                description: The XML XACML 3.0 PolicySet or Policy
+                metadata:
+                    encoding: URL

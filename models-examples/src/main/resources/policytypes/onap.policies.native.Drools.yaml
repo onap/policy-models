@@ -1,0 +1,47 @@
+tosca_definitions_version: tosca_simple_yaml_1_0_0
+policy_types:
+    onap.policies.Native:
+        derived_from: tosca.policies.Root
+        description: a base policy type for all native PDP policies
+        version: 1.0.0
+    onap.policies.native.Drools:
+        derived_from: onap.policies.Native
+        description: a policy type for native drools policies
+        version: 1.0.0
+        properties:
+            rule_artifact:
+                type: onap.datatypes.native.rule_artifact
+                required: true
+                description: the GAV information of the maven artifact
+            controller:
+                type: onap.datatypes.drools.controller.relation
+                required: true
+                description: the drools controller to which the current native policy is assigned
+
+data_types:
+    onap.datatypes.native.rule_artifact:
+        derived_from: tosca.datatypes.Root
+        properties:
+            groupId:
+                type: string
+                required: true
+                description: the groupId of the maven artifact
+            artifactId:
+                type: string
+                required: true
+                description: the artifactId of the maven artifact
+            version:
+                type: string
+                required: true
+                description: the version of the maven artifact
+    onap.datatypes.drools.controller.relation:
+        derived_from: tosca.datatypes.Root
+        properties:
+            controllerPolicyName:
+                type: string
+                required: true
+                description: the name of drools controller policy
+            controllerPolicyVersion:
+                type: string
+                required: true
+                description: the version of drools controller policy
