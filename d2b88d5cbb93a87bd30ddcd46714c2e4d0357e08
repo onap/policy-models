@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "743462da_d266d5a7",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/AaiManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-22T19:19:26Z",
+      "side": 1,
+      "message": "Can these be placed into NetworkLogger as a consolidated single statement on in line 142?   I agree that this shouldn\u0027t go into the debug.log.\n\nI think we still need to log the messages in labs as it saves many, many hours (I cannot emphasize enough how much time it saves having this information readily available)\nworking with integration, the standard is that these og in the network.log.\n\nAs of now, the NetworkLogger prints in INFO mode only, across repos.\n\nIn production mode, the network logger could be disabled by modifying the logback.xml.   I think though we want it for drools debugging enabled during regular development to work with other teams.\n\nNote that integration team look at this file quite a bit too to detect problems in policy or with interacting components at least on the drools side.",
+      "revId": "d2b88d5cbb93a87bd30ddcd46714c2e4d0357e08",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "242ac918_664cf328",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/AaiManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-22T19:19:26Z",
+      "side": 1,
+      "message": "Same comment if these 3 statements could be consolidate in to one NetLoggerUtil.getNetworkLogger().info() statement above?\n\nSame argument as before.",
+      "revId": "d2b88d5cbb93a87bd30ddcd46714c2e4d0357e08",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
