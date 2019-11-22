@@ -148,19 +148,22 @@ public final class AaiManager {
         logger.debug("RestManager.put after");
 
         if (httpDetails == null) {
-            logger.info("AAI POST Null Response to {}", url);
+            NetLoggerUtil.log(EventType.IN, CommInfrastructure.REST, url, "AAI POST Null Response");
+            logger.debug("AAI POST Null Response to {}", url);
             return null;
         }
 
         int httpResponseCode = httpDetails.first;
 
-        logger.info(url);
-        logger.info("{}", httpResponseCode);
-        logger.info(httpDetails.second);
+        NetLoggerUtil.log(EventType.IN, CommInfrastructure.REST, url, "Response code: " + httpResponseCode);
+        NetLoggerUtil.getNetworkLogger().debug(httpDetails.second);
+
+        logger.debug(url);
+        logger.debug("{}", httpResponseCode);
+        logger.debug(httpDetails.second);
 
         if (httpDetails.second != null) {
-            String resp = httpDetails.second;
-            return new AaiCqResponse(resp);
+            return new AaiCqResponse(httpDetails.second);
         }
         return null;
     }
@@ -188,21 +191,22 @@ public final class AaiManager {
             NetLoggerUtil.getNetworkLogger().info("[OUT|{}|{}|]", CommInfrastructure.REST, urlGet);
             Pair<Integer, String> httpDetailsGet = restManager.get(urlGet, username, password, headers);
             if (httpDetailsGet == null) {
-                logger.info("AAI GET Null Response to {}", urlGet);
+                NetLoggerUtil.log(EventType.IN, CommInfrastructure.REST, url, "AAI POST Null Response");
+                logger.debug("AAI GET Null Response to {}", urlGet);
                 return null;
             }
 
             int httpResponseCode = httpDetailsGet.first;
 
-            logger.info(urlGet);
-            logger.info("{}", httpResponseCode);
-            logger.info(httpDetailsGet.second);
+            NetLoggerUtil.log(EventType.IN, CommInfrastructure.REST, url, "Response code: " + httpResponseCode);
+            NetLoggerUtil.getNetworkLogger().debug(httpDetailsGet.second);
 
-            if (httpResponseCode == 200) {
-                String responseGet = httpDetailsGet.second;
-                if (responseGet != null) {
-                    return responseGet;
-                }
+            logger.debug(urlGet);
+            logger.debug("{}", httpResponseCode);
+            logger.debug(httpDetailsGet.second);
+
+            if (httpResponseCode == 200 && httpDetailsGet.second != null) {
+                return httpDetailsGet.second;
             }
             try {
                 Thread.sleep(1000);
