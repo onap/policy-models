@@ -57,12 +57,24 @@ public class CdsActionRequest implements Serializable {
      * @throws CoderException if error occurs when serializing to JSON string
      */
     public String generateCdsPayload() throws CoderException {
-        // 1. Build the innermost object to include AAI properties and policy payload information
-        Map<String, String> cdsActionPropsMap = new LinkedHashMap<>();
-        cdsActionPropsMap.putAll(aaiProperties);
-        cdsActionPropsMap.putAll(policyPayload);
+        // 1a. Build the innermost object to include AAI properties
+        Map<String, Object> cdsActionPropsMap = new LinkedHashMap<>(aaiProperties);
         if (additionalEventParams != null) {
             cdsActionPropsMap.putAll(additionalEventParams);
+        }
+
+        // 1a. Build the innermost object to include policy payload.
+        // If the policy payload data is a valid JSON string convert to an object else retain as a string.
+        if (policyPayload != null && !policyPayload.isEmpty()) {
+            String payload = policyPayload.get(CdsActorConstants.KEY_POLICY_PAYLOAD_DATA);
+            try {
+                Object payloadObj = CODER.decode(payload, Object.class);
+                cdsActionPropsMap.put(CdsActorConstants.KEY_POLICY_PAYLOAD_DATA, payloadObj);
+            } catch (CoderException e) {
+                cdsActionPropsMap.put(CdsActorConstants.KEY_POLICY_PAYLOAD_DATA, payload);
+            }
+        } else {
+            cdsActionPropsMap.put(CdsActorConstants.KEY_POLICY_PAYLOAD_DATA, "");
         }
 
         // 2. Build the enclosing CDS action request properties object to contain (1) and the resolution-key
