@@ -94,6 +94,30 @@
       "revId": "972d8c24ff0f6f28847683d6a34f9ce66903b9b9",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6442dcd9_4797111f",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfTimestampConceptKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-11-25T12:36:37Z",
+      "side": 1,
+      "message": "I agree, I don\u0027t think we should use library specific JPA extensions. I think I came across this problem before when doing the JPA work earlier in the year, I\u0027ll have a look at this and come back on it.",
+      "parentUuid": "42b254a8_db55f9b7",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 50
+      },
+      "revId": "972d8c24ff0f6f28847683d6a34f9ce66903b9b9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
