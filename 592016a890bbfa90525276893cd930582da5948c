@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b473f00_c518265a",
+        "filename": "models-interactions/model-impl/aai/src/main/resources/logback.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-11-25T12:54:01Z",
+      "side": 1,
+      "message": "To dial back logging, just change this word to \"info\"",
+      "range": {
+        "startLine": 38,
+        "startChar": 46,
+        "endLine": 38,
+        "endChar": 51
+      },
+      "revId": "592016a890bbfa90525276893cd930582da5948c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
