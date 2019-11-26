@@ -22,6 +22,30 @@
       "revId": "4b37f765aca366fa6f03ee46e57bb20e9d2a56b2",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03cfe60_b74631a4",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/request/CdsActionRequest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-11-26T18:30:19Z",
+      "side": 1,
+      "message": "Included a unit test for this case. We do not get an NPE, StandardCoder handles this to throw a CoderException, while retaining the default Gson behavior to not serialize null fields",
+      "parentUuid": "ea44e794_bbcfa62b",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 90
+      },
+      "revId": "4b37f765aca366fa6f03ee46e57bb20e9d2a56b2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
