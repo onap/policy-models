@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "d24c6d3a_4499f1bd",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/AaiManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-26T14:43:10Z",
+      "side": 1,
+      "message": "use NetLoggerUtil.log() (or info()) to log this line\n\nsame comment in the following method",
+      "revId": "592016a890bbfa90525276893cd930582da5948c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f064fea6_bbd03d43",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/AaiManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-26T14:43:10Z",
+      "side": 1,
+      "message": "use NetLoggerUtil.getLogger.info() to log the url and response code\nuse NetLoggerUtil.getLogger.debug() to log the body content\n\nsame comment in the following method",
+      "revId": "592016a890bbfa90525276893cd930582da5948c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "41dba54f_bf5e8980",
+        "filename": "models-interactions/model-impl/aai/src/main/resources/logback.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-26T14:43:10Z",
+      "side": 1,
+      "message": "I don\u0027t think we want to add this file; the output requests \u0026 responses should be going to the network log, so any changes should be made to the existing logback files instead.  The other log messages (e.g, \"PUT began\", \"PUT done\") should be left as is, going to the debug log.",
+      "revId": "592016a890bbfa90525276893cd930582da5948c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b473f00_c518265a",
         "filename": "models-interactions/model-impl/aai/src/main/resources/logback.xml",
         "patchSetId": 3
