@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea44e794_bbcfa62b",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/request/CdsActionRequest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-11-26T12:57:57Z",
+      "side": 1,
+      "message": "Just wondering what happens if the get returns null? will we get a NPE here?",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 90
+      },
+      "revId": "4b37f765aca366fa6f03ee46e57bb20e9d2a56b2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
