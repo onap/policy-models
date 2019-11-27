@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c33ccaa5_d2f0b480",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/AaiManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-11-27T11:40:38Z",
+      "side": 1,
+      "message": "I\u0027m assuming IN is the correct usage for incoming responses",
+      "range": {
+        "startLine": 151,
+        "startChar": 30,
+        "endLine": 151,
+        "endChar": 42
+      },
+      "revId": "996f42812551f874c857fab7fe8d2b24bdc32404",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d011c162_803a6308",
+        "filename": "models-interactions/model-impl/aai/src/test/resources/logback-test.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-11-27T11:40:38Z",
+      "side": 1,
+      "message": "I moved this file to src/test/resoruces/logback-test.xml so that it\u0027s there for people during testing.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 3
+      },
+      "revId": "996f42812551f874c857fab7fe8d2b24bdc32404",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
