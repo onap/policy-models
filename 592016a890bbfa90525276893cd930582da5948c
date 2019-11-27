@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6080518f_6c9ac1f7",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/AaiManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-11-27T11:40:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d24c6d3a_4499f1bd",
+      "revId": "592016a890bbfa90525276893cd930582da5948c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f064fea6_bbd03d43",
         "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/AaiManager.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2019-11-26T14:43:10Z",
       "side": 1,
       "message": "use NetLoggerUtil.getLogger.info() to log the url and response code\nuse NetLoggerUtil.getLogger.debug() to log the body content\n\nsame comment in the following method",
+      "revId": "592016a890bbfa90525276893cd930582da5948c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66178c06_02280993",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/AaiManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-11-27T11:40:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f064fea6_bbd03d43",
       "revId": "592016a890bbfa90525276893cd930582da5948c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
