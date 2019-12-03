@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e1c50190_70423497",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpStatistics.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-12-03T17:42:33Z",
+      "side": 1,
+      "message": "Will this be a list? \nBecause PdpStatistics class itself holds data for a particular pdpInstance.",
+      "range": {
+        "startLine": 53,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 50
+      },
+      "revId": "eb14e5e2d54bc2faf25ef342324ec2f3a1a4cb19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e899fec2_4cb9ea90",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/enums/PdpEngineState.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-12-03T17:42:33Z",
+      "side": 1,
+      "message": "Do we really need this? \nHave a look at -  https://github.com/onap/policy-models/blob/master/models-pdp/src/main/java/org/onap/policy/models/pdp/enums/PdpState.java",
+      "range": {
+        "startLine": 23,
+        "startChar": 12,
+        "endLine": 23,
+        "endChar": 26
+      },
+      "revId": "eb14e5e2d54bc2faf25ef342324ec2f3a1a4cb19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
