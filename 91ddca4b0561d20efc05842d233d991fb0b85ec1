@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ef867dd_d25d1e84",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfTimestampKey.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-12-03T10:38:33Z",
+      "side": 1,
+      "message": "OK, timestamp can never be null.",
+      "range": {
+        "startLine": 138,
+        "startChar": 1,
+        "endLine": 148,
+        "endChar": 5
+      },
+      "revId": "91ddca4b0561d20efc05842d233d991fb0b85ec1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
