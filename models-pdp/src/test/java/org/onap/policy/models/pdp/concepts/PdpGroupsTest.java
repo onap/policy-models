@@ -20,6 +20,7 @@
 
 package org.onap.policy.models.pdp.concepts;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -27,6 +28,11 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
@@ -34,9 +40,30 @@ import java.util.List;
 import java.util.Map;
 import org.junit.Test;
 import org.onap.policy.common.parameters.ValidationResult;
+import org.onap.policy.common.utils.coder.CoderException;
+import org.onap.policy.common.utils.coder.StandardCoder;
+import org.onap.policy.common.utils.coder.StandardYamlCoder;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifier;
 
 public class PdpGroupsTest {
+
+    @Test
+    public void testFromString() throws IOException, CoderException {
+        assertThatThrownBy(() -> PdpGroups.fromString(null)).isInstanceOf(NullPointerException.class);
+
+        String json = new String(Files.readAllBytes(new File("src/test/resources/testdata/PdpGroups0.json").toPath()),
+                        StandardCharsets.UTF_8);
+        PdpGroups expected = new StandardCoder().decode(json, PdpGroups.class);
+
+        PdpGroups actual = PdpGroups.fromString(URLEncoder.encode(json, "UTF-8"));
+        assertEquals(expected.toString(), actual.toString());
+        assertEquals(1, actual.getGroups().size());
+
+        String yaml = new StandardYamlCoder().encode(expected);
+        actual = PdpGroups.fromString(URLEncoder.encode(yaml, "UTF-8"));
+        assertEquals(expected.toString(), actual.toString());
+        assertEquals(1, actual.getGroups().size());
+    }
 
     @Test
     public void testValidatePapRest_toMapList() {
