@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "018bf3cb_1736d531",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpStatistics.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-12-04T09:50:45Z",
+      "side": 1,
+      "message": "Yes, PdpEngineWorkerStatistics sounds better.",
+      "parentUuid": "e0d766b1_4d31f952",
+      "range": {
+        "startLine": 53,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 50
+      },
+      "revId": "eb14e5e2d54bc2faf25ef342324ec2f3a1a4cb19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e899fec2_4cb9ea90",
         "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/enums/PdpEngineState.java",
         "patchSetId": 6
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "The purpose of this class is to represent the state of each EngineWorker.\nIf use the PdpState, I think we need to define the relationship between PdpState and AxEngineState",
       "parentUuid": "e899fec2_4cb9ea90",
+      "range": {
+        "startLine": 23,
+        "startChar": 12,
+        "endLine": 23,
+        "endChar": 26
+      },
+      "revId": "eb14e5e2d54bc2faf25ef342324ec2f3a1a4cb19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32eb3e03_66ac1584",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/enums/PdpEngineState.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-12-04T09:50:45Z",
+      "side": 1,
+      "message": "May be rename this to PdpEngineWorkerState",
+      "parentUuid": "202c5ead_60ca772e",
       "range": {
         "startLine": 23,
         "startChar": 12,
