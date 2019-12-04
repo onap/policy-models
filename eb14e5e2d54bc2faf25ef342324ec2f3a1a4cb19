@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e0d766b1_4d31f952",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpStatistics.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5257
+      },
+      "writtenOn": "2019-12-04T08:36:31Z",
+      "side": 1,
+      "message": "For Apex PDP, sometimes there is more than one EngineWorker and each EngineWorker has it own statistics, so I use list to hold such data.\nTo make it more understandable, how about renaming the class PdpEngineStatistics to PdpEngineWorkerStatistics?",
+      "parentUuid": "e1c50190_70423497",
+      "range": {
+        "startLine": 53,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 50
+      },
+      "revId": "eb14e5e2d54bc2faf25ef342324ec2f3a1a4cb19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e899fec2_4cb9ea90",
         "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/enums/PdpEngineState.java",
         "patchSetId": 6
@@ -45,6 +69,30 @@
       "revId": "eb14e5e2d54bc2faf25ef342324ec2f3a1a4cb19",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "202c5ead_60ca772e",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/enums/PdpEngineState.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5257
+      },
+      "writtenOn": "2019-12-04T08:36:31Z",
+      "side": 1,
+      "message": "The purpose of this class is to represent the state of each EngineWorker.\nIf use the PdpState, I think we need to define the relationship between PdpState and AxEngineState",
+      "parentUuid": "e899fec2_4cb9ea90",
+      "range": {
+        "startLine": 23,
+        "startChar": 12,
+        "endLine": 23,
+        "endChar": 26
+      },
+      "revId": "eb14e5e2d54bc2faf25ef342324ec2f3a1a4cb19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
