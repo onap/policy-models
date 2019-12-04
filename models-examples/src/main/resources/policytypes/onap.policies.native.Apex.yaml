@@ -1,0 +1,207 @@
+tosca_definitions_version: tosca_simple_yaml_1_0_0,
+policy_types:
+    onap.policies.Native:
+        derived_from: tosca.policies.Root
+        description: a base policy type for all native PDP policies
+        version: 1.0.0
+    onap.policies.native.Apex:
+        derived_from: onap.policies.Native
+        description: a policy type for native apex policies
+        version: 1.0.0
+        properties:
+            engine_service:
+                type: onap.datatypes.native.apex.EngineService
+                description: APEX Engine Service Parameters
+            inputs:
+                type: map
+                description: Inputs for handling events coming into the APEX engine
+                entry_schema:
+                    type: onap.datatypes.native.apex.EventHandler
+            outputs:
+                type: map
+                description: Outputs for handling events going out of the APEX engine
+                entry_schema:
+                    type: onap.datatypes.native.apex.EventHandler
+            environment:
+                type: list
+                description: Envioronmental parameters for the APEX engine
+                entry_schema:
+                    type: onap.datatypes.native.apex.Environment
+
+data_types:
+    onap.datatypes.native.apex.EngineService:
+        derived_from: tosca.datatypes.Root
+        properties:
+            name:
+                type: string
+                description: Specifies the engine name
+                required: false
+                default: "ApexEngineService"
+            version:
+                type: string
+                description: Specifies the engine version in double dotted format
+                required: false
+                default: "1.0.0"
+            id:
+                type: int
+                description: Specifies the engine id
+                required: true
+            instance_count:
+                type: int
+                description: Specifies the number of engine threads that should be run
+                required: true
+            deployment_port:
+                type: int
+                description: Specifies the port to connect to for engine administration
+                required: false
+                default: 1
+            policy_model_file_name:
+                type: string
+                description: The name of the file from which to read the APEX policy model
+                required: false
+                default: ""
+            policy_type_impl:
+                type: string
+                description: The policy type implementation from which to read the APEX policy model
+                required: false
+                default: ""
+            periodic_event_period:
+                type: string
+                description: The time interval in milliseconds for the periodic scanning event, 0 means don't scan
+                required: false
+                default: 0
+            engine:
+                type: onap.datatypes.native.apex.engineservice.Engine
+                description: The parameters for all engines in the APEX engine service
+                required: true
+    onap.datatypes.native.apex.EventHandler:
+        derived_from: tosca.datatypes.Root
+        properties:
+            name:
+                type: string
+                description: Specifies the event handler name, if not specified this is set to the key name
+                required: false
+            carrier_technology:
+                type: onap.datatypes.native.apex.CarrierTechnology
+                description: Specifies the carrier technology of the event handler (such as REST/Web Socket/Kafka)
+                required: true
+            event_protocol:
+                type: onap.datatypes.native.apex.EventProtocol
+                description: Specifies the event protocol of events for the event handler (such as Yaml/JSON/XML/POJO)
+                required: true
+            event_name:
+                type: string
+                description: Specifies the event name for events on this event handler, if not specified, the event name is read from or written to the event being received or sent
+                required: false
+            event_name_filter:
+                type: string
+                description: Specifies a filter as a regular expression, events that do not match the filter are dropped, the default is to let all events through
+                required: false
+            synchronous_mode:
+                type: bool
+                description: Specifies the event handler is syncronous (receive event and send response)
+                required: false
+                default: false
+            synchronous_peer:
+                type: string
+                description: The peer event handler (output for input or input for output) of this event handler in synchronous mode, this parameter is mandatory if the event handler is in synchronous mode
+                required: false
+                default: ""
+            synchronous_timeout:
+                type: int
+                description: The timeout in milliseconds for responses to be issued by APEX torequests, this parameter is mandatory if the event handler is in synchronous mode
+                required: false
+                default: ""
+            requestor_mode:
+                type: bool
+                description: Specifies the event handler is in requestor mode (send event and wait for response mode)
+                required: false
+                default: false
+            requestor_peer:
+                type: string
+                description: The peer event handler (output for input or input for output) of this event handler in requestor mode, this parameter is mandatory if the event handler is in requestor mode
+                required: false
+                default: ""
+            requestor_timeout:
+                type: int
+                description: The timeout in milliseconds for wait for responses to requests, this parameter is mandatory if the event handler is in requestor mode
+                required: false
+                default: ""
+    onap.datatypes.native.apex.CarrierTechnology:
+        derived_from: tosca.datatypes.Root
+        properties:
+            label:
+                type: string
+                description: The label (name) of the carrier technology (such as REST, Kafka, WebSocket)
+                required: true
+            plugin_parameter_class_name:
+                type: string
+                description: The class name of the class that overrides default handling of event input or output for this carrier technology, defaults to the supplied input or output class
+                required: false
+    onap.datatypes.native.apex.EventProtocol:
+        derived_from: tosca.datatypes.Root
+        properties:
+            label:
+                type: string
+                description: The label (name) of the event protocol (such as Yaml, JSON, XML, or POJO)
+                required: true
+            event_protocol_plugin_class:
+                type: string
+                description: The class name of the class that overrides default handling of the event protocol for this carrier technology, defaults to the supplied event protocol class
+                required: false
+    onap.datatypes.native.apex.Environmental:
+        derived_from: tosca.datatypes.Root
+        properties:
+            name:
+                type: string
+                description: The name of the environment variable
+                required: true
+            value:
+                type: string
+                description: The value of the environment variable
+                required: true
+    onap.datatypes.native.apex.engineservice.Engine:
+        derived_from: tosca.datatypes.Root
+        properties:
+            context:
+                type: onap.datatypes.native.apex.engineservice.engine.Context
+                description: The properties for handling context in APEX engines, defaults to using Java maps for context
+                required: false
+            executors:
+                type: map
+                description: The plugins for policy executors used in engines such as javascript, MVEL, Jython
+                required: true
+                entry_schema:
+                    description: The plugin class path for this policy executor
+                    type: string
+    onap.datatypes.native.apex.engineservice.engine.Context:
+        derived_from: tosca.datatypes.Root
+        properties:
+            distributor:
+                type: onap.datatypes.native.apex.Plugin
+                description: The plugin to be used for distributing context between APEX PDPs at runtime
+                required: false
+            schemas:
+                type: map
+                description: The plugins for context schemas available in APEX PDPs such as Java and Avro
+                required: false
+                entry_schema:
+                    type: onap.datatypes.native.apex.Plugin
+            locking:
+                type: onap.datatypes.native.apex.plugin
+                description: The plugin to be used for locking context in and between APEX PDPs at runtime
+                required: false
+            persistence:
+                type: onap.datatypes.native.apex.Plugin
+                description: The plugin to be used for persisting context for APEX PDPs at runtime
+                required: false
+    onap.datatypes.native.apex.Plugin:
+        derived_from: tosca.datatypes.Root
+        properties:
+            name:
+                type: string
+                description: The name of the executor such as Javascript, Jython or MVEL
+                required: true
+            plugin_class_name:
+                type: string
+                description: The class path of the plugin class for this executor
