@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "53c0b151_5787de5f",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Apex.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-12-04T17:50:32Z",
+      "side": 1,
+      "message": "This file name could be tricky as it could be either local file in an API user\u0027s machine or a central file to which APEX PDP can have access. Perhaps we should put some constraint on this filename string. Otherwise, it could be the case where API user specifies a local file name which cannot be accessible from APEX PDP. If it is not accessible from APEX PDP, how the PDP can parse and execute it. \n\nThe same comment for policy_type_impl below",
+      "range": {
+        "startLine": 58,
+        "startChar": 12,
+        "endLine": 58,
+        "endChar": 35
+      },
+      "revId": "ba02332f80dec96dca6a7cb800e5eefa106d6ed3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
