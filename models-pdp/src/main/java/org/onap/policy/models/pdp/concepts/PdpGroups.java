@@ -20,6 +20,8 @@
 
 package org.onap.policy.models.pdp.concepts;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -27,12 +29,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
 import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.common.parameters.ObjectValidationResult;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.common.parameters.ValidationStatus;
+import org.onap.policy.common.utils.coder.Coder;
+import org.onap.policy.common.utils.coder.CoderException;
+import org.onap.policy.common.utils.coder.StandardCoder;
+import org.onap.policy.common.utils.coder.StandardYamlCoder;
 
 /**
  * Request deploy or update a set of groups via the PDP Group deployment REST API.
@@ -40,10 +48,30 @@ import org.onap.policy.common.parameters.ValidationStatus;
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
 public class PdpGroups {
     private static final String GROUPS_FIELD = "groups";
 
     private List<PdpGroup> groups;
+
+    /**
+     * Makes a structure from a URL-encoded JSON or YAML string. If the string begins with "{", then
+     * it's assumed to be a JSON string, otherwise it's treated as YAML.
+     *
+     * @param jsonOrYaml JSON or YAML string, URL-encoded
+     * @throws CoderException if the string cannot be decoded
+     */
+    public static PdpGroups fromString(@NonNull String jsonOrYaml) throws CoderException {
+        try {
+            String plain = URLDecoder.decode(jsonOrYaml, "UTF-8");
+            Coder coder = (plain.trim().startsWith("{") ? new StandardCoder() : new StandardYamlCoder());
+
+            return coder.decode(plain, PdpGroups.class);
+
+        } catch (UnsupportedEncodingException e) {
+            throw new CoderException(e);
+        }
+    }
 
     /**
      * Get the contents of this class as a list of PDP group maps.
