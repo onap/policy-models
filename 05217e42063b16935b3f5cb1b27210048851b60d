@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f4fed89_cb371b87",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpStatistics.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-12-05T10:57:00Z",
+      "side": 1,
+      "message": "This will cause a Sonar issue, too many parameters in method call.",
+      "range": {
+        "startLine": 123,
+        "startChar": 3,
+        "endLine": 126,
+        "endChar": 100
+      },
+      "revId": "05217e42063b16935b3f5cb1b27210048851b60d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
