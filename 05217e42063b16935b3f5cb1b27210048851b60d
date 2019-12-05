@@ -22,6 +22,30 @@
       "revId": "05217e42063b16935b3f5cb1b27210048851b60d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "efa5a7df_4db51055",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpStatistics.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-12-05T13:10:06Z",
+      "side": 1,
+      "message": "Yes \u003e7, you could use a Builder class for this.",
+      "parentUuid": "5f4fed89_cb371b87",
+      "range": {
+        "startLine": 123,
+        "startChar": 3,
+        "endLine": 126,
+        "endChar": 100
+      },
+      "revId": "05217e42063b16935b3f5cb1b27210048851b60d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
