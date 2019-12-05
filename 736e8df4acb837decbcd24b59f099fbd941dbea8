@@ -140,6 +140,30 @@
       "revId": "736e8df4acb837decbcd24b59f099fbd941dbea8",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21aecdf5_8fddf66c",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.controlloop.operational.Common.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-12-05T18:22:55Z",
+      "side": 1,
+      "message": "I think we are saying that we don\u0027t need a specific Datatype. So we can just list properties and make it optional.",
+      "parentUuid": "580cebaf_ce77e813",
+      "range": {
+        "startLine": 60,
+        "startChar": 26,
+        "endLine": 60,
+        "endChar": 31
+      },
+      "revId": "736e8df4acb837decbcd24b59f099fbd941dbea8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
