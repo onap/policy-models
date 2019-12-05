@@ -46,6 +46,64 @@
       "revId": "05217e42063b16935b3f5cb1b27210048851b60d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "363513ff_0b43eeb7",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpStatistics.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-05T21:21:21Z",
+      "side": 1,
+      "message": "or a lombok annotation (@Builder?)",
+      "parentUuid": "efa5a7df_4db51055",
+      "range": {
+        "startLine": 123,
+        "startChar": 3,
+        "endLine": 126,
+        "endChar": 100
+      },
+      "revId": "05217e42063b16935b3f5cb1b27210048851b60d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "602151e5_23c8cbd1",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpStatistics.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-05T21:21:21Z",
+      "side": 1,
+      "message": "isn\u0027t there a \"CompareBuilder\" that can be used for this?",
+      "revId": "05217e42063b16935b3f5cb1b27210048851b60d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30d3c358_b13f07cd",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpStatistics.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-05T21:21:21Z",
+      "side": 1,
+      "message": "should there be a \"clean()\" on the engine worker statistics?",
+      "revId": "05217e42063b16935b3f5cb1b27210048851b60d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
