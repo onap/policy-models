@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "af2cd977_e0e2286e",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpStatistics.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-06T14:06:51Z",
+      "side": 1,
+      "message": "can engineStats be null? or can we assume it\u0027s !\u003dnull whenever clean() is used?",
+      "revId": "eb198ce4bf1516357199c79d9092ef5ac8083fa0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
