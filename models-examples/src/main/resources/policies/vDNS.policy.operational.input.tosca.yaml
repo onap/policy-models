@@ -1,35 +1,39 @@
 tosca_definitions_version: tosca_simple_yaml_1_0_0
 topology_template:
-   policies:
-      -
-        operational.scaleout:
-           type: onap.policies.controlloop.Operational
-           version: 1.0.0
-           metadata: 
-             policy-id: operational.scaleout
-           properties:
-           controlLoop:
-             version: 2.0.0
-             controlLoopName: ControlLoop-vDNS-6f37f56d-a87d-4b85-b6a9-cc953cf779b3
-             trigger_policy: unique-policy-id-1-scale-up
-             timeout: 1200
-             abatement: false
-           policies:
-             - id: unique-policy-id-1-scale-up
-               name: Create a new VF Module
-               description:
-               actor: SO
-               recipe: VF Module Create
-               target:
-                 type: VNF
-               payload:
-                 requestParameters: '{"usePreload":true,"userParams":[]}'
-                 configurationParameters: '[{"ip-addr":"$.vf-module-topology.vf-module-parameters.param[9]","oam-ip-addr":"$.vf-module-topology.vf-module-parameters.param[16]","enabled":"$.vf-module-topology.vf-module-parameters.param[23]"}]'
-               retry: 0
-               timeout: 1200
-               success: final_success
-               failure: final_failure
-               failure_timeout: final_failure_timeout
-               failure_retries: final_failure_retries
-               failure_exception: final_failure_exception
-               failure_guard: final_failure_guard
+    policies:
+    -   operational.scaleout:
+            type: onap.policies.controlloop.operational.common.Drools
+            type_version: 1.0.0
+            metadata:
+                policy-id: operational.scaleout
+            properties:
+                id: ControlLoop-vDNS-6f37f56d-a87d-4b85-b6a9-cc953cf779b3
+                timeout: 1200
+                abatement: false
+                trigger: unique-policy-id-1-scale-up
+                operations:
+                -   id: unique-policy-id-1-scale-up
+                    description: Create a new VF Module
+                    operation:
+                        actor: SO
+                        operation: VF Module Create
+                        target:
+                            type: VFMODULE
+                            entityIds:
+                                modelInvariantId: e6130d03-56f1-4b0a-9a1d-e1b2ebc30e0e
+                                modelVersionId: 94b18b1d-cc91-4f43-911a-e6348665f292
+                                modelName: VfwclVfwsnkBbefb8ce2bde..base_vfw..module-0
+                                modelVersion: 1
+                                modelCustomizationId: 47958575-138f-452a-8c8d-d89b595f8164
+                        payload:
+                            requestParameters: '{"usePreload":true,"userParams":[]}'
+                            configurationParameters: '[{"ip-addr":"$.vf-module-topology.vf-module-parameters.param[9]","oam-ip-addr":"$.vf-module-topology.vf-module-parameters.param[16]","enabled":"$.vf-module-topology.vf-module-parameters.param[23]"}]'
+                    timeout: 1200
+                    retries: 0
+                    success: final_success
+                    failure: final_failure
+                    failure_timeout: final_failure_timeout
+                    failure_retries: final_failure_retries
+                    failure_exception: final_failure_exception
+                    failure_guard: final_failure_guard
+                controllerName: usecases
