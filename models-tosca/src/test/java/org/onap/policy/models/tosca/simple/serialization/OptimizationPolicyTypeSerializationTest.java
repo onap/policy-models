@@ -44,7 +44,10 @@ public class OptimizationPolicyTypeSerializationTest {
     private static final String TYPE_ROOT = "tosca.policies.Root";
     private static final String VERSION = "1.0.0";
 
-    private static final String INPUT_YAML = "policytypes/onap.policies.Optimization.yaml";
+    private static final String INPUT_OPTIMIZATION_YAML = "policytypes/onap.policies.Optimization.yaml";
+    private static final String INPUT_OPTIMIZATION_RESOURCE_YAML =
+            "policytypes/onap.policies.optimization.Resource.yaml";
+    private static final String INPUT_OPTIMIZATION_SERVICE_YAML = "policytypes/onap.policies.optimization.Service.yaml";
 
     private StandardCoder coder;
 
@@ -54,13 +57,39 @@ public class OptimizationPolicyTypeSerializationTest {
     }
 
     @Test
-    public void test() throws CoderException {
-        JpaToscaServiceTemplate svctmpl = loadYaml(INPUT_YAML);
-        validate("initial object", svctmpl);
+    public void testOptimization() throws CoderException {
+        JpaToscaServiceTemplate svctmpl = loadYaml(INPUT_OPTIMIZATION_YAML);
+        validate("initial object", svctmpl, TYPE_ROOT, "onap.policies.Optimization", false, false);
 
         String ser = serialize(svctmpl);
         JpaToscaServiceTemplate svctmpl2 = deserialize(ser);
-        validate("copy", svctmpl2);
+        validate("copy", svctmpl2, TYPE_ROOT, "onap.policies.Optimization", false, false);
+
+        assertEquals(svctmpl, svctmpl2);
+    }
+
+    @Test
+    public void testOptimizationResource() throws CoderException {
+        JpaToscaServiceTemplate svctmpl = loadYaml(INPUT_OPTIMIZATION_RESOURCE_YAML);
+        validate("initial object", svctmpl, "onap.policies.Optimization", "onap.policies.optimization.Resource", true,
+                true);
+
+        String ser = serialize(svctmpl);
+        JpaToscaServiceTemplate svctmpl2 = deserialize(ser);
+        validate("copy", svctmpl2, "onap.policies.Optimization", "onap.policies.optimization.Resource", true, true);
+
+        assertEquals(svctmpl, svctmpl2);
+    }
+
+    @Test
+    public void testOptimizationService() throws CoderException {
+        JpaToscaServiceTemplate svctmpl = loadYaml(INPUT_OPTIMIZATION_SERVICE_YAML);
+        validate("initial object", svctmpl, "onap.policies.Optimization", "onap.policies.optimization.Service", false,
+                true);
+
+        String ser = serialize(svctmpl);
+        JpaToscaServiceTemplate svctmpl2 = deserialize(ser);
+        validate("copy", svctmpl2, "onap.policies.Optimization", "onap.policies.optimization.Service", false, true);
 
         assertEquals(svctmpl, svctmpl2);
     }
@@ -86,29 +115,32 @@ public class OptimizationPolicyTypeSerializationTest {
         return coder.encode(auth);
     }
 
-    private void validate(String testnm, JpaToscaServiceTemplate svctmpl) {
+    private void validate(String testnm, JpaToscaServiceTemplate svctmpl, String derivedFrom,
+            String typeName, boolean checkResource, boolean checkService) {
         JpaToscaPolicyTypes policyTypes = svctmpl.getPolicyTypes();
 
         assertEquals(testnm + " type count", 1, policyTypes.getConceptMap().size());
         JpaToscaPolicyType policyType = policyTypes.getConceptMap().values().iterator().next();
 
-        assertEquals(testnm + " name", "onap.policies.Optimization", policyType.getName());
+        assertEquals(testnm + " name", typeName, policyType.getName());
         assertEquals(testnm + " version", VERSION, policyType.getVersion());
 
         assertNotNull(testnm + " derived from", policyType.getDerivedFrom());
-        assertEquals(testnm + " derived from name", TYPE_ROOT, policyType.getDerivedFrom().getName());
-
-        assertEquals(testnm + " description", "The base policy type for all policies that govern optimization",
-                        policyType.getDescription());
+        assertEquals(testnm + " derived from name", derivedFrom, policyType.getDerivedFrom().getName());
 
         Map<String, JpaToscaProperty> props = policyType.getProperties();
         assertNotNull(testnm + " properties", props);
 
-        validateScope(testnm, props.get("scope"));
-        validateServices(testnm, props.get("services"));
-        validateResources(testnm, props.get("resources"));
-        validateGeography(testnm, props.get("geography"));
-        validateIdentity(testnm, props.get("identity"));
+        if (checkResource && checkService) {
+            validateResources(testnm, props.get("resources"));
+            validateServices(testnm, props.get("services"));
+        } else if (checkService && !checkResource) {
+            validateServices(testnm, props.get("services"));
+        } else {
+            validateScope(testnm, props.get("scope"));
+            validateGeography(testnm, props.get("geography"));
+            validateIdentity(testnm, props.get("identity"));
+        }
     }
 
     // only need to validate deep match of one of these; geography is the most interesting

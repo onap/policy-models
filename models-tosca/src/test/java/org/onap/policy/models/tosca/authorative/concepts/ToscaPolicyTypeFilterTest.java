@@ -27,12 +27,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import com.google.gson.GsonBuilder;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.common.utils.coder.CoderException;
@@ -59,17 +57,17 @@ public class ToscaPolicyTypeFilterTest {
     // @formatter:off
     private static final String[] policyTypeResourceNames = {
         "policytypes/onap.policies.controlloop.Operational.yaml",
-        "policytypes/onap.policies.optimization.DistancePolicy.yaml",
-        "policytypes/onap.policies.optimization.VnfPolicy.yaml",
-        "policytypes/onap.policies.optimization.PciPolicy.yaml",
-        "policytypes/onap.policies.optimization.OptimizationPolicy.yaml",
+        "policytypes/onap.policies.optimization.resource.DistancePolicy.yaml",
+        "policytypes/onap.policies.optimization.resource.VnfPolicy.yaml",
+        "policytypes/onap.policies.optimization.resource.PciPolicy.yaml",
+        "policytypes/onap.policies.optimization.resource.OptimizationPolicy.yaml",
         "policytypes/onap.policies.controlloop.guard.Blacklist.yaml",
         "policytypes/onap.policies.monitoring.dcaegen2.collectors.datafile.datafile-app-server.yaml",
-        "policytypes/onap.policies.optimization.HpaPolicy.yaml",
-        "policytypes/onap.policies.optimization.Vim_fit.yaml",
-        "policytypes/onap.policies.optimization.SubscriberPolicy.yaml",
-        "policytypes/onap.policies.optimization.AffinityPolicy.yaml",
-        "policytypes/onap.policies.optimization.QueryPolicy.yaml",
+        "policytypes/onap.policies.optimization.resource.HpaPolicy.yaml",
+        "policytypes/onap.policies.optimization.resource.Vim_fit.yaml",
+        "policytypes/onap.policies.optimization.service.SubscriberPolicy.yaml",
+        "policytypes/onap.policies.optimization.resource.AffinityPolicy.yaml",
+        "policytypes/onap.policies.optimization.service.QueryPolicy.yaml",
         "policytypes/onap.policies.controlloop.guard.MinMax.yaml",
         "policytypes/onap.policies.controlloop.guard.FrequencyLimiter.yaml",
         "policytypes/onap.policies.controlloop.guard.coordination.FirstBlocksSecond.yaml",
