@@ -16,6 +16,24 @@
       "revId": "eb198ce4bf1516357199c79d9092ef5ac8083fa0",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94da51b4_312eca19",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpStatistics.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 5257
+      },
+      "writtenOn": "2019-12-09T06:35:21Z",
+      "side": 1,
+      "message": "It can be null.\nAdded a check.",
+      "parentUuid": "af2cd977_e0e2286e",
+      "revId": "eb198ce4bf1516357199c79d9092ef5ac8083fa0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
