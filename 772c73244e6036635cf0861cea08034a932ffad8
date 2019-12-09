@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1aaeb78a_02199d66",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.optimization.Service.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-09T13:43:55Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "772c73244e6036635cf0861cea08034a932ffad8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
