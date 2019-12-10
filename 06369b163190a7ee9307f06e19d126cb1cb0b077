@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "41983a8a_19b36694",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/authorative/concepts/ToscaPolicyFilterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-12-10T18:52:11Z",
+      "side": 1,
+      "message": "Not sure why this is only +6 - but seems ok.",
+      "range": {
+        "startLine": 185,
+        "startChar": 21,
+        "endLine": 185,
+        "endChar": 23
+      },
+      "revId": "06369b163190a7ee9307f06e19d126cb1cb0b077",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb63431c_e38836c2",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/authorative/concepts/ToscaPolicyFilterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-12-10T18:52:11Z",
+      "side": 1,
+      "message": "I think this may have been a bug previously. Because it should always return one.",
+      "range": {
+        "startLine": 193,
+        "startChar": 21,
+        "endLine": 193,
+        "endChar": 22
+      },
+      "revId": "06369b163190a7ee9307f06e19d126cb1cb0b077",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
