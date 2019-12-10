@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1db018a7_b32404f8",
+        "filename": "models-base/src/test/java/org/onap/policy/models/base/PfModelExceptionInfoTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-10T14:48:24Z",
+      "side": 1,
+      "message": "I take it the new checkstyle and/or sonar prefers test methods to start with \"test\"?",
+      "revId": "5a366fdab88b7205cedd2ba687109b80dc374544",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b1b53a92_ce14da6a",
+        "filename": "models-interactions/model-impl/events/src/main/java/org/onap/policy/controlloop/util/Serialization.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-10T14:48:24Z",
+      "side": 1,
+      "message": "I think it\u0027s to prevent instantiation of any kind, which includes subclassing",
+      "revId": "5a366fdab88b7205cedd2ba687109b80dc374544",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
