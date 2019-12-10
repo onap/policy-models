@@ -30,14 +30,13 @@ import lombok.NonNull;
 /**
  * The model service makes Policy Framework models available to all classes in a JVM.
  *
- * <p>The reason for having a model service is to avoid having to pass concept and model definitions
- * down long call chains in modules such as the Policy Framework engine and editor. The model
- * service makes the model and concept definitions available statically.
+ * <p>The reason for having a model service is to avoid having to pass concept and model definitions down long call
+ * chains in modules such as the Policy Framework engine and editor. The model service makes the model and concept
+ * definitions available statically.
  *
- * <p>Note that the use of the model service means that only a single Policy Framework model of a
- * particular type may exist in Policy Framework (particularly the engine) at any time. Of course
- * the model in a JVM can be changed at any time provided all users of the model are stopped and
- * restarted in an orderly manner.
+ * <p>Note that the use of the model service means that only a single Policy Framework model of a particular type may
+ * exist in Policy Framework (particularly the engine) at any time. Of course the model in a JVM can be changed at any
+ * time provided all users of the model are stopped and restarted in an orderly manner.
  */
 public abstract class PfModelService {
     // The map holding the models
@@ -46,7 +45,9 @@ public abstract class PfModelService {
     /**
      * This class is an abstract static class that cannot be extended.
      */
-    private PfModelService() {}
+    private PfModelService() {
+        // Default constructor
+    }
 
     /**
      * Register a model with the model service.

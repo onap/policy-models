@@ -30,7 +30,7 @@ public class HttpDeleteWithBodyTest {
     private static final String NO_URI = "BlahBlah";
 
     @Test
-    public void getMethod() {
+    public void testGetMethod() {
         HttpDeleteWithBody deleteWithBody = new HttpDeleteWithBody(NO_URI);
         assertEquals("DELETE", deleteWithBody.getMethod());
         assertEquals(NO_URI, deleteWithBody.getURI().toString());

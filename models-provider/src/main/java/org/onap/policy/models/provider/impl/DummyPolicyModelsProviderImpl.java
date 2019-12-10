@@ -60,7 +60,9 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
      *
      * @param parameters the parameters for the provider
      */
-    public DummyPolicyModelsProviderImpl(final PolicyModelsProviderParameters parameters) {}
+    public DummyPolicyModelsProviderImpl(final PolicyModelsProviderParameters parameters) {
+        // Default constructor
+    }
 
     @Override
     public void init() throws PfModelException {

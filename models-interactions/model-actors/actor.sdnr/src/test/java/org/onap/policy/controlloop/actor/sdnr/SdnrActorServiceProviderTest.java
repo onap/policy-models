@@ -56,8 +56,7 @@ public class SdnrActorServiceProviderTest {
 
     static {
         /*
-         * Construct an onset. Using dummy AAI details since the code mandates AAI
-         * details.
+         * Construct an onset. Using dummy AAI details since the code mandates AAI details.
          */
         onsetEvent = new VirtualControlLoopEvent();
         onsetEvent.setClosedLoopControlName("closedLoopControlName-Test");
@@ -95,7 +94,7 @@ public class SdnrActorServiceProviderTest {
     }
 
     @Test
-    public void getControlLoopResponseTest() {
+    public void testGetControlLoopResponse() {
         PciRequest sdnrRequest;
         sdnrRequest = SdnrActorServiceProvider.constructRequest(onsetEvent, operation, policy).getBody();
         PciResponse sdnrResponse = new PciResponse(sdnrRequest);
@@ -114,13 +113,13 @@ public class SdnrActorServiceProviderTest {
         assertEquals(clRsp.getPolicyName(), onsetEvent.getPolicyName());
         assertEquals(clRsp.getPolicyVersion(), onsetEvent.getPolicyVersion());
         assertEquals(clRsp.getVersion(), onsetEvent.getVersion());
-        assertEquals(clRsp.getFrom(), "SDNR");
-        assertEquals(clRsp.getTarget(), "DCAE");
+        assertEquals("SDNR", clRsp.getFrom());
+        assertEquals("DCAE", clRsp.getTarget());
         assertEquals(clRsp.getPayload(), sdnrResponse.getPayload());
     }
 
     @Test
-    public void constructModifyConfigRequestTest() {
+    public void testConstructModifyConfigRequest() {
 
         PciRequest sdnrRequest;
         sdnrRequest = SdnrActorServiceProvider.constructRequest(onsetEvent, operation, policy).getBody();

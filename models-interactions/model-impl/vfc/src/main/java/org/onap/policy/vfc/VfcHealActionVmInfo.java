@@ -20,9 +20,8 @@
 
 package org.onap.policy.vfc;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
+
 import lombok.Getter;
 import lombok.Setter;
 

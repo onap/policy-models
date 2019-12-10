@@ -33,11 +33,12 @@ import org.onap.policy.models.errors.concepts.ErrorResponseInfo;
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 public class PfModelExceptionInfoTest {
+
     @Test
-    public void exceptionInfoTest() {
+    public void testExceptionInfo() {
         try {
             throw new PfModelException(Response.Status.ACCEPTED, "HELLO");
-        } catch (PfModelException  pfme) {
+        } catch (PfModelException pfme) {
             String errorMessage = getErrorMessage(pfme);
             assertEquals("Server returned: Accepted", errorMessage.substring(0, 25));
         }

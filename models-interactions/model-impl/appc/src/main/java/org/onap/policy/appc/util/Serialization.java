@@ -48,7 +48,9 @@ public final class Serialization {
             // .registerTypeAdapter(ResponseStatus1607.class, new gsonResponseStatus())
             .create();
 
-    private Serialization() {}
+    private Serialization() {
+        // Private constructor to prevent subclassing
+    }
 
     public static class GsonUtcAdapter implements JsonSerializer<ZonedDateTime>, JsonDeserializer<ZonedDateTime> {
         private static final Logger logger = LoggerFactory.getLogger(GsonUtcAdapter.class);

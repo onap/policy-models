@@ -43,22 +43,20 @@ public final class Serialization {
     public static final Gson gson =
             new GsonBuilder().disableHtmlEscaping().registerTypeAdapter(ZonedDateTime.class, new GsonUtcAdapter())
                     .registerTypeAdapter(Instant.class, new GsonInstantAdapter())
-                    .registerTypeAdapter(ControlLoopNotificationType.class, new NotificationTypeAdapter())
-                    .create();
-
+                    .registerTypeAdapter(ControlLoopNotificationType.class, new NotificationTypeAdapter()).create();
 
     public static final Gson gsonPretty = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
             .registerTypeAdapter(ZonedDateTime.class, new GsonUtcAdapter())
             .registerTypeAdapter(Instant.class, new GsonInstantAdapter())
-            .registerTypeAdapter(ControlLoopNotificationType.class, new NotificationTypeAdapter())
-            .create();
+            .registerTypeAdapter(ControlLoopNotificationType.class, new NotificationTypeAdapter()).create();
 
     public static final Gson gsonJunit = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
             .registerTypeAdapter(ZonedDateTime.class, new GsonUtcAdapter())
-            .registerTypeAdapter(Instant.class, new GsonInstantAdapter())
-            .create();
+            .registerTypeAdapter(Instant.class, new GsonInstantAdapter()).create();
 
-    private Serialization() {}
+    private Serialization() {
+        // Private constructor to prevent subclassing
+    }
 
     public static class NotificationTypeAdapter
             implements JsonSerializer<ControlLoopNotificationType>, JsonDeserializer<ControlLoopNotificationType> {

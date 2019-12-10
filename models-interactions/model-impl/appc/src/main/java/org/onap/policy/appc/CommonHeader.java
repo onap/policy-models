@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.UUID;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -58,7 +59,9 @@ public class CommonHeader implements Serializable {
     @SerializedName("Flags")
     private Collection<Map<String, String>> flags = new ArrayList<>();
 
-    public CommonHeader() {}
+    public CommonHeader() {
+        // Default constructor
+    }
 
     /**
      * Construct an instance from an existing instance.

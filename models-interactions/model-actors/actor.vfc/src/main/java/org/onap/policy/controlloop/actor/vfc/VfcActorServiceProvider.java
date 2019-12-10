@@ -22,8 +22,10 @@ package org.onap.policy.controlloop.actor.vfc;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+
 import java.util.Collections;
 import java.util.List;
+
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
@@ -33,13 +35,9 @@ import org.onap.policy.vfc.VfcHealActionVmInfo;
 import org.onap.policy.vfc.VfcHealAdditionalParams;
 import org.onap.policy.vfc.VfcHealRequest;
 import org.onap.policy.vfc.VfcRequest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class VfcActorServiceProvider implements Actor {
     private static final String GENERIC_VNF_ID = "generic-vnf.vnf-id";
-
-    private static final Logger logger = LoggerFactory.getLogger(VfcActorServiceProvider.class);
 
     // Strings for VFC Actor
     private static final String VFC_ACTOR = "VFC";
