@@ -23,18 +23,20 @@ package org.onap.policy.models.dao.impl;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
-
+import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 import javax.ws.rs.core.Response;
-
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.base.PfReferenceKey;
+import org.onap.policy.models.base.PfTimestampKey;
 import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.dao.DaoParameters;
 import org.onap.policy.models.dao.PfDao;
@@ -51,6 +53,7 @@ public class DefaultPfDao implements PfDao {
     // @formatter:off
     private static final String NAME           = "name";
     private static final String VERSION        = "version";
+    private static final String TIMESTAMP      = "timeStamp";
     private static final String PARENT_NAME    = "parentname";
     private static final String PARENT_VERSION = "parentversion";
     private static final String LOCAL_NAME     = "localname";
@@ -64,11 +67,16 @@ public class DefaultPfDao implements PfDao {
     private static final String WHERE      = " WHERE ";
     private static final String AND        = " AND ";
 
-    private static final String NAME_FILTER           = "c.key.name = :name";
-    private static final String VERSION_FILTER        = "c.key.version = :version";
-    private static final String PARENT_NAME_FILTER    = "c.key.parentKeyName = :parentname";
-    private static final String PARENT_VERSION_FILTER = "c.key.parentKeyVersion = :parentversion";
-    private static final String LOCAL_NAME_FILTER     = "c.key.localName = :localname";
+    private static final String NAME_FILTER            = "c.key.name = :name";
+    private static final String VERSION_FILTER         = "c.key.version = :version";
+    private static final String TIMESTAMP_START_FILTER = "c.key.timeStamp >= :startTime";
+    private static final String TIMESTAMP_END_FILTER   = "c.key.timeStamp <= :endTime";
+    private static final String TIMESTAMP_VALID     = "c.key.timeStamp <= :now";
+    private static final String PARENT_NAME_FILTER     = "c.key.parentKeyName = :parentname";
+    private static final String PARENT_VERSION_FILTER  = "c.key.parentKeyVersion = :parentversion";
+    private static final String LOCAL_NAME_FILTER      = "c.key.localName = :localname";
+
+    private static final String CLONE_ERR_MSG = "Could not clone object of class \"";
 
     private static final String DELETE_BY_CONCEPT_KEY =
             DELETE_FROM_TABLE + WHERE + NAME_FILTER + AND + VERSION_FILTER;
@@ -78,6 +86,18 @@ public class DefaultPfDao implements PfDao {
 
     private static final String SELECT_ALL_FOR_PARENT =
             SELECT_FROM_TABLE + WHERE + PARENT_NAME_FILTER + AND + PARENT_VERSION_FILTER;
+
+    private static final String SELECT_ALL_FROM_TIMESTAMP =
+            SELECT_FROM_TABLE + WHERE + TIMESTAMP_START_FILTER + AND + TIMESTAMP_END_FILTER ;
+
+    private static final String SELECT_ALL_FROM_END_TIMESTAMP =
+            SELECT_FROM_TABLE + WHERE + TIMESTAMP_END_FILTER;
+
+    private static final String SELECT_ALL_FROM_START_TIMESTAMP =
+            SELECT_FROM_TABLE + WHERE + TIMESTAMP_START_FILTER;
+
+    private static final String SELECT_ALL_FROM_DYNAMIC =
+            SELECT_FROM_TABLE + WHERE + TIMESTAMP_VALID ;
 
     private static final String SELECT_ALL_VERSIONS = SELECT_FROM_TABLE + WHERE + NAME_FILTER;
 
@@ -206,6 +226,27 @@ public class DefaultPfDao implements PfDao {
     }
 
     @Override
+    public <T extends PfConcept> void delete(final Class<T> someClass, final PfTimestampKey key) {
+        if (key == null) {
+            return;
+        }
+        final EntityManager mg = getEntityManager();
+        try {
+            // @formatter:off
+            mg.getTransaction().begin();
+            mg.createQuery(setQueryTable(DELETE_BY_CONCEPT_KEY, someClass), someClass)
+                    .setParameter(NAME,    key.getName())
+                    .setParameter(VERSION, key.getVersion())
+                    .setParameter(TIMESTAMP, key.getTimeStamp())
+                    .executeUpdate();
+            mg.getTransaction().commit();
+            // @formatter:on
+        } finally {
+            mg.close();
+        }
+    }
+
+    @Override
     public <T extends PfConcept> void createCollection(final Collection<T> objs) {
         if (objs == null || objs.isEmpty()) {
             return;
@@ -318,6 +359,54 @@ public class DefaultPfDao implements PfDao {
     }
 
     @Override
+    public <T extends PfConcept> List<T> getFiltered(final Class<T> someClass, final String name, final String version,
+            final Date startTime, final Date endTime, final Map<String, Object> filterMap) {
+        final EntityManager mg = getEntityManager();
+
+        String filterQueryString = generateFilterString(name, startTime, endTime);
+
+        try {
+            TypedQuery query = mg.createQuery(setQueryTable(filterQueryString, someClass), someClass);
+
+            if (filterMap != null) {
+                StringBuilder bld = new StringBuilder(filterQueryString);
+                for (String key : filterMap.keySet()) {
+                    bld.append(" AND c." + key + "= :" + key);
+                }
+                filterQueryString = bld.toString();
+                query = mg.createQuery(setQueryTable(filterQueryString, someClass), someClass);
+                for (Map.Entry<String, Object> entry : filterMap.entrySet()) {
+                    query.setParameter(entry.getKey(), entry.getValue());
+                }
+            }
+
+            if (startTime != null) {
+                if (endTime != null) {
+                    query.setParameter("startTime", startTime);
+                    query.setParameter("endTime", endTime);
+                } else {
+                    query.setParameter("startTime", startTime);
+                }
+            } else {
+                if (endTime != null) {
+                    query.setParameter("endTime", endTime);
+                } else {
+                    query.setParameter("now", new Date());
+                }
+            }
+            if (name != null) {
+                query.setParameter("name", name);
+            }
+
+            LOGGER.error("filterQueryString is  \"{}\"", filterQueryString);
+            return query.getResultList();
+
+        } finally {
+            mg.close();
+        }
+    }
+
+    @Override
     public <T extends PfConcept> T get(final Class<T> someClass, final PfConceptKey key) {
         if (someClass == null) {
             return null;
@@ -330,7 +419,7 @@ public class DefaultPfDao implements PfDao {
                 try {
                     return PfUtils.makeCopy(t);
                 } catch (final Exception e) {
-                    LOGGER.warn("Could not clone object of class \"" + someClass.getName() + "\"", e);
+                    LOGGER.warn(CLONE_ERR_MSG + someClass.getName() + "\"", e);
                     return null;
                 }
             } else {
@@ -353,7 +442,30 @@ public class DefaultPfDao implements PfDao {
                 try {
                     return PfUtils.makeCopy(t);
                 } catch (final Exception e) {
-                    LOGGER.warn("Could not clone object of class \"" + someClass.getName() + "\"", e);
+                    LOGGER.warn(CLONE_ERR_MSG + someClass.getName() + "\"", e);
+                    return null;
+                }
+            } else {
+                return null;
+            }
+        } finally {
+            mg.close();
+        }
+    }
+
+    @Override
+    public <T extends PfConcept> T get(final Class<T> someClass, final PfTimestampKey key) {
+        if (someClass == null) {
+            return null;
+        }
+        final EntityManager mg = getEntityManager();
+        try {
+            final T t = mg.find(someClass, key);
+            if (t != null) {
+                try {
+                    return PfUtils.makeCopy(t);
+                } catch (final Exception e) {
+                    LOGGER.warn(CLONE_ERR_MSG + someClass.getName() + "\"", e);
                     return null;
                 }
             } else {
@@ -514,5 +626,36 @@ public class DefaultPfDao implements PfDao {
                     + " with filter " + searchFilter + ": " + ret);
         }
         return ret.get(0);
+    }
+
+    /**
+     * generate filter string with the filter value in TimestampKey.
+     *
+     * @param name the pdp name the start timeStamp to filter from database, filter rule: startTime <= filteredRecord
+     *        timeStamp <= endTime. null for ignore start time.
+     * @param endTime the end timeStamp to filter from database, filter rule: startTime <= filteredRecord timeStamp <=
+     *        endTime. null for ignore end time
+     * @return the filter string to query database
+     */
+    private String generateFilterString(final String name, final Date startTime, final Date endTime) {
+        String filterQueryString;
+        if (startTime != null) {
+            if (endTime != null) {
+                filterQueryString = SELECT_ALL_FROM_TIMESTAMP;
+            } else {
+                filterQueryString = SELECT_ALL_FROM_START_TIMESTAMP;
+            }
+        } else {
+            if (endTime != null) {
+                filterQueryString = SELECT_ALL_FROM_END_TIMESTAMP;
+            } else {
+                filterQueryString = SELECT_ALL_FROM_DYNAMIC;
+            }
+        }
+        if (name != null) {
+            String nameFilter = " AND c.key.name = :name";
+            filterQueryString = filterQueryString.concat(nameFilter);
+        }
+        return filterQueryString;
     }
 }
