@@ -40,6 +40,16 @@
             <directory>${project.basedir}/src/main/resources
             </directory>
             <includes>
+                <include>startDmaap.sh</include>
+            </includes>
+            <outputDirectory>bin</outputDirectory>
+            <lineEnding>unix</lineEnding>
+            <fileMode>755</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}/src/main/resources
+            </directory>
+            <includes>
                 <include>logback.xml</include>
             </includes>
             <outputDirectory>etc</outputDirectory>

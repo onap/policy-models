@@ -192,7 +192,7 @@ public class DmaapSimProviderTest {
         when(data1.read(any(), anyInt(), anyLong())).thenReturn(Collections.emptyList());
 
         Response resp = prov.processDmaapMessageGet(TOPIC1, CONSUMER1, CONSUMER_ID1, 3, 300L);
-        assertEquals(Status.REQUEST_TIMEOUT.getStatusCode(), resp.getStatus());
+        assertEquals(Status.OK.getStatusCode(), resp.getStatus());
         assertEquals("[]", resp.getEntity().toString());
     }
 
