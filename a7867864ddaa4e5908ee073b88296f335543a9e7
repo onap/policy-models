@@ -280,6 +280,24 @@
     },
     {
       "key": {
+        "uuid": "2cfcd55d_8ec68375",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/spi/Actor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-11T16:40:04Z",
+      "side": 1,
+      "message": "Hmm. I was thinking more that this would cancel something in the client code.  However, with your comment in mind, it probably makes no sense without the ability to cancel at the server side.  So maybe we just leave this out for now?  Why add more code if it isn\u0027t supported yet by any of the servers?",
+      "parentUuid": "01442680_a2a47ede",
+      "revId": "a7867864ddaa4e5908ee073b88296f335543a9e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82036905_acdf6917",
         "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/spi/ActorOperationCallback.java",
         "patchSetId": 2
