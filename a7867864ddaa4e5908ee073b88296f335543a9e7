@@ -262,6 +262,24 @@
     },
     {
       "key": {
+        "uuid": "01442680_a2a47ede",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/spi/Actor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-12-11T14:59:21Z",
+      "side": 1,
+      "message": "Probably  - especially if a timeout occurs. Tricky to test because who knows if the controller can support it (they should at least eventually)- but let\u0027s have it there on our side at least.",
+      "parentUuid": "4a270b2b_ffea98fc",
+      "revId": "a7867864ddaa4e5908ee073b88296f335543a9e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82036905_acdf6917",
         "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/spi/ActorOperationCallback.java",
         "patchSetId": 2
