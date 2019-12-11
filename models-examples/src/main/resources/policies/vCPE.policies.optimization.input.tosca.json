@@ -3,70 +3,231 @@
     "topology_template": {
         "policies": [
             {
-                "OSDF_CASABLANCA.Affinity_vCPE_1": {
-                    "type": "onap.policies.optimization.AffinityPolicy",
+                "OSDF_CASABLANCA.Affinity_Default": {
+                    "type": "onap.policies.optimization.resource.AffinityPolicy",
                     "version": "1.0.0",
+                    "type_version": "1.0.0",
                     "metadata": {
-                        "policy-id": "OSDF_CASABLANCA.Affinity_vCPE_1"
+                        "policy-id": "OSDF_CASABLANCA.Affinity_Default",
+                        "policy-version": 1
                     },
                     "properties": {
+                        "scope": [],
+                        "services": [],
+                        "resources": [],
+                        "geography": [],
                         "identity": "affinity_vCPE",
-                        "policyScope": [
-                            "vCPE",
-                            "US",
-                            "INTERNATIONAL",
-                            "ip",
-                            "vGMuxInfra",
-                            "vG"
-                        ],
+                        "applicableResources": "any",
                         "affinityProperties": {
                             "qualifier": "same",
                             "category": "complex"
-                        },
-                        "policyType": "zone",
+                        }
+                    }
+                }
+            },
+            {
+                "OSDF_CASABLANCA.Affinity_Default_US": {
+                    "type": "onap.policies.optimization.resource.AffinityPolicy",
+                    "version": "1.0.0",
+                    "type_version": "1.0.0",
+                    "metadata": {
+                        "policy-id": "OSDF_CASABLANCA.Affinity_Default_US",
+                        "policy-version": 1
+                    },
+                    "properties": {
+                        "scope": [],
+                        "services": [],
+                        "resources": [],
+                        "geography": [
+                            "US"
+                        ],
+                        "identity": "affinity_vCPE",
+                        "applicableResources": "any",
+                        "affinityProperties": {
+                            "qualifier": "same",
+                            "category": "complex"
+                        }
+                    }
+                }
+            },
+            {
+                "OSDF_CASABLANCA.Affinity_Default_vCPE_US_0": {
+                    "type": "onap.policies.optimization.resource.AffinityPolicy",
+                    "version": "1.0.0",
+                    "type_version": "1.0.0",
+                    "metadata": {
+                        "policy-id": "OSDF_CASABLANCA.Affinity_Default_vCPE_US_0",
+                        "policy-version": 1
+                    },
+                    "properties": {
+                        "scope": [],
+                        "services": [
+                            "vCPE"
+                        ],
+                        "resources": [],
+                        "geography": [
+                            "US"
+                        ],
+                        "identity": "affinity_vCPE",
+                        "applicableResources": "any",
+                        "affinityProperties": {
+                            "qualifier": "different",
+                            "category": "complex"
+                        }
+                    }
+                }
+            },
+            {
+                "OSDF_CASABLANCA.Affinity_vCPE_US_Gold_1": {
+                    "type": "onap.policies.optimization.resource.AffinityPolicy",
+                    "version": "1.0.0",
+                    "type_version": "1.0.0",
+                    "metadata": {
+                        "policy-id": "OSDF_CASABLANCA.Affinity_vCPE_1",
+                        "policy-version": 1
+                    },
+                    "properties": {
+                        "scope": [
+                            "gold"
+                        ],
+                        "services": [
+                            "vCPE"
+                        ],
                         "resources": [
                             "vGMuxInfra",
                             "vG"
-                        ]
+                        ],
+                        "geography": [
+                            "US",
+                            "INTERNATIONAL"
+                        ],
+                        "identity": "affinity_vCPE",
+                        "applicableResources": "any",
+                        "affinityProperties": {
+                            "qualifier": "same",
+                            "category": "availabilityZone"
+                        }
+                    }
+                }
+            },
+            {
+                "OSDF_CASABLANCA.Affinity_vCPE_US_Platinum_1": {
+                    "type": "onap.policies.optimization.resource.AffinityPolicy",
+                    "version": "1.0.0",
+                    "type_version": "1.0.0",
+                    "metadata": {
+                        "policy-id": "OSDF_CASABLANCA.Affinity_vCPE_1",
+                        "policy-version": 1
+                    },
+                    "properties": {
+                        "scope": [
+                            "platinum"
+                        ],
+                        "services": [
+                            "vCPE"
+                        ],
+                        "resources": [
+                            "vGMuxInfra",
+                            "vG"
+                        ],
+                        "geography": [
+                            "US",
+                            "INTERNATIONAL"
+                        ],
+                        "identity": "affinity_vCPE",
+                        "applicableResources": "any",
+                        "affinityProperties": {
+                            "qualifier": "different",
+                            "category": "availabilityZone"
+                        }
                     }
                 }
             },
             {
                 "OSDF_CASABLANCA.Capacity_vG_1": {
-                    "type": "onap.policies.optimization.Vim_fit",
+                    "type": "onap.policies.optimization.resource.Vim_fit",
                     "version": "1.0.0",
+                    "type_version": "1.0.0",
                     "metadata": {
-                        "policy-id": "OSDF_CASABLANCA.Capacity_vG_1"
+                        "policy-id": "OSDF_CASABLANCA.Capacity_vG_1",
+                        "policy-version": 1
                     },
                     "properties": {
-                        "identity": "capacity_vG",
-                        "policyScope": [
-                            "VCPE",
-                            "US",
-                            "INTERNATIONAL",
-                            "ip",
-                            "vG"
+                        "scope": [],
+                        "services": [
+                            "vCPE"
                         ],
                         "resources": [
                             "vG"
                         ],
+                        "geography": [
+                            "US",
+                            "INTERNATIONAL"
+                        ],
+                        "identity": "capacity_vG",
+                        "applicableResources": "any",
                         "capacityProperty": {
                             "controller": "multicloud",
                             "request": "{\"vCPU\": 10, \"Memory\": {\"quantity\": {\"get_param\": \"REQUIRED_MEM\"}, \"unit\": \"GB\"}, \"Storage\": {\"quantity\": {\"get_param\": \"REQUIRED_DISK\"}, \"unit\": \"GB\"}}"
-                        },
-                        "policyType": "vim_fit",
-                        "applicableResources": "any"
+                        }
+                    }
+                }
+            },
+            {
+                "OSDF_CASABLANCA.Capacity_vG_2": {
+                    "type": "onap.policies.optimization.resource.Vim_fit",
+                    "version": "1.0.0",
+                    "type_version": "1.0.0",
+                    "metadata": {
+                        "policy-id": "OSDF_CASABLANCA.Capacity_vG_2",
+                        "policy-version": 1
+                    },
+                    "properties": {
+                        "scope": [],
+                        "services": [
+                            "vCPE"
+                        ],
+                        "resources": [
+                            "vG"
+                        ],
+                        "geography": [
+                            "US",
+                            "INTERNATIONAL"
+                        ],
+                        "identity": "capacity_vG",
+                        "applicableResources": "any",
+                        "capacityProperty": {
+                            "controller": "multicloud",
+                            "request": "{\"vCPU\": 15, \"Memory\": {\"quantity\": {\"get_param\": \"REQUIRED_MEM\"}, \"unit\": \"MB\"}, \"Storage\": {\"quantity\": {\"get_param\": \"REQUIRED_DISK\"}, \"unit\": \"GB\"}}"
+                        }
                     }
                 }
             },
             {
                 "OSDF_CASABLANCA.Distance_vG_1": {
-                    "type": "onap.policies.optimization.DistancePolicy",
+                    "type": "onap.policies.optimization.resource.DistancePolicy",
                     "version": "1.0.0",
+                    "type_version": "1.0.0",
                     "metadata": {
-                        "policy-id": "OSDF_CASABLANCA.Distance_vG_1"
+                        "policy-id": "OSDF_CASABLANCA.Distance_vG_1",
+                        "policy-version": 1
                     },
                     "properties": {
+                        "scope": [
+                            "platinum"
+                        ],
+                        "services": [
+                            "vCPE"
+                        ],
+                        "resources": [
+                            "vG"
+                        ],
+                        "geography": [
+                            "US",
+                            "INTERNATIONAL"
+                        ],
+                        "identity": "distance-vG",
+                        "applicableResources": "any",
                         "distanceProperties": {
                             "locationInfo": "customer_loc",
                             "distance": {
@@ -74,54 +235,188 @@
                                 "operator": "<",
                                 "unit": "km"
                             }
-                        },
-                        "identity": "distance-vG",
-                        "resources": [
-                            "vG"
-                        ],
-                        "policyScope": [
-                            "vCPE",
-                            "US",
-                            "INTERNATIONAL",
-                            "ip",
-                            "vG"
-                        ],
-                        "policyType": "distance_to_location",
-                        "applicableResources": "any"
+                        }
+                    }
+                }
+            },
+            {
+                "OSDF_CASABLANCA.hpa_policy_Default": {
+                    "type": "onap.policies.optimization.resource.HpaPolicy",
+                    "version": "1.0.0",
+                    "type_version": "1.0.0",
+                    "metadata": {
+                        "policy-id": "OSDF_CASABLANCA.hpa_policy_Default",
+                        "policy-version": 1
+                    },
+                    "properties": {
+                        "scope": [],
+                        "services": [],
+                        "resources": [],
+                        "geography": [],
+                        "identity": "hpa-vG",
+                        "flavorFeatures": [
+                            {
+                                "id": "vg_1",
+                                "type": "vnfc",
+                                "directives": [
+                                    {
+                                        "type": "flavor_directives",
+                                        "attributes": [
+                                            {
+                                                "attribute_name": "flavor_label_vm_01",
+                                                "attribute_value": ""
+                                            }
+                                        ]
+                                    }
+                                ],
+                                "flavorProperties": [
+                                    {
+                                        "hpa-feature": "basicCapabilities",
+                                        "mandatory": true,
+                                        "architecture": "generic",
+                                        "directives": [],
+                                        "hpa-feature-attributes": [
+                                            {
+                                                "hpa-attribute-key": "numVirtualCpu",
+                                                "hpa-attribute-value": 8,
+                                                "operator": [
+                                                    ">="
+                                                ],
+                                                "unit": ""
+                                            },
+                                            {
+                                                "hpa-attribute-key": "virtualMemSize",
+                                                "hpa-attribute-value": 6,
+                                                "operator": [
+                                                    "<="
+                                                ],
+                                                "unit": ""
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "hpa-feature": "ovsDpdk",
+                                        "mandatory": false,
+                                        "architecture": "generic",
+                                        "directives": [],
+                                        "hpa-feature-attributes": [
+                                            {
+                                                "hpa-attribute-key": "dataProcessingAccelerationLibrary",
+                                                "hpa-attribute-value": "ovsDpdk_version",
+                                                "operator": [
+                                                    "="
+                                                ],
+                                                "unit": ""
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
                     }
                 }
             },
             {
                 "OSDF_CASABLANCA.hpa_policy_vG_1": {
-                    "type": "onap.policies.optimization.HpaPolicy",
+                    "type": "onap.policies.optimization.resource.HpaPolicy",
                     "version": "1.0.0",
+                    "type_version": "1.0.0",
                     "metadata": {
-                        "policy-id": "OSDF_CASABLANCA.hpa_policy_vG_1"
+                        "policy-id": "OSDF_CASABLANCA.hpa_policy_vG_1",
+                        "policy-version": 1
                     },
                     "properties": {
+                        "scope": [],
+                        "services": [
+                            "vCPE",
+                            "vOtherService"
+                        ],
                         "resources": [
                             "vG"
                         ],
+                        "geography": [],
                         "identity": "hpa-vG",
-                        "policyScope": [
-                            "vCPE",
-                            "US",
-                            "INTERNATIONAL",
-                            "ip",
-                            "vG"
-                        ],
-                        "policyType": "hpa"
+                        "flavorFeatures": [
+                            {
+                                "id": "vg_1",
+                                "type": "vnfc",
+                                "directives": [
+                                    {
+                                        "type": "flavor_directives",
+                                        "attributes": [
+                                            {
+                                                "attribute_name": "flavor_label_vm_01",
+                                                "attribute_value": ""
+                                            }
+                                        ]
+                                    }
+                                ],
+                                "flavorProperties": [
+                                    {
+                                        "hpa-feature": "basicCapabilities",
+                                        "mandatory": true,
+                                        "architecture": "generic",
+                                        "directives": [],
+                                        "hpa-feature-attributes": [
+                                            {
+                                                "hpa-attribute-key": "numVirtualCpu",
+                                                "hpa-attribute-value": 6,
+                                                "operator": [
+                                                    ">="
+                                                ],
+                                                "unit": ""
+                                            },
+                                            {
+                                                "hpa-attribute-key": "virtualMemSize",
+                                                "hpa-attribute-value": 4,
+                                                "operator": [
+                                                    "<="
+                                                ],
+                                                "unit": ""
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "hpa-feature": "ovsDpdk",
+                                        "mandatory": false,
+                                        "architecture": "generic",
+                                        "directives": [],
+                                        "hpa-feature-attributes": [
+                                            {
+                                                "hpa-attribute-key": "dataProcessingAccelerationLibrary",
+                                                "hpa-attribute-value": "ovsDpdk_version",
+                                                "operator": [
+                                                    "="
+                                                ],
+                                                "unit": ""
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
                     }
                 }
             },
             {
                 "OSDF_CASABLANCA.queryPolicy_vCPE": {
-                    "type": "onap.policies.optimization.QueryPolicy",
+                    "type": "onap.policies.optimization.service.QueryPolicy",
                     "version": "1.0.0",
+                    "type_version": "1.0.0",
                     "metadata": {
-                        "policy-id": "OSDF_CASABLANCA.queryPolicy_vCPE"
+                        "policy-id": "OSDF_CASABLANCA.queryPolicy_vCPE",
+                        "policy-version": 1
                     },
                     "properties": {
+                        "scope": [],
+                        "services": [
+                            "vCPE"
+                        ],
+                        "geography": [
+                            "US",
+                            "INTERNATIONAL"
+                        ],
+                        "identity": "vCPE_Query_Policy",
                         "queryProperties": [
                             {
                                 "attribute": "locationId",
@@ -148,82 +443,99 @@
                                 "attribute_location": "customerLongitude",
                                 "value": 2.2
                             }
-                        ],
-                        "serviceName": "vCPE",
-                        "policyScope": [
-                            "vCPE",
-                            "US",
-                            "INTERNATIONAL",
-                            "ip",
-                            "vGMuxInfra",
-                            "vG"
-                        ],
-                        "policyType": "request_param_query",
-                        "identity": "vCPE_Query_Policy"
+                        ]
                     }
                 }
             },
             {
                 "OSDF_CASABLANCA.SubscriberPolicy_v1": {
-                    "type": "onap.policies.optimization.SubscriberPolicy",
+                    "type": "onap.policies.optimization.service.SubscriberPolicy",
                     "version": "1.0.0",
+                    "type_version": "1.0.0",
                     "metadata": {
-                        "policy-id": "OSDF_CASABLANCA.SubscriberPolicy_v1"
+                        "policy-id": "OSDF_CASABLANCA.SubscriberPolicy_v1",
+                        "policy-version": 1
                     },
                     "properties": {
-                        "identity": "subscriber_vCPE",
-                        "policyScope": [
-                            "vCPE",
-                            "subscriber_x",
-                            "subscriber_y",
-                            "subscriberPolicy"
+                        "scope": [],
+                        "services": [
+                            "vCPE"
                         ],
-                        "properties": {
+                        "identity": "subscriber_vCPE",
+                        "subscriberProperties": {
                             "subscriberName": [
                                 "subscriber_x",
                                 "subscriber_y"
                             ],
                             "subscriberRole": [
-                                "PVT Homing"
+                                "platinum"
                             ],
                             "provStatus": [
                                 "CAPPED"
                             ]
-                        },
-                        "policyType": "subscriberPolicy",
-                        "serviceName": "vCPE"
+                        }
+                    }
+                }
+            },
+            {
+                "OSDF_CASABLANCA.SubscriberPolicy_v2": {
+                    "type": "onap.policies.optimization.service.SubscriberPolicy",
+                    "version": "1.0.0",
+                    "type_version": "1.0.0",
+                    "metadata": {
+                        "policy-id": "OSDF_CASABLANCA.SubscriberPolicy_v2",
+                        "policy-version": 1
+                    },
+                    "properties": {
+                        "scope": [],
+                        "services": [
+                            "vCPE"
+                        ],
+                        "identity": "subscriber_vCPE",
+                        "subscriberProperties": {
+                            "subscriberName": [
+                                "subscriber_a",
+                                "subscriber_b"
+                            ],
+                            "subscriberRole": [
+                                "gold"
+                            ],
+                            "provStatus": [
+                                "CAPPED"
+                            ]
+                        }
                     }
                 }
             },
             {
                 "OSDF_CASABLANCA.vnfPolicy_vG": {
-                    "type": "onap.policies.optimization.VnfPolicy",
+                    "type": "onap.policies.optimization.resource.VnfPolicy",
                     "version": "1.0.0",
+                    "type_version": "1.0.0",
                     "metadata": {
-                        "policy-id": "OSDF_CASABLANCA.vnfPolicy_vG"
+                        "policy-id": "OSDF_CASABLANCA.vnfPolicy_vG",
+                        "policy-version": 1
                     },
                     "properties": {
-                        "identity": "vnf_vG",
-                        "policyScope": [
-                            "vCPE",
-                            "US",
-                            "INTERNATIONAL",
-                            "ip",
-                            "vG"
+                        "scope": [],
+                        "services": [
+                            "vCPE"
                         ],
-                        "policyType": "vnfPolicy",
                         "resources": [
                             "vG"
                         ],
+                        "geography": [
+                            "US",
+                            "INTERNATIONAL"
+                        ],
+                        "identity": "vnf_vG",
                         "applicableResources": "any",
                         "vnfProperties": [
                             {
                                 "inventoryProvider": "aai",
                                 "serviceType": "",
-                                "inventoryType": "cloud",
-                                "customerId": "",
-                                "orchestrationStatus": "",
-                                "equipmentRole": ""
+                                "inventoryType": "cloudRegionId",
+                                "customerId": ""
                             }
                         ]
                     }
