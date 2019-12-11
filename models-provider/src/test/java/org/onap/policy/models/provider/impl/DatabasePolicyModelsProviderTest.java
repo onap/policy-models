@@ -29,6 +29,7 @@ import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
@@ -81,6 +82,8 @@ public class DatabasePolicyModelsProviderTest {
     private static final String GROUP = "group";
 
     private static final String VERSION_100 = "1.0.0";
+
+    private static final Date TIMESTAMP = new Date();
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DatabasePolicyModelsProviderTest.class);
 
@@ -327,66 +330,21 @@ public class DatabasePolicyModelsProviderTest {
             }).hasMessage(NAME_IS_NULL);
 
             assertThatThrownBy(() -> {
-                databaseProvider.updatePdpStatistics(null, null, null, null);
+                databaseProvider.getFilteredPdpStatistics(NAME, null, "sub", TIMESTAMP, TIMESTAMP);
             }).hasMessage(GROUP_IS_NULL);
 
             assertThatThrownBy(() -> {
-                databaseProvider.updatePdpStatistics(null, null, null, new PdpStatistics());
-            }).hasMessage(GROUP_IS_NULL);
+                databaseProvider.createPdpStatistics(null);
+            }).hasMessage("pdpStatisticsList is marked @NonNull but is null");
 
             assertThatThrownBy(() -> {
-                databaseProvider.updatePdpStatistics(null, null, INSTANCE, null);
-            }).hasMessage(GROUP_IS_NULL);
+                databaseProvider.updatePdpStatistics(null);
+            }).hasMessage("pdpStatisticsList is marked @NonNull but is null");
 
             assertThatThrownBy(() -> {
-                databaseProvider.updatePdpStatistics(null, null, INSTANCE, new PdpStatistics());
-            }).hasMessage(GROUP_IS_NULL);
+                databaseProvider.deletePdpStatistics(null, TIMESTAMP);
+            }).hasMessage(NAME_IS_NULL);
 
-            assertThatThrownBy(() -> {
-                databaseProvider.updatePdpStatistics(null, "type", null, null);
-            }).hasMessage(GROUP_IS_NULL);
-
-            assertThatThrownBy(() -> {
-                databaseProvider.updatePdpStatistics(null, "type", null, new PdpStatistics());
-            }).hasMessage(GROUP_IS_NULL);
-
-            assertThatThrownBy(() -> {
-                databaseProvider.updatePdpStatistics(null, "type", INSTANCE, null);
-            }).hasMessage(GROUP_IS_NULL);
-
-            assertThatThrownBy(() -> {
-                databaseProvider.updatePdpStatistics(null, "type", INSTANCE, new PdpStatistics());
-            }).hasMessage(GROUP_IS_NULL);
-
-            assertThatThrownBy(() -> {
-                databaseProvider.updatePdpStatistics(NAME, null, null, null);
-            }).hasMessage(PDP_TYPE_IS_NULL);
-
-            assertThatThrownBy(() -> {
-                databaseProvider.updatePdpStatistics(NAME, null, null, new PdpStatistics());
-            }).hasMessage(PDP_TYPE_IS_NULL);
-
-            assertThatThrownBy(() -> {
-                databaseProvider.updatePdpStatistics(NAME, null, INSTANCE, null);
-            }).hasMessage(PDP_TYPE_IS_NULL);
-
-            assertThatThrownBy(() -> {
-                databaseProvider.updatePdpStatistics(NAME, null, INSTANCE, new PdpStatistics());
-            }).hasMessage(PDP_TYPE_IS_NULL);
-
-            assertThatThrownBy(() -> {
-                databaseProvider.updatePdpStatistics(NAME, "type", null, null);
-            }).hasMessage("pdpInstanceId is marked @NonNull but is null");
-
-            assertThatThrownBy(() -> {
-                databaseProvider.updatePdpStatistics(NAME, "type", null, new PdpStatistics());
-            }).hasMessage("pdpInstanceId is marked @NonNull but is null");
-
-            assertThatThrownBy(() -> {
-                databaseProvider.updatePdpStatistics(NAME, "type", INSTANCE, null);
-            }).hasMessage("pdpStatistics is marked @NonNull but is null");
-
-            databaseProvider.updatePdpStatistics(NAME, "type", INSTANCE, new PdpStatistics());
         }
     }
 
@@ -512,6 +470,13 @@ public class DatabasePolicyModelsProviderTest {
             pdpSubGroup.setPdpInstances(new ArrayList<>());
             pdpSubGroup.getPdpInstances().add(pdp);
 
+            PdpStatistics pdpStatistics = new PdpStatistics();
+            pdpStatistics.setPdpInstanceId("Pdp1");
+            pdpStatistics.setTimeStamp(new Date());
+            pdpStatistics.setPdpGroupName("DefaultGroup");
+            ArrayList<PdpStatistics> statisticsArrayList = new ArrayList<>();
+            statisticsArrayList.add(pdpStatistics);
+
             assertEquals(123, databaseProvider.createPdpGroups(groupList).get(0).getPdpSubgroups().get(0)
                     .getDesiredInstanceCount());
             assertEquals(1, databaseProvider.getPdpGroups(GROUP).size());
@@ -534,9 +499,23 @@ public class DatabasePolicyModelsProviderTest {
 
             assertEquals(pdpGroup.getName(), databaseProvider.deletePdpGroup(GROUP).getName());
 
-            assertEquals(0, databaseProvider.getPdpStatistics(null).size());
+            assertEquals(0, databaseProvider.getPdpStatistics(null,null).size());
 
-            databaseProvider.updatePdpStatistics(GROUP, "type", "type-0", new PdpStatistics());
+            databaseProvider.getFilteredPdpStatistics(null, GROUP,null, null, null);
+            databaseProvider.getFilteredPdpStatistics(null, GROUP,null, new Date(), null);
+            databaseProvider.getFilteredPdpStatistics(null, GROUP,null, null, new Date());
+            databaseProvider.getFilteredPdpStatistics(null, GROUP,null, new Date(), new Date());
+
+            databaseProvider.getFilteredPdpStatistics(NAME, GROUP,null, null, null);
+            databaseProvider.getFilteredPdpStatistics(NAME, GROUP,null, new Date(), new Date());
+
+            databaseProvider.getFilteredPdpStatistics(NAME, GROUP,"type", null, null);
+            databaseProvider.getFilteredPdpStatistics(NAME, GROUP,"type", new Date(), new Date());
+
+            databaseProvider.createPdpStatistics(statisticsArrayList);
+            databaseProvider.updatePdpStatistics(statisticsArrayList);
+
+            databaseProvider.deletePdpStatistics("pdp1",null);
         } catch (Exception exc) {
             LOGGER.warn("test should not throw an exception", exc);
             fail("test should not throw an exception");
