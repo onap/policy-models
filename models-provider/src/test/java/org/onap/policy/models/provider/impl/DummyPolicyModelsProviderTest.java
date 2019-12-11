@@ -116,8 +116,8 @@ public class DummyPolicyModelsProviderTest {
 
             dummyProvider.updatePdpSubGroup("name", new PdpSubGroup());
             dummyProvider.updatePdp("name", "type", new Pdp());
-            dummyProvider.updatePdpStatistics("name", "type", "type-0", new PdpStatistics());
-            assertTrue(dummyProvider.getPdpStatistics("name").isEmpty());
+            dummyProvider.updatePdpStatistics(new ArrayList<>());
+            assertTrue(dummyProvider.getPdpStatistics("name", null).isEmpty());
         }
     }
 

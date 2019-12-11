@@ -20,11 +20,10 @@
 
 package org.onap.policy.models.provider;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
 import lombok.NonNull;
-
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
@@ -354,17 +353,50 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * @return the statistics found
      * @throws PfModelException on errors getting statistics
      */
-    public List<PdpStatistics> getPdpStatistics(final String name) throws PfModelException;
+    public List<PdpStatistics> getPdpStatistics(final String name, final Date timestamp) throws PfModelException;
+
 
     /**
-     * Update PDP statistics for a PDP.
+     * Get filtered PdpStatistics.
      *
-     * @param pdpGroupName the name of the PDP group containing the PDP that the statistics are for
-     * @param pdpType the PDP type of the subgroup containing the PDP that the statistics are for
-     * @param pdpInstanceId the instance ID of the PDP to update statistics for
-     * @param pdpStatistics the PDP statistics
-     * @throws PfModelException on errors updating statistics
+     * @param name the pdpInstance name for the PDP statistics to get
+     * @param pdpGroupName pdpGroupName to filter statistics
+     * @param pdpSubGroup pdpSubGroupType name to filter statistics
+     * @param startTimeStamp startTimeStamp to filter statistics
+     * @param endTimeStamp endTimeStamp to filter statistics
+     * @return the PDP statistics found
+     * @throws PfModelException on errors getting policies
      */
-    public void updatePdpStatistics(@NonNull final String pdpGroupName, @NonNull final String pdpType,
-            @NonNull final String pdpInstanceId, @NonNull final PdpStatistics pdpStatistics) throws PfModelException;
+    public List<PdpStatistics> getFilteredPdpStatistics(String name, @NonNull String pdpGroupName, String pdpSubGroup,
+            Date startTimeStamp, Date endTimeStamp) throws PfModelException;
+
+    /**
+     * Creates PDP statistics.
+     *
+     * @param pdpStatisticsList a specification of the PDP statistics to create
+     * @return the PDP statistics created
+     * @throws PfModelException on errors creating PDP statistics
+     */
+    public List<PdpStatistics> createPdpStatistics(@NonNull List<PdpStatistics> pdpStatisticsList)
+            throws PfModelException;
+
+    /**
+     * Updates PDP statistics.
+     *
+     * @param pdpStatisticsList a specification of the PDP statistics to update
+     * @return the PDP statistics updated
+     * @throws PfModelException on errors updating PDP statistics
+     */
+    public List<PdpStatistics> updatePdpStatistics(@NonNull List<PdpStatistics> pdpStatisticsList)
+            throws PfModelException;
+
+    /**
+     * Delete a PDP statistics.
+     *
+     * @param name the name of the policy to get, null to get all PDP statistics
+     * @param timestamp the timestamp of statistics to delete, null to delete all statistics record of given pdp
+     * @return the PDP statistics deleted
+     * @throws PfModelException on errors deleting PDP statistics
+     */
+    public List<PdpStatistics> deletePdpStatistics(@NonNull String name, Date timestamp) throws PfModelException;
 }
