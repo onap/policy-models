@@ -129,15 +129,9 @@ public class DmaapSimProvider extends ServiceManagerContainer {
             List<String> lst = topic2data.computeIfAbsent(topicName, this::makeTopicData).read(consumerGroup, limit,
                             timeoutMs);
 
-            if (lst.isEmpty() && timeoutMs > 0) {
-                LOGGER.debug("Topic: {}, Timed out waiting for messages: {}: {}", topicName, consumerGroup, consumerId);
-                return Response.status(Status.REQUEST_TIMEOUT).entity(lst).build();
-
-            } else {
-                LOGGER.debug("Topic: {}, Retrieved {} messages for: {}: {}", topicName, consumerGroup, lst.size(),
-                                consumerId);
-                return Response.status(Status.OK).entity(lst).build();
-            }
+            LOGGER.debug("Topic: {}, Retrieved {} messages for: {}: {}", topicName, lst.size(), consumerGroup,
+                            consumerId);
+            return Response.status(Status.OK).entity(lst).build();
 
         } catch (InterruptedException e) {
             LOGGER.warn("Topic: {}, Request for DMaaP message interrupted: {}: {}", topicName, consumerGroup,
