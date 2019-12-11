@@ -21,10 +21,9 @@
  */
 
 /**
- * This package includes all TOSCA concept POJOs that can be parsed correctly by swagger-core and rendered
- * as expected in swagger-ui.
- */
-/**
+ * This package includes all TOSCA concept POJOs that can be parsed correctly by swagger-core and rendered as expected
+ * in swagger-ui.
+ *
  * @author Chenfei Gao (cgao@research.att.com)
  *
  */

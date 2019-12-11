@@ -38,7 +38,6 @@ import java.time.Instant;
 import org.onap.policy.sdnr.PciRequest;
 import org.onap.policy.sdnr.PciResponse;
 
-
 public final class Serialization {
     public static final Gson gsonPretty = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
             .registerTypeAdapter(Instant.class, new InstantAdapter()).create();
@@ -50,7 +49,9 @@ public final class Serialization {
     public static final Gson gsonJunit = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
             .registerTypeAdapter(Instant.class, new InstantJunitAdapter()).create();
 
-    private Serialization() {}
+    private Serialization() {
+        // Private constructor to prevent subclassing
+    }
 
     public static class RequestAdapter implements JsonSerializer<PciRequest>, JsonDeserializer<PciRequest> {
 

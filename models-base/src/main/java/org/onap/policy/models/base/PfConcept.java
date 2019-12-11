@@ -27,8 +27,8 @@ import java.util.List;
 import lombok.NonNull;
 
 /**
- * This class is the base class for all Policy Framework concept classes. It enforces implementation
- * of abstract methods and interfaces on all concepts that are sub-classes of this class.
+ * This class is the base class for all Policy Framework concept classes. It enforces implementation of abstract methods
+ * and interfaces on all concepts that are sub-classes of this class.
  */
 
 public abstract class PfConcept implements Serializable, Comparable<PfConcept> {
@@ -37,7 +37,9 @@ public abstract class PfConcept implements Serializable, Comparable<PfConcept> {
     /**
      * Default constructor.
      */
-    public PfConcept() {}
+    public PfConcept() {
+        // Default Constructor
+    }
 
     /**
      * Copy constructor.
@@ -56,8 +58,8 @@ public abstract class PfConcept implements Serializable, Comparable<PfConcept> {
     public abstract PfKey getKey();
 
     /**
-     * Gets a list of all keys for this concept and all concepts that are defined or referenced by
-     * this concept and its sub-concepts.
+     * Gets a list of all keys for this concept and all concepts that are defined or referenced by this concept and its
+     * sub-concepts.
      *
      * @return the keys used by this concept and its contained concepts
      */
@@ -67,14 +69,13 @@ public abstract class PfConcept implements Serializable, Comparable<PfConcept> {
      * Validate that this concept is structurally correct.
      *
      * @param result the parameter in which the result of the validation will be returned
-     * @return the validation result that was passed in in the @{link result} field with the result
-     *         of this validation added
+     * @return the validation result that was passed in in the @{link result} field with the result of this validation
+     *         added
      */
     public abstract PfValidationResult validate(@NonNull final PfValidationResult result);
 
     /**
-     * Clean this concept, tidy up any superfluous information such as leading and trailing white
-     * space.
+     * Clean this concept, tidy up any superfluous information such as leading and trailing white space.
      */
     public abstract void clean();
 

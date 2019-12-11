@@ -24,7 +24,9 @@ package org.onap.policy.controlloop;
 public class PhysicalControlLoopNotification extends ControlLoopNotification {
     private static final long serialVersionUID = 8105197217140032892L;
 
-    public PhysicalControlLoopNotification() {}
+    public PhysicalControlLoopNotification() {
+        // Default constructor
+    }
 
     /**
      * Construct an instance from an existing instance.

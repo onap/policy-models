@@ -29,6 +29,7 @@ import java.time.Instant;
 import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.UUID;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -49,7 +50,6 @@ import org.onap.policy.controlloop.policy.TargetType;
 import org.onap.policy.simulators.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 
 public class AppcLcmActorServiceProviderTest {
 
@@ -76,8 +76,7 @@ public class AppcLcmActorServiceProviderTest {
 
     static {
         /*
-         * Construct an onset with an AAI subtag containing generic-vnf.vnf-id and a target type of
-         * VM.
+         * Construct an onset with an AAI subtag containing generic-vnf.vnf-id and a target type of VM.
          */
         onsetEvent = new VirtualControlLoopEvent();
         onsetEvent.setClosedLoopControlName("closedLoopControlName-Test");
@@ -159,6 +158,7 @@ public class AppcLcmActorServiceProviderTest {
 
     /**
      * Set up before test class.
+     *
      * @throws Exception if an error occurs
      */
     @BeforeClass
@@ -222,8 +222,7 @@ public class AppcLcmActorServiceProviderTest {
     }
 
     /**
-     * A test to assert that a null pointer exception is thrown if
-     * the APPC response body is null.
+     * A test to assert that a null pointer exception is thrown if the APPC response body is null.
      */
     @Test(expected = NullPointerException.class)
     public void processNullBodyResponseTest() {
@@ -231,8 +230,7 @@ public class AppcLcmActorServiceProviderTest {
     }
 
     /**
-     * A test to assert that a null pointer exception is thrown if
-     * the APPC response output is null.
+     * A test to assert that a null pointer exception is thrown if the APPC response output is null.
      */
     @Test(expected = NullPointerException.class)
     public void processNullOutputResponseTest() {
@@ -345,19 +343,19 @@ public class AppcLcmActorServiceProviderTest {
     }
 
     @Test
-    public void payloadNotPassedWhenNotSupportedByRecipe() {
-        //given
+    public void testPayloadNotPassedWhenNotSupportedByRecipe() {
+        // given
         Policy migratePolicy = constructPolicyWithRecipe(RECIPE_MIGRATE);
         Policy rebuildPolicy = constructPolicyWithRecipe(RECIPE_REBUILD);
         Policy restartPolicy = constructPolicyWithRecipe(RECIPE_RESTART);
 
         // when
         AppcLcmDmaapWrapper migrateRequest =
-            AppcLcmActorServiceProvider.constructRequest(onsetEvent, operation, migratePolicy, VNF01);
+                AppcLcmActorServiceProvider.constructRequest(onsetEvent, operation, migratePolicy, VNF01);
         AppcLcmDmaapWrapper rebuildRequest =
-            AppcLcmActorServiceProvider.constructRequest(onsetEvent, operation, rebuildPolicy, VNF01);
+                AppcLcmActorServiceProvider.constructRequest(onsetEvent, operation, rebuildPolicy, VNF01);
         AppcLcmDmaapWrapper restartRequest =
-            AppcLcmActorServiceProvider.constructRequest(onsetEvent, operation, restartPolicy, VNF01);
+                AppcLcmActorServiceProvider.constructRequest(onsetEvent, operation, restartPolicy, VNF01);
 
         // then
         assertNull(migrateRequest.getBody().getInput().getPayload());
@@ -366,17 +364,16 @@ public class AppcLcmActorServiceProviderTest {
     }
 
     @Test
-    public void payloadNotPassedWhenNotSuppliedOrEmpty() {
-        //given
+    public void testPayloadNotPassedWhenNotSuppliedOrEmpty() {
+        // given
         Policy noPayloadPolicy = constructHealthCheckPolicyWithPayload(null);
         Policy emptyPayloadPolicy = constructHealthCheckPolicyWithPayload(new HashMap<>());
 
         // when
         AppcLcmDmaapWrapper noPayloadRequest =
-            AppcLcmActorServiceProvider.constructRequest(onsetEvent, operation, noPayloadPolicy, VNF01);
+                AppcLcmActorServiceProvider.constructRequest(onsetEvent, operation, noPayloadPolicy, VNF01);
         AppcLcmDmaapWrapper emptyPayloadRequest =
-            AppcLcmActorServiceProvider.constructRequest(onsetEvent, operation, emptyPayloadPolicy, VNF01);
-
+                AppcLcmActorServiceProvider.constructRequest(onsetEvent, operation, emptyPayloadPolicy, VNF01);
 
         // then
         assertNull(noPayloadRequest.getBody().getInput().getPayload());
@@ -384,7 +381,7 @@ public class AppcLcmActorServiceProviderTest {
     }
 
     @Test
-    public void payloadParsedProperlyForSinglePayloadParameter() {
+    public void testPayloadParsedProperlyForSinglePayloadParameter() {
         // given
         HashMap<String, String> payload = new HashMap<>();
         payload.put("requestParameters", "{\"host-ip-address\":\"10.183.37.25\"}");
@@ -392,37 +389,34 @@ public class AppcLcmActorServiceProviderTest {
 
         // when
         AppcLcmDmaapWrapper dmaapRequest =
-            AppcLcmActorServiceProvider.constructRequest(onsetEvent, operation, otherPolicy, VNF01);
+                AppcLcmActorServiceProvider.constructRequest(onsetEvent, operation, otherPolicy, VNF01);
 
         // then
-        assertEquals(dmaapRequest.getBody().getInput().getPayload(),
-            "{\"requestParameters\": {\"host-ip-address\":\"10.183.37.25\"}}");
+        assertEquals("{\"requestParameters\": {\"host-ip-address\":\"10.183.37.25\"}}",
+                dmaapRequest.getBody().getInput().getPayload());
     }
 
-
     @Test
-    public void payloadParsedProperlyForMultiplePayloadParameters() {
+    public void testPayloadParsedProperlyForMultiplePayloadParameters() {
         // given
         HashMap<String, String> payload = new HashMap<>();
         payload.put("requestParameters", "{\"host-ip-address\":\"10.183.37.25\"}");
-        payload.put("configurationParameters", "[{\"ip-addr\":\"$.vf-module-topology.vf-module-parameters.param[9]\","
-            + "\"oam-ip-addr\":\"$.vf-module-topology.vf-module-parameters.param[16]\","
-            + "\"enabled\":\"$.vf-module-topology.vf-module-parameters.param[23]\"}]");
+        payload.put("configurationParameters",
+                "[{\"ip-addr\":\"$.vf-module-topology.vf-module-parameters.param[9]\","
+                        + "\"oam-ip-addr\":\"$.vf-module-topology.vf-module-parameters.param[16]\","
+                        + "\"enabled\":\"$.vf-module-topology.vf-module-parameters.param[23]\"}]");
         Policy otherPolicy = constructHealthCheckPolicyWithPayload(payload);
 
         // when
         AppcLcmDmaapWrapper dmaapRequest =
-            AppcLcmActorServiceProvider.constructRequest(onsetEvent, operation, otherPolicy, VNF01);
+                AppcLcmActorServiceProvider.constructRequest(onsetEvent, operation, otherPolicy, VNF01);
 
         // then
         assertEquals(dmaapRequest.getBody().getInput().getPayload(),
-            "{\"requestParameters\": "
-                + "{\"host-ip-address\":\"10.183.37.25\"},"
-                + "\"configurationParameters\": "
-                + "[{\"ip-addr\":\"$.vf-module-topology.vf-module-parameters.param[9]\","
-                + "\"oam-ip-addr\":\"$.vf-module-topology.vf-module-parameters.param[16]\","
-                + "\"enabled\":\"$.vf-module-topology.vf-module-parameters.param[23]\"}]"
-                + "}");
+                "{\"requestParameters\": " + "{\"host-ip-address\":\"10.183.37.25\"}," + "\"configurationParameters\": "
+                        + "[{\"ip-addr\":\"$.vf-module-topology.vf-module-parameters.param[9]\","
+                        + "\"oam-ip-addr\":\"$.vf-module-topology.vf-module-parameters.param[16]\","
+                        + "\"enabled\":\"$.vf-module-topology.vf-module-parameters.param[23]\"}]" + "}");
     }
 
     private Policy constructHealthCheckPolicyWithPayload(HashMap<String, String> payload) {

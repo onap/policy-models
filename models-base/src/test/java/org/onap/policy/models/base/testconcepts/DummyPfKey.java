@@ -33,7 +33,9 @@ import org.onap.policy.models.base.PfValidationResult;
 public class DummyPfKey extends PfKey {
     private static final long serialVersionUID = 1L;
 
-    public DummyPfKey() { }
+    public DummyPfKey() {
+        // Default constructor
+    }
 
     public DummyPfKey(DummyPfKey source) {
         super(source);

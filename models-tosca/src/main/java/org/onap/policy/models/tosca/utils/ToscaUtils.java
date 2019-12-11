@@ -38,7 +38,9 @@ public final class ToscaUtils {
     /**
      * Private constructor to prevent subclassing.
      */
-    private ToscaUtils() {}
+    private ToscaUtils() {
+        // Private constructor to prevent subclassing
+    }
 
     /**
      * Check if policy types have been specified is initialized.

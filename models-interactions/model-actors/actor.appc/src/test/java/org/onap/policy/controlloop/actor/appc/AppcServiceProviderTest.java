@@ -29,6 +29,7 @@ import static org.junit.Assert.assertTrue;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.UUID;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -72,8 +73,7 @@ public class AppcServiceProviderTest {
 
     static {
         /*
-         * Construct an onset with an AAI subtag containing generic-vnf.vnf-id and a target type of
-         * VM.
+         * Construct an onset with an AAI subtag containing generic-vnf.vnf-id and a target type of VM.
          */
         onsetEvent = new VirtualControlLoopEvent();
         onsetEvent.setClosedLoopControlName("closedLoopControlName-Test");
@@ -111,6 +111,7 @@ public class AppcServiceProviderTest {
 
     /**
      * Set up before test class.
+     *
      * @throws Exception if the A&AI simulator cannot be started
      */
     @BeforeClass
@@ -127,7 +128,7 @@ public class AppcServiceProviderTest {
     }
 
     @Test
-    public void constructModifyConfigRequestTest() {
+    public void testConstructModifyConfigRequest() {
         policy.setPayload(new HashMap<>());
         policy.getPayload().put(KEY1, VALUE1);
         policy.getPayload().put(KEY2, VALUE2);
@@ -180,7 +181,7 @@ public class AppcServiceProviderTest {
     }
 
     @Test
-    public void constructModifyConfigRequestTest_NullPayload() {
+    public void testConstructModifyConfigRequest_NullPayload() {
 
         Request appcRequest;
         appcRequest = AppcActorServiceProvider.constructRequest(onsetEvent, operation, policy, "vnf01");

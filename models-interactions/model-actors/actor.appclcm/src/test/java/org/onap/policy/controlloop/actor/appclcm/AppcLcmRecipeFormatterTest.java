@@ -25,75 +25,73 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-
-
 public class AppcLcmRecipeFormatterTest {
 
     @Test
-    public void shouldCorrectlyFormatRestartRequestWhenRestartGiven() {
-        //given
+    public void testShouldCorrectlyFormatRestartRequestWhenRestartGiven() {
+        // given
         AppcLcmRecipeFormatter recipeFormatter = new AppcLcmRecipeFormatter("Restart");
         String expectedUrlRecipe = "restart";
         String expectedBodyRecipe = "Restart";
 
-        //when
+        // when
         String actualUrlRecipe = recipeFormatter.getUrlRecipe();
         String actualBodyRecipe = recipeFormatter.getBodyRecipe();
 
-        //then
+        // then
         assertEquals(expectedUrlRecipe, actualUrlRecipe);
         assertEquals(expectedBodyRecipe, actualBodyRecipe);
     }
 
     @Test
-    public void shouldReturnCapitalizedBodySingleWordRecipe() {
-        //given
+    public void testShouldReturnCapitalizedBodySingleWordRecipe() {
+        // given
         AppcLcmRecipeFormatter recipeFormatter = new AppcLcmRecipeFormatter("moDify");
         String expectedRecipe = "Modify";
 
-        //when
+        // when
         String actualRecipe = recipeFormatter.getBodyRecipe();
 
-        //then
+        // then
         assertEquals(expectedRecipe, actualRecipe);
     }
 
     @Test
-    public void shouldReturnCapitalizeAndJoinedBodyMultiWordRecipe() {
-        //given
+    public void testShouldReturnCapitalizeAndJoinedBodyMultiWordRecipe() {
+        // given
         AppcLcmRecipeFormatter recipeFormatter = new AppcLcmRecipeFormatter("coNfig-moDify");
         String expectedRecipe = "ConfigModify";
 
-        //when
+        // when
         String actualRecipe = recipeFormatter.getBodyRecipe();
 
-        //then
+        // then
         assertEquals(expectedRecipe, actualRecipe);
     }
 
     @Test
-    public void shouldReturnLowercasedUrlSingleWordRecipe() {
-        //given
+    public void testShouldReturnLowercasedUrlSingleWordRecipe() {
+        // given
         AppcLcmRecipeFormatter recipeFormatter = new AppcLcmRecipeFormatter("ModIfy");
         String expectedRecipe = "modify";
 
-        //when
+        // when
         String actualRecipe = recipeFormatter.getUrlRecipe();
 
-        //then
+        // then
         assertEquals(expectedRecipe, actualRecipe);
     }
 
     @Test
-    public void shouldReturnLowercasedDashJoinedUrlMultiWordRecipe() {
-        //given
+    public void testShouldReturnLowercasedDashJoinedUrlMultiWordRecipe() {
+        // given
         AppcLcmRecipeFormatter recipeFormatter = new AppcLcmRecipeFormatter("Config-MoDify");
         String expectedRecipe = "config-modify";
 
-        //when
+        // when
         String actualRecipe = recipeFormatter.getUrlRecipe();
 
-        //then
+        // then
         assertEquals(expectedRecipe, actualRecipe);
     }
 }

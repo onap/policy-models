@@ -26,9 +26,9 @@ import com.google.gson.GsonBuilder;
 
 public final class Serialization {
 
-    public static final Gson gsonPretty = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
-            .create();
+    public static final Gson gsonPretty = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
 
-    private Serialization() {}
-
+    private Serialization() {
+        // Private constructor to prevent subclassing
+    }
 }

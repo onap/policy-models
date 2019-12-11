@@ -24,7 +24,9 @@ package org.onap.policy.controlloop;
 public class PhysicalControlLoopEvent extends ControlLoopEvent {
     private static final long serialVersionUID = -7282930271094849487L;
 
-    public PhysicalControlLoopEvent() {}
+    public PhysicalControlLoopEvent() {
+        // Default constructor
+    }
 
     /**
      * Construct an instance from an existing instance.
