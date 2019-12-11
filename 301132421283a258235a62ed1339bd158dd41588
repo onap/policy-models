@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f448cc1_ab3f6dd9",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/PfDao.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-12-11T11:18:14Z",
+      "side": 1,
+      "message": "Please add Javadoc for the startTime/EndTime/filterMap parameters",
+      "range": {
+        "startLine": 153,
+        "startChar": 1,
+        "endLine": 154,
+        "endChar": 1
+      },
+      "revId": "301132421283a258235a62ed1339bd158dd41588",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0dd69c5_32a84544",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/PfDao.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-12-11T11:18:14Z",
+      "side": 1,
+      "message": "It would be nice to support the following:\n\nstartTime !\u003d null \u0026\u0026 endTime !\u003d null, return for this range\nstartTime \u003d\u003d null \u0026\u0026 endTime !\u003d null, return up to end time\nstartTime !\u003d null \u0026\u0026 endTime \u003d\u003d null, return from start time\nstartTime \u003d\u003d null \u0026\u0026 endTime \u003d\u003d null, return everything.\n\nMaybe put in a comment on this in the javadoc as well",
+      "range": {
+        "startLine": 156,
+        "startChar": 0,
+        "endLine": 156,
+        "endChar": 75
+      },
+      "revId": "301132421283a258235a62ed1339bd158dd41588",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4371f67_6bef3117",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/PfDao.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-12-11T11:18:14Z",
+      "side": 1,
+      "message": "Please explain what the filterMap is in the Javadoc.",
+      "range": {
+        "startLine": 157,
+        "startChar": 66,
+        "endLine": 157,
+        "endChar": 75
+      },
+      "revId": "301132421283a258235a62ed1339bd158dd41588",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbb44312_506c89a3",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/PfDao.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-12-11T11:18:14Z",
+      "side": 1,
+      "message": "please change the description to say this is a timestamp key, ideally change the name of the variable from \"key\" to \"timestampKey\"",
+      "range": {
+        "startLine": 184,
+        "startChar": 17,
+        "endLine": 184,
+        "endChar": 46
+      },
+      "revId": "301132421283a258235a62ed1339bd158dd41588",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edabd4d9_497377e8",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-12-11T11:18:14Z",
+      "side": 1,
+      "message": "Should this be less than or equal to?",
+      "range": {
+        "startLine": 71,
+        "startChar": 73,
+        "endLine": 71,
+        "endChar": 74
+      },
+      "revId": "301132421283a258235a62ed1339bd158dd41588",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a48666a_189d736b",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-12-11T11:18:14Z",
+      "side": 1,
+      "message": "Should this be greater than or equal to?",
+      "range": {
+        "startLine": 71,
+        "startChar": 104,
+        "endLine": 71,
+        "endChar": 105
+      },
+      "revId": "301132421283a258235a62ed1339bd158dd41588",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21d2cb49_734ce28f",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-12-11T11:18:14Z",
+      "side": 1,
+      "message": "See comment on interface",
+      "range": {
+        "startLine": 357,
+        "startChar": 1,
+        "endLine": 362,
+        "endChar": 13
+      },
+      "revId": "301132421283a258235a62ed1339bd158dd41588",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
