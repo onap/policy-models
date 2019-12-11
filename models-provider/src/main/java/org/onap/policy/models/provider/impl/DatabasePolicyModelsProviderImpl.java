@@ -22,14 +22,12 @@
 package org.onap.policy.models.provider.impl;
 
 import java.util.Base64;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-
 import javax.ws.rs.core.Response;
-
 import lombok.NonNull;
-
 import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
@@ -43,6 +41,7 @@ import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.pdp.persistence.provider.PdpProvider;
+import org.onap.policy.models.pdp.persistence.provider.PdpStatisticsProvider;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
@@ -292,6 +291,7 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
         return new PdpProvider().getPdpGroups(pfDao, name);
     }
 
+
     @Override
     public List<PdpGroup> getFilteredPdpGroups(@NonNull PdpGroupFilter filter) throws PfModelException {
         assertInitilized();
@@ -330,16 +330,39 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public List<PdpStatistics> getPdpStatistics(final String name) throws PfModelException {
+    public List<PdpStatistics> getPdpStatistics(final String name, final Date timestamp) throws PfModelException {
         assertInitilized();
-        return new PdpProvider().getPdpStatistics(pfDao, name);
+        return new PdpStatisticsProvider().getPdpStatistics(pfDao, name, timestamp);
     }
 
     @Override
-    public void updatePdpStatistics(@NonNull final String pdpGroupName, @NonNull final String pdpType,
-            @NonNull final String pdpInstanceId, @NonNull final PdpStatistics pdpStatistics) throws PfModelException {
+    public List<PdpStatistics> getFilteredPdpStatistics( final String name,
+            @NonNull final String pdpGroupName, final String pdpSubGroup, final Date startTimeStamp,
+            final Date endTimeStamp) throws PfModelException {
         assertInitilized();
-        new PdpProvider().updatePdpStatistics(pfDao, pdpGroupName, pdpType, pdpInstanceId, pdpStatistics);
+        return new PdpStatisticsProvider().getFilteredPdpStatistics(pfDao, name, pdpGroupName, pdpSubGroup,
+                startTimeStamp, endTimeStamp);
+    }
+
+    @Override
+    public List<PdpStatistics> createPdpStatistics(@NonNull final List<PdpStatistics> pdpStatisticsList)
+            throws PfModelException {
+        assertInitilized();
+        return new PdpStatisticsProvider().createPdpStatistics(pfDao, pdpStatisticsList);
+    }
+
+    @Override
+    public List<PdpStatistics> updatePdpStatistics(@NonNull final List<PdpStatistics> pdpStatisticsList)
+            throws PfModelException {
+        assertInitilized();
+        return new PdpStatisticsProvider().updatePdpStatistics(pfDao, pdpStatisticsList);
+    }
+
+
+    @Override
+    public PdpStatistics deletePdpStatistics(@NonNull final String name, final Date timestamp) throws PfModelException {
+        assertInitilized();
+        return new PdpStatisticsProvider().deletePdpStatistics(pfDao, name, timestamp);
     }
 
     /**

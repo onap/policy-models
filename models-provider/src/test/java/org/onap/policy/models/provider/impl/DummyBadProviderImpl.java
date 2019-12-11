@@ -21,14 +21,13 @@
 
 package org.onap.policy.models.provider.impl;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
 import javax.ws.rs.core.Response;
-
 import lombok.NonNull;
-
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.pdp.concepts.Pdp;
@@ -225,13 +224,34 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public List<PdpStatistics> getPdpStatistics(String name) throws PfModelException {
-        return Collections.emptyList();
+    public List<PdpStatistics> getPdpStatistics(final String name, final Date timestamp) throws PfModelException {
+        return new ArrayList<>();
     }
 
     @Override
-    public void updatePdpStatistics(@NonNull String pdpGroupName, @NonNull String pdpType,
-            @NonNull String pdpInstanceId, @NonNull PdpStatistics pdppStatistics) {
-        // do nothing
+    public List<PdpStatistics> getFilteredPdpStatistics(String name, String pdpGroupName, String pdpSubGroup,
+            Date startTimeStamp, Date endTimeStamp) {
+        // Not implemented
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<PdpStatistics> createPdpStatistics(final List<PdpStatistics> pdpStatisticsList)
+            throws PfModelException {
+        // Not implemented
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<PdpStatistics> updatePdpStatistics(final List<PdpStatistics> pdpStatisticsList)
+            throws PfModelException {
+        // Not implemented
+        return new ArrayList<>();
+    }
+
+    @Override
+    public PdpStatistics deletePdpStatistics(final String name, final Date timestamp) {
+        // Not implemented
+        return null;
     }
 }
