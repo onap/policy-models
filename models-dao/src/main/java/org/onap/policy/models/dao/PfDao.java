@@ -21,12 +21,15 @@
 package org.onap.policy.models.dao;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfReferenceKey;
+import org.onap.policy.models.base.PfTimestampKey;
 
 /**
  * The Interface PfDao describes the DAO interface for reading and writing Policy Framework {@link PfConcept} concepts
@@ -142,6 +145,21 @@ public interface PfDao {
      * Get an object from the database, referred to by concept key.
      *
      * @param <T> the type of the object to get, a subclass of {@link PfConcept}
+     * @param someClass the class of the object to get, a subclass of {@link PfConcept}, if name is null, all concepts
+     *        of type T are returned, if name is not null and version is null, all versions of that concept matching the
+     *        name are returned.
+     * @param name the name of the object to get, null returns all objects
+     * @param version the version the object to get, null returns all objects for a specified name
+     * @return the objects that was retrieved from the database
+     */
+    <T extends PfConcept> List<T> getFiltered(Class<T> someClass, String name, String version,
+                                              Date startTime, Date endTime,
+                                              Map<String, Object> filterMap);
+
+    /**
+     * Get an object from the database, referred to by concept key.
+     *
+     * @param <T> the type of the object to get, a subclass of {@link PfConcept}
      * @param someClass the class of the object to get, a subclass of {@link PfConcept}
      * @param key the key of the object to get
      * @return the object that was retrieved from the database
@@ -157,6 +175,16 @@ public interface PfDao {
      * @return the object that was retrieved from the database or null if the object was not retrieved
      */
     <T extends PfConcept> T get(Class<T> someClass, PfReferenceKey key);
+
+    /**
+     * Get an object from the database, referred to by reference key.
+     *
+     * @param <T> the type of the object to get, a subclass of {@link PfConcept}
+     * @param someClass the class of the object to get, a subclass of {@link PfConcept}
+     * @param key the key of the object to get
+     * @return the object that was retrieved from the database or null if the object was not retrieved
+     */
+    <T extends PfConcept> T get(Class<T> someClass, PfTimestampKey key);
 
     /**
      * Get all the objects in the database of a given type.
