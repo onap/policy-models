@@ -298,6 +298,24 @@
     },
     {
       "key": {
+        "uuid": "6491530b_5e0870a3",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/spi/Actor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-12-11T17:20:31Z",
+      "side": 1,
+      "message": "Sure that would be fine.",
+      "parentUuid": "2cfcd55d_8ec68375",
+      "revId": "a7867864ddaa4e5908ee073b88296f335543a9e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82036905_acdf6917",
         "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/spi/ActorOperationCallback.java",
         "patchSetId": 2
