@@ -244,6 +244,24 @@
     },
     {
       "key": {
+        "uuid": "4a270b2b_ffea98fc",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/spi/Actor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-11T14:44:20Z",
+      "side": 1,
+      "message": "I thought I mentioned this, but can\u0027t seem to find it now.  Should cancel be added to ControlLoopOperation as an abstract method?  Seems to make sense, but may cause issues with serialization.",
+      "parentUuid": "c00ec21f_01644da7",
+      "revId": "a7867864ddaa4e5908ee073b88296f335543a9e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82036905_acdf6917",
         "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/spi/ActorOperationCallback.java",
         "patchSetId": 2
