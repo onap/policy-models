@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b58c937_58b837a6",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/PfDao.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-12-12T09:09:14Z",
+      "side": 1,
+      "message": "Just one small comment, I think the comments should say \u003c\u003d and \u003e\u003d rather than \u003c and \u003e",
+      "range": {
+        "startLine": 152,
+        "startChar": 0,
+        "endLine": 155,
+        "endChar": 47
+      },
+      "revId": "8cc8bf89dd7ac0f17c0aad3604c09a91b0904235",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
