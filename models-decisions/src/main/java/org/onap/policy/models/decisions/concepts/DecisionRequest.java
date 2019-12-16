@@ -21,10 +21,10 @@
 package org.onap.policy.models.decisions.concepts;
 
 import com.google.gson.annotations.SerializedName;
-
+import java.util.HashMap;
 import java.util.Map;
-
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * This class is for a Decision Request to a Decision PDP Engine.
@@ -33,6 +33,7 @@ import lombok.Data;
  *
  */
 @Data
+@NoArgsConstructor
 public class DecisionRequest {
     @SerializedName("ONAPName")
     private String  onapName;
@@ -46,9 +47,33 @@ public class DecisionRequest {
     @SerializedName("requestId")
     private String  requestId;
 
+    @SerializedName("subject")
+    private Map<String, Object> subject;
+
     @SerializedName("action")
     private String  action;
 
     @SerializedName("resource")
     private Map<String, Object> resource;
+
+    /**
+     * Copy constructor.
+     *
+     * @param request Incoming DecisionRequest
+     */
+    public DecisionRequest(DecisionRequest request) {
+        this.setOnapName(request.getOnapName());
+        this.setOnapComponent(request.getOnapComponent());
+        this.setOnapInstance(request.getOnapInstance());
+        this.setRequestId(request.getRequestId());
+        if (request.getSubject() != null) {
+            this.setSubject(new HashMap<>());
+            this.getSubject().putAll(request.getSubject());
+        }
+        this.setAction(request.getAction());
+        if (request.getResource() != null) {
+            this.setResource(new HashMap<>());
+            this.getResource().putAll(request.getResource());
+        }
+    }
 }
