@@ -1,28 +1,34 @@
 tosca_definitions_version: tosca_simple_yaml_1_0_0
 policy_types:
-   onap.policies.optimization.service.SubscriberPolicy:
-      derived_from: onap.policies.optimization.Service
-      version: 1.0.0
-      properties:
-         subscriberProperties:
-            type: policy.data.subscriberProperties_properties
-            required: true
+    onap.policies.optimization.service.SubscriberPolicy:
+        derived_from: onap.policies.optimization.Service
+        version: 1.0.0
+        properties:
+            subscriberProperties:
+                type: policy.data.subscriberProperties_properties
+                required: true
 data_types:
-   policy.data.subscriberProperties_properties:
-      derived_from: tosca.nodes.Root
-      properties:
-         subscriberName:
-            type: list
-            required: true
-            entry_schema:
-               type: string
-         subscriberRole:
-            type: list
-            required: true
-            entry_schema:
-               type: string
-         provStatus:
-            type: list
-            required: true
-            entry_schema:
-               type: string
+    policy.data.subscriberProperties_properties:
+        derived_from: tosca.nodes.Root
+        properties:
+            subscriberName:
+                type: list
+                required: true
+                metadata:
+                    contextProvider: true
+                entry_schema:
+                    type: string
+            subscriberRole:
+                type: list
+                required: true
+                metadata:
+                    contextMatchable: scope
+                entry_schema:
+                    type: string
+            provStatus:
+                type: list
+                required: true
+                metadata:
+                    contextAttribute: true
+                entry_schema:
+                    type: string
