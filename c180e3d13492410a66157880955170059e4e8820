@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73ed78f8_10ddb1c4",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-12-16T19:40:50Z",
+      "side": 1,
+      "message": "You could probably just pull these returns outside the try statement and return null once. Would clean up the code a bit to avoid sonar complaining about cyclomatic complexity and/or too many nested conditions.",
+      "range": {
+        "startLine": 446,
+        "startChar": 0,
+        "endLine": 451,
+        "endChar": 0
+      },
+      "revId": "c180e3d13492410a66157880955170059e4e8820",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3332a969_82ed9a35",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-12-16T19:40:50Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 469,
+        "startChar": 0,
+        "endLine": 474,
+        "endChar": 0
+      },
+      "revId": "c180e3d13492410a66157880955170059e4e8820",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
