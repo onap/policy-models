@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79a06a70_96ec091b",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-17T14:02:00Z",
+      "side": 1,
+      "message": "add \"\u003cT\u003e\" type parameter to TypedQuery",
+      "revId": "f8d1395eb8eebfeb505e2f00952f3a4fff34254f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ef8700fd_790e6df0",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-17T14:02:00Z",
+      "side": 1,
+      "message": "what\u0027s the point of this?  It might cause the query to return no rows if the JVM on which it runs happens to have a \"current time\" that has drifted ahead of the timestamp in the DB",
+      "revId": "f8d1395eb8eebfeb505e2f00952f3a4fff34254f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "842a32f8_eb2c2ab5",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-17T14:02:00Z",
+      "side": 1,
+      "message": "use \"{}\" place-holder instead of string concatenation",
+      "revId": "f8d1395eb8eebfeb505e2f00952f3a4fff34254f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b67e277_be98cb1e",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-17T14:02:00Z",
+      "side": 1,
+      "message": "use \"{}\" place-holder instead of string concatenation",
+      "revId": "f8d1395eb8eebfeb505e2f00952f3a4fff34254f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b82c6553_4a3aa129",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-17T14:02:00Z",
+      "side": 1,
+      "message": "use \"{}\" place-holder instead of string concatenation",
+      "revId": "f8d1395eb8eebfeb505e2f00952f3a4fff34254f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f83e404_63d162c2",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-17T14:02:00Z",
+      "side": 1,
+      "message": "could just use \"+\u003d\"",
+      "revId": "f8d1395eb8eebfeb505e2f00952f3a4fff34254f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f39b847_174f1738",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpStatisticsProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-17T14:02:00Z",
+      "side": 1,
+      "message": "\"()\" \u003d\u003e \"(pdpStaticsList.size())\"",
+      "revId": "f8d1395eb8eebfeb505e2f00952f3a4fff34254f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3c7d280_acc75a34",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpStatisticsProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-17T14:02:00Z",
+      "side": 1,
+      "message": "\"()\" \u003d\u003e \"(pdpStaticsList.size())\"",
+      "revId": "f8d1395eb8eebfeb505e2f00952f3a4fff34254f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "696d0f4f_b89b6f94",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpStatisticsProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-17T14:02:00Z",
+      "side": 1,
+      "message": "this is fine, though could use a stream instead",
+      "revId": "f8d1395eb8eebfeb505e2f00952f3a4fff34254f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "35fe7c71_7984091e",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/impl/DatabasePolicyModelsProviderImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-17T14:02:00Z",
+      "side": 1,
+      "message": "\"assertInitilized\" \u003d\u003e \"assertInitialized\"",
+      "revId": "f8d1395eb8eebfeb505e2f00952f3a4fff34254f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
