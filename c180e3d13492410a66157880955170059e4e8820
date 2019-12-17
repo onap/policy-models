@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c5280d4f_dbea2cd5",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 5259
+      },
+      "writtenOn": "2019-12-17T09:14:29Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "73ed78f8_10ddb1c4",
+      "range": {
+        "startLine": 446,
+        "startChar": 0,
+        "endLine": 451,
+        "endChar": 0
+      },
+      "revId": "c180e3d13492410a66157880955170059e4e8820",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3332a969_82ed9a35",
         "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "c180e3d13492410a66157880955170059e4e8820",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d91141e_c919d3c1",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 5259
+      },
+      "writtenOn": "2019-12-17T09:14:29Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3332a969_82ed9a35",
+      "range": {
+        "startLine": 469,
+        "startChar": 0,
+        "endLine": 474,
+        "endChar": 0
+      },
+      "revId": "c180e3d13492410a66157880955170059e4e8820",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
