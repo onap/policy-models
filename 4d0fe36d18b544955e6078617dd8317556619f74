@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "276fb80b_12b0cac1",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-12-18T23:59:49Z",
+      "side": 1,
+      "message": "Yes, maybe pull this try/catch block into a private method.",
+      "parentUuid": "d4250b3f_662b54f9",
+      "range": {
+        "startLine": 436,
+        "startChar": 16,
+        "endLine": 440,
+        "endChar": 17
+      },
+      "revId": "4d0fe36d18b544955e6078617dd8317556619f74",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "820f9fd1_5c7ad924",
         "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
         "patchSetId": 7
