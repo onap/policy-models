@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7b3b1c4b_b486b1ba",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 5259
+      },
+      "writtenOn": "2019-12-18T07:32:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "79a06a70_96ec091b",
+      "revId": "f8d1395eb8eebfeb505e2f00952f3a4fff34254f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ef8700fd_790e6df0",
         "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2019-12-17T14:02:00Z",
       "side": 1,
       "message": "what\u0027s the point of this?  It might cause the query to return no rows if the JVM on which it runs happens to have a \"current time\" that has drifted ahead of the timestamp in the DB",
+      "revId": "f8d1395eb8eebfeb505e2f00952f3a4fff34254f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c47108cd_3299693f",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 5259
+      },
+      "writtenOn": "2019-12-18T07:32:47Z",
+      "side": 1,
+      "message": "Hi Jim:  The point is statistics data should be recorded in the past, here we add the timestamp validation in query( timestamp \u003c currentTime ). But you are right, the case \"a \"current time\" that has drifted ahead of the timestamp in the DB\" may happen, I just update the code and return all the result in db.",
+      "parentUuid": "ef8700fd_790e6df0",
       "revId": "f8d1395eb8eebfeb505e2f00952f3a4fff34254f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "2a93325f_3343fd0e",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 5259
+      },
+      "writtenOn": "2019-12-18T07:32:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "842a32f8_eb2c2ab5",
+      "revId": "f8d1395eb8eebfeb505e2f00952f3a4fff34254f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b67e277_be98cb1e",
         "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
         "patchSetId": 6
@@ -64,6 +118,24 @@
       "writtenOn": "2019-12-17T14:02:00Z",
       "side": 1,
       "message": "use \"{}\" place-holder instead of string concatenation",
+      "revId": "f8d1395eb8eebfeb505e2f00952f3a4fff34254f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "121d142d_f6b55c0e",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 5259
+      },
+      "writtenOn": "2019-12-18T07:32:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1b67e277_be98cb1e",
       "revId": "f8d1395eb8eebfeb505e2f00952f3a4fff34254f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "c6972b8a_1dbd1ace",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 5259
+      },
+      "writtenOn": "2019-12-18T07:32:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b82c6553_4a3aa129",
+      "revId": "f8d1395eb8eebfeb505e2f00952f3a4fff34254f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f83e404_63d162c2",
         "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
         "patchSetId": 6
@@ -98,6 +188,24 @@
       "writtenOn": "2019-12-17T14:02:00Z",
       "side": 1,
       "message": "could just use \"+\u003d\"",
+      "revId": "f8d1395eb8eebfeb505e2f00952f3a4fff34254f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6780f9c8_65bb051b",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 5259
+      },
+      "writtenOn": "2019-12-18T07:32:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8f83e404_63d162c2",
       "revId": "f8d1395eb8eebfeb505e2f00952f3a4fff34254f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "d1d05d4e_1277f69c",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpStatisticsProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 5259
+      },
+      "writtenOn": "2019-12-18T07:32:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5f39b847_174f1738",
+      "revId": "f8d1395eb8eebfeb505e2f00952f3a4fff34254f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3c7d280_acc75a34",
         "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpStatisticsProvider.java",
         "patchSetId": 6
@@ -132,6 +258,24 @@
       "writtenOn": "2019-12-17T14:02:00Z",
       "side": 1,
       "message": "\"()\" \u003d\u003e \"(pdpStaticsList.size())\"",
+      "revId": "f8d1395eb8eebfeb505e2f00952f3a4fff34254f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c40c7613_6728de15",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpStatisticsProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 5259
+      },
+      "writtenOn": "2019-12-18T07:32:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b3c7d280_acc75a34",
       "revId": "f8d1395eb8eebfeb505e2f00952f3a4fff34254f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "7c1d62ea_0b06cd79",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpStatisticsProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 5259
+      },
+      "writtenOn": "2019-12-18T07:32:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "696d0f4f_b89b6f94",
+      "revId": "f8d1395eb8eebfeb505e2f00952f3a4fff34254f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "35fe7c71_7984091e",
         "filename": "models-provider/src/main/java/org/onap/policy/models/provider/impl/DatabasePolicyModelsProviderImpl.java",
         "patchSetId": 6
@@ -166,6 +328,24 @@
       "writtenOn": "2019-12-17T14:02:00Z",
       "side": 1,
       "message": "\"assertInitilized\" \u003d\u003e \"assertInitialized\"",
+      "revId": "f8d1395eb8eebfeb505e2f00952f3a4fff34254f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7e32cfb_83e5bea2",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/impl/DatabasePolicyModelsProviderImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 5259
+      },
+      "writtenOn": "2019-12-18T07:32:47Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "35fe7c71_7984091e",
       "revId": "f8d1395eb8eebfeb505e2f00952f3a4fff34254f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
