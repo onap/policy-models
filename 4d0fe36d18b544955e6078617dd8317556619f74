@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e2f14f8c_869811ac",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-12-18T12:19:29Z",
+      "side": 1,
+      "message": "I\u0027m still not sure I like the nested try-catch\u0027s in this file.",
+      "range": {
+        "startLine": 414,
+        "startChar": 16,
+        "endLine": 418,
+        "endChar": 17
+      },
+      "revId": "4d0fe36d18b544955e6078617dd8317556619f74",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4250b3f_662b54f9",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-12-18T12:19:29Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 436,
+        "startChar": 16,
+        "endLine": 440,
+        "endChar": 17
+      },
+      "revId": "4d0fe36d18b544955e6078617dd8317556619f74",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "820f9fd1_5c7ad924",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-12-18T12:19:29Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 458,
+        "startChar": 16,
+        "endLine": 462,
+        "endChar": 17
+      },
+      "revId": "4d0fe36d18b544955e6078617dd8317556619f74",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
