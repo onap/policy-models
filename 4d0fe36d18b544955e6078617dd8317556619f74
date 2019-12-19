@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "955cf0dc_191297ac",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 5259
+      },
+      "writtenOn": "2019-12-19T01:46:03Z",
+      "side": 1,
+      "message": "Moved the nested try-catch to a private method",
+      "parentUuid": "e2f14f8c_869811ac",
+      "range": {
+        "startLine": 414,
+        "startChar": 16,
+        "endLine": 418,
+        "endChar": 17
+      },
+      "revId": "4d0fe36d18b544955e6078617dd8317556619f74",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d4250b3f_662b54f9",
         "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
         "patchSetId": 7
@@ -72,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "ad2873ef_bed92e56",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 5259
+      },
+      "writtenOn": "2019-12-19T01:46:03Z",
+      "side": 1,
+      "message": "Ok, I will move this part to a private method.\nThanks for the suggestion.",
+      "parentUuid": "276fb80b_12b0cac1",
+      "range": {
+        "startLine": 436,
+        "startChar": 16,
+        "endLine": 440,
+        "endChar": 17
+      },
+      "revId": "4d0fe36d18b544955e6078617dd8317556619f74",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "820f9fd1_5c7ad924",
         "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
         "patchSetId": 7
@@ -83,6 +131,30 @@
       "writtenOn": "2019-12-18T12:19:29Z",
       "side": 1,
       "message": "same",
+      "range": {
+        "startLine": 458,
+        "startChar": 16,
+        "endLine": 462,
+        "endChar": 17
+      },
+      "revId": "4d0fe36d18b544955e6078617dd8317556619f74",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb70c072_6cb2afea",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 5259
+      },
+      "writtenOn": "2019-12-19T01:46:03Z",
+      "side": 1,
+      "message": "Moved the nested try-catch to a private method",
+      "parentUuid": "820f9fd1_5c7ad924",
       "range": {
         "startLine": 458,
         "startChar": 16,
