@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "54526164_a8244d46",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5259
+      },
+      "writtenOn": "2019-12-20T03:25:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f8bfe824_2651066b",
+      "revId": "bc1c8944ed137c123c2623112deb0708b0c8cca9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bce7a2de_7f811f5b",
         "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpStatisticsProvider.java",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2019-12-19T15:37:41Z",
       "side": 1,
       "message": "actually, all three lines can be combined into a single \"return\" using streams Collectors.toList instead of forEach",
+      "revId": "bc1c8944ed137c123c2623112deb0708b0c8cca9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31f8ac5d_c88ff838",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpStatisticsProvider.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 5259
+      },
+      "writtenOn": "2019-12-20T03:25:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "bce7a2de_7f811f5b",
       "revId": "bc1c8944ed137c123c2623112deb0708b0c8cca9",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
