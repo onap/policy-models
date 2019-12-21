@@ -104,7 +104,7 @@
                             with minor changes -->
                             <configLocation>onap-checkstyle/onap-java-style.xml</configLocation>
                             <!-- <sourceDirectory> is needed so that checkstyle ignores the generated sources directory -->
-                            <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
+                            <sourceDirectories>${project.build.sourceDirectory}</sourceDirectories>
                             <includeResources>true</includeResources>
                             <includeTestSourceDirectory>true</includeTestSourceDirectory>
                             <includeTestResources>true</includeTestResources>

@@ -26,7 +26,7 @@
     <parent>
         <groupId>org.onap.policy.parent</groupId>
         <artifactId>integration</artifactId>
-        <version>3.1.0</version>
+        <version>3.1.1-SNAPSHOT</version>
         <relativePath />
     </parent>
 
@@ -48,7 +48,7 @@
         <sonar.jacoco.itReportPath>${project.basedir}/../target/code-coverage/jacoco-it.exec</sonar.jacoco.itReportPath>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 
-        <policy.common.version>1.6.1</policy.common.version>
+        <policy.common.version>1.6.2-SNAPSHOT</policy.common.version>
     </properties>
 
     <modules>
@@ -201,7 +201,7 @@
                                 with minor changes -->
                             <configLocation>onap-checkstyle/onap-java-style.xml</configLocation>
                             <!-- <sourceDirectory> is needed so that checkstyle ignores the generated sources directory -->
-                            <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
+                            <sourceDirectories>${project.build.sourceDirectory}</sourceDirectories>
                             <includeResources>true</includeResources>
                             <includeTestSourceDirectory>true</includeTestSourceDirectory>
                             <includeTestResources>true</includeTestResources>
