@@ -2,7 +2,7 @@
   ============LICENSE_START=======================================================
   aai
   ================================================================================
-  Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+  Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
   Modifications Copyright (C) 2019 Nordix Foundation.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -51,7 +51,6 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>2.13.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -69,6 +68,16 @@
             <groupId>org.onap.aai.schema-service</groupId>
             <artifactId>aai-schema</artifactId>
             <version>1.0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.json</artifactId>
+            <version>1.1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20190722</version>
         </dependency>
     </dependencies>
 </project>

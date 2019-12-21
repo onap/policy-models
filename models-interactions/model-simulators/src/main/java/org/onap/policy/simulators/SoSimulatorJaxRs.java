@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * simulators
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +21,8 @@
 
 package org.onap.policy.simulators;
 
-import com.att.aft.dme2.internal.gson.Gson;
+import com.google.gson.Gson;
+
 import java.util.UUID;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -33,6 +34,7 @@ import org.onap.policy.so.SoRequest;
 import org.onap.policy.so.SoRequestReferences;
 import org.onap.policy.so.SoRequestStatus;
 import org.onap.policy.so.SoResponse;
+
 
 @Path("/serviceInstantiation")
 public class SoSimulatorJaxRs {
