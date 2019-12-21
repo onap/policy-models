@@ -26,7 +26,7 @@
     <parent>
         <groupId>org.onap.policy.parent</groupId>
         <artifactId>integration</artifactId>
-        <version>3.1.0</version>
+        <version>3.1.1-SNAPSHOT</version>
         <relativePath />
     </parent>
 
@@ -40,7 +40,7 @@
 
     <properties>
         <derby.version>10.13.1.1</derby.version>
-        <javax.ws.rs-api.version>2.0.1</javax.ws.rs-api.version>
+        <javax.ws.rs-api.version>2.1.1</javax.ws.rs-api.version>
 
         <!-- sonar/jacoco overrides -->
         <!-- Overriding oparent default sonar/jacoco settings Combine all our reports into one file shared across sub-modules -->
@@ -48,7 +48,7 @@
         <sonar.jacoco.itReportPath>${project.basedir}/../target/code-coverage/jacoco-it.exec</sonar.jacoco.itReportPath>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 
-        <policy.common.version>1.6.1</policy.common.version>
+        <policy.common.version>1.6.2-SNAPSHOT</policy.common.version>
     </properties>
 
     <modules>
@@ -142,10 +142,66 @@
             <version>${policy.common.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.openpojo</groupId>
+            <artifactId>openpojo</artifactId>
+            <scope>test</scope>
+        </dependency>
 
         <dependency>
             <groupId>org.glassfish.jersey.inject</groupId>
             <artifactId>jersey-hk2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-server</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-security</artifactId>
+            <version>9.4.25.v20191220</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-servlet</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-servlet</artifactId>
+            <version>${version.jersey}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>${version.swagger}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>4.4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.att.nsa</groupId>
+            <artifactId>cambriaClient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.json</artifactId>
+            <version>${version.javax.json}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>${version.json}</version>
         </dependency>
     </dependencies>
 
@@ -201,7 +257,7 @@
                                 with minor changes -->
                             <configLocation>onap-checkstyle/onap-java-style.xml</configLocation>
                             <!-- <sourceDirectory> is needed so that checkstyle ignores the generated sources directory -->
-                            <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
+                            <sourceDirectories>${project.build.sourceDirectory}</sourceDirectories>
                             <includeResources>true</includeResources>
                             <includeTestSourceDirectory>true</includeTestSourceDirectory>
                             <includeTestResources>true</includeTestResources>

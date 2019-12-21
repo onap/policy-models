@@ -38,5 +38,10 @@
             <artifactId>gson</artifactId>
             <version>${policy.common.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.openpojo</groupId>
+            <artifactId>openpojo</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>
