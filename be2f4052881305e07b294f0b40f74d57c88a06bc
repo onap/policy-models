@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea6f469f_6c28f481",
+        "filename": "models-interactions/model-impl/cds/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-12-23T12:25:24Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 112,
+        "startChar": 15,
+        "endLine": 112,
+        "endChar": 20
+      },
+      "revId": "be2f4052881305e07b294f0b40f74d57c88a06bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "059cb028_ef5a2134",
+        "filename": "models-interactions/model-impl/sdnc/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-12-23T12:25:24Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 41,
+        "startChar": 15,
+        "endLine": 41,
+        "endChar": 21
+      },
+      "revId": "be2f4052881305e07b294f0b40f74d57c88a06bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd472cd3_f101e356",
+        "filename": "models-interactions/model-impl/vfc/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-12-23T12:25:24Z",
+      "side": 1,
+      "message": "Is this not defined in policy/parent? Should be if not.",
+      "range": {
+        "startLine": 41,
+        "startChar": 6,
+        "endLine": 41,
+        "endChar": 30
+      },
+      "revId": "be2f4052881305e07b294f0b40f74d57c88a06bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
