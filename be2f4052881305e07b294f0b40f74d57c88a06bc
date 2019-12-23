@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f2ef9779_8d537788",
+        "filename": "models-interactions/model-impl/cds/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2019-12-23T17:32:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea6f469f_6c28f481",
+      "range": {
+        "startLine": 112,
+        "startChar": 15,
+        "endLine": 112,
+        "endChar": 20
+      },
+      "revId": "be2f4052881305e07b294f0b40f74d57c88a06bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "059cb028_ef5a2134",
         "filename": "models-interactions/model-impl/sdnc/pom.xml",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "47897162_48b9d33f",
+        "filename": "models-interactions/model-impl/sdnc/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2019-12-23T17:32:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "059cb028_ef5a2134",
+      "range": {
+        "startLine": 41,
+        "startChar": 15,
+        "endLine": 41,
+        "endChar": 21
+      },
+      "revId": "be2f4052881305e07b294f0b40f74d57c88a06bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd472cd3_f101e356",
         "filename": "models-interactions/model-impl/vfc/pom.xml",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2019-12-23T12:25:24Z",
       "side": 1,
       "message": "Is this not defined in policy/parent? Should be if not.",
+      "range": {
+        "startLine": 41,
+        "startChar": 6,
+        "endLine": 41,
+        "endChar": 30
+      },
+      "revId": "be2f4052881305e07b294f0b40f74d57c88a06bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "360c4c21_0dd2535d",
+        "filename": "models-interactions/model-impl/vfc/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2019-12-23T17:32:38Z",
+      "side": 1,
+      "message": "mockito-core was not, I\u0027ve just added it today, I\u0027ll push a review for policy/parent",
+      "parentUuid": "cd472cd3_f101e356",
       "range": {
         "startLine": 41,
         "startChar": 6,
