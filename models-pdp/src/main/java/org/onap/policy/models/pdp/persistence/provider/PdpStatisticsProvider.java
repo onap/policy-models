@@ -3,6 +3,7 @@
  * ONAP Policy Model
  * ================================================================================
  * Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,6 +53,7 @@ public class PdpStatisticsProvider {
 
     // Recurring string constants
     private static final String NOT_VALID = "\" is not valid \n";
+    private static final String DESC_ORDER = "DESC";
 
     /**
      * Get PDP statistics.
@@ -89,7 +91,7 @@ public class PdpStatisticsProvider {
      */
     public List<PdpStatistics> getFilteredPdpStatistics(@NonNull final PfDao dao, final String name,
             @NonNull final String pdpGroupName, final String pdpSubGroup, final Date startTimeStamp,
-            final Date endTimeStamp) {
+            final Date endTimeStamp, final String sortOrder, final int getRecordNum) {
         Map<String, Object> filterMap = new HashMap<>();
         filterMap.put("pdpGroupName", pdpGroupName);
         if (pdpSubGroup != null) {
@@ -97,7 +99,7 @@ public class PdpStatisticsProvider {
         }
 
         return asPdpStatisticsList(dao.getFiltered(JpaPdpStatistics.class, name, PfKey.NULL_KEY_VERSION, startTimeStamp,
-                endTimeStamp, filterMap));
+                endTimeStamp, filterMap, sortOrder, getRecordNum));
     }
 
     /**
@@ -187,8 +189,8 @@ public class PdpStatisticsProvider {
      */
     public List<PdpStatistics> deletePdpStatistics(@NonNull final PfDao dao, @NonNull final String name,
             final Date timestamp) {
-        List<PdpStatistics> pdpStatisticsListToDel = asPdpStatisticsList(
-                dao.getFiltered(JpaPdpStatistics.class, name, PfKey.NULL_KEY_VERSION, timestamp, timestamp, null));
+        List<PdpStatistics> pdpStatisticsListToDel = asPdpStatisticsList(dao.getFiltered(JpaPdpStatistics.class, name,
+                PfKey.NULL_KEY_VERSION, timestamp, timestamp, null, DESC_ORDER, 0));
 
         pdpStatisticsListToDel.stream().forEach(s -> dao.delete(JpaPdpStatistics.class,
                 new PfTimestampKey(s.getPdpInstanceId(), PfKey.NULL_KEY_VERSION, s.getTimeStamp())));

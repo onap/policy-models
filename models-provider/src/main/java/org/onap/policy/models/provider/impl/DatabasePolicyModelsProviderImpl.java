@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -337,10 +338,11 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
 
     @Override
     public List<PdpStatistics> getFilteredPdpStatistics(final String name, @NonNull final String pdpGroupName,
-            final String pdpSubGroup, final Date startTimeStamp, final Date endTimeStamp) throws PfModelException {
+            final String pdpSubGroup, final Date startTimeStamp, final Date endTimeStamp, final String sortOrder,
+            final int getRecordNum) throws PfModelException {
         assertInitialized();
         return new PdpStatisticsProvider().getFilteredPdpStatistics(pfDao, name, pdpGroupName, pdpSubGroup,
-                startTimeStamp, endTimeStamp);
+                startTimeStamp, endTimeStamp, sortOrder, getRecordNum);
     }
 
     @Override
