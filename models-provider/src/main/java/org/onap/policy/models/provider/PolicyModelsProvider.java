@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -368,7 +368,7 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * @throws PfModelException on errors getting policies
      */
     public List<PdpStatistics> getFilteredPdpStatistics(String name, @NonNull String pdpGroupName, String pdpSubGroup,
-            Date startTimeStamp, Date endTimeStamp) throws PfModelException;
+            Date startTimeStamp, Date endTimeStamp, String sortOrder, int getRecordNum) throws PfModelException;
 
     /**
      * Creates PDP statistics.
