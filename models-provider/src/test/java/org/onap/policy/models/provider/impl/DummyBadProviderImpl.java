@@ -230,7 +230,7 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
 
     @Override
     public List<PdpStatistics> getFilteredPdpStatistics(String name, String pdpGroupName, String pdpSubGroup,
-            Date startTimeStamp, Date endTimeStamp) {
+            Date startTimeStamp, Date endTimeStamp, String sortOrder, int getRecordNum) {
         // Not implemented
         return new ArrayList<>();
     }

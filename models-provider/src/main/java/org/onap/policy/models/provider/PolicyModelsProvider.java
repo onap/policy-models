@@ -368,7 +368,7 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * @throws PfModelException on errors getting policies
      */
     public List<PdpStatistics> getFilteredPdpStatistics(String name, @NonNull String pdpGroupName, String pdpSubGroup,
-            Date startTimeStamp, Date endTimeStamp) throws PfModelException;
+            Date startTimeStamp, Date endTimeStamp, String sortOrder, int getRecordNum) throws PfModelException;
 
     /**
      * Creates PDP statistics.

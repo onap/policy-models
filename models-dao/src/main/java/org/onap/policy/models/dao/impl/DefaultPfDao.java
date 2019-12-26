@@ -66,6 +66,7 @@ public class DefaultPfDao implements PfDao {
 
     private static final String WHERE      = " WHERE ";
     private static final String AND        = " AND ";
+    private static final String ORDER      = " ORDER BY ";
 
     private static final String NAME_FILTER            = "c.key.name = :name";
     private static final String VERSION_FILTER         = "c.key.version = :version";
@@ -347,7 +348,8 @@ public class DefaultPfDao implements PfDao {
 
     @Override
     public <T extends PfConcept> List<T> getFiltered(final Class<T> someClass, final String name, final String version,
-            final Date startTime, final Date endTime, final Map<String, Object> filterMap) {
+            final Date startTime, final Date endTime, final Map<String, Object> filterMap, final String sortOrder,
+            final int getRecordNum) {
         final EntityManager mg = getEntityManager();
 
         String filterQueryString = SELECT_FROM_TABLE + WHERE;
@@ -361,6 +363,9 @@ public class DefaultPfDao implements PfDao {
                 filterQueryString = bld.toString();
             }
             filterQueryString = addKeyFilterString(filterQueryString, name, startTime, endTime);
+            if (getRecordNum > 0) {
+                filterQueryString += ORDER + " c.key.timeStamp " + sortOrder;
+            }
             TypedQuery<T> query = mg.createQuery(setQueryTable(filterQueryString, someClass), someClass);
 
             if (filterMap != null) {
@@ -382,6 +387,9 @@ public class DefaultPfDao implements PfDao {
                 if (endTime != null) {
                     query.setParameter("endTime", endTime);
                 }
+            }
+            if (getRecordNum > 0) {
+                query.setMaxResults(getRecordNum);
             }
 
             LOGGER.error("filterQueryString is  \"{}\"", filterQueryString);

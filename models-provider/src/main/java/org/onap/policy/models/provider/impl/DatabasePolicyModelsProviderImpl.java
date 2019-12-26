@@ -337,10 +337,11 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
 
     @Override
     public List<PdpStatistics> getFilteredPdpStatistics(final String name, @NonNull final String pdpGroupName,
-            final String pdpSubGroup, final Date startTimeStamp, final Date endTimeStamp) throws PfModelException {
+            final String pdpSubGroup, final Date startTimeStamp, final Date endTimeStamp, final String sortOrder,
+            final int getRecordNum) throws PfModelException {
         assertInitialized();
         return new PdpStatisticsProvider().getFilteredPdpStatistics(pfDao, name, pdpGroupName, pdpSubGroup,
-                startTimeStamp, endTimeStamp);
+                startTimeStamp, endTimeStamp, sortOrder, getRecordNum);
     }
 
     @Override
