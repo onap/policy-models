@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -234,7 +234,7 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
 
     @Override
     public List<PdpStatistics> getFilteredPdpStatistics(String name, String pdpGroupName, String pdpSubGroup,
-            Date startTimeStamp, Date endTimeStamp) {
+            Date startTimeStamp, Date endTimeStamp, String sortOrder, int getRecordNum) {
         // Not implemented
         return new ArrayList<>();
     }

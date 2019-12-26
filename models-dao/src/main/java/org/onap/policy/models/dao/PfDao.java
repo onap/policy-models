@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -162,11 +162,13 @@ public interface PfDao {
      *        <= endTime. null for ignore start time.
      * @param endTime the end timeStamp to filter from database, filter rule: startTime <= filteredRecord timeStamp <=
      *        endTime. null for ignore end time
-     * @filterMap Map store extra key/value used to filter from database, can be null.
+     * @param filterMap Map store extra key/value used to filter from database, can be null.
+     * @param sortOrder sortOrder to query database
+     * @param getRecordNum Total query count from database
      * @return the objects that was retrieved from the database
      */
     <T extends PfConcept> List<T> getFiltered(Class<T> someClass, String name, String version, Date startTime,
-            Date endTime, Map<String, Object> filterMap);
+            Date endTime, Map<String, Object> filterMap, String sortOrder, int getRecordNum);
 
     /**
      * Get an object from the database, referred to by concept key.
