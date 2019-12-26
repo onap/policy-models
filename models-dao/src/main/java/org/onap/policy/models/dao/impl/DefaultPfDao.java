@@ -66,9 +66,11 @@ public class DefaultPfDao implements PfDao {
 
     private static final String WHERE      = " WHERE ";
     private static final String AND        = " AND ";
+    private static final String ORDER      = " ORDER BY ";
 
     private static final String NAME_FILTER            = "c.key.name = :name";
     private static final String VERSION_FILTER         = "c.key.version = :version";
+    private static final String TIMESTAMP_FILTER       = "c.key.timeStamp = :timeStamp";
     private static final String TIMESTAMP_START_FILTER = "c.key.timeStamp >= :startTime";
     private static final String TIMESTAMP_END_FILTER   = "c.key.timeStamp <= :endTime";
     private static final String PARENT_NAME_FILTER     = "c.key.parentKeyName = :parentname";
@@ -79,6 +81,9 @@ public class DefaultPfDao implements PfDao {
 
     private static final String DELETE_BY_CONCEPT_KEY =
             DELETE_FROM_TABLE + WHERE + NAME_FILTER + AND + VERSION_FILTER;
+
+    private static final String DELETE_BY_TIMESTAMP_KEY =
+            DELETE_FROM_TABLE + WHERE + NAME_FILTER + AND + VERSION_FILTER  + AND + TIMESTAMP_FILTER;
 
     private static final String DELETE_BY_REFERENCE_KEY =
             DELETE_FROM_TABLE + WHERE + PARENT_NAME_FILTER + AND + PARENT_VERSION_FILTER + AND + LOCAL_NAME_FILTER;
@@ -221,7 +226,7 @@ public class DefaultPfDao implements PfDao {
         try {
             // @formatter:off
             mg.getTransaction().begin();
-            mg.createQuery(setQueryTable(DELETE_BY_CONCEPT_KEY, someClass), someClass)
+            mg.createQuery(setQueryTable(DELETE_BY_TIMESTAMP_KEY, someClass), someClass)
                     .setParameter(NAME,    key.getName())
                     .setParameter(VERSION, key.getVersion())
                     .setParameter(TIMESTAMP, key.getTimeStamp())
@@ -347,7 +352,8 @@ public class DefaultPfDao implements PfDao {
 
     @Override
     public <T extends PfConcept> List<T> getFiltered(final Class<T> someClass, final String name, final String version,
-            final Date startTime, final Date endTime, final Map<String, Object> filterMap) {
+            final Date startTime, final Date endTime, final Map<String, Object> filterMap, final String sortOrder,
+            final int getRecordNum) {
         final EntityManager mg = getEntityManager();
 
         String filterQueryString = SELECT_FROM_TABLE + WHERE;
@@ -361,6 +367,9 @@ public class DefaultPfDao implements PfDao {
                 filterQueryString = bld.toString();
             }
             filterQueryString = addKeyFilterString(filterQueryString, name, startTime, endTime);
+            if (getRecordNum > 0) {
+                filterQueryString += ORDER + " c.key.timeStamp " + sortOrder;
+            }
             TypedQuery<T> query = mg.createQuery(setQueryTable(filterQueryString, someClass), someClass);
 
             if (filterMap != null) {
@@ -382,6 +391,9 @@ public class DefaultPfDao implements PfDao {
                 if (endTime != null) {
                     query.setParameter("endTime", endTime);
                 }
+            }
+            if (getRecordNum > 0) {
+                query.setMaxResults(getRecordNum);
             }
 
             LOGGER.error("filterQueryString is  \"{}\"", filterQueryString);

@@ -166,7 +166,7 @@ public interface PfDao {
      * @return the objects that was retrieved from the database
      */
     <T extends PfConcept> List<T> getFiltered(Class<T> someClass, String name, String version, Date startTime,
-            Date endTime, Map<String, Object> filterMap);
+            Date endTime, Map<String, Object> filterMap, String sortOrder, int getRecordNum);
 
     /**
      * Get an object from the database, referred to by concept key.

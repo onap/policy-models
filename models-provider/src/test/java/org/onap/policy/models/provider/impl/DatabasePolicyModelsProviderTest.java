@@ -31,7 +31,6 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.models.pdp.concepts.Pdp;
@@ -84,6 +83,8 @@ public class DatabasePolicyModelsProviderTest {
     private static final String VERSION_100 = "1.0.0";
 
     private static final Date TIMESTAMP = new Date();
+
+    private static final String ORDER = "DESC";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DatabasePolicyModelsProviderTest.class);
 
@@ -143,7 +144,7 @@ public class DatabasePolicyModelsProviderTest {
     public void testProviderMethodsNull() throws Exception {
 
         try (PolicyModelsProvider databaseProvider =
-                        new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters)) {
+                new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters)) {
 
             assertThatThrownBy(() -> {
                 databaseProvider.getFilteredPolicyTypes(null);
@@ -330,7 +331,7 @@ public class DatabasePolicyModelsProviderTest {
             }).hasMessage(NAME_IS_NULL);
 
             assertThatThrownBy(() -> {
-                databaseProvider.getFilteredPdpStatistics(NAME, null, "sub", TIMESTAMP, TIMESTAMP);
+                databaseProvider.getFilteredPdpStatistics(NAME, null, "sub", TIMESTAMP, TIMESTAMP, ORDER, 0);
             }).hasMessage(GROUP_IS_NULL);
 
             assertThatThrownBy(() -> {
@@ -471,9 +472,10 @@ public class DatabasePolicyModelsProviderTest {
             pdpSubGroup.getPdpInstances().add(pdp);
 
             PdpStatistics pdpStatistics = new PdpStatistics();
-            pdpStatistics.setPdpInstanceId("Pdp1");
+            pdpStatistics.setPdpInstanceId(NAME);
             pdpStatistics.setTimeStamp(new Date());
-            pdpStatistics.setPdpGroupName("DefaultGroup");
+            pdpStatistics.setPdpGroupName(GROUP);
+            pdpStatistics.setPdpSubGroupName("type");
             ArrayList<PdpStatistics> statisticsArrayList = new ArrayList<>();
             statisticsArrayList.add(pdpStatistics);
 
@@ -483,15 +485,15 @@ public class DatabasePolicyModelsProviderTest {
 
             pdpSubGroup.setDesiredInstanceCount(234);
             databaseProvider.updatePdpSubGroup(GROUP, pdpSubGroup);
-            assertEquals(234, databaseProvider.getPdpGroups(GROUP).get(0).getPdpSubgroups()
-                    .get(0).getDesiredInstanceCount());
+            assertEquals(234,
+                    databaseProvider.getPdpGroups(GROUP).get(0).getPdpSubgroups().get(0).getDesiredInstanceCount());
 
-            assertEquals("Hello", databaseProvider.getPdpGroups(GROUP).get(0).getPdpSubgroups()
-                    .get(0).getPdpInstances().get(0).getMessage());
+            assertEquals("Hello", databaseProvider.getPdpGroups(GROUP).get(0).getPdpSubgroups().get(0).getPdpInstances()
+                    .get(0).getMessage());
             pdp.setMessage("Howdy");
             databaseProvider.updatePdp(GROUP, "type", pdp);
-            assertEquals("Howdy", databaseProvider.getPdpGroups(GROUP).get(0).getPdpSubgroups()
-                    .get(0).getPdpInstances().get(0).getMessage());
+            assertEquals("Howdy", databaseProvider.getPdpGroups(GROUP).get(0).getPdpSubgroups().get(0).getPdpInstances()
+                    .get(0).getMessage());
 
             assertThatThrownBy(() -> {
                 databaseProvider.deletePdpGroup(NAME);
@@ -499,23 +501,39 @@ public class DatabasePolicyModelsProviderTest {
 
             assertEquals(pdpGroup.getName(), databaseProvider.deletePdpGroup(GROUP).getName());
 
-            assertEquals(0, databaseProvider.getPdpStatistics(null,null).size());
+            assertEquals(0, databaseProvider.getPdpStatistics(null, null).size());
+            assertEquals(1, databaseProvider.createPdpStatistics(statisticsArrayList).size());
+            assertEquals(1, databaseProvider.updatePdpStatistics(statisticsArrayList).size());
 
-            databaseProvider.getFilteredPdpStatistics(null, GROUP,null, null, null);
-            databaseProvider.getFilteredPdpStatistics(null, GROUP,null, new Date(), null);
-            databaseProvider.getFilteredPdpStatistics(null, GROUP,null, null, new Date());
-            databaseProvider.getFilteredPdpStatistics(null, GROUP,null, new Date(), new Date());
+            assertEquals(NAME, databaseProvider.getPdpStatistics(null, null).get(0).getPdpInstanceId());
+            assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(null, GROUP, null, null, null, ORDER, 0).get(0)
+                    .getPdpInstanceId());
+            assertEquals(0,
+                    databaseProvider.getFilteredPdpStatistics(null, GROUP, null, new Date(), null, ORDER, 0).size());
+            assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(null, GROUP, null, null, new Date(), ORDER, 0)
+                    .get(0).getPdpInstanceId());
+            assertEquals(0, databaseProvider
+                    .getFilteredPdpStatistics(null, GROUP, null, new Date(), new Date(), ORDER, 0).size());
 
-            databaseProvider.getFilteredPdpStatistics(NAME, GROUP,null, null, null);
-            databaseProvider.getFilteredPdpStatistics(NAME, GROUP,null, new Date(), new Date());
+            assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(NAME, GROUP, null, null, null, ORDER, 0).get(0)
+                    .getPdpInstanceId());
+            assertEquals(0, databaseProvider
+                    .getFilteredPdpStatistics(NAME, GROUP, null, new Date(), new Date(), ORDER, 0).size());
 
-            databaseProvider.getFilteredPdpStatistics(NAME, GROUP,"type", null, null);
-            databaseProvider.getFilteredPdpStatistics(NAME, GROUP,"type", new Date(), new Date());
+            assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(NAME, GROUP, "type", null, null, ORDER, 0)
+                    .get(0).getPdpInstanceId());
+            assertEquals(0, databaseProvider
+                    .getFilteredPdpStatistics(NAME, GROUP, "type", new Date(), new Date(), ORDER, 0).size());
 
-            databaseProvider.createPdpStatistics(statisticsArrayList);
-            databaseProvider.updatePdpStatistics(statisticsArrayList);
+            assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(NAME, GROUP, "type", null, null, ORDER, 1)
+                    .get(0).getPdpInstanceId());
+            assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(NAME, GROUP, "type", null, null, ORDER, 5)
+                    .get(0).getPdpInstanceId());
+            assertEquals(0, databaseProvider
+                    .getFilteredPdpStatistics(NAME, GROUP, "type", new Date(), new Date(), ORDER, 5).size());
 
-            databaseProvider.deletePdpStatistics("pdp1",null);
+            assertEquals(NAME, databaseProvider.deletePdpStatistics(NAME, null).get(0).getPdpInstanceId());
+            assertEquals(0, databaseProvider.getPdpStatistics(null, null).size());
         } catch (Exception exc) {
             LOGGER.warn("test should not throw an exception", exc);
             fail("test should not throw an exception");
