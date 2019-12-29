@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7053e523_891f1c10",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/impl/DatabasePolicyModelsProviderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-12-29T14:35:19Z",
+      "side": 1,
+      "message": "We really should check the results that are returned by the query with assert statements.",
+      "range": {
+        "startLine": 505,
+        "startChar": 11,
+        "endLine": 520,
+        "endChar": 70
+      },
+      "revId": "ff65c46c55568ed24648eba93e8ad5e77fb07c93",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
