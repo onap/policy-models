@@ -22,6 +22,30 @@
       "revId": "aa21cf56ef1b8d57a87efe366376e47509850559",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a08e3de_5b0897fd",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/PfDao.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-01-03T10:38:33Z",
+      "side": 1,
+      "message": "Yes, I think Ram\u0027s suggestion is better. (You were unlucky to have the first review of 2020!)",
+      "parentUuid": "1d077977_e90d8a31",
+      "range": {
+        "startLine": 3,
+        "startChar": 4,
+        "endLine": 4,
+        "endChar": 55
+      },
+      "revId": "aa21cf56ef1b8d57a87efe366376e47509850559",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
