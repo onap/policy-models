@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1d077977_e90d8a31",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/PfDao.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2020-01-03T10:09:40Z",
+      "side": 1,
+      "message": "Combining them together will be better.\n\"Copyright (C) 2019-2020 Nordix Foundation.\"\n\nAlso, I think if we already have a \"Copyright\" header for Nordix then we don\u0027t need to add \"Modifications Copyright\".",
+      "range": {
+        "startLine": 3,
+        "startChar": 4,
+        "endLine": 4,
+        "endChar": 55
+      },
+      "revId": "aa21cf56ef1b8d57a87efe366376e47509850559",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
