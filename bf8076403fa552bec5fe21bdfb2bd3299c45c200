@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47f925a4_ae316855",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/PfDao.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-01-06T18:04:44Z",
+      "side": 1,
+      "message": "Missing javadoc for the 2 new fields.",
+      "range": {
+        "startLine": 165,
+        "startChar": 5,
+        "endLine": 166,
+        "endChar": 6
+      },
+      "revId": "bf8076403fa552bec5fe21bdfb2bd3299c45c200",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19cf617e_5ba41a11",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-01-06T18:04:44Z",
+      "side": 1,
+      "message": "Missing javadoc for the 2 new fields.",
+      "range": {
+        "startLine": 362,
+        "startChar": 2,
+        "endLine": 367,
+        "endChar": 2
+      },
+      "revId": "bf8076403fa552bec5fe21bdfb2bd3299c45c200",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
