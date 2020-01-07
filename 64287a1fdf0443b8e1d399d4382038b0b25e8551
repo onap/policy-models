@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "f6291b41_949d8afc",
+        "filename": "models-provider/src/test/resources/META-INF/persistence.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-01-07T21:30:58Z",
+      "side": 1,
+      "message": "license year (general coment)",
+      "revId": "64287a1fdf0443b8e1d399d4382038b0b25e8551",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ebe605b_36dc9326",
+        "filename": "models-tosca/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-01-07T21:30:58Z",
+      "side": 1,
+      "message": "there\u0027s a 4.4, fyi (not a comment)",
+      "revId": "64287a1fdf0443b8e1d399d4382038b0b25e8551",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84caa1da_69ef971e",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/provider/SimpleToscaProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-01-07T21:30:58Z",
+      "side": 1,
+      "message": "Consider jpaDataTypeList.isEmpty if dao.getFiltered does not return null pointers)",
+      "revId": "64287a1fdf0443b8e1d399d4382038b0b25e8551",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f1d0434_0284d5ca",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/provider/SimpleToscaProvider.java",
         "patchSetId": 1
