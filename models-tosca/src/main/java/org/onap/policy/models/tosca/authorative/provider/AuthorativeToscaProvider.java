@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import lombok.NonNull;
+
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.dao.PfDao;
@@ -64,8 +65,9 @@ public class AuthorativeToscaProvider {
 
         LOGGER.debug("->getPolicyTypes: name={}, version={}", name, version);
 
-        ToscaServiceTemplate serviceTemplate =
-                new SimpleToscaProvider().getPolicyTypes(dao, name, version).toAuthorative();
+        JpaToscaServiceTemplate jpaServiceTemplate = new SimpleToscaProvider().getPolicyTypes(dao, name, version);
+
+        ToscaServiceTemplate serviceTemplate = jpaServiceTemplate.toAuthorative();
 
         LOGGER.debug("<-getPolicyTypes: name={}, version={}, serviceTemplate={}", name, version, serviceTemplate);
         return serviceTemplate;
