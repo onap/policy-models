@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19077b9e_b356a1ed",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/provider/SimpleToscaProviderTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-01-07T14:40:20Z",
+      "side": 1,
+      "message": "maybe add a test to verify that the type is no longer in the DB?",
+      "revId": "96ff68bfb341f24c6af9246be6f5f72af89d2762",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
