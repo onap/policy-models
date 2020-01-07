@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -61,21 +61,17 @@ import org.slf4j.LoggerFactory;
 public class DatabasePolicyModelsProviderTest {
     private static final String NAME = "name";
 
-    private static final String TEMPLATE_IS_NULL = "serviceTemplate is marked @NonNull but is null";
+    private static final String TEMPLATE_IS_NULL = "^serviceTemplate is marked .*on.*ull but is null$";
 
-    private static final String POLICY_ID_IS_NULL = "policyId is marked @NonNull but is null";
+    private static final String POLICY_ID_IS_NULL = "^policyId is marked .*on.*ull but is null$";
 
-    private static final String PDP_TYPE_IS_NULL = "pdpType is marked @NonNull but is null";
+    private static final String SUBGROUP_IS_NULL = "^pdpSubGroup is marked .*on.*ull but is null$";
 
-    private static final String SUBGROUP_IS_NULL = "pdpSubGroup is marked @NonNull but is null";
+    private static final String GROUP_IS_NULL = "^pdpGroupName is marked .*on.*ull but is null$";
 
-    private static final String GROUP_IS_NULL = "pdpGroupName is marked @NonNull but is null";
+    private static final String NAME_IS_NULL = "^name is marked .*on.*ull but is null$";
 
-    private static final String NAME_IS_NULL = "name is marked @NonNull but is null";
-
-    private static final String FILTER_IS_NULL = "filter is marked @NonNull but is null";
-
-    private static final String INSTANCE = "Instance";
+    private static final String FILTER_IS_NULL = "^filter is marked .*on.*ull but is null$";
 
     private static final String POLICY_ID = "policy_id";
 
@@ -106,7 +102,7 @@ public class DatabasePolicyModelsProviderTest {
     public void testInitAndClose() throws Exception {
         assertThatThrownBy(() -> {
             new DatabasePolicyModelsProviderImpl(null);
-        }).hasMessage("parameters is marked @NonNull but is null");
+        }).hasMessageMatching("^parameters is marked .*on.*ull but is null$");
 
         PolicyModelsProvider databaseProvider =
                 new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
@@ -143,71 +139,71 @@ public class DatabasePolicyModelsProviderTest {
     public void testProviderMethodsNull() throws Exception {
 
         try (PolicyModelsProvider databaseProvider =
-                        new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters)) {
+                new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters)) {
 
             assertThatThrownBy(() -> {
                 databaseProvider.getFilteredPolicyTypes(null);
-            }).hasMessage(FILTER_IS_NULL);
+            }).hasMessageMatching(FILTER_IS_NULL);
 
             assertThatThrownBy(() -> {
                 databaseProvider.getFilteredPolicyTypeList(null);
-            }).hasMessage(FILTER_IS_NULL);
+            }).hasMessageMatching(FILTER_IS_NULL);
 
             assertThatThrownBy(() -> {
                 databaseProvider.createPolicyTypes(null);
-            }).hasMessage(TEMPLATE_IS_NULL);
+            }).hasMessageMatching(TEMPLATE_IS_NULL);
 
             assertThatThrownBy(() -> {
                 databaseProvider.updatePolicyTypes(null);
-            }).hasMessage(TEMPLATE_IS_NULL);
+            }).hasMessageMatching(TEMPLATE_IS_NULL);
 
             assertThatThrownBy(() -> {
                 databaseProvider.deletePolicyType(null, null);
-            }).hasMessage(NAME_IS_NULL);
+            }).hasMessageMatching(NAME_IS_NULL);
 
             assertThatThrownBy(() -> {
                 databaseProvider.deletePolicyType("aaa", null);
-            }).hasMessage("version is marked @NonNull but is null");
+            }).hasMessageMatching("^version is marked .*on.*ull but is null$");
 
             assertThatThrownBy(() -> {
                 databaseProvider.deletePolicyType(null, "aaa");
-            }).hasMessage(NAME_IS_NULL);
+            }).hasMessageMatching(NAME_IS_NULL);
 
             assertThatThrownBy(() -> {
                 databaseProvider.getFilteredPolicies(null);
-            }).hasMessage(FILTER_IS_NULL);
+            }).hasMessageMatching(FILTER_IS_NULL);
 
             assertThatThrownBy(() -> {
                 databaseProvider.getFilteredPolicyList(null);
-            }).hasMessage(FILTER_IS_NULL);
+            }).hasMessageMatching(FILTER_IS_NULL);
 
             assertThatThrownBy(() -> {
                 databaseProvider.createPolicies(null);
-            }).hasMessage(TEMPLATE_IS_NULL);
+            }).hasMessageMatching(TEMPLATE_IS_NULL);
 
             assertThatThrownBy(() -> {
                 databaseProvider.updatePolicies(null);
-            }).hasMessage(TEMPLATE_IS_NULL);
+            }).hasMessageMatching(TEMPLATE_IS_NULL);
 
             assertThatThrownBy(() -> {
                 databaseProvider.deletePolicy(null, null);
-            }).hasMessage(NAME_IS_NULL);
+            }).hasMessageMatching(NAME_IS_NULL);
 
             assertThatThrownBy(() -> {
                 databaseProvider.deletePolicy(null, "aaa");
-            }).hasMessage(NAME_IS_NULL);
+            }).hasMessageMatching(NAME_IS_NULL);
 
             assertThatThrownBy(() -> {
                 databaseProvider.deletePolicy("aaa", null);
-            }).hasMessage("version is marked @NonNull but is null");
+            }).hasMessageMatching("^version is marked .*on.*ull but is null$");
 
             assertThatThrownBy(() -> {
                 databaseProvider.getOperationalPolicy(null, null);
-            }).hasMessage(POLICY_ID_IS_NULL);
+            }).hasMessageMatching(POLICY_ID_IS_NULL);
 
             assertThatThrownBy(() -> {
                 databaseProvider.getOperationalPolicy(null, "");
-            }).hasMessage(POLICY_ID_IS_NULL);
+            }).hasMessageMatching(POLICY_ID_IS_NULL);
 
             assertThatThrownBy(() -> {
                 databaseProvider.getOperationalPolicy("", null);
@@ -215,31 +211,31 @@ public class DatabasePolicyModelsProviderTest {
 
             assertThatThrownBy(() -> {
                 databaseProvider.createOperationalPolicy(null);
-            }).hasMessage("legacyOperationalPolicy is marked @NonNull but is null");
+            }).hasMessageMatching("^legacyOperationalPolicy is marked .*on.*ull but is null$");
 
             assertThatThrownBy(() -> {
                 databaseProvider.updateOperationalPolicy(null);
-            }).hasMessage("legacyOperationalPolicy is marked @NonNull but is null");
+            }).hasMessageMatching("^legacyOperationalPolicy is marked .*on.*ull but is null$");
 
             assertThatThrownBy(() -> {
                 databaseProvider.deleteOperationalPolicy(null, null);
-            }).hasMessage(POLICY_ID_IS_NULL);
+            }).hasMessageMatching(POLICY_ID_IS_NULL);
 
             assertThatThrownBy(() -> {
                 databaseProvider.deleteOperationalPolicy(null, "");
-            }).hasMessage(POLICY_ID_IS_NULL);
+            }).hasMessageMatching(POLICY_ID_IS_NULL);
 
             assertThatThrownBy(() -> {
                 databaseProvider.deleteOperationalPolicy("", null);
-            }).hasMessage("policyVersion is marked @NonNull but is null");
+            }).hasMessageMatching("^policyVersion is marked .*on.*ull but is null$");
 
             assertThatThrownBy(() -> {
                 databaseProvider.getGuardPolicy(null, null);
-            }).hasMessage(POLICY_ID_IS_NULL);
+            }).hasMessageMatching(POLICY_ID_IS_NULL);
 
             assertThatThrownBy(() -> {
                 databaseProvider.getGuardPolicy(null, "");
-            }).hasMessage(POLICY_ID_IS_NULL);
+            }).hasMessageMatching(POLICY_ID_IS_NULL);
 
             assertThatThrownBy(() -> {
                 databaseProvider.getGuardPolicy("", null);
@@ -247,47 +243,47 @@ public class DatabasePolicyModelsProviderTest {
 
             assertThatThrownBy(() -> {
                 databaseProvider.createGuardPolicy(null);
-            }).hasMessage("legacyGuardPolicy is marked @NonNull but is null");
+            }).hasMessageMatching("^legacyGuardPolicy is marked .*on.*ull but is null$");
 
             assertThatThrownBy(() -> {
                 databaseProvider.updateGuardPolicy(null);
-            }).hasMessage("legacyGuardPolicy is marked @NonNull but is null");
+            }).hasMessageMatching("^legacyGuardPolicy is marked .*on.*ull but is null$");
 
             assertThatThrownBy(() -> {
                 databaseProvider.deleteGuardPolicy(null, null);
-            }).hasMessage(POLICY_ID_IS_NULL);
+            }).hasMessageMatching(POLICY_ID_IS_NULL);
 
             assertThatThrownBy(() -> {
                 databaseProvider.deleteGuardPolicy(null, "");
-            }).hasMessage(POLICY_ID_IS_NULL);
+            }).hasMessageMatching(POLICY_ID_IS_NULL);
 
             assertThatThrownBy(() -> {
                 databaseProvider.deleteGuardPolicy("", null);
-            }).hasMessage("policyVersion is marked @NonNull but is null");
+            }).hasMessageMatching("^policyVersion is marked .*on.*ull but is null$");
 
             assertThatThrownBy(() -> {
                 databaseProvider.getFilteredPdpGroups(null);
-            }).hasMessage(FILTER_IS_NULL);
+            }).hasMessageMatching(FILTER_IS_NULL);
 
             assertThatThrownBy(() -> {
                 databaseProvider.createPdpGroups(null);
-            }).hasMessage("pdpGroups is marked @NonNull but is null");
+            }).hasMessageMatching("^pdpGroups is marked .*on.*ull but is null$");
 
             assertThatThrownBy(() -> {
                 databaseProvider.updatePdpGroups(null);
-            }).hasMessage("pdpGroups is marked @NonNull but is null");
+            }).hasMessageMatching("^pdpGroups is marked .*on.*ull but is null$");
 
             assertThatThrownBy(() -> {
                 databaseProvider.updatePdpSubGroup(null, null);
-            }).hasMessage(GROUP_IS_NULL);
+            }).hasMessageMatching(GROUP_IS_NULL);
 
             assertThatThrownBy(() -> {
                 databaseProvider.updatePdpSubGroup(null, new PdpSubGroup());
-            }).hasMessage(GROUP_IS_NULL);
+            }).hasMessageMatching(GROUP_IS_NULL);
 
             assertThatThrownBy(() -> {
                 databaseProvider.updatePdpSubGroup(NAME, null);
-            }).hasMessage(SUBGROUP_IS_NULL);
+            }).hasMessageMatching(SUBGROUP_IS_NULL);
 
             assertThatThrownBy(() -> {
                 databaseProvider.updatePdpSubGroup(NAME, new PdpSubGroup());
@@ -295,31 +291,31 @@ public class DatabasePolicyModelsProviderTest {
 
             assertThatThrownBy(() -> {
                 databaseProvider.updatePdp(null, null, null);
-            }).hasMessage(GROUP_IS_NULL);
+            }).hasMessageMatching(GROUP_IS_NULL);
 
             assertThatThrownBy(() -> {
                 databaseProvider.updatePdp(null, null, new Pdp());
-            }).hasMessage(GROUP_IS_NULL);
+            }).hasMessageMatching(GROUP_IS_NULL);
 
             assertThatThrownBy(() -> {
                 databaseProvider.updatePdp(null, "sub", null);
-            }).hasMessage(GROUP_IS_NULL);
+            }).hasMessageMatching(GROUP_IS_NULL);
 
             assertThatThrownBy(() -> {
                 databaseProvider.updatePdp(null, "sub", new Pdp());
-            }).hasMessage(GROUP_IS_NULL);
+            }).hasMessageMatching(GROUP_IS_NULL);
 
             assertThatThrownBy(() -> {
                 databaseProvider.updatePdp(NAME, null, null);
-            }).hasMessage(SUBGROUP_IS_NULL);
+            }).hasMessageMatching(SUBGROUP_IS_NULL);
 
             assertThatThrownBy(() -> {
                 databaseProvider.updatePdp(NAME, null, new Pdp());
-            }).hasMessage(SUBGROUP_IS_NULL);
+            }).hasMessageMatching(SUBGROUP_IS_NULL);
 
             assertThatThrownBy(() -> {
                 databaseProvider.updatePdp(NAME, "sub", null);
-            }).hasMessage("pdp is marked @NonNull but is null");
+            }).hasMessageMatching("^pdp is marked .*on.*ull but is null$");
 
             assertThatThrownBy(() -> {
                 databaseProvider.updatePdp(NAME, "sub", new Pdp());
@@ -327,23 +323,23 @@ public class DatabasePolicyModelsProviderTest {
 
             assertThatThrownBy(() -> {
                 databaseProvider.deletePdpGroup(null);
-            }).hasMessage(NAME_IS_NULL);
+            }).hasMessageMatching(NAME_IS_NULL);
 
             assertThatThrownBy(() -> {
                 databaseProvider.getFilteredPdpStatistics(NAME, null, "sub", TIMESTAMP, TIMESTAMP);
-            }).hasMessage(GROUP_IS_NULL);
+            }).hasMessageMatching(GROUP_IS_NULL);
 
             assertThatThrownBy(() -> {
                 databaseProvider.createPdpStatistics(null);
-            }).hasMessage("pdpStatisticsList is marked @NonNull but is null");
+            }).hasMessageMatching("^pdpStatisticsList is marked .*on.*ull but is null$");
 
             assertThatThrownBy(() -> {
                 databaseProvider.updatePdpStatistics(null);
-            }).hasMessage("pdpStatisticsList is marked @NonNull but is null");
+            }).hasMessageMatching("^pdpStatisticsList is marked .*on.*ull but is null$");
 
             assertThatThrownBy(() -> {
                 databaseProvider.deletePdpStatistics(null, TIMESTAMP);
-            }).hasMessage(NAME_IS_NULL);
+            }).hasMessageMatching(NAME_IS_NULL);
 
         }
     }
@@ -411,11 +407,11 @@ public class DatabasePolicyModelsProviderTest {
 
             assertThatThrownBy(() -> {
                 databaseProvider.createOperationalPolicy(new LegacyOperationalPolicy());
-            }).hasMessage(NAME_IS_NULL);
+            }).hasMessageMatching(NAME_IS_NULL);
 
             assertThatThrownBy(() -> {
                 databaseProvider.updateOperationalPolicy(new LegacyOperationalPolicy());
-            }).hasMessage(NAME_IS_NULL);
+            }).hasMessageMatching(NAME_IS_NULL);
 
             assertThatThrownBy(() -> {
                 databaseProvider.deleteOperationalPolicy(POLICY_ID, "55");
@@ -483,15 +479,15 @@ public class DatabasePolicyModelsProviderTest {
 
             pdpSubGroup.setDesiredInstanceCount(234);
             databaseProvider.updatePdpSubGroup(GROUP, pdpSubGroup);
-            assertEquals(234, databaseProvider.getPdpGroups(GROUP).get(0).getPdpSubgroups()
-                    .get(0).getDesiredInstanceCount());
+            assertEquals(234,
+                    databaseProvider.getPdpGroups(GROUP).get(0).getPdpSubgroups().get(0).getDesiredInstanceCount());
 
-            assertEquals("Hello", databaseProvider.getPdpGroups(GROUP).get(0).getPdpSubgroups()
-                    .get(0).getPdpInstances().get(0).getMessage());
+            assertEquals("Hello", databaseProvider.getPdpGroups(GROUP).get(0).getPdpSubgroups().get(0).getPdpInstances()
+                    .get(0).getMessage());
             pdp.setMessage("Howdy");
             databaseProvider.updatePdp(GROUP, "type", pdp);
-            assertEquals("Howdy", databaseProvider.getPdpGroups(GROUP).get(0).getPdpSubgroups()
-                    .get(0).getPdpInstances().get(0).getMessage());
+            assertEquals("Howdy", databaseProvider.getPdpGroups(GROUP).get(0).getPdpSubgroups().get(0).getPdpInstances()
+                    .get(0).getMessage());
 
             assertThatThrownBy(() -> {
                 databaseProvider.deletePdpGroup(NAME);
@@ -499,23 +495,23 @@ public class DatabasePolicyModelsProviderTest {
 
             assertEquals(pdpGroup.getName(), databaseProvider.deletePdpGroup(GROUP).getName());
 
-            assertEquals(0, databaseProvider.getPdpStatistics(null,null).size());
+            assertEquals(0, databaseProvider.getPdpStatistics(null, null).size());
 
-            databaseProvider.getFilteredPdpStatistics(null, GROUP,null, null, null);
-            databaseProvider.getFilteredPdpStatistics(null, GROUP,null, new Date(), null);
-            databaseProvider.getFilteredPdpStatistics(null, GROUP,null, null, new Date());
-            databaseProvider.getFilteredPdpStatistics(null, GROUP,null, new Date(), new Date());
+            databaseProvider.getFilteredPdpStatistics(null, GROUP, null, null, null);
+            databaseProvider.getFilteredPdpStatistics(null, GROUP, null, new Date(), null);
+            databaseProvider.getFilteredPdpStatistics(null, GROUP, null, null, new Date());
+            databaseProvider.getFilteredPdpStatistics(null, GROUP, null, new Date(), new Date());
 
-            databaseProvider.getFilteredPdpStatistics(NAME, GROUP,null, null, null);
-            databaseProvider.getFilteredPdpStatistics(NAME, GROUP,null, new Date(), new Date());
+            databaseProvider.getFilteredPdpStatistics(NAME, GROUP, null, null, null);
+            databaseProvider.getFilteredPdpStatistics(NAME, GROUP, null, new Date(), new Date());
 
-            databaseProvider.getFilteredPdpStatistics(NAME, GROUP,"type", null, null);
-            databaseProvider.getFilteredPdpStatistics(NAME, GROUP,"type", new Date(), new Date());
+            databaseProvider.getFilteredPdpStatistics(NAME, GROUP, "type", null, null);
+            databaseProvider.getFilteredPdpStatistics(NAME, GROUP, "type", new Date(), new Date());
 
             databaseProvider.createPdpStatistics(statisticsArrayList);
             databaseProvider.updatePdpStatistics(statisticsArrayList);
 
-            databaseProvider.deletePdpStatistics("pdp1",null);
+            databaseProvider.deletePdpStatistics("pdp1", null);
         } catch (Exception exc) {
             LOGGER.warn("test should not throw an exception", exc);
             fail("test should not throw an exception");
