@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f1d0434_0284d5ca",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/provider/SimpleToscaProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-01-07T21:15:47Z",
+      "side": 1,
+      "message": "Missing \"!\" ?",
+      "revId": "64287a1fdf0443b8e1d399d4382038b0b25e8551",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd68ebca_8551a3b9",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/utils/ToscaUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-01-07T21:15:47Z",
+      "side": 1,
+      "message": "hmm.  Looks like a common method could be factored out and used by all of these assertXxx methods",
+      "revId": "64287a1fdf0443b8e1d399d4382038b0b25e8551",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf2bf14_3077b0d2",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/provider/SimpleToscaProviderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-01-07T21:15:47Z",
+      "side": 1,
+      "message": "test for duplicate entry?",
+      "revId": "64287a1fdf0443b8e1d399d4382038b0b25e8551",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
