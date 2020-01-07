@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d0f56e33_0c029877",
+        "filename": "models-interactions/model-impl/aai/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2020-01-07T22:21:50Z",
+      "side": 1,
+      "message": "do you mean add these dependencies?",
+      "parentUuid": "ee30bb91_040b2a2f",
+      "revId": "98924da38a2659b79be2fd7f63e02bfc8dadc158",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0073754c_8331a84f",
         "filename": "models-sim/models-sim-dmaap/pom.xml",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2020-01-07T19:41:28Z",
       "side": 1,
       "message": "trailing spaces",
+      "revId": "98924da38a2659b79be2fd7f63e02bfc8dadc158",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7058ad62_263cfa82",
+        "filename": "models-sim/models-sim-dmaap/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2020-01-07T22:21:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0073754c_8331a84f",
       "revId": "98924da38a2659b79be2fd7f63e02bfc8dadc158",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "1269d078_15f50650",
+        "filename": "models-sim/policy-models-sim-pdp/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2020-01-07T22:21:50Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "91032a19_5365ed92",
+      "revId": "98924da38a2659b79be2fd7f63e02bfc8dadc158",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "122d8528_068080df",
         "filename": "models-tosca/pom.xml",
         "patchSetId": 4
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "5a8d96de_8d2f6a44",
+        "filename": "models-tosca/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2020-01-07T22:21:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "122d8528_068080df",
+      "revId": "98924da38a2659b79be2fd7f63e02bfc8dadc158",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "037bfcc7_5a23673c",
         "filename": "pom.xml",
         "patchSetId": 4
@@ -81,6 +153,24 @@
       "writtenOn": "2020-01-07T19:41:28Z",
       "side": 1,
       "message": "might check integration/pom to see if any of these versions are already defined; I would think jetty \u0026 jersey would be, as they\u0027re used in policy-endpoints",
+      "revId": "98924da38a2659b79be2fd7f63e02bfc8dadc158",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24099332_6fc324d9",
+        "filename": "pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2020-01-07T22:21:50Z",
+      "side": 1,
+      "message": "Yes, found one for jersey.. nothing else though",
+      "parentUuid": "037bfcc7_5a23673c",
       "revId": "98924da38a2659b79be2fd7f63e02bfc8dadc158",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
