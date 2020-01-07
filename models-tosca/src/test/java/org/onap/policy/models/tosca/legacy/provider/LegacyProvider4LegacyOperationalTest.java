@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -50,10 +50,10 @@ import org.yaml.snakeyaml.Yaml;
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 public class LegacyProvider4LegacyOperationalTest {
-    private static final String POLICY_ID_IS_NULL = "policyId is marked @NonNull but is null";
+    private static final String POLICY_ID_IS_NULL = "^policyId is marked .*on.*ull but is null$";
     private static final String VCPE_OUTPUT_JSON = "policies/vCPE.policy.operational.output.json";
     private static final String VCPE_INPUT_JSON = "policies/vCPE.policy.operational.input.json";
-    private static final String DAO_IS_NULL = "dao is marked @NonNull but is null";
+    private static final String DAO_IS_NULL = "^dao is marked .*on.*ull but is null$";
     private PfDao pfDao;
     private StandardCoder standardCoder;
 
@@ -100,15 +100,15 @@ public class LegacyProvider4LegacyOperationalTest {
     public void testPoliciesGet() throws Exception {
         assertThatThrownBy(() -> {
             new LegacyProvider().getOperationalPolicy(null, null, null);
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().getOperationalPolicy(null, "", null);
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().getOperationalPolicy(pfDao, null, null);
-        }).hasMessage(POLICY_ID_IS_NULL);
+        }).hasMessageMatching(POLICY_ID_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().getOperationalPolicy(pfDao, "I Dont Exist", null);
@@ -117,8 +117,7 @@ public class LegacyProvider4LegacyOperationalTest {
         createPolicyTypes();
 
         LegacyOperationalPolicy originalLop =
-                standardCoder.decode(ResourceUtils.getResourceAsString(VCPE_INPUT_JSON),
-                        LegacyOperationalPolicy.class);
+                standardCoder.decode(ResourceUtils.getResourceAsString(VCPE_INPUT_JSON), LegacyOperationalPolicy.class);
 
         assertNotNull(originalLop);
 
@@ -146,21 +145,20 @@ public class LegacyProvider4LegacyOperationalTest {
     public void testPolicyCreate() throws Exception {
         assertThatThrownBy(() -> {
             new LegacyProvider().createOperationalPolicy(null, null);
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().createOperationalPolicy(null, new LegacyOperationalPolicy());
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().createOperationalPolicy(pfDao, null);
-        }).hasMessage("legacyOperationalPolicy is marked @NonNull but is null");
+        }).hasMessageMatching("^legacyOperationalPolicy is marked .*on.*ull but is null$");
 
         createPolicyTypes();
 
         LegacyOperationalPolicy originalLop =
-                standardCoder.decode(ResourceUtils.getResourceAsString(VCPE_INPUT_JSON),
-                        LegacyOperationalPolicy.class);
+                standardCoder.decode(ResourceUtils.getResourceAsString(VCPE_INPUT_JSON), LegacyOperationalPolicy.class);
 
         assertNotNull(originalLop);
 
@@ -183,25 +181,24 @@ public class LegacyProvider4LegacyOperationalTest {
     public void testPolicyUpdate() throws Exception {
         assertThatThrownBy(() -> {
             new LegacyProvider().updateOperationalPolicy(null, null);
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().updateOperationalPolicy(null, new LegacyOperationalPolicy());
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().updateOperationalPolicy(pfDao, null);
-        }).hasMessage("legacyOperationalPolicy is marked @NonNull but is null");
+        }).hasMessageMatching("^legacyOperationalPolicy is marked .*on.*ull but is null$");
 
         assertThatThrownBy(() -> {
             new LegacyProvider().updateOperationalPolicy(pfDao, new LegacyOperationalPolicy());
-        }).hasMessage("name is marked @NonNull but is null");
+        }).hasMessageMatching("^name is marked .*on.*ull but is null$");
 
         createPolicyTypes();
 
         LegacyOperationalPolicy originalLop =
-                standardCoder.decode(ResourceUtils.getResourceAsString(VCPE_INPUT_JSON),
-                        LegacyOperationalPolicy.class);
+                standardCoder.decode(ResourceUtils.getResourceAsString(VCPE_INPUT_JSON), LegacyOperationalPolicy.class);
 
         assertNotNull(originalLop);
 
@@ -226,33 +223,32 @@ public class LegacyProvider4LegacyOperationalTest {
     public void testPoliciesDelete() throws Exception {
         assertThatThrownBy(() -> {
             new LegacyProvider().deleteOperationalPolicy(null, null, null);
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().deleteOperationalPolicy(null, null, "");
 
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().deleteOperationalPolicy(null, "", null);
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().deleteOperationalPolicy(null, "", "");
-
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().deleteOperationalPolicy(pfDao, null, null);
-        }).hasMessage(POLICY_ID_IS_NULL);
+        }).hasMessageMatching(POLICY_ID_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().deleteOperationalPolicy(pfDao, null, "");
-        }).hasMessage(POLICY_ID_IS_NULL);
+        }).hasMessageMatching(POLICY_ID_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().deleteOperationalPolicy(pfDao, "", null);
-        }).hasMessage("policyVersion is marked @NonNull but is null");
+        }).hasMessageMatching("^policyVersion is marked .*on.*ull but is null$");
 
         assertThatThrownBy(() -> {
             new LegacyProvider().deleteOperationalPolicy(pfDao, "IDontExist", "0");
@@ -261,8 +257,7 @@ public class LegacyProvider4LegacyOperationalTest {
         createPolicyTypes();
 
         LegacyOperationalPolicy originalLop =
-                standardCoder.decode(ResourceUtils.getResourceAsString(VCPE_INPUT_JSON),
-                        LegacyOperationalPolicy.class);
+                standardCoder.decode(ResourceUtils.getResourceAsString(VCPE_INPUT_JSON), LegacyOperationalPolicy.class);
 
         assertNotNull(originalLop);
 
@@ -281,7 +276,7 @@ public class LegacyProvider4LegacyOperationalTest {
 
         assertThatThrownBy(() -> {
             new LegacyProvider().deleteOperationalPolicy(pfDao, originalLop.getPolicyId(), null);
-        }).hasMessage("policyVersion is marked @NonNull but is null");
+        }).hasMessageMatching("^policyVersion is marked .*on.*ull but is null$");
 
         LegacyOperationalPolicy deletedLop =
                 new LegacyProvider().deleteOperationalPolicy(pfDao, originalLop.getPolicyId(), "1");

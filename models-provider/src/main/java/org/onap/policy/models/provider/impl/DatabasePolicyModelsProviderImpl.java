@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,8 +26,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+
 import javax.ws.rs.core.Response;
+
 import lombok.NonNull;
+
 import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
@@ -65,7 +68,7 @@ import org.slf4j.LoggerFactory;
  */
 public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultPfDao.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DatabasePolicyModelsProviderImpl.class);
 
     private final PolicyModelsProviderParameters parameters;
 
@@ -116,7 +119,6 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
         } catch (Exception exc) {
             String errorMessage = "could not create Data Access Object (DAO) using url \"" + parameters.getDatabaseUrl()
                     + "\" and persistence unit \"" + parameters.getPersistenceUnit() + "\"";
-            LOGGER.warn(errorMessage, exc);
 
             this.close();
             throw new PfModelException(Response.Status.NOT_ACCEPTABLE, errorMessage, exc);
@@ -207,7 +209,6 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
         return new AuthorativeToscaProvider().getFilteredPolicyList(pfDao, filter);
     }
 
-
     @Override
     public ToscaServiceTemplate createPolicies(@NonNull final ToscaServiceTemplate serviceTemplate)
             throws PfModelException {
@@ -265,15 +266,15 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public Map<String, LegacyGuardPolicyOutput> createGuardPolicy(
-            @NonNull final LegacyGuardPolicyInput legacyGuardPolicy) throws PfModelException {
+    public Map<String, LegacyGuardPolicyOutput>
+            createGuardPolicy(@NonNull final LegacyGuardPolicyInput legacyGuardPolicy) throws PfModelException {
         assertInitialized();
         return new LegacyProvider().createGuardPolicy(pfDao, legacyGuardPolicy);
     }
 
     @Override
-    public Map<String, LegacyGuardPolicyOutput> updateGuardPolicy(
-            @NonNull final LegacyGuardPolicyInput legacyGuardPolicy) throws PfModelException {
+    public Map<String, LegacyGuardPolicyOutput>
+            updateGuardPolicy(@NonNull final LegacyGuardPolicyInput legacyGuardPolicy) throws PfModelException {
         assertInitialized();
         return new LegacyProvider().updateGuardPolicy(pfDao, legacyGuardPolicy);
     }
@@ -290,7 +291,6 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
         assertInitialized();
         return new PdpProvider().getPdpGroups(pfDao, name);
     }
-
 
     @Override
     public List<PdpGroup> getFilteredPdpGroups(@NonNull PdpGroupFilter filter) throws PfModelException {
@@ -356,7 +356,6 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
         assertInitialized();
         return new PdpStatisticsProvider().updatePdpStatistics(pfDao, pdpStatisticsList);
     }
-
 
     @Override
     public List<PdpStatistics> deletePdpStatistics(@NonNull final String name, final Date timestamp)
