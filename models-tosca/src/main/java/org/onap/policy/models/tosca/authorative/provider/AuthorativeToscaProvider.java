@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import lombok.NonNull;
+
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.dao.PfDao;
@@ -64,8 +65,9 @@ public class AuthorativeToscaProvider {
 
         LOGGER.debug("->getPolicyTypes: name={}, version={}", name, version);
 
-        ToscaServiceTemplate serviceTemplate =
-                new SimpleToscaProvider().getPolicyTypes(dao, name, version).toAuthorative();
+        JpaToscaServiceTemplate jpaServiceTemplate = new SimpleToscaProvider().getPolicyTypes(dao, name, version);
+
+        ToscaServiceTemplate serviceTemplate = jpaServiceTemplate.toAuthorative();
 
         LOGGER.debug("<-getPolicyTypes: name={}, version={}, serviceTemplate={}", name, version, serviceTemplate);
         return serviceTemplate;

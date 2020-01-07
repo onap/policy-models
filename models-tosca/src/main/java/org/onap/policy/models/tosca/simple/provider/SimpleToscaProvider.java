@@ -36,6 +36,8 @@ import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.dao.PfDao;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaDataType;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaDataTypes;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicies;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicy;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyType;
@@ -53,6 +55,116 @@ import org.slf4j.LoggerFactory;
  */
 public class SimpleToscaProvider {
     private static final Logger LOGGER = LoggerFactory.getLogger(SimpleToscaProvider.class);
+
+    /**
+     * Get data types.
+     *
+     * @param dao the DAO to use to access the database
+     * @param name the name of the data type to get, set to null to get all policy types
+     * @param version the version of the data type to get, set to null to get all versions
+     * @return the data types found
+     * @throws PfModelException on errors getting data types
+     */
+    public JpaToscaServiceTemplate getDataTypes(@NonNull final PfDao dao, final String name, final String version)
+            throws PfModelException {
+        LOGGER.debug("->getDataTypes: name={}, version={}", name, version);
+
+        // Create the structure of the TOSCA service template to contain the data type
+        JpaToscaServiceTemplate serviceTemplate = new JpaToscaServiceTemplate();
+        serviceTemplate.setDataTypes(new JpaToscaDataTypes());
+
+        // Add the data type to the TOSCA service template
+        List<JpaToscaDataType> jpaDataTypeList = dao.getFiltered(JpaToscaDataType.class, name, version);
+        serviceTemplate.getDataTypes().getConceptMap().putAll(asConceptMap(jpaDataTypeList));
+
+        LOGGER.debug("<-getDataTypes: name={}, version={}, serviceTemplate={}", name, version, serviceTemplate);
+        return serviceTemplate;
+    }
+
+    /**
+     * Create data types.
+     *
+     * @param dao the DAO to use to access the database
+     * @param serviceTemplate the service template containing the definition of the data types to be created
+     * @return the TOSCA service template containing the created data types
+     * @throws PfModelException on errors creating data types
+     */
+    public JpaToscaServiceTemplate createDataTypes(@NonNull final PfDao dao,
+            @NonNull final JpaToscaServiceTemplate serviceTemplate) throws PfModelException {
+        LOGGER.debug("->createDataTypes: serviceTempalate={}", serviceTemplate);
+
+        ToscaUtils.assertDataTypesExist(serviceTemplate);
+
+        for (JpaToscaDataType dataType : serviceTemplate.getDataTypes().getAll(null)) {
+            dao.create(dataType);
+        }
+
+        // Return the created Data types
+        JpaToscaDataTypes returnDataTypes = new JpaToscaDataTypes();
+
+        for (PfConceptKey dataTypeKey : serviceTemplate.getDataTypes().getConceptMap().keySet()) {
+            returnDataTypes.getConceptMap().put(dataTypeKey, dao.get(JpaToscaDataType.class, dataTypeKey));
+        }
+
+        JpaToscaServiceTemplate returnServiceTemplate = new JpaToscaServiceTemplate();
+        returnServiceTemplate.setDataTypes(returnDataTypes);
+
+        LOGGER.debug("<-createDataTypes: returnServiceTempalate={}", returnServiceTemplate);
+        return returnServiceTemplate;
+    }
+
+    /**
+     * Update Data types.
+     *
+     * @param dao the DAO to use to access the database
+     * @param serviceTemplate the service template containing the definition of the data types to be modified
+     * @return the TOSCA service template containing the modified data types
+     * @throws PfModelException on errors updating Data types
+     */
+    public JpaToscaServiceTemplate updateDataTypes(@NonNull final PfDao dao,
+            @NonNull final JpaToscaServiceTemplate serviceTemplate) throws PfModelException {
+        LOGGER.debug("->updateDataTypes: serviceTempalate={}", serviceTemplate);
+
+        ToscaUtils.assertDataTypesExist(serviceTemplate);
+
+        for (JpaToscaDataType dataType : serviceTemplate.getDataTypes().getAll(null)) {
+            dao.update(dataType);
+        }
+
+        // Return the created data types
+        JpaToscaDataTypes returnDataTypes = new JpaToscaDataTypes();
+
+        for (PfConceptKey dataTypeKey : serviceTemplate.getDataTypes().getConceptMap().keySet()) {
+            returnDataTypes.getConceptMap().put(dataTypeKey, dao.get(JpaToscaDataType.class, dataTypeKey));
+        }
+
+        JpaToscaServiceTemplate returnServiceTemplate = new JpaToscaServiceTemplate();
+        returnServiceTemplate.setDataTypes(returnDataTypes);
+
+        LOGGER.debug("<-updateDataTypes: returnServiceTempalate={}", returnServiceTemplate);
+        return returnServiceTemplate;
+    }
+
+    /**
+     * Delete Data types.
+     *
+     * @param dao the DAO to use to access the database
+     * @param dataTypeKey the data type key for the Data types to be deleted, if the version of the key is null, all
+     *        versions of the data type are deleted.
+     * @return the TOSCA service template containing the data types that were deleted
+     * @throws PfModelException on errors deleting data types
+     */
+    public JpaToscaServiceTemplate deleteDataType(@NonNull final PfDao dao, @NonNull final PfConceptKey dataTypeKey)
+            throws PfModelException {
+        LOGGER.debug("->deleteDataType: key={}", dataTypeKey);
+
+        JpaToscaServiceTemplate serviceTemplate = getDataTypes(dao, dataTypeKey.getName(), dataTypeKey.getVersion());
+
+        dao.delete(JpaToscaDataType.class, dataTypeKey);
+
+        LOGGER.debug("<-deleteDataType: key={}, serviceTempalate={}", dataTypeKey, serviceTemplate);
+        return serviceTemplate;
+    }
 
     /**
      * Get policy types.
@@ -75,7 +187,7 @@ public class SimpleToscaProvider {
         List<JpaToscaPolicyType> jpaPolicyTypeList = dao.getFiltered(JpaToscaPolicyType.class, name, version);
         serviceTemplate.getPolicyTypes().getConceptMap().putAll(asConceptMap(jpaPolicyTypeList));
 
-        LOGGER.debug("<-getPolicyTypes: name={}, version={}, serviceTemplate=", name, version, serviceTemplate);
+        LOGGER.debug("<-getPolicyTypes: name={}, version={}, serviceTemplate={}", name, version, serviceTemplate);
         return serviceTemplate;
     }
 
@@ -112,7 +224,7 @@ public class SimpleToscaProvider {
     }
 
     /**
-     * Create policy types.
+     * Update policy types.
      *
      * @param dao the DAO to use to access the database
      * @param serviceTemplate the service template containing the definition of the policy types to be modified
@@ -161,7 +273,7 @@ public class SimpleToscaProvider {
 
         dao.delete(JpaToscaPolicyType.class, policyTypeKey);
 
-        LOGGER.debug("<-deletePolicyType: key={}, serviceTempalate=", policyTypeKey, serviceTemplate);
+        LOGGER.debug("<-deletePolicyType: key={}, serviceTempalate={}", policyTypeKey, serviceTemplate);
         return serviceTemplate;
     }
 
@@ -187,7 +299,7 @@ public class SimpleToscaProvider {
         List<JpaToscaPolicy> jpaPolicyList = dao.getFiltered(JpaToscaPolicy.class, name, version);
         serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().putAll(asConceptMap(jpaPolicyList));
 
-        LOGGER.debug("<-getPolicies: name={}, version={}, serviceTemplate=", name, version, serviceTemplate);
+        LOGGER.debug("<-getPolicies: name={}, version={}, serviceTemplate={}", name, version, serviceTemplate);
         return serviceTemplate;
     }
 
@@ -273,7 +385,7 @@ public class SimpleToscaProvider {
 
         dao.delete(JpaToscaPolicy.class, policyKey);
 
-        LOGGER.debug("<-deletePolicy: key={}, serviceTempalate=", policyKey, serviceTemplate);
+        LOGGER.debug("<-deletePolicy: key={}, serviceTempalate={}", policyKey, serviceTemplate);
         return serviceTemplate;
     }
 

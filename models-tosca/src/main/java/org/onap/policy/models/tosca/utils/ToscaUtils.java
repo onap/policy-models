@@ -43,7 +43,28 @@ public final class ToscaUtils {
     }
 
     /**
-     * Check if policy types have been specified is initialized.
+     * Check if data types have been specified correctly.
+     *
+     * @param serviceTemplate the service template containing data types to be checked
+     */
+    public static void assertDataTypesExist(final JpaToscaServiceTemplate serviceTemplate) {
+        if (serviceTemplate.getDataTypes() == null) {
+            String errorMessage = "no data types specified on service template";
+            LOGGER.warn(errorMessage);
+            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
+        }
+
+        if (serviceTemplate.getDataTypes().getConceptMap().isEmpty()) {
+            String errorMessage = "list of data types specified on service template is empty";
+            LOGGER.warn(errorMessage);
+            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
+        }
+    }
+
+    /**
+     * Check if policy types have been specified correctly.
+     *
+     * @param serviceTemplate the service template containing policy types to be checked
      */
     public static void assertPolicyTypesExist(final JpaToscaServiceTemplate serviceTemplate) {
         if (serviceTemplate.getPolicyTypes() == null) {
@@ -60,7 +81,9 @@ public final class ToscaUtils {
     }
 
     /**
-     * Check if policy types have been specified is initialized.
+     * Check if policies have been specified correctly.
+     *
+     * @param serviceTemplate the service template containing policy types to be checked
      */
     public static void assertPoliciesExist(final JpaToscaServiceTemplate serviceTemplate) {
         if (serviceTemplate.getTopologyTemplate() == null) {

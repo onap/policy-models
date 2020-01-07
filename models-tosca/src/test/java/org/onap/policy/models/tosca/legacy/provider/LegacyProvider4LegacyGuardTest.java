@@ -53,14 +53,13 @@ import org.yaml.snakeyaml.Yaml;
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 public class LegacyProvider4LegacyGuardTest {
-    private static final String POLICY_ID_IS_NULL = "policyId is marked @NonNull but is null";
+    private static final String POLICY_ID_IS_NULL = "^policyId is marked .*on.*ull but is null$";
     private static final String VDNS_OUTPUT_JSON = "policies/vDNS.policy.guard.frequency.output.json";
     private static final String VDNS_INPUT_JSON = "policies/vDNS.policy.guard.frequency.input.json";
-    private static final String LEGACY_POLICY_IS_NULL = "legacyGuardPolicy is marked @NonNull but is null";
-    private static final String DAO_IS_NULL = "dao is marked @NonNull but is null";
+    private static final String LEGACY_POLICY_IS_NULL = "^legacyGuardPolicy is marked .*on.*ull but is null$";
+    private static final String DAO_IS_NULL = "^dao is marked .*on.*ull but is null$";
     private PfDao pfDao;
     private StandardCoder standardCoder;
-
 
     /**
      * Set up the DAO towards the database.
@@ -105,15 +104,15 @@ public class LegacyProvider4LegacyGuardTest {
     public void testPoliciesGet() throws Exception {
         assertThatThrownBy(() -> {
             new LegacyProvider().getGuardPolicy(null, null, null);
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().getGuardPolicy(null, null, "");
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().getGuardPolicy(pfDao, null, null);
-        }).hasMessage(POLICY_ID_IS_NULL);
+        }).hasMessageMatching(POLICY_ID_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().getGuardPolicy(pfDao, "I Dont Exist", null);
@@ -121,9 +120,8 @@ public class LegacyProvider4LegacyGuardTest {
 
         createPolicyTypes();
 
-        LegacyGuardPolicyInput originalGip = standardCoder.decode(
-                ResourceUtils.getResourceAsString(VDNS_INPUT_JSON),
-                LegacyGuardPolicyInput.class);
+        LegacyGuardPolicyInput originalGip =
+                standardCoder.decode(ResourceUtils.getResourceAsString(VDNS_INPUT_JSON), LegacyGuardPolicyInput.class);
 
         assertNotNull(originalGip);
 
@@ -140,8 +138,7 @@ public class LegacyProvider4LegacyGuardTest {
         assertEquals(originalGip.getContent(),
                 gotGopm.get(originalGip.getPolicyId()).getProperties().values().iterator().next());
 
-        String expectedJsonOutput =
-                ResourceUtils.getResourceAsString(VDNS_OUTPUT_JSON);
+        String expectedJsonOutput = ResourceUtils.getResourceAsString(VDNS_OUTPUT_JSON);
         String actualJsonOutput = standardCoder.encode(gotGopm);
 
         assertEquals(expectedJsonOutput.replaceAll("\\s+", ""), actualJsonOutput.replaceAll("\\s+", ""));
@@ -165,21 +162,20 @@ public class LegacyProvider4LegacyGuardTest {
     public void testPolicyCreate() throws Exception {
         assertThatThrownBy(() -> {
             new LegacyProvider().createGuardPolicy(null, null);
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().createGuardPolicy(null, new LegacyGuardPolicyInput());
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().createGuardPolicy(pfDao, null);
-        }).hasMessage(LEGACY_POLICY_IS_NULL);
+        }).hasMessageMatching(LEGACY_POLICY_IS_NULL);
 
         createPolicyTypes();
 
-        LegacyGuardPolicyInput originalGip = standardCoder.decode(
-                ResourceUtils.getResourceAsString(VDNS_INPUT_JSON),
-                LegacyGuardPolicyInput.class);
+        LegacyGuardPolicyInput originalGip =
+                standardCoder.decode(ResourceUtils.getResourceAsString(VDNS_INPUT_JSON), LegacyGuardPolicyInput.class);
 
         assertNotNull(originalGip);
 
@@ -196,8 +192,7 @@ public class LegacyProvider4LegacyGuardTest {
         assertEquals(originalGip.getContent(),
                 gotGopm.get(originalGip.getPolicyId()).getProperties().values().iterator().next());
 
-        String expectedJsonOutput =
-                ResourceUtils.getResourceAsString(VDNS_OUTPUT_JSON);
+        String expectedJsonOutput = ResourceUtils.getResourceAsString(VDNS_OUTPUT_JSON);
         String actualJsonOutput = standardCoder.encode(gotGopm);
 
         assertEquals(expectedJsonOutput.replaceAll("\\s+", ""), actualJsonOutput.replaceAll("\\s+", ""));
@@ -207,21 +202,20 @@ public class LegacyProvider4LegacyGuardTest {
     public void testPolicyCreateBad() throws Exception {
         assertThatThrownBy(() -> {
             new LegacyProvider().createGuardPolicy(null, null);
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().createGuardPolicy(null, new LegacyGuardPolicyInput());
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().createGuardPolicy(pfDao, null);
-        }).hasMessage(LEGACY_POLICY_IS_NULL);
+        }).hasMessageMatching(LEGACY_POLICY_IS_NULL);
 
         createPolicyTypes();
 
-        LegacyGuardPolicyInput originalGip = standardCoder.decode(
-                ResourceUtils.getResourceAsString(VDNS_INPUT_JSON),
-                LegacyGuardPolicyInput.class);
+        LegacyGuardPolicyInput originalGip =
+                standardCoder.decode(ResourceUtils.getResourceAsString(VDNS_INPUT_JSON), LegacyGuardPolicyInput.class);
 
         assertNotNull(originalGip);
 
@@ -236,15 +230,15 @@ public class LegacyProvider4LegacyGuardTest {
     public void testPolicyUpdate() throws Exception {
         assertThatThrownBy(() -> {
             new LegacyProvider().updateGuardPolicy(null, null);
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().updateGuardPolicy(null, new LegacyGuardPolicyInput());
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().updateGuardPolicy(pfDao, null);
-        }).hasMessage(LEGACY_POLICY_IS_NULL);
+        }).hasMessageMatching(LEGACY_POLICY_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().updateGuardPolicy(pfDao, new LegacyGuardPolicyInput());
@@ -252,9 +246,8 @@ public class LegacyProvider4LegacyGuardTest {
 
         createPolicyTypes();
 
-        LegacyGuardPolicyInput originalGip = standardCoder.decode(
-                ResourceUtils.getResourceAsString(VDNS_INPUT_JSON),
-                LegacyGuardPolicyInput.class);
+        LegacyGuardPolicyInput originalGip =
+                standardCoder.decode(ResourceUtils.getResourceAsString(VDNS_INPUT_JSON), LegacyGuardPolicyInput.class);
 
         assertNotNull(originalGip);
 
@@ -285,36 +278,35 @@ public class LegacyProvider4LegacyGuardTest {
                 gotUpdatedGopm.get(originalGip.getPolicyId()).getProperties().values().iterator().next().getRecipe());
     }
 
-
     @Test
     public void testPoliciesDelete() throws Exception {
         assertThatThrownBy(() -> {
             new LegacyProvider().deleteGuardPolicy(null, null, null);
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().deleteGuardPolicy(null, null, "");
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().deleteGuardPolicy(null, "", null);
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().deleteGuardPolicy(null, "", "");
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().deleteGuardPolicy(pfDao, null, null);
-        }).hasMessage(POLICY_ID_IS_NULL);
+        }).hasMessageMatching(POLICY_ID_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().deleteGuardPolicy(pfDao, null, "");
-        }).hasMessage(POLICY_ID_IS_NULL);
+        }).hasMessageMatching(POLICY_ID_IS_NULL);
 
         assertThatThrownBy(() -> {
             new LegacyProvider().deleteGuardPolicy(pfDao, "", null);
-        }).hasMessage("policyVersion is marked @NonNull but is null");
+        }).hasMessageMatching("^policyVersion is marked .*on.*ull but is null$");
 
         assertThatThrownBy(() -> {
             new LegacyProvider().deleteGuardPolicy(pfDao, "IDontExist", "0");
@@ -322,9 +314,8 @@ public class LegacyProvider4LegacyGuardTest {
 
         createPolicyTypes();
 
-        LegacyGuardPolicyInput originalGip = standardCoder.decode(
-                ResourceUtils.getResourceAsString(VDNS_INPUT_JSON),
-                LegacyGuardPolicyInput.class);
+        LegacyGuardPolicyInput originalGip =
+                standardCoder.decode(ResourceUtils.getResourceAsString(VDNS_INPUT_JSON), LegacyGuardPolicyInput.class);
 
         assertNotNull(originalGip);
 
@@ -340,15 +331,14 @@ public class LegacyProvider4LegacyGuardTest {
         assertEquals(originalGip.getContent(),
                 gotGopm.get(originalGip.getPolicyId()).getProperties().values().iterator().next());
 
-        String expectedJsonOutput =
-                ResourceUtils.getResourceAsString(VDNS_OUTPUT_JSON);
+        String expectedJsonOutput = ResourceUtils.getResourceAsString(VDNS_OUTPUT_JSON);
         String actualJsonOutput = standardCoder.encode(gotGopm);
 
         assertEquals(expectedJsonOutput.replaceAll("\\s+", ""), actualJsonOutput.replaceAll("\\s+", ""));
 
         assertThatThrownBy(() -> {
             new LegacyProvider().deleteGuardPolicy(pfDao, originalGip.getPolicyId(), null);
-        }).hasMessage("policyVersion is marked @NonNull but is null");
+        }).hasMessageMatching("^policyVersion is marked .*on.*ull but is null$");
 
         Map<String, LegacyGuardPolicyOutput> deletedGopm =
                 new LegacyProvider().deleteGuardPolicy(pfDao, originalGip.getPolicyId(), "1");

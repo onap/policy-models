@@ -28,10 +28,10 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+
 import org.junit.Test;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
-import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderFactory;
@@ -60,7 +60,7 @@ public class DummyPolicyModelsProviderTest {
         parameters.setPersistenceUnit("dummy");
 
         try (PolicyModelsProvider dummyProvider =
-                        new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters)) {
+                new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters)) {
 
             dummyProvider.init();
 
@@ -79,7 +79,7 @@ public class DummyPolicyModelsProviderTest {
         parameters.setPersistenceUnit("dummy");
 
         try (PolicyModelsProvider dummyProvider =
-                        new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters)) {
+                new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters)) {
             dummyProvider.init();
 
             assertNotNull(dummyProvider.getPolicyTypes("name", VERSION));
@@ -124,12 +124,12 @@ public class DummyPolicyModelsProviderTest {
     @Test
     public void testDummyResponse() {
         try (DummyPolicyModelsProviderSubImpl resp =
-                        new DummyPolicyModelsProviderSubImpl(new PolicyModelsProviderParameters())) {
+                new DummyPolicyModelsProviderSubImpl(new PolicyModelsProviderParameters())) {
             assertThatThrownBy(resp::getBadDummyResponse1).hasMessage("error serializing object");
         }
 
         try (DummyPolicyModelsProviderSubImpl resp =
-                        new DummyPolicyModelsProviderSubImpl(new PolicyModelsProviderParameters())) {
+                new DummyPolicyModelsProviderSubImpl(new PolicyModelsProviderParameters())) {
             assertThatThrownBy(resp::getBadDummyResponse2).hasMessage("error serializing object");
         }
     }

@@ -65,7 +65,7 @@ import org.slf4j.LoggerFactory;
  */
 public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultPfDao.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DatabasePolicyModelsProviderImpl.class);
 
     private final PolicyModelsProviderParameters parameters;
 
@@ -116,7 +116,6 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
         } catch (Exception exc) {
             String errorMessage = "could not create Data Access Object (DAO) using url \"" + parameters.getDatabaseUrl()
                     + "\" and persistence unit \"" + parameters.getPersistenceUnit() + "\"";
-            LOGGER.warn(errorMessage, exc);
 
             this.close();
             throw new PfModelException(Response.Status.NOT_ACCEPTABLE, errorMessage, exc);
@@ -206,7 +205,6 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
         assertInitialized();
         return new AuthorativeToscaProvider().getFilteredPolicyList(pfDao, filter);
     }
-
 
     @Override
     public ToscaServiceTemplate createPolicies(@NonNull final ToscaServiceTemplate serviceTemplate)

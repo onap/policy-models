@@ -60,7 +60,7 @@ public class AuthorativeToscaProviderPolicyTest {
     private static final String VCPE_JSON = "policies/vCPE.policy.monitoring.input.tosca.json";
     private static final String POLICY_AND_VERSION = "onap.restart.tca:1.0.0";
     private static final String POLICY1 = "onap.restart.tca";
-    private static final String DAO_IS_NULL = "dao is marked @NonNull but is null";
+    private static final String DAO_IS_NULL = "^dao is marked .*on.*ull but is null$";
     private static final String VERSION_100 = "1.0.0";
     private PfDao pfDao;
     private StandardCoder standardCoder;
@@ -108,17 +108,16 @@ public class AuthorativeToscaProviderPolicyTest {
     public void testPoliciesGet() throws Exception {
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().getPolicies(null, null, null);
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().getPolicyList(null, null, null);
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         createPolicyTypes();
 
-        ToscaServiceTemplate toscaServiceTemplate = standardCoder.decode(
-                ResourceUtils.getResourceAsString(VCPE_JSON),
-                ToscaServiceTemplate.class);
+        ToscaServiceTemplate toscaServiceTemplate =
+                standardCoder.decode(ResourceUtils.getResourceAsString(VCPE_JSON), ToscaServiceTemplate.class);
 
         assertNotNull(toscaServiceTemplate);
         ToscaServiceTemplate createdServiceTemplate =
@@ -141,8 +140,7 @@ public class AuthorativeToscaProviderPolicyTest {
         assertEquals(0, beforePolicy.compareNameVersion(beforePolicy, gotPolicy));
         assertTrue(beforePolicy.getType().equals(gotPolicy.getType()));
 
-        List<ToscaPolicy> gotPolicyList =
-                new AuthorativeToscaProvider().getPolicyList(pfDao, POLICY1, VERSION_100);
+        List<ToscaPolicy> gotPolicyList = new AuthorativeToscaProvider().getPolicyList(pfDao, POLICY1, VERSION_100);
         assertEquals(1, gotPolicyList.size());
         assertEquals(0, beforePolicy.compareNameVersion(beforePolicy, gotPolicyList.get(0)));
 
@@ -166,33 +164,32 @@ public class AuthorativeToscaProviderPolicyTest {
     public void testPoliciesGetFiltered() throws Exception {
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().getFilteredPolicies(null, null);
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().getFilteredPolicies(null, ToscaPolicyFilter.builder().build());
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().getFilteredPolicies(pfDao, null);
-        }).hasMessage("filter is marked @NonNull but is null");
+        }).hasMessageMatching("^filter is marked .*on.*ull but is null$");
 
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().getFilteredPolicyList(null, null);
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().getFilteredPolicyList(null, ToscaPolicyFilter.builder().build());
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().getFilteredPolicyList(pfDao, null);
-        }).hasMessage("filter is marked @NonNull but is null");
+        }).hasMessageMatching("^filter is marked .*on.*ull but is null$");
 
         createPolicyTypes();
 
-        ToscaServiceTemplate toscaServiceTemplate = standardCoder.decode(
-                ResourceUtils.getResourceAsString(VCPE_JSON),
-                ToscaServiceTemplate.class);
+        ToscaServiceTemplate toscaServiceTemplate =
+                standardCoder.decode(ResourceUtils.getResourceAsString(VCPE_JSON), ToscaServiceTemplate.class);
 
         assertNotNull(toscaServiceTemplate);
         ToscaServiceTemplate createdServiceTemplate =
@@ -229,8 +226,7 @@ public class AuthorativeToscaProviderPolicyTest {
         assertEquals(0, beforePolicy.compareNameVersion(beforePolicy, gotPolicy));
         assertTrue(beforePolicy.getType().equals(gotPolicy.getType()));
 
-        List<ToscaPolicy> gotPolicyList =
-                new AuthorativeToscaProvider().getPolicyList(pfDao, POLICY1, VERSION_100);
+        List<ToscaPolicy> gotPolicyList = new AuthorativeToscaProvider().getPolicyList(pfDao, POLICY1, VERSION_100);
         assertEquals(1, gotPolicyList.size());
         assertEquals(0, beforePolicy.compareNameVersion(beforePolicy, gotPolicyList.get(0)));
 
@@ -254,21 +250,20 @@ public class AuthorativeToscaProviderPolicyTest {
     public void testPolicyCreate() throws Exception {
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().createPolicies(null, null);
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().createPolicies(null, new ToscaServiceTemplate());
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().createPolicies(pfDao, null);
-        }).hasMessage("serviceTemplate is marked @NonNull but is null");
+        }).hasMessageMatching("^serviceTemplate is marked .*on.*ull but is null$");
 
         createPolicyTypes();
 
-        ToscaServiceTemplate toscaServiceTemplate = standardCoder.decode(
-                ResourceUtils.getResourceAsString(VCPE_JSON),
-                ToscaServiceTemplate.class);
+        ToscaServiceTemplate toscaServiceTemplate =
+                standardCoder.decode(ResourceUtils.getResourceAsString(VCPE_JSON), ToscaServiceTemplate.class);
 
         assertNotNull(toscaServiceTemplate);
         ToscaServiceTemplate createdServiceTemplate =
@@ -288,25 +283,24 @@ public class AuthorativeToscaProviderPolicyTest {
     public void testPolicyUpdate() throws Exception {
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().createPolicies(null, null);
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().updatePolicies(null, null);
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().updatePolicies(null, new ToscaServiceTemplate());
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().updatePolicies(pfDao, null);
-        }).hasMessage("serviceTemplate is marked @NonNull but is null");
+        }).hasMessageMatching("^serviceTemplate is marked .*on.*ull but is null$");
 
         createPolicyTypes();
 
-        ToscaServiceTemplate toscaServiceTemplate = standardCoder.decode(
-                ResourceUtils.getResourceAsString(VCPE_JSON),
-                ToscaServiceTemplate.class);
+        ToscaServiceTemplate toscaServiceTemplate =
+                standardCoder.decode(ResourceUtils.getResourceAsString(VCPE_JSON), ToscaServiceTemplate.class);
 
         assertNotNull(toscaServiceTemplate);
         ToscaServiceTemplate createdServiceTemplate =
@@ -334,37 +328,36 @@ public class AuthorativeToscaProviderPolicyTest {
     public void testPoliciesDelete() throws Exception {
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().deletePolicy(null, null, null);
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().deletePolicy(null, null, VERSION);
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().deletePolicy(null, "name", null);
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().deletePolicy(null, "name", VERSION);
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().deletePolicy(pfDao, null, null);
-        }).hasMessage("name is marked @NonNull but is null");
+        }).hasMessageMatching("^name is marked .*on.*ull but is null$");
 
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().deletePolicy(pfDao, null, VERSION);
-        }).hasMessage("name is marked @NonNull but is null");
+        }).hasMessageMatching("^name is marked .*on.*ull but is null$");
 
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().deletePolicy(pfDao, "name", null);
-        }).hasMessage("version is marked @NonNull but is null");
+        }).hasMessageMatching("^version is marked .*on.*ull but is null$");
 
         createPolicyTypes();
 
-        ToscaServiceTemplate toscaServiceTemplate = standardCoder.decode(
-                ResourceUtils.getResourceAsString(VCPE_JSON),
-                ToscaServiceTemplate.class);
+        ToscaServiceTemplate toscaServiceTemplate =
+                standardCoder.decode(ResourceUtils.getResourceAsString(VCPE_JSON), ToscaServiceTemplate.class);
 
         assertNotNull(toscaServiceTemplate);
         ToscaServiceTemplate createdServiceTemplate =
@@ -399,7 +392,7 @@ public class AuthorativeToscaProviderPolicyTest {
 
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().deletePolicy(pfDao, "name", null);
-        }).hasMessage("version is marked @NonNull but is null");
+        }).hasMessageMatching("^version is marked .*on.*ull but is null$");
 
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().createPolicies(pfDao, testServiceTemplate);
