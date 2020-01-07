@@ -29,6 +29,7 @@ import javax.ws.rs.core.Response;
 
 import lombok.NonNull;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptFilter;
 import org.onap.policy.models.base.PfConceptKey;
@@ -187,6 +188,14 @@ public class SimpleToscaProvider {
         List<JpaToscaPolicyType> jpaPolicyTypeList = dao.getFiltered(JpaToscaPolicyType.class, name, version);
         serviceTemplate.getPolicyTypes().getConceptMap().putAll(asConceptMap(jpaPolicyTypeList));
 
+        // Return all data types
+        // TODO: In the next review, return just the data types used by the policy types on the policy type list
+        List<JpaToscaDataType> jpaDataTypeList = dao.getFiltered(JpaToscaDataType.class, null, null);
+        if (!CollectionUtils.isEmpty(jpaDataTypeList)) {
+            serviceTemplate.setDataTypes(new JpaToscaDataTypes());
+            serviceTemplate.getDataTypes().getConceptMap().putAll(asConceptMap(jpaDataTypeList));
+        }
+
         LOGGER.debug("<-getPolicyTypes: name={}, version={}, serviceTemplate={}", name, version, serviceTemplate);
         return serviceTemplate;
     }
@@ -204,6 +213,11 @@ public class SimpleToscaProvider {
         LOGGER.debug("->createPolicyTypes: serviceTempalate={}", serviceTemplate);
 
         ToscaUtils.assertPolicyTypesExist(serviceTemplate);
+
+        // Create the data types on the policy type
+        if (ToscaUtils.doDataTypesExist(serviceTemplate)) {
+            createDataTypes(dao, serviceTemplate);
+        }
 
         for (JpaToscaPolicyType policyType : serviceTemplate.getPolicyTypes().getAll(null)) {
             dao.create(policyType);
@@ -236,6 +250,11 @@ public class SimpleToscaProvider {
         LOGGER.debug("->updatePolicyTypes: serviceTempalate={}", serviceTemplate);
 
         ToscaUtils.assertPolicyTypesExist(serviceTemplate);
+
+        // Update the data types on the policy type
+        if (ToscaUtils.doDataTypesExist(serviceTemplate)) {
+            updateDataTypes(dao, serviceTemplate);
+        }
 
         for (JpaToscaPolicyType policyType : serviceTemplate.getPolicyTypes().getAll(null)) {
             dao.update(policyType);
@@ -444,7 +463,7 @@ public class SimpleToscaProvider {
         // Policy type version is not specified, get the latest version from the database
         List<JpaToscaPolicyType> jpaPolicyTypeList = dao.getFiltered(JpaToscaPolicyType.class, policyTypeName, null);
 
-        if (jpaPolicyTypeList.isEmpty()) {
+        if (CollectionUtils.isEmpty(jpaPolicyTypeList)) {
             return null;
         }
 
