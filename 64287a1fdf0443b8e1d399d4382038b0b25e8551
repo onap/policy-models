@@ -177,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "dcad8d8b_545347f4",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/utils/ToscaUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-01-08T09:44:26Z",
+      "side": 1,
+      "message": "Actually we should think on how we validate TOSCA in general. This ties back to my other Jira that I was working on before the break POLICY-1822",
+      "parentUuid": "50d724ea_9238e987",
+      "revId": "64287a1fdf0443b8e1d399d4382038b0b25e8551",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "caf2bf14_3077b0d2",
         "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/provider/SimpleToscaProviderTest.java",
         "patchSetId": 1
