@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fe096cdf_e8fb6086",
+        "filename": "models-provider/src/test/resources/META-INF/persistence.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-01-08T09:28:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6291b41_949d8afc",
+      "revId": "64287a1fdf0443b8e1d399d4382038b0b25e8551",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ebe605b_36dc9326",
         "filename": "models-tosca/pom.xml",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2020-01-07T21:30:58Z",
       "side": 1,
       "message": "there\u0027s a 4.4, fyi (not a comment)",
+      "revId": "64287a1fdf0443b8e1d399d4382038b0b25e8551",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "879239f8_80b20acd",
+        "filename": "models-tosca/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-01-08T09:28:13Z",
+      "side": 1,
+      "message": "Other components were using 4.1, but let\u0027s use 4.4. Maybe we should put it in as a managed dependency in policy parent?",
+      "parentUuid": "7ebe605b_36dc9326",
       "revId": "64287a1fdf0443b8e1d399d4382038b0b25e8551",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "9fab3c1d_2392e9cb",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/provider/SimpleToscaProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-01-08T09:28:13Z",
+      "side": 1,
+      "message": "I used CollectionUtils .isEmpty() because it returns false on null and on the list being empty which is nice.",
+      "parentUuid": "84caa1da_69ef971e",
+      "revId": "64287a1fdf0443b8e1d399d4382038b0b25e8551",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f1d0434_0284d5ca",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/provider/SimpleToscaProvider.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2020-01-07T21:15:47Z",
       "side": 1,
       "message": "Missing \"!\" ?",
+      "revId": "64287a1fdf0443b8e1d399d4382038b0b25e8551",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ee0a4be_b75cbfd1",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/provider/SimpleToscaProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-01-08T09:28:13Z",
+      "side": 1,
+      "message": "Here we are checking the incoming service template to see if there are any data types in it and, if so, then we create them on the database. SO I think the code is correct.",
+      "parentUuid": "4f1d0434_0284d5ca",
       "revId": "64287a1fdf0443b8e1d399d4382038b0b25e8551",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "50d724ea_9238e987",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/utils/ToscaUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-01-08T09:28:13Z",
+      "side": 1,
+      "message": "Yes, I thought that too but when I examined it a bit closer, I thought any possible refactoring would be more complex than this repetitive-looking class. The check and policy types and data types are the same but the check on policies is different. Let me think about it again for the final review in this series.",
+      "parentUuid": "bd68ebca_8551a3b9",
+      "revId": "64287a1fdf0443b8e1d399d4382038b0b25e8551",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "caf2bf14_3077b0d2",
         "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/provider/SimpleToscaProviderTest.java",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2020-01-07T21:15:47Z",
       "side": 1,
       "message": "test for duplicate entry?",
+      "revId": "64287a1fdf0443b8e1d399d4382038b0b25e8551",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2749f747_69b2db29",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/provider/SimpleToscaProviderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-01-08T09:28:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caf2bf14_3077b0d2",
       "revId": "64287a1fdf0443b8e1d399d4382038b0b25e8551",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
