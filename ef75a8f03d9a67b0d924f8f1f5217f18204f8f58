@@ -16,6 +16,24 @@
       "revId": "ef75a8f03d9a67b0d924f8f1f5217f18204f8f58",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e673d458_22157581",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpStatisticsProvider.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 5259
+      },
+      "writtenOn": "2020-01-08T05:24:27Z",
+      "side": 1,
+      "message": "0 means no limitation on response count. getFiltered method may return more than 1 statistics record",
+      "parentUuid": "9ab6e084_3806e4a7",
+      "revId": "ef75a8f03d9a67b0d924f8f1f5217f18204f8f58",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
