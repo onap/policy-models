@@ -213,6 +213,24 @@
     },
     {
       "key": {
+        "uuid": "3f4f167c_3d9deedb",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/utils/ToscaUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-01-08T15:58:52Z",
+      "side": 1,
+      "message": "OK, will do in next review.",
+      "parentUuid": "9d4a3667_343f97ab",
+      "revId": "64287a1fdf0443b8e1d399d4382038b0b25e8551",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "caf2bf14_3077b0d2",
         "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/provider/SimpleToscaProviderTest.java",
         "patchSetId": 1
