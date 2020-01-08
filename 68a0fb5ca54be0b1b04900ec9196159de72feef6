@@ -16,6 +16,24 @@
       "revId": "68a0fb5ca54be0b1b04900ec9196159de72feef6",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "49348052_2ee72baa",
+        "filename": "pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2020-01-08T14:45:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8986bdb9_fe3a4cdf",
+      "revId": "68a0fb5ca54be0b1b04900ec9196159de72feef6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
