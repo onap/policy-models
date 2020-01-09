@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -84,11 +84,11 @@ public class MonitoringPolicySerializationTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(MonitoringPolicySerializationTest.class);
 
     private static final String VCPE_MON_INPUT_JSON = "policies/vCPE.policy.monitoring.input.tosca.json";
-    private static final String VCPE_MON_INPUT_YAML = "policies/vCPE.policy.monitoring.input.tosca.yaml";
+    private static final String VCPE_MON_INPUT_YAML = "policies/vCPE.policy.monitoring.input.tosca.v1.yaml";
     private static final String VDNS_MON_INPUT_JSON = "policies/vDNS.policy.monitoring.input.tosca.json";
-    private static final String VDNS_MON_INPUT_YAML = "policies/vDNS.policy.monitoring.input.tosca.yaml";
+    private static final String VDNS_MON_INPUT_YAML = "policies/vDNS.policy.monitoring.input.tosca.v1.yaml";
     private static final String VFW_MON_INPUT_JSON = "policies/vFirewall.policy.monitoring.input.tosca.json";
-    private static final String VFW_MON_INPUT_YAML = "policies/vFirewall.policy.monitoring.input.tosca.yaml";
+    private static final String VFW_MON_INPUT_YAML = "policies/vFirewall.policy.monitoring.input.tosca.v1.yaml";
 
     private StandardCoder standardCoder;
 

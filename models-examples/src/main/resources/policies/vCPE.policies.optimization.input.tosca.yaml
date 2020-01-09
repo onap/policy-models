@@ -4,7 +4,7 @@ topology_template:
     -
         OSDF_CASABLANCA.Affinity_Default:
             type: onap.policies.optimization.resource.AffinityPolicy
-            version: 1.0.0
+            version: 2.0.0
             type_version: 1.0.0
             metadata:
                 policy-id: OSDF_CASABLANCA.Affinity_Default
@@ -22,7 +22,7 @@ topology_template:
     -
         OSDF_CASABLANCA.Affinity_Default_US:
             type: onap.policies.optimization.resource.AffinityPolicy
-            version: 1.0.0
+            version: 2.0.0
             type_version: 1.0.0
             metadata:
                 policy-id: OSDF_CASABLANCA.Affinity_Default_US
@@ -40,7 +40,7 @@ topology_template:
     -
         OSDF_CASABLANCA.Affinity_Default_vCPE_US_0:
             type: onap.policies.optimization.resource.AffinityPolicy
-            version: 1.0.0
+            version: 2.0.0
             type_version: 1.0.0
             metadata:
                 policy-id: OSDF_CASABLANCA.Affinity_Default_vCPE_US_0
@@ -58,7 +58,7 @@ topology_template:
     -
         OSDF_CASABLANCA.Affinity_vCPE_US_Gold_1:
             type: onap.policies.optimization.resource.AffinityPolicy
-            version: 1.0.0
+            version: 2.0.0
             type_version: 1.0.0
             metadata:
                 policy-id: OSDF_CASABLANCA.Affinity_vCPE_1
@@ -76,7 +76,7 @@ topology_template:
     -
         OSDF_CASABLANCA.Affinity_vCPE_US_Platinum_1:
             type: onap.policies.optimization.resource.AffinityPolicy
-            version: 1.0.0
+            version: 2.0.0
             type_version: 1.0.0
             metadata:
                 policy-id: OSDF_CASABLANCA.Affinity_vCPE_1
@@ -94,7 +94,7 @@ topology_template:
     -
         OSDF_CASABLANCA.Capacity_vG_1:
             type: onap.policies.optimization.resource.Vim_fit
-            version: 1.0.0
+            version: 2.0.0
             type_version: 1.0.0
             metadata:
                 policy-id: OSDF_CASABLANCA.Capacity_vG_1
@@ -112,7 +112,7 @@ topology_template:
     -
         OSDF_CASABLANCA.Capacity_vG_2:
             type: onap.policies.optimization.resource.Vim_fit
-            version: 1.0.0
+            version: 2.0.0
             type_version: 1.0.0
             metadata:
                 policy-id: OSDF_CASABLANCA.Capacity_vG_2
@@ -130,7 +130,7 @@ topology_template:
     -
         OSDF_CASABLANCA.Distance_vG_1:
             type: onap.policies.optimization.resource.DistancePolicy
-            version: 1.0.0
+            version: 2.0.0
             type_version: 1.0.0
             metadata:
                 policy-id: OSDF_CASABLANCA.Distance_vG_1
@@ -151,7 +151,7 @@ topology_template:
     -
         OSDF_CASABLANCA.hpa_policy_Default:
             type: onap.policies.optimization.resource.HpaPolicy
-            version: 1.0.0
+            version: 2.0.0
             type_version: 1.0.0
             metadata:
                 policy-id: OSDF_CASABLANCA.hpa_policy_Default
@@ -199,7 +199,7 @@ topology_template:
     -
         OSDF_CASABLANCA.hpa_policy_vG_1:
             type: onap.policies.optimization.resource.HpaPolicy
-            version: 1.0.0
+            version: 2.0.0
             type_version: 1.0.0
             metadata:
                 policy-id: OSDF_CASABLANCA.hpa_policy_vG_1
@@ -247,7 +247,7 @@ topology_template:
     -
         OSDF_CASABLANCA.queryPolicy_vCPE:
             type: onap.policies.optimization.service.QueryPolicy
-            version: 1.0.0
+            version: 2.0.0
             type_version: 1.0.0
             metadata:
                 policy-id: OSDF_CASABLANCA.queryPolicy_vCPE
@@ -255,7 +255,6 @@ topology_template:
             properties:
                 scope: []
                 services: [vCPE]
-#                resources: [vGMuxInfra, vG]
                 geography: [US, INTERNATIONAL]
                 identity: vCPE_Query_Policy
                 queryProperties:
@@ -282,7 +281,7 @@ topology_template:
     -
         OSDF_CASABLANCA.SubscriberPolicy_v1:
             type: onap.policies.optimization.service.SubscriberPolicy
-            version: 1.0.0
+            version: 2.0.0
             type_version: 1.0.0
             metadata:
                 policy-id: OSDF_CASABLANCA.SubscriberPolicy_v1
@@ -298,7 +297,7 @@ topology_template:
     -
         OSDF_CASABLANCA.SubscriberPolicy_v2:
             type: onap.policies.optimization.service.SubscriberPolicy
-            version: 1.0.0
+            version: 2.0.0
             type_version: 1.0.0
             metadata:
                 policy-id: OSDF_CASABLANCA.SubscriberPolicy_v2
@@ -314,7 +313,7 @@ topology_template:
     -
         OSDF_CASABLANCA.vnfPolicy_vG:
             type: onap.policies.optimization.resource.VnfPolicy
-            version: 1.0.0
+            version: 2.0.0
             type_version: 1.0.0
             metadata:
                 policy-id: OSDF_CASABLANCA.vnfPolicy_vG
