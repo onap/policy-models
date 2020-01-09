@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,7 +53,6 @@ import org.slf4j.LoggerFactory;
 public class LegacyProvider {
     private static final Logger LOGGER = LoggerFactory.getLogger(LegacyProvider.class);
 
-    private static final String FIRST_POLICY_VERSION = "1";
     private static final String LEGACY_MINOR_PATCH_SUFFIX = ".0.0";
 
     // Recurring constants
@@ -92,16 +92,6 @@ public class LegacyProvider {
             @NonNull final LegacyOperationalPolicy legacyOperationalPolicy) throws PfModelException {
 
         LOGGER.debug("->createOperationalPolicy: legacyOperationalPolicy={}", legacyOperationalPolicy);
-
-        // We need to find the latest policy and update the major version, if there is no policy with this ID, then
-        // we set it to the first version
-        JpaToscaPolicy newestPolicy = getLatestPolicy(dao, legacyOperationalPolicy.getPolicyId());
-
-        if (newestPolicy == null) {
-            legacyOperationalPolicy.setPolicyVersion(FIRST_POLICY_VERSION);
-        } else {
-            legacyOperationalPolicy.setPolicyVersion(Integer.toString(newestPolicy.getKey().getMajorVersion() + 1));
-        }
 
         JpaToscaServiceTemplate incomingServiceTemplate =
                 new LegacyOperationalPolicyMapper().toToscaServiceTemplate(legacyOperationalPolicy);
