@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87e7df32_2d4844be",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/utils/ToscaUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-01-09T14:04:56Z",
+      "side": 1,
+      "message": "cool - I had noticed the duplication in assertXxx, but overlooked it in doXxxExist.",
+      "revId": "1902963bbc9d35fc16562b815b8a3f1950b048c9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a1b9028_e0afa21e",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/utils/ToscaUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-01-09T14:04:56Z",
+      "side": 1,
+      "message": "could just use Function\u003cT,String\u003e",
+      "revId": "1902963bbc9d35fc16562b815b8a3f1950b048c9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
