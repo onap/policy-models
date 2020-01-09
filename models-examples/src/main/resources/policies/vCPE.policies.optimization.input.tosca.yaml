@@ -255,7 +255,6 @@ topology_template:
             properties:
                 scope: []
                 services: [vCPE]
-#                resources: [vGMuxInfra, vG]
                 geography: [US, INTERNATIONAL]
                 identity: vCPE_Query_Policy
                 queryProperties:
