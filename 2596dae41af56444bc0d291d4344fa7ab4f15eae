@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "75e5f54b_5a595ca2",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/authorative/concepts/ToscaPolicyFilterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-01-10T13:44:06Z",
+      "side": 1,
+      "message": "If there are no code changes, then no need for this change.",
+      "revId": "2596dae41af56444bc0d291d4344fa7ab4f15eae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35d786d7_cd2be77d",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/serialization/MonitoringPolicySerializationTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-01-10T13:44:06Z",
+      "side": 1,
+      "message": "same",
+      "revId": "2596dae41af56444bc0d291d4344fa7ab4f15eae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
