@@ -1,4 +1,4 @@
-/*
+/*-
  * ============LICENSE_START=======================================================
  * ONAP Policy Models
  * ================================================================================
@@ -26,11 +26,11 @@ import static org.onap.policy.models.pdp.concepts.PdpMessageUtils.removeVariable
 
 import java.util.Arrays;
 import java.util.Collections;
+
 import org.junit.Test;
 import org.onap.policy.models.pdp.enums.PdpHealthStatus;
 import org.onap.policy.models.pdp.enums.PdpState;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifier;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifier;
 
 public class PdpStatusTest {
 
@@ -38,10 +38,9 @@ public class PdpStatusTest {
     public void testCopyConstructor() {
         assertThatThrownBy(() -> new PdpStatus(null)).isInstanceOf(NullPointerException.class);
 
-        PdpStatus orig = new PdpStatus();
+        final PdpStatus orig = new PdpStatus();
 
         // verify with null values
-        orig.setSupportedPolicyTypes(Collections.emptyList());
         orig.setPolicies(Collections.emptyList());
         assertEquals(removeVariableFields(orig.toString()), removeVariableFields(new PdpStatus(orig).toString()));
 
@@ -56,17 +55,16 @@ public class PdpStatusTest {
         orig.setPolicies(Arrays.asList(new ToscaPolicyIdentifier("policy-A", "1.0.0")));
         orig.setProperties("my-properties");
 
-        PdpResponseDetails resp = new PdpResponseDetails();
+        final PdpResponseDetails resp = new PdpResponseDetails();
         resp.setResponseMessage("my-response");
 
         orig.setResponse(resp);
         orig.setState(PdpState.SAFE);
 
-        PdpStatistics stats = new PdpStatistics();
+        final PdpStatistics stats = new PdpStatistics();
         stats.setPdpInstanceId("my-pdp-id");
 
         orig.setStatistics(stats);
-        orig.setSupportedPolicyTypes(Arrays.asList(new ToscaPolicyTypeIdentifier("type-A", "2.0.0")));
 
         assertEquals(removeVariableFields(orig.toString()), removeVariableFields(new PdpStatus(orig).toString()));
     }

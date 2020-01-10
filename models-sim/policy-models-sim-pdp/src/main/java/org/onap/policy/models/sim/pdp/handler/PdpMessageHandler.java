@@ -23,6 +23,7 @@ package org.onap.policy.models.sim.pdp.handler;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.onap.policy.common.utils.services.Registry;
 import org.onap.policy.models.pdp.concepts.PdpResponseDetails;
 import org.onap.policy.models.pdp.concepts.PdpStatus;
@@ -59,7 +60,6 @@ public class PdpMessageHandler {
         pdpStatus.setHealthy(PdpHealthStatus.HEALTHY);
         pdpStatus.setDescription(pdpStatusParameters.getDescription());
         pdpStatus.setName(instanceId);
-        pdpStatus.setSupportedPolicyTypes(getSupportedPolicyTypesFromParameters(pdpStatusParameters));
         return pdpStatus;
     }
 
@@ -94,7 +94,6 @@ public class PdpMessageHandler {
         pdpStatus.setState(pdpStatusContext.getState());
         pdpStatus.setHealthy(pdpStatusContext.getHealthy());
         pdpStatus.setDescription(pdpStatusContext.getDescription());
-        pdpStatus.setSupportedPolicyTypes(pdpStatusContext.getSupportedPolicyTypes());
         pdpStatus.setPolicies(pdpStatusContext.getPolicies());
         pdpStatus.setPdpGroup(pdpStatusContext.getPdpGroup());
         pdpStatus.setPdpSubgroup(pdpStatusContext.getPdpSubgroup());

@@ -23,15 +23,16 @@ package org.onap.policy.models.pdp.concepts;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
 import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.pdp.enums.PdpHealthStatus;
 import org.onap.policy.models.pdp.enums.PdpMessageType;
 import org.onap.policy.models.pdp.enums.PdpState;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifier;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifier;
 
 /**
  * Class to represent the PDP_STATUS message that all the PDP's will send to PAP.
@@ -48,11 +49,10 @@ public class PdpStatus extends PdpMessage {
     private PdpHealthStatus healthy;
 
     /**
-     * Description of the PDP or the PDP type.  May be left {@code null}.
+     * Description of the PDP or the PDP type. May be left {@code null}.
      */
     private String description;
 
-    private List<ToscaPolicyTypeIdentifier> supportedPolicyTypes;
     private List<ToscaPolicyIdentifier> policies;
     private String deploymentInstanceInfo;
     private String properties;
@@ -72,15 +72,13 @@ public class PdpStatus extends PdpMessage {
      *
      * @param source source from which to copy
      */
-    public PdpStatus(PdpStatus source) {
+    public PdpStatus(final PdpStatus source) {
         super(source);
 
         this.pdpType = source.pdpType;
         this.state = source.state;
         this.healthy = source.healthy;
         this.description = source.description;
-        this.supportedPolicyTypes = PfUtils.mapList(source.supportedPolicyTypes, ToscaPolicyTypeIdentifier::new,
-                        new ArrayList<>(0));
         this.policies = PfUtils.mapList(source.policies, ToscaPolicyIdentifier::new, new ArrayList<>(0));
         this.deploymentInstanceInfo = source.deploymentInstanceInfo;
         this.properties = source.properties;
