@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,6 @@ package org.onap.policy.models.sim.pdp.handler;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.onap.policy.common.utils.services.Registry;
 import org.onap.policy.models.pdp.concepts.PdpResponseDetails;
 import org.onap.policy.models.pdp.concepts.PdpStatus;
@@ -32,10 +31,8 @@ import org.onap.policy.models.pdp.enums.PdpResponseStatus;
 import org.onap.policy.models.pdp.enums.PdpState;
 import org.onap.policy.models.sim.pdp.PdpSimulatorConstants;
 import org.onap.policy.models.sim.pdp.parameters.PdpStatusParameters;
-import org.onap.policy.models.sim.pdp.parameters.ToscaPolicyTypeIdentifierParameters;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifier;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifier;
 
 /**
  * This class supports the handling of pdp messages.
@@ -61,24 +58,6 @@ public class PdpMessageHandler {
         pdpStatus.setDescription(pdpStatusParameters.getDescription());
         pdpStatus.setName(instanceId);
         return pdpStatus;
-    }
-
-    /**
-     * Method to get supported policy types from the parameters.
-     *
-     * @param pdpStatusParameters pdp status parameters
-     * @return supportedPolicyTypes list of PolicyTypeIdent
-     */
-    private List<ToscaPolicyTypeIdentifier> getSupportedPolicyTypesFromParameters(
-            final PdpStatusParameters pdpStatusParameters) {
-        final List<ToscaPolicyTypeIdentifier> supportedPolicyTypes =
-                new ArrayList<>(pdpStatusParameters.getSupportedPolicyTypes().size());
-        for (final ToscaPolicyTypeIdentifierParameters policyTypeIdentParameters : pdpStatusParameters
-                .getSupportedPolicyTypes()) {
-            supportedPolicyTypes.add(new ToscaPolicyTypeIdentifier(policyTypeIdentParameters.getName(),
-                    policyTypeIdentParameters.getVersion()));
-        }
-        return supportedPolicyTypes;
     }
 
     /**

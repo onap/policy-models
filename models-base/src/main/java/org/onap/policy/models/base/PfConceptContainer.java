@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -320,7 +320,7 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
         try {
             String conceptClassName =
                     ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0].getTypeName();
-            return (C) Class.forName(conceptClassName).newInstance();
+            return (C) Class.forName(conceptClassName).getDeclaredConstructor().newInstance();
         } catch (Exception ex) {
             throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR,
                     "failed to instantiate instance of container concept class", ex);
