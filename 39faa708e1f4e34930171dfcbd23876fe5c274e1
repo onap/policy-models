@@ -16,6 +16,29 @@
       "revId": "39faa708e1f4e34930171dfcbd23876fe5c274e1",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d114b7bb_0eef9d52",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/utils/ToscaUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-01-10T14:15:11Z",
+      "side": 1,
+      "message": "Thanks Jim for telling me about this, it\u0027s cool!",
+      "range": {
+        "startLine": 145,
+        "startChar": 18,
+        "endLine": 145,
+        "endChar": 26
+      },
+      "revId": "39faa708e1f4e34930171dfcbd23876fe5c274e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
