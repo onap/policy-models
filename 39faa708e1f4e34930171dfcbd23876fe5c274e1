@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ffa8feb_27351689",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/utils/ToscaUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-01-10T14:13:47Z",
+      "side": 1,
+      "message": "FYI: could have used ToscaUtils::checkDataTypesExist instead of checkDataTypesExist(), then checkDataTypesExist could have been left as it was originally instead of having it return a Function.  Same would be true of all of the check methods.\n\nNevertheless, this approach works, too.",
+      "revId": "39faa708e1f4e34930171dfcbd23876fe5c274e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
