@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e25ec8d4_5ad0b0f1",
+        "filename": "models-interactions/model-actors/actor.appclcm/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-01-10T21:12:03Z",
+      "side": 1,
+      "message": "just missed this one.\n2017-2018, 2020",
+      "range": {
+        "startLine": 4,
+        "startChar": 16,
+        "endLine": 4,
+        "endChar": 26
+      },
+      "revId": "c5475f181a44ad53224c0d0c2acf708f8bba9b0d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b9c32f5_bf9d65f1",
+        "filename": "models-interactions/model-actors/actor.so/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-01-10T21:12:03Z",
+      "side": 1,
+      "message": "2017-2018, 2020",
+      "range": {
+        "startLine": 4,
+        "startChar": 16,
+        "endLine": 4,
+        "endChar": 25
+      },
+      "revId": "c5475f181a44ad53224c0d0c2acf708f8bba9b0d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be3a23c8_dd8a63f8",
+        "filename": "models-interactions/model-actors/actorServiceProvider/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-01-10T21:12:03Z",
+      "side": 1,
+      "message": "2017-2018, 2020",
+      "range": {
+        "startLine": 4,
+        "startChar": 16,
+        "endLine": 4,
+        "endChar": 25
+      },
+      "revId": "c5475f181a44ad53224c0d0c2acf708f8bba9b0d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6b4a4d9_1eaef856",
+        "filename": "models-interactions/model-actors/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-01-10T21:12:03Z",
+      "side": 1,
+      "message": "2017-2018, 2020",
+      "range": {
+        "startLine": 3,
+        "startChar": 16,
+        "endLine": 3,
+        "endChar": 25
+      },
+      "revId": "c5475f181a44ad53224c0d0c2acf708f8bba9b0d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bd81bc6_059117b5",
+        "filename": "models-interactions/model-impl/aai/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-01-10T21:12:03Z",
+      "side": 1,
+      "message": "2017-2018, 2020",
+      "range": {
+        "startLine": 5,
+        "startChar": 16,
+        "endLine": 5,
+        "endChar": 25
+      },
+      "revId": "c5475f181a44ad53224c0d0c2acf708f8bba9b0d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb7197e4_43985624",
+        "filename": "models-sim/policy-models-sim-pdp/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-01-10T21:12:03Z",
+      "side": 1,
+      "message": "This is missing a license. Hmm.",
+      "revId": "c5475f181a44ad53224c0d0c2acf708f8bba9b0d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
