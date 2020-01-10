@@ -42,7 +42,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
@@ -77,6 +76,9 @@ public class DmaapSimProviderTest {
 
     @Captor
     private ArgumentCaptor<List<Object>> listCaptor;
+
+    @Captor
+    private ArgumentCaptor<List<Object>> listCaptor2;
 
     /**
      * Sets up.
@@ -145,7 +147,6 @@ public class DmaapSimProviderTest {
     }
 
     @Test
-    @Ignore
     public void testProcessDmaapMessagePut_Single() throws CoderException {
         prov = spy(new MyProvider(params));
 
@@ -169,14 +170,12 @@ public class DmaapSimProviderTest {
         verify(prov).makeTopicData(TOPIC2);
 
         // should process all writes as singleton lists
-        listCaptor.getAllValues().clear();
         verify(data1, times(2)).write(listCaptor.capture());
         assertEquals(Collections.singletonList(value1), listCaptor.getAllValues().get(0));
         assertEquals(Collections.singletonList(value2), listCaptor.getAllValues().get(1));
 
-        listCaptor.getAllValues().clear();
-        verify(data2).write(listCaptor.capture());
-        assertEquals(Collections.singletonList(value2), listCaptor.getAllValues().get(0));
+        verify(data2).write(listCaptor2.capture());
+        assertEquals(Collections.singletonList(value2), listCaptor2.getAllValues().get(0));
     }
 
     @Test

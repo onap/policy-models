@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +21,7 @@
 
 package org.onap.policy.models.dao;
 
+import java.lang.reflect.InvocationTargetException;
 import javax.ws.rs.core.Response;
 
 import org.onap.policy.common.utils.validation.Assertions;
@@ -51,8 +53,9 @@ public class PfDaoFactory {
         // Get the class for the DAO using reflection
         Object pfDaoObject = null;
         try {
-            pfDaoObject = Class.forName(daoParameters.getPluginClass()).newInstance();
-        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+            pfDaoObject = Class.forName(daoParameters.getPluginClass()).getDeclaredConstructor().newInstance();
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | IllegalArgumentException
+                        | InvocationTargetException | NoSuchMethodException | SecurityException e) {
             String errorMessage =
                     "Policy Framework DAO class not found for DAO plugin \"" + daoParameters.getPluginClass() + "\"";
             LOGGER.error(errorMessage, e);
