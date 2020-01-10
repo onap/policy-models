@@ -20,6 +20,8 @@
 
 package org.onap.policy.models.tosca.utils;
 
+import java.util.function.Function;
+
 import javax.ws.rs.core.Response;
 
 import org.onap.policy.models.base.PfModelRuntimeException;
@@ -102,8 +104,8 @@ public final class ToscaUtils {
      * @param serviceTemplate the service template containing policy types to be checked
      */
     public static void assertExist(final JpaToscaServiceTemplate serviceTemplate,
-            final ToscaChecker<JpaToscaServiceTemplate> checkerFunction) {
-        String message = checkerFunction.check(serviceTemplate);
+            final Function<JpaToscaServiceTemplate, String> checkerFunction) {
+        String message = checkerFunction.apply(serviceTemplate);
         if (message != null) {
             LOGGER.warn(message);
             throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, message);
@@ -116,14 +118,14 @@ public final class ToscaUtils {
      * @param serviceTemplate the service template containing policy types to be checked
      */
     public static boolean doExist(final JpaToscaServiceTemplate serviceTemplate,
-            final ToscaChecker<JpaToscaServiceTemplate> checkerFunction) {
-        return checkerFunction.check(serviceTemplate) == null;
+            final Function<JpaToscaServiceTemplate, String> checkerFunction) {
+        return checkerFunction.apply(serviceTemplate) == null;
     }
 
     /**
      * Check if data types have been specified correctly.
      */
-    public static ToscaChecker<JpaToscaServiceTemplate> checkDataTypesExist() {
+    public static Function<JpaToscaServiceTemplate, String> checkDataTypesExist() {
         return serviceTemplate -> {
             if (serviceTemplate.getDataTypes() == null) {
                 return "no data types specified on service template";
@@ -140,7 +142,7 @@ public final class ToscaUtils {
     /**
      * Check if policy types have been specified correctly.
      */
-    public static ToscaChecker<JpaToscaServiceTemplate> checkPolicyTypesExist() {
+    public static Function<JpaToscaServiceTemplate, String> checkPolicyTypesExist() {
         return serviceTemplate -> {
             if (serviceTemplate.getPolicyTypes() == null) {
                 return "no policy types specified on service template";
@@ -157,7 +159,7 @@ public final class ToscaUtils {
     /**
      * Check if policies have been specified correctly.
      */
-    public static ToscaChecker<JpaToscaServiceTemplate> checkPoliciesExist() {
+    public static Function<JpaToscaServiceTemplate, String> checkPoliciesExist() {
         return serviceTemplate -> {
             if (serviceTemplate.getTopologyTemplate() == null) {
                 return "topology template not specified on service template";
@@ -173,10 +175,5 @@ public final class ToscaUtils {
 
             return null;
         };
-    }
-
-    @FunctionalInterface
-    interface ToscaChecker<T> {
-        String check(final T serviceTemplate);
     }
 }

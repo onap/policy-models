@@ -189,7 +189,7 @@ public class SimpleToscaProvider {
         serviceTemplate.getPolicyTypes().getConceptMap().putAll(asConceptMap(jpaPolicyTypeList));
 
         // Return all data types
-        // TODO: In the next review, return just the data types used by the policy types on the policy type list
+        // TODO: In an upcoming review, return just the data types used by the policy types on the policy type list
         List<JpaToscaDataType> jpaDataTypeList = dao.getFiltered(JpaToscaDataType.class, null, null);
         if (!CollectionUtils.isEmpty(jpaDataTypeList)) {
             serviceTemplate.setDataTypes(new JpaToscaDataTypes());

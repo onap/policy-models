@@ -47,7 +47,7 @@ public class ToscaUtilsTest {
 
         assertFalse(ToscaUtils.doDataTypesExist(jpaToscaServiceTemplate));
         assertEquals("no data types specified on service template",
-                ToscaUtils.checkDataTypesExist().check(jpaToscaServiceTemplate));
+                ToscaUtils.checkDataTypesExist().apply(jpaToscaServiceTemplate));
         assertThatThrownBy(() -> {
             ToscaUtils.assertDataTypesExist(jpaToscaServiceTemplate);
         }).hasMessage("no data types specified on service template");
@@ -56,7 +56,7 @@ public class ToscaUtilsTest {
 
         assertFalse(ToscaUtils.doDataTypesExist(jpaToscaServiceTemplate));
         assertEquals("list of data types specified on service template is empty",
-                ToscaUtils.checkDataTypesExist().check(jpaToscaServiceTemplate));
+                ToscaUtils.checkDataTypesExist().apply(jpaToscaServiceTemplate));
         assertThatThrownBy(() -> {
             ToscaUtils.assertDataTypesExist(jpaToscaServiceTemplate);
         }).hasMessage("list of data types specified on service template is empty");
@@ -64,7 +64,7 @@ public class ToscaUtilsTest {
         jpaToscaServiceTemplate.getDataTypes().getConceptMap().put(new PfConceptKey(), null);
 
         assertTrue(ToscaUtils.doDataTypesExist(jpaToscaServiceTemplate));
-        assertEquals(null, ToscaUtils.checkDataTypesExist().check(jpaToscaServiceTemplate));
+        assertEquals(null, ToscaUtils.checkDataTypesExist().apply(jpaToscaServiceTemplate));
         assertThatCode(() -> {
             ToscaUtils.assertDataTypesExist(jpaToscaServiceTemplate);
         }).doesNotThrowAnyException();
@@ -77,7 +77,7 @@ public class ToscaUtilsTest {
 
         assertFalse(ToscaUtils.doPolicyTypesExist(jpaToscaServiceTemplate));
         assertEquals("no policy types specified on service template",
-                ToscaUtils.checkPolicyTypesExist().check(jpaToscaServiceTemplate));
+                ToscaUtils.checkPolicyTypesExist().apply(jpaToscaServiceTemplate));
         assertThatThrownBy(() -> {
             ToscaUtils.assertPolicyTypesExist(jpaToscaServiceTemplate);
         }).hasMessage("no policy types specified on service template");
@@ -86,7 +86,7 @@ public class ToscaUtilsTest {
 
         assertFalse(ToscaUtils.doPolicyTypesExist(jpaToscaServiceTemplate));
         assertEquals("list of policy types specified on service template is empty",
-                ToscaUtils.checkPolicyTypesExist().check(jpaToscaServiceTemplate));
+                ToscaUtils.checkPolicyTypesExist().apply(jpaToscaServiceTemplate));
         assertThatThrownBy(() -> {
             ToscaUtils.assertPolicyTypesExist(jpaToscaServiceTemplate);
         }).hasMessage("list of policy types specified on service template is empty");
@@ -94,7 +94,7 @@ public class ToscaUtilsTest {
         jpaToscaServiceTemplate.getPolicyTypes().getConceptMap().put(new PfConceptKey(), null);
 
         assertTrue(ToscaUtils.doPolicyTypesExist(jpaToscaServiceTemplate));
-        assertEquals(null, ToscaUtils.checkPolicyTypesExist().check(jpaToscaServiceTemplate));
+        assertEquals(null, ToscaUtils.checkPolicyTypesExist().apply(jpaToscaServiceTemplate));
         assertThatCode(() -> {
             ToscaUtils.assertPolicyTypesExist(jpaToscaServiceTemplate);
         }).doesNotThrowAnyException();
@@ -106,7 +106,7 @@ public class ToscaUtilsTest {
 
         assertFalse(ToscaUtils.doPoliciesExist(jpaToscaServiceTemplate));
         assertEquals("topology template not specified on service template",
-                ToscaUtils.checkPoliciesExist().check(jpaToscaServiceTemplate));
+                ToscaUtils.checkPoliciesExist().apply(jpaToscaServiceTemplate));
         assertThatThrownBy(() -> {
             ToscaUtils.assertPoliciesExist(jpaToscaServiceTemplate);
         }).hasMessage("topology template not specified on service template");
@@ -115,7 +115,7 @@ public class ToscaUtilsTest {
 
         assertFalse(ToscaUtils.doPoliciesExist(jpaToscaServiceTemplate));
         assertEquals("no policies specified on topology template of service template",
-                ToscaUtils.checkPoliciesExist().check(jpaToscaServiceTemplate));
+                ToscaUtils.checkPoliciesExist().apply(jpaToscaServiceTemplate));
         assertThatThrownBy(() -> {
             ToscaUtils.assertPoliciesExist(jpaToscaServiceTemplate);
         }).hasMessage("no policies specified on topology template of service template");
@@ -124,7 +124,7 @@ public class ToscaUtilsTest {
 
         assertFalse(ToscaUtils.doPoliciesExist(jpaToscaServiceTemplate));
         assertEquals("list of policies specified on topology template of service template is empty",
-                ToscaUtils.checkPoliciesExist().check(jpaToscaServiceTemplate));
+                ToscaUtils.checkPoliciesExist().apply(jpaToscaServiceTemplate));
         assertThatThrownBy(() -> {
             ToscaUtils.assertPoliciesExist(jpaToscaServiceTemplate);
         }).hasMessage("list of policies specified on topology template of service template is empty");
@@ -132,7 +132,7 @@ public class ToscaUtilsTest {
         jpaToscaServiceTemplate.getTopologyTemplate().getPolicies().getConceptMap().put(new PfConceptKey(), null);
 
         assertTrue(ToscaUtils.doPoliciesExist(jpaToscaServiceTemplate));
-        assertEquals(null, ToscaUtils.checkPoliciesExist().check(jpaToscaServiceTemplate));
+        assertEquals(null, ToscaUtils.checkPoliciesExist().apply(jpaToscaServiceTemplate));
         assertThatCode(() -> {
             ToscaUtils.assertPoliciesExist(jpaToscaServiceTemplate);
         }).doesNotThrowAnyException();
