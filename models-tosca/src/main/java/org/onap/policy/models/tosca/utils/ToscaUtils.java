@@ -50,7 +50,7 @@ public final class ToscaUtils {
      * @param serviceTemplate the service template containing data types to be checked
      */
     public static void assertDataTypesExist(final JpaToscaServiceTemplate serviceTemplate) {
-        assertExist(serviceTemplate, checkDataTypesExist());
+        assertExist(serviceTemplate, ToscaUtils::checkDataTypesExist);
     }
 
     /**
@@ -59,7 +59,7 @@ public final class ToscaUtils {
      * @param serviceTemplate the service template containing policy types to be checked
      */
     public static void assertPolicyTypesExist(final JpaToscaServiceTemplate serviceTemplate) {
-        assertExist(serviceTemplate, checkPolicyTypesExist());
+        assertExist(serviceTemplate, ToscaUtils::checkPolicyTypesExist);
     }
 
     /**
@@ -68,7 +68,7 @@ public final class ToscaUtils {
      * @param serviceTemplate the service template containing policy types to be checked
      */
     public static void assertPoliciesExist(final JpaToscaServiceTemplate serviceTemplate) {
-        assertExist(serviceTemplate, checkPoliciesExist());
+        assertExist(serviceTemplate, ToscaUtils::checkPoliciesExist);
     }
 
     /**
@@ -77,7 +77,7 @@ public final class ToscaUtils {
      * @param serviceTemplate the service template containing data types to be checked
      */
     public static boolean doDataTypesExist(final JpaToscaServiceTemplate serviceTemplate) {
-        return doExist(serviceTemplate, checkDataTypesExist());
+        return doExist(serviceTemplate, ToscaUtils::checkDataTypesExist);
     }
 
     /**
@@ -86,7 +86,7 @@ public final class ToscaUtils {
      * @param serviceTemplate the service template containing policy types to be checked
      */
     public static boolean doPolicyTypesExist(final JpaToscaServiceTemplate serviceTemplate) {
-        return doExist(serviceTemplate, checkPolicyTypesExist());
+        return doExist(serviceTemplate, ToscaUtils::checkPolicyTypesExist);
     }
 
     /**
@@ -95,7 +95,8 @@ public final class ToscaUtils {
      * @param serviceTemplate the service template containing policy types to be checked
      */
     public static boolean doPoliciesExist(final JpaToscaServiceTemplate serviceTemplate) {
-        return doExist(serviceTemplate, checkPoliciesExist());
+
+        return doExist(serviceTemplate, ToscaUtils::checkPoliciesExist);
     }
 
     /**
@@ -125,55 +126,49 @@ public final class ToscaUtils {
     /**
      * Check if data types have been specified correctly.
      */
-    public static Function<JpaToscaServiceTemplate, String> checkDataTypesExist() {
-        return serviceTemplate -> {
-            if (serviceTemplate.getDataTypes() == null) {
-                return "no data types specified on service template";
-            }
+    public static String checkDataTypesExist(final JpaToscaServiceTemplate serviceTemplate) {
+        if (serviceTemplate.getDataTypes() == null) {
+            return "no data types specified on service template";
+        }
 
-            if (serviceTemplate.getDataTypes().getConceptMap().isEmpty()) {
-                return "list of data types specified on service template is empty";
-            }
+        if (serviceTemplate.getDataTypes().getConceptMap().isEmpty()) {
+            return "list of data types specified on service template is empty";
+        }
 
-            return null;
-        };
+        return null;
     }
 
     /**
      * Check if policy types have been specified correctly.
      */
-    public static Function<JpaToscaServiceTemplate, String> checkPolicyTypesExist() {
-        return serviceTemplate -> {
-            if (serviceTemplate.getPolicyTypes() == null) {
-                return "no policy types specified on service template";
-            }
+    public static String checkPolicyTypesExist(final JpaToscaServiceTemplate serviceTemplate) {
+        if (serviceTemplate.getPolicyTypes() == null) {
+            return "no policy types specified on service template";
+        }
 
-            if (serviceTemplate.getPolicyTypes().getConceptMap().isEmpty()) {
-                return "list of policy types specified on service template is empty";
-            }
+        if (serviceTemplate.getPolicyTypes().getConceptMap().isEmpty()) {
+            return "list of policy types specified on service template is empty";
+        }
 
-            return null;
-        };
+        return null;
     }
 
     /**
      * Check if policies have been specified correctly.
      */
-    public static Function<JpaToscaServiceTemplate, String> checkPoliciesExist() {
-        return serviceTemplate -> {
-            if (serviceTemplate.getTopologyTemplate() == null) {
-                return "topology template not specified on service template";
-            }
+    public static String checkPoliciesExist(final JpaToscaServiceTemplate serviceTemplate) {
+        if (serviceTemplate.getTopologyTemplate() == null) {
+            return "topology template not specified on service template";
+        }
 
-            if (serviceTemplate.getTopologyTemplate().getPolicies() == null) {
-                return "no policies specified on topology template of service template";
-            }
+        if (serviceTemplate.getTopologyTemplate().getPolicies() == null) {
+            return "no policies specified on topology template of service template";
+        }
 
-            if (serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().isEmpty()) {
-                return "list of policies specified on topology template of service template is empty";
-            }
+        if (serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().isEmpty()) {
+            return "list of policies specified on topology template of service template is empty";
+        }
 
-            return null;
-        };
+        return null;
     }
 }

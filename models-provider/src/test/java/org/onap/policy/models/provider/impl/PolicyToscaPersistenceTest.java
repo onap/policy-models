@@ -22,11 +22,14 @@ package org.onap.policy.models.provider.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 
 import com.google.gson.GsonBuilder;
 
+import java.net.URISyntaxException;
 import java.util.Base64;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import lombok.NonNull;
 
@@ -41,9 +44,8 @@ import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderFactory;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
 
 /**
@@ -52,29 +54,9 @@ import org.yaml.snakeyaml.Yaml;
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 public class PolicyToscaPersistenceTest {
-    // Logger for this class
-    private static final Logger LOGGER = LoggerFactory.getLogger(PolicyToscaPersistenceTest.class);
-
     private StandardCoder standardCoder;
 
     private PolicyModelsProvider databaseProvider;
-
-    // @formatter:off
-    private String[] policyResourceNames = {
-        "policies/vCPE.policy.monitoring.input.tosca.json",
-        "policies/vCPE.policy.monitoring.input.tosca.yaml",
-        "policies/vCPE.policy.operational.input.tosca.yaml",
-        "policies/vDNS.policy.guard.frequency.input.tosca.json",
-        "policies/vDNS.policy.guard.frequency.input.tosca.yaml",
-        "policies/vDNS.policy.monitoring.input.tosca.json",
-        "policies/vDNS.policy.monitoring.input.tosca.yaml",
-        "policies/vDNS.policy.operational.input.tosca.yaml",
-        "policies/vFirewall.policy.monitoring.input.tosca.json",
-        "policies/vFirewall.policy.monitoring.input.tosca.yaml",
-        "policies/vFirewall.policy.operational.input.tosca.json",
-        "policies/vFirewall.policy.operational.input.tosca.yaml"
-    };
-    // @formatter:on
 
     /**
      * Initialize provider.
@@ -84,6 +66,8 @@ public class PolicyToscaPersistenceTest {
      */
     @Before
     public void setupParameters() throws Exception {
+        // H2, use "org.mariadb.jdbc.Driver" and "jdbc:mariadb://localhost:3306/policy" for locally installed MariaDB
+
         PolicyModelsProviderParameters parameters = new PolicyModelsProviderParameters();
         parameters.setDatabaseDriver("org.h2.Driver");
         parameters.setDatabaseUrl("jdbc:h2:mem:testdb");
@@ -97,7 +81,7 @@ public class PolicyToscaPersistenceTest {
     }
 
     /**
-     * Set up the standard coder.
+     * Set up standard coder.
      */
     @Before
     public void setupStandardCoder() {
@@ -110,20 +94,21 @@ public class PolicyToscaPersistenceTest {
     }
 
     @Test
-    public void testPolicyPersistence() {
-        try {
-            for (String policyResourceName : policyResourceNames) {
-                String policyString = ResourceUtils.getResourceAsString(policyResourceName);
+    public void testPolicyPersistence() throws Exception {
+        Set<String> policyResources = ResourceUtils.getDirectoryContents("policies");
 
-                if (policyResourceName.endsWith("yaml")) {
-                    testYamlStringPolicyPersistence(policyString);
-                } else {
-                    testJsonStringPolicyPersistence(policyString);
-                }
+        for (String policyResource : policyResources) {
+            if (!policyResource.contains("\\.tosca\\.")) {
+                continue;
             }
-        } catch (Exception exc) {
-            LOGGER.warn("error processing policy types", exc);
-            fail("test should not throw an exception");
+
+            String policyString = ResourceUtils.getResourceAsString(policyResource);
+
+            if (policyResource.endsWith("yaml")) {
+                testYamlStringPolicyPersistence(policyString);
+            } else {
+                testJsonStringPolicyPersistence(policyString);
+            }
         }
     }
 
@@ -146,51 +131,54 @@ public class PolicyToscaPersistenceTest {
         assertNotNull(serviceTemplate);
 
         databaseProvider.createPolicies(serviceTemplate);
+        databaseProvider.updatePolicies(serviceTemplate);
 
-        for (String policyKey : serviceTemplate.getToscaTopologyTemplate().getPolicies().get(0).keySet()) {
-            ToscaPolicy incomingPolicy = serviceTemplate.getToscaTopologyTemplate().getPolicies().get(0).get(policyKey);
-            ToscaPolicy databasePolicy =
-                    databaseProvider.getPolicies(incomingPolicy.getName(), incomingPolicy.getVersion())
-                            .getToscaTopologyTemplate().getPolicies().get(0).get(policyKey);
-            assertEquals(incomingPolicy.getType(), databasePolicy.getType());
+        for (Map<String, ToscaPolicy> policyMap : serviceTemplate.getToscaTopologyTemplate().getPolicies()) {
+            for (ToscaPolicy policy : policyMap.values()) {
+                ToscaServiceTemplate gotToscaServiceTemplate =
+                        databaseProvider.getPolicies(policy.getName(), policy.getVersion());
+
+                assertEquals(gotToscaServiceTemplate.getToscaTopologyTemplate().getPolicies().get(0)
+                        .get(policy.getName()).getType(), policy.getType());
+
+                gotToscaServiceTemplate = databaseProvider.getFilteredPolicies(ToscaPolicyFilter.builder().build());
+
+                assertEquals(getToscaPolicyFromMapList(gotToscaServiceTemplate.getToscaTopologyTemplate().getPolicies(),
+                        policy.getName()).getType(), policy.getType());
+
+                gotToscaServiceTemplate = databaseProvider.getFilteredPolicies(
+                        ToscaPolicyFilter.builder().name(policy.getName()).version(policy.getVersion()).build());
+
+                assertEquals(gotToscaServiceTemplate.getToscaTopologyTemplate().getPolicies().get(0)
+                        .get(policy.getName()).getType(), policy.getType());
+            }
         }
     }
 
-    private void createPolicyTypes() throws CoderException, PfModelException {
-        Object yamlObject = new Yaml().load(
-                ResourceUtils.getResourceAsString("policytypes/onap.policies.monitoring.cdap.tca.hi.lo.app.yaml"));
-        String yamlAsJsonString = new StandardCoder().encode(yamlObject);
+    private ToscaPolicy getToscaPolicyFromMapList(List<Map<String, ToscaPolicy>> toscaPolicyMapList,
+            String policyName) {
+        ToscaPolicy toscaPolicy = new ToscaPolicy();
+        for (Map<String, ToscaPolicy> policyMap : toscaPolicyMapList) {
+            if (policyMap.get(policyName) != null) {
+                toscaPolicy = policyMap.get(policyName);
+                break;
+            }
+        }
+        return toscaPolicy;
+    }
 
-        ToscaServiceTemplate toscaServiceTemplatePolicyType =
-                standardCoder.decode(yamlAsJsonString, ToscaServiceTemplate.class);
+    private void createPolicyTypes() throws CoderException, PfModelException, URISyntaxException {
+        Set<String> policyTypeResources = ResourceUtils.getDirectoryContents("policytypes");
 
-        assertNotNull(toscaServiceTemplatePolicyType);
-        databaseProvider.createPolicyTypes(toscaServiceTemplatePolicyType);
+        for (String policyTyoeResource : policyTypeResources) {
+            Object yamlObject = new Yaml().load(ResourceUtils.getResourceAsString(policyTyoeResource));
+            String yamlAsJsonString = new StandardCoder().encode(yamlObject);
 
-        yamlObject = new Yaml().load(
-                ResourceUtils.getResourceAsString("policytypes/onap.policies.controlloop.Operational.yaml"));
-        yamlAsJsonString = new StandardCoder().encode(yamlObject);
+            ToscaServiceTemplate toscaServiceTemplatePolicyType =
+                    standardCoder.decode(yamlAsJsonString, ToscaServiceTemplate.class);
 
-        toscaServiceTemplatePolicyType = standardCoder.decode(yamlAsJsonString, ToscaServiceTemplate.class);
-
-        assertNotNull(toscaServiceTemplatePolicyType);
-        databaseProvider.createPolicyTypes(toscaServiceTemplatePolicyType);
-
-        yamlObject = new Yaml().load(
-                ResourceUtils.getResourceAsString("policytypes/onap.policies.controlloop.operational.Common.yaml"));
-        yamlAsJsonString = new StandardCoder().encode(yamlObject);
-
-        toscaServiceTemplatePolicyType = standardCoder.decode(yamlAsJsonString, ToscaServiceTemplate.class);
-
-        assertNotNull(toscaServiceTemplatePolicyType);
-        databaseProvider.createPolicyTypes(toscaServiceTemplatePolicyType);
-        yamlObject = new Yaml().load(
-                ResourceUtils.getResourceAsString("policytypes/onap.policies.controlloop.guard.FrequencyLimiter.yaml"));
-        yamlAsJsonString = new StandardCoder().encode(yamlObject);
-
-        toscaServiceTemplatePolicyType = standardCoder.decode(yamlAsJsonString, ToscaServiceTemplate.class);
-
-        assertNotNull(toscaServiceTemplatePolicyType);
-        databaseProvider.createPolicyTypes(toscaServiceTemplatePolicyType);
+            assertNotNull(toscaServiceTemplatePolicyType);
+            databaseProvider.createPolicyTypes(toscaServiceTemplatePolicyType);
+        }
     }
 }

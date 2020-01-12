@@ -22,9 +22,10 @@ package org.onap.policy.models.provider.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 
+import java.net.URISyntaxException;
 import java.util.Base64;
+import java.util.Set;
 
 import lombok.NonNull;
 
@@ -40,8 +41,6 @@ import org.onap.policy.models.provider.PolicyModelsProviderFactory;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
 
 /**
@@ -50,9 +49,6 @@ import org.yaml.snakeyaml.Yaml;
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 public class PolicyLegacyOperationalPersistenceTest {
-    // Logger for this class
-    private static final Logger LOGGER = LoggerFactory.getLogger(PolicyLegacyOperationalPersistenceTest.class);
-
     private StandardCoder standardCoder;
 
     private PolicyModelsProvider databaseProvider;
@@ -107,16 +103,11 @@ public class PolicyLegacyOperationalPersistenceTest {
     }
 
     @Test
-    public void testPolicyPersistence() {
-        try {
-            for (int i = 0; i < policyInputResourceNames.length; i++) {
-                String policyInputString = ResourceUtils.getResourceAsString(policyInputResourceNames[i]);
-                String policyOutputString = ResourceUtils.getResourceAsString(policyOutputResourceNames[i]);
-                testJsonStringPolicyPersistence(policyInputString, policyOutputString);
-            }
-        } catch (Exception exc) {
-            LOGGER.warn("error processing policies", exc);
-            fail("test should not throw an exception");
+    public void testPolicyPersistence() throws Exception {
+        for (int i = 0; i < policyInputResourceNames.length; i++) {
+            String policyInputString = ResourceUtils.getResourceAsString(policyInputResourceNames[i]);
+            String policyOutputString = ResourceUtils.getResourceAsString(policyOutputResourceNames[i]);
+            testJsonStringPolicyPersistence(policyInputString, policyOutputString);
         }
     }
 
@@ -154,16 +145,18 @@ public class PolicyLegacyOperationalPersistenceTest {
                         "'"));
     }
 
-    private void createPolicyTypes() throws CoderException, PfModelException {
+    private void createPolicyTypes() throws CoderException, PfModelException, URISyntaxException {
+        Set<String> policyTypeResources = ResourceUtils.getDirectoryContents("policytypes");
 
-        Object yamlObject = new Yaml().load(
-                ResourceUtils.getResourceAsString("policytypes/onap.policies.controlloop.Operational.yaml"));
-        String yamlAsJsonString = new StandardCoder().encode(yamlObject);
+        for (String policyTyoeResource : policyTypeResources) {
+            Object yamlObject = new Yaml().load(ResourceUtils.getResourceAsString(policyTyoeResource));
+            String yamlAsJsonString = new StandardCoder().encode(yamlObject);
 
-        ToscaServiceTemplate toscaServiceTemplatePolicyType =
-                standardCoder.decode(yamlAsJsonString, ToscaServiceTemplate.class);
+            ToscaServiceTemplate toscaServiceTemplatePolicyType =
+                    standardCoder.decode(yamlAsJsonString, ToscaServiceTemplate.class);
 
-        assertNotNull(toscaServiceTemplatePolicyType);
-        databaseProvider.createPolicyTypes(toscaServiceTemplatePolicyType);
+            assertNotNull(toscaServiceTemplatePolicyType);
+            databaseProvider.createPolicyTypes(toscaServiceTemplatePolicyType);
+        }
     }
 }
