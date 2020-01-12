@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11c75b01_9f9d8256",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/impl/AuthorativeToscaProviderReferenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-01-12T18:00:54Z",
+      "side": 1,
+      "message": "This unit test will test that the output policy type and policy on gets matches what was input.",
+      "revId": "cb7ff12ce7468031df91b796a0c3fae048966b31",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}

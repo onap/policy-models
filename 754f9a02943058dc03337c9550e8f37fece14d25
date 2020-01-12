@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c3cda6f_e6c373af",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/impl/PolicyPersistenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-01-12T18:00:54Z",
+      "side": 0,
+      "message": "This test is a duplicate of the PolicyToscaPresistenceTest file.",
+      "revId": "754f9a02943058dc03337c9550e8f37fece14d25",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
