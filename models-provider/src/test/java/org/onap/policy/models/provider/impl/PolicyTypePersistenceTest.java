@@ -23,12 +23,12 @@ package org.onap.policy.models.provider.impl;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import com.google.gson.GsonBuilder;
 
 import java.util.Base64;
 import java.util.List;
+import java.util.Set;
 
 import lombok.NonNull;
 
@@ -44,8 +44,6 @@ import org.onap.policy.models.provider.PolicyModelsProviderParameters;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
 
 /**
@@ -54,34 +52,9 @@ import org.yaml.snakeyaml.Yaml;
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 public class PolicyTypePersistenceTest {
-    // Logger for this class
-    private static final Logger LOGGER = LoggerFactory.getLogger(PolicyTypePersistenceTest.class);
-
     private StandardCoder standardCoder;
 
     private PolicyModelsProvider databaseProvider;
-
-    // @formatter:off
-    private String[] policyTypeResourceNames = {
-        "policytypes/onap.policies.controlloop.Operational.yaml",
-        "policytypes/onap.policies.optimization.resource.DistancePolicy.yaml",
-        "policytypes/onap.policies.optimization.resource.VnfPolicy.yaml",
-        "policytypes/onap.policies.optimization.resource.PciPolicy.yaml",
-        "policytypes/onap.policies.optimization.resource.OptimizationPolicy.yaml",
-        "policytypes/onap.policies.controlloop.guard.Blacklist.yaml",
-        "policytypes/onap.policies.monitoring.dcaegen2.collectors.datafile.datafile-app-server.yaml",
-        "policytypes/onap.policies.optimization.resource.HpaPolicy.yaml",
-        "policytypes/onap.policies.optimization.resource.Vim_fit.yaml",
-        "policytypes/onap.policies.optimization.service.SubscriberPolicy.yaml",
-        "policytypes/onap.policies.optimization.resource.AffinityPolicy.yaml",
-        "policytypes/onap.policies.optimization.service.QueryPolicy.yaml",
-        "policytypes/onap.policies.controlloop.guard.MinMax.yaml",
-        "policytypes/onap.policies.controlloop.guard.FrequencyLimiter.yaml",
-        "policytypes/onap.policies.controlloop.guard.coordination.FirstBlocksSecond.yaml",
-        "policytypes/onap.policies.Optimization.yaml",
-        "policytypes/onap.policies.monitoring.cdap.tca.hi.lo.app.yaml"
-    };
-    // @formatter:on
 
     /**
      * Initialize provider.
@@ -90,6 +63,8 @@ public class PolicyTypePersistenceTest {
      */
     @Before
     public void setupParameters() throws PfModelException {
+        // H2, use "org.mariadb.jdbc.Driver" and "jdbc:mariadb://localhost:3306/policy" for locally installed MariaDB
+
         PolicyModelsProviderParameters parameters = new PolicyModelsProviderParameters();
         parameters.setDatabaseDriver("org.h2.Driver");
         parameters.setDatabaseUrl("jdbc:h2:mem:testdb");
@@ -101,10 +76,10 @@ public class PolicyTypePersistenceTest {
     }
 
     /**
-     * Set up GSON.
+     * Set up standard coder.
      */
     @Before
-    public void setupGson() {
+    public void setupStandardCoder() {
         standardCoder = new StandardCoder();
     }
 
@@ -114,20 +89,12 @@ public class PolicyTypePersistenceTest {
     }
 
     @Test
-    public void testPolicyTypePersistence() {
-        try {
-            for (String policyTypeResourceName : policyTypeResourceNames) {
-                String policyTypeString = ResourceUtils.getResourceAsString(policyTypeResourceName);
+    public void testPolicyTypePersistence() throws Exception {
+        Set<String> policyTypeDirectoryContents = ResourceUtils.getDirectoryContents("policytypes");
 
-                if (policyTypeResourceName.endsWith("yaml")) {
-                    testYamlStringPolicyTypePersistence(policyTypeString);
-                } else {
-                    testJsonStringPolicyTypePersistence(policyTypeString);
-                }
-            }
-        } catch (Exception exc) {
-            LOGGER.warn("error processing policy types", exc);
-            fail("test should not throw an exception");
+        for (String policyTypeFilePath : policyTypeDirectoryContents) {
+            String policyTypeString = ResourceUtils.getResourceAsString(policyTypeFilePath);
+            testYamlStringPolicyTypePersistence(policyTypeString);
         }
     }
 
@@ -150,7 +117,11 @@ public class PolicyTypePersistenceTest {
         assertNotNull(serviceTemplate);
         ToscaPolicyType inPolicyType = serviceTemplate.getPolicyTypes().values().iterator().next();
 
-        databaseProvider.createPolicyTypes(serviceTemplate);
+        try {
+            databaseProvider.createPolicyTypes(serviceTemplate);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         databaseProvider.updatePolicyTypes(serviceTemplate);
 
         List<ToscaPolicyType> policyTypeList =
@@ -172,7 +143,7 @@ public class PolicyTypePersistenceTest {
         assertTrue(policyTypeList.size() <= 3);
         assertEquals(inPolicyType.getName(), policyTypeList.get(0).getName());
 
-        for (ToscaPolicyType policyType: databaseProvider.getPolicyTypeList(null, null)) {
+        for (ToscaPolicyType policyType : databaseProvider.getPolicyTypeList(null, null)) {
             databaseProvider.deletePolicyType(policyType.getName(), policyType.getVersion());
         }
     }

@@ -22,10 +22,11 @@ package org.onap.policy.models.provider.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 
+import java.net.URISyntaxException;
 import java.util.Base64;
 import java.util.Map;
+import java.util.Set;
 
 import lombok.NonNull;
 
@@ -42,8 +43,6 @@ import org.onap.policy.models.provider.PolicyModelsProviderParameters;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyInput;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyOutput;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
 
 /**
@@ -52,9 +51,6 @@ import org.yaml.snakeyaml.Yaml;
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 public class PolicyLegacyGuardPersistenceTest {
-    // Logger for this class
-    private static final Logger LOGGER = LoggerFactory.getLogger(PolicyLegacyGuardPersistenceTest.class);
-
     private StandardCoder standardCoder;
 
     private PolicyModelsProvider databaseProvider;
@@ -107,16 +103,11 @@ public class PolicyLegacyGuardPersistenceTest {
     }
 
     @Test
-    public void testPolicyPersistence() {
-        try {
-            for (int i = 0; i < policyInputResourceNames.length; i++) {
-                String policyInputString = ResourceUtils.getResourceAsString(policyInputResourceNames[i]);
-                String policyOutputString = ResourceUtils.getResourceAsString(policyOutputResourceNames[i]);
-                testJsonStringPolicyPersistence(policyInputString, policyOutputString);
-            }
-        } catch (Exception exc) {
-            LOGGER.warn("error processing policies", exc);
-            fail("test should not throw an exception");
+    public void testPolicyPersistence() throws Exception {
+        for (int i = 0; i < policyInputResourceNames.length; i++) {
+            String policyInputString = ResourceUtils.getResourceAsString(policyInputResourceNames[i]);
+            String policyOutputString = ResourceUtils.getResourceAsString(policyOutputResourceNames[i]);
+            testJsonStringPolicyPersistence(policyInputString, policyOutputString);
         }
     }
 
@@ -135,23 +126,19 @@ public class PolicyLegacyGuardPersistenceTest {
 
         Map<String, LegacyGuardPolicyOutput> createdGopm = databaseProvider.createGuardPolicy(gip);
         assertEquals(gip.getPolicyId(), createdGopm.keySet().iterator().next());
-        assertEquals(gip.getContent(),
-                createdGopm.get(gip.getPolicyId()).getProperties().values().iterator().next());
+        assertEquals(gip.getContent(), createdGopm.get(gip.getPolicyId()).getProperties().values().iterator().next());
 
         Map<String, LegacyGuardPolicyOutput> gotGopm = databaseProvider.getGuardPolicy(gip.getPolicyId(), null);
         assertEquals(gip.getPolicyId(), gotGopm.keySet().iterator().next());
-        assertEquals(gip.getContent(),
-                gotGopm.get(gip.getPolicyId()).getProperties().values().iterator().next());
+        assertEquals(gip.getContent(), gotGopm.get(gip.getPolicyId()).getProperties().values().iterator().next());
 
         Map<String, LegacyGuardPolicyOutput> updatedGopm = databaseProvider.updateGuardPolicy(gip);
         assertEquals(gip.getPolicyId(), updatedGopm.keySet().iterator().next());
-        assertEquals(gip.getContent(),
-                updatedGopm.get(gip.getPolicyId()).getProperties().values().iterator().next());
+        assertEquals(gip.getContent(), updatedGopm.get(gip.getPolicyId()).getProperties().values().iterator().next());
 
         Map<String, LegacyGuardPolicyOutput> deletedGopm = databaseProvider.deleteGuardPolicy(gip.getPolicyId(), "1");
         assertEquals(gip.getPolicyId(), deletedGopm.keySet().iterator().next());
-        assertEquals(gip.getContent(),
-                deletedGopm.get(gip.getPolicyId()).getProperties().values().iterator().next());
+        assertEquals(gip.getContent(), deletedGopm.get(gip.getPolicyId()).getProperties().values().iterator().next());
 
         String actualRetrievedJson = standardCoder.encode(gotGopm);
 
@@ -159,24 +146,18 @@ public class PolicyLegacyGuardPersistenceTest {
         assertEquals(policyOutputString.replaceAll("\\s+", ""), actualRetrievedJson.replaceAll("\\s+", ""));
     }
 
-    private void createPolicyTypes() throws CoderException, PfModelException {
-        Object yamlObject = new Yaml().load(
-                ResourceUtils.getResourceAsString("policytypes/onap.policies.controlloop.guard.FrequencyLimiter.yaml"));
-        String yamlAsJsonString = new StandardCoder().encode(yamlObject);
+    private void createPolicyTypes() throws CoderException, PfModelException, URISyntaxException {
+        Set<String> policyTypeResources = ResourceUtils.getDirectoryContents("policytypes");
 
-        ToscaServiceTemplate toscaServiceTemplatePolicyType =
-                standardCoder.decode(yamlAsJsonString, ToscaServiceTemplate.class);
+        for (String policyTyoeResource : policyTypeResources) {
+            Object yamlObject = new Yaml().load(ResourceUtils.getResourceAsString(policyTyoeResource));
+            String yamlAsJsonString = new StandardCoder().encode(yamlObject);
 
-        assertNotNull(toscaServiceTemplatePolicyType);
-        databaseProvider.createPolicyTypes(toscaServiceTemplatePolicyType);
+            ToscaServiceTemplate toscaServiceTemplatePolicyType =
+                    standardCoder.decode(yamlAsJsonString, ToscaServiceTemplate.class);
 
-        yamlObject = new Yaml().load(
-                ResourceUtils.getResourceAsString("policytypes/onap.policies.controlloop.guard.MinMax.yaml"));
-        yamlAsJsonString = new StandardCoder().encode(yamlObject);
-
-        toscaServiceTemplatePolicyType = standardCoder.decode(yamlAsJsonString, ToscaServiceTemplate.class);
-
-        assertNotNull(toscaServiceTemplatePolicyType);
-        databaseProvider.createPolicyTypes(toscaServiceTemplatePolicyType);
+            assertNotNull(toscaServiceTemplatePolicyType);
+            databaseProvider.createPolicyTypes(toscaServiceTemplatePolicyType);
+        }
     }
 }
