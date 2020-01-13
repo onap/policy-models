@@ -16,6 +16,125 @@
       "revId": "cb7ff12ce7468031df91b796a0c3fae048966b31",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffeb4a0f_6a5a3ee2",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/impl/AuthorativeToscaProviderReferenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-01-13T15:11:12Z",
+      "side": 1,
+      "message": "perhaps use StandardCoders (yaml \u0026 gson)?",
+      "revId": "cb7ff12ce7468031df91b796a0c3fae048966b31",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73a6c8ed_017cfe3f",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/impl/PolicyLegacyGuardPersistenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-01-13T15:11:12Z",
+      "side": 1,
+      "message": "perhaps use a StandardYamlCoder?\n\nsame comment in other files",
+      "revId": "cb7ff12ce7468031df91b796a0c3fae048966b31",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81b57f4b_552c3954",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/impl/PolicyToscaPersistenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-01-13T15:11:12Z",
+      "side": 1,
+      "message": "swap arguments\n\nsame comment below",
+      "revId": "cb7ff12ce7468031df91b796a0c3fae048966b31",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6042b1fb_42e44586",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/impl/PolicyToscaPersistenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-01-13T15:11:12Z",
+      "side": 1,
+      "message": "could combine these two \"get\" operations into one",
+      "revId": "cb7ff12ce7468031df91b796a0c3fae048966b31",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c0bcefa_9820d26f",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/impl/PolicyToscaPersistenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-01-13T15:11:12Z",
+      "side": 1,
+      "message": "\"Tyoe\" \u003d\u003e \"Type\"",
+      "revId": "cb7ff12ce7468031df91b796a0c3fae048966b31",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a00a395_62f39a88",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/impl/PolicyTypePersistenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-01-13T15:11:12Z",
+      "side": 1,
+      "message": "wonder how hard it would be to use mariadb in-memory DB instead of h2?",
+      "revId": "cb7ff12ce7468031df91b796a0c3fae048966b31",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f8fa8b7_c8285ae6",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/impl/PolicyTypePersistenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-01-13T15:11:12Z",
+      "side": 1,
+      "message": "shouldn\u0027t this \"fail()\", too?",
+      "revId": "cb7ff12ce7468031df91b796a0c3fae048966b31",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
