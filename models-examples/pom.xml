@@ -31,4 +31,9 @@
 
     <name>${project.artifactId}</name>
     <description>Various examples of policy type and policy models in various formats</description>
+    
+    <properties>
+        <!-- There is no code in this sub-module, only holds interfaces. So skip sonar. -->
+        <sonar.skip>true</sonar.skip>
+    </properties>
 </project>
