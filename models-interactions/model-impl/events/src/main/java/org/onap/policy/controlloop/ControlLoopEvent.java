@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * controlloop
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,19 +35,19 @@ public abstract class ControlLoopEvent implements Serializable {
     private static final long serialVersionUID = 2391252138583119195L;
 
     @SerializedName("requestID")
-    private UUID requestId;
+    protected UUID requestId;
     @SerializedName("target_type")
-    private String targetType;
-    private String closedLoopControlName;
-    private String version = "1.0.2";
-    private String closedLoopEventClient;
-    private String target;
-    private String from;
-    private String policyScope;
-    private String policyName;
-    private String policyVersion;
-    private ControlLoopEventStatus closedLoopEventStatus;
-    private Map<String, String> additionalEventParams;
+    protected String targetType;
+    protected String closedLoopControlName;
+    protected String version = "1.0.2";
+    protected String closedLoopEventClient;
+    protected String target;
+    protected String from;
+    protected String policyScope;
+    protected String policyName;
+    protected String policyVersion;
+    protected ControlLoopEventStatus closedLoopEventStatus;
+    protected Map<String, String> additionalEventParams;
 
     /**
      * Construct an instance from an existing instance.
