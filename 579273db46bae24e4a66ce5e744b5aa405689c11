@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21c676d6_fa85d889",
+        "filename": "models-provider/src/test/resources/logback-test.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2020-01-15T09:32:26Z",
+      "side": 1,
+      "message": "pls update",
+      "range": {
+        "startLine": 4,
+        "startChar": 2,
+        "endLine": 4,
+        "endChar": 57
+      },
+      "revId": "579273db46bae24e4a66ce5e744b5aa405689c11",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aeba8627_3cad8214",
+        "filename": "models-provider/src/test/resources/logback-test.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2020-01-15T09:32:26Z",
+      "side": 1,
+      "message": "may be models",
+      "range": {
+        "startLine": 24,
+        "startChar": 17,
+        "endLine": 24,
+        "endChar": 21
+      },
+      "revId": "579273db46bae24e4a66ce5e744b5aa405689c11",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2ab62679_0afa9d93",
+        "filename": "models-provider/src/test/resources/logback-test.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2020-01-15T09:32:26Z",
+      "side": 1,
+      "message": "may be models-test.log",
+      "range": {
+        "startLine": 40,
+        "startChar": 25,
+        "endLine": 40,
+        "endChar": 33
+      },
+      "revId": "579273db46bae24e4a66ce5e744b5aa405689c11",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
