@@ -16,6 +16,24 @@
       "revId": "612b1fe75887bf41329016e186d69f09d8af427f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b74f3df6_820d9f6d",
+        "filename": "models-interactions/model-impl/events/src/main/java/org/onap/policy/controlloop/CanonicalAbated.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-01-15T15:20:46Z",
+      "side": 1,
+      "message": "yep, thanks!",
+      "parentUuid": "78e1be92_b071069b",
+      "revId": "612b1fe75887bf41329016e186d69f09d8af427f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
