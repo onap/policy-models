@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "32fffc0a_e7f68a0c",
+        "filename": "models-interactions/model-impl/events/src/main/java/org/onap/policy/controlloop/Abated.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-01-15T14:46:06Z",
+      "side": 1,
+      "message": "probably don\u0027t need this constructor, since Abated is derived from VirtualControlLoopEvent and the constructors are the same for both.\n\nsimilar comment for other classes",
+      "revId": "7f1e9c6e72e5344650a5271a076472f29176a750",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a89bbb0_a32cd00a",
+        "filename": "models-interactions/model-impl/events/src/main/java/org/onap/policy/controlloop/CanonicalAbated.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-01-15T14:46:06Z",
+      "side": 1,
+      "message": "thanks for the explanation!",
+      "revId": "7f1e9c6e72e5344650a5271a076472f29176a750",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb96d9f1_e4b18c7c",
         "filename": "models-interactions/model-impl/events/src/main/java/org/onap/policy/controlloop/ControlLoopEvent.java",
         "patchSetId": 1
@@ -45,6 +79,23 @@
       "revId": "7f1e9c6e72e5344650a5271a076472f29176a750",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40ab0c0f_20cc35ce",
+        "filename": "models-interactions/model-impl/events/src/main/java/org/onap/policy/controlloop/VirtualControlLoopEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-01-15T14:46:06Z",
+      "side": 1,
+      "message": "I assume these are protected so that reflectiveXxx can access them",
+      "revId": "7f1e9c6e72e5344650a5271a076472f29176a750",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
