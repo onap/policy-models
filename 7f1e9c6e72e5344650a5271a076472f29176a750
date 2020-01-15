@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fc26af11_a230a0fd",
+        "filename": "models-interactions/model-impl/events/src/main/java/org/onap/policy/controlloop/Abated.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-01-15T15:20:46Z",
+      "side": 1,
+      "message": "good catch!",
+      "parentUuid": "32fffc0a_e7f68a0c",
+      "revId": "7f1e9c6e72e5344650a5271a076472f29176a750",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a89bbb0_a32cd00a",
         "filename": "models-interactions/model-impl/events/src/main/java/org/onap/policy/controlloop/CanonicalAbated.java",
         "patchSetId": 1
@@ -47,6 +65,30 @@
       "writtenOn": "2020-01-15T14:44:48Z",
       "side": 1,
       "message": "2020",
+      "range": {
+        "startLine": 5,
+        "startChar": 22,
+        "endLine": 5,
+        "endChar": 27
+      },
+      "revId": "7f1e9c6e72e5344650a5271a076472f29176a750",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e583c19_205df54b",
+        "filename": "models-interactions/model-impl/events/src/main/java/org/onap/policy/controlloop/ControlLoopEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-01-15T15:20:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb96d9f1_e4b18c7c",
       "range": {
         "startLine": 5,
         "startChar": 22,
@@ -93,6 +135,24 @@
       "writtenOn": "2020-01-15T14:46:06Z",
       "side": 1,
       "message": "I assume these are protected so that reflectiveXxx can access them",
+      "revId": "7f1e9c6e72e5344650a5271a076472f29176a750",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a71163da_4c4ba90a",
+        "filename": "models-interactions/model-impl/events/src/main/java/org/onap/policy/controlloop/VirtualControlLoopEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-01-15T15:20:46Z",
+      "side": 1,
+      "message": "Access was giving me trouble at some point.  In any case, I think reflection processing would be a tad simpler internally, as they are now visible in subclasses.",
+      "parentUuid": "40ab0c0f_20cc35ce",
       "revId": "7f1e9c6e72e5344650a5271a076472f29176a750",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
