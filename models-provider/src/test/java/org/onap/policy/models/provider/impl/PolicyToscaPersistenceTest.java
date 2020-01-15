@@ -23,8 +23,6 @@ package org.onap.policy.models.provider.impl;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import com.google.gson.GsonBuilder;
-
 import java.net.URISyntaxException;
 import java.util.Base64;
 import java.util.List;
@@ -114,7 +112,7 @@ public class PolicyToscaPersistenceTest {
 
     private void testYamlStringPolicyPersistence(final String policyString) throws Exception {
         Object yamlObject = new Yaml().load(policyString);
-        String yamlAsJsonString = new GsonBuilder().setPrettyPrinting().create().toJson(yamlObject);
+        String yamlAsJsonString = new StandardCoder().encode(yamlObject);
 
         testJsonStringPolicyPersistence(yamlAsJsonString);
     }
@@ -138,19 +136,20 @@ public class PolicyToscaPersistenceTest {
                 ToscaServiceTemplate gotToscaServiceTemplate =
                         databaseProvider.getPolicies(policy.getName(), policy.getVersion());
 
-                assertEquals(gotToscaServiceTemplate.getToscaTopologyTemplate().getPolicies().get(0)
-                        .get(policy.getName()).getType(), policy.getType());
+                assertEquals(policy.getType(), gotToscaServiceTemplate.getToscaTopologyTemplate().getPolicies().get(0)
+                        .get(policy.getName()).getType());
 
                 gotToscaServiceTemplate = databaseProvider.getFilteredPolicies(ToscaPolicyFilter.builder().build());
 
-                assertEquals(getToscaPolicyFromMapList(gotToscaServiceTemplate.getToscaTopologyTemplate().getPolicies(),
-                        policy.getName()).getType(), policy.getType());
+                assertEquals(policy.getType(),
+                        getToscaPolicyFromMapList(gotToscaServiceTemplate.getToscaTopologyTemplate().getPolicies(),
+                                policy.getName()).getType());
 
                 gotToscaServiceTemplate = databaseProvider.getFilteredPolicies(
                         ToscaPolicyFilter.builder().name(policy.getName()).version(policy.getVersion()).build());
 
-                assertEquals(gotToscaServiceTemplate.getToscaTopologyTemplate().getPolicies().get(0)
-                        .get(policy.getName()).getType(), policy.getType());
+                assertEquals(policy.getType(), gotToscaServiceTemplate.getToscaTopologyTemplate().getPolicies().get(0)
+                        .get(policy.getName()).getType());
             }
         }
     }
@@ -159,8 +158,8 @@ public class PolicyToscaPersistenceTest {
             String policyName) {
         ToscaPolicy toscaPolicy = new ToscaPolicy();
         for (Map<String, ToscaPolicy> policyMap : toscaPolicyMapList) {
-            if (policyMap.get(policyName) != null) {
-                toscaPolicy = policyMap.get(policyName);
+            toscaPolicy = policyMap.get(policyName);
+            if (toscaPolicy != null) {
                 break;
             }
         }
@@ -170,8 +169,8 @@ public class PolicyToscaPersistenceTest {
     private void createPolicyTypes() throws CoderException, PfModelException, URISyntaxException {
         Set<String> policyTypeResources = ResourceUtils.getDirectoryContents("policytypes");
 
-        for (String policyTyoeResource : policyTypeResources) {
-            Object yamlObject = new Yaml().load(ResourceUtils.getResourceAsString(policyTyoeResource));
+        for (String policyTypeResource : policyTypeResources) {
+            Object yamlObject = new Yaml().load(ResourceUtils.getResourceAsString(policyTypeResource));
             String yamlAsJsonString = new StandardCoder().encode(yamlObject);
 
             ToscaServiceTemplate toscaServiceTemplatePolicyType =
