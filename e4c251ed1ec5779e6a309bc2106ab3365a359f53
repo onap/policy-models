@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "22f038d0_9dde5b6f",
+        "filename": "models-provider/src/test/resources/logback-test.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-01-16T11:26:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84b15b34_7b4a5f40",
+      "range": {
+        "startLine": 4,
+        "startChar": 3,
+        "endLine": 5,
+        "endChar": 54
+      },
+      "revId": "e4c251ed1ec5779e6a309bc2106ab3365a359f53",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2caa4b63_0e7ca223",
         "filename": "models-provider/src/test/resources/logback-test.xml",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2020-01-15T12:19:03Z",
       "side": 1,
       "message": "that\u0027s a good idea",
+      "range": {
+        "startLine": 27,
+        "startChar": 36,
+        "endLine": 27,
+        "endChar": 54
+      },
+      "revId": "e4c251ed1ec5779e6a309bc2106ab3365a359f53",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e72b57c_2a2d91b0",
+        "filename": "models-provider/src/test/resources/logback-test.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-01-16T11:26:12Z",
+      "side": 1,
+      "message": "It was in the original I copied, can\u0027t claim credit!",
+      "parentUuid": "2caa4b63_0e7ca223",
       "range": {
         "startLine": 27,
         "startChar": 36,
@@ -68,6 +116,30 @@
       "revId": "e4c251ed1ec5779e6a309bc2106ab3365a359f53",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a074f2c6_88901e54",
+        "filename": "models-tosca/src/test/resources/logback-test.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-01-16T11:26:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69b8b945_5b545746",
+      "range": {
+        "startLine": 5,
+        "startChar": 31,
+        "endLine": 5,
+        "endChar": 35
+      },
+      "revId": "e4c251ed1ec5779e6a309bc2106ab3365a359f53",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
