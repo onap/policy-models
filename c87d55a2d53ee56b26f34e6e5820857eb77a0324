@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4bb8cd99_64de4481",
+        "filename": "models-interactions/model-impl/events/src/test/java/org/onap/policy/controlloop/AbatedTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-01-16T11:06:30Z",
+      "side": 1,
+      "message": "I find it helps to give the test methods some helpful name because if a test fails, the method name on which it fails is in the log. If the name gives an idea of what the test is, then it\u0027s easier to pick it out of a lot of trace information and get an idea where the problem is in a failed test.\n\nSame comment in other tests.",
+      "range": {
+        "startLine": 33,
+        "startChar": 16,
+        "endLine": 33,
+        "endChar": 20
+      },
+      "revId": "c87d55a2d53ee56b26f34e6e5820857eb77a0324",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
