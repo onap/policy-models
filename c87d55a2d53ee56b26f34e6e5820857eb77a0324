@@ -22,6 +22,30 @@
       "revId": "c87d55a2d53ee56b26f34e6e5820857eb77a0324",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c58d2da1_20e6ecc8",
+        "filename": "models-interactions/model-impl/events/src/test/java/org/onap/policy/controlloop/AbatedTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-01-16T14:47:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bb8cd99_64de4481",
+      "range": {
+        "startLine": 33,
+        "startChar": 16,
+        "endLine": 33,
+        "endChar": 20
+      },
+      "revId": "c87d55a2d53ee56b26f34e6e5820857eb77a0324",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
