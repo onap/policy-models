@@ -31,6 +31,11 @@
   <artifactId>policy-models-sim</artifactId>
   <packaging>pom</packaging>
   <name>${project.artifactId}</name>
+
+  <properties>
+    <jacoco.dataFile>${project.basedir}/../../target/code-coverage/jacoco-ut.exec</jacoco.dataFile>
+  </properties>
+
   <modules>
       <module>models-sim-dmaap</module>
       <module>policy-models-sim-pdp</module>

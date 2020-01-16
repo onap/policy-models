@@ -29,6 +29,11 @@
   <artifactId>policy-models-interactions</artifactId>
   <packaging>pom</packaging>
   <name>${project.artifactId}</name>
+
+  <properties>
+    <jacoco.dataFile>${project.basedir}/../../target/code-coverage/jacoco-ut.exec</jacoco.dataFile>
+  </properties>
+
   <modules>
       <module>model-simulators</module>
       <module>model-yaml</module>

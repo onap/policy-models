@@ -33,6 +33,10 @@
   <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
   <artifactId>model-impl</artifactId>
 
+  <properties>
+    <jacoco.dataFile>${project.basedir}/../../../../target/code-coverage/jacoco-ut.exec</jacoco.dataFile>
+  </properties>
+
   <modules>
       <module>aai</module>
       <module>appc</module>
