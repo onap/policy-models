@@ -24,8 +24,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import com.google.gson.GsonBuilder;
-
 import java.util.Base64;
 import java.util.List;
 import java.util.Set;
@@ -100,7 +98,7 @@ public class PolicyTypePersistenceTest {
 
     private void testYamlStringPolicyTypePersistence(final String policyTypeString) throws Exception {
         Object yamlObject = new Yaml().load(policyTypeString);
-        String yamlAsJsonString = new GsonBuilder().setPrettyPrinting().create().toJson(yamlObject);
+        String yamlAsJsonString = new StandardCoder().encode(yamlObject);
 
         testJsonStringPolicyTypePersistence(yamlAsJsonString);
     }
@@ -117,13 +115,14 @@ public class PolicyTypePersistenceTest {
         assertNotNull(serviceTemplate);
         ToscaPolicyType inPolicyType = serviceTemplate.getPolicyTypes().values().iterator().next();
 
-        try {
-            databaseProvider.createPolicyTypes(serviceTemplate);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        databaseProvider.updatePolicyTypes(serviceTemplate);
+        databaseProvider.createPolicyTypes(serviceTemplate);
+        checkPolicyTypePersistence(inPolicyType);
 
+        databaseProvider.updatePolicyTypes(serviceTemplate);
+        checkPolicyTypePersistence(inPolicyType);
+    }
+
+    private void checkPolicyTypePersistence(ToscaPolicyType inPolicyType) throws PfModelException {
         List<ToscaPolicyType> policyTypeList =
                 databaseProvider.getPolicyTypeList(inPolicyType.getName(), inPolicyType.getVersion());
 

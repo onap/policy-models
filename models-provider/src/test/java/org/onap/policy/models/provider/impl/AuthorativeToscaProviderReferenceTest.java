@@ -23,9 +23,6 @@ package org.onap.policy.models.provider.impl;
 
 import static org.junit.Assert.assertEquals;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -35,6 +32,8 @@ import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.onap.policy.common.utils.coder.CoderException;
+import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.dao.DaoParameters;
@@ -53,7 +52,7 @@ import org.yaml.snakeyaml.Yaml;
  */
 public class AuthorativeToscaProviderReferenceTest {
     private static PfDao pfDao;
-    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private static final StandardCoder coder = new StandardCoder();
 
     // @formatter:off
     private static final String[] EXAMPLE_POLICY_TYPES = {
@@ -141,17 +140,18 @@ public class AuthorativeToscaProviderReferenceTest {
      * Populate the database.
      *
      * @throws PfModelException on database exceptions
+     * @throws CoderException on JSON encoding/decoding errors
      */
     @BeforeClass
-    public static void beforeFillDatabase() throws PfModelException {
+    public static void beforeFillDatabase() throws PfModelException, CoderException {
         for (String policyTypeDataString : EXAMPLE_POLICY_TYPES) {
             String[] policyTypeDataArray = policyTypeDataString.split("#");
             String policyTypeYamlDefinition = ResourceUtils.getResourceAsString(policyTypeDataArray[2]);
 
             Object yamlObject = new Yaml().load(policyTypeYamlDefinition);
-            String policyTypeJsonDefinition = gson.toJson(yamlObject);
+            String policyTypeJsonDefinition = coder.encode(yamlObject);
 
-            ToscaServiceTemplate serviceTemplate = gson.fromJson(policyTypeJsonDefinition, ToscaServiceTemplate.class);
+            ToscaServiceTemplate serviceTemplate = coder.decode(policyTypeJsonDefinition, ToscaServiceTemplate.class);
             policyTypeMap.put(new ToscaEntityKey(policyTypeDataArray[0], policyTypeDataArray[1]), serviceTemplate);
             new AuthorativeToscaProvider().createPolicyTypes(pfDao, serviceTemplate);
         }
@@ -163,15 +163,15 @@ public class AuthorativeToscaProviderReferenceTest {
     }
 
     @Test
-    public void testPolicyTypeRead() throws PfModelException {
+    public void testPolicyTypeRead() throws PfModelException, CoderException {
         for (Entry<ToscaEntityKey, ToscaServiceTemplate> policyTypeMapEntry : policyTypeMap.entrySet()) {
             ToscaServiceTemplate serviceTemplate = new AuthorativeToscaProvider().getPolicyTypes(pfDao,
                     policyTypeMapEntry.getKey().getName(), policyTypeMapEntry.getKey().getVersion());
 
             assertEquals(1, serviceTemplate.getPolicyTypes().size());
 
-            String originalJson = gson.toJson(policyTypeMapEntry.getValue());
-            String databaseJson = gson.toJson(serviceTemplate);
+            String originalJson = coder.encode(policyTypeMapEntry.getValue());
+            String databaseJson = coder.encode(serviceTemplate);
 
             // TODO: This test has no chance of passing yet but must eventually pass to prove that the policy types
             // TODO: that were retrieved are the same as the policy types that were stored
