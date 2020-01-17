@@ -23,7 +23,7 @@
 # Docker file to build an image that runs the DMaaP simulator on Java 8 in alpine
 #
 
-FROM onap/policy-common-alpine:1.4.0
+FROM onap/policy-jre-alpine
 
 LABEL maintainer="Policy Team"
 
@@ -34,7 +34,6 @@ ENV POLICY_LOGS=${POLICY_LOGS}
 
 RUN apk add --no-cache --update \
     bash \
-    nss \
     procps \
     coreutils \
     findutils \
@@ -43,11 +42,10 @@ RUN apk add --no-cache --update \
     unzip \
     curl \
     wget \
-    openssh \
     iproute2 \
     iputils \
     vim \
-    openjdk8
+    openjdk11-jre
 
 # Create DMaaP simulator user and group
 # Add simulator-specific directories and set ownership as the simulator user
