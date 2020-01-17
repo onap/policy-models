@@ -24,7 +24,7 @@ then
 	DMAAP_SIM_HOME=/opt/app/policy/dmaap-sim
 fi
 
-JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk
+JAVA_HOME=/usr/lib/jvm/java-11-openjdk
 KEYSTORE="${DMAAP_SIM_HOME}/etc/ssl/policy-keystore"
 KEYSTORE_PASSWD="Pol1cy_0nap"
 TRUSTSTORE="${DMAAP_SIM_HOME}/etc/ssl/policy-truststore"
