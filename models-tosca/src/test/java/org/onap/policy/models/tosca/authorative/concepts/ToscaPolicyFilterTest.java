@@ -182,7 +182,7 @@ public class ToscaPolicyFilterTest {
 
         filter = ToscaPolicyFilter.builder().version(VERSION_100).build();
         filteredList = filter.filter(policyList);
-        assertEquals(21, filteredList.size());
+        assertEquals(22, filteredList.size());
 
         filter = ToscaPolicyFilter.builder().name("OSDF_CASABLANCA.SubscriberPolicy_v1").version(VERSION_100).build();
         filteredList = filter.filter(policyList);
@@ -202,7 +202,7 @@ public class ToscaPolicyFilterTest {
 
         filter = ToscaPolicyFilter.builder().versionPrefix("1.").build();
         filteredList = filter.filter(policyList);
-        assertEquals(21, filteredList.size());
+        assertEquals(22, filteredList.size());
 
         filter = ToscaPolicyFilter.builder().versionPrefix("100.").build();
         filteredList = filter.filter(policyList);
