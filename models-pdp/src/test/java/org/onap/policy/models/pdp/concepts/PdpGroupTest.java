@@ -3,7 +3,7 @@
  * ONAP Policy Models
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -140,7 +140,7 @@ public class PdpGroupTest {
         group.setPdpSubgroups(Arrays.asList(subgroup1, subgroup2, subgroup3));
 
         // valid
-        ValidationResult result = group.validatePapRest();
+        ValidationResult result = group.validatePapRest(false);
         assertNotNull(result);
         assertTrue(result.isValid());
         assertNull(result.getResult());
@@ -179,7 +179,7 @@ public class PdpGroupTest {
     }
 
     private void assertInvalid(PdpGroup group) {
-        ValidationResult result = group.validatePapRest();
+        ValidationResult result = group.validatePapRest(false);
         assertNotNull(result);
         assertFalse(result.isValid());
         assertNotNull(result.getResult());

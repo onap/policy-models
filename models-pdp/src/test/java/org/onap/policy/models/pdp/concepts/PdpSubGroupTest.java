@@ -3,7 +3,7 @@
  * ONAP Policy Models
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -101,7 +101,7 @@ public class PdpSubGroupTest {
         subgrp.setPolicies(Arrays.asList(makeIdent("policy-X", "4.0.0", ToscaPolicyIdentifier.class)));
 
         // valid
-        ValidationResult result = subgrp.validatePapRest();
+        ValidationResult result = subgrp.validatePapRest(false);
         assertNotNull(result);
         assertTrue(result.isValid());
         assertNull(result.getResult());
@@ -158,7 +158,7 @@ public class PdpSubGroupTest {
     }
 
     private void assertInvalid(PdpSubGroup sub2) {
-        ValidationResult result = sub2.validatePapRest();
+        ValidationResult result = sub2.validatePapRest(false);
         assertNotNull(result);
         assertFalse(result.isValid());
         assertNotNull(result.getResult());
