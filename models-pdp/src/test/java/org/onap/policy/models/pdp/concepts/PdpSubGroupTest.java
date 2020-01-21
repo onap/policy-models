@@ -101,7 +101,7 @@ public class PdpSubGroupTest {
         subgrp.setPolicies(Arrays.asList(makeIdent("policy-X", "4.0.0", ToscaPolicyIdentifier.class)));
 
         // valid
-        ValidationResult result = subgrp.validatePapRest();
+        ValidationResult result = subgrp.validatePapRest(false);
         assertNotNull(result);
         assertTrue(result.isValid());
         assertNull(result.getResult());
@@ -158,7 +158,7 @@ public class PdpSubGroupTest {
     }
 
     private void assertInvalid(PdpSubGroup sub2) {
-        ValidationResult result = sub2.validatePapRest();
+        ValidationResult result = sub2.validatePapRest(false);
         assertNotNull(result);
         assertFalse(result.isValid());
         assertNotNull(result.getResult());

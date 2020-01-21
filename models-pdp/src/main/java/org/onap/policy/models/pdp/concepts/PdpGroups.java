@@ -66,20 +66,27 @@ public class PdpGroups {
      * @return the validation result
      */
     public ValidationResult validatePapRest() {
-        BeanValidationResult result = new BeanValidationResult(GROUPS_FIELD, this);
-
-        result.validateNotNullList(GROUPS_FIELD, groups, PdpGroup::validatePapRest);
+        ValidationResult result = new BeanValidationResult(GROUPS_FIELD, this);
+        ((BeanValidationResult) result).validateNotNullList(GROUPS_FIELD, groups,
+            (PdpGroup pdpGroup) -> pdpGroup.validatePapRest(false));
         if (!result.isValid()) {
             return result;
         }
 
         // verify that the same group doesn't appear more than once
-        List<String> names = groups.stream().map(PdpGroup::getName).collect(Collectors.toList());
-        if (groups.size() == new HashSet<>(names).size()) {
-            return result;
-        }
+        return checkForDuplicateGroups(result);
+    }
 
-        // different sizes implies duplicates
-        return new ObjectValidationResult(GROUPS_FIELD, names, ValidationStatus.INVALID, "duplicate group names");
+    /**
+     * Validates that there are no duplicate PdpGroups with the same name.
+     *
+     * @return the validation result
+     */
+    public ValidationResult checkForDuplicateGroups(ValidationResult result) {
+        List<String> names = groups.stream().map(PdpGroup::getName).collect(Collectors.toList());
+        if (groups.size() != new HashSet<>(names).size()) {
+            result = new ObjectValidationResult(GROUPS_FIELD, names, ValidationStatus.INVALID, "duplicate group names");
+        }
+        return result;
     }
 }

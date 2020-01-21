@@ -80,17 +80,20 @@ public class PdpSubGroup {
      *
      * @return the validation result
      */
-    public ValidationResult validatePapRest() {
+    public ValidationResult validatePapRest(boolean updateGroupFlow) {
         BeanValidationResult result = new BeanValidationResult("group", this);
 
         result.validateNotNull("pdpType", pdpType);
-        result.validateNotNullList("supportedPolicyTypes", supportedPolicyTypes,
-                        ToscaPolicyTypeIdentifier::validatePapRest);
-        result.validateNotNullList("policies", policies, ToscaPolicyIdentifier::validatePapRest);
+        // When doing PdpGroup Update operation, supported policy types and policies doesn't have to be validated.
+        if (!updateGroupFlow) {
+            result.validateNotNullList("policies", policies, ToscaPolicyIdentifier::validatePapRest);
+            result.validateNotNullList("supportedPolicyTypes", supportedPolicyTypes,
+                ToscaPolicyTypeIdentifier::validatePapRest);
 
-        if (supportedPolicyTypes != null && supportedPolicyTypes.isEmpty()) {
-            result.addResult(new ObjectValidationResult("supportedPolicyTypes", supportedPolicyTypes,
-                            ValidationStatus.INVALID, "empty list"));
+            if (supportedPolicyTypes != null && supportedPolicyTypes.isEmpty()) {
+                result.addResult(new ObjectValidationResult("supportedPolicyTypes", supportedPolicyTypes,
+                    ValidationStatus.INVALID, "empty list"));
+            }
         }
 
         if (desiredInstanceCount <= 0) {
