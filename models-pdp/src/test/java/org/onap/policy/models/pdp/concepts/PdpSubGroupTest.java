@@ -3,7 +3,7 @@
  * ONAP Policy Models
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -91,6 +91,39 @@ public class PdpSubGroupTest {
     }
 
     @Test
+    public void testValidatePapRest_GroupUpdateFlow() throws Exception {
+        PdpSubGroup subgrp = new PdpSubGroup();
+        // with supported policy type and policies
+        subgrp.setDesiredInstanceCount(1);
+        subgrp.setPdpType("pdp-type");
+        subgrp.setSupportedPolicyTypes(
+                        Arrays.asList(makeIdent("type-X", VERSION_300, ToscaPolicyTypeIdentifier.class)));
+        subgrp.setPolicies(Arrays.asList(makeIdent("policy-X", "4.0.0", ToscaPolicyIdentifier.class)));
+
+        ValidationResult result = subgrp.validatePapRest(false);
+        assertNotNull(result);
+        assertTrue(result.isValid());
+        assertNull(result.getResult());
+
+        // without supported policy type and policies
+        PdpSubGroup subgrp2 = new PdpSubGroup();
+        subgrp2.setDesiredInstanceCount(1);
+        subgrp2.setPdpType("pdp-type");
+
+        // valid
+        result = subgrp2.validatePapRest(true);
+        assertNotNull(result);
+        assertTrue(result.isValid());
+        assertNull(result.getResult());
+
+        // invalid
+        result = subgrp2.validatePapRest(false);
+        assertNotNull(result);
+        assertFalse(result.isValid());
+        assertNotNull(result.getResult());
+    }
+
+    @Test
     public void testValidatePapRest() throws Exception {
         PdpSubGroup subgrp = new PdpSubGroup();
 
@@ -101,7 +134,7 @@ public class PdpSubGroupTest {
         subgrp.setPolicies(Arrays.asList(makeIdent("policy-X", "4.0.0", ToscaPolicyIdentifier.class)));
 
         // valid
-        ValidationResult result = subgrp.validatePapRest();
+        ValidationResult result = subgrp.validatePapRest(false);
         assertNotNull(result);
         assertTrue(result.isValid());
         assertNull(result.getResult());
@@ -158,7 +191,7 @@ public class PdpSubGroupTest {
     }
 
     private void assertInvalid(PdpSubGroup sub2) {
-        ValidationResult result = sub2.validatePapRest();
+        ValidationResult result = sub2.validatePapRest(false);
         assertNotNull(result);
         assertFalse(result.isValid());
         assertNotNull(result.getResult());

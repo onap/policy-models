@@ -3,7 +3,7 @@
  * ONAP Policy Models
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -121,6 +121,42 @@ public class PdpGroupTest {
     }
 
     @Test
+    public void testValidatePapRest_GroupUpdateFlow() {
+        PdpGroup group = new PdpGroup();
+        group.setName(NAME);
+        // with supported policy type and policies
+        PdpSubGroup subgroup1 = new PdpSubGroup();
+        subgroup1.setDesiredInstanceCount(1);
+        subgroup1.setPdpType(PDP_TYPE1);
+        subgroup1.setSupportedPolicyTypes(Arrays.asList(new ToscaPolicyTypeIdentifier("a-type-name", "3.2.1")));
+        subgroup1.setPolicies(Collections.emptyList());
+        group.setPdpSubgroups(Arrays.asList(subgroup1));
+
+        ValidationResult result = group.validatePapRest(true);
+        assertNotNull(result);
+        assertTrue(result.isValid());
+        assertNull(result.getResult());
+
+        // without supported policy type and policies
+        PdpSubGroup subgroup2 = new PdpSubGroup();
+        subgroup2.setDesiredInstanceCount(1);
+        subgroup2.setPdpType(PDP_TYPE1);
+        group.setPdpSubgroups(Arrays.asList(subgroup2));
+
+        // valid
+        result = group.validatePapRest(true);
+        assertNotNull(result);
+        assertTrue(result.isValid());
+        assertNull(result.getResult());
+
+        // invalid
+        result = group.validatePapRest(false);
+        assertNotNull(result);
+        assertFalse(result.isValid());
+        assertNotNull(result.getResult());
+    }
+
+    @Test
     public void testValidatePapRest() {
         PdpGroup group = new PdpGroup();
         group.setName(NAME);
@@ -140,7 +176,7 @@ public class PdpGroupTest {
         group.setPdpSubgroups(Arrays.asList(subgroup1, subgroup2, subgroup3));
 
         // valid
-        ValidationResult result = group.validatePapRest();
+        ValidationResult result = group.validatePapRest(false);
         assertNotNull(result);
         assertTrue(result.isValid());
         assertNull(result.getResult());
@@ -179,7 +215,7 @@ public class PdpGroupTest {
     }
 
     private void assertInvalid(PdpGroup group) {
-        ValidationResult result = group.validatePapRest();
+        ValidationResult result = group.validatePapRest(false);
         assertNotNull(result);
         assertFalse(result.isValid());
         assertNotNull(result.getResult());
