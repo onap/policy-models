@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -81,9 +81,10 @@ public class PdpGroup implements PfNameVersion, Comparable<PdpGroup> {
     /**
      * Validates that appropriate fields are populated for an incoming call to the PAP REST API.
      *
+     * @param updateGroupFlow if the operation is pdp group update
      * @return the validation result
      */
-    public ValidationResult validatePapRest() {
+    public ValidationResult validatePapRest(boolean updateGroupFlow) {
         BeanValidationResult result = new BeanValidationResult("group", this);
 
         /*
@@ -91,7 +92,8 @@ public class PdpGroup implements PfNameVersion, Comparable<PdpGroup> {
          */
 
         result.validateNotNull("name", name);
-        result.validateNotNullList(SUBGROUP_FIELD, pdpSubgroups, PdpSubGroup::validatePapRest);
+        result.validateNotNullList(SUBGROUP_FIELD, pdpSubgroups,
+            (PdpSubGroup pdpSubGroup) -> pdpSubGroup.validatePapRest(updateGroupFlow));
 
         if (pdpSubgroups != null && pdpSubgroups.isEmpty()) {
             result.addResult(new ObjectValidationResult(SUBGROUP_FIELD, pdpSubgroups, ValidationStatus.INVALID,
