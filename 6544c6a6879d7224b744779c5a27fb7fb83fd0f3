@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b63daf57_21f67aed",
+        "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/concepts/PdpGroupTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-01-22T14:27:33Z",
+      "side": 1,
+      "message": "need some tests for \"true\" case, too?",
+      "revId": "6544c6a6879d7224b744779c5a27fb7fb83fd0f3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "235fd3e4_bc3cccd0",
+        "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/concepts/PdpSubGroupTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-01-22T14:27:33Z",
+      "side": 1,
+      "message": "need some tests for \"true\" case, too?",
+      "revId": "6544c6a6879d7224b744779c5a27fb7fb83fd0f3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
