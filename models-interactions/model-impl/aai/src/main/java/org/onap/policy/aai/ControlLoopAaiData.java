@@ -1,10 +1,8 @@
 /*-
  * ============LICENSE_START=======================================================
- * SdncActorServiceProvider
+ * ONAP
  * ================================================================================
- * Copyright (C) 2018-2019 Huawei Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
- * Modifications Copyright (C) 2019-2020 AT&T Intellectual Property.
+ * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,22 +18,15 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.controlloop.actor.sdnc;
+package org.onap.policy.aai;
 
-import org.onap.policy.controlloop.actorserviceprovider.spi.ActorImpl;
+import lombok.Data;
 
-
-public class SdncActorServiceProvider extends ActorImpl {
-    private static final String SDNC_ACTOR = "SDNC";
-
-    /**
-     * Constructs the object.
-     */
-    public SdncActorServiceProvider() {
-        // @formatter:off
-        super(SDNC_ACTOR,
-            new RerouteManager(SDNC_ACTOR),
-            new BandwidthOnDemandManager(SDNC_ACTOR));
-            // @formatter:on
-    }
+/**
+ * ControlLoop A&AI Data needed by various Actors.
+ */
+// TODO fold this into VirtualControlLoopEvent
+@Data
+public class ControlLoopAaiData {
+    private AaiCqResponse cqResponse;
 }

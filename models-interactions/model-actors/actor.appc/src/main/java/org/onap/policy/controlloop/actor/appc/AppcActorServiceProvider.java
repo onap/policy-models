@@ -27,6 +27,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.function.Consumer;
+import lombok.Getter;
+import org.onap.policy.aai.ControlLoopAaiData;
 import org.onap.policy.appc.CommonHeader;
 import org.onap.policy.appc.Request;
 import org.onap.policy.common.utils.coder.CoderException;
@@ -138,4 +141,33 @@ public class AppcActorServiceProvider implements Actor {
         }
     }
 
+    @Getter
+    class Operation {
+        private String name;
+
+
+        /**
+         * Populates the A&AI data that will be needed by this operation. This is typically
+         * invoked when the event is first received.
+         *
+         * @param aaiData data to be populated
+         * @param targetEntity target entity on which to perform the operation
+         * @param targetType target entity type
+         */
+        void populateAaiData(ControlLoopAaiData aaiData, String targetEntity, String targetType);
+
+        /**
+         * Called by enforcement PDP engine to start the specified operation.
+         *
+         * @param aaiData associated A&AI data
+         * @param payload payload passed from the operation policy
+         * @param targetEntity target entity on which to perform the operation
+         * @param targetType target entity type
+         * @param callback method to be invoked when the operation completes. The status is
+         *        indicated by the "outcome" field
+         * @return ControlLoopOperation object
+         */
+        ControlLoopOperation startOperation(ControlLoopAaiData aaiData, Map<String, Object> payload,
+                        String targetEntity, String targetType, Consumer<ControlLoopOperation> callback);
+    }
 }

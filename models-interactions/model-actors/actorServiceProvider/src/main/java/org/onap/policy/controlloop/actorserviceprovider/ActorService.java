@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ActorService
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018, 2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,25 +21,45 @@
 
 package org.onap.policy.controlloop.actorserviceprovider;
 
-import com.google.common.collect.ImmutableList;
-
-import java.util.Iterator;
+import com.google.common.collect.ImmutableMap;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ServiceLoader;
-
+import java.util.Set;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
+import org.onap.policy.controlloop.actorserviceprovider.spi.ConfigImpl;
+import org.onap.policy.controlloop.actorserviceprovider.spi.ParameterTranslator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ActorService {
-
+public class ActorService extends ConfigImpl<Map<String, Object>> {
     private static final Logger logger = LoggerFactory.getLogger(ActorService.class);
-    private static ActorService service;
 
-    // USed to load actors
-    private final ServiceLoader<Actor> loader;
+    private final Map<String, Actor> name2actor;
+
+    private static class LazyHolder {
+        static final ActorService INSTANCE = new ActorService();
+    }
 
     private ActorService() {
-        loader = ServiceLoader.load(Actor.class);
+        super("actors");
+
+        Map<String, Actor> map = new HashMap<>();
+        for (Actor actor : ServiceLoader.load(Actor.class)) {
+            map.compute(actor.getName(), (name, curActor) -> {
+                if (curActor == null) {
+                    return actor;
+                }
+
+                // TODO: should this throw an exception?
+                logger.warn("duplicate actor names for {}: {}, ignoring {}", name, curActor.getClass().getSimpleName(),
+                                actor.getClass().getSimpleName());
+                return curActor;
+            });
+        }
+
+        name2actor = ImmutableMap.copyOf(map);
     }
 
     /**
@@ -47,27 +67,74 @@ public class ActorService {
      *
      * @return the instance
      */
-    public static synchronized ActorService getInstance() {
-        if (service == null) {
-            service = new ActorService();
+    public static ActorService getInstance() {
+        return LazyHolder.INSTANCE;
+    }
+
+    // TODO handle exceptions from actors
+
+    @Override
+    protected void doConfigure(Map<String, Object> parameters) {
+        for (Actor actor : name2actor.values()) {
+            String actorName = actor.getName();
+            Map<String, Object> subparams = ParameterTranslator.translateToMap(actorName, parameters.get(actorName));
+            if (subparams == null) {
+                logger.warn("missing configuration parameters for actor {}", actorName);
+
+            } else {
+                actor.configure(subparams);
+            }
         }
-        return service;
+    }
+
+    @Override
+    protected void doStart() {
+        for (Actor actor : name2actor.values()) {
+            if (actor.isConfigured()) {
+                actor.start();
+
+            } else {
+                logger.warn("not starting unconfigured actor {}", actor.getName());
+            }
+        }
+    }
+
+    @Override
+    protected void doStop() {
+        name2actor.values().forEach(Actor::stop);
+    }
+
+    @Override
+    protected void doShutdown() {
+        name2actor.values().forEach(Actor::shutdown);
     }
 
     /**
-     * Get the actors.
+     * Gets a particular actor.
+     *
+     * @param name name of the actor of interest
+     * @return the desired actor, or {@code null} if it does not exist
+     */
+    // TODO: should this throw an exception instead of returning null?
+    public Actor getActor(String name) {
+        return name2actor.get(name);
+    }
+
+    /**
+     * Gets the actors.
      *
      * @return the actors
      */
-    public ImmutableList<Actor> actors() {
-        Iterator<Actor> iter = loader.iterator();
-        logger.debug("returning actors");
-        while (iter.hasNext()) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("Got {}", iter.next().actor());
-            }
-        }
+    public Collection<Actor> getActors() {
+        return name2actor.values();
+    }
 
-        return ImmutableList.copyOf(loader.iterator());
+    /**
+     * Gets the names of the actors.
+     *
+     * @return the actor names
+     */
+    public Set<String> getActorNames() {
+        return name2actor.keySet();
     }
 }

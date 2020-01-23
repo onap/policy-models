@@ -21,16 +21,47 @@
 
 package org.onap.policy.controlloop.actorserviceprovider.spi;
 
-import java.util.List;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
+import org.onap.policy.common.capabilities.Startable;
 
-public interface Actor {
+/**
+ * This is the service interface for defining an Actor used in Control Loop Operational
+ * Policies for performing actions on runtime entities.
+ *
+ * @author pameladragosh
+ *
+ */
+public interface Actor extends Startable, Configurable<Map<String,Object>> {
 
-    String actor();
+    /**
+     * Gets the name of the actor.
+     *
+     * @return the actor name
+     */
+    String getName();
 
-    List<String> recipes();
+    /**
+     * Gets a particular operation.
+     *
+     * @param name name of the operation of interest
+     * @return the desired operation, or {@code null} if it does not exist
+     */
+    // TODO: should this throw an exception instead of returning null?
+    OperationManager getOperationManager(String name);
 
-    List<String> recipeTargets(String recipe);
+    /**
+     * Gets the supported operations.
+     *
+     * @return the supported operations
+     */
+    public Collection<OperationManager> getOperationManagers();
 
-    List<String> recipePayloads(String recipe);
-
+    /**
+     * Gets the names of the supported operations.
+     *
+     * @return the names of the supported operations
+     */
+    public Set<String> getOperationNames();
 }
