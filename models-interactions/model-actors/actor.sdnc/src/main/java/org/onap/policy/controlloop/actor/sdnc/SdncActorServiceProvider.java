@@ -4,7 +4,7 @@
  * ================================================================================
  * Copyright (C) 2018-2019 Huawei Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
- * Modifications Copyright (C) 2019 AT&T Intellectual Property.
+ * Modifications Copyright (C) 2019-2020 AT&T Intellectual Property.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.UUID;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
-import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
+import org.onap.policy.controlloop.actorserviceprovider.impl.ActorImpl;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.sdnc.SdncHealNetworkInfo;
 import org.onap.policy.sdnc.SdncHealRequest;
@@ -45,9 +45,12 @@ import org.onap.policy.sdnc.SdncRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-public class SdncActorServiceProvider implements Actor {
+public class SdncActorServiceProvider extends ActorImpl {
     private static final Logger logger = LoggerFactory.getLogger(SdncActorServiceProvider.class);
+
+    public static final String NAME = "SDNC";
+
+    // TODO old code: remove lines down to **HERE**
 
     // Strings for Sdnc Actor
     private static final String SDNC_ACTOR = "SDNC";
@@ -64,6 +67,22 @@ public class SdncActorServiceProvider implements Actor {
     private static final ImmutableList<String> recipes = ImmutableList.of(RECIPE_REROUTE);
     private static final ImmutableMap<String, List<String>> targets =
             new ImmutableMap.Builder<String, List<String>>().put(RECIPE_REROUTE, ImmutableList.of(TARGET_VM)).build();
+
+    // **HERE**
+
+    /**
+     * Constructs the object.
+     */
+    public SdncActorServiceProvider() {
+        // @formatter:off
+        super(NAME,
+            new RerouteManager(NAME),
+            new BandwidthOnDemandManager(NAME));
+            // @formatter:on
+    }
+
+
+    // TODO old code: remove lines down to **HERE**
 
     @Override
     public String actor() {
@@ -199,4 +218,6 @@ public class SdncActorServiceProvider implements Actor {
         request.setHealRequest(healRequest);
         return request;
     }
+
+    // **HERE**
 }

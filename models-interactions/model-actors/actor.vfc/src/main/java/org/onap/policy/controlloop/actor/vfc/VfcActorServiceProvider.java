@@ -22,21 +22,19 @@ package org.onap.policy.controlloop.actor.vfc;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-
 import java.util.Collections;
 import java.util.List;
-
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
-import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
+import org.onap.policy.controlloop.actorserviceprovider.impl.ActorImpl;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.vfc.VfcHealActionVmInfo;
 import org.onap.policy.vfc.VfcHealAdditionalParams;
 import org.onap.policy.vfc.VfcHealRequest;
 import org.onap.policy.vfc.VfcRequest;
 
-public class VfcActorServiceProvider implements Actor {
+public class VfcActorServiceProvider extends ActorImpl {
     private static final String GENERIC_VNF_ID = "generic-vnf.vnf-id";
 
     // Strings for VFC Actor
@@ -51,6 +49,10 @@ public class VfcActorServiceProvider implements Actor {
     private static final ImmutableList<String> recipes = ImmutableList.of(RECIPE_RESTART);
     private static final ImmutableMap<String, List<String>> targets =
             new ImmutableMap.Builder<String, List<String>>().put(RECIPE_RESTART, ImmutableList.of(TARGET_VM)).build();
+
+    public VfcActorServiceProvider() {
+        super(VFC_ACTOR);
+    }
 
     @Override
     public String actor() {
