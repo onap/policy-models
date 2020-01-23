@@ -23,14 +23,12 @@ package org.onap.policy.controlloop.actor.sdnr;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-
 import java.util.Collections;
 import java.util.List;
-
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.ControlLoopResponse;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
-import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
+import org.onap.policy.controlloop.actorserviceprovider.impl.ActorImpl;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.sdnr.PciCommonHeader;
@@ -39,11 +37,12 @@ import org.onap.policy.sdnr.PciRequestWrapper;
 import org.onap.policy.sdnr.PciResponse;
 import org.onap.policy.sdnr.PciResponseCode;
 import org.onap.policy.sdnr.PciResponseWrapper;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SdnrActorServiceProvider implements Actor {
+public class SdnrActorServiceProvider extends ActorImpl {
+
+    private static final String NAME = "SDNR";
 
     public static class Pair<A, B> {
         public final A result;
@@ -81,9 +80,13 @@ public class SdnrActorServiceProvider implements Actor {
     private static final ImmutableMap<String, List<String>> payloads = new ImmutableMap.Builder<String, List<String>>()
             .put(RECIPE_MODIFY, ImmutableList.of(SDNR_REQUEST_PARAMS, SDNR_CONFIG_PARAMS)).build();
 
+    public SdnrActorServiceProvider() {
+        super(NAME);
+    }
+
     @Override
     public String actor() {
-        return "SDNR";
+        return NAME;
     }
 
     @Override
@@ -275,7 +278,7 @@ public class SdnrActorServiceProvider implements Actor {
         /* The ControlLoop response determined from the SDNR Response and input event. */
         ControlLoopResponse clRsp = new ControlLoopResponse();
         clRsp.setPayload(sdnrResponse.getPayload());
-        clRsp.setFrom("SDNR");
+        clRsp.setFrom(NAME);
         clRsp.setTarget("DCAE");
         clRsp.setClosedLoopControlName(event.getClosedLoopControlName());
         clRsp.setPolicyName(event.getPolicyName());

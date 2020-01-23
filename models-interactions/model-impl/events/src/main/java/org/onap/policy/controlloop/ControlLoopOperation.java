@@ -23,18 +23,26 @@ package org.onap.policy.controlloop;
 
 import java.io.Serializable;
 import java.time.Instant;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class ControlLoopOperation implements Serializable {
 
     private static final long serialVersionUID = 8662706581293017099L;
 
+    public static final String SUCCESS_MSG = "Success";
+    public static final String FAILED_MSG = "Failed";
+
     private String actor;
     private String operation;
     private String target;
+    @Builder.Default
     private Instant start = Instant.now();
     private Instant end;
     private String subRequestId;
