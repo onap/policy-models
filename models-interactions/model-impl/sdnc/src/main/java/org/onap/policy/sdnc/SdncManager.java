@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * Copyright (C) 2018 Huawei. All rights reserved.
  * ================================================================================
- * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved
+ * Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * Modifications Copyright (C) 2019 Samsung Electronics Co., Ltd.
  * ================================================================================
@@ -36,6 +36,8 @@ import org.onap.policy.sdnc.util.Serialization;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+// TODO this class will be deleted
 
 public final class SdncManager implements Runnable {
 
