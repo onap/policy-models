@@ -35,7 +35,7 @@ import org.onap.aai.domain.yang.Tenant;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
-import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
+import org.onap.policy.controlloop.actorserviceprovider.impl.ActorImpl;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.so.SoCloudConfiguration;
 import org.onap.policy.so.SoManager;
@@ -51,7 +51,7 @@ import org.onap.policy.so.util.Serialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SoActorServiceProvider implements Actor {
+public class SoActorServiceProvider extends ActorImpl {
     private static final Logger logger = LoggerFactory.getLogger(SoActorServiceProvider.class);
 
     private static final String TENANT_NOT_FOUND = "Tenant Item not found in AAI response {}";
@@ -88,6 +88,10 @@ public class SoActorServiceProvider implements Actor {
     private static String lastVNFItemVnfId;
     private static String lastServiceItemServiceInstanceId;
     private static String lastVfModuleItemVfModuleInstanceId;
+
+    public SoActorServiceProvider() {
+        super(SO_ACTOR);
+    }
 
     @Override
     public String actor() {
