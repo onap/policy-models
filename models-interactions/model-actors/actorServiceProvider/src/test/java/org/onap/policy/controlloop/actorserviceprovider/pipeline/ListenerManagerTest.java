@@ -1,0 +1,134 @@
+/*-
+ * ============LICENSE_START=======================================================
+ * ONAP
+ * ================================================================================
+ * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * ================================================================================
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ============LICENSE_END=========================================================
+ */
+
+package org.onap.policy.controlloop.actorserviceprovider.pipeline;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+public class ListenerManagerTest {
+
+    private static final String EXPECTED_EXCEPTION = "expected exception";
+
+    @Mock
+    private Runnable runnable1;
+
+    @Mock
+    private Runnable runnable2;
+
+    @Mock
+    private Runnable runnable3;
+
+    private ListenerManager mgr;
+
+    /**
+     * Initializes fields, including {@link #mgr}.
+     */
+    @Before
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
+
+        mgr = new ListenerManager();
+    }
+
+    @Test
+    public void testStop_testIsRunning() {
+        mgr.add(runnable1);
+        mgr.add(runnable2);
+        mgr.add(runnable3);
+
+        // arrange for one to throw an exception
+        doThrow(new IllegalStateException(EXPECTED_EXCEPTION)).when(runnable2).run();
+
+        // nothing should have been canceled yet
+        verify(runnable1, never()).run();
+        verify(runnable2, never()).run();
+        verify(runnable3, never()).run();
+
+        assertTrue(mgr.isRunning());
+
+        // stop the controller
+        mgr.stop();
+
+        // all controllers should now be stopped
+        assertFalse(mgr.isRunning());
+
+        // everything should have been invoked
+        verify(runnable1).run();
+        verify(runnable2).run();
+        verify(runnable3).run();
+
+        // re-invoking stop should have no effect on the listeners
+        mgr.stop();
+
+        verify(runnable1).run();
+        verify(runnable2).run();
+        verify(runnable3).run();
+    }
+
+    @Test
+    public void testAdd() {
+        // still running - this should not be invoked
+        mgr.add(runnable1);
+        verify(runnable1, never()).run();
+
+        mgr.stop();
+
+        verify(runnable1).run();
+
+        // new additions should be invoked immediately
+        mgr.add(runnable2);
+        verify(runnable2).run();
+
+        // should work with exceptions, too
+        doThrow(new IllegalStateException(EXPECTED_EXCEPTION)).when(runnable3).run();
+        mgr.add(runnable3);
+    }
+
+    @Test
+    public void testRemove() {
+        mgr.add(runnable1);
+        mgr.add(runnable2);
+
+        verify(runnable1, never()).run();
+        verify(runnable2, never()).run();
+
+        // remove the second
+        mgr.remove(runnable2);
+
+        // should be able to remove it again
+        mgr.remove(runnable2);
+
+        mgr.stop();
+
+        // first should have run, but not the second
+        verify(runnable1).run();
+
+        verify(runnable2, never()).run();
+    }
+}

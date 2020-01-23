@@ -4,6 +4,7 @@
  * ================================================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,10 +24,14 @@ package org.onap.policy.controlloop.actorserviceprovider;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.onap.policy.controlloop.actorserviceprovider.impl.ActorImpl;
 
-import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
+public class DummyActor extends ActorImpl {
 
-public class DummyActor implements Actor {
+    public DummyActor() {
+        super(DummyActor.class.getSimpleName());
+    }
+
     @Override
     public String actor() {
         return this.getClass().getSimpleName();
