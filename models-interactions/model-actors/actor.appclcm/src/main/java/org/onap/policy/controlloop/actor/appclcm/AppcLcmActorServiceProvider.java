@@ -38,13 +38,15 @@ import org.onap.policy.appclcm.AppcLcmOutput;
 import org.onap.policy.appclcm.AppcLcmResponseCode;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
-import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
+import org.onap.policy.controlloop.actorserviceprovider.impl.ActorImpl;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AppcLcmActorServiceProvider implements Actor {
+public class AppcLcmActorServiceProvider extends ActorImpl {
+
+    private static final String NAME = "APPC";
 
     private static final Logger logger = LoggerFactory.getLogger(AppcLcmActorServiceProvider.class);
 
@@ -74,9 +76,13 @@ public class AppcLcmActorServiceProvider implements Actor {
             new ImmutableMap.Builder<String, List<String>>().put(RECIPE_RESTART, ImmutableList.of(APPC_VM_ID))
                     .put(RECIPE_MODIFY, ImmutableList.of(APPC_REQUEST_PARAMS, APPC_CONFIG_PARAMS)).build();
 
+    public AppcLcmActorServiceProvider() {
+        super(NAME);
+    }
+
     @Override
     public String actor() {
-        return "APPC";
+        return NAME;
     }
 
     @Override

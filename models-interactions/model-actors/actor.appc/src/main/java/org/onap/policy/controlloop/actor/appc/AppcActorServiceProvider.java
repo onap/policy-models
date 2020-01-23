@@ -33,13 +33,15 @@ import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
-import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
+import org.onap.policy.controlloop.actorserviceprovider.impl.ActorImpl;
 import org.onap.policy.controlloop.policy.Policy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public class AppcActorServiceProvider implements Actor {
+public class AppcActorServiceProvider extends ActorImpl {
+    private static final String NAME = "APPC";
+
     private static final Logger logger = LoggerFactory.getLogger(AppcActorServiceProvider.class);
 
     private static final StandardCoder coder = new StandardCoder();
@@ -62,9 +64,13 @@ public class AppcActorServiceProvider implements Actor {
     private static final ImmutableMap<String, List<String>> payloads = new ImmutableMap.Builder<String, List<String>>()
             .put(RECIPE_MODIFY, ImmutableList.of("generic-vnf.vnf-id")).build();
 
+    public AppcActorServiceProvider() {
+        super(NAME);
+    }
+
     @Override
     public String actor() {
-        return "APPC";
+        return NAME;
     }
 
     @Override
