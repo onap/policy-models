@@ -47,7 +47,7 @@ import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actor.cds.constants.CdsActorConstants;
 import org.onap.policy.controlloop.actor.cds.request.CdsActionRequest;
-import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
+import org.onap.policy.controlloop.actorserviceprovider.impl.ActorImpl;
 import org.onap.policy.controlloop.policy.Policy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,9 +55,13 @@ import org.slf4j.LoggerFactory;
 /**
  * CDS Actor service-provider implementation. This is a deploy dark feature for El-Alto release.
  */
-public class CdsActorServiceProvider implements Actor {
+public class CdsActorServiceProvider extends ActorImpl {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CdsActorServiceProvider.class);
+
+    public CdsActorServiceProvider() {
+        super(CdsActorConstants.CDS_ACTOR);
+    }
 
     /**
      * {@inheritDoc}.

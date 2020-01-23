@@ -37,6 +37,8 @@ import org.onap.policy.sdnc.util.Serialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// TODO this class will be deleted
+
 public final class SdncManager implements Runnable {
 
     private String sdncUrlBase;
