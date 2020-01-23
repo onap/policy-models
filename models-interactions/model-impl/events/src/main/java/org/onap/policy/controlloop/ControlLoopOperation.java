@@ -32,6 +32,9 @@ public class ControlLoopOperation implements Serializable {
 
     private static final long serialVersionUID = 8662706581293017099L;
 
+    public static final String SUCCESS_MSG = "Success";
+    public static final String FAILED_MSG = "Failed";
+
     private String actor;
     private String operation;
     private String target;
