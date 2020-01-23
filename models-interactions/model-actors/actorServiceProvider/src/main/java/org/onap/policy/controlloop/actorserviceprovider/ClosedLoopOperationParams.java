@@ -1,10 +1,8 @@
 /*-
  * ============LICENSE_START=======================================================
- * SdncActorServiceProvider
+ * ONAP
  * ================================================================================
- * Copyright (C) 2018-2019 Huawei Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
- * Modifications Copyright (C) 2019-2020 AT&T Intellectual Property.
+ * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,22 +18,40 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.controlloop.actor.sdnc;
+package org.onap.policy.controlloop.actorserviceprovider;
 
-import org.onap.policy.controlloop.actorserviceprovider.impl.ActorImpl;
+import java.util.concurrent.Executor;
+import org.onap.policy.controlloop.policy.Policy;
 
-
-public class SdncActorServiceProvider extends ActorImpl {
-    private static final String SDNC_ACTOR = "SDNC";
+/**
+ * Arguments used by closed loop operations.
+ */
+public interface ClosedLoopOperationParams {
 
     /**
-     * Constructs the object.
+     * Gets the event for which the operation applies.
+     *
+     * @return the onset event
      */
-    public SdncActorServiceProvider() {
-        // @formatter:off
-        super(SDNC_ACTOR,
-            new RerouteManager(SDNC_ACTOR),
-            new BandwidthOnDemandManager(SDNC_ACTOR));
-            // @formatter:on
-    }
+    ClosedLoopEventContext getContext();
+
+    /**
+     * Gets the policy associated with the operation.
+     *
+     * @return the operational policy
+     */
+    Policy getPolicy();
+
+    /**
+     * Gets the sub request ID that should be associated with the operation.
+     *
+     * @return the new operation's sub request ID
+     */
+    String getSubRequestId();
+
+    /**
+     * Gets the executor to use to run the operation.
+     * @return the executor
+     */
+    Executor getExecutor();
 }

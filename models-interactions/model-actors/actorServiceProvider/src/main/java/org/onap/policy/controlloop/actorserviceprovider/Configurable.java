@@ -1,10 +1,8 @@
 /*-
  * ============LICENSE_START=======================================================
- * SdncActorServiceProvider
+ * ONAP
  * ================================================================================
- * Copyright (C) 2018-2019 Huawei Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
- * Modifications Copyright (C) 2019-2020 AT&T Intellectual Property.
+ * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,22 +18,27 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.controlloop.actor.sdnc;
+package org.onap.policy.controlloop.actorserviceprovider;
 
-import org.onap.policy.controlloop.actorserviceprovider.impl.ActorImpl;
-
-
-public class SdncActorServiceProvider extends ActorImpl {
-    private static final String SDNC_ACTOR = "SDNC";
+/**
+ * Object that can be configured.
+ *
+ * @param <T> type of parameters
+ */
+public interface Configurable<T> {
+    // TODO should this be moved to policy-common?
 
     /**
-     * Constructs the object.
+     * Determines if this object has been configured.
+     *
+     * @return {@code true} if this object has been configured, {@code false} otherwise
      */
-    public SdncActorServiceProvider() {
-        // @formatter:off
-        super(SDNC_ACTOR,
-            new RerouteManager(SDNC_ACTOR),
-            new BandwidthOnDemandManager(SDNC_ACTOR));
-            // @formatter:on
-    }
+    boolean isConfigured();
+
+    /**
+     * Configures this object.
+     *
+     * @param parameters configuration parameters
+     */
+    void configure(T parameters);
 }
