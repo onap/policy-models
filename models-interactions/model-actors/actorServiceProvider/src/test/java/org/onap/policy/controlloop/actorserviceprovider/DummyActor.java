@@ -23,10 +23,14 @@ package org.onap.policy.controlloop.actorserviceprovider;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.onap.policy.controlloop.actorserviceprovider.impl.ActorImpl;
 
-import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
+public class DummyActor extends ActorImpl {
 
-public class DummyActor implements Actor {
+    public DummyActor() {
+        super(DummyActor.class.getSimpleName());
+    }
+
     @Override
     public String actor() {
         return this.getClass().getSimpleName();
