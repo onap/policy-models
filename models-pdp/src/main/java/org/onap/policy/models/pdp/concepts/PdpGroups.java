@@ -85,9 +85,14 @@ public class PdpGroups {
      * @return the validation result
      */
     public ValidationResult checkForDuplicateGroups(ValidationResult result) {
-        List<String> names = groups.stream().map(PdpGroup::getName).collect(Collectors.toList());
-        if (groups.size() != new HashSet<>(names).size()) {
-            result = new ObjectValidationResult(GROUPS_FIELD, names, ValidationStatus.INVALID, "duplicate group names");
+        if (null == groups) {
+            result.setResult(ValidationStatus.INVALID, "is null");
+        } else {
+            List<String> names = groups.stream().map(PdpGroup::getName).collect(Collectors.toList());
+            if (groups.size() != new HashSet<>(names).size()) {
+                result =
+                    new ObjectValidationResult(GROUPS_FIELD, names, ValidationStatus.INVALID, "duplicate group names");
+            }
         }
         return result;
     }
