@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ccd4cf6_4abb6aae",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-01-24T00:05:56Z",
+      "side": 1,
+      "message": "I think you can collect straight into a Set",
+      "revId": "820b0e8e62e3821875ed32c4ab0f0b3183050c8f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
