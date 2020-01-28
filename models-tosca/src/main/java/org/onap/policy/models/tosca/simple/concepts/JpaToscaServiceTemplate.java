@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,11 +34,15 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
+
 import org.apache.commons.lang3.ObjectUtils;
 import org.onap.policy.common.utils.validation.ParameterValidationUtils;
 import org.onap.policy.models.base.PfAuthorative;
@@ -58,6 +62,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
+
 @Entity
 @Table(name = "ToscaServiceTemplate")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -71,22 +76,35 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
     public static final String DEFAULT_NAME = "ToscaServiceTemplateSimple";
     public static final String DEFAULT_VERSION = "1.0.0";
 
+    // @formatter:off
     @Column
     @SerializedName("tosca_definitions_version")
     private String toscaDefinitionsVersion;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumns(
+            {
+                @JoinColumn(name = "dataTypesName",    referencedColumnName = "name"),
+                @JoinColumn(name = "dataTypesVersion", referencedColumnName = "version")
+            }
+        )
     @SerializedName("data_types")
     private JpaToscaDataTypes dataTypes;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumns(
+            {
+                @JoinColumn(name = "policyTypesName",    referencedColumnName = "name"),
+                @JoinColumn(name = "policyTypesVersion", referencedColumnName = "version")
+            }
+        )
     @SerializedName("policy_types")
     private JpaToscaPolicyTypes policyTypes;
 
     @Column
     @SerializedName("topology_template")
     private JpaToscaTopologyTemplate topologyTemplate;
-
+    // @formatter:on
 
     /**
      * The Default Constructor creates a {@link JpaToscaServiceTemplate} object with a null key.
@@ -125,8 +143,9 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
         this.toscaDefinitionsVersion = copyConcept.toscaDefinitionsVersion;
         this.dataTypes = (copyConcept.dataTypes != null ? new JpaToscaDataTypes(copyConcept.dataTypes) : null);
         this.policyTypes = (copyConcept.policyTypes != null ? new JpaToscaPolicyTypes(copyConcept.policyTypes) : null);
-        this.topologyTemplate = (copyConcept.topologyTemplate != null
-                        ? new JpaToscaTopologyTemplate(copyConcept.topologyTemplate) : null);
+        this.topologyTemplate =
+                (copyConcept.topologyTemplate != null ? new JpaToscaTopologyTemplate(copyConcept.topologyTemplate)
+                        : null);
     }
 
     /**
@@ -174,11 +193,11 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
     public void fromAuthorative(ToscaServiceTemplate toscaServiceTemplate) {
         super.fromAuthorative(toscaServiceTemplate);
 
-        if (getKey().getName() == PfKey.NULL_KEY_NAME) {
+        if (PfKey.NULL_KEY_NAME.equals(getKey().getName())) {
             getKey().setName(DEFAULT_NAME);
         }
 
-        if (getKey().getVersion() == PfKey.NULL_KEY_VERSION) {
+        if (PfKey.NULL_KEY_VERSION.equals(getKey().getVersion())) {
             getKey().setVersion(DEFAULT_VERSION);
         }
 
@@ -193,7 +212,6 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
             policyTypes = new JpaToscaPolicyTypes();
             policyTypes.fromAuthorative(Collections.singletonList(toscaServiceTemplate.getPolicyTypes()));
         }
-
 
         if (toscaServiceTemplate.getToscaTopologyTemplate() != null) {
             topologyTemplate = new JpaToscaTopologyTemplate();

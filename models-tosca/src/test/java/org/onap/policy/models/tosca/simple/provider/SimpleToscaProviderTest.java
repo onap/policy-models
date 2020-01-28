@@ -61,6 +61,7 @@ public class SimpleToscaProviderTest {
     private static final String TEMPLATE_IS_NULL = "^serviceTemplate is marked .*on.*ull but is null$";
     private static final String VCPE_INPUT_JSON = "policies/vCPE.policy.monitoring.input.tosca.json";
     private static final String DAO_IS_NULL = "^dao is marked .*on.*ull but is null$";
+
     private PfDao pfDao;
     private StandardCoder standardCoder;
 
