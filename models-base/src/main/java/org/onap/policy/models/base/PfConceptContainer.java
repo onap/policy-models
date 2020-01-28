@@ -30,16 +30,21 @@ import java.util.Map.Entry;
 import java.util.NavigableMap;
 import java.util.Set;
 import java.util.TreeMap;
+
 import javax.persistence.CascadeType;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.Table;
 import javax.ws.rs.core.Response;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
+
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 
 // @formatter:off
@@ -55,6 +60,7 @@ import org.onap.policy.models.base.PfValidationResult.ValidationResult;
  * @param C the concept being contained
  */
 //@formatter:on
+@MappedSuperclass
 @Entity
 @Table(name = "PfConceptContainer")
 @Data
@@ -67,7 +73,19 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
     @EmbeddedId
     private PfConceptKey key;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
+    // @formatter:off
+    @JoinTable(
+            joinColumns = {
+                @JoinColumn(name = "conceptContainerMapName",    referencedColumnName = "name"),
+                @JoinColumn(name = "concpetContainerMapVersion", referencedColumnName = "version")
+            },
+            inverseJoinColumns = {
+                @JoinColumn(name = "conceptContainerName",    referencedColumnName = "name"),
+                @JoinColumn(name = "conceptContainerVersion", referencedColumnName = "version")
+            }
+        )
+    // @formatter:on
     private Map<PfConceptKey, C> conceptMap;
 
     /**
@@ -181,8 +199,7 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
 
                 if (incomingConceptEntry.getValue().getVersion() != null) {
                     conceptKey.setVersion(incomingConceptEntry.getValue().getVersion());
-                }
-                else {
+                } else {
                     conceptKey.setVersion(PfKey.NULL_KEY_VERSION);
                 }
 
@@ -240,19 +257,17 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
             if (conceptEntry.getKey().equals(PfConceptKey.getNullKey())) {
                 result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
                         "key on concept entry " + conceptEntry.getKey() + " may not be the null key"));
-            } else
-                if (conceptEntry.getValue() == null) {
-                    result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                            "value on concept entry " + conceptEntry.getKey() + " may not be null"));
-                } else
-                    if (!conceptEntry.getKey().equals(conceptEntry.getValue().getKey())) {
-                        result.addValidationMessage(new PfValidationMessage(key, this.getClass(),
-                                ValidationResult.INVALID, "key on concept entry key " + conceptEntry.getKey()
-                                        + " does not equal concept value key " + conceptEntry.getValue().getKey()));
-                        result = conceptEntry.getValue().validate(result);
-                    } else {
-                        result = conceptEntry.getValue().validate(result);
-                    }
+            } else if (conceptEntry.getValue() == null) {
+                result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
+                        "value on concept entry " + conceptEntry.getKey() + " may not be null"));
+            } else if (!conceptEntry.getKey().equals(conceptEntry.getValue().getKey())) {
+                result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
+                        "key on concept entry key " + conceptEntry.getKey() + " does not equal concept value key "
+                                + conceptEntry.getValue().getKey()));
+                result = conceptEntry.getValue().validate(result);
+            } else {
+                result = conceptEntry.getValue().validate(result);
+            }
         }
         return result;
     }
