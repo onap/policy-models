@@ -118,6 +118,30 @@
       "revId": "c2b6bd944853069f75e0f395fdbb81ea233610a2",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52e6ce7f_6709765d",
+        "filename": "models-examples/src/main/resources/policies/vCPE.policy.operational.input.tosca.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-01-31T19:58:39Z",
+      "side": 1,
+      "message": "Question for Liam I believe.",
+      "parentUuid": "ce1efc9c_a3155315",
+      "range": {
+        "startLine": 10,
+        "startChar": 10,
+        "endLine": 10,
+        "endChar": 39
+      },
+      "revId": "c2b6bd944853069f75e0f395fdbb81ea233610a2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
