@@ -31,13 +31,6 @@ policy_types:
                 entry_schema:
                     type: onap.datatype.controlloop.Operation
 
-    onap.policies.controlloop.operational.common.Apex:
-        derived_from: onap.policies.controlloop.operational.Common
-        type_version: 1.0.0
-        version: 1.0.0
-        description: Operational policies for Apex PDP
-        properties:
-
     onap.policies.controlloop.operational.common.Drools:
         derived_from: onap.policies.controlloop.operational.Common
         type_version: 1.0.0
@@ -166,4 +159,4 @@ data_types:
                 type: String
                 description: Points to the operation to invoke when the current operation is blocked due to guard policy enforcement.
                 required: false
-                default: final_failure_guard     
+                default: final_failure_guard
