@@ -22,6 +22,30 @@
       "revId": "c2b6bd944853069f75e0f395fdbb81ea233610a2",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "800cb847_85ff8a27",
+        "filename": "models-examples/src/main/resources/policies/vCPE.policy.operational.input.tosca.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-01-31T17:36:18Z",
+      "side": 1,
+      "message": "I see, thanks for explaining.   \n\nMay be the below (that confused me) on ToscaPolicy is a small bug (will let Liam to check it out):\n\nInvoking this method in the ToscaPolicy.getIdentifier() will always return a NullPointerException, because name is not populated after deserialization and the constructor of ToscaPolicyIdentifier will throw the NullPointerException.   \n\nToscaPolicy.java\n    public ToscaPolicyIdentifier getIdentifier() {\n        return new ToscaPolicyIdentifier(this.getName(), this.getVersion());\n    }\n\nafter creating a ToscaPolicy that call will always ret\npublic ToscaPolicyIdentifier(@NonNull String name, @NonNull String version)",
+      "parentUuid": "7b9226f2_544c5fd1",
+      "range": {
+        "startLine": 10,
+        "startChar": 10,
+        "endLine": 10,
+        "endChar": 39
+      },
+      "revId": "c2b6bd944853069f75e0f395fdbb81ea233610a2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
