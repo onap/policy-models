@@ -94,6 +94,30 @@
       "revId": "c2b6bd944853069f75e0f395fdbb81ea233610a2",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce1efc9c_a3155315",
+        "filename": "models-examples/src/main/resources/policies/vCPE.policy.operational.input.tosca.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-01-31T19:56:50Z",
+      "side": 1,
+      "message": "I see the api patches the policy as needed.   Is it safe to say that the \"name\" field in a Tosca Policy serve no purpose, and it would be redundant with the one in metadata section?   If that\u0027s the case, perhaps the getPolicyIdentified() should be removed from ToscaPolicy to avoid confusion?",
+      "parentUuid": "53f24d5e_10cd175e",
+      "range": {
+        "startLine": 10,
+        "startChar": 10,
+        "endLine": 10,
+        "endChar": 39
+      },
+      "revId": "c2b6bd944853069f75e0f395fdbb81ea233610a2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
