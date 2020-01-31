@@ -9,8 +9,8 @@ policy_types:
         description: a policy type for native drools policies
         version: 1.0.0
         properties:
-            rule_artifact:
-                type: onap.datatypes.native.rule_artifact
+            rulesArtifact:
+                type: onap.datatypes.native.rules_artifact
                 required: true
                 description: the GAV information of the maven artifact
             controller:
@@ -19,7 +19,7 @@ policy_types:
                 description: the drools controller to which the current native policy is assigned
 
 data_types:
-    onap.datatypes.native.rule_artifact:
+    onap.datatypes.native.rules_artifact:
         derived_from: tosca.datatypes.Root
         properties:
             groupId:
@@ -37,11 +37,11 @@ data_types:
     onap.datatypes.drools.controller.relation:
         derived_from: tosca.datatypes.Root
         properties:
-            controllerPolicyName:
+            controllerName:
                 type: string
                 required: true
                 description: the name of drools controller policy
-            controllerPolicyVersion:
+            controllerVersion:
                 type: string
-                required: true
+                required: false
                 description: the version of drools controller policy
