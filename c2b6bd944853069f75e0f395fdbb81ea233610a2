@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b9226f2_544c5fd1",
+        "filename": "models-examples/src/main/resources/policies/vCPE.policy.operational.input.tosca.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-01-31T16:50:42Z",
+      "side": 1,
+      "message": "Cannot add a new field here, not defined in TOSCA see section 3.8.6.2 for policy definition. This already exists as the map above and as a convenience in the metadata section \"policy-id\".",
+      "range": {
+        "startLine": 10,
+        "startChar": 10,
+        "endLine": 10,
+        "endChar": 39
+      },
+      "revId": "c2b6bd944853069f75e0f395fdbb81ea233610a2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
