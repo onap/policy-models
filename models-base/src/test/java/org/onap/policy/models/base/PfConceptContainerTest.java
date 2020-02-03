@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+
 import org.junit.Test;
 import org.onap.policy.models.base.testconcepts.DummyAuthorativeConcept;
 import org.onap.policy.models.base.testconcepts.DummyBadPfConceptContainer;
@@ -54,7 +55,7 @@ public class PfConceptContainerTest {
     private static final String DUMMY_VALUE = "Dummy";
     private static final String VERSION0 = "0.0.1";
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Test
     public void testConceptContainer() {
         DummyPfConceptContainer container = new DummyPfConceptContainer();
@@ -74,10 +75,10 @@ public class PfConceptContainerTest {
         assertThatThrownBy(() -> new DummyPfConceptContainer((PfConceptKey) null, null)).hasMessage(KEY_IS_NULL);
 
         assertThatThrownBy(() -> new DummyPfConceptContainer(new PfConceptKey(), null))
-                        .hasMessage("conceptMap is marked @NonNull but is null");
+                .hasMessage("conceptMap is marked @NonNull but is null");
 
         assertThatThrownBy(() -> new DummyPfConceptContainer(null, new TreeMap<PfConceptKey, DummyPfConcept>()))
-                        .hasMessage(KEY_IS_NULL);
+                .hasMessage(KEY_IS_NULL);
 
         container.getKey().setName(DUMMY_VALUE);
         DummyPfConceptContainer clonedContainer = new DummyPfConceptContainer(container);
@@ -85,7 +86,7 @@ public class PfConceptContainerTest {
         assertEquals(DUMMY_VALUE, clonedContainer.getKey().getName());
 
         assertThatThrownBy(() -> new DummyPfConceptContainer((DummyPfConceptContainer) null))
-                        .hasMessage("copyConcept is marked @NonNull but is null");
+                .hasMessage("copyConcept is marked @NonNull but is null");
 
         List<PfKey> keyList = container.getKeys();
         assertEquals(1, keyList.size());
@@ -93,7 +94,7 @@ public class PfConceptContainerTest {
         PfConceptKey conceptKey = new PfConceptKey("Key", VERSION0);
         Map<PfConceptKey, DummyPfConcept> conceptMap = new TreeMap<>();
         conceptMap.put(conceptKey, new DummyPfConcept(conceptKey));
-
+        See comment on the NativeDroolsPolicy class.
         container.setConceptMap(conceptMap);
         keyList = container.getKeys();
         assertEquals(2, keyList.size());
@@ -114,7 +115,7 @@ public class PfConceptContainerTest {
         assertEquals(0, container.compareTo(clonedContainer));
 
         assertThatThrownBy(() -> new DummyPfConceptContainer((DummyPfConceptContainer) null))
-                        .isInstanceOf(NullPointerException.class);
+                .isInstanceOf(NullPointerException.class);
 
         assertFalse(container.compareTo(null) == 0);
         assertEquals(0, container.compareTo(container));
@@ -136,7 +137,7 @@ public class PfConceptContainerTest {
         DummyPfConceptContainer validateContainer = new DummyPfConceptContainer();
         assertFalse(validateContainer.validate(new PfValidationResult()).isOk());
         validateContainer.setKey(new PfConceptKey("VCKey", VERSION0));
-        assertFalse(validateContainer.validate(new PfValidationResult()).isOk());
+        assertTrue(validateContainer.validate(new PfValidationResult()).isOk());
 
         validateContainer.getConceptMap().put(testConceptKey, new DummyPfConcept(testConceptKey));
         assertTrue(validateContainer.validate(new PfValidationResult()).isOk());
@@ -194,11 +195,11 @@ public class PfConceptContainerTest {
 
         DummyBadPfConceptContainer badContainer = new DummyBadPfConceptContainer();
         assertThatThrownBy(() -> badContainer.fromAuthorative(authorativeList))
-                        .hasMessage("failed to instantiate instance of container concept class");
+                .hasMessage("failed to instantiate instance of container concept class");
 
         authorativeList.clear();
         assertThatThrownBy(() -> container.fromAuthorative(authorativeList))
-                        .hasMessage("An incoming list of concepts must have at least one entry");
+                .hasMessage("An incoming list of concepts must have at least one entry");
     }
 
     @Test(expected = NullPointerException.class)

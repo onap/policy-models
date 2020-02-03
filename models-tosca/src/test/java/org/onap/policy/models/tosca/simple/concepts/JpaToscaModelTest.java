@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,6 +29,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Map;
 import java.util.TreeMap;
+
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelService;
@@ -58,10 +59,10 @@ public class JpaToscaModelTest {
         assertThatThrownBy(() -> new JpaToscaModel(null, new JpaToscaServiceTemplates())).hasMessage(KEY_IS_NULL);
 
         assertThatThrownBy(() -> new JpaToscaModel(new PfConceptKey(), null))
-                        .hasMessage("serviceTemplates is marked @NonNull but is null");
+                .hasMessage("serviceTemplates is marked @NonNull but is null");
 
         assertThatThrownBy(() -> new JpaToscaModel((JpaToscaModel) null))
-                        .hasMessage("copyConcept is marked @NonNull but is null");
+                .hasMessage("copyConcept is marked @NonNull but is null");
 
         PfConceptKey tstsKey = new PfConceptKey("tsts", VERSION_001);
         Map<PfConceptKey, JpaToscaServiceTemplate> tstMap = new TreeMap<>();
@@ -90,8 +91,7 @@ public class JpaToscaModelTest {
         otherDt.setServiceTemplates(tsts);
         assertEquals(0, tm.compareTo(otherDt));
 
-        assertThatThrownBy(() -> new JpaToscaModel((JpaToscaModel) null))
-                        .isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> new JpaToscaModel((JpaToscaModel) null)).isInstanceOf(NullPointerException.class);
 
         assertEquals(2, tm.getKeys().size());
         assertEquals(2, new JpaToscaModel().getKeys().size());
@@ -101,7 +101,7 @@ public class JpaToscaModelTest {
         assertEquals(tttClone0, tm);
 
         assertFalse(new JpaToscaModel().validate(new PfValidationResult()).isValid());
-        assertFalse(tm.validate(new PfValidationResult()).isValid());
+        assertTrue(tm.validate(new PfValidationResult()).isValid());
 
         tm.register();
         assertTrue(PfModelService.existsModel(tm.getServiceTemplates().getId()));
