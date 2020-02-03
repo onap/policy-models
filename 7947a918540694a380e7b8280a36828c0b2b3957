@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95d88e35_95e25dbe",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/utils/ToscaServiceTemplateUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-03T15:23:27Z",
+      "side": 1,
+      "message": "really need to log this here? won\u0027t it be logged when the exception is caught?  This is related to the sonar issue where an exception is logged twice, thus causing bloat in the log.",
+      "revId": "7947a918540694a380e7b8280a36828c0b2b3957",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
