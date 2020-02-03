@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1b68807_cdb6be59",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Drools.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2020-02-03T15:07:43Z",
+      "side": 1,
+      "message": "if controllerVersion is not specified, then the latest version of the controller matching controllerName will be selected?",
+      "range": {
+        "startLine": 46,
+        "startChar": 26,
+        "endLine": 46,
+        "endChar": 31
+      },
+      "revId": "624bdb9bdc0d6dc972c0c8eeab4935d55becca1e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
