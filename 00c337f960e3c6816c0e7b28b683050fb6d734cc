@@ -1,0 +1,344 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6e127ba_1407eef1",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-03T21:24:42Z",
+      "side": 1,
+      "message": "Make this a public, NAME, to be consistent with other actors?",
+      "revId": "00c337f960e3c6816c0e7b28b683050fb6d734cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d9a02a8_937ae57a",
+        "filename": "models-interactions/model-actors/actor.sdnc/src/main/java/org/onap/policy/controlloop/actor/sdnc/SdncActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-03T21:24:42Z",
+      "side": 1,
+      "message": "Add a junit to test pluggability into ActorService",
+      "revId": "00c337f960e3c6816c0e7b28b683050fb6d734cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2606a5b4_7b9597c9",
+        "filename": "models-interactions/model-actors/actor.sdnc/src/main/java/org/onap/policy/controlloop/actor/sdnc/SdncOperator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-03T21:24:42Z",
+      "side": 1,
+      "message": "Add a test for this",
+      "revId": "00c337f960e3c6816c0e7b28b683050fb6d734cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "467c9d0d_4525aae4",
+        "filename": "models-interactions/model-actors/actor.sdnc/src/main/java/org/onap/policy/controlloop/actor/sdnc/SdncOperator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-03T21:24:42Z",
+      "side": 1,
+      "message": "Add a utility method for network logging",
+      "revId": "00c337f960e3c6816c0e7b28b683050fb6d734cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d47aa9e_d578d203",
+        "filename": "models-interactions/model-actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SoActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-03T21:24:42Z",
+      "side": 1,
+      "message": "rename to NAME, to be consistent with other actors\n\nsame comment in other Actor implementations",
+      "revId": "00c337f960e3c6816c0e7b28b683050fb6d734cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2429bbda_cd356dd9",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/ActorService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-03T21:24:42Z",
+      "side": 1,
+      "message": "this has been done",
+      "revId": "00c337f960e3c6816c0e7b28b683050fb6d734cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6fb0b47_463bb740",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/Operator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-03T21:24:42Z",
+      "side": 1,
+      "message": "comment is out of date: pipeline controller is no longer contained within the parameters",
+      "revId": "00c337f960e3c6816c0e7b28b683050fb6d734cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b8018f7_7859c5b0",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/ParameterValidationRuntimeException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-03T21:24:42Z",
+      "side": 1,
+      "message": "move this to parameters sub-package",
+      "revId": "00c337f960e3c6816c0e7b28b683050fb6d734cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "381e5183_186cb19a",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/impl/ConfigurablePartial.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-03T21:24:42Z",
+      "side": 1,
+      "message": "rename to StartConfigPartial since it is both Startable and Configurable",
+      "revId": "00c337f960e3c6816c0e7b28b683050fb6d734cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01d8cb42_a68c8495",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/impl/OperatorPartial.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-03T21:24:42Z",
+      "side": 1,
+      "message": "just \"do nothing\", like the other doXxx() methods",
+      "revId": "00c337f960e3c6816c0e7b28b683050fb6d734cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "848f4022_4fcb30e0",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/impl/OperatorPartial.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-03T21:24:42Z",
+      "side": 1,
+      "message": "not needed, as the log on line 452 is sufficient",
+      "revId": "00c337f960e3c6816c0e7b28b683050fb6d734cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "89cf5996_4fde39b9",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/impl/OperatorPartial.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-03T21:24:42Z",
+      "side": 1,
+      "message": "include request id in message\n\nsame comment elsewhere",
+      "revId": "00c337f960e3c6816c0e7b28b683050fb6d734cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a41ddf0d_65930480",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/parameters/ControlLoopOperationParams.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-03T21:24:42Z",
+      "side": 1,
+      "message": "can be deleted now",
+      "revId": "00c337f960e3c6816c0e7b28b683050fb6d734cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0ac0fdd_d7c4a3bb",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/parameters/ControlLoopOperationParams.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-03T21:24:42Z",
+      "side": 1,
+      "message": "can be deleted now",
+      "revId": "00c337f960e3c6816c0e7b28b683050fb6d734cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffba9e7e_10bb7da8",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/parameters/HttpActorParams.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-03T21:24:42Z",
+      "side": 1,
+      "message": "these constants are no longer needed",
+      "revId": "00c337f960e3c6816c0e7b28b683050fb6d734cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "165faa1e_40adfe8b",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/pipeline/FutureManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-03T21:24:42Z",
+      "side": 1,
+      "message": "add more to this comment",
+      "revId": "00c337f960e3c6816c0e7b28b683050fb6d734cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f33ac49_3d39eba0",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/pipeline/FutureManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-03T21:24:42Z",
+      "side": 1,
+      "message": "this may create a race condition with remove(); must add the listener within the synchronized block",
+      "revId": "00c337f960e3c6816c0e7b28b683050fb6d734cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96fbc1e8_7c992b10",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/pipeline/PipelineControllerFuture.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-03T21:24:42Z",
+      "side": 1,
+      "message": "add comment",
+      "revId": "00c337f960e3c6816c0e7b28b683050fb6d734cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43de7d1c_f0f8f522",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/test/resources/logback-test.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-03T21:24:42Z",
+      "side": 1,
+      "message": "trailing spaces",
+      "revId": "00c337f960e3c6816c0e7b28b683050fb6d734cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a60fb4c2_d3cf6e7a",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/test/resources/logback-test.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-03T21:24:42Z",
+      "side": 1,
+      "message": "change to warn",
+      "revId": "00c337f960e3c6816c0e7b28b683050fb6d734cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
