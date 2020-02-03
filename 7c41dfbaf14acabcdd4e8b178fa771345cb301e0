@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11bf5a0d_7b9f9243",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/utils/ToscaServiceTemplateUtils.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2020-02-03T17:39:40Z",
+      "side": 1,
+      "message": "Do we need a \"break;\" at the end of the if statement? Now, what being checked is, if any one of the entities in the container does not match the original one, then the whole container cannot merged. Two comments for this logic,\n1) do we still want to merge individual entity if it does not exist in the original container but the other entities conflicts with the original ones?\n2) If we only want to merge on a container basis rather than individual entity, then perhaps we can add the \"break;\" to the if statement as we only need to find one inconsistent entity and set the result to invalid.",
+      "range": {
+        "startLine": 136,
+        "startChar": 12,
+        "endLine": 140,
+        "endChar": 13
+      },
+      "revId": "7c41dfbaf14acabcdd4e8b178fa771345cb301e0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
