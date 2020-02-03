@@ -22,6 +22,7 @@
 package org.onap.policy.models.tosca.simple.concepts;
 
 import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -31,9 +32,11 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
+
 import org.apache.commons.lang3.ObjectUtils;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
@@ -78,8 +81,7 @@ public class JpaToscaTopologyTemplate extends PfConcept implements PfAuthorative
     }
 
     /**
-     * The Key Constructor creates a {@link JpaToscaTopologyTemplate} object with the given concept
-     * key.
+     * The Key Constructor creates a {@link JpaToscaTopologyTemplate} object with the given concept key.
      *
      * @param key the key
      */
@@ -178,6 +180,21 @@ public class JpaToscaTopologyTemplate extends PfConcept implements PfAuthorative
 
     @Override
     public int compareTo(final PfConcept otherConcept) {
+        int result = compareToWithoutEntities(otherConcept);
+        if (result != 0) {
+            return result;
+        }
+
+        return ObjectUtils.compare(policies, ((JpaToscaTopologyTemplate) otherConcept).policies);
+    }
+
+    /**
+     * Compare this topology template to another topology template, ignoring contained entitites.
+     *
+     * @param otherConcept the other topology template
+     * @return the result of the comparison
+     */
+    public int compareToWithoutEntities(final PfConcept otherConcept) {
         if (otherConcept == null) {
             return -1;
         }
@@ -193,11 +210,6 @@ public class JpaToscaTopologyTemplate extends PfConcept implements PfAuthorative
             return key.compareTo(other.key);
         }
 
-        int result = ObjectUtils.compare(description, other.description);
-        if (result != 0) {
-            return result;
-        }
-
-        return ObjectUtils.compare(policies, other.policies);
+        return ObjectUtils.compare(description, other.description);
     }
 }

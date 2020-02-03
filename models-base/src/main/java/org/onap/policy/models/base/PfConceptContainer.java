@@ -234,10 +234,7 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
 
         result = key.validate(result);
 
-        if (conceptMap.isEmpty()) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "conceptMap may not be empty"));
-        } else {
+        if (!conceptMap.isEmpty()) {
             result = validateConceptMap(result);
         }
 
