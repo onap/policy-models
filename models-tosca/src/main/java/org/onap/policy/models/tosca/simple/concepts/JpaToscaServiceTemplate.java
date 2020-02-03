@@ -277,6 +277,33 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
 
     @Override
     public int compareTo(final PfConcept otherConcept) {
+        int result = compareToWithoutEntities(otherConcept);
+        if (result != 0) {
+            return result;
+        }
+
+        final JpaToscaServiceTemplate other = (JpaToscaServiceTemplate) otherConcept;
+
+        result = ObjectUtils.compare(dataTypes, other.dataTypes);
+        if (result != 0) {
+            return result;
+        }
+
+        result = ObjectUtils.compare(policyTypes, other.policyTypes);
+        if (result != 0) {
+            return result;
+        }
+
+        return ObjectUtils.compare(topologyTemplate, other.topologyTemplate);
+    }
+
+    /**
+     * Compare this service template to another service template, ignoring contained entitites.
+     *
+     * @param otherConcept the other topology template
+     * @return the result of the comparison
+     */
+    public int compareToWithoutEntities(final PfConcept otherConcept) {
         if (otherConcept == null) {
             return -1;
         }
@@ -292,21 +319,6 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
             return super.compareTo(other);
         }
 
-        int result = ObjectUtils.compare(toscaDefinitionsVersion, other.toscaDefinitionsVersion);
-        if (result != 0) {
-            return result;
-        }
-
-        result = ObjectUtils.compare(dataTypes, other.dataTypes);
-        if (result != 0) {
-            return result;
-        }
-
-        result = ObjectUtils.compare(policyTypes, other.policyTypes);
-        if (result != 0) {
-            return result;
-        }
-
-        return ObjectUtils.compare(topologyTemplate, other.topologyTemplate);
+        return ObjectUtils.compare(toscaDefinitionsVersion, other.toscaDefinitionsVersion);
     }
 }
