@@ -22,6 +22,30 @@
       "revId": "7c41dfbaf14acabcdd4e8b178fa771345cb301e0",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aaa3072f_c4f46b3c",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/utils/ToscaServiceTemplateUtils.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-03T18:22:46Z",
+      "side": 1,
+      "message": "We probably want to include all invalid entries in the validation result.",
+      "parentUuid": "11bf5a0d_7b9f9243",
+      "range": {
+        "startLine": 136,
+        "startChar": 12,
+        "endLine": 140,
+        "endChar": 13
+      },
+      "revId": "7c41dfbaf14acabcdd4e8b178fa771345cb301e0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
