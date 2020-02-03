@@ -45,7 +45,7 @@ data_types:
     onap.datatypes.dmaap.serialization:
         derived_from: tosca.datatypes.Root
         properties:
-            eventCanonicalName:
+            eventClass:
                 type: string
                 required: true
                 description: the event canonical class for serialization
