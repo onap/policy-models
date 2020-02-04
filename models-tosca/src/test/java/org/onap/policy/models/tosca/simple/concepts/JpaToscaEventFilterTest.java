@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -39,7 +39,7 @@ import org.onap.policy.models.base.PfValidationResult;
  */
 public class JpaToscaEventFilterTest {
 
-    private static final String KEY_IS_NULL = "key is marked @NonNull but is null";
+    private static final String KEY_IS_NULL = "key is marked .*on.*ull but is null";
     private static final String A_REQUREMENT = "A Requrement";
     private static final String A_CAPABILITY = "A Capability";
     private static final String VERSION_001 = "0.0.1";
@@ -51,17 +51,17 @@ public class JpaToscaEventFilterTest {
         assertNotNull(new JpaToscaEventFilter(new PfReferenceKey(), new PfConceptKey()));
         assertNotNull(new JpaToscaEventFilter(new JpaToscaEventFilter()));
 
-        assertThatThrownBy(() -> new JpaToscaEventFilter((PfReferenceKey) null)).hasMessage(KEY_IS_NULL);
+        assertThatThrownBy(() -> new JpaToscaEventFilter((PfReferenceKey) null)).hasMessageMatching(KEY_IS_NULL);
 
-        assertThatThrownBy(() -> new JpaToscaEventFilter(null, null)).hasMessage(KEY_IS_NULL);
+        assertThatThrownBy(() -> new JpaToscaEventFilter(null, null)).hasMessageMatching(KEY_IS_NULL);
 
-        assertThatThrownBy(() -> new JpaToscaEventFilter(null, new PfConceptKey())).hasMessage(KEY_IS_NULL);
+        assertThatThrownBy(() -> new JpaToscaEventFilter(null, new PfConceptKey())).hasMessageMatching(KEY_IS_NULL);
 
         assertThatThrownBy(() -> new JpaToscaEventFilter(new PfReferenceKey(), null))
-                        .hasMessage("node is marked @NonNull but is null");
+                .hasMessageMatching("node is marked .*on.*ull but is null");
 
         assertThatThrownBy(() -> new JpaToscaEventFilter((JpaToscaEventFilter) null))
-                        .isInstanceOf(NullPointerException.class);
+                .isInstanceOf(NullPointerException.class);
 
         PfConceptKey efParentKey = new PfConceptKey("tParentKey", VERSION_001);
         PfReferenceKey efKey = new PfReferenceKey(efParentKey, "trigger0");
@@ -130,6 +130,6 @@ public class JpaToscaEventFilterTest {
         tef.setNode(nodeKey);
         assertTrue(tef.validate(new PfValidationResult()).isValid());
 
-        assertThatThrownBy(() -> tef.validate(null)).hasMessage("resultIn is marked @NonNull but is null");
+        assertThatThrownBy(() -> tef.validate(null)).hasMessageMatching("resultIn is marked .*on.*ull but is null");
     }
 }

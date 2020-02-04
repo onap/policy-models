@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,6 +29,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.time.Duration;
 import java.util.Date;
+
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfReferenceKey;
@@ -41,7 +42,7 @@ import org.onap.policy.models.base.PfValidationResult;
  */
 public class JpaToscaTriggerTest {
 
-    private static final String KEY_IS_NULL = "key is marked @NonNull but is null";
+    private static final String KEY_IS_NULL = "key is marked .*on.*ull but is null";
     private static final String EVENT_TYPE = "EventType";
     private static final String ACTION = "Action";
     private static final String A_METHOD = "A Method";
@@ -55,27 +56,26 @@ public class JpaToscaTriggerTest {
         assertNotNull(new JpaToscaTrigger(new PfReferenceKey(), EVENT_TYPE, ACTION));
         assertNotNull(new JpaToscaTrigger(new JpaToscaTrigger()));
 
-        assertThatThrownBy(() -> new JpaToscaTrigger((PfReferenceKey) null)).hasMessage(KEY_IS_NULL);
+        assertThatThrownBy(() -> new JpaToscaTrigger((PfReferenceKey) null)).hasMessageMatching(KEY_IS_NULL);
 
-        assertThatThrownBy(() -> new JpaToscaTrigger(null, null, null)).hasMessage(KEY_IS_NULL);
+        assertThatThrownBy(() -> new JpaToscaTrigger(null, null, null)).hasMessageMatching(KEY_IS_NULL);
 
-        assertThatThrownBy(() -> new JpaToscaTrigger(null, EVENT_TYPE, null)).hasMessage(KEY_IS_NULL);
+        assertThatThrownBy(() -> new JpaToscaTrigger(null, EVENT_TYPE, null)).hasMessageMatching(KEY_IS_NULL);
 
-        assertThatThrownBy(() -> new JpaToscaTrigger(null, EVENT_TYPE, ACTION)).hasMessage(KEY_IS_NULL);
+        assertThatThrownBy(() -> new JpaToscaTrigger(null, EVENT_TYPE, ACTION)).hasMessageMatching(KEY_IS_NULL);
 
-        assertThatThrownBy(() -> new JpaToscaTrigger(null, null, ACTION)).hasMessage(KEY_IS_NULL);
+        assertThatThrownBy(() -> new JpaToscaTrigger(null, null, ACTION)).hasMessageMatching(KEY_IS_NULL);
 
         assertThatThrownBy(() -> new JpaToscaTrigger(new PfReferenceKey(), null, null))
-                        .hasMessage("eventType is marked @NonNull but is null");
+                .hasMessageMatching("eventType is marked .*on.*ull but is null");
 
         assertThatThrownBy(() -> new JpaToscaTrigger(new PfReferenceKey(), EVENT_TYPE, null))
-                        .hasMessage("action is marked @NonNull but is null");
+                .hasMessageMatching("action is marked .*on.*ull but is null");
 
         assertThatThrownBy(() -> new JpaToscaTrigger(new PfReferenceKey(), null, ACTION))
-                        .hasMessage("eventType is marked @NonNull but is null");
+                .hasMessageMatching("eventType is marked .*on.*ull but is null");
 
-        assertThatThrownBy(() -> new JpaToscaTrigger((JpaToscaTrigger) null))
-                        .isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> new JpaToscaTrigger((JpaToscaTrigger) null)).isInstanceOf(NullPointerException.class);
 
         PfConceptKey tparentKey = new PfConceptKey("tParentKey", VERSION_001);
         PfReferenceKey tkey = new PfReferenceKey(tparentKey, "trigger0");
@@ -175,6 +175,6 @@ public class JpaToscaTriggerTest {
         tdt.setMethod(A_METHOD);
         assertTrue(tdt.validate(new PfValidationResult()).isValid());
 
-        assertThatThrownBy(() -> tdt.validate(null)).hasMessage("resultIn is marked @NonNull but is null");
+        assertThatThrownBy(() -> tdt.validate(null)).hasMessageMatching("resultIn is marked .*on.*ull but is null");
     }
 }

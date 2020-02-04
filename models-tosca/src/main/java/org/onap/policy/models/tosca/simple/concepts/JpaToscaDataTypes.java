@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,10 +32,14 @@ import javax.persistence.Table;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 import lombok.ToString;
+
 import org.onap.policy.models.base.PfConceptContainer;
 import org.onap.policy.models.base.PfConceptKey;
+import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaDataType;
+import org.onap.policy.models.tosca.utils.ToscaUtils;
 
 /**
  * This class is a container for TOSCA data types.
@@ -97,6 +101,18 @@ public class JpaToscaDataTypes extends PfConceptContainer<JpaToscaDataType, Tosc
      * @param authorativeConceptMapList the authorative concept to copy from
      */
     public JpaToscaDataTypes(final List<Map<String, ToscaDataType>> authorativeConceptMapList) {
+        super(new PfConceptKey(DEFAULT_NAME, DEFAULT_VERSION));
         this.fromAuthorative(authorativeConceptMapList);
+    }
+
+    @Override
+    public PfValidationResult validate(@NonNull final PfValidationResult resultIn) {
+        PfValidationResult result = super.validate(resultIn);
+
+        for (JpaToscaDataType dataType : this.getConceptMap().values()) {
+            ToscaUtils.getEntityTypeAncestors(this, dataType, result);
+        }
+
+        return result;
     }
 }

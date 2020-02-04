@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,6 +29,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Map;
 import java.util.TreeMap;
+
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfReferenceKey;
@@ -41,7 +42,7 @@ import org.onap.policy.models.base.PfValidationResult;
  */
 public class JpaToscaServiceTemplateTest {
 
-    private static final String KEY_IS_NULL = "key is marked @NonNull but is null";
+    private static final String KEY_IS_NULL = "key is marked .*on.*ull but is null";
     private static final String VERSION_001 = "0.0.1";
 
     @Test
@@ -51,17 +52,17 @@ public class JpaToscaServiceTemplateTest {
         assertNotNull(new JpaToscaServiceTemplate(new PfConceptKey(), ""));
         assertNotNull(new JpaToscaServiceTemplate(new JpaToscaServiceTemplate()));
 
-        assertThatThrownBy(() -> new JpaToscaServiceTemplate((PfConceptKey) null)).hasMessage(KEY_IS_NULL);
+        assertThatThrownBy(() -> new JpaToscaServiceTemplate((PfConceptKey) null)).hasMessageMatching(KEY_IS_NULL);
 
-        assertThatThrownBy(() -> new JpaToscaServiceTemplate(null, null)).hasMessage(KEY_IS_NULL);
+        assertThatThrownBy(() -> new JpaToscaServiceTemplate(null, null)).hasMessageMatching(KEY_IS_NULL);
 
-        assertThatThrownBy(() -> new JpaToscaServiceTemplate(null, "")).hasMessage(KEY_IS_NULL);
+        assertThatThrownBy(() -> new JpaToscaServiceTemplate(null, "")).hasMessageMatching(KEY_IS_NULL);
 
         assertThatThrownBy(() -> new JpaToscaServiceTemplate(new PfConceptKey(), null))
-                        .hasMessage("toscaDefinitionsVersion is marked @NonNull but is null");
+                .hasMessageMatching("toscaDefinitionsVersion is marked .*on.*ull but is null");
 
         assertThatThrownBy(() -> new JpaToscaServiceTemplate((JpaToscaServiceTemplate) null))
-                        .isInstanceOf(NullPointerException.class);
+                .isInstanceOf(NullPointerException.class);
 
         PfConceptKey tstKey = new PfConceptKey("tst", VERSION_001);
         JpaToscaServiceTemplate tst = new JpaToscaServiceTemplate(tstKey, "Tosca Version");
@@ -133,6 +134,6 @@ public class JpaToscaServiceTemplateTest {
         tst.setDescription("A Description");
         assertTrue(tst.validate(new PfValidationResult()).isValid());
 
-        assertThatThrownBy(() -> tst.validate(null)).hasMessage("resultIn is marked @NonNull but is null");
+        assertThatThrownBy(() -> tst.validate(null)).hasMessageMatching("resultIn is marked .*on.*ull but is null");
     }
 }

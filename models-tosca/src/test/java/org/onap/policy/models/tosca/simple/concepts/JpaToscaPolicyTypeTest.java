@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfReferenceKey;
@@ -55,10 +56,10 @@ public class JpaToscaPolicyTypeTest {
         assertNotNull(new JpaToscaPolicyType(new JpaToscaPolicyType()));
 
         assertThatThrownBy(() -> new JpaToscaPolicyType((PfConceptKey) null))
-                        .hasMessage("key is marked @NonNull but is null");
+                .hasMessageMatching("key is marked .*on.*ull but is null");
 
         assertThatThrownBy(() -> new JpaToscaPolicyType((JpaToscaPolicyType) null))
-                        .isInstanceOf(NullPointerException.class);
+                .isInstanceOf(NullPointerException.class);
 
         PfConceptKey ptKey = new PfConceptKey("tdt", VERSION_001);
         JpaToscaPolicyType tpt = new JpaToscaPolicyType(ptKey);
@@ -158,7 +159,8 @@ public class JpaToscaPolicyTypeTest {
         tpt.getMetadata().remove("nullKey");
         assertTrue(tpt.validate(new PfValidationResult()).isValid());
 
-        tpt.setDescription("");;
+        tpt.setDescription("");
+
         assertFalse(tpt.validate(new PfValidationResult()).isValid());
         tpt.setDescription(A_DESCRIPTION);
         assertTrue(tpt.validate(new PfValidationResult()).isValid());
@@ -168,13 +170,13 @@ public class JpaToscaPolicyTypeTest {
         tpt.setDerivedFrom(derivedFromKey);
         assertTrue(tpt.validate(new PfValidationResult()).isValid());
 
-        assertThatThrownBy(() -> tpt.validate(null)).hasMessage("resultIn is marked @NonNull but is null");
+        assertThatThrownBy(() -> tpt.validate(null)).hasMessageMatching("resultIn is marked .*on.*ull but is null");
 
         assertThatThrownBy(() -> new JpaToscaEntityType<ToscaPolicy>((PfConceptKey) null))
-                        .hasMessage("key is marked @NonNull but is null");
+                .hasMessageMatching("key is marked .*on.*ull but is null");
 
         assertThatThrownBy(() -> new JpaToscaEntityType<ToscaPolicy>((JpaToscaEntityType<ToscaPolicy>) null))
-                        .isInstanceOf(NullPointerException.class);
+                .isInstanceOf(NullPointerException.class);
 
         JpaToscaEntityType<ToscaPolicy> tet = new JpaToscaEntityType<>(tpt.getKey());
         assertEquals(-1, tet.compareTo(null));

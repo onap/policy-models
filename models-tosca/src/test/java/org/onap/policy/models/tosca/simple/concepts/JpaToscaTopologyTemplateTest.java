@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,6 +29,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Map;
 import java.util.TreeMap;
+
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfReferenceKey;
@@ -53,10 +54,10 @@ public class JpaToscaTopologyTemplateTest {
         assertNotNull(new JpaToscaTopologyTemplate(new ToscaTopologyTemplate()));
 
         assertThatThrownBy(() -> new JpaToscaTopologyTemplate((PfReferenceKey) null))
-                        .hasMessage("key is marked @NonNull but is null");
+                .hasMessageMatching("key is marked .*on.*ull but is null");
 
         assertThatThrownBy(() -> new JpaToscaTopologyTemplate((JpaToscaTopologyTemplate) null))
-                        .isInstanceOf(NullPointerException.class);
+                .isInstanceOf(NullPointerException.class);
 
         PfReferenceKey tttKey = new PfReferenceKey("tst", VERSION_001, "ttt");
         JpaToscaTopologyTemplate ttt = new JpaToscaTopologyTemplate(tttKey);
@@ -98,7 +99,7 @@ public class JpaToscaTopologyTemplateTest {
         assertEquals(0, ttt.compareTo(otherDt));
 
         assertThatThrownBy(() -> new JpaToscaTopologyTemplate((JpaToscaTopologyTemplate) null))
-                        .isInstanceOf(NullPointerException.class);
+                .isInstanceOf(NullPointerException.class);
 
         assertEquals(4, ttt.getKeys().size());
         assertEquals(1, new JpaToscaTopologyTemplate().getKeys().size());
@@ -122,6 +123,6 @@ public class JpaToscaTopologyTemplateTest {
         ttt.setDescription(A_DESCRIPTION);
         assertTrue(ttt.validate(new PfValidationResult()).isValid());
 
-        assertThatThrownBy(() -> ttt.validate(null)).hasMessage("resultIn is marked @NonNull but is null");
+        assertThatThrownBy(() -> ttt.validate(null)).hasMessageMatching("resultIn is marked .*on.*ull but is null");
     }
 }

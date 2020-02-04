@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -37,7 +37,6 @@ import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicy;
 
 /**
  * DAO test for ToscaPolicy.
@@ -46,7 +45,7 @@ import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicy;
  */
 public class JpaToscaPolicyTest {
 
-    private static final String KEY_IS_NULL = "key is marked @NonNull but is null";
+    private static final String KEY_IS_NULL = "key is marked .*on.*ull but is null";
     private static final String VERSION_001 = "0.0.1";
 
     @Test
@@ -62,22 +61,21 @@ public class JpaToscaPolicyTest {
 
         assertThatThrownBy(() -> {
             new JpaToscaPolicy((PfConceptKey) null);
-        }).hasMessage(KEY_IS_NULL);
+        }).hasMessageMatching(KEY_IS_NULL);
 
         assertThatThrownBy(() -> {
             new JpaToscaPolicy(null, null);
-        }).hasMessage(KEY_IS_NULL);
+        }).hasMessageMatching(KEY_IS_NULL);
 
         assertThatThrownBy(() -> {
             new JpaToscaPolicy(new PfConceptKey(), null);
-        }).hasMessage("type is marked @NonNull but is null");
+        }).hasMessageMatching("type is marked .*on.*ull but is null");
 
         assertThatThrownBy(() -> {
             new JpaToscaPolicy(null, new PfConceptKey());
-        }).hasMessage(KEY_IS_NULL);
+        }).hasMessageMatching(KEY_IS_NULL);
 
-        assertThatThrownBy(() -> new JpaToscaPolicy((JpaToscaPolicy) null))
-                        .isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> new JpaToscaPolicy((JpaToscaPolicy) null)).isInstanceOf(NullPointerException.class);
 
         PfConceptKey tpKey = new PfConceptKey("tdt", VERSION_001);
         PfConceptKey ptKey = new PfConceptKey("policyType", VERSION_001);
@@ -160,7 +158,7 @@ public class JpaToscaPolicyTest {
 
         assertThatThrownBy(() -> {
             tp.validate(null);
-        }).hasMessage("resultIn is marked @NonNull but is null");
+        }).hasMessageMatching("resultIn is marked .*on.*ull but is null");
 
         assertNotNull(tp.toAuthorative());
         tp.getType().setVersion(PfKey.NULL_KEY_VERSION);
@@ -170,7 +168,7 @@ public class JpaToscaPolicyTest {
 
         assertThatThrownBy(() -> {
             tp.fromAuthorative(null);
-        }).hasMessage("toscaPolicy is marked @NonNull but is null");
+        }).hasMessageMatching("toscaPolicy is marked .*on.*ull but is null");
 
         pol = new ToscaPolicy();
         pol.setName("policy");

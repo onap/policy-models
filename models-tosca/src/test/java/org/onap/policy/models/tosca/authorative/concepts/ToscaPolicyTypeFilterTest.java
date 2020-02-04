@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,10 +27,12 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import com.google.gson.GsonBuilder;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.common.utils.coder.CoderException;
@@ -123,7 +125,7 @@ public class ToscaPolicyTypeFilterTest {
 
         assertThatThrownBy(() -> {
             filter.filter(null);
-        }).hasMessage("originalList is marked @NonNull but is null");
+        }).hasMessageMatching("originalList is marked .*on.*ull but is null");
     }
 
     @Test

@@ -28,6 +28,9 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
+import org.onap.policy.models.base.PfKey;
+import org.onap.policy.models.base.PfValidationResult;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaDataType;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaDataTypes;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicies;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyTypes;
@@ -136,5 +139,108 @@ public class ToscaUtilsTest {
         assertThatCode(() -> {
             ToscaUtils.assertPoliciesExist(jpaToscaServiceTemplate);
         }).doesNotThrowAnyException();
+    }
+
+    @Test
+    public void testGetentityTypeAncestors() {
+        assertThatThrownBy(() -> {
+            ToscaUtils.getEntityTypeAncestors(null, null, null);
+        }).hasMessageMatching("entityTypes is marked .*on.*ull but is null");
+
+        assertThatThrownBy(() -> {
+            ToscaUtils.getEntityTypeAncestors(null, null, new PfValidationResult());
+        }).hasMessageMatching("entityTypes is marked .*on.*ull but is null");
+
+        assertThatThrownBy(() -> {
+            ToscaUtils.getEntityTypeAncestors(null, new JpaToscaDataType(), null);
+        }).hasMessageMatching("entityTypes is marked .*on.*ull but is null");
+
+        assertThatThrownBy(() -> {
+            ToscaUtils.getEntityTypeAncestors(null, new JpaToscaDataType(), new PfValidationResult());
+        }).hasMessageMatching("entityTypes is marked .*on.*ull but is null");
+
+        assertThatThrownBy(() -> {
+            ToscaUtils.getEntityTypeAncestors(new JpaToscaDataTypes(), null, null);
+        }).hasMessageMatching("entityType is marked .*on.*ull but is null");
+
+        assertThatThrownBy(() -> {
+            ToscaUtils.getEntityTypeAncestors(new JpaToscaDataTypes(), null, new PfValidationResult());
+        }).hasMessageMatching("entityType is marked .*on.*ull but is null");
+
+        assertThatThrownBy(() -> {
+            ToscaUtils.getEntityTypeAncestors(new JpaToscaDataTypes(), new JpaToscaDataType(), null);
+        }).hasMessageMatching("result is marked .*on.*ull but is null");
+
+        JpaToscaDataTypes dataTypes = new JpaToscaDataTypes();
+        JpaToscaDataType dt0 = new JpaToscaDataType();
+        dt0.setKey(new PfConceptKey("dt0", "0.0.1"));
+        dt0.setDescription("dt0 description");
+        PfValidationResult result = new PfValidationResult();
+
+        assertTrue(ToscaUtils.getEntityTypeAncestors(dataTypes, dt0, result).isEmpty());
+
+        dataTypes.getConceptMap().put(dt0.getKey(), dt0);
+        assertTrue(ToscaUtils.getEntityTypeAncestors(dataTypes, dt0, result).isEmpty());
+        assertTrue(result.isValid());
+
+        dt0.setDerivedFrom(null);
+        assertTrue(ToscaUtils.getEntityTypeAncestors(dataTypes, dt0, result).isEmpty());
+        assertTrue(result.isValid());
+
+        dt0.setDerivedFrom(new PfConceptKey("tosca.datatyps.Root", PfKey.NULL_KEY_VERSION));
+        assertTrue(ToscaUtils.getEntityTypeAncestors(dataTypes, dt0, result).isEmpty());
+        assertTrue(result.isValid());
+
+        dt0.setDerivedFrom(new PfConceptKey("some.thing.Else", PfKey.NULL_KEY_VERSION));
+        assertTrue(ToscaUtils.getEntityTypeAncestors(dataTypes, dt0, result).isEmpty());
+        assertFalse(result.isValid());
+        assertTrue(result.toString().contains("parent some.thing.Else:0.0.0 of entity not found"));
+
+        result = new PfValidationResult();
+        dt0.setDerivedFrom(new PfConceptKey("tosca.datatyps.Root", PfKey.NULL_KEY_VERSION));
+
+        JpaToscaDataType dt1 = new JpaToscaDataType();
+        dt1.setKey(new PfConceptKey("dt1", "0.0.1"));
+        dt1.setDescription("dt1 description");
+        dataTypes.getConceptMap().put(dt1.getKey(), dt1);
+        assertTrue(ToscaUtils.getEntityTypeAncestors(dataTypes, dt0, result).isEmpty());
+        assertTrue(ToscaUtils.getEntityTypeAncestors(dataTypes, dt1, result).isEmpty());
+        assertTrue(result.isValid());
+
+        dt1.setDerivedFrom(dt0.getKey());
+        assertTrue(ToscaUtils.getEntityTypeAncestors(dataTypes, dt0, result).isEmpty());
+        assertFalse(ToscaUtils.getEntityTypeAncestors(dataTypes, dt1, result).isEmpty());
+        assertEquals(1, ToscaUtils.getEntityTypeAncestors(dataTypes, dt1, result).size());
+        assertTrue(result.isValid());
+
+        JpaToscaDataType dt2 = new JpaToscaDataType();
+        dt2.setKey(new PfConceptKey("dt2", "0.0.1"));
+        dt2.setDescription("dt2 description");
+        dataTypes.getConceptMap().put(dt2.getKey(), dt2);
+        assertTrue(ToscaUtils.getEntityTypeAncestors(dataTypes, dt0, result).isEmpty());
+        assertFalse(ToscaUtils.getEntityTypeAncestors(dataTypes, dt1, result).isEmpty());
+        assertEquals(1, ToscaUtils.getEntityTypeAncestors(dataTypes, dt1, result).size());
+        assertTrue(result.isValid());
+
+        dt2.setDerivedFrom(dt1.getKey());
+        assertTrue(ToscaUtils.getEntityTypeAncestors(dataTypes, dt0, result).isEmpty());
+        assertFalse(ToscaUtils.getEntityTypeAncestors(dataTypes, dt1, result).isEmpty());
+        assertFalse(ToscaUtils.getEntityTypeAncestors(dataTypes, dt2, result).isEmpty());
+        assertEquals(1, ToscaUtils.getEntityTypeAncestors(dataTypes, dt1, result).size());
+        assertEquals(2, ToscaUtils.getEntityTypeAncestors(dataTypes, dt2, result).size());
+        assertTrue(result.isValid());
+
+        dt1.setDerivedFrom(new PfConceptKey("tosca.datatyps.Root", PfKey.NULL_KEY_VERSION));
+        assertTrue(ToscaUtils.getEntityTypeAncestors(dataTypes, dt0, result).isEmpty());
+        assertTrue(ToscaUtils.getEntityTypeAncestors(dataTypes, dt1, result).isEmpty());
+        assertFalse(ToscaUtils.getEntityTypeAncestors(dataTypes, dt2, result).isEmpty());
+        assertEquals(0, ToscaUtils.getEntityTypeAncestors(dataTypes, dt1, result).size());
+        assertEquals(1, ToscaUtils.getEntityTypeAncestors(dataTypes, dt2, result).size());
+        assertTrue(result.isValid());
+
+        dataTypes.getConceptMap().remove(dt1.getKey());
+        assertTrue(ToscaUtils.getEntityTypeAncestors(dataTypes, dt2, result).isEmpty());
+        assertFalse(result.isValid());
+        assertTrue(result.toString().contains("parent dt1:0.0.1 of entity not found"));
     }
 }

@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,20 +22,24 @@
 package org.onap.policy.models.tosca.simple.concepts;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
+import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaDataType;
 
 public class JpaToscaDataTypesTest {
 
-    private static final String KEY_IS_NULL = "key is marked @NonNull but is null";
+    private static final String KEY_IS_NULL = "key is marked .*on.*ull but is null";
 
     @Test
     public void testDataTypes() {
@@ -44,22 +48,64 @@ public class JpaToscaDataTypesTest {
         assertNotNull(new JpaToscaDataTypes(new PfConceptKey(), new TreeMap<PfConceptKey, JpaToscaDataType>()));
         assertNotNull(new JpaToscaDataTypes(new JpaToscaDataTypes()));
 
-        assertThatThrownBy(() -> new JpaToscaDataTypes((PfConceptKey) null)).hasMessage(KEY_IS_NULL);
+        assertThatThrownBy(() -> new JpaToscaDataTypes((PfConceptKey) null)).hasMessageMatching(KEY_IS_NULL);
 
         assertThatThrownBy(() -> new JpaToscaDataTypes((JpaToscaDataTypes) null))
-                        .hasMessage("copyConcept is marked @NonNull but is null");
+                .hasMessageMatching("copyConcept is marked .*on.*ull but is null");
 
-        assertThatThrownBy(() -> new JpaToscaDataTypes(null, null)).hasMessage(KEY_IS_NULL);
+        assertThatThrownBy(() -> new JpaToscaDataTypes(null, null)).hasMessageMatching(KEY_IS_NULL);
 
         assertThatThrownBy(() -> new JpaToscaDataTypes(new PfConceptKey(), null))
-                        .hasMessage("conceptMap is marked @NonNull but is null");
+                .hasMessageMatching("conceptMap is marked .*on.*ull but is null");
 
         assertThatThrownBy(() -> new JpaToscaDataTypes(null, new TreeMap<PfConceptKey, JpaToscaDataType>()))
-                        .hasMessage(KEY_IS_NULL);
+                .hasMessageMatching(KEY_IS_NULL);
 
         List<Map<String, ToscaDataType>> dtMapList = new ArrayList<>();
         dtMapList.add(new LinkedHashMap<>());
-        dtMapList.get(0).put("policyType", new ToscaDataType());
+
+        ToscaDataType dt0 = new ToscaDataType();
+        dt0.setName("dt0");
+        dt0.setVersion("0.0.1");
+        dt0.setDescription("dt0 description");
+
+        dtMapList.get(0).put("dt0", dt0);
         assertNotNull(new JpaToscaDataTypes(dtMapList));
+        assertTrue(new JpaToscaDataTypes(dtMapList).validate(new PfValidationResult()).isValid());
+        assertThatThrownBy(() -> new JpaToscaDataTypes(dtMapList).validate(null))
+                .hasMessageMatching("resultIn is marked .*on.*ull but is null");
+
+        dt0.setDerivedFrom(null);
+        assertTrue(new JpaToscaDataTypes(dtMapList).validate(new PfValidationResult()).isValid());
+
+        dt0.setDerivedFrom("tosca.datatypes.Root");
+        assertTrue(new JpaToscaDataTypes(dtMapList).validate(new PfValidationResult()).isValid());
+
+        dt0.setDerivedFrom("some.other.Thing");
+        PfValidationResult result = new JpaToscaDataTypes(dtMapList).validate(new PfValidationResult());
+        assertFalse(result.isValid());
+        assertTrue(result.toString().contains("parent some.other.Thing:0.0.0 of entity not found"));
+
+        dt0.setDerivedFrom(null);
+        assertTrue(new JpaToscaDataTypes(dtMapList).validate(new PfValidationResult()).isValid());
+
+        ToscaDataType dt1 = new ToscaDataType();
+        dt1.setName("dt1");
+        dt1.setVersion("0.0.1");
+        dt1.setDescription("dt1 description");
+
+        dtMapList.get(0).put("dt1", dt1);
+        assertTrue(new JpaToscaDataTypes(dtMapList).validate(new PfValidationResult()).isValid());
+
+        dt1.setDerivedFrom("dt0");
+        assertTrue(new JpaToscaDataTypes(dtMapList).validate(new PfValidationResult()).isValid());
+
+        dt1.setDerivedFrom("dt2");
+        result = new JpaToscaDataTypes(dtMapList).validate(new PfValidationResult());
+        assertFalse(result.isValid());
+        assertTrue(result.toString().contains("parent dt2:0.0.0 of entity not found"));
+
+        dt1.setDerivedFrom("dt0");
+        assertTrue(new JpaToscaDataTypes(dtMapList).validate(new PfValidationResult()).isValid());
     }
 }

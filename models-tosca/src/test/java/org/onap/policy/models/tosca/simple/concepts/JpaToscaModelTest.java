@@ -42,7 +42,7 @@ import org.onap.policy.models.base.PfValidationResult;
  */
 public class JpaToscaModelTest {
 
-    private static final String KEY_IS_NULL = "key is marked @NonNull but is null";
+    private static final String KEY_IS_NULL = "key is marked .*on.*ull but is null";
     private static final String VERSION_001 = "0.0.1";
 
     @Test
@@ -52,17 +52,18 @@ public class JpaToscaModelTest {
         assertNotNull(new JpaToscaModel(new PfConceptKey(), new JpaToscaServiceTemplates()));
         assertNotNull(new JpaToscaModel(new JpaToscaModel()));
 
-        assertThatThrownBy(() -> new JpaToscaModel((PfConceptKey) null)).hasMessage(KEY_IS_NULL);
+        assertThatThrownBy(() -> new JpaToscaModel((PfConceptKey) null)).hasMessageMatching(KEY_IS_NULL);
 
-        assertThatThrownBy(() -> new JpaToscaModel(null, null)).hasMessage(KEY_IS_NULL);
+        assertThatThrownBy(() -> new JpaToscaModel(null, null)).hasMessageMatching(KEY_IS_NULL);
 
-        assertThatThrownBy(() -> new JpaToscaModel(null, new JpaToscaServiceTemplates())).hasMessage(KEY_IS_NULL);
+        assertThatThrownBy(() -> new JpaToscaModel(null, new JpaToscaServiceTemplates()))
+                .hasMessageMatching(KEY_IS_NULL);
 
         assertThatThrownBy(() -> new JpaToscaModel(new PfConceptKey(), null))
-                .hasMessage("serviceTemplates is marked @NonNull but is null");
+                .hasMessageMatching("serviceTemplates is marked .*on.*ull but is null");
 
         assertThatThrownBy(() -> new JpaToscaModel((JpaToscaModel) null))
-                .hasMessage("copyConcept is marked @NonNull but is null");
+                .hasMessageMatching("copyConcept is marked .*on.*ull but is null");
 
         PfConceptKey tstsKey = new PfConceptKey("tsts", VERSION_001);
         Map<PfConceptKey, JpaToscaServiceTemplate> tstMap = new TreeMap<>();
@@ -107,6 +108,6 @@ public class JpaToscaModelTest {
         assertTrue(PfModelService.existsModel(tm.getServiceTemplates().getId()));
         PfModelService.deregisterModel(tm.getServiceTemplates().getId());
 
-        assertThatThrownBy(() -> tm.validate(null)).hasMessage("resultIn is marked @NonNull but is null");
+        assertThatThrownBy(() -> tm.validate(null)).hasMessageMatching("resultIn is marked .*on.*ull but is null");
     }
 }
