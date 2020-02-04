@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "728be5c4_5b0abc11",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/ActorService.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-04T12:07:07Z",
+      "side": 1,
+      "message": "Ack.  Same for the one in ActorImpl with respect to Operators?",
+      "parentUuid": "2193ea97_763c6d04",
+      "range": {
+        "startLine": 66,
+        "startChar": 16,
+        "endLine": 66,
+        "endChar": 56
+      },
+      "revId": "89ce8bc6075096d015cdc8735634e0be14fe0357",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cde5d000_87c9e681",
         "filename": "models-interactions/model-actors/actorServiceProvider/src/test/java/org/onap/policy/controlloop/actorserviceprovider/pipeline/ListenerManagerTest.java",
         "patchSetId": 4
@@ -36,6 +60,24 @@
       "writtenOn": "2020-02-04T11:50:02Z",
       "side": 1,
       "message": "Should these tests be run in order? Or will they run out of order?",
+      "revId": "89ce8bc6075096d015cdc8735634e0be14fe0357",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48220c6f_7e27d7d1",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/test/java/org/onap/policy/controlloop/actorserviceprovider/pipeline/ListenerManagerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-04T12:07:07Z",
+      "side": 1,
+      "message": "Order is irrelevant, as each test case gets a new set of objects.",
+      "parentUuid": "cde5d000_87c9e681",
       "revId": "89ce8bc6075096d015cdc8735634e0be14fe0357",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
