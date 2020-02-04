@@ -49,6 +49,53 @@
     },
     {
       "key": {
+        "uuid": "5c14a4ff_e140d465",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/ActorService.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-02-04T12:21:47Z",
+      "side": 1,
+      "message": "yes IMO",
+      "parentUuid": "728be5c4_5b0abc11",
+      "range": {
+        "startLine": 66,
+        "startChar": 16,
+        "endLine": 66,
+        "endChar": 56
+      },
+      "revId": "89ce8bc6075096d015cdc8735634e0be14fe0357",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c51e30e_3f6f9c2b",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/impl/ActorImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-02-04T12:21:47Z",
+      "side": 1,
+      "message": "Yeah let\u0027s just dump a warning out - maybe add a some JUnit test in all the actors to discourage duplicate names. eg try to catch that during development cycle.",
+      "range": {
+        "startLine": 79,
+        "startChar": 17,
+        "endLine": 79,
+        "endChar": 56
+      },
+      "revId": "89ce8bc6075096d015cdc8735634e0be14fe0357",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cde5d000_87c9e681",
         "filename": "models-interactions/model-actors/actorServiceProvider/src/test/java/org/onap/policy/controlloop/actorserviceprovider/pipeline/ListenerManagerTest.java",
         "patchSetId": 4
@@ -78,6 +125,24 @@
       "side": 1,
       "message": "Order is irrelevant, as each test case gets a new set of objects.",
       "parentUuid": "cde5d000_87c9e681",
+      "revId": "89ce8bc6075096d015cdc8735634e0be14fe0357",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb063a37_4182ce0f",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/test/java/org/onap/policy/controlloop/actorserviceprovider/pipeline/ListenerManagerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-02-04T12:21:47Z",
+      "side": 1,
+      "message": "Ok got it.",
+      "parentUuid": "48220c6f_7e27d7d1",
       "revId": "89ce8bc6075096d015cdc8735634e0be14fe0357",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
