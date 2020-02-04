@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "88020c2f_46d8ceef",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/utils/ToscaServiceTemplateUtils.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-02-04T11:32:40Z",
+      "side": 1,
+      "message": "2020",
+      "range": {
+        "startLine": 3,
+        "startChar": 17,
+        "endLine": 3,
+        "endChar": 21
+      },
+      "revId": "7c41dfbaf14acabcdd4e8b178fa771345cb301e0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "11bf5a0d_7b9f9243",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/utils/ToscaServiceTemplateUtils.java",
         "patchSetId": 5
@@ -46,6 +69,29 @@
       "revId": "7c41dfbaf14acabcdd4e8b178fa771345cb301e0",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "820aa497_436c5ddb",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/utils/ToscaServiceTemplateUtilsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-02-04T11:32:40Z",
+      "side": 1,
+      "message": "remove just 2020",
+      "range": {
+        "startLine": 3,
+        "startChar": 18,
+        "endLine": 3,
+        "endChar": 23
+      },
+      "revId": "7c41dfbaf14acabcdd4e8b178fa771345cb301e0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
