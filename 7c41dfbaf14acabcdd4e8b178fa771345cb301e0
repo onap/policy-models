@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "c1c42191_62c29ec8",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/utils/ToscaServiceTemplateUtils.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-02-04T12:56:58Z",
+      "side": 1,
+      "message": "Answers to Chenfei\u0027s questions:\n1) I don\u0027t think we should merge any of the incoming change with the original content of there is any inconsistency or problem with the merged result. The reason is that if there is an inconsistency, we cannot be sure of what the intent of the user was so we shouldn\u0027t guess. Its better to report the errors and let the user figure it out.\n2) The reason for not doing a break is as Jim pointed out, it\u0027s better to report all the errors in one go rather than stopping on the first one, having the user resubmit and then find the next error and so on.....",
+      "parentUuid": "aaa3072f_c4f46b3c",
+      "range": {
+        "startLine": 136,
+        "startChar": 12,
+        "endLine": 140,
+        "endChar": 13
+      },
+      "revId": "7c41dfbaf14acabcdd4e8b178fa771345cb301e0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "820aa497_436c5ddb",
         "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/utils/ToscaServiceTemplateUtilsTest.java",
         "patchSetId": 5
