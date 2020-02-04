@@ -20,11 +20,24 @@
 
 package org.onap.policy.models.tosca.utils;
 
+import java.util.Collection;
+import java.util.Set;
 import java.util.function.Function;
 
 import javax.ws.rs.core.Response;
 
+import lombok.NonNull;
+
+import org.apache.commons.collections4.CollectionUtils;
+import org.onap.policy.models.base.PfConcept;
+import org.onap.policy.models.base.PfConceptContainer;
+import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelRuntimeException;
+import org.onap.policy.models.base.PfNameVersion;
+import org.onap.policy.models.base.PfValidationMessage;
+import org.onap.policy.models.base.PfValidationResult;
+import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaEntityType;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +49,8 @@ import org.slf4j.LoggerFactory;
  */
 public final class ToscaUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(ToscaUtils.class);
+
+    private static final String ROOT_KEY_NAME_SUFFIX = ".Root";
 
     /**
      * Private constructor to prevent subclassing.
@@ -170,5 +185,37 @@ public final class ToscaUtils {
         }
 
         return null;
+    }
+
+    /**
+     * Find all the ancestors of an entity type.
+     *
+     * @param entityTypes the set of entity types that exist
+     * @param entityType the entity type for which to get the parents
+     * @param result the result of the ancestor search with any warnings or errors
+     * @return
+     */
+    public static Collection<? extends JpaToscaEntityType<?>> getEntityTypeAncestors(
+            @NonNull PfConceptContainer<? extends PfConcept, ? extends PfNameVersion> entityTypes,
+            @NonNull JpaToscaEntityType<?> entityType, @NonNull final PfValidationResult result) {
+
+        PfConceptKey parentEntityTypeKey = entityType.getDerivedFrom();
+        if (parentEntityTypeKey == null || parentEntityTypeKey.getName().endsWith(ROOT_KEY_NAME_SUFFIX)) {
+            return CollectionUtils.emptyCollection();
+        }
+
+        @SuppressWarnings("unchecked")
+        Set<JpaToscaEntityType<?>> ancestorEntitySet = (Set<JpaToscaEntityType<?>>) entityTypes
+                .getAll(parentEntityTypeKey.getName(), parentEntityTypeKey.getVersion());
+
+        if (ancestorEntitySet.isEmpty()) {
+            result.addValidationMessage(new PfValidationMessage(entityType.getKey(), ToscaUtils.class,
+                    ValidationResult.INVALID, "parent " + parentEntityTypeKey.getId() + " of entity not found"));
+        } else {
+            for (JpaToscaEntityType<?> filteredEntityType : ancestorEntitySet) {
+                ancestorEntitySet.addAll(getEntityTypeAncestors(entityTypes, filteredEntityType, result));
+            }
+        }
+        return ancestorEntitySet;
     }
 }

@@ -3,6 +3,7 @@
  * ONAP Policy Models
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,8 +37,7 @@ public class ToscaPolicyTest {
     public void testGetIdentifier_testGetTypeIdentifier() {
         assertThatThrownBy(() -> {
             new ToscaPolicy(null);
-        }).hasMessage("copyObject is marked @NonNull but is null");
-
+        }).hasMessageMatching("copyObject is marked .*on.*ull but is null");
 
         ToscaPolicy policy = new ToscaPolicy();
 

@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,6 +29,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfValidationResult;
@@ -48,10 +49,10 @@ public class JpaToscaEntrySchemaTest {
         assertNotNull(new JpaToscaEntrySchema(new JpaToscaEntrySchema(new PfConceptKey())));
 
         assertThatThrownBy(() -> new JpaToscaEntrySchema((PfConceptKey) null))
-                        .hasMessage("type is marked @NonNull but is null");
+                .hasMessageMatching("type is marked .*on.*ull but is null");
 
         assertThatThrownBy(() -> new JpaToscaEntrySchema((JpaToscaEntrySchema) null))
-                        .hasMessage("copyConcept is marked @NonNull but is null");
+                .hasMessageMatching("copyConcept is marked .*on.*ull but is null");
 
         PfConceptKey typeKey = new PfConceptKey("type", "0.0.1");
         JpaToscaEntrySchema tes = new JpaToscaEntrySchema(typeKey);
@@ -86,7 +87,7 @@ public class JpaToscaEntrySchemaTest {
         otherEs.setConstraints(constraints);
         assertEquals(0, tes.compareTo(otherEs));
 
-        assertThatThrownBy(() -> tes.copyTo(null)).hasMessage("target is marked @NonNull but is null");
+        assertThatThrownBy(() -> tes.copyTo(null)).hasMessageMatching("target is marked .*on.*ull but is null");
 
         assertEquals(1, tes.getKeys().size());
         assertEquals(1, new JpaToscaEntrySchema(typeKey).getKeys().size());
@@ -105,7 +106,8 @@ public class JpaToscaEntrySchemaTest {
         tes.setType(typeKey);
         assertTrue(tes.validate(new PfValidationResult()).isValid());
 
-        tes.setDescription("");;
+        tes.setDescription("");
+
         assertFalse(tes.validate(new PfValidationResult()).isValid());
         tes.setDescription(A_DESCRIPTION);
         assertTrue(tes.validate(new PfValidationResult()).isValid());
@@ -115,6 +117,6 @@ public class JpaToscaEntrySchemaTest {
         tes.getConstraints().remove(null);
         assertTrue(tes.validate(new PfValidationResult()).isValid());
 
-        assertThatThrownBy(() -> tes.validate(null)).hasMessage("resultIn is marked @NonNull but is null");
+        assertThatThrownBy(() -> tes.validate(null)).hasMessageMatching("resultIn is marked .*on.*ull but is null");
     }
 }

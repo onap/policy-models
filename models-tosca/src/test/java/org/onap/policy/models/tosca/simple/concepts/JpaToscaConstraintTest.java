@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,6 +28,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.junit.Test;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConstraint;
 
@@ -45,13 +46,13 @@ public class JpaToscaConstraintTest {
         assertNotNull(new JpaToscaConstraintLogical(JpaToscaConstraintOperation.EQ, CONSTRAINT));
 
         assertThatThrownBy(() -> new JpaToscaConstraintLogical((JpaToscaConstraintOperation) null, null))
-                        .hasMessage("operation is marked @NonNull but is null");
+                .hasMessageMatching("operation is marked .*on.*ull but is null");
 
         assertThatThrownBy(() -> new JpaToscaConstraintLogical((JpaToscaConstraintOperation) null, "Hello"))
-                        .hasMessage("operation is marked @NonNull but is null");
+                .hasMessageMatching("operation is marked .*on.*ull but is null");
 
         assertThatThrownBy(() -> new JpaToscaConstraintLogical(JpaToscaConstraintOperation.EQ, null))
-                        .hasMessage("compareTo is marked @NonNull but is null");
+                .hasMessageMatching("compareTo is marked .*on.*ull but is null");
 
         assertNotNull(new JpaToscaConstraintLogical(JpaToscaConstraintOperation.EQ, CONSTRAINT));
 

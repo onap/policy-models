@@ -201,6 +201,5 @@ public class ToscaServiceTemplateUtilsTest {
         assertEquals(dt1, dtIterator.next());
         assertEquals(pt0, compositeTemplate05.getPolicyTypes().getAll(null).iterator().next());
         assertEquals(p0, compositeTemplate05.getTopologyTemplate().getPolicies().getAll(null).iterator().next());
-
     }
 }

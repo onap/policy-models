@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,12 +33,10 @@ import java.util.TreeMap;
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplates;
 
 public class JpaToscaServiceTemplatesTest {
 
-    private static final String KEY_IS_NULL = "key is marked @NonNull but is null";
+    private static final String KEY_IS_NULL = "key is marked .*on.*ull but is null";
 
     @Test
     public void testServiceTemplates() {
@@ -50,23 +48,23 @@ public class JpaToscaServiceTemplatesTest {
 
         assertThatThrownBy(() -> {
             new JpaToscaServiceTemplates((PfConceptKey) null);
-        }).hasMessage(KEY_IS_NULL);
+        }).hasMessageMatching(KEY_IS_NULL);
 
         assertThatThrownBy(() -> {
             new JpaToscaServiceTemplates((JpaToscaServiceTemplates) null);
-        }).hasMessage("copyConcept is marked @NonNull but is null");
+        }).hasMessageMatching("copyConcept is marked .*on.*ull but is null");
 
         assertThatThrownBy(() -> {
             new JpaToscaServiceTemplates(null, null);
-        }).hasMessage(KEY_IS_NULL);
+        }).hasMessageMatching(KEY_IS_NULL);
 
         assertThatThrownBy(() -> {
             new JpaToscaServiceTemplates(new PfConceptKey(), null);
-        }).hasMessage("conceptMap is marked @NonNull but is null");
+        }).hasMessageMatching("conceptMap is marked .*on.*ull but is null");
 
         assertThatThrownBy(() -> {
             new JpaToscaServiceTemplates(null, new TreeMap<PfConceptKey, JpaToscaServiceTemplate>());
-        }).hasMessage(KEY_IS_NULL);
+        }).hasMessageMatching(KEY_IS_NULL);
 
         List<Map<String, ToscaServiceTemplate>> tsMapList = new ArrayList<>();
         tsMapList.add(new LinkedHashMap<>());

@@ -37,15 +37,11 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaEntity;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaEntityType;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaTopologyTemplate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * This utility class provides methods to manage service templates.
  */
 public class ToscaServiceTemplateUtils {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ToscaServiceTemplateUtils.class);
-
     /**
      * Private constructor to prevent subclassing.
      */

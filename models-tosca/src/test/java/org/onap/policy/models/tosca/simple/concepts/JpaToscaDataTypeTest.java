@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019=-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -38,9 +38,6 @@ import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConstraint;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaDataType;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaConstraint;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaDataType;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaProperty;
 
 /**
  * DAO test for ToscaDatatype.
@@ -60,10 +57,10 @@ public class JpaToscaDataTypeTest {
 
         assertThatThrownBy(() -> {
             new JpaToscaDataType((PfConceptKey) null);
-        }).hasMessage("key is marked @NonNull but is null");
+        }).hasMessageMatching("key is marked .*on.*ull but is null");
 
         assertThatThrownBy(() -> new JpaToscaDataType((JpaToscaDataType) null))
-                        .isInstanceOf(NullPointerException.class);
+                .isInstanceOf(NullPointerException.class);
 
         PfConceptKey dtKey = new PfConceptKey("tdt", VERSION_001);
         JpaToscaDataType tdt = new JpaToscaDataType(dtKey);
@@ -76,7 +73,7 @@ public class JpaToscaDataTypeTest {
 
         Map<String, JpaToscaProperty> properties = new LinkedHashMap<>();
         JpaToscaProperty tp =
-                        new JpaToscaProperty(new PfReferenceKey(dtKey, "pr"), new PfConceptKey("type", VERSION_001));
+                new JpaToscaProperty(new PfReferenceKey(dtKey, "pr"), new PfConceptKey("type", VERSION_001));
         properties.put(tp.getKey().getLocalName(), tp);
         tdt.setProperties(properties);
         assertEquals(properties, tdt.getProperties());
@@ -126,7 +123,7 @@ public class JpaToscaDataTypeTest {
 
         assertThatThrownBy(() -> {
             tdt.validate(null);
-        }).hasMessage("resultIn is marked @NonNull but is null");
+        }).hasMessageMatching("resultIn is marked .*on.*ull but is null");
 
         ToscaDataType dat = new ToscaDataType();
         dat.setName("name");

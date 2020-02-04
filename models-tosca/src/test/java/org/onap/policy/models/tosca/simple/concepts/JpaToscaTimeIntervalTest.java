@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,6 +28,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
+
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfReferenceKey;
@@ -40,7 +41,7 @@ import org.onap.policy.models.base.PfValidationResult;
  */
 public class JpaToscaTimeIntervalTest {
 
-    private static final String KEY_IS_NULL = "key is marked @NonNull but is null";
+    private static final String KEY_IS_NULL = "key is marked .*on.*ull but is null";
 
     @Test
     public void testTimeIntervalPojo() {
@@ -49,27 +50,28 @@ public class JpaToscaTimeIntervalTest {
         assertNotNull(new JpaToscaTimeInterval(new PfReferenceKey(), new Date(), new Date()));
         assertNotNull(new JpaToscaTimeInterval(new JpaToscaTimeInterval()));
 
-        assertThatThrownBy(() -> new JpaToscaTimeInterval((PfReferenceKey) null)).hasMessage(KEY_IS_NULL);
+        assertThatThrownBy(() -> new JpaToscaTimeInterval((PfReferenceKey) null)).hasMessageMatching(KEY_IS_NULL);
 
-        assertThatThrownBy(() -> new JpaToscaTimeInterval(null, null, null)).hasMessage(KEY_IS_NULL);
+        assertThatThrownBy(() -> new JpaToscaTimeInterval(null, null, null)).hasMessageMatching(KEY_IS_NULL);
 
-        assertThatThrownBy(() -> new JpaToscaTimeInterval(null, null, new Date())).hasMessage(KEY_IS_NULL);
+        assertThatThrownBy(() -> new JpaToscaTimeInterval(null, null, new Date())).hasMessageMatching(KEY_IS_NULL);
 
-        assertThatThrownBy(() -> new JpaToscaTimeInterval(null, new Date(), null)).hasMessage(KEY_IS_NULL);
+        assertThatThrownBy(() -> new JpaToscaTimeInterval(null, new Date(), null)).hasMessageMatching(KEY_IS_NULL);
 
-        assertThatThrownBy(() -> new JpaToscaTimeInterval(null, new Date(), new Date())).hasMessage(KEY_IS_NULL);
+        assertThatThrownBy(() -> new JpaToscaTimeInterval(null, new Date(), new Date()))
+                .hasMessageMatching(KEY_IS_NULL);
 
         assertThatThrownBy(() -> new JpaToscaTimeInterval(new PfReferenceKey(), null, null))
-                        .hasMessage("startTime is marked @NonNull but is null");
+                .hasMessageMatching("startTime is marked .*on.*ull but is null");
 
         assertThatThrownBy(() -> new JpaToscaTimeInterval(new PfReferenceKey(), null, new Date()))
-                        .hasMessage("startTime is marked @NonNull but is null");
+                .hasMessageMatching("startTime is marked .*on.*ull but is null");
 
         assertThatThrownBy(() -> new JpaToscaTimeInterval(new PfReferenceKey(), new Date(), null))
-                        .hasMessage("endTime is marked @NonNull but is null");
+                .hasMessageMatching("endTime is marked .*on.*ull but is null");
 
         assertThatThrownBy(() -> new JpaToscaServiceTemplate((JpaToscaServiceTemplate) null))
-                        .isInstanceOf(NullPointerException.class);
+                .isInstanceOf(NullPointerException.class);
 
         PfConceptKey ttiParentKey = new PfConceptKey("tParentKey", "0.0.1");
         PfReferenceKey ttiKey = new PfReferenceKey(ttiParentKey, "trigger0");
@@ -124,6 +126,6 @@ public class JpaToscaTimeIntervalTest {
         tti.setEndTime(endTime);
         assertTrue(tti.validate(new PfValidationResult()).isValid());
 
-        assertThatThrownBy(() -> tti.validate(null)).hasMessage("resultIn is marked @NonNull but is null");
+        assertThatThrownBy(() -> tti.validate(null)).hasMessageMatching("resultIn is marked .*on.*ull but is null");
     }
 }
