@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1d502ae3_7115a27b",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaDataTypes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-02-05T09:22:34Z",
+      "side": 1,
+      "message": "In ToscaUtils.getEntityTypeAncestors, if an ancestor isn\u0027t found for a derivedFrom field, we put the child key and the not found parent key in the message for each parent reference that isn\u0027t found. see:\n            result.addValidationMessage(new PfValidationMessage(entityType.getKey(), ToscaUtils.class,\n                    ValidationResult.INVALID, \"parent \" + parentEntityTypeKey.getId() + \" of entity not found\"));\n\nHowever, maybe we should check if there are missing ancestors, maybe we should put in a catch all result message on JpaTosca\u003cWhatever\u003es classes, I didn\u0027t think that was necessary but we could do that.",
+      "parentUuid": "7a992402_53e89184",
+      "revId": "225298698755f6311ca38aff58b3d72e41941667",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "249ff1ed_847fb300",
         "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaDataTypesTest.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2020-02-04T22:05:08Z",
       "side": 1,
       "message": "FYI: Seeing some other folks use the following, I\u0027ve started using it, too, because it gives a more useful error message if it fails.\n\n  assertThat(\"first string\").contains(\"desired text\")",
+      "revId": "225298698755f6311ca38aff58b3d72e41941667",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c041e49_431080d1",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaDataTypesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-02-05T09:22:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "249ff1ed_847fb300",
       "revId": "225298698755f6311ca38aff58b3d72e41941667",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
