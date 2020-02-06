@@ -4,7 +4,7 @@
  * ================================================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
- * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,8 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 
+// TODO combine this with ActorServiceTest
+
 public class ActorServiceProviderTest {
 
     private static final String DOROTHY = "Dorothy";
@@ -37,12 +39,12 @@ public class ActorServiceProviderTest {
         ActorService actorService = ActorService.getInstance();
         assertNotNull(actorService);
 
-        assertEquals(1, actorService.actors().size());
+        assertEquals(1, actorService.getActors().size());
 
         actorService = ActorService.getInstance();
         assertNotNull(actorService);
 
-        Actor dummyActor = ActorService.getInstance().actors().get(0);
+        Actor dummyActor = ActorService.getInstance().getActors().iterator().next();
         assertNotNull(dummyActor);
 
         assertEquals("DummyActor", dummyActor.actor());
