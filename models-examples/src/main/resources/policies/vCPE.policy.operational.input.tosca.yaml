@@ -17,7 +17,7 @@ topology_template:
                     description: Restart the VM
                     operation:
                         actor: APPC
-                        recipe: Restart
+                        operation: Restart
                         target:
                             type: VNF
                     timeout: 1200
