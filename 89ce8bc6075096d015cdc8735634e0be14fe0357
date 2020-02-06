@@ -73,6 +73,86 @@
     },
     {
       "key": {
+        "uuid": "6ab7b7c2_04b1b855",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/DelayedIdentString.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-02-06T11:00:15Z",
+      "side": 1,
+      "message": "I\u0027m OK with this if we have no way of controlling the identity in the objects that returning a string of the format \"blah blah blah @theidentity\" on those objects toString() methods if we have no control on the source objects and using toString() in this way is outside our control.\n\nHowever, if we do have control, I would prefer that we have an explicit identity field in an abstract class from which these objects inherit or an interface that insists on a getIdentity() method being present.",
+      "revId": "89ce8bc6075096d015cdc8735634e0be14fe0357",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f89745d_0710e2a3",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/Util.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-02-06T11:00:15Z",
+      "side": 1,
+      "message": "I like the translate(0 and translateToMap() methods, could they be candidates for utility functions in policy-common?",
+      "revId": "89ce8bc6075096d015cdc8735634e0be14fe0357",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "246283e0_ef19a18a",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/Util.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-02-06T11:00:15Z",
+      "side": 1,
+      "message": "Should this method be called runFunction() as an exception is only logged when something unexpected happens?",
+      "range": {
+        "startLine": 63,
+        "startChar": 23,
+        "endLine": 63,
+        "endChar": 35
+      },
+      "revId": "89ce8bc6075096d015cdc8735634e0be14fe0357",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74de9483_6a9466af",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/controlloop/ControlLoopEventContext.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-02-06T11:00:15Z",
+      "side": 1,
+      "message": "Do we need this field?",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 3
+      },
+      "revId": "89ce8bc6075096d015cdc8735634e0be14fe0357",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0c51e30e_3f6f9c2b",
         "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/impl/ActorImpl.java",
         "patchSetId": 4
@@ -89,6 +169,52 @@
         "startChar": 17,
         "endLine": 79,
         "endChar": 56
+      },
+      "revId": "89ce8bc6075096d015cdc8735634e0be14fe0357",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df8921da_fa7a4d4f",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/impl/ActorImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-02-06T11:00:15Z",
+      "side": 1,
+      "message": "This is what I mean regarding the comment on the Util class, here it looks like we are logging an exception when in fact we are running the oper::start method.",
+      "range": {
+        "startLine": 180,
+        "startChar": 16,
+        "endLine": 180,
+        "endChar": 45
+      },
+      "revId": "89ce8bc6075096d015cdc8735634e0be14fe0357",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e00c650_df1abe58",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/parameters/ControlLoopOperationParams.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-02-06T11:00:15Z",
+      "side": 1,
+      "message": "OK, we only need the policy here to get the actor/recipe/operation etc?",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 3
       },
       "revId": "89ce8bc6075096d015cdc8735634e0be14fe0357",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
