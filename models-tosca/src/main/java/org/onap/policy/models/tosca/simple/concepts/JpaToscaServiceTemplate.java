@@ -272,7 +272,18 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
             result = policyTypes.validate(result);
         }
 
-        return (topologyTemplate != null ? topologyTemplate.validate(result) : result);
+        if (topologyTemplate != null) {
+            result = topologyTemplate.validate(result);
+        }
+
+        // No point in validating cross references if the structure of the individual parts are not valid
+        if (!result.isOk()) {
+            return result;
+        }
+
+        validateDatatypesInPolicyTypes(result);
+
+        return validatePolicyTypesInPolicies(result);
     }
 
     @Override
@@ -320,5 +331,58 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
         }
 
         return ObjectUtils.compare(toscaDefinitionsVersion, other.toscaDefinitionsVersion);
+    }
+
+    /**
+     * Validate that all data types referenced in policy types exist.
+     *
+     * @param result the validation result object to use for the validation result
+     * @return the validation result object
+     */
+    private PfValidationResult validateDatatypesInPolicyTypes(final PfValidationResult result) {
+        if (policyTypes == null) {
+            return result;
+        }
+
+        for (JpaToscaPolicyType policyType : policyTypes.getAll(null)) {
+            for (PfConceptKey datatypeKey : policyType.getReferencedDataTypes()) {
+                if (dataTypes == null || dataTypes.get(datatypeKey) == null) {
+                    result.addValidationMessage(
+                            new PfValidationMessage(policyType.getKey(), this.getClass(), ValidationResult.INVALID,
+                                    "data type " + datatypeKey + " referenced in policy type not found"));
+                }
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Validate that all policy types referenced in policies exist.
+     *
+     * @param result the validation result object to use for the validation result
+     * @return the validation result object
+     */
+    private PfValidationResult validatePolicyTypesInPolicies(PfValidationResult result) {
+        if (topologyTemplate == null || topologyTemplate.getPolicies() == null) {
+            return result;
+        }
+
+        if (policyTypes == null) {
+            result.addValidationMessage(new PfValidationMessage(this.getKey(), this.getClass(),
+                    ValidationResult.INVALID,
+                    "no policy types are defined on the service template for the policies in the topology template"));
+            return result;
+        }
+
+        for (JpaToscaPolicy policy : topologyTemplate.getPolicies().getAll(null)) {
+            if (policyTypes.get(policy.getType()) == null) {
+                result.addValidationMessage(
+                        new PfValidationMessage(policy.getKey(), this.getClass(), ValidationResult.INVALID,
+                                "policy type " + policy.getType().getId() + " referenced in policy not found"));
+            }
+        }
+
+        return result;
     }
 }

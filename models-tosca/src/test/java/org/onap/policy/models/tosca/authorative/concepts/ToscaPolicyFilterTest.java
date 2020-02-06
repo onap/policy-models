@@ -231,7 +231,7 @@ public class ToscaPolicyFilterTest {
 
         filter = ToscaPolicyFilter.builder().typeVersion(VERSION_000).build();
         filteredList = filter.filter(policyList);
-        assertEquals(7, filteredList.size());
+        assertEquals(4, filteredList.size());
 
         filter = ToscaPolicyFilter.builder().type("onap.policies.optimization.resource.HpaPolicy")
                 .typeVersion(VERSION_100).build();

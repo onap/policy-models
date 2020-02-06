@@ -3,7 +3,7 @@
  * ONAP Policy Model
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,11 +29,13 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.common.utils.coder.StandardCoder;
+import org.onap.policy.common.utils.coder.YamlJsonTranslator;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
+import org.onap.policy.models.tosca.utils.ToscaServiceTemplateUtils;
 import org.yaml.snakeyaml.Yaml;
 
 /**
@@ -44,6 +46,7 @@ import org.yaml.snakeyaml.Yaml;
 public class ToscaServiceTemplateMappingTest {
 
     private StandardCoder standardCoder;
+    private YamlJsonTranslator yamlJsonTranslator = new YamlJsonTranslator();
 
     @Before
     public void setUp() {
@@ -52,14 +55,25 @@ public class ToscaServiceTemplateMappingTest {
 
     @Test
     public void testPlainToscaPolicies() throws Exception {
-        String inputJson = ResourceUtils.getResourceAsString("policies/vCPE.policy.monitoring.input.tosca.json");
+        String policyTypeInputJson =
+                ResourceUtils.getResourceAsString("policytypes/onap.policies.monitoring.cdap.tca.hi.lo.app.yaml");
+        ToscaServiceTemplate plainPolicyTypes =
+                yamlJsonTranslator.fromYaml(policyTypeInputJson, ToscaServiceTemplate.class);
 
-        ToscaServiceTemplate plainPolicies = standardCoder.decode(inputJson, ToscaServiceTemplate.class);
-        JpaToscaServiceTemplate internalPolicies = new JpaToscaServiceTemplate();
-        internalPolicies.fromAuthorative(plainPolicies);
+        String policyInputJson = ResourceUtils.getResourceAsString("policies/vCPE.policy.monitoring.input.tosca.json");
+        ToscaServiceTemplate plainPolicies = standardCoder.decode(policyInputJson, ToscaServiceTemplate.class);
 
-        assertTrue(internalPolicies.validate(new PfValidationResult()).isValid());
-        ToscaServiceTemplate plainPolicies2 = internalPolicies.toAuthorative();
+        JpaToscaServiceTemplate policyTypeServiceTemplate = new JpaToscaServiceTemplate();
+        policyTypeServiceTemplate.fromAuthorative(plainPolicyTypes);
+
+        JpaToscaServiceTemplate policyFragmentServiceTemplate = new JpaToscaServiceTemplate();
+        policyFragmentServiceTemplate.fromAuthorative(plainPolicies);
+
+        JpaToscaServiceTemplate internalServiceTemplate =
+                ToscaServiceTemplateUtils.addFragment(policyTypeServiceTemplate, policyFragmentServiceTemplate);
+
+        assertTrue(internalServiceTemplate.validate(new PfValidationResult()).isValid());
+        ToscaServiceTemplate plainPolicies2 = internalServiceTemplate.toAuthorative();
 
         ToscaPolicy pp1 = plainPolicies.getToscaTopologyTemplate().getPolicies().get(0).values().iterator().next();
         ToscaPolicy pp2 = plainPolicies2.getToscaTopologyTemplate().getPolicies().get(0).values().iterator().next();
@@ -70,13 +84,12 @@ public class ToscaServiceTemplateMappingTest {
     @Test
     public void testPlainToscaPolicyTypes() throws Exception {
         Yaml yaml = new Yaml();
-        String inputYaml = ResourceUtils.getResourceAsString(
-                "policytypes/onap.policies.monitoring.cdap.tca.hi.lo.app.yaml");
+        String inputYaml =
+                ResourceUtils.getResourceAsString("policytypes/onap.policies.monitoring.cdap.tca.hi.lo.app.yaml");
         Object yamlObject = yaml.load(inputYaml);
         String yamlAsJsonString = standardCoder.encode(yamlObject);
 
-        ToscaServiceTemplate plainPolicyTypes = standardCoder.decode(yamlAsJsonString,
-                ToscaServiceTemplate.class);
+        ToscaServiceTemplate plainPolicyTypes = standardCoder.decode(yamlAsJsonString, ToscaServiceTemplate.class);
         JpaToscaServiceTemplate internalPolicyTypes = new JpaToscaServiceTemplate();
         internalPolicyTypes.fromAuthorative(plainPolicyTypes);
         assertTrue(internalPolicyTypes.validate(new PfValidationResult()).isValid());

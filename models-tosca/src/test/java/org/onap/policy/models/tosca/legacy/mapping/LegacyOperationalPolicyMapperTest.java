@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,15 +31,17 @@ import java.util.LinkedHashMap;
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.common.utils.coder.StandardCoder;
+import org.onap.policy.common.utils.coder.YamlJsonTranslator;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfValidationResult;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
-import org.onap.policy.models.tosca.legacy.mapping.LegacyOperationalPolicyMapper;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicies;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicy;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaTopologyTemplate;
+import org.onap.policy.models.tosca.utils.ToscaServiceTemplateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,6 +55,7 @@ public class LegacyOperationalPolicyMapperTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(LegacyOperationalPolicyMapperTest.class);
 
     private StandardCoder standardCoder;
+    private YamlJsonTranslator yamlJsonTranslator = new YamlJsonTranslator();
 
     @Before
     public void setUp() {
@@ -61,13 +64,22 @@ public class LegacyOperationalPolicyMapperTest {
 
     @Test
     public void testJsonDeserialization() throws Exception {
-        String vcpePolicyJson = ResourceUtils.getResourceAsString("policies/vCPE.policy.operational.input.json");
+        String policyTypeInputJson =
+                ResourceUtils.getResourceAsString("policytypes/onap.policies.controlloop.Operational.yaml");
+        ToscaServiceTemplate policyTypes = yamlJsonTranslator.fromYaml(policyTypeInputJson, ToscaServiceTemplate.class);
 
+        JpaToscaServiceTemplate policyTypeServiceTemplate = new JpaToscaServiceTemplate();
+        policyTypeServiceTemplate.fromAuthorative(policyTypes);
+
+        String vcpePolicyJson = ResourceUtils.getResourceAsString("policies/vCPE.policy.operational.input.json");
         LegacyOperationalPolicy legacyOperationalPolicy =
                 standardCoder.decode(vcpePolicyJson, LegacyOperationalPolicy.class);
 
-        JpaToscaServiceTemplate serviceTemplate =
+        JpaToscaServiceTemplate legacyPolicyFragmentServiceTemplate =
                 new LegacyOperationalPolicyMapper().toToscaServiceTemplate(legacyOperationalPolicy);
+
+        JpaToscaServiceTemplate serviceTemplate =
+                ToscaServiceTemplateUtils.addFragment(policyTypeServiceTemplate, legacyPolicyFragmentServiceTemplate);
 
         assertNotNull(serviceTemplate);
         LOGGER.info(serviceTemplate.validate(new PfValidationResult()).toString());

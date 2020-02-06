@@ -243,4 +243,9 @@ public class ToscaUtilsTest {
         assertFalse(result.isValid());
         assertTrue(result.toString().contains("parent dt1:0.0.1 of entity not found"));
     }
+
+    @Test
+    public void testGetPredefinedDataTypes() {
+        assertTrue(ToscaUtils.getPredefinedDataTypes().contains(new PfConceptKey("string", PfKey.NULL_KEY_VERSION)));
+    }
 }
