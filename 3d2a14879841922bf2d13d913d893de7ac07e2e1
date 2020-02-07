@@ -393,6 +393,23 @@
     },
     {
       "key": {
+        "uuid": "aee53231_cf5ff3c5",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/parameters/ControlLoopOperationParams.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-07T15:20:43Z",
+      "side": 1,
+      "message": "move before callbacks\n\nadd Target",
+      "revId": "3d2a14879841922bf2d13d913d893de7ac07e2e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4659f0_fff48ff7",
         "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/pipeline/PipelineControllerFuture.java",
         "patchSetId": 1
