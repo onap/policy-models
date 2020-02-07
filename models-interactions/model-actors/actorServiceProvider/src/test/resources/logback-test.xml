@@ -35,8 +35,8 @@
         <appender-ref ref="STDOUT" />
     </root>
 
-    <!-- this is just an example -->
-    <logger name="ch.qos.logback.classic" level="off" additivity="false">
+    <!-- this is required for UtilTest -->
+    <logger name="org.onap.policy.controlloop.actorserviceprovider.Util" level="info" additivity="false">
         <appender-ref ref="STDOUT" />
     </logger>
 </configuration>

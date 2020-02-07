@@ -1,0 +1,32 @@
+{
+  "input": {
+    "sdnc-request-header": {
+      "svc-request-id": "076b243e-9236-4409-973d-dd318dcab3e9",
+      "svc-action": "update"
+    },
+    "request-information": {
+      "request-action": "SdwanBandwidthChange"
+    },
+    "service-information": {
+      "service-instance-id": "my-service"
+    },
+    "vnf-information": {
+      "vnf-id": "my-vnf"
+    },
+    "vf-module-information": {
+      "vf-module-id": ""
+    },
+    "vf-module-request-input": {
+      "vf-module-input-parameters": {
+        "param": [
+          {
+            "name": "bandwidth"
+          },
+          {
+            "name": "bandwidth-change-time"
+          }
+        ]
+      }
+    }
+  }
+}

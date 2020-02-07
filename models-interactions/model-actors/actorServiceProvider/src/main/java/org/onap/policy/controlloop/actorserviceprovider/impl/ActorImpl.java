@@ -20,14 +20,12 @@
 
 package org.onap.policy.controlloop.actorserviceprovider.impl;
 
-import com.google.common.collect.ImmutableMap;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.controlloop.actorserviceprovider.Operator;
@@ -46,44 +44,42 @@ public class ActorImpl extends StartConfigPartial<Map<String, Object>> implement
     /**
      * Maps a name to an operator.
      */
-    private Map<String, Operator> name2operator;
+    private final Map<String, Operator> name2operator = new ConcurrentHashMap<>();
 
     /**
      * Constructs the object.
      *
      * @param name actor name
-     * @param operators the operations supported by this actor
      */
-    public ActorImpl(String name, Operator... operators) {
+    public ActorImpl(String name) {
         super(name);
-        setOperators(Arrays.asList(operators));
     }
 
     /**
-     * Sets the operators supported by this actor, overriding any previous list.
+     * Adds an operator supported by this actor.
      *
-     * @param operators the operations supported by this actor
+     * @param operator operation to be added
      */
-    protected void setOperators(List<Operator> operators) {
+    protected synchronized void addOperator(Operator operator) {
+        /*
+         * This method is "synchronized" to prevent the state from changing while the
+         * operator is added. The map, itself, does not need synchronization as it's a
+         * concurrent map.
+         */
+
         if (isConfigured()) {
             throw new IllegalStateException("attempt to set operators on a configured actor: " + getName());
         }
 
-        Map<String, Operator> map = new HashMap<>();
-        for (Operator newOp : operators) {
-            map.compute(newOp.getName(), (opName, existingOp) -> {
-                if (existingOp == null) {
-                    return newOp;
-                }
+        name2operator.compute(operator.getName(), (opName, existingOp) -> {
+            if (existingOp == null) {
+                return operator;
+            }
 
-                // TODO: should this throw an exception?
-                logger.warn("duplicate names for actor operation {}.{}: {}, ignoring {}", getName(), opName,
-                                existingOp.getClass().getSimpleName(), newOp.getClass().getSimpleName());
-                return existingOp;
-            });
-        }
-
-        this.name2operator = ImmutableMap.copyOf(map);
+            logger.warn("duplicate names for actor operation {}.{}: {}, ignoring {}", getName(), opName,
+                            existingOp.getClass().getSimpleName(), operator.getClass().getSimpleName());
+            return existingOp;
+        });
     }
 
     @Override
@@ -177,7 +173,7 @@ public class ActorImpl extends StartConfigPartial<Map<String, Object>> implement
 
         for (Operator oper : name2operator.values()) {
             if (oper.isConfigured()) {
-                Util.logException(oper::start, "failed to start operation {}.{}", actorName, oper.getName());
+                Util.runFunction(oper::start, "failed to start operation {}.{}", actorName, oper.getName());
 
             } else {
                 logger.warn("not starting unconfigured operation {}.{}", actorName, oper.getName());
@@ -195,7 +191,7 @@ public class ActorImpl extends StartConfigPartial<Map<String, Object>> implement
 
         // @formatter:off
         name2operator.values().forEach(
-            oper -> Util.logException(oper::stop, "failed to stop operation {}.{}", actorName, oper.getName()));
+            oper -> Util.runFunction(oper::stop, "failed to stop operation {}.{}", actorName, oper.getName()));
         // @formatter:on
     }
 
@@ -208,7 +204,7 @@ public class ActorImpl extends StartConfigPartial<Map<String, Object>> implement
         logger.info("shutting down operations for actor {}", actorName);
 
         // @formatter:off
-        name2operator.values().forEach(oper -> Util.logException(oper::shutdown,
+        name2operator.values().forEach(oper -> Util.runFunction(oper::shutdown,
                         "failed to shutdown operation {}.{}", actorName, oper.getName()));
         // @formatter:on
     }

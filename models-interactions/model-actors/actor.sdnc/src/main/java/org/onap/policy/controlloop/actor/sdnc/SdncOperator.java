@@ -22,44 +22,30 @@ package org.onap.policy.controlloop.actor.sdnc;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import lombok.AccessLevel;
-import lombok.Getter;
-import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
-import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
-import org.onap.policy.common.endpoints.utils.NetLoggerUtil;
-import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
-import org.onap.policy.common.parameters.ValidationResult;
-import org.onap.policy.controlloop.ControlLoopOperation;
-import org.onap.policy.controlloop.VirtualControlLoopEvent;
+import org.onap.policy.common.utils.coder.CoderException;
+import org.onap.policy.common.utils.coder.StandardCoder;
+import org.onap.policy.controlloop.actorserviceprovider.AsyncResponseHandler;
+import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
-import org.onap.policy.controlloop.actorserviceprovider.impl.OperatorPartial;
+import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
+import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperator;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.ParameterValidationRuntimeException;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.sdnc.SdncRequest;
 import org.onap.policy.sdnc.SdncResponse;
-import org.onap.policy.sdnc.util.Serialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * Superclass for SDNC Operators.
  */
-public abstract class SdncOperator extends OperatorPartial {
+public abstract class SdncOperator extends HttpOperator {
     private static final Logger logger = LoggerFactory.getLogger(SdncOperator.class);
-
-    @Getter(AccessLevel.PROTECTED)
-    private HttpClient client;
-
-    /**
-     * URI path for this particular operation.
-     */
-    private String path;
 
     /**
      * Constructs the object.
@@ -71,74 +57,92 @@ public abstract class SdncOperator extends OperatorPartial {
         super(actorName, name);
     }
 
-    // TODO add a junit for this and for plug-in via ActorService
     @Override
-    protected void doConfigure(Map<String, Object> parameters) {
-        HttpParams params = Util.translate(getFullName(), parameters, HttpParams.class);
-        ValidationResult result = params.validate(getFullName());
-        if (!result.isValid()) {
-            throw new ParameterValidationRuntimeException("invalid parameters", result);
-        }
+    protected CompletableFuture<OperationOutcome> startOperationAsync(ControlLoopOperationParams params, int attempt,
+                    OperationOutcome outcome) {
 
-        client = HttpClientFactoryInstance.getClientFactory().get(params.getClientName());
-        path = params.getPath();
-    }
-
-    @Override
-    protected ControlLoopOperation doOperation(ControlLoopOperationParams params, int attempt,
-                    ControlLoopOperation operation) {
-
-        SdncRequest request = constructRequest(params.getContext().getEvent());
-        PolicyResult result = doRequest(request);
-
-        return setOutcome(params, operation, result);
+        SdncRequest request = constructRequest(params.getContext());
+        return postRequest(params, outcome, request);
     }
 
     /**
      * Constructs the request.
      *
-     * @param onset event for which the request should be constructed
+     * @param context associated event context
      * @return a new request
      */
-    protected abstract SdncRequest constructRequest(VirtualControlLoopEvent onset);
+    protected abstract SdncRequest constructRequest(ControlLoopEventContext context);
 
     /**
-     * Posts the request and retrieves the response.
+     * Posts the request and and arranges to retrieve the response.
      *
+     * @param params operation parameters
+     * @param outcome updated with the response
      * @param sdncRequest request to be posted
      * @return the result of the request
      */
-    private PolicyResult doRequest(SdncRequest sdncRequest) {
+    private CompletableFuture<OperationOutcome> postRequest(ControlLoopOperationParams params, OperationOutcome outcome,
+                    SdncRequest sdncRequest) {
         Map<String, Object> headers = new HashMap<>();
 
         headers.put("Accept", "application/json");
-        String sdncUrl = client.getBaseUrl();
+        String sdncUrl = getClient().getBaseUrl();
 
-        String sdncRequestJson = Serialization.gsonPretty.toJson(sdncRequest);
-
-        // TODO move this into a utility
-        NetLoggerUtil.log(EventType.OUT, CommInfrastructure.REST, sdncUrl, sdncRequestJson);
-        logger.info("[OUT|{}|{}|]{}{}", CommInfrastructure.REST, sdncUrl, NetLoggerUtil.SYSTEM_LS, sdncRequestJson);
+        Util.logRestRequest(sdncUrl, sdncRequest);
 
         Entity<SdncRequest> entity = Entity.entity(sdncRequest, MediaType.APPLICATION_JSON);
 
-        // TODO modify this to use asynchronous client operations
-        Response rawResponse = client.post(path, entity, headers);
-        String strResponse = HttpClient.getBody(rawResponse, String.class);
+        ResponseHandler handler = new ResponseHandler(params, outcome, sdncUrl);
+        return handler.handle(getClient().post(handler, getPath(), entity, headers));
+    }
 
-        // TODO move this into a utility
-        NetLoggerUtil.log(EventType.IN, CommInfrastructure.REST, sdncUrl, strResponse);
-        logger.info("[IN|{}|{}|]{}{}", "Sdnc", sdncUrl, NetLoggerUtil.SYSTEM_LS, strResponse);
-        logger.info("Response to Sdnc Heal post:");
-        logger.info(strResponse);
+    private class ResponseHandler extends AsyncResponseHandler<Response> {
+        private final String sdncUrl;
 
-        SdncResponse response = Serialization.gsonPretty.fromJson(strResponse, SdncResponse.class);
-
-        if (response.getResponseOutput() == null || !"200".equals(response.getResponseOutput().getResponseCode())) {
-            logger.info("Sdnc Heal Restcall failed with http error code {}", rawResponse.getStatus());
-            return PolicyResult.FAILURE;
+        public ResponseHandler(ControlLoopOperationParams params, OperationOutcome outcome, String sdncUrl) {
+            super(params, outcome);
+            this.sdncUrl = sdncUrl;
         }
 
-        return PolicyResult.SUCCESS;
+        /**
+         * Handles the response.
+         */
+        @Override
+        protected OperationOutcome doComplete(Response rawResponse) {
+            String strResponse = HttpClient.getBody(rawResponse, String.class);
+
+            Util.logRestResponse(sdncUrl, strResponse);
+
+            SdncResponse response;
+            try {
+                response = makeDecoder().decode(strResponse, SdncResponse.class);
+            } catch (CoderException e) {
+                logger.warn("Sdnc Heal cannot decode response with http error code {}", rawResponse.getStatus(), e);
+                return SdncOperator.this.setOutcome(getParams(), getOutcome(), PolicyResult.FAILURE_EXCEPTION);
+            }
+
+            if (response.getResponseOutput() != null && "200".equals(response.getResponseOutput().getResponseCode())) {
+                return SdncOperator.this.setOutcome(getParams(), getOutcome(), PolicyResult.SUCCESS);
+
+            } else {
+                logger.info("Sdnc Heal Restcall failed with http error code {}", rawResponse.getStatus());
+                return SdncOperator.this.setOutcome(getParams(), getOutcome(), PolicyResult.FAILURE);
+            }
+        }
+
+        /**
+         * Handles exceptions.
+         */
+        @Override
+        protected OperationOutcome doFailed(Throwable thrown) {
+            logger.info("Sdnc Heal Restcall threw an exception", thrown);
+            return SdncOperator.this.setOutcome(getParams(), getOutcome(), PolicyResult.FAILURE_EXCEPTION);
+        }
+    }
+
+    // these may be overridden by junit tests
+
+    protected StandardCoder makeDecoder() {
+        return new StandardCoder();
     }
 }

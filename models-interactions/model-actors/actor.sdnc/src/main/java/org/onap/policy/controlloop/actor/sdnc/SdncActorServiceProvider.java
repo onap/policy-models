@@ -26,14 +26,10 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
-import java.util.function.Function;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
-import org.onap.policy.controlloop.actorserviceprovider.Util;
-import org.onap.policy.controlloop.actorserviceprovider.impl.ActorImpl;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpActorParams;
+import org.onap.policy.controlloop.actorserviceprovider.impl.HttpActor;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.sdnc.SdncHealNetworkInfo;
 import org.onap.policy.sdnc.SdncHealRequest;
@@ -49,7 +45,7 @@ import org.onap.policy.sdnc.SdncRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SdncActorServiceProvider extends ActorImpl {
+public class SdncActorServiceProvider extends HttpActor {
     private static final Logger logger = LoggerFactory.getLogger(SdncActorServiceProvider.class);
 
     public static final String NAME = "SDNC";
@@ -78,23 +74,10 @@ public class SdncActorServiceProvider extends ActorImpl {
      * Constructs the object.
      */
     public SdncActorServiceProvider() {
-        // @formatter:off
-        super(NAME,
-            new RerouteOperator(NAME),
-            new BandwidthOnDemandOperator(NAME));
+        super(NAME);
 
-        // @formatter:on
-    }
-
-    @Override
-    protected Function<String, Map<String, Object>> makeOperatorParameters(Map<String, Object> actorParameters) {
-        String actorName = getName();
-
-        // @formatter:off
-        return Util.translate(actorName, actorParameters, HttpActorParams.class)
-                        .doValidation(actorName)
-                        .makeOperationParameters(actorName);
-        // @formatter:on
+        addOperator(new RerouteOperator(NAME));
+        addOperator(new BandwidthOnDemandOperator(NAME));
     }
 
 

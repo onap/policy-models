@@ -1,0 +1,17 @@
+{
+  "input": {
+    "sdnc-request-header": {
+      "svc-request-id": "66087b39-8606-4367-9ac8-bdf64e162f29",
+      "svc-action": "reoptimize"
+    },
+    "request-information": {
+      "request-action": "ReoptimizeSOTNInstance"
+    },
+    "service-information": {
+      "service-instance-id": "my-service"
+    },
+    "network-information": {
+      "network-id": "my-network"
+    }
+  }
+}

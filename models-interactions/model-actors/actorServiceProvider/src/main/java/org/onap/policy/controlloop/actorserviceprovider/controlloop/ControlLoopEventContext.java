@@ -22,11 +22,12 @@ package org.onap.policy.controlloop.actorserviceprovider.controlloop;
 
 import java.io.Serializable;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
-import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 
 /**
@@ -37,23 +38,35 @@ import org.onap.policy.controlloop.VirtualControlLoopEvent;
 public class ControlLoopEventContext implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @Setter(AccessLevel.NONE)
+
     private final VirtualControlLoopEvent event;
 
-    private AaiCqResponse aaiCqResponse;
+    /**
+     * Enrichment data extracted from the event. Never {@code null}, though it may be
+     * immutable.
+     */
+    private final Map<String, String> enrichment;
 
-    // TODO may remove this if it proves not to be needed
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     private Map<String, Serializable> properties = new ConcurrentHashMap<>();
+
+    /**
+     * Request ID extracted from the event, or a generated value if the event has no
+     * request id; never {@code null}.
+     */
+    private final UUID requestId;
+
 
     /**
      * Constructs the object.
      *
      * @param event event with which this is associated
      */
-    public ControlLoopEventContext(VirtualControlLoopEvent event) {
+    public ControlLoopEventContext(@NonNull VirtualControlLoopEvent event) {
         this.event = event;
+        this.requestId = (event.getRequestId() != null ? event.getRequestId() : UUID.randomUUID());
+        this.enrichment = (event.getAai() != null ? event.getAai() : Map.of());
     }
 
     /**

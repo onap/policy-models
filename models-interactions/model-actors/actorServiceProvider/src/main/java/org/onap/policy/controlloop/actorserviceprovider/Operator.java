@@ -24,7 +24,6 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import org.onap.policy.common.capabilities.Configurable;
 import org.onap.policy.common.capabilities.Startable;
-import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 
 /**
@@ -54,5 +53,5 @@ public interface Operator extends Startable, Configurable<Map<String, Object>> {
      * @param params parameters needed to start the operation
      * @return a future that can be used to cancel or await the result of the operation
      */
-    CompletableFuture<ControlLoopOperation> startOperation(ControlLoopOperationParams params);
+    CompletableFuture<OperationOutcome> startOperation(ControlLoopOperationParams params);
 }
