@@ -3,7 +3,7 @@
  * TestSdncActorServiceProvider
  * ================================================================================
  * Copyright (C) 2018-2019 Huawei. All rights reserved.
- * Modifications Copyright (C) 2018-2019 AT&T Corp. All rights reserved.
+ * Modifications Copyright (C) 2018-2020 AT&T Corp. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,8 +26,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -36,24 +38,36 @@ import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.sdnc.SdncRequest;
-import org.onap.policy.simulators.Util;
 
 public class SdncActorServiceProviderTest {
 
-    private static final String REROUTE = "Reroute";
+    private static final String REROUTE = RerouteOperator.NAME;
 
     /**
      * Set up before test class.
+     *
      * @throws Exception if the A&AI simulator cannot be started
      */
     @BeforeClass
     public static void setUpSimulator() throws Exception {
-        Util.buildAaiSim();
+        org.onap.policy.simulators.Util.buildAaiSim();
     }
 
     @AfterClass
     public static void tearDownSimulator() {
         HttpServletServerFactoryInstance.getServerFactory().destroy();
+    }
+
+    @Test
+    public void testSdncActorServiceProvider() {
+        final SdncActorServiceProvider prov = new SdncActorServiceProvider();
+
+        // verify that it has the operators we expect
+        var expected = Arrays.asList(BandwidthOnDemandOperator.NAME, RerouteOperator.NAME).stream().sorted()
+                        .collect(Collectors.toList());
+        var actual = prov.getOperationNames().stream().sorted().collect(Collectors.toList());
+
+        assertEquals(expected.toString(), actual.toString());
     }
 
     @Test
@@ -84,8 +98,7 @@ public class SdncActorServiceProviderTest {
         policy.setRecipe(REROUTE);
         assertNotNull(provider.constructRequest(onset, operation, policy));
 
-        SdncRequest request =
-                provider.constructRequest(onset, operation, policy);
+        SdncRequest request = provider.constructRequest(onset, operation, policy);
 
         assertEquals(requestId, Objects.requireNonNull(request).getRequestId());
         assertEquals("reoptimize", request.getHealRequest().getRequestHeaderInfo().getSvcAction());

@@ -63,7 +63,6 @@ public class ActorService extends StartConfigPartial<Map<String, Object>> {
                     return newActor;
                 }
 
-                // TODO: should this throw an exception?
                 logger.warn("duplicate actor names for {}: {}, ignoring {}", name,
                                 existingActor.getClass().getSimpleName(), newActor.getClass().getSimpleName());
                 return existingActor;
@@ -158,7 +157,7 @@ public class ActorService extends StartConfigPartial<Map<String, Object>> {
 
         for (Actor actor : name2actor.values()) {
             if (actor.isConfigured()) {
-                Util.logException(actor::start, "failed to start actor {}", actor.getName());
+                Util.runFunction(actor::start, "failed to start actor {}", actor.getName());
 
             } else {
                 logger.warn("not starting unconfigured actor {}", actor.getName());
@@ -170,7 +169,7 @@ public class ActorService extends StartConfigPartial<Map<String, Object>> {
     protected void doStop() {
         logger.info("stopping actors");
         name2actor.values()
-                        .forEach(actor -> Util.logException(actor::stop, "failed to stop actor {}", actor.getName()));
+                        .forEach(actor -> Util.runFunction(actor::stop, "failed to stop actor {}", actor.getName()));
     }
 
     @Override
@@ -179,7 +178,7 @@ public class ActorService extends StartConfigPartial<Map<String, Object>> {
 
         // @formatter:off
         name2actor.values().forEach(
-            actor -> Util.logException(actor::shutdown, "failed to shutdown actor {}", actor.getName()));
+            actor -> Util.runFunction(actor::shutdown, "failed to shutdown actor {}", actor.getName()));
 
         // @formatter:on
     }

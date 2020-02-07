@@ -90,6 +90,8 @@ public class HttpActorParamsTest {
 
     @Test
     public void testValidate() {
+        assertTrue(params.validate(CONTAINER).isValid());
+
         testValidateField("clientName", "null", params2 -> params2.setClientName(null));
         testValidateField("path", "null", params2 -> params2.setPath(null));
         testValidateField("timeoutSec", "minimum", params2 -> params2.setTimeoutSec(-1));

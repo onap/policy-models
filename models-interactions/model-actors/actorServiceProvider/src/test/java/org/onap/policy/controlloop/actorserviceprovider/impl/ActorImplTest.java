@@ -34,7 +34,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
@@ -192,10 +191,10 @@ public class ActorImplTest {
     }
 
     @Test
-    public void testSetOperators() {
-        // cannot set operators if already configured
+    public void testAddOperator() {
+        // cannot add operators if already configured
         actor.configure(params);
-        assertThatIllegalStateException().isThrownBy(() -> actor.setOperators(Collections.emptyList()));
+        assertThatIllegalStateException().isThrownBy(() -> actor.addOperator(oper1));
 
         /*
          * make an actor where operators two and four have names that are duplicates of
@@ -367,7 +366,13 @@ public class ActorImplTest {
      * @return a new actor
      */
     private ActorImpl makeActor(Operator... operators) {
-        return new ActorImpl(ACTOR_NAME, operators);
+        ActorImpl actor = new ActorImpl(ACTOR_NAME);
+
+        for (Operator oper : operators) {
+            actor.addOperator(oper);
+        }
+
+        return actor;
     }
 
     private static class MyOper extends OperatorPartial implements Operator {

@@ -47,6 +47,8 @@ public class HttpParamsTest {
 
     @Test
     public void testValidate() {
+        assertTrue(params.validate(CONTAINER).isValid());
+
         testValidateField("clientName", "null", bldr -> bldr.clientName(null));
         testValidateField("path", "null", bldr -> bldr.path(null));
         testValidateField("timeoutSec", "minimum", bldr -> bldr.timeoutSec(-1));

@@ -27,15 +27,66 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import lombok.Builder;
 import lombok.Data;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.onap.policy.common.utils.coder.CoderException;
+import org.onap.policy.common.utils.coder.StandardCoder;
+import org.onap.policy.common.utils.test.log.logback.ExtractAppender;
+import org.slf4j.LoggerFactory;
 
 public class UtilTest {
+    private static final String MY_REQUEST = "my-request";
+    private static final String URL = "my-url";
+    private static final String OUT_URL = "OUT|REST|my-url";
+    private static final String IN_URL = "IN|REST|my-url";
+    protected static final String EXPECTED_EXCEPTION = "expected exception";
+
+    /**
+     * Used to attach an appender to the class' logger.
+     */
+    private static final Logger logger = (Logger) LoggerFactory.getLogger(Util.class);
+    private static final ExtractAppender appender = new ExtractAppender();
+
+    /**
+     * Original logging level for the logger.
+     */
+    private static Level saveLevel;
+
+    /**
+     * Initializes statics.
+     */
+    @BeforeClass
+    public static void setUpBeforeClass() {
+        saveLevel = logger.getLevel();
+        logger.setLevel(Level.INFO);
+
+        appender.setContext(logger.getLoggerContext());
+        appender.start();
+
+        logger.addAppender(appender);
+    }
+
+    @AfterClass
+    public static void tearDownAfterClass() {
+        logger.setLevel(saveLevel);
+        appender.stop();
+    }
+
+    @Before
+    public void setUp() {
+        appender.clearExtractions();
+    }
 
     @Test
     public void testIdent() {
@@ -48,11 +99,88 @@ public class UtilTest {
     }
 
     @Test
-    public void testLogException() {
+    public void testLogRestRequest() throws CoderException {
+        // log structured data
+        appender.clearExtractions();
+        Util.logRestRequest(URL, new Abc(10, null, null));
+        List<String> output = appender.getExtracted();
+        assertEquals(1, output.size());
+
+        assertThat(output.get(0)).contains(OUT_URL).contains("{\n  \"intValue\": 10\n}");
+
+        // log a plain string
+        appender.clearExtractions();
+        Util.logRestRequest(URL, MY_REQUEST);
+        output = appender.getExtracted();
+        assertEquals(1, output.size());
+
+        assertThat(output.get(0)).contains(OUT_URL).contains(MY_REQUEST);
+
+        // exception from coder
+        StandardCoder coder = new StandardCoder() {
+            @Override
+            public String encode(Object object, boolean pretty) throws CoderException {
+                throw new CoderException(EXPECTED_EXCEPTION);
+            }
+        };
+
+        appender.clearExtractions();
+        Util.logRestRequest(coder, URL, new Abc(11, null, null));
+        output = appender.getExtracted();
+        assertEquals(2, output.size());
+        assertThat(output.get(0)).contains("cannot pretty-print request");
+        assertThat(output.get(1)).contains(OUT_URL);
+    }
+
+    @Test
+    public void testLogRestResponse() throws CoderException {
+        // log structured data
+        appender.clearExtractions();
+        Util.logRestResponse(URL, new Abc(10, null, null));
+        List<String> output = appender.getExtracted();
+        assertEquals(1, output.size());
+
+        assertThat(output.get(0)).contains(IN_URL).contains("{\n  \"intValue\": 10\n}");
+
+        // log null response
+        appender.clearExtractions();
+        Util.logRestResponse(URL, null);
+        output = appender.getExtracted();
+        assertEquals(1, output.size());
+
+        assertThat(output.get(0)).contains(IN_URL).contains("null");
+
+        // log a plain string
+        appender.clearExtractions();
+        Util.logRestResponse(URL, MY_REQUEST);
+        output = appender.getExtracted();
+        assertEquals(1, output.size());
+
+        assertThat(output.get(0)).contains(IN_URL).contains(MY_REQUEST);
+
+        // exception from coder
+        StandardCoder coder = new StandardCoder() {
+            @Override
+            public String encode(Object object, boolean pretty) throws CoderException {
+                throw new CoderException(EXPECTED_EXCEPTION);
+            }
+        };
+
+        appender.clearExtractions();
+        Util.logRestResponse(coder, URL, new Abc(11, null, null));
+        output = appender.getExtracted();
+        assertEquals(2, output.size());
+        assertThat(output.get(0)).contains("cannot pretty-print response");
+        assertThat(output.get(1)).contains(IN_URL);
+    }
+
+    @Test
+    public void testRunFunction() {
         // no exception, no log
         AtomicInteger count = new AtomicInteger();
-        Util.logException(() -> count.incrementAndGet(), "no error");
+        Util.runFunction(() -> count.incrementAndGet(), "no error");
         assertEquals(1, count.get());
+        assertEquals(0, appender.getExtracted().size());
 
         // with an exception
         Runnable runnable = () -> {
@@ -60,8 +188,17 @@ public class UtilTest {
             throw new IllegalStateException("expected exception");
         };
 
-        Util.logException(runnable, "error with no args");
-        Util.logException(runnable, "error {} {} arg(s)", "with", 1);
+        appender.clearExtractions();
+        Util.runFunction(runnable, "error with no args");
+        List<String> output = appender.getExtracted();
+        assertEquals(1, output.size());
+        assertThat(output.get(0)).contains("error with no args");
+
+        appender.clearExtractions();
+        Util.runFunction(runnable, "error {} {} arg(s)", "with", 1);
+        output = appender.getExtracted();
+        assertEquals(1, output.size());
+        assertThat(output.get(0)).contains("error with 1 arg(s)");
     }
 
     @Test
@@ -122,5 +259,15 @@ public class UtilTest {
     public static class Similar {
         private int intValue;
         private String strValue;
+    }
+
+    // throws an exception when getXxx() is used
+    public static class DataWithException {
+        @SuppressWarnings("unused")
+        private int intValue;
+
+        public int getIntValue() {
+            throw new IllegalStateException();
+        }
     }
 }

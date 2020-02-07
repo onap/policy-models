@@ -22,7 +22,7 @@ package org.onap.policy.controlloop.actor.sdnc;
 
 import java.util.UUID;
 import org.apache.commons.lang3.StringUtils;
-import org.onap.policy.controlloop.VirtualControlLoopEvent;
+import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.sdnc.SdncHealNetworkInfo;
 import org.onap.policy.sdnc.SdncHealRequest;
 import org.onap.policy.sdnc.SdncHealRequestHeaderInfo;
@@ -32,6 +32,12 @@ import org.onap.policy.sdnc.SdncRequest;
 
 public class RerouteOperator extends SdncOperator {
     public static final String NAME = "Reroute";
+
+    public static final String URI = "/GENERIC-RESOURCE-API:network-topology-operation";
+
+    // fields in the enrichment data
+    public static final String SERVICE_ID_KEY = "service-instance.service-instance-id";
+    public static final String NETWORK_ID_KEY = "network-information.network-id";
 
     /**
      * Constructs the object.
@@ -43,17 +49,17 @@ public class RerouteOperator extends SdncOperator {
     }
 
     @Override
-    protected SdncRequest constructRequest(VirtualControlLoopEvent onset) {
-        String serviceInstance = onset.getAai().get("service-instance.service-instance-id");
+    protected SdncRequest constructRequest(ControlLoopEventContext context) {
+        String serviceInstance = context.getEnrichment().get(SERVICE_ID_KEY);
         if (StringUtils.isBlank(serviceInstance)) {
-            throw new IllegalArgumentException("missing enrichment data, service-instance-id");
+            throw new IllegalArgumentException("missing enrichment data, " + SERVICE_ID_KEY);
         }
         SdncHealServiceInfo serviceInfo = new SdncHealServiceInfo();
         serviceInfo.setServiceInstanceId(serviceInstance);
 
-        String networkId = onset.getAai().get("network-information.network-id");
+        String networkId = context.getEnrichment().get(NETWORK_ID_KEY);
         if (StringUtils.isBlank(networkId)) {
-            throw new IllegalArgumentException("missing enrichment data, network-id");
+            throw new IllegalArgumentException("missing enrichment data, " + NETWORK_ID_KEY);
         }
         SdncHealNetworkInfo networkInfo = new SdncHealNetworkInfo();
         networkInfo.setNetworkId(networkId);
@@ -67,8 +73,8 @@ public class RerouteOperator extends SdncOperator {
 
         SdncRequest request = new SdncRequest();
         request.setNsInstanceId(serviceInstance);
-        request.setRequestId(onset.getRequestId());
-        request.setUrl("/GENERIC-RESOURCE-API:network-topology-operation");
+        request.setRequestId(context.getRequestId());
+        request.setUrl(URI);
 
         SdncHealRequest healRequest = new SdncHealRequest();
         healRequest.setRequestHeaderInfo(headerInfo);

@@ -20,28 +20,55 @@
 
 package org.onap.policy.controlloop.actorserviceprovider.controlloop;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 
+import java.util.Map;
+import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 
 public class ControlLoopEventContextTest {
+    private static final UUID REQ_ID = UUID.randomUUID();
 
+    private Map<String, String> enrichment;
     private VirtualControlLoopEvent event;
     private ControlLoopEventContext context;
 
+    /**
+     * Initializes data, including {@link #context}.
+     */
     @Before
     public void setUp() {
+        enrichment = Map.of("abc", "one", "def", "two");
+
         event = new VirtualControlLoopEvent();
+        event.setRequestId(REQ_ID);
+        event.setAai(enrichment);
+
         context = new ControlLoopEventContext(event);
     }
 
     @Test
     public void testControlLoopEventContext() {
         assertSame(event, context.getEvent());
+        assertSame(REQ_ID, context.getRequestId());
+        assertEquals(enrichment, context.getEnrichment());
+
+        // null event
+        assertThatThrownBy(() -> new ControlLoopEventContext(null));
+
+        // no request id, no enrichment data
+        event.setRequestId(null);
+        event.setAai(null);
+        context = new ControlLoopEventContext(event);
+        assertSame(event, context.getEvent());
+        assertNotNull(context.getRequestId());
+        assertEquals(Map.of(), context.getEnrichment());
     }
 
     @Test

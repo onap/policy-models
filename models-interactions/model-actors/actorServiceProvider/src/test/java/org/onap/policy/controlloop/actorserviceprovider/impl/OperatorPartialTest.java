@@ -29,6 +29,7 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.time.Instant;
@@ -36,11 +37,13 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.TreeMap;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ForkJoinPool;
@@ -58,9 +61,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
+import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
-import org.onap.policy.controlloop.policy.Policy;
+import org.onap.policy.controlloop.actorserviceprovider.pipeline.PipelineControllerFuture;
 import org.onap.policy.controlloop.policy.PolicyResult;
 
 public class OperatorPartialTest {
@@ -75,14 +79,10 @@ public class OperatorPartialTest {
     private static final List<PolicyResult> FAILURE_RESULTS = Arrays.asList(PolicyResult.values()).stream()
                     .filter(result -> result != PolicyResult.SUCCESS).collect(Collectors.toList());
 
-    private static final List<String> FAILURE_STRINGS =
-                    FAILURE_RESULTS.stream().map(Object::toString).collect(Collectors.toList());
-
     private VirtualControlLoopEvent event;
     private Map<String, Object> config;
     private ControlLoopEventContext context;
     private MyExec executor;
-    private Policy policy;
     private ControlLoopOperationParams params;
 
     private MyOper oper;
@@ -92,8 +92,8 @@ public class OperatorPartialTest {
 
     private Instant tstart;
 
-    private ControlLoopOperation opstart;
-    private ControlLoopOperation opend;
+    private OperationOutcome opstart;
+    private OperationOutcome opend;
 
     /**
      * Initializes the fields, including {@link #oper}.
@@ -107,13 +107,9 @@ public class OperatorPartialTest {
         context = new ControlLoopEventContext(event);
         executor = new MyExec();
 
-        policy = new Policy();
-        policy.setActor(ACTOR);
-        policy.setRecipe(OPERATOR);
-        policy.setTimeout(TIMEOUT);
-
         params = ControlLoopOperationParams.builder().completeCallback(this::completer).context(context)
-                        .executor(executor).policy(policy).startCallback(this::starter).target(TARGET).build();
+                        .executor(executor).actor(ACTOR).operation(OPERATOR).timeoutSec(TIMEOUT)
+                        .startCallback(this::starter).targetEntity(TARGET).build();
 
         oper = new MyOper();
         oper.configure(new TreeMap<>());
@@ -130,6 +126,31 @@ public class OperatorPartialTest {
         assertEquals(ACTOR, oper.getActorName());
         assertEquals(OPERATOR, oper.getName());
         assertEquals(ACTOR + "." + OPERATOR, oper.getFullName());
+    }
+
+    @Test
+    public void testGetBlockingExecutor() throws InterruptedException {
+        CountDownLatch latch = new CountDownLatch(1);
+
+        /*
+         * Use an operator that doesn't override getBlockingExecutor().
+         */
+        OperatorPartial oper2 = new OperatorPartial(ACTOR, OPERATOR) {};
+        oper2.getBlockingExecutor().execute(() -> latch.countDown());
+
+        assertTrue(latch.await(5, TimeUnit.SECONDS));
+    }
+
+    @Test
+    public void testDoConfigure() {
+        oper = spy(new MyOper());
+
+        oper.configure(config);
+        verify(oper).configure(config);
+
+        // repeat - SHOULD be run again
+        oper.configure(config);
+        verify(oper, times(2)).configure(config);
     }
 
     @Test
@@ -181,7 +202,7 @@ public class OperatorPartialTest {
     }
 
     @Test
-    public void testStartOperation_testVerifyRunning() {
+    public void testStartOperation() {
         verifyRun("testStartOperation", 1, 1, PolicyResult.SUCCESS);
     }
 
@@ -201,17 +222,13 @@ public class OperatorPartialTest {
      * Tests startOperation() when the operation has a preprocessor.
      */
     @Test
-    public void testStartOperationWithPreprocessor_testStartPreprocessor() {
+    public void testStartOperationWithPreprocessor() {
         AtomicInteger count = new AtomicInteger();
 
-        // @formatter:off
-        Function<ControlLoopOperation, CompletableFuture<ControlLoopOperation>> preproc =
-            oper -> CompletableFuture.supplyAsync(() -> {
-                count.incrementAndGet();
-                oper.setOutcome(PolicyResult.SUCCESS.toString());
-                return oper;
-            }, executor);
-        // @formatter:on
+        CompletableFuture<OperationOutcome> preproc = CompletableFuture.supplyAsync(() -> {
+            count.incrementAndGet();
+            return makeSuccess();
+        }, executor);
 
         oper.setPreProcessor(preproc);
 
@@ -233,7 +250,7 @@ public class OperatorPartialTest {
 
         assertNotNull(opstart);
         assertNotNull(opend);
-        assertEquals(PolicyResult.SUCCESS.toString(), opend.getOutcome());
+        assertEquals(PolicyResult.SUCCESS, opend.getResult());
 
         assertEquals(MAX_PARALLEL_REQUESTS, numStart);
         assertEquals(MAX_PARALLEL_REQUESTS, oper.getCount());
@@ -245,11 +262,7 @@ public class OperatorPartialTest {
      */
     @Test
     public void testStartPreprocessorFailure() {
-        // arrange for the preprocessor to return a failure
-        oper.setPreProcessor(oper -> {
-            oper.setOutcome(PolicyResult.FAILURE_GUARD.toString());
-            return CompletableFuture.completedFuture(oper);
-        });
+        oper.setPreProcessor(CompletableFuture.completedFuture(makeFailure()));
 
         verifyRun("testStartPreprocessorFailure", 1, 0, PolicyResult.FAILURE_GUARD);
     }
@@ -260,9 +273,7 @@ public class OperatorPartialTest {
     @Test
     public void testStartPreprocessorException() {
         // arrange for the preprocessor to throw an exception
-        oper.setPreProcessor(oper -> {
-            throw new IllegalStateException(EXPECTED_EXCEPTION);
-        });
+        oper.setPreProcessor(CompletableFuture.failedFuture(new IllegalStateException(EXPECTED_EXCEPTION)));
 
         verifyRun("testStartPreprocessorException", 1, 0, PolicyResult.FAILURE_GUARD);
     }
@@ -273,10 +284,7 @@ public class OperatorPartialTest {
     @Test
     public void testStartPreprocessorNotRunning() {
         // arrange for the preprocessor to return success, which will be ignored
-        oper.setPreProcessor(oper -> {
-            oper.setOutcome(PolicyResult.SUCCESS.toString());
-            return CompletableFuture.completedFuture(oper);
-        });
+        oper.setPreProcessor(CompletableFuture.completedFuture(makeSuccess()));
 
         oper.startOperation(params).cancel(false);
         assertTrue(executor.runAll());
@@ -296,8 +304,7 @@ public class OperatorPartialTest {
     public void testStartPreprocessorBuilderException() {
         oper = new MyOper() {
             @Override
-            protected Function<ControlLoopOperation, CompletableFuture<ControlLoopOperation>> doPreprocessorAsFuture(
-                            ControlLoopOperationParams params) {
+            protected CompletableFuture<OperationOutcome> startPreprocessorAsync(ControlLoopOperationParams params) {
                 throw new IllegalStateException(EXPECTED_EXCEPTION);
             }
         };
@@ -312,51 +319,27 @@ public class OperatorPartialTest {
     }
 
     @Test
-    public void testDoPreprocessorAsFuture() {
-        assertNull(oper.doPreprocessorAsFuture(params));
+    public void testStartPreprocessorAsync() {
+        assertNull(oper.startPreprocessorAsync(params));
     }
 
     @Test
-    public void testStartOperationOnly_testDoOperationAsFuture() {
+    public void testStartOperationAsync() {
         oper.startOperation(params);
         assertTrue(executor.runAll());
 
         assertEquals(1, oper.getCount());
     }
 
-    /**
-     * Tests startOperationOnce() when
-     * {@link OperatorPartial#doOperationAsFuture(ControlLoopOperationParams)} throws an
-     * exception.
-     */
-    @Test
-    public void testStartOperationOnceBuilderException() {
-        oper = new MyOper() {
-            @Override
-            protected Function<ControlLoopOperation, CompletableFuture<ControlLoopOperation>> doOperationAsFuture(
-                            ControlLoopOperationParams params, int attempt) {
-                throw new IllegalStateException(EXPECTED_EXCEPTION);
-            }
-        };
-
-        oper.configure(new TreeMap<>());
-        oper.start();
-
-        assertThatIllegalStateException().isThrownBy(() -> oper.startOperation(params));
-
-        // should be nothing in the queue
-        assertEquals(0, executor.getQueueLength());
-    }
-
     @Test
     public void testIsSuccess() {
-        ControlLoopOperation outcome = new ControlLoopOperation();
+        OperationOutcome outcome = new OperationOutcome();
 
-        outcome.setOutcome(PolicyResult.SUCCESS.toString());
+        outcome.setResult(PolicyResult.SUCCESS);
         assertTrue(oper.isSuccess(outcome));
 
-        for (String failure : FAILURE_STRINGS) {
-            outcome.setOutcome(failure);
+        for (PolicyResult failure : FAILURE_RESULTS) {
+            outcome.setResult(failure);
             assertFalse("testIsSuccess-" + failure, oper.isSuccess(outcome));
         }
     }
@@ -365,17 +348,17 @@ public class OperatorPartialTest {
     public void testIsActorFailed() {
         assertFalse(oper.isActorFailed(null));
 
-        ControlLoopOperation outcome = params.makeOutcome();
+        OperationOutcome outcome = params.makeOutcome();
 
         // incorrect outcome
-        outcome.setOutcome(PolicyResult.SUCCESS.toString());
+        outcome.setResult(PolicyResult.SUCCESS);
         assertFalse(oper.isActorFailed(outcome));
 
-        outcome.setOutcome(PolicyResult.FAILURE_RETRIES.toString());
+        outcome.setResult(PolicyResult.FAILURE_RETRIES);
         assertFalse(oper.isActorFailed(outcome));
 
         // correct outcome
-        outcome.setOutcome(PolicyResult.FAILURE.toString());
+        outcome.setResult(PolicyResult.FAILURE);
 
         // incorrect actor
         outcome.setActor(TARGET);
@@ -400,7 +383,12 @@ public class OperatorPartialTest {
         /*
          * Use an operator that doesn't override doOperation().
          */
-        OperatorPartial oper2 = new OperatorPartial(ACTOR, OPERATOR) {};
+        OperatorPartial oper2 = new OperatorPartial(ACTOR, OPERATOR) {
+            @Override
+            protected Executor getBlockingExecutor() {
+                return executor;
+            }
+        };
 
         oper2.configure(new TreeMap<>());
         oper2.start();
@@ -409,7 +397,7 @@ public class OperatorPartialTest {
         assertTrue(executor.runAll());
 
         assertNotNull(opend);
-        assertEquals(PolicyResult.FAILURE_EXCEPTION.toString(), opend.getOutcome());
+        assertEquals(PolicyResult.FAILURE_EXCEPTION, opend.getResult());
     }
 
     @Test
@@ -421,36 +409,34 @@ public class OperatorPartialTest {
         // trigger timeout very quickly
         oper = new MyOper() {
             @Override
-            protected long getTimeOutMillis(Policy policy) {
+            protected long getTimeOutMillis(Integer timeoutSec) {
                 return 1;
             }
 
             @Override
-            protected Function<ControlLoopOperation, CompletableFuture<ControlLoopOperation>> doOperationAsFuture(
-                            ControlLoopOperationParams params, int attempt) {
+            protected CompletableFuture<OperationOutcome> startOperationAsync(ControlLoopOperationParams params,
+                            int attempt, OperationOutcome outcome) {
 
-                return outcome -> {
-                    ControlLoopOperation outcome2 = params.makeOutcome();
-                    outcome2.setOutcome(PolicyResult.SUCCESS.toString());
+                OperationOutcome outcome2 = params.makeOutcome();
+                outcome2.setResult(PolicyResult.SUCCESS);
 
-                    /*
-                     * Create an incomplete future that will timeout after the operation's
-                     * timeout. If it fires before the other timer, then it will return a
-                     * SUCCESS outcome.
-                     */
-                    CompletableFuture<ControlLoopOperation> future = new CompletableFuture<>();
-                    future = future.orTimeout(1, TimeUnit.SECONDS).handleAsync((unused1, unused2) -> outcome,
-                                    params.getExecutor());
+                /*
+                 * Create an incomplete future that will timeout after the operation's
+                 * timeout. If it fires before the other timer, then it will return a
+                 * SUCCESS outcome.
+                 */
+                CompletableFuture<OperationOutcome> future = new CompletableFuture<>();
+                future = future.orTimeout(1, TimeUnit.SECONDS).handleAsync((unused1, unused2) -> outcome,
+                                params.getExecutor());
 
-                    return future;
-                };
+                return future;
             }
         };
 
         oper.configure(new TreeMap<>());
         oper.start();
 
-        assertEquals(PolicyResult.FAILURE_TIMEOUT.toString(), oper.startOperation(params).get().getOutcome());
+        assertEquals(PolicyResult.FAILURE_TIMEOUT, oper.startOperation(params).get().getResult());
     }
 
     /**
@@ -466,40 +452,45 @@ public class OperatorPartialTest {
         // trigger timeout very quickly
         oper = new MyOper() {
             @Override
-            protected long getTimeOutMillis(Policy policy) {
+            protected long getTimeOutMillis(Integer timeoutSec) {
                 return 10;
             }
 
             @Override
-            protected Function<ControlLoopOperation, CompletableFuture<ControlLoopOperation>> doPreprocessorAsFuture(
-                            ControlLoopOperationParams params) {
-
-                return outcome -> {
-                    outcome.setOutcome(PolicyResult.SUCCESS.toString());
-
-                    /*
-                     * Create an incomplete future that will timeout after the operation's
-                     * timeout. If it fires before the other timer, then it will return a
-                     * SUCCESS outcome.
-                     */
-                    CompletableFuture<ControlLoopOperation> future = new CompletableFuture<>();
-                    future = future.orTimeout(200, TimeUnit.MILLISECONDS).handleAsync((unused1, unused2) -> outcome,
-                                    params.getExecutor());
-
-                    return future;
+            protected Executor getBlockingExecutor() {
+                return command -> {
+                    Thread thread = new Thread(command);
+                    thread.start();
                 };
+            }
+
+            @Override
+            protected CompletableFuture<OperationOutcome> startPreprocessorAsync(ControlLoopOperationParams params) {
+
+                OperationOutcome outcome = makeSuccess();
+
+                /*
+                 * Create an incomplete future that will timeout after the operation's
+                 * timeout. If it fires before the other timer, then it will return a
+                 * SUCCESS outcome.
+                 */
+                CompletableFuture<OperationOutcome> future = new CompletableFuture<>();
+                future = future.orTimeout(200, TimeUnit.MILLISECONDS).handleAsync((unused1, unused2) -> outcome,
+                                params.getExecutor());
+
+                return future;
             }
         };
 
         oper.configure(new TreeMap<>());
         oper.start();
 
-        ControlLoopOperation result = oper.startOperation(params).get();
-        assertEquals(PolicyResult.SUCCESS.toString(), result.getOutcome());
+        OperationOutcome result = oper.startOperation(params).get();
+        assertEquals(PolicyResult.SUCCESS, result.getResult());
 
         assertNotNull(opstart);
         assertNotNull(opend);
-        assertEquals(PolicyResult.SUCCESS.toString(), opend.getOutcome());
+        assertEquals(PolicyResult.SUCCESS, opend.getResult());
 
         assertEquals(1, numStart);
         assertEquals(1, oper.getCount());
@@ -510,8 +501,8 @@ public class OperatorPartialTest {
      * Tests retry functions, when the count is set to zero and retries are exhausted.
      */
     @Test
-    public void testSetRetryFlag_testRetryOnFailure_ZeroRetries() {
-        policy.setRetry(0);
+    public void testSetRetryFlag_testRetryOnFailure_ZeroRetries_testStartOperationAttempt() {
+        params = params.toBuilder().retry(0).build();
         oper.setMaxFailures(10);
 
         verifyRun("testSetRetryFlag_testRetryOnFailure_ZeroRetries", 1, 1, PolicyResult.FAILURE);
@@ -522,7 +513,7 @@ public class OperatorPartialTest {
      */
     @Test
     public void testSetRetryFlag_testRetryOnFailure_NullRetries() {
-        policy.setRetry(null);
+        params = params.toBuilder().retry(null).build();
         oper.setMaxFailures(10);
 
         verifyRun("testSetRetryFlag_testRetryOnFailure_NullRetries", 1, 1, PolicyResult.FAILURE);
@@ -534,10 +525,11 @@ public class OperatorPartialTest {
     @Test
     public void testSetRetryFlag_testRetryOnFailure_RetriesExhausted() {
         final int maxRetries = 3;
-        policy.setRetry(maxRetries);
+        params = params.toBuilder().retry(maxRetries).build();
         oper.setMaxFailures(10);
 
-        verifyRun("testVerifyRunningWhenNot", maxRetries + 1, maxRetries + 1, PolicyResult.FAILURE_RETRIES);
+        verifyRun("testSetRetryFlag_testRetryOnFailure_RetriesExhausted", maxRetries + 1, maxRetries + 1,
+                        PolicyResult.FAILURE_RETRIES);
     }
 
     /**
@@ -545,7 +537,7 @@ public class OperatorPartialTest {
      */
     @Test
     public void testSetRetryFlag_testRetryOnFailure_SuccessAfterRetries() {
-        policy.setRetry(10);
+        params = params.toBuilder().retry(10).build();
 
         final int maxFailures = 3;
         oper.setMaxFailures(maxFailures);
@@ -563,8 +555,8 @@ public class OperatorPartialTest {
         // arrange to return null from doOperation()
         oper = new MyOper() {
             @Override
-            protected ControlLoopOperation doOperation(ControlLoopOperationParams params, int attempt,
-                            ControlLoopOperation operation) {
+            protected OperationOutcome doOperation(ControlLoopOperationParams params, int attempt,
+                            OperationOutcome operation) {
 
                 // update counters
                 super.doOperation(params, attempt, operation);
@@ -579,96 +571,55 @@ public class OperatorPartialTest {
     }
 
     @Test
-    public void testGetActorOutcome() {
-        assertNull(oper.getActorOutcome(null));
+    public void testIsSameOperation() {
+        assertFalse(oper.isSameOperation(null));
 
-        ControlLoopOperation outcome = params.makeOutcome();
-        outcome.setOutcome(TARGET);
+        OperationOutcome outcome = params.makeOutcome();
 
-        // wrong actor - should be null
+        // wrong actor - should be false
         outcome.setActor(null);
-        assertNull(oper.getActorOutcome(outcome));
+        assertFalse(oper.isSameOperation(outcome));
         outcome.setActor(TARGET);
-        assertNull(oper.getActorOutcome(outcome));
+        assertFalse(oper.isSameOperation(outcome));
         outcome.setActor(ACTOR);
 
         // wrong operation - should be null
         outcome.setOperation(null);
-        assertNull(oper.getActorOutcome(outcome));
+        assertFalse(oper.isSameOperation(outcome));
         outcome.setOperation(TARGET);
-        assertNull(oper.getActorOutcome(outcome));
+        assertFalse(oper.isSameOperation(outcome));
         outcome.setOperation(OPERATOR);
 
-        assertEquals(TARGET, oper.getActorOutcome(outcome));
-    }
-
-    @Test
-    public void testOnSuccess() throws Exception {
-        AtomicInteger count = new AtomicInteger();
-
-        final Function<ControlLoopOperation, CompletableFuture<ControlLoopOperation>> nextStep = oper -> {
-            count.incrementAndGet();
-            return CompletableFuture.completedFuture(oper);
-        };
-
-        // pass it a null outcome
-        ControlLoopOperation outcome = oper.onSuccess(params, nextStep).apply(null).get();
-        assertNotNull(outcome);
-        assertEquals(PolicyResult.FAILURE.toString(), outcome.getOutcome());
-        assertEquals(0, count.get());
-
-        // pass it an unpopulated (i.e., failed) outcome
-        outcome = new ControlLoopOperation();
-        assertSame(outcome, oper.onSuccess(params, nextStep).apply(outcome).get());
-        assertEquals(0, count.get());
-
-        // pass it a successful outcome
-        outcome = params.makeOutcome();
-        outcome.setOutcome(PolicyResult.SUCCESS.toString());
-        assertSame(outcome, oper.onSuccess(params, nextStep).apply(outcome).get());
-        assertEquals(PolicyResult.SUCCESS.toString(), outcome.getOutcome());
-        assertEquals(1, count.get());
+        assertTrue(oper.isSameOperation(outcome));
     }
 
     /**
      * Tests onSuccess() and handleFailure() when the outcome is a success.
      */
     @Test
-    public void testOnSuccessTrue_testHandleFailureTrue() {
-        // arrange to return a success from the preprocessor
-        oper.setPreProcessor(oper -> {
-            oper.setOutcome(PolicyResult.SUCCESS.toString());
-            return CompletableFuture.completedFuture(oper);
-        });
-
-        verifyRun("testOnSuccessTrue_testHandleFailureTrue", 1, 1, PolicyResult.SUCCESS);
+    public void testOnSuccessTrue_testHandlePreprocessorFailureTrue() {
+        oper.setPreProcessor(CompletableFuture.completedFuture(makeSuccess()));
+        verifyRun("testOnSuccessTrue_testHandlePreprocessorFailureTrue", 1, 1, PolicyResult.SUCCESS);
     }
 
     /**
      * Tests onSuccess() and handleFailure() when the outcome is <i>not</i> a success.
      */
     @Test
-    public void testOnSuccessFalse_testHandleFailureFalse() throws Exception {
-        // arrange to return a failure from the preprocessor
-        oper.setPreProcessor(oper -> {
-            oper.setOutcome(PolicyResult.FAILURE.toString());
-            return CompletableFuture.completedFuture(oper);
-        });
-
-        verifyRun("testOnSuccessFalse_testHandleFailureFalse", 1, 0, PolicyResult.FAILURE_GUARD);
+    public void testOnSuccessFalse_testHandlePreprocessorFailureFalse() throws Exception {
+        oper.setPreProcessor(CompletableFuture.completedFuture(makeFailure()));
+        verifyRun("testOnSuccessFalse_testHandlePreprocessorFailureFalse", 1, 0, PolicyResult.FAILURE_GUARD);
     }
 
     /**
      * Tests onSuccess() and handleFailure() when the outcome is {@code null}.
      */
     @Test
-    public void testOnSuccessFalse_testHandleFailureNull() throws Exception {
+    public void testOnSuccessFalse_testHandlePreprocessorFailureNull() throws Exception {
         // arrange to return null from the preprocessor
-        oper.setPreProcessor(oper -> {
-            return CompletableFuture.completedFuture(null);
-        });
+        oper.setPreProcessor(CompletableFuture.completedFuture(null));
 
-        verifyRun("testOnSuccessFalse_testHandleFailureNull", 1, 0, PolicyResult.FAILURE_GUARD);
+        verifyRun("testOnSuccessFalse_testHandlePreprocessorFailureNull", 1, 0, PolicyResult.FAILURE_GUARD);
     }
 
     @Test
@@ -688,11 +639,277 @@ public class OperatorPartialTest {
     }
 
     /**
-     * Tests verifyRunning() when the pipeline is not running.
+     * Tests both flavors of anyOf(), because one invokes the other.
      */
     @Test
-    public void testVerifyRunningWhenNot() {
-        verifyRun("testVerifyRunningWhenNot", 0, 0, PolicyResult.SUCCESS, future -> future.cancel(false));
+    public void testAnyOf() throws Exception {
+        // first task completes, others do not
+        List<CompletableFuture<OperationOutcome>> tasks = new LinkedList<>();
+
+        final OperationOutcome outcome = params.makeOutcome();
+
+        tasks.add(CompletableFuture.completedFuture(outcome));
+        tasks.add(new CompletableFuture<>());
+        tasks.add(new CompletableFuture<>());
+
+        CompletableFuture<OperationOutcome> result = oper.anyOf(params, tasks);
+        assertTrue(executor.runAll());
+
+        assertTrue(result.isDone());
+        assertSame(outcome, result.get());
+
+        // second task completes, others do not
+        tasks = new LinkedList<>();
+
+        tasks.add(new CompletableFuture<>());
+        tasks.add(CompletableFuture.completedFuture(outcome));
+        tasks.add(new CompletableFuture<>());
+
+        result = oper.anyOf(params, tasks);
+        assertTrue(executor.runAll());
+
+        assertTrue(result.isDone());
+        assertSame(outcome, result.get());
+
+        // third task completes, others do not
+        tasks = new LinkedList<>();
+
+        tasks.add(new CompletableFuture<>());
+        tasks.add(new CompletableFuture<>());
+        tasks.add(CompletableFuture.completedFuture(outcome));
+
+        result = oper.anyOf(params, tasks);
+        assertTrue(executor.runAll());
+
+        assertTrue(result.isDone());
+        assertSame(outcome, result.get());
+    }
+
+    /**
+     * Tests both flavors of allOf(), because one invokes the other.
+     */
+    @Test
+    public void testAllOf() throws Exception {
+        List<CompletableFuture<OperationOutcome>> tasks = new LinkedList<>();
+
+        final OperationOutcome outcome = params.makeOutcome();
+
+        CompletableFuture<OperationOutcome> future1 = new CompletableFuture<>();
+        CompletableFuture<OperationOutcome> future2 = new CompletableFuture<>();
+        CompletableFuture<OperationOutcome> future3 = new CompletableFuture<>();
+
+        tasks.add(future1);
+        tasks.add(future2);
+        tasks.add(future3);
+
+        CompletableFuture<OperationOutcome> result = oper.allOf(params, tasks);
+
+        assertTrue(executor.runAll());
+        assertFalse(result.isDone());
+        future1.complete(outcome);
+
+        // complete 3 before 2
+        assertTrue(executor.runAll());
+        assertFalse(result.isDone());
+        future3.complete(outcome);
+
+        assertTrue(executor.runAll());
+        assertFalse(result.isDone());
+        future2.complete(outcome);
+
+        // all of them are now done
+        assertTrue(executor.runAll());
+        assertTrue(result.isDone());
+        assertSame(outcome, result.get());
+    }
+
+    @Test
+    public void testCombineOutcomes() throws Exception {
+        // only one outcome
+        verifyOutcomes(0, PolicyResult.SUCCESS);
+        verifyOutcomes(0, PolicyResult.FAILURE_EXCEPTION);
+
+        // maximum is in different positions
+        verifyOutcomes(0, PolicyResult.FAILURE, PolicyResult.SUCCESS, PolicyResult.FAILURE_GUARD);
+        verifyOutcomes(1, PolicyResult.SUCCESS, PolicyResult.FAILURE, PolicyResult.FAILURE_GUARD);
+        verifyOutcomes(2, PolicyResult.SUCCESS, PolicyResult.FAILURE_GUARD, PolicyResult.FAILURE);
+
+        // null outcome
+        final List<CompletableFuture<OperationOutcome>> tasks = new LinkedList<>();
+        tasks.add(CompletableFuture.completedFuture(null));
+        CompletableFuture<OperationOutcome> result = oper.allOf(params, tasks);
+
+        assertTrue(executor.runAll());
+        assertTrue(result.isDone());
+        assertNull(result.get());
+
+        // one throws an exception during execution
+        IllegalStateException except = new IllegalStateException(EXPECTED_EXCEPTION);
+
+        tasks.clear();
+        tasks.add(CompletableFuture.completedFuture(params.makeOutcome()));
+        tasks.add(CompletableFuture.failedFuture(except));
+        tasks.add(CompletableFuture.completedFuture(params.makeOutcome()));
+        result = oper.allOf(params, tasks);
+
+        assertTrue(executor.runAll());
+        assertTrue(result.isCompletedExceptionally());
+        result.whenComplete((unused, thrown) -> assertSame(except, thrown));
+    }
+
+    private void verifyOutcomes(int expected, PolicyResult... results) throws Exception {
+        List<CompletableFuture<OperationOutcome>> tasks = new LinkedList<>();
+
+
+        OperationOutcome expectedOutcome = null;
+
+        for (int count = 0; count < results.length; ++count) {
+            OperationOutcome outcome = params.makeOutcome();
+            outcome.setResult(results[count]);
+            tasks.add(CompletableFuture.completedFuture(outcome));
+
+            if (count == expected) {
+                expectedOutcome = outcome;
+            }
+        }
+
+        CompletableFuture<OperationOutcome> result = oper.allOf(params, tasks);
+
+        assertTrue(executor.runAll());
+        assertTrue(result.isDone());
+        assertSame(expectedOutcome, result.get());
+    }
+
+    private Function<OperationOutcome, CompletableFuture<OperationOutcome>> makeTask(
+                    final OperationOutcome taskOutcome) {
+
+        return outcome -> CompletableFuture.completedFuture(taskOutcome);
+    }
+
+    @Test
+    public void testDetmPriority() {
+        assertEquals(1, oper.detmPriority(null));
+
+        OperationOutcome outcome = params.makeOutcome();
+
+        Map<PolicyResult, Integer> map = Map.of(PolicyResult.SUCCESS, 0, PolicyResult.FAILURE_GUARD, 2,
+                        PolicyResult.FAILURE_RETRIES, 3, PolicyResult.FAILURE, 4, PolicyResult.FAILURE_TIMEOUT, 5,
+                        PolicyResult.FAILURE_EXCEPTION, 6);
+
+        for (Entry<PolicyResult, Integer> ent : map.entrySet()) {
+            outcome.setResult(ent.getKey());
+            assertEquals(ent.getKey().toString(), ent.getValue().intValue(), oper.detmPriority(outcome));
+        }
+    }
+
+    @Test
+    public void testDoTask() throws Exception {
+        final OperationOutcome taskOutcome = params.makeOutcome();
+
+        Function<OperationOutcome, CompletableFuture<OperationOutcome>> task = makeTask(taskOutcome);
+
+        PipelineControllerFuture<OperationOutcome> controller = new PipelineControllerFuture<>();
+
+        CompletableFuture<OperationOutcome> future =
+                        oper.doTask(params, controller, false, task).apply(params.makeOutcome());
+
+        assertTrue(future.isDone());
+        assertSame(taskOutcome, future.get());
+
+        // controller should not be done yet
+        assertFalse(controller.isDone());
+    }
+
+    /**
+     * Tests doTask() when the controller is not running.
+     */
+    @Test
+    public void testDoTaskNotRunning() throws Exception {
+        final OperationOutcome taskOutcome = params.makeOutcome();
+
+        Function<OperationOutcome, CompletableFuture<OperationOutcome>> task = makeTask(taskOutcome);
+
+        PipelineControllerFuture<OperationOutcome> controller = new PipelineControllerFuture<>();
+        controller.complete(params.makeOutcome());
+
+        CompletableFuture<OperationOutcome> future =
+                        oper.doTask(params, controller, false, task).apply(params.makeOutcome());
+        assertFalse(future.isDone());
+        assertTrue(executor.runAll());
+
+        // should not have run the task
+        assertFalse(future.isDone());
+    }
+
+    /**
+     * Tests doTask() when the previous outcome was successful.
+     */
+    @Test
+    public void testDoTaskSuccess() throws Exception {
+        final OperationOutcome taskOutcome = params.makeOutcome();
+
+        final OperationOutcome failedOutcome = params.makeOutcome();
+
+        Function<OperationOutcome, CompletableFuture<OperationOutcome>> task = makeTask(taskOutcome);
+
+        PipelineControllerFuture<OperationOutcome> controller = new PipelineControllerFuture<>();
+
+        CompletableFuture<OperationOutcome> future = oper.doTask(params, controller, true, task).apply(failedOutcome);
+
+        assertTrue(future.isDone());
+        assertSame(taskOutcome, future.get());
+
+        // controller should not be done yet
+        assertFalse(controller.isDone());
+    }
+
+    /**
+     * Tests doTask() when the previous outcome was failed.
+     */
+    @Test
+    public void testDoTaskFailure() throws Exception {
+        final OperationOutcome taskOutcome = params.makeOutcome();
+
+        final OperationOutcome failedOutcome = params.makeOutcome();
+        failedOutcome.setResult(PolicyResult.FAILURE);
+
+        Function<OperationOutcome, CompletableFuture<OperationOutcome>> task = makeTask(taskOutcome);
+
+        PipelineControllerFuture<OperationOutcome> controller = new PipelineControllerFuture<>();
+
+        CompletableFuture<OperationOutcome> future = oper.doTask(params, controller, true, task).apply(failedOutcome);
+        assertFalse(future.isDone());
+        assertTrue(executor.runAll());
+
+        // should not have run the task
+        assertFalse(future.isDone());
+
+        // controller should have the failed task
+        assertTrue(controller.isDone());
+        assertSame(failedOutcome, controller.get());
+    }
+
+    /**
+     * Tests doTask() when the previous outcome was failed, but not checking success.
+     */
+    @Test
+    public void testDoTaskUncheckedFailure() throws Exception {
+        final OperationOutcome taskOutcome = params.makeOutcome();
+
+        final OperationOutcome failedOutcome = params.makeOutcome();
+        failedOutcome.setResult(PolicyResult.FAILURE);
+
+        Function<OperationOutcome, CompletableFuture<OperationOutcome>> task = makeTask(taskOutcome);
+
+        PipelineControllerFuture<OperationOutcome> controller = new PipelineControllerFuture<>();
+
+        CompletableFuture<OperationOutcome> future = oper.doTask(params, controller, false, task).apply(failedOutcome);
+
+        assertTrue(future.isDone());
+        assertSame(taskOutcome, future.get());
+
+        // controller should not be done yet
+        assertFalse(controller.isDone());
     }
 
     /**
@@ -700,7 +917,7 @@ public class OperatorPartialTest {
      */
     @Test
     public void testCallbackStartedNotRunning() {
-        AtomicReference<Future<ControlLoopOperation>> future = new AtomicReference<>();
+        AtomicReference<Future<OperationOutcome>> future = new AtomicReference<>();
 
         /*
          * arrange to stop the controller when the start-callback is invoked, but capture
@@ -723,7 +940,7 @@ public class OperatorPartialTest {
      */
     @Test
     public void testCallbackCompletedNotRunning() {
-        AtomicReference<Future<ControlLoopOperation>> future = new AtomicReference<>();
+        AtomicReference<Future<OperationOutcome>> future = new AtomicReference<>();
 
         // arrange to stop the controller when the start-callback is invoked
         params = params.toBuilder().startCallback(oper -> {
@@ -739,36 +956,36 @@ public class OperatorPartialTest {
     }
 
     @Test
-    public void testSetOutcomeControlLoopOperationThrowable() {
+    public void testSetOutcomeControlLoopOperationOutcomeThrowable() {
         final CompletionException timex = new CompletionException(new TimeoutException(EXPECTED_EXCEPTION));
 
-        ControlLoopOperation outcome;
+        OperationOutcome outcome;
 
-        outcome = new ControlLoopOperation();
+        outcome = new OperationOutcome();
         oper.setOutcome(params, outcome, timex);
         assertEquals(ControlLoopOperation.FAILED_MSG, outcome.getMessage());
-        assertEquals(PolicyResult.FAILURE_TIMEOUT.toString(), outcome.getOutcome());
+        assertEquals(PolicyResult.FAILURE_TIMEOUT, outcome.getResult());
 
-        outcome = new ControlLoopOperation();
-        oper.setOutcome(params, outcome, new IllegalStateException());
+        outcome = new OperationOutcome();
+        oper.setOutcome(params, outcome, new IllegalStateException(EXPECTED_EXCEPTION));
         assertEquals(ControlLoopOperation.FAILED_MSG, outcome.getMessage());
-        assertEquals(PolicyResult.FAILURE_EXCEPTION.toString(), outcome.getOutcome());
+        assertEquals(PolicyResult.FAILURE_EXCEPTION, outcome.getResult());
     }
 
     @Test
-    public void testSetOutcomeControlLoopOperationPolicyResult() {
-        ControlLoopOperation outcome;
+    public void testSetOutcomeControlLoopOperationOutcomePolicyResult() {
+        OperationOutcome outcome;
 
-        outcome = new ControlLoopOperation();
+        outcome = new OperationOutcome();
         oper.setOutcome(params, outcome, PolicyResult.SUCCESS);
         assertEquals(ControlLoopOperation.SUCCESS_MSG, outcome.getMessage());
-        assertEquals(PolicyResult.SUCCESS.toString(), outcome.getOutcome());
+        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
 
         for (PolicyResult result : FAILURE_RESULTS) {
-            outcome = new ControlLoopOperation();
+            outcome = new OperationOutcome();
             oper.setOutcome(params, outcome, result);
             assertEquals(result.toString(), ControlLoopOperation.FAILED_MSG, outcome.getMessage());
-            assertEquals(result.toString(), result.toString(), outcome.getOutcome());
+            assertEquals(result.toString(), result, outcome.getResult());
         }
     }
 
@@ -776,7 +993,7 @@ public class OperatorPartialTest {
     public void testIsTimeout() {
         final TimeoutException timex = new TimeoutException(EXPECTED_EXCEPTION);
 
-        assertFalse(oper.isTimeout(new IllegalStateException()));
+        assertFalse(oper.isTimeout(new IllegalStateException(EXPECTED_EXCEPTION)));
         assertFalse(oper.isTimeout(new IllegalStateException(timex)));
         assertFalse(oper.isTimeout(new CompletionException(new IllegalStateException(timex))));
         assertFalse(oper.isTimeout(new CompletionException(null)));
@@ -788,19 +1005,19 @@ public class OperatorPartialTest {
 
     @Test
     public void testGetTimeOutMillis() {
-        assertEquals(TIMEOUT * 1000, oper.getTimeOutMillis(policy));
+        assertEquals(TIMEOUT * 1000, oper.getTimeOutMillis(params.getTimeoutSec()));
 
-        policy.setTimeout(null);
-        assertEquals(0, oper.getTimeOutMillis(policy));
+        params = params.toBuilder().timeoutSec(null).build();
+        assertEquals(0, oper.getTimeOutMillis(params.getTimeoutSec()));
     }
 
-    private void starter(ControlLoopOperation oper) {
+    private void starter(OperationOutcome oper) {
         ++numStart;
         tstart = oper.getStart();
         opstart = oper;
     }
 
-    private void completer(ControlLoopOperation oper) {
+    private void completer(OperationOutcome oper) {
         ++numEnd;
         opend = oper;
     }
@@ -814,6 +1031,20 @@ public class OperatorPartialTest {
     private <T> Consumer<T> noop() {
         return unused -> {
         };
+    }
+
+    private OperationOutcome makeSuccess() {
+        OperationOutcome outcome = params.makeOutcome();
+        outcome.setResult(PolicyResult.SUCCESS);
+
+        return outcome;
+    }
+
+    private OperationOutcome makeFailure() {
+        OperationOutcome outcome = params.makeOutcome();
+        outcome.setResult(PolicyResult.FAILURE);
+
+        return outcome;
     }
 
     /**
@@ -840,35 +1071,15 @@ public class OperatorPartialTest {
      * @param expectedCallbacks number of callbacks expected
      * @param expectedOperations number of operation invocations expected
      * @param expectedResult expected outcome
-     * @param manipulator function to modify the future returned by
-     *        {@link OperatorPartial#startOperation(ControlLoopOperationParams)} before
-     *        the tasks in the executor are run
-     */
-    private void verifyRun(String testName, int expectedCallbacks, int expectedOperations, PolicyResult expectedResult,
-                    Consumer<CompletableFuture<ControlLoopOperation>> manipulator) {
-
-        String expectedSubRequestId =
-                        (expectedResult == PolicyResult.FAILURE_EXCEPTION ? null : String.valueOf(expectedOperations));
-
-        verifyRun(testName, expectedCallbacks, expectedOperations, expectedResult, expectedSubRequestId, manipulator);
-    }
-
-    /**
-     * Verifies a run.
-     *
-     * @param testName test name
-     * @param expectedCallbacks number of callbacks expected
-     * @param expectedOperations number of operation invocations expected
-     * @param expectedResult expected outcome
      * @param expectedSubRequestId expected sub request ID
      * @param manipulator function to modify the future returned by
      *        {@link OperatorPartial#startOperation(ControlLoopOperationParams)} before
      *        the tasks in the executor are run
      */
     private void verifyRun(String testName, int expectedCallbacks, int expectedOperations, PolicyResult expectedResult,
-                    String expectedSubRequestId, Consumer<CompletableFuture<ControlLoopOperation>> manipulator) {
+                    String expectedSubRequestId, Consumer<CompletableFuture<OperationOutcome>> manipulator) {
 
-        CompletableFuture<ControlLoopOperation> future = oper.startOperation(params);
+        CompletableFuture<OperationOutcome> future = oper.startOperation(params);
 
         manipulator.accept(future);
 
@@ -880,7 +1091,7 @@ public class OperatorPartialTest {
         if (expectedCallbacks > 0) {
             assertNotNull(testName, opstart);
             assertNotNull(testName, opend);
-            assertEquals(testName, expectedResult.toString(), opend.getOutcome());
+            assertEquals(testName, expectedResult, opend.getResult());
 
             assertSame(testName, tstart, opstart.getStart());
             assertSame(testName, tstart, opend.getStart());
@@ -901,7 +1112,7 @@ public class OperatorPartialTest {
         assertEquals(testName, expectedOperations, oper.getCount());
     }
 
-    private static class MyOper extends OperatorPartial {
+    private class MyOper extends OperatorPartial {
         @Getter
         private int count = 0;
 
@@ -912,15 +1123,15 @@ public class OperatorPartialTest {
         private int maxFailures = 0;
 
         @Setter
-        private Function<ControlLoopOperation, CompletableFuture<ControlLoopOperation>> preProcessor;
+        private CompletableFuture<OperationOutcome> preProcessor;
 
         public MyOper() {
             super(ACTOR, OPERATOR);
         }
 
         @Override
-        protected ControlLoopOperation doOperation(ControlLoopOperationParams params, int attempt,
-                        ControlLoopOperation operation) {
+        protected OperationOutcome doOperation(ControlLoopOperationParams params, int attempt,
+                        OperationOutcome operation) {
             ++count;
             if (genException) {
                 throw new IllegalStateException(EXPECTED_EXCEPTION);
@@ -929,19 +1140,22 @@ public class OperatorPartialTest {
             operation.setSubRequestId(String.valueOf(attempt));
 
             if (count > maxFailures) {
-                operation.setOutcome(PolicyResult.SUCCESS.toString());
+                operation.setResult(PolicyResult.SUCCESS);
             } else {
-                operation.setOutcome(PolicyResult.FAILURE.toString());
+                operation.setResult(PolicyResult.FAILURE);
             }
 
             return operation;
         }
 
         @Override
-        protected Function<ControlLoopOperation, CompletableFuture<ControlLoopOperation>> doPreprocessorAsFuture(
-                        ControlLoopOperationParams params) {
+        protected CompletableFuture<OperationOutcome> startPreprocessorAsync(ControlLoopOperationParams params) {
+            return (preProcessor != null ? preProcessor : super.startPreprocessorAsync(params));
+        }
 
-            return (preProcessor != null ? preProcessor : super.doPreprocessorAsFuture(params));
+        @Override
+        protected Executor getBlockingExecutor() {
+            return executor;
         }
     }
 
