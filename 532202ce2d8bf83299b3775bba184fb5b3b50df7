@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "3c72ee38_43f2f405",
+        "filename": "models-examples/src/main/resources/policies/vCPE.policy.monitoring.input.tosca.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2020-02-07T18:59:25Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "532202ce2d8bf83299b3775bba184fb5b3b50df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96afcfeb_d6371329",
+        "filename": "models-examples/src/main/resources/policies/vDNS.policy.monitoring.input.tosca.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2020-02-07T18:59:25Z",
+      "side": 1,
+      "message": "trailing spaces",
+      "revId": "532202ce2d8bf83299b3775bba184fb5b3b50df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36ee07fc_afb8d1b4",
+        "filename": "models-examples/src/main/resources/policies/vFirewall.policy.monitoring.input.tosca.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2020-02-07T18:59:25Z",
+      "side": 1,
+      "message": "trailing spaces",
+      "revId": "532202ce2d8bf83299b3775bba184fb5b3b50df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7700d991_04d2fa8e",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaServiceTemplate.java",
         "patchSetId": 1
@@ -13,6 +64,52 @@
       "writtenOn": "2020-02-07T18:28:30Z",
       "side": 1,
       "message": "what\u0027s the difference between isOk() and isValid()?",
+      "revId": "532202ce2d8bf83299b3775bba184fb5b3b50df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "395b401d_7eca2f87",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaServiceTemplate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2020-02-07T18:59:25Z",
+      "side": 1,
+      "message": "What if the referenced data types are not defined in this service template but rather in other service template? Do we still need to check that?  Do we have the case where data types are defined in one service template but shared among multiple service templates?",
+      "range": {
+        "startLine": 342,
+        "startChar": 31,
+        "endLine": 342,
+        "endChar": 61
+      },
+      "revId": "532202ce2d8bf83299b3775bba184fb5b3b50df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f08e3feb_06bc515c",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaServiceTemplate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2020-02-07T18:59:25Z",
+      "side": 1,
+      "message": "Same. What if the referenced policy types are defined in other service template? And also, we might have the case where the referenced policy type has its referenced policy type too until xxx.Root. Do we aim to perform validation against this kind of chain?",
+      "range": {
+        "startLine": 366,
+        "startChar": 31,
+        "endLine": 366,
+        "endChar": 60
+      },
       "revId": "532202ce2d8bf83299b3775bba184fb5b3b50df7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
