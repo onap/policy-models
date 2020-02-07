@@ -1,0 +1,616 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3301cb76_69992a7c",
+        "filename": "models-interactions/model-actors/actor.sdnc/src/main/java/org/onap/policy/controlloop/actor/sdnc/SdncOperator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-07T15:18:44Z",
+      "side": 1,
+      "message": "include http code in message",
+      "revId": "3d2a14879841922bf2d13d913d893de7ac07e2e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9fd3cfe3_34487c7a",
+        "filename": "models-interactions/model-actors/actor.sdnc/src/test/java/org/onap/policy/controlloop/actor/sdnc/BandwidthOnDemandOperatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-07T15:18:44Z",
+      "side": 1,
+      "message": "extract this into a common method in BasicOperator",
+      "revId": "3d2a14879841922bf2d13d913d893de7ac07e2e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abbf2874_7c4e665a",
+        "filename": "models-interactions/model-actors/actor.sdnc/src/test/java/org/onap/policy/controlloop/actor/sdnc/RerouteOperatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-07T15:18:44Z",
+      "side": 1,
+      "message": "same comment as before",
+      "revId": "3d2a14879841922bf2d13d913d893de7ac07e2e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f726cf66_f99647a6",
+        "filename": "models-interactions/model-actors/actor.sdnc/src/test/java/org/onap/policy/controlloop/actor/sdnc/SdncOperatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-07T15:18:44Z",
+      "side": 1,
+      "message": "add comment: must use Properties instead of BusTopicParams, as that\u0027s the only way to ensure that GSON is installed as the serialization provider",
+      "revId": "3d2a14879841922bf2d13d913d893de7ac07e2e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24f912de_b529496d",
+        "filename": "models-interactions/model-actors/actor.sdnc/src/test/java/org/onap/policy/controlloop/actor/sdnc/SdncOperatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-07T15:18:44Z",
+      "side": 1,
+      "message": "extract next three lines into a common method\n\nsame comment below",
+      "revId": "3d2a14879841922bf2d13d913d893de7ac07e2e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3213b31d_67294ba4",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/AsyncResponseHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-07T15:18:44Z",
+      "side": 1,
+      "message": "the future \u003d\u003e \"this\"\n\nsame comment below",
+      "revId": "3d2a14879841922bf2d13d913d893de7ac07e2e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed66533b_759344ef",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/OperationOutcome.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-07T15:18:44Z",
+      "side": 1,
+      "message": "add isFor(actor, operation) as a convenience method",
+      "revId": "3d2a14879841922bf2d13d913d893de7ac07e2e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4df1b2dc_e9b0e891",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/Util.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-07T15:18:44Z",
+      "side": 1,
+      "message": "\"request\" \u003d\u003e \"response\"",
+      "revId": "3d2a14879841922bf2d13d913d893de7ac07e2e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7406324a_5e628c86",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/controlloop/ControlLoopEventContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-07T15:18:44Z",
+      "side": 1,
+      "message": "but may be immutable",
+      "revId": "3d2a14879841922bf2d13d913d893de7ac07e2e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e63608be_cdef155f",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/controlloop/ControlLoopEventContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-07T15:18:44Z",
+      "side": 1,
+      "message": "\"Request\" \u003d\u003e \"Request ID\"",
+      "revId": "3d2a14879841922bf2d13d913d893de7ac07e2e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa7959bd_6ab609b9",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/impl/ActorImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-07T15:18:44Z",
+      "side": 1,
+      "message": "final",
+      "revId": "3d2a14879841922bf2d13d913d893de7ac07e2e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fca0f417_55be534a",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/impl/HttpActor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-07T15:18:44Z",
+      "side": 1,
+      "message": "\"a\" \u003d\u003e \"an\"",
+      "revId": "3d2a14879841922bf2d13d913d893de7ac07e2e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2101496c_d996c27c",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/impl/HttpActor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-07T15:18:44Z",
+      "side": 1,
+      "message": "\"a\" \u003d\u003e \"an\"",
+      "revId": "3d2a14879841922bf2d13d913d893de7ac07e2e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dae3c961_1a35e503",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/impl/HttpOperator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-07T15:18:44Z",
+      "side": 1,
+      "message": "Add comment",
+      "revId": "3d2a14879841922bf2d13d913d893de7ac07e2e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1da7743_9802bbcc",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/impl/OperatorPartial.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-07T15:18:44Z",
+      "side": 1,
+      "message": "add @Setter(protected) and then remove the \"junit override\" message",
+      "revId": "3d2a14879841922bf2d13d913d893de7ac07e2e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "38dd4e3c_ba7496db",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/impl/OperatorPartial.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-07T15:18:44Z",
+      "side": 1,
+      "message": "can use outcome.isFor()",
+      "revId": "3d2a14879841922bf2d13d913d893de7ac07e2e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "148e35a8_50c24477",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/impl/OperatorPartial.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-07T15:18:44Z",
+      "side": 1,
+      "message": "\"in its own thread\" \u003d\u003e using the \"blocking executor\"",
+      "revId": "3d2a14879841922bf2d13d913d893de7ac07e2e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bb3398e_7118c7a7",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/impl/OperatorPartial.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-07T15:18:44Z",
+      "side": 1,
+      "message": "the \"blocking executor\" should be used instead",
+      "revId": "3d2a14879841922bf2d13d913d893de7ac07e2e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62858418_5566f714",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/impl/OperatorPartial.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-07T15:18:44Z",
+      "side": 1,
+      "message": "particular",
+      "revId": "3d2a14879841922bf2d13d913d893de7ac07e2e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d843c48b_95a96d66",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/impl/OperatorPartial.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-07T15:18:44Z",
+      "side": 1,
+      "message": "use isSameOp() and check for !\u003d FAILURE",
+      "revId": "3d2a14879841922bf2d13d913d893de7ac07e2e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e2a5b6a_684406db",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/impl/OperatorPartial.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-07T15:18:44Z",
+      "side": 1,
+      "message": "use for-each",
+      "revId": "3d2a14879841922bf2d13d913d893de7ac07e2e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4e2bf07_0452d7f2",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/impl/OperatorPartial.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-07T15:18:44Z",
+      "side": 1,
+      "message": "task.cancel()",
+      "revId": "3d2a14879841922bf2d13d913d893de7ac07e2e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f668314d_4930ede0",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/impl/OperatorPartial.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 820,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-07T15:18:44Z",
+      "side": 1,
+      "message": "fix comment",
+      "revId": "3d2a14879841922bf2d13d913d893de7ac07e2e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4659f0_fff48ff7",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/pipeline/PipelineControllerFuture.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-07T15:18:44Z",
+      "side": 1,
+      "message": "logger needed? doesn\u0027t remove(listener) do that?",
+      "revId": "3d2a14879841922bf2d13d913d893de7ac07e2e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e679a5f4_f210471c",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/pipeline/PipelineControllerFuture.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-07T15:18:44Z",
+      "side": 1,
+      "message": "logs a message using the given arguments",
+      "revId": "3d2a14879841922bf2d13d913d893de7ac07e2e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93da89aa_552d55fd",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/pipeline/PipelineControllerFuture.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-07T15:18:44Z",
+      "side": 1,
+      "message": "message, args",
+      "revId": "3d2a14879841922bf2d13d913d893de7ac07e2e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ba59c07_2b642c79",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/pipeline/PipelineControllerFuture.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-07T15:18:44Z",
+      "side": 1,
+      "message": "future \u003d\u003e \"this\"",
+      "revId": "3d2a14879841922bf2d13d913d893de7ac07e2e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c67b26da_34850d3e",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/test/java/org/onap/policy/controlloop/actorserviceprovider/CallbackManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-07T15:18:44Z",
+      "side": 1,
+      "message": "move these checks after canXxx checks",
+      "revId": "3d2a14879841922bf2d13d913d893de7ac07e2e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f1ad163_b07f9843",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/test/java/org/onap/policy/controlloop/actorserviceprovider/UtilTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-07T15:18:44Z",
+      "side": 1,
+      "message": "not needed - already set in logback-test.xml",
+      "revId": "3d2a14879841922bf2d13d913d893de7ac07e2e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "262ccc39_f08adb6b",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/test/java/org/onap/policy/controlloop/actorserviceprovider/UtilTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-07T15:18:44Z",
+      "side": 1,
+      "message": "\"1\" \u003d\u003e \"2\"",
+      "revId": "3d2a14879841922bf2d13d913d893de7ac07e2e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ea67a3d_a3c48682",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/test/java/org/onap/policy/controlloop/actorserviceprovider/impl/OperatorPartialTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-07T15:18:44Z",
+      "side": 1,
+      "message": "use Setter method instead",
+      "revId": "3d2a14879841922bf2d13d913d893de7ac07e2e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72f93fb1_4e5596ca",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/test/java/org/onap/policy/controlloop/actorserviceprovider/impl/OperatorPartialTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-07T15:18:44Z",
+      "side": 1,
+      "message": "use Setter method instead",
+      "revId": "3d2a14879841922bf2d13d913d893de7ac07e2e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36bfd687_82c75532",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/test/java/org/onap/policy/controlloop/actorserviceprovider/impl/OperatorPartialTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-07T15:18:44Z",
+      "side": 1,
+      "message": "remove testOnSuccess from names",
+      "revId": "3d2a14879841922bf2d13d913d893de7ac07e2e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7452143a_4f8e131a",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/test/java/org/onap/policy/controlloop/actorserviceprovider/impl/OperatorPartialTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 766,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-07T15:18:44Z",
+      "side": 1,
+      "message": "use for-each",
+      "revId": "3d2a14879841922bf2d13d913d893de7ac07e2e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e983a3_7d87cde8",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/test/java/org/onap/policy/controlloop/actorserviceprovider/impl/OperatorPartialTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1157,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-07T15:18:44Z",
+      "side": 1,
+      "message": "use Setter method",
+      "revId": "3d2a14879841922bf2d13d913d893de7ac07e2e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e5edbe0_9afc9498",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/test/java/org/onap/policy/controlloop/actorserviceprovider/pipeline/PipelineControllerFutureTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-07T15:18:44Z",
+      "side": 1,
+      "message": "check instanceof",
+      "revId": "3d2a14879841922bf2d13d913d893de7ac07e2e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
