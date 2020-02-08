@@ -20,32 +20,22 @@
 
 package org.onap.policy.controlloop.actor.sdnc;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.MediaType;
+import javax.ws.rs.client.InvocationCallback;
 import javax.ws.rs.core.Response;
-import org.onap.policy.common.endpoints.http.client.HttpClient;
-import org.onap.policy.common.utils.coder.CoderException;
-import org.onap.policy.common.utils.coder.StandardCoder;
-import org.onap.policy.controlloop.actorserviceprovider.AsyncResponseHandler;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
-import org.onap.policy.controlloop.actorserviceprovider.Util;
-import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperator;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
-import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.sdnc.SdncRequest;
 import org.onap.policy.sdnc.SdncResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Superclass for SDNC Operators.
  */
-public abstract class SdncOperator extends HttpOperator {
-    private static final Logger logger = LoggerFactory.getLogger(SdncOperator.class);
+public abstract class SdncOperator extends HttpOperator<SdncRequest, SdncResponse> {
 
     /**
      * Constructs the object.
@@ -54,95 +44,37 @@ public abstract class SdncOperator extends HttpOperator {
      * @param name operation name
      */
     public SdncOperator(String actorName, String name) {
-        super(actorName, name);
+        super(actorName, name, SdncResponse.class);
     }
 
     @Override
     protected CompletableFuture<OperationOutcome> startOperationAsync(ControlLoopOperationParams params, int attempt,
                     OperationOutcome outcome) {
 
-        SdncRequest request = constructRequest(params.getContext());
-        return postRequest(params, outcome, request);
+        return startRequestAsync(params, attempt, outcome);
     }
 
     /**
-     * Constructs the request.
-     *
-     * @param context associated event context
-     * @return a new request
+     * Performs a POST.
      */
-    protected abstract SdncRequest constructRequest(ControlLoopEventContext context);
+    @Override
+    protected Future<Response> startRequestAsync(InvocationCallback<Response> callback, String path,
+                    Entity<SdncRequest> entity, Map<String, Object> headers) {
+
+        return getClient().post(callback, path, entity, headers);
+    }
 
     /**
-     * Posts the request and and arranges to retrieve the response.
-     *
-     * @param params operation parameters
-     * @param outcome updated with the response
-     * @param sdncRequest request to be posted
-     * @return the result of the request
+     * Checks that the response has an "output" and that the output indicates success.
      */
-    private CompletableFuture<OperationOutcome> postRequest(ControlLoopOperationParams params, OperationOutcome outcome,
-                    SdncRequest sdncRequest) {
-        Map<String, Object> headers = new HashMap<>();
-
-        headers.put("Accept", "application/json");
-        String sdncUrl = getClient().getBaseUrl();
-
-        Util.logRestRequest(sdncUrl, sdncRequest);
-
-        Entity<SdncRequest> entity = Entity.entity(sdncRequest, MediaType.APPLICATION_JSON);
-
-        ResponseHandler handler = new ResponseHandler(params, outcome, sdncUrl);
-        return handler.handle(getClient().post(handler, getPath(), entity, headers));
+    @Override
+    protected boolean isSuccess(Response rawResponse, SdncResponse response) {
+        return response.getResponseOutput() != null && "200".equals(response.getResponseOutput().getResponseCode());
     }
 
-    private class ResponseHandler extends AsyncResponseHandler<Response> {
-        private final String sdncUrl;
-
-        public ResponseHandler(ControlLoopOperationParams params, OperationOutcome outcome, String sdncUrl) {
-            super(params, outcome);
-            this.sdncUrl = sdncUrl;
-        }
-
-        /**
-         * Handles the response.
-         */
-        @Override
-        protected OperationOutcome doComplete(Response rawResponse) {
-            String strResponse = HttpClient.getBody(rawResponse, String.class);
-
-            Util.logRestResponse(sdncUrl, strResponse);
-
-            SdncResponse response;
-            try {
-                response = makeDecoder().decode(strResponse, SdncResponse.class);
-            } catch (CoderException e) {
-                logger.warn("Sdnc Heal cannot decode response with http error code {}", rawResponse.getStatus(), e);
-                return SdncOperator.this.setOutcome(getParams(), getOutcome(), PolicyResult.FAILURE_EXCEPTION);
-            }
-
-            if (response.getResponseOutput() != null && "200".equals(response.getResponseOutput().getResponseCode())) {
-                return SdncOperator.this.setOutcome(getParams(), getOutcome(), PolicyResult.SUCCESS);
-
-            } else {
-                logger.info("Sdnc Heal Restcall failed with http error code {}", rawResponse.getStatus());
-                return SdncOperator.this.setOutcome(getParams(), getOutcome(), PolicyResult.FAILURE);
-            }
-        }
-
-        /**
-         * Handles exceptions.
-         */
-        @Override
-        protected OperationOutcome doFailed(Throwable thrown) {
-            logger.info("Sdnc Heal Restcall threw an exception", thrown);
-            return SdncOperator.this.setOutcome(getParams(), getOutcome(), PolicyResult.FAILURE_EXCEPTION);
-        }
-    }
-
-    // these may be overridden by junit tests
-
-    protected StandardCoder makeDecoder() {
-        return new StandardCoder();
+    @Override
+    protected Future<Response> startQueryAsync(InvocationCallback<Response> callback, String path,
+                    Map<String, Object> headers) {
+        throw new UnsupportedOperationException("queries");
     }
 }

@@ -41,7 +41,7 @@ public class HttpActorParamsTest {
 
     private static final String CONTAINER = "my-container";
     private static final String CLIENT = "my-client";
-    private static final long TIMEOUT = 10;
+    private static final int TIMEOUT = 10;
 
     private static final String PATH1 = "path #1";
     private static final String PATH2 = "path #2";

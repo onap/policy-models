@@ -26,10 +26,9 @@ import static org.junit.Assert.assertNotNull;
 import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
-import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.sdnc.SdncRequest;
 
-public class BandwidthOnDemandOperatorTest extends BasicOperator {
+public class BandwidthOnDemandOperatorTest extends BasicSdncOperator {
 
     private BandwidthOnDemandOperator oper;
 
@@ -38,20 +37,20 @@ public class BandwidthOnDemandOperatorTest extends BasicOperator {
      * Set up.
      */
     @Before
-    public void setUp() {
-        makeContext();
-        oper = new BandwidthOnDemandOperator(ACTOR);
+    public void setUp() throws Exception {
+        super.setUp();
+        oper = new BandwidthOnDemandOperator(DEFAULT_ACTOR);
     }
 
     @Test
     public void testBandwidthOnDemandOperator() {
-        assertEquals(ACTOR, oper.getActorName());
+        assertEquals(DEFAULT_ACTOR, oper.getActorName());
         assertEquals(BandwidthOnDemandOperator.NAME, oper.getName());
     }
 
     @Test
-    public void testConstructRequest() throws CoderException {
-        SdncRequest request = oper.constructRequest(context);
+    public void testConstructRequest() throws Exception {
+        SdncRequest request = oper.makeRequest(params, 1);
         assertEquals("my-service", request.getNsInstanceId());
         assertEquals(REQ_ID, request.getRequestId());
         assertEquals(BandwidthOnDemandOperator.URI, request.getUrl());
@@ -60,6 +59,10 @@ public class BandwidthOnDemandOperatorTest extends BasicOperator {
         verifyRequest("bod.json", request);
 
         verifyMissing(oper, BandwidthOnDemandOperator.SERVICE_ID_KEY, "service");
+
+        // perform the operation
+        makeContext();
+        verifyRequest("bod.json", verifyOperation(oper));
     }
 
     @Override

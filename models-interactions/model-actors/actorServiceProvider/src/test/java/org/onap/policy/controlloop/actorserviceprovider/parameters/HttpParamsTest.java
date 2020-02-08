@@ -36,7 +36,7 @@ public class HttpParamsTest {
     private static final String CONTAINER = "my-container";
     private static final String CLIENT = "my-client";
     private static final String PATH = "my-path";
-    private static final long TIMEOUT = 10;
+    private static final int TIMEOUT = 10;
 
     private HttpParams params;
 

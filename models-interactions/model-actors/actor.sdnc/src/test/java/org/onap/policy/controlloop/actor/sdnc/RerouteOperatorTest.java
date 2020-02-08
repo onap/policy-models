@@ -26,10 +26,9 @@ import static org.junit.Assert.assertNotNull;
 import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
-import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.sdnc.SdncRequest;
 
-public class RerouteOperatorTest extends BasicOperator {
+public class RerouteOperatorTest extends BasicSdncOperator {
 
     private RerouteOperator oper;
 
@@ -38,20 +37,20 @@ public class RerouteOperatorTest extends BasicOperator {
      * Set up.
      */
     @Before
-    public void setUp() {
-        makeContext();
-        oper = new RerouteOperator(ACTOR);
+    public void setUp() throws Exception {
+        super.setUp();
+        oper = new RerouteOperator(DEFAULT_ACTOR);
     }
 
     @Test
     public void testRerouteOperator() {
-        assertEquals(ACTOR, oper.getActorName());
+        assertEquals(DEFAULT_ACTOR, oper.getActorName());
         assertEquals(RerouteOperator.NAME, oper.getName());
     }
 
     @Test
-    public void testConstructRequest() throws CoderException {
-        SdncRequest request = oper.constructRequest(context);
+    public void testConstructRequest() throws Exception {
+        SdncRequest request = oper.makeRequest(params, 1);
         assertEquals("my-service", request.getNsInstanceId());
         assertEquals(REQ_ID, request.getRequestId());
         assertEquals(RerouteOperator.URI, request.getUrl());
@@ -61,6 +60,10 @@ public class RerouteOperatorTest extends BasicOperator {
 
         verifyMissing(oper, RerouteOperator.SERVICE_ID_KEY, "service");
         verifyMissing(oper, RerouteOperator.NETWORK_ID_KEY, "network");
+
+        // perform the operation
+        makeContext();
+        verifyRequest("reroute.json", verifyOperation(oper));
     }
 
     @Override

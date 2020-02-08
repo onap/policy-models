@@ -20,6 +20,7 @@
 
 package org.onap.policy.controlloop.actorserviceprovider.impl;
 
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -60,6 +61,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.junit.Before;
 import org.junit.Test;
+import org.onap.policy.common.utils.coder.CoderException;
+import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
@@ -231,7 +234,7 @@ public class OperatorPartialTest {
             return makeSuccess();
         }, executor);
 
-        oper.setPreProcessor(preproc);
+        oper.setGuard(preproc);
 
         verifyRun("testStartOperationWithPreprocessor_testStartPreprocessor", 1, 1, PolicyResult.SUCCESS);
 
@@ -263,7 +266,7 @@ public class OperatorPartialTest {
      */
     @Test
     public void testStartPreprocessorFailure() {
-        oper.setPreProcessor(CompletableFuture.completedFuture(makeFailure()));
+        oper.setGuard(CompletableFuture.completedFuture(makeFailure()));
 
         verifyRun("testStartPreprocessorFailure", 1, 0, PolicyResult.FAILURE_GUARD);
     }
@@ -274,7 +277,7 @@ public class OperatorPartialTest {
     @Test
     public void testStartPreprocessorException() {
         // arrange for the preprocessor to throw an exception
-        oper.setPreProcessor(CompletableFuture.failedFuture(new IllegalStateException(EXPECTED_EXCEPTION)));
+        oper.setGuard(CompletableFuture.failedFuture(new IllegalStateException(EXPECTED_EXCEPTION)));
 
         verifyRun("testStartPreprocessorException", 1, 0, PolicyResult.FAILURE_GUARD);
     }
@@ -285,7 +288,7 @@ public class OperatorPartialTest {
     @Test
     public void testStartPreprocessorNotRunning() {
         // arrange for the preprocessor to return success, which will be ignored
-        oper.setPreProcessor(CompletableFuture.completedFuture(makeSuccess()));
+        oper.setGuard(CompletableFuture.completedFuture(makeSuccess()));
 
         oper.startOperation(params).cancel(false);
         assertTrue(executor.runAll());
@@ -322,6 +325,11 @@ public class OperatorPartialTest {
     @Test
     public void testStartPreprocessorAsync() {
         assertNull(oper.startPreprocessorAsync(params));
+    }
+
+    @Test
+    public void testStartGuardAsync() {
+        assertNull(oper.startGuardAsync(params));
     }
 
     @Test
@@ -410,7 +418,7 @@ public class OperatorPartialTest {
         // trigger timeout very quickly
         oper = new MyOper() {
             @Override
-            protected long getTimeOutMillis(Integer timeoutSec) {
+            protected long getTimeOutMs(Integer timeoutSec) {
                 return 1;
             }
 
@@ -453,7 +461,7 @@ public class OperatorPartialTest {
         // trigger timeout very quickly
         oper = new MyOper() {
             @Override
-            protected long getTimeOutMillis(Integer timeoutSec) {
+            protected long getTimeOutMs(Integer timeoutSec) {
                 return 10;
             }
 
@@ -572,6 +580,36 @@ public class OperatorPartialTest {
     }
 
     @Test
+    public void testSleep() throws Exception {
+        CompletableFuture<Void> future = oper.sleep(-1, TimeUnit.SECONDS);
+        assertTrue(future.isDone());
+        assertNull(future.get());
+
+        // edge case
+        future = oper.sleep(0, TimeUnit.SECONDS);
+        assertTrue(future.isDone());
+        assertNull(future.get());
+
+        /*
+         * Start a second sleep we can use to check the first while it's running.
+         */
+        tstart = Instant.now();
+        future = oper.sleep(100, TimeUnit.MILLISECONDS);
+
+        CompletableFuture<Void> future2 = oper.sleep(10, TimeUnit.MILLISECONDS);
+
+        // wait for second to complete and verify that the first has not completed
+        future2.get();
+        assertFalse(future.isDone());
+
+        // wait for second to complete
+        future.get();
+
+        long diff = Instant.now().toEpochMilli() - tstart.toEpochMilli();
+        assertTrue(diff >= 99);
+    }
+
+    @Test
     public void testIsSameOperation() {
         assertFalse(oper.isSameOperation(null));
 
@@ -599,7 +637,7 @@ public class OperatorPartialTest {
      */
     @Test
     public void testHandlePreprocessorFailureTrue() {
-        oper.setPreProcessor(CompletableFuture.completedFuture(makeSuccess()));
+        oper.setGuard(CompletableFuture.completedFuture(makeSuccess()));
         verifyRun("testHandlePreprocessorFailureTrue", 1, 1, PolicyResult.SUCCESS);
     }
 
@@ -608,7 +646,7 @@ public class OperatorPartialTest {
      */
     @Test
     public void testHandlePreprocessorFailureFalse() throws Exception {
-        oper.setPreProcessor(CompletableFuture.completedFuture(makeFailure()));
+        oper.setGuard(CompletableFuture.completedFuture(makeFailure()));
         verifyRun("testHandlePreprocessorFailureFalse", 1, 0, PolicyResult.FAILURE_GUARD);
     }
 
@@ -618,7 +656,7 @@ public class OperatorPartialTest {
     @Test
     public void testHandlePreprocessorFailureNull() throws Exception {
         // arrange to return null from the preprocessor
-        oper.setPreProcessor(CompletableFuture.completedFuture(null));
+        oper.setGuard(CompletableFuture.completedFuture(null));
 
         verifyRun("testHandlePreprocessorFailureNull", 1, 0, PolicyResult.FAILURE_GUARD);
     }
@@ -687,6 +725,26 @@ public class OperatorPartialTest {
     }
 
     /**
+     * Tests both flavors of anyOf(), for edge cases: zero items, and one item.
+     */
+    @Test
+    @SuppressWarnings("unchecked")
+    public void testAnyOfEdge() throws Exception {
+        List<CompletableFuture<OperationOutcome>> tasks = new LinkedList<>();
+
+        // zero items: check both using a list and using an array
+        assertThatIllegalArgumentException().isThrownBy(() -> oper.anyOf(params, tasks));
+        assertThatIllegalArgumentException().isThrownBy(() -> oper.anyOf(params));
+
+        // one item: : check both using a list and using an array
+        CompletableFuture<OperationOutcome> future1 = new CompletableFuture<>();
+        tasks.add(future1);
+
+        assertSame(future1, oper.anyOf(params, tasks));
+        assertSame(future1, oper.anyOf(params, future1));
+    }
+
+    /**
      * Tests both flavors of allOf(), because one invokes the other.
      */
     @Test
@@ -722,6 +780,26 @@ public class OperatorPartialTest {
         assertTrue(executor.runAll());
         assertTrue(result.isDone());
         assertSame(outcome, result.get());
+    }
+
+    /**
+     * Tests both flavors of allOf(), for edge cases: zero items, and one item.
+     */
+    @Test
+    @SuppressWarnings("unchecked")
+    public void testAllOfEdge() throws Exception {
+        List<CompletableFuture<OperationOutcome>> tasks = new LinkedList<>();
+
+        // zero items: check both using a list and using an array
+        assertThatIllegalArgumentException().isThrownBy(() -> oper.allOf(params, tasks));
+        assertThatIllegalArgumentException().isThrownBy(() -> oper.allOf(params));
+
+        // one item: : check both using a list and using an array
+        CompletableFuture<OperationOutcome> future1 = new CompletableFuture<>();
+        tasks.add(future1);
+
+        assertSame(future1, oper.allOf(params, tasks));
+        assertSame(future1, oper.allOf(params, future1));
     }
 
     @Test
@@ -788,7 +866,7 @@ public class OperatorPartialTest {
     }
 
     @Test
-    public void testDetmPriority() {
+    public void testDetmPriority() throws CoderException {
         assertEquals(1, oper.detmPriority(null));
 
         OperationOutcome outcome = params.makeOutcome();
@@ -801,6 +879,13 @@ public class OperatorPartialTest {
             outcome.setResult(ent.getKey());
             assertEquals(ent.getKey().toString(), ent.getValue().intValue(), oper.detmPriority(outcome));
         }
+
+        /*
+         * Test null result. We can't actually set it to null, because the set() method
+         * won't allow it. Instead, we decode it from a structure.
+         */
+        outcome = new StandardCoder().decode("{\"result\":null}", OperationOutcome.class);
+        assertEquals(1, oper.detmPriority(outcome));
     }
 
     /**
@@ -1102,11 +1187,24 @@ public class OperatorPartialTest {
     }
 
     @Test
-    public void testGetTimeOutMillis() {
-        assertEquals(TIMEOUT * 1000, oper.getTimeOutMillis(params.getTimeoutSec()));
+    public void testGetRetry() {
+        assertEquals(0, oper.getRetry(null));
+        assertEquals(10, oper.getRetry(10));
+    }
+
+    @Test
+    public void testGetRetryWait() {
+        // need an operator that doesn't override the retry time
+        OperatorPartial oper2 = new OperatorPartial(ACTOR, OPERATOR) {};
+        assertEquals(OperatorPartial.DEFAULT_RETRY_WAIT_MS, oper2.getRetryWaitMs());
+    }
+
+    @Test
+    public void testGetTimeOutMs() {
+        assertEquals(TIMEOUT * 1000, oper.getTimeOutMs(params.getTimeoutSec()));
 
         params = params.toBuilder().timeoutSec(null).build();
-        assertEquals(0, oper.getTimeOutMillis(params.getTimeoutSec()));
+        assertEquals(0, oper.getTimeOutMs(params.getTimeoutSec()));
     }
 
     private void starter(OperationOutcome oper) {
@@ -1221,7 +1319,8 @@ public class OperatorPartialTest {
         private int maxFailures = 0;
 
         @Setter
-        private CompletableFuture<OperationOutcome> preProcessor;
+        private CompletableFuture<OperationOutcome> guard;
+
 
         public MyOper() {
             super(ACTOR, OPERATOR);
@@ -1247,13 +1346,22 @@ public class OperatorPartialTest {
         }
 
         @Override
-        protected CompletableFuture<OperationOutcome> startPreprocessorAsync(ControlLoopOperationParams params) {
-            return (preProcessor != null ? preProcessor : super.startPreprocessorAsync(params));
+        protected CompletableFuture<OperationOutcome> startGuardAsync(ControlLoopOperationParams params) {
+            return (guard != null ? guard : super.startGuardAsync(params));
         }
 
         @Override
         protected Executor getBlockingExecutor() {
             return executor;
+        }
+
+        @Override
+        protected long getRetryWaitMs() {
+            /*
+             * Sleep timers run in the background, but we want to control things via the
+             * "executor", thus we avoid sleep timers altogether by simply returning 0.
+             */
+            return 0L;
         }
     }
 

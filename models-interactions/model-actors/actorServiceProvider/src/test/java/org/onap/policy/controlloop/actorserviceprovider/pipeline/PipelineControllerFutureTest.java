@@ -424,7 +424,7 @@ public class PipelineControllerFutureTest {
     }
 
     /**
-     * Tests add(Function) when the controller is canceled after the future is added.
+     * Tests wrap(Function) when the controller is canceled after the future is added.
      */
     @Test
     public void testWrapFunctionCancel() throws Exception {
@@ -442,7 +442,7 @@ public class PipelineControllerFutureTest {
     }
 
     /**
-     * Tests add(Function) when the controller is not running.
+     * Tests wrap(Function) when the controller is not running.
      */
     @Test
     public void testWrapFunctionNotRunning() {

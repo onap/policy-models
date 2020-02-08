@@ -22,26 +22,70 @@ package org.onap.policy.controlloop.actor.sdnc;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.Map;
-import java.util.TreeMap;
-import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
-import org.onap.policy.controlloop.VirtualControlLoopEvent;
-import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
+import org.onap.policy.controlloop.actor.test.BasicOperator;
+import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.policy.PolicyResult;
+import org.onap.policy.sdnc.SdncRequest;
+import org.onap.policy.sdnc.SdncResponse;
+import org.onap.policy.sdnc.SdncResponseOutput;
+import org.powermock.reflect.Whitebox;
 
 /**
  * Superclass for various operator tests.
  */
-public abstract class BasicOperator {
-    protected static final UUID REQ_ID = UUID.randomUUID();
-    protected static final String ACTOR = "my-actor";
+public abstract class BasicSdncOperator extends BasicOperator<SdncRequest> {
 
-    protected Map<String, String> enrichment;
-    protected VirtualControlLoopEvent event;
-    protected ControlLoopEventContext context;
+    protected SdncResponse response;
+
+    /**
+     * Initializes mocks and sets up.
+     */
+    public void setUp() throws Exception {
+        super.setUp();
+
+        response = new SdncResponse();
+
+        SdncResponseOutput output = new SdncResponseOutput();
+        response.setResponseOutput(output);
+        output.setResponseCode("200");
+
+        when(rawResponse.readEntity(String.class)).thenReturn(new StandardCoder().encode(response));
+    }
+
+    /**
+     * Runs the operation and verifies that the response is successful.
+     *
+     * @param operator operation to run
+     * @return the request that was posted
+     */
+    protected SdncRequest verifyOperation(SdncOperator operator)
+                    throws InterruptedException, ExecutionException, TimeoutException {
+
+        operator = configure(operator);
+
+        CompletableFuture<OperationOutcome> future2 = operator.startOperationAsync(params, 1, outcome);
+        assertFalse(future2.isDone());
+
+        verify(client).post(callbackCaptor.capture(), any(), requestCaptor.capture(), any());
+        callbackCaptor.getValue().completed(rawResponse);
+
+        assertEquals(PolicyResult.SUCCESS, future2.get(5, TimeUnit.SECONDS).getResult());
+
+        return requestCaptor.getValue().getEntity();
+    }
 
     /**
      * Pretty-prints a request and verifies that the result matches the expected JSON.
@@ -75,19 +119,8 @@ public abstract class BasicOperator {
         makeContext();
         enrichment.remove(fieldName);
 
-        assertThatIllegalArgumentException().isThrownBy(() -> oper.constructRequest(context))
+        assertThatIllegalArgumentException().isThrownBy(() -> Whitebox.invokeMethod(oper, "makeRequest", params, 1))
                         .withMessageContaining("missing").withMessageContaining(expectedText);
-    }
-
-    protected void makeContext() {
-        // need a mutable map, so make a copy
-        enrichment = new TreeMap<>(makeEnrichment());
-
-        event = new VirtualControlLoopEvent();
-        event.setRequestId(REQ_ID);
-        event.setAai(enrichment);
-
-        context = new ControlLoopEventContext(event);
     }
 
     protected abstract Map<String, String> makeEnrichment();

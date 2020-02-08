@@ -23,6 +23,7 @@ package org.onap.policy.controlloop.actor.sdnc;
 import java.util.UUID;
 import org.apache.commons.lang3.StringUtils;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.sdnc.SdncHealRequest;
 import org.onap.policy.sdnc.SdncHealRequestHeaderInfo;
 import org.onap.policy.sdnc.SdncHealRequestInfo;
@@ -53,7 +54,9 @@ public class BandwidthOnDemandOperator extends SdncOperator {
     }
 
     @Override
-    protected SdncRequest constructRequest(ControlLoopEventContext context) {
+    protected SdncRequest makeRequest(ControlLoopOperationParams params, int attempt) {
+        ControlLoopEventContext context = params.getContext();
+
         String serviceInstance = context.getEnrichment().get(SERVICE_ID_KEY);
         if (StringUtils.isBlank(serviceInstance)) {
             throw new IllegalArgumentException("missing enrichment data, " + SERVICE_ID_KEY);

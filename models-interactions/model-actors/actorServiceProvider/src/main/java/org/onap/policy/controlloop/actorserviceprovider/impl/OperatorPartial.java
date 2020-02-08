@@ -58,9 +58,11 @@ import org.slf4j.LoggerFactory;
  * {@link #doOperation(ControlLoopOperationParams, int, OperationOutcome) doOperation()},
  * then there's little that can be done to cancel that particular operation.
  */
-public abstract class OperatorPartial extends StartConfigPartial<Map<String, Object>> implements Operator {
+public abstract class OperatorPartial extends StartConfigPartial<Map<String, Object>>
+                implements Operator {
 
     private static final Logger logger = LoggerFactory.getLogger(OperatorPartial.class);
+    public static final long DEFAULT_RETRY_WAIT_MS = 1000L;
 
     /**
      * Executor to be used for tasks that may perform blocking I/O. The default executor
@@ -152,7 +154,8 @@ public abstract class OperatorPartial extends StartConfigPartial<Map<String, Obj
         controller.wrap(preproc)
                         .exceptionally(fromException(params, "preprocessor of operation"))
                         .thenCompose(handlePreprocessorFailure(params, controller))
-                        .thenCompose(unusedOutcome -> startOperationAttempt(params, controller, 1));
+                        .thenCompose(unusedOutcome -> startOperationAttempt(params, controller, 1))
+                        .whenCompleteAsync(controller.delayedComplete(), params.getExecutor());
         // @formatter:on
 
         return controller;
@@ -177,7 +180,7 @@ public abstract class OperatorPartial extends StartConfigPartial<Map<String, Obj
         return outcome -> {
 
             if (outcome != null && isSuccess(outcome)) {
-                logger.trace("{}: preprocessor succeeded for {}", getFullName(), params.getRequestId());
+                logger.info("{}: preprocessor succeeded for {}", getFullName(), params.getRequestId());
                 return CompletableFuture.completedFuture(outcome);
             }
 
@@ -209,7 +212,7 @@ public abstract class OperatorPartial extends StartConfigPartial<Map<String, Obj
 
     /**
      * Invokes the operation's preprocessor step(s) as a "future". This method simply
-     * returns {@code null}.
+     * invokes {@link #startGuardAsync(ControlLoopOperationParams)}.
      * <p/>
      * This method assumes the following:
      * <ul>
@@ -222,6 +225,24 @@ public abstract class OperatorPartial extends StartConfigPartial<Map<String, Obj
      *         {@code null} if this operation needs no preprocessor
      */
     protected CompletableFuture<OperationOutcome> startPreprocessorAsync(ControlLoopOperationParams params) {
+        return startGuardAsync(params);
+    }
+
+    /**
+     * Invokes the operation's guard step(s) as a "future". This method simply returns
+     * {@code null}.
+     * <p/>
+     * This method assumes the following:
+     * <ul>
+     * <li>the operator is alive</li>
+     * <li>exceptions generated within the pipeline will be handled by the invoker</li>
+     * </ul>
+     *
+     * @param params operation parameters
+     * @return a function that will start the guard checks and returns its outcome, or
+     *         {@code null} if this operation has no guard
+     */
+    protected CompletableFuture<OperationOutcome> startGuardAsync(ControlLoopOperationParams params) {
         return null;
     }
 
@@ -239,7 +260,8 @@ public abstract class OperatorPartial extends StartConfigPartial<Map<String, Obj
 
         // propagate "stop" to the operation attempt
         controller.wrap(startAttemptWithoutRetries(params, attempt))
-                        .thenCompose(retryOnFailure(params, controller, attempt));
+                        .thenCompose(retryOnFailure(params, controller, attempt))
+                        .whenCompleteAsync(controller.delayedComplete(), params.getExecutor());
 
         return controller;
     }
@@ -273,7 +295,7 @@ public abstract class OperatorPartial extends StartConfigPartial<Map<String, Obj
         // @formatter:on
 
         // handle timeouts, if specified
-        long timeoutMillis = getTimeOutMillis(params.getTimeoutSec());
+        long timeoutMillis = getTimeOutMs(params.getTimeoutSec());
         if (timeoutMillis > 0) {
             logger.info("{}: set timeout to {}ms for {}", getFullName(), timeoutMillis, params.getRequestId());
             future = future.orTimeout(timeoutMillis, TimeUnit.MILLISECONDS);
@@ -403,8 +425,8 @@ public abstract class OperatorPartial extends StartConfigPartial<Map<String, Obj
                 oper2.setResult(PolicyResult.FAILURE);
             }
 
-            Integer retry = params.getRetry();
-            if (retry != null && retry > 0 && attempt > retry) {
+            int retry = getRetry(params.getRetry());
+            if (retry > 0 && attempt > retry) {
                 /*
                  * retries were specified and we've already tried them all - change to
                  * FAILURE_RETRIES
@@ -434,27 +456,42 @@ public abstract class OperatorPartial extends StartConfigPartial<Map<String, Obj
         return operation -> {
             if (!isActorFailed(operation)) {
                 // wrong type or wrong operation - just leave it as is
-                logger.trace("not retrying operation {} for {}", getFullName(), params.getRequestId());
+                logger.info("not retrying operation {} for {}", getFullName(), params.getRequestId());
                 controller.complete(operation);
                 return new CompletableFuture<>();
             }
 
-            Integer retry = params.getRetry();
-            if (retry == null || retry <= 0) {
+            if (getRetry(params.getRetry()) <= 0) {
                 // no retries - already marked as FAILURE, so just return it
                 logger.info("operation {} no retries for {}", getFullName(), params.getRequestId());
                 controller.complete(operation);
                 return new CompletableFuture<>();
             }
 
-
             /*
              * Retry the operation.
              */
-            logger.info("retry operation {} for {}", getFullName(), params.getRequestId());
+            long waitMs = getRetryWaitMs();
+            logger.info("retry operation {} in {}ms for {}", getFullName(), waitMs, params.getRequestId());
 
-            return startOperationAttempt(params, controller, attempt + 1);
+            return sleep(waitMs, TimeUnit.MILLISECONDS)
+                            .thenCompose(unused -> startOperationAttempt(params, controller, attempt + 1));
         };
+    }
+
+    /**
+     * Convenience method that starts a sleep(), running via a future.
+     *
+     * @param sleepTime time to sleep
+     * @param unit time unit
+     * @return a future that will complete when the sleep completes
+     */
+    protected CompletableFuture<Void> sleep(long sleepTime, TimeUnit unit) {
+        if (sleepTime <= 0) {
+            return CompletableFuture.completedFuture(null);
+        }
+
+        return new CompletableFuture<Void>().completeOnTimeout(null, sleepTime, unit);
     }
 
     /**
@@ -510,6 +547,10 @@ public abstract class OperatorPartial extends StartConfigPartial<Map<String, Obj
     protected CompletableFuture<OperationOutcome> anyOf(ControlLoopOperationParams params,
                     @SuppressWarnings("unchecked") CompletableFuture<OperationOutcome>... futures) {
 
+        if (futures.length == 1) {
+            return futures[0];
+        }
+
         final Executor executor = params.getExecutor();
         final PipelineControllerFuture<OperationOutcome> controller = new PipelineControllerFuture<>();
 
@@ -559,6 +600,10 @@ public abstract class OperatorPartial extends StartConfigPartial<Map<String, Obj
     protected CompletableFuture<OperationOutcome> allOf(ControlLoopOperationParams params,
                     @SuppressWarnings("unchecked") CompletableFuture<OperationOutcome>... futures) {
 
+        if (futures.length == 1) {
+            return futures[0];
+        }
+
         final PipelineControllerFuture<OperationOutcome> controller = new PipelineControllerFuture<>();
 
         attachFutures(controller, futures);
@@ -574,7 +619,11 @@ public abstract class OperatorPartial extends StartConfigPartial<Map<String, Obj
             futures2[count] = futures[count].whenComplete((outcome2, thrown) -> outcomes[count2] = outcome2);
         }
 
-        CompletableFuture.allOf(futures2).whenComplete(combineOutcomes(params, controller, outcomes));
+        // @formatter:off
+        CompletableFuture.allOf(futures2)
+                        .thenApply(unused -> combineOutcomes(params, outcomes))
+                        .whenCompleteAsync(controller.delayedComplete(), params.getExecutor());
+        // @formatter:on
 
         return controller;
     }
@@ -588,6 +637,10 @@ public abstract class OperatorPartial extends StartConfigPartial<Map<String, Obj
     private void attachFutures(PipelineControllerFuture<OperationOutcome> controller,
                     @SuppressWarnings("unchecked") CompletableFuture<OperationOutcome>... futures) {
 
+        if (futures.length == 0) {
+            throw new IllegalArgumentException("empty list of futures");
+        }
+
         // attach each task
         for (CompletableFuture<OperationOutcome> future : futures) {
             controller.add(future);
@@ -598,38 +651,30 @@ public abstract class OperatorPartial extends StartConfigPartial<Map<String, Obj
      * Combines the outcomes from a set of tasks.
      *
      * @param params operation parameters
-     * @param future future to be completed with the combined result
      * @param outcomes outcomes to be examined
+     * @return the combined outcome
      */
-    private BiConsumer<Void, Throwable> combineOutcomes(ControlLoopOperationParams params,
-                    CompletableFuture<OperationOutcome> future, OperationOutcome[] outcomes) {
+    private OperationOutcome combineOutcomes(ControlLoopOperationParams params, OperationOutcome[] outcomes) {
 
-        return (unused, thrown) -> {
-            if (thrown != null) {
-                future.completeExceptionally(thrown);
-                return;
+        // identify the outcome with the highest priority
+        OperationOutcome outcome = outcomes[0];
+        int priority = detmPriority(outcome);
+
+        // start with "1", as we've already dealt with "0"
+        for (int count = 1; count < outcomes.length; ++count) {
+            OperationOutcome outcome2 = outcomes[count];
+            int priority2 = detmPriority(outcome2);
+
+            if (priority2 > priority) {
+                outcome = outcome2;
+                priority = priority2;
             }
+        }
 
-            // identify the outcome with the highest priority
-            OperationOutcome outcome = outcomes[0];
-            int priority = detmPriority(outcome);
+        logger.info("{}: combined outcome of tasks is {} for {}", getFullName(),
+                        (outcome == null ? null : outcome.getResult()), params.getRequestId());
 
-            // start with "1", as we've already dealt with "0"
-            for (int count = 1; count < outcomes.length; ++count) {
-                OperationOutcome outcome2 = outcomes[count];
-                int priority2 = detmPriority(outcome2);
-
-                if (priority2 > priority) {
-                    outcome = outcome2;
-                    priority = priority2;
-                }
-            }
-
-            logger.trace("{}: combined outcome of tasks is {} for {}", getFullName(),
-                            (outcome == null ? null : outcome.getResult()), params.getRequestId());
-
-            future.complete(outcome);
-        };
+        return outcome;
     }
 
     /**
@@ -639,7 +684,7 @@ public abstract class OperatorPartial extends StartConfigPartial<Map<String, Obj
      * @return the outcome's priority
      */
     protected int detmPriority(OperationOutcome outcome) {
-        if (outcome == null) {
+        if (outcome == null || outcome.getResult() == null) {
             return 1;
         }
 
@@ -806,7 +851,7 @@ public abstract class OperatorPartial extends StartConfigPartial<Map<String, Obj
      * @param result result of the operation
      * @return the updated operation
      */
-    protected OperationOutcome setOutcome(ControlLoopOperationParams params, OperationOutcome operation,
+    public OperationOutcome setOutcome(ControlLoopOperationParams params, OperationOutcome operation,
                     PolicyResult result) {
         logger.trace("{}: set outcome {} for {}", getFullName(), result, params.getRequestId());
         operation.setResult(result);
@@ -830,16 +875,36 @@ public abstract class OperatorPartial extends StartConfigPartial<Map<String, Obj
         return (thrown instanceof TimeoutException);
     }
 
-    // these may be overridden by junit tests
+    // these may be overridden by subclasses or junit tests
 
     /**
-     * Gets the operation timeout. Subclasses may override this method to obtain the
-     * timeout in some other way (e.g., through configuration properties).
+     * Gets the retry count.
      *
-     * @param timeoutSec timeout, in seconds, or {@code null}
-     * @return the operation timeout, in milliseconds
+     * @param retry retry, extracted from the parameters, or {@code null}
+     * @return the number of retries, or {@code 0} if no retries were specified
      */
-    protected long getTimeOutMillis(Integer timeoutSec) {
+    protected int getRetry(Integer retry) {
+        return (retry == null ? 0 : retry);
+    }
+
+    /**
+     * Gets the retry wait, in milliseconds.
+     *
+     * @return the retry wait, in milliseconds
+     */
+    protected long getRetryWaitMs() {
+        return DEFAULT_RETRY_WAIT_MS;
+    }
+
+    /**
+     * Gets the operation timeout.
+     *
+     * @param timeoutSec timeout, in seconds, extracted from the parameters, or
+     *        {@code null}
+     * @return the operation timeout, in milliseconds, or {@code 0} if no timeout was
+     *         specified
+     */
+    protected long getTimeOutMs(Integer timeoutSec) {
         return (timeoutSec == null ? 0 : TimeUnit.MILLISECONDS.convert(timeoutSec, TimeUnit.SECONDS));
     }
 }

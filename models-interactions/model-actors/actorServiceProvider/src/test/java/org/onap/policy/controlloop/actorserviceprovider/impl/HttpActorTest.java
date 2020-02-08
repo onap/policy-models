@@ -38,7 +38,7 @@ public class HttpActorTest {
     private static final String ACTOR = "my-actor";
     private static final String UNKNOWN = "unknown";
     private static final String CLIENT = "my-client";
-    private static final long TIMEOUT = 10L;
+    private static final int TIMEOUT = 10;
 
     private HttpActor actor;
 
