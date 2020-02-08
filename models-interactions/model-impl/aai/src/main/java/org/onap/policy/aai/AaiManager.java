@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * aai
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * Modifications Copyright (C) 2019 Samsung Electronics Co., Ltd.
  * ================================================================================
@@ -46,6 +46,8 @@ import org.slf4j.LoggerFactory;
  * This class handles communication towards and responses from A&AI for this module.
  */
 public final class AaiManager {
+
+    // TODO remove this class
 
     /** The Constant logger. */
     private static final Logger logger = LoggerFactory.getLogger(AaiManager.class);

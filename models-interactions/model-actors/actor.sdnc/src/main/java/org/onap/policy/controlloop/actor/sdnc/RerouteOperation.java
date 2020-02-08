@@ -23,6 +23,8 @@ package org.onap.policy.controlloop.actor.sdnc;
 import java.util.UUID;
 import org.apache.commons.lang3.StringUtils;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
+import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperator;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.sdnc.SdncHealNetworkInfo;
 import org.onap.policy.sdnc.SdncHealRequest;
 import org.onap.policy.sdnc.SdncHealRequestHeaderInfo;
@@ -30,7 +32,7 @@ import org.onap.policy.sdnc.SdncHealRequestInfo;
 import org.onap.policy.sdnc.SdncHealServiceInfo;
 import org.onap.policy.sdnc.SdncRequest;
 
-public class RerouteOperator extends SdncOperator {
+public class RerouteOperation extends SdncOperation {
     public static final String NAME = "Reroute";
 
     public static final String URI = "/GENERIC-RESOURCE-API:network-topology-operation";
@@ -42,14 +44,17 @@ public class RerouteOperator extends SdncOperator {
     /**
      * Constructs the object.
      *
-     * @param actorName name of the actor with which this operator is associated
+     * @param params operation parameters
+     * @param operator operator that created this operation
      */
-    public RerouteOperator(String actorName) {
-        super(actorName, NAME);
+    public RerouteOperation(ControlLoopOperationParams params, HttpOperator operator) {
+        super(params, operator);
     }
 
     @Override
-    protected SdncRequest constructRequest(ControlLoopEventContext context) {
+    protected SdncRequest makeRequest(int attempt) {
+        ControlLoopEventContext context = params.getContext();
+
         String serviceInstance = context.getEnrichment().get(SERVICE_ID_KEY);
         if (StringUtils.isBlank(serviceInstance)) {
             throw new IllegalArgumentException("missing enrichment data, " + SERVICE_ID_KEY);

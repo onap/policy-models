@@ -148,7 +148,8 @@ public class ControlLoopOperationParams {
         return actorService
                     .getActor(getActor())
                     .getOperator(getOperation())
-                    .startOperation(this);
+                    .buildOperation(this)
+                    .start();
         // @formatter:on
     }
 

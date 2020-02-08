@@ -23,12 +23,15 @@ package org.onap.policy.controlloop.actorserviceprovider.controlloop;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
+import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 
 /**
  * Context associated with a control loop event.
@@ -47,9 +50,21 @@ public class ControlLoopEventContext implements Serializable {
      */
     private final Map<String, String> enrichment;
 
+    /**
+     * Set of properties that have been stored in the context.
+     */
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     private Map<String, Serializable> properties = new ConcurrentHashMap<>();
+
+    /**
+     * When {@link #obtain(String, ControlLoopOperationParams)} is invoked and the
+     * specified property is not found in {@link #properties}, it is retrieved. This holds
+     * the futures for the operations retrieving the properties.
+     */
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
+    private transient Map<String, CompletableFuture<OperationOutcome>> retrievers = new ConcurrentHashMap<>();
 
     /**
      * Request ID extracted from the event, or a generated value if the event has no
@@ -99,5 +114,35 @@ public class ControlLoopEventContext implements Serializable {
      */
     public void setProperty(String name, Serializable value) {
         properties.put(name, value);
+    }
+
+    /**
+     * Obtains the given property.
+     *
+     * @param name name of the desired property
+     * @param params parameters needed to perform the operation to retrieve the desired
+     *        property
+     * @return a future for retrieving the property, {@code null} if the property has
+     *         already been retrieved
+     */
+    public CompletableFuture<OperationOutcome> obtain(String name, ControlLoopOperationParams params) {
+        if (properties.containsKey(name)) {
+            return null;
+        }
+
+        CompletableFuture<OperationOutcome> future = retrievers.get(name);
+        if (future != null) {
+            return future;
+        }
+
+        future = params.start();
+
+        CompletableFuture<OperationOutcome> oldFuture = retrievers.putIfAbsent(name, future);
+        if (oldFuture != null) {
+            future.cancel(false);
+            return oldFuture;
+        }
+
+        return future;
     }
 }

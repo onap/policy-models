@@ -42,7 +42,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.common.parameters.ObjectValidationResult;
 import org.onap.policy.common.parameters.ValidationStatus;
+import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.Operator;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ParameterValidationRuntimeException;
 
 public class ActorImplTest {
@@ -375,10 +377,15 @@ public class ActorImplTest {
         return actor;
     }
 
-    private static class MyOper extends OperatorPartial implements Operator {
+    private static class MyOper extends OperatorPartial {
 
         public MyOper(String name) {
             super(ACTOR_NAME, name);
+        }
+
+        @Override
+        public Operation buildOperation(ControlLoopOperationParams params) {
+            return null;
         }
     }
 }

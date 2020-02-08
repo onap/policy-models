@@ -23,6 +23,8 @@ package org.onap.policy.aai.util;
 
 public class AaiException extends Exception {
 
+    // TODO remove this class
+
     private static final long serialVersionUID = 9220983727706207465L;
 
     public AaiException() {
