@@ -30,6 +30,7 @@ import java.util.UUID;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpActor;
+import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperator;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.sdnc.SdncHealNetworkInfo;
 import org.onap.policy.sdnc.SdncHealRequest;
@@ -76,8 +77,11 @@ public class SdncActorServiceProvider extends HttpActor {
     public SdncActorServiceProvider() {
         super(NAME);
 
-        addOperator(new RerouteOperator(NAME));
-        addOperator(new BandwidthOnDemandOperator(NAME));
+        addOperator(HttpOperator.makeOperator(NAME, RerouteOperation.NAME,
+                        RerouteOperation::new));
+
+        addOperator(HttpOperator.makeOperator(NAME, BandwidthOnDemandOperation.NAME,
+                        BandwidthOnDemandOperation::new));
     }
 
 

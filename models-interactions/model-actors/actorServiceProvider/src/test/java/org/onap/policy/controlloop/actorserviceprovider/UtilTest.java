@@ -39,16 +39,10 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.onap.policy.common.utils.coder.CoderException;
-import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.test.log.logback.ExtractAppender;
 import org.slf4j.LoggerFactory;
 
 public class UtilTest {
-    private static final String MY_REQUEST = "my-request";
-    private static final String URL = "my-url";
-    private static final String OUT_URL = "OUT|REST|my-url";
-    private static final String IN_URL = "IN|REST|my-url";
     protected static final String EXPECTED_EXCEPTION = "expected exception";
 
     /**
@@ -86,82 +80,6 @@ public class UtilTest {
         assertNotEquals(object.toString(), result);
         assertThat(result).startsWith("@");
         assertTrue(result.length() > 1);
-    }
-
-    @Test
-    public void testLogRestRequest() throws CoderException {
-        // log structured data
-        appender.clearExtractions();
-        Util.logRestRequest(URL, new Abc(10, null, null));
-        List<String> output = appender.getExtracted();
-        assertEquals(1, output.size());
-
-        assertThat(output.get(0)).contains(OUT_URL).contains("{\n  \"intValue\": 10\n}");
-
-        // log a plain string
-        appender.clearExtractions();
-        Util.logRestRequest(URL, MY_REQUEST);
-        output = appender.getExtracted();
-        assertEquals(1, output.size());
-
-        assertThat(output.get(0)).contains(OUT_URL).contains(MY_REQUEST);
-
-        // exception from coder
-        StandardCoder coder = new StandardCoder() {
-            @Override
-            public String encode(Object object, boolean pretty) throws CoderException {
-                throw new CoderException(EXPECTED_EXCEPTION);
-            }
-        };
-
-        appender.clearExtractions();
-        Util.logRestRequest(coder, URL, new Abc(11, null, null));
-        output = appender.getExtracted();
-        assertEquals(2, output.size());
-        assertThat(output.get(0)).contains("cannot pretty-print request");
-        assertThat(output.get(1)).contains(OUT_URL);
-    }
-
-    @Test
-    public void testLogRestResponse() throws CoderException {
-        // log structured data
-        appender.clearExtractions();
-        Util.logRestResponse(URL, new Abc(10, null, null));
-        List<String> output = appender.getExtracted();
-        assertEquals(1, output.size());
-
-        assertThat(output.get(0)).contains(IN_URL).contains("{\n  \"intValue\": 10\n}");
-
-        // log null response
-        appender.clearExtractions();
-        Util.logRestResponse(URL, null);
-        output = appender.getExtracted();
-        assertEquals(1, output.size());
-
-        assertThat(output.get(0)).contains(IN_URL).contains("null");
-
-        // log a plain string
-        appender.clearExtractions();
-        Util.logRestResponse(URL, MY_REQUEST);
-        output = appender.getExtracted();
-        assertEquals(1, output.size());
-
-        assertThat(output.get(0)).contains(IN_URL).contains(MY_REQUEST);
-
-        // exception from coder
-        StandardCoder coder = new StandardCoder() {
-            @Override
-            public String encode(Object object, boolean pretty) throws CoderException {
-                throw new CoderException(EXPECTED_EXCEPTION);
-            }
-        };
-
-        appender.clearExtractions();
-        Util.logRestResponse(coder, URL, new Abc(11, null, null));
-        output = appender.getExtracted();
-        assertEquals(2, output.size());
-        assertThat(output.get(0)).contains("cannot pretty-print response");
-        assertThat(output.get(1)).contains(IN_URL);
     }
 
     @Test

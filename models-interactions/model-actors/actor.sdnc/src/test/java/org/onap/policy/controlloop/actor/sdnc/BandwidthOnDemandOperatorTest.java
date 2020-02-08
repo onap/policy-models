@@ -26,45 +26,51 @@ import static org.junit.Assert.assertNotNull;
 import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
-import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.sdnc.SdncRequest;
 
-public class BandwidthOnDemandOperatorTest extends BasicOperator {
+public class BandwidthOnDemandOperatorTest extends BasicSdncOperator {
 
-    private BandwidthOnDemandOperator oper;
+    private BandwidthOnDemandOperation oper;
 
+    public BandwidthOnDemandOperatorTest() {
+        super(DEFAULT_ACTOR, BandwidthOnDemandOperation.NAME);
+    }
 
     /**
      * Set up.
      */
     @Before
-    public void setUp() {
-        makeContext();
-        oper = new BandwidthOnDemandOperator(ACTOR);
+    public void setUp() throws Exception {
+        super.setUp();
+        oper = new BandwidthOnDemandOperation(params, operator);
     }
 
     @Test
     public void testBandwidthOnDemandOperator() {
-        assertEquals(ACTOR, oper.getActorName());
-        assertEquals(BandwidthOnDemandOperator.NAME, oper.getName());
+        assertEquals(DEFAULT_ACTOR, oper.getActorName());
+        assertEquals(BandwidthOnDemandOperation.NAME, oper.getName());
     }
 
     @Test
-    public void testConstructRequest() throws CoderException {
-        SdncRequest request = oper.constructRequest(context);
+    public void testMakeRequest() throws Exception {
+        SdncRequest request = oper.makeRequest(1);
         assertEquals("my-service", request.getNsInstanceId());
         assertEquals(REQ_ID, request.getRequestId());
-        assertEquals(BandwidthOnDemandOperator.URI, request.getUrl());
+        assertEquals(BandwidthOnDemandOperation.URI, request.getUrl());
         assertNotNull(request.getHealRequest().getRequestHeaderInfo().getSvcRequestId());
 
         verifyRequest("bod.json", request);
 
-        verifyMissing(oper, BandwidthOnDemandOperator.SERVICE_ID_KEY, "service");
+        verifyMissing(BandwidthOnDemandOperation.SERVICE_ID_KEY, "service", BandwidthOnDemandOperation::new);
+
+        // perform the operation
+        makeContext();
+        verifyRequest("bod.json", verifyOperation(oper));
     }
 
     @Override
     protected Map<String, String> makeEnrichment() {
-        return Map.of(BandwidthOnDemandOperator.SERVICE_ID_KEY, "my-service", BandwidthOnDemandOperator.VNF_ID,
+        return Map.of(BandwidthOnDemandOperation.SERVICE_ID_KEY, "my-service", BandwidthOnDemandOperation.VNF_ID,
                         "my-vnf");
     }
 }

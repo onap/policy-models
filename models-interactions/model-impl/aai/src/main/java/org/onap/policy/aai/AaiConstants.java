@@ -1,9 +1,8 @@
 /*-
  * ============LICENSE_START=======================================================
- * aai
+ * ONAP
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,18 +18,17 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.aai.util;
+package org.onap.policy.aai;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+/**
+ * Constants used with A&AI classes.
+ */
+public class AaiConstants {
 
-public final class Serialization {
+    public static final String ACTOR_NAME = "AAI";
+    public static final String CONTEXT_PREFIX = ACTOR_NAME + ".";
 
-    // TODO remove this class
-
-    public static final Gson gsonPretty = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
-
-    private Serialization() {
-        // Private constructor to prevent subclassing
+    private AaiConstants() {
+        // do nothing
     }
 }

@@ -53,7 +53,7 @@ public class HttpParams {
      */
     @Min(0)
     @Builder.Default
-    private long timeoutSec = 0;
+    private int timeoutSec = 0;
 
 
     /**

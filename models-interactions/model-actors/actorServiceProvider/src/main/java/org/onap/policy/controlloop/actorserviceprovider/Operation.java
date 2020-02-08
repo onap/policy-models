@@ -20,16 +20,13 @@
 
 package org.onap.policy.controlloop.actorserviceprovider;
 
-import java.util.Map;
-import org.onap.policy.common.capabilities.Configurable;
-import org.onap.policy.common.capabilities.Startable;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * This is the service interface for defining an Actor operation used in Control Loop
  * Operational Policies for performing actions on runtime entities.
  */
-public interface Operator extends Startable, Configurable<Map<String, Object>> {
+public interface Operation {
 
     /**
      * Gets the name of the associated actor.
@@ -46,10 +43,10 @@ public interface Operator extends Startable, Configurable<Map<String, Object>> {
     String getName();
 
     /**
-     * Called by enforcement PDP engine to build the operation.
+     * Called by enforcement PDP engine to start the operation. As part of the operation,
+     * it invokes the "start" and "complete" call-backs found within the parameters.
      *
-     * @param params parameters needed by the operation
-     * @return a new operation
+     * @return a future that can be used to cancel or await the result of the operation
      */
-    Operation buildOperation(ControlLoopOperationParams params);
+    CompletableFuture<OperationOutcome> start();
 }

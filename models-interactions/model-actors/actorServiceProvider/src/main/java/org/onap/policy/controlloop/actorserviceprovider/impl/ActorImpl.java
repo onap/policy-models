@@ -91,7 +91,7 @@ public class ActorImpl extends StartConfigPartial<Map<String, Object>> implement
     public Operator getOperator(String name) {
         Operator operator = name2operator.get(name);
         if (operator == null) {
-            throw new IllegalArgumentException("unknown operation " + getName() + "." + name);
+            throw new IllegalArgumentException("unknown operator " + getName() + "." + name);
         }
 
         return operator;

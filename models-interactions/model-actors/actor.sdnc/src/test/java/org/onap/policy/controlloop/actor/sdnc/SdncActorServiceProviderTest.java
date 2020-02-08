@@ -41,7 +41,7 @@ import org.onap.policy.sdnc.SdncRequest;
 
 public class SdncActorServiceProviderTest {
 
-    private static final String REROUTE = RerouteOperator.NAME;
+    private static final String REROUTE = RerouteOperation.NAME;
 
     /**
      * Set up before test class.
@@ -63,7 +63,7 @@ public class SdncActorServiceProviderTest {
         final SdncActorServiceProvider prov = new SdncActorServiceProvider();
 
         // verify that it has the operators we expect
-        var expected = Arrays.asList(BandwidthOnDemandOperator.NAME, RerouteOperator.NAME).stream().sorted()
+        var expected = Arrays.asList(BandwidthOnDemandOperation.NAME, RerouteOperation.NAME).stream().sorted()
                         .collect(Collectors.toList());
         var actual = prov.getOperationNames().stream().sorted().collect(Collectors.toList());
 
