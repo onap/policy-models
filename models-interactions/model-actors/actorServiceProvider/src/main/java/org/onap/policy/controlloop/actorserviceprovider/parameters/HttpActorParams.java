@@ -51,7 +51,7 @@ public class HttpActorParams {
      * indicates that it should wait forever. The default is zero.
      */
     @Min(0)
-    private long timeoutSec = 0;
+    private int timeoutSec = 0;
 
     /**
      * Maps the operation name to its URI path.

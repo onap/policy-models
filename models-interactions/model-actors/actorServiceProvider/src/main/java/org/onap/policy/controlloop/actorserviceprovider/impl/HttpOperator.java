@@ -21,31 +21,35 @@
 package org.onap.policy.controlloop.actorserviceprovider.impl;
 
 import java.util.Map;
-import lombok.AccessLevel;
+import java.util.concurrent.TimeUnit;
+import java.util.function.BiFunction;
 import lombok.Getter;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactory;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.parameters.ValidationResult;
+import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ParameterValidationRuntimeException;
 
 /**
- * Operator that uses HTTP. The operator's parameters must be a {@link HttpParams}.
+ * Operator that uses HTTP. The operator's parameters must be an {@link HttpParams}.
  */
-public class HttpOperator extends OperatorPartial {
+@Getter
+public abstract class HttpOperator extends OperatorPartial {
 
-    @Getter(AccessLevel.PROTECTED)
     private HttpClient client;
 
-    @Getter
-    private long timeoutSec;
+    /**
+     * Default timeout, in milliseconds, if none specified in the request.
+     */
+    private long timeoutMs;
 
     /**
-     * URI path for this particular operation.
+     * URI path for this particular operation. Includes a leading "/".
      */
-    @Getter
     private String path;
 
 
@@ -57,6 +61,26 @@ public class HttpOperator extends OperatorPartial {
      */
     public HttpOperator(String actorName, String name) {
         super(actorName, name);
+    }
+
+    /**
+     * Makes an operator that will construct operations.
+     *
+     * @param <T> response type
+     * @param actorName actor name
+     * @param operation operation name
+     * @param operationMaker function to make an operation
+     * @return a new operator
+     */
+    public static <T> HttpOperator makeOperator(String actorName, String operation,
+                    BiFunction<ControlLoopOperationParams, HttpOperator, HttpOperation<T>> operationMaker) {
+
+        return new HttpOperator(actorName, operation) {
+            @Override
+            public Operation buildOperation(ControlLoopOperationParams params) {
+                return operationMaker.apply(params, this);
+            }
+        };
     }
 
     /**
@@ -73,10 +97,10 @@ public class HttpOperator extends OperatorPartial {
 
         client = getClientFactory().get(params.getClientName());
         path = params.getPath();
-        timeoutSec = params.getTimeoutSec();
+        timeoutMs = TimeUnit.MILLISECONDS.convert(params.getTimeoutSec(), TimeUnit.SECONDS);
     }
 
-    // these may be overridden by junits
+    // these may be overridden by junit tests
 
     protected HttpClientFactory getClientFactory() {
         return HttpClientFactoryInstance.getClientFactory();

@@ -23,9 +23,6 @@ package org.onap.policy.controlloop.actorserviceprovider;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
-import org.onap.policy.common.endpoints.utils.NetLoggerUtil;
-import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
@@ -53,82 +50,6 @@ public class Util {
      */
     public static Object ident(Object object) {
         return new DelayedIdentString(object);
-    }
-
-    /**
-     * Logs a REST request. If the request is not of type, String, then it attempts to
-     * pretty-print it into JSON before logging.
-     *
-     * @param url request URL
-     * @param request request to be logged
-     */
-    public static <T> void logRestRequest(String url, T request) {
-        logRestRequest(new StandardCoder(), url, request);
-    }
-
-    /**
-     * Logs a REST request. If the request is not of type, String, then it attempts to
-     * pretty-print it into JSON before logging.
-     *
-     * @param coder coder to be used to pretty-print the request
-     * @param url request URL
-     * @param request request to be logged
-     */
-    protected static <T> void logRestRequest(Coder coder, String url, T request) {
-        String json;
-        try {
-            if (request instanceof String) {
-                json = request.toString();
-            } else {
-                json = coder.encode(request, true);
-            }
-
-        } catch (CoderException e) {
-            logger.warn("cannot pretty-print request", e);
-            json = request.toString();
-        }
-
-        NetLoggerUtil.log(EventType.OUT, CommInfrastructure.REST, url, json);
-        logger.info("[OUT|{}|{}|]{}{}", CommInfrastructure.REST, url, NetLoggerUtil.SYSTEM_LS, json);
-    }
-
-    /**
-     * Logs a REST response. If the response is not of type, String, then it attempts to
-     * pretty-print it into JSON before logging.
-     *
-     * @param url request URL
-     * @param response response to be logged
-     */
-    public static <T> void logRestResponse(String url, T response) {
-        logRestResponse(new StandardCoder(), url, response);
-    }
-
-    /**
-     * Logs a REST response. If the request is not of type, String, then it attempts to
-     * pretty-print it into JSON before logging.
-     *
-     * @param coder coder to be used to pretty-print the response
-     * @param url request URL
-     * @param response response to be logged
-     */
-    protected static <T> void logRestResponse(Coder coder, String url, T response) {
-        String json;
-        try {
-            if (response == null) {
-                json = null;
-            } else if (response instanceof String) {
-                json = response.toString();
-            } else {
-                json = coder.encode(response, true);
-            }
-
-        } catch (CoderException e) {
-            logger.warn("cannot pretty-print response", e);
-            json = response.toString();
-        }
-
-        NetLoggerUtil.log(EventType.IN, CommInfrastructure.REST, url, json);
-        logger.info("[IN|{}|{}|]{}{}", CommInfrastructure.REST, url, NetLoggerUtil.SYSTEM_LS, json);
     }
 
     /**

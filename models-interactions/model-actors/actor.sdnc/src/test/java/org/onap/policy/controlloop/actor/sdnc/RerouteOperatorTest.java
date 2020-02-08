@@ -26,45 +26,51 @@ import static org.junit.Assert.assertNotNull;
 import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
-import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.sdnc.SdncRequest;
 
-public class RerouteOperatorTest extends BasicOperator {
+public class RerouteOperatorTest extends BasicSdncOperator {
 
-    private RerouteOperator oper;
+    private RerouteOperation oper;
 
+    public RerouteOperatorTest() {
+        super(DEFAULT_ACTOR, RerouteOperation.NAME);
+    }
 
     /**
      * Set up.
      */
     @Before
-    public void setUp() {
-        makeContext();
-        oper = new RerouteOperator(ACTOR);
+    public void setUp() throws Exception {
+        super.setUp();
+        oper = new RerouteOperation(params, operator);
     }
 
     @Test
     public void testRerouteOperator() {
-        assertEquals(ACTOR, oper.getActorName());
-        assertEquals(RerouteOperator.NAME, oper.getName());
+        assertEquals(DEFAULT_ACTOR, oper.getActorName());
+        assertEquals(RerouteOperation.NAME, oper.getName());
     }
 
     @Test
-    public void testConstructRequest() throws CoderException {
-        SdncRequest request = oper.constructRequest(context);
+    public void testMakeRequest() throws Exception {
+        SdncRequest request = oper.makeRequest(1);
         assertEquals("my-service", request.getNsInstanceId());
         assertEquals(REQ_ID, request.getRequestId());
-        assertEquals(RerouteOperator.URI, request.getUrl());
+        assertEquals(RerouteOperation.URI, request.getUrl());
         assertNotNull(request.getHealRequest().getRequestHeaderInfo().getSvcRequestId());
 
         verifyRequest("reroute.json", request);
 
-        verifyMissing(oper, RerouteOperator.SERVICE_ID_KEY, "service");
-        verifyMissing(oper, RerouteOperator.NETWORK_ID_KEY, "network");
+        verifyMissing(RerouteOperation.SERVICE_ID_KEY, "service", RerouteOperation::new);
+        verifyMissing(RerouteOperation.NETWORK_ID_KEY, "network", RerouteOperation::new);
+
+        // perform the operation
+        makeContext();
+        verifyRequest("reroute.json", verifyOperation(oper));
     }
 
     @Override
     protected Map<String, String> makeEnrichment() {
-        return Map.of(RerouteOperator.SERVICE_ID_KEY, "my-service", RerouteOperator.NETWORK_ID_KEY, "my-network");
+        return Map.of(RerouteOperation.SERVICE_ID_KEY, "my-service", RerouteOperation.NETWORK_ID_KEY, "my-network");
     }
 }

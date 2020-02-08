@@ -39,4 +39,9 @@
     <logger name="org.onap.policy.controlloop.actorserviceprovider.Util" level="info" additivity="false">
         <appender-ref ref="STDOUT" />
     </logger>
+
+    <!-- this is required for HttpOperationTest -->
+    <logger name="org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperation" level="info" additivity="false">
+        <appender-ref ref="STDOUT" />
+    </logger>
 </configuration>

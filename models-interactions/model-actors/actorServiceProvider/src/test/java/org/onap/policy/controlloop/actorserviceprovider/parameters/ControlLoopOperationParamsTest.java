@@ -51,6 +51,7 @@ import org.mockito.MockitoAnnotations;
 import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.ActorService;
+import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.Operator;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
@@ -87,10 +88,13 @@ public class ControlLoopOperationParamsTest {
     private Executor executor;
 
     @Mock
-    private CompletableFuture<OperationOutcome> operation;
+    private CompletableFuture<OperationOutcome> operFuture;
 
     @Mock
     private Operator operator;
+
+    @Mock
+    private Operation operation;
 
     @Mock
     private Consumer<OperationOutcome> starter;
@@ -110,7 +114,8 @@ public class ControlLoopOperationParamsTest {
 
         when(actorService.getActor(ACTOR)).thenReturn(actor);
         when(actor.getOperator(OPERATION)).thenReturn(operator);
-        when(operator.startOperation(any())).thenReturn(operation);
+        when(operator.buildOperation(any())).thenReturn(operation);
+        when(operation.start()).thenReturn(operFuture);
 
         when(event.getRequestId()).thenReturn(REQ_ID);
 
@@ -128,7 +133,7 @@ public class ControlLoopOperationParamsTest {
 
     @Test
     public void testStart() {
-        assertSame(operation, params.start());
+        assertSame(operFuture, params.start());
 
         assertThatIllegalArgumentException().isThrownBy(() -> params.toBuilder().context(null).build().start());
     }

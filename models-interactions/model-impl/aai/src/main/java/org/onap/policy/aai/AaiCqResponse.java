@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  *
  * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,6 +50,7 @@ import org.slf4j.LoggerFactory;
 
 public class AaiCqResponse implements Serializable {
     private static final long serialVersionUID = 1L;
+    public static final String CONTEXT_KEY = AaiConstants.CONTEXT_PREFIX + "AaiCqResponse";
     private static final String GENERIC_VNF = "generic-vnf";
     private static final String VF_MODULE = "vf-module";
     private static final Logger LOGGER = LoggerFactory.getLogger(AaiCqResponse.class);

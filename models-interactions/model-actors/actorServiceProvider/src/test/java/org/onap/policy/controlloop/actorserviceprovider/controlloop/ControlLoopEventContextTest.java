@@ -24,13 +24,21 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
+import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 
 public class ControlLoopEventContextTest {
     private static final UUID REQ_ID = UUID.randomUUID();
@@ -83,5 +91,40 @@ public class ControlLoopEventContextTest {
 
         int intValue = context.getProperty("def");
         assertEquals(100, intValue);
+    }
+
+    @Test
+    public void testObtain() {
+        final ControlLoopOperationParams params = mock(ControlLoopOperationParams.class);
+
+        // property is already loaded
+        context.setProperty("obtain-A", "value-A");
+        assertNull(context.obtain("obtain-A", params));
+
+        // new property - should retrieve
+        CompletableFuture<OperationOutcome> future = new CompletableFuture<>();
+        when(params.start()).thenReturn(future);
+        assertSame(future, context.obtain("obtain-B", params));
+
+        // repeat - should get the same future, without invoking start() again
+        assertSame(future, context.obtain("obtain-B", params));
+        verify(params).start();
+
+        // arrange for another invoker to start while this one is starting
+        CompletableFuture<OperationOutcome> future2 = new CompletableFuture<>();
+
+        when(params.start()).thenAnswer(args -> {
+
+            ControlLoopOperationParams params2 = mock(ControlLoopOperationParams.class);
+            when(params2.start()).thenReturn(future2);
+
+            assertSame(future2, context.obtain("obtain-C", params2));
+            return future;
+        });
+
+        assertSame(future2, context.obtain("obtain-C", params));
+
+        // should have canceled the interrupted future
+        assertTrue(future.isCancelled());
     }
 }
