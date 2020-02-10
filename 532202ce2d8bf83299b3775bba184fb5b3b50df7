@@ -268,6 +268,24 @@
       "revId": "532202ce2d8bf83299b3775bba184fb5b3b50df7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b5de87ea_b85f4640",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/utils/ToscaUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-10T12:30:59Z",
+      "side": 1,
+      "message": "that works.  FYI: could use Set.of(), which appears to generate immutable sets",
+      "parentUuid": "ec3c30d2_e9b7e6ef",
+      "revId": "532202ce2d8bf83299b3775bba184fb5b3b50df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
