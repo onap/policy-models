@@ -286,6 +286,24 @@
       "revId": "532202ce2d8bf83299b3775bba184fb5b3b50df7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cfb6919d_ea5ac1e4",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/utils/ToscaUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-02-10T13:10:51Z",
+      "side": 1,
+      "message": "Yes, I\u0027ve already reimplemented it like that, Thanks for the hint!",
+      "parentUuid": "b5de87ea_b85f4640",
+      "revId": "532202ce2d8bf83299b3775bba184fb5b3b50df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
