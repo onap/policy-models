@@ -21,7 +21,6 @@
 package org.onap.policy.models.tosca.utils;
 
 import java.util.Collection;
-import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -39,10 +38,9 @@ import org.onap.policy.models.base.PfNameVersion;
 import org.onap.policy.models.base.PfValidationMessage;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaEntity;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaEntityType;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Utility class for TOSCA concepts.
@@ -50,30 +48,35 @@ import org.slf4j.LoggerFactory;
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 public final class ToscaUtils {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ToscaUtils.class);
-
     private static final String ROOT_KEY_NAME_SUFFIX = ".Root";
 
-    private static final Set<PfConceptKey> PREDEFINED_TOSCA_DATA_TYPES = new LinkedHashSet<>();
-
     // @formatter:off
-    static {
-        PREDEFINED_TOSCA_DATA_TYPES.add(new PfConceptKey("string",    PfKey.NULL_KEY_VERSION));
-        PREDEFINED_TOSCA_DATA_TYPES.add(new PfConceptKey("integer",   PfKey.NULL_KEY_VERSION));
-        PREDEFINED_TOSCA_DATA_TYPES.add(new PfConceptKey("float",     PfKey.NULL_KEY_VERSION));
-        PREDEFINED_TOSCA_DATA_TYPES.add(new PfConceptKey("boolean",   PfKey.NULL_KEY_VERSION));
-        PREDEFINED_TOSCA_DATA_TYPES.add(new PfConceptKey("timestamp", PfKey.NULL_KEY_VERSION));
-        PREDEFINED_TOSCA_DATA_TYPES.add(new PfConceptKey("null",      PfKey.NULL_KEY_VERSION));
-        PREDEFINED_TOSCA_DATA_TYPES.add(new PfConceptKey("list",      PfKey.NULL_KEY_VERSION));
-        PREDEFINED_TOSCA_DATA_TYPES.add(new PfConceptKey("map",       PfKey.NULL_KEY_VERSION));
-    }
-    // @formatter:off
+    private static final Set<PfConceptKey> PREDEFINED_TOSCA_DATA_TYPES = Set.of(
+            new PfConceptKey("string",    PfKey.NULL_KEY_VERSION),
+            new PfConceptKey("integer",   PfKey.NULL_KEY_VERSION),
+            new PfConceptKey("float",     PfKey.NULL_KEY_VERSION),
+            new PfConceptKey("boolean",   PfKey.NULL_KEY_VERSION),
+            new PfConceptKey("timestamp", PfKey.NULL_KEY_VERSION),
+            new PfConceptKey("null",      PfKey.NULL_KEY_VERSION),
+            new PfConceptKey("list",      PfKey.NULL_KEY_VERSION),
+            new PfConceptKey("map",       PfKey.NULL_KEY_VERSION)
+        );
+    // @formatter:on
 
     /**
      * Private constructor to prevent subclassing.
      */
     private ToscaUtils() {
         // Private constructor to prevent subclassing
+    }
+
+    /**
+     * Get the predefined policy types.
+     *
+     * @return the predefined policy types
+     */
+    public static Collection<PfConceptKey> getPredefinedDataTypes() {
+        return PREDEFINED_TOSCA_DATA_TYPES;
     }
 
     /**
@@ -140,7 +143,6 @@ public final class ToscaUtils {
             final Function<JpaToscaServiceTemplate, String> checkerFunction) {
         String message = checkerFunction.apply(serviceTemplate);
         if (message != null) {
-            LOGGER.warn(message);
             throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, message);
         }
     }
@@ -210,9 +212,9 @@ public final class ToscaUtils {
      * @param entityTypes the set of entity types that exist
      * @param entityType the entity type for which to get the parents
      * @param result the result of the ancestor search with any warnings or errors
-     * @return
+     * @return the entity set containing the ancestors of the incoming entity
      */
-    public static Collection<? extends JpaToscaEntityType<?>> getEntityTypeAncestors(
+    public static Collection<JpaToscaEntityType<ToscaEntity>> getEntityTypeAncestors(
             @NonNull PfConceptContainer<? extends PfConcept, ? extends PfNameVersion> entityTypes,
             @NonNull JpaToscaEntityType<?> entityType, @NonNull final PfValidationResult result) {
 
@@ -222,7 +224,7 @@ public final class ToscaUtils {
         }
 
         @SuppressWarnings("unchecked")
-        Set<JpaToscaEntityType<?>> ancestorEntitySet = (Set<JpaToscaEntityType<?>>) entityTypes
+        Set<JpaToscaEntityType<ToscaEntity>> ancestorEntitySet = (Set<JpaToscaEntityType<ToscaEntity>>) entityTypes
                 .getAll(parentEntityTypeKey.getName(), parentEntityTypeKey.getVersion());
 
         if (ancestorEntitySet.isEmpty()) {
@@ -237,11 +239,29 @@ public final class ToscaUtils {
     }
 
     /**
-     * Get the predefined policy types.
+     * Get the entity tree from a concept container for a given entity key.
      *
-     * @return the predefined policy types
+     * @param entityTypes the concept container containing entity types
+     * @param searchKey the key to search for
      */
-    public static Collection<?> getPredefinedDataTypes() {
-        return PREDEFINED_TOSCA_DATA_TYPES;
+    public static void getEntityTree(
+            @NonNull final PfConceptContainer<? extends PfConcept, ? extends PfNameVersion> entityTypes,
+            @NonNull final PfConceptKey searchKey) {
+
+        PfValidationResult result = new PfValidationResult();
+
+        @SuppressWarnings("unchecked")
+        Set<JpaToscaEntityType<?>> filteredEntitySet =
+                (Set<JpaToscaEntityType<?>>) entityTypes.getAll(searchKey.getName(), searchKey.getVersion());
+        for (JpaToscaEntityType<?> filteredEntityType : filteredEntitySet) {
+            filteredEntitySet.addAll(ToscaUtils.getEntityTypeAncestors(entityTypes, filteredEntityType, result));
+        }
+
+        if (!result.isValid()) {
+            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, result.toString());
+        }
+
+        entityTypes.getConceptMap().entrySet()
+                .removeIf(entityEntry -> !filteredEntitySet.contains(entityEntry.getValue()));
     }
 }

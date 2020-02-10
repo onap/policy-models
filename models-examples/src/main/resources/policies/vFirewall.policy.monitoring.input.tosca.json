@@ -1,26 +1,26 @@
 {
     "tosca_definitions_version": "tosca_simple_yaml_1_0_0",
-    "topology_template": 
+    "topology_template":
     {
-        "policies": 
+        "policies":
         [
             {
-                "onap.vfirewall.tca": 
+                "onap.vfirewall.tca":
                 {
                     "type": "onap.policies.monitoring.cdap.tca.hi.lo.app",
                     "type_version": "1.0.0",
                     "version": "1.0.0",
-                    "metadata": 
+                    "metadata":
                     {
                         "policy-id": "onap.vfirewall.tca"
                     },
 
-                    "properties": 
+                    "properties":
                     {
-                        "tca_policy": 
+                        "tca_policy":
                         {
                             "domain": "measurementsForVfScaling",
-                            "metricsPerEventName": 
+                            "metricsPerEventName":
                             [
                                 {
                                     "eventName": "vLoadBalancer",
@@ -28,7 +28,7 @@
                                     "policyScope": "resource=vLoadBalancer;type=configuration",
                                     "policyName": "onap.vfirewall.tca",
                                     "policyVersion": "v0.0.1",
-                                    "thresholds": 
+                                    "thresholds":
                                     [
                                         {
                                             "closedLoopControlName": "ControlLoop-vFirewall-d0a1dfc6-94f5-4fd4-a5b5-4630b438850a",

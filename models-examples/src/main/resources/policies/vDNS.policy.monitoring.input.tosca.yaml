@@ -19,7 +19,7 @@ topology_template:
                         policyName: "onap.scaleout.tca"
                         policyVersion: "v0.0.1"
                         thresholds:
-                        - 
+                        -
                            closedLoopControlName: "ControlLoop-vDNS-6f37f56d-a87d-4b85-b6a9-cc953cf779b3"
                            closedLoopEventStatus: ONSET
                            version: "1.0.2"

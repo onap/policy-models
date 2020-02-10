@@ -1,26 +1,26 @@
 {
     "tosca_definitions_version": "tosca_simple_yaml_1_0_0",
-    "topology_template": 
+    "topology_template":
     {
-        "policies": 
+        "policies":
         [
             {
-                "onap.scaleout.tca": 
+                "onap.scaleout.tca":
                 {
                     "type": "onap.policies.monitoring.cdap.tca.hi.lo.app",
                     "type_version": "1.0.0",
                     "version": "1.0.0",
-                    "metadata": 
+                    "metadata":
                     {
                         "policy-id": "onap.scaleout.tca"
                     },
 
-                    "properties": 
+                    "properties":
                     {
-                        "tca_policy": 
+                        "tca_policy":
                         {
                             "domain": "measurementsForVfScaling",
-                            "metricsPerEventName": 
+                            "metricsPerEventName":
                             [
                                 {
                                     "eventName": "vLoadBalancer",
@@ -28,7 +28,7 @@
                                     "policyScope": "type=configuration",
                                     "policyName": "onap.scaleout.tca",
                                     "policyVersion": "v0.0.1",
-                                    "thresholds": 
+                                    "thresholds":
                                     [
                                         {
                                             "closedLoopControlName": "ControlLoop-vDNS-6f37f56d-a87d-4b85-b6a9-cc953cf779b3",
