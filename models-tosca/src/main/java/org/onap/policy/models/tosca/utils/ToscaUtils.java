@@ -21,6 +21,7 @@
 package org.onap.policy.models.tosca.utils;
 
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -32,6 +33,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptContainer;
 import org.onap.policy.models.base.PfConceptKey;
+import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.base.PfNameVersion;
 import org.onap.policy.models.base.PfValidationMessage;
@@ -51,6 +53,21 @@ public final class ToscaUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(ToscaUtils.class);
 
     private static final String ROOT_KEY_NAME_SUFFIX = ".Root";
+
+    private static final Set<PfConceptKey> PREDEFINED_TOSCA_DATA_TYPES = new LinkedHashSet<>();
+
+    // @formatter:off
+    static {
+        PREDEFINED_TOSCA_DATA_TYPES.add(new PfConceptKey("string",    PfKey.NULL_KEY_VERSION));
+        PREDEFINED_TOSCA_DATA_TYPES.add(new PfConceptKey("integer",   PfKey.NULL_KEY_VERSION));
+        PREDEFINED_TOSCA_DATA_TYPES.add(new PfConceptKey("float",     PfKey.NULL_KEY_VERSION));
+        PREDEFINED_TOSCA_DATA_TYPES.add(new PfConceptKey("boolean",   PfKey.NULL_KEY_VERSION));
+        PREDEFINED_TOSCA_DATA_TYPES.add(new PfConceptKey("timestamp", PfKey.NULL_KEY_VERSION));
+        PREDEFINED_TOSCA_DATA_TYPES.add(new PfConceptKey("null",      PfKey.NULL_KEY_VERSION));
+        PREDEFINED_TOSCA_DATA_TYPES.add(new PfConceptKey("list",      PfKey.NULL_KEY_VERSION));
+        PREDEFINED_TOSCA_DATA_TYPES.add(new PfConceptKey("map",       PfKey.NULL_KEY_VERSION));
+    }
+    // @formatter:off
 
     /**
      * Private constructor to prevent subclassing.
@@ -217,5 +234,14 @@ public final class ToscaUtils {
             }
         }
         return ancestorEntitySet;
+    }
+
+    /**
+     * Get the predefined policy types.
+     *
+     * @return the predefined policy types
+     */
+    public static Collection<?> getPredefinedDataTypes() {
+        return PREDEFINED_TOSCA_DATA_TYPES;
     }
 }

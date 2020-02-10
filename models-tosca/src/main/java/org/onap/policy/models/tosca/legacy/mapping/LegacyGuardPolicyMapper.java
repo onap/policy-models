@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -58,8 +58,7 @@ public class LegacyGuardPolicyMapper
     static {
         GUARD_POLICY_TYPE_MAP.put("guard.frequency.",
                 new PfConceptKey("onap.policies.controlloop.guard.FrequencyLimiter:1.0.0"));
-        GUARD_POLICY_TYPE_MAP.put("guard.minmax.",
-                new PfConceptKey("onap.policies.controlloop.guard.MinMax:1.0.0"));
+        GUARD_POLICY_TYPE_MAP.put("guard.minmax.", new PfConceptKey("onap.policies.controlloop.guard.MinMax:1.0.0"));
         GUARD_POLICY_TYPE_MAP.put("guard.blacklist.",
                 new PfConceptKey("onap.policies.controlloop.guard.Blacklist:1.0.0"));
     }
@@ -93,7 +92,7 @@ public class LegacyGuardPolicyMapper
         toscaPolicy.setMetadata(metadata);
 
         final JpaToscaServiceTemplate serviceTemplate = new JpaToscaServiceTemplate();
-        serviceTemplate.setToscaDefinitionsVersion("tosca_simple_yaml_1_0");
+        serviceTemplate.setToscaDefinitionsVersion("tosca_simple_yaml_1_0_0");
 
         serviceTemplate.setTopologyTemplate(new JpaToscaTopologyTemplate());
 
@@ -104,8 +103,8 @@ public class LegacyGuardPolicyMapper
     }
 
     @Override
-    public Map<String, LegacyGuardPolicyOutput> fromToscaServiceTemplate(
-            final JpaToscaServiceTemplate serviceTemplate) {
+    public Map<String, LegacyGuardPolicyOutput>
+            fromToscaServiceTemplate(final JpaToscaServiceTemplate serviceTemplate) {
         ToscaUtils.assertPoliciesExist(serviceTemplate);
 
         final Map<String, LegacyGuardPolicyOutput> legacyGuardPolicyOutputMap = new LinkedHashMap<>();
@@ -126,7 +125,7 @@ public class LegacyGuardPolicyMapper
             final Map<String, Object> metadata = new LinkedHashMap<>(toscaPolicy.getMetadata());
 
             // if version exists, convert it to int
-            metadata.computeIfPresent(POLICY_VERSION, (key,val) -> Integer.parseInt(val.toString()));
+            metadata.computeIfPresent(POLICY_VERSION, (key, val) -> Integer.parseInt(val.toString()));
 
             legacyGuardPolicyOutput.setMetadata(metadata);
 

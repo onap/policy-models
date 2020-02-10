@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -71,7 +71,7 @@ public class LegacyOperationalPolicyMapper
         toscaPolicy.getProperties().put(CONTENT_PROPERTY, legacyOperationalPolicy.getContent());
 
         final JpaToscaServiceTemplate serviceTemplate = new JpaToscaServiceTemplate();
-        serviceTemplate.setToscaDefinitionsVersion("tosca_simple_yaml_1_0");
+        serviceTemplate.setToscaDefinitionsVersion("tosca_simple_yaml_1_0_0");
 
         serviceTemplate.setTopologyTemplate(new JpaToscaTopologyTemplate());
 
@@ -105,7 +105,7 @@ public class LegacyOperationalPolicyMapper
             throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
         }
 
-        String content =  toscaPolicy.getProperties().get(CONTENT_PROPERTY);
+        String content = toscaPolicy.getProperties().get(CONTENT_PROPERTY);
 
         if (content == null) {
             String errorMessage = "property \"content\" not defined on TOSCA policy";

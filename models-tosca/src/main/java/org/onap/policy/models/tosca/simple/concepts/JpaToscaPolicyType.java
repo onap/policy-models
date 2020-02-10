@@ -3,7 +3,7 @@
  * ONAP Policy Model
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,19 +23,26 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
+import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
+
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
+
+import org.apache.commons.collections4.CollectionUtils;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
@@ -47,6 +54,7 @@ import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaProperty;
+import org.onap.policy.models.tosca.utils.ToscaUtils;
 
 /**
  * Class to represent the policy type in TOSCA definition.
@@ -297,5 +305,30 @@ public class JpaToscaPolicyType extends JpaToscaEntityType<ToscaPolicyType> impl
         }
 
         return PfUtils.compareObjects(triggers, other.triggers);
+    }
+
+    /**
+     * Get the data types referenced in a policy type.
+     *
+     * @return the data types referenced in a policy type
+     */
+    public Collection<PfConceptKey> getReferencedDataTypes() {
+        if (properties == null) {
+            return CollectionUtils.emptyCollection();
+        }
+
+        Set<PfConceptKey> referencedDataTypes = new LinkedHashSet<>();
+
+        for (JpaToscaProperty property : properties.values()) {
+            referencedDataTypes.add(property.getType());
+
+            if (property.getEntrySchema() != null) {
+                referencedDataTypes.add(property.getEntrySchema().getType());
+            }
+        }
+
+        referencedDataTypes.removeAll(ToscaUtils.getPredefinedDataTypes());
+
+        return referencedDataTypes;
     }
 }

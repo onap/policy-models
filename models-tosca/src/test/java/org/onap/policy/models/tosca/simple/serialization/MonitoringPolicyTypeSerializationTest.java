@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,11 +24,11 @@ package org.onap.policy.models.tosca.simple.serialization;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.common.utils.coder.CoderException;
@@ -98,37 +98,31 @@ public class MonitoringPolicyTypeSerializationTest {
     }
 
     @Test
-    public void testSerialization() {
-        try {
-            // TCA
-            JpaToscaServiceTemplate tcaServiceTemplateFromYaml = deserializeMonitoringInputYaml(MONITORING_TCA_YAML);
-            String serializedServiceTemplateTca = serializeMonitoringServiceTemplate(tcaServiceTemplateFromYaml);
+    public void testSerialization() throws Exception {
+        // TCA
+        JpaToscaServiceTemplate tcaServiceTemplateFromYaml = deserializeMonitoringInputYaml(MONITORING_TCA_YAML);
+        String serializedServiceTemplateTca = serializeMonitoringServiceTemplate(tcaServiceTemplateFromYaml);
 
-            ToscaServiceTemplate toscaServiceTemplateFromJsonTca =
-                    coder.decode(serializedServiceTemplateTca, ToscaServiceTemplate.class);
+        ToscaServiceTemplate toscaServiceTemplateFromJsonTca =
+                coder.decode(serializedServiceTemplateTca, ToscaServiceTemplate.class);
 
-            JpaToscaServiceTemplate serviceTemplateFromJsonTca = new JpaToscaServiceTemplate();
-            serviceTemplateFromJsonTca.fromAuthorative(toscaServiceTemplateFromJsonTca);
-            String serializedServiceTemplateTcaOut = serializeMonitoringServiceTemplate(serviceTemplateFromJsonTca);
-            assertEquals(serializedServiceTemplateTca, serializedServiceTemplateTcaOut);
+        JpaToscaServiceTemplate serviceTemplateFromJsonTca = new JpaToscaServiceTemplate();
+        serviceTemplateFromJsonTca.fromAuthorative(toscaServiceTemplateFromJsonTca);
+        String serializedServiceTemplateTcaOut = serializeMonitoringServiceTemplate(serviceTemplateFromJsonTca);
+        assertEquals(serializedServiceTemplateTca, serializedServiceTemplateTcaOut);
 
-            // Collector
-            JpaToscaServiceTemplate collectorServiceTemplateFromYaml =
-                    deserializeMonitoringInputYaml(MONITORING_COLLECTORS_YAML);
-            String serializedServiceTemplateCollector =
-                    serializeMonitoringServiceTemplate(collectorServiceTemplateFromYaml);
-            ToscaServiceTemplate toscaServiceTemplateFromJsonCollector =
-                    coder.decode(serializedServiceTemplateCollector, ToscaServiceTemplate.class);
-            JpaToscaServiceTemplate serviceTemplateFromJsonCollector = new JpaToscaServiceTemplate();
-            serviceTemplateFromJsonCollector.fromAuthorative(toscaServiceTemplateFromJsonCollector);
-            String serializedServiceTemplateCollectorsOut =
-                    serializeMonitoringServiceTemplate(serviceTemplateFromJsonCollector);
-            assertEquals(serializedServiceTemplateCollector, serializedServiceTemplateCollectorsOut);
-
-        } catch (Exception e) {
-            LOGGER.warn("No exception should be thrown", e);
-            fail("No exception should be thrown");
-        }
+        // Collector
+        JpaToscaServiceTemplate collectorServiceTemplateFromYaml =
+                deserializeMonitoringInputYaml(MONITORING_COLLECTORS_YAML);
+        String serializedServiceTemplateCollector =
+                serializeMonitoringServiceTemplate(collectorServiceTemplateFromYaml);
+        ToscaServiceTemplate toscaServiceTemplateFromJsonCollector =
+                coder.decode(serializedServiceTemplateCollector, ToscaServiceTemplate.class);
+        JpaToscaServiceTemplate serviceTemplateFromJsonCollector = new JpaToscaServiceTemplate();
+        serviceTemplateFromJsonCollector.fromAuthorative(toscaServiceTemplateFromJsonCollector);
+        String serializedServiceTemplateCollectorsOut =
+                serializeMonitoringServiceTemplate(serviceTemplateFromJsonCollector);
+        assertEquals(serializedServiceTemplateCollector, serializedServiceTemplateCollectorsOut);
     }
 
     private JpaToscaServiceTemplate deserializeMonitoringInputYaml(String resourcePath) throws Exception {
@@ -196,8 +190,7 @@ public class MonitoringPolicyTypeSerializationTest {
         Iterator<JpaToscaProperty> firstDataTypePropertiesIter = firstDataTypeVal.getProperties().values().iterator();
 
         JpaToscaProperty firstDataTypeFirstProperty = firstDataTypePropertiesIter.next();
-        assertEquals(METRICS,
-                firstDataTypeFirstProperty.getKey().getParentKeyName());
+        assertEquals(METRICS, firstDataTypeFirstProperty.getKey().getParentKeyName());
         assertEquals("controlLoopSchemaType", firstDataTypeFirstProperty.getKey().getLocalName());
         assertEquals(STRING_TEXT, firstDataTypeFirstProperty.getType().getName());
         assertTrue(firstDataTypeFirstProperty.isRequired());
@@ -210,47 +203,41 @@ public class MonitoringPolicyTypeSerializationTest {
                 .getValidValues().size() == 2);
 
         JpaToscaProperty firstDataTypeSecondProperty = firstDataTypePropertiesIter.next();
-        assertEquals(METRICS,
-                firstDataTypeSecondProperty.getKey().getParentKeyName());
+        assertEquals(METRICS, firstDataTypeSecondProperty.getKey().getParentKeyName());
         assertEquals("eventName", firstDataTypeSecondProperty.getKey().getLocalName());
         assertEquals(STRING_TEXT, firstDataTypeSecondProperty.getType().getName());
         assertTrue(firstDataTypeSecondProperty.isRequired());
         assertEquals("Event name to which thresholds need to be applied", firstDataTypeSecondProperty.getDescription());
 
         JpaToscaProperty firstDataTypeThirdProperty = firstDataTypePropertiesIter.next();
-        assertEquals(METRICS,
-                firstDataTypeThirdProperty.getKey().getParentKeyName());
+        assertEquals(METRICS, firstDataTypeThirdProperty.getKey().getParentKeyName());
         assertEquals("policyName", firstDataTypeThirdProperty.getKey().getLocalName());
         assertEquals(STRING_TEXT, firstDataTypeThirdProperty.getType().getName());
         assertTrue(firstDataTypeThirdProperty.isRequired());
         assertEquals("TCA Policy Scope Name", firstDataTypeThirdProperty.getDescription());
 
         JpaToscaProperty firstDataTypeFourthProperty = firstDataTypePropertiesIter.next();
-        assertEquals(METRICS,
-                firstDataTypeFourthProperty.getKey().getParentKeyName());
+        assertEquals(METRICS, firstDataTypeFourthProperty.getKey().getParentKeyName());
         assertEquals("policyScope", firstDataTypeFourthProperty.getKey().getLocalName());
         assertEquals(STRING_TEXT, firstDataTypeFourthProperty.getType().getName());
         assertTrue(firstDataTypeFourthProperty.isRequired());
         assertEquals("TCA Policy Scope", firstDataTypeFourthProperty.getDescription());
 
         JpaToscaProperty firstDataTypeFifthProperty = firstDataTypePropertiesIter.next();
-        assertEquals(METRICS,
-                firstDataTypeFifthProperty.getKey().getParentKeyName());
+        assertEquals(METRICS, firstDataTypeFifthProperty.getKey().getParentKeyName());
         assertEquals("policyVersion", firstDataTypeFifthProperty.getKey().getLocalName());
         assertEquals(STRING_TEXT, firstDataTypeFifthProperty.getType().getName());
         assertTrue(firstDataTypeFifthProperty.isRequired());
         assertEquals("TCA Policy Scope Version", firstDataTypeFifthProperty.getDescription());
 
         JpaToscaProperty firstDataTypeSixthProperty = firstDataTypePropertiesIter.next();
-        assertEquals(METRICS,
-                firstDataTypeSixthProperty.getKey().getParentKeyName());
+        assertEquals(METRICS, firstDataTypeSixthProperty.getKey().getParentKeyName());
         assertEquals("thresholds", firstDataTypeSixthProperty.getKey().getLocalName());
         assertEquals("list", firstDataTypeSixthProperty.getType().getName());
         assertTrue(firstDataTypeSixthProperty.isRequired());
         assertEquals("Thresholds associated with eventName", firstDataTypeSixthProperty.getDescription());
         assertNotNull(firstDataTypeSixthProperty.getEntrySchema());
-        assertEquals(THRESHOLDS,
-                firstDataTypeSixthProperty.getEntrySchema().getType().getName());
+        assertEquals(THRESHOLDS, firstDataTypeSixthProperty.getEntrySchema().getType().getName());
 
         Entry<PfConceptKey, JpaToscaDataType> secondDataType = dataTypesIter.next();
         assertEquals(TCA, secondDataType.getKey().getName());
@@ -281,8 +268,7 @@ public class MonitoringPolicyTypeSerializationTest {
         assertEquals("Contains eventName and threshold details that need to be applied to given eventName",
                 secondDataTypeSecondProperty.getDescription());
         assertNotNull(secondDataTypeSecondProperty.getEntrySchema());
-        assertEquals(METRICS,
-                secondDataTypeSecondProperty.getEntrySchema().getType().getName());
+        assertEquals(METRICS, secondDataTypeSecondProperty.getEntrySchema().getType().getName());
 
         Entry<PfConceptKey, JpaToscaDataType> thirdDataType = dataTypesIter.next();
         assertEquals(THRESHOLDS, thirdDataType.getKey().getName());
@@ -352,7 +338,8 @@ public class MonitoringPolicyTypeSerializationTest {
         assertEquals("JpaToscaConstraintValidValues(validValues=[CRITICAL, MAJOR, MINOR, WARNING, NORMAL])",
                 thirdDataTypeFifthProperty.getConstraints().iterator().next().toString());
         assertTrue(((JpaToscaConstraintValidValues) (thirdDataTypeFifthProperty.getConstraints().iterator().next()))
-                .getValidValues().size() == 5);;
+                .getValidValues().size() == 5);
+        ;
 
         JpaToscaProperty thirdDataTypeSixthProperty = thirdDataTypePropertiesIter.next();
         assertEquals(THRESHOLDS, thirdDataTypeSixthProperty.getKey().getParentKeyName());
@@ -393,8 +380,7 @@ public class MonitoringPolicyTypeSerializationTest {
                 firstPolicyType.getValue().getDescription());
 
         Entry<PfConceptKey, JpaToscaPolicyType> secondPolicyType = policyTypesIter.next();
-        assertEquals(DCAE,
-                secondPolicyType.getKey().getName());
+        assertEquals(DCAE, secondPolicyType.getKey().getName());
         assertEquals(VERSION_100, secondPolicyType.getKey().getVersion());
         assertEquals("policy.nodes.Root", secondPolicyType.getValue().getDerivedFrom().getName());
         assertTrue(secondPolicyType.getValue().getProperties().size() == 2);
@@ -402,16 +388,14 @@ public class MonitoringPolicyTypeSerializationTest {
         Iterator<JpaToscaProperty> propertiesIter = secondPolicyType.getValue().getProperties().values().iterator();
 
         JpaToscaProperty firstProperty = propertiesIter.next();
-        assertEquals(DCAE,
-                firstProperty.getKey().getParentKeyName());
+        assertEquals(DCAE, firstProperty.getKey().getParentKeyName());
         assertEquals(VERSION_100, firstProperty.getKey().getParentKeyVersion());
         assertEquals("buscontroller_feed_publishing_endpoint", firstProperty.getKey().getLocalName());
         assertEquals(STRING_TEXT, firstProperty.getType().getName());
         assertEquals("DMAAP Bus Controller feed endpoint", firstProperty.getDescription());
 
         JpaToscaProperty secondProperty = propertiesIter.next();
-        assertEquals(DCAE,
-                secondProperty.getKey().getParentKeyName());
+        assertEquals(DCAE, secondProperty.getKey().getParentKeyName());
         assertEquals(VERSION_100, secondProperty.getKey().getParentKeyVersion());
         assertEquals("datafile.policy", secondProperty.getKey().getLocalName());
         assertEquals(STRING_TEXT, secondProperty.getType().getName());

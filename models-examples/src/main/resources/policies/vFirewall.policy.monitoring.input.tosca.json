@@ -8,6 +8,7 @@
                 "onap.vfirewall.tca": 
                 {
                     "type": "onap.policies.monitoring.cdap.tca.hi.lo.app",
+                    "type_version": "1.0.0",
                     "version": "1.0.0",
                     "metadata": 
                     {
