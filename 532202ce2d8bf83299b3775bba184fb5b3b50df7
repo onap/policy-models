@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "18ad1e03_b648cb39",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaServiceTemplate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-02-10T10:19:49Z",
+      "side": 1,
+      "message": "isOk() returns true on fully clean service templates or service templates with observations, isValid() insists on the service template being fully clean.\n\nIn Service templates, I don\u0027t think there are any checks that return observations so in the case of service templates at the moment they are equivalent.",
+      "parentUuid": "7700d991_04d2fa8e",
+      "revId": "532202ce2d8bf83299b3775bba184fb5b3b50df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "395b401d_7eca2f87",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaServiceTemplate.java",
         "patchSetId": 1
@@ -81,6 +99,30 @@
       "writtenOn": "2020-02-07T18:59:25Z",
       "side": 1,
       "message": "What if the referenced data types are not defined in this service template but rather in other service template? Do we still need to check that?  Do we have the case where data types are defined in one service template but shared among multiple service templates?",
+      "range": {
+        "startLine": 342,
+        "startChar": 31,
+        "endLine": 342,
+        "endChar": 61
+      },
+      "revId": "532202ce2d8bf83299b3775bba184fb5b3b50df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4243345_1fcaa3db",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaServiceTemplate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-02-10T10:19:49Z",
+      "side": 1,
+      "message": "Yes, that is where I am going with this.\n\nIn TOSCA, there is one and only one service template, because you can\u0027t put a name and version on a service template. In fact, in the DB we do support service template names and versions, but they always have a predefined name and version at the moment, if TOSCA ever change their spec and support names and versions on service templates then it\u0027s easy for us to support that.\n\nThis method validates \"this\" service template which, to be universally correct, must contain the the entire contents of the database. In the next review, the final review in this series, I will change the implementation of the SimpleToscaProvider class to do just that. It will create a service template containing everything in the DB, then add the incoming fragment and validate the resulting new service template.",
+      "parentUuid": "395b401d_7eca2f87",
       "range": {
         "startLine": 342,
         "startChar": 31,
@@ -116,6 +158,30 @@
     },
     {
       "key": {
+        "uuid": "697e13b0_f50f7307",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaServiceTemplate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-02-10T10:19:49Z",
+      "side": 1,
+      "message": "Q1: \"Same. What if the referenced policy types are defined in other service template?\"\n     see answer above\n\nQ2: \"And also, we might have the case where the referenced policy type has its referenced policy type too until xxx.Root. Do we aim to perform validation against this kind of chain?\"\n    The policy type ancestor chain is validated in the \"validate()\" method of the JpaToscaPlicyTypes class called\n    at line 272. At line 113 in JpaToscaPolicyTypes, the ToscaUtils.getEntityTypeAncestors() method recurses down\n    the ancestor chain for each policy type.\n    Because we have already performed that check by the time we get to validatePolicyTypesInPolicies() we already\n    know that all the policy type ancestor chains are correct, so we only need to check that the policy type\n    specified in each policy exists.",
+      "parentUuid": "f08e3feb_06bc515c",
+      "range": {
+        "startLine": 366,
+        "startChar": 31,
+        "endLine": 366,
+        "endChar": 60
+      },
+      "revId": "532202ce2d8bf83299b3775bba184fb5b3b50df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae32f21f_37d321a4",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/utils/ToscaUtils.java",
         "patchSetId": 1
@@ -127,6 +193,24 @@
       "writtenOn": "2020-02-07T18:28:30Z",
       "side": 1,
       "message": "maybe use an immutable set?",
+      "revId": "532202ce2d8bf83299b3775bba184fb5b3b50df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ec3c30d2_e9b7e6ef",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/utils/ToscaUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-02-10T10:19:49Z",
+      "side": 1,
+      "message": "Will do in next review.",
+      "parentUuid": "ae32f21f_37d321a4",
       "revId": "532202ce2d8bf83299b3775bba184fb5b3b50df7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
