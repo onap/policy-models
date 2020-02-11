@@ -30,6 +30,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -69,7 +71,15 @@ public class JpaToscaTopologyTemplate extends PfConcept implements PfAuthorative
     @Column(name = "description")
     private String description;
 
+    // @formatter:off
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumns(
+            {
+                @JoinColumn(name = "policyName",    referencedColumnName = "name"),
+                @JoinColumn(name = "policyVersion", referencedColumnName = "version")
+            }
+        )
+    // @formatter:on
     private JpaToscaPolicies policies;
 
     /**

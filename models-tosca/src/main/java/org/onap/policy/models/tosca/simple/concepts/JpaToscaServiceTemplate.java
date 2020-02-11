@@ -23,6 +23,7 @@ package org.onap.policy.models.tosca.simple.concepts;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -101,7 +102,15 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
     @SerializedName("policy_types")
     private JpaToscaPolicyTypes policyTypes;
 
-    @Column
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumns(
+            {
+                @JoinColumn(name = "topologyTemplateParentKeyName",    referencedColumnName = "parentKeyName"),
+                @JoinColumn(name = "topologyTemplateParentKeyVersion", referencedColumnName = "parentKeyVersion"),
+                @JoinColumn(name = "topologyTemplateParentLocalName",  referencedColumnName = "parentLocalName"),
+                @JoinColumn(name = "topologyTemplateLocalName",        referencedColumnName = "localName")
+            }
+        )
     @SerializedName("topology_template")
     private JpaToscaTopologyTemplate topologyTemplate;
     // @formatter:on
@@ -281,7 +290,7 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
             return result;
         }
 
-        validateDatatypesInPolicyTypes(result);
+        validateReferencedDataTypes(result);
 
         return validatePolicyTypesInPolicies(result);
     }
@@ -339,22 +348,39 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
      * @param result the validation result object to use for the validation result
      * @return the validation result object
      */
-    private PfValidationResult validateDatatypesInPolicyTypes(final PfValidationResult result) {
+    private PfValidationResult validateReferencedDataTypes(final PfValidationResult result) {
         if (policyTypes == null) {
             return result;
         }
 
-        for (JpaToscaPolicyType policyType : policyTypes.getAll(null)) {
-            for (PfConceptKey datatypeKey : policyType.getReferencedDataTypes()) {
-                if (dataTypes == null || dataTypes.get(datatypeKey) == null) {
-                    result.addValidationMessage(
-                            new PfValidationMessage(policyType.getKey(), this.getClass(), ValidationResult.INVALID,
-                                    "data type " + datatypeKey + " referenced in policy type not found"));
-                }
+        if (dataTypes != null) {
+            for (JpaToscaDataType dataType : dataTypes.getAll(null)) {
+                validateReferencedDataTypesExists(dataType.getKey(), dataType.getReferencedDataTypes(), result);
             }
         }
 
+        for (JpaToscaPolicyType policyType : policyTypes.getAll(null)) {
+            validateReferencedDataTypesExists(policyType.getKey(), policyType.getReferencedDataTypes(), result);
+        }
+
         return result;
+    }
+
+    /**
+     * Validate that the referenced data types exist for a collection of data type keys.
+     *
+     * @param referencingEntityKey the key of the referencing entity
+     * @param dataTypeKeyCollection the data type key collection
+     * @param result the result of the validation
+     */
+    private void validateReferencedDataTypesExists(final PfConceptKey referencingEntityKey,
+            final Collection<PfConceptKey> dataTypeKeyCollection, final PfValidationResult result) {
+        for (PfConceptKey dataTypeKey : dataTypeKeyCollection) {
+            if (dataTypes == null || dataTypes.get(dataTypeKey) == null) {
+                result.addValidationMessage(new PfValidationMessage(referencingEntityKey, this.getClass(),
+                        ValidationResult.INVALID, "referenced data type " + dataTypeKey.getId() + " not found"));
+            }
+        }
     }
 
     /**
@@ -364,11 +390,12 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
      * @return the validation result object
      */
     private PfValidationResult validatePolicyTypesInPolicies(PfValidationResult result) {
-        if (topologyTemplate == null || topologyTemplate.getPolicies() == null) {
+        if (topologyTemplate == null || topologyTemplate.getPolicies() == null
+                || topologyTemplate.getPolicies().getConceptMap().isEmpty()) {
             return result;
         }
 
-        if (policyTypes == null) {
+        if (policyTypes == null || policyTypes.getConceptMap().isEmpty()) {
             result.addValidationMessage(new PfValidationMessage(this.getKey(), this.getClass(),
                     ValidationResult.INVALID,
                     "no policy types are defined on the service template for the policies in the topology template"));

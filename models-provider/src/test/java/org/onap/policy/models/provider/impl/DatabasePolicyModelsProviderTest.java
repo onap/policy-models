@@ -25,14 +25,15 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
 import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
@@ -49,8 +50,6 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifi
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyInput;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Test the database models provider implementation.
@@ -81,8 +80,6 @@ public class DatabasePolicyModelsProviderTest {
     private static final Date TIMESTAMP = new Date();
 
     private static final String ORDER = "DESC";
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(DatabasePolicyModelsProviderTest.class);
 
     PolicyModelsProviderParameters parameters;
 
@@ -139,210 +136,210 @@ public class DatabasePolicyModelsProviderTest {
     @Test
     public void testProviderMethodsNull() throws Exception {
 
-        try (PolicyModelsProvider databaseProvider =
-                new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters)) {
+        PolicyModelsProvider databaseProvider =
+                new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
-            assertThatThrownBy(() -> {
-                databaseProvider.getFilteredPolicyTypes(null);
-            }).hasMessageMatching(FILTER_IS_NULL);
+        assertThatThrownBy(() -> {
+            databaseProvider.getFilteredPolicyTypes(null);
+        }).hasMessageMatching(FILTER_IS_NULL);
 
-            assertThatThrownBy(() -> {
-                databaseProvider.getFilteredPolicyTypeList(null);
-            }).hasMessageMatching(FILTER_IS_NULL);
+        assertThatThrownBy(() -> {
+            databaseProvider.getFilteredPolicyTypeList(null);
+        }).hasMessageMatching(FILTER_IS_NULL);
 
-            assertThatThrownBy(() -> {
-                databaseProvider.createPolicyTypes(null);
-            }).hasMessageMatching(TEMPLATE_IS_NULL);
+        assertThatThrownBy(() -> {
+            databaseProvider.createPolicyTypes(null);
+        }).hasMessageMatching(TEMPLATE_IS_NULL);
 
-            assertThatThrownBy(() -> {
-                databaseProvider.updatePolicyTypes(null);
-            }).hasMessageMatching(TEMPLATE_IS_NULL);
+        assertThatThrownBy(() -> {
+            databaseProvider.updatePolicyTypes(null);
+        }).hasMessageMatching(TEMPLATE_IS_NULL);
 
-            assertThatThrownBy(() -> {
-                databaseProvider.deletePolicyType(null, null);
-            }).hasMessageMatching(NAME_IS_NULL);
+        assertThatThrownBy(() -> {
+            databaseProvider.deletePolicyType(null, null);
+        }).hasMessageMatching(NAME_IS_NULL);
 
-            assertThatThrownBy(() -> {
-                databaseProvider.deletePolicyType("aaa", null);
-            }).hasMessageMatching("^version is marked .*on.*ull but is null$");
+        assertThatThrownBy(() -> {
+            databaseProvider.deletePolicyType("aaa", null);
+        }).hasMessageMatching("^version is marked .*on.*ull but is null$");
 
-            assertThatThrownBy(() -> {
-                databaseProvider.deletePolicyType(null, "aaa");
-            }).hasMessageMatching(NAME_IS_NULL);
+        assertThatThrownBy(() -> {
+            databaseProvider.deletePolicyType(null, "aaa");
+        }).hasMessageMatching(NAME_IS_NULL);
 
-            assertThatThrownBy(() -> {
-                databaseProvider.getFilteredPolicies(null);
-            }).hasMessageMatching(FILTER_IS_NULL);
+        assertThatThrownBy(() -> {
+            databaseProvider.getFilteredPolicies(null);
+        }).hasMessageMatching(FILTER_IS_NULL);
 
-            assertThatThrownBy(() -> {
-                databaseProvider.getFilteredPolicyList(null);
-            }).hasMessageMatching(FILTER_IS_NULL);
+        assertThatThrownBy(() -> {
+            databaseProvider.getFilteredPolicyList(null);
+        }).hasMessageMatching(FILTER_IS_NULL);
 
-            assertThatThrownBy(() -> {
-                databaseProvider.createPolicies(null);
-            }).hasMessageMatching(TEMPLATE_IS_NULL);
+        assertThatThrownBy(() -> {
+            databaseProvider.createPolicies(null);
+        }).hasMessageMatching(TEMPLATE_IS_NULL);
 
-            assertThatThrownBy(() -> {
-                databaseProvider.updatePolicies(null);
-            }).hasMessageMatching(TEMPLATE_IS_NULL);
+        assertThatThrownBy(() -> {
+            databaseProvider.updatePolicies(null);
+        }).hasMessageMatching(TEMPLATE_IS_NULL);
 
-            assertThatThrownBy(() -> {
-                databaseProvider.deletePolicy(null, null);
-            }).hasMessageMatching(NAME_IS_NULL);
+        assertThatThrownBy(() -> {
+            databaseProvider.deletePolicy(null, null);
+        }).hasMessageMatching(NAME_IS_NULL);
 
-            assertThatThrownBy(() -> {
-                databaseProvider.deletePolicy(null, "aaa");
-            }).hasMessageMatching(NAME_IS_NULL);
+        assertThatThrownBy(() -> {
+            databaseProvider.deletePolicy(null, "aaa");
+        }).hasMessageMatching(NAME_IS_NULL);
 
-            assertThatThrownBy(() -> {
-                databaseProvider.deletePolicy("aaa", null);
-            }).hasMessageMatching("^version is marked .*on.*ull but is null$");
+        assertThatThrownBy(() -> {
+            databaseProvider.deletePolicy("aaa", null);
+        }).hasMessageMatching("^version is marked .*on.*ull but is null$");
 
-            assertThatThrownBy(() -> {
-                databaseProvider.getOperationalPolicy(null, null);
-            }).hasMessageMatching(POLICY_ID_IS_NULL);
+        assertThatThrownBy(() -> {
+            databaseProvider.getOperationalPolicy(null, null);
+        }).hasMessageMatching(POLICY_ID_IS_NULL);
 
-            assertThatThrownBy(() -> {
-                databaseProvider.getOperationalPolicy(null, "");
-            }).hasMessageMatching(POLICY_ID_IS_NULL);
+        assertThatThrownBy(() -> {
+            databaseProvider.getOperationalPolicy(null, "");
+        }).hasMessageMatching(POLICY_ID_IS_NULL);
 
-            assertThatThrownBy(() -> {
-                databaseProvider.getOperationalPolicy("", null);
-            }).hasMessage("no policy found for policy: :null");
+        assertThatThrownBy(() -> {
+            databaseProvider.getOperationalPolicy("", null);
+        }).hasMessage("no policy found for policy: :null");
 
-            assertThatThrownBy(() -> {
-                databaseProvider.createOperationalPolicy(null);
-            }).hasMessageMatching("^legacyOperationalPolicy is marked .*on.*ull but is null$");
+        assertThatThrownBy(() -> {
+            databaseProvider.createOperationalPolicy(null);
+        }).hasMessageMatching("^legacyOperationalPolicy is marked .*on.*ull but is null$");
 
-            assertThatThrownBy(() -> {
-                databaseProvider.updateOperationalPolicy(null);
-            }).hasMessageMatching("^legacyOperationalPolicy is marked .*on.*ull but is null$");
+        assertThatThrownBy(() -> {
+            databaseProvider.updateOperationalPolicy(null);
+        }).hasMessageMatching("^legacyOperationalPolicy is marked .*on.*ull but is null$");
 
-            assertThatThrownBy(() -> {
-                databaseProvider.deleteOperationalPolicy(null, null);
-            }).hasMessageMatching(POLICY_ID_IS_NULL);
+        assertThatThrownBy(() -> {
+            databaseProvider.deleteOperationalPolicy(null, null);
+        }).hasMessageMatching(POLICY_ID_IS_NULL);
 
-            assertThatThrownBy(() -> {
-                databaseProvider.deleteOperationalPolicy(null, "");
-            }).hasMessageMatching(POLICY_ID_IS_NULL);
+        assertThatThrownBy(() -> {
+            databaseProvider.deleteOperationalPolicy(null, "");
+        }).hasMessageMatching(POLICY_ID_IS_NULL);
 
-            assertThatThrownBy(() -> {
-                databaseProvider.deleteOperationalPolicy("", null);
-            }).hasMessageMatching("^policyVersion is marked .*on.*ull but is null$");
+        assertThatThrownBy(() -> {
+            databaseProvider.deleteOperationalPolicy("", null);
+        }).hasMessageMatching("^policyVersion is marked .*on.*ull but is null$");
 
-            assertThatThrownBy(() -> {
-                databaseProvider.getGuardPolicy(null, null);
-            }).hasMessageMatching(POLICY_ID_IS_NULL);
+        assertThatThrownBy(() -> {
+            databaseProvider.getGuardPolicy(null, null);
+        }).hasMessageMatching(POLICY_ID_IS_NULL);
 
-            assertThatThrownBy(() -> {
-                databaseProvider.getGuardPolicy(null, "");
-            }).hasMessageMatching(POLICY_ID_IS_NULL);
+        assertThatThrownBy(() -> {
+            databaseProvider.getGuardPolicy(null, "");
+        }).hasMessageMatching(POLICY_ID_IS_NULL);
 
-            assertThatThrownBy(() -> {
-                databaseProvider.getGuardPolicy("", null);
-            }).hasMessage("no policy found for policy: :null");
+        assertThatThrownBy(() -> {
+            databaseProvider.getGuardPolicy("", null);
+        }).hasMessage("no policy found for policy: :null");
 
-            assertThatThrownBy(() -> {
-                databaseProvider.createGuardPolicy(null);
-            }).hasMessageMatching("^legacyGuardPolicy is marked .*on.*ull but is null$");
+        assertThatThrownBy(() -> {
+            databaseProvider.createGuardPolicy(null);
+        }).hasMessageMatching("^legacyGuardPolicy is marked .*on.*ull but is null$");
 
-            assertThatThrownBy(() -> {
-                databaseProvider.updateGuardPolicy(null);
-            }).hasMessageMatching("^legacyGuardPolicy is marked .*on.*ull but is null$");
+        assertThatThrownBy(() -> {
+            databaseProvider.updateGuardPolicy(null);
+        }).hasMessageMatching("^legacyGuardPolicy is marked .*on.*ull but is null$");
 
-            assertThatThrownBy(() -> {
-                databaseProvider.deleteGuardPolicy(null, null);
-            }).hasMessageMatching(POLICY_ID_IS_NULL);
+        assertThatThrownBy(() -> {
+            databaseProvider.deleteGuardPolicy(null, null);
+        }).hasMessageMatching(POLICY_ID_IS_NULL);
 
-            assertThatThrownBy(() -> {
-                databaseProvider.deleteGuardPolicy(null, "");
-            }).hasMessageMatching(POLICY_ID_IS_NULL);
+        assertThatThrownBy(() -> {
+            databaseProvider.deleteGuardPolicy(null, "");
+        }).hasMessageMatching(POLICY_ID_IS_NULL);
 
-            assertThatThrownBy(() -> {
-                databaseProvider.deleteGuardPolicy("", null);
-            }).hasMessageMatching("^policyVersion is marked .*on.*ull but is null$");
+        assertThatThrownBy(() -> {
+            databaseProvider.deleteGuardPolicy("", null);
+        }).hasMessageMatching("^policyVersion is marked .*on.*ull but is null$");
 
-            assertThatThrownBy(() -> {
-                databaseProvider.getFilteredPdpGroups(null);
-            }).hasMessageMatching(FILTER_IS_NULL);
+        assertThatThrownBy(() -> {
+            databaseProvider.getFilteredPdpGroups(null);
+        }).hasMessageMatching(FILTER_IS_NULL);
 
-            assertThatThrownBy(() -> {
-                databaseProvider.createPdpGroups(null);
-            }).hasMessageMatching("^pdpGroups is marked .*on.*ull but is null$");
+        assertThatThrownBy(() -> {
+            databaseProvider.createPdpGroups(null);
+        }).hasMessageMatching("^pdpGroups is marked .*on.*ull but is null$");
 
-            assertThatThrownBy(() -> {
-                databaseProvider.updatePdpGroups(null);
-            }).hasMessageMatching("^pdpGroups is marked .*on.*ull but is null$");
+        assertThatThrownBy(() -> {
+            databaseProvider.updatePdpGroups(null);
+        }).hasMessageMatching("^pdpGroups is marked .*on.*ull but is null$");
 
-            assertThatThrownBy(() -> {
-                databaseProvider.updatePdpSubGroup(null, null);
-            }).hasMessageMatching(GROUP_IS_NULL);
+        assertThatThrownBy(() -> {
+            databaseProvider.updatePdpSubGroup(null, null);
+        }).hasMessageMatching(GROUP_IS_NULL);
 
-            assertThatThrownBy(() -> {
-                databaseProvider.updatePdpSubGroup(null, new PdpSubGroup());
-            }).hasMessageMatching(GROUP_IS_NULL);
+        assertThatThrownBy(() -> {
+            databaseProvider.updatePdpSubGroup(null, new PdpSubGroup());
+        }).hasMessageMatching(GROUP_IS_NULL);
 
-            assertThatThrownBy(() -> {
-                databaseProvider.updatePdpSubGroup(NAME, null);
-            }).hasMessageMatching(SUBGROUP_IS_NULL);
+        assertThatThrownBy(() -> {
+            databaseProvider.updatePdpSubGroup(NAME, null);
+        }).hasMessageMatching(SUBGROUP_IS_NULL);
 
-            assertThatThrownBy(() -> {
-                databaseProvider.updatePdpSubGroup(NAME, new PdpSubGroup());
-            }).hasMessage("parameter \"localName\" is null");
+        assertThatThrownBy(() -> {
+            databaseProvider.updatePdpSubGroup(NAME, new PdpSubGroup());
+        }).hasMessage("parameter \"localName\" is null");
 
-            assertThatThrownBy(() -> {
-                databaseProvider.updatePdp(null, null, null);
-            }).hasMessageMatching(GROUP_IS_NULL);
+        assertThatThrownBy(() -> {
+            databaseProvider.updatePdp(null, null, null);
+        }).hasMessageMatching(GROUP_IS_NULL);
 
-            assertThatThrownBy(() -> {
-                databaseProvider.updatePdp(null, null, new Pdp());
-            }).hasMessageMatching(GROUP_IS_NULL);
+        assertThatThrownBy(() -> {
+            databaseProvider.updatePdp(null, null, new Pdp());
+        }).hasMessageMatching(GROUP_IS_NULL);
 
-            assertThatThrownBy(() -> {
-                databaseProvider.updatePdp(null, "sub", null);
-            }).hasMessageMatching(GROUP_IS_NULL);
+        assertThatThrownBy(() -> {
+            databaseProvider.updatePdp(null, "sub", null);
+        }).hasMessageMatching(GROUP_IS_NULL);
 
-            assertThatThrownBy(() -> {
-                databaseProvider.updatePdp(null, "sub", new Pdp());
-            }).hasMessageMatching(GROUP_IS_NULL);
+        assertThatThrownBy(() -> {
+            databaseProvider.updatePdp(null, "sub", new Pdp());
+        }).hasMessageMatching(GROUP_IS_NULL);
 
-            assertThatThrownBy(() -> {
-                databaseProvider.updatePdp(NAME, null, null);
-            }).hasMessageMatching(SUBGROUP_IS_NULL);
+        assertThatThrownBy(() -> {
+            databaseProvider.updatePdp(NAME, null, null);
+        }).hasMessageMatching(SUBGROUP_IS_NULL);
 
-            assertThatThrownBy(() -> {
-                databaseProvider.updatePdp(NAME, null, new Pdp());
-            }).hasMessageMatching(SUBGROUP_IS_NULL);
+        assertThatThrownBy(() -> {
+            databaseProvider.updatePdp(NAME, null, new Pdp());
+        }).hasMessageMatching(SUBGROUP_IS_NULL);
 
-            assertThatThrownBy(() -> {
-                databaseProvider.updatePdp(NAME, "sub", null);
-            }).hasMessageMatching("^pdp is marked .*on.*ull but is null$");
+        assertThatThrownBy(() -> {
+            databaseProvider.updatePdp(NAME, "sub", null);
+        }).hasMessageMatching("^pdp is marked .*on.*ull but is null$");
 
-            assertThatThrownBy(() -> {
-                databaseProvider.updatePdp(NAME, "sub", new Pdp());
-            }).hasMessage("parameter \"localName\" is null");
+        assertThatThrownBy(() -> {
+            databaseProvider.updatePdp(NAME, "sub", new Pdp());
+        }).hasMessage("parameter \"localName\" is null");
 
-            assertThatThrownBy(() -> {
-                databaseProvider.deletePdpGroup(null);
-            }).hasMessageMatching(NAME_IS_NULL);
+        assertThatThrownBy(() -> {
+            databaseProvider.deletePdpGroup(null);
+        }).hasMessageMatching(NAME_IS_NULL);
 
-            assertThatThrownBy(() -> {
-                databaseProvider.getFilteredPdpStatistics(NAME, null, "sub", TIMESTAMP, TIMESTAMP, ORDER, 0);
-            }).hasMessageMatching(GROUP_IS_NULL);
+        assertThatThrownBy(() -> {
+            databaseProvider.getFilteredPdpStatistics(NAME, null, "sub", TIMESTAMP, TIMESTAMP, ORDER, 0);
+        }).hasMessageMatching(GROUP_IS_NULL);
 
-            assertThatThrownBy(() -> {
-                databaseProvider.createPdpStatistics(null);
-            }).hasMessageMatching("^pdpStatisticsList is marked .*on.*ull but is null$");
+        assertThatThrownBy(() -> {
+            databaseProvider.createPdpStatistics(null);
+        }).hasMessageMatching("^pdpStatisticsList is marked .*on.*ull but is null$");
 
-            assertThatThrownBy(() -> {
-                databaseProvider.updatePdpStatistics(null);
-            }).hasMessageMatching("^pdpStatisticsList is marked .*on.*ull but is null$");
+        assertThatThrownBy(() -> {
+            databaseProvider.updatePdpStatistics(null);
+        }).hasMessageMatching("^pdpStatisticsList is marked .*on.*ull but is null$");
 
-            assertThatThrownBy(() -> {
-                databaseProvider.deletePdpStatistics(null, TIMESTAMP);
-            }).hasMessageMatching(NAME_IS_NULL);
+        assertThatThrownBy(() -> {
+            databaseProvider.deletePdpStatistics(null, TIMESTAMP);
+        }).hasMessageMatching(NAME_IS_NULL);
 
-        }
+        databaseProvider.close();
     }
 
     @Test
@@ -358,181 +355,185 @@ public class DatabasePolicyModelsProviderTest {
     }
 
     @Test
-    public void testProviderMethods() {
-        try (PolicyModelsProvider databaseProvider =
-                new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters)) {
+    public void testProviderMethods() throws PfModelException {
+        PolicyModelsProvider databaseProvider =
+                new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
-            assertTrue(databaseProvider.getPolicyTypes(NAME, VERSION_100).getPolicyTypes().isEmpty());
-            assertTrue(databaseProvider.getPolicyTypeList(NAME, VERSION_100).isEmpty());
-            assertEquals(0, databaseProvider.getFilteredPolicyTypes(ToscaPolicyTypeFilter.builder().build())
-                    .getPolicyTypes().size());
-            assertEquals(0, databaseProvider.getFilteredPolicyTypeList(ToscaPolicyTypeFilter.builder().build()).size());
+        assertThatThrownBy(() -> databaseProvider.getPolicyTypes(NAME, VERSION_100))
+                .hasMessage("service template not found in database");
 
-            assertThatThrownBy(() -> {
-                databaseProvider.createPolicyTypes(new ToscaServiceTemplate());
-            }).hasMessage("no policy types specified on service template");
+        assertTrue(databaseProvider.getPolicyTypeList(NAME, VERSION_100).isEmpty());
 
-            assertThatThrownBy(() -> {
-                databaseProvider.updatePolicyTypes(new ToscaServiceTemplate());
-            }).hasMessage("no policy types specified on service template");
+        assertThatThrownBy(() -> databaseProvider.getFilteredPolicyTypes(ToscaPolicyTypeFilter.builder().build()))
+                .hasMessage("service template not found in database");
 
-            assertTrue(databaseProvider.deletePolicyType(NAME, VERSION_100).getPolicyTypes().isEmpty());
+        assertTrue(databaseProvider.getFilteredPolicyTypeList(ToscaPolicyTypeFilter.builder().build()).isEmpty());
 
-            assertTrue(databaseProvider.deletePolicyType(NAME, VERSION_100).getPolicyTypes().isEmpty());
+        assertThatThrownBy(() -> {
+            databaseProvider.createPolicyTypes(new ToscaServiceTemplate());
+        }).hasMessage("no policy types specified on service template");
 
-            assertTrue(
-                    databaseProvider.getPolicies(NAME, VERSION_100).getToscaTopologyTemplate().getPolicies().isEmpty());
-            assertTrue(databaseProvider.getPolicyList(NAME, VERSION_100).isEmpty());
-            assertEquals(0, databaseProvider.getFilteredPolicies(ToscaPolicyFilter.builder().build())
-                    .getToscaTopologyTemplate().getPolicies().size());
-            assertEquals(0, databaseProvider.getFilteredPolicyList(ToscaPolicyFilter.builder().build()).size());
+        assertThatThrownBy(() -> {
+            databaseProvider.updatePolicyTypes(new ToscaServiceTemplate());
+        }).hasMessage("no policy types specified on service template");
 
-            assertThatThrownBy(() -> {
-                databaseProvider.createPolicies(new ToscaServiceTemplate());
-            }).hasMessage("topology template not specified on service template");
+        assertThatThrownBy(() -> databaseProvider.deletePolicyType(NAME, VERSION_100))
+                .hasMessage("service template not found in database");
 
-            assertThatThrownBy(() -> {
-                databaseProvider.updatePolicies(new ToscaServiceTemplate());
-            }).hasMessage("topology template not specified on service template");
+        assertThatThrownBy(() -> databaseProvider.getPolicies(NAME, VERSION_100))
+                .hasMessage("service template not found in database");
 
-            assertTrue(databaseProvider.deletePolicy("Policy", "0.0.0").getToscaTopologyTemplate().getPolicies()
-                    .isEmpty());
+        assertTrue(databaseProvider.getPolicyList(NAME, VERSION_100).isEmpty());
 
-            assertThatThrownBy(() -> {
-                databaseProvider.getOperationalPolicy(POLICY_ID, null);
-            }).hasMessage("no policy found for policy: policy_id:null");
+        assertThatThrownBy(() -> databaseProvider.getFilteredPolicies(ToscaPolicyFilter.builder().build()))
+                .hasMessage("service template not found in database");
 
-            assertThatThrownBy(() -> {
-                databaseProvider.getOperationalPolicy(POLICY_ID, "10");
-            }).hasMessage("no policy found for policy: policy_id:10");
+        assertTrue(databaseProvider.getFilteredPolicyList(ToscaPolicyFilter.builder().build()).isEmpty());
 
-            assertThatThrownBy(() -> {
-                databaseProvider.createOperationalPolicy(new LegacyOperationalPolicy());
-            }).hasMessageMatching(NAME_IS_NULL);
+        assertThatThrownBy(() -> {
+            databaseProvider.createPolicies(new ToscaServiceTemplate());
+        }).hasMessage("topology template not specified on service template");
 
-            assertThatThrownBy(() -> {
-                databaseProvider.updateOperationalPolicy(new LegacyOperationalPolicy());
-            }).hasMessageMatching(NAME_IS_NULL);
+        assertThatThrownBy(() -> {
+            databaseProvider.updatePolicies(new ToscaServiceTemplate());
+        }).hasMessage("topology template not specified on service template");
 
-            assertThatThrownBy(() -> {
-                databaseProvider.deleteOperationalPolicy(POLICY_ID, "55");
-            }).hasMessage("no policy found for policy: policy_id:55");
+        assertThatThrownBy(() -> databaseProvider.deletePolicy("Policy", "0.0.0").getToscaTopologyTemplate())
+                .hasMessage("service template not found in database");
 
-            assertThatThrownBy(() -> {
-                databaseProvider.getGuardPolicy(POLICY_ID, null);
-            }).hasMessage("no policy found for policy: policy_id:null");
+        assertThatThrownBy(() -> {
+            databaseProvider.getOperationalPolicy(POLICY_ID, null);
+        }).hasMessage("no policy found for policy: policy_id:null");
 
-            assertThatThrownBy(() -> {
-                databaseProvider.getGuardPolicy(POLICY_ID, "6");
-            }).hasMessage("no policy found for policy: policy_id:6");
+        assertThatThrownBy(() -> {
+            databaseProvider.getOperationalPolicy(POLICY_ID, "10");
+        }).hasMessage("no policy found for policy: policy_id:10");
 
-            assertThatThrownBy(() -> {
-                databaseProvider.createGuardPolicy(new LegacyGuardPolicyInput());
-            }).hasMessage("policy type for guard policy \"null\" unknown");
+        assertThatThrownBy(() -> {
+            databaseProvider.createOperationalPolicy(new LegacyOperationalPolicy());
+        }).hasMessageMatching(NAME_IS_NULL);
 
-            assertThatThrownBy(() -> {
-                databaseProvider.updateGuardPolicy(new LegacyGuardPolicyInput());
-            }).hasMessage("policy type for guard policy \"null\" unknown");
+        assertThatThrownBy(() -> {
+            databaseProvider.updateOperationalPolicy(new LegacyOperationalPolicy());
+        }).hasMessageMatching(NAME_IS_NULL);
 
-            assertThatThrownBy(() -> {
-                databaseProvider.deleteGuardPolicy(POLICY_ID, "33");
-            }).hasMessage("no policy found for policy: policy_id:33");
+        assertThatThrownBy(() -> {
+            databaseProvider.deleteOperationalPolicy(POLICY_ID, "55");
+        }).hasMessage("no policy found for policy: policy_id:55");
 
-            assertEquals(0, databaseProvider.getPdpGroups(NAME).size());
-            assertEquals(0, databaseProvider.getFilteredPdpGroups(PdpGroupFilter.builder().build()).size());
+        assertThatThrownBy(() -> {
+            databaseProvider.getGuardPolicy(POLICY_ID, null);
+        }).hasMessage("no policy found for policy: policy_id:null");
 
-            assertNotNull(databaseProvider.createPdpGroups(new ArrayList<>()));
-            assertNotNull(databaseProvider.updatePdpGroups(new ArrayList<>()));
+        assertThatThrownBy(() -> {
+            databaseProvider.getGuardPolicy(POLICY_ID, "6");
+        }).hasMessage("no policy found for policy: policy_id:6");
 
-            PdpGroup pdpGroup = new PdpGroup();
-            pdpGroup.setName(GROUP);
-            pdpGroup.setVersion("1.2.3");
-            pdpGroup.setPdpGroupState(PdpState.ACTIVE);
-            pdpGroup.setPdpSubgroups(new ArrayList<>());
-            List<PdpGroup> groupList = new ArrayList<>();
-            groupList.add(pdpGroup);
+        assertThatThrownBy(() -> {
+            databaseProvider.createGuardPolicy(new LegacyGuardPolicyInput());
+        }).hasMessage("policy type for guard policy \"null\" unknown");
 
-            PdpSubGroup pdpSubGroup = new PdpSubGroup();
-            pdpSubGroup.setPdpType("type");
-            pdpSubGroup.setDesiredInstanceCount(123);
-            pdpSubGroup.setSupportedPolicyTypes(new ArrayList<>());
-            pdpSubGroup.getSupportedPolicyTypes().add(new ToscaPolicyTypeIdentifier("type", "7.8.9"));
-            pdpGroup.getPdpSubgroups().add(pdpSubGroup);
+        assertThatThrownBy(() -> {
+            databaseProvider.updateGuardPolicy(new LegacyGuardPolicyInput());
+        }).hasMessage("policy type for guard policy \"null\" unknown");
 
-            Pdp pdp = new Pdp();
-            pdp.setInstanceId("type-0");
-            pdp.setMessage("Hello");
-            pdp.setPdpState(PdpState.ACTIVE);
-            pdp.setHealthy(PdpHealthStatus.UNKNOWN);
-            pdpSubGroup.setPdpInstances(new ArrayList<>());
-            pdpSubGroup.getPdpInstances().add(pdp);
+        assertThatThrownBy(() -> {
+            databaseProvider.deleteGuardPolicy(POLICY_ID, "33");
+        }).hasMessage("no policy found for policy: policy_id:33");
 
-            PdpStatistics pdpStatistics = new PdpStatistics();
-            pdpStatistics.setPdpInstanceId(NAME);
-            pdpStatistics.setTimeStamp(new Date());
-            pdpStatistics.setPdpGroupName(GROUP);
-            pdpStatistics.setPdpSubGroupName("type");
-            ArrayList<PdpStatistics> statisticsArrayList = new ArrayList<>();
-            statisticsArrayList.add(pdpStatistics);
+        assertEquals(0, databaseProvider.getPdpGroups(NAME).size());
+        assertEquals(0, databaseProvider.getFilteredPdpGroups(PdpGroupFilter.builder().build()).size());
 
-            assertEquals(123, databaseProvider.createPdpGroups(groupList).get(0).getPdpSubgroups().get(0)
-                    .getDesiredInstanceCount());
-            assertEquals(1, databaseProvider.getPdpGroups(GROUP).size());
+        assertNotNull(databaseProvider.createPdpGroups(new ArrayList<>()));
+        assertNotNull(databaseProvider.updatePdpGroups(new ArrayList<>()));
 
-            pdpSubGroup.setDesiredInstanceCount(234);
-            databaseProvider.updatePdpSubGroup(GROUP, pdpSubGroup);
-            assertEquals(234,
-                    databaseProvider.getPdpGroups(GROUP).get(0).getPdpSubgroups().get(0).getDesiredInstanceCount());
+        PdpGroup pdpGroup = new PdpGroup();
+        pdpGroup.setName(GROUP);
+        pdpGroup.setVersion("1.2.3");
+        pdpGroup.setPdpGroupState(PdpState.ACTIVE);
+        pdpGroup.setPdpSubgroups(new ArrayList<>());
+        List<PdpGroup> groupList = new ArrayList<>();
+        groupList.add(pdpGroup);
 
-            assertEquals("Hello", databaseProvider.getPdpGroups(GROUP).get(0).getPdpSubgroups().get(0).getPdpInstances()
-                    .get(0).getMessage());
-            pdp.setMessage("Howdy");
-            databaseProvider.updatePdp(GROUP, "type", pdp);
-            assertEquals("Howdy", databaseProvider.getPdpGroups(GROUP).get(0).getPdpSubgroups().get(0).getPdpInstances()
-                    .get(0).getMessage());
+        PdpSubGroup pdpSubGroup = new PdpSubGroup();
+        pdpSubGroup.setPdpType("type");
+        pdpSubGroup.setDesiredInstanceCount(123);
+        pdpSubGroup.setSupportedPolicyTypes(new ArrayList<>());
+        pdpSubGroup.getSupportedPolicyTypes().add(new ToscaPolicyTypeIdentifier("type", "7.8.9"));
+        pdpGroup.getPdpSubgroups().add(pdpSubGroup);
 
-            assertThatThrownBy(() -> {
-                databaseProvider.deletePdpGroup(NAME);
-            }).hasMessage("delete of PDP group \"name:0.0.0\" failed, PDP group does not exist");
+        Pdp pdp = new Pdp();
+        pdp.setInstanceId("type-0");
+        pdp.setMessage("Hello");
+        pdp.setPdpState(PdpState.ACTIVE);
+        pdp.setHealthy(PdpHealthStatus.UNKNOWN);
+        pdpSubGroup.setPdpInstances(new ArrayList<>());
+        pdpSubGroup.getPdpInstances().add(pdp);
 
-            assertEquals(pdpGroup.getName(), databaseProvider.deletePdpGroup(GROUP).getName());
+        PdpStatistics pdpStatistics = new PdpStatistics();
+        pdpStatistics.setPdpInstanceId(NAME);
+        pdpStatistics.setTimeStamp(new Date());
+        pdpStatistics.setPdpGroupName(GROUP);
+        pdpStatistics.setPdpSubGroupName("type");
+        ArrayList<PdpStatistics> statisticsArrayList = new ArrayList<>();
+        statisticsArrayList.add(pdpStatistics);
 
-            assertEquals(0, databaseProvider.getPdpStatistics(null, null).size());
-            assertEquals(1, databaseProvider.createPdpStatistics(statisticsArrayList).size());
-            assertEquals(1, databaseProvider.updatePdpStatistics(statisticsArrayList).size());
+        assertEquals(123,
+                databaseProvider.createPdpGroups(groupList).get(0).getPdpSubgroups().get(0).getDesiredInstanceCount());
+        assertEquals(1, databaseProvider.getPdpGroups(GROUP).size());
 
-            assertEquals(NAME, databaseProvider.getPdpStatistics(null, null).get(0).getPdpInstanceId());
-            assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(null, GROUP, null, null, null, ORDER, 0).get(0)
-                    .getPdpInstanceId());
-            assertEquals(0,
-                    databaseProvider.getFilteredPdpStatistics(null, GROUP, null, new Date(), null, ORDER, 0).size());
-            assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(null, GROUP, null, null, new Date(), ORDER, 0)
-                    .get(0).getPdpInstanceId());
-            assertEquals(0, databaseProvider
-                    .getFilteredPdpStatistics(null, GROUP, null, new Date(), new Date(), ORDER, 0).size());
+        pdpSubGroup.setDesiredInstanceCount(234);
+        databaseProvider.updatePdpSubGroup(GROUP, pdpSubGroup);
+        assertEquals(234,
+                databaseProvider.getPdpGroups(GROUP).get(0).getPdpSubgroups().get(0).getDesiredInstanceCount());
 
-            assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(NAME, GROUP, null, null, null, ORDER, 0).get(0)
-                    .getPdpInstanceId());
-            assertEquals(0, databaseProvider
-                    .getFilteredPdpStatistics(NAME, GROUP, null, new Date(), new Date(), ORDER, 0).size());
+        assertEquals("Hello", databaseProvider.getPdpGroups(GROUP).get(0).getPdpSubgroups().get(0).getPdpInstances()
+                .get(0).getMessage());
+        pdp.setMessage("Howdy");
+        databaseProvider.updatePdp(GROUP, "type", pdp);
+        assertEquals("Howdy", databaseProvider.getPdpGroups(GROUP).get(0).getPdpSubgroups().get(0).getPdpInstances()
+                .get(0).getMessage());
 
-            assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(NAME, GROUP, "type", null, null, ORDER, 0)
-                    .get(0).getPdpInstanceId());
-            assertEquals(0, databaseProvider
-                    .getFilteredPdpStatistics(NAME, GROUP, "type", new Date(), new Date(), ORDER, 0).size());
+        assertThatThrownBy(() -> {
+            databaseProvider.deletePdpGroup(NAME);
+        }).hasMessage("delete of PDP group \"name:0.0.0\" failed, PDP group does not exist");
 
-            assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(NAME, GROUP, "type", null, null, ORDER, 1)
-                    .get(0).getPdpInstanceId());
-            assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(NAME, GROUP, "type", null, null, ORDER, 5)
-                    .get(0).getPdpInstanceId());
-            assertEquals(0, databaseProvider
-                    .getFilteredPdpStatistics(NAME, GROUP, "type", new Date(), new Date(), ORDER, 5).size());
+        assertEquals(pdpGroup.getName(), databaseProvider.deletePdpGroup(GROUP).getName());
 
-            assertEquals(NAME, databaseProvider.deletePdpStatistics(NAME, null).get(0).getPdpInstanceId());
-            assertEquals(0, databaseProvider.getPdpStatistics(null, null).size());
-        } catch (Exception exc) {
-            LOGGER.warn("test should not throw an exception", exc);
-            fail("test should not throw an exception");
-        }
+        assertEquals(0, databaseProvider.getPdpStatistics(null, null).size());
+        assertEquals(1, databaseProvider.createPdpStatistics(statisticsArrayList).size());
+        assertEquals(1, databaseProvider.updatePdpStatistics(statisticsArrayList).size());
+
+        assertEquals(NAME, databaseProvider.getPdpStatistics(null, null).get(0).getPdpInstanceId());
+        assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(null, GROUP, null, null, null, ORDER, 0).get(0)
+                .getPdpInstanceId());
+        assertEquals(0,
+                databaseProvider.getFilteredPdpStatistics(null, GROUP, null, new Date(), null, ORDER, 0).size());
+        assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(null, GROUP, null, null, new Date(), ORDER, 0)
+                .get(0).getPdpInstanceId());
+        assertEquals(0,
+                databaseProvider.getFilteredPdpStatistics(null, GROUP, null, new Date(), new Date(), ORDER, 0).size());
+
+        assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(NAME, GROUP, null, null, null, ORDER, 0).get(0)
+                .getPdpInstanceId());
+        assertEquals(0,
+                databaseProvider.getFilteredPdpStatistics(NAME, GROUP, null, new Date(), new Date(), ORDER, 0).size());
+
+        assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(NAME, GROUP, "type", null, null, ORDER, 0).get(0)
+                .getPdpInstanceId());
+        assertEquals(0, databaseProvider.getFilteredPdpStatistics(NAME, GROUP, "type", new Date(), new Date(), ORDER, 0)
+                .size());
+
+        assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(NAME, GROUP, "type", null, null, ORDER, 1).get(0)
+                .getPdpInstanceId());
+        assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(NAME, GROUP, "type", null, null, ORDER, 5).get(0)
+                .getPdpInstanceId());
+        assertEquals(0, databaseProvider.getFilteredPdpStatistics(NAME, GROUP, "type", new Date(), new Date(), ORDER, 5)
+                .size());
+
+        assertEquals(NAME, databaseProvider.deletePdpStatistics(NAME, null).get(0).getPdpInstanceId());
+        assertEquals(0, databaseProvider.getPdpStatistics(null, null).size());
+
+        databaseProvider.close();
     }
 }

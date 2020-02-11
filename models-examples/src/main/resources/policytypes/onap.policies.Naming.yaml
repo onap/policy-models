@@ -26,7 +26,7 @@ data_types:
                 metadata:
                     matchable: true
             naming-recipe:
-                type: String
+                type: string
                 required: true
             name-operation:
                 type: string

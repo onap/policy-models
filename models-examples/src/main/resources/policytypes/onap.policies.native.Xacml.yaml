@@ -10,7 +10,7 @@ policy_types:
         version: 1.0.0
         properties:
             policy:
-                type: String
+                type: string
                 required: true
                 description: The XML XACML 3.0 PolicySet or Policy
                 metadata:

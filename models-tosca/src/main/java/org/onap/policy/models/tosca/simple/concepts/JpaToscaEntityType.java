@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,15 +26,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
+
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.EmbeddedId;
 import javax.persistence.MappedSuperclass;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
+
 import org.apache.commons.lang3.ObjectUtils;
 import org.onap.policy.common.utils.validation.ParameterValidationUtils;
 import org.onap.policy.models.base.PfAuthorative;
@@ -70,7 +73,7 @@ public class JpaToscaEntityType<T extends ToscaEntity> extends PfConcept impleme
     private PfConceptKey derivedFrom;
 
     @ElementCollection
-    private Map<String, String> metadata;
+    private Map<String, String> metadata = new TreeMap<>();
 
     @Column
     private String description;
@@ -153,7 +156,6 @@ public class JpaToscaEntityType<T extends ToscaEntity> extends PfConcept impleme
         if (toscaEntity.getVersion() != null) {
             key.setVersion(toscaEntity.getVersion());
         }
-
 
         if (toscaEntity.getDerivedFrom() != null) {
             // CHeck if the derived from field contains a name-version ID

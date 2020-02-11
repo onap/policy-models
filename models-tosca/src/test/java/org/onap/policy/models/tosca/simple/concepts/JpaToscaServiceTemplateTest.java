@@ -21,6 +21,7 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -135,5 +136,101 @@ public class JpaToscaServiceTemplateTest {
         assertTrue(tst.validate(new PfValidationResult()).isValid());
 
         assertThatThrownBy(() -> tst.validate(null)).hasMessageMatching("resultIn is marked .*on.*ull but is null");
+
+        tst.setToscaDefinitionsVersion(null);
+        PfValidationResult result = tst.validate(new PfValidationResult());
+        assertThat(result.toString()).contains("service template tosca definitions version may not be null");
+
+        tst.setToscaDefinitionsVersion(JpaToscaServiceTemplate.DEFAULT_TOSCA_DEFINTIONS_VERISON);
+        tst.setDataTypes(null);
+        result = tst.validate(new PfValidationResult());
+        assertTrue(result.isOk());
+
+        JpaToscaPolicyType pt0 = new JpaToscaPolicyType(new PfConceptKey("pt0:0.0.1"));
+        tst.getPolicyTypes().getConceptMap().put(pt0.getKey(), pt0);
+        result = tst.validate(new PfValidationResult());
+        assertTrue(result.isOk());
+
+        JpaToscaDataType dt0 = new JpaToscaDataType(new PfConceptKey("dt0:0.0.1"));
+        JpaToscaProperty prop0 = new JpaToscaProperty(new PfReferenceKey(pt0.getKey(), "prop0"));
+        prop0.setType(dt0.getKey());
+        pt0.getProperties().put(prop0.getKey().getLocalName(), prop0);
+        result = tst.validate(new PfValidationResult());
+        assertFalse(result.isOk());
+        assertThat(result.toString()).contains("referenced data type dt0:0.0.1 not found");
+
+        tst.setDataTypes(null);
+        result = tst.validate(new PfValidationResult());
+        assertFalse(result.isOk());
+        assertThat(result.toString()).contains("referenced data type dt0:0.0.1 not found");
+
+        tst.setDataTypes(new JpaToscaDataTypes());
+        result = tst.validate(new PfValidationResult());
+        assertFalse(result.isOk());
+        assertThat(result.toString()).contains("referenced data type dt0:0.0.1 not found");
+
+        tst.getDataTypes().getConceptMap().put(dt0.getKey(), dt0);
+        result = tst.validate(new PfValidationResult());
+        assertTrue(result.isOk());
+
+        tst.setTopologyTemplate(null);
+        result = tst.validate(new PfValidationResult());
+        assertTrue(result.isOk());
+
+        tst.setTopologyTemplate(new JpaToscaTopologyTemplate());
+        result = tst.validate(new PfValidationResult());
+        assertTrue(result.isOk());
+
+        tst.getTopologyTemplate().setPolicies(new JpaToscaPolicies());
+        result = tst.validate(new PfValidationResult());
+        assertTrue(result.isOk());
+
+        tst.setPolicyTypes(null);
+        result = tst.validate(new PfValidationResult());
+        assertTrue(result.isOk());
+
+        JpaToscaPolicy pol0 = new JpaToscaPolicy(new PfConceptKey("pol0:0.0.1"));
+        tst.getTopologyTemplate().getPolicies().getConceptMap().put(pol0.getKey(), pol0);
+        result = tst.validate(new PfValidationResult());
+        assertFalse(result.isOk());
+        assertThat(result.toString()).contains("type is null or a null key");
+
+        pol0.setType(new PfConceptKey("i.dont.Exist:0.0.1"));
+        result = tst.validate(new PfValidationResult());
+        assertFalse(result.isOk());
+        assertThat(result.toString()).contains(
+                "no policy types are defined on the service template for the policies in the topology template");
+
+        tst.setPolicyTypes(policyTypes);
+        result = tst.validate(new PfValidationResult());
+        assertFalse(result.isOk());
+        assertThat(result.toString()).contains("policy type i.dont.Exist:0.0.1 referenced in policy not found");
+
+        pol0.setType(dt0.getKey());
+        result = tst.validate(new PfValidationResult());
+        assertFalse(result.isOk());
+        assertThat(result.toString()).contains("policy type dt0:0.0.1 referenced in policy not found");
+
+        pol0.setType(pt0.getKey());
+        result = tst.validate(new PfValidationResult());
+        assertTrue(result.isOk());
+
+        tst.setPolicyTypes(null);
+        result = tst.validate(new PfValidationResult());
+        assertFalse(result.isOk());
+        assertThat(result.toString()).contains(
+                "no policy types are defined on the service template for the policies in the topology template");
+
+        tst.setPolicyTypes(policyTypes);
+        pol0.setType(pt0.getKey());
+        result = tst.validate(new PfValidationResult());
+        assertTrue(result.isOk());
+
+        tst.setPolicyTypes(new JpaToscaPolicyTypes());
+        result = tst.validate(new PfValidationResult());
+        assertFalse(result.isOk());
+        assertThat(result.toString()).contains(
+                "no policy types are defined on the service template for the policies in the topology template");
+
     }
 }
