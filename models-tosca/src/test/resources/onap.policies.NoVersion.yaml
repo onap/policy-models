@@ -1,5 +1,9 @@
 tosca_definitions_version: tosca_simple_yaml_1_0_0
 policy_types:
+   onap.policies.Optimization:
+      derived_from: tosca.policies.Root
+      version: 1.0.0
+      description: The base policy type for all policies that govern optimization
    onap.policies.NoVersion:
       derived_from: onap.policies.Optimization
       properties:

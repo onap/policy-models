@@ -6,18 +6,18 @@ policy_types:
         description: Operational policies for Apex PDP
         properties:
             engineServiceParameters:
-                type: String
+                type: string
                 description: The engine parameters like name, instanceCount, policy implementation, parameters etc.
                 required: true
             eventInputParameters:
-                type: String
+                type: string
                 description: The event input parameters.
                 required: true
             eventOutputParameters:
-                type: String
+                type: string
                 description: The event output parameters.
                 required: true
             javaProperties:
-                type: String
+                type: string
                 description: Name/value pairs of properties to be set for APEX if needed.
                 required: false

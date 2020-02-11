@@ -101,7 +101,15 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
     @SerializedName("policy_types")
     private JpaToscaPolicyTypes policyTypes;
 
-    @Column
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumns(
+            {
+                @JoinColumn(name = "topologyTemplateParentKeyName",    referencedColumnName = "parentKeyName"),
+                @JoinColumn(name = "topologyTemplateParentKeyVersion", referencedColumnName = "parentKeyVersion"),
+                @JoinColumn(name = "topologyTemplateParentLocalName",  referencedColumnName = "parentLocalName"),
+                @JoinColumn(name = "topologyTemplateLocalName",        referencedColumnName = "localName")
+            }
+        )
     @SerializedName("topology_template")
     private JpaToscaTopologyTemplate topologyTemplate;
     // @formatter:on

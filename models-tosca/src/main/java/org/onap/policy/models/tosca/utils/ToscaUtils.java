@@ -242,17 +242,18 @@ public final class ToscaUtils {
      * Get the entity tree from a concept container for a given entity key.
      *
      * @param entityTypes the concept container containing entity types
-     * @param searchKey the key to search for
+     * @param entityName the name of the entity
+     * @param entityVersion the version of the entity
      */
     public static void getEntityTree(
             @NonNull final PfConceptContainer<? extends PfConcept, ? extends PfNameVersion> entityTypes,
-            @NonNull final PfConceptKey searchKey) {
+            final String entityName, final String entityVersion) {
 
         PfValidationResult result = new PfValidationResult();
 
         @SuppressWarnings("unchecked")
         Set<JpaToscaEntityType<?>> filteredEntitySet =
-                (Set<JpaToscaEntityType<?>>) entityTypes.getAll(searchKey.getName(), searchKey.getVersion());
+                (Set<JpaToscaEntityType<?>>) entityTypes.getAll(entityName, entityVersion);
         for (JpaToscaEntityType<?> filteredEntityType : filteredEntitySet) {
             filteredEntitySet.addAll(ToscaUtils.getEntityTypeAncestors(entityTypes, filteredEntityType, result));
         }
