@@ -23,6 +23,7 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -73,13 +74,13 @@ public class JpaToscaPolicyType extends JpaToscaEntityType<ToscaPolicyType> impl
 
     @ElementCollection
     @Lob
-    private Map<String, JpaToscaProperty> properties;
+    private Map<String, JpaToscaProperty> properties = new LinkedHashMap<>();
 
     @ElementCollection
-    private List<PfConceptKey> targets;
+    private List<PfConceptKey> targets = new ArrayList<>();
 
     @ElementCollection
-    private List<JpaToscaTrigger> triggers;
+    private List<JpaToscaTrigger> triggers = new ArrayList<>();
 
     /**
      * The Default Constructor creates a {@link JpaToscaPolicyType} object with a null key.

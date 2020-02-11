@@ -78,47 +78,45 @@ public class DummyPolicyModelsProviderTest {
         parameters.setDatabaseUrl("jdbc:dummy");
         parameters.setPersistenceUnit("dummy");
 
-        try (PolicyModelsProvider dummyProvider =
-                new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters)) {
-            dummyProvider.init();
+        PolicyModelsProvider dummyProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
+        dummyProvider.init();
 
-            assertNotNull(dummyProvider.getPolicyTypes("name", VERSION));
-            assertNotNull(dummyProvider.getFilteredPolicyTypes(ToscaPolicyTypeFilter.builder().build()));
-            assertNotNull(dummyProvider.getPolicyTypeList("name", VERSION));
-            assertNotNull(dummyProvider.getFilteredPolicyTypeList(ToscaPolicyTypeFilter.builder().build()));
-            assertNotNull(dummyProvider.createPolicyTypes(new ToscaServiceTemplate()));
-            assertNotNull(dummyProvider.updatePolicyTypes(new ToscaServiceTemplate()));
-            assertNotNull(dummyProvider.deletePolicyType("name", VERSION));
+        assertNotNull(dummyProvider.getPolicyTypes("name", VERSION));
+        assertNotNull(dummyProvider.getFilteredPolicyTypes(ToscaPolicyTypeFilter.builder().build()));
+        assertNotNull(dummyProvider.getPolicyTypeList("name", VERSION));
+        assertNotNull(dummyProvider.getFilteredPolicyTypeList(ToscaPolicyTypeFilter.builder().build()));
+        assertNotNull(dummyProvider.createPolicyTypes(new ToscaServiceTemplate()));
+        assertNotNull(dummyProvider.updatePolicyTypes(new ToscaServiceTemplate()));
+        assertNotNull(dummyProvider.deletePolicyType("name", VERSION));
 
-            assertNotNull(dummyProvider.getPolicies("name", VERSION));
-            assertNotNull(dummyProvider.getFilteredPolicies(ToscaPolicyFilter.builder().build()));
-            assertNotNull(dummyProvider.getPolicyList("name", VERSION));
-            assertNotNull(dummyProvider.getFilteredPolicyList(ToscaPolicyFilter.builder().build()));
-            assertNotNull(dummyProvider.createPolicies(new ToscaServiceTemplate()));
-            assertNotNull(dummyProvider.updatePolicies(new ToscaServiceTemplate()));
-            assertNotNull(dummyProvider.deletePolicy("name", VERSION));
+        assertNotNull(dummyProvider.getPolicies("name", VERSION));
+        assertNotNull(dummyProvider.getFilteredPolicies(ToscaPolicyFilter.builder().build()));
+        assertNotNull(dummyProvider.getPolicyList("name", VERSION));
+        assertNotNull(dummyProvider.getFilteredPolicyList(ToscaPolicyFilter.builder().build()));
+        assertNotNull(dummyProvider.createPolicies(new ToscaServiceTemplate()));
+        assertNotNull(dummyProvider.updatePolicies(new ToscaServiceTemplate()));
+        assertNotNull(dummyProvider.deletePolicy("name", VERSION));
 
-            assertNotNull(dummyProvider.getOperationalPolicy(POLICY_ID, "1"));
-            assertNotNull(dummyProvider.createOperationalPolicy(new LegacyOperationalPolicy()));
-            assertNotNull(dummyProvider.updateOperationalPolicy(new LegacyOperationalPolicy()));
-            assertNotNull(dummyProvider.deleteOperationalPolicy(POLICY_ID, "1"));
+        assertNotNull(dummyProvider.getOperationalPolicy(POLICY_ID, "1"));
+        assertNotNull(dummyProvider.createOperationalPolicy(new LegacyOperationalPolicy()));
+        assertNotNull(dummyProvider.updateOperationalPolicy(new LegacyOperationalPolicy()));
+        assertNotNull(dummyProvider.deleteOperationalPolicy(POLICY_ID, "1"));
 
-            assertNotNull(dummyProvider.getGuardPolicy(POLICY_ID, "1"));
-            assertNotNull(dummyProvider.createGuardPolicy(new LegacyGuardPolicyInput()));
-            assertNotNull(dummyProvider.updateGuardPolicy(new LegacyGuardPolicyInput()));
-            assertNotNull(dummyProvider.deleteGuardPolicy(POLICY_ID, "1"));
+        assertNotNull(dummyProvider.getGuardPolicy(POLICY_ID, "1"));
+        assertNotNull(dummyProvider.createGuardPolicy(new LegacyGuardPolicyInput()));
+        assertNotNull(dummyProvider.updateGuardPolicy(new LegacyGuardPolicyInput()));
+        assertNotNull(dummyProvider.deleteGuardPolicy(POLICY_ID, "1"));
 
-            assertTrue(dummyProvider.getPdpGroups("name").isEmpty());
-            assertTrue(dummyProvider.getFilteredPdpGroups(PdpGroupFilter.builder().build()).isEmpty());
-            assertTrue(dummyProvider.createPdpGroups(new ArrayList<>()).isEmpty());
-            assertTrue(dummyProvider.updatePdpGroups(new ArrayList<>()).isEmpty());
-            assertNull(dummyProvider.deletePdpGroup("name"));
+        assertTrue(dummyProvider.getPdpGroups("name").isEmpty());
+        assertTrue(dummyProvider.getFilteredPdpGroups(PdpGroupFilter.builder().build()).isEmpty());
+        assertTrue(dummyProvider.createPdpGroups(new ArrayList<>()).isEmpty());
+        assertTrue(dummyProvider.updatePdpGroups(new ArrayList<>()).isEmpty());
+        assertNull(dummyProvider.deletePdpGroup("name"));
 
-            dummyProvider.updatePdpSubGroup("name", new PdpSubGroup());
-            dummyProvider.updatePdp("name", "type", new Pdp());
-            dummyProvider.updatePdpStatistics(new ArrayList<>());
-            assertTrue(dummyProvider.getPdpStatistics("name", null).isEmpty());
-        }
+        dummyProvider.updatePdpSubGroup("name", new PdpSubGroup());
+        dummyProvider.updatePdp("name", "type", new Pdp());
+        dummyProvider.updatePdpStatistics(new ArrayList<>());
+        assertTrue(dummyProvider.getPdpStatistics("name", null).isEmpty());
     }
 
     @Test

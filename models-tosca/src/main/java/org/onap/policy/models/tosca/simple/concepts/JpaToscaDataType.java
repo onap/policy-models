@@ -3,7 +3,7 @@
  * ONAP Policy Model
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,10 +24,13 @@
 package org.onap.policy.models.tosca.simple.concepts;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -40,6 +43,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
@@ -52,6 +56,7 @@ import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConstraint;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaDataType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaProperty;
+import org.onap.policy.models.tosca.utils.ToscaUtils;
 
 /**
  * Class to represent custom data type in TOSCA definition.
@@ -68,11 +73,11 @@ public class JpaToscaDataType extends JpaToscaEntityType<ToscaDataType> implemen
     private static final long serialVersionUID = -3922690413436539164L;
 
     @ElementCollection
-    private List<JpaToscaConstraint> constraints;
+    private List<JpaToscaConstraint> constraints = new ArrayList<>();
 
     @ElementCollection
     @Lob
-    private Map<String, JpaToscaProperty> properties;
+    private Map<String, JpaToscaProperty> properties = new LinkedHashMap<>();
 
     /**
      * The Default Constructor creates a {@link JpaToscaDataType} object with a null key.
@@ -267,5 +272,30 @@ public class JpaToscaDataType extends JpaToscaEntityType<ToscaDataType> implemen
         }
 
         return 0;
+    }
+
+    /**
+     * Get the data types referenced in a data type.
+     *
+     * @return the data types referenced in a data type
+     */
+    public Collection<PfConceptKey> getReferencedDataTypes() {
+        if (properties == null) {
+            return CollectionUtils.emptyCollection();
+        }
+
+        Set<PfConceptKey> referencedDataTypes = new LinkedHashSet<>();
+
+        for (JpaToscaProperty property : properties.values()) {
+            referencedDataTypes.add(property.getType());
+
+            if (property.getEntrySchema() != null) {
+                referencedDataTypes.add(property.getEntrySchema().getType());
+            }
+        }
+
+        referencedDataTypes.removeAll(ToscaUtils.getPredefinedDataTypes());
+
+        return referencedDataTypes;
     }
 }

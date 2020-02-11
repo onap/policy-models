@@ -59,17 +59,14 @@ data_types:
                 type: string
                 description: The name of the file from which to read the APEX policy model
                 required: false
-                default: ""
             policy_type_impl:
                 type: string
                 description: The policy type implementation from which to read the APEX policy model
                 required: false
-                default: ""
             periodic_event_period:
                 type: string
                 description: The time interval in milliseconds for the periodic scanning event, 0 means don't scan
                 required: false
-                default: 0
             engine:
                 type: onap.datatypes.native.apex.engineservice.Engine
                 description: The parameters for all engines in the APEX engine service
@@ -106,12 +103,10 @@ data_types:
                 type: string
                 description: The peer event handler (output for input or input for output) of this event handler in synchronous mode, this parameter is mandatory if the event handler is in synchronous mode
                 required: false
-                default: ""
             synchronous_timeout:
                 type: int
                 description: The timeout in milliseconds for responses to be issued by APEX torequests, this parameter is mandatory if the event handler is in synchronous mode
                 required: false
-                default: ""
             requestor_mode:
                 type: bool
                 description: Specifies the event handler is in requestor mode (send event and wait for response mode)
@@ -121,12 +116,10 @@ data_types:
                 type: string
                 description: The peer event handler (output for input or input for output) of this event handler in requestor mode, this parameter is mandatory if the event handler is in requestor mode
                 required: false
-                default: ""
             requestor_timeout:
                 type: int
                 description: The timeout in milliseconds for wait for responses to requests, this parameter is mandatory if the event handler is in requestor mode
                 required: false
-                default: ""
     onap.datatypes.native.apex.CarrierTechnology:
         derived_from: tosca.datatypes.Root
         properties:
@@ -149,7 +142,7 @@ data_types:
                 type: string
                 description: The class name of the class that overrides default handling of the event protocol for this carrier technology, defaults to the supplied event protocol class
                 required: false
-    onap.datatypes.native.apex.Environmental:
+    onap.datatypes.native.apex.Environment:
         derived_from: tosca.datatypes.Root
         properties:
             name:
