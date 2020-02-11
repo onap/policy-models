@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -103,7 +103,7 @@ public class PolicyLegacyGuardPersistenceTest {
     }
 
     @Test
-    public void testPolicyPersistence() throws Exception {
+    public void testLegacyGuardPolicyPersistence() throws Exception {
         for (int i = 0; i < policyInputResourceNames.length; i++) {
             String policyInputString = ResourceUtils.getResourceAsString(policyInputResourceNames[i]);
             String policyOutputString = ResourceUtils.getResourceAsString(policyOutputResourceNames[i]);

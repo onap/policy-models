@@ -34,6 +34,7 @@ import java.util.Map;
 
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
+import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConstraint;
@@ -139,5 +140,54 @@ public class JpaToscaDataTypeTest {
 
         ToscaDataType datOut = tdta.toAuthorative();
         assertNotNull(datOut);
+    }
+
+    @Test
+    public void testGetReferencedDataTypes() {
+        JpaToscaDataType dt0 = new JpaToscaDataType(new PfConceptKey("dt0", "0.0.1"));
+
+        assertTrue(dt0.getReferencedDataTypes().isEmpty());
+
+        dt0.setProperties(new LinkedHashMap<>());
+        assertTrue(dt0.getReferencedDataTypes().isEmpty());
+
+        JpaToscaProperty prop0 = new JpaToscaProperty(new PfReferenceKey(dt0.getKey(), "prop0"));
+        prop0.setType(new PfConceptKey("string", PfKey.NULL_KEY_VERSION));
+        assertTrue(prop0.validate(new PfValidationResult()).isValid());
+
+        dt0.getProperties().put(prop0.getKey().getLocalName(), prop0);
+        assertTrue(dt0.getReferencedDataTypes().isEmpty());
+
+        JpaToscaProperty prop1 = new JpaToscaProperty(new PfReferenceKey(dt0.getKey(), "prop1"));
+        prop1.setType(new PfConceptKey("the.property.Type0", "0.0.1"));
+        assertTrue(prop1.validate(new PfValidationResult()).isValid());
+
+        dt0.getProperties().put(prop1.getKey().getLocalName(), prop1);
+        assertEquals(1, dt0.getReferencedDataTypes().size());
+
+        JpaToscaProperty prop2 = new JpaToscaProperty(new PfReferenceKey(dt0.getKey(), "prop2"));
+        prop2.setType(new PfConceptKey("the.property.Type0", "0.0.1"));
+        assertTrue(prop2.validate(new PfValidationResult()).isValid());
+
+        dt0.getProperties().put(prop2.getKey().getLocalName(), prop2);
+        assertEquals(1, dt0.getReferencedDataTypes().size());
+
+        JpaToscaProperty prop3 = new JpaToscaProperty(new PfReferenceKey(dt0.getKey(), "prop4"));
+        prop3.setType(new PfConceptKey("the.property.Type1", "0.0.1"));
+        prop3.setEntrySchema(new JpaToscaEntrySchema());
+        prop3.getEntrySchema().setType(new PfConceptKey("the.property.Type3", "0.0.1"));
+        assertTrue(prop3.validate(new PfValidationResult()).isValid());
+
+        dt0.getProperties().put(prop3.getKey().getLocalName(), prop3);
+        assertEquals(3, dt0.getReferencedDataTypes().size());
+
+        JpaToscaProperty prop4 = new JpaToscaProperty(new PfReferenceKey(dt0.getKey(), "prop4"));
+        prop4.setType(new PfConceptKey("the.property.Type1", "0.0.1"));
+        prop4.setEntrySchema(new JpaToscaEntrySchema());
+        prop4.getEntrySchema().setType(new PfConceptKey("the.property.Type2", "0.0.1"));
+        assertTrue(prop4.validate(new PfValidationResult()).isValid());
+
+        dt0.getProperties().put(prop4.getKey().getLocalName(), prop4);
+        assertEquals(3, dt0.getReferencedDataTypes().size());
     }
 }

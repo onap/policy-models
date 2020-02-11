@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyOutput;
@@ -48,10 +49,6 @@ public class LegacyGuardPolicyMapperTest {
 
         JpaToscaPolicy policy = new JpaToscaPolicy(new PfConceptKey("PolicyName", "2.0.0"));
         serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().put(policy.getKey(), policy);
-
-        assertThatThrownBy(() -> {
-            new LegacyGuardPolicyMapper().fromToscaServiceTemplate(serviceTemplate);
-        }).hasMessageContaining("no metadata defined on TOSCA policy");
 
         policy.setMetadata(new LinkedHashMap<>());
         assertThatThrownBy(() -> {

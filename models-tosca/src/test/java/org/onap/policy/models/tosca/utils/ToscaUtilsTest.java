@@ -253,31 +253,23 @@ public class ToscaUtilsTest {
     @Test
     public void testgetEntityTree() {
         assertThatThrownBy(() -> {
-            ToscaUtils.getEntityTree(null, null);
+            ToscaUtils.getEntityTree(null, null, null);
         }).hasMessageMatching("entityTypes is marked .*on.*ull but is null");
-
-        assertThatThrownBy(() -> {
-            ToscaUtils.getEntityTree(null, new PfConceptKey());
-        }).hasMessageMatching("entityTypes is marked .*on.*ull but is null");
-
-        assertThatThrownBy(() -> {
-            ToscaUtils.getEntityTree(new JpaToscaDataTypes(), null);
-        }).hasMessageMatching("searchKey is marked .*on.*ull but is null");
 
         JpaToscaDataTypes dataTypes = new JpaToscaDataTypes(new PfConceptKey("datatypes", "0.0.1"));
         JpaToscaDataTypes filteredDataTypes = new JpaToscaDataTypes(new PfConceptKey("datatypes", "0.0.1"));
-        ToscaUtils.getEntityTree(filteredDataTypes, new PfConceptKey());
+        ToscaUtils.getEntityTree(filteredDataTypes, "IDontExist", "0.0.0");
         assertEquals(dataTypes, filteredDataTypes);
 
         JpaToscaDataType dt0 = new JpaToscaDataType(new PfConceptKey("dt0", "0.0.1"));
         dataTypes.getConceptMap().put(dt0.getKey(), dt0);
         filteredDataTypes.getConceptMap().put(dt0.getKey(), dt0);
-        ToscaUtils.getEntityTree(filteredDataTypes, new PfConceptKey());
+        ToscaUtils.getEntityTree(filteredDataTypes, "IDontExist", "0.0.0");
         assertNotEquals(dataTypes, filteredDataTypes);
         assertTrue(filteredDataTypes.getConceptMap().isEmpty());
 
         filteredDataTypes.getConceptMap().put(dt0.getKey(), dt0);
-        ToscaUtils.getEntityTree(filteredDataTypes, dt0.getKey());
+        ToscaUtils.getEntityTree(filteredDataTypes, dt0.getKey().getName(), dt0.getKey().getVersion());
         assertEquals(dataTypes, filteredDataTypes);
 
         JpaToscaDataType dt1 = new JpaToscaDataType(new PfConceptKey("dt1", "0.0.1"));
@@ -317,31 +309,31 @@ public class ToscaUtilsTest {
         dataTypes.getConceptMap().put(dt8.getKey(), dt8);
         dataTypes.getConceptMap().put(dt9.getKey(), dt9);
 
-        ToscaUtils.getEntityTree(filteredDataTypes, dt0.getKey());
+        ToscaUtils.getEntityTree(filteredDataTypes, dt0.getKey().getName(), dt0.getKey().getVersion());
         assertEquals(1, filteredDataTypes.getConceptMap().size());
 
         filteredDataTypes = new JpaToscaDataTypes(dataTypes);
-        ToscaUtils.getEntityTree(filteredDataTypes, dt1.getKey());
+        ToscaUtils.getEntityTree(filteredDataTypes, dt1.getKey().getName(), dt1.getKey().getVersion());
         assertEquals(2, filteredDataTypes.getConceptMap().size());
 
         filteredDataTypes = new JpaToscaDataTypes(dataTypes);
-        ToscaUtils.getEntityTree(filteredDataTypes, dt2.getKey());
+        ToscaUtils.getEntityTree(filteredDataTypes, dt2.getKey().getName(), dt2.getKey().getVersion());
         assertEquals(2, filteredDataTypes.getConceptMap().size());
 
         filteredDataTypes = new JpaToscaDataTypes(dataTypes);
-        ToscaUtils.getEntityTree(filteredDataTypes, dt3.getKey());
+        ToscaUtils.getEntityTree(filteredDataTypes, dt3.getKey().getName(), dt3.getKey().getVersion());
         assertEquals(2, filteredDataTypes.getConceptMap().size());
 
         filteredDataTypes = new JpaToscaDataTypes(dataTypes);
-        ToscaUtils.getEntityTree(filteredDataTypes, dt4.getKey());
+        ToscaUtils.getEntityTree(filteredDataTypes, dt4.getKey().getName(), dt4.getKey().getVersion());
         assertEquals(3, filteredDataTypes.getConceptMap().size());
 
         filteredDataTypes = new JpaToscaDataTypes(dataTypes);
-        ToscaUtils.getEntityTree(filteredDataTypes, dt5.getKey());
+        ToscaUtils.getEntityTree(filteredDataTypes, dt5.getKey().getName(), dt5.getKey().getVersion());
         assertEquals(4, filteredDataTypes.getConceptMap().size());
 
         filteredDataTypes = new JpaToscaDataTypes(dataTypes);
-        ToscaUtils.getEntityTree(filteredDataTypes, dt6.getKey());
+        ToscaUtils.getEntityTree(filteredDataTypes, dt6.getKey().getName(), dt6.getKey().getVersion());
         assertEquals(5, filteredDataTypes.getConceptMap().size());
         assertTrue(filteredDataTypes.getConceptMap().containsValue(dt0));
         assertFalse(filteredDataTypes.getConceptMap().containsValue(dt1));
@@ -352,15 +344,15 @@ public class ToscaUtilsTest {
         assertTrue(filteredDataTypes.getConceptMap().containsValue(dt6));
 
         filteredDataTypes = new JpaToscaDataTypes(dataTypes);
-        ToscaUtils.getEntityTree(filteredDataTypes, dt7.getKey());
+        ToscaUtils.getEntityTree(filteredDataTypes, dt7.getKey().getName(), dt7.getKey().getVersion());
         assertEquals(1, filteredDataTypes.getConceptMap().size());
 
         filteredDataTypes = new JpaToscaDataTypes(dataTypes);
-        ToscaUtils.getEntityTree(filteredDataTypes, dt8.getKey());
+        ToscaUtils.getEntityTree(filteredDataTypes, dt8.getKey().getName(), dt8.getKey().getVersion());
         assertEquals(2, filteredDataTypes.getConceptMap().size());
 
         filteredDataTypes = new JpaToscaDataTypes(dataTypes);
-        ToscaUtils.getEntityTree(filteredDataTypes, dt9.getKey());
+        ToscaUtils.getEntityTree(filteredDataTypes, dt9.getKey().getName(), dt9.getKey().getVersion());
         assertEquals(3, filteredDataTypes.getConceptMap().size());
 
         dt9.setDerivedFrom(new PfConceptKey("i.dont.Exist", "0.0.0"));
@@ -368,7 +360,7 @@ public class ToscaUtilsTest {
 
         assertThatThrownBy(() -> {
             final JpaToscaDataTypes badDataTypes = new JpaToscaDataTypes(dataTypes);
-            ToscaUtils.getEntityTree(badDataTypes, dt9.getKey());
+            ToscaUtils.getEntityTree(badDataTypes, dt9.getKey().getName(), dt9.getKey().getVersion());
         }).hasMessageContaining("parent i.dont.Exist:0.0.0 of entity not found");
     }
 }

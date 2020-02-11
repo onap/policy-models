@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,29 +20,24 @@
 
 package org.onap.policy.models.provider.impl;
 
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Base64;
-import java.util.List;
 import java.util.Set;
-
-import lombok.NonNull;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.onap.policy.common.utils.coder.StandardCoder;
+import org.onap.policy.common.utils.coder.YamlJsonTranslator;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderFactory;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaEntityKey;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
-import org.yaml.snakeyaml.Yaml;
 
 /**
  * Test persistence of monitoring policies to and from the database.
@@ -50,8 +45,7 @@ import org.yaml.snakeyaml.Yaml;
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 public class PolicyTypePersistenceTest {
-    private StandardCoder standardCoder;
-
+    private YamlJsonTranslator yamlTranslator = new YamlJsonTranslator();
     private PolicyModelsProvider databaseProvider;
 
     /**
@@ -73,14 +67,6 @@ public class PolicyTypePersistenceTest {
         databaseProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
     }
 
-    /**
-     * Set up standard coder.
-     */
-    @Before
-    public void setupStandardCoder() {
-        standardCoder = new StandardCoder();
-    }
-
     @After
     public void teardown() throws Exception {
         databaseProvider.close();
@@ -90,60 +76,54 @@ public class PolicyTypePersistenceTest {
     public void testPolicyTypePersistence() throws Exception {
         Set<String> policyTypeDirectoryContents = ResourceUtils.getDirectoryContents("policytypes");
 
+        ToscaServiceTemplate serviceTemplate = new ToscaServiceTemplate();
+
         for (String policyTypeFilePath : policyTypeDirectoryContents) {
             String policyTypeString = ResourceUtils.getResourceAsString(policyTypeFilePath);
-            testYamlStringPolicyTypePersistence(policyTypeString);
+
+            ToscaServiceTemplate foundPolicyTypeSt =
+                    yamlTranslator.fromYaml(policyTypeString, ToscaServiceTemplate.class);
+
+            serviceTemplate.setDerivedFrom(foundPolicyTypeSt.getDerivedFrom());
+            serviceTemplate.setDescription(foundPolicyTypeSt.getDescription());
+            serviceTemplate.setMetadata(foundPolicyTypeSt.getMetadata());
+            serviceTemplate.setName(foundPolicyTypeSt.getName());
+            serviceTemplate.setToscaDefinitionsVersion(foundPolicyTypeSt.getToscaDefinitionsVersion());
+            serviceTemplate.setToscaTopologyTemplate(foundPolicyTypeSt.getToscaTopologyTemplate());
+            serviceTemplate.setVersion(foundPolicyTypeSt.getVersion());
+
+            if (foundPolicyTypeSt.getDataTypes() != null) {
+                if (serviceTemplate.getDataTypes() == null) {
+                    serviceTemplate.setDataTypes(foundPolicyTypeSt.getDataTypes());
+                } else {
+                    serviceTemplate.getDataTypes().putAll(foundPolicyTypeSt.getDataTypes());
+                }
+            }
+
+            if (serviceTemplate.getPolicyTypes() == null) {
+                serviceTemplate.setPolicyTypes(foundPolicyTypeSt.getPolicyTypes());
+            } else {
+                serviceTemplate.getPolicyTypes().putAll(foundPolicyTypeSt.getPolicyTypes());
+            }
         }
-    }
 
-    private void testYamlStringPolicyTypePersistence(final String policyTypeString) throws Exception {
-        Object yamlObject = new Yaml().load(policyTypeString);
-        String yamlAsJsonString = new StandardCoder().encode(yamlObject);
+        assertThatCode(() -> databaseProvider.createPolicyTypes(serviceTemplate)).doesNotThrowAnyException();
 
-        testJsonStringPolicyTypePersistence(yamlAsJsonString);
-    }
+        ToscaEntityKey resourceOptimizationPtKey =
+                new ToscaEntityKey("onap.policies.optimization.resource.OptimizationPolicy", "1.0.0");
 
-    /**
-     * Check persistence of a policy.
-     *
-     * @param policyTypeString the policy as a string
-     * @throws Exception any exception thrown
-     */
-    public void testJsonStringPolicyTypePersistence(@NonNull final String policyTypeString) throws Exception {
-        ToscaServiceTemplate serviceTemplate = standardCoder.decode(policyTypeString, ToscaServiceTemplate.class);
+        ToscaServiceTemplate resOptPolicyTypeSt = databaseProvider.getPolicyTypes(resourceOptimizationPtKey.getName(),
+                resourceOptimizationPtKey.getVersion());
 
-        assertNotNull(serviceTemplate);
-        ToscaPolicyType inPolicyType = serviceTemplate.getPolicyTypes().values().iterator().next();
+        assertEquals(3, resOptPolicyTypeSt.getPolicyTypesAsMap().size());
+        assertTrue(resOptPolicyTypeSt.getPolicyTypesAsMap().containsKey(resourceOptimizationPtKey));
 
-        databaseProvider.createPolicyTypes(serviceTemplate);
-        checkPolicyTypePersistence(inPolicyType);
+        ToscaEntityKey resourcePtKey = new ToscaEntityKey("onap.policies.optimization.Resource", "1.0.0");
+        assertTrue(resOptPolicyTypeSt.getPolicyTypesAsMap().containsKey(resourcePtKey));
 
-        databaseProvider.updatePolicyTypes(serviceTemplate);
-        checkPolicyTypePersistence(inPolicyType);
-    }
+        ToscaEntityKey optimizationPtKey = new ToscaEntityKey("onap.policies.Optimization", "1.0.0");
+        assertTrue(resOptPolicyTypeSt.getPolicyTypesAsMap().containsKey(optimizationPtKey));
 
-    private void checkPolicyTypePersistence(ToscaPolicyType inPolicyType) throws PfModelException {
-        List<ToscaPolicyType> policyTypeList =
-                databaseProvider.getPolicyTypeList(inPolicyType.getName(), inPolicyType.getVersion());
-
-        policyTypeList = databaseProvider.getFilteredPolicyTypeList(ToscaPolicyTypeFilter.builder()
-                .name(inPolicyType.getName()).version(inPolicyType.getVersion()).build());
-
-        assertEquals(1, policyTypeList.size());
-        assertEquals(inPolicyType.getName(), policyTypeList.get(0).getName());
-
-        policyTypeList = databaseProvider
-                .getFilteredPolicyTypeList(ToscaPolicyTypeFilter.builder().name(inPolicyType.getName()).build());
-
-        assertEquals(1, policyTypeList.size());
-        assertEquals(inPolicyType.getName(), policyTypeList.get(0).getName());
-
-        policyTypeList = databaseProvider.getFilteredPolicyTypeList(ToscaPolicyTypeFilter.builder().build());
-        assertTrue(policyTypeList.size() <= 3);
-        assertEquals(inPolicyType.getName(), policyTypeList.get(0).getName());
-
-        for (ToscaPolicyType policyType : databaseProvider.getPolicyTypeList(null, null)) {
-            databaseProvider.deletePolicyType(policyType.getName(), policyType.getVersion());
-        }
+        assertEquals(2, resOptPolicyTypeSt.getDataTypesAsMap().size());
     }
 }

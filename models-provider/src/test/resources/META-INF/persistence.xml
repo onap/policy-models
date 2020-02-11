@@ -27,8 +27,13 @@
         <class>org.onap.policy.models.dao.converters.Uuid2String</class>
         <class>org.onap.policy.models.base.PfConceptKey</class>
         <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaDataType</class>
-        <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyType</class>
+        <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaDataTypes</class>
+        <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicies</class>
         <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicy</class>
+        <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyType</class>
+        <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyTypes</class>
+        <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaTopologyTemplate</class>
+        <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate</class>
         <class>org.onap.policy.models.pdp.persistence.concepts.JpaPdpGroup</class>
         <class>org.onap.policy.models.pdp.persistence.concepts.JpaPdpSubGroup</class>
         <class>org.onap.policy.models.pdp.persistence.concepts.JpaPdp</class>
