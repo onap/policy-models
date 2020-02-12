@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b15d0e15_ea257553",
+        "filename": "models-examples/src/main/resources/policies/vFirewall.policy.operational.input.tosca.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-02-12T22:06:47Z",
+      "side": 1,
+      "message": "I think this also needs to be cleaned up in other yaml/json, as it has targetType as type.",
+      "revId": "1e78c8ae152500f628e839f32b5fb276074bb3c0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e60609e9_f2139958",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.controlloop.operational.Common.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-02-12T22:06:47Z",
+      "side": 1,
+      "message": "in another review Liam, was putting all these types lower case .. should the same be done here?",
+      "revId": "1e78c8ae152500f628e839f32b5fb276074bb3c0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8cca9f1c_b07b98ea",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.controlloop.operational.Common.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-02-12T22:06:47Z",
+      "side": 1,
+      "message": "doesn\u0027t target has to point to onap.datatype.controlloop.Target ?",
+      "revId": "1e78c8ae152500f628e839f32b5fb276074bb3c0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
