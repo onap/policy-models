@@ -23,7 +23,7 @@ topology_template:
                actor: APPC
                recipe: Restart
                target:
-                 type: VM
+                 targetType: VM
                retry: 3
                timeout: 1200
                success: final_success

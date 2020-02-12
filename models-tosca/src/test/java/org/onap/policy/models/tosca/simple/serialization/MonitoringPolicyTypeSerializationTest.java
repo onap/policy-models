@@ -382,7 +382,7 @@ public class MonitoringPolicyTypeSerializationTest {
         Entry<PfConceptKey, JpaToscaPolicyType> secondPolicyType = policyTypesIter.next();
         assertEquals(DCAE, secondPolicyType.getKey().getName());
         assertEquals(VERSION_100, secondPolicyType.getKey().getVersion());
-        assertEquals("policy.nodes.Root", secondPolicyType.getValue().getDerivedFrom().getName());
+        assertEquals("onap.policies.Monitoring", secondPolicyType.getValue().getDerivedFrom().getName());
         assertTrue(secondPolicyType.getValue().getProperties().size() == 2);
 
         Iterator<JpaToscaProperty> propertiesIter = secondPolicyType.getValue().getProperties().values().iterator();

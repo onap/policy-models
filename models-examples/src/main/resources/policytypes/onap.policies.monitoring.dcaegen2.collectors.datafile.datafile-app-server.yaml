@@ -5,7 +5,7 @@ policy_types:
       description: a base policy type for all policies that govern monitoring provisioning
       version: 1.0.0
    onap.policies.monitoring.dcaegen2.collectors.datafile.datafile-app-server:
-      derived_from: policy.nodes.Root
+      derived_from: onap.policies.Monitoring
       version: 1.0.0
       properties:
          buscontroller_feed_publishing_endpoint:

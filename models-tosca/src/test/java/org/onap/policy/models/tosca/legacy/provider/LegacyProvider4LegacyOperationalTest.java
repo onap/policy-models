@@ -51,8 +51,8 @@ import org.yaml.snakeyaml.Yaml;
  */
 public class LegacyProvider4LegacyOperationalTest {
     private static final String POLICY_ID_IS_NULL = "^policyId is marked .*on.*ull but is null$";
-    private static final String VCPE_OUTPUT_JSON = "policies/vCPE.policy.operational.output.json";
-    private static final String VCPE_INPUT_JSON = "policies/vCPE.policy.operational.input.json";
+    private static final String VCPE_OUTPUT_JSON = "policies/vCPE.policy.operational.legacy.output.json";
+    private static final String VCPE_INPUT_JSON = "policies/vCPE.policy.operational.legacy.input.json";
     private static final String DAO_IS_NULL = "^dao is marked .*on.*ull but is null$";
     private PfDao pfDao;
     private StandardCoder standardCoder;
