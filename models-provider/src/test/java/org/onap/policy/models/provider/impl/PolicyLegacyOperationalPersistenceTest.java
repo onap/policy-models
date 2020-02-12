@@ -55,15 +55,15 @@ public class PolicyLegacyOperationalPersistenceTest {
 
     // @formatter:off
     private String[] policyInputResourceNames = {
-        "policies/vCPE.policy.operational.input.json",
-        "policies/vDNS.policy.operational.input.json",
-        "policies/vFirewall.policy.operational.input.json"
+        "policies/vCPE.policy.operational.legacy.input.json",
+        "policies/vDNS.policy.operational.legacy.input.json",
+        "policies/vFirewall.policy.operational.legacy.input.json"
     };
 
     private String[] policyOutputResourceNames = {
-        "policies/vCPE.policy.operational.output.json",
-        "policies/vDNS.policy.operational.output.json",
-        "policies/vFirewall.policy.operational.output.json"
+        "policies/vCPE.policy.operational.legacy.output.json",
+        "policies/vDNS.policy.operational.legacy.output.json",
+        "policies/vFirewall.policy.operational.legacy.output.json"
     };
     // @formatter:on
 
