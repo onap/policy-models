@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f6ae07da_25ecf973",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/impl/DatabasePolicyModelsProviderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-02-12T13:18:39Z",
+      "side": 1,
+      "message": "OK, I\u0027ll close it explicitly. I removed the try block because it was hiding exceptions.",
+      "parentUuid": "38f37d72_1299170c",
+      "revId": "e199e83a16f057da6d86f525d236503ac2e9499c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b516648_a439699e",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/provider/SimpleToscaProvider.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2020-02-11T19:52:27Z",
       "side": 1,
       "message": "need any checks for recursive definitions?\n\nsame comment below",
+      "revId": "e199e83a16f057da6d86f525d236503ac2e9499c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "460390a4_9c436dbc",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/provider/SimpleToscaProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-02-12T13:18:39Z",
+      "side": 1,
+      "message": "This method itself is recursively called to check for recursive definitions. The recursive call is on line 153.",
+      "parentUuid": "3b516648_a439699e",
       "revId": "e199e83a16f057da6d86f525d236503ac2e9499c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
