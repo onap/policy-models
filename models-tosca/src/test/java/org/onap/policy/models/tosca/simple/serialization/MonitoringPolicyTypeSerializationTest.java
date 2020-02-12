@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
- *  Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -382,7 +382,7 @@ public class MonitoringPolicyTypeSerializationTest {
         Entry<PfConceptKey, JpaToscaPolicyType> secondPolicyType = policyTypesIter.next();
         assertEquals(DCAE, secondPolicyType.getKey().getName());
         assertEquals(VERSION_100, secondPolicyType.getKey().getVersion());
-        assertEquals("policy.nodes.Root", secondPolicyType.getValue().getDerivedFrom().getName());
+        assertEquals("onap.policies.Monitoring", secondPolicyType.getValue().getDerivedFrom().getName());
         assertTrue(secondPolicyType.getValue().getProperties().size() == 2);
 
         Iterator<JpaToscaProperty> propertiesIter = secondPolicyType.getValue().getProperties().values().iterator();

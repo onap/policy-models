@@ -3,4 +3,4 @@ policy_types:
    onap.policies.controlloop.Operational:
       derived_from: tosca.policies.Root
       version: 1.0.0
-      description: Operational Policy for Control Loops
+      description: Operational Policy for Control Loops Supporting Legacy YAML Policy Definition.

@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,8 +51,8 @@ import org.yaml.snakeyaml.Yaml;
  */
 public class LegacyProvider4LegacyOperationalTest {
     private static final String POLICY_ID_IS_NULL = "^policyId is marked .*on.*ull but is null$";
-    private static final String VCPE_OUTPUT_JSON = "policies/vCPE.policy.operational.output.json";
-    private static final String VCPE_INPUT_JSON = "policies/vCPE.policy.operational.input.json";
+    private static final String VCPE_OUTPUT_JSON = "policies/vCPE.policy.operational.legacy.output.json";
+    private static final String VCPE_INPUT_JSON = "policies/vCPE.policy.operational.legacy.input.json";
     private static final String DAO_IS_NULL = "^dao is marked .*on.*ull but is null$";
     private PfDao pfDao;
     private StandardCoder standardCoder;

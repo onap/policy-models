@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Modifications Copyright (C) 2020 AT&T.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,15 +56,15 @@ public class PolicyLegacyOperationalPersistenceTest {
 
     // @formatter:off
     private String[] policyInputResourceNames = {
-        "policies/vCPE.policy.operational.input.json",
-        "policies/vDNS.policy.operational.input.json",
-        "policies/vFirewall.policy.operational.input.json"
+        "policies/vCPE.policy.operational.legacy.input.json",
+        "policies/vDNS.policy.operational.legacy.input.json",
+        "policies/vFirewall.policy.operational.legacy.input.json"
     };
 
     private String[] policyOutputResourceNames = {
-        "policies/vCPE.policy.operational.output.json",
-        "policies/vDNS.policy.operational.output.json",
-        "policies/vFirewall.policy.operational.output.json"
+        "policies/vCPE.policy.operational.legacy.output.json",
+        "policies/vDNS.policy.operational.legacy.output.json",
+        "policies/vFirewall.policy.operational.legacy.output.json"
     };
     // @formatter:on
 
