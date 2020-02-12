@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "4c8d36ed_a5e7f987",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaDataType.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-02-12T15:28:25Z",
+      "side": 1,
+      "message": "Can properties be null (when object constructed) it has an empty list (per change at top of file) ?",
+      "revId": "88bcb550c2efd5e43ad3d256fe075a6bf7e90538",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "83e06f3a_e833f88c",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaServiceTemplate.java",
         "patchSetId": 4
