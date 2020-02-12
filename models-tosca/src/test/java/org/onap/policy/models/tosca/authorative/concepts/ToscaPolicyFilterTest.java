@@ -87,6 +87,7 @@ public class ToscaPolicyFilterTest {
         for (String policyResourceName : policyResourceNames) {
             String policyString = ResourceUtils.getResourceAsString(policyResourceName);
             if (policyResourceName.endsWith("yaml")) {
+                LOGGER.info("loading {}", policyResourceName);
                 Object yamlObject = new Yaml().load(policyString);
                 policyString = new GsonBuilder().setPrettyPrinting().create().toJson(yamlObject);
             }
@@ -150,7 +151,7 @@ public class ToscaPolicyFilterTest {
         assertEquals(VERSION_100, filteredList.get(7).getVersion());
         assertEquals(VERSION_100, filteredList.get(12).getVersion());
 
-        assertEquals(24, policyList.size());
+        assertEquals(23, policyList.size());
         assertEquals(22, filteredList.size());
 
         policyList.get(10).setVersion("2.0.0");
@@ -172,7 +173,7 @@ public class ToscaPolicyFilterTest {
     public void testFilterNameVersion() {
         ToscaPolicyFilter filter = ToscaPolicyFilter.builder().name("operational.modifyconfig").build();
         List<ToscaPolicy> filteredList = filter.filter(policyList);
-        assertEquals(2, filteredList.size());
+        assertEquals(1, filteredList.size());
 
         filter = ToscaPolicyFilter.builder().name("guard.frequency.scaleout").build();
         filteredList = filter.filter(policyList);
@@ -184,7 +185,7 @@ public class ToscaPolicyFilterTest {
 
         filter = ToscaPolicyFilter.builder().version(VERSION_100).build();
         filteredList = filter.filter(policyList);
-        assertEquals(22, filteredList.size());
+        assertEquals(21, filteredList.size());
 
         filter = ToscaPolicyFilter.builder().name("OSDF_CASABLANCA.SubscriberPolicy_v1").version(VERSION_100).build();
         filteredList = filter.filter(policyList);
@@ -192,7 +193,7 @@ public class ToscaPolicyFilterTest {
 
         filter = ToscaPolicyFilter.builder().name("operational.modifyconfig").version(VERSION_100).build();
         filteredList = filter.filter(policyList);
-        assertEquals(1, filteredList.size());
+        assertEquals(0, filteredList.size());
     }
 
     @Test
@@ -200,11 +201,11 @@ public class ToscaPolicyFilterTest {
         // null pattern
         ToscaPolicyFilter filter = ToscaPolicyFilter.builder().versionPrefix(null).build();
         List<ToscaPolicy> filteredList = filter.filter(policyList);
-        assertEquals(24, filteredList.size());
+        assertEquals(23, filteredList.size());
 
         filter = ToscaPolicyFilter.builder().versionPrefix("1.").build();
         filteredList = filter.filter(policyList);
-        assertEquals(22, filteredList.size());
+        assertEquals(21, filteredList.size());
 
         filter = ToscaPolicyFilter.builder().versionPrefix("100.").build();
         filteredList = filter.filter(policyList);
@@ -215,7 +216,11 @@ public class ToscaPolicyFilterTest {
     public void testFilterTypeVersion() {
         ToscaPolicyFilter filter = ToscaPolicyFilter.builder().type("onap.policies.controlloop.Operational").build();
         List<ToscaPolicy> filteredList = filter.filter(policyList);
-        assertEquals(1, filteredList.size());
+        assertEquals(0, filteredList.size());
+
+        filter = ToscaPolicyFilter.builder().type("onap.policies.controlloop.operational.common.Apex").build();
+        filteredList = filter.filter(policyList);
+        assertEquals(0, filteredList.size());
 
         filter = ToscaPolicyFilter.builder().type("onap.policies.controlloop.operational.common.Drools").build();
         filteredList = filter.filter(policyList);
@@ -231,7 +236,7 @@ public class ToscaPolicyFilterTest {
 
         filter = ToscaPolicyFilter.builder().typeVersion(VERSION_000).build();
         filteredList = filter.filter(policyList);
-        assertEquals(4, filteredList.size());
+        assertEquals(3, filteredList.size());
 
         filter = ToscaPolicyFilter.builder().type("onap.policies.optimization.resource.HpaPolicy")
                 .typeVersion(VERSION_100).build();
@@ -241,6 +246,6 @@ public class ToscaPolicyFilterTest {
         filter = ToscaPolicyFilter.builder().type("onap.policies.controlloop.Operational").typeVersion(VERSION_000)
                 .build();
         filteredList = filter.filter(policyList);
-        assertEquals(1, filteredList.size());
+        assertEquals(0, filteredList.size());
     }
 }

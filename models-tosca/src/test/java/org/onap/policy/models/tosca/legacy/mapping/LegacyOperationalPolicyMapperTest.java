@@ -71,7 +71,7 @@ public class LegacyOperationalPolicyMapperTest {
         JpaToscaServiceTemplate policyTypeServiceTemplate = new JpaToscaServiceTemplate();
         policyTypeServiceTemplate.fromAuthorative(policyTypes);
 
-        String vcpePolicyJson = ResourceUtils.getResourceAsString("policies/vCPE.policy.operational.input.json");
+        String vcpePolicyJson = ResourceUtils.getResourceAsString("policies/vCPE.policy.operational.legacy.input.json");
         LegacyOperationalPolicy legacyOperationalPolicy =
                 standardCoder.decode(vcpePolicyJson, LegacyOperationalPolicy.class);
 
