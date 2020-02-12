@@ -3,7 +3,7 @@
  * ONAP Policy Model
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,10 +23,12 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
@@ -37,9 +39,11 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.ws.rs.core.Response;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
+
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.validation.ParameterValidationUtils;
@@ -87,7 +91,7 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
     private Map<String, String> properties;
 
     @ElementCollection
-    private List<PfConceptKey> targets;
+    private List<PfConceptKey> targets = new ArrayList<>();
     // @formatter:on
 
     /**
@@ -186,15 +190,13 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
 
         if (toscaPolicy.getType() != null) {
             type.setName(toscaPolicy.getType());
-        }
-        else {
+        } else {
             type.setName(PfKey.NULL_KEY_NAME);
         }
 
         if (toscaPolicy.getTypeVersion() != null) {
             type.setVersion(toscaPolicy.getTypeVersion());
-        }
-        else {
+        } else {
             type.setVersion(PfKey.NULL_KEY_VERSION);
         }
 

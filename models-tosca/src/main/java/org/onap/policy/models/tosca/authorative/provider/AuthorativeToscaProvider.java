@@ -22,15 +22,19 @@
 package org.onap.policy.models.tosca.authorative.provider;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javax.ws.rs.core.Response.Status;
+
 import lombok.NonNull;
 
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
+import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.dao.PfDao;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaEntity;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
@@ -87,8 +91,14 @@ public class AuthorativeToscaProvider {
 
         LOGGER.debug("->getPolicyTypeList: name={}, version={}", name, version);
 
-        List<ToscaPolicyType> policyTypeList = new ArrayList<>(
-                new SimpleToscaProvider().getPolicyTypes(dao, name, version).toAuthorative().getPolicyTypes().values());
+        List<ToscaPolicyType> policyTypeList;
+
+        try {
+            policyTypeList = new ArrayList<>(new SimpleToscaProvider().getPolicyTypes(dao, name, version)
+                    .toAuthorative().getPolicyTypes().values());
+        } catch (PfModelRuntimeException pfme) {
+            return handlePfModelRuntimeException(pfme);
+        }
 
         LOGGER.debug("<-getPolicyTypeList: name={}, version={}, policyTypeList={}", name, version, policyTypeList);
         return policyTypeList;
@@ -136,6 +146,7 @@ public class AuthorativeToscaProvider {
 
         LOGGER.debug("<-getFilteredPolicyTypeList: filter={}, filteredPolicyTypeList={}", filter,
                 filteredPolicyTypeList);
+
         return filteredPolicyTypeList;
     }
 
@@ -234,8 +245,14 @@ public class AuthorativeToscaProvider {
             throws PfModelException {
         LOGGER.debug("->getPolicyList: name={}, version={}", name, version);
 
-        List<ToscaPolicy> policyList = asConceptList(new SimpleToscaProvider().getPolicies(dao, name, version)
-                .toAuthorative().getToscaTopologyTemplate().getPolicies());
+        List<ToscaPolicy> policyList;
+
+        try {
+            policyList = asConceptList(new SimpleToscaProvider().getPolicies(dao, name, version).toAuthorative()
+                    .getToscaTopologyTemplate().getPolicies());
+        } catch (PfModelRuntimeException pfme) {
+            return handlePfModelRuntimeException(pfme);
+        }
 
         LOGGER.debug("<-getPolicyList: name={}, version={}, policyTypeList={}", name, version, policyList);
         return policyList;
@@ -396,5 +413,19 @@ public class AuthorativeToscaProvider {
         }
 
         return conceptMap;
+    }
+
+    /**
+     * Handle a PfModelRuntimeException on a list call.
+     *
+     * @param pfme the model exception
+     * @return an empty list on 404
+     */
+    private <T extends ToscaEntity> List<T> handlePfModelRuntimeException(final PfModelRuntimeException pfme) {
+        if (Status.NOT_FOUND.equals(pfme.getErrorResponse().getResponseCode())) {
+            return Collections.emptyList();
+        } else {
+            throw pfme;
+        }
     }
 }

@@ -156,8 +156,7 @@ public class AuthorativeToscaProviderPolicyTest {
         assertEquals(1, gotPolicyList.size());
         assertEquals(0, beforePolicy.compareNameVersion(beforePolicy, gotPolicyList.get(0)));
 
-        gotPolicyList = new AuthorativeToscaProvider().getPolicyList(pfDao, "Nonexistant", VERSION_100);
-        assertEquals(0, gotPolicyList.size());
+        assertTrue(new AuthorativeToscaProvider().getPolicyList(pfDao, "Nonexistant", VERSION_100).isEmpty());
     }
 
     @Test
@@ -380,10 +379,11 @@ public class AuthorativeToscaProviderPolicyTest {
         assertEquals(0, beforePolicy.compareNameVersion(beforePolicy, createdPolicy));
         assertTrue(beforePolicy.getType().equals(deletedPolicy.getType()));
 
-        ToscaServiceTemplate gotServiceTemplate =
-                new AuthorativeToscaProvider().getPolicies(pfDao, policyKey.getName(), policyKey.getVersion());
-
-        assertTrue(gotServiceTemplate.getToscaTopologyTemplate().getPolicies().isEmpty());
+        // @formatter:off
+        assertThatThrownBy(
+            () -> new AuthorativeToscaProvider().getPolicies(pfDao, policyKey.getName(), policyKey.getVersion()))
+                    .hasMessageMatching("policies for onap.restart.tca:1.0.0 do not exist");
+        // @formatter:on
     }
 
     @Test

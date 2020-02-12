@@ -109,6 +109,7 @@ public class JpaToscaPolicyTypes extends PfConceptContainer<JpaToscaPolicyType, 
     public PfValidationResult validate(@NonNull final PfValidationResult resultIn) {
         PfValidationResult result = super.validate(resultIn);
 
+        // Check that all ancestors of this policy type exist
         for (JpaToscaPolicyType policyType : this.getConceptMap().values()) {
             ToscaUtils.getEntityTypeAncestors(this, policyType, result);
         }

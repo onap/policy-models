@@ -26,11 +26,13 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import javax.ws.rs.core.Response;
+
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
@@ -411,6 +413,9 @@ public class DefaultPfDao implements PfDao {
         final EntityManager mg = getEntityManager();
         try {
             final T t = mg.find(someClass, key);
+            if (t != null) {
+                mg.refresh(t);
+            }
             return checkAndReturn(someClass, t);
         } finally {
             mg.close();
@@ -425,6 +430,9 @@ public class DefaultPfDao implements PfDao {
         final EntityManager mg = getEntityManager();
         try {
             final T t = mg.find(someClass, key);
+            if (t != null) {
+                mg.refresh(t);
+            }
             return checkAndReturn(someClass, t);
         } finally {
             mg.close();
@@ -439,6 +447,9 @@ public class DefaultPfDao implements PfDao {
         final EntityManager mg = getEntityManager();
         try {
             final T t = mg.find(someClass, key);
+            if (t != null) {
+                mg.refresh(t);
+            }
             return checkAndReturn(someClass, t);
         } finally {
             mg.close();

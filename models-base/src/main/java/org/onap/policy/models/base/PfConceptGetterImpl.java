@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -102,7 +102,7 @@ public class PfConceptGetterImpl<C> implements PfConceptGetter<C> {
         }
 
         // The very fist key that could have this name
-        final PfConceptKey lowestArtifactKey = new PfConceptKey(conceptKeyName, "0.0.1");
+        final PfConceptKey lowestArtifactKey = new PfConceptKey(conceptKeyName, PfKey.NULL_KEY_VERSION);
         if (conceptKeyVersion != null) {
             lowestArtifactKey.setVersion(conceptKeyVersion);
         }

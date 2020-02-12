@@ -21,9 +21,8 @@
 package org.onap.policy.models.tosca.simple.provider;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import javax.ws.rs.core.Response;
 
@@ -36,6 +35,7 @@ import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
+import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.dao.PfDao;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaDataType;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaDataTypes;
@@ -44,7 +44,7 @@ import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicy;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyType;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyTypes;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaTopologyTemplate;
+import org.onap.policy.models.tosca.utils.ToscaServiceTemplateUtils;
 import org.onap.policy.models.tosca.utils.ToscaUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,6 +56,64 @@ import org.slf4j.LoggerFactory;
  */
 public class SimpleToscaProvider {
     private static final Logger LOGGER = LoggerFactory.getLogger(SimpleToscaProvider.class);
+
+    // Recurring string constants
+    private static final String SERVICE_TEMPLATE_NOT_FOUND_IN_DATABASE = "service template not found in database";
+    private static final String DO_NOT_EXIST = " do not exist";
+
+    /**
+     * Get Service Template.
+     *
+     * @param dao the DAO to use to access the database
+     * @return the service template
+     * @throws PfModelException on errors getting the service template
+     */
+    public JpaToscaServiceTemplate getServiceTemplate(@NonNull final PfDao dao) throws PfModelException {
+        LOGGER.debug("->getServiceTemplate");
+
+        JpaToscaServiceTemplate serviceTemplate = new SimpleToscaServiceTemplateProvider().read(dao);
+        if (serviceTemplate == null) {
+            throw new PfModelRuntimeException(Response.Status.NOT_FOUND, SERVICE_TEMPLATE_NOT_FOUND_IN_DATABASE);
+        }
+
+        LOGGER.debug("<-getServiceTemplate: serviceTemplate={}", serviceTemplate);
+        return serviceTemplate;
+    }
+
+    /**
+     * Append a service template fragment to the service template in the database.
+     *
+     * @param dao the DAO to use to access the database
+     * @param incomingServiceTemplateFragment the service template containing the definition of the entities to be
+     *        created
+     * @return the TOSCA service template in the database after the operation
+     * @throws PfModelException on errors appending a service template to the template in the database
+     */
+    public JpaToscaServiceTemplate appendToServiceTemplate(@NonNull final PfDao dao,
+            @NonNull final JpaToscaServiceTemplate incomingServiceTemplateFragment) throws PfModelException {
+        LOGGER.debug("->appendServiceTemplateFragment: incomingServiceTemplateFragment={}",
+                incomingServiceTemplateFragment);
+
+        JpaToscaServiceTemplate dbServiceTemplate = new SimpleToscaServiceTemplateProvider().read(dao);
+
+        JpaToscaServiceTemplate serviceTemplateToWrite;
+        if (dbServiceTemplate == null) {
+            serviceTemplateToWrite = incomingServiceTemplateFragment;
+        } else {
+            serviceTemplateToWrite =
+                    ToscaServiceTemplateUtils.addFragment(dbServiceTemplate, incomingServiceTemplateFragment);
+        }
+
+        PfValidationResult result = serviceTemplateToWrite.validate(new PfValidationResult());
+        if (!result.isValid()) {
+            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, result.toString());
+        }
+
+        new SimpleToscaServiceTemplateProvider().write(dao, serviceTemplateToWrite);
+
+        LOGGER.debug("<-appendServiceTemplateFragment: returnServiceTempalate={}", serviceTemplateToWrite);
+        return serviceTemplateToWrite;
+    }
 
     /**
      * Get data types.
@@ -70,13 +128,34 @@ public class SimpleToscaProvider {
             throws PfModelException {
         LOGGER.debug("->getDataTypes: name={}, version={}", name, version);
 
-        // Create the structure of the TOSCA service template to contain the data type
-        JpaToscaServiceTemplate serviceTemplate = new JpaToscaServiceTemplate();
-        serviceTemplate.setDataTypes(new JpaToscaDataTypes());
+        JpaToscaServiceTemplate serviceTemplate = getServiceTemplate(dao);
 
-        // Add the data type to the TOSCA service template
-        List<JpaToscaDataType> jpaDataTypeList = dao.getFiltered(JpaToscaDataType.class, name, version);
-        serviceTemplate.getDataTypes().getConceptMap().putAll(asConceptMap(jpaDataTypeList));
+        if (!ToscaUtils.doDataTypesExist(serviceTemplate)) {
+            throw new PfModelRuntimeException(Response.Status.NOT_FOUND,
+                    "data types for " + name + ":" + version + DO_NOT_EXIST);
+        }
+
+        serviceTemplate.setPolicyTypes(null);
+        serviceTemplate.setTopologyTemplate(null);
+
+        ToscaUtils.getEntityTree(serviceTemplate.getDataTypes(), name, version);
+
+        if (!ToscaUtils.doDataTypesExist(serviceTemplate)) {
+            throw new PfModelRuntimeException(Response.Status.NOT_FOUND,
+                    "data types for " + name + ":" + version + DO_NOT_EXIST);
+        }
+
+        for (JpaToscaDataType dataType : serviceTemplate.getDataTypes().getConceptMap().values()) {
+            Collection<PfConceptKey> referencedDataTypeKeys = dataType.getReferencedDataTypes();
+
+            for (PfConceptKey referencedDataTypeKey : referencedDataTypeKeys) {
+                JpaToscaServiceTemplate dataTypeEntityTreeServiceTemplate =
+                        getDataTypes(dao, referencedDataTypeKey.getName(), referencedDataTypeKey.getVersion());
+
+                serviceTemplate =
+                        ToscaServiceTemplateUtils.addFragment(serviceTemplate, dataTypeEntityTreeServiceTemplate);
+            }
+        }
 
         LOGGER.debug("<-getDataTypes: name={}, version={}, serviceTemplate={}", name, version, serviceTemplate);
         return serviceTemplate;
@@ -86,32 +165,20 @@ public class SimpleToscaProvider {
      * Create data types.
      *
      * @param dao the DAO to use to access the database
-     * @param serviceTemplate the service template containing the definition of the data types to be created
+     * @param incomingServiceTemplate the service template containing the definition of the data types to be created
      * @return the TOSCA service template containing the created data types
      * @throws PfModelException on errors creating data types
      */
     public JpaToscaServiceTemplate createDataTypes(@NonNull final PfDao dao,
-            @NonNull final JpaToscaServiceTemplate serviceTemplate) throws PfModelException {
-        LOGGER.debug("->createDataTypes: serviceTempalate={}", serviceTemplate);
+            @NonNull final JpaToscaServiceTemplate incomingServiceTemplate) throws PfModelException {
+        LOGGER.debug("->createDataTypes: incomingServiceTemplate={}", incomingServiceTemplate);
 
-        ToscaUtils.assertDataTypesExist(serviceTemplate);
+        ToscaUtils.assertDataTypesExist(incomingServiceTemplate);
 
-        for (JpaToscaDataType dataType : serviceTemplate.getDataTypes().getAll(null)) {
-            dao.create(dataType);
-        }
+        JpaToscaServiceTemplate writtenServiceTemplate = appendToServiceTemplate(dao, incomingServiceTemplate);
 
-        // Return the created Data types
-        JpaToscaDataTypes returnDataTypes = new JpaToscaDataTypes();
-
-        for (PfConceptKey dataTypeKey : serviceTemplate.getDataTypes().getConceptMap().keySet()) {
-            returnDataTypes.getConceptMap().put(dataTypeKey, dao.get(JpaToscaDataType.class, dataTypeKey));
-        }
-
-        JpaToscaServiceTemplate returnServiceTemplate = new JpaToscaServiceTemplate();
-        returnServiceTemplate.setDataTypes(returnDataTypes);
-
-        LOGGER.debug("<-createDataTypes: returnServiceTempalate={}", returnServiceTemplate);
-        return returnServiceTemplate;
+        LOGGER.debug("<-createDataTypes: returnServiceTempalate={}", writtenServiceTemplate);
+        return writtenServiceTemplate;
     }
 
     /**
@@ -180,20 +247,33 @@ public class SimpleToscaProvider {
             throws PfModelException {
         LOGGER.debug("->getPolicyTypes: name={}, version={}", name, version);
 
-        // Create the structure of the TOSCA service template to contain the policy type
-        JpaToscaServiceTemplate serviceTemplate = new JpaToscaServiceTemplate();
-        serviceTemplate.setPolicyTypes(new JpaToscaPolicyTypes());
+        JpaToscaServiceTemplate serviceTemplate = getServiceTemplate(dao);
 
-        // Add the policy type to the TOSCA service template
-        List<JpaToscaPolicyType> jpaPolicyTypeList = dao.getFiltered(JpaToscaPolicyType.class, name, version);
-        serviceTemplate.getPolicyTypes().getConceptMap().putAll(asConceptMap(jpaPolicyTypeList));
+        serviceTemplate.setDataTypes(null);
+        serviceTemplate.setTopologyTemplate(null);
 
-        // Return all data types
-        // TODO: In an upcoming review, return just the data types used by the policy types on the policy type list
-        List<JpaToscaDataType> jpaDataTypeList = dao.getFiltered(JpaToscaDataType.class, null, null);
-        if (!CollectionUtils.isEmpty(jpaDataTypeList)) {
-            serviceTemplate.setDataTypes(new JpaToscaDataTypes());
-            serviceTemplate.getDataTypes().getConceptMap().putAll(asConceptMap(jpaDataTypeList));
+        if (!ToscaUtils.doPolicyTypesExist(serviceTemplate)) {
+            throw new PfModelRuntimeException(Response.Status.NOT_FOUND,
+                    "policy types for " + name + ":" + version + DO_NOT_EXIST);
+        }
+
+        ToscaUtils.getEntityTree(serviceTemplate.getPolicyTypes(), name, version);
+
+        if (!ToscaUtils.doPolicyTypesExist(serviceTemplate)) {
+            throw new PfModelRuntimeException(Response.Status.NOT_FOUND,
+                    "policy types for " + name + ":" + version + DO_NOT_EXIST);
+        }
+
+        for (JpaToscaPolicyType policyType : serviceTemplate.getPolicyTypes().getConceptMap().values()) {
+            Collection<PfConceptKey> referencedDataTypeKeys = policyType.getReferencedDataTypes();
+
+            for (PfConceptKey referencedDataTypeKey : referencedDataTypeKeys) {
+                JpaToscaServiceTemplate dataTypeEntityTreeServiceTemplate =
+                        getDataTypes(dao, referencedDataTypeKey.getName(), referencedDataTypeKey.getVersion());
+
+                serviceTemplate =
+                        ToscaServiceTemplateUtils.addFragment(serviceTemplate, dataTypeEntityTreeServiceTemplate);
+            }
         }
 
         LOGGER.debug("<-getPolicyTypes: name={}, version={}, serviceTemplate={}", name, version, serviceTemplate);
@@ -204,37 +284,20 @@ public class SimpleToscaProvider {
      * Create policy types.
      *
      * @param dao the DAO to use to access the database
-     * @param serviceTemplate the service template containing the definition of the policy types to be created
+     * @param incomingServiceTemplate the service template containing the definition of the policy types to be created
      * @return the TOSCA service template containing the created policy types
      * @throws PfModelException on errors creating policy types
      */
     public JpaToscaServiceTemplate createPolicyTypes(@NonNull final PfDao dao,
-            @NonNull final JpaToscaServiceTemplate serviceTemplate) throws PfModelException {
-        LOGGER.debug("->createPolicyTypes: serviceTempalate={}", serviceTemplate);
+            @NonNull final JpaToscaServiceTemplate incomingServiceTemplate) throws PfModelException {
+        LOGGER.debug("->createPolicyTypes: serviceTempalate={}", incomingServiceTemplate);
 
-        ToscaUtils.assertPolicyTypesExist(serviceTemplate);
+        ToscaUtils.assertPolicyTypesExist(incomingServiceTemplate);
 
-        // Create the data types on the policy type
-        if (ToscaUtils.doDataTypesExist(serviceTemplate)) {
-            createDataTypes(dao, serviceTemplate);
-        }
+        JpaToscaServiceTemplate writtenServiceTemplate = appendToServiceTemplate(dao, incomingServiceTemplate);
 
-        for (JpaToscaPolicyType policyType : serviceTemplate.getPolicyTypes().getAll(null)) {
-            dao.create(policyType);
-        }
-
-        // Return the created policy types
-        JpaToscaPolicyTypes returnPolicyTypes = new JpaToscaPolicyTypes();
-
-        for (PfConceptKey policyTypeKey : serviceTemplate.getPolicyTypes().getConceptMap().keySet()) {
-            returnPolicyTypes.getConceptMap().put(policyTypeKey, dao.get(JpaToscaPolicyType.class, policyTypeKey));
-        }
-
-        JpaToscaServiceTemplate returnServiceTemplate = new JpaToscaServiceTemplate();
-        returnServiceTemplate.setPolicyTypes(returnPolicyTypes);
-
-        LOGGER.debug("<-createPolicyTypes: returnServiceTempalate={}", returnServiceTemplate);
-        return returnServiceTemplate;
+        LOGGER.debug("<-createPolicyTypes: returnServiceTempalate={}", writtenServiceTemplate);
+        return writtenServiceTemplate;
     }
 
     /**
@@ -309,14 +372,29 @@ public class SimpleToscaProvider {
             throws PfModelException {
         LOGGER.debug("->getPolicies: name={}, version={}", name, version);
 
-        // Create the structure of the TOSCA service template to contain the policy type
-        JpaToscaServiceTemplate serviceTemplate = new JpaToscaServiceTemplate();
-        serviceTemplate.setTopologyTemplate(new JpaToscaTopologyTemplate());
-        serviceTemplate.getTopologyTemplate().setPolicies(new JpaToscaPolicies());
+        JpaToscaServiceTemplate serviceTemplate = getServiceTemplate(dao);
 
-        // Add the policy type to the TOSCA service template
-        List<JpaToscaPolicy> jpaPolicyList = dao.getFiltered(JpaToscaPolicy.class, name, version);
-        serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().putAll(asConceptMap(jpaPolicyList));
+        if (!ToscaUtils.doPoliciesExist(serviceTemplate)) {
+            throw new PfModelRuntimeException(Response.Status.NOT_FOUND,
+                    "policies for " + name + ":" + version + DO_NOT_EXIST);
+        }
+
+        ToscaUtils.getEntityTree(serviceTemplate.getTopologyTemplate().getPolicies(), name, version);
+
+        if (!ToscaUtils.doPoliciesExist(serviceTemplate)) {
+            throw new PfModelRuntimeException(Response.Status.NOT_FOUND,
+                    "policies for " + name + ":" + version + DO_NOT_EXIST);
+        }
+
+        for (JpaToscaPolicy policy : serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().values()) {
+            if (policy.getDerivedFrom() != null) {
+                JpaToscaServiceTemplate referencedEntitiesServiceTemplate =
+                        getPolicyTypes(dao, policy.getDerivedFrom().getName(), policy.getDerivedFrom().getVersion());
+
+                serviceTemplate =
+                        ToscaServiceTemplateUtils.addFragment(serviceTemplate, referencedEntitiesServiceTemplate);
+            }
+        }
 
         LOGGER.debug("<-getPolicies: name={}, version={}, serviceTemplate={}", name, version, serviceTemplate);
         return serviceTemplate;
@@ -326,33 +404,20 @@ public class SimpleToscaProvider {
      * Create policies.
      *
      * @param dao the DAO to use to access the database
-     * @param serviceTemplate the service template containing the definitions of the new policies to be created.
+     * @param incomingServiceTemplate the service template containing the definitions of the new policies to be created.
      * @return the TOSCA service template containing the policy types that were created
      * @throws PfModelException on errors creating policies
      */
     public JpaToscaServiceTemplate createPolicies(@NonNull final PfDao dao,
-            @NonNull final JpaToscaServiceTemplate serviceTemplate) throws PfModelException {
-        LOGGER.debug("->createPolicies: serviceTempalate={}", serviceTemplate);
+            @NonNull final JpaToscaServiceTemplate incomingServiceTemplate) throws PfModelException {
+        LOGGER.debug("->createPolicies: incomingServiceTemplate={}", incomingServiceTemplate);
 
-        ToscaUtils.assertPoliciesExist(serviceTemplate);
+        ToscaUtils.assertPoliciesExist(incomingServiceTemplate);
 
-        for (JpaToscaPolicy policy : serviceTemplate.getTopologyTemplate().getPolicies().getAll(null)) {
-            verifyPolicyTypeForPolicy(dao, policy);
-            dao.create(policy);
-        }
+        JpaToscaServiceTemplate writtenServiceTemplate = appendToServiceTemplate(dao, incomingServiceTemplate);
 
-        // Return the created policy types
-        JpaToscaPolicies returnPolicies = new JpaToscaPolicies();
-        returnPolicies.setKey(serviceTemplate.getTopologyTemplate().getPolicies().getKey());
-
-        for (PfConceptKey policyKey : serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().keySet()) {
-            returnPolicies.getConceptMap().put(policyKey, dao.get(JpaToscaPolicy.class, policyKey));
-        }
-
-        serviceTemplate.getTopologyTemplate().setPolicies(returnPolicies);
-
-        LOGGER.debug("<-createPolicies: serviceTemplate={}", serviceTemplate);
-        return serviceTemplate;
+        LOGGER.debug("<-createPolicies: serviceTemplate={}", writtenServiceTemplate);
+        return writtenServiceTemplate;
     }
 
     /**
@@ -409,21 +474,6 @@ public class SimpleToscaProvider {
     }
 
     /**
-     * Convert a list of concepts to a map of concepts.
-     *
-     * @param conceptList the concept list
-     * @return the concept map
-     */
-    private <T extends PfConcept> Map<PfConceptKey, T> asConceptMap(List<T> conceptList) {
-        Map<PfConceptKey, T> conceptMap = new LinkedHashMap<>();
-        for (T concept : conceptList) {
-            conceptMap.put((PfConceptKey) concept.getKey(), concept);
-        }
-
-        return conceptMap;
-    }
-
-    /**
      * Verify the policy type for a policy exists.
      *
      * @param dao the DAO to use to access policy types in the database
@@ -447,7 +497,6 @@ public class SimpleToscaProvider {
         if (policyType == null) {
             String errorMessage =
                     "policy type " + policyTypeKey.getId() + " for policy " + policy.getId() + " does not exist";
-            LOGGER.warn(errorMessage);
             throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
         }
     }
@@ -476,8 +525,7 @@ public class SimpleToscaProvider {
 
         // We should have one and only one returned entry
         if (filterdPolicyTypeList.size() != 1) {
-            String errorMessage = "search for lates policy type " + policyTypeName + " returned more than one entry";
-            LOGGER.warn(errorMessage);
+            String errorMessage = "search for latest policy type " + policyTypeName + " returned more than one entry";
             throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
         }
 
