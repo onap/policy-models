@@ -20,6 +20,7 @@
 
 package org.onap.policy.controlloop.actor.test;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.util.Map;
@@ -33,6 +34,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.stubbing.Answer;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactory;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
@@ -110,7 +112,11 @@ public class BasicHttpOperation<Q> {
     }
 
     /**
-     * Initializes mocks and sets up.
+     * Initializes mocks and sets up. Arranges for asynchronous operations on the
+     * HttpClient, {@link #client}, to return {@link #rawResponse}. As a result, test
+     * classes typically only have to load up {@link #rawResponse} with the responses in
+     * the proper order and then the asynchronous calls will work without further
+     * configuration.
      */
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
@@ -121,6 +127,11 @@ public class BasicHttpOperation<Q> {
 
         future = new CompletableFuture<>();
         when(client.getBaseUrl()).thenReturn(BASE_URI);
+
+        when(client.get(any(), any(), any())).thenAnswer(provideResponse(rawResponse));
+        when(client.delete(any(), any(), any())).thenAnswer(provideResponse(rawResponse));
+        when(client.post(any(), any(), any(), any())).thenAnswer(provideResponse(rawResponse));
+        when(client.put(any(), any(), any(), any())).thenAnswer(provideResponse(rawResponse));
 
         makeContext();
 
@@ -156,6 +167,20 @@ public class BasicHttpOperation<Q> {
         when(operator.getName()).thenReturn(operationName);
         when(operator.getClient()).thenReturn(client);
         when(operator.getPath()).thenReturn(PATH);
+    }
+
+    /**
+     * Provides a response to an asynchronous HttpClient call.
+     *
+     * @param response response to be provided to the call
+     * @return a function that provides the response to the call
+     */
+    protected Answer<CompletableFuture<Response>> provideResponse(Response response) {
+        return args -> {
+            InvocationCallback<Response> cb = args.getArgument(0);
+            cb.completed(response);
+            return CompletableFuture.completedFuture(response);
+        };
     }
 
     /**
