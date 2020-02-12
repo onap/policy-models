@@ -4,32 +4,32 @@
         "policies": [
             {
                 "operational.modifyconfig": {
-                    "type": "onap.policies.controlloop.Operational",
-                    "version": "1.0.0",
+                    "type": "onap.policies.controlloop.operational.common.Drools",
+                    "type_version": "1.0.0",
                     "metadata": {
                         "policy-id": "operational.modifyconfig"
                     },
                     "properties": {
-                        "controlLoop": {
-                            "version": "2.0.0",
-                            "controlLoopName": "ControlLoop-vFirewall-d0a1dfc6-94f5-4fd4-a5b5-4630b438850a",
-                            "trigger_policy": "unique-policy-id-1-modifyConfig",
-                            "timeout": 1200,
-                            "abatement": false
-                        },
-                        "policies": [
+                        "id": "ControlLoop-vFirewall-d0a1dfc6-94f5-4fd4-a5b5-4630b438850a",
+                        "timeout": 1200,
+                        "abatement": false,
+                        "trigger": "unique-policy-id-1-modifyConfig",
+                        "operations": [
                             {
                                 "id": "unique-policy-id-1-modifyConfig",
-                                "name": "modify packet gen config",
-                                "description": null,
-                                "actor": "APPC",
-                                "recipe": "ModifyConfig",
-                                "target": {
-                                    "resourceID": "Eace933104d443b496b8.nodes.heat.vpg",
-                                    "type": "VNF"
+                                "description": "Modify the packet generator",
+                                "operation": {
+                                    "actor": "APPC",
+                                    "operation": "ModifyConfig",
+                                    "target": {
+                                        "targetType": "VNF",
+                                        "entityId": {
+                                            "resourceID": "bbb3cefd-01c8-413c-9bdd-2b92f9ca3d38"
+                                        }
+                                    }
                                 },
-                                "retry": 0,
                                 "timeout": 300,
+                                "retries": 0,
                                 "success": "final_success",
                                 "failure": "final_failure",
                                 "failure_timeout": "final_failure_timeout",
@@ -37,7 +37,8 @@
                                 "failure_exception": "final_failure_exception",
                                 "failure_guard": "final_failure_guard"
                             }
-                        ]
+                        ],
+                        "controllerName": "usecases"
                     }
                 }
             }

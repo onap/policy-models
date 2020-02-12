@@ -31,36 +31,7 @@ policy_types:
                 entry_schema:
                     type: onap.datatype.controlloop.Operation
 
-    onap.policies.controlloop.operational.common.Drools:
-        derived_from: onap.policies.controlloop.operational.Common
-        type_version: 1.0.0
-        version: 1.0.0
-        description: Operational policies for Drools PDP
-        properties:
-            controllerName:
-                type: string
-                description: Drools controller properties
-                required: false
-
 data_types:
-    # TBD if this is needed
-    onap.datatype.controlloop.operation.Failure:
-        derived_from: tosca.datatypes.Root
-        description: Captures information of an operational failure performed for control loop
-        properties:
-            messages:
-                type: string
-                description: error message
-                required: true
-            category:
-                type: string
-                description: |
-                    The category the error occurred in. Whether this is a general error from the actor, or the operation
-                    timed out, retries were exhausted in trying to execute the operation, a guard policy prevented the
-                    operation from occuring, or an exception in the system caused the failure.
-                constraints:
-                - valid_values: [error, timeout, retries, guard, exception]
-
     onap.datatype.controlloop.Target:
         derived_from: tosca.datatypes.Root
         description: Definition for a entity in A&AI to perform a control loop operation on
@@ -77,6 +48,8 @@ data_types:
                     Map of values that identify the resource. If none are provided, it is assumed that the
                     entity that generated the ONSET event will be the target.
                 required: false
+                entry_schema:
+                    type: string
 
     onap.datatype.controlloop.Actor:
         derived_from: tosca.datatypes.Root
@@ -91,7 +64,7 @@ data_types:
                 description: The operation the actor is performing.
                 required: true
             target:
-                type: string
+                type: onap.datatype.controlloop.Target
                 description: The resource the operation should be performed on.
                 required: true
                 metadata:
