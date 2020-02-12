@@ -77,6 +77,8 @@ data_types:
                     Map of values that identify the resource. If none are provided, it is assumed that the
                     entity that generated the ONSET event will be the target.
                 required: false
+                entry_schema:
+                    type: String
 
     onap.datatype.controlloop.Actor:
         derived_from: tosca.datatypes.Root
