@@ -24,7 +24,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
+import javax.ws.rs.client.InvocationCallback;
+import javax.ws.rs.core.Response;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -55,7 +59,7 @@ public class BasicHttpOperationTest {
     }
 
     @Test
-    public void testSetUp() {
+    public void testSetUp() throws Exception {
         assertNotNull(oper.client);
         assertSame(oper.client, oper.factory.get(BasicHttpOperation.MY_CLIENT));
         assertEquals(200, oper.rawResponse.getStatus());
@@ -101,4 +105,23 @@ public class BasicHttpOperationTest {
         assertTrue(oper.makeEnrichment().isEmpty());
     }
 
+    @Test
+    public void testProvideResponse() throws Exception {
+        InvocationCallback<Response> cb = new InvocationCallback<>() {
+            @Override
+            public void completed(Response response) {
+                // do nothing
+            }
+
+            @Override
+            public void failed(Throwable throwable) {
+                // do nothing
+            }
+        };
+
+
+        when(oper.client.get(any(), any(), any())).thenAnswer(oper.provideResponse(oper.rawResponse));
+
+        assertSame(oper.rawResponse, oper.client.get(cb, null, null).get());
+    }
 }

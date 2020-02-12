@@ -33,6 +33,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.stubbing.Answer;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactory;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
@@ -165,5 +166,19 @@ public class BasicHttpOperation<Q> {
      */
     protected Map<String, String> makeEnrichment() {
         return new TreeMap<>();
+    }
+
+    /**
+     * Provides a response to an asynchronous HttpClient call.
+     *
+     * @param response response to be provided to the call
+     * @return a function that provides the response to the call
+     */
+    protected Answer<CompletableFuture<Response>> provideResponse(Response response) {
+        return args -> {
+            InvocationCallback<Response> cb = args.getArgument(0);
+            cb.completed(response);
+            return CompletableFuture.completedFuture(response);
+        };
     }
 }

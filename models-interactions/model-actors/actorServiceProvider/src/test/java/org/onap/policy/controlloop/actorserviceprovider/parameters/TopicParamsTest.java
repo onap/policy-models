@@ -36,7 +36,7 @@ public class TopicParamsTest {
     private static final String CONTAINER = "my-container";
     private static final String TARGET = "my-target";
     private static final String SOURCE = "my-source";
-    private static final long TIMEOUT = 10;
+    private static final int TIMEOUT = 10;
 
     private TopicParams params;
 
