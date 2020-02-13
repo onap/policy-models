@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7a4078db_94cbd32e",
+        "filename": "models-examples/src/main/resources/policies/vFirewall.policy.operational.input.tosca.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-02-13T13:52:09Z",
+      "side": 1,
+      "message": "it should be an object",
+      "parentUuid": "b15d0e15_ea257553",
+      "revId": "1e78c8ae152500f628e839f32b5fb276074bb3c0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e60609e9_f2139958",
         "filename": "models-examples/src/main/resources/policytypes/onap.policies.controlloop.operational.Common.yaml",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "44bed8e6_eba598c1",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.controlloop.operational.Common.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-02-13T13:52:09Z",
+      "side": 1,
+      "message": "Should be case insensitive - Liam please comment.",
+      "parentUuid": "e60609e9_f2139958",
+      "revId": "1e78c8ae152500f628e839f32b5fb276074bb3c0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8cca9f1c_b07b98ea",
         "filename": "models-examples/src/main/resources/policytypes/onap.policies.controlloop.operational.Common.yaml",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2020-02-12T22:06:47Z",
       "side": 1,
       "message": "doesn\u0027t target has to point to onap.datatype.controlloop.Target ?",
+      "revId": "1e78c8ae152500f628e839f32b5fb276074bb3c0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da80c4c7_336c6dbe",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.controlloop.operational.Common.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-02-13T13:52:09Z",
+      "side": 1,
+      "message": "yes - that must be fixed.",
+      "parentUuid": "8cca9f1c_b07b98ea",
       "revId": "1e78c8ae152500f628e839f32b5fb276074bb3c0",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false

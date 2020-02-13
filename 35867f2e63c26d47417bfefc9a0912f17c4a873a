@@ -16,6 +16,24 @@
       "revId": "35867f2e63c26d47417bfefc9a0912f17c4a873a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "988cad3b_628fa499",
+        "filename": "models-examples/src/main/resources/policies/vFirewall.policy.operational.input.tosca.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-02-13T13:52:09Z",
+      "side": 0,
+      "message": "All I did was convert the yaml to json.",
+      "parentUuid": "eeec144d_0fc2b385",
+      "revId": "35867f2e63c26d47417bfefc9a0912f17c4a873a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
