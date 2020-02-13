@@ -261,6 +261,11 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
     public PfValidationResult validate(@NonNull final PfValidationResult resultIn) {
         PfValidationResult result = super.validate(resultIn);
 
+        if (PfKey.NULL_KEY_VERSION.equals(getKey().getVersion())) {
+            result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
+                    "key version is a null version"));
+        }
+
         if (type == null || type.isNullKey()) {
             result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
                     "type is null or a null key"));

@@ -201,5 +201,19 @@ public class ToscaServiceTemplateUtilsTest {
         assertEquals(dt1, dtIterator.next());
         assertEquals(pt0, compositeTemplate05.getPolicyTypes().getAll(null).iterator().next());
         assertEquals(p0, compositeTemplate05.getTopologyTemplate().getPolicies().getAll(null).iterator().next());
+
+        JpaToscaServiceTemplate fragmentTemplate09 = new JpaToscaServiceTemplate();
+
+        fragmentTemplate09.setDataTypes(new JpaToscaDataTypes());
+        fragmentTemplate09.getDataTypes().getConceptMap().put(dt1.getKey(), dt1);
+
+        fragmentTemplate09.setPolicyTypes(new JpaToscaPolicyTypes());
+        fragmentTemplate09.getPolicyTypes().getConceptMap().put(pt0.getKey(), pt0);
+
+        fragmentTemplate09.setTopologyTemplate(null);
+
+        JpaToscaServiceTemplate compositeTemplate06 =
+                ToscaServiceTemplateUtils.addFragment(compositeTemplate05, fragmentTemplate09);
+        assertEquals(compositeTemplate05.getTopologyTemplate(), compositeTemplate06.getTopologyTemplate());
     }
 }

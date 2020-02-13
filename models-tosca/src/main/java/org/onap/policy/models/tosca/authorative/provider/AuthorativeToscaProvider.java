@@ -423,6 +423,7 @@ public class AuthorativeToscaProvider {
      */
     private <T extends ToscaEntity> List<T> handlePfModelRuntimeException(final PfModelRuntimeException pfme) {
         if (Status.NOT_FOUND.equals(pfme.getErrorResponse().getResponseCode())) {
+            LOGGER.trace("request did not find any results", pfme);
             return Collections.emptyList();
         } else {
             throw pfme;

@@ -203,6 +203,11 @@ public class JpaToscaPolicyType extends JpaToscaEntityType<ToscaPolicyType> impl
     public PfValidationResult validate(@NonNull final PfValidationResult resultIn) {
         PfValidationResult result = super.validate(resultIn);
 
+        if (PfKey.NULL_KEY_VERSION.equals(getKey().getVersion())) {
+            result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
+                    "key version is a null version"));
+        }
+
         if (properties != null) {
             result = validateProperties(result);
         }

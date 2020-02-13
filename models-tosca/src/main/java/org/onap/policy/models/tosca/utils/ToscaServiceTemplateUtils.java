@@ -74,7 +74,7 @@ public class ToscaServiceTemplateUtils {
         compositeTemplate.setPolicyTypes(
                 addFragmentEntitites(compositeTemplate.getPolicyTypes(), fragmentTemplate.getPolicyTypes(), result));
 
-        if (originalTemplate.getTopologyTemplate() != null) {
+        if (originalTemplate.getTopologyTemplate() != null && fragmentTemplate.getTopologyTemplate() != null) {
             if (originalTemplate.getTopologyTemplate()
                     .compareToWithoutEntities(fragmentTemplate.getTopologyTemplate()) == 0) {
                 compositeTemplate.getTopologyTemplate()

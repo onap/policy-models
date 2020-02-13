@@ -148,8 +148,8 @@ public class PolicyLegacyOperationalPersistenceTest {
     private void createPolicyTypes() throws CoderException, PfModelException, URISyntaxException {
         Set<String> policyTypeResources = ResourceUtils.getDirectoryContents("policytypes");
 
-        for (String policyTyoeResource : policyTypeResources) {
-            Object yamlObject = new Yaml().load(ResourceUtils.getResourceAsString(policyTyoeResource));
+        for (String policyTypeResource : policyTypeResources) {
+            Object yamlObject = new Yaml().load(ResourceUtils.getResourceAsString(policyTypeResource));
             String yamlAsJsonString = new StandardCoder().encode(yamlObject);
 
             ToscaServiceTemplate toscaServiceTemplatePolicyType =

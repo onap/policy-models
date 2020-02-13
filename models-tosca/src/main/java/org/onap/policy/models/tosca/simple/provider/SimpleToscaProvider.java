@@ -264,6 +264,9 @@ public class SimpleToscaProvider {
                     "policy types for " + name + ":" + version + DO_NOT_EXIST);
         }
 
+        JpaToscaServiceTemplate dataTypeServiceTemplate = new JpaToscaServiceTemplate(serviceTemplate);
+        dataTypeServiceTemplate.setPolicyTypes(null);
+
         for (JpaToscaPolicyType policyType : serviceTemplate.getPolicyTypes().getConceptMap().values()) {
             Collection<PfConceptKey> referencedDataTypeKeys = policyType.getReferencedDataTypes();
 
@@ -271,10 +274,12 @@ public class SimpleToscaProvider {
                 JpaToscaServiceTemplate dataTypeEntityTreeServiceTemplate =
                         getDataTypes(dao, referencedDataTypeKey.getName(), referencedDataTypeKey.getVersion());
 
-                serviceTemplate =
-                        ToscaServiceTemplateUtils.addFragment(serviceTemplate, dataTypeEntityTreeServiceTemplate);
+                dataTypeServiceTemplate = ToscaServiceTemplateUtils.addFragment(dataTypeServiceTemplate,
+                        dataTypeEntityTreeServiceTemplate);
             }
         }
+
+        serviceTemplate = ToscaServiceTemplateUtils.addFragment(serviceTemplate, dataTypeServiceTemplate);
 
         LOGGER.debug("<-getPolicyTypes: name={}, version={}, serviceTemplate={}", name, version, serviceTemplate);
         return serviceTemplate;

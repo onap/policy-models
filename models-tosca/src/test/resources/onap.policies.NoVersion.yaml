@@ -6,6 +6,7 @@ policy_types:
       description: The base policy type for all policies that govern optimization
    onap.policies.NoVersion:
       derived_from: onap.policies.Optimization
+      version: 0.0.1
       properties:
          applicableResources:
             type: list

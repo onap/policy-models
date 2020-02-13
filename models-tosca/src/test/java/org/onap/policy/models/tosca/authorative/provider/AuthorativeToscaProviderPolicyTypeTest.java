@@ -58,11 +58,11 @@ import org.yaml.snakeyaml.Yaml;
  */
 public class AuthorativeToscaProviderPolicyTypeTest {
     private static final String VERSION = "version";
-    private static final String POLICY_NO_VERSION_VERSION0 = "onap.policies.NoVersion:0.0.0";
+    private static final String POLICY_NO_VERSION_VERSION1 = "onap.policies.NoVersion:0.0.1";
     private static final String POLICY_NO_VERSION = "onap.policies.NoVersion";
     private static final String MISSING_POLICY_TYPES = "no policy types specified on service template";
     private static final String DAO_IS_NULL = "^dao is marked .*on.*ull but is null$";
-    private static final String VERSION_000 = "0.0.0";
+    private static final String VERSION_001 = "0.0.1";
     private static String yamlAsJsonString;
     private PfDao pfDao;
     private StandardCoder standardCoder;
@@ -135,7 +135,7 @@ public class AuthorativeToscaProviderPolicyTypeTest {
         ToscaServiceTemplate createdServiceTemplate =
                 new AuthorativeToscaProvider().createPolicyTypes(pfDao, toscaServiceTemplate);
 
-        PfConceptKey policyTypeKey = new PfConceptKey(POLICY_NO_VERSION_VERSION0);
+        PfConceptKey policyTypeKey = new PfConceptKey(POLICY_NO_VERSION_VERSION1);
 
         ToscaPolicyType beforePolicyType = toscaServiceTemplate.getPolicyTypes().get(policyTypeKey.getName());
         ToscaPolicyType createdPolicyType = createdServiceTemplate.getPolicyTypes().get(policyTypeKey.getName());
@@ -150,7 +150,7 @@ public class AuthorativeToscaProviderPolicyTypeTest {
         assertEquals(0, ObjectUtils.compare(beforePolicyType.getDescription(), createdPolicyType.getDescription()));
 
         List<ToscaPolicyType> gotPolicyTypeList =
-                new AuthorativeToscaProvider().getPolicyTypeList(pfDao, POLICY_NO_VERSION, VERSION_000);
+                new AuthorativeToscaProvider().getPolicyTypeList(pfDao, POLICY_NO_VERSION, VERSION_001);
         assertEquals(2, gotPolicyTypeList.size());
         assertEquals(true, beforePolicyType.getName().equals(gotPolicyType.getName()));
 
@@ -162,14 +162,14 @@ public class AuthorativeToscaProviderPolicyTypeTest {
         assertEquals(2, gotPolicyTypeList.size());
         assertEquals(true, beforePolicyType.getName().equals(gotPolicyType.getName()));
 
-        gotPolicyTypeList = new AuthorativeToscaProvider().getPolicyTypeList(pfDao, null, VERSION_000);
+        gotPolicyTypeList = new AuthorativeToscaProvider().getPolicyTypeList(pfDao, null, VERSION_001);
         assertEquals(2, gotPolicyTypeList.size());
         assertEquals(true, beforePolicyType.getName().equals(gotPolicyType.getName()));
 
         assertThatThrownBy(() -> new AuthorativeToscaProvider().getPolicyTypeList(new DefaultPfDao(), POLICY_NO_VERSION,
-                VERSION_000)).hasMessageContaining("Policy Framework DAO has not been initialized");
+                VERSION_001)).hasMessageContaining("Policy Framework DAO has not been initialized");
 
-        assertTrue(new AuthorativeToscaProvider().getPolicyTypeList(pfDao, "i.dont.Exist", VERSION_000).isEmpty());
+        assertTrue(new AuthorativeToscaProvider().getPolicyTypeList(pfDao, "i.dont.Exist", VERSION_001).isEmpty());
     }
 
     @Test
@@ -212,7 +212,7 @@ public class AuthorativeToscaProviderPolicyTypeTest {
         ToscaServiceTemplate createdServiceTemplate =
                 new AuthorativeToscaProvider().createPolicyTypes(pfDao, toscaServiceTemplate);
 
-        PfConceptKey policyTypeKey = new PfConceptKey(POLICY_NO_VERSION_VERSION0);
+        PfConceptKey policyTypeKey = new PfConceptKey(POLICY_NO_VERSION_VERSION1);
 
         ToscaPolicyType beforePolicyType = toscaServiceTemplate.getPolicyTypes().get(policyTypeKey.getName());
         ToscaPolicyType createdPolicyType = createdServiceTemplate.getPolicyTypes().get(policyTypeKey.getName());
@@ -234,14 +234,14 @@ public class AuthorativeToscaProviderPolicyTypeTest {
         assertEquals(0, ObjectUtils.compare(beforePolicyType.getDescription(), gotPolicyType.getDescription()));
 
         gotServiceTemplate = new AuthorativeToscaProvider().getFilteredPolicyTypes(pfDao,
-                ToscaPolicyTypeFilter.builder().name(policyTypeKey.getName()).version(VERSION_000).build());
+                ToscaPolicyTypeFilter.builder().name(policyTypeKey.getName()).version(VERSION_001).build());
 
         gotPolicyType = gotServiceTemplate.getPolicyTypes().get(policyTypeKey.getName());
         assertEquals(true, beforePolicyType.getName().equals(gotPolicyType.getName()));
         assertEquals(0, ObjectUtils.compare(beforePolicyType.getDescription(), gotPolicyType.getDescription()));
 
         List<ToscaPolicyType> gotPolicyTypeList =
-                new AuthorativeToscaProvider().getPolicyTypeList(pfDao, POLICY_NO_VERSION, VERSION_000);
+                new AuthorativeToscaProvider().getPolicyTypeList(pfDao, POLICY_NO_VERSION, VERSION_001);
         assertEquals(2, gotPolicyTypeList.size());
         assertEquals(true, beforePolicyType.getName().equals(gotPolicyType.getName()));
 
@@ -256,7 +256,7 @@ public class AuthorativeToscaProviderPolicyTypeTest {
         assertEquals(true, beforePolicyType.getName().equals(gotPolicyType.getName()));
 
         gotPolicyTypeList = new AuthorativeToscaProvider().getFilteredPolicyTypeList(pfDao,
-                ToscaPolicyTypeFilter.builder().name(policyTypeKey.getName()).version(VERSION_000).build());
+                ToscaPolicyTypeFilter.builder().name(policyTypeKey.getName()).version(VERSION_001).build());
         assertEquals(1, gotPolicyTypeList.size());
         assertEquals(true, beforePolicyType.getName().equals(gotPolicyType.getName()));
 
@@ -296,7 +296,7 @@ public class AuthorativeToscaProviderPolicyTypeTest {
         ToscaServiceTemplate createdServiceTemplate =
                 new AuthorativeToscaProvider().createPolicyTypes(pfDao, toscaServiceTemplate);
 
-        PfConceptKey policyTypeKey = new PfConceptKey(POLICY_NO_VERSION_VERSION0);
+        PfConceptKey policyTypeKey = new PfConceptKey(POLICY_NO_VERSION_VERSION1);
 
         ToscaPolicyType beforePolicyType = toscaServiceTemplate.getPolicyTypes().get(policyTypeKey.getName());
         ToscaPolicyType createdPolicyType = createdServiceTemplate.getPolicyTypes().get(policyTypeKey.getName());
@@ -328,7 +328,7 @@ public class AuthorativeToscaProviderPolicyTypeTest {
         ToscaServiceTemplate createdServiceTemplate =
                 new AuthorativeToscaProvider().createPolicyTypes(pfDao, toscaServiceTemplate);
 
-        PfConceptKey policyTypeKey = new PfConceptKey(POLICY_NO_VERSION_VERSION0);
+        PfConceptKey policyTypeKey = new PfConceptKey(POLICY_NO_VERSION_VERSION1);
 
         ToscaPolicyType beforePolicyType = toscaServiceTemplate.getPolicyTypes().get(policyTypeKey.getName());
         ToscaPolicyType createdPolicyType = createdServiceTemplate.getPolicyTypes().get(policyTypeKey.getName());
@@ -379,7 +379,7 @@ public class AuthorativeToscaProviderPolicyTypeTest {
         ToscaServiceTemplate createdServiceTemplate =
                 new AuthorativeToscaProvider().createPolicyTypes(pfDao, toscaServiceTemplate);
 
-        PfConceptKey policyTypeKey = new PfConceptKey(POLICY_NO_VERSION_VERSION0);
+        PfConceptKey policyTypeKey = new PfConceptKey(POLICY_NO_VERSION_VERSION1);
 
         ToscaPolicyType beforePolicyType = toscaServiceTemplate.getPolicyTypes().get(policyTypeKey.getName());
         ToscaPolicyType createdPolicyType = createdServiceTemplate.getPolicyTypes().get(policyTypeKey.getName());
@@ -395,7 +395,7 @@ public class AuthorativeToscaProviderPolicyTypeTest {
 
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().getPolicyTypes(pfDao, policyTypeKey.getName(), policyTypeKey.getVersion());
-        }).hasMessage("policy types for onap.policies.NoVersion:0.0.0 do not exist");
+        }).hasMessage("policy types for onap.policies.NoVersion:0.0.1 do not exist");
     }
 
     @Test

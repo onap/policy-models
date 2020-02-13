@@ -155,9 +155,9 @@ public class MonitoringPolicyTypeSerializationTest {
 
         Entry<PfConceptKey, JpaToscaPolicyType> firstPolicyType = policyTypesIter.next();
         assertEquals(MONITORING, firstPolicyType.getKey().getName());
-        assertEquals(VERSION_000, firstPolicyType.getKey().getVersion());
+        assertEquals(VERSION_100, firstPolicyType.getKey().getVersion());
         assertEquals("tosca.policies.Root", firstPolicyType.getValue().getDerivedFrom().getName());
-        assertEquals("a base policy type for all policies that governs monitoring provisioning",
+        assertEquals("a base policy type for all policies that govern monitoring provisioning",
                 firstPolicyType.getValue().getDescription());
 
         Entry<PfConceptKey, JpaToscaPolicyType> secondPolicyType = policyTypesIter.next();
@@ -376,7 +376,7 @@ public class MonitoringPolicyTypeSerializationTest {
         assertEquals(MONITORING, firstPolicyType.getKey().getName());
         assertEquals(VERSION_100, firstPolicyType.getKey().getVersion());
         assertEquals("tosca.policies.Root", firstPolicyType.getValue().getDerivedFrom().getName());
-        assertEquals("a base policy type for all policies that govern monitoring provision",
+        assertEquals("a base policy type for all policies that govern monitoring provisioning",
                 firstPolicyType.getValue().getDescription());
 
         Entry<PfConceptKey, JpaToscaPolicyType> secondPolicyType = policyTypesIter.next();

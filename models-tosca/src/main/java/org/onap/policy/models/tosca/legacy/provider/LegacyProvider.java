@@ -93,13 +93,13 @@ public class LegacyProvider {
 
         LOGGER.debug("->createOperationalPolicy: legacyOperationalPolicy={}", legacyOperationalPolicy);
 
-        JpaToscaServiceTemplate incomingServiceTemplate =
+        JpaToscaServiceTemplate legacyOperationalServiceTemplate =
                 new LegacyOperationalPolicyMapper().toToscaServiceTemplate(legacyOperationalPolicy);
-        JpaToscaServiceTemplate outgoingingServiceTemplate =
-                new SimpleToscaProvider().createPolicies(dao, incomingServiceTemplate);
+
+        new SimpleToscaProvider().createPolicies(dao, legacyOperationalServiceTemplate);
 
         LegacyOperationalPolicy createdLegacyOperationalPolicy =
-                new LegacyOperationalPolicyMapper().fromToscaServiceTemplate(outgoingingServiceTemplate);
+                new LegacyOperationalPolicyMapper().fromToscaServiceTemplate(legacyOperationalServiceTemplate);
 
         LOGGER.debug("<-createOperationalPolicy: createdLegacyOperationalPolicy={}", createdLegacyOperationalPolicy);
         return createdLegacyOperationalPolicy;
@@ -222,7 +222,6 @@ public class LegacyProvider {
         LOGGER.debug("<-updateGuardPolicy: updatedLegacyGuardPolicyMap={}", updatedLegacyGuardPolicyMap);
         return updatedLegacyGuardPolicyMap;
     }
-
 
     /**
      * Delete legacy guard policy.
