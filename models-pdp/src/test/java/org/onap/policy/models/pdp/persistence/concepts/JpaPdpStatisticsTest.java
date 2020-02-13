@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,22 +21,123 @@
 package org.onap.policy.models.pdp.persistence.concepts;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.Date;
 import org.junit.Test;
+import org.onap.policy.models.base.PfTimestampKey;
+import org.onap.policy.models.base.PfValidationResult;
+import org.onap.policy.models.pdp.concepts.PdpStatistics;
 
 /**
  * Test the {@link JpaPdpStatistics} class.
- *
  */
 public class JpaPdpStatisticsTest {
-    private static final String NULL_KEY_ERROR = "key is marked @NonNull but is null";
-    private static final String PDP1 = "ThePDP";
 
-    // TODO More unit test cases will be added later.
     @Test
-    public void testJpaPdpStatistics() {
-        assertThatThrownBy(() -> {
-            new JpaPdpStatistics((JpaPdpStatistics) null);
-        }).hasMessage("copyConcept is marked @NonNull but is null");
+    public void testConstructor() {
+        assertThatThrownBy(() -> new JpaPdpStatistics((PfTimestampKey) null)).hasMessageContaining("key");
+
+        assertThatThrownBy(() -> new JpaPdpStatistics((JpaPdpStatistics) null))
+            .hasMessageContaining("copyConcept");
+
+        assertThatThrownBy(() -> new JpaPdpStatistics((PdpStatistics) null))
+            .hasMessageContaining("authorativeConcept");
+
+        assertNotNull(new JpaPdpStatistics());
+        assertNotNull(new JpaPdpStatistics(new PfTimestampKey()));
+
+        PdpStatistics pdpStat = createPdpStatistics();
+        JpaPdpStatistics jpaPdpStat = new JpaPdpStatistics(createPdpStatistics());
+        checkEquals(pdpStat, jpaPdpStat);
+
+        JpaPdpStatistics jpaPdpStat2 = new JpaPdpStatistics(jpaPdpStat);
+        assertEquals(0, jpaPdpStat2.compareTo(jpaPdpStat));
+    }
+
+    @Test
+    public void testFromAuthorative() {
+        PdpStatistics pdpStat = createPdpStatistics();
+        JpaPdpStatistics jpaPdpStat = new JpaPdpStatistics();
+        jpaPdpStat.fromAuthorative(pdpStat);
+        checkEquals(pdpStat, jpaPdpStat);
+    }
+
+    @Test
+    public void testToAuthorative() {
+        PdpStatistics pdpStat = createPdpStatistics();
+        JpaPdpStatistics jpaPdpStat = new JpaPdpStatistics(pdpStat);
+        PdpStatistics toPdpStat = jpaPdpStat.toAuthorative();
+        assertEquals(pdpStat, toPdpStat);
+    }
+
+    @Test
+    public void testCompareTo() {
+        PdpStatistics pdpStat = createPdpStatistics();
+        JpaPdpStatistics jpaPdpStat1 = new JpaPdpStatistics(pdpStat);
+        assertEquals(-1, jpaPdpStat1.compareTo(null));
+
+        JpaPdpStatistics jpaPdpStat2 = new JpaPdpStatistics(pdpStat);
+        assertEquals(0, jpaPdpStat1.compareTo(jpaPdpStat2));
+
+        PdpStatistics pdpStat3 = createPdpStatistics();
+        pdpStat3.setPdpInstanceId("PDP3");
+        JpaPdpStatistics jpaPdpStat3 = new JpaPdpStatistics(pdpStat3);
+        assertNotEquals(0, jpaPdpStat1.compareTo(jpaPdpStat3));
+    }
+
+    @Test
+    public void testValidate() {
+        JpaPdpStatistics nullKeyJpaPdpStat = new JpaPdpStatistics();
+        assertFalse(nullKeyJpaPdpStat.validate(new PfValidationResult()).isOk());
+
+        PdpStatistics pdpStat = createPdpStatistics();
+        JpaPdpStatistics jpaPdpStat2 = new JpaPdpStatistics(pdpStat);
+        assertTrue(jpaPdpStat2.validate(new PfValidationResult()).isOk());
+    }
+
+    @Test
+    public void testClean() {
+        PdpStatistics pdpStat = createPdpStatistics();
+        JpaPdpStatistics jpaPdpStat = new JpaPdpStatistics(pdpStat);
+        jpaPdpStat.setPdpGroupName(" PDPGroup0 ");
+        jpaPdpStat.setPdpSubGroupName(" PDPSubGroup0 ");
+        jpaPdpStat.clean();
+        assertEquals("PDPGroup0", jpaPdpStat.getPdpGroupName());
+        assertEquals("PDPSubGroup0", jpaPdpStat.getPdpSubGroupName());
+    }
+
+    private void checkEquals(PdpStatistics pdpStat, JpaPdpStatistics jpaPdpStat) {
+        assertEquals(pdpStat.getPdpInstanceId(), jpaPdpStat.getKey().getName());
+        assertEquals(pdpStat.getPdpGroupName(), jpaPdpStat.getPdpGroupName());
+        assertEquals(pdpStat.getPdpSubGroupName(), jpaPdpStat.getPdpSubGroupName());
+        assertEquals(pdpStat.getTimeStamp(), jpaPdpStat.getKey().getTimeStamp());
+        assertEquals(pdpStat.getPolicyDeployCount(), jpaPdpStat.getPolicyDeployCount());
+        assertEquals(pdpStat.getPolicyDeploySuccessCount(), jpaPdpStat.getPolicyDeploySuccessCount());
+        assertEquals(pdpStat.getPolicyDeployFailCount(), jpaPdpStat.getPolicyDeployFailCount());
+        assertEquals(pdpStat.getPolicyExecutedCount(), jpaPdpStat.getPolicyExecutedCount());
+        assertEquals(pdpStat.getPolicyExecutedSuccessCount(), jpaPdpStat.getPolicyExecutedSuccessCount());
+        assertEquals(pdpStat.getPolicyExecutedFailCount(), jpaPdpStat.getPolicyExecutedFailCount());
+    }
+
+    private PdpStatistics createPdpStatistics() {
+        PdpStatistics pdpStat = new PdpStatistics();
+        pdpStat.setPdpInstanceId("PDP0");
+        pdpStat.setPdpGroupName("PDPGroup0");
+        pdpStat.setPdpSubGroupName("PDPSubGroup0");
+        pdpStat.setTimeStamp(new Date());
+        pdpStat.setPolicyDeployCount(3);
+        pdpStat.setPolicyDeploySuccessCount(1);
+        pdpStat.setPolicyDeployFailCount(2);
+        pdpStat.setPolicyExecutedCount(9);
+        pdpStat.setPolicyExecutedSuccessCount(4);
+        pdpStat.setPolicyExecutedFailCount(5);
+        pdpStat.setEngineStats(new ArrayList<>());
+        return pdpStat;
     }
 }

@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property.
+ *  Modifications Copyright (C) 2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,10 +24,9 @@ package org.onap.policy.models.pdp.concepts;
 
 import java.util.Date;
 import java.util.List;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.NonNull;
 import org.onap.policy.models.base.PfUtils;
 
 /**
@@ -34,9 +34,7 @@ import org.onap.policy.models.base.PfUtils;
  *
  * @author Ram Krishna Verma (ram.krishna.verma@est.tech)
  */
-@Getter
-@Setter
-@ToString
+@Data
 @NoArgsConstructor
 public class PdpStatistics {
 
@@ -57,7 +55,7 @@ public class PdpStatistics {
      *
      * @param source source from which to copy
      */
-    public PdpStatistics(PdpStatistics source) {
+    public PdpStatistics(@NonNull PdpStatistics source) {
         this.pdpInstanceId = source.pdpInstanceId;
         this.timeStamp = source.timeStamp == null ? null : new Date(source.timeStamp.getTime());
         this.pdpGroupName = source.pdpGroupName;

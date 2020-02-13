@@ -3,6 +3,7 @@
  * ONAP Policy Models
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,32 +23,35 @@ package org.onap.policy.models.pdp.concepts;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
-import static org.onap.policy.models.pdp.concepts.PdpMessageUtils.removeVariableFields;
 
+import java.util.ArrayList;
+import java.util.Date;
 import org.junit.Test;
 
 public class PdpStatisticsTest {
 
     @Test
     public void testCopyConstructor() {
-        assertThatThrownBy(() -> new PdpStatistics(null)).isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> new PdpStatistics(null)).hasMessageContaining("source");
 
-        PdpStatistics orig = new PdpStatistics();
+        PdpStatistics orig = createPdpStatistics();
+        PdpStatistics copied = new PdpStatistics(orig);
+        assertEquals(orig, copied);
+    }
 
-        // verify with null values
-        assertEquals(removeVariableFields(orig.toString()), removeVariableFields(new PdpStatistics(orig).toString()));
-
-        // verify with all values
-        orig.setPdpInstanceId("my-instance");
-
-        int count = 1;
-        orig.setPolicyDeployCount(count++);
-        orig.setPolicyDeployFailCount(count++);
-        orig.setPolicyDeploySuccessCount(count++);
-        orig.setPolicyExecutedCount(count++);
-        orig.setPolicyExecutedFailCount(count++);
-        orig.setPolicyExecutedSuccessCount(count++);
-
-        assertEquals(removeVariableFields(orig.toString()), removeVariableFields(new PdpStatistics(orig).toString()));
+    private PdpStatistics createPdpStatistics() {
+        PdpStatistics pdpStat = new PdpStatistics();
+        pdpStat.setPdpInstanceId("PDP0");
+        pdpStat.setPdpGroupName("PDPGroup0");
+        pdpStat.setPdpSubGroupName("PDPSubGroup0");
+        pdpStat.setTimeStamp(new Date());
+        pdpStat.setPolicyDeployCount(3);
+        pdpStat.setPolicyDeploySuccessCount(1);
+        pdpStat.setPolicyDeployFailCount(2);
+        pdpStat.setPolicyExecutedCount(9);
+        pdpStat.setPolicyExecutedSuccessCount(4);
+        pdpStat.setPolicyExecutedFailCount(5);
+        pdpStat.setEngineStats(new ArrayList<>());
+        return pdpStat;
     }
 }
