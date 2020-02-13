@@ -37,6 +37,29 @@
     },
     {
       "key": {
+        "uuid": "9b15e426_96d62e10",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.controlloop.operational.Common.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-02-13T15:32:48Z",
+      "side": 1,
+      "message": "has to be \"string\" or will fail new stricter checking. THey are all lower case in the table in sectino 3.2.1 of the TOSCA spec here: http://docs.oasis-open.org/tosca/TOSCA-Simple-Profile-YAML/v1.1/TOSCA-Simple-Profile-YAML-v1.1.pdf",
+      "range": {
+        "startLine": 81,
+        "startChar": 26,
+        "endLine": 81,
+        "endChar": 32
+      },
+      "revId": "1e78c8ae152500f628e839f32b5fb276074bb3c0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e60609e9_f2139958",
         "filename": "models-examples/src/main/resources/policytypes/onap.policies.controlloop.operational.Common.yaml",
         "patchSetId": 2
@@ -66,6 +89,24 @@
       "side": 1,
       "message": "Should be case insensitive - Liam please comment.",
       "parentUuid": "e60609e9_f2139958",
+      "revId": "1e78c8ae152500f628e839f32b5fb276074bb3c0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b8ab116_52e5ffab",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.controlloop.operational.Common.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-02-13T15:32:48Z",
+      "side": 1,
+      "message": "lower case only, see previous comment.",
+      "parentUuid": "44bed8e6_eba598c1",
       "revId": "1e78c8ae152500f628e839f32b5fb276074bb3c0",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
