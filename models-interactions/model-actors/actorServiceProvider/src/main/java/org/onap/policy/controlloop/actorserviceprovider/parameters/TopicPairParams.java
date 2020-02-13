@@ -29,18 +29,14 @@ import org.onap.policy.common.parameters.annotations.NotBlank;
 import org.onap.policy.common.parameters.annotations.NotNull;
 
 /**
- * Parameters used by Operators that connect to a server via DMaaP.
+ * Parameters used by Operators that use a pair of Topics, one to publish requests and the
+ * other to receive responses.
  */
 @NotNull
 @NotBlank
 @Data
 @Builder(toBuilder = true)
-public class TopicParams {
-
-    /**
-     * Name of the target topic end point to which requests should be published.
-     */
-    private String target;
+public class TopicPairParams {
 
     /**
      * Source topic end point, from which to read responses.
@@ -48,15 +44,19 @@ public class TopicParams {
     private String source;
 
     /**
-     * Amount of time, in seconds to wait for the response, where zero indicates that it
-     * should wait forever. The default is zero.
+     * Name of the target topic end point to which requests should be published.
      */
-    @Min(0)
-    @Builder.Default
-    private int timeoutSec = 0;
+    private String target;
 
     /**
-     * Validates both the publisher and the subscriber parameters.
+     * Amount of time, in seconds to wait for the response. The default is five minutes.
+     */
+    @Min(1)
+    @Builder.Default
+    private int timeoutSec = 300;
+
+    /**
+     * Validates the parameters.
      *
      * @param resultName name of the result
      *

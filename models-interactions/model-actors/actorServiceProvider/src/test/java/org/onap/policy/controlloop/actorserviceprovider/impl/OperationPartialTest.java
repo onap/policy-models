@@ -36,7 +36,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Queue;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
@@ -105,7 +104,7 @@ public class OperationPartialTest {
         event.setRequestId(REQ_ID);
 
         context = new ControlLoopEventContext(event);
-        executor = new MyExec();
+        executor = new MyExec(100 * MAX_PARALLEL_REQUESTS);
 
         params = ControlLoopOperationParams.builder().completeCallback(this::completer).context(context)
                         .executor(executor).actor(ACTOR).operation(OPERATION).timeoutSec(TIMEOUT)
@@ -1265,38 +1264,6 @@ public class OperationPartialTest {
              * "executor", thus we avoid sleep timers altogether by simply returning 0.
              */
             return 0L;
-        }
-    }
-
-    /**
-     * Executor that will run tasks until the queue is empty or a maximum number of tasks
-     * have been executed. Doesn't actually run anything until {@link #runAll()} is
-     * invoked.
-     */
-    private static class MyExec implements Executor {
-        private static final int MAX_TASKS = MAX_PARALLEL_REQUESTS * 100;
-
-        private Queue<Runnable> commands = new LinkedList<>();
-
-        public MyExec() {
-            // do nothing
-        }
-
-        public int getQueueLength() {
-            return commands.size();
-        }
-
-        @Override
-        public void execute(Runnable command) {
-            commands.add(command);
-        }
-
-        public boolean runAll() {
-            for (int count = 0; count < MAX_TASKS && !commands.isEmpty(); ++count) {
-                commands.remove().run();
-            }
-
-            return commands.isEmpty();
         }
     }
 }

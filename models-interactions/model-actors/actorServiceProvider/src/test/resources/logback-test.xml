@@ -44,4 +44,11 @@
     <logger name="org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperation" level="info" additivity="false">
         <appender-ref ref="STDOUT" />
     </logger>
+
+    <!-- this is required for TopicPairOperationTest -->
+    <logger
+            name="org.onap.policy.controlloop.actorserviceprovider.impl.TopicPairOperation"
+            level="info" additivity="false">
+        <appender-ref ref="STDOUT" />
+    </logger>
 </configuration>

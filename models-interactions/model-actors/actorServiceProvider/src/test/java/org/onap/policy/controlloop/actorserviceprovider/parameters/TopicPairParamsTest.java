@@ -29,20 +29,20 @@ import java.util.function.Function;
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.common.parameters.ValidationResult;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.TopicParams.TopicParamsBuilder;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.TopicPairParams.TopicPairParamsBuilder;
 
-public class TopicParamsTest {
+public class TopicPairParamsTest {
 
     private static final String CONTAINER = "my-container";
     private static final String TARGET = "my-target";
     private static final String SOURCE = "my-source";
     private static final int TIMEOUT = 10;
 
-    private TopicParams params;
+    private TopicPairParams params;
 
     @Before
     public void setUp() {
-        params = TopicParams.builder().target(TARGET).source(SOURCE).timeoutSec(TIMEOUT).build();
+        params = TopicPairParams.builder().target(TARGET).source(SOURCE).timeoutSec(TIMEOUT).build();
     }
 
     @Test
@@ -52,8 +52,11 @@ public class TopicParamsTest {
         testValidateField("timeoutSec", "minimum", bldr -> bldr.timeoutSec(-1));
 
         // check edge cases
-        assertTrue(params.toBuilder().timeoutSec(0).build().validate(CONTAINER).isValid());
+        assertFalse(params.toBuilder().timeoutSec(0).build().validate(CONTAINER).isValid());
         assertTrue(params.toBuilder().timeoutSec(1).build().validate(CONTAINER).isValid());
+
+        // some default values should be valid
+        assertTrue(TopicPairParams.builder().target(TARGET).source(SOURCE).build().validate(CONTAINER).isValid());
     }
 
     @Test
@@ -66,7 +69,7 @@ public class TopicParamsTest {
     }
 
     private void testValidateField(String fieldName, String expected,
-                    Function<TopicParamsBuilder, TopicParamsBuilder> makeInvalid) {
+                    Function<TopicPairParamsBuilder, TopicPairParamsBuilder> makeInvalid) {
 
         // original params should be valid
         ValidationResult result = params.validate(CONTAINER);

@@ -22,6 +22,7 @@ package org.onap.policy.controlloop.actorserviceprovider.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -359,8 +360,7 @@ public class HttpOperationTest {
     public void testProcessResponseDecodeExcept() throws CoderException {
         MyGetOperation<Integer> oper2 = new MyGetOperation<>(Integer.class);
 
-        assertSame(outcome, oper2.processResponse(outcome, PATH, response));
-        assertEquals(PolicyResult.FAILURE_EXCEPTION, outcome.getResult());
+        assertThatIllegalArgumentException().isThrownBy(() -> oper2.processResponse(outcome, PATH, response));
     }
 
     @Test
