@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,7 +28,10 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
@@ -38,6 +41,7 @@ import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfReferenceKey;
+import org.onap.policy.models.base.PfTimestampKey;
 import org.onap.policy.models.dao.impl.DefaultPfDao;
 
 /**
@@ -54,6 +58,9 @@ public class EntityTest {
     private static final String VERSION003 = "0.0.3";
     private static final String VERSION002 = "0.0.2";
     private static final String VERSION001 = "0.0.1";
+    private static final Date TIMESTAMP0 = new Date();
+    private static final Date TIMESTAMP1 = new Date();
+    private static final Date TIMESTAMP2 = new Date();
     private PfDao pfDao;
 
     @Test
@@ -127,6 +134,7 @@ public class EntityTest {
 
         final PfConceptKey nullKey = null;
         final PfReferenceKey nullRefKey = null;
+        final PfTimestampKey nullTimeKey = null;
         final List<PfConceptKey> nullKeyList = null;
         final List<PfConceptKey> emptyKeyList = new ArrayList<>();
         final List<PfReferenceKey> nullRKeyList = null;
@@ -141,6 +149,7 @@ public class EntityTest {
         pfDao.deleteCollection(emptyKeyList);
         pfDao.delete(PfConceptKey.class, nullKey);
         pfDao.delete(PfReferenceKey.class, nullRefKey);
+        pfDao.delete(PfTimestampKey.class, nullTimeKey);
         pfDao.deleteByConceptKey(PfConceptKey.class, nullKeyList);
         pfDao.deleteByConceptKey(PfConceptKey.class, emptyKeyList);
         pfDao.deleteByReferenceKey(PfReferenceKey.class, nullRKeyList);
@@ -148,6 +157,7 @@ public class EntityTest {
 
         pfDao.get(null, nullKey);
         pfDao.get(null, nullRefKey);
+        pfDao.get(null, nullTimeKey);
         pfDao.getAll(null);
         pfDao.getAll(null, nullKey);
         pfDao.getConcept(null, nullKey);
@@ -297,6 +307,57 @@ public class EntityTest {
         assertEquals(2, deletedRCount);
 
         pfDao.update(new DummyReferenceEntity(new PfReferenceKey(owner5Key, "EntityF"), 120.0));
+
+        final PfTimestampKey atKey0 = new PfTimestampKey("AT-KEY0", VERSION001, TIMESTAMP0);
+        final PfTimestampKey atKey1 = new PfTimestampKey("AT-KEY1", VERSION001, TIMESTAMP1);
+        final PfTimestampKey atKey2 = new PfTimestampKey("AT-KEY2", VERSION001, TIMESTAMP2);
+        final DummyTimestampEntity tkeyInfo0 = new DummyTimestampEntity(atKey0, 200.0);
+        final DummyTimestampEntity tkeyInfo1 = new DummyTimestampEntity(atKey1, 200.1);
+        final DummyTimestampEntity tkeyInfo2 = new DummyTimestampEntity(atKey2, 200.2);
+
+        pfDao.create(tkeyInfo0);
+
+        final DummyTimestampEntity tkeyInfoBack0 = pfDao.get(DummyTimestampEntity.class, atKey0);
+        assertTrue(tkeyInfo0.equals(tkeyInfoBack0));
+
+        final DummyTimestampEntity tkeyInfoBackNull =
+                pfDao.get(DummyTimestampEntity.class, PfTimestampKey.getNullKey());
+        assertNull(tkeyInfoBackNull);
+
+
+
+        final Set<DummyTimestampEntity> tkeyInfoSetIn = new TreeSet<>();
+        tkeyInfoSetIn.add(tkeyInfo1);
+        tkeyInfoSetIn.add(tkeyInfo2);
+
+        pfDao.createCollection(tkeyInfoSetIn);
+
+        Set<DummyTimestampEntity> tkeyInfoSetOut = new TreeSet<>(pfDao.getAll(DummyTimestampEntity.class));
+
+        tkeyInfoSetIn.add(tkeyInfo0);
+        assertTrue(tkeyInfoSetIn.equals(tkeyInfoSetOut));
+
+        pfDao.delete(tkeyInfo1);
+        tkeyInfoSetIn.remove(tkeyInfo1);
+        tkeyInfoSetOut = new TreeSet<>(pfDao.getAll(DummyTimestampEntity.class));
+        assertTrue(tkeyInfoSetIn.equals(tkeyInfoSetOut));
+
+        pfDao.deleteCollection(tkeyInfoSetIn);
+        tkeyInfoSetOut = new TreeSet<>(pfDao.getAll(DummyTimestampEntity.class));
+        assertEquals(0, tkeyInfoSetOut.size());
+
+        tkeyInfoSetIn.add(tkeyInfo2);
+        pfDao.createCollection(tkeyInfoSetIn);
+        tkeyInfoSetOut = new TreeSet<>(pfDao.getAll(DummyTimestampEntity.class));
+        assertTrue(keyInfoSetIn.equals(keyInfoSetOut));
+
+        pfDao.delete(DummyTimestampEntity.class, atKey2);
+        tkeyInfoSetOut = new TreeSet<>(pfDao.getAll(DummyTimestampEntity.class));
+        assertEquals(3, keyInfoSetOut.size());
+        assertEquals(1, pfDao.size(DummyTimestampEntity.class));
+
+        pfDao.deleteAll(DummyTimestampEntity.class);
+        assertEquals(0, pfDao.size(DummyTimestampEntity.class));
     }
 
     private void testVersionOps() {
@@ -363,5 +424,41 @@ public class EntityTest {
         assertEquals(3, pfDao.getFiltered(DummyConceptEntity.class, "BBB0", null).size());
         assertEquals(1, pfDao.getFiltered(DummyConceptEntity.class, "BBB0", VERSION003).size());
         assertEquals(6, pfDao.getFiltered(DummyConceptEntity.class, null, VERSION003).size());
+
+        final PfTimestampKey atKey0 = new PfTimestampKey("AT-KEY0", VERSION001, TIMESTAMP0);
+        final PfTimestampKey atKey1 = new PfTimestampKey("AT-KEY1", VERSION001, TIMESTAMP1);
+        final PfTimestampKey atKey2 = new PfTimestampKey("AT-KEY2", VERSION001, TIMESTAMP2);
+        final DummyTimestampEntity tkeyInfo0 = new DummyTimestampEntity(atKey0, 200.0);
+        final DummyTimestampEntity tkeyInfo1 = new DummyTimestampEntity(atKey1, 200.1);
+        final DummyTimestampEntity tkeyInfo2 = new DummyTimestampEntity(atKey2, 200.2);
+
+        pfDao.create(tkeyInfo0);
+        pfDao.create(tkeyInfo1);
+        pfDao.create(tkeyInfo2);
+
+
+        assertEquals(1, pfDao
+                .getFiltered(DummyTimestampEntity.class, "AT-KEY0", VERSION001, null, null, null, "DESC", 0).size());
+        assertEquals(1,
+                pfDao.getFiltered(DummyTimestampEntity.class, "AT-KEY0", null, null, null, null, "DESC", 0).size());
+        assertEquals(3, pfDao
+                .getFiltered(DummyTimestampEntity.class, null, VERSION001, TIMESTAMP0, TIMESTAMP2, null, "DESC", 0)
+                .size());
+        assertEquals(1, pfDao
+                .getFiltered(DummyTimestampEntity.class, "AT-KEY0", VERSION001, TIMESTAMP0, TIMESTAMP2, null, "DESC", 0)
+                .size());
+        assertEquals(3, pfDao
+                .getFiltered(DummyTimestampEntity.class, null, VERSION001, null, TIMESTAMP2, null, "DESC", 0).size());
+        assertEquals(3, pfDao
+                .getFiltered(DummyTimestampEntity.class, null, VERSION001, TIMESTAMP0, null, null, "DESC", 0).size());
+        assertEquals(2,
+                pfDao.getFiltered(DummyTimestampEntity.class, null, VERSION001, TIMESTAMP0, TIMESTAMP2, null, "DESC", 2)
+                        .size());
+
+        Map<String, Object> filterMap = new HashMap<>();
+        filterMap.put("doubleValue", 200.1);
+        assertEquals(1,
+                pfDao.getFiltered(DummyTimestampEntity.class, null, null, null, null, filterMap, "DESC", 0).size());
+
     }
 }
