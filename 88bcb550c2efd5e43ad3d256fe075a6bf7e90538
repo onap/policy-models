@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1255ee64_d18aa6ce",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-02-13T13:15:14Z",
+      "side": 1,
+      "message": "Fixed in next review",
+      "parentUuid": "f8964d1d_022bbad3",
+      "revId": "88bcb550c2efd5e43ad3d256fe075a6bf7e90538",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4c8d36ed_a5e7f987",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaDataType.java",
         "patchSetId": 4
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "1dd93f0d_9f03efa0",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaDataType.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-02-13T13:15:14Z",
+      "side": 1,
+      "message": "Someone could set it to null by calling setProperties(null); so i\u0027d be more comfortable leaving the check in.",
+      "parentUuid": "4c8d36ed_a5e7f987",
+      "revId": "88bcb550c2efd5e43ad3d256fe075a6bf7e90538",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "83e06f3a_e833f88c",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaServiceTemplate.java",
         "patchSetId": 4
@@ -47,6 +83,24 @@
       "writtenOn": "2020-02-12T13:34:33Z",
       "side": 1,
       "message": "probably don\u0027t need the \"\u003d\u003d null\" check now",
+      "revId": "88bcb550c2efd5e43ad3d256fe075a6bf7e90538",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1508b63f_7b11e139",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaServiceTemplate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-02-13T13:15:14Z",
+      "side": 1,
+      "message": "The null check isn\u0027t needed for the call to this function at like 358 but it is needed for the call at line 363 because sometimes policy typed don\u0027t have data types. (I found this out the hard way when I got a NPE in a unit test :-))",
+      "parentUuid": "83e06f3a_e833f88c",
       "revId": "88bcb550c2efd5e43ad3d256fe075a6bf7e90538",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
