@@ -53,7 +53,7 @@ public class TopicParams {
      */
     @Min(0)
     @Builder.Default
-    private long timeoutSec = 0;
+    private int timeoutSec = 0;
 
     /**
      * Validates both the publisher and the subscriber parameters.
