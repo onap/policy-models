@@ -181,9 +181,9 @@ public abstract class HttpOperation<T> extends OperationPartial {
             try {
                 response = makeCoder().decode(strResponse, responseClass);
             } catch (CoderException e) {
-                logger.warn("{}.{} cannot decode response with http error code {} for {}", params.getActor(),
-                                params.getOperation(), rawResponse.getStatus(), params.getRequestId(), e);
-                return setOutcome(outcome, PolicyResult.FAILURE_EXCEPTION);
+                logger.warn("{}.{} cannot decode response for {}", params.getActor(), params.getOperation(),
+                                params.getRequestId(), e);
+                throw new IllegalArgumentException("cannot decode response");
             }
         }
 
