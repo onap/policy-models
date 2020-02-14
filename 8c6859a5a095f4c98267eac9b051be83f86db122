@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a4386df1_8a21b842",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/impl/HttpOperation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-14T15:23:32Z",
+      "side": 1,
+      "message": "Yes.  This is caught down the \"future\" pipeline, logged, and turned into a FAILURE_EXCEPTION.",
+      "parentUuid": "e89b51ce_1a9ab801",
+      "revId": "8c6859a5a095f4c98267eac9b051be83f86db122",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "917ef7a0_08ced05c",
         "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/topic/TopicPair.java",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "8c6859a5a095f4c98267eac9b051be83f86db122",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4608cfda_e2c1c044",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/topic/TopicPair.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-14T15:23:32Z",
+      "side": 1,
+      "message": "Sounds like a good idea.  Let me do that, though it probably wouldn\u0027t implement the TopicListener interface; that functionality would still remain in the actor package.",
+      "parentUuid": "917ef7a0_08ced05c",
+      "revId": "8c6859a5a095f4c98267eac9b051be83f86db122",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     },
     {
       "key": {
@@ -67,6 +103,24 @@
       "revId": "8c6859a5a095f4c98267eac9b051be83f86db122",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44c3dd2a_78e4d964",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/topic/TopicPair.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-14T15:23:32Z",
+      "side": 1,
+      "message": "Cool!  It made some things a bit messy dealing with lists of publishers and subscribers; only using one will simply those things.",
+      "parentUuid": "67e317c8_e71a15c4",
+      "revId": "8c6859a5a095f4c98267eac9b051be83f86db122",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
