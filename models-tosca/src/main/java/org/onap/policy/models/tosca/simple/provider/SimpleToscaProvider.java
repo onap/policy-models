@@ -106,7 +106,7 @@ public class SimpleToscaProvider {
 
         PfValidationResult result = serviceTemplateToWrite.validate(new PfValidationResult());
         if (!result.isValid()) {
-            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, result.toString());
+            throw new PfModelRuntimeException(Response.Status.NOT_ACCEPTABLE, result.toString());
         }
 
         new SimpleToscaServiceTemplateProvider().write(dao, serviceTemplateToWrite);
@@ -378,6 +378,8 @@ public class SimpleToscaProvider {
         LOGGER.debug("->getPolicies: name={}, version={}", name, version);
 
         JpaToscaServiceTemplate serviceTemplate = getServiceTemplate(dao);
+        serviceTemplate.setDataTypes(new JpaToscaDataTypes());
+        serviceTemplate.setPolicyTypes(new JpaToscaPolicyTypes());
 
         if (!ToscaUtils.doPoliciesExist(serviceTemplate)) {
             throw new PfModelRuntimeException(Response.Status.NOT_FOUND,
@@ -392,13 +394,10 @@ public class SimpleToscaProvider {
         }
 
         for (JpaToscaPolicy policy : serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().values()) {
-            if (policy.getDerivedFrom() != null) {
-                JpaToscaServiceTemplate referencedEntitiesServiceTemplate =
-                        getPolicyTypes(dao, policy.getDerivedFrom().getName(), policy.getDerivedFrom().getVersion());
+            JpaToscaServiceTemplate referencedEntitiesServiceTemplate =
+                    getPolicyTypes(dao, policy.getType().getName(), policy.getType().getVersion());
 
-                serviceTemplate =
-                        ToscaServiceTemplateUtils.addFragment(serviceTemplate, referencedEntitiesServiceTemplate);
-            }
+            serviceTemplate = ToscaServiceTemplateUtils.addFragment(serviceTemplate, referencedEntitiesServiceTemplate);
         }
 
         LOGGER.debug("<-getPolicies: name={}, version={}, serviceTemplate={}", name, version, serviceTemplate);
@@ -502,7 +501,7 @@ public class SimpleToscaProvider {
         if (policyType == null) {
             String errorMessage =
                     "policy type " + policyTypeKey.getId() + " for policy " + policy.getId() + " does not exist";
-            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
+            throw new PfModelRuntimeException(Response.Status.NOT_ACCEPTABLE, errorMessage);
         }
     }
 
@@ -531,7 +530,7 @@ public class SimpleToscaProvider {
         // We should have one and only one returned entry
         if (filterdPolicyTypeList.size() != 1) {
             String errorMessage = "search for latest policy type " + policyTypeName + " returned more than one entry";
-            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
+            throw new PfModelRuntimeException(Response.Status.CONFLICT, errorMessage);
         }
 
         return (JpaToscaPolicyType) filterdPolicyTypeList.get(0);

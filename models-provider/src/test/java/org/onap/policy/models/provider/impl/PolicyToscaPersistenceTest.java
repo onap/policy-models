@@ -36,6 +36,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
+import org.onap.policy.common.utils.coder.YamlJsonTranslator;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.provider.PolicyModelsProvider;
@@ -44,7 +45,8 @@ import org.onap.policy.models.provider.PolicyModelsProviderParameters;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
-import org.yaml.snakeyaml.Yaml;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Test persistence of monitoring policies to and from the database.
@@ -52,7 +54,10 @@ import org.yaml.snakeyaml.Yaml;
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 public class PolicyToscaPersistenceTest {
-    private StandardCoder standardCoder;
+    private static final Logger LOGGER = LoggerFactory.getLogger(PolicyToscaPersistenceTest.class);
+
+    private YamlJsonTranslator yamlJsonTranslator = new YamlJsonTranslator();
+    private StandardCoder standardCoder = new StandardCoder();
 
     private PolicyModelsProvider databaseProvider;
 
@@ -78,14 +83,6 @@ public class PolicyToscaPersistenceTest {
         createPolicyTypes();
     }
 
-    /**
-     * Set up standard coder.
-     */
-    @Before
-    public void setupStandardCoder() {
-        standardCoder = new StandardCoder();
-    }
-
     @After
     public void teardown() throws Exception {
         databaseProvider.close();
@@ -103,29 +100,44 @@ public class PolicyToscaPersistenceTest {
             String policyString = ResourceUtils.getResourceAsString(policyResource);
 
             if (policyResource.endsWith("yaml")) {
-                testYamlStringPolicyPersistence(policyString);
+                testPolicyPersistence(yamlJsonTranslator.fromYaml(policyString, ToscaServiceTemplate.class));
             } else {
-                testJsonStringPolicyPersistence(policyString);
+                testPolicyPersistence(standardCoder.decode(policyString, ToscaServiceTemplate.class));
             }
         }
     }
 
-    private void testYamlStringPolicyPersistence(final String policyString) throws Exception {
-        Object yamlObject = new Yaml().load(policyString);
-        String yamlAsJsonString = new StandardCoder().encode(yamlObject);
+    @Test
+    public void testNamingPolicyGet() throws PfModelException {
+        String policyYamlString = ResourceUtils.getResourceAsString("policies/sdnc.policy.naming.input.tosca.yaml");
+        ToscaServiceTemplate serviceTemplate =
+                yamlJsonTranslator.fromYaml(policyYamlString, ToscaServiceTemplate.class);
 
-        testJsonStringPolicyPersistence(yamlAsJsonString);
+        long createStartTime = System.currentTimeMillis();
+        databaseProvider.createPolicies(serviceTemplate);
+        LOGGER.trace("Naming policy create time (ms): {}", System.currentTimeMillis() - createStartTime);
+
+        long getStartTime = System.currentTimeMillis();
+        ToscaServiceTemplate namingServiceTemplate =
+                databaseProvider.getPolicies("SDNC_Policy.ONAP_VNF_NAMING_TIMESTAMP", "1.0.0");
+        LOGGER.trace("Naming policy get time (ms): {}", System.currentTimeMillis() - getStartTime);
+
+        assertEquals(1, namingServiceTemplate.getToscaTopologyTemplate().getPoliciesAsMap().size());
+        assertEquals(1, namingServiceTemplate.getPolicyTypesAsMap().size());
+        assertEquals(3, namingServiceTemplate.getDataTypesAsMap().size());
+
+        long deleteStartTime = System.currentTimeMillis();
+        databaseProvider.deletePolicy("SDNC_Policy.ONAP_VNF_NAMING_TIMESTAMP", "1.0.0");
+        LOGGER.trace("Naming policy delete time (ms): {}", System.currentTimeMillis() - deleteStartTime);
     }
 
     /**
      * Check persistence of a policy.
      *
-     * @param policyString the policy as a string
+     * @param serviceTemplate the service template containing the policy
      * @throws Exception any exception thrown
      */
-    public void testJsonStringPolicyPersistence(@NonNull final String policyString) throws Exception {
-        ToscaServiceTemplate serviceTemplate = standardCoder.decode(policyString, ToscaServiceTemplate.class);
-
+    public void testPolicyPersistence(@NonNull final ToscaServiceTemplate serviceTemplate) throws Exception {
         assertNotNull(serviceTemplate);
 
         databaseProvider.createPolicies(serviceTemplate);
@@ -170,11 +182,9 @@ public class PolicyToscaPersistenceTest {
         Set<String> policyTypeResources = ResourceUtils.getDirectoryContents("policytypes");
 
         for (String policyTypeResource : policyTypeResources) {
-            Object yamlObject = new Yaml().load(ResourceUtils.getResourceAsString(policyTypeResource));
-            String yamlAsJsonString = new StandardCoder().encode(yamlObject);
-
+            String policyTypeYamlString = ResourceUtils.getResourceAsString(policyTypeResource);
             ToscaServiceTemplate toscaServiceTemplatePolicyType =
-                    standardCoder.decode(yamlAsJsonString, ToscaServiceTemplate.class);
+                    yamlJsonTranslator.fromYaml(policyTypeYamlString, ToscaServiceTemplate.class);
 
             assertNotNull(toscaServiceTemplatePolicyType);
             databaseProvider.createPolicyTypes(toscaServiceTemplatePolicyType);

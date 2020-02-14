@@ -95,7 +95,7 @@ public class ToscaServiceTemplateUtils {
 
         if (!result.isValid()) {
             String message = result.toString();
-            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, message);
+            throw new PfModelRuntimeException(Response.Status.NOT_ACCEPTABLE, message);
         }
 
         return compositeTemplate;
