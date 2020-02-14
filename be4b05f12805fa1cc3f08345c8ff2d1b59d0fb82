@@ -94,6 +94,52 @@
     },
     {
       "key": {
+        "uuid": "dc7cac10_d538c5e3",
+        "filename": "models-dao/src/test/resources/META-INF/persistence.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-02-14T13:47:16Z",
+      "side": 1,
+      "message": "Maybe remove trailing blanks in next patch set.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 2
+      },
+      "revId": "be4b05f12805fa1cc3f08345c8ff2d1b59d0fb82",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec804bd0_c61aba7e",
+        "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/persistence/provider/PdpStatisticsProviderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-02-14T13:47:16Z",
+      "side": 1,
+      "message": "It is probably better to not have a try/catch block here and let the exception be thrown by the test method, if there is a failure, the exception thrown will (well should) have better information.",
+      "range": {
+        "startLine": 162,
+        "startChar": 0,
+        "endLine": 179,
+        "endChar": 9
+      },
+      "revId": "be4b05f12805fa1cc3f08345c8ff2d1b59d0fb82",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fb7b0451_4e8acd58",
         "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/persistence/provider/PdpStatisticsProviderTest.java",
         "patchSetId": 1
@@ -110,6 +156,75 @@
         "startChar": 12,
         "endLine": 206,
         "endChar": 56
+      },
+      "revId": "be4b05f12805fa1cc3f08345c8ff2d1b59d0fb82",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2373fa5_2fd15550",
+        "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/persistence/provider/PdpStatisticsProviderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-02-14T13:47:16Z",
+      "side": 1,
+      "message": "Same comment.",
+      "range": {
+        "startLine": 210,
+        "startChar": 0,
+        "endLine": 215,
+        "endChar": 9
+      },
+      "revId": "be4b05f12805fa1cc3f08345c8ff2d1b59d0fb82",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0730b68_1963c25d",
+        "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/persistence/provider/PdpStatisticsProviderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-02-14T13:47:16Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 232,
+        "startChar": 0,
+        "endLine": 234,
+        "endChar": 9
+      },
+      "revId": "be4b05f12805fa1cc3f08345c8ff2d1b59d0fb82",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51b851f2_356a28a7",
+        "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/persistence/provider/PdpStatisticsProviderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-02-14T13:47:16Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 252,
+        "startChar": 0,
+        "endLine": 254,
+        "endChar": 9
       },
       "revId": "be4b05f12805fa1cc3f08345c8ff2d1b59d0fb82",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
