@@ -147,7 +147,7 @@ public final class ToscaUtils {
             final Function<JpaToscaServiceTemplate, String> checkerFunction) {
         String message = checkerFunction.apply(serviceTemplate);
         if (message != null) {
-            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, message);
+            throw new PfModelRuntimeException(Response.Status.NOT_FOUND, message);
         }
     }
 
@@ -263,7 +263,7 @@ public final class ToscaUtils {
         }
 
         if (!result.isValid()) {
-            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, result.toString());
+            throw new PfModelRuntimeException(Response.Status.NOT_ACCEPTABLE, result.toString());
         }
 
         entityTypes.getConceptMap().entrySet()
