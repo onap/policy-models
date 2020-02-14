@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "5e3b40dd_5580ba2d",
+        "filename": "models-dao/src/test/java/org/onap/policy/models/dao/DummyTimestampEntity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-14T13:47:49Z",
+      "side": 1,
+      "message": "could use lombok @NonNull instead",
+      "revId": "be4b05f12805fa1cc3f08345c8ff2d1b59d0fb82",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f746acc_460a808d",
+        "filename": "models-dao/src/test/java/org/onap/policy/models/dao/DummyTimestampEntity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-14T13:47:49Z",
+      "side": 1,
+      "message": "hashcodes could be the same, thus yielding 0, which would be incorrect.  Perhaps use getClass().getName().compareTo() instead",
+      "revId": "be4b05f12805fa1cc3f08345c8ff2d1b59d0fb82",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d5a32e_42fa5d2d",
         "filename": "models-dao/src/test/java/org/onap/policy/models/dao/EntityTest.java",
         "patchSetId": 1
@@ -151,6 +185,30 @@
       "writtenOn": "2020-02-14T09:40:11Z",
       "side": 1,
       "message": "FYI - you could use assertThat(getpdpStatisticsList).hasSize(1)\n\nassertj has nicer methods that make the Junits more readable.",
+      "range": {
+        "startLine": 206,
+        "startChar": 12,
+        "endLine": 206,
+        "endChar": 56
+      },
+      "revId": "be4b05f12805fa1cc3f08345c8ff2d1b59d0fb82",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4ccef32_82caabf2",
+        "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/persistence/provider/PdpStatisticsProviderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-14T13:47:49Z",
+      "side": 1,
+      "message": "assertEquals() is the norm through-out our junit tests.  However, I am liking the assertThat() readability, so I might start using it in the future.",
+      "parentUuid": "fb7b0451_4e8acd58",
       "range": {
         "startLine": 206,
         "startChar": 12,
