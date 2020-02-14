@@ -98,7 +98,7 @@ public class TopicListenerImpl implements TopicListener {
          * them all take a crack at it.
          */
         for (Forwarder forwarder : selector2forwarder.values()) {
-            forwarder.onMessage(infra, message, object);
+            forwarder.onMessage(message, object);
         }
     }
 }
