@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c85f9164_900c10a0",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/topic/TopicPair.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-02-14T14:01:33Z",
+      "side": 1,
+      "message": "BidirectionalTopic may be more meaningful, something along those lines ?",
+      "revId": "8c6859a5a095f4c98267eac9b051be83f86db122",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67e317c8_e71a15c4",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/topic/TopicPair.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-02-14T14:01:33Z",
+      "side": 1,
+      "message": "I think effectively this is going to be lists of 1 elements.   Not sure if it is fully enforce but the idea was that within the TopicEndpointManager space every name is unique.    This is to allow applications users to not have to keep track of underlying comm. channels when publishing or retrieving messages.  An example is the drl where that assumption is done.  Besides dmaap and ueb are exclusive.  Not sure if fully enforced, but I am having some concerns with not having restrictions in general.   We can talk offline and decide.",
+      "revId": "8c6859a5a095f4c98267eac9b051be83f86db122",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
