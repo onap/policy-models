@@ -24,39 +24,51 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Collections;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.function.Consumer;
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 
-public class HttpActorParamsTest {
-
+public class BidirectionalTopicActorParamsTest {
     private static final String CONTAINER = "my-container";
-    private static final String CLIENT = "my-client";
-    private static final int TIMEOUT = 10;
 
-    private static final String PATH1 = "path #1";
-    private static final String PATH2 = "path #2";
-    private static final String URI1 = "uri #1";
-    private static final String URI2 = "uri #2";
+    private static final String DFLT_SOURCE = "default-source";
+    private static final String DFLT_SINK = "default-target";
+    private static final int DFLT_TIMEOUT = 10;
 
-    private Map<String, Map<String, Object>> operations;
-    private HttpActorParams params;
+    private static final String OPER1_NAME = "oper A";
+    private static final String OPER1_SOURCE = "source A";
+    private static final String OPER1_SINK = "target A";
+    private static final int OPER1_TIMEOUT = 20;
+
+    // oper2 uses some default values
+    private static final String OPER2_NAME = "oper B";
+    private static final String OPER2_SOURCE = "source B";
+
+    // oper3 uses default values for everything
+    private static final String OPER3_NAME = "oper C";
+
+    private Map<String, Map<String, Object>> operMap;
+    private BidirectionalTopicActorParams params;
+
 
     /**
-     * Initializes {@link #operations} with two items and {@link params} with a fully
-     * populated object.
+     * Sets up.
      */
     @Before
     public void setUp() {
-        operations = new TreeMap<>();
-        operations.put(PATH1, Map.of("path", URI1));
-        operations.put(PATH2, Map.of("path", URI2));
+        BidirectionalTopicParams oper1 = BidirectionalTopicParams.builder().sourceTopic(OPER1_SOURCE)
+                        .sinkTopic(OPER1_SINK).timeoutSec(OPER1_TIMEOUT).build();
 
-        params = makeHttpActorParams();
+        Map<String, Object> oper1Map = Util.translateToMap(OPER1_NAME, oper1);
+        Map<String, Object> oper2Map = Map.of("source", OPER2_SOURCE);
+        Map<String, Object> oper3Map = Collections.emptyMap();
+        operMap = Map.of(OPER1_NAME, oper1Map, OPER2_NAME, oper2Map, OPER3_NAME, oper3Map);
+
+        params = makeBidirectionalTopicActorParams();
     }
 
     @Test
@@ -64,8 +76,8 @@ public class HttpActorParamsTest {
         assertTrue(params.validate(CONTAINER).isValid());
 
         // only a few fields are required
-        HttpActorParams sparse = Util.translate(CONTAINER, Map.of("operation", operations, "timeoutSec", 1),
-                        HttpActorParams.class);
+        BidirectionalTopicActorParams sparse = Util.translate(CONTAINER, Map.of("operation", operMap, "timeoutSec", 1),
+                        BidirectionalTopicActorParams.class);
         assertTrue(sparse.validate(CONTAINER).isValid());
 
         testValidateField("operation", "null", params2 -> params2.setOperation(null));
@@ -79,25 +91,27 @@ public class HttpActorParamsTest {
         assertTrue(params.validate(CONTAINER).isValid());
     }
 
-    private void testValidateField(String fieldName, String expected, Consumer<HttpActorParams> makeInvalid) {
+    private void testValidateField(String fieldName, String expected,
+                    Consumer<BidirectionalTopicActorParams> makeInvalid) {
 
         // original params should be valid
         ValidationResult result = params.validate(CONTAINER);
         assertTrue(fieldName, result.isValid());
 
         // make invalid params
-        HttpActorParams params2 = makeHttpActorParams();
+        BidirectionalTopicActorParams params2 = makeBidirectionalTopicActorParams();
         makeInvalid.accept(params2);
         result = params2.validate(CONTAINER);
         assertFalse(fieldName, result.isValid());
         assertThat(result.getResult()).contains(CONTAINER).contains(fieldName).contains(expected);
     }
 
-    private HttpActorParams makeHttpActorParams() {
-        HttpActorParams params2 = new HttpActorParams();
-        params2.setClientName(CLIENT);
-        params2.setTimeoutSec(TIMEOUT);
-        params2.setOperation(operations);
+    private BidirectionalTopicActorParams makeBidirectionalTopicActorParams() {
+        BidirectionalTopicActorParams params2 = new BidirectionalTopicActorParams();
+        params2.setSinkTopic(DFLT_SINK);
+        params2.setSourceTopic(DFLT_SOURCE);
+        params2.setTimeoutSec(DFLT_TIMEOUT);
+        params2.setOperation(operMap);
 
         return params2;
     }

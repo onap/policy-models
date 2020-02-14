@@ -24,12 +24,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.aai.AaiConstants;
@@ -80,7 +80,10 @@ public class AaiGetOperatorTest extends BasicAaiOperator<Void> {
         CompletableFuture<OperationOutcome> future2 = oper.startOperationAsync(1, outcome);
         assertFalse(future2.isDone());
 
-        assertEquals(PolicyResult.SUCCESS, future2.get(5, TimeUnit.SECONDS).getResult());
+        executor.runAll(100);
+        assertTrue(future2.isDone());
+
+        assertEquals(PolicyResult.SUCCESS, future2.get().getResult());
 
         // data should have been cached within the context
         StandardCoderObject data = context.getProperty(AaiGetOperation.getTenantKey(TARGET_ENTITY));
@@ -102,7 +105,10 @@ public class AaiGetOperatorTest extends BasicAaiOperator<Void> {
         CompletableFuture<OperationOutcome> future2 = oper.startOperationAsync(1, outcome);
         assertFalse(future2.isDone());
 
-        assertEquals(PolicyResult.FAILURE, future2.get(5, TimeUnit.SECONDS).getResult());
+        executor.runAll(100);
+        assertTrue(future2.isDone());
+
+        assertEquals(PolicyResult.FAILURE, future2.get().getResult());
 
         // data should NOT have been cached within the context
         assertNull(context.getProperty(AaiGetOperation.getTenantKey(TARGET_ENTITY)));

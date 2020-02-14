@@ -40,14 +40,9 @@
         <appender-ref ref="STDOUT" />
     </logger>
 
-    <!-- this is required for HttpOperationTest -->
-    <logger name="org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperation" level="info" additivity="false">
-        <appender-ref ref="STDOUT" />
-    </logger>
-
-    <!-- this is required for TopicPairOperationTest -->
+    <!-- this is required for OperationPartialTest -->
     <logger
-            name="org.onap.policy.controlloop.actorserviceprovider.impl.TopicPairOperation"
+            name="org.onap.policy.controlloop.actorserviceprovider.impl.OperationPartial"
             level="info" additivity="false">
         <appender-ref ref="STDOUT" />
     </logger>

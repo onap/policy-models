@@ -34,32 +34,32 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ParameterValidationRuntimeException;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.TopicPairParams;
+import org.onap.policy.controlloop.actorserviceprovider.topic.BidirectionalTopicHandler;
+import org.onap.policy.controlloop.actorserviceprovider.topic.BidirectionalTopicManager;
 import org.onap.policy.controlloop.actorserviceprovider.topic.Forwarder;
 import org.onap.policy.controlloop.actorserviceprovider.topic.SelectorKey;
-import org.onap.policy.controlloop.actorserviceprovider.topic.TopicPair;
-import org.onap.policy.controlloop.actorserviceprovider.topic.TopicPairManager;
 
-public class TopicPairOperatorTest {
+public class BidirectionalTopicOperatorTest {
     private static final String ACTOR = "my-actor";
     private static final String OPERATION = "my-operation";
     private static final String MY_SOURCE = "my-source";
-    private static final String MY_TARGET = "my-target";
+    private static final String MY_SINK = "my-target";
     private static final int TIMEOUT_SEC = 10;
 
     @Mock
-    private TopicPairManager mgr;
+    private BidirectionalTopicManager mgr;
     @Mock
-    private TopicPair pair;
+    private BidirectionalTopicHandler handler;
     @Mock
     private Forwarder forwarder;
     @Mock
-    private TopicPairOperation<String, Integer> operation;
+    private BidirectionalTopicOperation<String, Integer> operation;
 
     private List<SelectorKey> keys;
-    private TopicPairParams params;
+    private BidirectionalTopicParams params;
     private MyOperator oper;
 
     /**
@@ -71,22 +71,23 @@ public class TopicPairOperatorTest {
 
         keys = List.of(new SelectorKey(""));
 
-        when(mgr.getTopicPair(MY_SOURCE, MY_TARGET)).thenReturn(pair);
-        when(pair.addForwarder(keys)).thenReturn(forwarder);
+        when(mgr.getTopicHandler(MY_SINK, MY_SOURCE)).thenReturn(handler);
+        when(handler.addForwarder(keys)).thenReturn(forwarder);
 
         oper = new MyOperator(keys);
 
-        params = TopicPairParams.builder().source(MY_SOURCE).target(MY_TARGET).timeoutSec(TIMEOUT_SEC).build();
+        params = BidirectionalTopicParams.builder().sourceTopic(MY_SOURCE).sinkTopic(MY_SINK).timeoutSec(TIMEOUT_SEC)
+                        .build();
         oper.configure(Util.translateToMap(OPERATION, params));
         oper.start();
     }
 
     @Test
-    public void testTopicPairOperator_testGetParams_testGetTopicPair_testGetForwarder() {
+    public void testConstructor_testGetParams_testGetTopicHandler_testGetForwarder() {
         assertEquals(ACTOR, oper.getActorName());
         assertEquals(OPERATION, oper.getName());
         assertEquals(params, oper.getParams());
-        assertSame(pair, oper.getTopicPair());
+        assertSame(handler, oper.getTopicHandler());
         assertSame(forwarder, oper.getForwarder());
     }
 
@@ -95,7 +96,7 @@ public class TopicPairOperatorTest {
         oper.stop();
 
         // invalid parameters
-        params.setSource(null);
+        params.setSourceTopic(null);
         assertThatThrownBy(() -> oper.configure(Util.translateToMap(OPERATION, params)))
                         .isInstanceOf(ParameterValidationRuntimeException.class);
     }
@@ -103,18 +104,20 @@ public class TopicPairOperatorTest {
     @Test
     public void testMakeOperator() {
         AtomicReference<ControlLoopOperationParams> paramsRef = new AtomicReference<>();
-        AtomicReference<TopicPairOperator> operRef = new AtomicReference<>();
+        AtomicReference<BidirectionalTopicOperator> operRef = new AtomicReference<>();
 
         // @formatter:off
-        BiFunction<ControlLoopOperationParams, TopicPairOperator, TopicPairOperation<String, Integer>> maker =
-            (params, operator) -> {
-                paramsRef.set(params);
-                operRef.set(operator);
-                return operation;
-            };
+        BiFunction<ControlLoopOperationParams, BidirectionalTopicOperator,
+                    BidirectionalTopicOperation<String, Integer>> maker =
+                        (params, operator) -> {
+                            paramsRef.set(params);
+                            operRef.set(operator);
+                            return operation;
+                        };
         // @formatter:on
 
-        TopicPairOperator oper2 = TopicPairOperator.makeOperator(ACTOR, OPERATION, mgr, maker, new SelectorKey(""));
+        BidirectionalTopicOperator oper2 =
+                        BidirectionalTopicOperator.makeOperator(ACTOR, OPERATION, mgr, maker, new SelectorKey(""));
 
         assertEquals(ACTOR, oper2.getActorName());
         assertEquals(OPERATION, oper2.getName());
@@ -127,7 +130,7 @@ public class TopicPairOperatorTest {
     }
 
 
-    private class MyOperator extends TopicPairOperator {
+    private class MyOperator extends BidirectionalTopicOperator {
         public MyOperator(List<SelectorKey> selectorKeys) {
             super(ACTOR, OPERATION, mgr, selectorKeys);
         }

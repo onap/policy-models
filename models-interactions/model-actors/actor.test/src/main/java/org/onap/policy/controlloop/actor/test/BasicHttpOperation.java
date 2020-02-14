@@ -36,6 +36,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.stubbing.Answer;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactory;
+import org.onap.policy.common.utils.time.PseudoExecutor;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.ActorService;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
@@ -90,6 +91,7 @@ public class BasicHttpOperation<Q> {
     protected VirtualControlLoopEvent event;
     protected ControlLoopEventContext context;
     protected OperationOutcome outcome;
+    protected PseudoExecutor executor;
 
     /**
      * Constructs the object using a default actor and operation name.
@@ -123,6 +125,8 @@ public class BasicHttpOperation<Q> {
         future = new CompletableFuture<>();
         when(client.getBaseUrl()).thenReturn(BASE_URI);
 
+        executor = new PseudoExecutor();
+
         makeContext();
 
         outcome = params.makeOutcome();
@@ -133,6 +137,8 @@ public class BasicHttpOperation<Q> {
     /**
      * Reinitializes {@link #enrichment}, {@link #event}, {@link #context}, and
      * {@link #params}.
+     * <p/>
+     * Note: {@link #params} is configured to use {@link #executor}.
      */
     protected void makeContext() {
         enrichment = new TreeMap<>(makeEnrichment());
@@ -143,8 +149,8 @@ public class BasicHttpOperation<Q> {
 
         context = new ControlLoopEventContext(event);
 
-        params = ControlLoopOperationParams.builder().context(context).actorService(service).actor(actorName)
-                        .operation(operationName).targetEntity(TARGET_ENTITY).build();
+        params = ControlLoopOperationParams.builder().executor(executor).context(context).actorService(service)
+                        .actor(actorName).operation(operationName).targetEntity(TARGET_ENTITY).build();
     }
 
     /**
