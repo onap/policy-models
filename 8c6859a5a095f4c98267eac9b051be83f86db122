@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "e89b51ce_1a9ab801",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/impl/HttpOperation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-02-14T14:44:12Z",
+      "side": 1,
+      "message": "Question, does the user get notified of a failure in an operation with this change?",
+      "revId": "8c6859a5a095f4c98267eac9b051be83f86db122",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "917ef7a0_08ced05c",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/topic/TopicPair.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-02-14T14:44:12Z",
+      "side": 1,
+      "message": "The other comment is to move it to policy/common when you have a chance, it seems suitable for policy-endpoints.",
+      "revId": "8c6859a5a095f4c98267eac9b051be83f86db122",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c85f9164_900c10a0",
         "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/topic/TopicPair.java",
         "patchSetId": 3
