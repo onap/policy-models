@@ -21,17 +21,17 @@
 package org.onap.policy.controlloop.actorserviceprovider.topic;
 
 /**
- * Manages topic pairs.
+ * Manages bidirectional topics.
  */
 @FunctionalInterface
-public interface TopicPairManager {
+public interface BidirectionalTopicManager {
 
     /**
-     * Gets the topic pair for the given parameters, creating one if it does not exist.
+     * Gets the topic handler for the given parameters, creating one if it does not exist.
      *
-     * @param source source topic name
-     * @param target target topic name
-     * @return the topic pair associated with the given source and target topics
+     * @param sinkTopic sink topic name
+     * @param sourceTopic source topic name
+     * @return the topic handler associated with the given sink and source topic names
      */
-    TopicPair getTopicPair(String source, String target);
+    BidirectionalTopicHandler getTopicHandler(String sinkTopic, String sourceTopic);
 }

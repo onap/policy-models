@@ -23,6 +23,7 @@ package org.onap.policy.controlloop.actor.aai;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -30,7 +31,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -92,7 +94,7 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperator<Map<String, St
 
         CompletableFuture<OperationOutcome> future2 = oper.start();
 
-        assertEquals(PolicyResult.SUCCESS, future2.get(5, TimeUnit.SECONDS).getResult());
+        assertEquals(PolicyResult.SUCCESS, getResult(future2));
 
         // tenant response should have been cached within the context
         assertNotNull(context.getProperty(AaiGetOperation.getTenantKey(TARGET_ENTITY)));
@@ -116,7 +118,7 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperator<Map<String, St
 
         CompletableFuture<OperationOutcome> future2 = oper.start();
 
-        assertEquals(PolicyResult.SUCCESS, future2.get(5, TimeUnit.SECONDS).getResult());
+        assertEquals(PolicyResult.SUCCESS, getResult(future2));
 
         // should not have replaced tenant response
         assertSame(data, context.getProperty(AaiGetOperation.getTenantKey(TARGET_ENTITY)));
@@ -141,7 +143,7 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperator<Map<String, St
 
         CompletableFuture<OperationOutcome> future2 = oper.start();
 
-        assertEquals(PolicyResult.FAILURE_EXCEPTION, future2.get(5, TimeUnit.SECONDS).getResult());
+        assertEquals(PolicyResult.FAILURE_EXCEPTION, getResult(future2));
     }
 
     private String makeTenantReply() throws Exception {
@@ -166,11 +168,20 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperator<Map<String, St
         context.setProperty(AaiGetOperation.getTenantKey(TARGET_ENTITY), data);
     }
 
+    private PolicyResult getResult(CompletableFuture<OperationOutcome> future2)
+                    throws InterruptedException, ExecutionException, TimeoutException {
+
+        executor.runAll(100);
+        assertTrue(future2.isDone());
+
+        return future2.get().getResult();
+    }
+
     protected class MyTenantOperator extends HttpOperator {
         public MyTenantOperator() {
             super(AaiConstants.ACTOR_NAME, AaiGetOperation.TENANT);
 
-            HttpParams http = HttpParams.builder().clientName(MY_CLIENT).path(PATH).build();
+            HttpParams http = HttpParams.builder().clientName(MY_CLIENT).path(PATH).timeoutSec(1).build();
 
             configure(Util.translateToMap(AaiGetOperation.TENANT, http));
             start();

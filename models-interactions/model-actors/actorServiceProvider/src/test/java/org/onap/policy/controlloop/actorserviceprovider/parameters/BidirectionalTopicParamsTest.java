@@ -29,47 +29,46 @@ import java.util.function.Function;
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.common.parameters.ValidationResult;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.TopicPairParams.TopicPairParamsBuilder;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicParams.BidirectionalTopicParamsBuilder;
 
-public class TopicPairParamsTest {
+public class BidirectionalTopicParamsTest {
 
     private static final String CONTAINER = "my-container";
-    private static final String TARGET = "my-target";
+    private static final String SINK = "my-sink";
     private static final String SOURCE = "my-source";
     private static final int TIMEOUT = 10;
 
-    private TopicPairParams params;
+    private BidirectionalTopicParams params;
 
     @Before
     public void setUp() {
-        params = TopicPairParams.builder().target(TARGET).source(SOURCE).timeoutSec(TIMEOUT).build();
+        params = BidirectionalTopicParams.builder().sinkTopic(SINK).sourceTopic(SOURCE).timeoutSec(TIMEOUT).build();
     }
 
     @Test
     public void testValidate() {
-        testValidateField("target", "null", bldr -> bldr.target(null));
-        testValidateField("source", "null", bldr -> bldr.source(null));
+        assertTrue(params.validate(CONTAINER).isValid());
+
+        testValidateField("sink", "null", bldr -> bldr.sinkTopic(null));
+        testValidateField("source", "null", bldr -> bldr.sourceTopic(null));
         testValidateField("timeoutSec", "minimum", bldr -> bldr.timeoutSec(-1));
 
         // check edge cases
         assertFalse(params.toBuilder().timeoutSec(0).build().validate(CONTAINER).isValid());
         assertTrue(params.toBuilder().timeoutSec(1).build().validate(CONTAINER).isValid());
-
-        // some default values should be valid
-        assertTrue(TopicPairParams.builder().target(TARGET).source(SOURCE).build().validate(CONTAINER).isValid());
     }
 
     @Test
     public void testBuilder_testToBuilder() {
-        assertEquals(TARGET, params.getTarget());
-        assertEquals(SOURCE, params.getSource());
+        assertEquals(SINK, params.getSinkTopic());
+        assertEquals(SOURCE, params.getSourceTopic());
         assertEquals(TIMEOUT, params.getTimeoutSec());
 
         assertEquals(params, params.toBuilder().build());
     }
 
     private void testValidateField(String fieldName, String expected,
-                    Function<TopicPairParamsBuilder, TopicPairParamsBuilder> makeInvalid) {
+                    Function<BidirectionalTopicParamsBuilder, BidirectionalTopicParamsBuilder> makeInvalid) {
 
         // original params should be valid
         ValidationResult result = params.validate(CONTAINER);

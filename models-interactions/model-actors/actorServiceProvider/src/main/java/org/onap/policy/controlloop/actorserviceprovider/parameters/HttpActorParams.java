@@ -20,26 +20,23 @@
 
 package org.onap.policy.controlloop.actorserviceprovider.parameters;
 
-import java.util.Map;
-import java.util.function.Function;
-import lombok.Data;
-import org.onap.policy.common.parameters.BeanValidationResult;
-import org.onap.policy.common.parameters.BeanValidator;
-import org.onap.policy.common.parameters.ValidationResult;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.onap.policy.common.parameters.annotations.Min;
-import org.onap.policy.common.parameters.annotations.NotBlank;
-import org.onap.policy.common.parameters.annotations.NotNull;
-import org.onap.policy.controlloop.actorserviceprovider.Util;
 
 /**
- * Parameters used by Actors that connect to a server via HTTP. This contains the
- * parameters that are common to all of the operations. Only the path changes for each
- * operation, thus it includes a mapping from operation name to path.
+ * Parameters used by Actors that connect to a server via HTTP.
  */
-@Data
-@NotNull
-@NotBlank
-public class HttpActorParams {
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+public class HttpActorParams extends CommonActorParams {
+
+    /*
+     * Optional, default values that are used if missing from the operation-specific
+     * parameters.
+     */
 
     /**
      * Name of the HttpClient, as found in the HttpClientFactory.
@@ -47,66 +44,9 @@ public class HttpActorParams {
     private String clientName;
 
     /**
-     * Amount of time, in seconds to wait for the HTTP request to complete, where zero
-     * indicates that it should wait forever. The default is zero.
+     * Amount of time, in seconds, to wait for the HTTP request to complete. The default
+     * is 90 seconds.
      */
-    @Min(0)
-    private int timeoutSec = 0;
-
-    /**
-     * Maps the operation name to its URI path.
-     */
-    private Map<String, String> path;
-
-    /**
-     * Extracts a specific operation's parameters from "this".
-     *
-     * @param name name of the item containing "this"
-     * @return a function to extract an operation's parameters from "this". Note: the
-     *         returned function is not thread-safe
-     */
-    public Function<String, Map<String, Object>> makeOperationParameters(String name) {
-        HttpParams subparams = HttpParams.builder().clientName(getClientName()).timeoutSec(getTimeoutSec()).build();
-
-        return operation -> {
-            String subpath = path.get(operation);
-            if (subpath == null) {
-                return null;
-            }
-
-            subparams.setPath(subpath);
-            return Util.translateToMap(name + "." + operation, subparams);
-        };
-    }
-
-    /**
-     * Validates the parameters.
-     *
-     * @param name name of the object containing these parameters
-     * @return "this"
-     * @throws IllegalArgumentException if the parameters are invalid
-     */
-    public HttpActorParams doValidation(String name) {
-        ValidationResult result = validate(name);
-        if (!result.isValid()) {
-            throw new ParameterValidationRuntimeException("invalid parameters", result);
-        }
-
-        return this;
-    }
-
-    /**
-     * Validates the parameters.
-     *
-     * @param resultName name of the result
-     *
-     * @return the validation result
-     */
-    public ValidationResult validate(String resultName) {
-        BeanValidationResult result = new BeanValidator().validateTop(resultName, this);
-
-        result.validateMap("path", path, (result2, entry) -> result2.validateNotNull(entry.getKey(), entry.getValue()));
-
-        return result;
-    }
+    @Min(1)
+    private int timeoutSec = 90;
 }

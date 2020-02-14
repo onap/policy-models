@@ -30,12 +30,12 @@ import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
 import java.util.Map;
+import java.util.function.BiConsumer;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
-import org.onap.policy.common.endpoints.utils.PropertyUtils.TriConsumer;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
@@ -58,13 +58,13 @@ public class TopicListenerImplTest {
     private TopicListenerImpl topic;
 
     @Mock
-    private TriConsumer<CommInfrastructure, String, StandardCoderObject> listener1;
+    private BiConsumer<String, StandardCoderObject> listener1;
 
     @Mock
-    private TriConsumer<CommInfrastructure, String, StandardCoderObject> listener1b;
+    private BiConsumer<String, StandardCoderObject> listener1b;
 
     @Mock
-    private TriConsumer<CommInfrastructure, String, StandardCoderObject> listener2;
+    private BiConsumer<String, StandardCoderObject> listener2;
 
 
     /**
@@ -117,11 +117,11 @@ public class TopicListenerImplTest {
         String msg = makeMessage(Map.of(KEY1, VALUEA_REQID, KEY2, Map.of(SUBKEY, VALUEA_SUBREQID)));
         topic.onTopicEvent(INFRA, MY_TOPIC, msg);
 
-        verify(listener1).accept(eq(INFRA), eq(msg), any());
-        verify(listener2).accept(eq(INFRA), eq(msg), any());
+        verify(listener1).accept(eq(msg), any());
+        verify(listener2).accept(eq(msg), any());
 
         // not to listener1b
-        verify(listener1b, never()).accept(any(), any(), any());
+        verify(listener1b, never()).accept(any(), any());
 
         /*
          * now send a message that should only go to listener1b on forwarder1
@@ -130,15 +130,15 @@ public class TopicListenerImplTest {
         topic.onTopicEvent(INFRA, MY_TOPIC, msg);
 
         // should route to listener1 on forwarder1 and listener2 on forwarder2
-        verify(listener1b).accept(eq(INFRA), eq(msg), any());
+        verify(listener1b).accept(eq(msg), any());
 
         // try one where the coder throws an exception
         topic.onTopicEvent(INFRA, MY_TOPIC, "{invalid-json");
 
         // no extra invocations
-        verify(listener1).accept(any(), any(), any());
-        verify(listener1b).accept(any(), any(), any());
-        verify(listener2).accept(any(), any(), any());
+        verify(listener1).accept(any(), any());
+        verify(listener1b).accept(any(), any());
+        verify(listener2).accept(any(), any());
     }
 
     /**

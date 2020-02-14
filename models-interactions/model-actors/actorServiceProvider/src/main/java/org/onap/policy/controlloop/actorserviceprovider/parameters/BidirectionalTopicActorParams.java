@@ -20,49 +20,38 @@
 
 package org.onap.policy.controlloop.actorserviceprovider.parameters;
 
-import lombok.Builder;
-import lombok.Data;
-import org.onap.policy.common.parameters.BeanValidator;
-import org.onap.policy.common.parameters.ValidationResult;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.onap.policy.common.parameters.annotations.Min;
-import org.onap.policy.common.parameters.annotations.NotBlank;
-import org.onap.policy.common.parameters.annotations.NotNull;
 
 /**
- * Parameters used by Operators that use a pair of Topics, one to publish requests and the
- * other to receive responses.
+ * Parameters used by Actors whose Operators use bidirectional topic.
  */
-@NotNull
-@NotBlank
-@Data
-@Builder(toBuilder = true)
-public class TopicPairParams {
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+public class BidirectionalTopicActorParams extends CommonActorParams {
 
-    /**
-     * Source topic end point, from which to read responses.
+    /*
+     * Optional, default values that are used if missing from the operation-specific
+     * parameters.
      */
-    private String source;
 
     /**
-     * Name of the target topic end point to which requests should be published.
+     * Sink topic name to which requests should be published.
      */
-    private String target;
+    private String sinkTopic;
 
     /**
-     * Amount of time, in seconds to wait for the response. The default is five minutes.
+     * Source topic name, from which to read responses.
+     */
+    private String sourceTopic;
+
+    /**
+     * Amount of time, in seconds, to wait for the HTTP request to complete. The default
+     * is 90 seconds.
      */
     @Min(1)
-    @Builder.Default
-    private int timeoutSec = 300;
-
-    /**
-     * Validates the parameters.
-     *
-     * @param resultName name of the result
-     *
-     * @return the validation result
-     */
-    public ValidationResult validate(String resultName) {
-        return new BeanValidator().validateTop(resultName, this);
-    }
+    private int timeoutSec = 90;
 }
