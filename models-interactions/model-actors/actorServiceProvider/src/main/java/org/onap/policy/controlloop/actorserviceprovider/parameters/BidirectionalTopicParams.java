@@ -20,54 +20,39 @@
 
 package org.onap.policy.controlloop.actorserviceprovider.parameters;
 
-import java.util.Map;
 import lombok.Builder;
 import lombok.Data;
-import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.common.parameters.BeanValidator;
 import org.onap.policy.common.parameters.ValidationResult;
+import org.onap.policy.common.parameters.annotations.Min;
 import org.onap.policy.common.parameters.annotations.NotBlank;
 import org.onap.policy.common.parameters.annotations.NotNull;
 
 /**
- * Parameters used by Actors whose Operators use a pair of Topics, one to publish requests
- * and the other to receive responses.
+ * Parameters used by Operators that use a bidirectional topic.
  */
 @NotNull
 @NotBlank
 @Data
-@Builder
-public class TopicPairActorParams {
+@Builder(toBuilder = true)
+public class BidirectionalTopicParams {
 
     /**
-     * This contains the default parameters that are used when an operation doesn't
-     * specify them. Note: each operation to be used must still have an entry in
-     * {@link #operation}, even if it's empty. Otherwise, the given operation will not be
-     * started.
+     * Sink topic name to which requests should be published.
      */
-    private TopicPairParams defaults;
+    private String sinkTopic;
 
     /**
-     * Maps an operation name to its individual parameters.
+     * Source topic name, from which to read responses.
      */
-    private Map<String, Map<String, Object>> operation;
-
+    private String sourceTopic;
 
     /**
-     * Validates the parameters.
-     *
-     * @param name name of the object containing these parameters
-     * @return "this"
-     * @throws IllegalArgumentException if the parameters are invalid
+     * Amount of time, in seconds to wait for the response.
      */
-    public TopicPairActorParams doValidation(String name) {
-        ValidationResult result = validate(name);
-        if (!result.isValid()) {
-            throw new ParameterValidationRuntimeException("invalid parameters", result);
-        }
+    @Min(1)
+    private int timeoutSec;
 
-        return this;
-    }
 
     /**
      * Validates the parameters.
@@ -77,17 +62,6 @@ public class TopicPairActorParams {
      * @return the validation result
      */
     public ValidationResult validate(String resultName) {
-        BeanValidationResult result = new BeanValidator().validateTop(resultName, this);
-
-        if (defaults != null) {
-            result.addResult(defaults.validate("defaults"));
-        }
-
-        // @formatter:off
-        result.validateMap("operation", operation,
-            (result2, entry) -> result2.validateNotNull(entry.getKey(), entry.getValue()));
-        // @formatter:on
-
-        return result;
+        return new BeanValidator().validateTop(resultName, this);
     }
 }

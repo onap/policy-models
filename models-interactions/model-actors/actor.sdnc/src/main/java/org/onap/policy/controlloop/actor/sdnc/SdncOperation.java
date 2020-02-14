@@ -25,6 +25,8 @@ import java.util.concurrent.CompletableFuture;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
+import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperator;
@@ -59,7 +61,7 @@ public abstract class SdncOperation extends HttpOperation<SdncResponse> {
         headers.put("Accept", MediaType.APPLICATION_JSON);
         String url = makeUrl();
 
-        logRestRequest(url, request);
+        logMessage(EventType.OUT, CommInfrastructure.REST, url, request);
 
         // @formatter:off
         return handleResponse(outcome, url,

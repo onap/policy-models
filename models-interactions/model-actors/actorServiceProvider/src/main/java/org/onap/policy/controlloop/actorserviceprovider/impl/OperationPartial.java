@@ -28,6 +28,12 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
+import org.onap.policy.common.endpoints.utils.NetLoggerUtil;
+import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
+import org.onap.policy.common.utils.coder.Coder;
+import org.onap.policy.common.utils.coder.CoderException;
+import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.actorserviceprovider.CallbackManager;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
@@ -53,8 +59,8 @@ import org.slf4j.LoggerFactory;
  * be done to cancel that particular operation.
  */
 public abstract class OperationPartial implements Operation {
-
     private static final Logger logger = LoggerFactory.getLogger(OperationPartial.class);
+    private static final Coder coder = new StandardCoder();
     public static final long DEFAULT_RETRY_WAIT_MS = 1000L;
 
     // values extracted from the operator
@@ -809,6 +815,38 @@ public abstract class OperationPartial implements Operation {
         return (thrown instanceof TimeoutException);
     }
 
+    /**
+     * Logs a response. If the response is not of type, String, then it attempts to
+     * pretty-print it into JSON before logging.
+     *
+     * @param direction IN or OUT
+     * @param infra communication infrastructure on which it was published
+     * @param source source name (e.g., the URL or Topic name)
+     * @param response response to be logged
+     * @return the JSON text that was logged
+     */
+    public <T> String logMessage(EventType direction, CommInfrastructure infra, String source, T response) {
+        String json;
+        try {
+            if (response == null) {
+                json = null;
+            } else if (response instanceof String) {
+                json = response.toString();
+            } else {
+                json = makeCoder().encode(response, true);
+            }
+
+        } catch (CoderException e) {
+            String type = (direction == EventType.IN ? "response" : "request");
+            logger.warn("cannot pretty-print {}", type, e);
+            json = response.toString();
+        }
+
+        logger.info("[{}|{}|{}|]{}{}", direction, infra, source, NetLoggerUtil.SYSTEM_LS, json);
+
+        return json;
+    }
+
     // these may be overridden by subclasses or junit tests
 
     /**
@@ -840,5 +878,11 @@ public abstract class OperationPartial implements Operation {
      */
     protected long getTimeoutMs(Integer timeoutSec) {
         return (timeoutSec == null ? 0 : TimeUnit.MILLISECONDS.convert(timeoutSec, TimeUnit.SECONDS));
+    }
+
+    // these may be overridden by junit tests
+
+    protected Coder makeCoder() {
+        return coder;
     }
 }
