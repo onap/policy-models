@@ -26,6 +26,8 @@ import java.util.concurrent.CompletableFuture;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.onap.policy.aai.AaiConstants;
+import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
+import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperation;
@@ -92,7 +94,7 @@ public class AaiGetOperation extends HttpOperation<StandardCoderObject> {
         headers.put("Accept", MediaType.APPLICATION_JSON);
         String url = makeUrl();
 
-        logRestRequest(url, null);
+        logMessage(EventType.OUT, CommInfrastructure.REST, url, null);
 
         // @formatter:off
         return handleResponse(outcome, url,

@@ -48,12 +48,10 @@ public class HttpParams {
     private String path;
 
     /**
-     * Amount of time, in seconds to wait for the HTTP request to complete, where zero
-     * indicates that it should wait forever. The default is zero.
+     * Amount of time, in seconds, to wait for the HTTP request to complete.
      */
-    @Min(0)
-    @Builder.Default
-    private int timeoutSec = 0;
+    @Min(1)
+    private int timeoutSec;
 
 
     /**

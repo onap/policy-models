@@ -29,17 +29,15 @@ import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
 import java.util.Map;
+import java.util.function.BiConsumer;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
-import org.onap.policy.common.endpoints.utils.PropertyUtils.TriConsumer;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 
 public class ForwarderTest {
-    private static final CommInfrastructure INFRA = CommInfrastructure.NOOP;
     private static final String TEXT = "some text";
 
     private static final String KEY1 = "requestId";
@@ -58,16 +56,16 @@ public class ForwarderTest {
     private static final String VALUEC_SUBREQID = "bye-bye";
 
     @Mock
-    private TriConsumer<CommInfrastructure, String, StandardCoderObject> listener1;
+    private BiConsumer<String, StandardCoderObject> listener1;
 
     @Mock
-    private TriConsumer<CommInfrastructure, String, StandardCoderObject> listener1b;
+    private BiConsumer<String, StandardCoderObject> listener1b;
 
     @Mock
-    private TriConsumer<CommInfrastructure, String, StandardCoderObject> listener2;
+    private BiConsumer<String, StandardCoderObject> listener2;
 
     @Mock
-    private TriConsumer<CommInfrastructure, String, StandardCoderObject> listener3;
+    private BiConsumer<String, StandardCoderObject> listener3;
 
     private Forwarder forwarder;
 
@@ -102,68 +100,68 @@ public class ForwarderTest {
         forwarder.unregister(Arrays.asList(VALUEA_REQID, VALUEA_SUBREQID), listener1b);
 
         StandardCoderObject sco = makeMessage(Map.of(KEY1, VALUEA_REQID, KEY2, Map.of(SUBKEY, VALUEA_SUBREQID)));
-        forwarder.onMessage(INFRA, TEXT, sco);
+        forwarder.onMessage(TEXT, sco);
 
-        verify(listener1).accept(INFRA, TEXT, sco);
-        verify(listener1b, never()).accept(any(), any(), any());
+        verify(listener1).accept(TEXT, sco);
+        verify(listener1b, never()).accept(any(), any());
 
         // remove listener1
         forwarder.unregister(Arrays.asList(VALUEA_REQID, VALUEA_SUBREQID), listener1);
-        forwarder.onMessage(INFRA, TEXT, sco);
+        forwarder.onMessage(TEXT, sco);
 
         // route a message to listener2
         sco = makeMessage(Map.of(KEY1, VALUEB_REQID, KEY2, Map.of(SUBKEY, VALUEB_SUBREQID)));
-        forwarder.onMessage(INFRA, TEXT, sco);
-        verify(listener2).accept(INFRA, TEXT, sco);
+        forwarder.onMessage(TEXT, sco);
+        verify(listener2).accept(TEXT, sco);
 
         // no more messages to listener1 or 1b
-        verify(listener1).accept(any(), any(), any());
-        verify(listener1b, never()).accept(any(), any(), any());
+        verify(listener1).accept(any(), any());
+        verify(listener1b, never()).accept(any(), any());
     }
 
     @Test
     public void testOnMessage() {
         StandardCoderObject sco = makeMessage(Map.of(KEY1, VALUEA_REQID, KEY2, Map.of(SUBKEY, VALUEA_SUBREQID)));
-        forwarder.onMessage(INFRA, TEXT, sco);
+        forwarder.onMessage(TEXT, sco);
 
-        verify(listener1).accept(INFRA, TEXT, sco);
-        verify(listener1b).accept(INFRA, TEXT, sco);
+        verify(listener1).accept(TEXT, sco);
+        verify(listener1b).accept(TEXT, sco);
 
         // repeat - counts should increment
-        forwarder.onMessage(INFRA, TEXT, sco);
+        forwarder.onMessage(TEXT, sco);
 
-        verify(listener1, times(2)).accept(INFRA, TEXT, sco);
-        verify(listener1b, times(2)).accept(INFRA, TEXT, sco);
+        verify(listener1, times(2)).accept(TEXT, sco);
+        verify(listener1b, times(2)).accept(TEXT, sco);
 
         // should not have been invoked
-        verify(listener2, never()).accept(any(), any(), any());
-        verify(listener3, never()).accept(any(), any(), any());
+        verify(listener2, never()).accept(any(), any());
+        verify(listener3, never()).accept(any(), any());
 
         // try other listeners now
         sco = makeMessage(Map.of(KEY1, VALUEB_REQID, KEY2, Map.of(SUBKEY, VALUEB_SUBREQID)));
-        forwarder.onMessage(INFRA, TEXT, sco);
-        verify(listener2).accept(INFRA, TEXT, sco);
+        forwarder.onMessage(TEXT, sco);
+        verify(listener2).accept(TEXT, sco);
 
         sco = makeMessage(Map.of(KEY1, VALUEC_REQID, KEY2, Map.of(SUBKEY, VALUEC_SUBREQID)));
-        forwarder.onMessage(INFRA, TEXT, sco);
-        verify(listener3).accept(INFRA, TEXT, sco);
+        forwarder.onMessage(TEXT, sco);
+        verify(listener3).accept(TEXT, sco);
 
         // message has no listeners
         sco = makeMessage(Map.of(KEY1, "xyzzy", KEY2, Map.of(SUBKEY, VALUEB_SUBREQID)));
-        forwarder.onMessage(INFRA, TEXT, sco);
+        forwarder.onMessage(TEXT, sco);
 
         // message doesn't have both keys
         sco = makeMessage(Map.of(KEY1, VALUEA_REQID));
-        forwarder.onMessage(INFRA, TEXT, sco);
+        forwarder.onMessage(TEXT, sco);
 
         // counts should not have incremented
-        verify(listener1, times(2)).accept(any(), any(), any());
-        verify(listener1b, times(2)).accept(any(), any(), any());
-        verify(listener2).accept(any(), any(), any());
-        verify(listener3).accept(any(), any(), any());
+        verify(listener1, times(2)).accept(any(), any());
+        verify(listener1b, times(2)).accept(any(), any());
+        verify(listener2).accept(any(), any());
+        verify(listener3).accept(any(), any());
 
         // listener throws an exception
-        doThrow(new IllegalStateException("expected exception")).when(listener1).accept(any(), any(), any());
+        doThrow(new IllegalStateException("expected exception")).when(listener1).accept(any(), any());
     }
 
     /*
@@ -171,12 +169,12 @@ public class ForwarderTest {
      */
     @Test
     public void testOnMessageListenerException1() {
-        doThrow(new IllegalStateException("expected exception")).when(listener1).accept(any(), any(), any());
+        doThrow(new IllegalStateException("expected exception")).when(listener1).accept(any(), any());
 
         StandardCoderObject sco = makeMessage(Map.of(KEY1, VALUEA_REQID, KEY2, Map.of(SUBKEY, VALUEA_SUBREQID)));
-        forwarder.onMessage(INFRA, TEXT, sco);
+        forwarder.onMessage(TEXT, sco);
 
-        verify(listener1b).accept(INFRA, TEXT, sco);
+        verify(listener1b).accept(TEXT, sco);
     }
 
     /*
@@ -184,12 +182,12 @@ public class ForwarderTest {
      */
     @Test
     public void testOnMessageListenerException1b() {
-        doThrow(new IllegalStateException("expected exception")).when(listener1b).accept(any(), any(), any());
+        doThrow(new IllegalStateException("expected exception")).when(listener1b).accept(any(), any());
 
         StandardCoderObject sco = makeMessage(Map.of(KEY1, VALUEA_REQID, KEY2, Map.of(SUBKEY, VALUEA_SUBREQID)));
-        forwarder.onMessage(INFRA, TEXT, sco);
+        forwarder.onMessage(TEXT, sco);
 
-        verify(listener1).accept(INFRA, TEXT, sco);
+        verify(listener1).accept(TEXT, sco);
     }
 
     /**

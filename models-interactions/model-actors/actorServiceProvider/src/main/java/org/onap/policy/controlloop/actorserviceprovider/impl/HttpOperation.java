@@ -33,9 +33,7 @@ import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
-import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
-import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
@@ -52,7 +50,6 @@ import org.slf4j.LoggerFactory;
 @Getter
 public abstract class HttpOperation<T> extends OperationPartial {
     private static final Logger logger = LoggerFactory.getLogger(HttpOperation.class);
-    private static final Coder coder = new StandardCoder();
 
     /**
      * Operator that created this operation.
@@ -171,7 +168,7 @@ public abstract class HttpOperation<T> extends OperationPartial {
 
         String strResponse = HttpClient.getBody(rawResponse, String.class);
 
-        logRestResponse(url, strResponse);
+        logMessage(EventType.IN, CommInfrastructure.REST, url, strResponse);
 
         T response;
         if (responseClass == String.class) {
@@ -224,63 +221,10 @@ public abstract class HttpOperation<T> extends OperationPartial {
         return (rawResponse.getStatus() == 200);
     }
 
-    /**
-     * Logs a REST request. If the request is not of type, String, then it attempts to
-     * pretty-print it into JSON before logging.
-     *
-     * @param url request URL
-     * @param request request to be logged
-     */
-    public <Q> void logRestRequest(String url, Q request) {
-        String json;
-        try {
-            if (request == null) {
-                json = null;
-            } else if (request instanceof String) {
-                json = request.toString();
-            } else {
-                json = makeCoder().encode(request, true);
-            }
-
-        } catch (CoderException e) {
-            logger.warn("cannot pretty-print request", e);
-            json = request.toString();
-        }
-
-        NetLoggerUtil.log(EventType.OUT, CommInfrastructure.REST, url, json);
-        logger.info("[OUT|{}|{}|]{}{}", CommInfrastructure.REST, url, NetLoggerUtil.SYSTEM_LS, json);
-    }
-
-    /**
-     * Logs a REST response. If the response is not of type, String, then it attempts to
-     * pretty-print it into JSON before logging.
-     *
-     * @param url request URL
-     * @param response response to be logged
-     */
-    public <S> void logRestResponse(String url, S response) {
-        String json;
-        try {
-            if (response == null) {
-                json = null;
-            } else if (response instanceof String) {
-                json = response.toString();
-            } else {
-                json = makeCoder().encode(response, true);
-            }
-
-        } catch (CoderException e) {
-            logger.warn("cannot pretty-print response", e);
-            json = response.toString();
-        }
-
-        NetLoggerUtil.log(EventType.IN, CommInfrastructure.REST, url, json);
-        logger.info("[IN|{}|{}|]{}{}", CommInfrastructure.REST, url, NetLoggerUtil.SYSTEM_LS, json);
-    }
-
-    // these may be overridden by junit tests
-
-    protected Coder makeCoder() {
-        return coder;
+    @Override
+    public <Q> String logMessage(EventType direction, CommInfrastructure infra, String sink, Q request) {
+        String json = super.logMessage(direction, infra, sink, request);
+        NetLoggerUtil.log(direction, infra, sink, json);
+        return json;
     }
 }
