@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d5a32e_42fa5d2d",
+        "filename": "models-dao/src/test/java/org/onap/policy/models/dao/EntityTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-02-14T09:40:11Z",
+      "side": 1,
+      "message": "Better to use assertEquals",
+      "range": {
+        "startLine": 321,
+        "startChar": 19,
+        "endLine": 321,
+        "endChar": 50
+      },
+      "revId": "be4b05f12805fa1cc3f08345c8ff2d1b59d0fb82",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d946d3f_94a2ed28",
+        "filename": "models-dao/src/test/java/org/onap/policy/models/dao/EntityTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-02-14T09:40:11Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 338,
+        "startChar": 19,
+        "endLine": 338,
+        "endChar": 55
+      },
+      "revId": "be4b05f12805fa1cc3f08345c8ff2d1b59d0fb82",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50833ba1_11d8b746",
+        "filename": "models-dao/src/test/java/org/onap/policy/models/dao/EntityTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-02-14T09:40:11Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 343,
+        "startChar": 19,
+        "endLine": 343,
+        "endChar": 56
+      },
+      "revId": "be4b05f12805fa1cc3f08345c8ff2d1b59d0fb82",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a36412bb_2a403a20",
+        "filename": "models-dao/src/test/java/org/onap/policy/models/dao/EntityTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-02-14T09:40:11Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 352,
+        "startChar": 19,
+        "endLine": 352,
+        "endChar": 55
+      },
+      "revId": "be4b05f12805fa1cc3f08345c8ff2d1b59d0fb82",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb7b0451_4e8acd58",
+        "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/persistence/provider/PdpStatisticsProviderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-02-14T09:40:11Z",
+      "side": 1,
+      "message": "FYI - you could use assertThat(getpdpStatisticsList).hasSize(1)\n\nassertj has nicer methods that make the Junits more readable.",
+      "range": {
+        "startLine": 206,
+        "startChar": 12,
+        "endLine": 206,
+        "endChar": 56
+      },
+      "revId": "be4b05f12805fa1cc3f08345c8ff2d1b59d0fb82",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
