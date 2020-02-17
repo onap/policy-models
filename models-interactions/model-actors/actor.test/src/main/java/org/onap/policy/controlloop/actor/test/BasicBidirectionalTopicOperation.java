@@ -26,65 +26,56 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.InvocationCallback;
+import java.util.function.BiConsumer;
 import javax.ws.rs.core.Response;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.stubbing.Answer;
-import org.onap.policy.common.endpoints.http.client.HttpClient;
-import org.onap.policy.common.endpoints.http.client.HttpClientFactory;
+import org.onap.policy.common.utils.coder.Coder;
+import org.onap.policy.common.utils.coder.CoderException;
+import org.onap.policy.common.utils.coder.StandardCoder;
+import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.common.utils.time.PseudoExecutor;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.ActorService;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
-import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperator;
+import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicOperator;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
+import org.onap.policy.controlloop.actorserviceprovider.topic.BidirectionalTopicHandler;
+import org.onap.policy.controlloop.actorserviceprovider.topic.Forwarder;
 
 /**
- * Superclass for various HttpOperation tests.
- *
- * @param <Q> request type
+ * Superclass for various BidirectionalTopicOperation tests.
  */
-public class BasicHttpOperation<Q> {
+public class BasicBidirectionalTopicOperation {
     protected static final UUID REQ_ID = UUID.randomUUID();
     protected static final String DEFAULT_ACTOR = "default-actor";
     protected static final String DEFAULT_OPERATION = "default-operation";
-    protected static final String MY_CLIENT = "my-client";
-    protected static final String BASE_URI = "/base-uri";
-    protected static final String PATH = "/my-path";
+    protected static final String MY_SINK = "my-sink";
+    protected static final String MY_SOURCE = "my-source";
     protected static final String TARGET_ENTITY = "my-target";
+    protected static final Coder coder = new StandardCoder();
+    protected static final int TIMEOUT = 10;
 
     protected final String actorName;
     protected final String operationName;
 
     @Captor
-    protected ArgumentCaptor<InvocationCallback<Response>> callbackCaptor;
-
-    @Captor
-    protected ArgumentCaptor<Entity<Q>> requestCaptor;
-
-    @Captor
-    protected ArgumentCaptor<Map<String, Object>> headerCaptor;
+    protected ArgumentCaptor<BiConsumer<String, StandardCoderObject>> listenerCaptor;
 
     @Mock
     protected ActorService service;
-
     @Mock
-    protected HttpClient client;
-
+    protected BidirectionalTopicHandler topicHandler;
     @Mock
-    protected HttpClientFactory factory;
-
+    protected Forwarder forwarder;
     @Mock
-    protected Response rawResponse;
+    protected BidirectionalTopicOperator operator;
 
-    @Mock
-    protected HttpOperator operator;
-
+    protected BidirectionalTopicParams topicParams;
     protected CompletableFuture<Response> future;
     protected ControlLoopOperationParams params;
     protected Map<String, String> enrichment;
@@ -96,7 +87,7 @@ public class BasicHttpOperation<Q> {
     /**
      * Constructs the object using a default actor and operation name.
      */
-    public BasicHttpOperation() {
+    public BasicBidirectionalTopicOperation() {
         this.actorName = DEFAULT_ACTOR;
         this.operationName = DEFAULT_OPERATION;
     }
@@ -107,7 +98,7 @@ public class BasicHttpOperation<Q> {
      * @param actor actor name
      * @param operation operation name
      */
-    public BasicHttpOperation(String actor, String operation) {
+    public BasicBidirectionalTopicOperation(String actor, String operation) {
         this.actorName = actor;
         this.operationName = operation;
     }
@@ -118,18 +109,14 @@ public class BasicHttpOperation<Q> {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        when(factory.get(MY_CLIENT)).thenReturn(client);
-
-        when(rawResponse.getStatus()).thenReturn(200);
-
         future = new CompletableFuture<>();
-        when(client.getBaseUrl()).thenReturn(BASE_URI);
-
         executor = new PseudoExecutor();
 
         makeContext();
 
         outcome = params.makeOutcome();
+        topicParams = BidirectionalTopicParams.builder().sinkTopic(MY_SINK).sourceTopic(MY_SOURCE).timeoutSec(TIMEOUT)
+                        .build();
 
         initOperator();
     }
@@ -150,7 +137,12 @@ public class BasicHttpOperation<Q> {
         context = new ControlLoopEventContext(event);
 
         params = ControlLoopOperationParams.builder().executor(executor).context(context).actorService(service)
-                        .actor(actorName).operation(operationName).targetEntity(TARGET_ENTITY).build();
+                        .actor(actorName).operation(operationName).targetEntity(TARGET_ENTITY).payload(makePayload())
+                        .build();
+    }
+
+    protected Map<String, String> makePayload() {
+        return null;
     }
 
     /**
@@ -161,8 +153,9 @@ public class BasicHttpOperation<Q> {
         when(operator.getFullName()).thenReturn(actorName + "." + operationName);
         when(operator.getActorName()).thenReturn(actorName);
         when(operator.getName()).thenReturn(operationName);
-        when(operator.getClient()).thenReturn(client);
-        when(operator.getPath()).thenReturn(PATH);
+        when(operator.getTopicHandler()).thenReturn(topicHandler);
+        when(operator.getForwarder()).thenReturn(forwarder);
+        when(operator.getParams()).thenReturn(topicParams);
     }
 
     /**
@@ -175,16 +168,18 @@ public class BasicHttpOperation<Q> {
     }
 
     /**
-     * Provides a response to an asynchronous HttpClient call.
+     * Provides a response to the topic {@link #listenerCaptor}.
      *
-     * @param response response to be provided to the call
-     * @return a function that provides the response to the call
+     * @param listener listener to which to provide the response
+     * @param response response to be provided
      */
-    protected Answer<CompletableFuture<Response>> provideResponse(Response response) {
-        return args -> {
-            InvocationCallback<Response> cb = args.getArgument(0);
-            cb.completed(response);
-            return CompletableFuture.completedFuture(response);
-        };
+    protected void provideResponse(BiConsumer<String, StandardCoderObject> listener, String response) {
+        try {
+            StandardCoderObject sco = coder.decode(response, StandardCoderObject.class);
+            listener.accept(response, sco);
+
+        } catch (CoderException e) {
+            throw new IllegalArgumentException("response is not a Map", e);
+        }
     }
 }

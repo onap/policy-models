@@ -21,67 +21,56 @@
 package org.onap.policy.controlloop.actor.sdnc;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.Map;
-import java.util.TreeMap;
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.sdnc.SdncRequest;
 
-public class SdncOperatorTest extends BasicSdncOperator {
+public class RerouteOperationTest extends BasicSdncOperation {
 
-    private SdncRequest request;
-    private SdncOperation oper;
+    private RerouteOperation oper;
+
+    public RerouteOperationTest() {
+        super(DEFAULT_ACTOR, RerouteOperation.NAME);
+    }
 
     /**
-     * Sets up.
+     * Set up.
      */
     @Before
     public void setUp() throws Exception {
         super.setUp();
-
-        oper = new SdncOperation(params, operator) {
-            @Override
-            protected SdncRequest makeRequest(int attempt) {
-                return request;
-            }
-        };
+        oper = new RerouteOperation(params, operator);
     }
 
     @Test
-    public void testSdncOperator() {
+    public void testRerouteOperator() {
         assertEquals(DEFAULT_ACTOR, oper.getActorName());
-        assertEquals(DEFAULT_OPERATION, oper.getName());
+        assertEquals(RerouteOperation.NAME, oper.getName());
     }
 
     @Test
-    public void testStartOperationAsync_testStartRequestAsync() throws Exception {
-        verifyOperation(oper);
-    }
+    public void testMakeRequest() throws Exception {
+        SdncRequest request = oper.makeRequest(1);
+        assertEquals("my-service", request.getNsInstanceId());
+        assertEquals(REQ_ID, request.getRequestId());
+        assertEquals(RerouteOperation.URI, request.getUrl());
+        assertNotNull(request.getHealRequest().getRequestHeaderInfo().getSvcRequestId());
 
-    @Test
-    public void testIsSuccess() {
-        // success case
-        response.getResponseOutput().setResponseCode("200");
-        assertTrue(oper.isSuccess(null, response));
+        verifyRequest("reroute.json", request);
 
-        // failure code
-        response.getResponseOutput().setResponseCode("555");
-        assertFalse(oper.isSuccess(null, response));
+        verifyMissing(RerouteOperation.SERVICE_ID_KEY, "service", RerouteOperation::new);
+        verifyMissing(RerouteOperation.NETWORK_ID_KEY, "network", RerouteOperation::new);
 
-        // null code
-        response.getResponseOutput().setResponseCode(null);
-        assertFalse(oper.isSuccess(null, response));
-
-        // null output
-        response.setResponseOutput(null);
-        assertFalse(oper.isSuccess(null, response));
+        // perform the operation
+        makeContext();
+        verifyRequest("reroute.json", verifyOperation(oper));
     }
 
     @Override
     protected Map<String, String> makeEnrichment() {
-        return new TreeMap<>();
+        return Map.of(RerouteOperation.SERVICE_ID_KEY, "my-service", RerouteOperation.NETWORK_ID_KEY, "my-network");
     }
 }

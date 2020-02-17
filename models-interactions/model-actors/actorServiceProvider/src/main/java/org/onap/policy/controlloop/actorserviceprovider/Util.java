@@ -34,6 +34,7 @@ import org.slf4j.LoggerFactory;
  */
 public class Util {
     private static final Logger logger = LoggerFactory.getLogger(Util.class);
+    private static final Coder coder = new StandardCoder();
 
     private Util() {
         // do nothing
@@ -84,11 +85,8 @@ public class Util {
      * @return the translated object
      */
     public static <T> T translate(String identifier, Object source, Class<T> clazz) {
-        Coder coder = new StandardCoder();
-
         try {
-            String json = coder.encode(source);
-            return coder.decode(json, clazz);
+            return coder.convert(source, clazz);
 
         } catch (CoderException | RuntimeException e) {
             throw new IllegalArgumentException("cannot translate parameters for " + identifier, e);
@@ -105,10 +103,6 @@ public class Util {
      */
     @SuppressWarnings("unchecked")
     public static Map<String, Object> translateToMap(String identifier, Object source) {
-        if (source == null) {
-            return null;
-        }
-
         return translate(identifier, source, LinkedHashMap.class);
     }
 }

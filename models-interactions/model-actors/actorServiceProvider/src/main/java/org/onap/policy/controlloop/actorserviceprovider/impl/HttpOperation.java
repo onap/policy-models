@@ -148,21 +148,23 @@ public abstract class HttpOperation<T> extends OperationPartial {
         controller.add(requester.apply(callback));
 
         // once "future" completes, process the response, and then complete the controller
-        future.thenApplyAsync(response -> processResponse(outcome, url, response), executor)
+        future.thenComposeAsync(response -> processResponse(outcome, url, response), executor)
                         .whenCompleteAsync(controller.delayedComplete(), executor);
 
         return controller;
     }
 
     /**
-     * Processes a response. This method simply sets the outcome to SUCCESS.
+     * Processes a response. This method decodes the response, sets the outcome based on
+     * the response, and then returns a completed future.
      *
      * @param outcome outcome to be populate
      * @param url URL to which to request was sent
      * @param response raw response to process
-     * @return the outcome
+     * @return a future to cancel or await the outcome
      */
-    protected OperationOutcome processResponse(OperationOutcome outcome, String url, Response rawResponse) {
+    protected CompletableFuture<OperationOutcome> processResponse(OperationOutcome outcome, String url,
+                    Response rawResponse) {
 
         logger.info("{}.{}: response received for {}", params.getActor(), params.getOperation(), params.getRequestId());
 
@@ -173,7 +175,6 @@ public abstract class HttpOperation<T> extends OperationPartial {
         T response;
         if (responseClass == String.class) {
             response = responseClass.cast(strResponse);
-
         } else {
             try {
                 response = makeCoder().decode(strResponse, responseClass);
@@ -187,26 +188,40 @@ public abstract class HttpOperation<T> extends OperationPartial {
         if (!isSuccess(rawResponse, response)) {
             logger.info("{}.{} request failed with http error code {} for {}", params.getActor(), params.getOperation(),
                             rawResponse.getStatus(), params.getRequestId());
-            return setOutcome(outcome, PolicyResult.FAILURE);
+            return CompletableFuture.completedFuture(setOutcome(outcome, PolicyResult.FAILURE, response));
         }
 
         logger.info("{}.{} request succeeded for {}", params.getActor(), params.getOperation(), params.getRequestId());
-        setOutcome(outcome, PolicyResult.SUCCESS);
-        postProcessResponse(outcome, url, rawResponse, response);
-
-        return outcome;
+        setOutcome(outcome, PolicyResult.SUCCESS, response);
+        return postProcessResponse(outcome, url, rawResponse, response);
     }
 
     /**
-     * Processes a successful response.
+     * Sets an operation's outcome and default message based on the result.
+     *
+     * @param outcome operation to be updated
+     * @param result result of the operation
+     * @param response response used to populate the outcome
+     * @return the updated operation
+     */
+    public OperationOutcome setOutcome(OperationOutcome outcome, PolicyResult result, T response) {
+        return setOutcome(outcome, result);
+    }
+
+    /**
+     * Processes a successful response. This method simply returns the outcome wrapped in
+     * a completed future.
      *
      * @param outcome outcome to be populate
      * @param url URL to which to request was sent
      * @param rawResponse raw response
      * @param response decoded response
+     * @return a future to cancel or await the outcome
      */
-    protected void postProcessResponse(OperationOutcome outcome, String url, Response rawResponse, T response) {
-        // do nothing
+    protected CompletableFuture<OperationOutcome> postProcessResponse(OperationOutcome outcome, String url,
+                    Response rawResponse, T response) {
+
+        return CompletableFuture.completedFuture(outcome);
     }
 
     /**

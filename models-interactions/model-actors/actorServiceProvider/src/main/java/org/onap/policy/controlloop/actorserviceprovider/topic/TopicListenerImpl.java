@@ -45,7 +45,7 @@ import org.slf4j.LoggerFactory;
  */
 public class TopicListenerImpl implements TopicListener {
     private static final Logger logger = LoggerFactory.getLogger(TopicListenerImpl.class);
-    private static StandardCoder coder = new StandardCoder();
+    private static final StandardCoder coder = new StandardCoder();
 
     /**
      * Maps selector to a forwarder.
