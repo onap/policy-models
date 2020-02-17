@@ -26,7 +26,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -41,6 +40,8 @@ import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 
 public class ControlLoopEventContextTest {
+    private static final String ITEM_KEY = "obtain-B";
+
     private static final UUID REQ_ID = UUID.randomUUID();
 
     private Map<String, String> enrichment;
@@ -104,27 +105,21 @@ public class ControlLoopEventContextTest {
         // new property - should retrieve
         CompletableFuture<OperationOutcome> future = new CompletableFuture<>();
         when(params.start()).thenReturn(future);
-        assertSame(future, context.obtain("obtain-B", params));
+        assertSame(future, context.obtain(ITEM_KEY, params));
+
+        // provide a new future, but it shouldn't be used yet
+        CompletableFuture<OperationOutcome> future2 = new CompletableFuture<>();
+        when(params.start()).thenReturn(future2);
 
         // repeat - should get the same future, without invoking start() again
-        assertSame(future, context.obtain("obtain-B", params));
+        assertSame(future, context.obtain(ITEM_KEY, params));
         verify(params).start();
 
-        // arrange for another invoker to start while this one is starting
-        CompletableFuture<OperationOutcome> future2 = new CompletableFuture<>();
+        // cancel the future
+        future.cancel(false);
 
-        when(params.start()).thenAnswer(args -> {
-
-            ControlLoopOperationParams params2 = mock(ControlLoopOperationParams.class);
-            when(params2.start()).thenReturn(future2);
-
-            assertSame(future2, context.obtain("obtain-C", params2));
-            return future;
-        });
-
-        assertSame(future2, context.obtain("obtain-C", params));
-
-        // should have canceled the interrupted future
-        assertTrue(future.isCancelled());
+        // obtain() should now return a new future
+        assertSame(future2, context.obtain(ITEM_KEY, params));
+        assertFalse(future2.isDone());
     }
 }

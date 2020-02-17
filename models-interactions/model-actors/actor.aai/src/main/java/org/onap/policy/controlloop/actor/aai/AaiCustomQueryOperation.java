@@ -121,9 +121,12 @@ public class AaiCustomQueryOperation extends HttpOperation<String> {
      * Injects the response into the context.
      */
     @Override
-    protected void postProcessResponse(OperationOutcome outcome, String url, Response rawResponse, String response) {
+    protected CompletableFuture<OperationOutcome> postProcessResponse(OperationOutcome outcome, String url,
+                    Response rawResponse, String response) {
 
         logger.info("{}: caching response for {}", getFullName(), params.getRequestId());
         params.getContext().setProperty(AaiCqResponse.CONTEXT_KEY, new AaiCqResponse(response));
+
+        return super.postProcessResponse(outcome, url, rawResponse, response);
     }
 }

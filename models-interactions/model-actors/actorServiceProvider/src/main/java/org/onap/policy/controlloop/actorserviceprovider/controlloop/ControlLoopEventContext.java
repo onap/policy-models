@@ -127,22 +127,21 @@ public class ControlLoopEventContext implements Serializable {
      */
     public CompletableFuture<OperationOutcome> obtain(String name, ControlLoopOperationParams params) {
         if (properties.containsKey(name)) {
+            // already have the value, no need to obtain it
             return null;
         }
 
-        CompletableFuture<OperationOutcome> future = retrievers.get(name);
-        if (future != null) {
-            return future;
-        }
+        /*
+         * Return any existing future, if it wasn't canceled. Otherwise, start a new
+         * request.
+         *
+         * Note: this may block other threads temporarily, but few threads are likely to
+         * be invoking this at the same time for any single event instance.
+         */
 
-        future = params.start();
-
-        CompletableFuture<OperationOutcome> oldFuture = retrievers.putIfAbsent(name, future);
-        if (oldFuture != null) {
-            future.cancel(false);
-            return oldFuture;
-        }
-
-        return future;
+        // @formatter:off
+        return retrievers.compute(name,
+            (key, future) -> (future == null || future.isCancelled() ? params.start() : future));
+        // @formatter:on
     }
 }
