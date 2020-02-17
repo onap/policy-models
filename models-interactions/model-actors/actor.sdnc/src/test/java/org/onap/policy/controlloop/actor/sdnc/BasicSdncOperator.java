@@ -23,6 +23,7 @@ package org.onap.policy.controlloop.actor.sdnc;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -30,7 +31,6 @@ import static org.mockito.Mockito.when;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.function.BiFunction;
 import org.onap.policy.common.utils.coder.CoderException;
@@ -100,7 +100,10 @@ public abstract class BasicSdncOperator extends BasicHttpOperation<SdncRequest> 
         verify(client).post(callbackCaptor.capture(), any(), requestCaptor.capture(), any());
         callbackCaptor.getValue().completed(rawResponse);
 
-        assertEquals(PolicyResult.SUCCESS, future2.get(5, TimeUnit.SECONDS).getResult());
+        executor.runAll(100);
+        assertTrue(future2.isDone());
+
+        assertEquals(PolicyResult.SUCCESS, future2.get().getResult());
 
         return requestCaptor.getValue().getEntity();
     }

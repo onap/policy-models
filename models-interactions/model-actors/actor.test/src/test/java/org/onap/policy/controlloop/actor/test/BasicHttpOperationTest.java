@@ -67,6 +67,7 @@ public class BasicHttpOperationTest {
         assertEquals(BasicHttpOperation.BASE_URI, oper.client.getBaseUrl());
         assertNotNull(oper.context);
         assertNotNull(oper.outcome);
+        assertNotNull(oper.executor);
         assertTrue(oper.operator.isAlive());
     }
 
@@ -83,6 +84,7 @@ public class BasicHttpOperationTest {
 
         assertSame(oper.context, oper.params.getContext());
         assertSame(oper.service, oper.params.getActorService());
+        assertSame(oper.executor, oper.params.getExecutor());
         assertEquals(ACTOR, oper.params.getActor());
         assertEquals(OPERATION, oper.params.getOperation());
         assertEquals(BasicHttpOperation.TARGET_ENTITY, oper.params.getTargetEntity());

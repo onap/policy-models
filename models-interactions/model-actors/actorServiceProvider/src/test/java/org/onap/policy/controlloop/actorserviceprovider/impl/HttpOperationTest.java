@@ -32,9 +32,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
-import ch.qos.logback.classic.Logger;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
@@ -65,6 +63,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.event.comm.bus.internal.BusTopicParams;
 import org.onap.policy.common.endpoints.event.comm.bus.internal.BusTopicParams.TopicParamsBuilder;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
@@ -72,12 +71,10 @@ import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.endpoints.http.server.HttpServletServer;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.common.endpoints.properties.PolicyEndPointProperties;
+import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.common.gson.GsonMessageBodyHandler;
-import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
-import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.network.NetworkUtil;
-import org.onap.policy.common.utils.test.log.logback.ExtractAppender;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
@@ -86,7 +83,6 @@ import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopE
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
 import org.onap.policy.controlloop.policy.PolicyResult;
-import org.slf4j.LoggerFactory;
 
 public class HttpOperationTest {
 
@@ -96,17 +92,10 @@ public class HttpOperationTest {
     private static final String HTTP_CLIENT = "my-client";
     private static final String HTTP_NO_SERVER = "my-http-no-server-client";
     private static final String MEDIA_TYPE_APPLICATION_JSON = "application/json";
-    private static final String MY_REQUEST = "my-request";
     private static final String BASE_URI = "oper";
     private static final String PATH = "/my-path";
     private static final String TEXT = "my-text";
     private static final UUID REQ_ID = UUID.randomUUID();
-
-    /**
-     * Used to attach an appender to the class' logger.
-     */
-    private static final Logger logger = (Logger) LoggerFactory.getLogger(HttpOperation.class);
-    private static final ExtractAppender appender = new ExtractAppender();
 
     /**
      * {@code True} if the server should reject the request, {@code false} otherwise.
@@ -164,14 +153,6 @@ public class HttpOperationTest {
 
         HttpClientFactoryInstance.getClientFactory()
                         .build(builder.clientName(HTTP_NO_SERVER).port(NetworkUtil.allocPort()).build());
-
-        /**
-         * Attach appender to the logger.
-         */
-        appender.setContext(logger.getLoggerContext());
-        appender.start();
-
-        logger.addAppender(appender);
     }
 
     /**
@@ -179,8 +160,6 @@ public class HttpOperationTest {
      */
     @AfterClass
     public static void tearDownAfterClass() {
-        appender.stop();
-
         HttpClientFactoryInstance.getClientFactory().destroy();
         HttpServletServerFactoryInstance.getServerFactory().destroy();
     }
@@ -192,8 +171,6 @@ public class HttpOperationTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-
-        appender.clearExtractions();
 
         rejectRequest = false;
         nget = 0;
@@ -260,9 +237,9 @@ public class HttpOperationTest {
     @Test
     public void testDoConfigureMapOfStringObject_testGetClient_testGetPath_testGetTimeoutMs() {
 
-        // no default yet
-        assertEquals(0L, oper.getTimeoutMs(null));
-        assertEquals(0L, oper.getTimeoutMs(0));
+        // use value from operator
+        assertEquals(1000L, oper.getTimeoutMs(null));
+        assertEquals(1000L, oper.getTimeoutMs(0));
 
         // should use given value
         assertEquals(20 * 1000L, oper.getTimeoutMs(20));
@@ -442,96 +419,6 @@ public class HttpOperationTest {
     }
 
     @Test
-    public void testLogRestRequest() throws CoderException {
-        // log structured data
-        appender.clearExtractions();
-        oper.logRestRequest(PATH, new MyRequest());
-        List<String> output = appender.getExtracted();
-        assertEquals(1, output.size());
-
-        assertThat(output.get(0)).contains(PATH).contains("{\n  \"input\": \"some input\"\n}");
-
-        // log a plain string
-        appender.clearExtractions();
-        oper.logRestRequest(PATH, MY_REQUEST);
-        output = appender.getExtracted();
-        assertEquals(1, output.size());
-
-        assertThat(output.get(0)).contains(PATH).contains(MY_REQUEST);
-
-        // log a null request
-        appender.clearExtractions();
-        oper.logRestRequest(PATH, null);
-        output = appender.getExtracted();
-        assertEquals(1, output.size());
-
-        // exception from coder
-        oper = new MyGetOperation<>(String.class) {
-            @Override
-            protected Coder makeCoder() {
-                return new StandardCoder() {
-                    @Override
-                    public String encode(Object object, boolean pretty) throws CoderException {
-                        throw new CoderException(EXPECTED_EXCEPTION);
-                    }
-                };
-            }
-        };
-
-        appender.clearExtractions();
-        oper.logRestRequest(PATH, new MyRequest());
-        output = appender.getExtracted();
-        assertEquals(2, output.size());
-        assertThat(output.get(0)).contains("cannot pretty-print request");
-        assertThat(output.get(1)).contains(PATH);
-    }
-
-    @Test
-    public void testLogRestResponse() throws CoderException {
-        // log structured data
-        appender.clearExtractions();
-        oper.logRestResponse(PATH, new MyResponse());
-        List<String> output = appender.getExtracted();
-        assertEquals(1, output.size());
-
-        assertThat(output.get(0)).contains(PATH).contains("{\n  \"output\": \"some output\"\n}");
-
-        // log a plain string
-        appender.clearExtractions();
-        oper.logRestResponse(PATH, MY_REQUEST);
-        output = appender.getExtracted();
-        assertEquals(1, output.size());
-
-        // log a null response
-        appender.clearExtractions();
-        oper.logRestResponse(PATH, null);
-        output = appender.getExtracted();
-        assertEquals(1, output.size());
-
-        assertThat(output.get(0)).contains(PATH).contains("null");
-
-        // exception from coder
-        oper = new MyGetOperation<>(String.class) {
-            @Override
-            protected Coder makeCoder() {
-                return new StandardCoder() {
-                    @Override
-                    public String encode(Object object, boolean pretty) throws CoderException {
-                        throw new CoderException(EXPECTED_EXCEPTION);
-                    }
-                };
-            }
-        };
-
-        appender.clearExtractions();
-        oper.logRestResponse(PATH, new MyResponse());
-        output = appender.getExtracted();
-        assertEquals(2, output.size());
-        assertThat(output.get(0)).contains("cannot pretty-print response");
-        assertThat(output.get(1)).contains(PATH);
-    }
-
-    @Test
     public void testMakeDecoder() {
         assertNotNull(oper.makeCoder());
     }
@@ -569,7 +456,7 @@ public class HttpOperationTest {
     private void initOper(HttpOperator operator, String clientName) {
         operator.stop();
 
-        HttpParams params = HttpParams.builder().clientName(clientName).path(PATH).build();
+        HttpParams params = HttpParams.builder().clientName(clientName).path(PATH).timeoutSec(1).build();
         Map<String, Object> mapParams = Util.translateToMap(OPERATION, params);
         operator.configure(mapParams);
         operator.start();
@@ -614,7 +501,7 @@ public class HttpOperationTest {
             headers.put("Accept", MediaType.APPLICATION_JSON);
             String url = makeUrl();
 
-            logRestRequest(url, null);
+            logMessage(EventType.OUT, CommInfrastructure.REST, url, null);
 
             // @formatter:off
             return handleResponse(outcome, url,
@@ -640,7 +527,7 @@ public class HttpOperationTest {
             headers.put("Accept", MediaType.APPLICATION_JSON);
             String url = makeUrl();
 
-            logRestRequest(url, request);
+            logMessage(EventType.OUT, CommInfrastructure.REST, url, request);
 
             // @formatter:off
             return handleResponse(outcome, url,
@@ -666,7 +553,7 @@ public class HttpOperationTest {
             headers.put("Accept", MediaType.APPLICATION_JSON);
             String url = makeUrl();
 
-            logRestRequest(url, request);
+            logMessage(EventType.OUT, CommInfrastructure.REST, url, request);
 
             // @formatter:off
             return handleResponse(outcome, url,
@@ -687,7 +574,7 @@ public class HttpOperationTest {
             headers.put("Accept", MediaType.APPLICATION_JSON);
             String url = makeUrl();
 
-            logRestRequest(url, null);
+            logMessage(EventType.OUT, CommInfrastructure.REST, url, null);
 
             // @formatter:off
             return handleResponse(outcome, url,
