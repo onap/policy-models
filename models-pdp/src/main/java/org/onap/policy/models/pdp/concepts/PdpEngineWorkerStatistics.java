@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,16 +22,13 @@ package org.onap.policy.models.pdp.concepts;
 
 import java.io.Serializable;
 import javax.persistence.Embeddable;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.NonNull;
 import org.onap.policy.models.pdp.enums.PdpEngineWorkerState;
 
 @Embeddable
-@Getter
-@Setter
-@ToString
+@Data
 @NoArgsConstructor
 public class PdpEngineWorkerStatistics implements Serializable {
     private static final long serialVersionUID = 8262176849743624013L;
@@ -51,7 +48,7 @@ public class PdpEngineWorkerStatistics implements Serializable {
      *
      * @param source source from which to copy
      */
-    public PdpEngineWorkerStatistics(PdpEngineWorkerStatistics source) {
+    public PdpEngineWorkerStatistics(@NonNull PdpEngineWorkerStatistics source) {
         this.engineId = source.engineId;
         this.engineWorkerState = source.engineWorkerState;
         this.engineTimeStamp = source.engineTimeStamp;
