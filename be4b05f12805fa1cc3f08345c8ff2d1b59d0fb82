@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fabdc46e_5ad6f796",
+        "filename": "models-dao/src/test/java/org/onap/policy/models/dao/DummyTimestampEntity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 5259
+      },
+      "writtenOn": "2020-02-17T09:40:21Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5e3b40dd_5580ba2d",
+      "revId": "be4b05f12805fa1cc3f08345c8ff2d1b59d0fb82",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f746acc_460a808d",
         "filename": "models-dao/src/test/java/org/onap/policy/models/dao/DummyTimestampEntity.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2020-02-14T13:47:49Z",
       "side": 1,
       "message": "hashcodes could be the same, thus yielding 0, which would be incorrect.  Perhaps use getClass().getName().compareTo() instead",
+      "revId": "be4b05f12805fa1cc3f08345c8ff2d1b59d0fb82",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "786d1bec_be67b3e8",
+        "filename": "models-dao/src/test/java/org/onap/policy/models/dao/DummyTimestampEntity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 5259
+      },
+      "writtenOn": "2020-02-17T09:40:21Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2f746acc_460a808d",
       "revId": "be4b05f12805fa1cc3f08345c8ff2d1b59d0fb82",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "a348aad7_6b9839a7",
+        "filename": "models-dao/src/test/java/org/onap/policy/models/dao/EntityTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 5259
+      },
+      "writtenOn": "2020-02-17T09:40:21Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "07d5a32e_42fa5d2d",
+      "range": {
+        "startLine": 321,
+        "startChar": 19,
+        "endLine": 321,
+        "endChar": 50
+      },
+      "revId": "be4b05f12805fa1cc3f08345c8ff2d1b59d0fb82",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d946d3f_94a2ed28",
         "filename": "models-dao/src/test/java/org/onap/policy/models/dao/EntityTest.java",
         "patchSetId": 1
@@ -79,6 +139,30 @@
       "revId": "be4b05f12805fa1cc3f08345c8ff2d1b59d0fb82",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94624dff_b11469e5",
+        "filename": "models-dao/src/test/java/org/onap/policy/models/dao/EntityTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 5259
+      },
+      "writtenOn": "2020-02-17T09:40:21Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8d946d3f_94a2ed28",
+      "range": {
+        "startLine": 338,
+        "startChar": 19,
+        "endLine": 338,
+        "endChar": 55
+      },
+      "revId": "be4b05f12805fa1cc3f08345c8ff2d1b59d0fb82",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "d5a9ee3f_a251af4a",
+        "filename": "models-dao/src/test/java/org/onap/policy/models/dao/EntityTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 5259
+      },
+      "writtenOn": "2020-02-17T09:40:21Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "50833ba1_11d8b746",
+      "range": {
+        "startLine": 343,
+        "startChar": 19,
+        "endLine": 343,
+        "endChar": 56
+      },
+      "revId": "be4b05f12805fa1cc3f08345c8ff2d1b59d0fb82",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a36412bb_2a403a20",
         "filename": "models-dao/src/test/java/org/onap/policy/models/dao/EntityTest.java",
         "patchSetId": 1
@@ -125,6 +233,30 @@
       "revId": "be4b05f12805fa1cc3f08345c8ff2d1b59d0fb82",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7da69953_d4263231",
+        "filename": "models-dao/src/test/java/org/onap/policy/models/dao/EntityTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 5259
+      },
+      "writtenOn": "2020-02-17T09:40:21Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a36412bb_2a403a20",
+      "range": {
+        "startLine": 352,
+        "startChar": 19,
+        "endLine": 352,
+        "endChar": 55
+      },
+      "revId": "be4b05f12805fa1cc3f08345c8ff2d1b59d0fb82",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -151,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "6b6e5da0_e91970c9",
+        "filename": "models-dao/src/test/resources/META-INF/persistence.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5259
+      },
+      "writtenOn": "2020-02-17T09:40:21Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "dc7cac10_d538c5e3",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 2
+      },
+      "revId": "be4b05f12805fa1cc3f08345c8ff2d1b59d0fb82",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ec804bd0_c61aba7e",
         "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/persistence/provider/PdpStatisticsProviderTest.java",
         "patchSetId": 1
@@ -171,6 +327,30 @@
       "revId": "be4b05f12805fa1cc3f08345c8ff2d1b59d0fb82",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04f39466_69a8d9b3",
+        "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/persistence/provider/PdpStatisticsProviderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 5259
+      },
+      "writtenOn": "2020-02-17T09:40:21Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ec804bd0_c61aba7e",
+      "range": {
+        "startLine": 162,
+        "startChar": 0,
+        "endLine": 179,
+        "endChar": 9
+      },
+      "revId": "be4b05f12805fa1cc3f08345c8ff2d1b59d0fb82",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -221,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "b1551e2d_18854ac6",
+        "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/persistence/provider/PdpStatisticsProviderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 5259
+      },
+      "writtenOn": "2020-02-17T09:40:21Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a4ccef32_82caabf2",
+      "range": {
+        "startLine": 206,
+        "startChar": 12,
+        "endLine": 206,
+        "endChar": 56
+      },
+      "revId": "be4b05f12805fa1cc3f08345c8ff2d1b59d0fb82",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d2373fa5_2fd15550",
         "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/persistence/provider/PdpStatisticsProviderTest.java",
         "patchSetId": 1
@@ -241,6 +445,30 @@
       "revId": "be4b05f12805fa1cc3f08345c8ff2d1b59d0fb82",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3951dde9_6d91e1a5",
+        "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/persistence/provider/PdpStatisticsProviderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 5259
+      },
+      "writtenOn": "2020-02-17T09:40:21Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d2373fa5_2fd15550",
+      "range": {
+        "startLine": 210,
+        "startChar": 0,
+        "endLine": 215,
+        "endChar": 9
+      },
+      "revId": "be4b05f12805fa1cc3f08345c8ff2d1b59d0fb82",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -267,6 +495,30 @@
     },
     {
       "key": {
+        "uuid": "81da0d06_a3310e55",
+        "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/persistence/provider/PdpStatisticsProviderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 5259
+      },
+      "writtenOn": "2020-02-17T09:40:21Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f0730b68_1963c25d",
+      "range": {
+        "startLine": 232,
+        "startChar": 0,
+        "endLine": 234,
+        "endChar": 9
+      },
+      "revId": "be4b05f12805fa1cc3f08345c8ff2d1b59d0fb82",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51b851f2_356a28a7",
         "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/persistence/provider/PdpStatisticsProviderTest.java",
         "patchSetId": 1
@@ -287,6 +539,30 @@
       "revId": "be4b05f12805fa1cc3f08345c8ff2d1b59d0fb82",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e05deaa0_a58177f8",
+        "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/persistence/provider/PdpStatisticsProviderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 5259
+      },
+      "writtenOn": "2020-02-17T09:40:21Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "51b851f2_356a28a7",
+      "range": {
+        "startLine": 252,
+        "startChar": 0,
+        "endLine": 254,
+        "endChar": 9
+      },
+      "revId": "be4b05f12805fa1cc3f08345c8ff2d1b59d0fb82",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
