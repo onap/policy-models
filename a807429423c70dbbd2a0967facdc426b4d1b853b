@@ -16,6 +16,24 @@
       "revId": "a807429423c70dbbd2a0967facdc426b4d1b853b",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d009f3fa_1191bc8c",
+        "filename": "models-examples/src/main/resources/policies/vCPE.policy.operational.output.tosca.yaml",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-02-17T16:22:22Z",
+      "side": 1,
+      "message": "We could - I think it would be best to get this review in for Sebastien and the CSIT tests.",
+      "parentUuid": "2ba02004_90b5604d",
+      "revId": "a807429423c70dbbd2a0967facdc426b4d1b853b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
