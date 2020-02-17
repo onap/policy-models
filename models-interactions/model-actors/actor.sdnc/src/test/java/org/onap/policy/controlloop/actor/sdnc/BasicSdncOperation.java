@@ -49,14 +49,14 @@ import org.powermock.reflect.Whitebox;
 /**
  * Superclass for various operator tests.
  */
-public abstract class BasicSdncOperator extends BasicHttpOperation<SdncRequest> {
+public abstract class BasicSdncOperation extends BasicHttpOperation<SdncRequest> {
 
     protected SdncResponse response;
 
     /**
      * Constructs the object using a default actor and operation name.
      */
-    public BasicSdncOperator() {
+    public BasicSdncOperation() {
         super();
     }
 
@@ -66,7 +66,7 @@ public abstract class BasicSdncOperator extends BasicHttpOperation<SdncRequest> 
      * @param actor actor name
      * @param operation operation name
      */
-    public BasicSdncOperator(String actor, String operation) {
+    public BasicSdncOperation(String actor, String operation) {
         super(actor, operation);
     }
 
@@ -94,7 +94,8 @@ public abstract class BasicSdncOperator extends BasicHttpOperation<SdncRequest> 
     protected SdncRequest verifyOperation(SdncOperation operation)
                     throws InterruptedException, ExecutionException, TimeoutException {
 
-        CompletableFuture<OperationOutcome> future2 = operation.startOperationAsync(1, outcome);
+        CompletableFuture<OperationOutcome> future2 = operation.start();
+        executor.runAll(100);
         assertFalse(future2.isDone());
 
         verify(client).post(callbackCaptor.capture(), any(), requestCaptor.capture(), any());

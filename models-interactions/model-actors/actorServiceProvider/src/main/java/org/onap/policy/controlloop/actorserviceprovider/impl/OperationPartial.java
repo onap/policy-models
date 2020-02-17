@@ -68,6 +68,7 @@ import org.slf4j.LoggerFactory;
 public abstract class OperationPartial implements Operation {
     private static final Logger logger = LoggerFactory.getLogger(OperationPartial.class);
     private static final Coder coder = new StandardCoder();
+
     public static final long DEFAULT_RETRY_WAIT_MS = 1000L;
 
     // values extracted from the operator

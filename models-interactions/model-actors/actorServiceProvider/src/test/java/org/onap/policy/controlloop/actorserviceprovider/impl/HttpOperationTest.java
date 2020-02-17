@@ -302,8 +302,10 @@ public class HttpOperationTest {
      * Tests processResponse() when it's a success and the response type is a String.
      */
     @Test
-    public void testProcessResponseSuccessString() {
-        assertSame(outcome, oper.processResponse(outcome, PATH, response));
+    public void testProcessResponseSuccessString() throws Exception {
+        CompletableFuture<OperationOutcome> result = oper.processResponse(outcome, PATH, response);
+        assertTrue(result.isDone());
+        assertSame(outcome, result.get());
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
     }
 
@@ -311,9 +313,11 @@ public class HttpOperationTest {
      * Tests processResponse() when it's a failure.
      */
     @Test
-    public void testProcessResponseFailure() {
+    public void testProcessResponseFailure() throws Exception {
         when(response.getStatus()).thenReturn(555);
-        assertSame(outcome, oper.processResponse(outcome, PATH, response));
+        CompletableFuture<OperationOutcome> result = oper.processResponse(outcome, PATH, response);
+        assertTrue(result.isDone());
+        assertSame(outcome, result.get());
         assertEquals(PolicyResult.FAILURE, outcome.getResult());
     }
 
@@ -321,12 +325,14 @@ public class HttpOperationTest {
      * Tests processResponse() when the decoder succeeds.
      */
     @Test
-    public void testProcessResponseDecodeOk() throws CoderException {
+    public void testProcessResponseDecodeOk() throws Exception {
         when(response.readEntity(String.class)).thenReturn("10");
 
         MyGetOperation<Integer> oper2 = new MyGetOperation<>(Integer.class);
 
-        assertSame(outcome, oper2.processResponse(outcome, PATH, response));
+        CompletableFuture<OperationOutcome> result = oper2.processResponse(outcome, PATH, response);
+        assertTrue(result.isDone());
+        assertSame(outcome, result.get());
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
     }
 

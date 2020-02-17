@@ -42,6 +42,7 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOp
 
 public class ControlLoopEventContextTest {
     private static final UUID REQ_ID = UUID.randomUUID();
+    private static final String ITEM_KEY = "obtain-C";
 
     private Map<String, String> enrichment;
     private VirtualControlLoopEvent event;
@@ -118,13 +119,28 @@ public class ControlLoopEventContextTest {
             ControlLoopOperationParams params2 = mock(ControlLoopOperationParams.class);
             when(params2.start()).thenReturn(future2);
 
-            assertSame(future2, context.obtain("obtain-C", params2));
+            assertSame(future2, context.obtain(ITEM_KEY, params2));
             return future;
         });
 
-        assertSame(future2, context.obtain("obtain-C", params));
+        assertSame(future2, context.obtain(ITEM_KEY, params));
 
         // should have canceled the interrupted future
         assertTrue(future.isCancelled());
+
+        // return a new future next time start() is called
+        CompletableFuture<OperationOutcome> future3 = new CompletableFuture<>();
+        when(params.start()).thenReturn(future3);
+
+        // repeat - should get the same future
+        assertSame(future2, context.obtain(ITEM_KEY, params));
+        assertSame(future2, context.obtain(ITEM_KEY, params));
+
+        // future2 should still be active
+        assertFalse(future2.isCancelled());
+
+        // cancel it - now we should get the new future
+        future2.cancel(false);
+        assertSame(future3, context.obtain(ITEM_KEY, params));
     }
 }
