@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8a68f67d_bf964c39",
+        "filename": "models-dao/src/test/resources/META-INF/persistence.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-02-17T16:28:10Z",
+      "side": 1,
+      "message": "Still some trailing blanks here and in other places in this file.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 1
+      },
+      "revId": "fc0ea419e7cc51c4a04be015cd9cbaee83da5f68",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
