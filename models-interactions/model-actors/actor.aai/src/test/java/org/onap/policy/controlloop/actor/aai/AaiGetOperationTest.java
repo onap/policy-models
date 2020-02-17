@@ -38,14 +38,14 @@ import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.policy.PolicyResult;
 
-public class AaiGetOperatorTest extends BasicAaiOperator<Void> {
+public class AaiGetOperationTest extends BasicAaiOperation<Void> {
 
     private static final String INPUT_FIELD = "input";
     private static final String TEXT = "my-text";
 
     private AaiGetOperation oper;
 
-    public AaiGetOperatorTest() {
+    public AaiGetOperationTest() {
         super(AaiConstants.ACTOR_NAME, AaiGetOperation.TENANT);
     }
 

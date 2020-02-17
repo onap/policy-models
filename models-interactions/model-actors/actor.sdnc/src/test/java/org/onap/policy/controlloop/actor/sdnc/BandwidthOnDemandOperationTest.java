@@ -28,11 +28,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.sdnc.SdncRequest;
 
-public class BandwidthOnDemandOperatorTest extends BasicSdncOperator {
+public class BandwidthOnDemandOperationTest extends BasicSdncOperation {
 
     private BandwidthOnDemandOperation oper;
 
-    public BandwidthOnDemandOperatorTest() {
+    public BandwidthOnDemandOperationTest() {
         super(DEFAULT_ACTOR, BandwidthOnDemandOperation.NAME);
     }
 

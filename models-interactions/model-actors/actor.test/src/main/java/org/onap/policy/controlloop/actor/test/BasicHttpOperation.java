@@ -45,7 +45,7 @@ import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperator;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 
 /**
- * Superclass for various operator tests.
+ * Superclass for various HttpOperation tests.
  *
  * @param <Q> request type
  */
