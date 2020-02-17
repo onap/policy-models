@@ -214,14 +214,14 @@ public abstract class BidirectionalTopicOperation<Q, S> extends OperationPartial
             case SUCCESS:
                 logger.info("{}.{} request succeeded for {}", params.getActor(), params.getOperation(),
                                 params.getRequestId());
-                setOutcome(outcome, PolicyResult.SUCCESS);
+                setOutcome(outcome, PolicyResult.SUCCESS, response);
                 postProcessResponse(outcome, rawResponse, response);
                 return outcome;
 
             case FAILURE:
                 logger.info("{}.{} request failed for {}", params.getActor(), params.getOperation(),
                                 params.getRequestId());
-                return setOutcome(outcome, PolicyResult.FAILURE);
+                return setOutcome(outcome, PolicyResult.FAILURE, response);
 
             case STILL_WAITING:
             default:
@@ -229,6 +229,18 @@ public abstract class BidirectionalTopicOperation<Q, S> extends OperationPartial
                                 params.getRequestId());
                 return null;
         }
+    }
+
+    /**
+     * Sets an operation's outcome and default message based on the result.
+     *
+     * @param outcome operation to be updated
+     * @param result result of the operation
+     * @param response response used to populate the outcome
+     * @return the updated operation
+     */
+    public OperationOutcome setOutcome(OperationOutcome outcome, PolicyResult result, S response) {
+        return setOutcome(outcome, result);
     }
 
     /**
