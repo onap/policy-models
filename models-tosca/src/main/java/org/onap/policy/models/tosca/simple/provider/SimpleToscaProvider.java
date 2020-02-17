@@ -377,7 +377,9 @@ public class SimpleToscaProvider {
             throws PfModelException {
         LOGGER.debug("->getPolicies: name={}, version={}", name, version);
 
-        JpaToscaServiceTemplate serviceTemplate = getServiceTemplate(dao);
+        JpaToscaServiceTemplate dbServiceTemplate = getServiceTemplate(dao);
+
+        JpaToscaServiceTemplate serviceTemplate = new JpaToscaServiceTemplate(dbServiceTemplate);
         serviceTemplate.setDataTypes(new JpaToscaDataTypes());
         serviceTemplate.setPolicyTypes(new JpaToscaPolicyTypes());
 
@@ -393,15 +395,20 @@ public class SimpleToscaProvider {
                     "policies for " + name + ":" + version + DO_NOT_EXIST);
         }
 
+        JpaToscaServiceTemplate returnServiceTemplate = new JpaToscaServiceTemplate(serviceTemplate);
+        returnServiceTemplate.getTopologyTemplate().setPolicies(new JpaToscaPolicies());
+
         for (JpaToscaPolicy policy : serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().values()) {
             JpaToscaServiceTemplate referencedEntitiesServiceTemplate =
                     getPolicyTypes(dao, policy.getType().getName(), policy.getType().getVersion());
 
-            serviceTemplate = ToscaServiceTemplateUtils.addFragment(serviceTemplate, referencedEntitiesServiceTemplate);
+            returnServiceTemplate.getTopologyTemplate().getPolicies().getConceptMap().put(policy.getKey(), policy);
+            returnServiceTemplate =
+                    ToscaServiceTemplateUtils.addFragment(returnServiceTemplate, referencedEntitiesServiceTemplate);
         }
 
-        LOGGER.debug("<-getPolicies: name={}, version={}, serviceTemplate={}", name, version, serviceTemplate);
-        return serviceTemplate;
+        LOGGER.debug("<-getPolicies: name={}, version={}, serviceTemplate={}", name, version, returnServiceTemplate);
+        return returnServiceTemplate;
     }
 
     /**
