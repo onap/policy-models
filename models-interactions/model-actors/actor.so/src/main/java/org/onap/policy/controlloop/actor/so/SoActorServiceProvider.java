@@ -92,8 +92,13 @@ public class SoActorServiceProvider extends ActorImpl {
 
     // **HERE**
 
+    /**
+     * Constructs the object.
+     */
     public SoActorServiceProvider() {
         super(NAME);
+
+        addOperator(SoOperator.makeSoOperator(NAME, VfModuleCreate.NAME, VfModuleCreate::new));
     }
 
     // TODO old code: remove lines down to **HERE**
