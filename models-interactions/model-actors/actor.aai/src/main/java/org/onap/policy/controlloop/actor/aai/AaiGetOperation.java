@@ -116,13 +116,15 @@ public class AaiGetOperation extends HttpOperation<StandardCoderObject> {
      * Injects the response into the context.
      */
     @Override
-    protected void postProcessResponse(OperationOutcome outcome, String url, Response rawResponse,
-                    StandardCoderObject response) {
+    protected CompletableFuture<OperationOutcome> postProcessResponse(OperationOutcome outcome, String url,
+                    Response rawResponse, StandardCoderObject response) {
         String entity = params.getTargetEntity();
 
         logger.info("{}: caching response of {} for {}", getFullName(), entity, params.getRequestId());
 
         params.getContext().setProperty(propertyPrefix + entity, response);
+
+        return super.postProcessResponse(outcome, url, rawResponse, response);
     }
 
     /**

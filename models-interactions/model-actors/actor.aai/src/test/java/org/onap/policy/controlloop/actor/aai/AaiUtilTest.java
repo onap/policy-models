@@ -23,7 +23,7 @@ package org.onap.policy.controlloop.actor.aai;
 import java.util.Map;
 import org.junit.Test;
 
-public class AaiUtilTest extends BasicAaiOperator<Void> {
+public class AaiUtilTest extends BasicAaiOperation<Void> {
 
     @Test
     public void testMakeHeaders() {

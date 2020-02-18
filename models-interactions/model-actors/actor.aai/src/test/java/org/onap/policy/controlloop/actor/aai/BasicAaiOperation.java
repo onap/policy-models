@@ -28,12 +28,12 @@ import org.onap.policy.controlloop.actor.test.BasicHttpOperation;
 /**
  * Superclass for various operator tests.
  */
-public abstract class BasicAaiOperator<Q> extends BasicHttpOperation<Q> {
+public abstract class BasicAaiOperation<Q> extends BasicHttpOperation<Q> {
 
     /**
      * Constructs the object using a default actor and operation name.
      */
-    public BasicAaiOperator() {
+    public BasicAaiOperation() {
         super();
     }
 
@@ -43,7 +43,7 @@ public abstract class BasicAaiOperator<Q> extends BasicHttpOperation<Q> {
      * @param actor actor name
      * @param operation operation name
      */
-    public BasicAaiOperator(String actor, String operation) {
+    public BasicAaiOperation(String actor, String operation) {
         super(actor, operation);
     }
 
