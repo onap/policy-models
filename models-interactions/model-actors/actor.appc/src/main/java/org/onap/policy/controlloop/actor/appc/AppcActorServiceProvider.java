@@ -34,6 +34,7 @@ import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicActor;
+import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicOperator;
 import org.onap.policy.controlloop.policy.Policy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,6 +75,9 @@ public class AppcActorServiceProvider extends BidirectionalTopicActor {
      */
     public AppcActorServiceProvider() {
         super(NAME);
+
+        addOperator(BidirectionalTopicOperator.makeOperator(NAME, ModifyConfigOperation.NAME, this,
+                        AppcOperation.SELECTOR_KEYS, ModifyConfigOperation::new));
     }
 
 
