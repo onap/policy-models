@@ -101,7 +101,7 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
         daoParameters.setPersistenceUnit(parameters.getPersistenceUnit());
 
         // Decode the password using Base64
-        String decodedPassword = new String(Base64.getDecoder().decode(parameters.getDatabasePassword()));
+        String decodedPassword = new String(Base64.getDecoder().decode(getValue(parameters.getDatabasePassword())));
 
         // @formatter:off
         Properties jdbcProperties = new Properties();
@@ -123,6 +123,13 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
             this.close();
             throw new PfModelException(Response.Status.NOT_ACCEPTABLE, errorMessage, exc);
         }
+    }
+
+    private String getValue(final String value) {
+        if (value != null && value.matches("[$][{].*[}]$")) {
+            return System.getenv(value.substring(2, value.length() - 1));
+        }
+        return value;
     }
 
     @Override
