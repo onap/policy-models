@@ -95,6 +95,15 @@ public abstract class HttpOperator extends OperatorPartial {
             throw new ParameterValidationRuntimeException("invalid parameters", result);
         }
 
+        doConfigure(params);
+    }
+
+    /**
+     * Configures the operator using the specified parameters.
+     *
+     * @param params operator parameters
+     */
+    protected void doConfigure(HttpParams params) {
         client = getClientFactory().get(params.getClientName());
         path = params.getPath();
         timeoutMs = TimeUnit.MILLISECONDS.convert(params.getTimeoutSec(), TimeUnit.SECONDS);

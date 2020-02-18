@@ -47,6 +47,9 @@ import org.slf4j.LoggerFactory;
  *
  */
 public final class SoManager {
+
+    // TODO remove this class
+
     private static final Logger logger = LoggerFactory.getLogger(SoManager.class);
 
     private static ExecutorService executors = Executors.newCachedThreadPool();

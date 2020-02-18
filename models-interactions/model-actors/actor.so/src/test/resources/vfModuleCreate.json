@@ -1,0 +1,49 @@
+{
+  "requestDetails": {
+    "modelInfo": {
+      "modelType": "vfModule",
+      "modelInvariantId": "my-model-invariant-id",
+      "modelVersionId": "my-model-version-id",
+      "modelName": "my-model-name",
+      "modelVersion": "my-model-version",
+      "modelCustomizationId": "my-model-customization-id"
+    },
+    "cloudConfiguration": {},
+    "requestInfo": {
+      "instanceName": "vfModuleName",
+      "source": "POLICY",
+      "suppressRollback": false,
+      "requestorId": "policy"
+    },
+    "relatedInstanceList": [
+      {
+        "relatedInstance": {
+          "instanceId": "my-service-instance-id",
+          "modelInfo": {
+            "modelType": "service",
+            "modelName": "my-model-name-B",
+            "modelVersion": "my-model-version-B"
+          }
+        }
+      },
+      {
+        "relatedInstance": {
+          "instanceId": "my-vnf-id",
+          "modelInfo": {
+            "modelType": "vnf",
+            "modelName": "my-model-name-B",
+            "modelVersion": "my-model-version-B"
+          }
+        }
+      }
+    ],
+    "requestParameters": {
+      "subscriptionServiceType": "my-subscription-service-type",
+      "usePreload": false,
+      "userParams": []
+    },
+    "configurationParameters": [
+      {}
+    ]
+  }
+}
