@@ -67,8 +67,11 @@ public class BidirectionalTopicParamsTest {
         assertEquals(params, params.toBuilder().build());
     }
 
+    // @formatter:off
     private void testValidateField(String fieldName, String expected,
-                    Function<BidirectionalTopicParamsBuilder, BidirectionalTopicParamsBuilder> makeInvalid) {
+            @SuppressWarnings("rawtypes") Function<BidirectionalTopicParamsBuilder, BidirectionalTopicParamsBuilder>
+                makeInvalid) {
+        // @formatter:on
 
         // original params should be valid
         ValidationResult result = params.validate(CONTAINER);

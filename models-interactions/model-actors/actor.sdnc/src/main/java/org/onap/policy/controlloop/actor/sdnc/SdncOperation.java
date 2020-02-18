@@ -73,7 +73,7 @@ public abstract class SdncOperation extends HttpOperation<SdncResponse> {
 
         // @formatter:off
         return handleResponse(outcome, url,
-            callback -> operator.getClient().post(callback, makePath(), entity, headers));
+            callback -> getOperator().getClient().post(callback, makePath(), entity, headers));
         // @formatter:on
     }
 

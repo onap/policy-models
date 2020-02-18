@@ -91,7 +91,7 @@ public class AaiCustomQueryOperation extends HttpOperation<String> {
 
         // @formatter:off
         return handleResponse(outcome, url,
-            callback -> operator.getClient().put(callback, makePath(), entity, headers));
+            callback -> getOperator().getClient().put(callback, makePath(), entity, headers));
         // @formatter:on
     }
 
