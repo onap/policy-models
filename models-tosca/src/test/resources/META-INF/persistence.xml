@@ -34,6 +34,8 @@
         <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyTypes</class>
         <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaTopologyTemplate</class>
         <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate</class>
+        <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaTrigger</class>
+        <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaProperty</class>
 
         <properties>
             <property name="eclipselink.ddl-generation" value="drop-and-create-tables" />
