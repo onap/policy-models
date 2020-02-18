@@ -68,7 +68,7 @@ public class HttpParamsTest {
     }
 
     private void testValidateField(String fieldName, String expected,
-                    Function<HttpParamsBuilder, HttpParamsBuilder> makeInvalid) {
+                    @SuppressWarnings("rawtypes") Function<HttpParamsBuilder, HttpParamsBuilder> makeInvalid) {
 
         // original params should be valid
         ValidationResult result = params.validate(CONTAINER);

@@ -54,7 +54,7 @@ public abstract class HttpOperation<T> extends OperationPartial {
     /**
      * Operator that created this operation.
      */
-    protected final HttpOperator operator;
+    private final HttpOperator operator;
 
     /**
      * Response class.
@@ -188,11 +188,11 @@ public abstract class HttpOperation<T> extends OperationPartial {
         if (!isSuccess(rawResponse, response)) {
             logger.info("{}.{} request failed with http error code {} for {}", params.getActor(), params.getOperation(),
                             rawResponse.getStatus(), params.getRequestId());
-            return CompletableFuture.completedFuture(setOutcome(outcome, PolicyResult.FAILURE, response));
+            return CompletableFuture.completedFuture(setOutcome(outcome, PolicyResult.FAILURE, rawResponse, response));
         }
 
         logger.info("{}.{} request succeeded for {}", params.getActor(), params.getOperation(), params.getRequestId());
-        setOutcome(outcome, PolicyResult.SUCCESS, response);
+        setOutcome(outcome, PolicyResult.SUCCESS, rawResponse, response);
         return postProcessResponse(outcome, url, rawResponse, response);
     }
 
@@ -201,10 +201,13 @@ public abstract class HttpOperation<T> extends OperationPartial {
      *
      * @param outcome operation to be updated
      * @param result result of the operation
-     * @param response response used to populate the outcome
+     * @param rawResponse raw response
+     * @param response decoded response
      * @return the updated operation
      */
-    public OperationOutcome setOutcome(OperationOutcome outcome, PolicyResult result, T response) {
+    public OperationOutcome setOutcome(OperationOutcome outcome, PolicyResult result, Response rawResponse,
+                    T response) {
+
         return setOutcome(outcome, result);
     }
 

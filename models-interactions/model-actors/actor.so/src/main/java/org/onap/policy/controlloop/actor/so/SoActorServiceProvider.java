@@ -54,11 +54,12 @@ import org.slf4j.LoggerFactory;
 public class SoActorServiceProvider extends ActorImpl {
     private static final Logger logger = LoggerFactory.getLogger(SoActorServiceProvider.class);
 
+    public static final String NAME = "SO";
+
+    // TODO old code: remove lines down to **HERE**
+
     private static final String TENANT_NOT_FOUND = "Tenant Item not found in AAI response {}";
     private static final String CONSTRUCTED_SO_MSG = "Constructed SO request: {}";
-
-    // Strings for SO Actor
-    private static final String SO_ACTOR = "SO";
 
     // Strings for targets
     private static final String TARGET_VFC = "VFC";
@@ -89,13 +90,17 @@ public class SoActorServiceProvider extends ActorImpl {
     private static String lastServiceItemServiceInstanceId;
     private static String lastVfModuleItemVfModuleInstanceId;
 
+    // **HERE**
+
     public SoActorServiceProvider() {
-        super(SO_ACTOR);
+        super(NAME);
     }
+
+    // TODO old code: remove lines down to **HERE**
 
     @Override
     public String actor() {
-        return SO_ACTOR;
+        return NAME;
     }
 
     @Override
@@ -237,7 +242,7 @@ public class SoActorServiceProvider extends ActorImpl {
      */
     public SoRequest constructRequestCq(VirtualControlLoopEvent onset, ControlLoopOperation operation, Policy policy,
             AaiCqResponse aaiCqResponse) {
-        if (!SO_ACTOR.equals(policy.getActor()) || !recipes().contains(policy.getRecipe())) {
+        if (!NAME.equals(policy.getActor()) || !recipes().contains(policy.getRecipe())) {
             return null;
         }
 
@@ -443,5 +448,7 @@ public class SoActorServiceProvider extends ActorImpl {
         cloudConfiguration.setLcpCloudRegionId(cloudRegionItem.getCloudRegionId());
         return cloudConfiguration;
     }
+
+    // **HERE**
 
 }

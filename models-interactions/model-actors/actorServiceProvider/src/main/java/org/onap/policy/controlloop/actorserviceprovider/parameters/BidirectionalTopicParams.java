@@ -20,8 +20,8 @@
 
 package org.onap.policy.controlloop.actorserviceprovider.parameters;
 
-import lombok.Builder;
 import lombok.Data;
+import lombok.experimental.SuperBuilder;
 import org.onap.policy.common.parameters.BeanValidator;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.common.parameters.annotations.Min;
@@ -34,7 +34,7 @@ import org.onap.policy.common.parameters.annotations.NotNull;
 @NotNull
 @NotBlank
 @Data
-@Builder(toBuilder = true)
+@SuperBuilder(toBuilder = true)
 public class BidirectionalTopicParams {
 
     /**

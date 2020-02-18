@@ -98,7 +98,7 @@ public class AaiGetOperation extends HttpOperation<StandardCoderObject> {
 
         // @formatter:off
         return handleResponse(outcome, url,
-            callback -> operator.getClient().get(callback, makePath(), headers));
+            callback -> getOperator().getClient().get(callback, makePath(), headers));
         // @formatter:on
     }
 
@@ -109,7 +109,7 @@ public class AaiGetOperation extends HttpOperation<StandardCoderObject> {
 
     @Override
     public String makePath() {
-        return (operator.getPath() + "/" + params.getTargetEntity());
+        return (getOperator().getPath() + "/" + params.getTargetEntity());
     }
 
     /**
