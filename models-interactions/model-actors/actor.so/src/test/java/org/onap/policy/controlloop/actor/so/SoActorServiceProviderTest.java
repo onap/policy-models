@@ -29,11 +29,13 @@ import static org.junit.Assert.assertNull;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.onap.policy.aai.AaiCqResponse;
@@ -63,6 +65,17 @@ public class SoActorServiceProviderTest {
         target.setModelVersionId("94b18b1d-cc91-4f43-911a-e6348665f292");
 
         policy.setTarget(target);
+    }
+
+    @Test
+    public void testConstructor() {
+        SoActorServiceProvider prov = new SoActorServiceProvider();
+
+        // verify that it has the operators we expect
+        var expected = Arrays.asList(VfModuleCreate.NAME).stream().sorted().collect(Collectors.toList());
+        var actual = prov.getOperationNames().stream().sorted().collect(Collectors.toList());
+
+        assertEquals(expected.toString(), actual.toString());
     }
 
     @Test
