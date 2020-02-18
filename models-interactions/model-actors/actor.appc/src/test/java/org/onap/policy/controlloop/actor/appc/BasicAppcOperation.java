@@ -27,6 +27,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -129,10 +130,12 @@ public abstract class BasicAppcOperation extends BasicBidirectionalTopicOperatio
         String json = new StandardCoder().encode(request, true);
         String expected = ResourceUtils.getResourceAsString(expectedJsonFile);
 
-        // strip request id, because it changes each time
-        final String stripper = "svc-request-id[^,]*";
-        json = json.replaceFirst(stripper, "").trim();
-        expected = expected.replaceFirst(stripper, "").trim();
+        // strip various items, because they change for each request
+        for (String stripper : Arrays.asList("RequestID", "subRequestId", "seconds", "nanos")) {
+            stripper += "[^,]*";
+            json = json.replaceAll(stripper, "").trim();
+            expected = expected.replaceAll(stripper, "").trim();
+        }
 
         assertEquals(expected, json);
     }
