@@ -33,9 +33,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 import java.util.function.BiFunction;
-import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
-import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.controlloop.actor.test.BasicHttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperator;
@@ -50,6 +48,10 @@ import org.powermock.reflect.Whitebox;
  * Superclass for various operator tests.
  */
 public abstract class BasicSdncOperation extends BasicHttpOperation<SdncRequest> {
+    /**
+     * Fields to be ignored when comparing requests with JSON.
+     */
+    protected static final String[] IGNORE_FIELDS = {"svc-request-id"};
 
     protected SdncResponse response;
 
@@ -110,26 +112,6 @@ public abstract class BasicSdncOperation extends BasicHttpOperation<SdncRequest>
     }
 
     /**
-     * Pretty-prints a request and verifies that the result matches the expected JSON.
-     *
-     * @param <T> request type
-     * @param expectedJsonFile name of the file containing the expected JSON
-     * @param request request to verify
-     * @throws CoderException if the request cannot be pretty-printed
-     */
-    protected <T> void verifyRequest(String expectedJsonFile, T request) throws CoderException {
-        String json = new StandardCoder().encode(request, true);
-        String expected = ResourceUtils.getResourceAsString(expectedJsonFile);
-
-        // strip request id, because it changes each time
-        final String stripper = "svc-request-id[^,]*";
-        json = json.replaceFirst(stripper, "").trim();
-        expected = expected.replaceFirst(stripper, "").trim();
-
-        assertEquals(expected, json);
-    }
-
-    /**
      * Verifies that an exception is thrown if a field is missing from the enrichment
      * data.
      *
@@ -137,7 +119,7 @@ public abstract class BasicSdncOperation extends BasicHttpOperation<SdncRequest>
      * @param expectedText text expected in the exception message
      */
     protected void verifyMissing(String fieldName, String expectedText,
-                    BiFunction<ControlLoopOperationParams,HttpOperator,SdncOperation> maker) {
+                    BiFunction<ControlLoopOperationParams, HttpOperator, SdncOperation> maker) {
 
         makeContext();
         enrichment.remove(fieldName);

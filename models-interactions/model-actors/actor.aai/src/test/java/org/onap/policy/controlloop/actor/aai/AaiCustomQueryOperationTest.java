@@ -25,16 +25,21 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
+import javax.ws.rs.client.Entity;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.onap.policy.aai.AaiConstants;
 import org.onap.policy.aai.AaiCqResponse;
@@ -54,6 +59,9 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation<Map<String, S
     private static final StandardCoder coder = new StandardCoder();
 
     private static final String MY_LINK = "my-link";
+
+    @Captor
+    private ArgumentCaptor<Entity<Map<String, String>>> entityCaptor;
 
     @Mock
     private Actor tenantActor;
@@ -131,6 +139,25 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation<Map<String, S
     @Test
     public void testMakeHeaders() {
         verifyHeaders(oper.makeHeaders());
+    }
+
+    @Test
+    public void testMakeRequest() throws Exception {
+        // preload
+        preloadTenantData();
+
+        when(rawResponse.readEntity(String.class)).thenReturn(makeCqReply());
+        when(client.put(any(), any(), any(), any())).thenAnswer(provideResponse(rawResponse));
+
+        oper.start();
+        executor.runAll(100);
+
+        verify(client).put(any(), any(), entityCaptor.capture(), any());
+
+        // sort the request fields so they match the order in cq.json
+        Map<String, String> request = new TreeMap<>(entityCaptor.getValue().getEntity());
+
+        verifyRequest("cq.json", request);
     }
 
     @Test

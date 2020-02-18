@@ -59,13 +59,13 @@ public class BandwidthOnDemandOperationTest extends BasicSdncOperation {
         assertEquals(BandwidthOnDemandOperation.URI, request.getUrl());
         assertNotNull(request.getHealRequest().getRequestHeaderInfo().getSvcRequestId());
 
-        verifyRequest("bod.json", request);
+        verifyRequest("bod.json", request, IGNORE_FIELDS);
 
         verifyMissing(BandwidthOnDemandOperation.SERVICE_ID_KEY, "service", BandwidthOnDemandOperation::new);
 
         // perform the operation
         makeContext();
-        verifyRequest("bod.json", verifyOperation(oper));
+        verifyRequest("bod.json", verifyOperation(oper), IGNORE_FIELDS);
     }
 
     @Override

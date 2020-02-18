@@ -36,10 +36,7 @@ import java.util.function.BiFunction;
 import org.onap.policy.appc.Response;
 import org.onap.policy.appc.ResponseCode;
 import org.onap.policy.appc.ResponseStatus;
-import org.onap.policy.common.utils.coder.CoderException;
-import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
-import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.controlloop.actor.test.BasicBidirectionalTopicOperation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
@@ -53,6 +50,7 @@ import org.powermock.reflect.Whitebox;
  * Superclass for various operator tests.
  */
 public abstract class BasicAppcOperation extends BasicBidirectionalTopicOperation {
+    protected static final String[] IGNORE_FIELDS = {"RequestID", "subRequestID", "seconds", "nanos"};
     protected static final String MY_DESCRIPTION = "my-description";
     protected static final String MY_VNF = "my-vnf";
     protected static final String KEY1 = "my-key-A";
@@ -115,26 +113,6 @@ public abstract class BasicAppcOperation extends BasicBidirectionalTopicOperatio
         outcome = future2.get();
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
         assertEquals(MY_DESCRIPTION, outcome.getMessage());
-    }
-
-    /**
-     * Pretty-prints a request and verifies that the result matches the expected JSON.
-     *
-     * @param <T> request type
-     * @param expectedJsonFile name of the file containing the expected JSON
-     * @param request request to verify
-     * @throws CoderException if the request cannot be pretty-printed
-     */
-    protected <T> void verifyRequest(String expectedJsonFile, T request) throws CoderException {
-        String json = new StandardCoder().encode(request, true);
-        String expected = ResourceUtils.getResourceAsString(expectedJsonFile);
-
-        // strip request id, because it changes each time
-        final String stripper = "svc-request-id[^,]*";
-        json = json.replaceFirst(stripper, "").trim();
-        expected = expected.replaceFirst(stripper, "").trim();
-
-        assertEquals(expected, json);
     }
 
     /**

@@ -23,7 +23,6 @@ package org.onap.policy.controlloop.actor.test;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.eq;
@@ -81,30 +80,6 @@ public class BasicBidirectionalTopicOperationTest {
     }
 
     @Test
-    public void testMakeContext() {
-        oper.makeContext();
-
-        assertTrue(oper.enrichment.isEmpty());
-
-        assertSame(BasicBidirectionalTopicOperation.REQ_ID, oper.event.getRequestId());
-        assertSame(oper.enrichment, oper.event.getAai());
-
-        assertSame(oper.event, oper.context.getEvent());
-
-        assertSame(oper.context, oper.params.getContext());
-        assertSame(oper.service, oper.params.getActorService());
-        assertSame(oper.executor, oper.params.getExecutor());
-        assertEquals(ACTOR, oper.params.getActor());
-        assertEquals(OPERATION, oper.params.getOperation());
-        assertEquals(BasicBidirectionalTopicOperation.TARGET_ENTITY, oper.params.getTargetEntity());
-    }
-
-    @Test
-    public void testMakePayload() {
-        assertNull(oper.makePayload());
-    }
-
-    @Test
     public void testInitOperator() {
         oper.initOperator();
 
@@ -115,11 +90,6 @@ public class BasicBidirectionalTopicOperationTest {
         assertSame(oper.topicHandler, oper.operator.getTopicHandler());
         assertSame(oper.forwarder, oper.operator.getForwarder());
         assertSame(oper.topicParams, oper.operator.getParams());
-    }
-
-    @Test
-    public void testMakeEnrichment() {
-        assertTrue(oper.makeEnrichment().isEmpty());
     }
 
     @Test
