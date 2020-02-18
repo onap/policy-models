@@ -39,6 +39,7 @@ import org.junit.Test;
 import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.appc.Request;
+import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 
@@ -85,7 +86,7 @@ public class ModifyConfigOperationTest extends BasicAppcOperation {
     }
 
     @Test
-    public void testMakeRequest() {
+    public void testMakeRequest() throws CoderException {
         AaiCqResponse cq = new AaiCqResponse("{}");
 
         // missing vnf-id
@@ -101,5 +102,7 @@ public class ModifyConfigOperationTest extends BasicAppcOperation {
         Request request = oper.makeRequest(2);
         assertNotNull(request);
         assertEquals(MY_VNF, request.getPayload().get(ModifyConfigOperation.VNF_ID_KEY));
+
+        verifyRequest("modifyConfig.json", request, IGNORE_FIELDS);
     }
 }

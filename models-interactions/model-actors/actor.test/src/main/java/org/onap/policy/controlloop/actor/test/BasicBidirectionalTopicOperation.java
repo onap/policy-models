@@ -22,50 +22,30 @@ package org.onap.policy.controlloop.actor.test;
 
 import static org.mockito.Mockito.when;
 
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.UUID;
 import java.util.function.BiConsumer;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
-import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.common.utils.time.PseudoExecutor;
-import org.onap.policy.controlloop.VirtualControlLoopEvent;
-import org.onap.policy.controlloop.actorserviceprovider.ActorService;
-import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
-import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicOperator;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicParams;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.topic.BidirectionalTopicHandler;
 import org.onap.policy.controlloop.actorserviceprovider.topic.Forwarder;
 
 /**
  * Superclass for various BidirectionalTopicOperation tests.
  */
-public class BasicBidirectionalTopicOperation {
-    protected static final UUID REQ_ID = UUID.randomUUID();
-    protected static final String DEFAULT_ACTOR = "default-actor";
-    protected static final String DEFAULT_OPERATION = "default-operation";
+public class BasicBidirectionalTopicOperation extends BasicOperation {
     protected static final String MY_SINK = "my-sink";
     protected static final String MY_SOURCE = "my-source";
-    protected static final String TARGET_ENTITY = "my-target";
-    protected static final Coder coder = new StandardCoder();
     protected static final int TIMEOUT = 10;
-
-    protected final String actorName;
-    protected final String operationName;
 
     @Captor
     protected ArgumentCaptor<BiConsumer<String, StandardCoderObject>> listenerCaptor;
 
-    @Mock
-    protected ActorService service;
     @Mock
     protected BidirectionalTopicHandler topicHandler;
     @Mock
@@ -74,19 +54,12 @@ public class BasicBidirectionalTopicOperation {
     protected BidirectionalTopicOperator operator;
 
     protected BidirectionalTopicParams topicParams;
-    protected ControlLoopOperationParams params;
-    protected Map<String, String> enrichment;
-    protected VirtualControlLoopEvent event;
-    protected ControlLoopEventContext context;
-    protected OperationOutcome outcome;
-    protected PseudoExecutor executor;
 
     /**
      * Constructs the object using a default actor and operation name.
      */
     public BasicBidirectionalTopicOperation() {
-        this.actorName = DEFAULT_ACTOR;
-        this.operationName = DEFAULT_OPERATION;
+        super();
     }
 
     /**
@@ -96,8 +69,7 @@ public class BasicBidirectionalTopicOperation {
      * @param operation operation name
      */
     public BasicBidirectionalTopicOperation(String actor, String operation) {
-        this.actorName = actor;
-        this.operationName = operation;
+        super(actor, operation);
     }
 
     /**
@@ -118,30 +90,6 @@ public class BasicBidirectionalTopicOperation {
     }
 
     /**
-     * Reinitializes {@link #enrichment}, {@link #event}, {@link #context}, and
-     * {@link #params}.
-     * <p/>
-     * Note: {@link #params} is configured to use {@link #executor}.
-     */
-    protected void makeContext() {
-        enrichment = new TreeMap<>(makeEnrichment());
-
-        event = new VirtualControlLoopEvent();
-        event.setRequestId(REQ_ID);
-        event.setAai(enrichment);
-
-        context = new ControlLoopEventContext(event);
-
-        params = ControlLoopOperationParams.builder().executor(executor).context(context).actorService(service)
-                        .actor(actorName).operation(operationName).targetEntity(TARGET_ENTITY).payload(makePayload())
-                        .build();
-    }
-
-    protected Map<String, String> makePayload() {
-        return null;
-    }
-
-    /**
      * Initializes an operator so that it is "alive" and has the given names.
      */
     protected void initOperator() {
@@ -152,15 +100,6 @@ public class BasicBidirectionalTopicOperation {
         when(operator.getTopicHandler()).thenReturn(topicHandler);
         when(operator.getForwarder()).thenReturn(forwarder);
         when(operator.getParams()).thenReturn(topicParams);
-    }
-
-    /**
-     * Makes enrichment data.
-     *
-     * @return enrichment data
-     */
-    protected Map<String, String> makeEnrichment() {
-        return new TreeMap<>();
     }
 
     /**

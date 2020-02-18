@@ -59,14 +59,14 @@ public class RerouteOperationTest extends BasicSdncOperation {
         assertEquals(RerouteOperation.URI, request.getUrl());
         assertNotNull(request.getHealRequest().getRequestHeaderInfo().getSvcRequestId());
 
-        verifyRequest("reroute.json", request);
+        verifyRequest("reroute.json", request, IGNORE_FIELDS);
 
         verifyMissing(RerouteOperation.SERVICE_ID_KEY, "service", RerouteOperation::new);
         verifyMissing(RerouteOperation.NETWORK_ID_KEY, "network", RerouteOperation::new);
 
         // perform the operation
         makeContext();
-        verifyRequest("reroute.json", verifyOperation(oper));
+        verifyRequest("reroute.json", verifyOperation(oper), IGNORE_FIELDS);
     }
 
     @Override

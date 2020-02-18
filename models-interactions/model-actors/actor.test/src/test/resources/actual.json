@@ -1,0 +1,19 @@
+
+
+{
+  "input": {
+    "sdnc-request-header": {
+      "svc-request-id": "actual-value",
+      "svc-action": "update"
+    },
+    "request-information": {
+      "request-action": "SdwanBandwidthChange"
+    },
+    "service-information": {
+      "service-instance-id": "my-service"
+    },
+    "vnf-information": {
+      "vnf-id": "actual-value"
+    }
+  }
+}

@@ -22,21 +22,22 @@ package org.onap.policy.controlloop.actor.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
-import javax.ws.rs.client.InvocationCallback;
-import javax.ws.rs.core.Response;
+import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
+import org.onap.policy.common.utils.coder.CoderException;
+import org.onap.policy.common.utils.resources.ResourceUtils;
+import org.onap.policy.controlloop.actorserviceprovider.Util;
 
-public class BasicHttpOperationTest {
+public class BasicOperationTest {
     private static final String ACTOR = "my-actor";
     private static final String OPERATION = "my-operation";
 
-    private BasicHttpOperation<String> oper;
+    private BasicOperation oper;
 
 
     @Before
@@ -60,46 +61,40 @@ public class BasicHttpOperationTest {
 
     @Test
     public void testSetUp() throws Exception {
-        assertNotNull(oper.client);
-        assertSame(oper.client, oper.factory.get(BasicHttpOperation.MY_CLIENT));
-        assertEquals(200, oper.rawResponse.getStatus());
         assertNotNull(oper.future);
-        assertEquals(BasicHttpOperation.BASE_URI, oper.client.getBaseUrl());
         assertNotNull(oper.context);
         assertNotNull(oper.outcome);
         assertNotNull(oper.executor);
-        assertTrue(oper.operator.isAlive());
     }
 
     @Test
-    public void testInitOperator() throws Exception {
-        oper.initOperator();
+    public void testMakeContext() {
+        oper.makeContext();
 
-        assertTrue(oper.operator.isAlive());
-        assertEquals(ACTOR + "." + OPERATION, oper.operator.getFullName());
-        assertEquals(ACTOR, oper.operator.getActorName());
-        assertEquals(OPERATION, oper.operator.getName());
-        assertSame(oper.client, oper.operator.getClient());
-        assertEquals(BasicHttpOperation.PATH, oper.operator.getPath());
+        assertTrue(oper.enrichment.isEmpty());
+
+        assertSame(BasicHttpOperation.REQ_ID, oper.event.getRequestId());
+        assertSame(oper.enrichment, oper.event.getAai());
+
+        assertSame(oper.event, oper.context.getEvent());
+
+        assertSame(oper.context, oper.params.getContext());
+        assertSame(oper.service, oper.params.getActorService());
+        assertSame(oper.executor, oper.params.getExecutor());
+        assertEquals(ACTOR, oper.params.getActor());
+        assertEquals(OPERATION, oper.params.getOperation());
+        assertEquals(BasicHttpOperation.TARGET_ENTITY, oper.params.getTargetEntity());
     }
 
     @Test
-    public void testProvideResponse() throws Exception {
-        InvocationCallback<Response> cb = new InvocationCallback<>() {
-            @Override
-            public void completed(Response response) {
-                // do nothing
-            }
+    public void testMakeEnrichment_testMakePayload() {
+        assertTrue(oper.makeEnrichment().isEmpty());
+        assertNull(oper.makePayload());
+    }
 
-            @Override
-            public void failed(Throwable throwable) {
-                // do nothing
-            }
-        };
-
-
-        when(oper.client.get(any(), any(), any())).thenAnswer(oper.provideResponse(oper.rawResponse));
-
-        assertSame(oper.rawResponse, oper.client.get(cb, null, null).get());
+    @Test
+    public void testVerifyRequest() throws CoderException {
+        Map<String, Object> map = Util.translateToMap("", ResourceUtils.getResourceAsString("actual.json"));
+        oper.verifyRequest("expected.json", map, "svc-request-id", "vnf-id");
     }
 }
