@@ -30,7 +30,6 @@ import java.util.Map.Entry;
 import java.util.NavigableMap;
 import java.util.Set;
 import java.util.TreeMap;
-
 import javax.persistence.CascadeType;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -40,11 +39,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Table;
 import javax.ws.rs.core.Response;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 
 // @formatter:off
@@ -160,7 +157,8 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
             // Add the concept container entry to the singleton map
             @SuppressWarnings("unchecked")
             PfAuthorative<A> authoritiveImpl = (PfAuthorative<A>) conceptEntry.getValue();
-            toscaPolicyMap.put(conceptEntry.getKey().getName(), authoritiveImpl.toAuthorative());
+            toscaPolicyMap.put(conceptEntry.getKey().getName() + ":" + conceptEntry.getKey().getVersion(),
+                authoritiveImpl.toAuthorative());
 
             // Add the map to the returned list
             toscaPolicyMapList.add(toscaPolicyMap);
