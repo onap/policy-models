@@ -231,6 +231,14 @@ public class ToscaUtilsTest {
         assertEquals(2, ToscaUtils.getEntityTypeAncestors(dataTypes, dt2, result).size());
         assertTrue(result.isValid());
 
+        dt0.setDerivedFrom(dt0.getKey());
+        assertThatThrownBy(() -> {
+            ToscaUtils.getEntityTypeAncestors(dataTypes, dt0, new PfValidationResult());
+        }).hasMessageContaining("entity cannot be an ancestor of itself");
+
+        dt0.setDerivedFrom(null);
+        assertEquals(2, ToscaUtils.getEntityTypeAncestors(dataTypes, dt2, result).size());
+
         dt1.setDerivedFrom(new PfConceptKey("tosca.datatyps.Root", PfKey.NULL_KEY_VERSION));
         assertTrue(ToscaUtils.getEntityTypeAncestors(dataTypes, dt0, result).isEmpty());
         assertTrue(ToscaUtils.getEntityTypeAncestors(dataTypes, dt1, result).isEmpty());

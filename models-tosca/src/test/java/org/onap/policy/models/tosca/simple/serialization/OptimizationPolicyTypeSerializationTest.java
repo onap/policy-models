@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,11 +21,11 @@ package org.onap.policy.models.tosca.simple.serialization;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 import java.util.Map;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.common.utils.coder.CoderException;
@@ -115,8 +116,8 @@ public class OptimizationPolicyTypeSerializationTest {
         return coder.encode(auth);
     }
 
-    private void validate(String testnm, JpaToscaServiceTemplate svctmpl, String derivedFrom,
-            String typeName, boolean checkResource, boolean checkService) {
+    private void validate(String testnm, JpaToscaServiceTemplate svctmpl, String derivedFrom, String typeName,
+            boolean checkResource, boolean checkService) {
         JpaToscaPolicyTypes policyTypes = svctmpl.getPolicyTypes();
 
         assertEquals(testnm + " type count", 1, policyTypes.getConceptMap().size());
@@ -194,7 +195,7 @@ public class OptimizationPolicyTypeSerializationTest {
         String testnm = testName + " identity";
 
         assertNotNull(testnm, prop);
-        assertNull(testnm + " metadata", prop.getMetadata());
+        assertEquals(testnm + " metadata", 0, prop.getMetadata().size());
     }
 
     private void validateMatchable(String testName, Map<String, String> metadata) {

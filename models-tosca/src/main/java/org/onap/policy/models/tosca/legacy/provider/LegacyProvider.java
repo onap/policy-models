@@ -53,7 +53,7 @@ import org.slf4j.LoggerFactory;
 public class LegacyProvider {
     private static final Logger LOGGER = LoggerFactory.getLogger(LegacyProvider.class);
 
-    private static final String LEGACY_MINOR_PATCH_SUFFIX = ".0.0";
+    public static final String LEGACY_MINOR_PATCH_SUFFIX = ".0.0";
 
     // Recurring constants
     private static final String NO_POLICY_FOUND_FOR_POLICY = "no policy found for policy: ";

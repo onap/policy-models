@@ -37,8 +37,10 @@ import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.dao.PfDao;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaEntity;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaDataType;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaDataTypes;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaEntityType;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicies;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicy;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyType;
@@ -58,8 +60,11 @@ public class SimpleToscaProvider {
     private static final Logger LOGGER = LoggerFactory.getLogger(SimpleToscaProvider.class);
 
     // Recurring string constants
+    private static final String DATA_TYPE = "data type ";
+    private static final String POLICY_TYPE = "policy type ";
     private static final String SERVICE_TEMPLATE_NOT_FOUND_IN_DATABASE = "service template not found in database";
     private static final String DO_NOT_EXIST = " do not exist";
+    private static final String NOT_FOUND = " not found";
 
     /**
      * Get Service Template.
@@ -226,7 +231,32 @@ public class SimpleToscaProvider {
             throws PfModelException {
         LOGGER.debug("->deleteDataType: key={}", dataTypeKey);
 
-        JpaToscaServiceTemplate serviceTemplate = getDataTypes(dao, dataTypeKey.getName(), dataTypeKey.getVersion());
+        JpaToscaServiceTemplate serviceTemplate = getServiceTemplate(dao);
+
+        if (!ToscaUtils.doDataTypesExist(serviceTemplate)) {
+            throw new PfModelRuntimeException(Response.Status.NOT_FOUND, "no data types found");
+        }
+
+        JpaToscaDataType dataType4Deletion = serviceTemplate.getDataTypes().get(dataTypeKey);
+        if (dataType4Deletion == null) {
+            throw new PfModelRuntimeException(Response.Status.NOT_FOUND, DATA_TYPE + dataTypeKey.getId() + NOT_FOUND);
+        }
+
+        for (JpaToscaDataType dataType : serviceTemplate.getDataTypes().getAll(null)) {
+            if (dataType.getReferencedDataTypes().contains(dataTypeKey)) {
+                throw new PfModelRuntimeException(Response.Status.NOT_ACCEPTABLE, DATA_TYPE + dataTypeKey.getId()
+                        + " is in use, it is referenced in data type " + dataType.getId());
+            }
+        }
+
+        if (ToscaUtils.doPolicyTypesExist(serviceTemplate)) {
+            for (JpaToscaPolicyType policyType : serviceTemplate.getPolicyTypes().getAll(null)) {
+                if (policyType.getReferencedDataTypes().contains(dataTypeKey)) {
+                    throw new PfModelRuntimeException(Response.Status.NOT_ACCEPTABLE, DATA_TYPE + dataTypeKey.getId()
+                            + " is in use, it is referenced in policy type " + policyType.getId());
+                }
+            }
+        }
 
         dao.delete(JpaToscaDataType.class, dataTypeKey);
 
@@ -355,8 +385,37 @@ public class SimpleToscaProvider {
             throws PfModelException {
         LOGGER.debug("->deletePolicyType: key={}", policyTypeKey);
 
-        JpaToscaServiceTemplate serviceTemplate =
-                getPolicyTypes(dao, policyTypeKey.getName(), policyTypeKey.getVersion());
+        JpaToscaServiceTemplate serviceTemplate = getServiceTemplate(dao);
+
+        if (!ToscaUtils.doPolicyTypesExist(serviceTemplate)) {
+            throw new PfModelRuntimeException(Response.Status.NOT_FOUND, "no policy types found");
+        }
+
+        JpaToscaEntityType<? extends ToscaEntity> policyType4Deletion =
+                serviceTemplate.getPolicyTypes().get(policyTypeKey);
+        if (policyType4Deletion == null) {
+            throw new PfModelRuntimeException(Response.Status.NOT_FOUND,
+                    POLICY_TYPE + policyTypeKey.getId() + NOT_FOUND);
+        }
+
+        for (JpaToscaPolicyType policyType : serviceTemplate.getPolicyTypes().getAll(null)) {
+            Collection<JpaToscaEntityType<ToscaEntity>> ancestorList = ToscaUtils
+                    .getEntityTypeAncestors(serviceTemplate.getPolicyTypes(), policyType, new PfValidationResult());
+
+            if (ancestorList.contains(policyType4Deletion)) {
+                throw new PfModelRuntimeException(Response.Status.NOT_ACCEPTABLE, POLICY_TYPE + policyTypeKey.getId()
+                        + " is in use, it is referenced in policy type " + policyType.getId());
+            }
+        }
+
+        if (ToscaUtils.doPoliciesExist(serviceTemplate)) {
+            for (JpaToscaPolicy policy : serviceTemplate.getTopologyTemplate().getPolicies().getAll(null)) {
+                if (policyTypeKey.equals(policy.getType())) {
+                    throw new PfModelRuntimeException(Response.Status.NOT_ACCEPTABLE, POLICY_TYPE
+                            + policyTypeKey.getId() + " is in use, it is referenced in policy " + policy.getId());
+                }
+            }
+        }
 
         dao.delete(JpaToscaPolicyType.class, policyTypeKey);
 
@@ -476,7 +535,16 @@ public class SimpleToscaProvider {
             throws PfModelException {
         LOGGER.debug("->deletePolicy: key={}", policyKey);
 
-        JpaToscaServiceTemplate serviceTemplate = getPolicies(dao, policyKey.getName(), policyKey.getVersion());
+        JpaToscaServiceTemplate serviceTemplate = getServiceTemplate(dao);
+
+        if (!ToscaUtils.doPoliciesExist(serviceTemplate)) {
+            throw new PfModelRuntimeException(Response.Status.NOT_FOUND, "no policies found");
+        }
+
+        JpaToscaPolicy policy4Deletion = serviceTemplate.getTopologyTemplate().getPolicies().get(policyKey);
+        if (policy4Deletion == null) {
+            throw new PfModelRuntimeException(Response.Status.NOT_FOUND, "policy " + policyKey.getId() + NOT_FOUND);
+        }
 
         dao.delete(JpaToscaPolicy.class, policyKey);
 
@@ -507,7 +575,7 @@ public class SimpleToscaProvider {
 
         if (policyType == null) {
             String errorMessage =
-                    "policy type " + policyTypeKey.getId() + " for policy " + policy.getId() + " does not exist";
+                    POLICY_TYPE + policyTypeKey.getId() + " for policy " + policy.getId() + " does not exist";
             throw new PfModelRuntimeException(Response.Status.NOT_ACCEPTABLE, errorMessage);
         }
     }

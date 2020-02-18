@@ -32,7 +32,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 
-import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfTimestampKey;
@@ -92,7 +91,6 @@ public class DummyTimestampEntity extends PfConcept {
     public void clean() {
         key.clean();
     }
-
 
     @Override
     public int compareTo(@NonNull final PfConcept otherObj) {

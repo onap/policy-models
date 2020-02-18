@@ -211,7 +211,7 @@ public final class ToscaUtils {
     }
 
     /**
-     * Find all the ancestors of an entity type.
+     * getLatestPolicyTypeVersion Find all the ancestors of an entity type.
      *
      * @param entityTypes the set of entity types that exist
      * @param entityType the entity type for which to get the parents
@@ -225,6 +225,12 @@ public final class ToscaUtils {
         PfConceptKey parentEntityTypeKey = entityType.getDerivedFrom();
         if (parentEntityTypeKey == null || parentEntityTypeKey.getName().endsWith(ROOT_KEY_NAME_SUFFIX)) {
             return CollectionUtils.emptyCollection();
+        }
+
+        if (entityType.getKey().equals(parentEntityTypeKey)) {
+            result.addValidationMessage(new PfValidationMessage(entityType.getKey(), ToscaUtils.class,
+                    ValidationResult.INVALID, "entity cannot be an ancestor of itself"));
+            throw new PfModelRuntimeException(Response.Status.CONFLICT, result.toString());
         }
 
         @SuppressWarnings("unchecked")

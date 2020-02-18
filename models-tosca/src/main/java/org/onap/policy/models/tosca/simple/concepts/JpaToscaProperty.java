@@ -3,7 +3,7 @@
  * ONAP Policy Model
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.EmbeddedId;
@@ -35,9 +36,11 @@ import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
+
 import org.apache.commons.lang3.ObjectUtils;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
@@ -85,13 +88,13 @@ public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaPr
     private Status status = Status.SUPPORTED;
 
     @ElementCollection
-    private List<JpaToscaConstraint> constraints;
+    private List<JpaToscaConstraint> constraints = new ArrayList<>();
 
     @Column
     private JpaToscaEntrySchema entrySchema;
 
     @ElementCollection
-    private Map<String, String> metadata;
+    private Map<String, String> metadata = new LinkedHashMap<>();
 
     /**
      * The Default Constructor creates a {@link JpaToscaProperty} object with a null key.

@@ -29,6 +29,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Date;
+
 import org.junit.Test;
 import org.onap.policy.models.base.PfTimestampKey;
 import org.onap.policy.models.base.PfValidationResult;
@@ -43,11 +44,9 @@ public class JpaPdpStatisticsTest {
     public void testConstructor() {
         assertThatThrownBy(() -> new JpaPdpStatistics((PfTimestampKey) null)).hasMessageContaining("key");
 
-        assertThatThrownBy(() -> new JpaPdpStatistics((JpaPdpStatistics) null))
-            .hasMessageContaining("copyConcept");
+        assertThatThrownBy(() -> new JpaPdpStatistics((JpaPdpStatistics) null)).hasMessageContaining("copyConcept");
 
-        assertThatThrownBy(() -> new JpaPdpStatistics((PdpStatistics) null))
-            .hasMessageContaining("authorativeConcept");
+        assertThatThrownBy(() -> new JpaPdpStatistics((PdpStatistics) null)).hasMessageContaining("authorativeConcept");
 
         assertNotNull(new JpaPdpStatistics());
         assertNotNull(new JpaPdpStatistics(new PfTimestampKey()));

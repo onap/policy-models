@@ -50,7 +50,13 @@ public class LegacyGuardPolicyMapperTest {
         JpaToscaPolicy policy = new JpaToscaPolicy(new PfConceptKey("PolicyName", "2.0.0"));
         serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().put(policy.getKey(), policy);
 
+        policy.setMetadata(null);
+        assertThatThrownBy(() -> {
+            new LegacyGuardPolicyMapper().fromToscaServiceTemplate(serviceTemplate);
+        }).hasMessageContaining("no metadata defined on TOSCA policy");
+
         policy.setMetadata(new LinkedHashMap<>());
+        policy.setProperties(null);
         assertThatThrownBy(() -> {
             new LegacyGuardPolicyMapper().fromToscaServiceTemplate(serviceTemplate);
         }).hasMessageContaining("no properties defined on TOSCA policy");

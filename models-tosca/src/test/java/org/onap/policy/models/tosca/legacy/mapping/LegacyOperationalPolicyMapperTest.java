@@ -106,6 +106,7 @@ public class LegacyOperationalPolicyMapperTest {
 
         serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().remove(policy1.getKey());
 
+        policy0.setProperties(null);
         assertThatThrownBy(() -> {
             new LegacyOperationalPolicyMapper().fromToscaServiceTemplate(serviceTemplate);
         }).hasMessage("no properties defined on TOSCA policy");
