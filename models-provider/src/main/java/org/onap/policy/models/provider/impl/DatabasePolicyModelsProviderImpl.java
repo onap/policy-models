@@ -49,8 +49,10 @@ import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifier;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifier;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.authorative.provider.AuthorativeToscaProvider;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyInput;
@@ -182,6 +184,10 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
     public ToscaServiceTemplate deletePolicyType(@NonNull final String name, @NonNull final String version)
             throws PfModelException {
         assertInitialized();
+
+        ToscaPolicyTypeIdentifier policyTypeIdentifier = new ToscaPolicyTypeIdentifier(name, version);
+        assertPolicyTypeNotSupportedInPdpGroup(policyTypeIdentifier);
+
         return new AuthorativeToscaProvider().deletePolicyType(pfDao, name, version);
     }
 
@@ -227,6 +233,10 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
     public ToscaServiceTemplate deletePolicy(@NonNull final String name, @NonNull final String version)
             throws PfModelException {
         assertInitialized();
+
+        ToscaPolicyIdentifier policyIdentifier = new ToscaPolicyIdentifier(name, version);
+        assertPolicyNotDeployedInPdpGroup(policyIdentifier);
+
         return new AuthorativeToscaProvider().deletePolicy(pfDao, name, version);
     }
 
@@ -255,6 +265,10 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
     public LegacyOperationalPolicy deleteOperationalPolicy(@NonNull final String policyId,
             @NonNull final String policyVersion) throws PfModelException {
         assertInitialized();
+
+        assertPolicyNotDeployedInPdpGroup(
+                new ToscaPolicyIdentifier(policyId, policyVersion + LegacyProvider.LEGACY_MINOR_PATCH_SUFFIX));
+
         return new LegacyProvider().deleteOperationalPolicy(pfDao, policyId, policyVersion);
     }
 
@@ -283,6 +297,10 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
     public Map<String, LegacyGuardPolicyOutput> deleteGuardPolicy(@NonNull final String policyId,
             @NonNull final String policyVersion) throws PfModelException {
         assertInitialized();
+
+        assertPolicyNotDeployedInPdpGroup(
+                new ToscaPolicyIdentifier(policyId, policyVersion + LegacyProvider.LEGACY_MINOR_PATCH_SUFFIX));
+
         return new LegacyProvider().deleteGuardPolicy(pfDao, policyId, policyVersion);
     }
 
@@ -373,6 +391,44 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
             String errorMessage = "policy models provider is not initilaized";
             LOGGER.warn(errorMessage);
             throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
+        }
+    }
+
+    /**
+     * Assert that the policy type is not supported in any PDP group.
+     *
+     * @param policyTypeIdentifier the policy type identifier
+     * @throws PfModelException if the policy type is supported in a PDP group
+     */
+    private void assertPolicyTypeNotSupportedInPdpGroup(ToscaPolicyTypeIdentifier policyTypeIdentifier)
+            throws PfModelException {
+        for (PdpGroup pdpGroup : getPdpGroups(null)) {
+            for (PdpSubGroup pdpSubGroup : pdpGroup.getPdpSubgroups()) {
+                if (pdpSubGroup.getSupportedPolicyTypes().contains(policyTypeIdentifier)) {
+                    throw new PfModelRuntimeException(Response.Status.NOT_ACCEPTABLE,
+                            "policy type is in use, it is referenced in PDP group " + pdpGroup.getName() + " subgroup "
+                                    + pdpSubGroup.getPdpType());
+                }
+            }
+        }
+    }
+
+    /**
+     * Assert that the policy is not deployed in a PDP group.
+     *
+     * @param policyIdentifier the identifier of the policy
+     * @throws PfModelException thrown if the policy is deployed in a PDP group
+     */
+    private void assertPolicyNotDeployedInPdpGroup(final ToscaPolicyIdentifier policyIdentifier)
+            throws PfModelException {
+        for (PdpGroup pdpGroup : getPdpGroups(null)) {
+            for (PdpSubGroup pdpSubGroup : pdpGroup.getPdpSubgroups()) {
+                if (pdpSubGroup.getPolicies().contains(policyIdentifier)) {
+                    throw new PfModelRuntimeException(Response.Status.NOT_ACCEPTABLE,
+                            "policy is in use, it is deployed in PDP group " + pdpGroup.getName() + " subgroup "
+                                    + pdpSubGroup.getPdpType());
+                }
+            }
         }
     }
 }

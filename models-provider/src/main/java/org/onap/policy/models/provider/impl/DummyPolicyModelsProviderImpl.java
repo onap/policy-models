@@ -258,7 +258,7 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
     @Override
     public List<PdpStatistics> deletePdpStatistics(final String name, final Date timestamp) {
         // Not implemented
-        return null;
+        return new ArrayList<>();
     }
 
     /**

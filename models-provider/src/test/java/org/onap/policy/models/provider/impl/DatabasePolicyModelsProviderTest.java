@@ -45,6 +45,7 @@ import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderFactory;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifier;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifier;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
@@ -533,6 +534,81 @@ public class DatabasePolicyModelsProviderTest {
 
         assertEquals(NAME, databaseProvider.deletePdpStatistics(NAME, null).get(0).getPdpInstanceId());
         assertEquals(0, databaseProvider.getPdpStatistics(null, null).size());
+
+        databaseProvider.close();
+    }
+
+    @Test
+    public void testDeletePolicyDeployedInSubgroup() throws PfModelException {
+        List<ToscaPolicyIdentifier> policies = new ArrayList<>();
+
+        policies.add(new ToscaPolicyIdentifier("p0", "0.0.1"));
+        policies.add(new ToscaPolicyIdentifier("p1", "0.0.1"));
+
+        List<ToscaPolicyTypeIdentifier> supportedPolicyTypes = new ArrayList<>();
+        supportedPolicyTypes.add(new ToscaPolicyTypeIdentifier("pt2", "0.0.1"));
+
+        PdpSubGroup subGroup = new PdpSubGroup();
+        subGroup.setPdpType("pdpType");
+        subGroup.setSupportedPolicyTypes(supportedPolicyTypes);
+        subGroup.setPolicies(policies);
+
+        List<PdpSubGroup> pdpSubgroups = new ArrayList<>();
+        pdpSubgroups.add(subGroup);
+
+        PdpGroup pdpGroup = new PdpGroup();
+        pdpGroup.setName("pdpGroup");
+        pdpGroup.setPdpGroupState(PdpState.PASSIVE);
+        pdpGroup.setPdpSubgroups(pdpSubgroups);
+
+        List<PdpGroup> pdpGroups = new ArrayList<>();
+        pdpGroups.add(pdpGroup);
+
+        PolicyModelsProvider databaseProvider =
+                new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
+
+        databaseProvider.createPdpGroups(pdpGroups);
+
+        assertThatThrownBy(() -> databaseProvider.deletePolicy("p0", "0.0.1"))
+                .hasMessageContaining("policy is in use, it is deployed in PDP group pdpGroup subgroup pdpType");
+
+        assertThatThrownBy(() -> databaseProvider.deletePolicy("p3", "0.0.1"))
+                .hasMessageContaining("service template not found in database");
+
+        databaseProvider.close();
+    }
+
+    @Test
+    public void testDeletePolicyTypeSupportedInSubgroup() throws PfModelException {
+        List<ToscaPolicyTypeIdentifier> supportedPolicyTypes = new ArrayList<>();
+        supportedPolicyTypes.add(new ToscaPolicyTypeIdentifier("pt1", "0.0.1"));
+        supportedPolicyTypes.add(new ToscaPolicyTypeIdentifier("pt2", "0.0.1"));
+
+        PdpSubGroup subGroup = new PdpSubGroup();
+        subGroup.setPdpType("pdpType");
+        subGroup.setSupportedPolicyTypes(supportedPolicyTypes);
+
+        List<PdpSubGroup> pdpSubgroups = new ArrayList<>();
+        pdpSubgroups.add(subGroup);
+
+        PdpGroup pdpGroup = new PdpGroup();
+        pdpGroup.setName("pdpGroup");
+        pdpGroup.setPdpGroupState(PdpState.PASSIVE);
+        pdpGroup.setPdpSubgroups(pdpSubgroups);
+
+        List<PdpGroup> pdpGroups = new ArrayList<>();
+        pdpGroups.add(pdpGroup);
+
+        PolicyModelsProvider databaseProvider =
+                new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
+
+        databaseProvider.createPdpGroups(pdpGroups);
+
+        assertThatThrownBy(() -> databaseProvider.deletePolicyType("pt2", "0.0.1"))
+                .hasMessageContaining("policy type is in use, it is referenced in PDP group pdpGroup subgroup pdpType");
+
+        assertThatThrownBy(() -> databaseProvider.deletePolicyType("pt0", "0.0.1"))
+                .hasMessageContaining("service template not found in database");
 
         databaseProvider.close();
     }

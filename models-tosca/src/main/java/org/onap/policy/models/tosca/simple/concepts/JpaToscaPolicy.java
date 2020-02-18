@@ -88,7 +88,7 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
 
     @ElementCollection
     @Lob
-    private Map<String, String> properties;
+    private Map<String, String> properties = new LinkedHashMap<>();
 
     @ElementCollection
     private List<PfConceptKey> targets = new ArrayList<>();

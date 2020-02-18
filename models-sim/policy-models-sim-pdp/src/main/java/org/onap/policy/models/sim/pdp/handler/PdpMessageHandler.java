@@ -32,10 +32,8 @@ import org.onap.policy.models.pdp.enums.PdpResponseStatus;
 import org.onap.policy.models.pdp.enums.PdpState;
 import org.onap.policy.models.sim.pdp.PdpSimulatorConstants;
 import org.onap.policy.models.sim.pdp.parameters.PdpStatusParameters;
-import org.onap.policy.models.sim.pdp.parameters.ToscaPolicyTypeIdentifierParameters;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifier;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifier;
 
 /**
  * This class supports the handling of pdp messages.
@@ -61,24 +59,6 @@ public class PdpMessageHandler {
         pdpStatus.setDescription(pdpStatusParameters.getDescription());
         pdpStatus.setName(instanceId);
         return pdpStatus;
-    }
-
-    /**
-     * Method to get supported policy types from the parameters.
-     *
-     * @param pdpStatusParameters pdp status parameters
-     * @return supportedPolicyTypes list of PolicyTypeIdent
-     */
-    private List<ToscaPolicyTypeIdentifier> getSupportedPolicyTypesFromParameters(
-            final PdpStatusParameters pdpStatusParameters) {
-        final List<ToscaPolicyTypeIdentifier> supportedPolicyTypes =
-                new ArrayList<>(pdpStatusParameters.getSupportedPolicyTypes().size());
-        for (final ToscaPolicyTypeIdentifierParameters policyTypeIdentParameters : pdpStatusParameters
-                .getSupportedPolicyTypes()) {
-            supportedPolicyTypes.add(new ToscaPolicyTypeIdentifier(policyTypeIdentParameters.getName(),
-                    policyTypeIdentParameters.getVersion()));
-        }
-        return supportedPolicyTypes;
     }
 
     /**

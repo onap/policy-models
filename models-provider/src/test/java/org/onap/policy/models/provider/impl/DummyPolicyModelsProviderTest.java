@@ -28,6 +28,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.junit.Test;
 import org.onap.policy.models.pdp.concepts.Pdp;
@@ -117,6 +118,12 @@ public class DummyPolicyModelsProviderTest {
         dummyProvider.updatePdp("name", "type", new Pdp());
         dummyProvider.updatePdpStatistics(new ArrayList<>());
         assertTrue(dummyProvider.getPdpStatistics("name", null).isEmpty());
+
+        assertTrue(
+                dummyProvider.getFilteredPdpStatistics("name", null, null, new Date(), new Date(), null, 0).isEmpty());
+        assertTrue(dummyProvider.createPdpStatistics(null).isEmpty());
+        assertTrue(dummyProvider.updatePdpStatistics(null).isEmpty());
+        assertTrue(dummyProvider.deletePdpStatistics(null, new Date()).isEmpty());
     }
 
     @Test
