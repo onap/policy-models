@@ -1,0 +1,10 @@
+{
+  "action": "some action",
+  "hello": "world",
+  "r u there?": "yes",
+  "requestId": "abcdefghi",
+  "resource": {
+    "abc": "def",
+    "ghi": "jkl"
+  }
+}
