@@ -38,6 +38,7 @@
     <module>actorServiceProvider</module>
     <module>actor.test</module>
     <module>actor.aai</module>
+    <module>actor.guard</module>
     <module>actor.appc</module>
     <module>actor.vfc</module>
     <module>actor.sdnc</module>
