@@ -23,15 +23,15 @@ package org.onap.policy.models.tosca.authorative.provider;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import lombok.NonNull;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
@@ -44,6 +44,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.provider.SimpleToscaProvider;
+import org.onap.policy.models.tosca.utils.ToscaServiceTemplateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -116,17 +117,33 @@ public class AuthorativeToscaProvider {
             @NonNull final ToscaPolicyTypeFilter filter) throws PfModelException {
 
         LOGGER.debug("->getFilteredPolicyTypes: filter={}", filter);
+        SimpleToscaProvider simpleToscaProvider = new SimpleToscaProvider();
 
-        ToscaServiceTemplate serviceTemplate =
-                new SimpleToscaProvider().getPolicyTypes(dao, null, null).toAuthorative();
+        final JpaToscaServiceTemplate dbServiceTemplate = simpleToscaProvider.getPolicyTypes(dao, null, null);
 
-        List<ToscaPolicyType> filteredPolicyTypes = new ArrayList<>(serviceTemplate.getPolicyTypes().values());
+        List<ToscaPolicyType> filteredPolicyTypes =
+                new ArrayList<>(dbServiceTemplate.toAuthorative().getPolicyTypes().values());
         filteredPolicyTypes = filter.filter(filteredPolicyTypes);
 
-        serviceTemplate.setPolicyTypes(asConceptMap(filteredPolicyTypes));
+        if (CollectionUtils.isEmpty(filteredPolicyTypes)) {
+            throw new PfModelRuntimeException(Response.Status.NOT_FOUND,
+                    "policy types for filter " + filter.toString() + " do not exist");
+        }
 
-        LOGGER.debug("<-getFilteredPolicyTypes: filter={}, serviceTemplate={}", filter, serviceTemplate);
-        return serviceTemplate;
+        JpaToscaServiceTemplate filteredServiceTemplate = new JpaToscaServiceTemplate();
+
+        for (ToscaPolicyType policyType : filteredPolicyTypes) {
+            JpaToscaServiceTemplate cascadedServiceTemplate = simpleToscaProvider
+                    .getCascadedPolicyTypes(dbServiceTemplate, policyType.getName(), policyType.getVersion());
+
+            filteredServiceTemplate =
+                    ToscaServiceTemplateUtils.addFragment(filteredServiceTemplate, cascadedServiceTemplate);
+        }
+
+        ToscaServiceTemplate returnServiceTemplate = filteredServiceTemplate.toAuthorative();
+
+        LOGGER.debug("<-getFilteredPolicyTypes: filter={}, serviceTemplate={}", filter, returnServiceTemplate);
+        return returnServiceTemplate;
     }
 
     /**
@@ -272,16 +289,33 @@ public class AuthorativeToscaProvider {
         LOGGER.debug("->getFilteredPolicies: filter={}", filter);
         String version = ToscaPolicyFilter.LATEST_VERSION.equals(filter.getVersion()) ? null : filter.getVersion();
 
-        ToscaServiceTemplate serviceTemplate =
-                new SimpleToscaProvider().getPolicies(dao, filter.getName(), version).toAuthorative();
+        SimpleToscaProvider simpleToscaProvider = new SimpleToscaProvider();
+        final JpaToscaServiceTemplate dbServiceTemplate =
+                simpleToscaProvider.getPolicies(dao, filter.getName(), version);
 
-        List<ToscaPolicy> filteredPolicies = asConceptList(serviceTemplate.getToscaTopologyTemplate().getPolicies());
+        List<ToscaPolicy> filteredPolicies =
+                asConceptList(dbServiceTemplate.toAuthorative().getToscaTopologyTemplate().getPolicies());
         filteredPolicies = filter.filter(filteredPolicies);
 
-        serviceTemplate.getToscaTopologyTemplate().setPolicies(asConceptMapList(filteredPolicies));
+        if (CollectionUtils.isEmpty(filteredPolicies)) {
+            throw new PfModelRuntimeException(Response.Status.NOT_FOUND,
+                    "policies for filter " + filter.toString() + " do not exist");
+        }
 
-        LOGGER.debug("<-getFilteredPolicies: filter={}, serviceTemplate={}", filter, serviceTemplate);
-        return serviceTemplate;
+        JpaToscaServiceTemplate filteredServiceTemplate = new JpaToscaServiceTemplate();
+
+        for (ToscaPolicy policy : filteredPolicies) {
+            JpaToscaServiceTemplate cascadedServiceTemplate =
+                    simpleToscaProvider.getCascadedPolicies(dbServiceTemplate, policy.getName(), policy.getVersion());
+
+            filteredServiceTemplate =
+                    ToscaServiceTemplateUtils.addFragment(filteredServiceTemplate, cascadedServiceTemplate);
+        }
+
+        ToscaServiceTemplate returnServiceTemplate = filteredServiceTemplate.toAuthorative();
+
+        LOGGER.debug("<-getFilteredPolicies: filter={}, serviceTemplate={}", filter, returnServiceTemplate);
+        return returnServiceTemplate;
     }
 
     /**
@@ -381,38 +415,6 @@ public class AuthorativeToscaProvider {
         }
 
         return returnList;
-    }
-
-    /**
-     * Return the contents of a list of concepts as a list of maps of concepts.
-     *
-     * @param conceptList the concept list
-     * @return the list of concept map
-     */
-    private <T extends ToscaEntity> List<Map<String, T>> asConceptMapList(List<T> conceptList) {
-        List<Map<String, T>> toscaEntityMapList = new ArrayList<>();
-        for (T concept : conceptList) {
-            Map<String, T> conceptMap = new TreeMap<>();
-            conceptMap.put(concept.getName(), concept);
-            toscaEntityMapList.add(conceptMap);
-        }
-
-        return toscaEntityMapList;
-    }
-
-    /**
-     * Return the contents of a list of concepts as map of concepts.
-     *
-     * @param conceptList the concept list
-     * @return the list of concept map
-     */
-    private <T extends ToscaEntity> Map<String, T> asConceptMap(List<T> conceptList) {
-        Map<String, T> conceptMap = new LinkedHashMap<>();
-        for (T concept : conceptList) {
-            conceptMap.put(concept.getName(), concept);
-        }
-
-        return conceptMap;
     }
 
     /**

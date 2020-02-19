@@ -44,6 +44,7 @@ import org.onap.policy.models.provider.PolicyModelsProviderFactory;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -108,6 +109,34 @@ public class PolicyToscaPersistenceTest {
     }
 
     @Test
+    public void testHpaPolicyTypeGet() throws PfModelException {
+        long getStartTime = System.currentTimeMillis();
+        ToscaServiceTemplate hpaServiceTemplate =
+                databaseProvider.getPolicyTypes("onap.policies.optimization.resource.HpaPolicy", "1.0.0");
+        LOGGER.trace("HPA policy normal get time (ms): {}", System.currentTimeMillis() - getStartTime);
+
+        assertEquals(3, hpaServiceTemplate.getPolicyTypesAsMap().size());
+        assertEquals(5, hpaServiceTemplate.getDataTypesAsMap().size());
+
+        getStartTime = System.currentTimeMillis();
+        ToscaPolicyTypeFilter hpaFilter = ToscaPolicyTypeFilter.builder()
+                .name("onap.policies.optimization.resource.HpaPolicy").version("1.0.0").build();
+        hpaServiceTemplate = databaseProvider.getFilteredPolicyTypes(hpaFilter);
+        LOGGER.trace("HPA policy filter name version get time (ms): {}", System.currentTimeMillis() - getStartTime);
+
+        assertEquals(3, hpaServiceTemplate.getPolicyTypesAsMap().size());
+        assertEquals(5, hpaServiceTemplate.getDataTypesAsMap().size());
+
+        getStartTime = System.currentTimeMillis();
+        hpaFilter = ToscaPolicyTypeFilter.builder().name("onap.policies.optimization.resource.HpaPolicy").build();
+        hpaServiceTemplate = databaseProvider.getFilteredPolicyTypes(hpaFilter);
+        LOGGER.trace("HPA policy filter name only get time (ms): {}", System.currentTimeMillis() - getStartTime);
+
+        assertEquals(3, hpaServiceTemplate.getPolicyTypesAsMap().size());
+        assertEquals(5, hpaServiceTemplate.getDataTypesAsMap().size());
+    }
+
+    @Test
     public void testNamingPolicyGet() throws PfModelException {
         String policyYamlString = ResourceUtils.getResourceAsString("policies/sdnc.policy.naming.input.tosca.yaml");
         ToscaServiceTemplate serviceTemplate =
@@ -120,7 +149,26 @@ public class PolicyToscaPersistenceTest {
         long getStartTime = System.currentTimeMillis();
         ToscaServiceTemplate namingServiceTemplate =
                 databaseProvider.getPolicies("SDNC_Policy.ONAP_VNF_NAMING_TIMESTAMP", "1.0.0");
-        LOGGER.trace("Naming policy get time (ms): {}", System.currentTimeMillis() - getStartTime);
+        LOGGER.trace("Naming policy normal get time (ms): {}", System.currentTimeMillis() - getStartTime);
+
+        assertEquals(1, namingServiceTemplate.getToscaTopologyTemplate().getPoliciesAsMap().size());
+        assertEquals(1, namingServiceTemplate.getPolicyTypesAsMap().size());
+        assertEquals(3, namingServiceTemplate.getDataTypesAsMap().size());
+
+        getStartTime = System.currentTimeMillis();
+        ToscaPolicyFilter filter =
+                ToscaPolicyFilter.builder().name("SDNC_Policy.ONAP_VNF_NAMING_TIMESTAMP").version("1.0.0").build();
+        namingServiceTemplate = databaseProvider.getFilteredPolicies(filter);
+        LOGGER.trace("Naming policy filtered get time (ms): {}", System.currentTimeMillis() - getStartTime);
+
+        assertEquals(1, namingServiceTemplate.getToscaTopologyTemplate().getPoliciesAsMap().size());
+        assertEquals(1, namingServiceTemplate.getPolicyTypesAsMap().size());
+        assertEquals(3, namingServiceTemplate.getDataTypesAsMap().size());
+
+        getStartTime = System.currentTimeMillis();
+        filter = ToscaPolicyFilter.builder().name("SDNC_Policy.ONAP_VNF_NAMING_TIMESTAMP").build();
+        namingServiceTemplate = databaseProvider.getFilteredPolicies(filter);
+        LOGGER.trace("Naming policy filtered name only get time (ms): {}", System.currentTimeMillis() - getStartTime);
 
         assertEquals(1, namingServiceTemplate.getToscaTopologyTemplate().getPoliciesAsMap().size());
         assertEquals(1, namingServiceTemplate.getPolicyTypesAsMap().size());
