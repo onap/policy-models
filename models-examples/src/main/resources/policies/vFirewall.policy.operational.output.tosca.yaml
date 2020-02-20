@@ -25,7 +25,7 @@ topology_template:
                 target:
                   # TBD - Cannot be known until instantiation is done
                   resourceID: Eace933104d443b496b8.nodes.heat.vpg
-                  type: VNF
+                  targetType: VNF
                 retry: 0
                 timeout: 300
                 success: final_success

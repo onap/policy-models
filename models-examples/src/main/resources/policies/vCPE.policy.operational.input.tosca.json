@@ -23,7 +23,7 @@
                   "actor": "APPC",
                   "operation": "Restart",
                   "target": {
-                    "type": "VNF"
+                    "targetType": "VNF"
                   }
                 },
                 "timeout": 1200,
