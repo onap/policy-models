@@ -23,14 +23,13 @@ package org.onap.policy.controlloop.actorserviceprovider.impl;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
-import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 import lombok.Getter;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicParams;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.pipeline.PipelineControllerFuture;
 import org.onap.policy.controlloop.actorserviceprovider.topic.BidirectionalTopicHandler;
@@ -55,34 +54,40 @@ public abstract class BidirectionalTopicOperation<Q, S> extends OperationPartial
         SUCCESS, FAILURE, STILL_WAITING
     }
 
-    // fields extracted from the operator
-
-    private final BidirectionalTopicHandler topicHandler;
-    private final Forwarder forwarder;
-    private final BidirectionalTopicParams topicParams;
-    private final long timeoutMs;
+    /**
+     * Configuration for this operation.
+     */
+    private final BidirectionalTopicConfig config;
 
     /**
      * Response class.
      */
     private final Class<S> responseClass;
 
+    // fields extracted from "config"
+
+    private final BidirectionalTopicHandler topicHandler;
+    private final Forwarder forwarder;
+
 
     /**
      * Constructs the object.
      *
      * @param params operation parameters
-     * @param operator operator that created this operation
+     * @param config configuration for this operation
      * @param clazz response class
      */
-    public BidirectionalTopicOperation(ControlLoopOperationParams params, BidirectionalTopicOperator operator,
+    public BidirectionalTopicOperation(ControlLoopOperationParams params, BidirectionalTopicConfig config,
                     Class<S> clazz) {
-        super(params, operator);
-        this.topicHandler = operator.getTopicHandler();
-        this.forwarder = operator.getForwarder();
-        this.topicParams = operator.getParams();
+        super(params, config);
+        this.config = config;
         this.responseClass = clazz;
-        this.timeoutMs = TimeUnit.MILLISECONDS.convert(topicParams.getTimeoutSec(), TimeUnit.SECONDS);
+        this.forwarder = config.getForwarder();
+        this.topicHandler = config.getTopicHandler();
+    }
+
+    public long getTimeoutMs() {
+        return config.getTimeoutMs();
     }
 
     /**
@@ -91,7 +96,7 @@ public abstract class BidirectionalTopicOperation<Q, S> extends OperationPartial
     @Override
     protected long getTimeoutMs(Integer timeoutSec) {
         // TODO move this method to the superclass
-        return (timeoutSec == null || timeoutSec == 0 ? this.timeoutMs : super.getTimeoutMs(timeoutSec));
+        return (timeoutSec == null || timeoutSec == 0 ? getTimeoutMs() : super.getTimeoutMs(timeoutSec));
     }
 
     /**

@@ -26,12 +26,9 @@ import java.util.function.BiConsumer;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
-import org.onap.policy.common.utils.time.PseudoExecutor;
-import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicOperator;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicParams;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
 import org.onap.policy.controlloop.actorserviceprovider.topic.BidirectionalTopicHandler;
 import org.onap.policy.controlloop.actorserviceprovider.topic.Forwarder;
 
@@ -41,7 +38,8 @@ import org.onap.policy.controlloop.actorserviceprovider.topic.Forwarder;
 public class BasicBidirectionalTopicOperation extends BasicOperation {
     protected static final String MY_SINK = "my-sink";
     protected static final String MY_SOURCE = "my-source";
-    protected static final int TIMEOUT = 10;
+    protected static final int TIMEOUT_SEC = 10;
+    protected static final long TIMEOUT_MS = 1000L * TIMEOUT_SEC;
 
     @Captor
     protected ArgumentCaptor<BiConsumer<String, StandardCoderObject>> listenerCaptor;
@@ -51,9 +49,7 @@ public class BasicBidirectionalTopicOperation extends BasicOperation {
     @Mock
     protected Forwarder forwarder;
     @Mock
-    protected BidirectionalTopicOperator operator;
-
-    protected BidirectionalTopicParams topicParams;
+    protected BidirectionalTopicConfig config;
 
     /**
      * Constructs the object using a default actor and operation name.
@@ -75,31 +71,19 @@ public class BasicBidirectionalTopicOperation extends BasicOperation {
     /**
      * Initializes mocks and sets up.
      */
-    public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
-
-        executor = new PseudoExecutor();
-
-        makeContext();
-
-        outcome = params.makeOutcome();
-        topicParams = BidirectionalTopicParams.builder().sinkTopic(MY_SINK).sourceTopic(MY_SOURCE).timeoutSec(TIMEOUT)
-                        .build();
-
-        initOperator();
+    @Override
+    public void setUpBasic() {
+        super.setUpBasic();
+        initConfig();
     }
 
     /**
-     * Initializes an operator so that it is "alive" and has the given names.
+     * Initializes a configuration.
      */
-    protected void initOperator() {
-        when(operator.isAlive()).thenReturn(true);
-        when(operator.getFullName()).thenReturn(actorName + "." + operationName);
-        when(operator.getActorName()).thenReturn(actorName);
-        when(operator.getName()).thenReturn(operationName);
-        when(operator.getTopicHandler()).thenReturn(topicHandler);
-        when(operator.getForwarder()).thenReturn(forwarder);
-        when(operator.getParams()).thenReturn(topicParams);
+    protected void initConfig() {
+        when(config.getTopicHandler()).thenReturn(topicHandler);
+        when(config.getForwarder()).thenReturn(forwarder);
+        when(config.getTimeoutMs()).thenReturn(TIMEOUT_MS);
     }
 
     /**

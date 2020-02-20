@@ -25,10 +25,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.CompletableFuture;
@@ -51,9 +51,15 @@ public class GuardOperationTest extends BasicHttpOperation<DecisionRequest> {
      */
     @Before
     public void setUp() throws Exception {
-        super.setUp();
+        super.setUpBasic();
 
-        oper = new GuardOperation(params, operator);
+        GuardConfig cguard = mock(GuardConfig.class);
+        when(cguard.makeRequest()).thenAnswer(args -> new TreeMap<>(Map.of("action", "guard")));
+
+        config = cguard;
+        initConfig();
+
+        oper = new GuardOperation(params, config);
     }
 
     @Test
@@ -78,9 +84,6 @@ public class GuardOperationTest extends BasicHttpOperation<DecisionRequest> {
         executor.runAll(100);
         assertTrue(future2.isDone());
 
-        DecisionRequest request = requestCaptor.getValue().getEntity();
-        verifyRequest("makeReqStd.json", request, "requestId");
-
         assertEquals(PolicyResult.SUCCESS, future2.get().getResult());
     }
 
@@ -102,7 +105,7 @@ public class GuardOperationTest extends BasicHttpOperation<DecisionRequest> {
 
         // null payload - start with fresh parameters and operation
         params = params.toBuilder().payload(null).build();
-        oper = new GuardOperation(params, operator);
+        oper = new GuardOperation(params, config);
         assertThatIllegalArgumentException().isThrownBy(() -> oper.makeRequest());
     }
 
@@ -156,7 +159,7 @@ public class GuardOperationTest extends BasicHttpOperation<DecisionRequest> {
         req.setRequestId("my-request-id");
 
         @SuppressWarnings("unchecked")
-        Map<String, String> map = Util.translate("", req, LinkedHashMap.class);
+        Map<String, String> map = Util.translate("", req, TreeMap.class);
 
         // add resources
         map.put(GuardOperation.RESOURCE_PREFIX + "actor", "resource-actor");

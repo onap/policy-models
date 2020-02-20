@@ -27,14 +27,23 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.onap.policy.common.endpoints.event.comm.client.BidirectionalTopicClientException;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicActorParams;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicParams;
 import org.onap.policy.controlloop.actorserviceprovider.topic.BidirectionalTopicHandler;
 import org.onap.policy.controlloop.actorserviceprovider.topic.BidirectionalTopicManager;
 
 /**
- * Actor that uses a bidirectional topic. The actor's parameters must be a
- * {@link BidirectionalTopicActorParams}.
+ * Actor that uses a bidirectional topic. The actor's operator parameters are expected to
+ * be an {@link BidirectionalTopicParams}.
+ *
+ * @param <P> type of parameters
  */
-public class BidirectionalTopicActor extends ActorImpl implements BidirectionalTopicManager {
+public class BidirectionalTopicActor<P extends BidirectionalTopicActorParams> extends ActorImpl
+                implements BidirectionalTopicManager {
+
+    /**
+     * Class of parameters.
+     */
+    private final Class<P> paramsClass;
 
     /**
      * Maps a pair of sink and source topic names to their bidirectional topic.
@@ -47,8 +56,9 @@ public class BidirectionalTopicActor extends ActorImpl implements BidirectionalT
      *
      * @param name actor's name
      */
-    public BidirectionalTopicActor(String name) {
+    public BidirectionalTopicActor(String name, Class<P> paramsClass) {
         super(name);
+        this.paramsClass = paramsClass;
     }
 
     @Override
@@ -92,7 +102,7 @@ public class BidirectionalTopicActor extends ActorImpl implements BidirectionalT
         String actorName = getName();
 
         // @formatter:off
-        return Util.translate(actorName, actorParameters, BidirectionalTopicActorParams.class)
+        return Util.translate(actorName, actorParameters, paramsClass)
                         .doValidation(actorName)
                         .makeOperationParameters(actorName);
         // @formatter:on

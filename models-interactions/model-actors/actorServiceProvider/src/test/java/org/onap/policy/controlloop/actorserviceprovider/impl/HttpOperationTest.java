@@ -29,7 +29,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.spy;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.util.Collections;
@@ -39,6 +39,7 @@ import java.util.UUID;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -67,6 +68,7 @@ import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.event.comm.bus.internal.BusTopicParams;
 import org.onap.policy.common.endpoints.event.comm.bus.internal.BusTopicParams.TopicParamsBuilder;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
+import org.onap.policy.common.endpoints.http.client.HttpClientFactory;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.endpoints.http.server.HttpServletServer;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
@@ -76,11 +78,10 @@ import org.onap.policy.common.gson.GsonMessageBodyHandler;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.network.NetworkUtil;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
-import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
-import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
 import org.onap.policy.controlloop.policy.PolicyResult;
 
@@ -110,9 +111,12 @@ public class HttpOperationTest {
 
     @Mock
     private HttpClient client;
-
+    @Mock
+    private HttpClientFactory clientFactory;
     @Mock
     private Response response;
+    @Mock
+    private Executor executor;
 
     private VirtualControlLoopEvent event;
     private ControlLoopEventContext context;
@@ -120,7 +124,7 @@ public class HttpOperationTest {
     private OperationOutcome outcome;
     private AtomicReference<InvocationCallback<Response>> callback;
     private Future<Response> future;
-    private HttpOperator operator;
+    private HttpConfig config;
     private MyGetOperation<String> oper;
 
     /**
@@ -192,19 +196,9 @@ public class HttpOperationTest {
         callback = new AtomicReference<>();
         future = new CompletableFuture<>();
 
-        operator = new HttpOperator(ACTOR, OPERATION) {
-            @Override
-            public Operation buildOperation(ControlLoopOperationParams params) {
-                return null;
-            }
+        when(clientFactory.get(any())).thenReturn(client);
 
-            @Override
-            public HttpClient getClient() {
-                return client;
-            }
-        };
-
-        initOper(operator, HTTP_CLIENT);
+        initConfig(HTTP_CLIENT);
 
         oper = new MyGetOperation<>(String.class);
     }
@@ -229,7 +223,9 @@ public class HttpOperationTest {
     @Test
     public void testMakeUrl() {
         // use a real client
-        client = HttpClientFactoryInstance.getClientFactory().get(HTTP_CLIENT);
+        initRealConfig(HTTP_CLIENT);
+
+        oper = new MyGetOperation<>(String.class);
 
         assertThat(oper.makeUrl()).endsWith("/" + BASE_URI + PATH);
     }
@@ -243,19 +239,6 @@ public class HttpOperationTest {
 
         // should use given value
         assertEquals(20 * 1000L, oper.getTimeoutMs(20));
-
-        // indicate we have a timeout value
-        operator = spy(operator);
-        when(operator.getTimeoutMs()).thenReturn(30L);
-
-        oper = new MyGetOperation<String>(String.class);
-
-        // should use default
-        assertEquals(30L, oper.getTimeoutMs(null));
-        assertEquals(30L, oper.getTimeoutMs(0));
-
-        // should use given value
-        assertEquals(40 * 1000L, oper.getTimeoutMs(40));
     }
 
     /**
@@ -366,7 +349,7 @@ public class HttpOperationTest {
     @Test
     public void testGet() throws Exception {
         // use a real client
-        client = HttpClientFactoryInstance.getClientFactory().get(HTTP_CLIENT);
+        initRealConfig(HTTP_CLIENT);
 
         MyGetOperation<MyResponse> oper2 = new MyGetOperation<>(MyResponse.class);
 
@@ -382,7 +365,7 @@ public class HttpOperationTest {
     @Test
     public void testDelete() throws Exception {
         // use a real client
-        client = HttpClientFactoryInstance.getClientFactory().get(HTTP_CLIENT);
+        initRealConfig(HTTP_CLIENT);
 
         MyDeleteOperation oper2 = new MyDeleteOperation();
 
@@ -398,8 +381,7 @@ public class HttpOperationTest {
     @Test
     public void testPost() throws Exception {
         // use a real client
-        client = HttpClientFactoryInstance.getClientFactory().get(HTTP_CLIENT);
-
+        initRealConfig(HTTP_CLIENT);
         MyPostOperation oper2 = new MyPostOperation();
 
         OperationOutcome outcome = runOperation(oper2);
@@ -414,7 +396,7 @@ public class HttpOperationTest {
     @Test
     public void testPut() throws Exception {
         // use a real client
-        client = HttpClientFactoryInstance.getClientFactory().get(HTTP_CLIENT);
+        initRealConfig(HTTP_CLIENT);
 
         MyPutOperation oper2 = new MyPutOperation();
 
@@ -454,18 +436,34 @@ public class HttpOperationTest {
     }
 
     /**
-     * Initializes the given operator.
+     * Initializes the configuration.
      *
      * @param operator operator to be initialized
      * @param clientName name of the client which it should use
      */
-    private void initOper(HttpOperator operator, String clientName) {
-        operator.stop();
+    private void initConfig(String clientName) {
+        initConfig(clientName, clientFactory);
+    }
 
+    /**
+     * Initializes the configuration with a real client.
+     *
+     * @param operator operator to be initialized
+     * @param clientName name of the client which it should use
+     */
+    private void initConfig(String clientName, HttpClientFactory factory) {
         HttpParams params = HttpParams.builder().clientName(clientName).path(PATH).timeoutSec(1).build();
-        Map<String, Object> mapParams = Util.translateToMap(OPERATION, params);
-        operator.configure(mapParams);
-        operator.start();
+        config = new HttpConfig(executor, params, factory);
+    }
+
+    /**
+     * Initializes the configuration with a real client.
+     *
+     * @param operator operator to be initialized
+     * @param clientName name of the client which it should use
+     */
+    private void initRealConfig(String clientName) {
+        initConfig(clientName, HttpClientFactoryInstance.getClientFactory());
     }
 
     /**
@@ -497,7 +495,7 @@ public class HttpOperationTest {
 
     private class MyGetOperation<T> extends HttpOperation<T> {
         public MyGetOperation(Class<T> responseClass) {
-            super(HttpOperationTest.this.params, HttpOperationTest.this.operator, responseClass);
+            super(HttpOperationTest.this.params, HttpOperationTest.this.config, responseClass);
         }
 
         @Override
@@ -511,14 +509,14 @@ public class HttpOperationTest {
 
             // @formatter:off
             return handleResponse(outcome, url,
-                callback -> operator.getClient().get(callback, makePath(), headers));
+                callback -> getClient().get(callback, makePath(), headers));
             // @formatter:on
         }
     }
 
     private class MyPostOperation extends HttpOperation<MyResponse> {
         public MyPostOperation() {
-            super(HttpOperationTest.this.params, HttpOperationTest.this.operator, MyResponse.class);
+            super(HttpOperationTest.this.params, HttpOperationTest.this.config, MyResponse.class);
         }
 
         @Override
@@ -537,14 +535,14 @@ public class HttpOperationTest {
 
             // @formatter:off
             return handleResponse(outcome, url,
-                callback -> operator.getClient().post(callback, makePath(), entity, headers));
+                callback -> getClient().post(callback, makePath(), entity, headers));
             // @formatter:on
         }
     }
 
     private class MyPutOperation extends HttpOperation<MyResponse> {
         public MyPutOperation() {
-            super(HttpOperationTest.this.params, HttpOperationTest.this.operator, MyResponse.class);
+            super(HttpOperationTest.this.params, HttpOperationTest.this.config, MyResponse.class);
         }
 
         @Override
@@ -563,14 +561,14 @@ public class HttpOperationTest {
 
             // @formatter:off
             return handleResponse(outcome, url,
-                callback -> operator.getClient().put(callback, makePath(), entity, headers));
+                callback -> getClient().put(callback, makePath(), entity, headers));
             // @formatter:on
         }
     }
 
     private class MyDeleteOperation extends HttpOperation<String> {
         public MyDeleteOperation() {
-            super(HttpOperationTest.this.params, HttpOperationTest.this.operator, String.class);
+            super(HttpOperationTest.this.params, HttpOperationTest.this.config, String.class);
         }
 
         @Override
@@ -584,7 +582,7 @@ public class HttpOperationTest {
 
             // @formatter:off
             return handleResponse(outcome, url,
-                callback -> operator.getClient().delete(callback, makePath(), headers));
+                callback -> getClient().delete(callback, makePath(), headers));
             // @formatter:on
         }
     }

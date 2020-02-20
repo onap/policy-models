@@ -54,7 +54,7 @@ public abstract class BasicSoOperation extends BasicHttpOperation<SoRequest> {
     public static final int WAIT_SEC_GETS = 20;
 
     @Mock
-    protected SoOperator soOperator;
+    protected SoConfig config;
 
     protected Target target;
     protected SoResponse response;
@@ -80,7 +80,7 @@ public abstract class BasicSoOperation extends BasicHttpOperation<SoRequest> {
      * Initializes mocks and sets up.
      */
     public void setUp() throws Exception {
-        super.setUp();
+        super.setUpBasic();
 
         response = new SoResponse();
 
@@ -98,17 +98,16 @@ public abstract class BasicSoOperation extends BasicHttpOperation<SoRequest> {
         when(rawResponse.getStatus()).thenReturn(200);
         when(rawResponse.readEntity(String.class)).thenReturn(coder.encode(response));
 
-        operator = soOperator;
-
-        initOperator();
+        initConfig();
     }
 
     @Override
-    protected void initOperator() {
-        super.initOperator();
-        when(soOperator.getMaxGets()).thenReturn(MAX_GETS);
-        when(soOperator.getPathGet()).thenReturn(PATH_GET);
-        when(soOperator.getWaitSecGet()).thenReturn(WAIT_SEC_GETS);
+    protected void initConfig() {
+        super.initConfig();
+        when(config.getClient()).thenReturn(client);
+        when(config.getMaxGets()).thenReturn(MAX_GETS);
+        when(config.getPathGet()).thenReturn(PATH_GET);
+        when(config.getWaitSecGet()).thenReturn(WAIT_SEC_GETS);
     }
 
     @Override

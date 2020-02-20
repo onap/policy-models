@@ -20,12 +20,12 @@
 
 package org.onap.policy.controlloop.actorserviceprovider.impl;
 
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.when;
 
 import java.util.Map;
@@ -42,6 +42,7 @@ import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ParameterValidationRuntimeException;
 
@@ -86,19 +87,43 @@ public class HttpOperatorTest {
     }
 
     @Test
-    public void testGetClient() {
-        assertNotNull(oper.getClient());
+    public void testDoConfigureMapOfStringObject_testGetConfig() {
+        // start with an UNCONFIGURED operator
+        oper.shutdown();
+        oper = new MyOperator();
+
+        assertNull(oper.getCurrentConfig());
+
+        HttpParams params = HttpParams.builder().clientName(HTTP_CLIENT).path(PATH).timeoutSec(TIMEOUT).build();
+        Map<String, Object> paramMap = Util.translateToMap(OPERATION, params);
+        oper.configure(paramMap);
+
+        assertNotNull(oper.getCurrentConfig());
+
+        // test invalid parameters
+        paramMap.remove("path");
+        assertThatThrownBy(() -> oper.configure(paramMap)).isInstanceOf(ParameterValidationRuntimeException.class);
     }
 
     @Test
-    public void testMakeOperator() {
-        HttpOperator oper2 = HttpOperator.makeOperator(ACTOR, OPERATION, MyOperation::new);
+    public void testBuildOperation() {
+        HttpOperator oper2 = new MyOperator();
         assertNotNull(oper2);
+        assertNotNull(oper2.getClientFactory());
 
         VirtualControlLoopEvent event = new VirtualControlLoopEvent();
         ControlLoopEventContext context = new ControlLoopEventContext(event);
         ControlLoopOperationParams params =
                         ControlLoopOperationParams.builder().actor(ACTOR).operation(OPERATION).context(context).build();
+
+        // not running yet
+        assertThatIllegalStateException().isThrownBy(() -> oper2.buildOperation(params));
+
+        // configure and start it
+        HttpParams params2 = HttpParams.builder().clientName(HTTP_CLIENT).path(PATH).timeoutSec(TIMEOUT).build();
+        Map<String, Object> paramMap = Util.translateToMap(OPERATION, params2);
+        oper2.configure(paramMap);
+        oper2.start();
 
         Operation operation1 = oper2.buildOperation(params);
         assertNotNull(operation1);
@@ -106,43 +131,21 @@ public class HttpOperatorTest {
         Operation operation2 = oper2.buildOperation(params);
         assertNotNull(operation2);
         assertNotSame(operation1, operation2);
+
+        // with no operation-maker
+        HttpOperator oper3 = new HttpOperator(ACTOR, OPERATION);
+        assertThatThrownBy(() -> oper3.buildOperation(params)).isInstanceOf(UnsupportedOperationException.class);
     }
 
     @Test
-    public void testDoConfigureMapOfStringObject_testGetClient_testGetPath_testGetTimeoutMs() {
-        // start with an UNCONFIGURED operator
-        oper.shutdown();
-        oper = new MyOperator();
-
-        assertNull(oper.getClient());
-        assertNull(oper.getPath());
-
-        // no timeout yet
-        assertEquals(0L, oper.getTimeoutMs());
-
-        HttpParams params = HttpParams.builder().clientName(HTTP_CLIENT).path(PATH).timeoutSec(TIMEOUT).build();
-        Map<String, Object> paramMap = Util.translateToMap(OPERATION, params);
-        oper.configure(paramMap);
-
-        assertSame(client, oper.getClient());
-        assertEquals(PATH, oper.getPath());
-
-        // should use given value
-        assertEquals(TIMEOUT * 1000, oper.getTimeoutMs());
-
-        // test invalid parameters
-        paramMap.remove("path");
-        assertThatThrownBy(() -> oper.configure(paramMap)).isInstanceOf(ParameterValidationRuntimeException.class);
+    public void testGetClientFactory() {
+        HttpOperator oper2 = new HttpOperator(ACTOR, OPERATION);
+        assertNotNull(oper2.getClientFactory());
     }
 
     private class MyOperator extends HttpOperator {
         public MyOperator() {
-            super(ACTOR, OPERATION);
-        }
-
-        @Override
-        public Operation buildOperation(ControlLoopOperationParams params) {
-            return null;
+            super(ACTOR, OPERATION, MyOperation::new);
         }
 
         @Override
@@ -152,8 +155,8 @@ public class HttpOperatorTest {
     }
 
     private class MyOperation extends HttpOperation<String> {
-        public MyOperation(ControlLoopOperationParams params, HttpOperator operator) {
-            super(params, operator, String.class);
+        public MyOperation(ControlLoopOperationParams params, HttpConfig config) {
+            super(params, config, String.class);
         }
 
         @Override

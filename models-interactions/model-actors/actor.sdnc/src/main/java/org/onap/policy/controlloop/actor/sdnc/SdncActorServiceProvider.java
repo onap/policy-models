@@ -31,6 +31,7 @@ import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpActor;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperator;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpActorParams;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.sdnc.SdncHealNetworkInfo;
 import org.onap.policy.sdnc.SdncHealRequest;
@@ -46,7 +47,7 @@ import org.onap.policy.sdnc.SdncRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SdncActorServiceProvider extends HttpActor {
+public class SdncActorServiceProvider extends HttpActor<HttpActorParams> {
     private static final Logger logger = LoggerFactory.getLogger(SdncActorServiceProvider.class);
 
     public static final String NAME = "SDNC";
@@ -75,13 +76,10 @@ public class SdncActorServiceProvider extends HttpActor {
      * Constructs the object.
      */
     public SdncActorServiceProvider() {
-        super(NAME);
+        super(NAME, HttpActorParams.class);
 
-        addOperator(HttpOperator.makeOperator(NAME, RerouteOperation.NAME,
-                        RerouteOperation::new));
-
-        addOperator(HttpOperator.makeOperator(NAME, BandwidthOnDemandOperation.NAME,
-                        BandwidthOnDemandOperation::new));
+        addOperator(new HttpOperator(NAME, RerouteOperation.NAME, RerouteOperation::new));
+        addOperator(new HttpOperator(NAME, BandwidthOnDemandOperation.NAME, BandwidthOnDemandOperation::new));
     }
 
 

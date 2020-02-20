@@ -42,7 +42,7 @@ public class RerouteOperationTest extends BasicSdncOperation {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        oper = new RerouteOperation(params, operator);
+        oper = new RerouteOperation(params, config);
     }
 
     @Test

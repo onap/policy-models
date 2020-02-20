@@ -35,6 +35,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
+import lombok.Getter;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
@@ -46,6 +47,7 @@ import org.onap.policy.controlloop.actorserviceprovider.CallbackManager;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.OperatorConfig;
 import org.onap.policy.controlloop.actorserviceprovider.pipeline.PipelineControllerFuture;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.slf4j.Logger;
@@ -71,49 +73,43 @@ public abstract class OperationPartial implements Operation {
 
     public static final long DEFAULT_RETRY_WAIT_MS = 1000L;
 
-    // values extracted from the operator
-
-    private final OperatorPartial operator;
+    private final OperatorConfig config;
 
     /**
      * Operation parameters.
      */
     protected final ControlLoopOperationParams params;
 
+    @Getter
+    private final String fullName;
+
 
     /**
      * Constructs the object.
      *
      * @param params operation parameters
-     * @param operator operator that created this operation
+     * @param config configuration for this operation
      */
-    public OperationPartial(ControlLoopOperationParams params, OperatorPartial operator) {
+    public OperationPartial(ControlLoopOperationParams params, OperatorConfig config) {
         this.params = params;
-        this.operator = operator;
+        this.config = config;
+        this.fullName = params.getActor() + "." + params.getOperation();
     }
 
     public Executor getBlockingExecutor() {
-        return operator.getBlockingExecutor();
-    }
-
-    public String getFullName() {
-        return operator.getFullName();
+        return config.getBlockingExecutor();
     }
 
     public String getActorName() {
-        return operator.getActorName();
+        return params.getActor();
     }
 
     public String getName() {
-        return operator.getName();
+        return params.getOperation();
     }
 
     @Override
     public final CompletableFuture<OperationOutcome> start() {
-        if (!operator.isAlive()) {
-            throw new IllegalStateException("operation is not running: " + getFullName());
-        }
-
         // allocate a controller for the entire operation
         final PipelineControllerFuture<OperationOutcome> controller = new PipelineControllerFuture<>();
 

@@ -21,36 +21,33 @@
 package org.onap.policy.controlloop.actorserviceprovider.impl;
 
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
-import java.util.function.BiFunction;
 import lombok.Getter;
-import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactory;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ParameterValidationRuntimeException;
 
 /**
  * Operator that uses HTTP. The operator's parameters must be an {@link HttpParams}.
  */
-@Getter
-public abstract class HttpOperator extends OperatorPartial {
-
-    private HttpClient client;
+public class HttpOperator extends OperatorPartial {
 
     /**
-     * Default timeout, in milliseconds, if none specified in the request.
+     * Function to make an operation.
      */
-    private long timeoutMs;
+    @SuppressWarnings("rawtypes")
+    private final OperationMaker<HttpConfig, HttpOperation> operationMaker;
 
     /**
-     * URI path for this particular operation. Includes a leading "/".
+     * Current configuration. This is set by {@link #doConfigure(Map)}.
      */
-    private String path;
+    @Getter
+    private HttpConfig currentConfig;
 
 
     /**
@@ -59,28 +56,21 @@ public abstract class HttpOperator extends OperatorPartial {
      * @param actorName name of the actor with which this operator is associated
      * @param name operation name
      */
-    public HttpOperator(String actorName, String name) {
-        super(actorName, name);
+    protected HttpOperator(String actorName, String name) {
+        this(actorName, name, null);
     }
 
     /**
-     * Makes an operator that will construct operations.
+     * Constructs the object.
      *
-     * @param <T> response type
-     * @param actorName actor name
-     * @param operation operation name
+     * @param actorName name of the actor with which this operator is associated
+     * @param name operation name
      * @param operationMaker function to make an operation
-     * @return a new operator
      */
-    public static <T> HttpOperator makeOperator(String actorName, String operation,
-                    BiFunction<ControlLoopOperationParams, HttpOperator, HttpOperation<T>> operationMaker) {
-
-        return new HttpOperator(actorName, operation) {
-            @Override
-            public Operation buildOperation(ControlLoopOperationParams params) {
-                return operationMaker.apply(params, this);
-            }
-        };
+    public HttpOperator(String actorName, String name,
+                    @SuppressWarnings("rawtypes") OperationMaker<HttpConfig, HttpOperation> operationMaker) {
+        super(actorName, name);
+        this.operationMaker = operationMaker;
     }
 
     /**
@@ -89,24 +79,34 @@ public abstract class HttpOperator extends OperatorPartial {
      */
     @Override
     protected void doConfigure(Map<String, Object> parameters) {
+        currentConfig = makeConfiguration(parameters);
+    }
+
+    /**
+     * Makes a new configuration using the specified parameters.
+     *
+     * @param parameters operator parameters
+     * @return a new configuration
+     */
+    protected HttpConfig makeConfiguration(Map<String, Object> parameters) {
         HttpParams params = Util.translate(getFullName(), parameters, HttpParams.class);
         ValidationResult result = params.validate(getFullName());
         if (!result.isValid()) {
             throw new ParameterValidationRuntimeException("invalid parameters", result);
         }
 
-        doConfigure(params);
+        return new HttpConfig(getBlockingExecutor(), params, getClientFactory());
     }
 
-    /**
-     * Configures the operator using the specified parameters.
-     *
-     * @param params operator parameters
-     */
-    protected void doConfigure(HttpParams params) {
-        client = getClientFactory().get(params.getClientName());
-        path = params.getPath();
-        timeoutMs = TimeUnit.MILLISECONDS.convert(params.getTimeoutSec(), TimeUnit.SECONDS);
+    @Override
+    public Operation buildOperation(ControlLoopOperationParams params) {
+        if (operationMaker == null) {
+            throw new UnsupportedOperationException("cannot make operation for " + getFullName());
+        }
+
+        verifyRunning();
+
+        return operationMaker.apply(params, currentConfig);
     }
 
     // these may be overridden by junit tests

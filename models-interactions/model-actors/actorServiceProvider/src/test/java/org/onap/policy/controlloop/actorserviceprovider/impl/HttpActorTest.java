@@ -40,11 +40,11 @@ public class HttpActorTest {
     private static final String CLIENT = "my-client";
     private static final int TIMEOUT = 10;
 
-    private HttpActor actor;
+    private HttpActor<HttpActorParams> actor;
 
     @Before
     public void setUp() {
-        actor = new HttpActor(ACTOR);
+        actor = new HttpActor<>(ACTOR, HttpActorParams.class);
     }
 
     @Test
@@ -59,7 +59,7 @@ public class HttpActorTest {
                         "operB", Map.of("path", "urlB")));
         // @formatter:on
 
-        final HttpActor prov = new HttpActor(ACTOR);
+        final HttpActor<HttpActorParams> prov = new HttpActor<>(ACTOR, HttpActorParams.class);
         Function<String, Map<String, Object>> maker =
                         prov.makeOperatorParameters(Util.translateToMap(prov.getName(), params));
 

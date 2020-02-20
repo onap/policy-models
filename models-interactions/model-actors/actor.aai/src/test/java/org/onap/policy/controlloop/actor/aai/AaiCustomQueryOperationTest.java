@@ -77,14 +77,14 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation<Map<String, S
      */
     @Before
     public void setUp() throws Exception {
-        super.setUp();
+        super.setUpBasic();
 
         MyTenantOperator tenantOperator = new MyTenantOperator();
 
         when(service.getActor(AaiConstants.ACTOR_NAME)).thenReturn(tenantActor);
         when(tenantActor.getOperator(AaiGetOperation.TENANT)).thenReturn(tenantOperator);
 
-        oper = new AaiCustomQueryOperation(params, operator);
+        oper = new AaiCustomQueryOperation(params, config);
     }
 
     @Test
@@ -216,7 +216,7 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation<Map<String, S
 
         @Override
         public Operation buildOperation(ControlLoopOperationParams params) {
-            return new AaiGetOperation(params, this);
+            return new AaiGetOperation(params, getCurrentConfig());
         }
 
         @Override

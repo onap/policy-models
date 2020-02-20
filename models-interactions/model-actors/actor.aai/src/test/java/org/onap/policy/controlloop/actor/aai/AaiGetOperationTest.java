@@ -54,8 +54,8 @@ public class AaiGetOperationTest extends BasicAaiOperation<Void> {
      */
     @Before
     public void setUp() throws Exception {
-        super.setUp();
-        oper = new AaiGetOperation(params, operator);
+        super.setUpBasic();
+        oper = new AaiGetOperation(params, config);
     }
 
     @Test

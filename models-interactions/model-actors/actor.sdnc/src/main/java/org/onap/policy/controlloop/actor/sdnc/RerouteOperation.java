@@ -23,8 +23,8 @@ package org.onap.policy.controlloop.actor.sdnc;
 import java.util.UUID;
 import org.apache.commons.lang3.StringUtils;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
-import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperator;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.sdnc.SdncHealNetworkInfo;
 import org.onap.policy.sdnc.SdncHealRequest;
 import org.onap.policy.sdnc.SdncHealRequestHeaderInfo;
@@ -45,10 +45,10 @@ public class RerouteOperation extends SdncOperation {
      * Constructs the object.
      *
      * @param params operation parameters
-     * @param operator operator that created this operation
+     * @param config configuration for this operation
      */
-    public RerouteOperation(ControlLoopOperationParams params, HttpOperator operator) {
-        super(params, operator);
+    public RerouteOperation(ControlLoopOperationParams params, HttpConfig config) {
+        super(params, config);
     }
 
     @Override

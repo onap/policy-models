@@ -32,8 +32,8 @@ import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperation;
-import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperator;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,10 +56,10 @@ public class AaiCustomQueryOperation extends HttpOperation<String> {
      * Constructs the object.
      *
      * @param params operation parameters
-     * @param operator operator that created this operation
+     * @param config configuration for this operation
      */
-    public AaiCustomQueryOperation(ControlLoopOperationParams params, HttpOperator operator) {
-        super(params, operator, String.class);
+    public AaiCustomQueryOperation(ControlLoopOperationParams params, HttpConfig config) {
+        super(params, config, String.class);
     }
 
     /**
@@ -91,7 +91,7 @@ public class AaiCustomQueryOperation extends HttpOperation<String> {
 
         // @formatter:off
         return handleResponse(outcome, url,
-            callback -> getOperator().getClient().put(callback, makePath(), entity, headers));
+            callback -> getClient().put(callback, makePath(), entity, headers));
         // @formatter:on
     }
 

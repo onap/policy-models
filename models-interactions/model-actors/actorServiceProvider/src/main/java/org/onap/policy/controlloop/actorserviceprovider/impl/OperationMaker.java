@@ -18,30 +18,17 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.controlloop.actor.aai;
+package org.onap.policy.controlloop.actorserviceprovider.impl;
 
-import org.onap.policy.aai.AaiConstants;
-import org.onap.policy.controlloop.actorserviceprovider.impl.HttpActor;
-import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperator;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpActorParams;
+import org.onap.policy.controlloop.actorserviceprovider.Operation;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 
 /**
- * A&AI Actor.
+ * Function to make an operation.
+ *
+ * @param <C> configuration type
+ * @param <T> type of operation it creates
  */
-public class AaiActorServiceProvider extends HttpActor<HttpActorParams> {
-    public static final String NAME = AaiConstants.ACTOR_NAME;
-
-    /**
-     * Constructs the object.
-     */
-    public AaiActorServiceProvider() {
-        super(NAME, HttpActorParams.class);
-
-        addOperator(new HttpOperator(NAME, AaiCustomQueryOperation.NAME, AaiCustomQueryOperation::new));
-
-        // add all "get" operators
-        for (String operation : AaiGetOperation.OPERATIONS) {
-            addOperator(new HttpOperator(NAME, operation, AaiGetOperation::new));
-        }
-    }
+public interface OperationMaker<C, T extends Operation> {
+    T apply(ControlLoopOperationParams params, C config);
 }

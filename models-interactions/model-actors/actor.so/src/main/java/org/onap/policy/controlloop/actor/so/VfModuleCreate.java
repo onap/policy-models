@@ -35,6 +35,7 @@ import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.controlloop.actor.aai.AaiCustomQueryOperation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.so.SoCloudConfiguration;
 import org.onap.policy.so.SoModelInfo;
 import org.onap.policy.so.SoOperationType;
@@ -47,8 +48,8 @@ import org.onap.policy.so.SoRequestParameters;
 public class VfModuleCreate extends SoOperation {
     public static final String NAME = "VF Module Create";
 
-    public VfModuleCreate(ControlLoopOperationParams params, SoOperator operator) {
-        super(params, operator);
+    public VfModuleCreate(ControlLoopOperationParams params, HttpConfig config) {
+        super(params, config);
     }
 
     /**
@@ -75,13 +76,13 @@ public class VfModuleCreate extends SoOperation {
         SoRequest request = pair.getRight();
 
         Entity<SoRequest> entity = Entity.entity(request, MediaType.APPLICATION_JSON);
-        String url = getOperator().getClient().getBaseUrl() + path;
+        String url = getClient().getBaseUrl() + path;
 
         logMessage(EventType.OUT, CommInfrastructure.REST, url, request);
 
         // TODO should this use "path" or the full "url"?
 
-        return handleResponse(outcome, url, callback -> getOperator().getClient().post(callback, path, entity, null));
+        return handleResponse(outcome, url, callback -> getClient().post(callback, path, entity, null));
     }
 
     /**

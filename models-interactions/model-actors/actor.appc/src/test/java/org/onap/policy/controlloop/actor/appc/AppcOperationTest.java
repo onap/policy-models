@@ -48,7 +48,7 @@ public class AppcOperationTest extends BasicAppcOperation {
     public void setUp() throws Exception {
         super.setUp();
 
-        oper = new AppcOperation(params, operator) {
+        oper = new AppcOperation(params, config) {
             @Override
             protected Request makeRequest(int attempt) {
                 return oper.makeRequest(attempt, MY_VNF);
@@ -81,7 +81,7 @@ public class AppcOperationTest extends BasicAppcOperation {
 
         // repeat using a null payload
         params = params.toBuilder().payload(null).build();
-        oper = new AppcOperation(params, operator) {
+        oper = new AppcOperation(params, config) {
             @Override
             protected Request makeRequest(int attempt) {
                 return oper.makeRequest(attempt, MY_VNF);
@@ -111,7 +111,7 @@ public class AppcOperationTest extends BasicAppcOperation {
 
         params = params.toBuilder().payload(payload).build();
 
-        oper = new AppcOperation(params, operator) {
+        oper = new AppcOperation(params, config) {
             @Override
             protected Request makeRequest(int attempt) {
                 return oper.makeRequest(attempt, MY_VNF);

@@ -23,7 +23,6 @@ package org.onap.policy.controlloop.actor.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -42,14 +41,14 @@ public class BasicHttpOperationTest {
     @Before
     public void setUp() throws Exception {
         oper = new BasicHttpOperation<>(ACTOR, OPERATION);
-        oper.setUp();
+        oper.setUpBasic();
     }
 
     @Test
     public void testBasicHttpOperation() {
         oper = new BasicHttpOperation<>();
-        assertEquals(BasicHttpOperation.DEFAULT_ACTOR, oper.actorName);
-        assertEquals(BasicHttpOperation.DEFAULT_OPERATION, oper.operationName);
+        assertEquals(BasicOperation.DEFAULT_ACTOR, oper.actorName);
+        assertEquals(BasicOperation.DEFAULT_OPERATION, oper.operationName);
     }
 
     @Test
@@ -68,19 +67,14 @@ public class BasicHttpOperationTest {
         assertNotNull(oper.context);
         assertNotNull(oper.outcome);
         assertNotNull(oper.executor);
-        assertTrue(oper.operator.isAlive());
     }
 
     @Test
     public void testInitOperator() throws Exception {
-        oper.initOperator();
+        oper.initConfig();
 
-        assertTrue(oper.operator.isAlive());
-        assertEquals(ACTOR + "." + OPERATION, oper.operator.getFullName());
-        assertEquals(ACTOR, oper.operator.getActorName());
-        assertEquals(OPERATION, oper.operator.getName());
-        assertSame(oper.client, oper.operator.getClient());
-        assertEquals(BasicHttpOperation.PATH, oper.operator.getPath());
+        assertSame(oper.client, oper.config.getClient());
+        assertEquals(BasicHttpOperation.PATH, oper.config.getPath());
     }
 
     @Test

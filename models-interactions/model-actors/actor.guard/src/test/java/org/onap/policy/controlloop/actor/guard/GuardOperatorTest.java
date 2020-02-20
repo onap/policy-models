@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.controlloop.actor.so;
+package org.onap.policy.controlloop.actor.guard;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
@@ -35,15 +35,16 @@ import org.onap.policy.common.endpoints.http.client.HttpClientFactory;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ParameterValidationRuntimeException;
 
-public class SoOperatorTest {
+public class GuardOperatorTest {
     private static final String ACTOR = "my-actor";
     private static final String OPERATION = "my-name";
     private static final String CLIENT = "my-client";
-    private static final String PATH = "/my-path";
-    private static final String PATH_GET = "my-path-get/";
-    private static final int MAX_GETS = 3;
-    private static final int WAIT_SEC_GETS = 20;
-    private static final int TIMEOUT = 100;
+    private static final String PATH = "my-path";
+    private static final int TIMEOUT = 10;
+    private static final String ONAP_NAME = "onap-nap";
+    private static final String ONAP_COMP = "onap-component";
+    private static final String ONAP_INST = "onap-instance";
+    private static final String MY_ACTION = "my-action";
 
     @Mock
     private HttpClient client;
@@ -52,7 +53,7 @@ public class SoOperatorTest {
     private HttpClientFactory factory;
 
 
-    private SoOperator oper;
+    private GuardOperator oper;
 
     /**
      * Initializes fields, including {@link #oper}, and resets the static fields used by
@@ -66,10 +67,12 @@ public class SoOperatorTest {
 
         oper = new MyOperator();
 
-        SoParams params = SoParams.builder().pathGet(PATH_GET).maxGets(MAX_GETS).waitSecGet(WAIT_SEC_GETS)
-                        .clientName(CLIENT).path(PATH).timeoutSec(TIMEOUT).build();
+        GuardParams params = GuardParams.builder().onapName(ONAP_NAME).onapComponent(ONAP_COMP).onapInstance(ONAP_INST)
+                        .action(MY_ACTION).clientName(CLIENT).path(PATH).timeoutSec(TIMEOUT).build();
         Map<String, Object> paramMap = Util.translateToMap(OPERATION, params);
         oper.configure(paramMap);
+
+        assertTrue(oper.makeConfiguration(paramMap) instanceof GuardConfig);
     }
 
     @Test
@@ -81,15 +84,15 @@ public class SoOperatorTest {
 
     @Test
     public void testDoConfigure_testGetters() {
-        assertTrue(oper.getCurrentConfig() instanceof SoConfig);
+        assertTrue(oper.getCurrentConfig() instanceof GuardConfig);
 
         // test invalid parameters
-        Map<String, Object> paramMap2 = Util.translateToMap(OPERATION, SoParams.builder().build());
+        Map<String, Object> paramMap2 = Util.translateToMap(OPERATION, GuardParams.builder().build());
         assertThatThrownBy(() -> oper.configure(paramMap2)).isInstanceOf(ParameterValidationRuntimeException.class);
     }
 
 
-    private class MyOperator extends SoOperator {
+    private class MyOperator extends GuardOperator {
         public MyOperator() {
             super(ACTOR, OPERATION, null);
         }

@@ -42,7 +42,7 @@ public class BandwidthOnDemandOperationTest extends BasicSdncOperation {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        oper = new BandwidthOnDemandOperation(params, operator);
+        oper = new BandwidthOnDemandOperation(params, config);
     }
 
     @Test

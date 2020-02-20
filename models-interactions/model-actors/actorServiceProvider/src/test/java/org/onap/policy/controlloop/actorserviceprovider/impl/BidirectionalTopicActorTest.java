@@ -61,7 +61,7 @@ public class BidirectionalTopicActorTest {
     @Mock
     private BidirectionalTopicHandler handler2;
 
-    private BidirectionalTopicActor actor;
+    private BidirectionalTopicActor<BidirectionalTopicActorParams> actor;
 
 
     /**
@@ -157,7 +157,8 @@ public class BidirectionalTopicActorTest {
     public void testMakeOperatorParameters() {
         BidirectionalTopicActorParams params = makeParams();
 
-        final BidirectionalTopicActor prov = new BidirectionalTopicActor(ACTOR);
+        final BidirectionalTopicActor<BidirectionalTopicActorParams> prov =
+                        new BidirectionalTopicActor<>(ACTOR, BidirectionalTopicActorParams.class);
         Function<String, Map<String, Object>> maker =
                         prov.makeOperatorParameters(Util.translateToMap(prov.getName(), params));
 
@@ -193,7 +194,7 @@ public class BidirectionalTopicActorTest {
     @Test
     public void testMakeTopicHandler() {
         // use a real actor
-        actor = new BidirectionalTopicActor(ACTOR);
+        actor = new BidirectionalTopicActor<>(ACTOR, BidirectionalTopicActorParams.class);
 
         handler1 = actor.getTopicHandler(MY_SINK, MY_SOURCE1);
         handler2 = actor.getTopicHandler(MY_SINK, MY_SOURCE2);
@@ -218,10 +219,10 @@ public class BidirectionalTopicActorTest {
         return params;
     }
 
-    private class MyActor extends BidirectionalTopicActor {
+    private class MyActor extends BidirectionalTopicActor<BidirectionalTopicActorParams> {
 
         public MyActor() {
-            super(ACTOR);
+            super(ACTOR, BidirectionalTopicActorParams.class);
         }
 
         @Override
