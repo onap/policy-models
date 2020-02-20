@@ -34,6 +34,24 @@
       "revId": "1eb4ca4ae59358034c34dade0995768d95d7abb9",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f4a5dc1_82b609e2",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/utils/ToscaUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 4903
+      },
+      "writtenOn": "2020-02-20T15:07:34Z",
+      "side": 1,
+      "message": "I think getEntityTypeAncestors takes care of that.\nEg: Create PT1, Create PT2 derived from PT1, Create PT3 derived from PT2.\n     Then create Policy of type PT3. In the response we should be getting PT3,2 and 1.\nI believe this is what you were mentioning Jim, and this should be ok.",
+      "parentUuid": "7ae31447_49d24fbd",
+      "revId": "1eb4ca4ae59358034c34dade0995768d95d7abb9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
