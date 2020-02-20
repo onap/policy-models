@@ -46,6 +46,30 @@
       "revId": "2e2eae531ad0d6e0e09a1cc4824fc5bb74432679",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2927bf2_0ed19141",
+        "filename": "models-interactions/model-actors/actor.guard/src/main/java/org/onap/policy/controlloop/actor/guard/GuardOperation.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-02-20T14:05:11Z",
+      "side": 1,
+      "message": "In my opinion, \"Not applicable\" means we screwed up in writing the policies. More along the lines of a bug. In production we should never get NA, but it is remotely possible to get Indeterminate - eg. the request may be missing attributes. Could be also considered a \"bug\".\n\nWhat we have been doing is defaulting any other than Permit is a Deny. Just to be safe. And best if we can propogate details as to why (but we need to pass that information from xacml pdp back - another Pam TODO) so someone can either push or modify a guard policy that remedies the situation.",
+      "parentUuid": "a5b3269d_0f913ec9",
+      "range": {
+        "startLine": 67,
+        "startChar": 1,
+        "endLine": 68,
+        "endChar": 0
+      },
+      "revId": "2e2eae531ad0d6e0e09a1cc4824fc5bb74432679",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
