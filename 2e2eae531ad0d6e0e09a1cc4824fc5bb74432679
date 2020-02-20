@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "584ca33d_d4cd1bc5",
+        "filename": "models-interactions/model-actors/actor.guard/src/main/java/org/onap/policy/controlloop/actor/guard/GuardOperation.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-02-20T12:03:31Z",
+      "side": 1,
+      "message": "this is ok for the moment - its remotely possible to get \"Not Applicable\" but I would hope not.",
+      "range": {
+        "startLine": 67,
+        "startChar": 1,
+        "endLine": 68,
+        "endChar": 0
+      },
+      "revId": "2e2eae531ad0d6e0e09a1cc4824fc5bb74432679",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
