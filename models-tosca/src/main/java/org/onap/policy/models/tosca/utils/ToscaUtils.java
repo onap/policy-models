@@ -21,13 +21,11 @@
 package org.onap.policy.models.tosca.utils;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Function;
-
 import javax.ws.rs.core.Response;
-
 import lombok.NonNull;
-
 import org.apache.commons.collections4.CollectionUtils;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptContainer;
@@ -264,8 +262,9 @@ public final class ToscaUtils {
         @SuppressWarnings("unchecked")
         Set<JpaToscaEntityType<?>> filteredEntitySet =
                 (Set<JpaToscaEntityType<?>>) entityTypes.getAll(entityName, entityVersion);
+        Set<JpaToscaEntityType<?>> filteredEntitySetToReturn = new HashSet<>(filteredEntitySet);
         for (JpaToscaEntityType<?> filteredEntityType : filteredEntitySet) {
-            filteredEntitySet.addAll(ToscaUtils.getEntityTypeAncestors(entityTypes, filteredEntityType, result));
+            filteredEntitySetToReturn.addAll(ToscaUtils.getEntityTypeAncestors(entityTypes, filteredEntityType, result));
         }
 
         if (!result.isValid()) {
@@ -273,6 +272,6 @@ public final class ToscaUtils {
         }
 
         entityTypes.getConceptMap().entrySet()
-                .removeIf(entityEntry -> !filteredEntitySet.contains(entityEntry.getValue()));
+                .removeIf(entityEntry -> !filteredEntitySetToReturn.contains(entityEntry.getValue()));
     }
 }
