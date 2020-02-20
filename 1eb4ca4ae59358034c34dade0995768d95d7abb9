@@ -70,6 +70,24 @@
       "revId": "1eb4ca4ae59358034c34dade0995768d95d7abb9",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9bb464d8_7546030c",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/utils/ToscaUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 4903
+      },
+      "writtenOn": "2020-02-20T15:42:16Z",
+      "side": 1,
+      "message": "I tested manually as well to make sure all parent policy types are returned.",
+      "parentUuid": "25e6d0f6_95042d38",
+      "revId": "1eb4ca4ae59358034c34dade0995768d95d7abb9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
