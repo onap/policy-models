@@ -1,0 +1,5 @@
+{
+  "subscriptionServiceType": "my-subscription-service-type",
+  "usePreload": false,
+  "userParams": []
+}

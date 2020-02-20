@@ -137,7 +137,7 @@ public class ControlLoopEventContext implements Serializable {
 
         // @formatter:off
         CompletableFuture<OperationOutcome> oldFuture =
-            retrievers.compute(name, (key, future) -> (future == null || future.isCancelled() ? null : future));
+            retrievers.computeIfPresent(name, (key, future) -> future.isCancelled() ? null : future);
         // @formatter:on
 
         if (oldFuture != null) {
