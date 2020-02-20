@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e80a89b4_6431f320",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/utils/ToscaUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-20T14:14:09Z",
+      "side": 1,
+      "message": "so we don\u0027t need to loop through the ones we just added and invoke getEntityTypeAncestors() on them, too?",
+      "revId": "1eb4ca4ae59358034c34dade0995768d95d7abb9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
