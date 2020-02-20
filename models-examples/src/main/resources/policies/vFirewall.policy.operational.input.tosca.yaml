@@ -19,7 +19,7 @@ topology_template:
                         operation: ModifyConfig
                         target:
                             targetType: VNF
-                            entityId:
+                            entityIds:
                                 resourceID: bbb3cefd-01c8-413c-9bdd-2b92f9ca3d38
                     timeout: 300
                     retries: 0

@@ -19,7 +19,7 @@ topology_template:
                         actor: APPC
                         operation: Restart
                         target:
-                            type: VNF
+                            targetType: VNF
                     timeout: 1200
                     retries: 3
                     success: final_success
