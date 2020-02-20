@@ -22,6 +22,30 @@
       "revId": "2e2eae531ad0d6e0e09a1cc4824fc5bb74432679",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5b3269d_0f913ec9",
+        "filename": "models-interactions/model-actors/actor.guard/src/main/java/org/onap/policy/controlloop/actor/guard/GuardOperation.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-20T13:42:57Z",
+      "side": 1,
+      "message": "Should \"Not applicable\" be treated as success, or as failure?  Perhaps I should define a set of success values and a set of failure values and then just do a look-up instead of using equals() comparison.  Is there a place where the possible values are defined?  At this point, anything it doesn\u0027t recognize is treated as a \"DENY\".",
+      "parentUuid": "584ca33d_d4cd1bc5",
+      "range": {
+        "startLine": 67,
+        "startChar": 1,
+        "endLine": 68,
+        "endChar": 0
+      },
+      "revId": "2e2eae531ad0d6e0e09a1cc4824fc5bb74432679",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
