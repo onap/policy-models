@@ -43,6 +43,7 @@ import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.ControlLoopTargetType;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
+import org.onap.policy.controlloop.actor.test.BasicActor;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.Target;
 import org.onap.policy.controlloop.policy.TargetType;
@@ -50,7 +51,7 @@ import org.onap.policy.simulators.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AppcServiceProviderTest {
+public class AppcServiceProviderTest extends BasicActor {
 
     private static final String GENERIC_VNF_ID = "generic-vnf.vnf-id";
 
@@ -74,7 +75,8 @@ public class AppcServiceProviderTest {
 
     static {
         /*
-         * Construct an onset with an AAI subtag containing generic-vnf.vnf-id and a target type of VM.
+         * Construct an onset with an AAI subtag containing generic-vnf.vnf-id and a
+         * target type of VM.
          */
         onsetEvent = new VirtualControlLoopEvent();
         onsetEvent.setClosedLoopControlName("closedLoopControlName-Test");
@@ -137,6 +139,12 @@ public class AppcServiceProviderTest {
         var actual = prov.getOperationNames().stream().sorted().collect(Collectors.toList());
 
         assertEquals(expected.toString(), actual.toString());
+    }
+
+    @Test
+    public void testActorService() {
+        // verify that it all plugs into the ActorService
+        verifyActorService(AppcActorServiceProvider.NAME, "service.yaml");
     }
 
     @Test

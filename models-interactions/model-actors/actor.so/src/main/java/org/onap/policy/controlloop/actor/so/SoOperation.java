@@ -97,10 +97,45 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
     }
 
     /**
+     * Validates that the parameters contain the required target information to extract
+     * the VF count from the custom query.
+     */
+    protected void validateTarget() {
+        verifyNotNull("Target information", params.getTarget());
+        verifyNotNull("model-customization-id", params.getTarget().getModelCustomizationId());
+        verifyNotNull("model-invariant-id", params.getTarget().getModelInvariantId());
+        verifyNotNull("model-version-id", params.getTarget().getModelVersionId());
+    }
+
+    private void verifyNotNull(String type, Object value) {
+        if (value == null) {
+            throw new IllegalArgumentException("missing " + type + " for guard payload");
+        }
+    }
+
+    /**
      * Starts the GUARD.
      */
     @Override
     protected CompletableFuture<OperationOutcome> startPreprocessorAsync() {
+        return startGuardAsync();
+    }
+
+    /**
+     * Stores the VF count and then runs the guard.
+     *
+     * @return a future to cancel or await the guard response
+     */
+    protected CompletableFuture<OperationOutcome> storeVfCountRunGuard() {
+        String custId = params.getTarget().getModelCustomizationId();
+        String invId = params.getTarget().getModelInvariantId();
+        String verId = params.getTarget().getModelVersionId();
+
+        AaiCqResponse cq = params.getContext().getProperty(AaiCqResponse.CONTEXT_KEY);
+        int vfcount = cq.getVfModuleCount(custId, invId, verId);
+
+        params.getContext().setProperty(SoConstants.CONTEXT_KEY_VF_COUNT, vfcount);
+
         return startGuardAsync();
     }
 
@@ -116,6 +151,7 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
         if (rawResponse.getStatus() == 200) {
             String requestState = getRequestState(response);
             if (COMPLETE.equalsIgnoreCase(requestState)) {
+                successfulCompletion();
                 return CompletableFuture
                                 .completedFuture(setOutcome(outcome, PolicyResult.SUCCESS, rawResponse, response));
             }
@@ -144,6 +180,13 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
         // sleep and then perform a "get" operation
         Function<Void, CompletableFuture<OperationOutcome>> doGet = unused -> issueGet(outcome, response);
         return sleep(getWaitMsGet(), TimeUnit.MILLISECONDS).thenComposeAsync(doGet);
+    }
+
+    /**
+     * Invoked when a request completes successfully.
+     */
+    protected void successfulCompletion() {
+        // do nothing
     }
 
     /**
@@ -251,13 +294,13 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
             return null;
         }
 
-        String json = params.getPayload().get(REQ_PARAM_NM);
-        if (json == null) {
+        Object data = params.getPayload().get(REQ_PARAM_NM);
+        if (data == null) {
             return null;
         }
 
         try {
-            return coder.decode(json, SoRequestParameters.class);
+            return coder.decode(data.toString(), SoRequestParameters.class);
         } catch (CoderException e) {
             throw new IllegalArgumentException("invalid payload value: " + REQ_PARAM_NM);
         }
@@ -271,14 +314,14 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
             return null;
         }
 
-        String json = params.getPayload().get(CONFIG_PARAM_NM);
-        if (json == null) {
+        Object data = params.getPayload().get(CONFIG_PARAM_NM);
+        if (data == null) {
             return null;
         }
 
         try {
             @SuppressWarnings("unchecked")
-            List<Map<String, String>> result = coder.decode(json, ArrayList.class);
+            List<Map<String, String>> result = coder.decode(data.toString(), ArrayList.class);
             return result;
         } catch (CoderException | RuntimeException e) {
             throw new IllegalArgumentException("invalid payload value: " + CONFIG_PARAM_NM);

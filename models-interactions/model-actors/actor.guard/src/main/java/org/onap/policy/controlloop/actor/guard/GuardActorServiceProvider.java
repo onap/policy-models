@@ -24,10 +24,11 @@ package org.onap.policy.controlloop.actor.guard;
 
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpActor;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperator;
+import org.onap.policy.controlloop.actorserviceprovider.impl.OperationPartial;
 
 public class GuardActorServiceProvider extends HttpActor<GuardActorParams> {
     // actor name
-    public static final String NAME = "GUARD";
+    public static final String NAME = OperationPartial.GUARD_ACTOR_NAME;
 
     /**
      * Constructs the object.

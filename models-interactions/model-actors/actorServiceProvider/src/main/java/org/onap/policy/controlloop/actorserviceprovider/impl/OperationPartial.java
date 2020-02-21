@@ -23,8 +23,10 @@ package org.onap.policy.controlloop.actorserviceprovider.impl;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
@@ -71,6 +73,8 @@ public abstract class OperationPartial implements Operation {
     private static final Logger logger = LoggerFactory.getLogger(OperationPartial.class);
     private static final Coder coder = new StandardCoder();
 
+    public static final String GUARD_ACTOR_NAME = "GUARD";
+    public static final String GUARD_OPERATION_NAME = "Decision";
     public static final long DEFAULT_RETRY_WAIT_MS = 1000L;
 
     private final OperatorConfig config;
@@ -187,7 +191,7 @@ public abstract class OperationPartial implements Operation {
 
     /**
      * Invokes the operation's preprocessor step(s) as a "future". This method simply
-     * invokes {@link #startGuardAsync()}.
+     * returns {@code null}.
      * <p/>
      * This method assumes the following:
      * <ul>
@@ -199,12 +203,11 @@ public abstract class OperationPartial implements Operation {
      *         {@code null} if this operation needs no preprocessor
      */
     protected CompletableFuture<OperationOutcome> startPreprocessorAsync() {
-        return startGuardAsync();
+        return null;
     }
 
     /**
-     * Invokes the operation's guard step(s) as a "future". This method simply returns
-     * {@code null}.
+     * Invokes the operation's guard step(s) as a "future".
      * <p/>
      * This method assumes the following:
      * <ul>
@@ -216,7 +219,42 @@ public abstract class OperationPartial implements Operation {
      *         {@code null} if this operation has no guard
      */
     protected CompletableFuture<OperationOutcome> startGuardAsync() {
-        return null;
+        // get the guard payload
+        Map<String,Object> guardPayload = makeGuardPayload();
+
+        // wrap it in a "resource"
+        Map<String,Object> resource = new LinkedHashMap<>();
+        resource.put("guard", guardPayload);
+
+        Map<String,Object> payload = new LinkedHashMap<>();
+        payload.put("resource", resource);
+
+        /*
+         * Note: can't use constants from actor.guard, because that would create a
+         * circular dependency.
+         */
+        return params.toBuilder().actor(GUARD_ACTOR_NAME).operation(GUARD_OPERATION_NAME).retry(null).timeoutSec(null)
+                        .payload(payload).build().start();
+    }
+
+    /**
+     * Creates a payload to execute a guard operation.
+     *
+     * @return a new guard payload
+     */
+    protected Map<String, Object> makeGuardPayload() {
+        Map<String, Object> guard = new LinkedHashMap<>();
+        guard.put("actor", params.getActor());
+        guard.put("recipe", params.getOperation());
+        guard.put("target", params.getTargetEntity());
+        guard.put("requestId", params.getRequestId());
+
+        String clname = params.getContext().getEvent().getClosedLoopControlName();
+        if (clname != null) {
+            guard.put("clname", clname);
+        }
+
+        return guard;
     }
 
     /**

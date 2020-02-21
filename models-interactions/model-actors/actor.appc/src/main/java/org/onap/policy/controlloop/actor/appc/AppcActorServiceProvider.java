@@ -42,7 +42,7 @@ import org.slf4j.LoggerFactory;
 
 
 public class AppcActorServiceProvider extends BidirectionalTopicActor<BidirectionalTopicActorParams> {
-    private static final String NAME = "APPC";
+    public static final String NAME = "APPC";
 
     private static final Logger logger = LoggerFactory.getLogger(AppcActorServiceProvider.class);
 
