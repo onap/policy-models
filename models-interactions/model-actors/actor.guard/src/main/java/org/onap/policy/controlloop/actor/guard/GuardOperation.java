@@ -20,9 +20,7 @@
 
 package org.onap.policy.controlloop.actor.guard;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import javax.ws.rs.client.Entity;
@@ -33,13 +31,12 @@ import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperation;
+import org.onap.policy.controlloop.actorserviceprovider.impl.OperationPartial;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.models.decisions.concepts.DecisionRequest;
 import org.onap.policy.models.decisions.concepts.DecisionResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Guard Operation. The outcome message is set to the guard response. If the guard is
@@ -57,16 +54,13 @@ import org.slf4j.LoggerFactory;
  * </dl>
  */
 public class GuardOperation extends HttpOperation<DecisionResponse> {
-    private static final Logger logger = LoggerFactory.getLogger(GuardOperation.class);
 
     // operation name
-    public static final String NAME = "Decision";
+    public static final String NAME = OperationPartial.GUARD_OPERATION_NAME;
 
     public static final String PERMIT = "Permit";
     public static final String DENY = "Deny";
     public static final String INDETERMINATE = "Indeterminate";
-
-    private static final String RESOURCE = "resource";
 
     /**
      * Prefix for properties in the payload that should be copied to the "resource" field
@@ -118,34 +112,9 @@ public class GuardOperation extends HttpOperation<DecisionResponse> {
             throw new IllegalArgumentException("missing payload");
         }
 
-        /*
-         * This code could be easily modified to allow the context and/or resource to be
-         * an encoded JSON string, that is decoded into a Map and stuffed into the
-         * appropriate field.
-         */
-
         Map<String, Object> req = config.makeRequest();
-        Map<String, Object> resource = new LinkedHashMap<>();
-
-        for (Entry<String, String> ent : params.getPayload().entrySet()) {
-            String key = ent.getKey();
-
-            if (key.startsWith(RESOURCE_PREFIX)) {
-                // it's a resource property - put into the resource map
-                key = key.substring(RESOURCE_PREFIX.length());
-                resource.put(key, ent.getValue());
-
-            } else if (key.indexOf('.') < 0) {
-                // it's a normal property - put into the request map
-                req.put(key, ent.getValue());
-
-            } else {
-                logger.warn("{}: unused key {} in payload for {}", getFullName(), key, params.getRequestId());
-            }
-        }
-
+        req.putAll(params.getPayload());
         req.computeIfAbsent("requestId", key -> UUID.randomUUID().toString());
-        req.put(RESOURCE, resource);
 
         return req;
     }

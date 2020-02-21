@@ -18,35 +18,30 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.controlloop.actor.aai;
+package org.onap.policy.controlloop.actor.test;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.stream.Collectors;
 import org.junit.Test;
-import org.onap.policy.controlloop.actor.test.BasicActor;
 
-public class AaiActorServiceProviderTest extends BasicActor {
+public class BasicActorTest extends BasicActor {
 
     @Test
-    public void testAaiActorServiceProvider() {
-        final AaiActorServiceProvider prov = new AaiActorServiceProvider();
+    public void testVerifyActorService_testStartOtherServices_testStopOtherServices() {
+        // mostly empty service
+        verifyActorService(DummyActor.NAME, "service.yaml");
 
-        // verify that it has the operators we expect
-        List<String> expected = new LinkedList<>();
-        expected.add(AaiCustomQueryOperation.NAME);
-        expected.addAll(AaiGetOperation.OPERATIONS);
+        // service with Topics and HTTP Clients
+        verifyActorService(DummyActor.NAME, "serviceFull.yaml");
 
-        Collections.sort(expected);
+        assertThatIllegalArgumentException()
+                        .isThrownBy(() -> verifyActorService(DummyActor.NAME, "serviceInvalidHttp.yaml"));
 
-        var actual = prov.getOperationNames().stream().sorted().collect(Collectors.toList());
+        assertThatIllegalArgumentException()
+                        .isThrownBy(() -> verifyActorService(DummyActor.NAME, "serviceMissingActors.yaml"));
 
-        assertEquals(expected.toString(), actual.toString());
-
-        // verify that it all plugs into the ActorService
-        verifyActorService(AaiActorServiceProvider.NAME, "service.yaml");
+        // config file not found
+        assertThatThrownBy(() -> verifyActorService(DummyActor.NAME, "file-not-found.yaml"));
     }
 }
