@@ -28,7 +28,9 @@ import java.util.List;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.ControlLoopResponse;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
-import org.onap.policy.controlloop.actorserviceprovider.impl.ActorImpl;
+import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicActor;
+import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicOperator;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicActorParams;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.sdnr.PciCommonHeader;
@@ -40,9 +42,11 @@ import org.onap.policy.sdnr.PciResponseWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SdnrActorServiceProvider extends ActorImpl {
+public class SdnrActorServiceProvider extends BidirectionalTopicActor<BidirectionalTopicActorParams>  {
 
     private static final String NAME = "SDNR";
+
+    // TODO old code: remove lines down to **HERE**
 
     public static class Pair<A, B> {
         public final A result;
@@ -80,9 +84,19 @@ public class SdnrActorServiceProvider extends ActorImpl {
     private static final ImmutableMap<String, List<String>> payloads = new ImmutableMap.Builder<String, List<String>>()
             .put(RECIPE_MODIFY, ImmutableList.of(SDNR_REQUEST_PARAMS, SDNR_CONFIG_PARAMS)).build();
 
+    // **HERE**
+
+    /**
+     * Constructor.
+     */
     public SdnrActorServiceProvider() {
-        super(NAME);
+        super(NAME, BidirectionalTopicActorParams.class);
+
+        addOperator(new BidirectionalTopicOperator(NAME, ModifyConfigOperation.NAME, this, SdnrOperation.SELECTOR_KEYS,
+                ModifyConfigOperation::new));
     }
+
+    // TODO old code: remove lines down to **HERE**
 
     @Override
     public String actor() {
@@ -290,4 +304,5 @@ public class SdnrActorServiceProvider extends ActorImpl {
         return clRsp;
     }
 
+    // **HERE**
 }

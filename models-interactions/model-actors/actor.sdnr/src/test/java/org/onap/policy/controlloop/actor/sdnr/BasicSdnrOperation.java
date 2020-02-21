@@ -1,0 +1,99 @@
+/*--
+ * ============LICENSE_START=======================================================
+ * ONAP
+ * ================================================================================
+ * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * ================================================================================
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ============LICENSE_END=========================================================
+ */
+
+package org.onap.policy.controlloop.actor.sdnr;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
+import org.onap.policy.controlloop.actor.test.BasicBidirectionalTopicOperation;
+import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.policy.PolicyResult;
+import org.onap.policy.sdnr.PciResponse;
+import org.onap.policy.sdnr.PciResponseWrapper;
+import org.onap.policy.sdnr.Status;
+import org.onap.policy.sdnr.util.StatusCodeEnum;
+
+public abstract class BasicSdnrOperation extends BasicBidirectionalTopicOperation {
+
+    protected PciResponseWrapper response;
+
+    /**
+     * Constructs the object using a default actor and operation name.
+     */
+    public BasicSdnrOperation() {
+        super();
+    }
+
+    /**
+     * Constructs the object.
+     *
+     * @param actor actor name
+     * @param operation operation name
+     */
+    public BasicSdnrOperation(String actor, String operation) {
+        super(actor, operation);
+    }
+
+    /**
+     * Initializes mocks and sets up.
+     */
+    public void setUp() throws Exception {
+        super.setUpBasic();
+
+        response = new PciResponseWrapper();
+
+        PciResponse body = new PciResponse();
+        Status status = new Status();
+        status.setCode(100);
+        status.setValue(StatusCodeEnum.SUCCESS.toString());
+        body.setStatus(status);
+        response.setBody(body);
+    }
+
+    /**
+     * Runs the operation and verifies that the response is successful.
+     *
+     * @param operation operation to run
+     */
+    protected void verifyOperation(SdnrOperation operation)
+                    throws InterruptedException, ExecutionException, TimeoutException {
+
+        CompletableFuture<OperationOutcome> future2 = operation.start();
+        executor.runAll(100);
+        assertFalse(future2.isDone());
+
+        verify(forwarder).register(any(), listenerCaptor.capture());
+        provideResponse(listenerCaptor.getValue(), StatusCodeEnum.SUCCESS.toString());
+
+        executor.runAll(100);
+        assertTrue(future2.isDone());
+
+        outcome = future2.get();
+        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+    }
+
+}
