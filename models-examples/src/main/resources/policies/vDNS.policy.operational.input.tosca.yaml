@@ -18,7 +18,7 @@ topology_template:
                         actor: SO
                         operation: VF Module Create
                         target:
-                            type: VFMODULE
+                            targetType: VFMODULE
                             entityIds:
                                 modelInvariantId: e6130d03-56f1-4b0a-9a1d-e1b2ebc30e0e
                                 modelVersionId: 94b18b1d-cc91-4f43-911a-e6348665f292
