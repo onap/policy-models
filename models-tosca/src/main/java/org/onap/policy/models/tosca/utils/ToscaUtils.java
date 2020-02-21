@@ -23,6 +23,7 @@ package org.onap.policy.models.tosca.utils;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Function;
 import javax.ws.rs.core.Response;
 import lombok.NonNull;
@@ -235,12 +236,14 @@ public final class ToscaUtils {
         Set<JpaToscaEntityType<ToscaEntity>> ancestorEntitySet = (Set<JpaToscaEntityType<ToscaEntity>>) entityTypes
                 .getAll(parentEntityTypeKey.getName(), parentEntityTypeKey.getVersion());
 
-        if (ancestorEntitySet.isEmpty()) {
+        CopyOnWriteArrayList<JpaToscaEntityType<ToscaEntity>> ancestorEntitySetToReturn = new CopyOnWriteArrayList<>();
+        ancestorEntitySetToReturn.addAll(ancestorEntitySet);
+        if (ancestorEntitySetToReturn.isEmpty()) {
             result.addValidationMessage(new PfValidationMessage(entityType.getKey(), ToscaUtils.class,
                     ValidationResult.INVALID, "parent " + parentEntityTypeKey.getId() + " of entity not found"));
         } else {
-            for (JpaToscaEntityType<?> filteredEntityType : ancestorEntitySet) {
-                ancestorEntitySet.addAll(getEntityTypeAncestors(entityTypes, filteredEntityType, result));
+            for (JpaToscaEntityType<?> filteredEntityType : ancestorEntitySetToReturn) {
+                ancestorEntitySetToReturn.addAll(getEntityTypeAncestors(entityTypes, filteredEntityType, result));
             }
         }
         return ancestorEntitySet;
