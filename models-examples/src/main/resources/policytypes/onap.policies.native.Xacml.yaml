@@ -14,4 +14,4 @@ policy_types:
                 required: true
                 description: The XML XACML 3.0 PolicySet or Policy
                 metadata:
-                    encoding: URL
+                    encoding: Base64
