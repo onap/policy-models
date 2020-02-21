@@ -234,16 +234,16 @@ public final class ToscaUtils {
         @SuppressWarnings("unchecked")
         Set<JpaToscaEntityType<ToscaEntity>> ancestorEntitySet = (Set<JpaToscaEntityType<ToscaEntity>>) entityTypes
                 .getAll(parentEntityTypeKey.getName(), parentEntityTypeKey.getVersion());
-
+        Set<JpaToscaEntityType<ToscaEntity>> ancestorEntitySetToReturn = new HashSet<>(ancestorEntitySet);
         if (ancestorEntitySet.isEmpty()) {
             result.addValidationMessage(new PfValidationMessage(entityType.getKey(), ToscaUtils.class,
                     ValidationResult.INVALID, "parent " + parentEntityTypeKey.getId() + " of entity not found"));
         } else {
             for (JpaToscaEntityType<?> filteredEntityType : ancestorEntitySet) {
-                ancestorEntitySet.addAll(getEntityTypeAncestors(entityTypes, filteredEntityType, result));
+                ancestorEntitySetToReturn.addAll(getEntityTypeAncestors(entityTypes, filteredEntityType, result));
             }
         }
-        return ancestorEntitySet;
+        return ancestorEntitySetToReturn;
     }
 
     /**
