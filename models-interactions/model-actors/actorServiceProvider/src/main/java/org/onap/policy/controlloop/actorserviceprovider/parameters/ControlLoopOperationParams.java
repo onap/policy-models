@@ -86,7 +86,7 @@ public class ControlLoopOperationParams {
     /**
      * Payload data for the request.
      */
-    private Map<String, String> payload;
+    private Map<String, Object> payload;
 
     /**
      * Number of retries allowed, or {@code null} if no retries.

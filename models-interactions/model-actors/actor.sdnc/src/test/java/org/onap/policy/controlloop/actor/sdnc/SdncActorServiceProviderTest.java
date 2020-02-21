@@ -36,10 +36,11 @@ import org.junit.Test;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
+import org.onap.policy.controlloop.actor.test.BasicActor;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.sdnc.SdncRequest;
 
-public class SdncActorServiceProviderTest {
+public class SdncActorServiceProviderTest extends BasicActor {
 
     private static final String REROUTE = RerouteOperation.NAME;
 
@@ -68,6 +69,9 @@ public class SdncActorServiceProviderTest {
         var actual = prov.getOperationNames().stream().sorted().collect(Collectors.toList());
 
         assertEquals(expected.toString(), actual.toString());
+
+        // verify that it all plugs into the ActorService
+        verifyActorService(SdncActorServiceProvider.NAME, "service.yaml");
     }
 
     @Test
