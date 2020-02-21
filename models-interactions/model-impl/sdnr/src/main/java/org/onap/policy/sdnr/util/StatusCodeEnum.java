@@ -74,6 +74,42 @@ public enum StatusCodeEnum {
         return null;
     }
 
+    /**
+     * Best guess on a value, but since some of these
+     * codes could be any value this may be difficult to
+     * use during runtime.
+
+     * @param code input StatusCodeEnum
+     * @return integer value
+     */
+    public static int toValue(StatusCodeEnum code) {
+        switch (code) {
+            case ACCEPTED:
+                return 100;
+
+            case SUCCESS:
+                return 200;
+
+            case REJECT:
+                return 300;
+
+            case ERROR:
+                return 400;
+
+            case FAILURE:
+                return 450;
+
+            case PARTIAL_SUCCESS:
+                return 500;
+
+            case PARTIAL_FAILURE:
+                return 501;
+
+            default:
+                return 0;
+        }
+    }
+
     private static boolean isRejectStatusCode(final int statusCode) {
         return statusCode >= 300 && statusCode <= 313;
     }
