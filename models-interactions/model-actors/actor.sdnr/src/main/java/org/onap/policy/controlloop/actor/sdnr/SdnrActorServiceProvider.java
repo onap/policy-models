@@ -25,10 +25,13 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import java.util.Collections;
 import java.util.List;
+import org.apache.commons.lang3.tuple.Pair;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.ControlLoopResponse;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
-import org.onap.policy.controlloop.actorserviceprovider.impl.ActorImpl;
+import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicActor;
+import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicOperator;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicActorParams;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.sdnr.PciCommonHeader;
@@ -40,27 +43,11 @@ import org.onap.policy.sdnr.PciResponseWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SdnrActorServiceProvider extends ActorImpl {
+public class SdnrActorServiceProvider extends BidirectionalTopicActor<BidirectionalTopicActorParams>  {
 
     private static final String NAME = "SDNR";
 
-    public static class Pair<A, B> {
-        public final A result;
-        public final B message;
-
-        public Pair(A result, B message) {
-            this.result = result;
-            this.message = message;
-        }
-
-        public A getResult() {
-            return this.result;
-        }
-
-        public B getMessage() {
-            return this.message;
-        }
-    }
+    // TODO old code: remove lines down to **HERE**
 
     private static final Logger logger = LoggerFactory.getLogger(SdnrActorServiceProvider.class);
 
@@ -80,9 +67,19 @@ public class SdnrActorServiceProvider extends ActorImpl {
     private static final ImmutableMap<String, List<String>> payloads = new ImmutableMap.Builder<String, List<String>>()
             .put(RECIPE_MODIFY, ImmutableList.of(SDNR_REQUEST_PARAMS, SDNR_CONFIG_PARAMS)).build();
 
+    // **HERE**
+
+    /**
+     * Constructor.
+     */
     public SdnrActorServiceProvider() {
-        super(NAME);
+        super(NAME, BidirectionalTopicActorParams.class);
+
+        addOperator(new BidirectionalTopicOperator(NAME, ModifyConfigOperation.NAME, this, SdnrOperation.SELECTOR_KEYS,
+                ModifyConfigOperation::new));
     }
+
+    // TODO old code: remove lines down to **HERE**
 
     @Override
     public String actor() {
@@ -195,7 +192,7 @@ public class SdnrActorServiceProvider extends ActorImpl {
      * @return an key-value pair that contains the Policy result and SDNR response
      *         message
      */
-    public static SdnrActorServiceProvider.Pair<PolicyResult, String> processResponse(
+    public static Pair<PolicyResult, String> processResponse(
             PciResponseWrapper dmaapResponse) {
 
         logger.info("SDNR processResponse called : {}", dmaapResponse);
@@ -214,7 +211,7 @@ public class SdnrActorServiceProvider extends ActorImpl {
          */
         if (sdnrResponse.getStatus() == null) {
             message = "Policy was unable to parse SDN-R response status field (it was null).";
-            return new SdnrActorServiceProvider.Pair<>(PolicyResult.FAILURE_EXCEPTION, message);
+            return Pair.of(PolicyResult.FAILURE_EXCEPTION, message);
         }
 
         /*
@@ -223,7 +220,7 @@ public class SdnrActorServiceProvider extends ActorImpl {
         String responseValue = PciResponseCode.toResponseValue(sdnrResponse.getStatus().getCode());
         if (responseValue == null) {
             message = "Policy was unable to parse SDN-R response status code field.";
-            return new SdnrActorServiceProvider.Pair<>(PolicyResult.FAILURE_EXCEPTION, message);
+            return Pair.of(PolicyResult.FAILURE_EXCEPTION, message);
         }
         logger.info("SDNR Response Code is {}", responseValue);
 
@@ -255,7 +252,7 @@ public class SdnrActorServiceProvider extends ActorImpl {
             default:
                 result = PolicyResult.FAILURE_EXCEPTION;
         }
-        return new SdnrActorServiceProvider.Pair<>(result, message);
+        return Pair.of(result, message);
     }
 
     /**
@@ -290,4 +287,5 @@ public class SdnrActorServiceProvider extends ActorImpl {
         return clRsp;
     }
 
+    // **HERE**
 }
