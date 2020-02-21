@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "402341ff_bbc04837",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/utils/ToscaUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-02-21T17:16:43Z",
+      "side": 1,
+      "message": "List\u003cJpaToscaEntityType\u003cToscaEntity\u003e\u003e - generic list type ?",
+      "revId": "f8274f90fe658cc7bb76d22086406d5db105d616",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1c1898_e9370169",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/utils/ToscaUtils.java",
         "patchSetId": 2
@@ -30,6 +47,24 @@
       "writtenOn": "2020-02-21T16:47:49Z",
       "side": 1,
       "message": "I assume we do not need to examine any of those that are added",
+      "revId": "f8274f90fe658cc7bb76d22086406d5db105d616",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a36b705e_d1bdc884",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/utils/ToscaUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-02-21T17:16:43Z",
+      "side": 1,
+      "message": "Out of curiosity, is it be safely assumed previous to call this method, that the chain of policy types is correct?  If not ensured, could get some funky behavior here.\n\nFYI. If using recursion, it seems to me in this case that a tail-recursive version of it, would be more effective (with a list accumulator being passed as an argument that you would add to).  In theory, it should eliminate all these CopyOnWrite.. instantiations.  Not a comment, just a consideration.",
+      "parentUuid": "31d8279b_ae8bb165",
       "revId": "f8274f90fe658cc7bb76d22086406d5db105d616",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
