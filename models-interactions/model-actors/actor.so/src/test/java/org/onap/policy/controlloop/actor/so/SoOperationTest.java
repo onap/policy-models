@@ -22,6 +22,7 @@ package org.onap.policy.controlloop.actor.so;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
@@ -35,7 +36,6 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import org.junit.Before;
@@ -83,18 +83,7 @@ public class SoOperationTest extends BasicSoOperation {
 
     @Test
     public void testStartPreprocessorAsync() {
-        AtomicBoolean guardStarted = new AtomicBoolean();
-
-        oper = new SoOperation(params, config) {
-            @Override
-            protected CompletableFuture<OperationOutcome> startGuardAsync() {
-                guardStarted.set(true);
-                return super.startGuardAsync();
-            }
-        };
-
-        assertNull(oper.startPreprocessorAsync());
-        assertTrue(guardStarted.get());
+        assertNotNull(oper.startPreprocessorAsync());
     }
 
     @Test

@@ -125,8 +125,8 @@ public abstract class BasicSoOperation extends BasicHttpOperation<SoRequest> {
     }
 
     @Override
-    protected Map<String, String> makePayload() {
-        Map<String, String> payload = new HashMap<>();
+    protected Map<String, Object> makePayload() {
+        Map<String, Object> payload = new HashMap<>();
 
         // request parameters
         SoRequestParameters reqParams = new SoRequestParameters();

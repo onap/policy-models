@@ -116,6 +116,7 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
         if (rawResponse.getStatus() == 200) {
             String requestState = getRequestState(response);
             if (COMPLETE.equalsIgnoreCase(requestState)) {
+                successfulCompletion();
                 return CompletableFuture
                                 .completedFuture(setOutcome(outcome, PolicyResult.SUCCESS, rawResponse, response));
             }
@@ -144,6 +145,13 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
         // sleep and then perform a "get" operation
         Function<Void, CompletableFuture<OperationOutcome>> doGet = unused -> issueGet(outcome, response);
         return sleep(getWaitMsGet(), TimeUnit.MILLISECONDS).thenComposeAsync(doGet);
+    }
+
+    /**
+     * Invoked when a request completes successfully.
+     */
+    protected void successfulCompletion() {
+        // do nothing
     }
 
     /**
@@ -251,13 +259,13 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
             return null;
         }
 
-        String json = params.getPayload().get(REQ_PARAM_NM);
-        if (json == null) {
+        Object data = params.getPayload().get(REQ_PARAM_NM);
+        if (data == null) {
             return null;
         }
 
         try {
-            return coder.decode(json, SoRequestParameters.class);
+            return coder.decode(data.toString(), SoRequestParameters.class);
         } catch (CoderException e) {
             throw new IllegalArgumentException("invalid payload value: " + REQ_PARAM_NM);
         }
@@ -271,14 +279,14 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
             return null;
         }
 
-        String json = params.getPayload().get(CONFIG_PARAM_NM);
-        if (json == null) {
+        Object data = params.getPayload().get(CONFIG_PARAM_NM);
+        if (data == null) {
             return null;
         }
 
         try {
             @SuppressWarnings("unchecked")
-            List<Map<String, String>> result = coder.decode(json, ArrayList.class);
+            List<Map<String, String>> result = coder.decode(data.toString(), ArrayList.class);
             return result;
         } catch (CoderException | RuntimeException e) {
             throw new IllegalArgumentException("invalid payload value: " + CONFIG_PARAM_NM);
