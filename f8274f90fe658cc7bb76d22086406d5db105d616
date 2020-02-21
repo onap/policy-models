@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a1c1898_e9370169",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/utils/ToscaUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-21T16:47:49Z",
+      "side": 1,
+      "message": "combine with the previous line",
+      "revId": "f8274f90fe658cc7bb76d22086406d5db105d616",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31d8279b_ae8bb165",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/utils/ToscaUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-21T16:47:49Z",
+      "side": 1,
+      "message": "I assume we do not need to examine any of those that are added",
+      "revId": "f8274f90fe658cc7bb76d22086406d5db105d616",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
