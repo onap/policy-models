@@ -63,6 +63,11 @@ public class AppcOperationTest extends BasicAppcOperation {
     }
 
     @Test
+    public void testStartPreprocessorAsync() {
+        assertNotNull(oper.startPreprocessorAsync());
+    }
+
+    @Test
     public void testMakeRequest() {
         Request request = oper.makeRequest(2, MY_VNF);
         assertEquals(DEFAULT_OPERATION, request.getAction());
@@ -106,7 +111,7 @@ public class AppcOperationTest extends BasicAppcOperation {
         /*
          * insert invalid json text into the payload.
          */
-        Map<String, String> payload = new TreeMap<>(params.getPayload());
+        Map<String, Object> payload = new TreeMap<>(params.getPayload());
         payload.put("invalid-key", "{invalid json");
 
         params = params.toBuilder().payload(payload).build();
@@ -126,6 +131,31 @@ public class AppcOperationTest extends BasicAppcOperation {
                     KEY2, Map.of("output", "world")),
             request.getPayload());
         // @formatter:on
+
+
+        /*
+         * insert null item into the payload.
+         */
+        payload = new TreeMap<>();
+        payload.put(KEY1, "abc");
+        payload.put(KEY2, null);
+        payload.put(KEY3, "def");
+        params = params.toBuilder().payload(payload).build();
+
+        oper = new AppcOperation(params, config) {
+            @Override
+            protected Request makeRequest(int attempt) {
+                return oper.makeRequest(attempt, MY_VNF);
+            }
+        };
+        request = oper.makeRequest(2, MY_VNF);
+
+        payload.put(AppcOperation.VNF_ID_KEY, MY_VNF);
+        payload.put(KEY1, "abc");
+        payload.put(KEY2, null);
+        payload.put(KEY3, "def");
+
+        assertEquals(payload, request.getPayload());
     }
 
     @Test

@@ -33,7 +33,7 @@ import org.onap.policy.controlloop.actorserviceprovider.Util;
 
 /**
  * Superclass for Actor parameters that have default values in "this" object, and
- * operation-specific values in {@link #operation}.
+ * operation-specific values in {@link #operations}.
  */
 @Getter
 @Setter
@@ -44,7 +44,7 @@ public class CommonActorParams {
      * Maps the operation name to its parameters.
      */
     @NotNull
-    protected Map<String, Map<String, Object>> operation;
+    protected Map<String, Map<String, Object>> operations;
 
 
     /**
@@ -60,7 +60,7 @@ public class CommonActorParams {
         defaultParams.remove("operation");
 
         return operationName -> {
-            Map<String, Object> specificParams = operation.get(operationName);
+            Map<String, Object> specificParams = operations.get(operationName);
             if (specificParams == null) {
                 return null;
             }

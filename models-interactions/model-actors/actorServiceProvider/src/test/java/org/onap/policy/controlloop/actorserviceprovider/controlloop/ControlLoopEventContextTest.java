@@ -41,6 +41,7 @@ import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 
 public class ControlLoopEventContextTest {
+    private static final String MY_KEY = "def";
     private static final UUID REQ_ID = UUID.randomUUID();
     private static final String ITEM_KEY = "obtain-C";
 
@@ -53,7 +54,7 @@ public class ControlLoopEventContextTest {
      */
     @Before
     public void setUp() {
-        enrichment = Map.of("abc", "one", "def", "two");
+        enrichment = Map.of("abc", "one", MY_KEY, "two");
 
         event = new VirtualControlLoopEvent();
         event.setRequestId(REQ_ID);
@@ -81,17 +82,21 @@ public class ControlLoopEventContextTest {
     }
 
     @Test
-    public void testContains_testGetProperty_testSetProperty() {
+    public void testContains_testGetProperty_testSetProperty_testRemoveProperty() {
         context.setProperty("abc", "a string");
-        context.setProperty("def", 100);
+        context.setProperty(MY_KEY, 100);
 
+        assertTrue(context.contains(MY_KEY));
         assertFalse(context.contains("ghi"));
 
         String strValue = context.getProperty("abc");
         assertEquals("a string", strValue);
 
-        int intValue = context.getProperty("def");
+        int intValue = context.getProperty(MY_KEY);
         assertEquals(100, intValue);
+
+        context.removeProperty(MY_KEY);
+        assertFalse(context.contains(MY_KEY));
     }
 
     @Test

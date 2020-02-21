@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import org.onap.policy.appc.CommonHeader;
 import org.onap.policy.appc.Request;
 import org.onap.policy.appc.Response;
@@ -67,6 +68,14 @@ public abstract class AppcOperation extends BidirectionalTopicOperation<Request,
     }
 
     /**
+     * Starts the GUARD.
+     */
+    @Override
+    protected CompletableFuture<OperationOutcome> startPreprocessorAsync() {
+        return startGuardAsync();
+    }
+
+    /**
      * Makes a request, given the target VNF. This is a support function for
      * {@link #makeRequest(int)}.
      *
@@ -104,10 +113,16 @@ public abstract class AppcOperation extends BidirectionalTopicOperation<Request,
      * @param source source from which to get the values
      * @param target where to place the decoded values
      */
-    private static void convertPayload(Map<String, String> source, Map<String, Object> target) {
-        for (Entry<String, String> ent : source.entrySet()) {
+    private static void convertPayload(Map<String, Object> source, Map<String, Object> target) {
+        for (Entry<String, Object> ent : source.entrySet()) {
+            Object value = ent.getValue();
+            if (value == null) {
+                target.put(ent.getKey(), null);
+                continue;
+            }
+
             try {
-                target.put(ent.getKey(), coder.decode(ent.getValue(), Object.class));
+                target.put(ent.getKey(), coder.decode(value.toString(), Object.class));
 
             } catch (CoderException e) {
                 logger.warn("cannot decode JSON value {}: {}", ent.getKey(), ent.getValue(), e);

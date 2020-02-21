@@ -74,7 +74,7 @@ public class GuardActorParamsTest {
         assertEquals(GuardActorParams.DEFAULT_ACTION, sparse.getAction());
 
         // check fields from superclass
-        testValidateField("operation", "null", params2 -> params2.setOperation(null));
+        testValidateField("operation", "null", params2 -> params2.setOperations(null));
         testValidateField("timeoutSec", "minimum", params2 -> params2.setTimeoutSec(-1));
     }
 
@@ -96,7 +96,7 @@ public class GuardActorParamsTest {
         GuardActorParams params2 = new GuardActorParams();
         params2.setClientName(CLIENT);
         params2.setTimeoutSec(TIMEOUT);
-        params2.setOperation(operations);
+        params2.setOperations(operations);
 
         params2.setOnapName(ONAP_NAME);
         params2.setOnapComponent(ONAP_COMP);
