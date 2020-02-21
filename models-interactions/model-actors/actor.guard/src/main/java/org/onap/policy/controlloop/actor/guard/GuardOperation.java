@@ -33,8 +33,8 @@ import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperation;
-import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperator;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.models.decisions.concepts.DecisionRequest;
 import org.onap.policy.models.decisions.concepts.DecisionResponse;
@@ -74,15 +74,18 @@ public class GuardOperation extends HttpOperation<DecisionResponse> {
      */
     public static final String RESOURCE_PREFIX = "resource.";
 
+    private final GuardConfig config;
+
 
     /**
      * Constructs the object.
      *
      * @param params operation parameters
-     * @param operator operator that created this operation
+     * @param config configuration for this operation
      */
-    public GuardOperation(ControlLoopOperationParams params, HttpOperator operator) {
-        super(params, operator, DecisionResponse.class);
+    public GuardOperation(ControlLoopOperationParams params, HttpConfig config) {
+        super(params, config, DecisionResponse.class);
+        this.config = (GuardConfig) config;
     }
 
     @Override
@@ -101,7 +104,7 @@ public class GuardOperation extends HttpOperation<DecisionResponse> {
 
         // @formatter:off
         return handleResponse(outcome, url,
-            callback -> getOperator().getClient().post(callback, makePath(), entity, headers));
+            callback -> getClient().post(callback, makePath(), entity, headers));
         // @formatter:on
     }
 
@@ -121,7 +124,7 @@ public class GuardOperation extends HttpOperation<DecisionResponse> {
          * appropriate field.
          */
 
-        Map<String, Object> req = new LinkedHashMap<>();
+        Map<String, Object> req = config.makeRequest();
         Map<String, Object> resource = new LinkedHashMap<>();
 
         for (Entry<String, String> ent : params.getPayload().entrySet()) {
@@ -141,7 +144,6 @@ public class GuardOperation extends HttpOperation<DecisionResponse> {
             }
         }
 
-        req.putIfAbsent("action", "guard");
         req.computeIfAbsent("requestId", key -> UUID.randomUUID().toString());
         req.put(RESOURCE, resource);
 

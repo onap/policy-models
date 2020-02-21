@@ -62,6 +62,17 @@ public abstract class OperatorPartial extends StartConfigPartial<Map<String, Obj
     }
 
     /**
+     * Verifies that the operator is running.
+     *
+     * @throws IllegalStateException if it is not running
+     */
+    public void verifyRunning() {
+        if (!isAlive()) {
+            throw new IllegalStateException("operation is not running: " + getFullName());
+        }
+    }
+
+    /**
      * This method does nothing.
      */
     @Override

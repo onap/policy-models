@@ -86,7 +86,7 @@ public class BasicOperation {
     /**
      * Initializes mocks and sets up.
      */
-    public void setUp() throws Exception {
+    public void setUpBasic() {
         MockitoAnnotations.initMocks(this);
 
         future = new CompletableFuture<>();

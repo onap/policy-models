@@ -27,18 +27,26 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpActorPara
 
 /**
  * Actor that uses HTTP, where the only additional property that an operator needs is a
- * URL. The actor's parameters must be an {@link HttpActorParams} and its operator
- * parameters are expected to be an {@link HttpParams}.
+ * URL. The actor's operator parameters are expected to be an {@link HttpParams}.
+ *
+ * @param <P> type of parameters
  */
-public class HttpActor extends ActorImpl {
+public class HttpActor<P extends HttpActorParams> extends ActorImpl {
+
+    /**
+     * Class of parameters.
+     */
+    private final Class<P> paramsClass;
 
     /**
      * Constructs the object.
      *
      * @param name actor's name
+     * @param paramsClass class of parameters
      */
-    public HttpActor(String name) {
+    public HttpActor(String name, Class<P> paramsClass) {
         super(name);
+        this.paramsClass = paramsClass;
     }
 
     /**
@@ -50,7 +58,7 @@ public class HttpActor extends ActorImpl {
         String actorName = getName();
 
         // @formatter:off
-        return Util.translate(actorName, actorParameters, HttpActorParams.class)
+        return Util.translate(actorName, actorParameters, paramsClass)
                         .doValidation(actorName)
                         .makeOperationParameters(actorName);
         // @formatter:on

@@ -64,7 +64,7 @@ public class VfModuleCreateTest extends BasicSoOperation {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        oper = new VfModuleCreate(params, soOperator);
+        oper = new VfModuleCreate(params, config);
     }
 
     @Test
@@ -82,7 +82,7 @@ public class VfModuleCreateTest extends BasicSoOperation {
 
         AtomicBoolean guardStarted = new AtomicBoolean();
 
-        oper = new VfModuleCreate(params, soOperator) {
+        oper = new VfModuleCreate(params, config) {
             @Override
             protected CompletableFuture<OperationOutcome> startGuardAsync() {
                 guardStarted.set(true);
@@ -102,7 +102,7 @@ public class VfModuleCreateTest extends BasicSoOperation {
         // use a real executor
         params = params.toBuilder().executor(ForkJoinPool.commonPool()).build();
 
-        oper = new VfModuleCreate(params, soOperator) {
+        oper = new VfModuleCreate(params, config) {
             @Override
             public long getWaitMsGet() {
                 return 1;
@@ -128,7 +128,7 @@ public class VfModuleCreateTest extends BasicSoOperation {
         // use a real executor
         params = params.toBuilder().executor(ForkJoinPool.commonPool()).build();
 
-        oper = new VfModuleCreate(params, soOperator) {
+        oper = new VfModuleCreate(params, config) {
             @Override
             public long getWaitMsGet() {
                 return 1;

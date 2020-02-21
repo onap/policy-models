@@ -20,20 +20,23 @@
 
 package org.onap.policy.controlloop.actorserviceprovider.impl;
 
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.when;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.BiFunction;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ParameterValidationRuntimeException;
@@ -86,9 +89,7 @@ public class BidirectionalTopicOperatorTest {
     public void testConstructor_testGetParams_testGetTopicHandler_testGetForwarder() {
         assertEquals(ACTOR, oper.getActorName());
         assertEquals(OPERATION, oper.getName());
-        assertEquals(params, oper.getParams());
-        assertSame(handler, oper.getTopicHandler());
-        assertSame(forwarder, oper.getForwarder());
+        assertNotNull(oper.getCurrentConfig());
     }
 
     @Test
@@ -102,31 +103,45 @@ public class BidirectionalTopicOperatorTest {
     }
 
     @Test
-    public void testMakeOperator() {
+    public void testBuildOperator() {
         AtomicReference<ControlLoopOperationParams> paramsRef = new AtomicReference<>();
-        AtomicReference<BidirectionalTopicOperator> operRef = new AtomicReference<>();
+        AtomicReference<BidirectionalTopicConfig> configRef = new AtomicReference<>();
 
         // @formatter:off
-        BiFunction<ControlLoopOperationParams, BidirectionalTopicOperator,
-                    BidirectionalTopicOperation<String, Integer>> maker =
-                        (params, operator) -> {
-                            paramsRef.set(params);
-                            operRef.set(operator);
-                            return operation;
-                        };
+        @SuppressWarnings("rawtypes")
+        OperationMaker<BidirectionalTopicConfig, BidirectionalTopicOperation> maker =
+            (params, config) -> {
+                paramsRef.set(params);
+                configRef.set(config);
+                return operation;
+            };
         // @formatter:on
 
         BidirectionalTopicOperator oper2 =
-                        BidirectionalTopicOperator.makeOperator(ACTOR, OPERATION, mgr, maker, new SelectorKey(""));
+                        new BidirectionalTopicOperator(ACTOR, OPERATION, mgr, maker, new SelectorKey(""));
 
         assertEquals(ACTOR, oper2.getActorName());
         assertEquals(OPERATION, oper2.getName());
 
         ControlLoopOperationParams params2 = ControlLoopOperationParams.builder().build();
 
+        // not running yet
+        assertThatIllegalStateException().isThrownBy(() -> oper2.buildOperation(params2));
+
+        // configure and start it
+        params = BidirectionalTopicParams.builder().sourceTopic(MY_SOURCE).sinkTopic(MY_SINK).timeoutSec(TIMEOUT_SEC)
+                        .build();
+        oper2.configure(Util.translateToMap(OPERATION, params));
+        oper2.start();
+
         assertSame(operation, oper2.buildOperation(params2));
         assertSame(params2, paramsRef.get());
-        assertSame(oper2, operRef.get());
+        assertSame(oper2.getCurrentConfig(), configRef.get());
+
+        // with no operation-maker
+        BidirectionalTopicOperator oper3 =
+                        new BidirectionalTopicOperator(ACTOR, OPERATION, mgr, Arrays.asList(new SelectorKey("")));
+        assertThatThrownBy(() -> oper3.buildOperation(params2)).isInstanceOf(UnsupportedOperationException.class);
     }
 
 

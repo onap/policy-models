@@ -41,6 +41,7 @@ import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.controlloop.policy.Target;
 import org.onap.policy.so.SoModelInfo;
@@ -68,8 +69,7 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
     public static final String REQ_PARAM_NM = "requestParameters";
     public static final String CONFIG_PARAM_NM = "configurationParameters";
 
-    @Getter
-    private final SoOperator operator;
+    private final SoConfig config;
 
     /**
      * Number of "get" requests issued so far, on the current operation attempt.
@@ -82,11 +82,11 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
      * Constructs the object.
      *
      * @param params operation parameters
-     * @param operator operator that created this operation
+     * @param config configuration for this operation
      */
-    public SoOperation(ControlLoopOperationParams params, SoOperator operator) {
-        super(params, operator, SoResponse.class);
-        this.operator = operator;
+    public SoOperation(ControlLoopOperationParams params, HttpConfig config) {
+        super(params, config, SoResponse.class);
+        this.config = (SoConfig) config;
     }
 
     /**
@@ -134,9 +134,8 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
         }
 
         // see if the limit for the number of "gets" has been reached
-        if (getCount++ >= operator.getMaxGets()) {
-            logger.warn("{}: execeeded 'get' limit {} for {}", getFullName(), operator.getMaxGets(),
-                            params.getRequestId());
+        if (getCount++ >= getMaxGets()) {
+            logger.warn("{}: execeeded 'get' limit {} for {}", getFullName(), getMaxGets(), params.getRequestId());
             setOutcome(outcome, PolicyResult.FAILURE_TIMEOUT);
             outcome.setMessage(SO_RESPONSE_CODE + " " + outcome.getMessage());
             return CompletableFuture.completedFuture(outcome);
@@ -155,15 +154,15 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
      * @return a future that can be used to cancel the "get" request or await its response
      */
     private CompletableFuture<OperationOutcome> issueGet(OperationOutcome outcome, SoResponse response) {
-        String path = operator.getPathGet() + response.getRequestReferences().getRequestId();
-        String url = operator.getClient().getBaseUrl() + path;
+        String path = getPathGet() + response.getRequestReferences().getRequestId();
+        String url = getClient().getBaseUrl() + path;
 
         logger.debug("{}: 'get' count {} for {}", getFullName(), getCount, params.getRequestId());
 
         logMessage(EventType.OUT, CommInfrastructure.REST, url, null);
 
         // TODO should this use "path" or the full "url"?
-        return handleResponse(outcome, url, callback -> operator.getClient().get(callback, path, null));
+        return handleResponse(outcome, url, callback -> getClient().get(callback, path, null));
     }
 
     /**
@@ -335,6 +334,18 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
      * @return the wait time, in milliseconds, between "get" requests
      */
     public long getWaitMsGet() {
-        return TimeUnit.MILLISECONDS.convert(operator.getWaitSecGet(), TimeUnit.SECONDS);
+        return TimeUnit.MILLISECONDS.convert(getWaitSecGet(), TimeUnit.SECONDS);
+    }
+
+    public int getMaxGets() {
+        return config.getMaxGets();
+    }
+
+    public String getPathGet() {
+        return config.getPathGet();
+    }
+
+    public int getWaitSecGet() {
+        return config.getWaitSecGet();
     }
 }

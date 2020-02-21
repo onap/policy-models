@@ -32,7 +32,7 @@ import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicOperation;
-import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicOperator;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.topic.SelectorKey;
 import org.onap.policy.controlloop.policy.PolicyResult;
@@ -60,10 +60,10 @@ public abstract class AppcOperation extends BidirectionalTopicOperation<Request,
      * Constructs the object.
      *
      * @param params operation parameters
-     * @param operator operator that created this operation
+     * @param config configuration for this operation
      */
-    public AppcOperation(ControlLoopOperationParams params, BidirectionalTopicOperator operator) {
-        super(params, operator, Response.class);
+    public AppcOperation(ControlLoopOperationParams params, BidirectionalTopicConfig config) {
+        super(params, config, Response.class);
     }
 
     /**

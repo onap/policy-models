@@ -31,8 +31,8 @@ import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperation;
-import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperator;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -68,11 +68,11 @@ public class AaiGetOperation extends HttpOperation<StandardCoderObject> {
      * Constructs the object.
      *
      * @param params operation parameters
-     * @param operator operator that created this operation
+     * @param config configuration for this operation
      */
-    public AaiGetOperation(ControlLoopOperationParams params, HttpOperator operator) {
-        super(params, operator, StandardCoderObject.class);
-        this.propertyPrefix = operator.getFullName() + ".";
+    public AaiGetOperation(ControlLoopOperationParams params, HttpConfig config) {
+        super(params, config, StandardCoderObject.class);
+        this.propertyPrefix = getFullName() + ".";
     }
 
     /**
@@ -98,7 +98,7 @@ public class AaiGetOperation extends HttpOperation<StandardCoderObject> {
 
         // @formatter:off
         return handleResponse(outcome, url,
-            callback -> getOperator().getClient().get(callback, makePath(), headers));
+            callback -> getClient().get(callback, makePath(), headers));
         // @formatter:on
     }
 
@@ -109,7 +109,7 @@ public class AaiGetOperation extends HttpOperation<StandardCoderObject> {
 
     @Override
     public String makePath() {
-        return (getOperator().getPath() + "/" + params.getTargetEntity());
+        return (getPath() + "/" + params.getTargetEntity());
     }
 
     /**

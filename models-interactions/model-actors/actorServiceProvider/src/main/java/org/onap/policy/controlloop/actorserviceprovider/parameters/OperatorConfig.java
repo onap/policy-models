@@ -18,30 +18,18 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.controlloop.actor.aai;
+package org.onap.policy.controlloop.actorserviceprovider.parameters;
 
-import org.onap.policy.aai.AaiConstants;
-import org.onap.policy.controlloop.actorserviceprovider.impl.HttpActor;
-import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperator;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpActorParams;
+import java.util.concurrent.Executor;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-/**
- * A&AI Actor.
- */
-public class AaiActorServiceProvider extends HttpActor<HttpActorParams> {
-    public static final String NAME = AaiConstants.ACTOR_NAME;
+@AllArgsConstructor
+public class OperatorConfig {
 
     /**
-     * Constructs the object.
+     * Executor to be used for tasks that may perform blocking I/O.
      */
-    public AaiActorServiceProvider() {
-        super(NAME, HttpActorParams.class);
-
-        addOperator(new HttpOperator(NAME, AaiCustomQueryOperation.NAME, AaiCustomQueryOperation::new));
-
-        // add all "get" operators
-        for (String operation : AaiGetOperation.OPERATIONS) {
-            addOperator(new HttpOperator(NAME, operation, AaiGetOperation::new));
-        }
-    }
+    @Getter
+    private final Executor blockingExecutor;
 }

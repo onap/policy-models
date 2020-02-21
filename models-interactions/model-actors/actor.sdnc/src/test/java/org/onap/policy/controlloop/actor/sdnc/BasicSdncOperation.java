@@ -32,12 +32,11 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
-import java.util.function.BiFunction;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.controlloop.actor.test.BasicHttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
-import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperator;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
+import org.onap.policy.controlloop.actorserviceprovider.impl.OperationMaker;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.sdnc.SdncRequest;
 import org.onap.policy.sdnc.SdncResponse;
@@ -76,7 +75,7 @@ public abstract class BasicSdncOperation extends BasicHttpOperation<SdncRequest>
      * Initializes mocks and sets up.
      */
     public void setUp() throws Exception {
-        super.setUp();
+        super.setUpBasic();
 
         response = new SdncResponse();
 
@@ -119,12 +118,12 @@ public abstract class BasicSdncOperation extends BasicHttpOperation<SdncRequest>
      * @param expectedText text expected in the exception message
      */
     protected void verifyMissing(String fieldName, String expectedText,
-                    BiFunction<ControlLoopOperationParams, HttpOperator, SdncOperation> maker) {
+                    OperationMaker<HttpConfig, SdncOperation> maker) {
 
         makeContext();
         enrichment.remove(fieldName);
 
-        SdncOperation oper = maker.apply(params, operator);
+        SdncOperation oper = maker.apply(params, config);
 
         assertThatIllegalArgumentException().isThrownBy(() -> Whitebox.invokeMethod(oper, "makeRequest", 1))
                         .withMessageContaining("missing").withMessageContaining(expectedText);

@@ -68,16 +68,16 @@ public class SoOperationTest extends BasicSoOperation {
     public void setUp() throws Exception {
         super.setUp();
 
-        initOperator();
+        initConfig();
 
-        oper = new SoOperation(params, soOperator) {};
+        oper = new SoOperation(params, config) {};
     }
 
     @Test
     public void testConstructor_testGetWaitMsGet() {
         assertEquals(DEFAULT_ACTOR, oper.getActorName());
         assertEquals(DEFAULT_OPERATION, oper.getName());
-        assertSame(soOperator, oper.getOperator());
+        assertSame(config, oper.getConfig());
         assertEquals(1000 * WAIT_SEC_GETS, oper.getWaitMsGet());
     }
 
@@ -85,7 +85,7 @@ public class SoOperationTest extends BasicSoOperation {
     public void testStartPreprocessorAsync() {
         AtomicBoolean guardStarted = new AtomicBoolean();
 
-        oper = new SoOperation(params, soOperator) {
+        oper = new SoOperation(params, config) {
             @Override
             protected CompletableFuture<OperationOutcome> startGuardAsync() {
                 guardStarted.set(true);
@@ -150,7 +150,7 @@ public class SoOperationTest extends BasicSoOperation {
         // use a real executor
         params = params.toBuilder().executor(ForkJoinPool.commonPool()).build();
 
-        oper = new SoOperation(params, soOperator) {
+        oper = new SoOperation(params, config) {
             @Override
             public long getWaitMsGet() {
                 return 1;
@@ -159,7 +159,7 @@ public class SoOperationTest extends BasicSoOperation {
 
         CompletableFuture<OperationOutcome> future2 = oper.postProcessResponse(outcome, PATH, rawResponse, response);
 
-        assertSame(outcome, future2.get(5, TimeUnit.SECONDS));
+        assertSame(outcome, future2.get(500, TimeUnit.SECONDS));
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
         assertEquals(2, oper.getGetCount());
 
@@ -236,7 +236,7 @@ public class SoOperationTest extends BasicSoOperation {
 
         // try with null target
         params = params.toBuilder().target(null).build();
-        oper = new SoOperation(params, soOperator) {};
+        oper = new SoOperation(params, config) {};
 
         assertThatIllegalArgumentException().isThrownBy(() -> oper.prepareSoModelInfo()).withMessage("missing Target");
     }
@@ -274,7 +274,7 @@ public class SoOperationTest extends BasicSoOperation {
 
         // null payload
         params = params.toBuilder().payload(null).build();
-        oper = new SoOperation(params, soOperator) {};
+        oper = new SoOperation(params, config) {};
         assertNull(oper.buildRequestParameters());
     }
 
@@ -295,7 +295,7 @@ public class SoOperationTest extends BasicSoOperation {
 
         // null payload
         params = params.toBuilder().payload(null).build();
-        oper = new SoOperation(params, soOperator) {};
+        oper = new SoOperation(params, config) {};
         assertNull(oper.buildConfigurationParameters());
     }
 

@@ -42,7 +42,7 @@ public class SdncOperationTest extends BasicSdncOperation {
     public void setUp() throws Exception {
         super.setUp();
 
-        oper = new SdncOperation(params, operator) {
+        oper = new SdncOperation(params, config) {
             @Override
             protected SdncRequest makeRequest(int attempt) {
                 return request;

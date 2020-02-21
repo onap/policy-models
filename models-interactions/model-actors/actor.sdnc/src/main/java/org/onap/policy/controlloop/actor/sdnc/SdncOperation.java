@@ -29,8 +29,8 @@ import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperation;
-import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperator;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.sdnc.SdncRequest;
 import org.onap.policy.sdnc.SdncResponse;
 
@@ -43,10 +43,10 @@ public abstract class SdncOperation extends HttpOperation<SdncResponse> {
      * Constructs the object.
      *
      * @param params operation parameters
-     * @param operator operator that created this operation
+     * @param config configuration for this operation
      */
-    public SdncOperation(ControlLoopOperationParams params, HttpOperator operator) {
-        super(params, operator, SdncResponse.class);
+    public SdncOperation(ControlLoopOperationParams params, HttpConfig config) {
+        super(params, config, SdncResponse.class);
     }
 
     /**
@@ -73,7 +73,7 @@ public abstract class SdncOperation extends HttpOperation<SdncResponse> {
 
         // @formatter:off
         return handleResponse(outcome, url,
-            callback -> getOperator().getClient().post(callback, makePath(), entity, headers));
+            callback -> getClient().post(callback, makePath(), entity, headers));
         // @formatter:on
     }
 

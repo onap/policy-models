@@ -33,7 +33,7 @@ import org.mockito.Mock;
 import org.mockito.stubbing.Answer;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactory;
-import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperator;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 
 /**
  * Superclass for various HttpOperation tests.
@@ -47,24 +47,19 @@ public class BasicHttpOperation<Q> extends BasicOperation {
 
     @Captor
     protected ArgumentCaptor<InvocationCallback<Response>> callbackCaptor;
-
     @Captor
     protected ArgumentCaptor<Entity<Q>> requestCaptor;
-
     @Captor
     protected ArgumentCaptor<Map<String, Object>> headerCaptor;
 
     @Mock
+    protected HttpConfig config;
+    @Mock
     protected HttpClient client;
-
     @Mock
     protected HttpClientFactory factory;
-
     @Mock
     protected Response rawResponse;
-
-    @Mock
-    protected HttpOperator operator;
 
 
     /**
@@ -87,8 +82,9 @@ public class BasicHttpOperation<Q> extends BasicOperation {
     /**
      * Initializes mocks and sets up.
      */
-    public void setUp() throws Exception {
-        super.setUp();
+    @Override
+    public void setUpBasic() {
+        super.setUpBasic();
 
         when(factory.get(MY_CLIENT)).thenReturn(client);
 
@@ -96,19 +92,15 @@ public class BasicHttpOperation<Q> extends BasicOperation {
 
         when(client.getBaseUrl()).thenReturn(BASE_URI);
 
-        initOperator();
+        initConfig();
     }
 
     /**
-     * Initializes an operator so that it is "alive" and has the given names.
+     * Initializes a configuration.
      */
-    protected void initOperator() {
-        when(operator.isAlive()).thenReturn(true);
-        when(operator.getFullName()).thenReturn(actorName + "." + operationName);
-        when(operator.getActorName()).thenReturn(actorName);
-        when(operator.getName()).thenReturn(operationName);
-        when(operator.getClient()).thenReturn(client);
-        when(operator.getPath()).thenReturn(PATH);
+    protected void initConfig() {
+        when(config.getClient()).thenReturn(client);
+        when(config.getPath()).thenReturn(PATH);
     }
 
     /**

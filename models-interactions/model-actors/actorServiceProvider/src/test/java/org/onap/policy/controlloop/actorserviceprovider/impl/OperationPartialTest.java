@@ -21,7 +21,6 @@
 package org.onap.policy.controlloop.actorserviceprovider.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -41,7 +40,6 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -70,6 +68,7 @@ import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.OperatorConfig;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.slf4j.LoggerFactory;
 
@@ -111,7 +110,7 @@ public class OperationPartialTest {
     private OperationOutcome opstart;
     private OperationOutcome opend;
 
-    private OperatorPartial operator;
+    private OperatorConfig config;
 
     /**
      * Attaches the appender to the logger.
@@ -150,20 +149,7 @@ public class OperationPartialTest {
                         .executor(executor).actor(ACTOR).operation(OPERATION).timeoutSec(TIMEOUT)
                         .startCallback(this::starter).targetEntity(MY_SINK).build();
 
-        operator = new OperatorPartial(ACTOR, OPERATION) {
-            @Override
-            public Executor getBlockingExecutor() {
-                return executor;
-            }
-
-            @Override
-            public Operation buildOperation(ControlLoopOperationParams params) {
-                return null;
-            }
-        };
-
-        operator.configure(null);
-        operator.start();
+        config = new OperatorConfig(executor);
 
         oper = new MyOper();
 
@@ -197,32 +183,9 @@ public class OperationPartialTest {
         assertNull(future.get(5, TimeUnit.SECONDS));
     }
 
-    /**
-     * Exercises the doXxx() methods.
-     */
-    @Test
-    public void testDoXxx() {
-        assertThatCode(() -> operator.doConfigure(null)).doesNotThrowAnyException();
-        assertThatCode(() -> operator.doStart()).doesNotThrowAnyException();
-        assertThatCode(() -> operator.doStop()).doesNotThrowAnyException();
-        assertThatCode(() -> operator.doShutdown()).doesNotThrowAnyException();
-
-    }
-
     @Test
     public void testStart() {
         verifyRun("testStart", 1, 1, PolicyResult.SUCCESS);
-    }
-
-    /**
-     * Tests startOperation() when the operator is not running.
-     */
-    @Test
-    public void testStartNotRunning() {
-        // stop the operator
-        operator.stop();
-
-        assertThatIllegalStateException().isThrownBy(() -> oper.start());
     }
 
     /**
@@ -392,7 +355,7 @@ public class OperationPartialTest {
         /*
          * Use an operation that doesn't override doOperation().
          */
-        OperationPartial oper2 = new OperationPartial(params, operator) {};
+        OperationPartial oper2 = new OperationPartial(params, config) {};
 
         oper2.start();
         assertTrue(executor.runAll(MAX_REQUESTS));
@@ -1101,7 +1064,7 @@ public class OperationPartialTest {
     @Test
     public void testGetRetryWait() {
         // need an operator that doesn't override the retry time
-        OperationPartial oper2 = new OperationPartial(params, operator) {};
+        OperationPartial oper2 = new OperationPartial(params, config) {};
         assertEquals(OperationPartial.DEFAULT_RETRY_WAIT_MS, oper2.getRetryWaitMs());
     }
 
@@ -1257,7 +1220,7 @@ public class OperationPartialTest {
 
 
         public MyOper() {
-            super(OperationPartialTest.this.params, operator);
+            super(OperationPartialTest.this.params, config);
         }
 
         @Override

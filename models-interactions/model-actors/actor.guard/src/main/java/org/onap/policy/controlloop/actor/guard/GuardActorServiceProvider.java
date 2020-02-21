@@ -25,7 +25,7 @@ package org.onap.policy.controlloop.actor.guard;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpActor;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperator;
 
-public class GuardActorServiceProvider extends HttpActor {
+public class GuardActorServiceProvider extends HttpActor<GuardActorParams> {
     // actor name
     public static final String NAME = "GUARD";
 
@@ -33,9 +33,8 @@ public class GuardActorServiceProvider extends HttpActor {
      * Constructs the object.
      */
     public GuardActorServiceProvider() {
-        super(NAME);
+        super(NAME, GuardActorParams.class);
 
-        addOperator(HttpOperator.makeOperator(NAME, GuardOperation.NAME,
-                        GuardOperation::new));
+        addOperator(new HttpOperator(NAME, GuardOperation.NAME, GuardOperation::new));
     }
 }

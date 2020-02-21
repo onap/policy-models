@@ -23,8 +23,8 @@ package org.onap.policy.controlloop.actor.sdnc;
 import java.util.UUID;
 import org.apache.commons.lang3.StringUtils;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
-import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperator;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.sdnc.SdncHealRequest;
 import org.onap.policy.sdnc.SdncHealRequestHeaderInfo;
 import org.onap.policy.sdnc.SdncHealRequestInfo;
@@ -49,10 +49,10 @@ public class BandwidthOnDemandOperation extends SdncOperation {
      * Constructs the object.
      *
      * @param params operation parameters
-     * @param operator operator that created this operation
+     * @param config configuration for this operation
      */
-    public BandwidthOnDemandOperation(ControlLoopOperationParams params, HttpOperator operator) {
-        super(params, operator);
+    public BandwidthOnDemandOperation(ControlLoopOperationParams params, HttpConfig config) {
+        super(params, config);
     }
 
     @Override

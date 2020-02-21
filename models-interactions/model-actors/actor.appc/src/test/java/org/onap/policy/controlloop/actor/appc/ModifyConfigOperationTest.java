@@ -54,7 +54,7 @@ public class ModifyConfigOperationTest extends BasicAppcOperation {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        oper = new ModifyConfigOperation(params, operator);
+        oper = new ModifyConfigOperation(params, config);
     }
 
     @Test
@@ -72,7 +72,7 @@ public class ModifyConfigOperationTest extends BasicAppcOperation {
 
         AtomicBoolean guardStarted = new AtomicBoolean();
 
-        oper = new ModifyConfigOperation(params, operator) {
+        oper = new ModifyConfigOperation(params, config) {
             @Override
             protected CompletableFuture<OperationOutcome> startGuardAsync() {
                 guardStarted.set(true);

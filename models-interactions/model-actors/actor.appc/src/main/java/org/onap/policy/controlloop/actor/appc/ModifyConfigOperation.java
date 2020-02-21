@@ -27,7 +27,7 @@ import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.appc.Request;
 import org.onap.policy.controlloop.actor.aai.AaiCustomQueryOperation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
-import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicOperator;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,10 +41,10 @@ public class ModifyConfigOperation extends AppcOperation {
      * Constructs the object.
      *
      * @param params operation parameters
-     * @param operator operator that created this operation
+     * @param config configuration for this operation
      */
-    public ModifyConfigOperation(ControlLoopOperationParams params, BidirectionalTopicOperator operator) {
-        super(params, operator);
+    public ModifyConfigOperation(ControlLoopOperationParams params, BidirectionalTopicConfig config) {
+        super(params, config);
     }
 
     /**

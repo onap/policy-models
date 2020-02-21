@@ -53,7 +53,7 @@ import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.common.utils.time.PseudoExecutor;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicParams;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.topic.BidirectionalTopicHandler;
 import org.onap.policy.controlloop.actorserviceprovider.topic.Forwarder;
@@ -65,8 +65,6 @@ public class BidirectionalTopicOperationTest {
     private static final String ACTOR = "my-actor";
     private static final String OPERATION = "my-operation";
     private static final String REQ_ID = "my-request-id";
-    private static final String MY_SINK = "my-sink";
-    private static final String MY_SOURCE = "my-source";
     private static final String TEXT = "some text";
     private static final int TIMEOUT_SEC = 10;
     private static final long TIMEOUT_MS = 1000 * TIMEOUT_SEC;
@@ -75,7 +73,7 @@ public class BidirectionalTopicOperationTest {
     private static final StandardCoder coder = new StandardCoder();
 
     @Mock
-    private BidirectionalTopicOperator operator;
+    private BidirectionalTopicConfig config;
     @Mock
     private BidirectionalTopicHandler handler;
     @Mock
@@ -85,7 +83,6 @@ public class BidirectionalTopicOperationTest {
     private ArgumentCaptor<BiConsumer<String, StandardCoderObject>> listenerCaptor;
 
     private ControlLoopOperationParams params;
-    private BidirectionalTopicParams topicParams;
     private OperationOutcome outcome;
     private StandardCoderObject stdResponse;
     private String responseText;
@@ -100,15 +97,9 @@ public class BidirectionalTopicOperationTest {
     public void setUp() throws CoderException {
         MockitoAnnotations.initMocks(this);
 
-        topicParams = BidirectionalTopicParams.builder().sourceTopic(MY_SOURCE).sinkTopic(MY_SINK)
-                        .timeoutSec(TIMEOUT_SEC).build();
-
-        when(operator.getActorName()).thenReturn(ACTOR);
-        when(operator.getName()).thenReturn(OPERATION);
-        when(operator.getTopicHandler()).thenReturn(handler);
-        when(operator.getForwarder()).thenReturn(forwarder);
-        when(operator.getParams()).thenReturn(topicParams);
-        when(operator.isAlive()).thenReturn(true);
+        when(config.getTopicHandler()).thenReturn(handler);
+        when(config.getForwarder()).thenReturn(forwarder);
+        when(config.getTimeoutMs()).thenReturn(TIMEOUT_MS);
 
         when(handler.send(any())).thenReturn(true);
         when(handler.getSinkTopicCommInfrastructure()).thenReturn(SINK_INFRA);
@@ -132,7 +123,6 @@ public class BidirectionalTopicOperationTest {
         assertEquals(OPERATION, oper.getName());
         assertSame(handler, oper.getTopicHandler());
         assertSame(forwarder, oper.getForwarder());
-        assertSame(topicParams, oper.getTopicParams());
         assertEquals(TIMEOUT_MS, oper.getTimeoutMs());
         assertSame(MyResponse.class, oper.getResponseClass());
     }
@@ -334,7 +324,7 @@ public class BidirectionalTopicOperationTest {
 
     private class MyStringOperation extends BidirectionalTopicOperation<String, String> {
         public MyStringOperation() {
-            super(BidirectionalTopicOperationTest.this.params, operator, String.class);
+            super(BidirectionalTopicOperationTest.this.params, config, String.class);
         }
 
         @Override
@@ -356,7 +346,7 @@ public class BidirectionalTopicOperationTest {
 
     private class MyScoOperation extends BidirectionalTopicOperation<MyRequest, StandardCoderObject> {
         public MyScoOperation() {
-            super(BidirectionalTopicOperationTest.this.params, operator, StandardCoderObject.class);
+            super(BidirectionalTopicOperationTest.this.params, config, StandardCoderObject.class);
         }
 
         @Override
@@ -378,7 +368,7 @@ public class BidirectionalTopicOperationTest {
 
     private class MyOperation extends BidirectionalTopicOperation<MyRequest, MyResponse> {
         public MyOperation() {
-            super(BidirectionalTopicOperationTest.this.params, operator, MyResponse.class);
+            super(BidirectionalTopicOperationTest.this.params, config, MyResponse.class);
         }
 
         @Override

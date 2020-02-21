@@ -43,7 +43,7 @@ public class BasicOperationTest {
     @Before
     public void setUp() throws Exception {
         oper = new BasicHttpOperation<>(ACTOR, OPERATION);
-        oper.setUp();
+        oper.setUpBasic();
     }
 
     @Test

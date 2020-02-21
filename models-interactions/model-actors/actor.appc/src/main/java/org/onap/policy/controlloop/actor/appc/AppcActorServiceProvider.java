@@ -35,12 +35,13 @@ import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicActor;
 import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicOperator;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicActorParams;
 import org.onap.policy.controlloop.policy.Policy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public class AppcActorServiceProvider extends BidirectionalTopicActor {
+public class AppcActorServiceProvider extends BidirectionalTopicActor<BidirectionalTopicActorParams> {
     private static final String NAME = "APPC";
 
     private static final Logger logger = LoggerFactory.getLogger(AppcActorServiceProvider.class);
@@ -74,10 +75,10 @@ public class AppcActorServiceProvider extends BidirectionalTopicActor {
      * Constructs the object.
      */
     public AppcActorServiceProvider() {
-        super(NAME);
+        super(NAME, BidirectionalTopicActorParams.class);
 
-        addOperator(BidirectionalTopicOperator.makeOperator(NAME, ModifyConfigOperation.NAME, this,
-                        AppcOperation.SELECTOR_KEYS, ModifyConfigOperation::new));
+        addOperator(new BidirectionalTopicOperator(NAME, ModifyConfigOperation.NAME, this, AppcOperation.SELECTOR_KEYS,
+                        ModifyConfigOperation::new));
     }
 
 

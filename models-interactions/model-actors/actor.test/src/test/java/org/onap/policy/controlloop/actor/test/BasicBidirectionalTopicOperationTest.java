@@ -24,7 +24,6 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
@@ -54,14 +53,14 @@ public class BasicBidirectionalTopicOperationTest {
         MockitoAnnotations.initMocks(this);
 
         oper = new BasicBidirectionalTopicOperation(ACTOR, OPERATION);
-        oper.setUp();
+        oper.setUpBasic();
     }
 
     @Test
     public void testBasicBidirectionalTopicOperation() {
         oper = new BasicBidirectionalTopicOperation();
-        assertEquals(BasicHttpOperation.DEFAULT_ACTOR, oper.actorName);
-        assertEquals(BasicHttpOperation.DEFAULT_OPERATION, oper.operationName);
+        assertEquals(BasicOperation.DEFAULT_ACTOR, oper.actorName);
+        assertEquals(BasicOperation.DEFAULT_OPERATION, oper.operationName);
     }
 
     @Test
@@ -72,24 +71,19 @@ public class BasicBidirectionalTopicOperationTest {
 
     @Test
     public void testSetUp() {
-        assertNotNull(oper.topicParams);
+        assertNotNull(oper.config);
         assertNotNull(oper.context);
         assertNotNull(oper.outcome);
         assertNotNull(oper.executor);
-        assertTrue(oper.operator.isAlive());
     }
 
     @Test
     public void testInitOperator() {
-        oper.initOperator();
+        oper.initConfig();
 
-        assertTrue(oper.operator.isAlive());
-        assertEquals(ACTOR + "." + OPERATION, oper.operator.getFullName());
-        assertEquals(ACTOR, oper.operator.getActorName());
-        assertEquals(OPERATION, oper.operator.getName());
-        assertSame(oper.topicHandler, oper.operator.getTopicHandler());
-        assertSame(oper.forwarder, oper.operator.getForwarder());
-        assertSame(oper.topicParams, oper.operator.getParams());
+        assertSame(oper.topicHandler, oper.config.getTopicHandler());
+        assertSame(oper.forwarder, oper.config.getForwarder());
+        assertEquals(BasicBidirectionalTopicOperation.TIMEOUT_MS, oper.config.getTimeoutMs());
     }
 
     @Test

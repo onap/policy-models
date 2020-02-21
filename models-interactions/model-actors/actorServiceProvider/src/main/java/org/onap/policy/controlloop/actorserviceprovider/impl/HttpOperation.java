@@ -36,6 +36,7 @@ import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
 import org.onap.policy.controlloop.actorserviceprovider.pipeline.PipelineControllerFuture;
 import org.onap.policy.controlloop.policy.PolicyResult;
@@ -52,9 +53,9 @@ public abstract class HttpOperation<T> extends OperationPartial {
     private static final Logger logger = LoggerFactory.getLogger(HttpOperation.class);
 
     /**
-     * Operator that created this operation.
+     * Configuration for this operation.
      */
-    private final HttpOperator operator;
+    private final HttpConfig config;
 
     /**
      * Response class.
@@ -66,13 +67,25 @@ public abstract class HttpOperation<T> extends OperationPartial {
      * Constructs the object.
      *
      * @param params operation parameters
-     * @param operator operator that created this operation
+     * @param config configuration for this operation
      * @param clazz response class
      */
-    public HttpOperation(ControlLoopOperationParams params, HttpOperator operator, Class<T> clazz) {
-        super(params, operator);
-        this.operator = operator;
+    public HttpOperation(ControlLoopOperationParams params, HttpConfig config, Class<T> clazz) {
+        super(params, config);
+        this.config = config;
         this.responseClass = clazz;
+    }
+
+    public HttpClient getClient() {
+        return config.getClient();
+    }
+
+    public String getPath() {
+        return config.getPath();
+    }
+
+    public long getTimeoutMs() {
+        return config.getTimeoutMs();
     }
 
     /**
@@ -80,7 +93,7 @@ public abstract class HttpOperation<T> extends OperationPartial {
      */
     @Override
     protected long getTimeoutMs(Integer timeoutSec) {
-        return (timeoutSec == null || timeoutSec == 0 ? operator.getTimeoutMs() : super.getTimeoutMs(timeoutSec));
+        return (timeoutSec == null || timeoutSec == 0 ? getTimeoutMs() : super.getTimeoutMs(timeoutSec));
     }
 
     /**
@@ -99,7 +112,7 @@ public abstract class HttpOperation<T> extends OperationPartial {
      * @return the path URI suffix
      */
     public String makePath() {
-        return operator.getPath();
+        return getPath();
     }
 
     /**
@@ -110,7 +123,7 @@ public abstract class HttpOperation<T> extends OperationPartial {
      * @return the URL to which from which to get
      */
     public String makeUrl() {
-        return (operator.getClient().getBaseUrl() + makePath());
+        return (getClient().getBaseUrl() + makePath());
     }
 
     /**

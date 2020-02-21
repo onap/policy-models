@@ -98,7 +98,7 @@ public class SoActorServiceProvider extends ActorImpl {
     public SoActorServiceProvider() {
         super(NAME);
 
-        addOperator(SoOperator.makeSoOperator(NAME, VfModuleCreate.NAME, VfModuleCreate::new));
+        addOperator(new SoOperator(NAME, VfModuleCreate.NAME, VfModuleCreate::new));
     }
 
     // TODO old code: remove lines down to **HERE**

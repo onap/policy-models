@@ -32,7 +32,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
 import org.onap.policy.appc.Response;
 import org.onap.policy.appc.ResponseCode;
 import org.onap.policy.appc.ResponseStatus;
@@ -40,8 +39,8 @@ import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.actor.test.BasicBidirectionalTopicOperation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
-import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicOperator;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
+import org.onap.policy.controlloop.actorserviceprovider.impl.OperationMaker;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.controlloop.policy.Target;
 import org.powermock.reflect.Whitebox;
@@ -82,7 +81,7 @@ public abstract class BasicAppcOperation extends BasicBidirectionalTopicOperatio
      * Initializes mocks and sets up.
      */
     public void setUp() throws Exception {
-        super.setUp();
+        super.setUpBasic();
 
         response = new Response();
 
@@ -123,12 +122,12 @@ public abstract class BasicAppcOperation extends BasicBidirectionalTopicOperatio
      * @param expectedText text expected in the exception message
      */
     protected void verifyMissing(String fieldName, String expectedText,
-                    BiFunction<ControlLoopOperationParams, BidirectionalTopicOperator, AppcOperation> maker) {
+                    OperationMaker<BidirectionalTopicConfig, AppcOperation> maker) {
 
         makeContext();
         enrichment.remove(fieldName);
 
-        AppcOperation oper = maker.apply(params, operator);
+        AppcOperation oper = maker.apply(params, config);
 
         assertThatIllegalArgumentException().isThrownBy(() -> Whitebox.invokeMethod(oper, "makeRequest", 1))
                         .withMessageContaining("missing").withMessageContaining(expectedText);

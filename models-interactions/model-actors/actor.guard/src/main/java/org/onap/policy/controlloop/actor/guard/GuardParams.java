@@ -18,30 +18,27 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.controlloop.actor.aai;
+package org.onap.policy.controlloop.actor.guard;
 
-import org.onap.policy.aai.AaiConstants;
-import org.onap.policy.controlloop.actorserviceprovider.impl.HttpActor;
-import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperator;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpActorParams;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.SuperBuilder;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
 
 /**
- * A&AI Actor.
+ * Default values to be included if not specified in the payload.
  */
-public class AaiActorServiceProvider extends HttpActor<HttpActorParams> {
-    public static final String NAME = AaiConstants.ACTOR_NAME;
+@Data
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder(toBuilder = true)
+public class GuardParams extends HttpParams {
 
-    /**
-     * Constructs the object.
+    /*
+     * Optional, default values that are used if missing from the payload.
      */
-    public AaiActorServiceProvider() {
-        super(NAME, HttpActorParams.class);
 
-        addOperator(new HttpOperator(NAME, AaiCustomQueryOperation.NAME, AaiCustomQueryOperation::new));
-
-        // add all "get" operators
-        for (String operation : AaiGetOperation.OPERATIONS) {
-            addOperator(new HttpOperator(NAME, operation, AaiGetOperation::new));
-        }
-    }
+    private String onapName;
+    private String onapComponent;
+    private String onapInstance;
+    private String action;
 }

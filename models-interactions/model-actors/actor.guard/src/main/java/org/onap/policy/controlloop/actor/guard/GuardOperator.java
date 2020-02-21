@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.controlloop.actor.so;
+package org.onap.policy.controlloop.actor.guard;
 
 import java.util.Map;
 import org.onap.policy.common.parameters.ValidationResult;
@@ -30,23 +30,23 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ParameterValidationRuntimeException;
 
 /**
- * SO Operator.
+ * Guard Operator.
  */
-public class SoOperator extends HttpOperator {
+public class GuardOperator extends HttpOperator {
 
-    public SoOperator(String actorName, String name,
+    public GuardOperator(String actorName, String name,
                     @SuppressWarnings("rawtypes") OperationMaker<HttpConfig, HttpOperation> operationMaker) {
         super(actorName, name, operationMaker);
     }
 
     @Override
     protected HttpConfig makeConfiguration(Map<String, Object> parameters) {
-        SoParams params = Util.translate(getFullName(), parameters, SoParams.class);
+        GuardParams params = Util.translate(getFullName(), parameters, GuardParams.class);
         ValidationResult result = params.validate(getFullName());
         if (!result.isValid()) {
             throw new ParameterValidationRuntimeException("invalid parameters", result);
         }
 
-        return new SoConfig(getBlockingExecutor(), params, getClientFactory());
+        return new GuardConfig(getBlockingExecutor(), params, getClientFactory());
     }
 }
