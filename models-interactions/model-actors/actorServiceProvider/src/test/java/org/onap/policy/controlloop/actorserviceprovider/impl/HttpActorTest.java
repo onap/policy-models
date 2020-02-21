@@ -54,7 +54,7 @@ public class HttpActorTest {
         params.setTimeoutSec(TIMEOUT);
 
         // @formatter:off
-        params.setOperation(Map.of(
+        params.setOperations(Map.of(
                         "operA", Map.of("path", "urlA"),
                         "operB", Map.of("path", "urlB")));
         // @formatter:on
@@ -73,7 +73,7 @@ public class HttpActorTest {
                         new TreeMap<>(maker.apply("operB")).toString());
 
         // with invalid actor parameters
-        params.setOperation(null);
+        params.setOperations(null);
         assertThatThrownBy(() -> prov.makeOperatorParameters(Util.translateToMap(prov.getName(), params)))
                         .isInstanceOf(ParameterValidationRuntimeException.class);
     }

@@ -58,6 +58,7 @@ public class ActorService extends StartConfigPartial<Map<String, Map<String, Obj
         Map<String, Actor> map = new HashMap<>();
 
         for (Actor newActor : loadActors()) {
+
             map.compute(newActor.getName(), (name, existingActor) -> {
                 if (existingActor == null) {
                     return newActor;
@@ -168,8 +169,7 @@ public class ActorService extends StartConfigPartial<Map<String, Map<String, Obj
     @Override
     protected void doStop() {
         logger.info("stopping actors");
-        name2actor.values()
-                        .forEach(actor -> Util.runFunction(actor::stop, "failed to stop actor {}", actor.getName()));
+        name2actor.values().forEach(actor -> Util.runFunction(actor::stop, "failed to stop actor {}", actor.getName()));
     }
 
     @Override

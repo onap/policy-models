@@ -24,11 +24,11 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
@@ -42,6 +42,7 @@ import org.onap.policy.appc.Request;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
+import org.onap.policy.controlloop.policy.PolicyResult;
 
 public class ModifyConfigOperationTest extends BasicAppcOperation {
 
@@ -64,10 +65,11 @@ public class ModifyConfigOperationTest extends BasicAppcOperation {
     }
 
     @Test
-    public void testStartPreprocessorAsync() {
-        CompletableFuture<OperationOutcome> future = new CompletableFuture<>();
+    public void testStartPreprocessorAsync() throws Exception {
+        CompletableFuture<OperationOutcome> future2 = new CompletableFuture<>();
         context = mock(ControlLoopEventContext.class);
-        when(context.obtain(eq(AaiCqResponse.CONTEXT_KEY), any())).thenReturn(future);
+        when(context.obtain(eq(AaiCqResponse.CONTEXT_KEY), any())).thenReturn(future2);
+        when(context.getEvent()).thenReturn(event);
         params = params.toBuilder().context(context).build();
 
         AtomicBoolean guardStarted = new AtomicBoolean();
@@ -80,9 +82,16 @@ public class ModifyConfigOperationTest extends BasicAppcOperation {
             }
         };
 
-        assertSame(future, oper.startPreprocessorAsync());
+        CompletableFuture<OperationOutcome> future3 = oper.startPreprocessorAsync();
+        assertNotNull(future3);
         assertFalse(future.isDone());
         assertTrue(guardStarted.get());
+        verify(context).obtain(eq(AaiCqResponse.CONTEXT_KEY), any());
+
+        future2.complete(params.makeOutcome());
+        assertTrue(executor.runAll(100));
+        assertTrue(future3.isDone());
+        assertEquals(PolicyResult.SUCCESS, future3.get().getResult());
     }
 
     @Test
