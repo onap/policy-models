@@ -23,6 +23,7 @@
 
 package org.onap.policy.controlloop.actor.so;
 
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -41,6 +42,7 @@ import org.junit.Test;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
+import org.onap.policy.controlloop.actor.test.BasicActor;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.Target;
 import org.onap.policy.so.SoOperationType;
@@ -48,7 +50,7 @@ import org.onap.policy.so.SoRequest;
 import org.onap.policy.so.SoRequestParameters;
 import org.onap.policy.so.util.Serialization;
 
-public class SoActorServiceProviderTest {
+public class SoActorServiceProviderTest extends BasicActor {
 
     private static final String C_VALUE = "cvalue";
     private static final String A_VALUE = "avalue";
@@ -79,8 +81,15 @@ public class SoActorServiceProviderTest {
     }
 
     @Test
+    public void testActorService() {
+        // verify that it all plugs into the ActorService
+        verifyActorService(SoActorServiceProvider.NAME, "service.yaml");
+    }
+
+    @Test
     public void testSendRequest() {
-        SoActorServiceProvider.sendRequest(UUID.randomUUID().toString(), null, null, null, null, null);
+        assertThatCode(() -> SoActorServiceProvider.sendRequest(UUID.randomUUID().toString(), null, null, null, null,
+                        null)).doesNotThrowAnyException();
     }
 
     @Test

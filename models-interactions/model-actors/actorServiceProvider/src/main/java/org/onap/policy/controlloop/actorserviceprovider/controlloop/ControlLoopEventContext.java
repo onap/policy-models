@@ -117,6 +117,14 @@ public class ControlLoopEventContext implements Serializable {
     }
 
     /**
+     * Removes a property.
+     * @param name property name
+     */
+    public void removeProperty(String name) {
+        properties.remove(name);
+    }
+
+    /**
      * Obtains the given property.
      *
      * @param name name of the desired property
