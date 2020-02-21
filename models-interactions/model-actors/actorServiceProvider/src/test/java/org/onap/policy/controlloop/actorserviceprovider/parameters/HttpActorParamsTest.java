@@ -64,11 +64,11 @@ public class HttpActorParamsTest {
         assertTrue(params.validate(CONTAINER).isValid());
 
         // only a few fields are required
-        HttpActorParams sparse = Util.translate(CONTAINER, Map.of("operation", operations, "timeoutSec", 1),
-                        HttpActorParams.class);
+        HttpActorParams sparse = Util.translate(CONTAINER,
+                        Map.of(CommonActorParams.OPERATIONS_FIELD, operations, "timeoutSec", 1), HttpActorParams.class);
         assertTrue(sparse.validate(CONTAINER).isValid());
 
-        testValidateField("operation", "null", params2 -> params2.setOperation(null));
+        testValidateField(CommonActorParams.OPERATIONS_FIELD, "null", params2 -> params2.setOperations(null));
         testValidateField("timeoutSec", "minimum", params2 -> params2.setTimeoutSec(-1));
 
         // check edge cases
@@ -97,7 +97,7 @@ public class HttpActorParamsTest {
         HttpActorParams params2 = new HttpActorParams();
         params2.setClientName(CLIENT);
         params2.setTimeoutSec(TIMEOUT);
-        params2.setOperation(operations);
+        params2.setOperations(operations);
 
         return params2;
     }
