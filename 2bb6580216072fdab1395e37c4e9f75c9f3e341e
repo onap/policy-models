@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d5534a51_a3f8847c",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-21T23:02:42Z",
+      "side": 1,
+      "message": "this class should be re-written to use a CompletableFuture instead of cdsStatus",
+      "revId": "2bb6580216072fdab1395e37c4e9f75c9f3e341e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50545d31_3ec2a805",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-21T23:02:42Z",
+      "side": 1,
+      "message": "once implemented as a future, this will not do anything to the future, as the operation is still in progress.  However, the other cases will complete the future with either SUCCESS or FAILURE",
+      "revId": "2bb6580216072fdab1395e37c4e9f75c9f3e341e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d0ffa51_d177125e",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/GrpcConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-21T23:02:42Z",
+      "side": 1,
+      "message": "a Config is unique across all of an Operator\u0027s Operations, thus it should not contain any data that is specific to an individual operation.  Data specific to an Operation should be kept in the XxxOperation object, itself.",
+      "revId": "2bb6580216072fdab1395e37c4e9f75c9f3e341e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04e5c365_48224ba2",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/GrpcOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-21T23:02:42Z",
+      "side": 1,
+      "message": "implement startOperationAsync() instead",
+      "revId": "2bb6580216072fdab1395e37c4e9f75c9f3e341e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c0d7ca09_8a85f95f",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/GrpcOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-21T23:02:42Z",
+      "side": 1,
+      "message": "may just want to throw an exception here",
+      "revId": "2bb6580216072fdab1395e37c4e9f75c9f3e341e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2fde4eb_88cc1a38",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/GrpcOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-21T23:02:42Z",
+      "side": 1,
+      "message": "don\u0027t wait for the latch, just get the future out of the client object.  Tack a thenApply() onto the end of the future, containing lines 236-240, and then return the future.",
+      "revId": "2bb6580216072fdab1395e37c4e9f75c9f3e341e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a97fa81_5149550a",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/GrpcOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-21T23:02:42Z",
+      "side": 1,
+      "message": "I think \"response\" can be null in some cases.  May also need to verify that response.getStatus()!\u003dnull, otherwise the \"switch\" will throw an NPE",
+      "revId": "2bb6580216072fdab1395e37c4e9f75c9f3e341e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a0eec5b_739705e6",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/GrpcOperator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-21T23:02:42Z",
+      "side": 1,
+      "message": "I don\u0027t think this is used",
+      "revId": "2bb6580216072fdab1395e37c4e9f75c9f3e341e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
