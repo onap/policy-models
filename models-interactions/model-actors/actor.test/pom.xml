@@ -34,6 +34,11 @@
     <dependencies>
         <dependency>
             <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
+            <artifactId>aai</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
             <artifactId>events</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -69,4 +74,18 @@
             <scope>compile</scope>
         </dependency>
     </dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+				    <excludes>
+				        <exclude>src/test/**</exclude>
+				    </excludes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

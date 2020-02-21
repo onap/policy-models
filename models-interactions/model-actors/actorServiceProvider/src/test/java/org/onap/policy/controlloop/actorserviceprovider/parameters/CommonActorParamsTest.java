@@ -86,7 +86,7 @@ public class CommonActorParamsTest {
         assertThatCode(() -> params.doValidation(CONTAINER)).doesNotThrowAnyException();
 
         // invalid param
-        params.setOperation(null);
+        params.setOperations(null);
         assertThatThrownBy(() -> params.doValidation(CONTAINER))
                         .isInstanceOf(ParameterValidationRuntimeException.class);
     }
@@ -96,11 +96,12 @@ public class CommonActorParamsTest {
         assertTrue(params.validate(CONTAINER).isValid());
 
         // only a few fields are required
-        CommonActorParams sparse = Util.translate(CONTAINER, Map.of("operation", operations, "timeoutSec", 1),
+        CommonActorParams sparse = Util.translate(CONTAINER,
+                        Map.of(CommonActorParams.OPERATIONS_FIELD, operations, "timeoutSec", 1),
                         CommonActorParams.class);
         assertTrue(sparse.validate(CONTAINER).isValid());
 
-        testValidateField("operation", "null", params2 -> params2.setOperation(null));
+        testValidateField(CommonActorParams.OPERATIONS_FIELD, "null", params2 -> params2.setOperations(null));
     }
 
     private void testValidateField(String fieldName, String expected, Consumer<CommonActorParams> makeInvalid) {
@@ -119,7 +120,7 @@ public class CommonActorParamsTest {
 
     private CommonActorParams makeCommonActorParams() {
         MyParams params2 = new MyParams();
-        params2.setOperation(operations);
+        params2.setOperations(operations);
         params2.setText1(TEXT1);
         params2.setText2(TEXT2);
 

@@ -18,28 +18,12 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.controlloop.actor.guard;
+package org.onap.policy.controlloop.actor.so;
 
-import static org.junit.Assert.assertEquals;
+public class SoConstants {
+    public static final String CONTEXT_KEY_VF_COUNT = "SO.VFCount";
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
-import org.junit.Test;
-import org.onap.policy.controlloop.actor.test.BasicActor;
-
-public class GuardActorServiceProviderTest extends BasicActor {
-
-    @Test
-    public void test() {
-        final GuardActorServiceProvider prov = new GuardActorServiceProvider();
-
-        // verify that it has the operators we expect
-        var expected = Arrays.asList(GuardOperation.NAME).stream().sorted().collect(Collectors.toList());
-        var actual = prov.getOperationNames().stream().sorted().collect(Collectors.toList());
-
-        assertEquals(expected.toString(), actual.toString());
-
-        // verify that it all plugs into the ActorService
-        verifyActorService(GuardActorServiceProvider.NAME, "service.yaml");
+    private SoConstants() {
+        // do nothing
     }
 }
