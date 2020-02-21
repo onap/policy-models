@@ -35,7 +35,7 @@ import org.onap.aai.domain.yang.Tenant;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
-import org.onap.policy.controlloop.actorserviceprovider.impl.ActorImpl;
+import org.onap.policy.controlloop.actorserviceprovider.impl.HttpActor;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.so.SoCloudConfiguration;
 import org.onap.policy.so.SoManager;
@@ -51,7 +51,7 @@ import org.onap.policy.so.util.Serialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SoActorServiceProvider extends ActorImpl {
+public class SoActorServiceProvider extends HttpActor<SoActorParams> {
     private static final Logger logger = LoggerFactory.getLogger(SoActorServiceProvider.class);
 
     public static final String NAME = "SO";
@@ -96,7 +96,7 @@ public class SoActorServiceProvider extends ActorImpl {
      * Constructs the object.
      */
     public SoActorServiceProvider() {
-        super(NAME);
+        super(NAME, SoActorParams.class);
 
         addOperator(new SoOperator(NAME, VfModuleCreate.NAME, VfModuleCreate::new));
     }

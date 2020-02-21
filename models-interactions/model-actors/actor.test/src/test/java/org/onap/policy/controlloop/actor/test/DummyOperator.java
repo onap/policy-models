@@ -18,28 +18,21 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.controlloop.actor.guard;
+package org.onap.policy.controlloop.actor.test;
 
-import static org.junit.Assert.assertEquals;
+import org.onap.policy.controlloop.actorserviceprovider.Operation;
+import org.onap.policy.controlloop.actorserviceprovider.impl.OperatorPartial;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
-import org.junit.Test;
-import org.onap.policy.controlloop.actor.test.BasicActor;
+public class DummyOperator extends OperatorPartial {
 
-public class GuardActorServiceProviderTest extends BasicActor {
+    public DummyOperator(String actorName, String name) {
+        super(actorName, name);
+    }
 
-    @Test
-    public void test() {
-        final GuardActorServiceProvider prov = new GuardActorServiceProvider();
-
-        // verify that it has the operators we expect
-        var expected = Arrays.asList(GuardOperation.NAME).stream().sorted().collect(Collectors.toList());
-        var actual = prov.getOperationNames().stream().sorted().collect(Collectors.toList());
-
-        assertEquals(expected.toString(), actual.toString());
-
-        // verify that it all plugs into the ActorService
-        verifyActorService(GuardActorServiceProvider.NAME, "service.yaml");
+    @Override
+    public Operation buildOperation(ControlLoopOperationParams params) {
+        // TODO Auto-generated method stub
+        return null;
     }
 }
