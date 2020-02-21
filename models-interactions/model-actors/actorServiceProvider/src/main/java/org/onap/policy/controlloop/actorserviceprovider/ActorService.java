@@ -24,7 +24,9 @@ package org.onap.policy.controlloop.actorserviceprovider;
 import com.google.common.collect.ImmutableMap;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.ServiceConfigurationError;
 import java.util.ServiceLoader;
 import java.util.Set;
 import org.onap.policy.common.parameters.BeanValidationResult;
@@ -57,7 +59,17 @@ public class ActorService extends StartConfigPartial<Map<String, Map<String, Obj
 
         Map<String, Actor> map = new HashMap<>();
 
-        for (Actor newActor : loadActors()) {
+        Iterator<Actor> iter = loadActors().iterator();
+        while (iter.hasNext()) {
+
+            Actor newActor;
+            try {
+                newActor = iter.next();
+            } catch (ServiceConfigurationError e) {
+                logger.warn("unable to load actor", e);
+                continue;
+            }
+
             map.compute(newActor.getName(), (name, existingActor) -> {
                 if (existingActor == null) {
                     return newActor;
@@ -168,8 +180,7 @@ public class ActorService extends StartConfigPartial<Map<String, Map<String, Obj
     @Override
     protected void doStop() {
         logger.info("stopping actors");
-        name2actor.values()
-                        .forEach(actor -> Util.runFunction(actor::stop, "failed to stop actor {}", actor.getName()));
+        name2actor.values().forEach(actor -> Util.runFunction(actor::stop, "failed to stop actor {}", actor.getName()));
     }
 
     @Override

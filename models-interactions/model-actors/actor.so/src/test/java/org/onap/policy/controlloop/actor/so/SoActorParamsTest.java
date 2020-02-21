@@ -31,6 +31,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.CommonActorParams;
 
 
 public class SoActorParamsTest {
@@ -67,14 +68,15 @@ public class SoActorParamsTest {
         assertTrue(params.validate(CONTAINER).isValid());
 
         // only a few fields are required
-        SoActorParams sparse = Util.translate(CONTAINER, Map.of("operation", operations), SoActorParams.class);
+        SoActorParams sparse = Util.translate(CONTAINER, Map.of(CommonActorParams.OPERATIONS_FIELD, operations),
+                        SoActorParams.class);
         assertTrue(sparse.validate(CONTAINER).isValid());
 
         testValidateField("maxGets", "minimum", params2 -> params2.setMaxGets(-1));
         testValidateField("waitSecGet", "minimum", params2 -> params2.setWaitSecGet(0));
 
         // check fields from superclass
-        testValidateField("operation", "null", params2 -> params2.setOperation(null));
+        testValidateField(CommonActorParams.OPERATIONS_FIELD, "null", params2 -> params2.setOperations(null));
         testValidateField("timeoutSec", "minimum", params2 -> params2.setTimeoutSec(-1));
 
         // check edge cases
@@ -105,7 +107,7 @@ public class SoActorParamsTest {
         SoActorParams params2 = new SoActorParams();
         params2.setClientName(CLIENT);
         params2.setTimeoutSec(TIMEOUT);
-        params2.setOperation(operations);
+        params2.setOperations(operations);
 
         params2.setWaitSecGet(WAIT_SEC_GETS);
         params2.setMaxGets(MAX_GETS);

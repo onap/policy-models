@@ -22,6 +22,7 @@ package org.onap.policy.controlloop.actor.sdnc;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Map;
@@ -54,6 +55,11 @@ public class SdncOperationTest extends BasicSdncOperation {
     public void testSdncOperator() {
         assertEquals(DEFAULT_ACTOR, oper.getActorName());
         assertEquals(DEFAULT_OPERATION, oper.getName());
+    }
+
+    @Test
+    public void testStartPreprocessorAsync() {
+        assertNotNull(oper.startPreprocessorAsync());
     }
 
     @Test

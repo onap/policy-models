@@ -99,7 +99,7 @@ public class ControlLoopOperationParamsTest {
     @Mock
     private Consumer<OperationOutcome> starter;
 
-    private Map<String, String> payload;
+    private Map<String, Object> payload;
 
     private ControlLoopOperationParams params;
     private OperationOutcome outcome;
