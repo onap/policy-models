@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ddf8f9cf_be79f6cf",
+        "filename": "models-interactions/model-actors/actor.sdnr/src/main/java/org/onap/policy/controlloop/actor/sdnr/SdnrActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-21T20:26:26Z",
+      "side": 1,
+      "message": "obviously, addOperator() will have to be invoked after this, once they\u0027re ready",
+      "revId": "b77d156b704891944add992f258c2660e99a8eac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
