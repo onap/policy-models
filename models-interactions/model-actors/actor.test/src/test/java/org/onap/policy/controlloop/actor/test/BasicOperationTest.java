@@ -27,11 +27,16 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import org.junit.Before;
 import org.junit.Test;
+import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.resources.ResourceUtils;
+import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
+import org.onap.policy.controlloop.actorserviceprovider.impl.OperationPartial;
+import org.onap.policy.controlloop.policy.PolicyResult;
 
 public class BasicOperationTest {
     private static final String ACTOR = "my-actor";
@@ -65,6 +70,12 @@ public class BasicOperationTest {
         assertNotNull(oper.context);
         assertNotNull(oper.outcome);
         assertNotNull(oper.executor);
+        assertNotNull(oper.guardOperation);
+
+        CompletableFuture<OperationOutcome> future = oper.service.getActor(OperationPartial.GUARD_ACTOR_NAME)
+                        .getOperator(OperationPartial.GUARD_OPERATION_NAME).buildOperation(null).start();
+        assertTrue(future.isDone());
+        assertEquals(PolicyResult.SUCCESS, future.get().getResult());
     }
 
     @Test
@@ -96,5 +107,15 @@ public class BasicOperationTest {
     public void testVerifyRequest() throws CoderException {
         Map<String, Object> map = Util.translateToMap("", ResourceUtils.getResourceAsString("actual.json"));
         oper.verifyRequest("expected.json", map, "svc-request-id", "vnf-id");
+    }
+
+    @Test
+    public void testProvideCqResponse() throws Exception {
+        AaiCqResponse cq = new AaiCqResponse("{}");
+        oper.provideCqResponse(cq);
+
+        assertSame(cq, oper.context.getProperty(AaiCqResponse.CONTEXT_KEY));
+        assertTrue(oper.cqFuture.isDone());
+        assertEquals(PolicyResult.SUCCESS, oper.cqFuture.get().getResult());
     }
 }

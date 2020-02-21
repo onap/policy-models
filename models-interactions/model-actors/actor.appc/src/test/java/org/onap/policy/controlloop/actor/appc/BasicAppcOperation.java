@@ -54,6 +54,7 @@ public abstract class BasicAppcOperation extends BasicBidirectionalTopicOperatio
     protected static final String MY_VNF = "my-vnf";
     protected static final String KEY1 = "my-key-A";
     protected static final String KEY2 = "my-key-B";
+    protected static final String KEY3 = "my-key-C";
     protected static final String VALUE1 = "{\"input\":\"hello\"}";
     protected static final String VALUE2 = "{\"output\":\"world\"}";
     protected static final String RESOURCE_ID = "my-resource";
@@ -162,7 +163,7 @@ public abstract class BasicAppcOperation extends BasicBidirectionalTopicOperatio
     }
 
     @Override
-    protected Map<String, String> makePayload() {
+    protected Map<String, Object> makePayload() {
         return Map.of(KEY1, VALUE1, KEY2, VALUE2);
     }
 }

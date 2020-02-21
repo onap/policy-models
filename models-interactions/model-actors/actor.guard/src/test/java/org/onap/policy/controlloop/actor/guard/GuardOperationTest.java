@@ -92,14 +92,16 @@ public class GuardOperationTest extends BasicHttpOperation<DecisionRequest> {
         verifyPayload("makeReqStd.json", makePayload());
         verifyPayload("makeReqDefault.json", new TreeMap<>());
 
-        Map<String, String> payload = new TreeMap<>();
+        Map<String, Object> payload = new TreeMap<>();
         payload.put("action", "some action");
         payload.put("hello", "world");
         payload.put("r u there?", "yes");
         payload.put("requestId", "some request id");
-        payload.put("resource.abc", "def");
-        payload.put("resource.ghi", "jkl");
-        payload.put("some.other", "unused");
+
+        Map<String, Object> resource = new TreeMap<>();
+        payload.put("resource", resource);
+        resource.put("abc", "def");
+        resource.put("ghi", "jkl");
 
         verifyPayload("makeReq.json", payload);
 
@@ -109,7 +111,7 @@ public class GuardOperationTest extends BasicHttpOperation<DecisionRequest> {
         assertThatIllegalArgumentException().isThrownBy(() -> oper.makeRequest());
     }
 
-    private void verifyPayload(String expectedJsonFile, Map<String, String> payload) throws CoderException {
+    private void verifyPayload(String expectedJsonFile, Map<String, Object> payload) throws CoderException {
         params.getPayload().clear();
         params.getPayload().putAll(payload);
 
@@ -150,7 +152,7 @@ public class GuardOperationTest extends BasicHttpOperation<DecisionRequest> {
     }
 
     @Override
-    protected Map<String, String> makePayload() {
+    protected Map<String, Object> makePayload() {
         DecisionRequest req = new DecisionRequest();
         req.setAction("my-action");
         req.setOnapComponent("my-onap-component");
@@ -158,12 +160,14 @@ public class GuardOperationTest extends BasicHttpOperation<DecisionRequest> {
         req.setOnapName("my-onap-name");
         req.setRequestId("my-request-id");
 
-        @SuppressWarnings("unchecked")
-        Map<String, String> map = Util.translate("", req, TreeMap.class);
-
         // add resources
-        map.put(GuardOperation.RESOURCE_PREFIX + "actor", "resource-actor");
-        map.put(GuardOperation.RESOURCE_PREFIX + "operation", "resource-operation");
+        Map<String, Object> resource = new TreeMap<>();
+        req.setResource(resource);
+        resource.put("actor", "resource-actor");
+        resource.put("operation", "resource-operation");
+
+        @SuppressWarnings("unchecked")
+        Map<String, Object> map = Util.translate("", req, TreeMap.class);
 
         return map;
     }

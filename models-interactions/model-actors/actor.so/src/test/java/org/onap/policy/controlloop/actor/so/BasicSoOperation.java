@@ -20,6 +20,7 @@
 
 package org.onap.policy.controlloop.actor.so;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.util.Collections;
@@ -28,6 +29,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import org.mockito.Mock;
+import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.controlloop.actor.test.BasicHttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.policy.Target;
@@ -52,6 +54,7 @@ public abstract class BasicSoOperation extends BasicHttpOperation<SoRequest> {
     public static final String PATH_GET = "my-path-get/";
     public static final int MAX_GETS = 3;
     public static final int WAIT_SEC_GETS = 20;
+    public static final Integer VF_COUNT = 10;
 
     @Mock
     protected SoConfig config;
@@ -125,8 +128,8 @@ public abstract class BasicSoOperation extends BasicHttpOperation<SoRequest> {
     }
 
     @Override
-    protected Map<String, String> makePayload() {
-        Map<String, String> payload = new HashMap<>();
+    protected Map<String, Object> makePayload() {
+        Map<String, Object> payload = new HashMap<>();
 
         // request parameters
         SoRequestParameters reqParams = new SoRequestParameters();
@@ -139,5 +142,10 @@ public abstract class BasicSoOperation extends BasicHttpOperation<SoRequest> {
         payload.put(SoOperation.CONFIG_PARAM_NM, Util.translate("", config, String.class));
 
         return payload;
+    }
+
+    protected AaiCqResponse makeCqResponse() {
+        when(cqResponse.getVfModuleCount(any(), any(), any())).thenReturn(VF_COUNT);
+        return cqResponse;
     }
 }

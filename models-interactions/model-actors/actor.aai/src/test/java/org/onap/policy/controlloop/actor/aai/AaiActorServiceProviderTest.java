@@ -27,8 +27,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.Test;
+import org.onap.policy.controlloop.actor.test.BasicActor;
 
-public class AaiActorServiceProviderTest {
+public class AaiActorServiceProviderTest extends BasicActor {
 
     @Test
     public void testAaiActorServiceProvider() {
@@ -44,5 +45,8 @@ public class AaiActorServiceProviderTest {
         var actual = prov.getOperationNames().stream().sorted().collect(Collectors.toList());
 
         assertEquals(expected.toString(), actual.toString());
+
+        // verify that it all plugs into the ActorService
+        verifyActorService(AaiActorServiceProvider.NAME, "service.yaml");
     }
 }

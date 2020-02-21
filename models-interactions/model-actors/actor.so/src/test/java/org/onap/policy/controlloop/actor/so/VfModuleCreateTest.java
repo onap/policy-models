@@ -20,15 +20,17 @@
 
 package org.onap.policy.controlloop.actor.so;
 
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
@@ -36,6 +38,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.onap.aai.domain.yang.CloudRegion;
 import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.aai.domain.yang.ModelVer;
@@ -44,7 +47,7 @@ import org.onap.aai.domain.yang.Tenant;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
-import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.so.SoRequest;
 
@@ -71,14 +74,17 @@ public class VfModuleCreateTest extends BasicSoOperation {
     public void testConstructor() {
         assertEquals(DEFAULT_ACTOR, oper.getActorName());
         assertEquals(VfModuleCreate.NAME, oper.getName());
+
+        // verify that target validation is done
+        params = params.toBuilder().target(null).build();
+        assertThatIllegalArgumentException().isThrownBy(() -> new VfModuleCreate(params, config))
+                        .withMessageContaining("Target information");
     }
 
     @Test
-    public void testStartPreprocessorAsync() {
-        CompletableFuture<OperationOutcome> future = new CompletableFuture<>();
-        context = mock(ControlLoopEventContext.class);
-        when(context.obtain(eq(AaiCqResponse.CONTEXT_KEY), any())).thenReturn(future);
-        params = params.toBuilder().context(context).build();
+    public void testStartPreprocessorAsync() throws Exception {
+        // put the count in the context so that it will skip the custom query
+        params.getContext().setProperty(SoConstants.CONTEXT_KEY_VF_COUNT, 20);
 
         AtomicBoolean guardStarted = new AtomicBoolean();
 
@@ -90,13 +96,60 @@ public class VfModuleCreateTest extends BasicSoOperation {
             }
         };
 
-        assertSame(future, oper.startPreprocessorAsync());
-        assertFalse(future.isDone());
+        CompletableFuture<OperationOutcome> future3 = oper.startPreprocessorAsync();
+        assertNotNull(future3);
         assertTrue(guardStarted.get());
     }
 
     @Test
-    public void testStartOperationAsync() throws Exception {
+    public void testStartGuardAsync() throws Exception {
+        // remove CQ data so it's forced to query
+        context.removeProperty(AaiCqResponse.CONTEXT_KEY);
+
+        CompletableFuture<OperationOutcome> future2 = oper.startPreprocessorAsync();
+        assertTrue(executor.runAll(100));
+        assertFalse(future2.isDone());
+
+        provideCqResponse(makeCqResponse());
+        assertTrue(executor.runAll(100));
+        assertTrue(future2.isDone());
+        assertEquals(PolicyResult.SUCCESS, future2.get().getResult());
+    }
+
+    @Test
+    public void testMakeGuardPayload() {
+        final int origCount = 30;
+        params.getContext().setProperty(SoConstants.CONTEXT_KEY_VF_COUNT, origCount);
+
+        CompletableFuture<OperationOutcome> future2 = oper.startPreprocessorAsync();
+        assertTrue(executor.runAll(100));
+        assertTrue(future2.isDone());
+
+        // get the payload from the request
+        ArgumentCaptor<ControlLoopOperationParams> captor = ArgumentCaptor.forClass(ControlLoopOperationParams.class);
+        verify(guardOperator).buildOperation(captor.capture());
+
+        Map<String, Object> payload = captor.getValue().getPayload();
+        assertNotNull(payload);
+
+        @SuppressWarnings("unchecked")
+        Map<String, Object> resource = (Map<String, Object>) payload.get("resource");
+        assertNotNull(resource);
+
+        @SuppressWarnings("unchecked")
+        Map<String, Object> guard = (Map<String, Object>) resource.get("guard");
+        assertNotNull(guard);
+
+        Integer newCount = (Integer) guard.get(VfModuleCreate.PAYLOAD_KEY_VF_COUNT);
+        assertNotNull(newCount);
+        assertEquals(origCount + 1, newCount.intValue());
+    }
+
+    @Test
+    public void testStartOperationAsync_testSuccessfulCompletion() throws Exception {
+        final int origCount = 30;
+        params.getContext().setProperty(SoConstants.CONTEXT_KEY_VF_COUNT, origCount);
+
         when(client.post(any(), any(), any(), any())).thenAnswer(provideResponse(rawResponse));
 
         // use a real executor
@@ -113,6 +166,9 @@ public class VfModuleCreateTest extends BasicSoOperation {
 
         outcome = future2.get(500, TimeUnit.SECONDS);
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+
+        Integer newCount = (Integer) params.getContext().getProperty(SoConstants.CONTEXT_KEY_VF_COUNT);
+        assertEquals(origCount + 1, newCount.intValue());
     }
 
     /**
