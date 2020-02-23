@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc348e6b_c66a35a4",
+        "filename": "models-interactions/model-actors/actor.sdnr/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-23T01:43:31Z",
+      "side": 1,
+      "message": "license got messed up",
+      "revId": "e130c0cec5b5b28a47a756fd46c9a07adb5c0494",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
