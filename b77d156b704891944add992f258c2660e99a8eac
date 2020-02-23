@@ -16,6 +16,23 @@
       "revId": "b77d156b704891944add992f258c2660e99a8eac",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63f2c400_d48b0316",
+        "filename": "models-interactions/model-actors/actor.sdnr/src/main/java/org/onap/policy/controlloop/actor/sdnr/SdnrOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-23T01:43:31Z",
+      "side": 1,
+      "message": "should probably add this, so the guard is executed:\n\n\n    @Override\n    protected CompletableFuture\u003cOperationOutcome\u003e startPreprocessorAsync() {\n        return startGuardAsync();\n    }",
+      "revId": "b77d156b704891944add992f258c2660e99a8eac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
