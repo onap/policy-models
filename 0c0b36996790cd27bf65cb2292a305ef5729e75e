@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66f8a05b_eff91a6d",
+        "filename": "models-interactions/model-actors/actor.sdnr/src/test/java/org/onap/policy/controlloop/actor/sdnr/ModifyConfigOperationTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-02-23T13:22:18Z",
+      "side": 1,
+      "message": "This still fails - not sure. Will dig in.",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 46
+      },
+      "revId": "0c0b36996790cd27bf65cb2292a305ef5729e75e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08bd5e89_1a6f595e",
+        "filename": "models-interactions/model-actors/actor.sdnr/src/test/java/org/onap/policy/controlloop/actor/sdnr/ModifyConfigOperationTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-02-23T13:22:18Z",
+      "side": 1,
+      "message": "This causes a StackOverflow.\n\nSo I have something mixed up in the inheritance of stuff. Or I\u0027m missing something.\n\nBTW this JUnit is not finished.",
+      "range": {
+        "startLine": 94,
+        "startChar": 34,
+        "endLine": 94,
+        "endChar": 56
+      },
+      "revId": "0c0b36996790cd27bf65cb2292a305ef5729e75e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "863f049b_455dec12",
+        "filename": "models-interactions/model-actors/actor.sdnr/src/test/java/org/onap/policy/controlloop/actor/sdnr/SdnrOperationTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-02-23T13:22:18Z",
+      "side": 1,
+      "message": "If I copy what you did in AppcOperationTest, I get a StackOverflow.\n\nreturn oper.makeRequest(attempt);\n\nIt just calls itself.",
+      "range": {
+        "startLine": 51,
+        "startChar": 17,
+        "endLine": 51,
+        "endChar": 50
+      },
+      "revId": "0c0b36996790cd27bf65cb2292a305ef5729e75e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
