@@ -539,7 +539,7 @@ public abstract class OperationPartial implements Operation {
      *         created. If this future is canceled, then all of the futures will be
      *         canceled
      */
-    protected CompletableFuture<OperationOutcome> anyOf(
+    public CompletableFuture<OperationOutcome> anyOf(
                     @SuppressWarnings("unchecked") Supplier<CompletableFuture<OperationOutcome>>... futureMakers) {
 
         return anyOf(Arrays.asList(futureMakers));
@@ -558,7 +558,7 @@ public abstract class OperationPartial implements Operation {
      *         canceled. Similarly, when this future completes, any incomplete futures
      *         will be canceled
      */
-    protected CompletableFuture<OperationOutcome> anyOf(
+    public CompletableFuture<OperationOutcome> anyOf(
                     List<Supplier<CompletableFuture<OperationOutcome>>> futureMakers) {
 
         PipelineControllerFuture<OperationOutcome> controller = new PipelineControllerFuture<>();
@@ -592,7 +592,7 @@ public abstract class OperationPartial implements Operation {
      *         created. If this future is canceled, then all of the futures will be
      *         canceled
      */
-    protected CompletableFuture<OperationOutcome> allOf(
+    public CompletableFuture<OperationOutcome> allOf(
                     @SuppressWarnings("unchecked") Supplier<CompletableFuture<OperationOutcome>>... futureMakers) {
 
         return allOf(Arrays.asList(futureMakers));
@@ -610,7 +610,7 @@ public abstract class OperationPartial implements Operation {
      *         canceled. Similarly, when this future completes, any incomplete futures
      *         will be canceled
      */
-    protected CompletableFuture<OperationOutcome> allOf(
+    public CompletableFuture<OperationOutcome> allOf(
                     List<Supplier<CompletableFuture<OperationOutcome>>> futureMakers) {
         PipelineControllerFuture<OperationOutcome> controller = new PipelineControllerFuture<>();
 
@@ -769,7 +769,7 @@ public abstract class OperationPartial implements Operation {
      * @param futureMakers functions to make the futures
      * @return a future to cancel the sequence or await the outcome
      */
-    protected CompletableFuture<OperationOutcome> sequence(
+    public CompletableFuture<OperationOutcome> sequence(
                     @SuppressWarnings("unchecked") Supplier<CompletableFuture<OperationOutcome>>... futureMakers) {
 
         return sequence(Arrays.asList(futureMakers));
@@ -784,7 +784,7 @@ public abstract class OperationPartial implements Operation {
      * @return a future to cancel the sequence or await the outcome, or {@code null} if
      *         there were no tasks to perform
      */
-    protected CompletableFuture<OperationOutcome> sequence(
+    public CompletableFuture<OperationOutcome> sequence(
                     List<Supplier<CompletableFuture<OperationOutcome>>> futureMakers) {
 
         Queue<Supplier<CompletableFuture<OperationOutcome>>> queue = new ArrayDeque<>(futureMakers);
@@ -926,7 +926,7 @@ public abstract class OperationPartial implements Operation {
      * @param operation operation to be updated
      * @return the updated operation
      */
-    protected OperationOutcome setOutcome(OperationOutcome operation, Throwable thrown) {
+    public OperationOutcome setOutcome(OperationOutcome operation, Throwable thrown) {
         PolicyResult result = (isTimeout(thrown) ? PolicyResult.FAILURE_TIMEOUT : PolicyResult.FAILURE_EXCEPTION);
         return setOutcome(operation, result);
     }
