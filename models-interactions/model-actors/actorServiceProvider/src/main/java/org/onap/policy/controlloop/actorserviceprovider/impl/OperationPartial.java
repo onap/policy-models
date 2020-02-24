@@ -175,6 +175,7 @@ public abstract class OperationPartial implements Operation {
 
             // TODO need a FAILURE_MISSING_DATA (e.g., A&AI)
 
+            outcome2.setFinalOutcome(true);
             outcome2.setResult(PolicyResult.FAILURE_GUARD);
             outcome2.setMessage(outcome != null ? outcome.getMessage() : null);
 
@@ -220,13 +221,13 @@ public abstract class OperationPartial implements Operation {
      */
     protected CompletableFuture<OperationOutcome> startGuardAsync() {
         // get the guard payload
-        Map<String,Object> guardPayload = makeGuardPayload();
+        Map<String, Object> guardPayload = makeGuardPayload();
 
         // wrap it in a "resource"
-        Map<String,Object> resource = new LinkedHashMap<>();
+        Map<String, Object> resource = new LinkedHashMap<>();
         resource.put("guard", guardPayload);
 
-        Map<String,Object> payload = new LinkedHashMap<>();
+        Map<String, Object> payload = new LinkedHashMap<>();
         payload.put("resource", resource);
 
         /*
@@ -411,35 +412,51 @@ public abstract class OperationPartial implements Operation {
      */
     private Function<OperationOutcome, OperationOutcome> setRetryFlag(int attempt) {
 
-        return operation -> {
-            if (operation != null && !isActorFailed(operation)) {
-                /*
-                 * wrong type or wrong operation - just leave it as is. No need to log
-                 * anything here, as retryOnFailure() will log a message
-                 */
-                return operation;
+        return origOutcome -> {
+            // ensure we have a non-null outcome
+            OperationOutcome outcome;
+            if (origOutcome != null) {
+                outcome = origOutcome;
+            } else {
+                logger.warn("{}: null outcome; treating as a failure for {}", getFullName(), params.getRequestId());
+                outcome = this.setOutcome(params.makeOutcome(), PolicyResult.FAILURE);
             }
 
-            // get a non-null operation
-            OperationOutcome oper2;
-            if (operation != null) {
-                oper2 = operation;
-            } else {
-                oper2 = params.makeOutcome();
-                oper2.setResult(PolicyResult.FAILURE);
+            // ensure correct actor/operation
+            outcome.setActor(getActorName());
+            outcome.setOperation(getName());
+
+            // determine if we should retry, based on the result
+            switch (outcome.getResult()) {
+                case FAILURE:
+                case FAILURE_TIMEOUT:
+                    break;
+                default:
+                    // do not retry success or other failure types (e.g., exception)
+                    outcome.setFinalOutcome(true);
+                    return outcome;
             }
 
             int retry = getRetry(params.getRetry());
-            if (retry > 0 && attempt > retry) {
+            if (retry <= 0) {
+                // no retries were specified
+                outcome.setFinalOutcome(true);
+
+            } else if (attempt <= retry) {
+                // have more retries - not the final outcome
+                outcome.setFinalOutcome(false);
+
+            } else {
                 /*
                  * retries were specified and we've already tried them all - change to
                  * FAILURE_RETRIES
                  */
                 logger.info("operation {} retries exhausted for {}", getFullName(), params.getRequestId());
-                oper2.setResult(PolicyResult.FAILURE_RETRIES);
+                outcome.setResult(PolicyResult.FAILURE_RETRIES);
+                outcome.setFinalOutcome(true);
             }
 
-            return oper2;
+            return outcome;
         };
     }
 
@@ -870,10 +887,13 @@ public abstract class OperationPartial implements Operation {
         return (outcome, thrown) -> {
 
             if (callbacks.canStart()) {
-                // haven't invoked "start" callback yet
                 outcome.setStart(callbacks.getStartTime());
                 outcome.setEnd(null);
-                params.callbackStarted(outcome);
+
+                // pass a copy to the callback
+                OperationOutcome outcome2 = new OperationOutcome(outcome);
+                outcome2.setFinalOutcome(false);
+                params.callbackStarted(outcome2);
             }
         };
     }
@@ -894,11 +914,12 @@ public abstract class OperationPartial implements Operation {
     private BiConsumer<OperationOutcome, Throwable> callbackCompleted(CallbackManager callbacks) {
 
         return (outcome, thrown) -> {
-
             if (callbacks.canEnd()) {
                 outcome.setStart(callbacks.getStartTime());
                 outcome.setEnd(callbacks.getEndTime());
-                params.callbackCompleted(outcome);
+
+                // pass a copy to the callback
+                params.callbackCompleted(new OperationOutcome(outcome));
             }
         };
     }
