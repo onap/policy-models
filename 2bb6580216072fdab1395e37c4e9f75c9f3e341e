@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2346ee10_0dd65558",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2020-02-24T21:04:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5534a51_a3f8847c",
+      "revId": "2bb6580216072fdab1395e37c4e9f75c9f3e341e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50545d31_3ec2a805",
         "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceManager.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2020-02-21T23:02:42Z",
       "side": 1,
       "message": "once implemented as a future, this will not do anything to the future, as the operation is still in progress.  However, the other cases will complete the future with either SUCCESS or FAILURE",
+      "revId": "2bb6580216072fdab1395e37c4e9f75c9f3e341e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e331478c_f0c33dcc",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2020-02-24T21:04:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50545d31_3ec2a805",
       "revId": "2bb6580216072fdab1395e37c4e9f75c9f3e341e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "7edba0c5_beb22e41",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/GrpcConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2020-02-24T21:04:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d0ffa51_d177125e",
+      "revId": "2bb6580216072fdab1395e37c4e9f75c9f3e341e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04e5c365_48224ba2",
         "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/GrpcOperation.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2020-02-21T23:02:42Z",
       "side": 1,
       "message": "implement startOperationAsync() instead",
+      "revId": "2bb6580216072fdab1395e37c4e9f75c9f3e341e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed515477_7f4a438c",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/GrpcOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2020-02-24T21:04:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04e5c365_48224ba2",
       "revId": "2bb6580216072fdab1395e37c4e9f75c9f3e341e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "859b6d26_8040ceee",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/GrpcOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2020-02-24T21:04:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0d7ca09_8a85f95f",
+      "revId": "2bb6580216072fdab1395e37c4e9f75c9f3e341e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c2fde4eb_88cc1a38",
         "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/GrpcOperation.java",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2020-02-21T23:02:42Z",
       "side": 1,
       "message": "don\u0027t wait for the latch, just get the future out of the client object.  Tack a thenApply() onto the end of the future, containing lines 236-240, and then return the future.",
+      "revId": "2bb6580216072fdab1395e37c4e9f75c9f3e341e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "33e767a0_55385a09",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/GrpcOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2020-02-24T21:04:02Z",
+      "side": 1,
+      "message": "Not using this code flow now",
+      "parentUuid": "c2fde4eb_88cc1a38",
       "revId": "2bb6580216072fdab1395e37c4e9f75c9f3e341e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "f8c62d70_bd814124",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/GrpcOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2020-02-24T21:04:02Z",
+      "side": 1,
+      "message": "Not using this code flow now",
+      "parentUuid": "1a97fa81_5149550a",
+      "revId": "2bb6580216072fdab1395e37c4e9f75c9f3e341e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a0eec5b_739705e6",
         "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/GrpcOperator.java",
         "patchSetId": 1
@@ -132,6 +258,24 @@
       "writtenOn": "2020-02-21T23:02:42Z",
       "side": 1,
       "message": "I don\u0027t think this is used",
+      "revId": "2bb6580216072fdab1395e37c4e9f75c9f3e341e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6f45449c_9b527e40",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/GrpcOperator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2020-02-24T21:04:02Z",
+      "side": 1,
+      "message": "Removed it",
+      "parentUuid": "3a0eec5b_739705e6",
       "revId": "2bb6580216072fdab1395e37c4e9f75c9f3e341e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
