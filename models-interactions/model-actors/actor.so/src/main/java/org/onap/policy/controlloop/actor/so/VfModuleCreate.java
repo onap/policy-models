@@ -20,6 +20,7 @@
 
 package org.onap.policy.controlloop.actor.so;
 
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
@@ -45,24 +46,61 @@ import org.onap.policy.so.SoRequest;
 import org.onap.policy.so.SoRequestDetails;
 import org.onap.policy.so.SoRequestParameters;
 
+/**
+ * Operation to create a VF Module. This gets the VF count from the A&AI Custom Query
+ * response and stores it in the context. It also passes the count+1 to the guard. Once
+ * the "create" completes successfully, it bumps the VF count that's stored in the
+ * context.
+ * <p/>
+ * Note: currently, this only supports storing the count for a single target VF.
+ */
 public class VfModuleCreate extends SoOperation {
     public static final String NAME = "VF Module Create";
 
+    public static final String PAYLOAD_KEY_VF_COUNT = "vfCount";
+
+    /**
+     * Constructs the object.
+     *
+     * @param params operation parameters
+     * @param config configuration for this operation
+     */
     public VfModuleCreate(ControlLoopOperationParams params, HttpConfig config) {
         super(params, config);
+
+        // ensure we have the necessary parameters
+        validateTarget();
     }
 
     /**
-     * Ensures that A&AI customer query has been performed, and then runs the guard query.
+     * Ensures that A&AI customer query has been performed, and then runs the guard.
      */
     @Override
     @SuppressWarnings("unchecked")
     protected CompletableFuture<OperationOutcome> startPreprocessorAsync() {
+        if (params.getContext().contains(SoConstants.CONTEXT_KEY_VF_COUNT)) {
+            return startGuardAsync();
+        }
+
+        // need the VF count
         ControlLoopOperationParams cqParams = params.toBuilder().actor(AaiConstants.ACTOR_NAME)
                         .operation(AaiCustomQueryOperation.NAME).payload(null).retry(null).timeoutSec(null).build();
 
-        // run Custom Query and Guard, in parallel
-        return allOf(() -> params.getContext().obtain(AaiCqResponse.CONTEXT_KEY, cqParams), this::startGuardAsync);
+        // run Custom Query, extract the VF count, and then run the Guard
+        return sequence(() -> params.getContext().obtain(AaiCqResponse.CONTEXT_KEY, cqParams),
+                        this::storeVfCountRunGuard);
+    }
+
+    @Override
+    protected Map<String, Object> makeGuardPayload() {
+        Map<String, Object> payload = super.makeGuardPayload();
+
+        int vfcount = params.getContext().getProperty(SoConstants.CONTEXT_KEY_VF_COUNT);
+
+        // run guard with the proposed vf count
+        payload.put(PAYLOAD_KEY_VF_COUNT, vfcount + 1);
+
+        return payload;
     }
 
     @Override
@@ -83,6 +121,15 @@ public class VfModuleCreate extends SoOperation {
         // TODO should this use "path" or the full "url"?
 
         return handleResponse(outcome, url, callback -> getClient().post(callback, path, entity, null));
+    }
+
+    /**
+     * Increments the VF count that's stored in the context.
+     */
+    @Override
+    protected void successfulCompletion() {
+        int vfcount = params.getContext().getProperty(SoConstants.CONTEXT_KEY_VF_COUNT);
+        params.getContext().setProperty(SoConstants.CONTEXT_KEY_VF_COUNT, vfcount + 1);
     }
 
     /**

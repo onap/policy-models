@@ -20,8 +20,10 @@
 
 package org.onap.policy.controlloop.actor.so;
 
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
@@ -35,7 +37,6 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import org.junit.Before;
@@ -82,19 +83,55 @@ public class SoOperationTest extends BasicSoOperation {
     }
 
     @Test
+    public void testValidateTarget() {
+        // check when various fields are null
+        verifyNotNull("model-customization-id", target::getModelCustomizationId, target::setModelCustomizationId);
+        verifyNotNull("model-invariant-id", target::getModelInvariantId, target::setModelInvariantId);
+        verifyNotNull("model-version-id", target::getModelVersionId, target::setModelVersionId);
+
+        // verify it's still valid
+        assertThatCode(() -> new VfModuleCreate(params, config)).doesNotThrowAnyException();
+
+        // check when Target, itself, is null
+        params = params.toBuilder().target(null).build();
+        assertThatIllegalArgumentException().isThrownBy(() -> new VfModuleCreate(params, config))
+                        .withMessageContaining("Target information");
+    }
+
+    private void verifyNotNull(String expectedText, Supplier<String> getter, Consumer<String> setter) {
+        String originalValue = getter.get();
+
+        // try with null
+        setter.accept(null);
+        assertThatIllegalArgumentException().isThrownBy(() -> new VfModuleCreate(params, config))
+                        .withMessageContaining(expectedText);
+
+        setter.accept(originalValue);
+    }
+
+    @Test
     public void testStartPreprocessorAsync() {
-        AtomicBoolean guardStarted = new AtomicBoolean();
+        assertNotNull(oper.startPreprocessorAsync());
+    }
 
-        oper = new SoOperation(params, config) {
-            @Override
-            protected CompletableFuture<OperationOutcome> startGuardAsync() {
-                guardStarted.set(true);
-                return super.startGuardAsync();
-            }
-        };
+    @Test
+    public void testStoreVfCountRunGuard() throws Exception {
+        // insert CQ data so it's there for the guard
+        context.setProperty(AaiCqResponse.CONTEXT_KEY, makeCqResponse());
 
-        assertNull(oper.startPreprocessorAsync());
-        assertTrue(guardStarted.get());
+        // cause guard to fail
+        OperationOutcome outcome2 = params.makeOutcome();
+        outcome2.setResult(PolicyResult.FAILURE);
+        when(guardOperation.start()).thenReturn(CompletableFuture.completedFuture(outcome2));
+
+        CompletableFuture<OperationOutcome> future2 = oper.storeVfCountRunGuard();
+        assertTrue(executor.runAll(100));
+        assertTrue(future2.isDone());
+        assertEquals(PolicyResult.FAILURE, future2.get().getResult());
+
+        // verify that the count was stored
+        Integer vfcount = context.getProperty(SoConstants.CONTEXT_KEY_VF_COUNT);
+        assertEquals(VF_COUNT, vfcount);
     }
 
     @Test

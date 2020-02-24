@@ -1,1 +1,2 @@
 org.onap.policy.controlloop.actorserviceprovider.DummyActor
+org.onap.policy.controlloop.actorserviceprovider.InvalidActor
