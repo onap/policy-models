@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2fce8553_3774132a",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/GrpcOperation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-24T21:49:15Z",
+      "side": 1,
+      "message": "does this need AaiCqResponse?  If not, just remove this and simply:\n\n  return startGuardAsync();\n\nOtherwise, do allOf() or sequence(), containing both the obtain() and the startGuardAsync() calls.",
+      "revId": "f651b77e7e57eef4e6291d177db21d583b3c28ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4c4ee8b0_616dad43",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/GrpcOperation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-24T21:49:15Z",
+      "side": 1,
+      "message": "does it even make sense to log a ExecutionServiceInput?  Is it a POJO that can be encoded into JSON?",
+      "revId": "f651b77e7e57eef4e6291d177db21d583b3c28ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e8f378_c5620410",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/GrpcOperation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-24T21:49:15Z",
+      "side": 1,
+      "message": "need to log the response anywhere?",
+      "revId": "f651b77e7e57eef4e6291d177db21d583b3c28ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48ee2881_f9e6d23a",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/GrpcOperation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-24T21:49:15Z",
+      "side": 1,
+      "message": "note: FAILUREs will be automatically retried.  That won\u0027t cause a problem, though it will use extra CPU and generate several messages in the log.  To prevent this, set it to one of the other failure types, or simply throw an exception.  Really no need for \"Optional\" here - just throw an exception if there\u0027s a problem.",
+      "revId": "f651b77e7e57eef4e6291d177db21d583b3c28ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "534ff9e9_5a2b68b9",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/GrpcOperation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-24T21:49:15Z",
+      "side": 1,
+      "message": "could throw an NPE",
+      "revId": "f651b77e7e57eef4e6291d177db21d583b3c28ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be5f6758_ae7a1709",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/GrpcOperation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-24T21:49:15Z",
+      "side": 1,
+      "message": "could throw an NPE",
+      "revId": "f651b77e7e57eef4e6291d177db21d583b3c28ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
