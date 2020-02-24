@@ -33,7 +33,6 @@ import org.onap.policy.aai.AaiConstants;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
-import org.onap.policy.controlloop.actor.aai.AaiCustomQueryOperation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
@@ -84,7 +83,7 @@ public class VfModuleCreate extends SoOperation {
 
         // need the VF count
         ControlLoopOperationParams cqParams = params.toBuilder().actor(AaiConstants.ACTOR_NAME)
-                        .operation(AaiCustomQueryOperation.NAME).payload(null).retry(null).timeoutSec(null).build();
+                        .operation(AaiCqResponse.OPERATION).payload(null).retry(null).timeoutSec(null).build();
 
         // run Custom Query, extract the VF count, and then run the Guard
         return sequence(() -> params.getContext().obtain(AaiCqResponse.CONTEXT_KEY, cqParams),

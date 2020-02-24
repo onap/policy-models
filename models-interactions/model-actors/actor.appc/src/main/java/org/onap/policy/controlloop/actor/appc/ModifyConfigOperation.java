@@ -25,7 +25,6 @@ import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.policy.aai.AaiConstants;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.appc.Request;
-import org.onap.policy.controlloop.actor.aai.AaiCustomQueryOperation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
@@ -54,7 +53,7 @@ public class ModifyConfigOperation extends AppcOperation {
     @SuppressWarnings("unchecked")
     protected CompletableFuture<OperationOutcome> startPreprocessorAsync() {
         ControlLoopOperationParams cqParams = params.toBuilder().actor(AaiConstants.ACTOR_NAME)
-                        .operation(AaiCustomQueryOperation.NAME).payload(null).retry(null).timeoutSec(null).build();
+                        .operation(AaiCqResponse.OPERATION).payload(null).retry(null).timeoutSec(null).build();
 
         // run Custom Query and Guard, in parallel
         return allOf(() -> params.getContext().obtain(AaiCqResponse.CONTEXT_KEY, cqParams), this::startGuardAsync);
