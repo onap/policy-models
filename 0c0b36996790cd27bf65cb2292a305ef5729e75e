@@ -2,6 +2,74 @@
   "comments": [
     {
       "key": {
+        "uuid": "083b00a0_e7a2bddb",
+        "filename": "models-interactions/model-actors/actor.sdnr/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-24T13:21:27Z",
+      "side": 1,
+      "message": "trailing spaces",
+      "revId": "0c0b36996790cd27bf65cb2292a305ef5729e75e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea6b853d_58ddac40",
+        "filename": "models-interactions/model-actors/actor.sdnr/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-24T13:21:27Z",
+      "side": 1,
+      "message": "still not quite right",
+      "revId": "0c0b36996790cd27bf65cb2292a305ef5729e75e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cab316bc_8e7dd3b2",
+        "filename": "models-interactions/model-actors/actor.sdnr/src/main/java/org/onap/policy/controlloop/actor/sdnr/ModifyConfigOperation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-24T13:21:27Z",
+      "side": 1,
+      "message": "here\u0027s the stack-overflow issue; change \"this\" to \"super\"",
+      "revId": "0c0b36996790cd27bf65cb2292a305ef5729e75e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f49ebbb_3cff6a49",
+        "filename": "models-interactions/model-actors/actor.sdnr/src/test/java/org/onap/policy/controlloop/actor/sdnr/BasicSdnrOperation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-24T13:21:27Z",
+      "side": 1,
+      "message": "can remove the extra \"-\"",
+      "revId": "0c0b36996790cd27bf65cb2292a305ef5729e75e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "66f8a05b_eff91a6d",
         "filename": "models-interactions/model-actors/actor.sdnr/src/test/java/org/onap/policy/controlloop/actor/sdnr/ModifyConfigOperationTest.java",
         "patchSetId": 3
