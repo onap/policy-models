@@ -41,6 +41,7 @@ public class OperationOutcome {
     private String subRequestId;
     private PolicyResult result = PolicyResult.SUCCESS;
     private String message;
+    private boolean finalOutcome;
 
     /**
      * Copy constructor.
@@ -56,6 +57,7 @@ public class OperationOutcome {
         this.subRequestId = source.subRequestId;
         this.result = source.result;
         this.message = source.message;
+        this.finalOutcome = source.finalOutcome;
     }
 
     /**
