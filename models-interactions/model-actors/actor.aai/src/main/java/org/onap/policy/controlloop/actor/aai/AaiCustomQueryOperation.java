@@ -45,7 +45,7 @@ import org.slf4j.LoggerFactory;
 public class AaiCustomQueryOperation extends HttpOperation<String> {
     private static final Logger logger = LoggerFactory.getLogger(AaiCustomQueryOperation.class);
 
-    public static final String NAME = "CustomQuery";
+    public static final String NAME = AaiCqResponse.OPERATION;
 
     public static final String RESOURCE_LINK = "resource-link";
     public static final String RESULT_DATA = "result-data";

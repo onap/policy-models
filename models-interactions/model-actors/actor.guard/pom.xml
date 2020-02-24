@@ -46,12 +46,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.onap.policy.models.policy-models-interactions.model-actors</groupId>
-            <artifactId>actor.aai</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>org.onap.policy.models</groupId>
             <artifactId>policy-models-decisions</artifactId>
             <version>${project.version}</version>
