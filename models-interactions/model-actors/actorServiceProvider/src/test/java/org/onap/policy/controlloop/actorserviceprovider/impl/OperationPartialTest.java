@@ -34,7 +34,9 @@ import static org.mockito.Mockito.when;
 
 import ch.qos.logback.classic.Logger;
 import java.time.Instant;
+import java.util.ArrayDeque;
 import java.util.Arrays;
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -128,6 +130,9 @@ public class OperationPartialTest {
     private OperationOutcome opstart;
     private OperationOutcome opend;
 
+    private Deque<OperationOutcome> starts;
+    private Deque<OperationOutcome> ends;
+
     private OperatorConfig config;
 
     /**
@@ -182,6 +187,9 @@ public class OperationPartialTest {
 
         opstart = null;
         opend = null;
+
+        starts = new ArrayDeque<>(10);
+        ends = new ArrayDeque<>(10);
     }
 
     @Test
@@ -519,10 +527,10 @@ public class OperationPartialTest {
         // arrange to return null from doOperation()
         oper = new MyOper() {
             @Override
-            protected OperationOutcome doOperation(int attempt, OperationOutcome operation) {
+            protected OperationOutcome doOperation(int attempt, OperationOutcome outcome) {
 
                 // update counters
-                super.doOperation(attempt, operation);
+                super.doOperation(attempt, outcome);
                 return null;
             }
         };
@@ -587,7 +595,7 @@ public class OperationPartialTest {
      * Tests handleFailure() when the outcome is a success.
      */
     @Test
-    public void testHandlePreprocessorFailureTrue() {
+    public void testHandlePreprocessorFailureSuccess() {
         oper.setPreProc(CompletableFuture.completedFuture(makeSuccess()));
         verifyRun("testHandlePreprocessorFailureTrue", 1, 1, PolicyResult.SUCCESS);
     }
@@ -596,7 +604,7 @@ public class OperationPartialTest {
      * Tests handleFailure() when the outcome is <i>not</i> a success.
      */
     @Test
-    public void testHandlePreprocessorFailureFalse() throws Exception {
+    public void testHandlePreprocessorFailureFailed() throws Exception {
         oper.setPreProc(CompletableFuture.completedFuture(makeFailure()));
         verifyRun("testHandlePreprocessorFailureFalse", 1, 0, PolicyResult.FAILURE_GUARD);
     }
@@ -1130,11 +1138,13 @@ public class OperationPartialTest {
         ++numStart;
         tstart = oper.getStart();
         opstart = oper;
+        starts.add(oper);
     }
 
     private void completer(OperationOutcome oper) {
         ++numEnd;
         opend = oper;
+        ends.add(oper);
     }
 
     /**
@@ -1194,6 +1204,12 @@ public class OperationPartialTest {
     private void verifyRun(String testName, int expectedCallbacks, int expectedOperations, PolicyResult expectedResult,
                     String expectedSubRequestId, Consumer<CompletableFuture<OperationOutcome>> manipulator) {
 
+        tstart = null;
+        opstart = null;
+        opend = null;
+        starts.clear();
+        ends.clear();
+
         CompletableFuture<OperationOutcome> future = oper.start();
 
         manipulator.accept(future);
@@ -1213,7 +1229,20 @@ public class OperationPartialTest {
 
             try {
                 assertTrue(future.isDone());
-                assertSame(testName, opend, future.get());
+                assertEquals(testName, opend, future.get());
+
+                // "start" is never final
+                for (OperationOutcome outcome : starts) {
+                    assertFalse(testName, outcome.isFinalOutcome());
+                }
+
+
+                // only the last "complete" is final
+                assertTrue(testName, ends.removeLast().isFinalOutcome());
+
+                for (OperationOutcome outcome : ends) {
+                    assertFalse(outcome.isFinalOutcome());
+                }
 
             } catch (InterruptedException | ExecutionException e) {
                 throw new IllegalStateException(e);
