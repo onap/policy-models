@@ -41,4 +41,9 @@ public class GuardParams extends HttpParams {
     private String onapComponent;
     private String onapInstance;
     private String action;
+
+    /**
+     * {@code True} if the associated guard operation is disabled.
+     */
+    private boolean disabled;
 }

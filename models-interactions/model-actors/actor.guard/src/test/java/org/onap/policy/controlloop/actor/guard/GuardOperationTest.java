@@ -26,6 +26,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -44,6 +45,7 @@ import org.onap.policy.models.decisions.concepts.DecisionResponse;
 
 public class GuardOperationTest extends BasicHttpOperation<DecisionRequest> {
 
+    private GuardConfig guardConfig;
     private GuardOperation oper;
 
     /**
@@ -53,10 +55,10 @@ public class GuardOperationTest extends BasicHttpOperation<DecisionRequest> {
     public void setUp() throws Exception {
         super.setUpBasic();
 
-        GuardConfig cguard = mock(GuardConfig.class);
-        when(cguard.makeRequest()).thenAnswer(args -> new TreeMap<>(Map.of("action", "guard")));
+        guardConfig = mock(GuardConfig.class);
+        when(guardConfig.makeRequest()).thenAnswer(args -> new TreeMap<>(Map.of("action", "guard")));
 
-        config = cguard;
+        config = guardConfig;
         initConfig();
 
         oper = new GuardOperation(params, config);
@@ -82,6 +84,25 @@ public class GuardOperationTest extends BasicHttpOperation<DecisionRequest> {
         callbackCaptor.getValue().completed(rawResponse);
 
         executor.runAll(100);
+        assertTrue(future2.isDone());
+
+        assertEquals(PolicyResult.SUCCESS, future2.get().getResult());
+    }
+
+    /**
+     * Tests startOperationAsync() when the guard is disabled.
+     */
+    @Test
+    public void testStartOperationAsyncDisabled() throws Exception {
+        // indicate that it's disabled
+        when(guardConfig.isDisabled()).thenReturn(true);
+
+        CompletableFuture<OperationOutcome> future2 = oper.start();
+        executor.runAll(100);
+
+        verify(client, never()).post(any(), any(), any(), any());
+
+        // should already be done
         assertTrue(future2.isDone());
 
         assertEquals(PolicyResult.SUCCESS, future2.get().getResult());

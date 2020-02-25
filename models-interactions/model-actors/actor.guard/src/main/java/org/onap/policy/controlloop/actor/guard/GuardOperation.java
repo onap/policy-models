@@ -84,6 +84,10 @@ public class GuardOperation extends HttpOperation<DecisionResponse> {
 
     @Override
     protected CompletableFuture<OperationOutcome> startOperationAsync(int attempt, OperationOutcome outcome) {
+        if (config.isDisabled()) {
+            // guard is disabled, thus it is always treated as a success
+            return CompletableFuture.completedFuture(params.makeOutcome());
+        }
 
         DecisionRequest request = Util.translate(getName(), makeRequest(), DecisionRequest.class);
 

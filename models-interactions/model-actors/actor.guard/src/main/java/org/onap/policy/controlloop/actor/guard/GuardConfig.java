@@ -23,6 +23,7 @@ package org.onap.policy.controlloop.actor.guard;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.Executor;
+import lombok.Getter;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactory;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
@@ -32,6 +33,12 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
  */
 public class GuardConfig extends HttpConfig {
     private final Map<String, Object> defaultRequest = new LinkedHashMap<>();
+
+    /**
+     * {@code True} if the associated guard operation is disabled.
+     */
+    @Getter
+    private boolean disabled;
 
     /**
      * Constructs the object.
@@ -47,6 +54,8 @@ public class GuardConfig extends HttpConfig {
         addProperty("ONAPInstance", params.getOnapInstance());
         addProperty("ONAPName", params.getOnapName());
         addProperty("action", params.getAction());
+
+        this.disabled = params.isDisabled();
     }
 
     /**

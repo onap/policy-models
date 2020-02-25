@@ -40,4 +40,9 @@ public class GuardActorParams extends HttpActorParams {
     private String onapComponent;
     private String onapInstance;
     private String action = DEFAULT_ACTION;
+
+    /**
+     * {@code True} if guard operations are disabled.
+     */
+    private boolean disabled = false;
 }
