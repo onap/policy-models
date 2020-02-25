@@ -21,7 +21,9 @@
 package org.onap.policy.controlloop.actor.guard;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.util.concurrent.Executor;
@@ -85,8 +87,14 @@ public class GuardConfigTest {
         // repeat, with minimal parameters
         params = GuardParams.builder().clientName(MY_CLIENT).path(PATH).timeoutSec(TIMEOUT).build();
         config = new GuardConfig(executor, params, factory);
+        assertFalse(config.isDisabled());
 
         actual = Util.translate("", config.makeRequest(), DecisionRequest.class);
         assertEquals(new DecisionRequest(), actual);
+
+        // try with disabled=true
+        params = params.toBuilder().disabled(true).build();
+        config = new GuardConfig(executor, params, factory);
+        assertTrue(config.isDisabled());
     }
 }

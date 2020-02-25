@@ -65,6 +65,12 @@ public class GuardActorParamsTest {
     }
 
     @Test
+    public void testIsDisabled() {
+        // disabled by default
+        assertFalse(params.isDisabled());
+    }
+
+    @Test
     public void testValidate() {
         assertTrue(params.validate(CONTAINER).isValid());
 
