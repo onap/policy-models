@@ -83,8 +83,8 @@ public class VfModuleCreateTest extends BasicSoOperation {
 
     @Test
     public void testStartPreprocessorAsync() throws Exception {
-        // put the count in the context so that it will skip the custom query
-        params.getContext().setProperty(SoConstants.CONTEXT_KEY_VF_COUNT, 20);
+        // insert CQ data so it's there for the check
+        context.setProperty(AaiCqResponse.CONTEXT_KEY, makeCqResponse());
 
         AtomicBoolean guardStarted = new AtomicBoolean();
 
@@ -119,7 +119,7 @@ public class VfModuleCreateTest extends BasicSoOperation {
     @Test
     public void testMakeGuardPayload() {
         final int origCount = 30;
-        params.getContext().setProperty(SoConstants.CONTEXT_KEY_VF_COUNT, origCount);
+        oper.setVfCount(origCount);
 
         CompletableFuture<OperationOutcome> future2 = oper.startPreprocessorAsync();
         assertTrue(executor.runAll(100));
@@ -148,7 +148,7 @@ public class VfModuleCreateTest extends BasicSoOperation {
     @Test
     public void testStartOperationAsync_testSuccessfulCompletion() throws Exception {
         final int origCount = 30;
-        params.getContext().setProperty(SoConstants.CONTEXT_KEY_VF_COUNT, origCount);
+        oper.setVfCount(origCount);
 
         when(client.post(any(), any(), any(), any())).thenAnswer(provideResponse(rawResponse));
 
@@ -167,8 +167,7 @@ public class VfModuleCreateTest extends BasicSoOperation {
         outcome = future2.get(500, TimeUnit.SECONDS);
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
 
-        Integer newCount = (Integer) params.getContext().getProperty(SoConstants.CONTEXT_KEY_VF_COUNT);
-        assertEquals(origCount + 1, newCount.intValue());
+        assertEquals(origCount + 1, oper.getVfCount());
     }
 
     /**
