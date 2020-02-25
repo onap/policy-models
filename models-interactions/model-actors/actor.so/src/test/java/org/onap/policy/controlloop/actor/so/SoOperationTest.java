@@ -23,6 +23,7 @@ package org.onap.policy.controlloop.actor.so;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
@@ -60,6 +61,8 @@ import org.onap.policy.so.SoResponse;
 
 public class SoOperationTest extends BasicSoOperation {
 
+    private static final String VF_COUNT_KEY = SoConstants.VF_COUNT_PREFIX
+                    + "[my-model-customization-id][my-model-invariant-id][my-model-version-id]";
     private SoOperation oper;
 
     /**
@@ -80,6 +83,11 @@ public class SoOperationTest extends BasicSoOperation {
         assertEquals(DEFAULT_OPERATION, oper.getName());
         assertSame(config, oper.getConfig());
         assertEquals(1000 * WAIT_SEC_GETS, oper.getWaitMsGet());
+
+        // check when Target is null
+        params = params.toBuilder().target(null).build();
+        assertThatIllegalArgumentException().isThrownBy(() -> new SoOperation(params, config) {})
+                        .withMessageContaining("Target information");
     }
 
     @Test
@@ -91,11 +99,6 @@ public class SoOperationTest extends BasicSoOperation {
 
         // verify it's still valid
         assertThatCode(() -> new VfModuleCreate(params, config)).doesNotThrowAnyException();
-
-        // check when Target, itself, is null
-        params = params.toBuilder().target(null).build();
-        assertThatIllegalArgumentException().isThrownBy(() -> new VfModuleCreate(params, config))
-                        .withMessageContaining("Target information");
     }
 
     private void verifyNotNull(String expectedText, Supplier<String> getter, Consumer<String> setter) {
@@ -115,23 +118,51 @@ public class SoOperationTest extends BasicSoOperation {
     }
 
     @Test
-    public void testStoreVfCountRunGuard() throws Exception {
-        // insert CQ data so it's there for the guard
+    public void testObtainVfCount_testGetVfCount_testSetVfCount() throws Exception {
+        // insert CQ data so it's there for the check
         context.setProperty(AaiCqResponse.CONTEXT_KEY, makeCqResponse());
 
-        // cause guard to fail
-        OperationOutcome outcome2 = params.makeOutcome();
-        outcome2.setResult(PolicyResult.FAILURE);
-        when(guardOperation.start()).thenReturn(CompletableFuture.completedFuture(outcome2));
-
-        CompletableFuture<OperationOutcome> future2 = oper.storeVfCountRunGuard();
-        assertTrue(executor.runAll(100));
-        assertTrue(future2.isDone());
-        assertEquals(PolicyResult.FAILURE, future2.get().getResult());
+        // shouldn't actually need to do anything
+        assertNull(oper.obtainVfCount());
 
         // verify that the count was stored
-        Integer vfcount = context.getProperty(SoConstants.CONTEXT_KEY_VF_COUNT);
+        Integer vfcount = context.getProperty(VF_COUNT_KEY);
         assertEquals(VF_COUNT, vfcount);
+        assertEquals(VF_COUNT.intValue(), oper.getVfCount());
+
+        // change the count and then verify that it isn't overwritten by another call
+        oper.setVfCount(VF_COUNT + 1);
+
+        assertNull(oper.obtainVfCount());
+        vfcount = context.getProperty(VF_COUNT_KEY);
+        assertEquals(VF_COUNT + 1, vfcount.intValue());
+        assertEquals(VF_COUNT + 1, oper.getVfCount());
+    }
+
+    /**
+     * Tests obtainVfCount() when it actually has to query.
+     */
+    @Test
+    public void testObtainVfCountQuery() throws Exception {
+        CompletableFuture<OperationOutcome> future2 = oper.obtainVfCount();
+        assertNotNull(future2);
+        assertTrue(executor.runAll(100));
+
+        // not done yet
+        assertFalse(future2.isDone());
+
+        provideCqResponse(makeCqResponse());
+
+        assertTrue(executor.runAll(100));
+        assertTrue(future2.isDone());
+        assertEquals(PolicyResult.SUCCESS, future2.get().getResult());
+
+        // verify that the count was stored
+        Integer vfcount = context.getProperty(VF_COUNT_KEY);
+        assertEquals(VF_COUNT, vfcount);
+
+        // repeat - shouldn't need to do anything now
+        assertNull(oper.obtainVfCount());
     }
 
     @Test
@@ -273,9 +304,8 @@ public class SoOperationTest extends BasicSoOperation {
 
         // try with null target
         params = params.toBuilder().target(null).build();
-        oper = new SoOperation(params, config) {};
-
-        assertThatIllegalArgumentException().isThrownBy(() -> oper.prepareSoModelInfo()).withMessage("missing Target");
+        assertThatIllegalArgumentException().isThrownBy(() -> new SoOperation(params, config) {})
+                        .withMessageContaining("missing Target");
     }
 
     private void verifyMissingModelInfo(Supplier<String> getter, Consumer<String> setter) {

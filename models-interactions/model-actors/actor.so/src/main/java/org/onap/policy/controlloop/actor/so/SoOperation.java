@@ -32,6 +32,7 @@ import org.onap.aai.domain.yang.CloudRegion;
 import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.aai.domain.yang.ServiceInstance;
 import org.onap.aai.domain.yang.Tenant;
+import org.onap.policy.aai.AaiConstants;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
@@ -71,6 +72,13 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
 
     private final SoConfig config;
 
+    // values extracted from the parameter Target
+    private final String modelCustomizationId;
+    private final String modelInvariantId;
+    private final String modelVersionId;
+
+    private final String vfCountKey;
+
     /**
      * Number of "get" requests issued so far, on the current operation attempt.
      */
@@ -87,6 +95,15 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
     public SoOperation(ControlLoopOperationParams params, HttpConfig config) {
         super(params, config, SoResponse.class);
         this.config = (SoConfig) config;
+
+        verifyNotNull("Target information", params.getTarget());
+
+        this.modelCustomizationId = params.getTarget().getModelCustomizationId();
+        this.modelInvariantId = params.getTarget().getModelInvariantId();
+        this.modelVersionId = params.getTarget().getModelVersionId();
+
+        vfCountKey = SoConstants.VF_COUNT_PREFIX + "[" + modelCustomizationId + "][" + modelInvariantId + "]["
+                        + modelVersionId + "]";
     }
 
     /**
@@ -101,10 +118,9 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
      * the VF count from the custom query.
      */
     protected void validateTarget() {
-        verifyNotNull("Target information", params.getTarget());
-        verifyNotNull("model-customization-id", params.getTarget().getModelCustomizationId());
-        verifyNotNull("model-invariant-id", params.getTarget().getModelInvariantId());
-        verifyNotNull("model-version-id", params.getTarget().getModelVersionId());
+        verifyNotNull("model-customization-id", modelCustomizationId);
+        verifyNotNull("model-invariant-id", modelInvariantId);
+        verifyNotNull("model-version-id", modelVersionId);
     }
 
     private void verifyNotNull(String type, Object value) {
@@ -122,21 +138,47 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
     }
 
     /**
-     * Stores the VF count and then runs the guard.
+     * Gets the VF Count.
      *
-     * @return a future to cancel or await the guard response
+     * @return a future to cancel or await the VF Count
      */
-    protected CompletableFuture<OperationOutcome> storeVfCountRunGuard() {
-        String custId = params.getTarget().getModelCustomizationId();
-        String invId = params.getTarget().getModelInvariantId();
-        String verId = params.getTarget().getModelVersionId();
+    @SuppressWarnings("unchecked")
+    protected CompletableFuture<OperationOutcome> obtainVfCount() {
+        if (params.getContext().contains(vfCountKey)) {
+            // already have the VF count
+            return null;
+        }
 
-        AaiCqResponse cq = params.getContext().getProperty(AaiCqResponse.CONTEXT_KEY);
-        int vfcount = cq.getVfModuleCount(custId, invId, verId);
+        // need custom query from which to extract the VF count
+        ControlLoopOperationParams cqParams = params.toBuilder().actor(AaiConstants.ACTOR_NAME)
+                        .operation(AaiCqResponse.OPERATION).payload(null).retry(null).timeoutSec(null).build();
 
-        params.getContext().setProperty(SoConstants.CONTEXT_KEY_VF_COUNT, vfcount);
+        // run Custom Query and then extract the VF count
+        return sequence(() -> params.getContext().obtain(AaiCqResponse.CONTEXT_KEY, cqParams), this::storeVfCount);
+    }
 
-        return startGuardAsync();
+    /**
+     * Stores the VF count.
+     *
+     * @return {@code null}
+     */
+    private CompletableFuture<OperationOutcome> storeVfCount() {
+        if (!params.getContext().contains(vfCountKey)) {
+            AaiCqResponse cq = params.getContext().getProperty(AaiCqResponse.CONTEXT_KEY);
+            int vfcount = cq.getVfModuleCount(modelCustomizationId, modelInvariantId, modelVersionId);
+
+            params.getContext().setProperty(vfCountKey, vfcount);
+        }
+
+        return null;
+    }
+
+    protected int getVfCount() {
+        return params.getContext().getProperty(vfCountKey);
+    }
+
+    protected void setVfCount(int vfCount) {
+        params.getContext().setProperty(vfCountKey, vfCount);
     }
 
     /**
