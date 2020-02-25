@@ -68,6 +68,14 @@ import org.slf4j.LoggerFactory;
  * returned by overridden methods will do the same. Of course, if a class overrides
  * {@link #doOperation(int, OperationOutcome) doOperation()}, then there's little that can
  * be done to cancel that particular operation.
+ * <p/>
+ * In general tasks in a pipeline are executed by the same thread. However, the following
+ * should always be executed via the executor specified in "params":
+ * <ul>
+ * <li>start callback</li>
+ * <li>completion callback</li>
+ * <li>controller completion (i.e., delayedComplete())</li>
+ * </ul>
  */
 public abstract class OperationPartial implements Operation {
     private static final Logger logger = LoggerFactory.getLogger(OperationPartial.class);
@@ -558,8 +566,7 @@ public abstract class OperationPartial implements Operation {
      *         canceled. Similarly, when this future completes, any incomplete futures
      *         will be canceled
      */
-    public CompletableFuture<OperationOutcome> anyOf(
-                    List<Supplier<CompletableFuture<OperationOutcome>>> futureMakers) {
+    public CompletableFuture<OperationOutcome> anyOf(List<Supplier<CompletableFuture<OperationOutcome>>> futureMakers) {
 
         PipelineControllerFuture<OperationOutcome> controller = new PipelineControllerFuture<>();
 
@@ -610,8 +617,7 @@ public abstract class OperationPartial implements Operation {
      *         canceled. Similarly, when this future completes, any incomplete futures
      *         will be canceled
      */
-    public CompletableFuture<OperationOutcome> allOf(
-                    List<Supplier<CompletableFuture<OperationOutcome>>> futureMakers) {
+    public CompletableFuture<OperationOutcome> allOf(List<Supplier<CompletableFuture<OperationOutcome>>> futureMakers) {
         PipelineControllerFuture<OperationOutcome> controller = new PipelineControllerFuture<>();
 
         Queue<OperationOutcome> outcomes = new LinkedList<>();
@@ -809,7 +815,7 @@ public abstract class OperationPartial implements Operation {
 
         // @formatter:off
         controller.wrap(nextTask)
-                    .thenComposeAsync(nextTaskOnSuccess(controller, queue), executor)
+                    .thenCompose(nextTaskOnSuccess(controller, queue))
                     .whenCompleteAsync(controller.delayedComplete(), executor);
         // @formatter:on
 
@@ -843,7 +849,7 @@ public abstract class OperationPartial implements Operation {
             // @formatter:off
             return controller
                         .wrap(nextTask)
-                        .thenComposeAsync(nextTaskOnSuccess(controller, taskQueue), params.getExecutor());
+                        .thenCompose(nextTaskOnSuccess(controller, taskQueue));
             // @formatter:on
         };
     }
