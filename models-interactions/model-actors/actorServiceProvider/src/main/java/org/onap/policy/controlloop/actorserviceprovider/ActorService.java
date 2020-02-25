@@ -47,10 +47,6 @@ public class ActorService extends StartConfigPartial<Map<String, Map<String, Obj
 
     private final Map<String, Actor> name2actor;
 
-    private static class LazyHolder {
-        static final ActorService INSTANCE = new ActorService();
-    }
-
     /**
      * Constructs the object and loads the list of actors.
      */
@@ -82,15 +78,6 @@ public class ActorService extends StartConfigPartial<Map<String, Map<String, Obj
         }
 
         name2actor = ImmutableMap.copyOf(map);
-    }
-
-    /**
-     * Get the single instance.
-     *
-     * @return the instance
-     */
-    public static ActorService getInstance() {
-        return LazyHolder.INSTANCE;
     }
 
     /**
