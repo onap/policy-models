@@ -21,7 +21,7 @@
 package org.onap.policy.controlloop.actor.so;
 
 public class SoConstants {
-    public static final String CONTEXT_KEY_VF_COUNT = "SO.VFCount";
+    public static final String VF_COUNT_PREFIX = "SO.VFCount";
 
     private SoConstants() {
         // do nothing

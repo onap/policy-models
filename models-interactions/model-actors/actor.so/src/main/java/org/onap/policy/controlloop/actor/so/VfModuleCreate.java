@@ -77,27 +77,25 @@ public class VfModuleCreate extends SoOperation {
     @Override
     @SuppressWarnings("unchecked")
     protected CompletableFuture<OperationOutcome> startPreprocessorAsync() {
-        if (params.getContext().contains(SoConstants.CONTEXT_KEY_VF_COUNT)) {
-            return startGuardAsync();
-        }
 
         // need the VF count
         ControlLoopOperationParams cqParams = params.toBuilder().actor(AaiConstants.ACTOR_NAME)
                         .operation(AaiCqResponse.OPERATION).payload(null).retry(null).timeoutSec(null).build();
 
         // run Custom Query, extract the VF count, and then run the Guard
+
+        // @formatter:off
         return sequence(() -> params.getContext().obtain(AaiCqResponse.CONTEXT_KEY, cqParams),
-                        this::storeVfCountRunGuard);
+                        this::obtainVfCount, this::startGuardAsync);
+        // @formatter:on
     }
 
     @Override
     protected Map<String, Object> makeGuardPayload() {
         Map<String, Object> payload = super.makeGuardPayload();
 
-        int vfcount = params.getContext().getProperty(SoConstants.CONTEXT_KEY_VF_COUNT);
-
         // run guard with the proposed vf count
-        payload.put(PAYLOAD_KEY_VF_COUNT, vfcount + 1);
+        payload.put(PAYLOAD_KEY_VF_COUNT, getVfCount() + 1);
 
         return payload;
     }
@@ -127,8 +125,7 @@ public class VfModuleCreate extends SoOperation {
      */
     @Override
     protected void successfulCompletion() {
-        int vfcount = params.getContext().getProperty(SoConstants.CONTEXT_KEY_VF_COUNT);
-        params.getContext().setProperty(SoConstants.CONTEXT_KEY_VF_COUNT, vfcount + 1);
+        setVfCount(getVfCount() + 1);
     }
 
     /**
@@ -205,10 +202,10 @@ public class VfModuleCreate extends SoOperation {
         request.getRequestDetails().getRelatedInstanceList().add(relatedInstanceListElement2);
 
         // Request Parameters
-        request.getRequestDetails().setRequestParameters(buildRequestParameters());
+        buildRequestParameters().ifPresent(request.getRequestDetails()::setRequestParameters);
 
         // Configuration Parameters
-        request.getRequestDetails().setConfigurationParameters(buildConfigurationParameters());
+        buildConfigurationParameters().ifPresent(request.getRequestDetails()::setConfigurationParameters);
 
         // compute the path
         String path = "/serviceInstantiation/v7/serviceInstances/" + vnfServiceItem.getServiceInstanceId() + "/vnfs/"
