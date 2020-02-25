@@ -23,7 +23,7 @@
 package org.onap.policy.controlloop.actorserviceprovider;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
@@ -36,16 +36,11 @@ public class ActorServiceProviderTest {
 
     @Test
     public void testActorServiceProvider() {
-        ActorService actorService = ActorService.getInstance();
-        assertNotNull(actorService);
+        ActorService actorService = new ActorService();
 
-        assertEquals(1, actorService.getActors().size());
+        assertTrue(actorService.getActors().size() >= 1);
 
-        actorService = ActorService.getInstance();
-        assertNotNull(actorService);
-
-        Actor dummyActor = ActorService.getInstance().getActors().iterator().next();
-        assertNotNull(dummyActor);
+        Actor dummyActor = actorService.getActor(DummyActor.class.getSimpleName());
 
         assertEquals("DummyActor", dummyActor.actor());
 
