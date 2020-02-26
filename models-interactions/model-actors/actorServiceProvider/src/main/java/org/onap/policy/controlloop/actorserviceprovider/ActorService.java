@@ -50,7 +50,7 @@ public class ActorService extends StartConfigPartial<Map<String, Map<String, Obj
     /**
      * Constructs the object and loads the list of actors.
      */
-    protected ActorService() {
+    public ActorService() {
         super("actors");
 
         Map<String, Actor> map = new HashMap<>();
