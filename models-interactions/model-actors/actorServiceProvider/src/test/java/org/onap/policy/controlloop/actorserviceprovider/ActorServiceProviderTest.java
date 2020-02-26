@@ -23,6 +23,8 @@
 package org.onap.policy.controlloop.actorserviceprovider;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -50,5 +52,10 @@ public class ActorServiceProviderTest {
 
         assertEquals(2, dummyActor.recipeTargets(DOROTHY).size());
         assertEquals(2, dummyActor.recipePayloads(DOROTHY).size());
+
+        // verify that we get a new actor object if we create a new service
+        Actor dummyActor2 = new ActorService().getActor(DummyActor.class.getSimpleName());
+        assertNotNull(dummyActor2);
+        assertNotSame(dummyActor, dummyActor2);
     }
 }
