@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ae630028_80ddfdbd",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2020-02-26T14:12:15Z",
+      "side": 1,
+      "message": "Have noted it and will change as part of the unit test review. Is that ok?",
+      "parentUuid": "c8e86d0a_0ebe3bbe",
+      "revId": "0c7aa23b5b429b33acc05867dffcfb97cdc5ca68",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c675a7c1_b4f6341b",
         "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
         "patchSetId": 5
@@ -48,6 +66,24 @@
       "side": 1,
       "message": "Yes all the actors have this now if we are following Jim\u0027s lead.",
       "parentUuid": "c675a7c1_b4f6341b",
+      "revId": "0c7aa23b5b429b33acc05867dffcfb97cdc5ca68",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b3b264d_8f77bd19",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2020-02-26T14:12:15Z",
+      "side": 1,
+      "message": "Yes, it will be removed from all actors once we decide to completely move to the new actor framework.",
+      "parentUuid": "ab94be85_3a08b7bb",
       "revId": "0c7aa23b5b429b33acc05867dffcfb97cdc5ca68",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
