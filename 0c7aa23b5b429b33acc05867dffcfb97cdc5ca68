@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8e86d0a_0ebe3bbe",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-02-26T00:54:34Z",
+      "side": 1,
+      "message": "2019-2020",
+      "revId": "0c7aa23b5b429b33acc05867dffcfb97cdc5ca68",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c675a7c1_b4f6341b",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-02-26T00:54:34Z",
+      "side": 1,
+      "message": "I think this is on purpose for later work  .. right?",
+      "revId": "0c7aa23b5b429b33acc05867dffcfb97cdc5ca68",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
