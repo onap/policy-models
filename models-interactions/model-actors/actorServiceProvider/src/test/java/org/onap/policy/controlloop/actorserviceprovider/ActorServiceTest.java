@@ -215,14 +215,6 @@ public class ActorServiceTest {
     }
 
     @Test
-    public void testGetInstance() {
-        service = ActorService.getInstance();
-        assertNotNull(service);
-
-        assertSame(service, ActorService.getInstance());
-    }
-
-    @Test
     public void testGetActor() {
         assertSame(actor1, service.getActor(ACTOR1));
         assertSame(actor3, service.getActor(ACTOR3));
@@ -360,8 +352,9 @@ public class ActorServiceTest {
 
     @Test
     public void testLoadActors() {
-        assertFalse(ActorService.getInstance().getActors().isEmpty());
-        assertNotNull(ActorService.getInstance().getActor("DummyActor"));
+        ActorService service = new ActorService();
+        assertFalse(service.getActors().isEmpty());
+        assertNotNull(service.getActor(DummyActor.class.getSimpleName()));
     }
 
     /**
