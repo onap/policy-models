@@ -65,7 +65,7 @@ public class ActorServiceTest {
     private Map<String, Object> sub2;
     private Map<String, Object> sub3;
     private Map<String, Object> sub4;
-    private Map<String, Map<String, Object>> params;
+    private Map<String, Object> params;
 
     private ActorService service;
 

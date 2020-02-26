@@ -42,7 +42,7 @@ import org.slf4j.LoggerFactory;
  * {@link #start()} to start all of the actors. When finished using the actor service,
  * invoke {@link #stop()} or {@link #shutdown()}.
  */
-public class ActorService extends StartConfigPartial<Map<String, Map<String, Object>>> {
+public class ActorService extends StartConfigPartial<Map<String, Object>> {
     private static final Logger logger = LoggerFactory.getLogger(ActorService.class);
 
     private final Map<String, Actor> name2actor;
@@ -115,16 +115,18 @@ public class ActorService extends StartConfigPartial<Map<String, Map<String, Obj
     }
 
     @Override
-    protected void doConfigure(Map<String, Map<String, Object>> parameters) {
+    protected void doConfigure(Map<String, Object> parameters) {
         logger.info("configuring actors");
 
         BeanValidationResult valres = new BeanValidationResult("ActorService", parameters);
 
         for (Actor actor : name2actor.values()) {
             String actorName = actor.getName();
-            Map<String, Object> subparams = parameters.get(actorName);
+            Object paramValue = parameters.get(actorName);
 
-            if (subparams != null) {
+            if (paramValue instanceof Map) {
+                @SuppressWarnings("unchecked")
+                Map<String, Object> subparams = (Map<String, Object>) paramValue;
 
                 try {
                     actor.configure(subparams);

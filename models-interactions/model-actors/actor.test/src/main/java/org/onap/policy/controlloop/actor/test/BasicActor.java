@@ -164,7 +164,7 @@ public class BasicActor {
         private TopicParameterGroup topics;
 
         @NotNull
-        private Map<String, Map<String, Object>> actors;
+        private Map<String, Object> actors;
 
         /**
          * Validates the config.
