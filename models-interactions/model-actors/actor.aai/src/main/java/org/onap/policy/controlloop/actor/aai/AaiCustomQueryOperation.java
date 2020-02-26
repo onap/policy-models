@@ -25,6 +25,7 @@ import java.util.concurrent.CompletableFuture;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import lombok.Getter;
 import org.onap.policy.aai.AaiConstants;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
@@ -40,17 +41,22 @@ import org.slf4j.LoggerFactory;
 /**
  * A&AI Custom Query. Stores the {@link AaiCqResponse} in the context. In addition, if the
  * context does not contain the "tenant" data for the vserver, then it will request that,
- * as well.
+ * as well. Note: this ignores the "target entity" in the parameters as this query always
+ * applies to the vserver, thus the target entity may be set to an empty string.
  */
 public class AaiCustomQueryOperation extends HttpOperation<String> {
     private static final Logger logger = LoggerFactory.getLogger(AaiCustomQueryOperation.class);
 
     public static final String NAME = AaiCqResponse.OPERATION;
 
+    public static final String VSERVER_VSERVER_NAME = "vserver.vserver-name";
     public static final String RESOURCE_LINK = "resource-link";
     public static final String RESULT_DATA = "result-data";
 
     private static final String PREFIX = "/aai/v16";
+
+    @Getter
+    private final String vserver;
 
     /**
      * Constructs the object.
@@ -60,6 +66,11 @@ public class AaiCustomQueryOperation extends HttpOperation<String> {
      */
     public AaiCustomQueryOperation(ControlLoopOperationParams params, HttpConfig config) {
         super(params, config, String.class);
+
+        this.vserver = params.getContext().getEnrichment().get(VSERVER_VSERVER_NAME);
+        if (this.vserver == null) {
+            throw new IllegalArgumentException("missing " + VSERVER_VSERVER_NAME + " in enrichment data");
+        }
     }
 
     /**
@@ -67,10 +78,9 @@ public class AaiCustomQueryOperation extends HttpOperation<String> {
      */
     @Override
     protected CompletableFuture<OperationOutcome> startPreprocessorAsync() {
-        String vserver = params.getTargetEntity();
-
-        ControlLoopOperationParams tenantParams = params.toBuilder().actor(AaiConstants.ACTOR_NAME)
-                        .operation(AaiGetOperation.TENANT).payload(null).retry(null).timeoutSec(null).build();
+        ControlLoopOperationParams tenantParams =
+                        params.toBuilder().actor(AaiConstants.ACTOR_NAME).operation(AaiGetOperation.TENANT)
+                                        .targetEntity(vserver).payload(null).retry(null).timeoutSec(null).build();
 
         return params.getContext().obtain(AaiGetOperation.getTenantKey(vserver), tenantParams);
     }
@@ -99,7 +109,6 @@ public class AaiCustomQueryOperation extends HttpOperation<String> {
      * Constructs the custom query using the previously retrieved tenant data.
      */
     private Map<String, String> makeRequest() {
-        String vserver = params.getTargetEntity();
         StandardCoderObject tenant = params.getContext().getProperty(AaiGetOperation.getTenantKey(vserver));
 
         String resourceLink = tenant.getString(RESULT_DATA, 0, RESOURCE_LINK);

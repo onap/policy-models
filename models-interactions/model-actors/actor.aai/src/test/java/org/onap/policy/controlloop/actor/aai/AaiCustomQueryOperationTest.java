@@ -20,6 +20,8 @@
 
 package org.onap.policy.controlloop.actor.aai;
 
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
@@ -59,6 +61,7 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation<Map<String, S
     private static final StandardCoder coder = new StandardCoder();
 
     private static final String MY_LINK = "my-link";
+    private static final String MY_VSERVER = "my-verserver-name";
 
     @Captor
     private ArgumentCaptor<Entity<Map<String, String>>> entityCaptor;
@@ -79,6 +82,8 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation<Map<String, S
     public void setUp() throws Exception {
         super.setUpBasic();
 
+        params.getContext().getEnrichment().put(AaiCustomQueryOperation.VSERVER_VSERVER_NAME, MY_VSERVER);
+
         MyTenantOperator tenantOperator = new MyTenantOperator();
 
         when(service.getActor(AaiConstants.ACTOR_NAME)).thenReturn(tenantActor);
@@ -91,6 +96,16 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation<Map<String, S
     public void testAaiCustomQueryOperation() {
         assertEquals(AaiConstants.ACTOR_NAME, oper.getActorName());
         assertEquals(AaiCustomQueryOperation.NAME, oper.getName());
+        assertEquals(MY_VSERVER, oper.getVserver());
+
+        // verify that it works with an empty target entity
+        params = params.toBuilder().targetEntity("").build();
+        assertThatCode(() -> new AaiCustomQueryOperation(params, config)).doesNotThrowAnyException();
+
+        // try without enrichment data
+        params.getContext().getEnrichment().remove(AaiCustomQueryOperation.VSERVER_VSERVER_NAME);
+        assertThatIllegalArgumentException().isThrownBy(() -> new AaiCustomQueryOperation(params, config))
+                        .withMessage("missing " + AaiCustomQueryOperation.VSERVER_VSERVER_NAME + " in enrichment data");
     }
 
     @Test
@@ -105,7 +120,7 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation<Map<String, S
         assertEquals(PolicyResult.SUCCESS, getResult(future2));
 
         // tenant response should have been cached within the context
-        assertNotNull(context.getProperty(AaiGetOperation.getTenantKey(TARGET_ENTITY)));
+        assertNotNull(context.getProperty(AaiGetOperation.getTenantKey(MY_VSERVER)));
 
         // custom query response should have been cached within the context
         AaiCqResponse cqData = context.getProperty(AaiCqResponse.CONTEXT_KEY);
@@ -129,7 +144,7 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation<Map<String, S
         assertEquals(PolicyResult.SUCCESS, getResult(future2));
 
         // should not have replaced tenant response
-        assertSame(data, context.getProperty(AaiGetOperation.getTenantKey(TARGET_ENTITY)));
+        assertSame(data, context.getProperty(AaiGetOperation.getTenantKey(MY_VSERVER)));
 
         // custom query response should have been cached within the context
         AaiCqResponse cqData = context.getProperty(AaiCqResponse.CONTEXT_KEY);
@@ -192,7 +207,7 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation<Map<String, S
     }
 
     private void preloadTenantData(StandardCoderObject data) {
-        context.setProperty(AaiGetOperation.getTenantKey(TARGET_ENTITY), data);
+        context.setProperty(AaiGetOperation.getTenantKey(MY_VSERVER), data);
     }
 
     private PolicyResult getResult(CompletableFuture<OperationOutcome> future2)
