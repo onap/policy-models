@@ -30,7 +30,7 @@ import org.onap.policy.cds.api.CdsProcessorListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-class CdsProcessorHandler {
+public class CdsProcessorHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CdsProcessorHandler.class);
 
