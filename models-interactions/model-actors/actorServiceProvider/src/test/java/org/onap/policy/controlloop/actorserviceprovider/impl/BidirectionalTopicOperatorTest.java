@@ -125,13 +125,14 @@ public class BidirectionalTopicOperatorTest {
 
         ControlLoopOperationParams params2 = ControlLoopOperationParams.builder().build();
 
-        // not running yet
-        assertThatIllegalStateException().isThrownBy(() -> oper2.buildOperation(params2));
-
         // configure and start it
         params = BidirectionalTopicParams.builder().sourceTopic(MY_SOURCE).sinkTopic(MY_SINK).timeoutSec(TIMEOUT_SEC)
                         .build();
         oper2.configure(Util.translateToMap(OPERATION, params));
+
+        // not running yet
+        assertThatIllegalStateException().isThrownBy(() -> oper2.buildOperation(params2));
+
         oper2.start();
 
         assertSame(operation, oper2.buildOperation(params2));

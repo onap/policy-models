@@ -116,13 +116,14 @@ public class HttpOperatorTest {
         ControlLoopOperationParams params =
                         ControlLoopOperationParams.builder().actor(ACTOR).operation(OPERATION).context(context).build();
 
-        // not running yet
-        assertThatIllegalStateException().isThrownBy(() -> oper2.buildOperation(params));
-
         // configure and start it
         HttpParams params2 = HttpParams.builder().clientName(HTTP_CLIENT).path(PATH).timeoutSec(TIMEOUT).build();
         Map<String, Object> paramMap = Util.translateToMap(OPERATION, params2);
         oper2.configure(paramMap);
+
+        // not running yet
+        assertThatIllegalStateException().isThrownBy(() -> oper2.buildOperation(params));
+
         oper2.start();
 
         Operation operation1 = oper2.buildOperation(params);
