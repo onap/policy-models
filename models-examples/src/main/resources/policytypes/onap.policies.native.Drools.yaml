@@ -41,7 +41,3 @@ data_types:
                 type: string
                 required: true
                 description: the name of drools controller policy
-            controllerVersion:
-                type: string
-                required: false
-                description: the version of drools controller policy
