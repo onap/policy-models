@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "af3d1d05_2c57bd49",
+        "filename": "models-interactions/model-actors/actor.cds/src/test/java/org/onap/policy/controlloop/actor/cds/GrpcActorServiceManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-28T23:18:05Z",
+      "side": 1,
+      "message": "unless there\u0027s a mechanism to ensure that it didn\u0027t launch a background process, maybe do something like this:\n\n  assert-timeout-exception( future.get(200ms) )",
+      "revId": "fdf8d7c916f6fcd082e56310ea8b5f1d7e269f2e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bc120c7_bf1228ff",
+        "filename": "models-interactions/model-actors/actor.cds/src/test/java/org/onap/policy/controlloop/actor/cds/GrpcActorServiceManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-28T23:18:05Z",
+      "side": 1,
+      "message": "maybe check isCompletedExceptionally()?  Or look for PolicyResult.FAILURE_EXCEPTION?",
+      "revId": "fdf8d7c916f6fcd082e56310ea8b5f1d7e269f2e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "feff133b_f36cd881",
+        "filename": "models-interactions/model-actors/actor.cds/src/test/java/org/onap/policy/controlloop/actor/cds/GrpcOperationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-28T23:18:05Z",
+      "side": 1,
+      "message": "could use Map.of() instead",
+      "revId": "fdf8d7c916f6fcd082e56310ea8b5f1d7e269f2e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "69f08289_791368e9",
+        "filename": "models-interactions/model-actors/actor.cds/src/test/java/org/onap/policy/controlloop/actor/cds/GrpcOperatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-28T23:18:05Z",
+      "side": 1,
+      "message": "probably move lines 91-92 after line 97.  If this was copied from some other actor code, then it probably needs to be fixed, too",
+      "revId": "fdf8d7c916f6fcd082e56310ea8b5f1d7e269f2e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
