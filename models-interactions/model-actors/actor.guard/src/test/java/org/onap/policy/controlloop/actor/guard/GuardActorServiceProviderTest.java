@@ -21,6 +21,7 @@
 package org.onap.policy.controlloop.actor.guard;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -41,5 +42,7 @@ public class GuardActorServiceProviderTest extends BasicActor {
 
         // verify that it all plugs into the ActorService
         verifyActorService(GuardActorServiceProvider.NAME, "service.yaml");
+
+        assertTrue(prov.getOperator(GuardOperation.NAME) instanceof GuardOperator);
     }
 }

@@ -23,7 +23,6 @@
 package org.onap.policy.controlloop.actor.guard;
 
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpActor;
-import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperator;
 import org.onap.policy.controlloop.actorserviceprovider.impl.OperationPartial;
 
 public class GuardActorServiceProvider extends HttpActor<GuardActorParams> {
@@ -36,6 +35,6 @@ public class GuardActorServiceProvider extends HttpActor<GuardActorParams> {
     public GuardActorServiceProvider() {
         super(NAME, GuardActorParams.class);
 
-        addOperator(new HttpOperator(NAME, GuardOperation.NAME, GuardOperation::new));
+        addOperator(new GuardOperator(NAME, GuardOperation.NAME, GuardOperation::new));
     }
 }
