@@ -93,6 +93,7 @@ public class ActorImplTest {
     public void testActorImpl_testGetName() {
         assertEquals(ACTOR_NAME, actor.getName());
         assertEquals(4, actor.getOperationNames().size());
+        assertEquals(0, actor.getSequenceNumber());
     }
 
     @Test

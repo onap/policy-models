@@ -36,7 +36,7 @@ import org.onap.policy.controlloop.actorserviceprovider.Operator;
  * @author pameladragosh
  *
  */
-public interface Actor extends Startable, Configurable<Map<String,Object>> {
+public interface Actor extends Startable, Configurable<Map<String, Object>> {
 
     /**
      * Gets the name of the actor.
@@ -67,6 +67,14 @@ public interface Actor extends Startable, Configurable<Map<String,Object>> {
      * @return the names of the supported operations
      */
     public Set<String> getOperationNames();
+
+    /**
+     * Gets the actor sequence number. Lower numbered actors take precedence over higher
+     * numbered actors.
+     *
+     * @return the actor sequence number
+     */
+    public int getSequenceNumber();
 
 
     // TODO old code: remove lines down to **HERE**
