@@ -360,6 +360,8 @@ public class OperationPartialTest {
 
     @Test
     public void testIsSuccess() {
+        assertFalse(oper.isSuccess(null));
+
         OperationOutcome outcome = new OperationOutcome();
 
         outcome.setResult(PolicyResult.SUCCESS);

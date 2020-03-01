@@ -166,7 +166,7 @@ public abstract class OperationPartial implements Operation {
 
         return outcome -> {
 
-            if (outcome != null && isSuccess(outcome)) {
+            if (isSuccess(outcome)) {
                 logger.info("{}: preprocessor succeeded for {}", getFullName(), params.getRequestId());
                 return CompletableFuture.completedFuture(outcome);
             }
@@ -344,7 +344,7 @@ public abstract class OperationPartial implements Operation {
      * @return {@code true} if the outcome was successful
      */
     protected boolean isSuccess(OperationOutcome outcome) {
-        return (outcome.getResult() == PolicyResult.SUCCESS);
+        return (outcome != null && outcome.getResult() == PolicyResult.SUCCESS);
     }
 
     /**
