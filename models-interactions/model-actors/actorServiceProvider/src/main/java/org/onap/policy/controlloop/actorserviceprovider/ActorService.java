@@ -25,6 +25,8 @@ import com.google.common.collect.ImmutableMap;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.ServiceConfigurationError;
 import java.util.ServiceLoader;
@@ -55,17 +57,7 @@ public class ActorService extends StartConfigPartial<Map<String, Object>> {
 
         Map<String, Actor> map = new HashMap<>();
 
-        Iterator<Actor> iter = loadActors().iterator();
-        while (iter.hasNext()) {
-
-            Actor newActor;
-            try {
-                newActor = iter.next();
-            } catch (ServiceConfigurationError e) {
-                logger.warn("unable to load actor", e);
-                continue;
-            }
-
+        for (Actor newActor : buildList()) {
             map.compute(newActor.getName(), (name, existingActor) -> {
                 if (existingActor == null) {
                     return newActor;
@@ -78,6 +70,35 @@ public class ActorService extends StartConfigPartial<Map<String, Object>> {
         }
 
         name2actor = ImmutableMap.copyOf(map);
+    }
+
+    /**
+     * Builds the list of actors, discarding those that cannot be constructed.
+     *
+     * @return the list of actors, sorted by ascending sequence number
+     */
+    private List<Actor> buildList() {
+        List<Actor> actors = new LinkedList<>();
+
+        Iterator<Actor> iter = loadActors().iterator();
+        while (iter.hasNext()) {
+            try {
+                actors.add(iter.next());
+            } catch (ServiceConfigurationError e) {
+                logger.warn("unable to load actor", e);
+            }
+        }
+
+        actors.sort((actor1, actor2) -> {
+            int cmp = Integer.compare(actor1.getSequenceNumber(), actor2.getSequenceNumber());
+            if (cmp != 0) {
+                return cmp;
+            }
+
+            return actor1.getClass().getName().compareTo(actor2.getClass().getName());
+        });
+
+        return actors;
     }
 
     /**

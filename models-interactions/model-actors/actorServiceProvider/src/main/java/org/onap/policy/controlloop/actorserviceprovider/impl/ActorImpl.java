@@ -56,6 +56,14 @@ public class ActorImpl extends StartConfigPartial<Map<String, Object>> implement
     }
 
     /**
+     * This method simply returns {@code 0}.
+     */
+    @Override
+    public int getSequenceNumber() {
+        return 0;
+    }
+
+    /**
      * Adds an operator supported by this actor.
      *
      * @param operator operation to be added

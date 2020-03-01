@@ -91,15 +91,27 @@ public class ActorServiceTest {
     }
 
     @Test
-    public void testActorService() {
+    public void testActorService_testBuildList() {
         /*
          * make a service where actors two and four have names that are duplicates of the
          * others
          */
+
+        /*
+         * actor0 has a higher sequence number than actor1, so it should be discarded,
+         * even though it will be examined first
+         */
+        Actor actor0 = spy(new ActorImpl(ACTOR1) {
+            @Override
+            public int getSequenceNumber() {
+                return 10000;
+            }
+        });
+
         actor2 = spy(new ActorImpl(ACTOR1));
         actor4 = spy(new ActorImpl(ACTOR3));
 
-        service = makeService(actor1, actor2, actor3, actor4);
+        service = makeService(actor0, actor1, actor2, actor3, actor4);
 
         assertEquals(2, service.getActorNames().size());
 

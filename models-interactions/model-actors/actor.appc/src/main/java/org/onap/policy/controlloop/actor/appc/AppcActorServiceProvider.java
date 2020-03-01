@@ -81,6 +81,14 @@ public class AppcActorServiceProvider extends BidirectionalTopicActor<Bidirectio
                         ModifyConfigOperation::new));
     }
 
+    /**
+     * This actor should take precedence over APPC-LCM.
+     */
+    @Override
+    public int getSequenceNumber() {
+        return -1;
+    }
+
 
     // TODO old code: remove lines down to **HERE**
 

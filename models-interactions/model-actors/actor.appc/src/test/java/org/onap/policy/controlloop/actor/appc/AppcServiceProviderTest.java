@@ -133,6 +133,7 @@ public class AppcServiceProviderTest extends BasicActor {
     @Test
     public void testConstructor() {
         AppcActorServiceProvider prov = new AppcActorServiceProvider();
+        assertEquals(-1, prov.getSequenceNumber());
 
         // verify that it has the operators we expect
         var expected = Arrays.asList(ModifyConfigOperation.NAME).stream().sorted().collect(Collectors.toList());
