@@ -202,7 +202,7 @@ public class VfModuleCreateTest extends BasicSoOperation {
 
         // @formatter:off
         assertEquals(
-            "/serviceInstantiation/v7/serviceInstances/my-service-instance-id/vnfs/my-vnf-id/vfModules/scaleOut",
+            "/serviceInstances/my-service-instance-id/vnfs/my-vnf-id/vfModules/scaleOut",
             pair.getLeft());
         // @formatter:on
 

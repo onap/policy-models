@@ -21,8 +21,11 @@
 package org.onap.policy.controlloop.actor.aai;
 
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import javax.ws.rs.client.Invocation.Builder;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.onap.policy.aai.AaiConstants;
@@ -92,14 +95,35 @@ public class AaiGetOperation extends HttpOperation<StandardCoderObject> {
         Map<String, Object> headers = makeHeaders();
 
         headers.put("Accept", MediaType.APPLICATION_JSON);
-        String url = makeUrl();
+
+        StringBuilder str = new StringBuilder(getClient().getBaseUrl());
+
+        String path = getPath();
+        WebTarget web = getClient().getWebTarget().path(path);
+        str.append(path);
+
+        web = addQuery(web, str, "?", "search-node-type", "vserver");
+        web = addQuery(web, str, "&", "filter", "vserver-name:EQUALS:" + params.getTargetEntity());
+
+        Builder webldr = web.request();
+        for (Entry<String, Object> header : headers.entrySet()) {
+            webldr.header(header.getKey(), header.getValue());
+        }
+
+        String url = str.toString();
 
         logMessage(EventType.OUT, CommInfrastructure.REST, url, null);
 
-        // @formatter:off
-        return handleResponse(outcome, url,
-            callback -> getClient().get(callback, makePath(), headers));
-        // @formatter:on
+        return handleResponse(outcome, url, callback -> webldr.async().get(callback));
+    }
+
+    private WebTarget addQuery(WebTarget web, StringBuilder str, String separator, String name, String value) {
+        str.append(separator);
+        str.append(name);
+        str.append('=');
+        str.append(value);
+
+        return web.queryParam(name, value);
     }
 
     @Override
@@ -109,7 +133,7 @@ public class AaiGetOperation extends HttpOperation<StandardCoderObject> {
 
     @Override
     public String makePath() {
-        return (getPath() + "/" + params.getTargetEntity());
+        return (getPath() + params.getTargetEntity());
     }
 
     /**

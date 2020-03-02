@@ -20,12 +20,16 @@
 
 package org.onap.policy.controlloop.actor.test;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import javax.ws.rs.client.AsyncInvoker;
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation.Builder;
 import javax.ws.rs.client.InvocationCallback;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
@@ -54,6 +58,12 @@ public class BasicHttpOperation<Q> extends BasicOperation {
 
     @Mock
     protected HttpConfig config;
+    @Mock
+    protected WebTarget webTarget;
+    @Mock
+    protected Builder webBuilder;
+    @Mock
+    protected AsyncInvoker webAsync;
     @Mock
     protected HttpClient client;
     @Mock
@@ -90,6 +100,14 @@ public class BasicHttpOperation<Q> extends BasicOperation {
 
         when(rawResponse.getStatus()).thenReturn(200);
 
+        when(webBuilder.async()).thenReturn(webAsync);
+
+        when(webTarget.request()).thenReturn(webBuilder);
+        when(webTarget.path(any())).thenReturn(webTarget);
+        when(webTarget.queryParam(any(), any())).thenReturn(webTarget);
+
+        when(client.getWebTarget()).thenReturn(webTarget);
+
         when(client.getBaseUrl()).thenReturn(BASE_URI);
 
         initConfig();
@@ -110,8 +128,19 @@ public class BasicHttpOperation<Q> extends BasicOperation {
      * @return a function that provides the response to the call
      */
     protected Answer<CompletableFuture<Response>> provideResponse(Response response) {
+        return provideResponse(response, 0);
+    }
+
+    /**
+     * Provides a response to an asynchronous HttpClient call.
+     *
+     * @param response response to be provided to the call
+     * @param index index of the callback within the arguments
+     * @return a function that provides the response to the call
+     */
+    protected Answer<CompletableFuture<Response>> provideResponse(Response response, int index) {
         return args -> {
-            InvocationCallback<Response> cb = args.getArgument(0);
+            InvocationCallback<Response> cb = args.getArgument(index);
             cb.completed(response);
             return CompletableFuture.completedFuture(response);
         };
