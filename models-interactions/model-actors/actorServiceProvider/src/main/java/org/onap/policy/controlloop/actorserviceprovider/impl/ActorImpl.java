@@ -27,7 +27,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
-import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.controlloop.actorserviceprovider.Operator;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ParameterValidationRuntimeException;
@@ -124,8 +123,6 @@ public class ActorImpl extends StartConfigPartial<Map<String, Object>> implement
         final String actorName = getName();
         logger.info("configuring operations for actor {}", actorName);
 
-        BeanValidationResult valres = new BeanValidationResult(actorName, parameters);
-
         // function that creates operator-specific parameters, given the operation name
         Function<String, Map<String, Object>> opParamsMaker = makeOperatorParameters(parameters);
 
@@ -139,8 +136,8 @@ public class ActorImpl extends StartConfigPartial<Map<String, Object>> implement
                     operator.configure(subparams);
 
                 } catch (ParameterValidationRuntimeException e) {
-                    logger.warn("failed to configure operation {}.{}", actorName, operName, e);
-                    valres.addResult(e.getResult());
+                    logger.warn("failed to configure operation {}.{} because:\n{}", actorName, operName,
+                                    e.getResult().getResult(), e);
 
                 } catch (RuntimeException e) {
                     logger.warn("failed to configure operation {}.{}", actorName, operName, e);
