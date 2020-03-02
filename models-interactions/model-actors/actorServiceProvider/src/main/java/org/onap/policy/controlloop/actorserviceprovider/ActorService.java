@@ -31,7 +31,6 @@ import java.util.Map;
 import java.util.ServiceConfigurationError;
 import java.util.ServiceLoader;
 import java.util.Set;
-import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.controlloop.actorserviceprovider.impl.StartConfigPartial;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ParameterValidationRuntimeException;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
@@ -139,8 +138,6 @@ public class ActorService extends StartConfigPartial<Map<String, Object>> {
     protected void doConfigure(Map<String, Object> parameters) {
         logger.info("configuring actors");
 
-        BeanValidationResult valres = new BeanValidationResult("ActorService", parameters);
-
         for (Actor actor : name2actor.values()) {
             String actorName = actor.getName();
             Object paramValue = parameters.get(actorName);
@@ -153,8 +150,7 @@ public class ActorService extends StartConfigPartial<Map<String, Object>> {
                     actor.configure(subparams);
 
                 } catch (ParameterValidationRuntimeException e) {
-                    logger.warn("failed to configure actor {}", actorName, e);
-                    valres.addResult(e.getResult());
+                    logger.warn("failed to configure actor {} because:\n{}", actorName, e.getResult().getResult(), e);
 
                 } catch (RuntimeException e) {
                     logger.warn("failed to configure actor {}", actorName, e);
@@ -166,10 +162,6 @@ public class ActorService extends StartConfigPartial<Map<String, Object>> {
             } else {
                 logger.warn("missing configuration parameters for actor {}; actor cannot be started", actorName);
             }
-        }
-
-        if (!valres.isValid() && logger.isWarnEnabled()) {
-            logger.warn("actor services validation errors:\n{}", valres.getResult());
         }
     }
 
