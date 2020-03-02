@@ -21,8 +21,11 @@
 package org.onap.policy.controlloop.actor.aai;
 
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.CompletableFuture;
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation.Builder;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import lombok.Getter;
@@ -54,6 +57,7 @@ public class AaiCustomQueryOperation extends HttpOperation<String> {
     public static final String RESOURCE_LINK = "resource-link";
     public static final String RESULT_DATA = "result-data";
 
+    // TODO make this configurable
     private static final String PREFIX = "/aai/v16";
 
     @Getter
@@ -89,21 +93,38 @@ public class AaiCustomQueryOperation extends HttpOperation<String> {
     @Override
     protected CompletableFuture<OperationOutcome> startOperationAsync(int attempt, OperationOutcome outcome) {
 
-        Map<String, String> request = makeRequest();
-
-        Entity<Map<String, String>> entity = Entity.entity(request, MediaType.APPLICATION_JSON);
-
+        final Map<String, String> request = makeRequest();
         Map<String, Object> headers = makeHeaders();
 
-        headers.put("Accept", MediaType.APPLICATION_JSON);
-        String url = makeUrl();
+        StringBuilder str = new StringBuilder(getClient().getBaseUrl());
+
+        String path = getPath();
+        WebTarget web = getClient().getWebTarget().path(path);
+        str.append(path);
+
+        web = addQuery(web, str, "?", "format", "resource");
+
+        Builder webldr = web.request();
+        for (Entry<String, Object> header : headers.entrySet()) {
+            webldr.header(header.getKey(), header.getValue());
+        }
+
+        String url = str.toString();
 
         logMessage(EventType.OUT, CommInfrastructure.REST, url, request);
 
-        // @formatter:off
-        return handleResponse(outcome, url,
-            callback -> getClient().put(callback, makePath(), entity, headers));
-        // @formatter:on
+        Entity<Map<String, String>> entity = Entity.entity(request, MediaType.APPLICATION_JSON);
+
+        return handleResponse(outcome, url, callback -> webldr.async().put(entity, callback));
+    }
+
+    private WebTarget addQuery(WebTarget web, StringBuilder str, String separator, String name, String value) {
+        str.append(separator);
+        str.append(name);
+        str.append('=');
+        str.append(value);
+
+        return web.queryParam(name, value);
     }
 
     /**

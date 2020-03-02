@@ -30,6 +30,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import javax.ws.rs.client.InvocationCallback;
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.aai.AaiConstants;
@@ -69,13 +70,14 @@ public class AaiGetOperationTest extends BasicAaiOperation<Void> {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void testStartOperationAsync_testStartQueryAsync_testPostProcessResponse() throws Exception {
 
         // return a map in the reply
         Map<String, String> reply = Map.of(INPUT_FIELD, TEXT);
         when(rawResponse.readEntity(String.class)).thenReturn(new StandardCoder().encode(reply));
 
-        when(client.get(any(), any(), any())).thenAnswer(provideResponse(rawResponse));
+        when(webAsync.get(any(InvocationCallback.class))).thenAnswer(provideResponse(rawResponse));
 
         CompletableFuture<OperationOutcome> future2 = oper.startOperationAsync(1, outcome);
         assertFalse(future2.isDone());
@@ -95,12 +97,13 @@ public class AaiGetOperationTest extends BasicAaiOperation<Void> {
      * Tests startOperationAsync() when there's a failure.
      */
     @Test
+    @SuppressWarnings("unchecked")
     public void testStartOperationAsyncFailure() throws Exception {
 
         when(rawResponse.getStatus()).thenReturn(500);
         when(rawResponse.readEntity(String.class)).thenReturn("");
 
-        when(client.get(any(), any(), any())).thenAnswer(provideResponse(rawResponse));
+        when(webAsync.get(any(InvocationCallback.class))).thenAnswer(provideResponse(rawResponse));
 
         CompletableFuture<OperationOutcome> future2 = oper.startOperationAsync(1, outcome);
         assertFalse(future2.isDone());
@@ -121,7 +124,7 @@ public class AaiGetOperationTest extends BasicAaiOperation<Void> {
 
     @Test
     public void testMakePath() {
-        assertEquals(PATH + "/" + TARGET_ENTITY, oper.makePath());
+        assertEquals(PATH + TARGET_ENTITY, oper.makePath());
     }
 
     @Test
