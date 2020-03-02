@@ -5,6 +5,7 @@
  * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications copyright (c) 2018 Nokia
  * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,14 +39,22 @@ import org.onap.policy.appclcm.AppcLcmOutput;
 import org.onap.policy.appclcm.AppcLcmResponseCode;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
-import org.onap.policy.controlloop.actorserviceprovider.impl.ActorImpl;
+import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicActor;
+import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicOperator;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicActorParams;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AppcLcmActorServiceProvider extends ActorImpl {
+public class AppcLcmActorServiceProvider extends BidirectionalTopicActor<BidirectionalTopicActorParams> {
 
+    /*
+     * Confirmed by Daniel, should be 'APPC'.
+     * The actor name defined in the yaml for both legacy operations and lcm operations is still “APPC”. Perhaps in a
+     * future review it would be better to distinguish them as two separate actors in the yaml but it should be okay for
+     * now.
+     */
     private static final String NAME = "APPC";
 
     private static final Logger logger = LoggerFactory.getLogger(AppcLcmActorServiceProvider.class);
@@ -76,8 +85,22 @@ public class AppcLcmActorServiceProvider extends ActorImpl {
             new ImmutableMap.Builder<String, List<String>>().put(RECIPE_RESTART, ImmutableList.of(APPC_VM_ID))
                     .put(RECIPE_MODIFY, ImmutableList.of(APPC_REQUEST_PARAMS, APPC_CONFIG_PARAMS)).build();
 
+    /**
+     * Constructs the object.
+     */
     public AppcLcmActorServiceProvider() {
-        super(NAME);
+        super(NAME, BidirectionalTopicActorParams.class);
+
+        addOperator(new BidirectionalTopicOperator(NAME, ConfigModifyOperation.NAME, this,
+                AppcLcmOperation.SELECTOR_KEYS, ConfigModifyOperation::new));
+    }
+
+    /**
+     * This actor should take precedence.
+     */
+    @Override
+    public int getSequenceNumber() {
+        return -1;
     }
 
     @Override
@@ -99,7 +122,6 @@ public class AppcLcmActorServiceProvider extends ActorImpl {
     public List<String> recipePayloads(String recipe) {
         return ImmutableList.copyOf(payloads.getOrDefault(recipe, Collections.emptyList()));
     }
-
 
     /**
      * Constructs an APPC request conforming to the lcm API. The actual request is constructed and
@@ -191,8 +213,8 @@ public class AppcLcmActorServiceProvider extends ActorImpl {
 
     private static String parsePayload(Map<String, String> payload) {
         StringBuilder payloadString = new StringBuilder("{");
-        payload
-            .forEach((key, value) -> payloadString.append("\"").append(key).append("\": ").append(value).append(","));
+        payload.forEach(
+            (key, value) -> payloadString.append("\"").append(key).append("\": ").append(value).append(","));
         return payloadString.substring(0, payloadString.length() - 1) + "}";
     }
 

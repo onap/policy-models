@@ -27,9 +27,10 @@ import static org.junit.Assert.assertNull;
 
 import java.time.Instant;
 import java.util.AbstractMap;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
-
+import java.util.stream.Collectors;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -172,6 +173,18 @@ public class AppcLcmActorServiceProviderTest {
     @AfterClass
     public static void tearDownSimulator() {
         HttpServletServerFactoryInstance.getServerFactory().destroy();
+    }
+
+    @Test
+    public void testConstructor() {
+        AppcLcmActorServiceProvider prov = new AppcLcmActorServiceProvider();
+        assertEquals(-1, prov.getSequenceNumber());
+
+        // verify that it has the operators we expect
+        var expected = Arrays.asList(ConfigModifyOperation.NAME).stream().sorted().collect(Collectors.toList());
+        var actual = prov.getOperationNames().stream().sorted().collect(Collectors.toList());
+
+        assertEquals(expected.toString(), actual.toString());
     }
 
     /**

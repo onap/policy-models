@@ -1,0 +1,22 @@
+{
+	"common-header": {
+		"timestamp": 981593700981,
+		"api-ver": "2.0",
+		"originator-id": "2d011587-a311-45e6-a75d-67fcd3dfae1a",
+		"request-id": "9a06c485-ebf1-4780-a183-6a1d862eebeb",
+		"flags": {
+			"mode": "NORMAL",
+			"force": "FALSE"
+		}
+	},
+	"action": "configModify",
+	"action-identifiers": {
+		"vnf-id": "sampleVNFId",
+		"vnfc-name": "sampleVNFCName",
+		"vserver-id": "sampleServerId"
+	},
+	"payload": {
+		"vnf-host-ip-address": "127.0.0.1",
+		"generic-vnf.vnf-id": "my-vnf"
+	}
+}
