@@ -54,6 +54,7 @@ public class AaiCustomQueryOperation extends HttpOperation<String> {
     public static final String RESOURCE_LINK = "resource-link";
     public static final String RESULT_DATA = "result-data";
 
+    // TODO make this configurable
     private static final String PREFIX = "/aai/v16";
 
     @Getter

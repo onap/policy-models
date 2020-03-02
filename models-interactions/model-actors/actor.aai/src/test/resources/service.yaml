@@ -21,7 +21,7 @@ httpClients:
 - clientName: my-client
   hostname: localhost
   port: 80
-  basePath: base-url
+  basePath: base-url/
   managed: true
 actors:
   AAI:

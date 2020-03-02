@@ -116,7 +116,7 @@ public abstract class HttpOperation<T> extends OperationPartial {
     }
 
     /**
-     * Makes the URL to which the "get" request should be posted. This ir primarily used
+     * Makes the URL to which the "get" request should be posted. This is primarily used
      * for logging purposes. This particular method returns the base URL appended with the
      * return value from {@link #makePath()}.
      *
