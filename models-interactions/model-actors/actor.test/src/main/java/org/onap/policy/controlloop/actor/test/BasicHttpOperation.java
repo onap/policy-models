@@ -110,8 +110,19 @@ public class BasicHttpOperation<Q> extends BasicOperation {
      * @return a function that provides the response to the call
      */
     protected Answer<CompletableFuture<Response>> provideResponse(Response response) {
+        return provideResponse(response, 0);
+    }
+
+    /**
+     * Provides a response to an asynchronous HttpClient call.
+     *
+     * @param response response to be provided to the call
+     * @param index index of the callback within the arguments
+     * @return a function that provides the response to the call
+     */
+    protected Answer<CompletableFuture<Response>> provideResponse(Response response, int index) {
         return args -> {
-            InvocationCallback<Response> cb = args.getArgument(0);
+            InvocationCallback<Response> cb = args.getArgument(index);
             cb.completed(response);
             return CompletableFuture.completedFuture(response);
         };

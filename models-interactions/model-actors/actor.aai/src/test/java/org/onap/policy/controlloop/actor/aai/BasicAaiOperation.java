@@ -21,14 +21,27 @@
 package org.onap.policy.controlloop.actor.aai;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 import java.util.Map;
+import javax.ws.rs.client.AsyncInvoker;
+import javax.ws.rs.client.Invocation.Builder;
+import javax.ws.rs.client.WebTarget;
+import org.mockito.Mock;
 import org.onap.policy.controlloop.actor.test.BasicHttpOperation;
 
 /**
  * Superclass for various operator tests.
  */
 public abstract class BasicAaiOperation<Q> extends BasicHttpOperation<Q> {
+
+    @Mock
+    protected WebTarget webTarget;
+    @Mock
+    protected Builder webBuilder;
+    @Mock
+    protected AsyncInvoker webAsync;
 
     /**
      * Constructs the object using a default actor and operation name.
@@ -45,6 +58,19 @@ public abstract class BasicAaiOperation<Q> extends BasicHttpOperation<Q> {
      */
     public BasicAaiOperation(String actor, String operation) {
         super(actor, operation);
+    }
+
+    @Override
+    public void setUpBasic() {
+        super.setUpBasic();
+
+        when(webBuilder.async()).thenReturn(webAsync);
+
+        when(webTarget.request()).thenReturn(webBuilder);
+        when(webTarget.path(any())).thenReturn(webTarget);
+        when(webTarget.queryParam(any(), any())).thenReturn(webTarget);
+
+        when(client.getWebTarget()).thenReturn(webTarget);
     }
 
     protected void verifyHeaders(Map<String, Object> headers) {

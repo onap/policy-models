@@ -73,7 +73,7 @@ public class AaiSimulatorJaxRs {
             return "{\"result-data\":[{\"resource-type\": \"vserver\",\"resource-link\":\"/aai/v15/"
                 + "cloud-infrastructure/cloud-regions/cloud-region/CloudOwner/RegionOne/tenants"
                 + "/tenant/3f2aaef74ecb4b19b35e26d0849fe9a2/vservers/vserver/"
-                + "6c3b3714-e36c-45af-9f16-7d3a73d99497\"}]}}";
+                + "6c3b3714-e36c-45af-9f16-7d3a73d99497\"}]}";
         } else {
             return null;
         }
