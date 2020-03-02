@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2c8eab41_963fde26",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/CdsActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2020-03-02T16:07:13Z",
+      "side": 1,
+      "message": "Missed it in the last submitted review.",
+      "parentUuid": "9f452257_f0d1db23",
+      "revId": "fdf8d7c916f6fcd082e56310ea8b5f1d7e269f2e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "af3d1d05_2c57bd49",
         "filename": "models-interactions/model-actors/actor.cds/src/test/java/org/onap/policy/controlloop/actor/cds/GrpcActorServiceManagerTest.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2020-02-28T23:18:05Z",
       "side": 1,
       "message": "unless there\u0027s a mechanism to ensure that it didn\u0027t launch a background process, maybe do something like this:\n\n  assert-timeout-exception( future.get(200ms) )",
+      "revId": "fdf8d7c916f6fcd082e56310ea8b5f1d7e269f2e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb9d3566_3ef322a1",
+        "filename": "models-interactions/model-actors/actor.cds/src/test/java/org/onap/policy/controlloop/actor/cds/GrpcActorServiceManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2020-03-02T16:07:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af3d1d05_2c57bd49",
       "revId": "fdf8d7c916f6fcd082e56310ea8b5f1d7e269f2e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "d7ab6db4_df16c3bb",
+        "filename": "models-interactions/model-actors/actor.cds/src/test/java/org/onap/policy/controlloop/actor/cds/GrpcActorServiceManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2020-03-02T16:07:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bc120c7_bf1228ff",
+      "revId": "fdf8d7c916f6fcd082e56310ea8b5f1d7e269f2e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "feff133b_f36cd881",
         "filename": "models-interactions/model-actors/actor.cds/src/test/java/org/onap/policy/controlloop/actor/cds/GrpcOperationTest.java",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "74f851a6_2cb16083",
+        "filename": "models-interactions/model-actors/actor.cds/src/test/java/org/onap/policy/controlloop/actor/cds/GrpcOperationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2020-03-02T16:07:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "feff133b_f36cd881",
+      "revId": "fdf8d7c916f6fcd082e56310ea8b5f1d7e269f2e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "69f08289_791368e9",
         "filename": "models-interactions/model-actors/actor.cds/src/test/java/org/onap/policy/controlloop/actor/cds/GrpcOperatorTest.java",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2020-02-28T23:18:05Z",
       "side": 1,
       "message": "probably move lines 91-92 after line 97.  If this was copied from some other actor code, then it probably needs to be fixed, too",
+      "revId": "fdf8d7c916f6fcd082e56310ea8b5f1d7e269f2e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71d9c096_1d139f2d",
+        "filename": "models-interactions/model-actors/actor.cds/src/test/java/org/onap/policy/controlloop/actor/cds/GrpcOperatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2020-03-02T16:07:13Z",
+      "side": 1,
+      "message": "Done\nChanged HttpOpeartorTest \u0026 BidirectionalTopicOperatorTest too.",
+      "parentUuid": "69f08289_791368e9",
       "revId": "fdf8d7c916f6fcd082e56310ea8b5f1d7e269f2e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
