@@ -28,6 +28,6 @@ actors:
     clientName: my-client
     operations:
       CustomQuery:
-        path: cq
+        path: /cq
       Tenant:
-        path: tenant
+        path: /tenant

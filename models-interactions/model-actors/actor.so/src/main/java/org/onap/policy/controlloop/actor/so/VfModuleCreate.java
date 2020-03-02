@@ -111,7 +111,7 @@ public class VfModuleCreate extends SoOperation {
         SoRequest request = pair.getRight();
 
         Entity<SoRequest> entity = Entity.entity(request, MediaType.APPLICATION_JSON);
-        String url = getClient().getBaseUrl() + path;
+        String url = getPath() + path;
 
         logMessage(EventType.OUT, CommInfrastructure.REST, url, request);
 
@@ -208,7 +208,7 @@ public class VfModuleCreate extends SoOperation {
         buildConfigurationParameters().ifPresent(request.getRequestDetails()::setConfigurationParameters);
 
         // compute the path
-        String path = "/serviceInstantiation/v7/serviceInstances/" + vnfServiceItem.getServiceInstanceId() + "/vnfs/"
+        String path = "/serviceInstances/" + vnfServiceItem.getServiceInstanceId() + "/vnfs/"
                         + vnfItem.getVnfId() + "/vfModules/scaleOut";
 
         return Pair.of(path, request);
