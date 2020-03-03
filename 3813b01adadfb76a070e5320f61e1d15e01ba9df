@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e328ed70_2e0dcc27",
+        "filename": "models-interactions/model-actors/actor.appclcm/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-03-03T01:24:37Z",
+      "side": 1,
+      "message": "Just add 2020 to line 4",
+      "range": {
+        "startLine": 6,
+        "startChar": 16,
+        "endLine": 6,
+        "endChar": 36
+      },
+      "revId": "3813b01adadfb76a070e5320f61e1d15e01ba9df",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
