@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95ff80c3_8b787c53",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/serialization/MonitoringPolicySerializationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-03-03T16:36:22Z",
+      "side": 1,
+      "message": "Ah hah - thank for getting this deprecated method fixed.",
+      "range": {
+        "startLine": 281,
+        "startChar": 47,
+        "endLine": 281,
+        "endChar": 69
+      },
+      "revId": "106c7fdc3e64431e64d66a7546033f6c21f9bfb4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
