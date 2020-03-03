@@ -35,6 +35,7 @@ import java.util.function.BiConsumer;
 import org.onap.policy.appc.Response;
 import org.onap.policy.appc.ResponseCode;
 import org.onap.policy.appc.ResponseStatus;
+import org.onap.policy.common.utils.coder.StandardCoderInstantAsMillis;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.actor.test.BasicBidirectionalTopicOperation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
@@ -49,7 +50,7 @@ import org.powermock.reflect.Whitebox;
  * Superclass for various operator tests.
  */
 public abstract class BasicAppcOperation extends BasicBidirectionalTopicOperation {
-    protected static final String[] IGNORE_FIELDS = {"RequestID", "subRequestID", "seconds", "nanos"};
+    protected static final String[] IGNORE_FIELDS = {"RequestID", "subRequestID", "TimeStamp"};
     protected static final String MY_DESCRIPTION = "my-description";
     protected static final String MY_VNF = "my-vnf";
     protected static final String KEY1 = "my-key-A";
@@ -65,7 +66,7 @@ public abstract class BasicAppcOperation extends BasicBidirectionalTopicOperatio
      * Constructs the object using a default actor and operation name.
      */
     public BasicAppcOperation() {
-        super();
+        this.coder = new StandardCoderInstantAsMillis();
     }
 
     /**
@@ -76,6 +77,7 @@ public abstract class BasicAppcOperation extends BasicBidirectionalTopicOperatio
      */
     public BasicAppcOperation(String actor, String operation) {
         super(actor, operation);
+        this.coder = new StandardCoderInstantAsMillis();
     }
 
     /**

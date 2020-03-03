@@ -53,7 +53,6 @@ import org.onap.policy.controlloop.policy.PolicyResult;
  * Superclass for various Operation tests.
  */
 public class BasicOperation {
-    protected static final Coder coder = new StandardCoder();
     protected static final UUID REQ_ID = UUID.randomUUID();
     protected static final String DEFAULT_ACTOR = "default-actor";
     protected static final String DEFAULT_OPERATION = "default-operation";
@@ -61,6 +60,7 @@ public class BasicOperation {
 
     protected final String actorName;
     protected final String operationName;
+    protected Coder coder = new StandardCoder();
 
     @Mock
     protected ActorService service;

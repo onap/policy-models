@@ -29,8 +29,10 @@ import org.onap.policy.appc.CommonHeader;
 import org.onap.policy.appc.Request;
 import org.onap.policy.appc.Response;
 import org.onap.policy.appc.ResponseCode;
+import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
+import org.onap.policy.common.utils.coder.StandardCoderInstantAsMillis;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicOperation;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
@@ -45,7 +47,7 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AppcOperation extends BidirectionalTopicOperation<Request, Response> {
     private static final Logger logger = LoggerFactory.getLogger(AppcOperation.class);
-    private static final StandardCoder coder = new StandardCoder();
+    private static final StandardCoder coder = new StandardCoderInstantAsMillis();
     public static final String VNF_ID_KEY = "generic-vnf.vnf-id";
 
     /**
@@ -177,5 +179,10 @@ public abstract class AppcOperation extends BidirectionalTopicOperation<Request,
         outcome.setResult(result);
         outcome.setMessage(response.getStatus().getDescription());
         return outcome;
+    }
+
+    @Override
+    protected Coder makeCoder() {
+        return coder;
     }
 }
