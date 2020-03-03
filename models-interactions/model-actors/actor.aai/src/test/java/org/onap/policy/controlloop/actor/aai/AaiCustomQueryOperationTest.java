@@ -38,6 +38,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.InvocationCallback;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -109,11 +110,12 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation<Map<String, S
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void testStartOperationAsync_testStartPreprocessorAsync_testMakeRequest_testPostProcess() throws Exception {
         // need two responses
         when(rawResponse.readEntity(String.class)).thenReturn(makeTenantReply()).thenReturn(makeCqReply());
-        when(client.get(any(), any(), any())).thenAnswer(provideResponse(rawResponse));
-        when(client.put(any(), any(), any(), any())).thenAnswer(provideResponse(rawResponse));
+        when(webAsync.get(any(InvocationCallback.class))).thenAnswer(provideResponse(rawResponse));
+        when(webAsync.put(any(), any(InvocationCallback.class))).thenAnswer(provideResponse(rawResponse, 1));
 
         CompletableFuture<OperationOutcome> future2 = oper.start();
 
@@ -131,13 +133,14 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation<Map<String, S
      * Tests when preprocessor step is not needed.
      */
     @Test
+    @SuppressWarnings("unchecked")
     public void testStartOperationAsync_testStartPreprocessorAsyncNotNeeded() throws Exception {
         // pre-load the tenant data
         final StandardCoderObject data = preloadTenantData();
 
         // only need one response
         when(rawResponse.readEntity(String.class)).thenReturn(makeCqReply());
-        when(client.put(any(), any(), any(), any())).thenAnswer(provideResponse(rawResponse));
+        when(webAsync.put(any(), any(InvocationCallback.class))).thenAnswer(provideResponse(rawResponse, 1));
 
         CompletableFuture<OperationOutcome> future2 = oper.start();
 
@@ -157,17 +160,18 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation<Map<String, S
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void testMakeRequest() throws Exception {
         // preload
         preloadTenantData();
 
         when(rawResponse.readEntity(String.class)).thenReturn(makeCqReply());
-        when(client.put(any(), any(), any(), any())).thenAnswer(provideResponse(rawResponse));
+        when(webAsync.put(any(), any(InvocationCallback.class))).thenAnswer(provideResponse(rawResponse, 1));
 
         oper.start();
         executor.runAll(100);
 
-        verify(client).put(any(), any(), entityCaptor.capture(), any());
+        verify(webAsync).put(entityCaptor.capture(), any(InvocationCallback.class));
 
         // sort the request fields so they match the order in cq.json
         Map<String, String> request = new TreeMap<>(entityCaptor.getValue().getEntity());
@@ -176,12 +180,13 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation<Map<String, S
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void testMakeRequestNoResourceLink() throws Exception {
         // pre-load EMPTY tenant data
         preloadTenantData(new StandardCoderObject());
 
         when(rawResponse.readEntity(String.class)).thenReturn(makeCqReply());
-        when(client.put(any(), any(), any(), any())).thenAnswer(provideResponse(rawResponse));
+        when(webAsync.put(any(), any(InvocationCallback.class))).thenAnswer(provideResponse(rawResponse, 1));
 
         CompletableFuture<OperationOutcome> future2 = oper.start();
 

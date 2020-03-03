@@ -107,15 +107,13 @@ public class VfModuleCreate extends SoOperation {
         resetGetCount();
 
         Pair<String, SoRequest> pair = makeRequest();
-        String path = pair.getLeft();
+        String path = getPath() + pair.getLeft();
         SoRequest request = pair.getRight();
 
         Entity<SoRequest> entity = Entity.entity(request, MediaType.APPLICATION_JSON);
         String url = getClient().getBaseUrl() + path;
 
         logMessage(EventType.OUT, CommInfrastructure.REST, url, request);
-
-        // TODO should this use "path" or the full "url"?
 
         return handleResponse(outcome, url, callback -> getClient().post(callback, path, entity, null));
     }
@@ -208,8 +206,8 @@ public class VfModuleCreate extends SoOperation {
         buildConfigurationParameters().ifPresent(request.getRequestDetails()::setConfigurationParameters);
 
         // compute the path
-        String path = "/serviceInstantiation/v7/serviceInstances/" + vnfServiceItem.getServiceInstanceId() + "/vnfs/"
-                        + vnfItem.getVnfId() + "/vfModules/scaleOut";
+        String path = "/serviceInstances/" + vnfServiceItem.getServiceInstanceId() + "/vnfs/" + vnfItem.getVnfId()
+                        + "/vfModules/scaleOut";
 
         return Pair.of(path, request);
     }

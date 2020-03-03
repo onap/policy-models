@@ -21,11 +21,11 @@ httpClients:
 - clientName: my-client
   hostname: localhost
   port: 80
-  basePath: base-url
+  basePath: base-url/
   managed: true
 actors:
   SO:
     clientName: my-client
     operations:
       VF Module Create:
-        path: create
+        path: serviceInstantiation/v7
