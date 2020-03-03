@@ -278,7 +278,7 @@ public class MonitoringPolicySerializationTest {
 
     private void verifyVcpeMonitoringOutputserialization(String serializedServiceTemplate) {
 
-        JsonObject serviceTemplateJsonObject = new JsonParser().parse(serializedServiceTemplate).getAsJsonObject();
+        JsonObject serviceTemplateJsonObject = JsonParser.parseString(serializedServiceTemplate).getAsJsonObject();
         assertEquals(YAML_VERSION, serviceTemplateJsonObject.get(DEFINITION_VERSION).getAsString());
         JsonObject topologyTemplateJsonObject = serviceTemplateJsonObject.get(TOPOLOGY_TEMPLATE).getAsJsonObject();
         JsonArray policiesJsonArray = topologyTemplateJsonObject.get(POLICIES).getAsJsonArray();
@@ -295,7 +295,7 @@ public class MonitoringPolicySerializationTest {
 
     private void verifyVdnsMonitoringOutputserialization(String serializedServiceTemplate) {
 
-        JsonObject serviceTemplateJsonObject = new JsonParser().parse(serializedServiceTemplate).getAsJsonObject();
+        JsonObject serviceTemplateJsonObject = JsonParser.parseString(serializedServiceTemplate).getAsJsonObject();
         assertEquals(YAML_VERSION, serviceTemplateJsonObject.get(DEFINITION_VERSION).getAsString());
         JsonObject topologyTemplateJsonObject = serviceTemplateJsonObject.get(TOPOLOGY_TEMPLATE).getAsJsonObject();
         JsonArray policiesJsonArray = topologyTemplateJsonObject.get(POLICIES).getAsJsonArray();
@@ -312,7 +312,7 @@ public class MonitoringPolicySerializationTest {
 
     private void verifyVfwMonitoringOutputserialization(String serializedServiceTemplate) {
 
-        JsonObject serviceTemplateJsonObject = new JsonParser().parse(serializedServiceTemplate).getAsJsonObject();
+        JsonObject serviceTemplateJsonObject = JsonParser.parseString(serializedServiceTemplate).getAsJsonObject();
         assertEquals(YAML_VERSION, serviceTemplateJsonObject.get(DEFINITION_VERSION).getAsString());
         JsonObject topologyTemplateJsonObject = serviceTemplateJsonObject.get(TOPOLOGY_TEMPLATE).getAsJsonObject();
         JsonArray policiesJsonArray = topologyTemplateJsonObject.get(POLICIES).getAsJsonArray();

@@ -199,8 +199,8 @@ public class SimpleToscaProvider {
 
         JpaToscaServiceTemplate writtenServiceTemplate = appendToServiceTemplate(dao, incomingServiceTemplate);
 
-        LOGGER.debug("<-createDataTypes: returnServiceTempalate={}", writtenServiceTemplate);
-        return writtenServiceTemplate;
+        LOGGER.debug("<-createDataTypes: writtenServiceTemplate={}", writtenServiceTemplate);
+        return incomingServiceTemplate;
     }
 
     /**
@@ -366,8 +366,8 @@ public class SimpleToscaProvider {
 
         JpaToscaServiceTemplate writtenServiceTemplate = appendToServiceTemplate(dao, incomingServiceTemplate);
 
-        LOGGER.debug("<-createPolicyTypes: returnServiceTempalate={}", writtenServiceTemplate);
-        return writtenServiceTemplate;
+        LOGGER.debug("<-createPolicyTypes: writtenServiceTemplate={}", writtenServiceTemplate);
+        return incomingServiceTemplate;
     }
 
     /**
@@ -538,8 +538,8 @@ public class SimpleToscaProvider {
 
         JpaToscaServiceTemplate writtenServiceTemplate = appendToServiceTemplate(dao, incomingServiceTemplate);
 
-        LOGGER.debug("<-createPolicies: serviceTemplate={}", writtenServiceTemplate);
-        return writtenServiceTemplate;
+        LOGGER.debug("<-createPolicies: writtenServiceTemplate={}", writtenServiceTemplate);
+        return incomingServiceTemplate;
     }
 
     /**
