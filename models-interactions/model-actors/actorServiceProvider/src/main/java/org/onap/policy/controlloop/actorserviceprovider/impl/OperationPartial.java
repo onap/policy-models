@@ -28,6 +28,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.Executor;
@@ -528,8 +529,14 @@ public abstract class OperationPartial implements Operation {
         return thrown -> {
             OperationOutcome outcome = params.makeOutcome();
 
-            logger.warn("exception throw by {} {}.{} for {}", type, outcome.getActor(), outcome.getOperation(),
-                            params.getRequestId(), thrown);
+            if (thrown instanceof CancellationException || thrown.getCause() instanceof CancellationException) {
+                // do not include exception in the message, as it just clutters the log
+                logger.warn("{} canceled {}.{} for {}", type, outcome.getActor(), outcome.getOperation(),
+                                params.getRequestId());
+            } else {
+                logger.warn("exception throw by {} {}.{} for {}", type, outcome.getActor(), outcome.getOperation(),
+                                params.getRequestId(), thrown);
+            }
 
             return setOutcome(outcome, thrown);
         };
