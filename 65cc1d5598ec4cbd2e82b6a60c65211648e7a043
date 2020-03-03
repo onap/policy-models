@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "75a8dab9_0a116153",
+        "filename": "models-interactions/model-actors/actor.vfc/src/main/java/org/onap/policy/controlloop/actor/vfc/VfcOperation.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-03-03T21:13:16Z",
+      "side": 1,
+      "message": "This is incomplete",
+      "revId": "65cc1d5598ec4cbd2e82b6a60c65211648e7a043",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a90982c4_4cd241d3",
+        "filename": "models-interactions/model-actors/actor.vfc/src/test/java/org/onap/policy/controlloop/actor/vfc/VfcOperationTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-03-03T21:13:16Z",
+      "side": 1,
+      "message": "this is incomplete - and I\u0027m missing a bunch",
+      "range": {
+        "startLine": 66,
+        "startChar": 1,
+        "endLine": 66,
+        "endChar": 11
+      },
+      "revId": "65cc1d5598ec4cbd2e82b6a60c65211648e7a043",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
