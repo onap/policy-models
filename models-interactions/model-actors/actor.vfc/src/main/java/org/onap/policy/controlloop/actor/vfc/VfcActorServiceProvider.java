@@ -37,6 +37,8 @@ import org.onap.policy.vfc.VfcRequest;
 public class VfcActorServiceProvider extends ActorImpl {
     private static final String GENERIC_VNF_ID = "generic-vnf.vnf-id";
 
+    // TODO old code: remove lines down to **HERE**
+
     // Strings for VFC Actor
     private static final String VFC_ACTOR = "VFC";
 
@@ -50,9 +52,18 @@ public class VfcActorServiceProvider extends ActorImpl {
     private static final ImmutableMap<String, List<String>> targets =
             new ImmutableMap.Builder<String, List<String>>().put(RECIPE_RESTART, ImmutableList.of(TARGET_VM)).build();
 
+    // **HERE**
+
+    /**
+     * Constructor.
+     */
     public VfcActorServiceProvider() {
         super(VFC_ACTOR);
+
+        addOperator(new VfcOperator(VFC_ACTOR, Restart.NAME, Restart::new));
     }
+
+    // TODO old code: remove lines down to **HERE**
 
     @Override
     public String actor() {
@@ -90,7 +101,7 @@ public class VfcActorServiceProvider extends ActorImpl {
         VfcRequest request = new VfcRequest();
         String serviceInstance = onset.getAai().get("service-instance.service-instance-id");
         if (serviceInstance == null || "".equals(serviceInstance)) {
-            // get service isntance from AaiCqResponse
+            // get service instance from AaiCqResponse
             if (aaiCqResponse == null) {
                 return null;
             }
@@ -120,4 +131,7 @@ public class VfcActorServiceProvider extends ActorImpl {
         }
         return request;
     }
+
+    // **HERE**
+
 }
