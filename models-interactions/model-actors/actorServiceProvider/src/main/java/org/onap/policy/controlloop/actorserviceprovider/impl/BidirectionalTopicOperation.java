@@ -172,11 +172,11 @@ public abstract class BidirectionalTopicOperation<Q, S> extends OperationPartial
             throw new IllegalArgumentException("cannot encode request", e);
         }
 
+        logMessage(EventType.OUT, topicHandler.getSinkTopicCommInfrastructure(), topicHandler.getSinkTopic(), request);
+
         if (!topicHandler.send(json)) {
             throw new IllegalStateException("nothing published");
         }
-
-        logMessage(EventType.OUT, topicHandler.getSinkTopicCommInfrastructure(), topicHandler.getSinkTopic(), request);
     }
 
     /**
