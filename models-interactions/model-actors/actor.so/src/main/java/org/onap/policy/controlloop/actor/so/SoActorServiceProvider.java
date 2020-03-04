@@ -99,6 +99,7 @@ public class SoActorServiceProvider extends HttpActor<SoActorParams> {
         super(NAME, SoActorParams.class);
 
         addOperator(new SoOperator(NAME, VfModuleCreate.NAME, VfModuleCreate::new));
+        addOperator(new SoOperator(NAME, VfModuleDelete.NAME, VfModuleDelete::new));
     }
 
     // TODO old code: remove lines down to **HERE**

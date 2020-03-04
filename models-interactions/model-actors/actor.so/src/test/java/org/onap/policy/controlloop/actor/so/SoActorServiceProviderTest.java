@@ -74,7 +74,8 @@ public class SoActorServiceProviderTest extends BasicActor {
         SoActorServiceProvider prov = new SoActorServiceProvider();
 
         // verify that it has the operators we expect
-        var expected = Arrays.asList(VfModuleCreate.NAME).stream().sorted().collect(Collectors.toList());
+        var expected = Arrays.asList(VfModuleCreate.NAME, VfModuleDelete.NAME).stream().sorted()
+                        .collect(Collectors.toList());
         var actual = prov.getOperationNames().stream().sorted().collect(Collectors.toList());
 
         assertEquals(expected.toString(), actual.toString());
