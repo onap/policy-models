@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "5bd6b6c3_a8499aef",
+        "filename": "models-interactions/model-actors/actor.vfc/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-04T00:33:34Z",
+      "side": 1,
+      "message": "hmm.  Shouldn\u0027t need gson",
+      "revId": "65cc1d5598ec4cbd2e82b6a60c65211648e7a043",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2dfde4f_86328d1b",
+        "filename": "models-interactions/model-actors/actor.vfc/src/main/java/org/onap/policy/controlloop/actor/vfc/Restart.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-04T00:33:34Z",
+      "side": 1,
+      "message": "depends.  If this Operation needs any A\u0026AI data, then yes, it will have to be requested.  Otherwise, this method could be deleted",
+      "revId": "65cc1d5598ec4cbd2e82b6a60c65211648e7a043",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c47299c_a789cbbf",
+        "filename": "models-interactions/model-actors/actor.vfc/src/main/java/org/onap/policy/controlloop/actor/vfc/VfcConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-04T00:33:34Z",
+      "side": 1,
+      "message": "next release, I plan to put a version of this into actorServices so we don\u0027t have to duplicate it in both SO \u0026 VFC.  I also plan to rename \"get\" to \"poll\", as it\u0027s more descriptive of what it\u0027s actually used for.",
+      "revId": "65cc1d5598ec4cbd2e82b6a60c65211648e7a043",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "75a8dab9_0a116153",
         "filename": "models-interactions/model-actors/actor.vfc/src/main/java/org/onap/policy/controlloop/actor/vfc/VfcOperation.java",
         "patchSetId": 2
