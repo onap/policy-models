@@ -36,7 +36,6 @@ import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
-import org.onap.policy.so.SoCloudConfiguration;
 import org.onap.policy.so.SoModelInfo;
 import org.onap.policy.so.SoOperationType;
 import org.onap.policy.so.SoRelatedInstance;
@@ -50,13 +49,11 @@ import org.onap.policy.so.SoRequestParameters;
  * response and stores it in the context. It also passes the count+1 to the guard. Once
  * the "create" completes successfully, it bumps the VF count that's stored in the
  * context.
- * <p/>
- * Note: currently, this only supports storing the count for a single target VF.
  */
 public class VfModuleCreate extends SoOperation {
     public static final String NAME = "VF Module Create";
 
-    public static final String PAYLOAD_KEY_VF_COUNT = "vfCount";
+    private static final String PATH_PREFIX = "/";
 
     /**
      * Constructs the object.
@@ -115,7 +112,9 @@ public class VfModuleCreate extends SoOperation {
 
         logMessage(EventType.OUT, CommInfrastructure.REST, url, request);
 
-        return handleResponse(outcome, url, callback -> getClient().post(callback, path, entity, null));
+        Map<String, Object> headers = createSimpleHeaders();
+
+        return handleResponse(outcome, url, callback -> getClient().post(callback, path, entity, headers));
     }
 
     /**
@@ -206,23 +205,9 @@ public class VfModuleCreate extends SoOperation {
         buildConfigurationParameters().ifPresent(request.getRequestDetails()::setConfigurationParameters);
 
         // compute the path
-        String path = "/serviceInstances/" + vnfServiceItem.getServiceInstanceId() + "/vnfs/" + vnfItem.getVnfId()
+        String path = PATH_PREFIX + vnfServiceItem.getServiceInstanceId() + "/vnfs/" + vnfItem.getVnfId()
                         + "/vfModules/scaleOut";
 
         return Pair.of(path, request);
-    }
-
-    /**
-     * Construct cloudConfiguration for the SO requestDetails. Overridden for custom
-     * query.
-     *
-     * @param tenantItem tenant item from A&AI named-query response
-     * @return SO cloud configuration
-     */
-    private SoCloudConfiguration constructCloudConfigurationCq(Tenant tenantItem, CloudRegion cloudRegionItem) {
-        SoCloudConfiguration cloudConfiguration = new SoCloudConfiguration();
-        cloudConfiguration.setTenantId(tenantItem.getTenantId());
-        cloudConfiguration.setLcpCloudRegionId(cloudRegionItem.getCloudRegionId());
-        return cloudConfiguration;
     }
 }
