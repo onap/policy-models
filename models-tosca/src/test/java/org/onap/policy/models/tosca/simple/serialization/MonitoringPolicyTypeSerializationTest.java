@@ -40,7 +40,6 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaConstraintLogical;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaConstraintValidValues;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaDataType;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaEntrySchema;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyType;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaProperty;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
@@ -170,11 +169,8 @@ public class MonitoringPolicyTypeSerializationTest {
         assertEquals("onap.policies.monitoring.cdap.tca.hi.lo.app", property.getKey().getParentKeyName());
         assertEquals(VERSION_100, property.getKey().getParentKeyVersion());
         assertEquals("tca_policy", property.getKey().getLocalName());
-        assertEquals("map", property.getType().getName());
+        assertEquals(TCA, property.getType().getName());
         assertEquals("TCA Policy JSON", property.getDescription());
-
-        JpaToscaEntrySchema entrySchema = property.getEntrySchema();
-        assertEquals(TCA, entrySchema.getType().getName());
 
         // Check data_types
         Map<PfConceptKey, JpaToscaDataType> dataTypesConceptMap = serviceTemplate.getDataTypes().getConceptMap();
