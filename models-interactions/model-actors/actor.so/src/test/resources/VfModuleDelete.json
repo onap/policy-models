@@ -1,0 +1,18 @@
+{
+  "requestDetails": {
+    "modelInfo": {
+      "modelType": "vfModule",
+      "modelInvariantId": "my-model-invariant-id",
+      "modelVersionId": "my-model-version-id",
+      "modelName": "my-model-name",
+      "modelVersion": "my-model-version",
+      "modelCustomizationId": "my-model-customization-id"
+    },
+    "cloudConfiguration": {},
+    "requestInfo": {
+      "source": "POLICY",
+      "suppressRollback": false,
+      "requestorId": "policy"
+    }
+  }
+}
