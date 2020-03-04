@@ -30,6 +30,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation.Builder;
 import javax.ws.rs.client.InvocationCallback;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
@@ -101,6 +102,8 @@ public class BasicHttpOperation<Q> extends BasicOperation {
         when(rawResponse.getStatus()).thenReturn(200);
 
         when(webBuilder.async()).thenReturn(webAsync);
+        when(webBuilder.accept(any(MediaType.class))).thenReturn(webBuilder);
+        when(webBuilder.accept(any(String.class))).thenReturn(webBuilder);
 
         when(webTarget.request()).thenReturn(webBuilder);
         when(webTarget.path(any())).thenReturn(webTarget);
