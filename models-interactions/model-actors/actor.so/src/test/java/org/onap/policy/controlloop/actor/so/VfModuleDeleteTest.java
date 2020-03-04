@@ -26,6 +26,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -35,6 +36,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.InvocationCallback;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Before;
 import org.junit.Test;
@@ -51,33 +54,33 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOp
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.so.SoRequest;
 
-public class VfModuleCreateTest extends BasicSoOperation {
+public class VfModuleDeleteTest extends BasicSoOperation {
     private static final String MODEL_NAME2 = "my-model-name-B";
     private static final String MODEL_VERS2 = "my-model-version-B";
     private static final String SVC_INSTANCE_ID = "my-service-instance-id";
     private static final String VNF_ID = "my-vnf-id";
 
-    private VfModuleCreate oper;
+    private VfModuleDelete oper;
 
-    public VfModuleCreateTest() {
-        super(DEFAULT_ACTOR, VfModuleCreate.NAME);
+    public VfModuleDeleteTest() {
+        super(DEFAULT_ACTOR, VfModuleDelete.NAME);
     }
 
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        oper = new VfModuleCreate(params, config);
+        oper = new VfModuleDelete(params, config);
     }
 
     @Test
     public void testConstructor() {
         assertEquals(DEFAULT_ACTOR, oper.getActorName());
-        assertEquals(VfModuleCreate.NAME, oper.getName());
+        assertEquals(VfModuleDelete.NAME, oper.getName());
 
         // verify that target validation is done
         params = params.toBuilder().target(null).build();
-        assertThatIllegalArgumentException().isThrownBy(() -> new VfModuleCreate(params, config))
+        assertThatIllegalArgumentException().isThrownBy(() -> new VfModuleDelete(params, config))
                         .withMessageContaining("Target information");
     }
 
@@ -88,7 +91,7 @@ public class VfModuleCreateTest extends BasicSoOperation {
 
         AtomicBoolean guardStarted = new AtomicBoolean();
 
-        oper = new VfModuleCreate(params, config) {
+        oper = new VfModuleDelete(params, config) {
             @Override
             protected CompletableFuture<OperationOutcome> startGuardAsync() {
                 guardStarted.set(true);
@@ -140,22 +143,24 @@ public class VfModuleCreateTest extends BasicSoOperation {
         Map<String, Object> guard = (Map<String, Object>) resource.get("guard");
         assertNotNull(guard);
 
-        Integer newCount = (Integer) guard.get(VfModuleCreate.PAYLOAD_KEY_VF_COUNT);
+        Integer newCount = (Integer) guard.get(VfModuleDelete.PAYLOAD_KEY_VF_COUNT);
         assertNotNull(newCount);
-        assertEquals(origCount + 1, newCount.intValue());
+        assertEquals(origCount - 1, newCount.intValue());
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void testStartOperationAsync_testSuccessfulCompletion() throws Exception {
         final int origCount = 30;
         oper.setVfCount(origCount);
 
-        when(client.post(any(), any(), any(), any())).thenAnswer(provideResponse(rawResponse));
+        when(webAsync.method(eq("DELETE"), any(Entity.class), any(InvocationCallback.class)))
+                        .thenAnswer(provideResponse(rawResponse, 2));
 
         // use a real executor
         params = params.toBuilder().executor(ForkJoinPool.commonPool()).build();
 
-        oper = new VfModuleCreate(params, config) {
+        oper = new VfModuleDelete(params, config) {
             @Override
             public long getWaitMsGet() {
                 return 1;
@@ -167,23 +172,25 @@ public class VfModuleCreateTest extends BasicSoOperation {
         outcome = future2.get(5, TimeUnit.SECONDS);
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
 
-        assertEquals(origCount + 1, oper.getVfCount());
+        assertEquals(origCount - 1, oper.getVfCount());
     }
 
     /**
      * Tests startOperationAsync() when "get" operations are required.
      */
     @Test
+    @SuppressWarnings("unchecked")
     public void testStartOperationAsyncWithGets() throws Exception {
         when(rawResponse.getStatus()).thenReturn(500, 500, 500, 500, 200, 200);
 
-        when(client.post(any(), any(), any(), any())).thenAnswer(provideResponse(rawResponse));
+        when(webAsync.method(eq("DELETE"), any(Entity.class), any(InvocationCallback.class)))
+                        .thenAnswer(provideResponse(rawResponse, 2));
         when(client.get(any(), any(), any())).thenAnswer(provideResponse(rawResponse));
 
         // use a real executor
         params = params.toBuilder().executor(ForkJoinPool.commonPool()).build();
 
-        oper = new VfModuleCreate(params, config) {
+        oper = new VfModuleDelete(params, config) {
             @Override
             public long getWaitMsGet() {
                 return 1;
@@ -200,13 +207,9 @@ public class VfModuleCreateTest extends BasicSoOperation {
     public void testMakeRequest() throws CoderException {
         Pair<String, SoRequest> pair = oper.makeRequest();
 
-        // @formatter:off
-        assertEquals(
-            "/my-service-instance-id/vnfs/my-vnf-id/vfModules/scaleOut",
-            pair.getLeft());
-        // @formatter:on
+        assertEquals("/my-service-instance-id/vnfs/my-vnf-id/vfModules/", pair.getLeft());
 
-        verifyRequest("vfModuleCreate.json", pair.getRight());
+        verifyRequest("VfModuleDelete.json", pair.getRight());
     }
 
 

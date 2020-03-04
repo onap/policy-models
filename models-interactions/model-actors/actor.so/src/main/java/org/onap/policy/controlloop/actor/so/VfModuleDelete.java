@@ -22,6 +22,7 @@ package org.onap.policy.controlloop.actor.so;
 
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import javax.ws.rs.client.AsyncInvoker;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import org.apache.commons.lang3.tuple.Pair;
@@ -38,20 +39,17 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOp
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.so.SoModelInfo;
 import org.onap.policy.so.SoOperationType;
-import org.onap.policy.so.SoRelatedInstance;
-import org.onap.policy.so.SoRelatedInstanceListElement;
 import org.onap.policy.so.SoRequest;
 import org.onap.policy.so.SoRequestDetails;
-import org.onap.policy.so.SoRequestParameters;
 
 /**
- * Operation to create a VF Module. This gets the VF count from the A&AI Custom Query
- * response and stores it in the context. It also passes the count+1 to the guard. Once
- * the "create" completes successfully, it bumps the VF count that's stored in the
+ * Operation to delete a VF Module. This gets the VF count from the A&AI Custom Query
+ * response and stores it in the context. It also passes the count-1 to the guard. Once
+ * the "delete" completes successfully, it decrements the VF count that's stored in the
  * context.
  */
-public class VfModuleCreate extends SoOperation {
-    public static final String NAME = "VF Module Create";
+public class VfModuleDelete extends SoOperation {
+    public static final String NAME = "VF Module Delete";
 
     private static final String PATH_PREFIX = "/";
 
@@ -61,7 +59,7 @@ public class VfModuleCreate extends SoOperation {
      * @param params operation parameters
      * @param config configuration for this operation
      */
-    public VfModuleCreate(ControlLoopOperationParams params, HttpConfig config) {
+    public VfModuleDelete(ControlLoopOperationParams params, HttpConfig config) {
         super(params, config);
 
         // ensure we have the necessary parameters
@@ -92,7 +90,7 @@ public class VfModuleCreate extends SoOperation {
         Map<String, Object> payload = super.makeGuardPayload();
 
         // run guard with the proposed vf count
-        payload.put(PAYLOAD_KEY_VF_COUNT, getVfCount() + 1);
+        payload.put(PAYLOAD_KEY_VF_COUNT, getVfCount() - 1);
 
         return payload;
     }
@@ -112,9 +110,13 @@ public class VfModuleCreate extends SoOperation {
 
         logMessage(EventType.OUT, CommInfrastructure.REST, url, request);
 
-        Map<String, Object> headers = createSimpleHeaders();
+        // TODO this may not work!
 
-        return handleResponse(outcome, url, callback -> getClient().post(callback, path, entity, headers));
+        AsyncInvoker sender =
+                        getClient().getWebTarget().path(path).request().accept(MediaType.APPLICATION_JSON).async();
+
+        // TODO pass "Accept" via headers
+        return handleResponse(outcome, url, callback -> sender.method("DELETE", entity, callback));
     }
 
     /**
@@ -122,7 +124,7 @@ public class VfModuleCreate extends SoOperation {
      */
     @Override
     protected void successfulCompletion() {
-        setVfCount(getVfCount() + 1);
+        setVfCount(getVfCount() - 1);
     }
 
     /**
@@ -139,74 +141,34 @@ public class VfModuleCreate extends SoOperation {
         final CloudRegion cloudRegionItem = getDefaultCloudRegion(aaiCqResponse);
 
         SoRequest request = new SoRequest();
-        request.setOperationType(SoOperationType.SCALE_OUT);
+        request.setOperationType(SoOperationType.DELETE_VF_MODULE);
 
         //
         //
         // Do NOT send SO the requestId, they do not support this field
         //
-        request.setRequestDetails(new SoRequestDetails());
-        request.getRequestDetails().setRequestParameters(new SoRequestParameters());
-        request.getRequestDetails().getRequestParameters().setUserParams(null);
+        SoRequestDetails details = new SoRequestDetails();
+        request.setRequestDetails(details);
+        details.setRelatedInstanceList(null);
+        details.setConfigurationParameters(null);
 
         // cloudConfiguration
-        request.getRequestDetails().setCloudConfiguration(constructCloudConfigurationCq(tenantItem, cloudRegionItem));
+        details.setCloudConfiguration(constructCloudConfigurationCq(tenantItem, cloudRegionItem));
 
         // modelInfo
-        request.getRequestDetails().setModelInfo(soModelInfo);
+        details.setModelInfo(soModelInfo);
 
         // requestInfo
-        request.getRequestDetails().setRequestInfo(constructRequestInfo());
-        request.getRequestDetails().getRequestInfo().setInstanceName("vfModuleName");
+        details.setRequestInfo(constructRequestInfo());
 
-        // relatedInstanceList
-        SoRelatedInstanceListElement relatedInstanceListElement1 = new SoRelatedInstanceListElement();
-        SoRelatedInstanceListElement relatedInstanceListElement2 = new SoRelatedInstanceListElement();
-        relatedInstanceListElement1.setRelatedInstance(new SoRelatedInstance());
-        relatedInstanceListElement2.setRelatedInstance(new SoRelatedInstance());
-
-        // Service Item
-        relatedInstanceListElement1.getRelatedInstance().setInstanceId(vnfServiceItem.getServiceInstanceId());
-        relatedInstanceListElement1.getRelatedInstance().setModelInfo(new SoModelInfo());
-        relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelType("service");
-        relatedInstanceListElement1.getRelatedInstance().getModelInfo()
-                        .setModelInvariantId(vnfServiceItem.getModelInvariantId());
-        relatedInstanceListElement1.getRelatedInstance().getModelInfo()
-                        .setModelVersionId(vnfServiceItem.getModelVersionId());
-        relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelName(
-                        aaiCqResponse.getModelVerByVersionId(vnfServiceItem.getModelVersionId()).getModelName());
-        relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelVersion(
-                        aaiCqResponse.getModelVerByVersionId(vnfServiceItem.getModelVersionId()).getModelVersion());
-
-        // VNF Item
-        relatedInstanceListElement2.getRelatedInstance().setInstanceId(vnfItem.getVnfId());
-        relatedInstanceListElement2.getRelatedInstance().setModelInfo(new SoModelInfo());
-        relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelType("vnf");
-        relatedInstanceListElement2.getRelatedInstance().getModelInfo()
-                        .setModelInvariantId(vnfItem.getModelInvariantId());
-        relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelVersionId(vnfItem.getModelVersionId());
-
-        relatedInstanceListElement2.getRelatedInstance().getModelInfo()
-                        .setModelName(aaiCqResponse.getModelVerByVersionId(vnfItem.getModelVersionId()).getModelName());
-        relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelVersion(
-                        aaiCqResponse.getModelVerByVersionId(vnfItem.getModelVersionId()).getModelVersion());
-
-        relatedInstanceListElement2.getRelatedInstance().getModelInfo()
-                        .setModelCustomizationId(vnfItem.getModelCustomizationId());
-
-        // Insert the Service Item and VNF Item
-        request.getRequestDetails().getRelatedInstanceList().add(relatedInstanceListElement1);
-        request.getRequestDetails().getRelatedInstanceList().add(relatedInstanceListElement2);
-
-        // Request Parameters
-        buildRequestParameters().ifPresent(request.getRequestDetails()::setRequestParameters);
-
-        // Configuration Parameters
-        buildConfigurationParameters().ifPresent(request.getRequestDetails()::setConfigurationParameters);
+        /*
+         * TODO the legacy SO code always passes null for the last argument, though it
+         * should be passing the vfModuleInstanceId
+         */
 
         // compute the path
         String path = PATH_PREFIX + vnfServiceItem.getServiceInstanceId() + "/vnfs/" + vnfItem.getVnfId()
-                        + "/vfModules/scaleOut";
+                        + "/vfModules/";
 
         return Pair.of(path, request);
     }
