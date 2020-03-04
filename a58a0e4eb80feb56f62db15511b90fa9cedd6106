@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "daaa4b16_43053bd1",
+        "filename": "models-interactions/model-actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmOperation.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 6006
+      },
+      "writtenOn": "2020-03-04T18:03:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d513a70_6e8a0f19",
+      "revId": "a58a0e4eb80feb56f62db15511b90fa9cedd6106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3ea30933_dbe458f0",
         "filename": "models-interactions/model-actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmOperation.java",
         "patchSetId": 4
@@ -104,6 +122,24 @@
     },
     {
       "key": {
+        "uuid": "c9b472fb_8fc618a3",
+        "filename": "models-interactions/model-actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmOperation.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 6006
+      },
+      "writtenOn": "2020-03-04T18:03:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ad8bb84_f097f17b",
+      "revId": "a58a0e4eb80feb56f62db15511b90fa9cedd6106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5484c278_f1c821a7",
         "filename": "models-interactions/model-actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmOperation.java",
         "patchSetId": 4
@@ -115,6 +151,24 @@
       "writtenOn": "2020-03-04T00:20:20Z",
       "side": 1,
       "message": "should it continue in this case?  Or throw an Exception?",
+      "revId": "a58a0e4eb80feb56f62db15511b90fa9cedd6106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08c99501_dcc313ce",
+        "filename": "models-interactions/model-actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmOperation.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 6006
+      },
+      "writtenOn": "2020-03-04T18:03:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5484c278_f1c821a7",
       "revId": "a58a0e4eb80feb56f62db15511b90fa9cedd6106",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
@@ -138,6 +192,24 @@
     },
     {
       "key": {
+        "uuid": "bbfababb_4fc4d21a",
+        "filename": "models-interactions/model-actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmOperation.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 6006
+      },
+      "writtenOn": "2020-03-04T18:03:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac633c89_dc5a3b5b",
+      "revId": "a58a0e4eb80feb56f62db15511b90fa9cedd6106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa88d28f_d955275f",
         "filename": "models-interactions/model-actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmOperation.java",
         "patchSetId": 4
@@ -152,6 +224,24 @@
       "revId": "a58a0e4eb80feb56f62db15511b90fa9cedd6106",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "114d1ca1_bd3e4c3f",
+        "filename": "models-interactions/model-actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmOperation.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 6006
+      },
+      "writtenOn": "2020-03-04T18:03:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa88d28f_d955275f",
+      "revId": "a58a0e4eb80feb56f62db15511b90fa9cedd6106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -186,6 +276,24 @@
       "revId": "a58a0e4eb80feb56f62db15511b90fa9cedd6106",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1aa22a1f_20d8d080",
+        "filename": "models-interactions/model-actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmOperation.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 6006
+      },
+      "writtenOn": "2020-03-04T18:03:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f0f914d_d6380a11",
+      "revId": "a58a0e4eb80feb56f62db15511b90fa9cedd6106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
