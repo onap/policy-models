@@ -20,7 +20,9 @@
 
 package org.onap.policy.controlloop.actor.so;
 
+import com.att.aft.dme2.internal.javaxwsrs.core.MediaType;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -46,6 +48,7 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOp
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.controlloop.policy.Target;
+import org.onap.policy.so.SoCloudConfiguration;
 import org.onap.policy.so.SoModelInfo;
 import org.onap.policy.so.SoRequest;
 import org.onap.policy.so.SoRequestInfo;
@@ -63,6 +66,7 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
     private static final Logger logger = LoggerFactory.getLogger(SoOperation.class);
     private static final Coder coder = new StandardCoder();
 
+    public static final String PAYLOAD_KEY_VF_COUNT = "vfCount";
     public static final String FAILED = "FAILED";
     public static final String COMPLETE = "COMPLETE";
     public static final int SO_RESPONSE_CODE = 999;
@@ -369,6 +373,31 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
         } catch (CoderException | RuntimeException e) {
             throw new IllegalArgumentException("invalid payload value: " + CONFIG_PARAM_NM);
         }
+    }
+
+    /**
+     * Construct cloudConfiguration for the SO requestDetails. Overridden for custom
+     * query.
+     *
+     * @param tenantItem tenant item from A&AI named-query response
+     * @return SO cloud configuration
+     */
+    protected SoCloudConfiguration constructCloudConfigurationCq(Tenant tenantItem, CloudRegion cloudRegionItem) {
+        SoCloudConfiguration cloudConfiguration = new SoCloudConfiguration();
+        cloudConfiguration.setTenantId(tenantItem.getTenantId());
+        cloudConfiguration.setLcpCloudRegionId(cloudRegionItem.getCloudRegionId());
+        return cloudConfiguration;
+    }
+
+    /**
+     * Create simple HTTP headers for unauthenticated requests to SO.
+     *
+     * @return the HTTP headers
+     */
+    protected Map<String, Object> createSimpleHeaders() {
+        Map<String, Object> headers = new HashMap<>();
+        headers.put("Accept", MediaType.APPLICATION_JSON);
+        return headers;
     }
 
     /*
