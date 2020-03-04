@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18984186_c2f0bc28",
+        "filename": "models-interactions/model-actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmActorServiceProvider.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-03-04T17:10:11Z",
+      "side": 1,
+      "message": "Don\u0027t needs this - see line #5",
+      "range": {
+        "startLine": 8,
+        "startChar": 2,
+        "endLine": 8,
+        "endChar": 76
+      },
+      "revId": "ba5b10df9a915440c206bd67a3b8b0ac0292ef30",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
