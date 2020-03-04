@@ -170,11 +170,8 @@ public class MonitoringPolicyTypeSerializationTest {
         assertEquals("onap.policies.monitoring.cdap.tca.hi.lo.app", property.getKey().getParentKeyName());
         assertEquals(VERSION_100, property.getKey().getParentKeyVersion());
         assertEquals("tca_policy", property.getKey().getLocalName());
-        assertEquals("map", property.getType().getName());
+        assertEquals(TCA, property.getType().getName());
         assertEquals("TCA Policy JSON", property.getDescription());
-
-        JpaToscaEntrySchema entrySchema = property.getEntrySchema();
-        assertEquals(TCA, entrySchema.getType().getName());
 
         // Check data_types
         Map<PfConceptKey, JpaToscaDataType> dataTypesConceptMap = serviceTemplate.getDataTypes().getConceptMap();
