@@ -51,6 +51,7 @@ public abstract class BasicSoOperation extends BasicHttpOperation<SoRequest> {
     public static final String MODEL_VERSION = "my-model-version";
     public static final String MODEL_VERS_ID = "my-model-version-id";
     public static final String SUBSCRIPTION_SVC_TYPE = "my-subscription-service-type";
+    public static final String MY_PATH = "my-path";
     public static final String PATH_GET = "my-path-get/";
     public static final int MAX_GETS = 3;
     public static final int WAIT_SEC_GETS = 20;
@@ -108,6 +109,7 @@ public abstract class BasicSoOperation extends BasicHttpOperation<SoRequest> {
     protected void initConfig() {
         super.initConfig();
         when(config.getClient()).thenReturn(client);
+        when(config.getPath()).thenReturn(MY_PATH);
         when(config.getMaxGets()).thenReturn(MAX_GETS);
         when(config.getPathGet()).thenReturn(PATH_GET);
         when(config.getWaitSecGet()).thenReturn(WAIT_SEC_GETS);
