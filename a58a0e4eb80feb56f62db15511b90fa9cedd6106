@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb8d4940_fe7f4f75",
+        "filename": "models-interactions/model-actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmActorServiceProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-04T00:20:20Z",
+      "side": 1,
+      "message": "check with Daniel - should this be APPC-LCM?",
+      "revId": "a58a0e4eb80feb56f62db15511b90fa9cedd6106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3df44f45_299eab3c",
+        "filename": "models-interactions/model-actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmOperation.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-04T00:20:20Z",
+      "side": 1,
+      "message": "also originatorId?",
+      "revId": "a58a0e4eb80feb56f62db15511b90fa9cedd6106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d8260f7_def40928",
+        "filename": "models-interactions/model-actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmOperation.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-04T00:20:20Z",
+      "side": 1,
+      "message": "based on legacy lines 162 \u0026 163, need to determine if the operation supports a payload (use a virtual function for that) and then stick the converted value into appcRequest.setPayload().  The convertPayload() method does not need the action, though you could pass it the request so it can invoke appcRequest.setPayload()",
+      "revId": "a58a0e4eb80feb56f62db15511b90fa9cedd6106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d513a70_6e8a0f19",
+        "filename": "models-interactions/model-actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmOperation.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-04T00:20:20Z",
+      "side": 1,
+      "message": "I believe this field is required and the key should be \"vnf-id\"",
+      "revId": "a58a0e4eb80feb56f62db15511b90fa9cedd6106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ea30933_dbe458f0",
+        "filename": "models-interactions/model-actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmOperation.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-04T00:20:20Z",
+      "side": 1,
+      "message": "looks like other fields need to be set, too (legacy: lines 126-129)",
+      "revId": "a58a0e4eb80feb56f62db15511b90fa9cedd6106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ad8bb84_f097f17b",
+        "filename": "models-interactions/model-actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmOperation.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-04T00:20:20Z",
+      "side": 1,
+      "message": "second \"map\" is not needed",
+      "revId": "a58a0e4eb80feb56f62db15511b90fa9cedd6106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5484c278_f1c821a7",
+        "filename": "models-interactions/model-actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmOperation.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-04T00:20:20Z",
+      "side": 1,
+      "message": "should it continue in this case?  Or throw an Exception?",
+      "revId": "a58a0e4eb80feb56f62db15511b90fa9cedd6106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac633c89_dc5a3b5b",
+        "filename": "models-interactions/model-actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmOperation.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-04T00:20:20Z",
+      "side": 1,
+      "message": "per legacy line 252, this should use AppcLcmResponseCode.toResponseValue()",
+      "revId": "a58a0e4eb80feb56f62db15511b90fa9cedd6106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa88d28f_d955275f",
+        "filename": "models-interactions/model-actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmOperation.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-04T00:20:20Z",
+      "side": 1,
+      "message": "no point in logging these; they\u0027re already logged before this method is invoked",
+      "revId": "a58a0e4eb80feb56f62db15511b90fa9cedd6106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2b5ab67_8ae49cbc",
+        "filename": "models-interactions/model-actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmOperation.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-04T00:20:20Z",
+      "side": 1,
+      "message": "this should become an abstract method and the subclasses will implement it to return true/false",
+      "revId": "a58a0e4eb80feb56f62db15511b90fa9cedd6106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f0f914d_d6380a11",
+        "filename": "models-interactions/model-actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmOperation.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-04T00:20:20Z",
+      "side": 1,
+      "message": "delete",
+      "revId": "a58a0e4eb80feb56f62db15511b90fa9cedd6106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77fa0849_dd50f816",
+        "filename": "models-interactions/model-actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmOperation.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-04T00:20:20Z",
+      "side": 1,
+      "message": "this is no longer needed - makeRequest() is supposed to do all of this",
+      "revId": "a58a0e4eb80feb56f62db15511b90fa9cedd6106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
