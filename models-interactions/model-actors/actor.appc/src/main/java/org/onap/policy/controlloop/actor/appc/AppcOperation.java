@@ -25,6 +25,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import org.onap.aai.domain.yang.GenericVnf;
+import org.onap.policy.aai.AaiConstants;
+import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.appc.CommonHeader;
 import org.onap.policy.appc.Request;
 import org.onap.policy.appc.Response;
@@ -45,7 +48,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Superclass for APPC Operations.
  */
-public abstract class AppcOperation extends BidirectionalTopicOperation<Request, Response> {
+public class AppcOperation extends BidirectionalTopicOperation<Request, Response> {
     private static final Logger logger = LoggerFactory.getLogger(AppcOperation.class);
     private static final StandardCoder coder = new StandardCoderInstantAsMillis();
     public static final String VNF_ID_KEY = "generic-vnf.vnf-id";
@@ -70,22 +73,28 @@ public abstract class AppcOperation extends BidirectionalTopicOperation<Request,
     }
 
     /**
-     * Starts the GUARD.
+     * Ensures that A&AI customer query has been performed, and then runs the guard query.
      */
     @Override
+    @SuppressWarnings("unchecked")
     protected CompletableFuture<OperationOutcome> startPreprocessorAsync() {
-        return startGuardAsync();
+        ControlLoopOperationParams cqParams = params.toBuilder().actor(AaiConstants.ACTOR_NAME)
+                        .operation(AaiCqResponse.OPERATION).payload(null).retry(null).timeoutSec(null).build();
+
+        // run Custom Query and Guard, in parallel
+        return allOf(() -> params.getContext().obtain(AaiCqResponse.CONTEXT_KEY, cqParams), this::startGuardAsync);
     }
 
-    /**
-     * Makes a request, given the target VNF. This is a support function for
-     * {@link #makeRequest(int)}.
-     *
-     * @param attempt attempt number
-     * @param targetVnf target VNF
-     * @return a new request
-     */
-    protected Request makeRequest(int attempt, String targetVnf) {
+    @Override
+    protected Request makeRequest(int attempt) {
+        AaiCqResponse cq = params.getContext().getProperty(AaiCqResponse.CONTEXT_KEY);
+
+        GenericVnf genvnf = cq.getGenericVnfByModelInvariantId(params.getTarget().getResourceID());
+        if (genvnf == null) {
+            logger.info("{}: target entity could not be found for {}", getFullName(), params.getRequestId());
+            throw new IllegalArgumentException("target vnf-id could not be found");
+        }
+
         Request request = new Request();
         request.setCommonHeader(new CommonHeader());
         request.getCommonHeader().setRequestId(params.getRequestId());
@@ -103,7 +112,7 @@ public abstract class AppcOperation extends BidirectionalTopicOperation<Request,
         }
 
         // add/replace specific values
-        request.getPayload().put(VNF_ID_KEY, targetVnf);
+        request.getPayload().put(VNF_ID_KEY, genvnf.getVnfId());
 
         return request;
     }

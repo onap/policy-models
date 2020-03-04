@@ -27,7 +27,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -136,7 +135,7 @@ public class AppcServiceProviderTest extends BasicActor {
         assertEquals(-1, prov.getSequenceNumber());
 
         // verify that it has the operators we expect
-        var expected = Arrays.asList(ModifyConfigOperation.NAME).stream().sorted().collect(Collectors.toList());
+        var expected = AppcActorServiceProvider.OPERATION_NAMES.stream().sorted().collect(Collectors.toList());
         var actual = prov.getOperationNames().stream().sorted().collect(Collectors.toList());
 
         assertEquals(expected.toString(), actual.toString());

@@ -46,6 +46,15 @@ public class AppcActorServiceProvider extends BidirectionalTopicActor<Bidirectio
 
     private static final Logger logger = LoggerFactory.getLogger(AppcActorServiceProvider.class);
 
+    // Strings for recipes
+    private static final String OPERATION_RESTART = "Restart";
+    private static final String OPERATION_REBUILD = "Rebuild";
+    private static final String OPERATION_MIGRATE = "Migrate";
+    private static final String OPERATION_MODIFY = "ModifyConfig";
+
+    protected static final ImmutableList<String> OPERATION_NAMES =
+                    ImmutableList.of(OPERATION_RESTART, OPERATION_REBUILD, OPERATION_MIGRATE, OPERATION_MODIFY);
+
     // TODO old code: remove lines down to **HERE**
 
     private static final StandardCoder coder = new StandardCoder();
@@ -53,21 +62,13 @@ public class AppcActorServiceProvider extends BidirectionalTopicActor<Bidirectio
     // Strings for targets
     private static final String TARGET_VM = "VM";
     private static final String TARGET_VNF = "VNF";
-
-    // Strings for recipes
-    private static final String RECIPE_RESTART = "Restart";
-    private static final String RECIPE_REBUILD = "Rebuild";
-    private static final String RECIPE_MIGRATE = "Migrate";
-    private static final String RECIPE_MODIFY = "ModifyConfig";
-
-    private static final ImmutableList<String> recipes =
-                    ImmutableList.of(RECIPE_RESTART, RECIPE_REBUILD, RECIPE_MIGRATE, RECIPE_MODIFY);
-    private static final ImmutableMap<String, List<String>> targets = new ImmutableMap.Builder<String, List<String>>()
-                    .put(RECIPE_RESTART, ImmutableList.of(TARGET_VM)).put(RECIPE_REBUILD, ImmutableList.of(TARGET_VM))
-                    .put(RECIPE_MIGRATE, ImmutableList.of(TARGET_VM)).put(RECIPE_MODIFY, ImmutableList.of(TARGET_VNF))
-                    .build();
+    private static final ImmutableMap<String, List<String>> targets =
+                    new ImmutableMap.Builder<String, List<String>>().put(OPERATION_RESTART, ImmutableList.of(TARGET_VM))
+                                    .put(OPERATION_REBUILD, ImmutableList.of(TARGET_VM))
+                                    .put(OPERATION_MIGRATE, ImmutableList.of(TARGET_VM))
+                                    .put(OPERATION_MODIFY, ImmutableList.of(TARGET_VNF)).build();
     private static final ImmutableMap<String, List<String>> payloads = new ImmutableMap.Builder<String, List<String>>()
-                    .put(RECIPE_MODIFY, ImmutableList.of("generic-vnf.vnf-id")).build();
+                    .put(OPERATION_MODIFY, ImmutableList.of("generic-vnf.vnf-id")).build();
 
     // **HERE**
 
@@ -77,8 +78,10 @@ public class AppcActorServiceProvider extends BidirectionalTopicActor<Bidirectio
     public AppcActorServiceProvider() {
         super(NAME, BidirectionalTopicActorParams.class);
 
-        addOperator(new BidirectionalTopicOperator(NAME, ModifyConfigOperation.NAME, this, AppcOperation.SELECTOR_KEYS,
-                        ModifyConfigOperation::new));
+        for (String opname : OPERATION_NAMES) {
+            addOperator(new BidirectionalTopicOperator(NAME, opname, this, AppcOperation.SELECTOR_KEYS,
+                            AppcOperation::new));
+        }
     }
 
     /**
@@ -99,7 +102,7 @@ public class AppcActorServiceProvider extends BidirectionalTopicActor<Bidirectio
 
     @Override
     public List<String> recipes() {
-        return ImmutableList.copyOf(recipes);
+        return ImmutableList.copyOf(OPERATION_NAMES);
     }
 
     @Override

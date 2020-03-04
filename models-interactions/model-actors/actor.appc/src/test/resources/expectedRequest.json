@@ -7,7 +7,7 @@
     "RequestTrack": [],
     "Flags": []
   },
-  "Action": "ModifyConfig",
+  "Action": "default-operation",
   "Payload": {
     "my-key-B": {
       "output": "world"

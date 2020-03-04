@@ -22,19 +22,34 @@ package org.onap.policy.controlloop.actor.appc;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicBoolean;
 import org.junit.Before;
 import org.junit.Test;
+import org.onap.aai.domain.yang.GenericVnf;
+import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.appc.CommonHeader;
 import org.onap.policy.appc.Request;
 import org.onap.policy.appc.ResponseCode;
 import org.onap.policy.appc.ResponseStatus;
+import org.onap.policy.common.utils.coder.CoderException;
+import org.onap.policy.common.utils.coder.StandardCoderInstantAsMillis;
+import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicOperation.Status;
 import org.onap.policy.controlloop.policy.PolicyResult;
 
@@ -48,12 +63,7 @@ public class AppcOperationTest extends BasicAppcOperation {
     public void setUp() throws Exception {
         super.setUp();
 
-        oper = new AppcOperation(params, config) {
-            @Override
-            protected Request makeRequest(int attempt) {
-                return oper.makeRequest(attempt, MY_VNF);
-            }
-        };
+        oper = new AppcOperation(params, config);
     }
 
     @Test
@@ -63,16 +73,45 @@ public class AppcOperationTest extends BasicAppcOperation {
     }
 
     @Test
-    public void testStartPreprocessorAsync() {
-        assertNotNull(oper.startPreprocessorAsync());
+    public void testStartPreprocessorAsync() throws Exception {
+        CompletableFuture<OperationOutcome> future2 = new CompletableFuture<>();
+        context = mock(ControlLoopEventContext.class);
+        when(context.obtain(eq(AaiCqResponse.CONTEXT_KEY), any())).thenReturn(future2);
+        when(context.getEvent()).thenReturn(event);
+        params = params.toBuilder().context(context).build();
+
+        AtomicBoolean guardStarted = new AtomicBoolean();
+
+        oper = new AppcOperation(params, config) {
+            @Override
+            protected CompletableFuture<OperationOutcome> startGuardAsync() {
+                guardStarted.set(true);
+                return super.startGuardAsync();
+            }
+        };
+
+        CompletableFuture<OperationOutcome> future3 = oper.startPreprocessorAsync();
+        assertNotNull(future3);
+        assertFalse(future.isDone());
+        assertTrue(guardStarted.get());
+        verify(context).obtain(eq(AaiCqResponse.CONTEXT_KEY), any());
+
+        future2.complete(params.makeOutcome());
+        assertTrue(executor.runAll(100));
+        assertTrue(future3.isDone());
+        assertEquals(PolicyResult.SUCCESS, future3.get().getResult());
     }
 
     @Test
-    public void testMakeRequest() {
-        Request request = oper.makeRequest(2, MY_VNF);
+    public void testMakeRequest() throws CoderException {
+        final AaiCqResponse cq = populateCq();
+
+        Request request = oper.makeRequest(2);
+        assertNotNull(request);
         assertEquals(DEFAULT_OPERATION, request.getAction());
 
         assertNotNull(request.getPayload());
+        assertEquals(MY_VNF, request.getPayload().get(AppcOperation.VNF_ID_KEY));
 
         CommonHeader header = request.getCommonHeader();
         assertNotNull(header);
@@ -81,23 +120,25 @@ public class AppcOperationTest extends BasicAppcOperation {
         String subreq = header.getSubRequestId();
         assertNotNull(subreq);
 
+        verifyRequest("expectedRequest.json", request, IGNORE_FIELDS);
+
         // a subsequent request should have a different sub-request id
-        assertNotEquals(subreq, oper.makeRequest(2, MY_VNF).getCommonHeader().getSubRequestId());
+        assertNotEquals(subreq, oper.makeRequest(2).getCommonHeader().getSubRequestId());
 
         // repeat using a null payload
         params = params.toBuilder().payload(null).build();
-        oper = new AppcOperation(params, config) {
-            @Override
-            protected Request makeRequest(int attempt) {
-                return oper.makeRequest(attempt, MY_VNF);
-            }
-        };
-        assertEquals(Map.of(AppcOperation.VNF_ID_KEY, MY_VNF), oper.makeRequest(2, MY_VNF).getPayload());
+        oper = new AppcOperation(params, config);
+        assertEquals(Map.of(AppcOperation.VNF_ID_KEY, MY_VNF), oper.makeRequest(2).getPayload());
+
+        // missing vnf-id
+        cq.setInventoryResponseItems(Arrays.asList());
+        assertThatIllegalArgumentException().isThrownBy(() -> oper.makeRequest(1));
     }
 
     @Test
     public void testConvertPayload() {
-        Request request = oper.makeRequest(2, MY_VNF);
+        populateCq();
+        Request request = oper.makeRequest(2);
 
         // @formatter:off
         assertEquals(
@@ -116,13 +157,8 @@ public class AppcOperationTest extends BasicAppcOperation {
 
         params = params.toBuilder().payload(payload).build();
 
-        oper = new AppcOperation(params, config) {
-            @Override
-            protected Request makeRequest(int attempt) {
-                return oper.makeRequest(attempt, MY_VNF);
-            }
-        };
-        request = oper.makeRequest(2, MY_VNF);
+        oper = new AppcOperation(params, config);
+        request = oper.makeRequest(2);
 
         // @formatter:off
         assertEquals(
@@ -142,13 +178,8 @@ public class AppcOperationTest extends BasicAppcOperation {
         payload.put(KEY3, "def");
         params = params.toBuilder().payload(payload).build();
 
-        oper = new AppcOperation(params, config) {
-            @Override
-            protected Request makeRequest(int attempt) {
-                return oper.makeRequest(attempt, MY_VNF);
-            }
-        };
-        request = oper.makeRequest(2, MY_VNF);
+        oper = new AppcOperation(params, config);
+        request = oper.makeRequest(2);
 
         payload.put(AppcOperation.VNF_ID_KEY, MY_VNF);
         payload.put(KEY1, "abc");
@@ -160,7 +191,8 @@ public class AppcOperationTest extends BasicAppcOperation {
 
     @Test
     public void testGetExpectedKeyValues() {
-        Request request = oper.makeRequest(2, MY_VNF);
+        populateCq();
+        Request request = oper.makeRequest(2);
         assertEquals(Arrays.asList(request.getCommonHeader().getSubRequestId()),
                         oper.getExpectedKeyValues(50, request));
     }
@@ -221,5 +253,24 @@ public class AppcOperationTest extends BasicAppcOperation {
             assertEquals(result, outcome.getResult());
             assertEquals(MY_DESCRIPTION, outcome.getMessage());
         }
+    }
+
+    @Test
+    public void testMakeCoder() {
+        assertTrue(oper.makeCoder() instanceof StandardCoderInstantAsMillis);
+    }
+
+
+    protected AaiCqResponse populateCq() {
+        AaiCqResponse cq = new AaiCqResponse("{}");
+
+        params.getContext().setProperty(AaiCqResponse.CONTEXT_KEY, cq);
+
+        // populate the CQ data with a vnf-id
+        GenericVnf genvnf = new GenericVnf();
+        genvnf.setVnfId(MY_VNF);
+        genvnf.setModelInvariantId(RESOURCE_ID);
+        cq.setInventoryResponseItems(Arrays.asList(genvnf));
+        return cq;
     }
 }

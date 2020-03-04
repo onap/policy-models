@@ -35,4 +35,7 @@ actors:
     sinkTopic: my-sink
     sourceTopic: my-source
     operations:
+      Restart: {}
+      Rebuild: {}
+      Migrate: {}
       ModifyConfig: {}
