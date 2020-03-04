@@ -28,4 +28,6 @@ actors:
     clientName: my-client
     operations:
       VF Module Create:
-        path: serviceInstantiation/v7
+        path: serviceInstantiation/v7/serviceInstances
+      VF Module Delete:
+        path: serviceInstances/v7

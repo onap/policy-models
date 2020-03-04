@@ -164,7 +164,7 @@ public class VfModuleCreateTest extends BasicSoOperation {
 
         CompletableFuture<OperationOutcome> future2 = oper.start();
 
-        outcome = future2.get(500, TimeUnit.SECONDS);
+        outcome = future2.get(5, TimeUnit.SECONDS);
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
 
         assertEquals(origCount + 1, oper.getVfCount());
@@ -192,7 +192,7 @@ public class VfModuleCreateTest extends BasicSoOperation {
 
         CompletableFuture<OperationOutcome> future2 = oper.start();
 
-        outcome = future2.get(500, TimeUnit.SECONDS);
+        outcome = future2.get(5, TimeUnit.SECONDS);
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
     }
 
@@ -202,7 +202,7 @@ public class VfModuleCreateTest extends BasicSoOperation {
 
         // @formatter:off
         assertEquals(
-            "/serviceInstances/my-service-instance-id/vnfs/my-vnf-id/vfModules/scaleOut",
+            "/my-service-instance-id/vnfs/my-vnf-id/vfModules/scaleOut",
             pair.getLeft());
         // @formatter:on
 
