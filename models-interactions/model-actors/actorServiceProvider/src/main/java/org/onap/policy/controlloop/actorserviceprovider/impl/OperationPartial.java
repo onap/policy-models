@@ -534,7 +534,7 @@ public abstract class OperationPartial implements Operation {
                 logger.warn("{} canceled {}.{} for {}", type, outcome.getActor(), outcome.getOperation(),
                                 params.getRequestId());
             } else {
-                logger.warn("exception throw by {} {}.{} for {}", type, outcome.getActor(), outcome.getOperation(),
+                logger.warn("exception thrown by {} {}.{} for {}", type, outcome.getActor(), outcome.getOperation(),
                                 params.getRequestId(), thrown);
             }
 
