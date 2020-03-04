@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3292fc6d_8a195322",
+        "filename": "models-interactions/model-actors/actor.appc/src/test/java/org/onap/policy/controlloop/actor/appc/AppcServiceProviderTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-04T21:13:51Z",
+      "side": 1,
+      "message": "need to add a similar test to AppcLcm provider",
+      "revId": "7d1de8e56635fa4f919a67ee5c14c8a6543be6ba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ce69784_8854840a",
+        "filename": "models-interactions/model-actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmOperation.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-04T21:13:51Z",
+      "side": 1,
+      "message": "FYI: could combine all of these lines into a single line using:\n\n  Map.of(key, targetVnf)",
+      "revId": "7d1de8e56635fa4f919a67ee5c14c8a6543be6ba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f298e49a_df1eefae",
+        "filename": "models-interactions/model-actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmOperation.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-04T21:13:51Z",
+      "side": 1,
+      "message": "can make this void now",
+      "revId": "7d1de8e56635fa4f919a67ee5c14c8a6543be6ba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d953a7d8_f766cd2d",
+        "filename": "models-interactions/model-actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmOperation.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-04T21:13:51Z",
+      "side": 1,
+      "message": "can include \"e\" here and delete line 153",
+      "revId": "7d1de8e56635fa4f919a67ee5c14c8a6543be6ba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3740d02e_38aa58a2",
+        "filename": "models-interactions/model-actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmOperation.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-04T21:13:51Z",
+      "side": 1,
+      "message": "no longer needed",
+      "revId": "7d1de8e56635fa4f919a67ee5c14c8a6543be6ba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cd9a8d1_9450e7c5",
+        "filename": "models-interactions/model-actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/ConfigModifyOperation.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-04T21:13:51Z",
+      "side": 1,
+      "message": "as line 83 is no longer needed, these can be deleted, too",
+      "revId": "7d1de8e56635fa4f919a67ee5c14c8a6543be6ba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba5ba21a_8ff9f15c",
+        "filename": "models-interactions/model-actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/ConfigModifyOperation.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-04T21:13:51Z",
+      "side": 1,
+      "message": "if all of the operations (i.e., including Restart, Rebuild, etc.) do the same thing then this method and the one on line 70 can be moved to the common base class.  (I would have mentioned this sooner, but I just noticed the same issue in the APPC code I pushed.)",
+      "revId": "7d1de8e56635fa4f919a67ee5c14c8a6543be6ba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "212cf738_206405a3",
+        "filename": "models-interactions/model-actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/ConfigModifyOperation.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-04T21:13:51Z",
+      "side": 1,
+      "message": "maybe we should move this back into the base class as the default implementation.  Subclasses that don\u0027t support payloads can simply return \"false\"",
+      "revId": "7d1de8e56635fa4f919a67ee5c14c8a6543be6ba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5ff7dd2_721727e8",
+        "filename": "models-interactions/model-actors/actor.appclcm/src/test/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmOperationTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-04T21:13:51Z",
+      "side": 1,
+      "message": "these should probably not be static, as some tests modify them, which might break other tests; they can be initialized in @Before",
+      "revId": "7d1de8e56635fa4f919a67ee5c14c8a6543be6ba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
