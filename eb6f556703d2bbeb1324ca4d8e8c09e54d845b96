@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "860a9dda_cd900f22",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.controlloop.guard.Blacklist.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-03-05T16:04:02Z",
+      "side": 1,
+      "message": "I\u0027d like to delete this legacy Policy type",
+      "revId": "eb6f556703d2bbeb1324ca4d8e8c09e54d845b96",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1557e533_1afe0cee",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.controlloop.guard.FrequencyLimiter.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-03-05T16:04:02Z",
+      "side": 1,
+      "message": "I would like to delete this legacy (unused) policy type",
+      "revId": "eb6f556703d2bbeb1324ca4d8e8c09e54d845b96",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8b0c993_22112a7c",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.controlloop.guard.MinMax.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-03-05T16:04:02Z",
+      "side": 1,
+      "message": "I\u0027d like to delete this unused policy type",
+      "revId": "eb6f556703d2bbeb1324ca4d8e8c09e54d845b96",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
