@@ -33,6 +33,8 @@ import org.onap.policy.sdnc.SdncRequest;
 
 public class SdncOperationTest extends BasicSdncOperation {
 
+    private static final String MY_URI = "/my-uri";
+
     private SdncRequest request;
     private SdncOperation oper;
 
@@ -42,6 +44,9 @@ public class SdncOperationTest extends BasicSdncOperation {
     @Before
     public void setUp() throws Exception {
         super.setUp();
+
+        request = new SdncRequest();
+        request.setUrl(MY_URI);
 
         oper = new SdncOperation(params, config) {
             @Override
