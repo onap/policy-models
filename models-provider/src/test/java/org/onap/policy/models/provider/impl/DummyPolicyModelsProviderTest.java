@@ -40,7 +40,6 @@ import org.onap.policy.models.provider.PolicyModelsProviderParameters;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
-import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyInput;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
 
 /**
@@ -102,11 +101,6 @@ public class DummyPolicyModelsProviderTest {
         assertNotNull(dummyProvider.createOperationalPolicy(new LegacyOperationalPolicy()));
         assertNotNull(dummyProvider.updateOperationalPolicy(new LegacyOperationalPolicy()));
         assertNotNull(dummyProvider.deleteOperationalPolicy(POLICY_ID, "1"));
-
-        assertNotNull(dummyProvider.getGuardPolicy(POLICY_ID, "1"));
-        assertNotNull(dummyProvider.createGuardPolicy(new LegacyGuardPolicyInput()));
-        assertNotNull(dummyProvider.updateGuardPolicy(new LegacyGuardPolicyInput()));
-        assertNotNull(dummyProvider.deleteGuardPolicy(POLICY_ID, "1"));
 
         assertTrue(dummyProvider.getPdpGroups("name").isEmpty());
         assertTrue(dummyProvider.getFilteredPdpGroups(PdpGroupFilter.builder().build()).isEmpty());
