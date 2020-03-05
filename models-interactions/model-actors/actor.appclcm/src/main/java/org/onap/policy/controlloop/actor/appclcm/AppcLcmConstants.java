@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * AppcLcmOperation
+ * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
@@ -20,24 +20,24 @@
 
 package org.onap.policy.controlloop.actor.appclcm;
 
-import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-public class ConfigModifyOperation extends AppcLcmOperation {
+public class AppcLcmConstants {
 
-    private static final Logger logger = LoggerFactory.getLogger(ConfigModifyOperation.class);
+    // Strings for OPERATIONs
+    public static final String OPERATION_RESTART = "Restart";
+    public static final String OPERATION_REBUILD = "Rebuild";
+    public static final String OPERATION_MIGRATE = "Migrate";
+    public static final String OPERATION_CONFIG_MODIFY = "ConfigModify";
 
-    public static final String NAME = "ConfigModify";
+    public static final Set<String> OPERATION_NAMES =
+                    Set.of(OPERATION_RESTART, OPERATION_REBUILD, OPERATION_MIGRATE, OPERATION_CONFIG_MODIFY);
 
-    /**
-     * Constructs the object.
-     *
-     * @param params operation parameters
-     * @param config configuration for this operation
-     */
-    public ConfigModifyOperation(ControlLoopOperationParams params, BidirectionalTopicConfig config) {
-        super(params, config);
+    public static final Set<String> SUPPORTS_PAYLOAD =
+                    Set.of(OPERATION_CONFIG_MODIFY).stream().map(String::toLowerCase).collect(Collectors.toSet());
+
+    private AppcLcmConstants() {
+        // do nothing
     }
 }
