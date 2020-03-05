@@ -63,15 +63,15 @@ public class ToscaPolicyTypeFilterTest {
         "policytypes/onap.policies.optimization.resource.VnfPolicy.yaml",
         "policytypes/onap.policies.optimization.resource.PciPolicy.yaml",
         "policytypes/onap.policies.optimization.resource.OptimizationPolicy.yaml",
-        "policytypes/onap.policies.controlloop.guard.Blacklist.yaml",
+        "policytypes/onap.policies.controlloop.guard.common.Blacklist.yaml",
         "policytypes/onap.policies.monitoring.dcaegen2.collectors.datafile.datafile-app-server.yaml",
         "policytypes/onap.policies.optimization.resource.HpaPolicy.yaml",
         "policytypes/onap.policies.optimization.resource.Vim_fit.yaml",
         "policytypes/onap.policies.optimization.service.SubscriberPolicy.yaml",
         "policytypes/onap.policies.optimization.resource.AffinityPolicy.yaml",
         "policytypes/onap.policies.optimization.service.QueryPolicy.yaml",
-        "policytypes/onap.policies.controlloop.guard.MinMax.yaml",
-        "policytypes/onap.policies.controlloop.guard.FrequencyLimiter.yaml",
+        "policytypes/onap.policies.controlloop.guard.common.MinMax.yaml",
+        "policytypes/onap.policies.controlloop.guard.common.FrequencyLimiter.yaml",
         "policytypes/onap.policies.controlloop.guard.coordination.FirstBlocksSecond.yaml",
         "policytypes/onap.policies.Optimization.yaml",
         "policytypes/onap.policies.monitoring.cdap.tca.hi.lo.app.yaml"
@@ -149,8 +149,16 @@ public class ToscaPolicyTypeFilterTest {
         typeList.get(12).setVersion("2.0.0");
         filteredList = filter.filter(typeList);
         assertEquals(20, filteredList.size());
-        assertEquals("2.0.0", filteredList.get(11).getVersion());
-        assertEquals(VERSION_100, filteredList.get(18).getVersion());
+        //
+        // This seems to change around as to where this policy type
+        // got changed - perhaps we change this test to find a specific name
+        // to test for vs an index which never remains consistent?
+        //
+        assertEquals("2.0.0", filteredList.get(18).getVersion());
+        //
+        // And now this index changes again??
+        //
+        assertEquals(VERSION_100, filteredList.get(17).getVersion());
 
         typeList.get(12).setVersion(VERSION_100);
         filteredList = filter.filter(typeList);
