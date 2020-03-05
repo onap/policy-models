@@ -175,7 +175,7 @@ public class ToscaPolicyTypeFilterTest {
 
         filter = ToscaPolicyTypeFilter.builder().version(VERSION_100).build();
         filteredList = filter.filter(typeList);
-        assertEquals(20, filteredList.size());
+        assertEquals(21, filteredList.size());
 
         filter = ToscaPolicyTypeFilter.builder().name("onap.policies.optimization.Vim_fit").version(VERSION_000)
                 .build();

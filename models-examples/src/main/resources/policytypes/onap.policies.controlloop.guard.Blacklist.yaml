@@ -3,20 +3,14 @@ policy_types:
    onap.policies.controlloop.Guard:
       derived_from: tosca.policies.Root
       version: 1.0.0
-      description: Guard Policies for Control Loop Operational Policies
+      description: Legacy Guard Policies for Control Loop Operational Policies
    onap.policies.controlloop.guard.Blacklist:
       derived_from: onap.policies.controlloop.Guard
+      type_version: 1.0.0
       version: 1.0.0
-      description: Supports blacklist of VNF's from performing control loop actions on.
-      properties:
-         blacklist_policy:
-            type: map
-            description: null
-            entry_schema:
-               type: onap.datatypes.guard.Blacklist
-data_types:
-   onap.datatypes.guard.Blacklist:
-      derived_from: tosca.datatypes.Root
+      description: |
+          Legacy Blacklist Policy type that supports blacklist of VNF's from 
+          performing control loop actions on.
       properties:
          actor:
             type: string

@@ -3,20 +3,12 @@ policy_types:
    onap.policies.controlloop.Guard:
       derived_from: tosca.policies.Root
       version: 1.0.0
-      description: Guard Policies for Control Loop Operational Policies
+      description: Legacy Guard Policies for Control Loop Operational Policies
    onap.policies.controlloop.guard.MinMax:
       derived_from: onap.policies.controlloop.Guard
+      type_version: 1.0.0
       version: 1.0.0
-      description: Supports Min/Max number of VF Modules
-      properties:
-         minmax_policy:
-            type: map
-            description: null
-            entry_schema:
-               type: onap.datatypes.guard.MinMax
-data_types:
-   onap.datatypes.guard.MinMax:
-      derived_from: tosca.datatypes.Root
+      description: Legacy MinMax Policy Type that supports Min/Max number of VF Modules
       properties:
          actor:
             type: string

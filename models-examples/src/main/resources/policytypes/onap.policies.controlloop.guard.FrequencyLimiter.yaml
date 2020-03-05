@@ -3,20 +3,14 @@ policy_types:
    onap.policies.controlloop.Guard:
       derived_from: tosca.policies.Root
       version: 1.0.0
-      description: Guard Policies for Control Loop Operational Policies
+      description: Legacy Guard Policies for Control Loop Operational Policies
    onap.policies.controlloop.guard.FrequencyLimiter:
       derived_from: onap.policies.controlloop.Guard
+      type_version: 1.0.0
       version: 1.0.0
-      description: Supports limiting the frequency of actions being taken by a Actor.
-      properties:
-         frequency_policy:
-            type: map
-            description: null
-            entry_schema:
-               type: onap.datatypes.guard.FrequencyLimiter
-data_types:
-   onap.datatypes.guard.FrequencyLimiter:
-      derived_from: tosca.datatypes.Root
+      description: |
+          Legacy Frequency Limiter Policy Type that supports limiting the frequency 
+          of actions being taken by a Actor.
       properties:
          actor:
             type: string

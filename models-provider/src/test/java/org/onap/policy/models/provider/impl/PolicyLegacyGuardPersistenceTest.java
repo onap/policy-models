@@ -57,13 +57,13 @@ public class PolicyLegacyGuardPersistenceTest {
 
     // @formatter:off
     private String[] policyInputResourceNames = {
-        "policies/vDNS.policy.guard.frequency.input.json",
-        "policies/vDNS.policy.guard.minmax.input.json"
+        "policies/vDNS.policy.guard.frequency.legacy.input.json",
+        "policies/vDNS.policy.guard.minmax.legacy.input.json"
     };
 
     private String[] policyOutputResourceNames = {
-        "policies/vDNS.policy.guard.frequency.output.json",
-        "policies/vDNS.policy.guard.minmax.output.json"
+        "policies/vDNS.policy.guard.frequency.legacy.output.json",
+        "policies/vDNS.policy.guard.minmax.legacy.output.json"
     };
     // @formatter:on
 
