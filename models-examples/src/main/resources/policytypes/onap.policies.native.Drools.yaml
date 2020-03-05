@@ -6,7 +6,38 @@ policy_types:
         version: 1.0.0
     onap.policies.native.Drools:
         derived_from: onap.policies.Native
-        description: a policy type for native drools policies
+        description: a base policy type for all native PDP policies
+        version: 1.0.0
+    onap.policies.native.drools.Controller:
+        derived_from: onap.policies.native.Drools
+        description: a policy type for a drools controller configuration
+        version: 1.0.0
+        properties:
+            controllerName:
+                type: string
+                required: true
+                description: the drools controller name
+            sourceTopics:
+                type: list
+                required: false
+                description: all the source topices and configurations needed for the events coming under each topic
+                entry_schema:
+                    type: onap.datatypes.dmaap.topic
+            sinkTopics:
+                type: list
+                required: false
+                description: all the sink topices and configurations needed for the events sending under each topic
+                entry_schema:
+                    type: onap.datatypes.dmaap.topic
+            customConfig:
+                type: map
+                required: false
+                description: any use case specific configurations relevant to the drools controller
+                entry_schema:
+                    type: string
+    onap.policies.native.drools.Artifact:
+        derived_from: onap.policies.native.Drools
+        description: a policy type for native drools artifact policies
         version: 1.0.0
         properties:
             rulesArtifact:
@@ -19,6 +50,45 @@ policy_types:
                 description: the drools controller to which the current native policy is assigned
 
 data_types:
+    onap.datatypes.dmaap.topic:
+        derived_from: tosca.datatypes.Root
+        properties:
+            topicName:
+                type: string
+                required: true
+                description: the dmaap topic name
+            events:
+                type: list
+                required: true
+                description: events used by this topic
+                entry_schema:
+                    type: onap.datatypes.dmaap.events
+    onap.datatypes.dmaap.events:
+        derived_from: tosca.datatypes.Root
+        properties:
+            eventClass:
+                type: string
+                required: true
+                description: the event canonical class for serialization
+            eventFilter:
+                type: string
+                required: false
+                description: the JSONPath based condition to filter out the events to serialize
+            customSerialization:
+                type: onap.datatypes.dmaap.custom_serialization
+                required: false
+                description:  overrides the default serialization/deserialization mechanisms with custom ones
+    onap.datatypes.dmaap.custom_serialization:
+        derived_from: tosca.datatypes.Root
+        properties:
+            customSerializerClass:
+                type: string
+                required: true
+                description: the class that contains the JSON parser serializer/deserializer.
+            jsonParser:
+                type: string
+                required: true
+                description: static field in customSerialized class with the json parser (currently only gson supported)
     onap.datatypes.native.rules_artifact:
         derived_from: tosca.datatypes.Root
         properties:
