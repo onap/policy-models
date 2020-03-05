@@ -54,8 +54,8 @@ import org.yaml.snakeyaml.Yaml;
  */
 public class LegacyProvider4LegacyGuardTest {
     private static final String POLICY_ID_IS_NULL = "^policyId is marked .*on.*ull but is null$";
-    private static final String VDNS_OUTPUT_JSON = "policies/vDNS.policy.guard.frequency.output.json";
-    private static final String VDNS_INPUT_JSON = "policies/vDNS.policy.guard.frequency.input.json";
+    private static final String VDNS_OUTPUT_JSON = "policies/vDNS.policy.guard.frequency.legacy.output.json";
+    private static final String VDNS_INPUT_JSON = "policies/vDNS.policy.guard.frequency.legacy.input.json";
     private static final String LEGACY_POLICY_IS_NULL = "^legacyGuardPolicy is marked .*on.*ull but is null$";
     private static final String DAO_IS_NULL = "^dao is marked .*on.*ull but is null$";
     private PfDao pfDao;
