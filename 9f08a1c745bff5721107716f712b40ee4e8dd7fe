@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c60f865_557af0fc",
+        "filename": "models-interactions/model-actors/actor.appclcm/src/test/resources/configModify.json",
+        "patchSetId": 7
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-05T01:31:24Z",
+      "side": 1,
+      "message": "tabs \u003d\u003e spaces (assuming it doesn\u0027t break anything)",
+      "revId": "9f08a1c745bff5721107716f712b40ee4e8dd7fe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
