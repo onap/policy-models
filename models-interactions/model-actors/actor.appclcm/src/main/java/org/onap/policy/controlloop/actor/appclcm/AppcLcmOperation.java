@@ -31,9 +31,10 @@ import org.onap.policy.appclcm.AppcLcmBody;
 import org.onap.policy.appclcm.AppcLcmCommonHeader;
 import org.onap.policy.appclcm.AppcLcmDmaapWrapper;
 import org.onap.policy.appclcm.AppcLcmInput;
+import org.onap.policy.appclcm.AppcLcmOutput;
 import org.onap.policy.appclcm.AppcLcmResponseCode;
+import org.onap.policy.appclcm.AppcLcmResponseStatus;
 import org.onap.policy.common.utils.coder.CoderException;
-import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicOperation;
@@ -41,23 +42,21 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.Bidirectional
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.topic.SelectorKey;
 import org.onap.policy.controlloop.policy.PolicyResult;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-public abstract class AppcLcmOperation extends BidirectionalTopicOperation<AppcLcmDmaapWrapper, AppcLcmDmaapWrapper> {
+public class AppcLcmOperation extends BidirectionalTopicOperation<AppcLcmDmaapWrapper, AppcLcmDmaapWrapper> {
 
-    private static final Logger logger = LoggerFactory.getLogger(AppcLcmOperation.class);
-    private static final StandardCoder coder = new StandardCoder();
+    private static final String MISSING_STATUS = "APPC-LCM response is missing the response status";
     public static final String VNF_ID_KEY = "vnf-id";
 
     /**
      * Keys used to match the response with the request listener. The sub request ID is a
      * UUID, so it can be used to uniquely identify the response.
      * <p/>
-     * Note: if these change, then {@link #getExpectedKeyValues(int, Request)} must be
-     * updated accordingly.
+     * Note: if these change, then {@link #getExpectedKeyValues(int, AppcLcmDmaapWrapper)}
+     * must be updated accordingly.
      */
-    public static final List<SelectorKey> SELECTOR_KEYS = List.of(new SelectorKey("common-header", "sub-request-id"));
+    public static final List<SelectorKey> SELECTOR_KEYS =
+                    List.of(new SelectorKey("body", "input", "common-header", "sub-request-id"));
 
     /**
      * Constructs the object.
@@ -76,14 +75,11 @@ public abstract class AppcLcmOperation extends BidirectionalTopicOperation<AppcL
     @Override
     @SuppressWarnings("unchecked")
     protected CompletableFuture<OperationOutcome> startPreprocessorAsync() {
-        if (params != null) {
-            ControlLoopOperationParams cqParams = params.toBuilder().actor(AaiConstants.ACTOR_NAME)
-                    .operation(AaiCqResponse.OPERATION).payload(null).retry(null).timeoutSec(null).build();
+        ControlLoopOperationParams cqParams = params.toBuilder().actor(AaiConstants.ACTOR_NAME)
+                        .operation(AaiCqResponse.OPERATION).payload(null).retry(null).timeoutSec(null).build();
 
-            // run Custom Query and Guard, in parallel
-            return allOf(() -> params.getContext().obtain(AaiCqResponse.CONTEXT_KEY, cqParams), this::startGuardAsync);
-        }
-        return startGuardAsync();
+        // run Custom Query and Guard, in parallel
+        return allOf(() -> params.getContext().obtain(AaiCqResponse.CONTEXT_KEY, cqParams), this::startGuardAsync);
     }
 
     @Override
@@ -92,7 +88,6 @@ public abstract class AppcLcmOperation extends BidirectionalTopicOperation<AppcL
 
         GenericVnf genvnf = cq.getGenericVnfByModelInvariantId(params.getTarget().getResourceID());
         if (genvnf == null) {
-            logger.info("{}: target entity could not be found for {}", getFullName(), params.getRequestId());
             throw new IllegalArgumentException("target vnf-id could not be found");
         }
 
@@ -118,22 +113,21 @@ public abstract class AppcLcmOperation extends BidirectionalTopicOperation<AppcL
 
         AppcLcmInput inputRequest = new AppcLcmInput();
         inputRequest.setCommonHeader(header);
-        inputRequest.setAction(getName());
+
+        AppcLcmRecipeFormatter recipeFormatter = new AppcLcmRecipeFormatter(getName());
+        inputRequest.setAction(recipeFormatter.getBodyRecipe());
 
         /*
-         * Action Identifiers are required for APPC LCM requests. For R1, the recipes supported by
-         * Policy only require a vnf-id.
+         * Action Identifiers are required for APPC LCM requests. For R1, the recipes
+         * supported by Policy only require a vnf-id.
          */
-        if (inputRequest.getActionIdentifiers() != null) {
-            inputRequest.getActionIdentifiers().put(VNF_ID_KEY, targetVnf);
-        } else {
-            inputRequest.setActionIdentifiers(Map.of(VNF_ID_KEY, targetVnf));
-        }
+        inputRequest.setActionIdentifiers(Map.of(VNF_ID_KEY, targetVnf));
 
         /*
-         * For R1, the payloads will not be required for the Restart, Rebuild, or Migrate recipes.
-         * APPC will populate the payload based on A&AI look up of the vnd-id provided in the action
-         * identifiers. The payload is set when converPayload() is called.
+         * For R1, the payloads will not be required for the Restart, Rebuild, or Migrate
+         * recipes. APPC will populate the payload based on A&AI look up of the vnd-id
+         * provided in the action identifiers. The payload is set when converPayload() is
+         * called.
          */
         if (operationSupportsPayload()) {
             convertPayload(params.getPayload(), inputRequest);
@@ -143,9 +137,6 @@ public abstract class AppcLcmOperation extends BidirectionalTopicOperation<AppcL
 
         AppcLcmBody body = new AppcLcmBody();
         body.setInput(inputRequest);
-
-        AppcLcmRecipeFormatter recipeFormatter = new AppcLcmRecipeFormatter(getName());
-        inputRequest.setAction(recipeFormatter.getBodyRecipe());
 
         AppcLcmDmaapWrapper dmaapRequest = new AppcLcmDmaapWrapper();
         dmaapRequest.setBody(body);
@@ -166,14 +157,12 @@ public abstract class AppcLcmOperation extends BidirectionalTopicOperation<AppcL
      * @param source source from which to get the values
      * @param map where to place the decoded values
      */
-    private static void convertPayload(Map<String, Object> source, AppcLcmInput request) {
-        String encodedPayloadString = null;
+    private void convertPayload(Map<String, Object> source, AppcLcmInput request) {
         try {
-            encodedPayloadString = coder.encode(source);
+            String encodedPayloadString = makeCoder().encode(source);
             request.setPayload(encodedPayloadString);
         } catch (CoderException e) {
-            logger.error("Cannot convert payload. Error encoding source as a string.", e);
-            throw new IllegalArgumentException("Cannot convert payload. Error encoding source as a string.");
+            throw new IllegalArgumentException("Cannot convert payload", e);
         }
     }
 
@@ -187,16 +176,14 @@ public abstract class AppcLcmOperation extends BidirectionalTopicOperation<AppcL
 
     @Override
     protected Status detmStatus(String rawResponse, AppcLcmDmaapWrapper response) {
-        if (response == null || response.getBody() == null || response.getBody().getOutput() == null
-                || response.getBody().getOutput().getStatus() == null) {
-            throw new IllegalArgumentException("APPC-LCM response is missing the response status");
+        AppcLcmResponseStatus status = getStatus(response);
+        if (status == null) {
+            throw new IllegalArgumentException(MISSING_STATUS);
         }
 
-        String code = AppcLcmResponseCode.toResponseValue(response.getBody().getOutput().getStatus().getCode());
-
+        String code = AppcLcmResponseCode.toResponseValue(status.getCode());
         if (code == null) {
-            throw new IllegalArgumentException(
-                    "unknown APPC-LCM response status code: " + response.getBody().getOutput().getStatus().getCode());
+            throw new IllegalArgumentException("unknown APPC-LCM response status code: " + status.getCode());
         }
 
         switch (code) {
@@ -218,18 +205,52 @@ public abstract class AppcLcmOperation extends BidirectionalTopicOperation<AppcL
      */
     @Override
     public OperationOutcome setOutcome(OperationOutcome outcome, PolicyResult result, AppcLcmDmaapWrapper response) {
-        if (response == null || response.getBody() == null || response.getBody().getOutput() == null
-                || response.getBody().getOutput().getStatus() == null
-                || response.getBody().getOutput().getStatus().getMessage() == null) {
+        AppcLcmResponseStatus status = getStatus(response);
+        if (status == null) {
+            return setOutcome(outcome, result);
+        }
+
+        String message = status.getMessage();
+        if (message == null) {
             return setOutcome(outcome, result);
         }
 
         outcome.setResult(result);
-        outcome.setMessage(response.getBody().getOutput().getStatus().getMessage());
+        outcome.setMessage(message);
         return outcome;
     }
 
+    /**
+     * Gets the status from the response.
+     *
+     * @param response the response from which to extract the status, or {@code null}
+     * @return the status, or {@code null} if it does not exist
+     */
+    protected AppcLcmResponseStatus getStatus(AppcLcmDmaapWrapper response) {
+        if (response == null) {
+            return null;
+        }
+
+        AppcLcmBody body = response.getBody();
+        if (body == null) {
+            return null;
+        }
+
+        AppcLcmOutput output = body.getOutput();
+        if (output == null) {
+            return null;
+        }
+
+        return output.getStatus();
+    }
+
+    /**
+     * Determines if the operation supports a payload.
+     *
+     * @return {@code true} if the operation supports a payload, {@code false} otherwise
+     */
     protected boolean operationSupportsPayload() {
-        return params.getPayload() != null && !params.getPayload().isEmpty();
+        return params.getPayload() != null && !params.getPayload().isEmpty()
+                        && AppcLcmConstants.SUPPORTS_PAYLOAD.contains(params.getOperation().toLowerCase());
     }
 }
