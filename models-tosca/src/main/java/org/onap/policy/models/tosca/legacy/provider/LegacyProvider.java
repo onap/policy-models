@@ -22,7 +22,6 @@
 package org.onap.policy.models.tosca.legacy.provider;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.ws.rs.core.Response;
 
@@ -32,10 +31,7 @@ import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.dao.PfDao;
-import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyInput;
-import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyOutput;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
-import org.onap.policy.models.tosca.legacy.mapping.LegacyGuardPolicyMapper;
 import org.onap.policy.models.tosca.legacy.mapping.LegacyOperationalPolicyMapper;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicies;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicy;
@@ -149,99 +145,6 @@ public class LegacyProvider {
         LOGGER.debug("<-deleteOperationalPolicy: policyId={}, policyVersion={}, legacyOperationalPolicy={}", policyId,
                 policyVersion, legacyOperationalPolicy);
         return legacyOperationalPolicy;
-    }
-
-    /**
-     * Get legacy guard policy.
-     *
-     * @param dao the DAO to use to access the database
-     * @param policyId ID of the policy.
-     * @param policyVersion version of the policy.
-     * @return the policies found
-     * @throws PfModelException on errors getting policies
-     */
-    public Map<String, LegacyGuardPolicyOutput> getGuardPolicy(@NonNull final PfDao dao, @NonNull final String policyId,
-            final String policyVersion) throws PfModelException {
-
-        LOGGER.debug("->getGuardPolicy: policyId={}, policyVersion={}", policyId, policyVersion);
-
-        Map<String, LegacyGuardPolicyOutput> legacyGuardPolicyMap =
-                new LegacyGuardPolicyMapper().fromToscaServiceTemplate(getLegacyPolicy(dao, policyId, policyVersion));
-
-        LOGGER.debug("<-getGuardPolicy: policyId={}, policyVersion={}, legacyGuardPolicyMap={}", policyId,
-                policyVersion, legacyGuardPolicyMap);
-        return legacyGuardPolicyMap;
-    }
-
-    /**
-     * Create legacy guard policy.
-     *
-     * @param dao the DAO to use to access the database
-     * @param legacyGuardPolicy the definition of the policy to be created.
-     * @return the created policy
-     * @throws PfModelException on errors creating policies
-     */
-    public Map<String, LegacyGuardPolicyOutput> createGuardPolicy(@NonNull final PfDao dao,
-            @NonNull final LegacyGuardPolicyInput legacyGuardPolicy) throws PfModelException {
-
-        LOGGER.debug("->createGuardPolicy: legacyGuardPolicy={}", legacyGuardPolicy);
-
-        JpaToscaServiceTemplate incomingServiceTemplate =
-                new LegacyGuardPolicyMapper().toToscaServiceTemplate(legacyGuardPolicy);
-        JpaToscaServiceTemplate outgoingingServiceTemplate =
-                new SimpleToscaProvider().createPolicies(dao, incomingServiceTemplate);
-
-        Map<String, LegacyGuardPolicyOutput> createdLegacyGuardPolicyMap =
-                new LegacyGuardPolicyMapper().fromToscaServiceTemplate(outgoingingServiceTemplate);
-
-        LOGGER.debug("<-createGuardPolicy: createdLegacyGuardPolicyMap={}", createdLegacyGuardPolicyMap);
-        return createdLegacyGuardPolicyMap;
-    }
-
-    /**
-     * Update legacy guard policy.
-     *
-     * @param dao the DAO to use to access the database
-     * @param legacyGuardPolicy the definition of the policy to be updated
-     * @return the updated policy
-     * @throws PfModelException on errors updating policies
-     */
-    public Map<String, LegacyGuardPolicyOutput> updateGuardPolicy(@NonNull final PfDao dao,
-            @NonNull final LegacyGuardPolicyInput legacyGuardPolicy) throws PfModelException {
-
-        LOGGER.debug("->updateGuardPolicy: legacyGuardPolicy={}", legacyGuardPolicy);
-
-        JpaToscaServiceTemplate incomingServiceTemplate =
-                new LegacyGuardPolicyMapper().toToscaServiceTemplate(legacyGuardPolicy);
-        JpaToscaServiceTemplate outgoingingServiceTemplate =
-                new SimpleToscaProvider().updatePolicies(dao, incomingServiceTemplate);
-
-        Map<String, LegacyGuardPolicyOutput> updatedLegacyGuardPolicyMap =
-                new LegacyGuardPolicyMapper().fromToscaServiceTemplate(outgoingingServiceTemplate);
-
-        LOGGER.debug("<-updateGuardPolicy: updatedLegacyGuardPolicyMap={}", updatedLegacyGuardPolicyMap);
-        return updatedLegacyGuardPolicyMap;
-    }
-
-    /**
-     * Delete legacy guard policy.
-     *
-     * @param dao the DAO to use to access the database
-     * @param policyId ID of the policy.
-     * @param policyVersion version of the policy.
-     * @return the deleted policy
-     * @throws PfModelException on errors deleting policies
-     */
-    public Map<String, LegacyGuardPolicyOutput> deleteGuardPolicy(@NonNull final PfDao dao,
-            @NonNull final String policyId, @NonNull final String policyVersion) throws PfModelException {
-
-        LOGGER.debug("->deleteGuardPolicy: policyId={}, policyVersion={}", policyId, policyVersion);
-        Map<String, LegacyGuardPolicyOutput> legacyGuardPolicyMap = new LegacyGuardPolicyMapper()
-                .fromToscaServiceTemplate(deleteLegacyPolicy(dao, policyId, policyVersion));
-
-        LOGGER.debug("<-deleteGuardPolicy: policyId={}, policyVersion={}, legacyGuardPolicyMap={}", policyId,
-                policyVersion, legacyGuardPolicyMap);
-        return legacyGuardPolicyMap;
     }
 
     /**

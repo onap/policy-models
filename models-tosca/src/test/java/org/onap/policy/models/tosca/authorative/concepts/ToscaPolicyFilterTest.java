@@ -21,6 +21,7 @@
 
 package org.onap.policy.models.tosca.authorative.concepts;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -62,9 +63,6 @@ public class ToscaPolicyFilterTest {
         "policies/vCPE.policy.monitoring.input.tosca.json",
         "policies/vCPE.policy.monitoring.input.tosca.yaml",
         "policies/vCPE.policy.operational.input.tosca.yaml",
-        "policies/vDNS.policy.guard.frequency.input.tosca.json",
-        "policies/vDNS.policy.guard.frequency.input.tosca.yaml",
-        "policies/vDNS.policy.guard.minmax.input.tosca.yaml",
         "policies/vDNS.policy.monitoring.input.tosca.json",
         "policies/vDNS.policy.monitoring.input.tosca.yaml",
         "policies/vDNS.policy.operational.input.tosca.yaml",
@@ -147,26 +145,71 @@ public class ToscaPolicyFilterTest {
         ToscaPolicyFilter filter = ToscaPolicyFilter.builder().version(ToscaPolicyFilter.LATEST_VERSION).build();
 
         List<ToscaPolicy> filteredList = filter.filter(policyList);
-        assertEquals(22, filteredList.size());
+        assertEquals(20, filteredList.size());
         assertEquals(VERSION_100, filteredList.get(7).getVersion());
         assertEquals(VERSION_100, filteredList.get(12).getVersion());
 
-        assertEquals(23, policyList.size());
-        assertEquals(22, filteredList.size());
+        assertEquals(20, policyList.size());
+        assertEquals(20, filteredList.size());
 
-        policyList.get(10).setVersion("2.0.0");
-        policyList.get(16).setVersion("3.4.5");
+        //
+        // Change versions to a couple of policies
+        //
+        policyList.forEach(policy -> {
+            if ("onap.vfirewall.tca".equals(policy.getName())) {
+                policy.setVersion("2.0.0");
+            } else if ("operational.modifyconfig".equals(policy.getName())) {
+                policy.setVersion("3.4.5");
+            }
+        });
+        //
+        // We'll still get back the same number of policies
+        //
         filteredList = filter.filter(policyList);
-        assertEquals(22, filteredList.size());
-        assertEquals("2.0.0", filteredList.get(12).getVersion());
-        assertEquals("3.4.5", filteredList.get(14).getVersion());
+        assertEquals(20, filteredList.size());
+        //
+        // Assert that the correct versions are returned
+        //
+        policyList.forEach(policy -> {
+            if ("onap.vfirewall.tca".equals(policy.getName())) {
+                assertThat(policy.getVersion()).isEqualTo("2.0.0");
+            } else if ("operational.modifyconfig".equals(policy.getName())) {
+                assertThat(policy.getVersion()).isEqualTo("3.4.5");
+            } else if ("operational.scaleout".equals(policy.getName())) {
+                assertThat(policy.getVersion()).isEqualTo(VERSION_000);
+            } else {
+                assertThat(policy.getVersion()).isEqualTo(VERSION_100);
+            }
+        });
 
-        policyList.get(10).setVersion(VERSION_100);
-        policyList.get(16).setVersion(VERSION_100);
+        //
+        // Change versions back
+        //
+        policyList.forEach(policy -> {
+            if ("onap.vfirewall.tca".equals(policy.getName())) {
+                policy.setVersion(VERSION_100);
+            } else if ("operational.modifyconfig".equals(policy.getName())) {
+                policy.setVersion(VERSION_100);
+            }
+        });
+        //
+        // We'll still get back the same number of policies
+        //
         filteredList = filter.filter(policyList);
-        assertEquals(22, filteredList.size());
-        assertEquals(VERSION_100, filteredList.get(12).getVersion());
-        assertEquals(VERSION_100, filteredList.get(14).getVersion());
+        assertEquals(20, filteredList.size());
+        //
+        // Assert that the correct versions are returned
+        //
+        policyList.forEach(policy -> {
+            //
+            // Should we fix this to be 1.0.0??
+            //
+            if ("operational.scaleout".equals(policy.getName())) {
+                assertThat(policy.getVersion()).isEqualTo(VERSION_000);
+            } else {
+                assertThat(policy.getVersion()).isEqualTo(VERSION_100);
+            }
+        });
     }
 
     @Test
@@ -175,9 +218,10 @@ public class ToscaPolicyFilterTest {
         List<ToscaPolicy> filteredList = filter.filter(policyList);
         assertEquals(1, filteredList.size());
 
+        // TODO add back in new guard policies
         filter = ToscaPolicyFilter.builder().name("guard.frequency.scaleout").build();
         filteredList = filter.filter(policyList);
-        assertEquals(2, filteredList.size());
+        assertEquals(0, filteredList.size());
 
         filter = ToscaPolicyFilter.builder().name("guard.frequency.scalein").build();
         filteredList = filter.filter(policyList);
@@ -185,7 +229,7 @@ public class ToscaPolicyFilterTest {
 
         filter = ToscaPolicyFilter.builder().version(VERSION_100).build();
         filteredList = filter.filter(policyList);
-        assertEquals(21, filteredList.size());
+        assertEquals(19, filteredList.size());
 
         filter = ToscaPolicyFilter.builder().name("OSDF_CASABLANCA.SubscriberPolicy_v1").version(VERSION_100).build();
         filteredList = filter.filter(policyList);
@@ -193,7 +237,7 @@ public class ToscaPolicyFilterTest {
 
         filter = ToscaPolicyFilter.builder().name("operational.modifyconfig").version(VERSION_100).build();
         filteredList = filter.filter(policyList);
-        assertEquals(0, filteredList.size());
+        assertEquals(1, filteredList.size());
     }
 
     @Test
@@ -201,11 +245,11 @@ public class ToscaPolicyFilterTest {
         // null pattern
         ToscaPolicyFilter filter = ToscaPolicyFilter.builder().versionPrefix(null).build();
         List<ToscaPolicy> filteredList = filter.filter(policyList);
-        assertEquals(23, filteredList.size());
+        assertEquals(20, filteredList.size());
 
         filter = ToscaPolicyFilter.builder().versionPrefix("1.").build();
         filteredList = filter.filter(policyList);
-        assertEquals(21, filteredList.size());
+        assertEquals(18, filteredList.size());
 
         filter = ToscaPolicyFilter.builder().versionPrefix("100.").build();
         filteredList = filter.filter(policyList);
@@ -236,7 +280,7 @@ public class ToscaPolicyFilterTest {
 
         filter = ToscaPolicyFilter.builder().typeVersion(VERSION_000).build();
         filteredList = filter.filter(policyList);
-        assertEquals(3, filteredList.size());
+        assertEquals(0, filteredList.size());
 
         filter = ToscaPolicyFilter.builder().type("onap.policies.optimization.resource.HpaPolicy")
                 .typeVersion(VERSION_100).build();

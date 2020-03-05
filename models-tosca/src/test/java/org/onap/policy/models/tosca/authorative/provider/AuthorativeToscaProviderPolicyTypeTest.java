@@ -219,6 +219,9 @@ public class AuthorativeToscaProviderPolicyTypeTest {
         assertEquals(true, beforePolicyType.getName().equals(createdPolicyType.getName()));
         assertEquals(0, ObjectUtils.compare(beforePolicyType.getDescription(), createdPolicyType.getDescription()));
 
+        //
+        // PLD - I don't know why this is throwing PfModelRuntimeException - validation of model failed?
+        //
         ToscaServiceTemplate gotServiceTemplate =
                 new AuthorativeToscaProvider().getFilteredPolicyTypes(pfDao, ToscaPolicyTypeFilter.builder().build());
 
