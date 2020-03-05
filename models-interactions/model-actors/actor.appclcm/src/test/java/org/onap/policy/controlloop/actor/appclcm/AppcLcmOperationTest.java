@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * AppcLcmOperation
+ * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
@@ -22,171 +22,291 @@ package org.onap.policy.controlloop.actor.appclcm;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.atLeast;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.mockito.Mockito;
 import org.onap.policy.appclcm.AppcLcmBody;
 import org.onap.policy.appclcm.AppcLcmCommonHeader;
 import org.onap.policy.appclcm.AppcLcmDmaapWrapper;
-import org.onap.policy.appclcm.AppcLcmInput;
 import org.onap.policy.appclcm.AppcLcmOutput;
 import org.onap.policy.appclcm.AppcLcmResponseStatus;
-import org.onap.policy.controlloop.VirtualControlLoopEvent;
+import org.onap.policy.common.utils.coder.Coder;
+import org.onap.policy.common.utils.coder.CoderException;
+import org.onap.policy.common.utils.coder.StandardCoder;
+import org.onap.policy.controlloop.ControlLoopOperation;
+import org.onap.policy.controlloop.actor.test.BasicBidirectionalTopicOperation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicOperation.Status;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.policy.PolicyResult;
-import org.powermock.reflect.Whitebox;
+import org.onap.policy.controlloop.policy.Target;
 
-public class AppcLcmOperationTest {
-    private AppcLcmInput mockInput;
-    private AppcLcmOutput mockOutput;
-    private AppcLcmBody mockBody;
-    private AppcLcmDmaapWrapper mockInputWrapper;
-    private AppcLcmDmaapWrapper mockOutputWrapper;
-    private OperationOutcome mockOperationOutcome;
-    private AppcLcmOperation operation;
-    private AppcLcmResponseStatus mockResponseStatus;
-    private AppcLcmCommonHeader mockCommonHeader;
-    private ControlLoopOperationParams mockParams;
-    private ControlLoopEventContext mockContext;
-    private VirtualControlLoopEvent mockEvent;
+public class AppcLcmOperationTest extends BasicBidirectionalTopicOperation {
+
+    private static final String EXPECTED_EXCEPTION = "expected exception";
+    private static final String PAYLOAD_KEY1 = "key-A";
+    private static final String PAYLOAD_VALUE1 = "value-A";
+    private static final String MY_MESSAGE = "my-message";
+    protected static final String MY_VNF = "my-vnf";
+    protected static final String RESOURCE_ID = "my-resource";
+    private static final int SUCCESS_CODE = 400;
+
+    private AppcLcmDmaapWrapper response;
+    private AppcLcmOperation oper;
 
     /**
-     * Setup mocks for testing.
+     * Sets up.
      */
     @Before
-    public void setup() {
-        mockInput = Mockito.mock(AppcLcmInput.class);
-        mockOutput = Mockito.mock(AppcLcmOutput.class);
-        mockBody = Mockito.mock(AppcLcmBody.class);
-        mockContext = Mockito.mock(ControlLoopEventContext.class);
-        mockEvent = Mockito.mock(VirtualControlLoopEvent.class);
-        mockInputWrapper = Mockito.mock(AppcLcmDmaapWrapper.class);
-        mockOutputWrapper = Mockito.mock(AppcLcmDmaapWrapper.class);
-        mockOperationOutcome = Mockito.mock(OperationOutcome.class);
-        mockResponseStatus = Mockito.mock(AppcLcmResponseStatus.class);
-        mockCommonHeader = Mockito.mock(AppcLcmCommonHeader.class);
-        mockParams = Mockito.mock(ControlLoopOperationParams.class);
-        operation = Mockito.mock(AppcLcmOperation.class);
+    public void setUp() {
+        super.setUpBasic();
+
+        response = makeResponse();
+
+        oper = new AppcLcmOperation(params, config);
     }
 
     @Test
-    public void testStartPreprocessorAsync() {
-        Mockito.doCallRealMethod().when(operation).startPreprocessorAsync();
-        assertNull(operation.startPreprocessorAsync());
+    public void testConstructor() {
+        assertEquals(DEFAULT_ACTOR, oper.getActorName());
+        assertEquals(DEFAULT_OPERATION, oper.getName());
+
+        // missing target entity
+        params = params.toBuilder().targetEntity("").build();
+        assertThatIllegalArgumentException().isThrownBy(() -> new AppcLcmOperation(params, config))
+                        .withMessage("missing targetEntity");
     }
 
-    @Ignore
+    @Test
+    public void testStartPreprocessorAsync() throws Exception {
+        context = mock(ControlLoopEventContext.class);
+        when(context.getEvent()).thenReturn(event);
+        params = params.toBuilder().context(context).build();
+
+        AtomicBoolean guardStarted = new AtomicBoolean();
+
+        oper = new AppcLcmOperation(params, config) {
+            @Override
+            protected CompletableFuture<OperationOutcome> startGuardAsync() {
+                guardStarted.set(true);
+                return super.startGuardAsync();
+            }
+        };
+
+        CompletableFuture<OperationOutcome> future2 = oper.startPreprocessorAsync();
+        assertNotNull(future2);
+        assertFalse(future.isDone());
+        assertTrue(guardStarted.get());
+
+        assertTrue(executor.runAll(100));
+        assertTrue(future2.isDone());
+        assertEquals(PolicyResult.SUCCESS, future2.get().getResult());
+    }
+
     @Test
     public void testMakeRequest() {
-        UUID randomId = UUID.randomUUID();
-        Mockito.doCallRealMethod().when(operation).makeRequest(1, "sampleTargetVnf");
-        Mockito.when(mockParams.getRequestId()).thenReturn(randomId);
-        Mockito.when(mockParams.getPayload()).thenReturn(null);
-        Mockito.when(mockParams.getContext()).thenReturn(mockContext);
-        Mockito.when(mockParams.getOperation()).thenReturn("Config-Modify");
-        Mockito.when(mockContext.getEvent()).thenReturn(mockEvent);
-        Mockito.when(mockEvent.getRequestId()).thenReturn(randomId);
-        Whitebox.setInternalState(operation, "params", mockParams);
-        assertNotNull(operation.makeRequest(1, "sampleTargetVnf"));
-        Mockito.verify(mockParams, atLeast(1)).getRequestId();
-        Mockito.verify(mockParams, atLeast(1)).getPayload();
-        Mockito.verify(mockParams, atLeast(1)).getContext();
-        Mockito.verify(mockContext, atLeast(1)).getEvent();
-        Mockito.verify(mockEvent, atLeast(1)).getRequestId();
+        AppcLcmDmaapWrapper request = oper.makeRequest(2);
+        assertEquals("DefaultOperation", request.getBody().getInput().getAction());
+
+        AppcLcmCommonHeader header = request.getBody().getInput().getCommonHeader();
+        assertNotNull(header);
+        assertEquals(params.getRequestId(), header.getRequestId());
+
+        String subreq = header.getSubRequestId();
+        assertNotNull(subreq);
+
+        assertEquals("{vnf-id=my-target}", request.getBody().getInput().getActionIdentifiers().toString());
+
+        // a subsequent request should have a different sub-request id
+        assertNotEquals(subreq, oper.makeRequest(2).getBody().getInput().getCommonHeader().getSubRequestId());
+    }
+
+    @Test
+    public void testConvertPayload() {
+        // only builds a payload for ConfigModify
+        params = params.toBuilder().operation(AppcLcmConstants.OPERATION_CONFIG_MODIFY).build();
+        oper = new AppcLcmOperation(params, config);
+
+        AppcLcmDmaapWrapper req = oper.makeRequest(2);
+        assertEquals("{\"key-A\":\"value-A\"}", req.getBody().getInput().getPayload());
+
+        // coder exception
+        oper = new AppcLcmOperation(params, config) {
+            @Override
+            protected Coder makeCoder() {
+                return new StandardCoder() {
+                    @Override
+                    public String encode(Object object) throws CoderException {
+                        throw new CoderException(EXPECTED_EXCEPTION);
+                    }
+                };
+            }
+        };
+
+        assertThatIllegalArgumentException().isThrownBy(() -> oper.makeRequest(2))
+                        .withMessage("Cannot convert payload");
     }
 
     @Test
     public void testGetExpectedKeyValues() {
-        Mockito.doCallRealMethod().when(operation).getExpectedKeyValues(1, mockInputWrapper);
-        Mockito.when(mockInputWrapper.getBody()).thenReturn(mockBody);
-        Mockito.when(mockBody.getInput()).thenReturn(mockInput);
-        Mockito.when(mockInput.getCommonHeader()).thenReturn(mockCommonHeader);
-        Mockito.when(mockCommonHeader.getSubRequestId()).thenReturn("sampleSubRequestId");
-
-        List<String> retList = operation.getExpectedKeyValues(1, mockInputWrapper);
-        assertNotNull(retList);
-        assertEquals(1, retList.size());
-
-        Mockito.verify(mockInputWrapper, atLeast(1)).getBody();
-        Mockito.verify(mockBody, atLeast(1)).getInput();
-        Mockito.verify(mockInput, atLeast(1)).getCommonHeader();
-        Mockito.verify(mockCommonHeader, atLeast(1)).getSubRequestId();
+        AppcLcmDmaapWrapper request = oper.makeRequest(2);
+        assertEquals(Arrays.asList(request.getBody().getInput().getCommonHeader().getSubRequestId()),
+                        oper.getExpectedKeyValues(50, request));
     }
 
     @Test
     public void testDetmStatus() {
-        Mockito.doCallRealMethod().when(operation).detmStatus("testResponse", mockOutputWrapper);
-        Mockito.when(mockOutputWrapper.getBody()).thenReturn(mockBody);
-        Mockito.when(mockBody.getOutput()).thenReturn(mockOutput);
-        Mockito.when(mockOutput.getStatus()).thenReturn(mockResponseStatus);
-        Mockito.when(mockResponseStatus.getCode()).thenReturn(100);
-        Status retStatus = operation.detmStatus("testResponse", mockOutputWrapper);
-        assertEquals(Status.STILL_WAITING, retStatus);
+        assertEquals(Status.SUCCESS, oper.detmStatus(null, response));
 
-        Mockito.when(mockResponseStatus.getCode()).thenReturn(400);
-        retStatus = operation.detmStatus("testResponse", mockOutputWrapper);
-        assertEquals(Status.SUCCESS, retStatus);
+        // failure
+        response.getBody().getOutput().getStatus().setCode(405);
+        assertEquals(Status.FAILURE, oper.detmStatus(null, response));
 
-        Mockito.when(mockResponseStatus.getCode()).thenReturn(450);
-        retStatus = operation.detmStatus("testResponse", mockOutputWrapper);
-        assertEquals(Status.FAILURE, retStatus);
+        // error
+        response.getBody().getOutput().getStatus().setCode(200);
+        assertThatIllegalArgumentException().isThrownBy(() -> oper.detmStatus(null, response));
 
-        Mockito.when(mockOutput.getStatus()).thenReturn(null);
-        assertThatIllegalArgumentException().isThrownBy(() -> operation.detmStatus("testResponse", mockOutputWrapper));
+        // reject
+        response.getBody().getOutput().getStatus().setCode(305);
+        assertThatIllegalArgumentException().isThrownBy(() -> oper.detmStatus(null, response));
 
-        Mockito.when(mockResponseStatus.getCode()).thenReturn(200);
-        assertThatIllegalArgumentException().isThrownBy(() -> operation.detmStatus("testResponse", mockOutputWrapper));
+        // accepted
+        response.getBody().getOutput().getStatus().setCode(100);
+        assertEquals(Status.STILL_WAITING, oper.detmStatus(null, response));
 
-        Mockito.verify(mockOutputWrapper, atLeast(1)).getBody();
-        Mockito.verify(mockBody, atLeast(1)).getOutput();
-        Mockito.verify(mockOutput, atLeast(1)).getStatus();
-        Mockito.verify(mockResponseStatus, atLeast(1)).getCode();
+        // other
+        response.getBody().getOutput().getStatus().setCode(-1);
+        assertThatIllegalArgumentException().isThrownBy(() -> oper.detmStatus(null, response));
+
+        // null status
+        response.getBody().getOutput().setStatus(null);
+        assertThatIllegalArgumentException().isThrownBy(() -> oper.detmStatus(null, response));
     }
 
     @Test
     public void testSetOutcome() {
-        Mockito.doCallRealMethod().when(operation).setOutcome(mockOperationOutcome, PolicyResult.SUCCESS,
-                mockOutputWrapper);
-        Mockito.doCallRealMethod().when(operation).setOutcome(mockOperationOutcome, PolicyResult.FAILURE,
-                mockOutputWrapper);
+        oper.setOutcome(outcome, PolicyResult.SUCCESS, response);
+        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(MY_MESSAGE, outcome.getMessage());
 
-        Mockito.doCallRealMethod().when(mockOperationOutcome).setResult(any(PolicyResult.class));
-        Mockito.doCallRealMethod().when(mockOperationOutcome).setMessage(any(String.class));
-        Mockito.doCallRealMethod().when(mockOperationOutcome).getResult();
-        Mockito.doCallRealMethod().when(mockOperationOutcome).getMessage();
+        // failure
+        oper.setOutcome(outcome, PolicyResult.FAILURE, response);
+        assertEquals(PolicyResult.FAILURE, outcome.getResult());
+        assertEquals(MY_MESSAGE, outcome.getMessage());
 
-        Mockito.when(mockOutputWrapper.getBody()).thenReturn(mockBody);
-        Mockito.when(mockBody.getOutput()).thenReturn(mockOutput);
-        Mockito.when(mockOutput.getStatus()).thenReturn(mockResponseStatus);
-        Mockito.when(mockResponseStatus.getMessage()).thenReturn(null);
+        // null message
+        response.getBody().getOutput().getStatus().setMessage(null);
+        oper.setOutcome(outcome, PolicyResult.SUCCESS, response);
+        assertEquals(ControlLoopOperation.SUCCESS_MSG, outcome.getMessage());
 
-        OperationOutcome result = operation.setOutcome(mockOperationOutcome, PolicyResult.SUCCESS, mockOutputWrapper);
-        assertNull(result);
-        Mockito.verify(operation).setOutcome(mockOperationOutcome, PolicyResult.SUCCESS, mockOutputWrapper);
-
-        Mockito.when(mockOutput.getStatus()).thenReturn(mockResponseStatus);
-        Mockito.when(mockResponseStatus.getMessage()).thenReturn("sampleMessage");
-        result = operation.setOutcome(mockOperationOutcome, PolicyResult.FAILURE, mockOutputWrapper);
-        assertEquals(PolicyResult.FAILURE, result.getResult());
-        assertNotNull(result.getMessage());
-
-        Mockito.verify(mockOutputWrapper, atLeast(1)).getBody();
-        Mockito.verify(mockBody, atLeast(1)).getOutput();
-        Mockito.verify(mockOutput, atLeast(1)).getStatus();
-        Mockito.verify(mockResponseStatus, atLeast(1)).getMessage();
-        Mockito.verify(operation, atLeast(1)).setOutcome(mockOperationOutcome, PolicyResult.SUCCESS, mockOutputWrapper);
-        Mockito.verify(operation, atLeast(1)).setOutcome(mockOperationOutcome, PolicyResult.FAILURE, mockOutputWrapper);
+        // null status
+        response.getBody().getOutput().setStatus(null);
+        oper.setOutcome(outcome, PolicyResult.SUCCESS, response);
+        assertEquals(ControlLoopOperation.SUCCESS_MSG, outcome.getMessage());
     }
 
+    @Test
+    public void testGetStatus() {
+        assertNotNull(oper.getStatus(response));
+
+        // null status
+        response.getBody().getOutput().setStatus(null);
+        assertNull(oper.getStatus(response));
+
+        // null outcome
+        response.getBody().setOutput(null);
+        assertNull(oper.getStatus(response));
+
+        // null body
+        response.setBody(null);
+        assertNull(oper.getStatus(response));
+
+        // null response
+        assertNull(oper.getStatus(null));
+    }
+
+    @Test
+    public void testOperationSupportsPayload() {
+        // these should support a payload
+        Set<String> supported = Set.of(AppcLcmConstants.OPERATION_CONFIG_MODIFY);
+
+        for (String name : supported) {
+            params = params.toBuilder().operation(name).build();
+            oper = new AppcLcmOperation(params, config);
+            assertTrue(name, oper.operationSupportsPayload());
+        }
+
+        // these should NOT support a payload
+        Set<String> unsupported = AppcLcmConstants.OPERATION_NAMES.stream().filter(name -> !supported.contains(name))
+                        .collect(Collectors.toSet());
+
+        for (String name : unsupported) {
+            params = params.toBuilder().operation(name).build();
+            oper = new AppcLcmOperation(params, config);
+            assertFalse(name, oper.operationSupportsPayload());
+        }
+
+        // pick an operation that would ordinarily support payloads
+        String sup = supported.iterator().next();
+
+        // verify that it still supports payload
+        params = params.toBuilder().operation(sup).build();
+        oper = new AppcLcmOperation(params, config);
+        assertTrue(oper.operationSupportsPayload());
+
+        // try with empty payload
+        params = params.toBuilder().payload(Map.of()).build();
+        oper = new AppcLcmOperation(params, config);
+        assertFalse(oper.operationSupportsPayload());
+
+        // try with null payload
+        params = params.toBuilder().payload(null).build();
+        oper = new AppcLcmOperation(params, config);
+        assertFalse(oper.operationSupportsPayload());
+    }
+
+    @Override
+    protected void makeContext() {
+        super.makeContext();
+
+        Target target = new Target();
+        target.setResourceID(RESOURCE_ID);
+
+        params = params.toBuilder().target(target).build();
+    }
+
+    @Override
+    protected Map<String, Object> makePayload() {
+        return Map.of(PAYLOAD_KEY1, PAYLOAD_VALUE1);
+    }
+
+    private AppcLcmDmaapWrapper makeResponse() {
+        AppcLcmDmaapWrapper response = new AppcLcmDmaapWrapper();
+
+        AppcLcmBody body = new AppcLcmBody();
+        response.setBody(body);
+
+        AppcLcmOutput output = new AppcLcmOutput();
+        body.setOutput(output);
+
+        AppcLcmResponseStatus status = new AppcLcmResponseStatus();
+        output.setStatus(status);
+        status.setMessage(MY_MESSAGE);
+        status.setCode(SUCCESS_CODE);
+
+        return response;
+    }
 }

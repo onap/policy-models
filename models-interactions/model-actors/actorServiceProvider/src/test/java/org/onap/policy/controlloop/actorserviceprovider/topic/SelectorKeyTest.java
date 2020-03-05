@@ -83,6 +83,11 @@ public class SelectorKeyTest {
         assertNull(new SelectorKey().extractField(sco));
     }
 
+    @Test
+    public void testToString() {
+        assertEquals("[map, abc]", key.toString());
+    }
+
     @Getter
     @Setter
     @Builder

@@ -49,6 +49,12 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
+     <groupId>org.onap.policy.models.policy-models-interactions.model-actors</groupId>
+      <artifactId>actor.appc</artifactId>
+      <version>${project.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
       <scope>test</scope>
@@ -69,6 +75,12 @@
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-lang3</artifactId>
         <version>3.8.1</version>
+    </dependency>
+    <dependency>
+     <groupId>org.onap.policy.models.policy-models-interactions.model-actors</groupId>
+      <artifactId>actor.test</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.onap.policy.models.policy-models-interactions</groupId>

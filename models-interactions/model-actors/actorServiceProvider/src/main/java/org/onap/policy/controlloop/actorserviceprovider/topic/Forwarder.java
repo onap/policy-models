@@ -72,6 +72,8 @@ public class Forwarder {
             throw new IllegalArgumentException("key/value mismatch");
         }
 
+        logger.info("register topic listener for key={} value={}", keys, values);
+
         values2listeners.compute(values, (key, listeners) -> {
             Map<BiConsumer<String, StandardCoderObject>, String> map = listeners;
             if (map == null) {
@@ -90,6 +92,8 @@ public class Forwarder {
      * @param listener listener to unregister
      */
     public void unregister(List<String> values, BiConsumer<String, StandardCoderObject> listener) {
+        logger.info("unregister topic listener for key={} value={}", keys, values);
+
         values2listeners.computeIfPresent(values, (key, listeners) -> {
             listeners.remove(listener);
             return (listeners.isEmpty() ? null : listeners);
@@ -112,6 +116,7 @@ public class Forwarder {
                  * No value for this field, so this message is not relevant to this
                  * forwarder.
                  */
+                logger.info("message has no key={}", keys);
                 return;
             }
 
@@ -122,11 +127,13 @@ public class Forwarder {
         Map<BiConsumer<String, StandardCoderObject>, String> listeners = values2listeners.get(values);
         if (listeners == null) {
             // no listeners for this particular list of values
+            logger.info("no listener registered for key={} value={}", keys, values);
             return;
         }
 
 
         // forward the message to each listener
+        logger.info("forwarding message to listeners for key={} value={}", keys, values);
         for (BiConsumer<String, StandardCoderObject> listener : listeners.keySet()) {
             try {
                 listener.accept(textMessage, scoMessage);

@@ -1,11 +1,10 @@
 /*-
  * ============LICENSE_START=======================================================
- * AppcLcmActorServiceProvider
+ * ONAP
  * ================================================================================
  * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications copyright (c) 2018 Nokia
  * Modifications Copyright (C) 2019 Nordix Foundation.
- * Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +30,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import org.onap.policy.appclcm.AppcLcmBody;
 import org.onap.policy.appclcm.AppcLcmCommonHeader;
 import org.onap.policy.appclcm.AppcLcmDmaapWrapper;
@@ -39,6 +39,8 @@ import org.onap.policy.appclcm.AppcLcmOutput;
 import org.onap.policy.appclcm.AppcLcmResponseCode;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
+import org.onap.policy.controlloop.actor.appc.AppcOperation;
+import org.onap.policy.controlloop.actor.appc.ModifyConfigOperation;
 import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicActor;
 import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicOperator;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicActorParams;
@@ -67,17 +69,16 @@ public class AppcLcmActorServiceProvider extends BidirectionalTopicActor<Bidirec
     private static final String TARGET_VNF = "VNF";
 
     // Strings for recipes
-    private static final String RECIPE_RESTART = "Restart";
-    private static final String RECIPE_REBUILD = "Rebuild";
-    private static final String RECIPE_MIGRATE = "Migrate";
-    private static final String RECIPE_MODIFY = "ConfigModify";
+    private static final String RECIPE_RESTART = AppcLcmConstants.OPERATION_RESTART;
+    private static final String RECIPE_REBUILD = AppcLcmConstants.OPERATION_REBUILD;
+    private static final String RECIPE_MIGRATE = AppcLcmConstants.OPERATION_MIGRATE;
+    private static final String RECIPE_MODIFY = AppcLcmConstants.OPERATION_CONFIG_MODIFY;
 
     /* To be used in future releases when LCM ConfigModify is used */
     private static final String APPC_REQUEST_PARAMS = "request-parameters";
     private static final String APPC_CONFIG_PARAMS = "configuration-parameters";
 
-    private static final ImmutableList<String> recipes =
-            ImmutableList.of(RECIPE_RESTART, RECIPE_REBUILD, RECIPE_MIGRATE, RECIPE_MODIFY);
+    private static final Set<String> recipes = AppcLcmConstants.OPERATION_NAMES;
     private static final ImmutableMap<String, List<String>> targets = new ImmutableMap.Builder<String, List<String>>()
             .put(RECIPE_RESTART, ImmutableList.of(TARGET_VM)).put(RECIPE_REBUILD, ImmutableList.of(TARGET_VM))
             .put(RECIPE_MIGRATE, ImmutableList.of(TARGET_VM)).put(RECIPE_MODIFY, ImmutableList.of(TARGET_VNF)).build();
@@ -91,8 +92,15 @@ public class AppcLcmActorServiceProvider extends BidirectionalTopicActor<Bidirec
     public AppcLcmActorServiceProvider() {
         super(NAME, BidirectionalTopicActorParams.class);
 
-        addOperator(new BidirectionalTopicOperator(NAME, ConfigModifyOperation.NAME, this,
-                AppcLcmOperation.SELECTOR_KEYS, ConfigModifyOperation::new));
+        // add LCM operations first as they take precedence
+        for (String opname : AppcLcmConstants.OPERATION_NAMES) {
+            addOperator(new BidirectionalTopicOperator(NAME, opname, this, AppcLcmOperation.SELECTOR_KEYS,
+                            AppcLcmOperation::new));
+        }
+
+        // add legacy operations
+        addOperator(new BidirectionalTopicOperator(NAME, ModifyConfigOperation.NAME, this, AppcOperation.SELECTOR_KEYS,
+                        ModifyConfigOperation::new));
     }
 
     /**

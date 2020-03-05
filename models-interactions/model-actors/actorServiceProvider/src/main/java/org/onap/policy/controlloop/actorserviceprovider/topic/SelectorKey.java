@@ -20,6 +20,7 @@
 
 package org.onap.policy.controlloop.actorserviceprovider.topic;
 
+import java.util.Arrays;
 import lombok.EqualsAndHashCode;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 
@@ -53,5 +54,10 @@ public class SelectorKey {
      */
     public String extractField(StandardCoderObject object) {
         return object.getString(fieldIdentifiers);
+    }
+
+    @Override
+    public String toString() {
+        return Arrays.toString(fieldIdentifiers);
     }
 }
