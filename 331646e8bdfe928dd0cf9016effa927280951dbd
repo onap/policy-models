@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "29eee9c7_8a30dfe0",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.native.Drools.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-05T20:24:19Z",
+      "side": 1,
+      "message": "\"topices\" \u003d\u003e \"topics\"\n\nsame comment below",
+      "revId": "331646e8bdfe928dd0cf9016effa927280951dbd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
