@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c673933e_a793249b",
+        "filename": "models-interactions/model-actors/actor.vfc/src/main/java/org/onap/policy/controlloop/actor/vfc/VfcOperation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6006
+      },
+      "writtenOn": "2020-03-05T17:22:30Z",
+      "side": 1,
+      "message": "I\u0027m not sure if these are the correct vfc objects to use",
+      "revId": "cb635e82c380db6d2992b099117817ffaf62293d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
