@@ -23,9 +23,7 @@ package org.onap.policy.models.provider.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.ws.rs.core.Response;
 
@@ -45,8 +43,6 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
-import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyInput;
-import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyOutput;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
 
 /**
@@ -168,30 +164,6 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
     public LegacyOperationalPolicy deleteOperationalPolicy(final String policyId, final String policyVersion)
             throws PfModelException {
         return new LegacyOperationalPolicy();
-    }
-
-    @Override
-    public Map<String, LegacyGuardPolicyOutput> getGuardPolicy(final String policyId, final String policyVersion)
-            throws PfModelException {
-        return new HashMap<>();
-    }
-
-    @Override
-    public Map<String, LegacyGuardPolicyOutput> createGuardPolicy(final LegacyGuardPolicyInput legacyGuardPolicy)
-            throws PfModelException {
-        return new HashMap<>();
-    }
-
-    @Override
-    public Map<String, LegacyGuardPolicyOutput> updateGuardPolicy(final LegacyGuardPolicyInput legacyGuardPolicy)
-            throws PfModelException {
-        return new HashMap<>();
-    }
-
-    @Override
-    public Map<String, LegacyGuardPolicyOutput> deleteGuardPolicy(final String policyId, final String policyVersion)
-            throws PfModelException {
-        return new HashMap<>();
     }
 
     @Override

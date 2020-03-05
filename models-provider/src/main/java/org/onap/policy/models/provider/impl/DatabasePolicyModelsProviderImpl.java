@@ -24,7 +24,6 @@ package org.onap.policy.models.provider.impl;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
 import javax.ws.rs.core.Response;
@@ -55,8 +54,6 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifier;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.authorative.provider.AuthorativeToscaProvider;
-import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyInput;
-import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyOutput;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
 import org.onap.policy.models.tosca.legacy.provider.LegacyProvider;
 import org.slf4j.Logger;
@@ -277,38 +274,6 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
                 new ToscaPolicyIdentifier(policyId, policyVersion + LegacyProvider.LEGACY_MINOR_PATCH_SUFFIX));
 
         return new LegacyProvider().deleteOperationalPolicy(pfDao, policyId, policyVersion);
-    }
-
-    @Override
-    public Map<String, LegacyGuardPolicyOutput> getGuardPolicy(@NonNull final String policyId,
-            final String policyVersion) throws PfModelException {
-        assertInitialized();
-        return new LegacyProvider().getGuardPolicy(pfDao, policyId, policyVersion);
-    }
-
-    @Override
-    public Map<String, LegacyGuardPolicyOutput>
-            createGuardPolicy(@NonNull final LegacyGuardPolicyInput legacyGuardPolicy) throws PfModelException {
-        assertInitialized();
-        return new LegacyProvider().createGuardPolicy(pfDao, legacyGuardPolicy);
-    }
-
-    @Override
-    public Map<String, LegacyGuardPolicyOutput>
-            updateGuardPolicy(@NonNull final LegacyGuardPolicyInput legacyGuardPolicy) throws PfModelException {
-        assertInitialized();
-        return new LegacyProvider().updateGuardPolicy(pfDao, legacyGuardPolicy);
-    }
-
-    @Override
-    public Map<String, LegacyGuardPolicyOutput> deleteGuardPolicy(@NonNull final String policyId,
-            @NonNull final String policyVersion) throws PfModelException {
-        assertInitialized();
-
-        assertPolicyNotDeployedInPdpGroup(
-                new ToscaPolicyIdentifier(policyId, policyVersion + LegacyProvider.LEGACY_MINOR_PATCH_SUFFIX));
-
-        return new LegacyProvider().deleteGuardPolicy(pfDao, policyId, policyVersion);
     }
 
     @Override
