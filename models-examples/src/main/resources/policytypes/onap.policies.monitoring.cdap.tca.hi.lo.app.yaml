@@ -9,10 +9,8 @@ policy_types:
       version: 1.0.0
       properties:
          tca_policy:
-            type: map
+            type: onap.datatypes.monitoring.tca_policy
             description: TCA Policy JSON
-            entry_schema:
-               type: onap.datatypes.monitoring.tca_policy
 data_types:
    onap.datatypes.monitoring.metricsPerEventName:
       derived_from: tosca.datatypes.Root
