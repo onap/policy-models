@@ -71,6 +71,12 @@
         <version>3.8.1</version>
     </dependency>
     <dependency>
+     <groupId>org.onap.policy.models.policy-models-interactions.model-actors</groupId>
+      <artifactId>actor.test</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>org.onap.policy.models.policy-models-interactions</groupId>
       <artifactId>simulators</artifactId>
       <version>${project.version}</version>

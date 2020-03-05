@@ -31,6 +31,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import org.onap.policy.appclcm.AppcLcmBody;
 import org.onap.policy.appclcm.AppcLcmCommonHeader;
 import org.onap.policy.appclcm.AppcLcmDmaapWrapper;
@@ -67,17 +68,16 @@ public class AppcLcmActorServiceProvider extends BidirectionalTopicActor<Bidirec
     private static final String TARGET_VNF = "VNF";
 
     // Strings for recipes
-    private static final String RECIPE_RESTART = "Restart";
-    private static final String RECIPE_REBUILD = "Rebuild";
-    private static final String RECIPE_MIGRATE = "Migrate";
-    private static final String RECIPE_MODIFY = "ConfigModify";
+    private static final String RECIPE_RESTART = AppcLcmConstants.OPERATION_RESTART;
+    private static final String RECIPE_REBUILD = AppcLcmConstants.OPERATION_REBUILD;
+    private static final String RECIPE_MIGRATE = AppcLcmConstants.OPERATION_MIGRATE;
+    private static final String RECIPE_MODIFY = AppcLcmConstants.OPERATION_CONFIG_MODIFY;
 
     /* To be used in future releases when LCM ConfigModify is used */
     private static final String APPC_REQUEST_PARAMS = "request-parameters";
     private static final String APPC_CONFIG_PARAMS = "configuration-parameters";
 
-    private static final ImmutableList<String> recipes =
-            ImmutableList.of(RECIPE_RESTART, RECIPE_REBUILD, RECIPE_MIGRATE, RECIPE_MODIFY);
+    private static final Set<String> recipes = AppcLcmConstants.OPERATION_NAMES;
     private static final ImmutableMap<String, List<String>> targets = new ImmutableMap.Builder<String, List<String>>()
             .put(RECIPE_RESTART, ImmutableList.of(TARGET_VM)).put(RECIPE_REBUILD, ImmutableList.of(TARGET_VM))
             .put(RECIPE_MIGRATE, ImmutableList.of(TARGET_VM)).put(RECIPE_MODIFY, ImmutableList.of(TARGET_VNF)).build();
@@ -91,16 +91,10 @@ public class AppcLcmActorServiceProvider extends BidirectionalTopicActor<Bidirec
     public AppcLcmActorServiceProvider() {
         super(NAME, BidirectionalTopicActorParams.class);
 
-        addOperator(new BidirectionalTopicOperator(NAME, ConfigModifyOperation.NAME, this,
-                AppcLcmOperation.SELECTOR_KEYS, ConfigModifyOperation::new));
-    }
-
-    /**
-     * This actor should take precedence.
-     */
-    @Override
-    public int getSequenceNumber() {
-        return -1;
+        for (String opname : AppcLcmConstants.OPERATION_NAMES) {
+            addOperator(new BidirectionalTopicOperator(NAME, opname, this, AppcLcmOperation.SELECTOR_KEYS,
+                            AppcLcmOperation::new));
+        }
     }
 
     @Override
