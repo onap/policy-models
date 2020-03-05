@@ -145,7 +145,7 @@ public class MonitoringPolicyTypeSerializationTest {
         assertTrue(serviceTemplate.validate(new PfValidationResult()).isValid());
 
         // Check tosca_definitions_version
-        assertEquals("tosca_simple_yaml_1_0_0", serviceTemplate.getToscaDefinitionsVersion());
+        assertEquals("tosca_simple_yaml_1_1_0", serviceTemplate.getToscaDefinitionsVersion());
 
         // Check policy_types
         Map<PfConceptKey, JpaToscaPolicyType> policyTypesConceptMap = serviceTemplate.getPolicyTypes().getConceptMap();
@@ -362,7 +362,7 @@ public class MonitoringPolicyTypeSerializationTest {
         assertTrue(serviceTemplate.validate(new PfValidationResult()).isValid());
 
         // Check tosca_definitions_version
-        assertEquals("tosca_simple_yaml_1_0_0", serviceTemplate.getToscaDefinitionsVersion());
+        assertEquals("tosca_simple_yaml_1_1_0", serviceTemplate.getToscaDefinitionsVersion());
 
         // Check policy_types
         Map<PfConceptKey, JpaToscaPolicyType> policyTypesConceptMap = serviceTemplate.getPolicyTypes().getConceptMap();

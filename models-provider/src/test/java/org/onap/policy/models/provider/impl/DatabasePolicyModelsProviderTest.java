@@ -49,7 +49,6 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifier;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifier;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
-import org.onap.policy.models.tosca.legacy.concepts.LegacyGuardPolicyInput;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
 
 /**
@@ -229,38 +228,6 @@ public class DatabasePolicyModelsProviderTest {
         }).hasMessageMatching("^policyVersion is marked .*on.*ull but is null$");
 
         assertThatThrownBy(() -> {
-            databaseProvider.getGuardPolicy(null, null);
-        }).hasMessageMatching(POLICY_ID_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            databaseProvider.getGuardPolicy(null, "");
-        }).hasMessageMatching(POLICY_ID_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            databaseProvider.getGuardPolicy("", null);
-        }).hasMessage("no policy found for policy: :null");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.createGuardPolicy(null);
-        }).hasMessageMatching("^legacyGuardPolicy is marked .*on.*ull but is null$");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updateGuardPolicy(null);
-        }).hasMessageMatching("^legacyGuardPolicy is marked .*on.*ull but is null$");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.deleteGuardPolicy(null, null);
-        }).hasMessageMatching(POLICY_ID_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            databaseProvider.deleteGuardPolicy(null, "");
-        }).hasMessageMatching(POLICY_ID_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            databaseProvider.deleteGuardPolicy("", null);
-        }).hasMessageMatching("^policyVersion is marked .*on.*ull but is null$");
-
-        assertThatThrownBy(() -> {
             databaseProvider.getFilteredPdpGroups(null);
         }).hasMessageMatching(FILTER_IS_NULL);
 
@@ -421,26 +388,6 @@ public class DatabasePolicyModelsProviderTest {
         assertThatThrownBy(() -> {
             databaseProvider.deleteOperationalPolicy(POLICY_ID, "55");
         }).hasMessage("no policy found for policy: policy_id:55");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.getGuardPolicy(POLICY_ID, null);
-        }).hasMessage("no policy found for policy: policy_id:null");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.getGuardPolicy(POLICY_ID, "6");
-        }).hasMessage("no policy found for policy: policy_id:6");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.createGuardPolicy(new LegacyGuardPolicyInput());
-        }).hasMessage("policy type for guard policy \"null\" unknown");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updateGuardPolicy(new LegacyGuardPolicyInput());
-        }).hasMessage("policy type for guard policy \"null\" unknown");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.deleteGuardPolicy(POLICY_ID, "33");
-        }).hasMessage("no policy found for policy: policy_id:33");
 
         assertEquals(0, databaseProvider.getPdpGroups(NAME).size());
         assertEquals(0, databaseProvider.getFilteredPdpGroups(PdpGroupFilter.builder().build()).size());

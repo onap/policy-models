@@ -1,0 +1,16 @@
+tosca_definitions_version: tosca_simple_yaml_1_1_0
+policy_types:
+    onap.policies.controlloop.guard.common.MinMax:
+        derived_from: onap.policies.controlloop.guard.Common
+        type_version: 1.0.0
+        version: 1.0.0
+        description: Supports Min/Max number of entity for scaling operations
+        properties:
+            min:
+                type: integer
+                required: true
+                description: The minimum instances of this entity
+            max:
+                type: integer
+                required: false
+                description: The maximum instances of this entity

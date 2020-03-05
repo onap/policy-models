@@ -1,4 +1,4 @@
-tosca_definitions_version: tosca_simple_yaml_1_0_0
+tosca_definitions_version: tosca_simple_yaml_1_1_0
 topology_template:
     policies:
     -   SDNC_Policy.ONAP_VNF_NAMING_TIMESTAMP:
