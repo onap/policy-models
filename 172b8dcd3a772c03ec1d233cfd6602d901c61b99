@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6364c00a_d8b22e1c",
+        "filename": "models-examples/src/main/resources/policies/vCPE.policy.operational.output.tosca.yaml",
+        "patchSetId": 8
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-06T14:23:14Z",
+      "side": 1,
+      "message": "trailing spaces",
+      "revId": "172b8dcd3a772c03ec1d233cfd6602d901c61b99",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1f5e087_d055743b",
+        "filename": "models-examples/src/main/resources/policies/vFirewall.policy.operational.output.tosca.yaml",
+        "patchSetId": 8
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-06T14:23:14Z",
+      "side": 1,
+      "message": "trailing spaces",
+      "revId": "172b8dcd3a772c03ec1d233cfd6602d901c61b99",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
