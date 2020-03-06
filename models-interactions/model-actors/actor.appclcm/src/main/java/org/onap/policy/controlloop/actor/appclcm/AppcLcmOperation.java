@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.onap.policy.appclcm.AppcLcmBody;
 import org.onap.policy.appclcm.AppcLcmCommonHeader;
 import org.onap.policy.appclcm.AppcLcmDmaapWrapper;
@@ -80,7 +81,7 @@ public class AppcLcmOperation extends BidirectionalTopicOperation<AppcLcmDmaapWr
     }
 
     @Override
-    protected AppcLcmDmaapWrapper makeRequest(int attempt) {
+    protected Pair<String, AppcLcmDmaapWrapper> makeRequest(int attempt) {
         VirtualControlLoopEvent onset = params.getContext().getEvent();
         String subRequestId = UUID.randomUUID().toString();
 
@@ -125,7 +126,7 @@ public class AppcLcmOperation extends BidirectionalTopicOperation<AppcLcmDmaapWr
 
         body.setInput(inputRequest);
         dmaapRequest.setBody(body);
-        return dmaapRequest;
+        return Pair.of(subRequestId, dmaapRequest);
     }
 
     /**

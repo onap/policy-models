@@ -40,6 +40,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -66,6 +67,7 @@ public class BidirectionalTopicOperationTest {
     private static final String OPERATION = "my-operation";
     private static final String REQ_ID = "my-request-id";
     private static final String TEXT = "some text";
+    private static final String SUB_REQID = "my-sub-request-id";
     private static final int TIMEOUT_SEC = 10;
     private static final long TIMEOUT_MS = 1000 * TIMEOUT_SEC;
     private static final int MAX_REQUESTS = 100;
@@ -135,6 +137,8 @@ public class BidirectionalTopicOperationTest {
 
         CompletableFuture<OperationOutcome> future = oper.startOperationAsync(1, outcome);
         assertFalse(future.isDone());
+
+        assertEquals(SUB_REQID, outcome.getSubRequestId());
 
         verify(forwarder).register(eq(Arrays.asList(REQ_ID)), listenerCaptor.capture());
 
@@ -323,13 +327,14 @@ public class BidirectionalTopicOperationTest {
 
 
     private class MyStringOperation extends BidirectionalTopicOperation<String, String> {
+
         public MyStringOperation() {
             super(BidirectionalTopicOperationTest.this.params, config, String.class);
         }
 
         @Override
-        protected String makeRequest(int attempt) {
-            return TEXT;
+        protected Pair<String, String> makeRequest(int attempt) {
+            return Pair.of(SUB_REQID, TEXT);
         }
 
         @Override
@@ -350,8 +355,8 @@ public class BidirectionalTopicOperationTest {
         }
 
         @Override
-        protected MyRequest makeRequest(int attempt) {
-            return new MyRequest();
+        protected Pair<String, MyRequest> makeRequest(int attempt) {
+            return Pair.of(SUB_REQID, new MyRequest());
         }
 
         @Override
@@ -372,8 +377,8 @@ public class BidirectionalTopicOperationTest {
         }
 
         @Override
-        protected MyRequest makeRequest(int attempt) {
-            return new MyRequest();
+        protected Pair<String, MyRequest> makeRequest(int attempt) {
+            return Pair.of(SUB_REQID, new MyRequest());
         }
 
         @Override

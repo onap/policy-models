@@ -29,6 +29,8 @@ import java.util.Map;
 import java.util.TreeMap;
 import org.junit.Before;
 import org.junit.Test;
+import org.onap.policy.sdnc.SdncHealRequest;
+import org.onap.policy.sdnc.SdncHealRequestHeaderInfo;
 import org.onap.policy.sdnc.SdncRequest;
 
 public class SdncOperationTest extends BasicSdncOperation {
@@ -47,6 +49,13 @@ public class SdncOperationTest extends BasicSdncOperation {
 
         request = new SdncRequest();
         request.setUrl(MY_URI);
+
+        SdncHealRequest healRequest = new SdncHealRequest();
+        request.setHealRequest(healRequest);
+
+        SdncHealRequestHeaderInfo headerInfo = new SdncHealRequestHeaderInfo();
+        healRequest.setRequestHeaderInfo(headerInfo);
+        headerInfo.setSvcRequestId(SUB_REQ_ID);
 
         oper = new SdncOperation(params, config) {
             @Override

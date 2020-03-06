@@ -91,6 +91,8 @@ public class AaiGetOperationTest extends BasicAaiOperation<Void> {
         StandardCoderObject data = context.getProperty(AaiGetOperation.getTenantKey(TARGET_ENTITY));
         assertNotNull(data);
         assertEquals(TEXT, data.getString(INPUT_FIELD));
+
+        assertEquals("1", future2.get().getSubRequestId());
     }
 
     /**

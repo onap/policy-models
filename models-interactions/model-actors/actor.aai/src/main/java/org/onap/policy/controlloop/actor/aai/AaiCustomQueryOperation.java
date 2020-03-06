@@ -92,6 +92,7 @@ public class AaiCustomQueryOperation extends HttpOperation<String> {
 
     @Override
     protected CompletableFuture<OperationOutcome> startOperationAsync(int attempt, OperationOutcome outcome) {
+        outcome.setSubRequestId(String.valueOf(attempt));
 
         final Map<String, String> request = makeRequest();
         Map<String, Object> headers = makeHeaders();

@@ -91,6 +91,7 @@ public class AaiGetOperation extends HttpOperation<StandardCoderObject> {
 
     @Override
     protected CompletableFuture<OperationOutcome> startOperationAsync(int attempt, OperationOutcome outcome) {
+        outcome.setSubRequestId(String.valueOf(attempt));
 
         Map<String, Object> headers = makeHeaders();
 

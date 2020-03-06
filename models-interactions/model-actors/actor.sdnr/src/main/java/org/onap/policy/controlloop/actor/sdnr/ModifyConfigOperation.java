@@ -20,17 +20,12 @@
 
 package org.onap.policy.controlloop.actor.sdnr;
 
-import java.util.concurrent.CompletableFuture;
-import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.apache.commons.lang3.tuple.Pair;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.sdnr.PciRequestWrapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ModifyConfigOperation extends SdnrOperation {
-    private static final Logger logger = LoggerFactory.getLogger(ModifyConfigOperation.class);
-
     public static final String NAME = "ModifyConfig";
 
     /**
@@ -44,14 +39,14 @@ public class ModifyConfigOperation extends SdnrOperation {
     }
 
     @Override
-    protected PciRequestWrapper makeRequest(int attempt) {
-        PciRequestWrapper request = super.makeRequest(attempt);
+    protected Pair<String, PciRequestWrapper> makeRequest(int attempt) {
+        final Pair<String, PciRequestWrapper> req = super.makeRequest(attempt);
+        final PciRequestWrapper request = req.getRight();
         //
         // Set the recipe and action information
         //
         request.setRpcName(NAME.toLowerCase());
         request.getBody().setAction(NAME);
-        logger.info("SDNR ModifyConfig Request to be sent is {}", request);
-        return request;
+        return req;
     }
 }

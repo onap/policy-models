@@ -23,6 +23,7 @@ package org.onap.policy.controlloop.actor.sdnc;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -106,6 +107,8 @@ public abstract class BasicSdncOperation extends BasicHttpOperation<SdncRequest>
         assertTrue(future2.isDone());
 
         assertEquals(PolicyResult.SUCCESS, future2.get().getResult());
+
+        assertNotNull(future2.get().getSubRequestId());
 
         return requestCaptor.getValue().getEntity();
     }

@@ -36,6 +36,7 @@ import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.appclcm.AppcLcmBody;
@@ -118,20 +119,26 @@ public class AppcLcmOperationTest extends BasicBidirectionalTopicOperation {
 
     @Test
     public void testMakeRequest() {
-        AppcLcmDmaapWrapper request = oper.makeRequest(2);
+        Pair<String, AppcLcmDmaapWrapper> result = oper.makeRequest(2);
+        String subreq = result.getLeft();
+        assertNotNull(subreq);
+
+        AppcLcmDmaapWrapper request = result.getRight();
         assertEquals("DefaultOperation", request.getBody().getInput().getAction());
 
         AppcLcmCommonHeader header = request.getBody().getInput().getCommonHeader();
         assertNotNull(header);
         assertEquals(params.getRequestId(), header.getRequestId());
 
-        String subreq = header.getSubRequestId();
-        assertNotNull(subreq);
+        assertEquals(subreq, header.getSubRequestId());
 
         assertEquals("{vnf-id=my-target}", request.getBody().getInput().getActionIdentifiers().toString());
 
         // a subsequent request should have a different sub-request id
-        assertNotEquals(subreq, oper.makeRequest(2).getBody().getInput().getCommonHeader().getSubRequestId());
+        result = oper.makeRequest(2);
+        assertNotEquals(subreq, result.getLeft());
+        assertNotNull(result.getLeft());
+        assertEquals(result.getLeft(), result.getRight().getBody().getInput().getCommonHeader().getSubRequestId());
     }
 
     @Test
@@ -140,7 +147,7 @@ public class AppcLcmOperationTest extends BasicBidirectionalTopicOperation {
         params = params.toBuilder().operation(AppcLcmConstants.OPERATION_CONFIG_MODIFY).build();
         oper = new AppcLcmOperation(params, config);
 
-        AppcLcmDmaapWrapper req = oper.makeRequest(2);
+        AppcLcmDmaapWrapper req = oper.makeRequest(2).getRight();
         assertEquals("{\"key-A\":\"value-A\"}", req.getBody().getInput().getPayload());
 
         // coder exception
@@ -162,7 +169,7 @@ public class AppcLcmOperationTest extends BasicBidirectionalTopicOperation {
 
     @Test
     public void testGetExpectedKeyValues() {
-        AppcLcmDmaapWrapper request = oper.makeRequest(2);
+        AppcLcmDmaapWrapper request = oper.makeRequest(2).getRight();
         assertEquals(Arrays.asList(request.getBody().getInput().getCommonHeader().getSubRequestId()),
                         oper.getExpectedKeyValues(50, request));
     }

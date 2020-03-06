@@ -29,6 +29,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
+import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.common.utils.coder.CoderException;
@@ -88,7 +89,8 @@ public class ModifyConfigOperationTest extends BasicSdnrOperation {
 
     @Test
     public void testMakeRequest() throws CoderException {
-        PciRequestWrapper request = oper.makeRequest(1);
-        assertNotNull(request);
+        Pair<String, PciRequestWrapper> result = oper.makeRequest(1);
+        assertNotNull(result.getLeft());
+        assertNotNull(result.getRight());
     }
 }

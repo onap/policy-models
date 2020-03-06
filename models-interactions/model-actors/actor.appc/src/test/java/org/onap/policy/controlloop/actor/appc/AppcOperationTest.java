@@ -29,6 +29,7 @@ import static org.junit.Assert.assertSame;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.TreeMap;
+import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.appc.CommonHeader;
@@ -50,7 +51,7 @@ public class AppcOperationTest extends BasicAppcOperation {
 
         oper = new AppcOperation(params, config) {
             @Override
-            protected Request makeRequest(int attempt) {
+            protected Pair<String, Request> makeRequest(int attempt) {
                 return oper.makeRequest(attempt, MY_VNF);
             }
         };
@@ -69,7 +70,11 @@ public class AppcOperationTest extends BasicAppcOperation {
 
     @Test
     public void testMakeRequest() {
-        Request request = oper.makeRequest(2, MY_VNF);
+        Pair<String, Request> result = oper.makeRequest(2, MY_VNF);
+        String subreq = result.getLeft();
+        assertNotNull(subreq);
+
+        Request request = result.getRight();
         assertEquals(DEFAULT_OPERATION, request.getAction());
 
         assertNotNull(request.getPayload());
@@ -78,26 +83,29 @@ public class AppcOperationTest extends BasicAppcOperation {
         assertNotNull(header);
         assertEquals(params.getRequestId(), header.getRequestId());
 
-        String subreq = header.getSubRequestId();
-        assertNotNull(subreq);
+        assertEquals(subreq, header.getSubRequestId());
 
         // a subsequent request should have a different sub-request id
-        assertNotEquals(subreq, oper.makeRequest(2, MY_VNF).getCommonHeader().getSubRequestId());
+        result = oper.makeRequest(2, MY_VNF);
+        assertNotEquals(subreq, result.getLeft());
+
+        assertNotNull(result.getLeft());
+        assertEquals(result.getLeft(), result.getRight().getCommonHeader().getSubRequestId());
 
         // repeat using a null payload
         params = params.toBuilder().payload(null).build();
         oper = new AppcOperation(params, config) {
             @Override
-            protected Request makeRequest(int attempt) {
+            protected Pair<String, Request> makeRequest(int attempt) {
                 return oper.makeRequest(attempt, MY_VNF);
             }
         };
-        assertEquals(Map.of(AppcOperation.VNF_ID_KEY, MY_VNF), oper.makeRequest(2, MY_VNF).getPayload());
+        assertEquals(Map.of(AppcOperation.VNF_ID_KEY, MY_VNF), oper.makeRequest(2, MY_VNF).getRight().getPayload());
     }
 
     @Test
     public void testConvertPayload() {
-        Request request = oper.makeRequest(2, MY_VNF);
+        Request request = oper.makeRequest(2, MY_VNF).getRight();
 
         // @formatter:off
         assertEquals(
@@ -118,11 +126,11 @@ public class AppcOperationTest extends BasicAppcOperation {
 
         oper = new AppcOperation(params, config) {
             @Override
-            protected Request makeRequest(int attempt) {
+            protected Pair<String, Request> makeRequest(int attempt) {
                 return oper.makeRequest(attempt, MY_VNF);
             }
         };
-        request = oper.makeRequest(2, MY_VNF);
+        request = oper.makeRequest(2, MY_VNF).getRight();
 
         // @formatter:off
         assertEquals(
@@ -144,11 +152,11 @@ public class AppcOperationTest extends BasicAppcOperation {
 
         oper = new AppcOperation(params, config) {
             @Override
-            protected Request makeRequest(int attempt) {
+            protected Pair<String, Request> makeRequest(int attempt) {
                 return oper.makeRequest(attempt, MY_VNF);
             }
         };
-        request = oper.makeRequest(2, MY_VNF);
+        request = oper.makeRequest(2, MY_VNF).getRight();
 
         payload.put(AppcOperation.VNF_ID_KEY, MY_VNF);
         payload.put(KEY1, "abc");
@@ -160,7 +168,7 @@ public class AppcOperationTest extends BasicAppcOperation {
 
     @Test
     public void testGetExpectedKeyValues() {
-        Request request = oper.makeRequest(2, MY_VNF);
+        Request request = oper.makeRequest(2, MY_VNF).getRight();
         assertEquals(Arrays.asList(request.getCommonHeader().getSubRequestId()),
                         oper.getExpectedKeyValues(50, request));
     }
