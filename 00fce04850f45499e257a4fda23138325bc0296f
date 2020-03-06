@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b675980d_b2b83238",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProviderPolicyTypeTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-03-06T10:14:19Z",
+      "side": 1,
+      "message": "Liam - this is where I am stuck right now.",
+      "range": {
+        "startLine": 222,
+        "startChar": 1,
+        "endLine": 227,
+        "endChar": 0
+      },
+      "revId": "00fce04850f45499e257a4fda23138325bc0296f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
