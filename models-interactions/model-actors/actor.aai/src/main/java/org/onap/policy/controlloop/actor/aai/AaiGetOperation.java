@@ -132,8 +132,8 @@ public class AaiGetOperation extends HttpOperation<StandardCoderObject> {
     }
 
     @Override
-    public String makePath() {
-        return (getPath() + params.getTargetEntity());
+    public String getPath() {
+        return (super.getPath() + "/" + params.getTargetEntity());
     }
 
     /**

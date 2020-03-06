@@ -80,6 +80,12 @@ public abstract class HttpOperation<T> extends OperationPartial {
         return config.getClient();
     }
 
+    /**
+     * Gets the path to be used when performing the request; this is typically appended to
+     * the base URL. This method simply invokes {@link #getPath()}.
+     *
+     * @return the path URI suffix
+     */
     public String getPath() {
         return config.getPath();
     }
@@ -106,24 +112,14 @@ public abstract class HttpOperation<T> extends OperationPartial {
     }
 
     /**
-     * Gets the path to be used when performing the request; this is typically appended to
-     * the base URL. This method simply invokes {@link #getPath()}.
-     *
-     * @return the path URI suffix
-     */
-    public String makePath() {
-        return getPath();
-    }
-
-    /**
-     * Makes the URL to which the "get" request should be posted. This is primarily used
+     * Makes the URL to which the HTTP request should be posted. This is primarily used
      * for logging purposes. This particular method returns the base URL appended with the
-     * return value from {@link #makePath()}.
+     * return value from {@link #getPath()}.
      *
      * @return the URL to which from which to get
      */
-    public String makeUrl() {
-        return (getClient().getBaseUrl() + makePath());
+    public String getUrl() {
+        return (getClient().getBaseUrl() + getPath());
     }
 
     /**
