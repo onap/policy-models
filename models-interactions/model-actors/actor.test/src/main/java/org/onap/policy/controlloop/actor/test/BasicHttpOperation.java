@@ -47,8 +47,8 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
  */
 public class BasicHttpOperation<Q> extends BasicOperation {
     protected static final String MY_CLIENT = "my-client";
-    protected static final String BASE_URI = "/base-uri";
-    protected static final String PATH = "/my-path";
+    protected static final String BASE_URI = "http://my-host:6969/base-uri/";
+    protected static final String PATH = "my-path/";
 
     @Captor
     protected ArgumentCaptor<InvocationCallback<Response>> callbackCaptor;

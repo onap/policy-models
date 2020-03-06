@@ -96,13 +96,13 @@ public class GuardOperation extends HttpOperation<DecisionResponse> {
         Map<String, Object> headers = makeHeaders();
 
         headers.put("Accept", MediaType.APPLICATION_JSON);
-        String url = makeUrl();
+        String url = getUrl();
 
         logMessage(EventType.OUT, CommInfrastructure.REST, url, request);
 
         // @formatter:off
         return handleResponse(outcome, url,
-            callback -> getClient().post(callback, makePath(), entity, headers));
+            callback -> getClient().post(callback, getPath(), entity, headers));
         // @formatter:on
     }
 

@@ -33,7 +33,7 @@ import org.onap.policy.sdnc.SdncRequest;
 
 public class SdncOperationTest extends BasicSdncOperation {
 
-    private static final String MY_URI = "/my-uri";
+    private static final String MY_URI = "my-uri";
 
     private SdncRequest request;
     private SdncOperation oper;

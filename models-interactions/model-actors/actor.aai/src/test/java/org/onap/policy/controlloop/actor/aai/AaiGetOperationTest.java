@@ -123,11 +123,6 @@ public class AaiGetOperationTest extends BasicAaiOperation<Void> {
     }
 
     @Test
-    public void testMakePath() {
-        assertEquals(PATH + TARGET_ENTITY, oper.makePath());
-    }
-
-    @Test
     public void testAaiGetOperator() {
         assertEquals(AaiConstants.ACTOR_NAME, oper.getActorName());
         assertEquals(AaiGetOperation.TENANT, oper.getName());

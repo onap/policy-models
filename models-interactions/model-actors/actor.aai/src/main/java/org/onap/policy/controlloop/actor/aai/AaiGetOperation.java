@@ -131,11 +131,6 @@ public class AaiGetOperation extends HttpOperation<StandardCoderObject> {
         return AaiUtil.makeHeaders(params);
     }
 
-    @Override
-    public String makePath() {
-        return (getPath() + params.getTargetEntity());
-    }
-
     /**
      * Injects the response into the context.
      */

@@ -216,8 +216,8 @@ public class HttpOperationTest {
     }
 
     @Test
-    public void testMakePath() {
-        assertEquals(PATH, oper.makePath());
+    public void testGetPath() {
+        assertEquals(PATH, oper.getPath());
     }
 
     @Test
@@ -227,7 +227,7 @@ public class HttpOperationTest {
 
         oper = new MyGetOperation<>(String.class);
 
-        assertThat(oper.makeUrl()).endsWith("/" + BASE_URI + PATH);
+        assertThat(oper.getUrl()).endsWith("/" + BASE_URI + PATH);
     }
 
     @Test
@@ -503,13 +503,13 @@ public class HttpOperationTest {
             Map<String, Object> headers = makeHeaders();
 
             headers.put("Accept", MediaType.APPLICATION_JSON);
-            String url = makeUrl();
+            String url = getUrl();
 
             logMessage(EventType.OUT, CommInfrastructure.REST, url, null);
 
             // @formatter:off
             return handleResponse(outcome, url,
-                callback -> getClient().get(callback, makePath(), headers));
+                callback -> getClient().get(callback, getPath(), headers));
             // @formatter:on
         }
     }
@@ -529,13 +529,13 @@ public class HttpOperationTest {
             Map<String, Object> headers = makeHeaders();
 
             headers.put("Accept", MediaType.APPLICATION_JSON);
-            String url = makeUrl();
+            String url = getUrl();
 
             logMessage(EventType.OUT, CommInfrastructure.REST, url, request);
 
             // @formatter:off
             return handleResponse(outcome, url,
-                callback -> getClient().post(callback, makePath(), entity, headers));
+                callback -> getClient().post(callback, getPath(), entity, headers));
             // @formatter:on
         }
     }
@@ -555,13 +555,13 @@ public class HttpOperationTest {
             Map<String, Object> headers = makeHeaders();
 
             headers.put("Accept", MediaType.APPLICATION_JSON);
-            String url = makeUrl();
+            String url = getUrl();
 
             logMessage(EventType.OUT, CommInfrastructure.REST, url, request);
 
             // @formatter:off
             return handleResponse(outcome, url,
-                callback -> getClient().put(callback, makePath(), entity, headers));
+                callback -> getClient().put(callback, getPath(), entity, headers));
             // @formatter:on
         }
     }
@@ -576,13 +576,13 @@ public class HttpOperationTest {
             Map<String, Object> headers = makeHeaders();
 
             headers.put("Accept", MediaType.APPLICATION_JSON);
-            String url = makeUrl();
+            String url = getUrl();
 
             logMessage(EventType.OUT, CommInfrastructure.REST, url, null);
 
             // @formatter:off
             return handleResponse(outcome, url,
-                callback -> getClient().delete(callback, makePath(), headers));
+                callback -> getClient().delete(callback, getPath(), headers));
             // @formatter:on
         }
     }
