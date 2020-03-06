@@ -2,6 +2,91 @@
   "comments": [
     {
       "key": {
+        "uuid": "de088982_954739b5",
+        "filename": "models-interactions/model-actors/actor.vfc/src/main/java/org/onap/policy/controlloop/actor/vfc/Restart.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-06T15:08:36Z",
+      "side": 1,
+      "message": "looks like lines 52-61 should be removed; they\u0027re junit code",
+      "revId": "cb635e82c380db6d2992b099117817ffaf62293d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2ca13db_460e4b8d",
+        "filename": "models-interactions/model-actors/actor.vfc/src/main/java/org/onap/policy/controlloop/actor/vfc/Restart.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-06T15:08:36Z",
+      "side": 1,
+      "message": "lines 83-104 can be replaced by a call to constructVfcRequest() in the  superclass",
+      "revId": "cb635e82c380db6d2992b099117817ffaf62293d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "643b407f_f31b54ee",
+        "filename": "models-interactions/model-actors/actor.vfc/src/main/java/org/onap/policy/controlloop/actor/vfc/Restart.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-06T15:08:36Z",
+      "side": 1,
+      "message": "use StringUtils.isBlank()",
+      "revId": "cb635e82c380db6d2992b099117817ffaf62293d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "614e7997_d95de0c5",
+        "filename": "models-interactions/model-actors/actor.vfc/src/main/java/org/onap/policy/controlloop/actor/vfc/Restart.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-06T15:08:36Z",
+      "side": 1,
+      "message": "does the invoking code check for null return from makeRequest?",
+      "revId": "cb635e82c380db6d2992b099117817ffaf62293d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dbf5b5e6_529ed62a",
+        "filename": "models-interactions/model-actors/actor.vfc/src/main/java/org/onap/policy/controlloop/actor/vfc/Restart.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-06T15:08:36Z",
+      "side": 1,
+      "message": "this \"if\" is not in the legacy code",
+      "revId": "cb635e82c380db6d2992b099117817ffaf62293d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c673933e_a793249b",
         "filename": "models-interactions/model-actors/actor.vfc/src/main/java/org/onap/policy/controlloop/actor/vfc/VfcOperation.java",
         "patchSetId": 3
@@ -16,6 +101,176 @@
       "revId": "cb635e82c380db6d2992b099117817ffaf62293d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be425d6a_2f226f2a",
+        "filename": "models-interactions/model-actors/actor.vfc/src/main/java/org/onap/policy/controlloop/actor/vfc/VfcOperation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-06T15:08:36Z",
+      "side": 1,
+      "message": "looks like lines 100-109 should be removed; they\u0027re junit code",
+      "revId": "cb635e82c380db6d2992b099117817ffaf62293d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9db8d592_778a810d",
+        "filename": "models-interactions/model-actors/actor.vfc/src/main/java/org/onap/policy/controlloop/actor/vfc/VfcOperation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-06T15:08:36Z",
+      "side": 1,
+      "message": "should be checking for different values - look at legacy manager line 173",
+      "revId": "cb635e82c380db6d2992b099117817ffaf62293d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "629d8bde_1df68d1c",
+        "filename": "models-interactions/model-actors/actor.vfc/src/main/java/org/onap/policy/controlloop/actor/vfc/VfcOperation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-06T15:08:36Z",
+      "side": 1,
+      "message": "legacy code appeaars to use a \"jobId\", which it extracts from the first response.  All subsequent polls use that jobId to construct the URL for the HTTP \"get\" (i.e., poll)",
+      "revId": "cb635e82c380db6d2992b099117817ffaf62293d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dd155793_3a0e9a0c",
+        "filename": "models-interactions/model-actors/actor.vfc/src/main/java/org/onap/policy/controlloop/actor/vfc/VfcOperation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-06T15:08:36Z",
+      "side": 1,
+      "message": "use getEnrichment() instead of event.getAai()",
+      "revId": "cb635e82c380db6d2992b099117817ffaf62293d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47066537_2dab476f",
+        "filename": "models-interactions/model-actors/actor.vfc/src/main/java/org/onap/policy/controlloop/actor/vfc/VfcOperation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-06T15:08:36Z",
+      "side": 1,
+      "message": "use StringUtils.isBlank() instead of \"xxx \u003d\u003d null || xxx.isEmpty()\"",
+      "revId": "cb635e82c380db6d2992b099117817ffaf62293d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "14c5d084_02888246",
+        "filename": "models-interactions/model-actors/actor.vfc/src/main/java/org/onap/policy/controlloop/actor/vfc/VfcOperation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-06T15:08:36Z",
+      "side": 1,
+      "message": "seems odd - it extracts the serviceInstance from the enrichment data, and then it discards it and gets it from the CQ data.  Which should it be using?",
+      "revId": "cb635e82c380db6d2992b099117817ffaf62293d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4f25a9c_3be75c52",
+        "filename": "models-interactions/model-actors/actor.vfc/src/main/java/org/onap/policy/controlloop/actor/vfc/VfcOperation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-06T15:08:36Z",
+      "side": 1,
+      "message": "doesn\u0027t look like these two methods are needed",
+      "revId": "cb635e82c380db6d2992b099117817ffaf62293d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "934ae961_7f27b0b9",
+        "filename": "models-interactions/model-actors/actor.vfc/src/main/java/org/onap/policy/controlloop/actor/vfc/VfcOperation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-06T15:08:36Z",
+      "side": 1,
+      "message": "is the generic VNF needed while constructing the request?  If so, it should use this method.  Otherwise, it can be deleted",
+      "revId": "cb635e82c380db6d2992b099117817ffaf62293d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2bf954c_ef0450eb",
+        "filename": "models-interactions/model-actors/actor.vfc/src/main/java/org/onap/policy/controlloop/actor/vfc/VfcOperation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-06T15:08:36Z",
+      "side": 1,
+      "message": "looks like this method could be used in various places, eliminating the need to check for null/isEmpty in those places",
+      "revId": "cb635e82c380db6d2992b099117817ffaf62293d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb916000_2b4cae10",
+        "filename": "models-interactions/model-actors/actor.vfc/src/main/java/org/onap/policy/controlloop/actor/vfc/VfcOperation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-06T15:08:36Z",
+      "side": 1,
+      "message": "are these other methods needed?",
+      "revId": "cb635e82c380db6d2992b099117817ffaf62293d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
