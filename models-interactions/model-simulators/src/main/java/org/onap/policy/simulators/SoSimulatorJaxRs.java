@@ -25,6 +25,7 @@ import com.google.gson.Gson;
 
 import java.util.UUID;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -36,7 +37,7 @@ import org.onap.policy.so.SoRequestStatus;
 import org.onap.policy.so.SoResponse;
 
 
-@Path("/serviceInstantiation")
+@Path("/")
 public class SoSimulatorJaxRs {
 
     /**
@@ -47,11 +48,43 @@ public class SoSimulatorJaxRs {
      * @return the response
      */
     @POST
-    @Path("/v7/serviceInstances/{serviceInstanceId}/vnfs/{vnfInstanceId}/vfModules/scaleOut")
+    @Path("/serviceInstantiation/v7/serviceInstances/{serviceInstanceId}/vnfs/{vnfInstanceId}/vfModules/scaleOut")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces("application/json")
     public String soPostQuery(@PathParam("serviceInstanceId") final String serviceInstanceId,
                     @PathParam("vnfInstanceId") final String vnfInstanceId) {
+        final SoRequest request = new SoRequest();
+        final SoRequestStatus requestStatus = new SoRequestStatus();
+        requestStatus.setRequestState("COMPLETE");
+        request.setRequestStatus(requestStatus);
+        request.setRequestId(UUID.randomUUID());
+
+        final SoResponse response = new SoResponse();
+
+        final SoRequestReferences requestReferences = new SoRequestReferences();
+        final String requestId = UUID.randomUUID().toString();
+        requestReferences.setRequestId(requestId);
+        response.setRequestReferences(requestReferences);
+
+        response.setRequest(request);
+
+        return new Gson().toJson(response);
+    }
+
+    /**
+     * SO Delete.
+     *
+     * @param serviceInstanceId the service instance Id
+     * @param vnfInstanceId the VNF Id
+     * @return the response
+     */
+    @DELETE
+    @Path("/serviceInstances/v7/{serviceInstanceId}/vnfs/{vnfInstanceId}/vfModules/{vfModuleInstanceId}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces("application/json")
+    public String soDelete(@PathParam("serviceInstanceId") final String serviceInstanceId,
+                    @PathParam("vnfInstanceId") final String vnfInstanceId,
+                    @PathParam("vfModuleInstanceId") final String vfModuleInstanceId) {
         final SoRequest request = new SoRequest();
         final SoRequestStatus requestStatus = new SoRequestStatus();
         requestStatus.setRequestState("COMPLETE");

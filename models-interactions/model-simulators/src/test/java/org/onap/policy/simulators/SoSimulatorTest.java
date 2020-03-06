@@ -134,10 +134,22 @@ public class SoSimulatorTest {
     }
 
     @Test
-    public void testResponse() {
+    public void testPost() {
         final String request = Serialization.gsonPretty.toJson(this.createTestRequest());
         final Pair<Integer, String> httpDetails = new RestManager().post(
                         "http://localhost:6667/serviceInstantiation/v7/serviceInstances/12345/vnfs/12345/vfModules/scaleOut",
+                        "username",
+                        "password", new HashMap<>(), "application/json", request);
+        assertNotNull(httpDetails);
+        final SoResponse response = Serialization.gsonPretty.fromJson(httpDetails.second, SoResponse.class);
+        assertNotNull(response);
+    }
+
+    @Test
+    public void testDelete() {
+        final String request = Serialization.gsonPretty.toJson(this.createTestRequest());
+        final Pair<Integer, String> httpDetails = new RestManager().delete(
+                        "http://localhost:6667/serviceInstances/v7/12345/vnfs/12345/vfModules/12345",
                         "username",
                         "password", new HashMap<>(), "application/json", request);
         assertNotNull(httpDetails);
