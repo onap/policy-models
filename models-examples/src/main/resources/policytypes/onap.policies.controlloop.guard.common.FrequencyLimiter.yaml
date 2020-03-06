@@ -1,0 +1,23 @@
+tosca_definitions_version: tosca_simple_yaml_1_1_0
+policy_types:
+    onap.policies.controlloop.guard.common.FrequencyLimiter:
+        derived_from: onap.policies.controlloop.guard.Common
+        type_version: 1.0.0
+        version: 1.0.0
+        description: Supports limiting the frequency of actions being taken by a Actor.
+        properties:
+            timeWindow:
+                type: integer
+                description: The time window to count the actions against.
+                required: true
+            timeUnits:
+                type: string
+                description: The units of time the window is counting.
+                constraints:
+                - valid_values: ["second", "minute", "hour", "day", "week", "month", "year"]
+            limit:
+                type: integer
+                description: The limit
+                required: true
+                constraints:
+                -   greater_than: 0

@@ -71,7 +71,7 @@ public class LegacyOperationalPolicyMapper
         toscaPolicy.getProperties().put(CONTENT_PROPERTY, legacyOperationalPolicy.getContent());
 
         final JpaToscaServiceTemplate serviceTemplate = new JpaToscaServiceTemplate();
-        serviceTemplate.setToscaDefinitionsVersion("tosca_simple_yaml_1_0_0");
+        serviceTemplate.setToscaDefinitionsVersion("tosca_simple_yaml_1_1_0");
 
         serviceTemplate.setTopologyTemplate(new JpaToscaTopologyTemplate());
 

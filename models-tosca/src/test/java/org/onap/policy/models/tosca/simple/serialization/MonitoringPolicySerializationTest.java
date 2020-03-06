@@ -57,7 +57,7 @@ public class MonitoringPolicySerializationTest {
 
     private static final String VERSION = "version";
 
-    private static final String YAML_VERSION = "tosca_simple_yaml_1_0_0";
+    private static final String YAML_VERSION = "tosca_simple_yaml_1_1_0";
 
     private static final String DEFINITION_VERSION = "tosca_definitions_version";
 
