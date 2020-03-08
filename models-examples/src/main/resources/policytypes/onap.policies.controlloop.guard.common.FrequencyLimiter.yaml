@@ -13,6 +13,7 @@ policy_types:
             timeUnits:
                 type: string
                 description: The units of time the window is counting.
+                required: true
                 constraints:
                 - valid_values: ["second", "minute", "hour", "day", "week", "month", "year"]
             limit:
