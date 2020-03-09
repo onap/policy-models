@@ -123,9 +123,9 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
      * the VF count from the custom query.
      */
     protected void validateTarget() {
-        verifyNotNull("model-customization-id", modelCustomizationId);
-        verifyNotNull("model-invariant-id", modelInvariantId);
-        verifyNotNull("model-version-id", modelVersionId);
+        verifyNotNull("modelCustomizationId", modelCustomizationId);
+        verifyNotNull("modelInvariantId", modelInvariantId);
+        verifyNotNull("modelVersionId", modelVersionId);
     }
 
     private void verifyNotNull(String type, Object value) {
