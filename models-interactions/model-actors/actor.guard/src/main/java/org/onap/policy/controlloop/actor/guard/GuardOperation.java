@@ -23,11 +23,13 @@ package org.onap.policy.controlloop.actor.guard;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
+import org.onap.policy.controlloop.actorserviceprovider.CallbackManager;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperation;
@@ -37,6 +39,8 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.models.decisions.concepts.DecisionRequest;
 import org.onap.policy.models.decisions.concepts.DecisionResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Guard Operation. The outcome message is set to the guard response. If the guard is
@@ -54,6 +58,7 @@ import org.onap.policy.models.decisions.concepts.DecisionResponse;
  * </dl>
  */
 public class GuardOperation extends HttpOperation<DecisionResponse> {
+    private static final Logger logger = LoggerFactory.getLogger(GuardOperation.class);
 
     // operation name
     public static final String NAME = OperationPartial.GUARD_OPERATION_NAME;
@@ -83,12 +88,25 @@ public class GuardOperation extends HttpOperation<DecisionResponse> {
     }
 
     @Override
-    protected CompletableFuture<OperationOutcome> startOperationAsync(int attempt, OperationOutcome outcome) {
-        if (config.isDisabled()) {
-            // guard is disabled, thus it is always treated as a success
-            return CompletableFuture.completedFuture(params.makeOutcome());
+    public CompletableFuture<OperationOutcome> start() {
+        if (!config.isDisabled()) {
+            // enabled - do full guard operation
+            return super.start();
         }
 
+        // guard is disabled, thus it is always treated as a success
+        logger.info("{}: guard disabled, always succeeds for {}", getFullName(), params.getRequestId());
+
+        final Executor executor = params.getExecutor();
+        final CallbackManager callbacks = new CallbackManager();
+
+        return CompletableFuture.completedFuture(params.makeOutcome())
+                        .whenCompleteAsync(callbackStarted(callbacks), executor)
+                        .whenCompleteAsync(callbackCompleted(callbacks), executor);
+    }
+
+    @Override
+    protected CompletableFuture<OperationOutcome> startOperationAsync(int attempt, OperationOutcome outcome) {
         outcome.setSubRequestId(String.valueOf(attempt));
 
         DecisionRequest request = Util.translate(getName(), makeRequest(), DecisionRequest.class);
