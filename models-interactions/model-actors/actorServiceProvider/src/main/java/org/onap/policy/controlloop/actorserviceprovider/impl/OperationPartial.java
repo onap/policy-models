@@ -891,7 +891,7 @@ public abstract class OperationPartial implements Operation {
      * @param callbacks used to determine if the start callback can be invoked
      * @return a function that sets the start time and invokes the callback
      */
-    private BiConsumer<OperationOutcome, Throwable> callbackStarted(CallbackManager callbacks) {
+    protected BiConsumer<OperationOutcome, Throwable> callbackStarted(CallbackManager callbacks) {
 
         return (outcome, thrown) -> {
 
@@ -920,7 +920,7 @@ public abstract class OperationPartial implements Operation {
      * @param callbacks used to determine if the end callback can be invoked
      * @return a function that sets the end time and invokes the callback
      */
-    private BiConsumer<OperationOutcome, Throwable> callbackCompleted(CallbackManager callbacks) {
+    protected BiConsumer<OperationOutcome, Throwable> callbackCompleted(CallbackManager callbacks) {
 
         return (outcome, thrown) -> {
             if (callbacks.canEnd()) {
