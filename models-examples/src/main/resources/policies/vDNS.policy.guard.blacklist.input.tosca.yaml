@@ -1,16 +1,15 @@
 tosca_definitions_version: tosca_simple_yaml_1_1_0
 topology_template:
     policies:
-    -   guard.minmax.scaleout:
-            type: onap.policies.controlloop.guard.common.MinMax
+    -   guard.blacklist.scaleout:
+            type: onap.policies.controlloop.guard.common.Blacklist
             type_version: 1.0.0
             version: 1.0.0
             metadata:
-                policy-id: guard.minmax.scaleout
+                policy-id: guard.blacklist.scaleout
             properties:
                 actor: SO
                 operation: VF Module Create
                 id: ControlLoop-vDNS-6f37f56d-a87d-4b85-b6a9-cc953cf779b3
-                target: e6130d03-56f1-4b0a-9a1d-e1b2ebc30e0e
-                min: 1
-                max: 2
+                blacklist:
+                - the-vfmodule-where-root-is-true
