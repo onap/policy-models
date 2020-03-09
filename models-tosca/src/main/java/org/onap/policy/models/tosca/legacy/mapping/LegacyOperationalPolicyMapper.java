@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,6 +48,7 @@ public class LegacyOperationalPolicyMapper
 
     // Property name for the operational policy content
     private static final String CONTENT_PROPERTY = "content";
+    private static final String CONTROLLER_PROPERTY = "controllerName";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LegacyOperationalPolicyMapper.class);
 
@@ -69,6 +71,9 @@ public class LegacyOperationalPolicyMapper
         final Map<String, String> propertyMap = new HashMap<>();
         toscaPolicy.setProperties(propertyMap);
         toscaPolicy.getProperties().put(CONTENT_PROPERTY, legacyOperationalPolicy.getContent());
+        if (legacyOperationalPolicy.getControllerName() != null) {
+            toscaPolicy.getProperties().put(CONTROLLER_PROPERTY, legacyOperationalPolicy.getControllerName());
+        }
 
         final JpaToscaServiceTemplate serviceTemplate = new JpaToscaServiceTemplate();
         serviceTemplate.setToscaDefinitionsVersion("tosca_simple_yaml_1_1_0");
@@ -114,6 +119,11 @@ public class LegacyOperationalPolicyMapper
         }
 
         legacyOperationalPolicy.setContent(content);
+
+        String controllerName = toscaPolicy.getProperties().get(CONTROLLER_PROPERTY);
+        if (controllerName != null) {
+            legacyOperationalPolicy.setControllerName(controllerName);
+        }
 
         return legacyOperationalPolicy;
     }
