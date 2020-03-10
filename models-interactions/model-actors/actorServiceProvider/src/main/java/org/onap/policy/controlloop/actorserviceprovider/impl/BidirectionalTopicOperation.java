@@ -25,6 +25,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.function.BiConsumer;
 import lombok.Getter;
+import org.apache.commons.lang3.tuple.Pair;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
@@ -105,7 +106,10 @@ public abstract class BidirectionalTopicOperation<Q, S> extends OperationPartial
     @Override
     protected CompletableFuture<OperationOutcome> startOperationAsync(int attempt, OperationOutcome outcome) {
 
-        final Q request = makeRequest(attempt);
+        final Pair<String,Q> pair = makeRequest(attempt);
+        final Q request = pair.getRight();
+        outcome.setSubRequestId(pair.getLeft());
+
         final List<String> expectedKeyValues = getExpectedKeyValues(attempt, request);
 
         final PipelineControllerFuture<OperationOutcome> controller = new PipelineControllerFuture<>();
@@ -142,9 +146,10 @@ public abstract class BidirectionalTopicOperation<Q, S> extends OperationPartial
      * Makes the request.
      *
      * @param attempt operation attempt
-     * @return a new request
+     * @return a pair containing sub request ID, which may be {@code null} and the new
+     *         request
      */
-    protected abstract Q makeRequest(int attempt);
+    protected abstract Pair<String, Q> makeRequest(int attempt);
 
     /**
      * Gets values, expected in the response, that should match the selector keys.

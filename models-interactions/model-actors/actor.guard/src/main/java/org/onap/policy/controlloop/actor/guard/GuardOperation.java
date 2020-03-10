@@ -89,6 +89,8 @@ public class GuardOperation extends HttpOperation<DecisionResponse> {
             return CompletableFuture.completedFuture(params.makeOutcome());
         }
 
+        outcome.setSubRequestId(String.valueOf(attempt));
+
         DecisionRequest request = Util.translate(getName(), makeRequest(), DecisionRequest.class);
 
         Entity<DecisionRequest> entity = Entity.entity(request, MediaType.APPLICATION_JSON);

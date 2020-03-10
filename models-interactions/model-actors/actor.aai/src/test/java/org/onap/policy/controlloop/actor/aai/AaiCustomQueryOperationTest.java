@@ -127,6 +127,8 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation<Map<String, S
         // custom query response should have been cached within the context
         AaiCqResponse cqData = context.getProperty(AaiCqResponse.CONTEXT_KEY);
         assertNotNull(cqData);
+
+        assertEquals("1", future2.get().getSubRequestId());
     }
 
     /**

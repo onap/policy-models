@@ -54,6 +54,7 @@ import org.onap.policy.controlloop.policy.PolicyResult;
  */
 public class BasicOperation {
     protected static final UUID REQ_ID = UUID.randomUUID();
+    protected static final String SUB_REQ_ID = "my-sub-request-id";
     protected static final String DEFAULT_ACTOR = "default-actor";
     protected static final String DEFAULT_OPERATION = "default-operation";
     protected static final String TARGET_ENTITY = "my-target";

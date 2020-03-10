@@ -96,6 +96,8 @@ public class GuardOperationTest extends BasicHttpOperation<DecisionRequest> {
         assertTrue(future2.isDone());
 
         assertEquals(PolicyResult.SUCCESS, future2.get().getResult());
+
+        assertEquals("1", future2.get().getSubRequestId());
     }
 
     /**

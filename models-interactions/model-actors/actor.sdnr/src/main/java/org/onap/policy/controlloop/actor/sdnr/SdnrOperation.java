@@ -23,6 +23,7 @@ package org.onap.policy.controlloop.actor.sdnr;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import org.apache.commons.lang3.tuple.Pair;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicOperation;
@@ -124,7 +125,7 @@ public abstract class SdnrOperation extends BidirectionalTopicOperation<PciReque
     }
 
     @Override
-    protected PciRequestWrapper makeRequest(int attempt) {
+    protected Pair<String, PciRequestWrapper> makeRequest(int attempt) {
         VirtualControlLoopEvent onset = params.getContext().getEvent();
         String subRequestId = UUID.randomUUID().toString();
 
@@ -158,6 +159,6 @@ public abstract class SdnrOperation extends BidirectionalTopicOperation<PciReque
         logger.info("SDNR Request to be sent is {}", dmaapRequest);
 
         /* Return the request to be sent through dmaap. */
-        return dmaapRequest;
+        return Pair.of(subRequestId, dmaapRequest);
     }
 }

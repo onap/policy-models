@@ -26,6 +26,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 
 import java.util.Arrays;
+import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicOperation.Status;
@@ -45,12 +46,7 @@ public class SdnrOperationTest extends BasicSdnrOperation {
     public void setUp() throws Exception {
         super.setUp();
 
-        operation = new SdnrOperation(params, config) {
-            @Override
-            protected PciRequestWrapper makeRequest(int attempt) {
-                return super.makeRequest(attempt);
-            }
-        };
+        operation = new SdnrOperation(params, config) {};
     }
 
     @Test
@@ -61,7 +57,10 @@ public class SdnrOperationTest extends BasicSdnrOperation {
 
     @Test
     public void testMakeRequest() {
-        PciRequestWrapper request = operation.makeRequest(1);
+        Pair<String, PciRequestWrapper> result = operation.makeRequest(1);
+        assertNotNull(result.getLeft());
+
+        PciRequestWrapper request = result.getRight();
 
         assertNotNull(request.getBody());
         assertEquals("1.0", request.getVersion());
@@ -74,7 +73,7 @@ public class SdnrOperationTest extends BasicSdnrOperation {
 
     @Test
     public void testGetExpectedKeyValues() {
-        PciRequestWrapper request = operation.makeRequest(1);
+        PciRequestWrapper request = operation.makeRequest(1).getRight();
         assertEquals(Arrays.asList(request.getBody().getCommonHeader().getSubRequestId()),
                 operation.getExpectedKeyValues(50, request));
 

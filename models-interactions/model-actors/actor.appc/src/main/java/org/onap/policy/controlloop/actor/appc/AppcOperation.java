@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import org.apache.commons.lang3.tuple.Pair;
 import org.onap.policy.appc.CommonHeader;
 import org.onap.policy.appc.Request;
 import org.onap.policy.appc.Response;
@@ -85,13 +86,14 @@ public abstract class AppcOperation extends BidirectionalTopicOperation<Request,
      * @param targetVnf target VNF
      * @return a new request
      */
-    protected Request makeRequest(int attempt, String targetVnf) {
+    protected Pair<String, Request> makeRequest(int attempt, String targetVnf) {
         Request request = new Request();
         request.setCommonHeader(new CommonHeader());
         request.getCommonHeader().setRequestId(params.getRequestId());
 
         // TODO ok to use UUID, or does it have to be the "attempt"?
-        request.getCommonHeader().setSubRequestId(UUID.randomUUID().toString());
+        final String subreq = UUID.randomUUID().toString();
+        request.getCommonHeader().setSubRequestId(subreq);
 
         request.setAction(getName());
 
@@ -105,7 +107,7 @@ public abstract class AppcOperation extends BidirectionalTopicOperation<Request,
         // add/replace specific values
         request.getPayload().put(VNF_ID_KEY, targetVnf);
 
-        return request;
+        return Pair.of(subreq, request);
     }
 
     /**
