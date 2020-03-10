@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1391e9ba_3827030a",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaConstraintLogical.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-03-10T22:19:55Z",
+      "side": 1,
+      "message": "what does this mean?  Is \"java.lang\" needed? (usually that package is not needed)",
+      "revId": "bec7e36f767f82dc20a29880e5d6b9b7e84ed787",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
