@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da3de0ba_d8db8eb6",
+        "filename": "models-interactions/model-actors/actor.vfc/src/main/java/org/onap/policy/controlloop/actor/vfc/Restart.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-10T19:29:40Z",
+      "side": 1,
+      "message": "looking at legacy code, it appears this should be:\n\n  \"/ns/\" + request.getNsInstanceId() + \"/heal\"\n\nor we could include the \"ns/\" in the config file (i.e., the \"path\" property).  In that case, it would simply be:\n\n  request.getNsInstanceId() + \"/heal\"",
+      "revId": "b190d0353e7e4720ce74bece7bbb929f26b687e3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
