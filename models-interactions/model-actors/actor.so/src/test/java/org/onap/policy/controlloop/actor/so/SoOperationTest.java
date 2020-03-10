@@ -91,9 +91,9 @@ public class SoOperationTest extends BasicSoOperation {
     @Test
     public void testValidateTarget() {
         // check when various fields are null
-        verifyNotNull("model-customization-id", target::getModelCustomizationId, target::setModelCustomizationId);
-        verifyNotNull("model-invariant-id", target::getModelInvariantId, target::setModelInvariantId);
-        verifyNotNull("model-version-id", target::getModelVersionId, target::setModelVersionId);
+        verifyNotNull("modelCustomizationId", target::getModelCustomizationId, target::setModelCustomizationId);
+        verifyNotNull("modelInvariantId", target::getModelInvariantId, target::setModelInvariantId);
+        verifyNotNull("modelVersionId", target::getModelVersionId, target::setModelVersionId);
 
         // verify it's still valid
         assertThatCode(() -> new VfModuleCreate(params, config)).doesNotThrowAnyException();
