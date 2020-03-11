@@ -63,6 +63,7 @@ public class JpaToscaConstraintValidValues extends JpaToscaConstraint {
      *
      * @param authorativeConcept the authorative concept to copy from
      */
+    @SuppressWarnings("java:S2637")
     public JpaToscaConstraintValidValues(final ToscaConstraint authorativeConcept) {
         super(authorativeConcept);
     }
