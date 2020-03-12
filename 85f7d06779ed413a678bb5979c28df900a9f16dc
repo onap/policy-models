@@ -36,6 +36,42 @@
     },
     {
       "key": {
+        "uuid": "bc0bed5c_3ce53687",
+        "filename": "models-interactions/model-impl/sdc/src/main/java/org/onap/policy/sdc/Service.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-03-12T16:44:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9879d053_65f507c0",
+      "revId": "85f7d06779ed413a678bb5979c28df900a9f16dc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5c46582_db27aca6",
+        "filename": "models-interactions/model-impl/sdc/src/main/java/org/onap/policy/sdc/Service.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-03-12T16:44:15Z",
+      "side": 1,
+      "message": "Done\n\nHow Odd, I did a global change and changed these by mistake but still the unit tests passed.",
+      "parentUuid": "2d18668f_71b82df4",
+      "revId": "85f7d06779ed413a678bb5979c28df900a9f16dc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6d37b3b_07e12224",
         "filename": "models-interactions/model-impl/sdc/src/main/java/org/onap/policy/sdc/ServiceInstance.java",
         "patchSetId": 2
@@ -64,6 +100,42 @@
       "writtenOn": "2020-03-12T15:01:51Z",
       "side": 1,
       "message": "may need to be \"UUID\" in these serialized names",
+      "revId": "85f7d06779ed413a678bb5979c28df900a9f16dc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1f550db_67afdbfe",
+        "filename": "models-interactions/model-impl/sdc/src/main/java/org/onap/policy/sdc/ServiceInstance.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-03-12T16:44:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6d37b3b_07e12224",
+      "revId": "85f7d06779ed413a678bb5979c28df900a9f16dc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6c9e6c78_47d5b35e",
+        "filename": "models-interactions/model-impl/sdc/src/main/java/org/onap/policy/sdc/ServiceInstance.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-03-12T16:44:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e6e9334_338b482c",
       "revId": "85f7d06779ed413a678bb5979c28df900a9f16dc",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
