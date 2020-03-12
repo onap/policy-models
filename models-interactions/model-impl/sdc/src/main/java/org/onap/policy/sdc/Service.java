@@ -21,11 +21,8 @@
 
 package org.onap.policy.sdc;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 import java.util.UUID;
-
 import lombok.Data;
 
 @Data
@@ -33,12 +30,8 @@ public class Service implements Serializable {
 
     private static final long serialVersionUID = -1249276698549996806L;
 
-    @SerializedName("serviceUuid")
-    private UUID serviceUuid;
-
-    @SerializedName("serviceInvariantUuid")
-    private UUID serviceInvariantUuid;
-
+    private UUID serviceUUID;
+    private UUID serviceInvariantUUID;
     private String serviceName;
     private String serviceVersion;
 
@@ -47,7 +40,7 @@ public class Service implements Serializable {
     }
 
     public Service(UUID uuid) {
-        this.serviceUuid = uuid;
+        this.serviceUUID = uuid;
     }
 
     public Service(String name) {
@@ -63,8 +56,8 @@ public class Service implements Serializable {
      * @param version version
      */
     public Service(UUID uuid, UUID invariantUuid, String name, String version) {
-        this.serviceUuid = uuid;
-        this.serviceInvariantUuid = invariantUuid;
+        this.serviceUUID = uuid;
+        this.serviceInvariantUUID = invariantUuid;
         this.serviceName = name;
         this.serviceVersion = version;
     }
@@ -75,8 +68,8 @@ public class Service implements Serializable {
      * @param service copy object
      */
     public Service(Service service) {
-        this.serviceUuid = service.serviceUuid;
-        this.serviceInvariantUuid = service.serviceInvariantUuid;
+        this.serviceUUID = service.serviceUUID;
+        this.serviceInvariantUUID = service.serviceInvariantUUID;
         this.serviceName = service.serviceName;
         this.serviceVersion = service.serviceVersion;
     }

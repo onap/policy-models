@@ -21,11 +21,8 @@
 
 package org.onap.policy.sdc;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 import java.util.UUID;
-
 import lombok.Data;
 
 @Data
@@ -33,17 +30,10 @@ public class ServiceInstance implements Serializable {
 
     private static final long serialVersionUID = 6285260780966679625L;
 
-    @SerializedName("personaModelUUID")
-    private UUID personaModelUuid;
-
-    @SerializedName("serviceUUID")
-    private UUID serviceUuid;
-
-    @SerializedName("serviceInstanceUUID")
-    private UUID serviceInstanceUuid;
-
-    @SerializedName("widgetModelUUID")
-    private UUID widgetModelUuid;
+    private UUID personaModelUUID;
+    private UUID serviceUUID;
+    private UUID serviceInstanceUUID;
+    private UUID widgetModelUUID;
 
     private String widgetModelVersion;
     private String serviceName;
@@ -62,10 +52,10 @@ public class ServiceInstance implements Serializable {
         if (instance == null) {
             return;
         }
-        this.personaModelUuid = instance.personaModelUuid;
-        this.serviceUuid = instance.serviceUuid;
-        this.serviceInstanceUuid = instance.serviceInstanceUuid;
-        this.widgetModelUuid = instance.widgetModelUuid;
+        this.personaModelUUID = instance.personaModelUUID;
+        this.serviceUUID = instance.serviceUUID;
+        this.serviceInstanceUUID = instance.serviceInstanceUUID;
+        this.widgetModelUUID = instance.widgetModelUUID;
         this.widgetModelVersion = instance.widgetModelVersion;
         this.serviceName = instance.serviceName;
         this.serviceInstanceName = instance.serviceInstanceName;

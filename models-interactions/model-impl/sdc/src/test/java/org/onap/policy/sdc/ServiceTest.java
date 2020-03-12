@@ -36,23 +36,23 @@ public class ServiceTest {
     @Test
     public void testConstructors() {
         Service svc = new Service();
-        assertEquals(null, svc.getServiceUuid());
-        assertEquals(null, svc.getServiceInvariantUuid());
+        assertEquals(null, svc.getServiceUUID());
+        assertEquals(null, svc.getServiceInvariantUUID());
         assertEquals(null, svc.getServiceName());
         assertEquals(null, svc.getServiceVersion());
 
         UUID uuid = UUID.randomUUID();
         svc = new Service(uuid);
-        assertEquals(uuid, svc.getServiceUuid());
-        assertEquals(null, svc.getServiceInvariantUuid());
+        assertEquals(uuid, svc.getServiceUUID());
+        assertEquals(null, svc.getServiceInvariantUUID());
         assertEquals(null, svc.getServiceName());
         assertEquals(null, svc.getServiceVersion());
 
         String name = "constTest";
         svc = new Service(name);
-        assertEquals(null, svc.getServiceUuid());
+        assertEquals(null, svc.getServiceUUID());
         assertEquals(name, svc.getServiceName());
-        assertEquals(null, svc.getServiceInvariantUuid());
+        assertEquals(null, svc.getServiceInvariantUUID());
         assertEquals(null, svc.getServiceVersion());
 
         uuid = UUID.randomUUID();
@@ -60,14 +60,14 @@ public class ServiceTest {
         name = "constTestUUID";
         String version = "0.0.1";
         svc = new Service(uuid, uuidInvariant, name, version);
-        assertEquals(uuid, svc.getServiceUuid());
-        assertEquals(uuidInvariant, svc.getServiceInvariantUuid());
+        assertEquals(uuid, svc.getServiceUUID());
+        assertEquals(uuidInvariant, svc.getServiceInvariantUUID());
         assertEquals(name, svc.getServiceName());
         assertEquals(version, svc.getServiceVersion());
 
         Service s2 = new Service(svc);
-        assertEquals(uuid, s2.getServiceUuid());
-        assertEquals(uuidInvariant, s2.getServiceInvariantUuid());
+        assertEquals(uuid, s2.getServiceUUID());
+        assertEquals(uuidInvariant, s2.getServiceInvariantUUID());
         assertEquals(name, s2.getServiceName());
         assertEquals(version, s2.getServiceVersion());
     }
@@ -76,16 +76,16 @@ public class ServiceTest {
     public void testUuid() {
         Service svc = new Service();
         UUID uuid = UUID.randomUUID();
-        svc.setServiceUuid(uuid);
-        assertEquals(uuid, svc.getServiceUuid());
+        svc.setServiceUUID(uuid);
+        assertEquals(uuid, svc.getServiceUUID());
     }
 
     @Test
     public void testInvariantUuid() {
         Service svc = new Service();
         UUID uuid = UUID.randomUUID();
-        svc.setServiceInvariantUuid(uuid);
-        assertEquals(uuid, svc.getServiceInvariantUuid());
+        svc.setServiceInvariantUUID(uuid);
+        assertEquals(uuid, svc.getServiceInvariantUUID());
     }
 
     @Test
