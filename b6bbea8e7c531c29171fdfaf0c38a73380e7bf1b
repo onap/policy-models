@@ -22,6 +22,30 @@
       "revId": "b6bbea8e7c531c29171fdfaf0c38a73380e7bf1b",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a91741f0_48717c5a",
+        "filename": "models-interactions/model-yaml/src/test/resources/v1.0.0/policy_Test.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-03-12T16:52:49Z",
+      "side": 1,
+      "message": "Ack\n\nI had to edit this file because it failed the serialization on target using the Yaml parsing from policy-common",
+      "parentUuid": "dc723f65_b326a73b",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 0
+      },
+      "revId": "b6bbea8e7c531c29171fdfaf0c38a73380e7bf1b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
