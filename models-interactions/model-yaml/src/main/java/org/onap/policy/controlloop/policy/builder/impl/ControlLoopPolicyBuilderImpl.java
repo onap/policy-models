@@ -114,7 +114,7 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
             if (service == null) {
                 throw new BuilderException("Service must not be null");
             }
-            if (service.getServiceUuid() == null && Strings.isNullOrEmpty(service.getServiceName())) {
+            if (service.getServiceUUID() == null && Strings.isNullOrEmpty(service.getServiceName())) {
                 throw new BuilderException("Invalid service - need either a serviceUUID or serviceName");
             }
             if (controlLoopPolicy.getControlLoop().getServices() == null) {
@@ -134,7 +134,7 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
             if (service == null) {
                 throw new BuilderException("Service must not be null");
             }
-            if (service.getServiceUuid() == null && Strings.isNullOrEmpty(service.getServiceName())) {
+            if (service.getServiceUUID() == null && Strings.isNullOrEmpty(service.getServiceName())) {
                 throw new BuilderException("Invalid service - need either a serviceUUID or serviceName");
             }
             boolean removed = controlLoopPolicy.getControlLoop().getServices().remove(service);
