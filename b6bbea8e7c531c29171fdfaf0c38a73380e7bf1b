@@ -46,6 +46,30 @@
       "revId": "b6bbea8e7c531c29171fdfaf0c38a73380e7bf1b",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e2099b7_51db6764",
+        "filename": "models-interactions/model-yaml/src/test/resources/v1.0.0/policy_Test.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-03-12T16:54:08Z",
+      "side": 1,
+      "message": "Its ok - no need to change them. Just further explaining their existence.",
+      "parentUuid": "a91741f0_48717c5a",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 0
+      },
+      "revId": "b6bbea8e7c531c29171fdfaf0c38a73380e7bf1b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
