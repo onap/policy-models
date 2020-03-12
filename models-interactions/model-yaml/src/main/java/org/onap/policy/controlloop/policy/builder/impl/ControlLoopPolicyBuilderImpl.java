@@ -3,14 +3,14 @@
  * policy-yaml
  * ================================================================================
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,6 +22,7 @@
 package org.onap.policy.controlloop.policy.builder.impl;
 
 import com.google.common.base.Strings;
+
 import java.util.LinkedList;
 import java.util.UUID;
 
@@ -42,20 +43,17 @@ import org.onap.policy.controlloop.policy.builder.MessageLevel;
 import org.onap.policy.controlloop.policy.builder.Results;
 import org.onap.policy.sdc.Resource;
 import org.onap.policy.sdc.Service;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.Yaml;
 
 public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
     private static final String UNKNOWN_POLICY = "Unknown policy ";
-    private static Logger logger = LoggerFactory.getLogger(ControlLoopPolicyBuilderImpl.class.getName());
     private ControlLoopPolicy controlLoopPolicy;
 
     /**
      * Constructor.
-     * 
+     *
      * @param controlLoopName control loop id
      * @param timeout timeout value
      */
@@ -69,15 +67,15 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
 
     /**
      * Constructor.
-     * 
+     *
      * @param controlLoopName control loop id
      * @param timeout timeout value
      * @param resource resource
      * @param services services
      * @throws BuilderException builder exception
      */
-    public ControlLoopPolicyBuilderImpl(String controlLoopName, Integer timeout, Resource resource, Service... services)
-            throws BuilderException {
+    public ControlLoopPolicyBuilderImpl(String controlLoopName, Integer timeout, Resource resource,
+        Service... services) throws BuilderException {
         this(controlLoopName, timeout);
         this.addResource(resource);
         this.addService(services);
@@ -90,15 +88,15 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
 
     /**
      * Constructor.
-     * 
+     *
      * @param controlLoopName control loop id
      * @param timeout timeout
      * @param service service
      * @param resources resources
      * @throws BuilderException builder exception
      */
-    public ControlLoopPolicyBuilderImpl(String controlLoopName, Integer timeout, Service service, Resource[] resources)
-            throws BuilderException {
+    public ControlLoopPolicyBuilderImpl(String controlLoopName, Integer timeout, Service service,
+        Resource[] resources) throws BuilderException {
         this(controlLoopName, timeout);
         this.addService(service);
         this.addResource(resources);
@@ -116,7 +114,7 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
             if (service == null) {
                 throw new BuilderException("Service must not be null");
             }
-            if (service.getServiceUUID() == null && Strings.isNullOrEmpty(service.getServiceName())) {
+            if (service.getServiceUuid() == null && Strings.isNullOrEmpty(service.getServiceName())) {
                 throw new BuilderException("Invalid service - need either a serviceUUID or serviceName");
             }
             if (controlLoopPolicy.getControlLoop().getServices() == null) {
@@ -136,7 +134,7 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
             if (service == null) {
                 throw new BuilderException("Service must not be null");
             }
-            if (service.getServiceUUID() == null && Strings.isNullOrEmpty(service.getServiceName())) {
+            if (service.getServiceUuid() == null && Strings.isNullOrEmpty(service.getServiceName())) {
                 throw new BuilderException("Invalid service - need either a serviceUUID or serviceName");
             }
             boolean removed = controlLoopPolicy.getControlLoop().getServices().remove(service);
@@ -152,7 +150,6 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
         controlLoopPolicy.getControlLoop().getServices().clear();
         return this;
     }
-
 
     @Override
     public ControlLoopPolicyBuilder addResource(Resource... resources) throws BuilderException {
@@ -199,8 +196,7 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
     }
 
     @Override
-    public Policy setTriggerPolicy(PolicyParam policyParam)
-            throws BuilderException {
+    public Policy setTriggerPolicy(PolicyParam policyParam) throws BuilderException {
 
         Policy trigger = new Policy(policyParam);
 
@@ -228,8 +224,7 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
     }
 
     @Override
-    public Policy setPolicyForPolicyResult(PolicyParam policyParam, PolicyResult... results)
-            throws BuilderException {
+    public Policy setPolicyForPolicyResult(PolicyParam policyParam, PolicyResult... results) throws BuilderException {
         //
         // Find the existing policy
         //
@@ -240,17 +235,19 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
         //
         // Create the new Policy
         //
-        Policy newPolicy = new Policy(
-                PolicyParam.builder().id(UUID.randomUUID().toString())
-                .name(policyParam.getName())
-                .description(policyParam.getDescription())
-                .actor(policyParam.getActor())
-                .payload(policyParam.getPayload())
-                .target(policyParam.getTarget())
-                .recipe(policyParam.getRecipe())
-                .retries(policyParam.getRetries())
-                .timeout(policyParam.getTimeout())
-                .build());
+        // @formatter:off
+        Policy newPolicy = new Policy(PolicyParam.builder()
+            .id(UUID.randomUUID().toString())
+            .name(policyParam.getName())
+            .description(policyParam.getDescription())
+            .actor(policyParam.getActor())
+            .payload(policyParam.getPayload())
+            .target(policyParam.getTarget())
+            .recipe(policyParam.getRecipe())
+            .retries(policyParam.getRetries())
+            .timeout(policyParam.getTimeout())
+            .build());
+        // @formatter:on
         //
         // Connect the results
         //
@@ -290,7 +287,7 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
 
     @Override
     public Policy setPolicyForPolicyResult(String policyResultId, String policyId, PolicyResult... results)
-            throws BuilderException {
+        throws BuilderException {
         //
         // Find the existing policy
         //
@@ -368,7 +365,6 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
         try {
             ControlLoopCompiler.compile(controlLoopPolicy, callback);
         } catch (CompilerException e) {
-            logger.error(e.getMessage() + e);
             callback.results.addMessage(new MessageImpl(e.getMessage(), MessageLevel.EXCEPTION));
         }
         //
@@ -434,7 +430,7 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
     @Override
     public boolean isOpenLoop() {
         return this.controlLoopPolicy.getControlLoop().getTrigger_policy()
-                .equals(FinalResult.FINAL_OPENLOOP.toString());
+            .equals(FinalResult.FINAL_OPENLOOP.toString());
     }
 
     @Override
@@ -529,7 +525,7 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
 
     @Override
     public Policy addOperationsAccumulateParams(String policyId, OperationsAccumulateParams operationsAccumulateParams)
-            throws BuilderException {
+        throws BuilderException {
         Policy existingPolicy = this.findPolicy(policyId);
         if (existingPolicy == null) {
             throw new BuilderException(UNKNOWN_POLICY + policyId);
