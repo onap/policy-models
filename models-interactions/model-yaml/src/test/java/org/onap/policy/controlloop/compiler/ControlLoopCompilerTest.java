@@ -3,7 +3,7 @@
  * policy-yaml unit test
  * ================================================================================
  * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@
 
 package org.onap.policy.controlloop.compiler;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -30,17 +31,14 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.Rule;
+
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.controlloop.policy.FinalResult;
 
 public class ControlLoopCompilerTest {
     private static final String RESTART_UNKNOWN_POLICY =
-                    "Operation Policy unique-policy-id-1-restart is connected to unknown policy unknown-policy";
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
+        "Operation Policy unique-policy-id-1-restart is connected to unknown policy unknown-policy";
 
     @Test
     public void testTest() throws Exception {
@@ -62,74 +60,68 @@ public class ControlLoopCompilerTest {
         expectedOnErrorMessages.add("controlLoop overall timeout is less than the sum of operational policy timeouts.");
 
         TestControlLoopCompilerCallback testControlLoopCompilerCallback =
-                        new TestControlLoopCompilerCallback(expectedOnErrorMessages);
-        ControlLoopPolicy controlLoopPolicy = this.test("src/test/resources/v1.0.0/test.yaml",
-                        testControlLoopCompilerCallback);
+            new TestControlLoopCompilerCallback(expectedOnErrorMessages);
+        ControlLoopPolicy controlLoopPolicy =
+            this.test("src/test/resources/v1.0.0/test.yaml", testControlLoopCompilerCallback);
         assertEquals(22, controlLoopPolicy.getPolicies().size());
         assertTrue(testControlLoopCompilerCallback.areAllExpectedOnErrorsReceived());
     }
 
     @Test
     public void testSuccessConnectedToUnknownPolicy() throws Exception {
-        expectedException.expect(CompilerException.class);
-        expectedException.expectMessage(
-                        RESTART_UNKNOWN_POLICY);
-        this.test("src/test/resources/v1.0.0/bad_policy_success_connected_to_unknown_policy.yaml");
+        assertThatThrownBy(() -> {
+            this.test("src/test/resources/v1.0.0/bad_policy_success_connected_to_unknown_policy.yaml");
+        }).isInstanceOf(CompilerException.class).hasMessage(RESTART_UNKNOWN_POLICY);
     }
 
     @Test
     public void testFailureConnectedToUnknownPolicy() throws Exception {
-        expectedException.expect(CompilerException.class);
-        expectedException.expectMessage(
-                        RESTART_UNKNOWN_POLICY);
-        this.test("src/test/resources/v1.0.0/bad_policy_failure_connected_to_unknown_policy.yaml");
+        assertThatThrownBy(() -> {
+            this.test("src/test/resources/v1.0.0/bad_policy_failure_connected_to_unknown_policy.yaml");
+        }).isInstanceOf(CompilerException.class).hasMessage(RESTART_UNKNOWN_POLICY);
     }
 
     @Test
     public void testFailureTimeoutToUnknownPolicy() throws Exception {
-        expectedException.expect(CompilerException.class);
-        expectedException.expectMessage(
-                        RESTART_UNKNOWN_POLICY);
-        this.test("src/test/resources/v1.0.0/bad_policy_failure_timeout_connected_to_unknown_policy.yaml");
+        assertThatThrownBy(() -> {
+            this.test("src/test/resources/v1.0.0/bad_policy_failure_timeout_connected_to_unknown_policy.yaml");
+        }).isInstanceOf(CompilerException.class).hasMessage(RESTART_UNKNOWN_POLICY);
     }
 
     @Test
     public void testFailureRetriesToUnknownPolicy() throws Exception {
-        expectedException.expect(CompilerException.class);
-        expectedException.expectMessage(
-                        RESTART_UNKNOWN_POLICY);
-        this.test("src/test/resources/v1.0.0/bad_policy_failure_retries_connected_to_unknown_policy.yaml");
+        assertThatThrownBy(() -> {
+            this.test("src/test/resources/v1.0.0/bad_policy_failure_retries_connected_to_unknown_policy.yaml");
+        }).isInstanceOf(CompilerException.class).hasMessage(RESTART_UNKNOWN_POLICY);
     }
 
     @Test
     public void testFailureExceptionToUnknownPolicy() throws Exception {
-        expectedException.expect(CompilerException.class);
-        expectedException.expectMessage(
-                        RESTART_UNKNOWN_POLICY);
-        this.test("src/test/resources/v1.0.0/bad_policy_failure_exception_connected_to_unknown_policy.yaml");
+        assertThatThrownBy(() -> {
+            this.test("src/test/resources/v1.0.0/bad_policy_failure_exception_connected_to_unknown_policy.yaml");
+        }).isInstanceOf(CompilerException.class).hasMessage(RESTART_UNKNOWN_POLICY);
     }
 
     @Test
     public void testFailureGuardToUnknownPolicy() throws Exception {
-        expectedException.expect(CompilerException.class);
-        expectedException.expectMessage(
-                        RESTART_UNKNOWN_POLICY);
-        this.test("src/test/resources/v1.0.0/bad_policy_failure_guard_connected_to_unknown_policy.yaml");
+        assertThatThrownBy(() -> {
+            this.test("src/test/resources/v1.0.0/bad_policy_failure_guard_connected_to_unknown_policy.yaml");
+        }).isInstanceOf(CompilerException.class).hasMessage(RESTART_UNKNOWN_POLICY);
     }
 
     @Test
     public void testInvalidTriggerPolicyId() throws Exception {
-        expectedException.expect(CompilerException.class);
-        expectedException.expectMessage(
-                        "Unexpected value for trigger_policy, should only be "
-                        + FinalResult.FINAL_OPENLOOP.toString() + " or a valid Policy ID");
-        this.test("src/test/resources/v1.0.0/bad_trigger_1.yaml");
+        assertThatThrownBy(() -> {
+            this.test("src/test/resources/v1.0.0/bad_trigger_1.yaml");
+        }).isInstanceOf(CompilerException.class).hasMessage("Unexpected value for trigger_policy, should only be "
+            + FinalResult.FINAL_OPENLOOP.toString() + " or a valid Policy ID");
     }
 
     @Test
     public void testNoTriggerPolicyId() throws Exception {
-        expectedException.expect(CompilerException.class);
-        this.test("src/test/resources/v1.0.0/bad_trigger_no_trigger_id.yaml");
+        assertThatThrownBy(() -> {
+            this.test("src/test/resources/v1.0.0/bad_trigger_no_trigger_id.yaml");
+        }).isInstanceOf(CompilerException.class);
     }
 
     @Test
@@ -138,25 +130,25 @@ public class ControlLoopCompilerTest {
         expectedOnErrorMessages.add("Missing controlLoopName");
         expectedOnErrorMessages.add("Unsupported version for this compiler");
         TestControlLoopCompilerCallback testControlLoopCompilerCallback =
-                        new TestControlLoopCompilerCallback(expectedOnErrorMessages);
+            new TestControlLoopCompilerCallback(expectedOnErrorMessages);
         this.test("src/test/resources/v1.0.0/bad_control_loop_no_control_loop_name.yaml",
-                        testControlLoopCompilerCallback);
+            testControlLoopCompilerCallback);
         assertTrue(testControlLoopCompilerCallback.areAllExpectedOnErrorsReceived());
     }
 
     @Test
     public void testInvalidFinalResult() throws Exception {
-        expectedException.expect(CompilerException.class);
-        expectedException.expectMessage(
-                     "Unexpected Final Result for trigger_policy, should only be FINAL_OPENLOOP or a valid Policy ID");
-        this.test("src/test/resources/v1.0.0/bad_trigger_2.yaml");
+        assertThatThrownBy(() -> {
+            this.test("src/test/resources/v1.0.0/bad_trigger_2.yaml");
+        }).isInstanceOf(CompilerException.class).hasMessage(
+            "Unexpected Final Result for trigger_policy, should only be FINAL_OPENLOOP or a valid Policy ID");
     }
 
     @Test
     public void testCompileEmptyFile() throws Exception {
-        expectedException.expect(CompilerException.class);
-        expectedException.expectMessage("Could not parse yaml specification.");
-        this.test("src/test/resources/v1.0.0/empty.yaml");
+        assertThatThrownBy(() -> {
+            this.test("src/test/resources/v1.0.0/empty.yaml");
+        }).isInstanceOf(CompilerException.class).hasMessage("Could not parse yaml specification.");
     }
 
     public ControlLoopPolicy test(String testFile) throws Exception {
@@ -171,8 +163,8 @@ public class ControlLoopCompilerTest {
      * @return the policy object
      * @throws Exception exception
      */
-    public ControlLoopPolicy test(String testFile,
-                    ControlLoopCompilerCallback controlLoopCompilerCallback) throws Exception {
+    public ControlLoopPolicy test(String testFile, ControlLoopCompilerCallback controlLoopCompilerCallback)
+        throws Exception {
         try (InputStream is = new FileInputStream(new File(testFile))) {
             return ControlLoopCompiler.compile(is, controlLoopCompilerCallback);
         }
