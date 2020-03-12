@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "2d18668f_71b82df4",
+        "filename": "models-interactions/model-impl/sdc/src/main/java/org/onap/policy/sdc/Service.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-12T15:01:51Z",
+      "side": 1,
+      "message": "may need to be \"UUID\" in these serialized names",
+      "revId": "85f7d06779ed413a678bb5979c28df900a9f16dc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6d37b3b_07e12224",
         "filename": "models-interactions/model-impl/sdc/src/main/java/org/onap/policy/sdc/ServiceInstance.java",
         "patchSetId": 2
@@ -30,6 +47,23 @@
       "writtenOn": "2020-03-12T14:59:36Z",
       "side": 1,
       "message": "same comment SerializedName is not needed in all these fields",
+      "revId": "85f7d06779ed413a678bb5979c28df900a9f16dc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e6e9334_338b482c",
+        "filename": "models-interactions/model-impl/sdc/src/main/java/org/onap/policy/sdc/ServiceInstance.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-12T15:01:51Z",
+      "side": 1,
+      "message": "may need to be \"UUID\" in these serialized names",
       "revId": "85f7d06779ed413a678bb5979c28df900a9f16dc",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
