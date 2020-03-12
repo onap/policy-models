@@ -3,7 +3,7 @@
  * policy-yaml unit test
  * ================================================================================
  * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,10 +32,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.UUID;
+
 import org.junit.Ignore;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.onap.aai.domain.yang.Pnf;
 import org.onap.policy.controlloop.policy.builder.BuilderException;
 import org.onap.policy.controlloop.policy.builder.ControlLoopPolicyBuilder;
@@ -49,7 +48,6 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.error.YAMLException;
 
-
 public class ControlLoopPolicyBuilderTest {
 
     private static final String RESOURCE1 = "resource1";
@@ -60,8 +58,6 @@ public class ControlLoopPolicyBuilderTest {
     private static final String REBUILD = "Rebuild";
     private static final String REBUILD_VM = "Rebuild VM";
     private static final String REBUILD_RESTART = "If the restart fails, rebuild it.";
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
 
     @Test
     public void testControlLoop() throws BuilderException {
@@ -69,7 +65,7 @@ public class ControlLoopPolicyBuilderTest {
         // Create a builder for our policy
         //
         ControlLoopPolicyBuilder builder =
-                ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
+            ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
         //
         // Test add services
         //
@@ -105,25 +101,28 @@ public class ControlLoopPolicyBuilderTest {
     @Test
     public void testAddNullService() throws BuilderException {
         ControlLoopPolicyBuilder builder =
-                ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
-        expectedException.expect(BuilderException.class);
-        expectedException.expectMessage("Service must not be null");
-        builder.addService((Service) null);
+            ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
+
+        assertThatThrownBy(() -> {
+            builder.addService((Service) null);
+        }).isInstanceOf(BuilderException.class).hasMessage("Service must not be null");
     }
 
     @Test
     public void testAddInvalidService() throws BuilderException {
         ControlLoopPolicyBuilder builder =
-                ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
-        expectedException.expect(BuilderException.class);
-        expectedException.expectMessage("Invalid service - need either a serviceUUID or serviceName");
-        builder.addService(new Service());
+            ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
+
+        assertThatThrownBy(() -> {
+            builder.addService(new Service());
+        }).isInstanceOf(BuilderException.class)
+            .hasMessage("Invalid service - need either a serviceUUID or serviceName");
     }
 
     @Test
     public void testAddServiceWithUuid() throws BuilderException {
         ControlLoopPolicyBuilder builder =
-                ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
+            ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
         UUID uuid = UUID.randomUUID();
         Service serviceWithUuid = new Service(uuid);
         builder.addService(serviceWithUuid);
@@ -133,26 +132,28 @@ public class ControlLoopPolicyBuilderTest {
     @Test
     public void testAddNullResource() throws BuilderException {
         ControlLoopPolicyBuilder builder =
-                ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
-        expectedException.expect(BuilderException.class);
-        expectedException.expectMessage("Resource must not be null");
-        builder.addResource((Resource) null);
-    }
+            ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
 
+        assertThatThrownBy(() -> {
+            builder.addResource((Resource) null);
+        }).isInstanceOf(BuilderException.class).hasMessage("Resource must not be null");
+    }
 
     @Test
     public void testAddInvalidResource() throws BuilderException {
         ControlLoopPolicyBuilder builder =
-                ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
-        expectedException.expect(BuilderException.class);
-        expectedException.expectMessage("Invalid resource - need either resourceUUID or resourceName");
-        builder.addResource(new Resource());
+            ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
+
+        assertThatThrownBy(() -> {
+            builder.addResource(new Resource());
+        }).isInstanceOf(BuilderException.class)
+            .hasMessage("Invalid resource - need either resourceUUID or resourceName");
     }
 
     @Test
     public void testAddAndRemoveResourceWithUuid() throws BuilderException {
         ControlLoopPolicyBuilder builder =
-                ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
+            ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
         UUID uuid = UUID.randomUUID();
         Resource resourceWithUuid = new Resource(uuid);
         builder.addResource(resourceWithUuid);
@@ -165,44 +166,49 @@ public class ControlLoopPolicyBuilderTest {
     @Test
     public void testRemoveNullResource() throws BuilderException {
         ControlLoopPolicyBuilder builder =
-                ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
+            ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
         Resource resource = new Resource(RESOURCE1, ResourceType.VF);
         builder.addResource(resource);
-        expectedException.expect(BuilderException.class);
-        expectedException.expectMessage("Resource must not be null");
-        builder.removeResource((Resource) null);
+
+        assertThatThrownBy(() -> {
+            builder.removeResource((Resource) null);
+        }).isInstanceOf(BuilderException.class).hasMessage("Resource must not be null");
     }
 
     @Test
     public void testRemoveResourceNoExistingResources() throws BuilderException {
         ControlLoopPolicyBuilder builder =
-                ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
-        expectedException.expect(BuilderException.class);
-        expectedException.expectMessage("No existing resources to remove");
-        builder.removeResource(new Resource(RESOURCE1, ResourceType.VF));
+            ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
+
+        assertThatThrownBy(() -> {
+            builder.removeResource(new Resource(RESOURCE1, ResourceType.VF));
+        }).isInstanceOf(BuilderException.class).hasMessage("No existing resources to remove");
     }
 
     @Test
     public void testRemoveInvalidResource() throws BuilderException {
         ControlLoopPolicyBuilder builder =
-                ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
+            ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
         Resource resource = new Resource(RESOURCE1, ResourceType.VF);
         builder.addResource(resource);
-        expectedException.expect(BuilderException.class);
-        expectedException.expectMessage("Invalid resource - need either a resourceUUID or resourceName");
-        builder.removeResource(new Resource());
+
+        assertThatThrownBy(() -> {
+            builder.removeResource(new Resource());
+        }).isInstanceOf(BuilderException.class)
+            .hasMessage("Invalid resource - need either a resourceUUID or resourceName");
     }
 
     @Test
     public void testRemoveUnknownResource() throws BuilderException {
         ControlLoopPolicyBuilder builder =
-                ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
+            ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
         Resource resource = new Resource(RESOURCE1, ResourceType.VF);
         builder.addResource(resource);
         final String unknownResourceName = "reource2";
-        expectedException.expect(BuilderException.class);
-        expectedException.expectMessage("Unknown resource " + unknownResourceName);
-        builder.removeResource(new Resource(unknownResourceName, ResourceType.VF));
+
+        assertThatThrownBy(() -> {
+            builder.removeResource(new Resource(unknownResourceName, ResourceType.VF));
+        }).isInstanceOf(BuilderException.class).hasMessage("Unknown resource " + unknownResourceName);
     }
 
     @Test
@@ -210,8 +216,8 @@ public class ControlLoopPolicyBuilderTest {
         Resource cts = new Resource("vCTS", ResourceType.VF);
         Service scp = new Service("vSCP");
         Service usp = new Service("vUSP");
-        ControlLoopPolicyBuilder builder = ControlLoopPolicyBuilder.Factory
-                .buildControlLoop(UUID.randomUUID().toString(), 2400, cts, scp, usp);
+        ControlLoopPolicyBuilder builder =
+            ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400, cts, scp, usp);
         assertTrue(builder.getControlLoop().getResources().size() == 1);
         assertTrue(builder.getControlLoop().getServices().size() == 2);
     }
@@ -221,8 +227,8 @@ public class ControlLoopPolicyBuilderTest {
         Resource cts = new Resource("vCTS", ResourceType.VF);
         Resource com = new Resource("vCTS", ResourceType.VF);
         Service scp = new Service("vSCP");
-        ControlLoopPolicyBuilder builder = ControlLoopPolicyBuilder.Factory
-                .buildControlLoop(UUID.randomUUID().toString(), 2400, scp, cts, com);
+        ControlLoopPolicyBuilder builder =
+            ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400, scp, cts, com);
         assertTrue(builder.getControlLoop().getServices().size() == 1);
         assertTrue(builder.getControlLoop().getResources().size() == 2);
     }
@@ -238,9 +244,9 @@ public class ControlLoopPolicyBuilderTest {
     // PLEASE ADVISE IF THE BEHAVIOUR IS INCORRECT OR THE TEST CASE IS INVALID
     public void testControlLoopForPnf() throws BuilderException {
         Pnf pnf = new Pnf();
-        //pnf.setPnfType(PnfType.ENODEB);
+        // pnf.setPnfType(PnfType.ENODEB);
         ControlLoopPolicyBuilder builder =
-                ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400, pnf);
+            ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400, pnf);
         assertEquals(pnf, builder.getControlLoop().getPnf());
 
         builder.removePnf();
@@ -252,11 +258,11 @@ public class ControlLoopPolicyBuilderTest {
     // Fails for the same reason as the above test case
     public void testSetAndRemovePnf() throws BuilderException {
         ControlLoopPolicyBuilder builder =
-                ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
+            ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
         assertNull(builder.getControlLoop().getPnf());
 
         Pnf pnf = new Pnf();
-        //pnf.setPnfType(PnfType.ENODEB);
+        // pnf.setPnfType(PnfType.ENODEB);
         builder.setPnf(pnf);
         assertEquals(pnf, builder.getControlLoop().getPnf());
 
@@ -267,25 +273,27 @@ public class ControlLoopPolicyBuilderTest {
     @Test
     public void testSetNullPnf() throws BuilderException {
         ControlLoopPolicyBuilder builder =
-                ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
-        expectedException.expect(BuilderException.class);
-        expectedException.expectMessage("PNF must not be null");
-        builder.setPnf(null);
+            ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
+
+        assertThatThrownBy(() -> {
+            builder.setPnf(null);
+        }).isInstanceOf(BuilderException.class).hasMessage("PNF must not be null");
     }
 
     @Test
     public void testSetInvalidPnf() throws BuilderException {
         ControlLoopPolicyBuilder builder =
-                ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
-        expectedException.expect(BuilderException.class);
-        expectedException.expectMessage("Invalid PNF - need either pnfName or pnfType");
-        builder.setPnf(new Pnf());
+            ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
+
+        assertThatThrownBy(() -> {
+            builder.setPnf(new Pnf());
+        }).isInstanceOf(BuilderException.class).hasMessage("Invalid PNF - need either pnfName or pnfType");
     }
 
     @Test
     public void testSetAbatement() throws BuilderException {
         ControlLoopPolicyBuilder builder =
-                ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
+            ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
         assertFalse(builder.getControlLoop().getAbatement());
         builder = builder.setAbatement(true);
         assertTrue(builder.getControlLoop().getAbatement());
@@ -293,11 +301,12 @@ public class ControlLoopPolicyBuilderTest {
 
     @Test
     public void testSetNullAbatement() throws BuilderException {
-        ControlLoopPolicyBuilder builder =
+        assertThatThrownBy(() -> {
+            ControlLoopPolicyBuilder builder =
                 ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
-        expectedException.expect(BuilderException.class);
-        expectedException.expectMessage("abatement must not be null");
-        builder = builder.setAbatement(null);
+
+            builder = builder.setAbatement(null);
+        }).isInstanceOf(BuilderException.class).hasMessage("abatement must not be null");
     }
 
     @Test
@@ -306,7 +315,7 @@ public class ControlLoopPolicyBuilderTest {
         // Create a builder for our policy
         //
         ControlLoopPolicyBuilder builder =
-                ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
+            ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
         //
         // Test setTimeout
         //
@@ -316,38 +325,31 @@ public class ControlLoopPolicyBuilderTest {
         //
         // Test calculateTimeout
         //
-        Policy trigger =
-                builder.setTriggerPolicy(PolicyParam.builder().id(UUID.randomUUID().toString())
-                        .name(RESTART_VM)
-                        .description(TRIGGER_RESTART)
-                        .actor("APPC")
-                        .target(new Target(TargetType.VM))
-                        .recipe(RESTART)
-                        .payload(null)
-                        .retries(2)
-                        .timeout(300).build());
+        Policy trigger = builder.setTriggerPolicy(PolicyParam.builder().id(UUID.randomUUID().toString())
+            .name(RESTART_VM).description(TRIGGER_RESTART).actor("APPC").target(new Target(TargetType.VM))
+            .recipe(RESTART).payload(null).retries(2).timeout(300).build());
         @SuppressWarnings("unused")
+        // @formatter:off
         Policy onRestartFailurePolicy = builder.setPolicyForPolicyResult(
-                PolicyParam.builder()
-                        .name(REBUILD_VM)
-                        .description("If the restart fails, rebuild it")
-                        .actor("APPC")
-                        .target(new Target(TargetType.VM))
-                        .recipe(REBUILD)
-                        .payload(null)
-                        .retries(1)
-                        .timeout(600)
-                        .id(trigger.getId()).build(),
-                        PolicyResult.FAILURE,
-                        PolicyResult.FAILURE_RETRIES,
-                        PolicyResult.FAILURE_TIMEOUT);
+            PolicyParam.builder()
+                .name(REBUILD_VM)
+                .description("If the restart fails, rebuild it").actor("APPC")
+                .target(new Target(TargetType.VM))
+                .recipe(REBUILD)
+                .payload(null)
+                .retries(1)
+                .timeout(600)
+                .id(trigger.getId())
+                .build(),
+            PolicyResult.FAILURE, PolicyResult.FAILURE_RETRIES, PolicyResult.FAILURE_TIMEOUT);
         assertEquals(Integer.valueOf(300 + 600), builder.calculateTimeout());
+        // @formatter:on
     }
 
     @Test
     public void testTriggerPolicyMethods() throws BuilderException {
         ControlLoopPolicyBuilder builder =
-                        ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
+            ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
         //
         // Test isOpenLoop
         //
@@ -355,35 +357,18 @@ public class ControlLoopPolicyBuilderTest {
         //
         // Test set initial trigger policy
         //
-        Policy triggerPolicy1 =
-                builder.setTriggerPolicy(
-                        PolicyParam.builder().id(UUID.randomUUID().toString())
-                        .name(RESTART_VM)
-                        .description(TRIGGER_RESTART)
-                        .actor("APPC")
-                        .target(new Target(TargetType.VM))
-                        .recipe(RESTART)
-                        .payload(null)
-                        .retries(2)
-                        .timeout(300).build());
+        Policy triggerPolicy1 = builder.setTriggerPolicy(PolicyParam.builder().id(UUID.randomUUID().toString())
+            .name(RESTART_VM).description(TRIGGER_RESTART).actor("APPC").target(new Target(TargetType.VM))
+            .recipe(RESTART).payload(null).retries(2).timeout(300).build());
         assertFalse(builder.isOpenLoop());
         assertEquals(builder.getControlLoop().getTrigger_policy(), triggerPolicy1.getId());
         //
         // Set trigger policy to a new policy
         //
         @SuppressWarnings("unused")
-        Policy triggerPolicy2 =
-                builder.setTriggerPolicy(
-                        PolicyParam.builder()
-                        .id(UUID.randomUUID().toString())
-                        .name("Rebuild the VM")
-                        .description("Upon getting the trigger event, rebuild the VM")
-                        .actor("APPC")
-                        .target(new Target(TargetType.VM))
-                        .recipe(REBUILD)
-                        .payload(null)
-                        .retries(2)
-                        .timeout(300).build());
+        Policy triggerPolicy2 = builder.setTriggerPolicy(PolicyParam.builder().id(UUID.randomUUID().toString())
+            .name("Rebuild the VM").description("Upon getting the trigger event, rebuild the VM").actor("APPC")
+            .target(new Target(TargetType.VM)).recipe(REBUILD).payload(null).retries(2).timeout(300).build());
         //
         // Test set trigger policy to another existing policy
         //
@@ -399,78 +384,54 @@ public class ControlLoopPolicyBuilderTest {
     @Test
     public void testSetTriggerPolicyNullPolicyId() throws BuilderException {
         ControlLoopPolicyBuilder builder =
-                ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
-        expectedException.expect(BuilderException.class);
-        expectedException.expectMessage("Id must not be null");
-        builder.setExistingTriggerPolicy(null);
+            ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
+
+        assertThatThrownBy(() -> {
+            builder.setExistingTriggerPolicy(null);
+        }).isInstanceOf(BuilderException.class).hasMessage("Id must not be null");
     }
 
     @Test
     public void testSetTriggerPolicyNoPoliciesExist() throws BuilderException {
         ControlLoopPolicyBuilder builder =
-                ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
+            ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
         final String unknownPolicyId = "100";
-        expectedException.expect(BuilderException.class);
-        expectedException.expectMessage(UNKNOWN_POLICY + unknownPolicyId);
-        builder.setExistingTriggerPolicy(unknownPolicyId);
+
+        assertThatThrownBy(() -> {
+            builder.setExistingTriggerPolicy(unknownPolicyId);
+        }).isInstanceOf(BuilderException.class).hasMessage(UNKNOWN_POLICY + unknownPolicyId);
     }
 
     @Test
     public void testSetTriggerPolicyUnknownPolicy() throws BuilderException {
         ControlLoopPolicyBuilder builder =
-                ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
-        builder.setTriggerPolicy(
-                PolicyParam.builder()
-                .id(UUID.randomUUID().toString())
-                .name(RESTART_VM)
-                .description(TRIGGER_RESTART)
-                .actor("APPC")
-                .target(new Target(TargetType.VM))
-                .recipe(RESTART)
-                .payload(null)
-                .retries(2)
-                .timeout(300).build());
+            ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
+        builder.setTriggerPolicy(PolicyParam.builder().id(UUID.randomUUID().toString()).name(RESTART_VM)
+            .description(TRIGGER_RESTART).actor("APPC").target(new Target(TargetType.VM)).recipe(RESTART).payload(null)
+            .retries(2).timeout(300).build());
         final String unknownPolicyId = "100";
-        expectedException.expect(BuilderException.class);
-        expectedException.expectMessage(UNKNOWN_POLICY + unknownPolicyId);
-        builder.setExistingTriggerPolicy(unknownPolicyId);
+
+        assertThatThrownBy(() -> {
+            builder.setExistingTriggerPolicy(unknownPolicyId);
+        }).isInstanceOf(BuilderException.class).hasMessage(UNKNOWN_POLICY + unknownPolicyId);
     }
 
     @Test
     public void testAddRemovePolicies() throws BuilderException {
         ControlLoopPolicyBuilder builder =
-                        ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
-        Policy triggerPolicy =
-                builder.setTriggerPolicy(
-                        PolicyParam.builder()
-                        .id(UUID.randomUUID().toString())
-                        .name(RESTART_VM)
-                        .description(TRIGGER_RESTART)
-                        .actor("APPC")
-                        .target(new Target(TargetType.VM))
-                        .recipe(RESTART)
-                        .payload(null)
-                        .retries(2)
-                        .timeout(300).build());
+            ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
+        Policy triggerPolicy = builder.setTriggerPolicy(PolicyParam.builder().id(UUID.randomUUID().toString())
+            .name(RESTART_VM).description(TRIGGER_RESTART).actor("APPC").target(new Target(TargetType.VM))
+            .recipe(RESTART).payload(null).retries(2).timeout(300).build());
         //
         // Test create a policy and chain it to the results of trigger policy
         //
         Policy onRestartFailurePolicy1 = builder.setPolicyForPolicyResult(
-                PolicyParam.builder()
-                .name(REBUILD_VM)
-                .description(REBUILD_RESTART)
-                .actor("APPC")
-                .target(new Target(TargetType.VM))
-                .recipe(REBUILD)
-                .payload(null)
-                .retries(1)
-                .timeout(600)
+            PolicyParam.builder().name(REBUILD_VM).description(REBUILD_RESTART).actor("APPC")
+                .target(new Target(TargetType.VM)).recipe(REBUILD).payload(null).retries(1).timeout(600)
                 .id(triggerPolicy.getId()).build(),
-                PolicyResult.FAILURE,
-                PolicyResult.FAILURE_EXCEPTION,
-                PolicyResult.FAILURE_RETRIES,
-                PolicyResult.FAILURE_TIMEOUT,
-                PolicyResult.FAILURE_GUARD);
+            PolicyResult.FAILURE, PolicyResult.FAILURE_EXCEPTION, PolicyResult.FAILURE_RETRIES,
+            PolicyResult.FAILURE_TIMEOUT, PolicyResult.FAILURE_GUARD);
         //
         assertTrue(builder.getTriggerPolicy().getFailure().equals(onRestartFailurePolicy1.getId()));
         assertTrue(builder.getTriggerPolicy().getFailure_exception().equals(onRestartFailurePolicy1.getId()));
@@ -481,18 +442,10 @@ public class ControlLoopPolicyBuilderTest {
         //
         // Test create a policy and chain it to the results of trigger policy success
         //
-        Policy onSuccessPolicy1 = builder.setPolicyForPolicyResult(
-                PolicyParam.builder()
-                .name("Do something")
-                .description("If the restart succeeds, do something else.")
-                .actor("APPC")
-                .target(new Target(TargetType.VM))
-                .recipe("SomethingElse")
-                .payload(null)
-                .retries(1)
-                .timeout(600)
-                .id(triggerPolicy.getId()).build(),
-                PolicyResult.SUCCESS);
+        Policy onSuccessPolicy1 = builder.setPolicyForPolicyResult(PolicyParam.builder().name("Do something")
+            .description("If the restart succeeds, do something else.").actor("APPC").target(new Target(TargetType.VM))
+            .recipe("SomethingElse").payload(null).retries(1).timeout(600).id(triggerPolicy.getId()).build(),
+            PolicyResult.SUCCESS);
         //
         assertTrue(builder.getTriggerPolicy().getSuccess().equals(onSuccessPolicy1.getId()));
 
@@ -502,55 +455,42 @@ public class ControlLoopPolicyBuilderTest {
         boolean removed = builder.removePolicy(onRestartFailurePolicy1.getId());
         assertTrue(removed);
         assertTrue(builder.getTriggerPolicy().getFailure().equals(FinalResult.FINAL_FAILURE.toString()));
-        assertTrue(builder.getTriggerPolicy().getFailure_retries()
-                .equals(FinalResult.FINAL_FAILURE_RETRIES.toString()));
-        assertTrue(builder.getTriggerPolicy().getFailure_timeout()
-                .equals(FinalResult.FINAL_FAILURE_TIMEOUT.toString()));
         assertTrue(
-                builder.getTriggerPolicy().getFailure_guard().equals(FinalResult.FINAL_FAILURE_GUARD.toString()));
+            builder.getTriggerPolicy().getFailure_retries().equals(FinalResult.FINAL_FAILURE_RETRIES.toString()));
+        assertTrue(
+            builder.getTriggerPolicy().getFailure_timeout().equals(FinalResult.FINAL_FAILURE_TIMEOUT.toString()));
+        assertTrue(builder.getTriggerPolicy().getFailure_guard().equals(FinalResult.FINAL_FAILURE_GUARD.toString()));
         //
         // Create another policy and chain it to the results of trigger policy
         //
-        final Policy onRestartFailurePolicy2 =
-                builder.setPolicyForPolicyResult(
-                        PolicyParam.builder()
-                        .name(REBUILD_VM)
-                        .description(REBUILD_RESTART)
-                        .actor("APPC")
-                        .target(new Target(TargetType.VM))
-                        .recipe(REBUILD)
-                        .payload(null)
-                        .retries(2)
-                        .timeout(600)
-                        .id(triggerPolicy.getId()).build(),
-                        PolicyResult.FAILURE,
-                        PolicyResult.FAILURE_RETRIES,
-                        PolicyResult.FAILURE_TIMEOUT);
+        final Policy onRestartFailurePolicy2 = builder.setPolicyForPolicyResult(
+            PolicyParam.builder().name(REBUILD_VM).description(REBUILD_RESTART).actor("APPC")
+                .target(new Target(TargetType.VM)).recipe(REBUILD).payload(null).retries(2).timeout(600)
+                .id(triggerPolicy.getId()).build(),
+            PolicyResult.FAILURE, PolicyResult.FAILURE_RETRIES, PolicyResult.FAILURE_TIMEOUT);
         //
         // Test reset policy results
         //
         triggerPolicy = builder.resetPolicyResults(triggerPolicy.getId());
         assertTrue(builder.getTriggerPolicy().getFailure().equals(FinalResult.FINAL_FAILURE.toString()));
-        assertTrue(builder.getTriggerPolicy().getFailure_retries()
-                .equals(FinalResult.FINAL_FAILURE_RETRIES.toString()));
-        assertTrue(builder.getTriggerPolicy().getFailure_timeout()
-                .equals(FinalResult.FINAL_FAILURE_TIMEOUT.toString()));
+        assertTrue(
+            builder.getTriggerPolicy().getFailure_retries().equals(FinalResult.FINAL_FAILURE_RETRIES.toString()));
+        assertTrue(
+            builder.getTriggerPolicy().getFailure_timeout().equals(FinalResult.FINAL_FAILURE_TIMEOUT.toString()));
         //
         // Test set the policy results to an existing operational policy
         //
-        Policy onRestartFailurePolicy3 =
-                builder.setPolicyForPolicyResult(onRestartFailurePolicy2.getId(), triggerPolicy.getId(),
-                        PolicyResult.FAILURE, PolicyResult.FAILURE_RETRIES, PolicyResult.FAILURE_TIMEOUT);
+        Policy onRestartFailurePolicy3 = builder.setPolicyForPolicyResult(onRestartFailurePolicy2.getId(),
+            triggerPolicy.getId(), PolicyResult.FAILURE, PolicyResult.FAILURE_RETRIES, PolicyResult.FAILURE_TIMEOUT);
         assertTrue(builder.getTriggerPolicy().getFailure().equals(onRestartFailurePolicy3.getId()));
         assertTrue(builder.getTriggerPolicy().getFailure_retries().equals(onRestartFailurePolicy3.getId()));
         assertTrue(builder.getTriggerPolicy().getFailure_timeout().equals(onRestartFailurePolicy3.getId()));
         //
         // Test set the policy result for success to an existing operational policy
         //
-        Policy onRestartFailurePolicy4 =
-                builder.setPolicyForPolicyResult(onRestartFailurePolicy2.getId(), triggerPolicy.getId(),
-                        PolicyResult.FAILURE, PolicyResult.FAILURE_EXCEPTION, PolicyResult.FAILURE_GUARD,
-                        PolicyResult.FAILURE_RETRIES, PolicyResult.FAILURE_TIMEOUT, PolicyResult.SUCCESS);
+        Policy onRestartFailurePolicy4 = builder.setPolicyForPolicyResult(onRestartFailurePolicy2.getId(),
+            triggerPolicy.getId(), PolicyResult.FAILURE, PolicyResult.FAILURE_EXCEPTION, PolicyResult.FAILURE_GUARD,
+            PolicyResult.FAILURE_RETRIES, PolicyResult.FAILURE_TIMEOUT, PolicyResult.SUCCESS);
         assertTrue(builder.getTriggerPolicy().getFailure().equals(onRestartFailurePolicy4.getId()));
         assertTrue(builder.getTriggerPolicy().getFailure_exception().equals(onRestartFailurePolicy4.getId()));
         assertTrue(builder.getTriggerPolicy().getFailure_guard().equals(onRestartFailurePolicy4.getId()));
@@ -568,116 +508,73 @@ public class ControlLoopPolicyBuilderTest {
     @Test
     public void testAddToUnknownPolicy() throws BuilderException {
         ControlLoopPolicyBuilder builder =
-                ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
+            ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
         final String policyId = "100";
-        expectedException.expect(BuilderException.class);
-        expectedException.expectMessage(UNKNOWN_POLICY + policyId);
 
-        builder.setPolicyForPolicyResult(
-                PolicyParam.builder()
-                .name(REBUILD_VM)
-                .description(REBUILD_RESTART)
-                .actor("APPC")
-                .target(new Target(TargetType.VM))
-                .recipe(REBUILD)
-                .payload(null)
-                .retries(1)
-                .timeout(600)
-                .id(policyId).build(),
-                PolicyResult.FAILURE,
-                PolicyResult.FAILURE_RETRIES,
-                PolicyResult.FAILURE_TIMEOUT,
+        assertThatThrownBy(() -> {
+            builder.setPolicyForPolicyResult(
+                PolicyParam.builder().name(REBUILD_VM).description(REBUILD_RESTART).actor("APPC")
+                    .target(new Target(TargetType.VM)).recipe(REBUILD).payload(null).retries(1).timeout(600)
+                    .id(policyId).build(),
+                PolicyResult.FAILURE, PolicyResult.FAILURE_RETRIES, PolicyResult.FAILURE_TIMEOUT,
                 PolicyResult.FAILURE_GUARD);
+        }).isInstanceOf(BuilderException.class).hasMessage(UNKNOWN_POLICY + policyId);
+
     }
 
     @Test
     public void testAddExistingPolicyToUnknownPolicy() throws BuilderException {
         ControlLoopPolicyBuilder builder =
-                ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
-        Policy triggerPolicy =
-                builder.setTriggerPolicy(
-                        PolicyParam.builder()
-                        .id(UUID.randomUUID().toString())
-                        .name(RESTART_VM)
-                        .description(TRIGGER_RESTART)
-                        .actor("APPC")
-                        .target(new Target(TargetType.VM))
-                        .recipe(RESTART)
-                        .payload(null)
-                        .retries(2)
-                        .timeout(300).build());
+            ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
+        Policy triggerPolicy = builder.setTriggerPolicy(PolicyParam.builder().id(UUID.randomUUID().toString())
+            .name(RESTART_VM).description(TRIGGER_RESTART).actor("APPC").target(new Target(TargetType.VM))
+            .recipe(RESTART).payload(null).retries(2).timeout(300).build());
 
-
-        Policy onRestartFailurePolicy = builder.setPolicyForPolicyResult(
-                PolicyParam.builder()
-                .name(REBUILD_VM)
-                .description(REBUILD_RESTART)
-                .actor("APPC")
-                .target(new Target(TargetType.VM))
-                .recipe(REBUILD)
-                .payload(null)
-                .retries(1)
-                .timeout(600)
-                .id(triggerPolicy.getId()).build(),
-                PolicyResult.FAILURE);
+        Policy onRestartFailurePolicy = builder.setPolicyForPolicyResult(PolicyParam.builder().name(REBUILD_VM)
+            .description(REBUILD_RESTART).actor("APPC").target(new Target(TargetType.VM)).recipe(REBUILD).payload(null)
+            .retries(1).timeout(600).id(triggerPolicy.getId()).build(), PolicyResult.FAILURE);
 
         final String unknownPolicyId = "100";
-        expectedException.expect(BuilderException.class);
-        expectedException.expectMessage(unknownPolicyId + " does not exist");
 
-        builder.setPolicyForPolicyResult(onRestartFailurePolicy.getId(), unknownPolicyId, PolicyResult.FAILURE);
+        assertThatThrownBy(() -> {
+            builder.setPolicyForPolicyResult(onRestartFailurePolicy.getId(), unknownPolicyId, PolicyResult.FAILURE);
+        }).isInstanceOf(BuilderException.class).hasMessage(unknownPolicyId + " does not exist");
+
     }
 
     @Test
     public void testAddUnknownExistingPolicyToPolicy() throws BuilderException {
         ControlLoopPolicyBuilder builder =
-                ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
-        Policy triggerPolicy =
-                builder.setTriggerPolicy(
-                        PolicyParam.builder()
-                        .id(UUID.randomUUID().toString())
-                        .name(RESTART_VM)
-                        .description(TRIGGER_RESTART)
-                        .actor("APPC")
-                        .target(new Target(TargetType.VM))
-                        .recipe(RESTART)
-                        .payload(null)
-                        .retries(2)
-                        .timeout(300).build());
+            ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
+        Policy triggerPolicy = builder.setTriggerPolicy(PolicyParam.builder().id(UUID.randomUUID().toString())
+            .name(RESTART_VM).description(TRIGGER_RESTART).actor("APPC").target(new Target(TargetType.VM))
+            .recipe(RESTART).payload(null).retries(2).timeout(300).build());
 
         final String unknownPolicyId = "100";
-        expectedException.expect(BuilderException.class);
-        expectedException.expectMessage("Operational policy " + unknownPolicyId + " does not exist");
 
-        builder.setPolicyForPolicyResult(unknownPolicyId, triggerPolicy.getId(), PolicyResult.FAILURE);
+        assertThatThrownBy(() -> {
+            builder.setPolicyForPolicyResult(unknownPolicyId, triggerPolicy.getId(), PolicyResult.FAILURE);
+        }).isInstanceOf(BuilderException.class).hasMessage("Operational policy " + unknownPolicyId + " does not exist");
+
     }
 
     @Test
     public void testAddOperationsAccumulateParams() throws BuilderException {
         ControlLoopPolicyBuilder builder =
-                        ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
+            ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
         Policy triggerPolicy =
-                builder.setTriggerPolicy(
-                        PolicyParam.builder()
-                        .id(UUID.randomUUID().toString())
-                        .name("Restart the eNodeB")
-                        .description("Upon getting the trigger event, restart the eNodeB")
-                        .actor("RANController")
-                        .target(new Target(TargetType.PNF))
-                        .recipe(RESTART)
-                        .payload(null)
-                        .retries(2)
-                        .timeout(300).build());
+            builder.setTriggerPolicy(PolicyParam.builder().id(UUID.randomUUID().toString()).name("Restart the eNodeB")
+                .description("Upon getting the trigger event, restart the eNodeB").actor("RANController")
+                .target(new Target(TargetType.PNF)).recipe(RESTART).payload(null).retries(2).timeout(300).build());
         //
         // Add the operationsAccumulateParams
         //
-        triggerPolicy = builder.addOperationsAccumulateParams(triggerPolicy.getId(),
-                new OperationsAccumulateParams("15m", 5));
+        triggerPolicy =
+            builder.addOperationsAccumulateParams(triggerPolicy.getId(), new OperationsAccumulateParams("15m", 5));
         assertNotNull(builder.getTriggerPolicy().getOperationsAccumulateParams());
         assertEquals("15m", builder.getTriggerPolicy().getOperationsAccumulateParams().getPeriod());
         assertTrue(builder.getTriggerPolicy().getOperationsAccumulateParams().getLimit() == 5);
     }
-
 
     @Test
     public void testBuildSpecification() throws BuilderException {
@@ -685,21 +582,13 @@ public class ControlLoopPolicyBuilderTest {
         // Create the builder
         //
         ControlLoopPolicyBuilder builder =
-                ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 800);
+            ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 800);
         //
         // Set the first invalid trigger policy
         //
         final Policy policy1 = builder.setTriggerPolicy(
-                PolicyParam.builder()
-                .id(UUID.randomUUID().toString())
-                .name(RESTART_VM)
-                .description(TRIGGER_RESTART)
-                .actor(null)
-                .target(null)
-                .recipe(null)
-                .payload(null)
-                .retries(2)
-                .timeout(300).build());
+            PolicyParam.builder().id(UUID.randomUUID().toString()).name(RESTART_VM).description(TRIGGER_RESTART)
+                .actor(null).target(null).recipe(null).payload(null).retries(2).timeout(300).build());
         Results results = builder.buildSpecification();
         //
         // Check that ERRORs are in results for invalid policy arguments
@@ -732,32 +621,15 @@ public class ControlLoopPolicyBuilderTest {
         //
         // Set a valid trigger policy
         //
-        Policy policy1a = builder.setTriggerPolicy(
-                PolicyParam.builder()
-                .id(UUID.randomUUID().toString())
-                .name(REBUILD_VM)
-                .description(REBUILD_RESTART)
-                .actor("APPC")
-                .target(new Target(TargetType.VM))
-                .recipe(REBUILD)
-                .payload(null)
-                .retries(1)
-                .timeout(600).build());
+        Policy policy1a = builder.setTriggerPolicy(PolicyParam.builder().id(UUID.randomUUID().toString())
+            .name(REBUILD_VM).description(REBUILD_RESTART).actor("APPC").target(new Target(TargetType.VM))
+            .recipe(REBUILD).payload(null).retries(1).timeout(600).build());
         //
         // Set a second valid trigger policy
         //
-        final Policy policy2 =
-                builder.setTriggerPolicy(
-                        PolicyParam.builder()
-                        .id(UUID.randomUUID().toString())
-                        .name(RESTART_VM)
-                        .description(TRIGGER_RESTART)
-                        .actor("APPC")
-                        .target(new Target(TargetType.VM))
-                        .recipe(RESTART)
-                        .payload(null)
-                        .retries(2)
-                        .timeout(300).build());
+        final Policy policy2 = builder.setTriggerPolicy(PolicyParam.builder().id(UUID.randomUUID().toString())
+            .name(RESTART_VM).description(TRIGGER_RESTART).actor("APPC").target(new Target(TargetType.VM))
+            .recipe(RESTART).payload(null).retries(2).timeout(300).build());
         //
         // Now, we have policy1 unreachable
         //
@@ -765,7 +637,7 @@ public class ControlLoopPolicyBuilderTest {
         boolean unreachable = false;
         for (Message m : results.getMessages()) {
             if (m.getMessage().equals("Policy " + policy1a.getId() + " is not reachable.")
-                    && m.getLevel() == MessageLevel.WARNING) {
+                && m.getLevel() == MessageLevel.WARNING) {
                 unreachable = true;
                 break;
             }
@@ -775,12 +647,12 @@ public class ControlLoopPolicyBuilderTest {
         // Set policy1a for the failure results of policy2
         //
         policy1a = builder.setPolicyForPolicyResult(policy1a.getId(), policy2.getId(), PolicyResult.FAILURE,
-                PolicyResult.FAILURE_RETRIES, PolicyResult.FAILURE_TIMEOUT);
+            PolicyResult.FAILURE_RETRIES, PolicyResult.FAILURE_TIMEOUT);
         results = builder.buildSpecification();
         boolean invalidTimeout = false;
         for (Message m : results.getMessages()) {
             if ("controlLoop overall timeout is less than the sum of operational policy timeouts."
-                            .equals(m.getMessage()) && m.getLevel() == MessageLevel.ERROR) {
+                .equals(m.getMessage()) && m.getLevel() == MessageLevel.ERROR) {
                 invalidTimeout = true;
                 break;
             }
@@ -797,14 +669,13 @@ public class ControlLoopPolicyBuilderTest {
         unreachable = false;
         for (Message m : results.getMessages()) {
             if ("Open Loop policy contains policies. The policies will never be invoked.".equals(m.getMessage())
-                    && m.getLevel() == MessageLevel.WARNING) {
+                && m.getLevel() == MessageLevel.WARNING) {
                 unreachable = true;
                 break;
             }
         }
         assertTrue(unreachable);
     }
-
 
     @Test
     public void test1() throws Exception {
@@ -842,20 +713,20 @@ public class ControlLoopPolicyBuilderTest {
             // Now we're going to try to use the builder to build this.
             //
             ControlLoopPolicyBuilder builder = ControlLoopPolicyBuilder.Factory.buildControlLoop(
-                    policyTobuild.getControlLoop().getControlLoopName(), policyTobuild.getControlLoop().getTimeout());
+                policyTobuild.getControlLoop().getControlLoopName(), policyTobuild.getControlLoop().getTimeout());
             //
             // Add services
             //
             if (policyTobuild.getControlLoop().getServices() != null) {
                 builder = builder.addService(policyTobuild.getControlLoop().getServices()
-                        .toArray(new Service[policyTobuild.getControlLoop().getServices().size()]));
+                    .toArray(new Service[policyTobuild.getControlLoop().getServices().size()]));
             }
             //
             // Add resources
             //
             if (policyTobuild.getControlLoop().getResources() != null) {
                 builder = builder.addResource(policyTobuild.getControlLoop().getResources()
-                        .toArray(new Resource[policyTobuild.getControlLoop().getResources().size()]));
+                    .toArray(new Resource[policyTobuild.getControlLoop().getResources().size()]));
             }
             //
             // Set pnf
@@ -879,12 +750,11 @@ public class ControlLoopPolicyBuilderTest {
     }
 
     private void setTriggerPolicies(ControlLoopPolicy policyTobuild, ControlLoopPolicyBuilder builder)
-                    throws BuilderException {
+        throws BuilderException {
         for (Policy policy : policyTobuild.getPolicies()) {
             if (policy.getId() == policyTobuild.getControlLoop().getTrigger_policy()) {
-                builder.setTriggerPolicy(
-                        PolicyParam.builder()
-                        .id(UUID.randomUUID().toString())
+                // @formatter:off
+                builder.setTriggerPolicy(PolicyParam.builder().id(UUID.randomUUID().toString())
                         .name(policy.getName())
                         .description(policy.getDescription())
                         .actor(policy.getActor())
@@ -892,9 +762,10 @@ public class ControlLoopPolicyBuilderTest {
                         .recipe(policy.getRecipe())
                         .payload(null)
                         .retries(policy.getRetry())
-                        .timeout(policy.getTimeout()).build());
+                        .timeout(policy.getTimeout())
+                        .build());
+                // @formatter:on
             }
         }
     }
-
 }

@@ -3,7 +3,7 @@
  * policy-yaml unit test
  * ================================================================================
  * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,20 +23,14 @@ package org.onap.policy.controlloop.policy;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import org.junit.Test;
-import org.onap.policy.common.utils.io.Serializer;
+import org.onap.policy.common.utils.coder.YamlJsonTranslator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.DumperOptions.FlowStyle;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.Constructor;
-
 
 public class ControlLoopPolicyTest {
     private static final Logger logger = LoggerFactory.getLogger(ControlLoopPolicyTest.class);
@@ -62,9 +56,8 @@ public class ControlLoopPolicyTest {
     }
 
     @Test
-    public void testvFirewall() {
-        // Chenfei to fix this.
-        // this.test("src/test/resources/v2.0.0/policy_ONAP_demo_vFirewall.yaml");
+    public void testvFirewall() throws Exception {
+        this.test("src/test/resources/v2.0.0/policy_ONAP_demo_vFirewall.yaml");
     }
 
     @Test
@@ -89,37 +82,30 @@ public class ControlLoopPolicyTest {
      * @throws Exception if an error occurs
      */
     public void test(String testFile) throws Exception {
-        try (InputStream is = new FileInputStream(new File(testFile))) {
+        try (InputStreamReader fileInputStream = new InputStreamReader(new FileInputStream(testFile))) {
             //
             // Read the yaml into our Java Object
             //
-            Yaml yaml = new Yaml(new Constructor(ControlLoopPolicy.class));
-            Object obj = yaml.load(is);
-            assertNotNull(obj);
-            assertTrue(obj instanceof ControlLoopPolicy);
-            dump(obj);
+            ControlLoopPolicy controlLoopPolicy1 =
+                new YamlJsonTranslator().fromYaml(fileInputStream, ControlLoopPolicy.class);
+            assertNotNull(controlLoopPolicy1);
+            dump(controlLoopPolicy1);
+
             //
             // Now dump it to a yaml string
             //
-            DumperOptions options = new DumperOptions();
-            options.setDefaultFlowStyle(FlowStyle.BLOCK);
-            options.setPrettyFlow(true);
-            yaml = new Yaml(options);
-            String dumpedYaml = yaml.dump(obj);
+            String dumpedYaml = new YamlJsonTranslator().toYaml(controlLoopPolicy1);
             logger.debug(dumpedYaml);
             //
             // Read that string back into our java object
             //
-            Object newObject = yaml.load(dumpedYaml);
-            dump(newObject);
-            assertNotNull(newObject);
-            assertTrue(newObject instanceof ControlLoopPolicy);
-            assertEquals(obj, newObject);
+            ControlLoopPolicy controlLoopPolicy2 =
+                new YamlJsonTranslator().fromYaml(dumpedYaml, ControlLoopPolicy.class);
+            assertNotNull(controlLoopPolicy2);
+            dump(controlLoopPolicy2);
 
             // test serialization
-            ControlLoopPolicy policy = (ControlLoopPolicy) obj;
-            ControlLoopPolicy policy2 = Serializer.roundTrip(policy);
-            assertTrue(policy.equals(policy2));
+            assertEquals(controlLoopPolicy1, controlLoopPolicy2);
         }
     }
 
