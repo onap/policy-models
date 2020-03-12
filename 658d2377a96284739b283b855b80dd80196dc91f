@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e36f8005_62b2a5ae",
+        "filename": "models-interactions/model-yaml/src/main/java/org/onap/policy/controlloop/policy/builder/impl/ControlLoopPolicyBuilderImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-12T22:30:07Z",
+      "side": 1,
+      "message": "hmm. this may generate a sonar, because we\u0027ve lost the stack trace",
+      "revId": "658d2377a96284739b283b855b80dd80196dc91f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
