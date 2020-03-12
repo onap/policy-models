@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2019 Bell Canada. All rights reserved.
+ * Modifications Copyright (C) 2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,16 +32,16 @@ import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.protobuf.Struct;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -68,8 +69,6 @@ public class CdsActorServiceProviderTest {
     private static final String SUBREQUEST_ID = "123456";
     private static final String CDS_RECIPE = "test-cds-recipe";
 
-    @Rule
-    public ExpectedException exceptionRule = ExpectedException.none();
     @Mock
     private CdsProcessorGrpcClient cdsClient;
     private CdsActorServiceProvider cdsActor;
@@ -132,16 +131,14 @@ public class CdsActorServiceProviderTest {
     @Test
     public void testConstructRequestWhenMissingCdsParamsInPolicyPayload() {
         policy.setPayload(new HashMap<>());
-        Optional<ExecutionServiceInput> cdsRequestOpt = cdsActor
-            .constructRequest(onset, operation, policy, aaiParams);
+        Optional<ExecutionServiceInput> cdsRequestOpt = cdsActor.constructRequest(onset, operation, policy, aaiParams);
 
         assertFalse(cdsRequestOpt.isPresent());
     }
 
     @Test
     public void testConstructRequest() {
-        Optional<ExecutionServiceInput> cdsRequestOpt = cdsActor
-            .constructRequest(onset, operation, policy, aaiParams);
+        Optional<ExecutionServiceInput> cdsRequestOpt = cdsActor.constructRequest(onset, operation, policy, aaiParams);
 
         assertTrue(cdsRequestOpt.isPresent());
         final ExecutionServiceInput cdsRequest = cdsRequestOpt.get();
@@ -187,13 +184,13 @@ public class CdsActorServiceProviderTest {
     public void testSendRequestToCdsLatchInterrupted() throws InterruptedException {
         // Reset cdsClient
         CountDownLatch countDownLatch = mock(CountDownLatch.class);
-        doThrow(new InterruptedException("Test latch interrupted failure")).when(countDownLatch)
-            .await(anyLong(), any(TimeUnit.class));
+        doThrow(new InterruptedException("Test latch interrupted failure")).when(countDownLatch).await(anyLong(),
+            any(TimeUnit.class));
         when(cdsClient.sendRequest(any(ExecutionServiceInput.class))).thenReturn(countDownLatch);
 
         CdsActorServiceProvider.CdsActorServiceManager cdsActorSvcMgr = cdsActor.new CdsActorServiceManager();
-        CdsResponse response = cdsActorSvcMgr
-            .sendRequestToCds(cdsClient, cdsProps, ExecutionServiceInput.newBuilder().build());
+        CdsResponse response =
+            cdsActorSvcMgr.sendRequestToCds(cdsClient, cdsProps, ExecutionServiceInput.newBuilder().build());
         assertTrue(Thread.interrupted());
         assertNotNull(response);
         assertEquals(CdsActorConstants.INTERRUPTED, response.getStatus());
@@ -202,8 +199,8 @@ public class CdsActorServiceProviderTest {
     @Test
     public void testSendRequestToCdsLatchTimedOut() {
         CdsActorServiceProvider.CdsActorServiceManager cdsActorSvcMgr = cdsActor.new CdsActorServiceManager();
-        CdsResponse response = cdsActorSvcMgr
-            .sendRequestToCds(cdsClient, cdsProps, ExecutionServiceInput.newBuilder().build());
+        CdsResponse response =
+            cdsActorSvcMgr.sendRequestToCds(cdsClient, cdsProps, ExecutionServiceInput.newBuilder().build());
         assertNotNull(response);
         assertEquals(CdsActorConstants.TIMED_OUT, response.getStatus());
     }

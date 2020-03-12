@@ -3,7 +3,7 @@
  * sdc
  * ================================================================================
  * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,28 +21,33 @@
 
 package org.onap.policy.sdc;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.UUID;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
+import lombok.Data;
+
+@Data
 public class Service implements Serializable {
 
     private static final long serialVersionUID = -1249276698549996806L;
 
-    private UUID serviceUUID;
-    private UUID serviceInvariantUUID;
+    @SerializedName("serviceUuid")
+    private UUID serviceUuid;
+
+    @SerializedName("serviceInvariantUuid")
+    private UUID serviceInvariantUuid;
+
     private String serviceName;
     private String serviceVersion;
 
     public Service() {
-        //Empty Constructor
+        // Empty Constructor
     }
 
     public Service(UUID uuid) {
-        this.serviceUUID = uuid;
+        this.serviceUuid = uuid;
     }
 
     public Service(String name) {
@@ -53,13 +58,13 @@ public class Service implements Serializable {
      * Constructor.
      *
      * @param uuid service id
-     * @param invariantUUID service invariant id
+     * @param invariantUuid service invariant id
      * @param name name
      * @param version version
      */
-    public Service(UUID uuid, UUID invariantUUID, String name, String version) {
-        this.serviceUUID = uuid;
-        this.serviceInvariantUUID = invariantUUID;
+    public Service(UUID uuid, UUID invariantUuid, String name, String version) {
+        this.serviceUuid = uuid;
+        this.serviceInvariantUuid = invariantUuid;
         this.serviceName = name;
         this.serviceVersion = version;
     }
@@ -70,66 +75,9 @@ public class Service implements Serializable {
      * @param service copy object
      */
     public Service(Service service) {
-        this.serviceUUID = service.serviceUUID;
-        this.serviceInvariantUUID = service.serviceInvariantUUID;
+        this.serviceUuid = service.serviceUuid;
+        this.serviceInvariantUuid = service.serviceInvariantUuid;
         this.serviceName = service.serviceName;
         this.serviceVersion = service.serviceVersion;
-    }
-
-    @Override
-    public String toString() {
-        return "Service [serviceUUID=" + serviceUUID + ", serviceInvariantUUID=" + serviceInvariantUUID
-            + ", serviceName=" + serviceName + ", serviceVersion=" + serviceVersion + "]";
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((serviceInvariantUUID == null) ? 0 : serviceInvariantUUID.hashCode());
-        result = prime * result + ((serviceName == null) ? 0 : serviceName.hashCode());
-        result = prime * result + ((serviceUUID == null) ? 0 : serviceUUID.hashCode());
-        result = prime * result + ((serviceVersion == null) ? 0 : serviceVersion.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        Service other = (Service) obj;
-        if (serviceInvariantUUID == null) {
-            if (other.serviceInvariantUUID != null) {
-                return false;
-            }
-        } else if (!serviceInvariantUUID.equals(other.serviceInvariantUUID)) {
-            return false;
-        }
-        if (serviceName == null) {
-            if (other.serviceName != null) {
-                return false;
-            }
-        } else if (!serviceName.equals(other.serviceName)) {
-            return false;
-        }
-        if (serviceUUID == null) {
-            if (other.serviceUUID != null) {
-                return false;
-            }
-        } else if (!serviceUUID.equals(other.serviceUUID)) {
-            return false;
-        }
-        if (serviceVersion == null) {
-            return other.serviceVersion == null;
-        } else {
-            return serviceVersion.equals(other.serviceVersion);
-        }
     }
 }
