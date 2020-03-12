@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc723f65_b326a73b",
+        "filename": "models-interactions/model-yaml/src/test/resources/v1.0.0/policy_Test.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-03-12T16:46:32Z",
+      "side": 1,
+      "message": "Yes so nobody really uses these - intention was to filter for services/resources via SDC catalog API. But the Catalog API isn\u0027t used by CLAMP and A\u0026AI schema has the necessary fields that are mapped.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 0
+      },
+      "revId": "b6bbea8e7c531c29171fdfaf0c38a73380e7bf1b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
