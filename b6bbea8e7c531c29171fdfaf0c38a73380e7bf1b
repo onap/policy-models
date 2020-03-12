@@ -70,6 +70,30 @@
       "revId": "b6bbea8e7c531c29171fdfaf0c38a73380e7bf1b",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a512e899_b97679d0",
+        "filename": "models-interactions/model-yaml/src/test/resources/v1.0.0/policy_Test.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-03-12T17:41:26Z",
+      "side": 1,
+      "message": "Great!",
+      "parentUuid": "9e2099b7_51db6764",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 0
+      },
+      "revId": "b6bbea8e7c531c29171fdfaf0c38a73380e7bf1b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
