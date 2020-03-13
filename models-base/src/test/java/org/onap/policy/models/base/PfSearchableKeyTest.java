@@ -1,5 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,7 +32,7 @@ import org.onap.policy.models.base.testconcepts.DummyPfConcept;
 public class PfSearchableKeyTest {
 
     private static final String VERSION001 = "0.0.1";
-    private static final String ID_IS_NULL = "id is marked @NonNull but is null";
+    private static final String ID_IS_NULL = "^id is marked .*on.*ull but is null$";
 
     @Test
     public void testSearchableKey() {
@@ -54,7 +55,6 @@ public class PfSearchableKeyTest {
         assertEquals(someKey2, someKey1.getKey());
         assertEquals(1, someKey1.getKeys().size());
 
-
         PfConcept pfc = new DummyPfConcept();
         assertEquals(PfSearchableKey.getNullKey().getId(), pfc.getId());
 
@@ -62,13 +62,13 @@ public class PfSearchableKeyTest {
 
         assertTrue(PfSearchableKey.getNullKey().isNullKey());
 
-        assertThatThrownBy(() -> PfSearchableKey.getNullKey().matchesId(null)).hasMessage(ID_IS_NULL);
+        assertThatThrownBy(() -> PfSearchableKey.getNullKey().matchesId(null)).hasMessageMatching(ID_IS_NULL);
 
         assertThatThrownBy(() -> someKey0.setName(null)).isInstanceOf(NullPointerException.class)
-                        .hasMessage("name is marked @NonNull but is null");
+            .hasMessageMatching("^name is marked .*on.*ull but is null$");
 
         assertThatThrownBy(() -> someKey0.setVersion(null)).isInstanceOf(NullPointerException.class)
-                        .hasMessage("version is marked @NonNull but is null");
+            .hasMessageMatching("^version is marked .*on.*ull but is null$");
 
         PfSearchableKey someKey4 = new PfSearchableKey("my-name.*", VERSION001);
         assertEquals("my-name.*", someKey4.getName());

@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,18 +29,20 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Field;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import org.junit.Test;
 import org.onap.policy.models.base.PfKey.Compatibility;
 import org.onap.policy.models.base.testconcepts.DummyPfKey;
 
 public class PfKeyImplTest {
 
-    private static final String OTHER_IS_NULL = "otherKey is marked @NonNull but is null";
-    private static final String ID_IS_NULL = "id is marked @NonNull but is null";
+    private static final String OTHER_IS_NULL = "^otherKey is marked .*on.*ull but is null$";
+    private static final String ID_IS_NULL = "^id is marked .*on.*ull but is null$";
     private static final String VERSION123 = "1.2.3";
     private static final String VERSION100 = "1.0.0";
     private static final String VERSION001 = "0.0.1";
@@ -48,11 +50,11 @@ public class PfKeyImplTest {
     @Test
     public void testConceptKey() {
         assertThatIllegalArgumentException().isThrownBy(() -> new MyKey("some bad key id"))
-                        .withMessage("parameter \"id\": value \"some bad key id\", "
-                                        + "does not match regular expression \"" + PfKey.KEY_ID_REGEXP + "\"");
+            .withMessage("parameter \"id\": value \"some bad key id\", " + "does not match regular expression \""
+                + PfKey.KEY_ID_REGEXP + "\"");
 
         assertThatThrownBy(() -> new MyKey((MyKey) null))
-                        .hasMessage("copyConcept is marked @NonNull but is null");
+            .hasMessageMatching("^copyConcept is marked .*on.*ull but is null$");
 
         MyKey someKey0 = new MyKey();
         assertTrue(someKey0.isNullKey());
@@ -89,7 +91,7 @@ public class PfKeyImplTest {
         assertEquals("name:0.1.2", someKey4.getId());
 
         assertThatThrownBy(() -> someKey0.getCompatibility(null)).isInstanceOf(NullPointerException.class)
-                        .hasMessage("otherKey is marked @NonNull but is null");
+            .hasMessageMatching("^otherKey is marked .*on.*ull but is null$");
 
         assertEquals(Compatibility.DIFFERENT, someKey0.getCompatibility(new DummyPfKey()));
         assertEquals(Compatibility.DIFFERENT, someKey0.getCompatibility(someKey1));
@@ -109,19 +111,19 @@ public class PfKeyImplTest {
         assertFalse(someKey1.isCompatible(new DummyPfKey()));
 
         assertEquals(PfValidationResult.ValidationResult.VALID,
-                someKey0.validate(new PfValidationResult()).getValidationResult());
+            someKey0.validate(new PfValidationResult()).getValidationResult());
         assertEquals(PfValidationResult.ValidationResult.VALID,
-                someKey1.validate(new PfValidationResult()).getValidationResult());
+            someKey1.validate(new PfValidationResult()).getValidationResult());
         assertEquals(PfValidationResult.ValidationResult.VALID,
-                someKey2.validate(new PfValidationResult()).getValidationResult());
+            someKey2.validate(new PfValidationResult()).getValidationResult());
         assertEquals(PfValidationResult.ValidationResult.VALID,
-                someKey3.validate(new PfValidationResult()).getValidationResult());
+            someKey3.validate(new PfValidationResult()).getValidationResult());
         assertEquals(PfValidationResult.ValidationResult.VALID,
-                someKey4.validate(new PfValidationResult()).getValidationResult());
+            someKey4.validate(new PfValidationResult()).getValidationResult());
         assertEquals(PfValidationResult.ValidationResult.VALID,
-                someKey5.validate(new PfValidationResult()).getValidationResult());
+            someKey5.validate(new PfValidationResult()).getValidationResult());
         assertEquals(PfValidationResult.ValidationResult.VALID,
-                someKey6.validate(new PfValidationResult()).getValidationResult());
+            someKey6.validate(new PfValidationResult()).getValidationResult());
 
         someKey0.clean();
         assertNotNull(someKey0.toString());
@@ -132,7 +134,7 @@ public class PfKeyImplTest {
         assertEquals(-12, someKey7.compareTo(someKey0));
 
         assertThatThrownBy(() -> someKey0.compareTo(null)).isInstanceOf(NullPointerException.class)
-                        .hasMessage("otherObj is marked @NonNull but is null");
+            .hasMessageMatching("^otherObj is marked .*on.*ull but is null$");
 
         assertEquals(0, someKey0.compareTo(someKey0));
         assertEquals(-36, someKey0.compareTo(new DummyPfKey()));
@@ -148,18 +150,20 @@ public class PfKeyImplTest {
 
     @Test
     public void testNullArguments() {
-        assertThatThrownBy(() -> new MyKey((String) null)).hasMessage(ID_IS_NULL);
+        assertThatThrownBy(() -> new MyKey((String) null)).hasMessageMatching(ID_IS_NULL);
 
         assertThatThrownBy(() -> new MyKey((MyKey) null))
-                        .hasMessage("copyConcept is marked @NonNull but is null");
+            .hasMessageMatching("^copyConcept is marked .*on.*ull but is null$");
 
-        assertThatThrownBy(() -> new MyKey(null, null)).hasMessage("name is marked @NonNull but is null");
+        assertThatThrownBy(() -> new MyKey(null, null)).hasMessageMatching("name is marked .*on.*ull but is null$");
 
-        assertThatThrownBy(() -> new MyKey("name", null)).hasMessage("version is marked @NonNull but is null");
+        assertThatThrownBy(() -> new MyKey("name", null))
+            .hasMessageMatching("^version is marked .*on.*ull but is null$");
 
-        assertThatThrownBy(() -> new MyKey(null, VERSION001)).hasMessage("name is marked @NonNull but is null");
+        assertThatThrownBy(() -> new MyKey(null, VERSION001))
+            .hasMessageMatching("^name is marked .*on.*ull but is null$");
 
-        assertThatThrownBy(() -> new MyKey("AKey", VERSION001).isCompatible(null)).hasMessage(OTHER_IS_NULL);
+        assertThatThrownBy(() -> new MyKey("AKey", VERSION001).isCompatible(null)).hasMessageMatching(OTHER_IS_NULL);
     }
 
     @Test
@@ -174,10 +178,8 @@ public class PfKeyImplTest {
         testKey.validate(validationResult);
         nameField.set(testKey, "TheKey");
         nameField.setAccessible(false);
-        assertEquals(
-                "name invalid-parameter name with value Key Name "
-                        + "does not match regular expression " + PfKey.NAME_REGEXP,
-                validationResult.getMessageList().get(0).getMessage());
+        assertEquals("name invalid-parameter name with value Key Name " + "does not match regular expression "
+            + PfKey.NAME_REGEXP, validationResult.getMessageList().get(0).getMessage());
 
         Field versionField = testKey.getClass().getDeclaredField("version");
         versionField.setAccessible(true);
@@ -186,21 +188,18 @@ public class PfKeyImplTest {
         testKey.validate(validationResult2);
         versionField.set(testKey, VERSION001);
         versionField.setAccessible(false);
-        assertEquals(
-                "version invalid-parameter version with value Key Version "
-                        + "does not match regular expression " + PfKey.VERSION_REGEXP,
-                validationResult2.getMessageList().get(0).getMessage());
+        assertEquals("version invalid-parameter version with value Key Version " + "does not match regular expression "
+            + PfKey.VERSION_REGEXP, validationResult2.getMessageList().get(0).getMessage());
     }
 
     @Test
     public void testkeynewerThan() {
         MyKey key1 = new MyKey("Key1", VERSION123);
 
-        assertThatThrownBy(() -> key1.isNewerThan(null)).hasMessage(OTHER_IS_NULL);
+        assertThatThrownBy(() -> key1.isNewerThan(null)).hasMessageMatching(OTHER_IS_NULL);
 
-        assertThatThrownBy(() -> key1.isNewerThan(new PfReferenceKey()))
-                        .hasMessage("org.onap.policy.models.base.PfReferenceKey is not "
-                                        + "an instance of " + PfKeyImpl.class.getName());
+        assertThatThrownBy(() -> key1.isNewerThan(new PfReferenceKey())).hasMessage(
+            "org.onap.policy.models.base.PfReferenceKey is not " + "an instance of " + PfKeyImpl.class.getName());
 
         assertFalse(key1.isNewerThan(key1));
 
@@ -241,10 +240,10 @@ public class PfKeyImplTest {
 
         PfReferenceKey refKey = new PfReferenceKey();
 
-        assertThatThrownBy(() -> refKey.isNewerThan(null)).hasMessage(OTHER_IS_NULL);
+        assertThatThrownBy(() -> refKey.isNewerThan(null)).hasMessageMatching(OTHER_IS_NULL);
 
         assertThatThrownBy(() -> refKey.isNewerThan(new MyKey()))
-                        .hasMessage(MyKey.class.getName() + " is not an instance of " + PfReferenceKey.class.getName());
+            .hasMessage(MyKey.class.getName() + " is not an instance of " + PfReferenceKey.class.getName());
 
         assertFalse(refKey.isNewerThan(refKey));
     }
