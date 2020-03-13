@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,7 +31,7 @@ import org.onap.policy.models.base.testconcepts.DummyPfModel;
 
 public class ModelServiceTest {
 
-    private static final String MODEL_KEY_IS_NULL = "modelKey is marked @NonNull but is null";
+    private static final String MODEL_KEY_IS_NULL = "modelKey is marked .*on.*ull but is null$";
     private static final String MODEL_NAME = "ModelName";
 
     @Test
@@ -40,7 +40,7 @@ public class ModelServiceTest {
 
         assertFalse(PfModelService.existsModel("NonExistantName"));
         assertThatThrownBy(() -> PfModelService.getModel("NonExistantName"))
-                        .hasMessage("Model for name NonExistantName not found in model service");
+            .hasMessage("Model for name NonExistantName not found in model service");
 
         PfModelService.registerModel(MODEL_NAME, new DummyPfModel());
         assertTrue(PfModelService.existsModel(MODEL_NAME));
@@ -50,7 +50,7 @@ public class ModelServiceTest {
 
         assertFalse(PfModelService.existsModel(MODEL_NAME));
         assertThatThrownBy(() -> PfModelService.getModel(MODEL_NAME))
-                        .hasMessage("Model for name ModelName not found in model service");
+            .hasMessage("Model for name ModelName not found in model service");
 
         PfModelService.registerModel(MODEL_NAME, new DummyPfModel());
         assertTrue(PfModelService.existsModel(MODEL_NAME));
@@ -59,20 +59,18 @@ public class ModelServiceTest {
         PfModelService.clear();
         assertFalse(PfModelService.existsModel(MODEL_NAME));
         assertThatThrownBy(() -> PfModelService.getModel(MODEL_NAME))
-                        .hasMessage("Model for name ModelName not found in model service");
+            .hasMessage("Model for name ModelName not found in model service");
 
-        assertThatThrownBy(() -> PfModelService.registerModel(null, null))
-                        .hasMessage(MODEL_KEY_IS_NULL);
+        assertThatThrownBy(() -> PfModelService.registerModel(null, null)).hasMessageMatching(MODEL_KEY_IS_NULL);
 
         assertThatThrownBy(() -> PfModelService.registerModel("nullModelName", null))
-                        .hasMessage("model is marked @NonNull but is null");
+            .hasMessageMatching("^model is marked .*on.*ull but is null$");
 
         assertThatThrownBy(() -> PfModelService.registerModel(null, new DummyPfModel()))
-                        .hasMessage(MODEL_KEY_IS_NULL);
+            .hasMessageMatching(MODEL_KEY_IS_NULL);
 
-        assertThatThrownBy(() -> PfModelService.deregisterModel(null))
-                        .hasMessage(MODEL_KEY_IS_NULL);
+        assertThatThrownBy(() -> PfModelService.deregisterModel(null)).hasMessageMatching(MODEL_KEY_IS_NULL);
 
-        assertThatThrownBy(() -> PfModelService.getModel(null)).hasMessage(MODEL_KEY_IS_NULL);
+        assertThatThrownBy(() -> PfModelService.getModel(null)).hasMessageMatching(MODEL_KEY_IS_NULL);
     }
 }

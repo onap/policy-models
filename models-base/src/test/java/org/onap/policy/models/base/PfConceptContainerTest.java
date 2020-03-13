@@ -48,12 +48,14 @@ import org.onap.policy.models.base.testconcepts.DummyPfConceptSub;
  */
 public class PfConceptContainerTest {
 
-    private static final String NAME2 = "name2";
-    private static final String NAME1 = "name1";
     private static final String NAME0 = "name0";
-    private static final String KEY_IS_NULL = "key is marked @NonNull but is null";
+    private static final String NAME1 = "name1";
+    private static final String NAME2 = "name2";
+    private static final String NAME3 = "name3";
+    private static final String ID3 = "name3:0.0.1";
+    private static final String VERSION0_0_1 = "0.0.1";
+    private static final String KEY_IS_NULL = "^key is marked .*on.*ull but is null$";
     private static final String DUMMY_VALUE = "Dummy";
-    private static final String VERSION0 = "0.0.1";
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Test
@@ -70,15 +72,16 @@ public class PfConceptContainerTest {
         container = new DummyPfConceptContainer(new PfConceptKey(), new TreeMap<PfConceptKey, DummyPfConcept>());
         assertNotNull(container);
 
-        assertThatThrownBy(() -> new PfConceptContainer((PfConceptKey) null, null)).hasMessage(KEY_IS_NULL);
+        assertThatThrownBy(() -> new PfConceptContainer((PfConceptKey) null, null)).hasMessageMatching(KEY_IS_NULL);
 
-        assertThatThrownBy(() -> new DummyPfConceptContainer((PfConceptKey) null, null)).hasMessage(KEY_IS_NULL);
+        assertThatThrownBy(() -> new DummyPfConceptContainer((PfConceptKey) null, null))
+            .hasMessageMatching(KEY_IS_NULL);
 
         assertThatThrownBy(() -> new DummyPfConceptContainer(new PfConceptKey(), null))
-                .hasMessage("conceptMap is marked @NonNull but is null");
+            .hasMessageMatching("^conceptMap is marked .*on.*ull but is null$");
 
         assertThatThrownBy(() -> new DummyPfConceptContainer(null, new TreeMap<PfConceptKey, DummyPfConcept>()))
-                .hasMessage(KEY_IS_NULL);
+            .hasMessageMatching(KEY_IS_NULL);
 
         container.getKey().setName(DUMMY_VALUE);
         DummyPfConceptContainer clonedContainer = new DummyPfConceptContainer(container);
@@ -86,12 +89,12 @@ public class PfConceptContainerTest {
         assertEquals(DUMMY_VALUE, clonedContainer.getKey().getName());
 
         assertThatThrownBy(() -> new DummyPfConceptContainer((DummyPfConceptContainer) null))
-                .hasMessage("copyConcept is marked @NonNull but is null");
+            .hasMessageMatching("^copyConcept is marked .*on.*ull but is null$");
 
         List<PfKey> keyList = container.getKeys();
         assertEquals(1, keyList.size());
 
-        PfConceptKey conceptKey = new PfConceptKey("Key", VERSION0);
+        PfConceptKey conceptKey = new PfConceptKey("Key", VERSION0_0_1);
         Map<PfConceptKey, DummyPfConcept> conceptMap = new TreeMap<>();
         conceptMap.put(conceptKey, new DummyPfConcept(conceptKey));
 
@@ -115,7 +118,7 @@ public class PfConceptContainerTest {
         assertEquals(0, container.compareTo(clonedContainer));
 
         assertThatThrownBy(() -> new DummyPfConceptContainer((DummyPfConceptContainer) null))
-                .isInstanceOf(NullPointerException.class);
+            .isInstanceOf(NullPointerException.class);
 
         assertFalse(container.compareTo(null) == 0);
         assertEquals(0, container.compareTo(container));
@@ -127,16 +130,17 @@ public class PfConceptContainerTest {
         testContainer.getKey().setVersion(container.getKey().getVersion());
         assertEquals(0, container.compareTo(testContainer));
 
-        PfConceptKey testConceptKey = new PfConceptKey("TestKey", VERSION0);
+        PfConceptKey testConceptKey = new PfConceptKey("TestKey", VERSION0_0_1);
         testContainer.getConceptMap().put(testConceptKey, new DummyPfConcept(testConceptKey));
         assertFalse(container.compareTo(testContainer) == 0);
 
         final DummyPfConceptContainer container3 = container;
-        assertThatThrownBy(() -> container3.validate(null)).hasMessage("resultIn is marked @NonNull but is null");
+        assertThatThrownBy(() -> container3.validate(null))
+            .hasMessageMatching("^resultIn is marked .*on.*ull but is null$");
 
         DummyPfConceptContainer validateContainer = new DummyPfConceptContainer();
         assertFalse(validateContainer.validate(new PfValidationResult()).isOk());
-        validateContainer.setKey(new PfConceptKey("VCKey", VERSION0));
+        validateContainer.setKey(new PfConceptKey("VCKey", VERSION0_0_1));
         assertTrue(validateContainer.validate(new PfValidationResult()).isOk());
 
         validateContainer.getConceptMap().put(testConceptKey, new DummyPfConcept(testConceptKey));
@@ -174,32 +178,51 @@ public class PfConceptContainerTest {
     public void testAuthorative() {
         Map<String, DummyAuthorativeConcept> dacMap = new LinkedHashMap<>();
         dacMap.put(NAME0, new DummyAuthorativeConcept(NAME0, "1.2.3", "Hello"));
-        dacMap.put(NAME1, new DummyAuthorativeConcept(PfKey.NULL_KEY_NAME, PfKey.NULL_KEY_VERSION, "Hi"));
+        dacMap.put(NAME1, new DummyAuthorativeConcept("IncorrectName", PfKey.NULL_KEY_VERSION, "Hi"));
         dacMap.put(NAME2, new DummyAuthorativeConcept(NAME2, "1.2.3", "Howdy"));
+        dacMap.put(ID3, new DummyAuthorativeConcept(NAME3, "9.9.9", "Ciao"));
+        dacMap.put("name4:1.2.3", new DummyAuthorativeConcept(null, null, "Slan"));
+        dacMap.put("name5", new DummyAuthorativeConcept(null, null, "Bye"));
 
         List<Map<String, DummyAuthorativeConcept>> authorativeList = new ArrayList<>();
         authorativeList.add(dacMap);
 
         DummyPfConceptContainer container = new DummyPfConceptContainer();
+
+        assertThatThrownBy(() -> container.fromAuthorative(authorativeList))
+            .hasMessage("Key name1:0.0.0 field name1 does not match the value IncorrectName in the concept field");
+
+        dacMap.put(NAME1, new DummyAuthorativeConcept(NAME1, PfKey.NULL_KEY_VERSION, "Hi"));
+
+        assertThatThrownBy(() -> container.fromAuthorative(authorativeList))
+            .hasMessage("Key name3:0.0.1 field 0.0.1 does not match the value 9.9.9 in the concept field");
+
+        dacMap.put(ID3, new DummyAuthorativeConcept(NAME3, "0.0.1", "Ciao"));
+
         container.fromAuthorative(authorativeList);
 
         assertEquals("Hello", container.getConceptMap().get(new PfConceptKey("name0:1.2.3")).getDescription());
-        assertEquals("Hi", container.getConceptMap().get(new PfConceptKey("NULL:0.0.0")).getDescription());
+        assertEquals("Hi", container.getConceptMap().get(new PfConceptKey("name1:0.0.0")).getDescription());
         assertEquals("Howdy", container.getConceptMap().get(new PfConceptKey("name2:1.2.3")).getDescription());
+        assertEquals("Ciao", container.getConceptMap().get(new PfConceptKey("name3:0.0.1")).getDescription());
+        assertEquals("name4", container.getConceptMap().get(new PfConceptKey("name4:1.2.3")).getName());
+        assertEquals("1.2.3", container.getConceptMap().get(new PfConceptKey("name4:1.2.3")).getVersion());
+        assertEquals("0.0.0", container.getConceptMap().get(new PfConceptKey("name5:0.0.0")).getVersion());
 
         List<Map<String, DummyAuthorativeConcept>> outMapList = container.toAuthorative();
 
-        assertEquals(dacMap.get(NAME1), outMapList.get(0).get("NULL"));
-        assertEquals(dacMap.get(NAME0).getDescription(), outMapList.get(1).get(NAME0).getDescription());
+        assertEquals(dacMap.get(NAME0), outMapList.get(0).get(NAME0));
+        assertEquals(dacMap.get(NAME1).getDescription(), outMapList.get(1).get(NAME1).getDescription());
         assertEquals(dacMap.get(NAME2), outMapList.get(2).get(NAME2));
+        assertEquals(dacMap.get(NAME3), outMapList.get(2).get(NAME3));
 
         DummyBadPfConceptContainer badContainer = new DummyBadPfConceptContainer();
         assertThatThrownBy(() -> badContainer.fromAuthorative(authorativeList))
-                .hasMessage("failed to instantiate instance of container concept class");
+            .hasMessage("failed to instantiate instance of container concept class");
 
         authorativeList.clear();
         assertThatThrownBy(() -> container.fromAuthorative(authorativeList))
-                .hasMessage("An incoming list of concepts must have at least one entry");
+            .hasMessage("An incoming list of concepts must have at least one entry");
     }
 
     @Test(expected = NullPointerException.class)

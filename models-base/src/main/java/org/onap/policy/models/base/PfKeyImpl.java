@@ -1,6 +1,6 @@
 /*
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,9 +23,11 @@ package org.onap.policy.models.base;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
+
 import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 
@@ -116,6 +118,15 @@ public abstract class PfKeyImpl extends PfKey {
     }
 
     /**
+     * Determines if the name is "null".
+     *
+     * @return {@code true} if the name is null, {@code false} otherwise
+     */
+    public boolean isNullName() {
+        return PfKey.NULL_KEY_NAME.equals(getName());
+    }
+
+    /**
      * Determines if the version is "null".
      *
      * @return {@code true} if the version is null, {@code false} otherwise
@@ -147,7 +158,7 @@ public abstract class PfKeyImpl extends PfKey {
         }
 
         if (thisVersionArray.length >= 2 && otherVersionArray.length >= 2
-                        && !thisVersionArray[1].equals(otherVersionArray[1])) {
+            && !thisVersionArray[1].equals(otherVersionArray[1])) {
             return Compatibility.MINOR;
         }
 
@@ -189,12 +200,12 @@ public abstract class PfKeyImpl extends PfKey {
         }
 
         if (thisVersionArray.length >= 2 && otherVersionArray.length >= 2
-                        && !thisVersionArray[1].equals(otherVersionArray[1])) {
+            && !thisVersionArray[1].equals(otherVersionArray[1])) {
             return Integer.valueOf(thisVersionArray[1]) > Integer.valueOf(otherVersionArray[1]);
         }
 
         if (thisVersionArray.length >= 3 && otherVersionArray.length >= 3
-                        && !thisVersionArray[2].equals(otherVersionArray[2])) {
+            && !thisVersionArray[2].equals(otherVersionArray[2])) {
             return Integer.valueOf(thisVersionArray[2]) > Integer.valueOf(otherVersionArray[2]);
         }
 
@@ -215,8 +226,7 @@ public abstract class PfKeyImpl extends PfKey {
 
         if (versionArray.length >= 2) {
             return Integer.parseInt(versionArray[1]);
-        }
-        else {
+        } else {
             return 0;
         }
     }
@@ -227,26 +237,25 @@ public abstract class PfKeyImpl extends PfKey {
 
         if (versionArray.length >= 3) {
             return Integer.parseInt(versionArray[2]);
-        }
-        else {
+        } else {
             return 0;
         }
     }
 
     @Override
     public PfValidationResult validate(final PfValidationResult result) {
-        final String nameValidationErrorMessage = Assertions.getStringParameterValidationMessage(NAME_TOKEN, getName(),
-                        getNameRegEx());
+        final String nameValidationErrorMessage =
+            Assertions.getStringParameterValidationMessage(NAME_TOKEN, getName(), getNameRegEx());
         if (nameValidationErrorMessage != null) {
             result.addValidationMessage(new PfValidationMessage(this, this.getClass(), ValidationResult.INVALID,
-                            "name invalid-" + nameValidationErrorMessage));
+                "name invalid-" + nameValidationErrorMessage));
         }
 
-        final String versionValidationErrorMessage = Assertions.getStringParameterValidationMessage(VERSION_TOKEN,
-                        getVersion(), getVersionRegEx());
+        final String versionValidationErrorMessage =
+            Assertions.getStringParameterValidationMessage(VERSION_TOKEN, getVersion(), getVersionRegEx());
         if (versionValidationErrorMessage != null) {
             result.addValidationMessage(new PfValidationMessage(this, this.getClass(), ValidationResult.INVALID,
-                            "version invalid-" + versionValidationErrorMessage));
+                "version invalid-" + versionValidationErrorMessage));
         }
 
         return result;

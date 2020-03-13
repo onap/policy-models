@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,7 +34,7 @@ import org.onap.policy.models.base.testconcepts.DummyPfConceptKeySub;
 
 public class PfKeyUseTest {
 
-    private static final String OTHER_KEY_IS_NULL = "otherKey is marked @NonNull but is null";
+    private static final String OTHER_KEY_IS_NULL = "^otherKey is marked .*on.*ull but is null$";
 
     @Test
     public void testKeyUse() {
@@ -43,7 +43,7 @@ public class PfKeyUseTest {
         assertNotNull(new PfKeyUse(new PfReferenceKey()));
 
         assertThatThrownBy(() -> new PfKeyUse((PfKeyUse) null))
-                        .hasMessage("copyConcept is marked @NonNull but is null");
+            .hasMessageMatching("^copyConcept is marked .*on.*ull but is null$");
 
         PfConceptKey key = new PfConceptKey("Key", "0.0.1");
         PfKeyUse keyUse = new PfKeyUse();
@@ -55,7 +55,7 @@ public class PfKeyUseTest {
 
         assertEquals(Compatibility.IDENTICAL, keyUse.getCompatibility(key));
 
-        assertThatThrownBy(() -> key.getCompatibility(null)).hasMessage(OTHER_KEY_IS_NULL);
+        assertThatThrownBy(() -> key.getCompatibility(null)).hasMessageMatching(OTHER_KEY_IS_NULL);
 
         assertTrue(keyUse.isCompatible(key));
 
@@ -87,20 +87,20 @@ public class PfKeyUseTest {
         PfValidationResult resultNull = new PfValidationResult();
         assertEquals(false, keyUseNull.validate(resultNull).isValid());
 
-        assertThatThrownBy(() -> keyUse.setKey(null)).hasMessage("key is marked @NonNull but is null");
+        assertThatThrownBy(() -> keyUse.setKey(null)).hasMessageMatching("^key is marked .*on.*ull but is null$");
 
-        assertThatThrownBy(() -> keyUse.getCompatibility(null)).hasMessage(OTHER_KEY_IS_NULL);
+        assertThatThrownBy(() -> keyUse.getCompatibility(null)).hasMessageMatching(OTHER_KEY_IS_NULL);
 
-        assertThatThrownBy(() -> keyUse.isCompatible(null)).hasMessage(OTHER_KEY_IS_NULL);
+        assertThatThrownBy(() -> keyUse.isCompatible(null)).hasMessageMatching(OTHER_KEY_IS_NULL);
 
-        assertThatThrownBy(() -> keyUse.validate(null)).hasMessage("result is marked @NonNull but is null");
+        assertThatThrownBy(() -> keyUse.validate(null)).hasMessageMatching("^result is marked .*on.*ull but is null$");
 
         PfKeyUse testKeyUse = new PfKeyUse(new DummyPfConceptKeySub(new PfConceptKey()));
         assertEquals(testKeyUse, new PfKeyUse(testKeyUse));
 
         assertThatThrownBy(() -> new PfKeyUse((PfKeyUse) null)).isInstanceOf(NullPointerException.class);
 
-        assertThatThrownBy(() -> keyUse.isNewerThan(null)).hasMessage(OTHER_KEY_IS_NULL);
+        assertThatThrownBy(() -> keyUse.isNewerThan(null)).hasMessageMatching(OTHER_KEY_IS_NULL);
 
         assertEquals(false, testKeyUse.isNewerThan(keyUse));
         assertEquals(false, testKeyUse.isNewerThan(testKeyUse));

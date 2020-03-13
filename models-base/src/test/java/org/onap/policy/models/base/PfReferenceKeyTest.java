@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,6 +29,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Field;
+
 import org.junit.Test;
 
 public class PfReferenceKeyTest {
@@ -54,7 +55,7 @@ public class PfReferenceKeyTest {
         assertEquals("NULL:0.0.0:NULL:NULL", PfReferenceKey.getNullKey().getId());
 
         assertThatThrownBy(() -> new PfReferenceKey(new PfConceptKey(), null))
-                        .hasMessage("parameter \"localName\" is null");
+            .hasMessage("parameter \"localName\" is null");
 
         PfReferenceKey testReferenceKey = new PfReferenceKey();
         testReferenceKey.setParentConceptKey(new PfConceptKey("PN", VERSION001));
@@ -83,7 +84,7 @@ public class PfReferenceKeyTest {
         assertEquals("NLN", testReferenceKey.getLocalName());
 
         assertThatThrownBy(() -> testReferenceKey.isCompatible(null))
-                        .hasMessage("otherKey is marked @NonNull but is null");
+            .hasMessageMatching("^otherKey is marked .*on.*ull but is null$");
 
         assertFalse(testReferenceKey.isCompatible(PfConceptKey.getNullKey()));
         assertFalse(testReferenceKey.isCompatible(PfReferenceKey.getNullKey()));
@@ -101,7 +102,7 @@ public class PfReferenceKeyTest {
 
         PfReferenceKey clonedReferenceKey = new PfReferenceKey(testReferenceKey);
         assertEquals("PfReferenceKey(parentKeyName=NPKN, parentKeyVersion=0.0.1, parentLocalName=NPKLN, localName=NLN)",
-                clonedReferenceKey.toString());
+            clonedReferenceKey.toString());
 
         assertFalse(testReferenceKey.hashCode() == 0);
 
@@ -144,9 +145,9 @@ public class PfReferenceKeyTest {
         parentNameField.set(testReferenceKey, "ParentName");
         parentNameField.setAccessible(false);
         assertEquals(
-                "parentKeyName invalid-parameter parentKeyName with value Parent Name "
-                        + "does not match regular expression " + PfKey.NAME_REGEXP,
-                validationResult.getMessageList().get(0).getMessage());
+            "parentKeyName invalid-parameter parentKeyName with value Parent Name "
+                + "does not match regular expression " + PfKey.NAME_REGEXP,
+            validationResult.getMessageList().get(0).getMessage());
 
         Field parentVersionField = testReferenceKey.getClass().getDeclaredField("parentKeyVersion");
         parentVersionField.setAccessible(true);
@@ -156,9 +157,9 @@ public class PfReferenceKeyTest {
         parentVersionField.set(testReferenceKey, VERSION001);
         parentVersionField.setAccessible(false);
         assertEquals(
-                "parentKeyVersion invalid-parameter parentKeyVersion with value Parent Version "
-                        + "does not match regular expression " + PfKey.VERSION_REGEXP,
-                validationResult2.getMessageList().get(0).getMessage());
+            "parentKeyVersion invalid-parameter parentKeyVersion with value Parent Version "
+                + "does not match regular expression " + PfKey.VERSION_REGEXP,
+            validationResult2.getMessageList().get(0).getMessage());
 
         Field parentLocalNameField = testReferenceKey.getClass().getDeclaredField("parentLocalName");
         parentLocalNameField.setAccessible(true);
@@ -168,9 +169,9 @@ public class PfReferenceKeyTest {
         parentLocalNameField.set(testReferenceKey, PARENT_LOCAL_NAME);
         parentLocalNameField.setAccessible(false);
         assertEquals(
-                "parentLocalName invalid-parameter parentLocalName with value "
-                        + "Parent Local Name does not match regular expression [A-Za-z0-9\\-_\\.]+|^$",
-                validationResult3.getMessageList().get(0).getMessage());
+            "parentLocalName invalid-parameter parentLocalName with value "
+                + "Parent Local Name does not match regular expression [A-Za-z0-9\\-_\\.]+|^$",
+            validationResult3.getMessageList().get(0).getMessage());
 
         Field localNameField = testReferenceKey.getClass().getDeclaredField("localName");
         localNameField.setAccessible(true);
@@ -180,8 +181,8 @@ public class PfReferenceKeyTest {
         localNameField.set(testReferenceKey, LOCAL_NAME);
         localNameField.setAccessible(false);
         assertEquals(
-                "localName invalid-parameter localName with value Local Name "
-                        + "does not match regular expression [A-Za-z0-9\\-_\\.]+|^$",
-                validationResult4.getMessageList().get(0).getMessage());
+            "localName invalid-parameter localName with value Local Name "
+                + "does not match regular expression [A-Za-z0-9\\-_\\.]+|^$",
+            validationResult4.getMessageList().get(0).getMessage());
     }
 }
