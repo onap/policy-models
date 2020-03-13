@@ -1,0 +1,2896 @@
+{
+  "tosca_definitions_version": "tosca_simple_yaml_1_1_0",
+  "topology_template": {
+    "policies": [
+      {
+        "operational.apex.vCPE": {
+          "type": "onap.policies.controlloop.operational.common.Apex",
+          "type_version": "1.0.0",
+          "derived_from": "tosca.policies.Root",
+          "name": "operational.apex.vCPE",
+          "version": "1.0.0",
+          "properties": {
+            "engineServiceParameters": {
+              "name": "MyApexEngine",
+              "version": "0.0.1",
+              "id": 45,
+              "instanceCount": 4,
+              "deploymentPort": 12561,
+              "policy_type_impl": {
+                "apexPolicyModel": {
+                  "key": {
+                    "name": "ONAPvCPEPolicyModel",
+                    "version": "0.0.1"
+                  },
+                  "keyInformation": {
+                    "key": {
+                      "name": "ONAPvCPEPolicyModel_KeyInfo",
+                      "version": "0.0.1"
+                    },
+                    "keyInfoMap": {
+                      "entry": [
+                        {
+                          "key": {
+                            "name": "AAILookupTask",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "AAILookupTask",
+                              "version": "0.0.1"
+                            },
+                            "UUID": "bc77813f-e2fa-33e0-aef0-c5b6a8832698",
+                            "description": "Generated description for concept referred to by key \"AAILookupTask:0.0.1\""
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "APPCLCMRequestType",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "APPCLCMRequestType",
+                              "version": "0.0.1"
+                            },
+                            "UUID": "ab26e475-d09d-36cd-a65c-8a8b556f0fa2",
+                            "description": "Generated description for concept referred to by key \"APPCLCMRequestType:0.0.1\""
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "APPCLCMResponseType",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "APPCLCMResponseType",
+                              "version": "0.0.1"
+                            },
+                            "UUID": "a60b42bb-c308-30ea-be59-5bc54864508b",
+                            "description": "Generated description for concept referred to by key \"APPCLCMResponseType:0.0.1\""
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "APPCRestartVNFRequestEvent",
+                            "version": "2.0.0"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "APPCRestartVNFRequestEvent",
+                              "version": "2.0.0"
+                            },
+                            "UUID": "0b16f8d9-6ee9-30d7-bcd2-e4ded9fccf9b",
+                            "description": "Generated description for concept referred to by key \"APPCRestartVNFRequestEvent:2.0.0\""
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "APPCRestartVNFRequestTask",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "APPCRestartVNFRequestTask",
+                              "version": "0.0.1"
+                            },
+                            "UUID": "719ae90e-ab01-322e-ace3-8c379e7c1fbf",
+                            "description": "Generated description for concept referred to by key \"APPCRestartVNFRequestTask:0.0.1\""
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "APPCRestartVNFResponseEvent",
+                            "version": "2.0.0"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "APPCRestartVNFResponseEvent",
+                              "version": "2.0.0"
+                            },
+                            "UUID": "7034c5a9-2ea7-3e9e-9ccf-3610c3bf80d9",
+                            "description": "Generated description for concept referred to by key \"APPCRestartVNFResponseEvent:2.0.0\""
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "APPCRestartVNFResponseTask",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "APPCRestartVNFResponseTask",
+                              "version": "0.0.1"
+                            },
+                            "UUID": "fe641fd9-6583-37c5-b317-2a33a3ca5ac7",
+                            "description": "Generated description for concept referred to by key \"APPCRestartVNFResponseTask:0.0.1\""
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "AbatedTask",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "AbatedTask",
+                              "version": "0.0.1"
+                            },
+                            "UUID": "0eb3974f-4fdc-3c90-b351-34e7e18ff1ab",
+                            "description": "Generated description for concept referred to by key \"AbatedTask:0.0.1\""
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "ControlLoop-vCPE-48f0c2c3-a172-4192-9ae3-052274181b6e",
+                            "version": "1.0.2"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "ControlLoop-vCPE-48f0c2c3-a172-4192-9ae3-052274181b6e",
+                              "version": "1.0.2"
+                            },
+                            "UUID": "63ff5c25-f245-37e9-a580-6ac274ced3a7",
+                            "description": "Generated description for concept referred to by key \"ControlLoop-vCPE-48f0c2c3-a172-4192-9ae3-052274181b6e:1.0.2\""
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "ControlLoopExecutionIDAlbum",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "ControlLoopExecutionIDAlbum",
+                              "version": "0.0.1"
+                            },
+                            "UUID": "5b2bc0cf-0807-3ab1-9004-f21806d800f0",
+                            "description": "Generated description for concept referred to by key \"ControlLoopExecutionIDAlbum:0.0.1\""
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "ControlLoopLogEvent",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "ControlLoopLogEvent",
+                              "version": "0.0.1"
+                            },
+                            "UUID": "ed8a82ad-52c2-3d58-8c08-601606894b86",
+                            "description": "Generated description for concept referred to by key \"ControlLoopLogEvent:0.0.1\""
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "ControlLoopLogTask",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "ControlLoopLogTask",
+                              "version": "0.0.1"
+                            },
+                            "UUID": "1b175691-6b5d-31f6-bf2d-4be95a01f92e",
+                            "description": "Generated description for concept referred to by key \"ControlLoopLogTask:0.0.1\""
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "DeniedTask",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "DeniedTask",
+                              "version": "0.0.1"
+                            },
+                            "UUID": "00142e3c-ee3b-323f-9490-6e4b7f34b09f",
+                            "description": "Generated description for concept referred to by key \"DeniedTask:0.0.1\""
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "GetVCPEStateTask",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "GetVCPEStateTask",
+                              "version": "0.0.1"
+                            },
+                            "UUID": "644d2a3d-0f3a-3664-8000-280c400a5cc1",
+                            "description": "Generated description for concept referred to by key \"GetVCPEStateTask:0.0.1\""
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "GuardDecisionAttributesType",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "GuardDecisionAttributesType",
+                              "version": "0.0.1"
+                            },
+                            "UUID": "5f6dff51-c183-322f-9aba-c6074aa0ece5",
+                            "description": "Generated description for concept referred to by key \"GuardDecisionAttributesType:0.0.1\""
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "GuardRequestEvent",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "GuardRequestEvent",
+                              "version": "0.0.1"
+                            },
+                            "UUID": "fb383a58-715b-3972-a3e6-38010a8de234",
+                            "description": "Generated description for concept referred to by key \"GuardRequestEvent:0.0.1\""
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "GuardRequestTask",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "GuardRequestTask",
+                              "version": "0.0.1"
+                            },
+                            "UUID": "0427d63c-da78-334c-a5bd-95fbbb162398",
+                            "description": "Generated description for concept referred to by key \"GuardRequestTask:0.0.1\""
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "GuardResponseEvent",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "GuardResponseEvent",
+                              "version": "0.0.1"
+                            },
+                            "UUID": "395f6d46-cf24-3d3e-b1fd-1a189a58993d",
+                            "description": "Generated description for concept referred to by key \"GuardResponseEvent:0.0.1\""
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "GuardResponseTask",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "GuardResponseTask",
+                              "version": "0.0.1"
+                            },
+                            "UUID": "1a8b3f30-a7aa-330b-8131-4aea06ad6934",
+                            "description": "Generated description for concept referred to by key \"GuardResponseTask:0.0.1\""
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "NoAAILookupTask",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "NoAAILookupTask",
+                              "version": "0.0.1"
+                            },
+                            "UUID": "648bc8f9-ad2b-3a1b-abe2-89401645f191",
+                            "description": "Generated description for concept referred to by key \"NoAAILookupTask:0.0.1\""
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "ONAPvCPEPolicyModel",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "ONAPvCPEPolicyModel",
+                              "version": "0.0.1"
+                            },
+                            "UUID": "cf1aa7f4-6fe3-3cba-90b4-49dcf46f0d57",
+                            "description": "Generated description for concept referred to by key \"ONAPvCPEPolicyModel:0.0.1\""
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "ONAPvCPEPolicyModel_Albums",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "ONAPvCPEPolicyModel_Albums",
+                              "version": "0.0.1"
+                            },
+                            "UUID": "13f8471b-2b9c-32e0-940b-fe640ea442cf",
+                            "description": "Generated description for concept referred to by key \"ONAPvCPEPolicyModel_Albums:0.0.1\""
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "ONAPvCPEPolicyModel_Events",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "ONAPvCPEPolicyModel_Events",
+                              "version": "0.0.1"
+                            },
+                            "UUID": "4b8e6653-731d-38c5-a195-0cadf533a7a1",
+                            "description": "Generated description for concept referred to by key \"ONAPvCPEPolicyModel_Events:0.0.1\""
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "ONAPvCPEPolicyModel_KeyInfo",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "ONAPvCPEPolicyModel_KeyInfo",
+                              "version": "0.0.1"
+                            },
+                            "UUID": "87a9d6da-7d4b-3041-8a70-49442750d590",
+                            "description": "Generated description for concept referred to by key \"ONAPvCPEPolicyModel_KeyInfo:0.0.1\""
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "ONAPvCPEPolicyModel_Policies",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "ONAPvCPEPolicyModel_Policies",
+                              "version": "0.0.1"
+                            },
+                            "UUID": "6220cca4-66f5-3d1b-9f19-688a9b4b70f5",
+                            "description": "Generated description for concept referred to by key \"ONAPvCPEPolicyModel_Policies:0.0.1\""
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "ONAPvCPEPolicyModel_Schemas",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "ONAPvCPEPolicyModel_Schemas",
+                              "version": "0.0.1"
+                            },
+                            "UUID": "3df4eef8-e764-3398-afe9-86730e20905a",
+                            "description": "Generated description for concept referred to by key \"ONAPvCPEPolicyModel_Schemas:0.0.1\""
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "ONAPvCPEPolicyModel_Tasks",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "ONAPvCPEPolicyModel_Tasks",
+                              "version": "0.0.1"
+                            },
+                            "UUID": "1781b875-a3e8-3407-98bd-ba9580cfc543",
+                            "description": "Generated description for concept referred to by key \"ONAPvCPEPolicyModel_Tasks:0.0.1\""
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "ReceiveEventPolicy",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "ReceiveEventPolicy",
+                              "version": "0.0.1"
+                            },
+                            "UUID": "568b7345-9de1-36d3-b6a3-9b857e6809a1",
+                            "description": "Generated description for concept referred to by key \"ReceiveEventPolicy:0.0.1\""
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "RequestIDVNFIDAlbum",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "RequestIDVNFIDAlbum",
+                              "version": "0.0.1"
+                            },
+                            "UUID": "5d8e8298-ded6-30a5-9825-48111dc17a58",
+                            "description": "Generated description for concept referred to by key \"RequestIDVNFIDAlbum:0.0.1\""
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "RestartAPPCRequestPolicy",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "RestartAPPCRequestPolicy",
+                              "version": "0.0.1"
+                            },
+                            "UUID": "33d02162-314b-352b-b8b9-2862e8883894",
+                            "description": "Generated description for concept referred to by key \"RestartAPPCRequestPolicy:0.0.1\""
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "RestartAPPCResponsePolicy",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "RestartAPPCResponsePolicy",
+                              "version": "0.0.1"
+                            },
+                            "UUID": "ef4fcbd2-1609-377c-9875-8d27f7a901df",
+                            "description": "Generated description for concept referred to by key \"RestartAPPCResponsePolicy:0.0.1\""
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "SimpleBooleanType",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "SimpleBooleanType",
+                              "version": "0.0.1"
+                            },
+                            "UUID": "7218fb2f-59e3-321d-9ae1-bc97b19eb4ae",
+                            "description": "Generated description for concept referred to by key \"SimpleBooleanType:0.0.1\""
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "SimpleLongType",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "SimpleLongType",
+                              "version": "0.0.1"
+                            },
+                            "UUID": "2dfcd9ec-a6f9-3f9f-958f-9b36cf4ac574",
+                            "description": "Generated description for concept referred to by key \"SimpleLongType:0.0.1\""
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "SimpleStringType",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "SimpleStringType",
+                              "version": "0.0.1"
+                            },
+                            "UUID": "8a4957cf-9493-3a76-8c22-a208e23259af",
+                            "description": "Generated description for concept referred to by key \"SimpleStringType:0.0.1\""
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "UUIDType",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "UUIDType",
+                              "version": "0.0.1"
+                            },
+                            "UUID": "6a8cc68e-dfc8-3403-9c6d-071c886b319c",
+                            "description": "Generated description for concept referred to by key \"UUIDType:0.0.1\""
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "VCPEClosedLoopStatusAlbum",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "VCPEClosedLoopStatusAlbum",
+                              "version": "0.0.1"
+                            },
+                            "UUID": "47a4403e-3074-3964-83ef-93eefaffd192",
+                            "description": "Generated description for concept referred to by key \"VCPEClosedLoopStatusAlbum:0.0.1\""
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "VCPEClosedLoopStatusType",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "VCPEClosedLoopStatusType",
+                              "version": "0.0.1"
+                            },
+                            "UUID": "6e7dced1-53f1-39e2-b4e6-412b75d5b9e6",
+                            "description": "Generated description for concept referred to by key \"VCPEClosedLoopStatusType:0.0.1\""
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "VCPEStateUpdatedEvent",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "VCPEStateUpdatedEvent",
+                              "version": "0.0.1"
+                            },
+                            "UUID": "5e56a3fd-f82a-3ced-821b-b9fbaf65d367",
+                            "description": "Generated description for concept referred to by key \"VCPEStateUpdatedEvent:0.0.1\""
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "VirtualControlLoopEventType",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "VirtualControlLoopEventType",
+                              "version": "0.0.1"
+                            },
+                            "UUID": "15aca887-8f6c-3713-8114-0f49f03adab7",
+                            "description": "Generated description for concept referred to by key \"VirtualControlLoopEventType:0.0.1\""
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "VirtualControlLoopNotificationType",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "VirtualControlLoopNotificationType",
+                              "version": "0.0.1"
+                            },
+                            "UUID": "283f5b0d-d8cd-31b0-91fa-89b9de2e1fda",
+                            "description": "Generated description for concept referred to by key \"VirtualControlLoopNotificationType:0.0.1\""
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "policies": {
+                    "key": {
+                      "name": "ONAPvCPEPolicyModel_Policies",
+                      "version": "0.0.1"
+                    },
+                    "policyMap": {
+                      "entry": [
+                        {
+                          "key": {
+                            "name": "ReceiveEventPolicy",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "policyKey": {
+                              "name": "ReceiveEventPolicy",
+                              "version": "0.0.1"
+                            },
+                            "template": "Freestyle",
+                            "state": {
+                              "entry": [
+                                {
+                                  "key": "AbatedState",
+                                  "value": {
+                                    "stateKey": {
+                                      "parentKeyName": "ReceiveEventPolicy",
+                                      "parentKeyVersion": "0.0.1",
+                                      "parentLocalName": "NULL",
+                                      "localName": "AbatedState"
+                                    },
+                                    "trigger": {
+                                      "name": "VCPEStateUpdatedEvent",
+                                      "version": "0.0.1"
+                                    },
+                                    "stateOutputs": {
+                                      "entry": [
+                                        {
+                                          "key": "AbatedOutput",
+                                          "value": {
+                                            "key": {
+                                              "parentKeyName": "ReceiveEventPolicy",
+                                              "parentKeyVersion": "0.0.1",
+                                              "parentLocalName": "AbatedState",
+                                              "localName": "AbatedOutput"
+                                            },
+                                            "outgoingEvent": {
+                                              "name": "ControlLoopLogEvent",
+                                              "version": "0.0.1"
+                                            },
+                                            "nextState": {
+                                              "parentKeyName": "NULL",
+                                              "parentKeyVersion": "0.0.0",
+                                              "parentLocalName": "NULL",
+                                              "localName": "NULL"
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    },
+                                    "contextAlbumReference": [],
+                                    "taskSelectionLogic": {
+                                      "key": "NULL",
+                                      "logicFlavour": "UNDEFINED",
+                                      "logic": ""
+                                    },
+                                    "stateFinalizerLogicMap": {
+                                      "entry": []
+                                    },
+                                    "defaultTask": {
+                                      "name": "ControlLoopLogTask",
+                                      "version": "0.0.1"
+                                    },
+                                    "taskReferences": {
+                                      "entry": [
+                                        {
+                                          "key": {
+                                            "name": "ControlLoopLogTask",
+                                            "version": "0.0.1"
+                                          },
+                                          "value": {
+                                            "key": {
+                                              "parentKeyName": "ReceiveEventPolicy",
+                                              "parentKeyVersion": "0.0.1",
+                                              "parentLocalName": "AbatedState",
+                                              "localName": "ReceiveEventPolicy"
+                                            },
+                                            "outputType": "DIRECT",
+                                            "output": {
+                                              "parentKeyName": "ReceiveEventPolicy",
+                                              "parentKeyVersion": "0.0.1",
+                                              "parentLocalName": "AbatedState",
+                                              "localName": "AbatedOutput"
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "key": "GetVCPEState",
+                                  "value": {
+                                    "stateKey": {
+                                      "parentKeyName": "ReceiveEventPolicy",
+                                      "parentKeyVersion": "0.0.1",
+                                      "parentLocalName": "NULL",
+                                      "localName": "GetVCPEState"
+                                    },
+                                    "trigger": {
+                                      "name": "ControlLoop-vCPE-48f0c2c3-a172-4192-9ae3-052274181b6e",
+                                      "version": "1.0.2"
+                                    },
+                                    "stateOutputs": {
+                                      "entry": [
+                                        {
+                                          "key": "GetVCPEStateOutput",
+                                          "value": {
+                                            "key": {
+                                              "parentKeyName": "ReceiveEventPolicy",
+                                              "parentKeyVersion": "0.0.1",
+                                              "parentLocalName": "GetVCPEState",
+                                              "localName": "GetVCPEStateOutput"
+                                            },
+                                            "outgoingEvent": {
+                                              "name": "VCPEStateUpdatedEvent",
+                                              "version": "0.0.1"
+                                            },
+                                            "nextState": {
+                                              "parentKeyName": "ReceiveEventPolicy",
+                                              "parentKeyVersion": "0.0.1",
+                                              "parentLocalName": "NULL",
+                                              "localName": "RequestAAIState"
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    },
+                                    "contextAlbumReference": [],
+                                    "taskSelectionLogic": {
+                                      "key": "NULL",
+                                      "logicFlavour": "UNDEFINED",
+                                      "logic": ""
+                                    },
+                                    "stateFinalizerLogicMap": {
+                                      "entry": []
+                                    },
+                                    "defaultTask": {
+                                      "name": "GetVCPEStateTask",
+                                      "version": "0.0.1"
+                                    },
+                                    "taskReferences": {
+                                      "entry": [
+                                        {
+                                          "key": {
+                                            "name": "GetVCPEStateTask",
+                                            "version": "0.0.1"
+                                          },
+                                          "value": {
+                                            "key": {
+                                              "parentKeyName": "ReceiveEventPolicy",
+                                              "parentKeyVersion": "0.0.1",
+                                              "parentLocalName": "GetVCPEState",
+                                              "localName": "ReceiveEventPolicy"
+                                            },
+                                            "outputType": "DIRECT",
+                                            "output": {
+                                              "parentKeyName": "ReceiveEventPolicy",
+                                              "parentKeyVersion": "0.0.1",
+                                              "parentLocalName": "GetVCPEState",
+                                              "localName": "GetVCPEStateOutput"
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "key": "OnsetOrAbatedState",
+                                  "value": {
+                                    "stateKey": {
+                                      "parentKeyName": "ReceiveEventPolicy",
+                                      "parentKeyVersion": "0.0.1",
+                                      "parentLocalName": "NULL",
+                                      "localName": "OnsetOrAbatedState"
+                                    },
+                                    "trigger": {
+                                      "name": "VCPEStateUpdatedEvent",
+                                      "version": "0.0.1"
+                                    },
+                                    "stateOutputs": {
+                                      "entry": [
+                                        {
+                                          "key": "AbatedOutput",
+                                          "value": {
+                                            "key": {
+                                              "parentKeyName": "ReceiveEventPolicy",
+                                              "parentKeyVersion": "0.0.1",
+                                              "parentLocalName": "OnsetOrAbatedState",
+                                              "localName": "AbatedOutput"
+                                            },
+                                            "outgoingEvent": {
+                                              "name": "VCPEStateUpdatedEvent",
+                                              "version": "0.0.1"
+                                            },
+                                            "nextState": {
+                                              "parentKeyName": "ReceiveEventPolicy",
+                                              "parentKeyVersion": "0.0.1",
+                                              "parentLocalName": "NULL",
+                                              "localName": "AbatedState"
+                                            }
+                                          }
+                                        },
+                                        {
+                                          "key": "OnsetOutput",
+                                          "value": {
+                                            "key": {
+                                              "parentKeyName": "ReceiveEventPolicy",
+                                              "parentKeyVersion": "0.0.1",
+                                              "parentLocalName": "OnsetOrAbatedState",
+                                              "localName": "OnsetOutput"
+                                            },
+                                            "outgoingEvent": {
+                                              "name": "GuardRequestEvent",
+                                              "version": "0.0.1"
+                                            },
+                                            "nextState": {
+                                              "parentKeyName": "NULL",
+                                              "parentKeyVersion": "0.0.0",
+                                              "parentLocalName": "NULL",
+                                              "localName": "NULL"
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    },
+                                    "contextAlbumReference": [
+                                      {
+                                        "name": "VCPEClosedLoopStatusAlbum",
+                                        "version": "0.0.1"
+                                      }
+                                    ],
+                                    "taskSelectionLogic": {
+                                      "key": "TaskSelectionLogic",
+                                      "logicFlavour": "JAVASCRIPT",
+                                      "logic": "/*\n * ============LICENSE_START=======================================================\n *  Copyright (C) 2016-2018 Ericsson. All rights reserved.\n *  Modifications Copyright (C) 2020 Nordix Foundation.\n * ================================================================================\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n *\n * SPDX-License-Identifier: Apache-2.0\n * ============LICENSE_END=========================================================\n */\n\nexecutor.logger.info(executor.subject.id);\nexecutor.logger.info(executor.inFields);\n\nvar returnValue = true;\nvar status = null;\n\nif( executor.inFields.get(\"vnfID\") == null) {\n   executor.logger.info(\"OnsetOrAbatedStateTSL: vnfID is null\");\n   var vnfName = executor.inFields.get(\"vnfName\");\n   var vcpeClosedLoopStatus = executor.getContextAlbum(\"VCPEClosedLoopStatusAlbum\").get(\n        executor.inFields.get(\"vnfName\"));\n   status = vcpeClosedLoopStatus.get(\"closedLoopEventStatus\").toString();\n} else {\n   var vcpeClosedLoopStatus = executor.getContextAlbum(\"VCPEClosedLoopStatusAlbum\").get(\n        executor.inFields.get(\"vnfID\").toString());\n   status = vcpeClosedLoopStatus.get(\"closedLoopEventStatus\").toString();\n}\n\nif (status == \"ONSET\") {\n    executor.subject.getTaskKey(\"GuardRequestTask\").copyTo(executor.selectedTask);\n} else if (status == \"ABATED\") {\n    executor.subject.getTaskKey(\"AbatedTask\").copyTo(executor.selectedTask);\n    onsetFlag = executor.isFalse;\n} else {\n    executor.message = \"closedLoopEventStatus is \\\"\" + status + \"\\\", it must be either \\\"ONSET\\\" or \\\"ABATED\\\"\";\n    returnValue = false;\n}\n\nexecutor.logger.info(\"ReceiveEventPolicyOnsetOrAbatedStateTSL State Selected Task:\" + executor.selectedTask);\n\nreturnValue;"
+                                    },
+                                    "stateFinalizerLogicMap": {
+                                      "entry": []
+                                    },
+                                    "defaultTask": {
+                                      "name": "AbatedTask",
+                                      "version": "0.0.1"
+                                    },
+                                    "taskReferences": {
+                                      "entry": [
+                                        {
+                                          "key": {
+                                            "name": "AbatedTask",
+                                            "version": "0.0.1"
+                                          },
+                                          "value": {
+                                            "key": {
+                                              "parentKeyName": "ReceiveEventPolicy",
+                                              "parentKeyVersion": "0.0.1",
+                                              "parentLocalName": "OnsetOrAbatedState",
+                                              "localName": "ReceiveEventPolicy"
+                                            },
+                                            "outputType": "DIRECT",
+                                            "output": {
+                                              "parentKeyName": "ReceiveEventPolicy",
+                                              "parentKeyVersion": "0.0.1",
+                                              "parentLocalName": "OnsetOrAbatedState",
+                                              "localName": "AbatedOutput"
+                                            }
+                                          }
+                                        },
+                                        {
+                                          "key": {
+                                            "name": "GuardRequestTask",
+                                            "version": "0.0.1"
+                                          },
+                                          "value": {
+                                            "key": {
+                                              "parentKeyName": "ReceiveEventPolicy",
+                                              "parentKeyVersion": "0.0.1",
+                                              "parentLocalName": "OnsetOrAbatedState",
+                                              "localName": "ReceiveEventPolicy"
+                                            },
+                                            "outputType": "DIRECT",
+                                            "output": {
+                                              "parentKeyName": "ReceiveEventPolicy",
+                                              "parentKeyVersion": "0.0.1",
+                                              "parentLocalName": "OnsetOrAbatedState",
+                                              "localName": "OnsetOutput"
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "key": "RequestAAIState",
+                                  "value": {
+                                    "stateKey": {
+                                      "parentKeyName": "ReceiveEventPolicy",
+                                      "parentKeyVersion": "0.0.1",
+                                      "parentLocalName": "NULL",
+                                      "localName": "RequestAAIState"
+                                    },
+                                    "trigger": {
+                                      "name": "VCPEStateUpdatedEvent",
+                                      "version": "0.0.1"
+                                    },
+                                    "stateOutputs": {
+                                      "entry": [
+                                        {
+                                          "key": "RequestAAIStateOutput",
+                                          "value": {
+                                            "key": {
+                                              "parentKeyName": "ReceiveEventPolicy",
+                                              "parentKeyVersion": "0.0.1",
+                                              "parentLocalName": "RequestAAIState",
+                                              "localName": "RequestAAIStateOutput"
+                                            },
+                                            "outgoingEvent": {
+                                              "name": "VCPEStateUpdatedEvent",
+                                              "version": "0.0.1"
+                                            },
+                                            "nextState": {
+                                              "parentKeyName": "ReceiveEventPolicy",
+                                              "parentKeyVersion": "0.0.1",
+                                              "parentLocalName": "NULL",
+                                              "localName": "OnsetOrAbatedState"
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    },
+                                    "contextAlbumReference": [
+                                      {
+                                        "name": "VCPEClosedLoopStatusAlbum",
+                                        "version": "0.0.1"
+                                      }
+                                    ],
+                                    "taskSelectionLogic": {
+                                      "key": "NULL",
+                                      "logicFlavour": "UNDEFINED",
+                                      "logic": ""
+                                    },
+                                    "stateFinalizerLogicMap": {
+                                      "entry": []
+                                    },
+                                    "defaultTask": {
+                                      "name": "AAILookupTask",
+                                      "version": "0.0.1"
+                                    },
+                                    "taskReferences": {
+                                      "entry": [
+                                        {
+                                          "key": {
+                                            "name": "AAILookupTask",
+                                            "version": "0.0.1"
+                                          },
+                                          "value": {
+                                            "key": {
+                                              "parentKeyName": "ReceiveEventPolicy",
+                                              "parentKeyVersion": "0.0.1",
+                                              "parentLocalName": "RequestAAIState",
+                                              "localName": "ReceiveEventPolicy"
+                                            },
+                                            "outputType": "DIRECT",
+                                            "output": {
+                                              "parentKeyName": "ReceiveEventPolicy",
+                                              "parentKeyVersion": "0.0.1",
+                                              "parentLocalName": "RequestAAIState",
+                                              "localName": "RequestAAIStateOutput"
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  }
+                                }
+                              ]
+                            },
+                            "firstState": "GetVCPEState"
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "RestartAPPCRequestPolicy",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "policyKey": {
+                              "name": "RestartAPPCRequestPolicy",
+                              "version": "0.0.1"
+                            },
+                            "template": "Freestyle",
+                            "state": {
+                              "entry": [
+                                {
+                                  "key": "DeniedState",
+                                  "value": {
+                                    "stateKey": {
+                                      "parentKeyName": "RestartAPPCRequestPolicy",
+                                      "parentKeyVersion": "0.0.1",
+                                      "parentLocalName": "NULL",
+                                      "localName": "DeniedState"
+                                    },
+                                    "trigger": {
+                                      "name": "VCPEStateUpdatedEvent",
+                                      "version": "0.0.1"
+                                    },
+                                    "stateOutputs": {
+                                      "entry": [
+                                        {
+                                          "key": "DeniedOutput",
+                                          "value": {
+                                            "key": {
+                                              "parentKeyName": "RestartAPPCRequestPolicy",
+                                              "parentKeyVersion": "0.0.1",
+                                              "parentLocalName": "DeniedState",
+                                              "localName": "DeniedOutput"
+                                            },
+                                            "outgoingEvent": {
+                                              "name": "ControlLoopLogEvent",
+                                              "version": "0.0.1"
+                                            },
+                                            "nextState": {
+                                              "parentKeyName": "NULL",
+                                              "parentKeyVersion": "0.0.0",
+                                              "parentLocalName": "NULL",
+                                              "localName": "NULL"
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    },
+                                    "contextAlbumReference": [],
+                                    "taskSelectionLogic": {
+                                      "key": "NULL",
+                                      "logicFlavour": "UNDEFINED",
+                                      "logic": ""
+                                    },
+                                    "stateFinalizerLogicMap": {
+                                      "entry": []
+                                    },
+                                    "defaultTask": {
+                                      "name": "ControlLoopLogTask",
+                                      "version": "0.0.1"
+                                    },
+                                    "taskReferences": {
+                                      "entry": [
+                                        {
+                                          "key": {
+                                            "name": "ControlLoopLogTask",
+                                            "version": "0.0.1"
+                                          },
+                                          "value": {
+                                            "key": {
+                                              "parentKeyName": "RestartAPPCRequestPolicy",
+                                              "parentKeyVersion": "0.0.1",
+                                              "parentLocalName": "DeniedState",
+                                              "localName": "RestartAPPCRequestPolicy"
+                                            },
+                                            "outputType": "DIRECT",
+                                            "output": {
+                                              "parentKeyName": "RestartAPPCRequestPolicy",
+                                              "parentKeyVersion": "0.0.1",
+                                              "parentLocalName": "DeniedState",
+                                              "localName": "DeniedOutput"
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "key": "PermitOrDenyState",
+                                  "value": {
+                                    "stateKey": {
+                                      "parentKeyName": "RestartAPPCRequestPolicy",
+                                      "parentKeyVersion": "0.0.1",
+                                      "parentLocalName": "NULL",
+                                      "localName": "PermitOrDenyState"
+                                    },
+                                    "trigger": {
+                                      "name": "VCPEStateUpdatedEvent",
+                                      "version": "0.0.1"
+                                    },
+                                    "stateOutputs": {
+                                      "entry": [
+                                        {
+                                          "key": "DenyOutput",
+                                          "value": {
+                                            "key": {
+                                              "parentKeyName": "RestartAPPCRequestPolicy",
+                                              "parentKeyVersion": "0.0.1",
+                                              "parentLocalName": "PermitOrDenyState",
+                                              "localName": "DenyOutput"
+                                            },
+                                            "outgoingEvent": {
+                                              "name": "VCPEStateUpdatedEvent",
+                                              "version": "0.0.1"
+                                            },
+                                            "nextState": {
+                                              "parentKeyName": "RestartAPPCRequestPolicy",
+                                              "parentKeyVersion": "0.0.1",
+                                              "parentLocalName": "NULL",
+                                              "localName": "DeniedState"
+                                            }
+                                          }
+                                        },
+                                        {
+                                          "key": "PermitOutput",
+                                          "value": {
+                                            "key": {
+                                              "parentKeyName": "RestartAPPCRequestPolicy",
+                                              "parentKeyVersion": "0.0.1",
+                                              "parentLocalName": "PermitOrDenyState",
+                                              "localName": "PermitOutput"
+                                            },
+                                            "outgoingEvent": {
+                                              "name": "APPCRestartVNFRequestEvent",
+                                              "version": "2.0.0"
+                                            },
+                                            "nextState": {
+                                              "parentKeyName": "NULL",
+                                              "parentKeyVersion": "0.0.0",
+                                              "parentLocalName": "NULL",
+                                              "localName": "NULL"
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    },
+                                    "contextAlbumReference": [
+                                      {
+                                        "name": "VCPEClosedLoopStatusAlbum",
+                                        "version": "0.0.1"
+                                      }
+                                    ],
+                                    "taskSelectionLogic": {
+                                      "key": "TaskSelectionLogic",
+                                      "logicFlavour": "JAVASCRIPT",
+                                      "logic": "/*\n * ============LICENSE_START=======================================================\n *  Copyright (C) 2016-2018 Ericsson. All rights reserved.\n *  Modifications Copyright (C) 2020 Nordix Foundation.\n * ================================================================================\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n *\n * SPDX-License-Identifier: Apache-2.0\n * ============LICENSE_END=========================================================\n */\n\nexecutor.logger.info(executor.subject.id);\nexecutor.logger.info(executor.inFields);\n\nvar vcpeClosedLoopStatus = executor.getContextAlbum(\"VCPEClosedLoopStatusAlbum\").get(\n        executor.inFields.get(\"vnfID\").toString());\n\nvar guardResult = vcpeClosedLoopStatus.get(\"notification\");\n\nif (guardResult == \"OPERATION: GUARD_PERMIT\") {\n    executor.subject.getTaskKey(\"APPCRestartVNFRequestTask\").copyTo(executor.selectedTask);\n} else {\n    executor.subject.getTaskKey(\"DeniedTask\").copyTo(executor.selectedTask);\n}\n\nexecutor.logger.info(\"RestartAPPCRequestPolicyPermitOrDenyTSL State Selected Task:\" + executor.selectedTask);\n\ntrue;"
+                                    },
+                                    "stateFinalizerLogicMap": {
+                                      "entry": []
+                                    },
+                                    "defaultTask": {
+                                      "name": "DeniedTask",
+                                      "version": "0.0.1"
+                                    },
+                                    "taskReferences": {
+                                      "entry": [
+                                        {
+                                          "key": {
+                                            "name": "APPCRestartVNFRequestTask",
+                                            "version": "0.0.1"
+                                          },
+                                          "value": {
+                                            "key": {
+                                              "parentKeyName": "RestartAPPCRequestPolicy",
+                                              "parentKeyVersion": "0.0.1",
+                                              "parentLocalName": "PermitOrDenyState",
+                                              "localName": "RestartAPPCRequestPolicy"
+                                            },
+                                            "outputType": "DIRECT",
+                                            "output": {
+                                              "parentKeyName": "RestartAPPCRequestPolicy",
+                                              "parentKeyVersion": "0.0.1",
+                                              "parentLocalName": "PermitOrDenyState",
+                                              "localName": "PermitOutput"
+                                            }
+                                          }
+                                        },
+                                        {
+                                          "key": {
+                                            "name": "DeniedTask",
+                                            "version": "0.0.1"
+                                          },
+                                          "value": {
+                                            "key": {
+                                              "parentKeyName": "RestartAPPCRequestPolicy",
+                                              "parentKeyVersion": "0.0.1",
+                                              "parentLocalName": "PermitOrDenyState",
+                                              "localName": "RestartAPPCRequestPolicy"
+                                            },
+                                            "outputType": "DIRECT",
+                                            "output": {
+                                              "parentKeyName": "RestartAPPCRequestPolicy",
+                                              "parentKeyVersion": "0.0.1",
+                                              "parentLocalName": "PermitOrDenyState",
+                                              "localName": "DenyOutput"
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "key": "PolicyGuardResponseState",
+                                  "value": {
+                                    "stateKey": {
+                                      "parentKeyName": "RestartAPPCRequestPolicy",
+                                      "parentKeyVersion": "0.0.1",
+                                      "parentLocalName": "NULL",
+                                      "localName": "PolicyGuardResponseState"
+                                    },
+                                    "trigger": {
+                                      "name": "GuardResponseEvent",
+                                      "version": "0.0.1"
+                                    },
+                                    "stateOutputs": {
+                                      "entry": [
+                                        {
+                                          "key": "GuardResponseOutput",
+                                          "value": {
+                                            "key": {
+                                              "parentKeyName": "RestartAPPCRequestPolicy",
+                                              "parentKeyVersion": "0.0.1",
+                                              "parentLocalName": "PolicyGuardResponseState",
+                                              "localName": "GuardResponseOutput"
+                                            },
+                                            "outgoingEvent": {
+                                              "name": "VCPEStateUpdatedEvent",
+                                              "version": "0.0.1"
+                                            },
+                                            "nextState": {
+                                              "parentKeyName": "RestartAPPCRequestPolicy",
+                                              "parentKeyVersion": "0.0.1",
+                                              "parentLocalName": "NULL",
+                                              "localName": "PermitOrDenyState"
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    },
+                                    "contextAlbumReference": [],
+                                    "taskSelectionLogic": {
+                                      "key": "NULL",
+                                      "logicFlavour": "UNDEFINED",
+                                      "logic": ""
+                                    },
+                                    "stateFinalizerLogicMap": {
+                                      "entry": []
+                                    },
+                                    "defaultTask": {
+                                      "name": "GuardResponseTask",
+                                      "version": "0.0.1"
+                                    },
+                                    "taskReferences": {
+                                      "entry": [
+                                        {
+                                          "key": {
+                                            "name": "GuardResponseTask",
+                                            "version": "0.0.1"
+                                          },
+                                          "value": {
+                                            "key": {
+                                              "parentKeyName": "RestartAPPCRequestPolicy",
+                                              "parentKeyVersion": "0.0.1",
+                                              "parentLocalName": "PolicyGuardResponseState",
+                                              "localName": "RestartAPPCRequestPolicy"
+                                            },
+                                            "outputType": "DIRECT",
+                                            "output": {
+                                              "parentKeyName": "RestartAPPCRequestPolicy",
+                                              "parentKeyVersion": "0.0.1",
+                                              "parentLocalName": "PolicyGuardResponseState",
+                                              "localName": "GuardResponseOutput"
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  }
+                                }
+                              ]
+                            },
+                            "firstState": "PolicyGuardResponseState"
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "RestartAPPCResponsePolicy",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "policyKey": {
+                              "name": "RestartAPPCResponsePolicy",
+                              "version": "0.0.1"
+                            },
+                            "template": "Freestyle",
+                            "state": {
+                              "entry": [
+                                {
+                                  "key": "ResponseLogState",
+                                  "value": {
+                                    "stateKey": {
+                                      "parentKeyName": "RestartAPPCResponsePolicy",
+                                      "parentKeyVersion": "0.0.1",
+                                      "parentLocalName": "NULL",
+                                      "localName": "ResponseLogState"
+                                    },
+                                    "trigger": {
+                                      "name": "VCPEStateUpdatedEvent",
+                                      "version": "0.0.1"
+                                    },
+                                    "stateOutputs": {
+                                      "entry": [
+                                        {
+                                          "key": "ResponseLogOutput",
+                                          "value": {
+                                            "key": {
+                                              "parentKeyName": "RestartAPPCResponsePolicy",
+                                              "parentKeyVersion": "0.0.1",
+                                              "parentLocalName": "ResponseLogState",
+                                              "localName": "ResponseLogOutput"
+                                            },
+                                            "outgoingEvent": {
+                                              "name": "ControlLoopLogEvent",
+                                              "version": "0.0.1"
+                                            },
+                                            "nextState": {
+                                              "parentKeyName": "NULL",
+                                              "parentKeyVersion": "0.0.0",
+                                              "parentLocalName": "NULL",
+                                              "localName": "NULL"
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    },
+                                    "contextAlbumReference": [],
+                                    "taskSelectionLogic": {
+                                      "key": "NULL",
+                                      "logicFlavour": "UNDEFINED",
+                                      "logic": ""
+                                    },
+                                    "stateFinalizerLogicMap": {
+                                      "entry": []
+                                    },
+                                    "defaultTask": {
+                                      "name": "ControlLoopLogTask",
+                                      "version": "0.0.1"
+                                    },
+                                    "taskReferences": {
+                                      "entry": [
+                                        {
+                                          "key": {
+                                            "name": "ControlLoopLogTask",
+                                            "version": "0.0.1"
+                                          },
+                                          "value": {
+                                            "key": {
+                                              "parentKeyName": "RestartAPPCResponsePolicy",
+                                              "parentKeyVersion": "0.0.1",
+                                              "parentLocalName": "ResponseLogState",
+                                              "localName": "RestartAPPCResponsePolicy"
+                                            },
+                                            "outputType": "DIRECT",
+                                            "output": {
+                                              "parentKeyName": "RestartAPPCResponsePolicy",
+                                              "parentKeyVersion": "0.0.1",
+                                              "parentLocalName": "ResponseLogState",
+                                              "localName": "ResponseLogOutput"
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "key": "RestartAPPCResponseState",
+                                  "value": {
+                                    "stateKey": {
+                                      "parentKeyName": "RestartAPPCResponsePolicy",
+                                      "parentKeyVersion": "0.0.1",
+                                      "parentLocalName": "NULL",
+                                      "localName": "RestartAPPCResponseState"
+                                    },
+                                    "trigger": {
+                                      "name": "APPCRestartVNFResponseEvent",
+                                      "version": "2.0.0"
+                                    },
+                                    "stateOutputs": {
+                                      "entry": [
+                                        {
+                                          "key": "APPCRestartVNFResponseOutput",
+                                          "value": {
+                                            "key": {
+                                              "parentKeyName": "RestartAPPCResponsePolicy",
+                                              "parentKeyVersion": "0.0.1",
+                                              "parentLocalName": "RestartAPPCResponseState",
+                                              "localName": "APPCRestartVNFResponseOutput"
+                                            },
+                                            "outgoingEvent": {
+                                              "name": "VCPEStateUpdatedEvent",
+                                              "version": "0.0.1"
+                                            },
+                                            "nextState": {
+                                              "parentKeyName": "RestartAPPCResponsePolicy",
+                                              "parentKeyVersion": "0.0.1",
+                                              "parentLocalName": "NULL",
+                                              "localName": "ResponseLogState"
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    },
+                                    "contextAlbumReference": [],
+                                    "taskSelectionLogic": {
+                                      "key": "NULL",
+                                      "logicFlavour": "UNDEFINED",
+                                      "logic": ""
+                                    },
+                                    "stateFinalizerLogicMap": {
+                                      "entry": []
+                                    },
+                                    "defaultTask": {
+                                      "name": "APPCRestartVNFResponseTask",
+                                      "version": "0.0.1"
+                                    },
+                                    "taskReferences": {
+                                      "entry": [
+                                        {
+                                          "key": {
+                                            "name": "APPCRestartVNFResponseTask",
+                                            "version": "0.0.1"
+                                          },
+                                          "value": {
+                                            "key": {
+                                              "parentKeyName": "RestartAPPCResponsePolicy",
+                                              "parentKeyVersion": "0.0.1",
+                                              "parentLocalName": "RestartAPPCResponseState",
+                                              "localName": "RestartAPPCResponsePolicy"
+                                            },
+                                            "outputType": "DIRECT",
+                                            "output": {
+                                              "parentKeyName": "RestartAPPCResponsePolicy",
+                                              "parentKeyVersion": "0.0.1",
+                                              "parentLocalName": "RestartAPPCResponseState",
+                                              "localName": "APPCRestartVNFResponseOutput"
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  }
+                                }
+                              ]
+                            },
+                            "firstState": "RestartAPPCResponseState"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "tasks": {
+                    "key": {
+                      "name": "ONAPvCPEPolicyModel_Tasks",
+                      "version": "0.0.1"
+                    },
+                    "taskMap": {
+                      "entry": [
+                        {
+                          "key": {
+                            "name": "AAILookupTask",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "AAILookupTask",
+                              "version": "0.0.1"
+                            },
+                            "inputFields": {
+                              "entry": [
+                                {
+                                  "key": "requestID",
+                                  "value": {
+                                    "key": "requestID",
+                                    "fieldSchemaKey": {
+                                      "name": "UUIDType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                },
+                                {
+                                  "key": "vnfID",
+                                  "value": {
+                                    "key": "vnfID",
+                                    "fieldSchemaKey": {
+                                      "name": "UUIDType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                }
+                              ]
+                            },
+                            "outputFields": {
+                              "entry": [
+                                {
+                                  "key": "requestID",
+                                  "value": {
+                                    "key": "requestID",
+                                    "fieldSchemaKey": {
+                                      "name": "UUIDType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                },
+                                {
+                                  "key": "vnfID",
+                                  "value": {
+                                    "key": "vnfID",
+                                    "fieldSchemaKey": {
+                                      "name": "UUIDType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                }
+                              ]
+                            },
+                            "taskParameters": {
+                              "entry": []
+                            },
+                            "contextAlbumReference": [
+                              {
+                                "name": "VCPEClosedLoopStatusAlbum",
+                                "version": "0.0.1"
+                              }
+                            ],
+                            "taskLogic": {
+                              "key": "TaskLogic",
+                              "logicFlavour": "JAVASCRIPT",
+                              "logic": "/*\n * ============LICENSE_START=======================================================\n *  Copyright (C) 2016-2018 Ericsson. All rights reserved.\n *  Modifications Copyright (C) 2020 Nordix Foundation.\n * ================================================================================\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n *\n * SPDX-License-Identifier: Apache-2.0\n * ============LICENSE_END=========================================================\n */\n\nexecutor.logger.info(executor.subject.id);\nexecutor.logger.info(executor.inFields);\n\nvar vcpeClosedLoopStatus = executor.getContextAlbum(\"VCPEClosedLoopStatusAlbum\").get(\n        executor.inFields.get(\"vnfID\").toString());\n\nexecutor.logger.info(\"Executing A&AI Lookup\");\nexecutor.logger.info(vcpeClosedLoopStatus);\n\nvar aaiInfo = vcpeClosedLoopStatus.get(\"AAI\");\nvar returnValue = true;\n\nif (aaiInfo.get(\"vserverName\") == null) {\n    executor.message = \"the field vserver.vserver-name must exist in the onset control loop event\";\n    executor.logger.warn(executor.message);\n    returnValue = false;\n}\nelse if (aaiInfo.get(\"genericVnfVnfId\") == null && aaiInfo.get(\"genericVnfVnfName\") == null) {\n    executor.message = \"either the field generic-vnf.vnf-id or generic-vnf.vnf-name must exist\"\n        + \" in the onset control loop event\";\n    executor.logger.warn(executor.message);\n    returnValue = false;\n}\nelse {\n    var restManager = new org.onap.policy.rest.RestManager;\n    var aaiManager = new org.onap.policy.aai.AaiManager(restManager);\n\n    // We need to instantiate the type in order to trigger the static JAXB handling\n    // in the AaiCqResponse class\n    var aaiCqResponseType = org.onap.policy.aai.AaiCqResponse;\n\n    var aaiResponse = aaiManager.getCustomQueryResponse(\n            \"http://localhost:54321/OnapVCpeSim/sim\",\n            \"aai.username\",\n            \"aai.password\",\n            executor.inFields.get(\"requestID\"),\n            vcpeClosedLoopStatus.get(\"AAI\").get(\"vserverName\")\n    );\n\n    var genericVnf;\n\n    if (aaiInfo.get(\"genericVnfVnfId\") != null) {\n        genericVnf = aaiResponse.getGenericVnfByModelInvariantId(aaiInfo.get(\"genericVnfVnfId\"));\n    }\n    else {\n        genericVnf = aaiResponse.getGenericVnfByVnfName(aaiInfo.get(\"genericVnfVnfId\"));\n    }\n\n    aaiInfo.put(\"genericVnfResourceVersion\",      genericVnf.getResourceVersion());\n    aaiInfo.put(\"genericVnfVnfName\",              genericVnf.getVnfName());\n    aaiInfo.put(\"genericVnfProvStatus\",           genericVnf.getProvStatus());\n    aaiInfo.put(\"genericVnfIsClosedLoopDisabled\", genericVnf.isIsClosedLoopDisabled().toString());\n    aaiInfo.put(\"genericVnfVnfType\",              genericVnf.getVnfType());\n    aaiInfo.put(\"genericVnfInMaint\",              genericVnf.isInMaint().toString());\n    aaiInfo.put(\"genericVnfServiceId\",            genericVnf.getServiceId());\n    aaiInfo.put(\"genericVnfVnfId\",                genericVnf.getVnfId());\n    aaiInfo.put(\"genericVnfOrchestrationStatus\",\n            genericVnf.getVfModules().getVfModule().get(0).getOrchestrationStatus());\n\n    executor.outFields.put(\"requestID\", executor.inFields.get(\"requestID\"));\n    executor.outFields.put(\"vnfID\", executor.inFields.get(\"vnfID\"));\n\n    executor.logger.info(executor.outFields);\n}\n\nreturnValue;"
+                            }
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "APPCRestartVNFRequestTask",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "APPCRestartVNFRequestTask",
+                              "version": "0.0.1"
+                            },
+                            "inputFields": {
+                              "entry": [
+                                {
+                                  "key": "requestID",
+                                  "value": {
+                                    "key": "requestID",
+                                    "fieldSchemaKey": {
+                                      "name": "UUIDType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                },
+                                {
+                                  "key": "vnfID",
+                                  "value": {
+                                    "key": "vnfID",
+                                    "fieldSchemaKey": {
+                                      "name": "UUIDType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                }
+                              ]
+                            },
+                            "outputFields": {
+                              "entry": [
+                                {
+                                  "key": "APPCLCMRequestEvent",
+                                  "value": {
+                                    "key": "APPCLCMRequestEvent",
+                                    "fieldSchemaKey": {
+                                      "name": "APPCLCMRequestType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                }
+                              ]
+                            },
+                            "taskParameters": {
+                              "entry": []
+                            },
+                            "contextAlbumReference": [
+                              {
+                                "name": "RequestIDVNFIDAlbum",
+                                "version": "0.0.1"
+                              },
+                              {
+                                "name": "VCPEClosedLoopStatusAlbum",
+                                "version": "0.0.1"
+                              }
+                            ],
+                            "taskLogic": {
+                              "key": "TaskLogic",
+                              "logicFlavour": "JAVASCRIPT",
+                              "logic": "/*\n * ============LICENSE_START=======================================================\n *  Copyright (C) 2016-2018 Ericsson. All rights reserved.\n *  Modifications Copyright (C) 2020 Nordix Foundation.\n * ================================================================================\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n *\n * SPDX-License-Identifier: Apache-2.0\n * ============LICENSE_END=========================================================\n */\n\nexecutor.logger.info(executor.subject.id);\nexecutor.logger.info(executor.inFields);\n\nvar appcRequest = new org.onap.policy.appclcm.AppcLcmDmaapWrapper;\nappcRequest.setBody(new org.onap.policy.appclcm.AppcLcmBody);\nappcRequest.getBody().setInput(new org.onap.policy.appclcm.AppcLcmInput);\nappcRequest.getBody().getInput().setCommonHeader(\n        new org.onap.policy.appclcm.AppcLcmCommonHeader);\n\nappcRequest.setVersion(\"2.0.0\");\nappcRequest.setRpcName(\"restart\");\nappcRequest.setCorrelationId(executor.inFields.get(\"requestID\"));\nappcRequest.setType(\"request\");\n\nvar vcpeClosedLoopStatus = executor\n        .getContextAlbum(\"VCPEClosedLoopStatusAlbum\").get(\n                executor.inFields.get(\"vnfID\").toString());\n\nappcRequest.getBody().getInput().getCommonHeader().setTimeStamp(java.time.Instant.now());\nappcRequest.getBody().getInput().getCommonHeader().setApiVer(\"2.00\");\nappcRequest.getBody().getInput().getCommonHeader().setOriginatorId(\n        executor.inFields.get(\"requestID\").toString());\nappcRequest.getBody().getInput().getCommonHeader().setRequestId(\n        executor.inFields.get(\"requestID\"));\nappcRequest.getBody().getInput().getCommonHeader().setSubRequestId(\"1\");\nappcRequest.getBody().getInput().getCommonHeader().getFlags().put(\"ttl\", \"10000\");\nappcRequest.getBody().getInput().getCommonHeader().getFlags().put(\"force\", \"TRUE\");\nappcRequest.getBody().getInput().getCommonHeader().getFlags().put(\"mode\", \"EXCLUSIVE\");\n\nappcRequest.getBody().getInput().setAction(\"Restart\");\nappcRequest.getBody().getInput().setActionIdentifiers(new java.util.HashMap());\nappcRequest.getBody().getInput().getActionIdentifiers().put(\"vnf-id\",\n        executor.inFields.get(\"vnfID\").toString());\n\nexecutor.getContextAlbum(\"RequestIDVNFIDAlbum\").put(\n        executor.inFields.get(\"requestID\").toString(),\n        executor.inFields.get(\"vnfID\"));\n\nvcpeClosedLoopStatus.put(\"notification\", \"OPERATION\");\nvcpeClosedLoopStatus.put(\"notificationTime\", java.lang.System\n        .currentTimeMillis());\n\nexecutor.outFields.put(\"APPCLCMRequestEvent\", appcRequest);\n\nexecutor.logger.info(executor.outFields);\n\ntrue;"
+                            }
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "APPCRestartVNFResponseTask",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "APPCRestartVNFResponseTask",
+                              "version": "0.0.1"
+                            },
+                            "inputFields": {
+                              "entry": [
+                                {
+                                  "key": "APPCLCMResponseEvent",
+                                  "value": {
+                                    "key": "APPCLCMResponseEvent",
+                                    "fieldSchemaKey": {
+                                      "name": "APPCLCMResponseType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                }
+                              ]
+                            },
+                            "outputFields": {
+                              "entry": [
+                                {
+                                  "key": "requestID",
+                                  "value": {
+                                    "key": "requestID",
+                                    "fieldSchemaKey": {
+                                      "name": "UUIDType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                },
+                                {
+                                  "key": "vnfID",
+                                  "value": {
+                                    "key": "vnfID",
+                                    "fieldSchemaKey": {
+                                      "name": "UUIDType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                }
+                              ]
+                            },
+                            "taskParameters": {
+                              "entry": []
+                            },
+                            "contextAlbumReference": [
+                              {
+                                "name": "RequestIDVNFIDAlbum",
+                                "version": "0.0.1"
+                              },
+                              {
+                                "name": "VCPEClosedLoopStatusAlbum",
+                                "version": "0.0.1"
+                              }
+                            ],
+                            "taskLogic": {
+                              "key": "TaskLogic",
+                              "logicFlavour": "JAVASCRIPT",
+                              "logic": "/*\n * ============LICENSE_START=======================================================\n *  Copyright (C) 2016-2018 Ericsson. All rights reserved.\n *  Modifications Copyright (C) 2020 Nordix Foundation.\n * ================================================================================\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n *\n * APPC LCM Response code: 100 ACCEPTED\n *                         200 ERROR UNEXPECTED ERROR means failure\n *                         312 REJECTED DUPLICATE REQUEST\n *                         400 SUCCESS\n *\n * Note: Sometimes the corelationId has a -1 at the tail, need to get rid of it when present.\n *\n * SPDX-License-Identifier: Apache-2.0\n * ============LICENSE_END=========================================================\n */\n\nexecutor.logger.info(executor.subject.id);\nexecutor.logger.info(executor.inFields);\n\nvar appcResponse = executor.inFields.get(\"APPCLCMResponseEvent\");\n\nvar requestIDString = appcResponse.getCorrelationId().substr(0, 36);\nexecutor.logger.info(\"requestIDString = \" + requestIDString);\nvar vnfID = executor.getContextAlbum(\"RequestIDVNFIDAlbum\")\n        .get(requestIDString);\nexecutor.logger.info(\"Size of RequestIDVNFIDAlbum = \"\n        + executor.getContextAlbum(\"RequestIDVNFIDAlbum\").size());\nexecutor.logger.info(\"vnfID = \" + vnfID);\n\nvar returnValue = true;\n\nif (vnfID != null) {\n    var vcpeClosedLoopStatus = executor.getContextAlbum(\n            \"VCPEClosedLoopStatusAlbum\").get(vnfID.toString());\n    var requestId = java.util.UUID.fromString(vcpeClosedLoopStatus\n            .get(\"requestID\"));\n\n    vcpeClosedLoopStatus.put(\"notificationTime\", java.lang.System\n            .currentTimeMillis());\n\n    executor.logger.info(\"Got from APPC code: \"\n            + org.onap.policy.appclcm.AppcLcmResponseCode\n                    .toResponseValue(appcResponse.getBody().getOutput()\n                            .getStatus().getCode()));\n\n    if (org.onap.policy.appclcm.AppcLcmResponseCode\n            .toResponseValue(appcResponse.getBody().getOutput().getStatus()\n                    .getCode()) == org.onap.policy.appclcm.AppcLcmResponseCode.SUCCESS) {\n        vcpeClosedLoopStatus.put(\"notification\", \"OPERATION_SUCCESS\");\n        vcpeClosedLoopStatus.put(\"message\", \"vCPE restarted\");\n        executor.getContextAlbum(\"RequestIDVNFIDAlbum\").remove(requestIDString);\n    } else if (org.onap.policy.appclcm.AppcLcmResponseCode\n            .toResponseValue(appcResponse.getBody().getOutput().getStatus()\n                    .getCode()) == \"ACCEPTED\"\n            || org.onap.policy.appclcm.AppcLcmResponseCode\n                    .toResponseValue(appcResponse.getBody().getOutput()\n                            .getStatus().getCode()) == \"REJECT\") {\n        executor.logger\n                .info(\"Got ACCEPTED 100 or REJECT 312, keep the context, wait for next response. Code is: \"\n                        + org.onap.policy.appclcm.AppcLcmResponseCode\n                                .toResponseValue(appcResponse.getBody()\n                                        .getOutput().getStatus().getCode()));\n    } else {\n        executor.getContextAlbum(\"RequestIDVNFIDAlbum\").remove(requestIDString);\n        vcpeClosedLoopStatus.put(\"notification\", \"OPERATION_FAILURE\");\n        vcpeClosedLoopStatus.put(\"message\", \"vCPE restart failed\");\n    }\n\n    executor.outFields.put(\"requestID\", requestId);\n    executor.outFields.put(\"vnfID\", vnfID);\n} else {\n    executor.message = \"VNF ID not found in context album for request ID \"\n            + requestIDString;\n    returnValue = false\n}\n\nexecutor.logger.info(executor.outFields);\n\nreturnValue;"
+                            }
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "AbatedTask",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "AbatedTask",
+                              "version": "0.0.1"
+                            },
+                            "inputFields": {
+                              "entry": [
+                                {
+                                  "key": "requestID",
+                                  "value": {
+                                    "key": "requestID",
+                                    "fieldSchemaKey": {
+                                      "name": "UUIDType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                },
+                                {
+                                  "key": "vnfID",
+                                  "value": {
+                                    "key": "vnfID",
+                                    "fieldSchemaKey": {
+                                      "name": "UUIDType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                },
+                                {
+                                  "key": "vnfName",
+                                  "value": {
+                                    "key": "vnfName",
+                                    "fieldSchemaKey": {
+                                      "name": "SimpleStringType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": true
+                                  }
+                                }
+                              ]
+                            },
+                            "outputFields": {
+                              "entry": [
+                                {
+                                  "key": "requestID",
+                                  "value": {
+                                    "key": "requestID",
+                                    "fieldSchemaKey": {
+                                      "name": "UUIDType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                },
+                                {
+                                  "key": "vnfID",
+                                  "value": {
+                                    "key": "vnfID",
+                                    "fieldSchemaKey": {
+                                      "name": "UUIDType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                },
+                                {
+                                  "key": "vnfName",
+                                  "value": {
+                                    "key": "vnfName",
+                                    "fieldSchemaKey": {
+                                      "name": "SimpleStringType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": true
+                                  }
+                                }
+                              ]
+                            },
+                            "taskParameters": {
+                              "entry": []
+                            },
+                            "contextAlbumReference": [
+                              {
+                                "name": "VCPEClosedLoopStatusAlbum",
+                                "version": "0.0.1"
+                              }
+                            ],
+                            "taskLogic": {
+                              "key": "TaskLogic",
+                              "logicFlavour": "JAVASCRIPT",
+                              "logic": "/*\n * ============LICENSE_START=======================================================\n *  Copyright (C) 2016-2018 Ericsson. All rights reserved.\n *  Modifications Copyright (C) 2020 Nordix Foundation.\n * ================================================================================\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n *\n * SPDX-License-Identifier: Apache-2.0\n * ============LICENSE_END=========================================================\n */\n\nexecutor.logger.info(executor.subject.id);\nexecutor.logger.info(executor.inFields);\n\nvar vcpeClosedLoopStatus = null;\nif( executor.inFields.get(\"vnfID\") == null) {\n   executor.logger.info(\"AbatedTask: vnfID is null\");\n   var vnfName = executor.inFields.get(\"vnfName\");\n   vcpeClosedLoopStatus = executor.getContextAlbum(\"VCPEClosedLoopStatusAlbum\").get(\n        executor.inFields.get(\"vnfName\"));\n} else {\n   vcpeClosedLoopStatus = executor.getContextAlbum(\"VCPEClosedLoopStatusAlbum\").get(\n        executor.inFields.get(\"vnfID\").toString());\n}\n\nvcpeClosedLoopStatus.put(\"notification\",     \"FINAL_SUCCESS\");\nvcpeClosedLoopStatus.put(\"notificationTime\", java.lang.System.currentTimeMillis());\nvcpeClosedLoopStatus.put(\"message\",          \"situation has been abated\");\n\nexecutor.logger.info(executor.outFields);\n\ntrue;"
+                            }
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "ControlLoopLogTask",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "ControlLoopLogTask",
+                              "version": "0.0.1"
+                            },
+                            "inputFields": {
+                              "entry": [
+                                {
+                                  "key": "requestID",
+                                  "value": {
+                                    "key": "requestID",
+                                    "fieldSchemaKey": {
+                                      "name": "UUIDType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                },
+                                {
+                                  "key": "vnfID",
+                                  "value": {
+                                    "key": "vnfID",
+                                    "fieldSchemaKey": {
+                                      "name": "UUIDType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                }
+                              ]
+                            },
+                            "outputFields": {
+                              "entry": [
+                                {
+                                  "key": "VirtualControlLoopNotification",
+                                  "value": {
+                                    "key": "VirtualControlLoopNotification",
+                                    "fieldSchemaKey": {
+                                      "name": "VirtualControlLoopNotificationType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                }
+                              ]
+                            },
+                            "taskParameters": {
+                              "entry": []
+                            },
+                            "contextAlbumReference": [
+                              {
+                                "name": "VCPEClosedLoopStatusAlbum",
+                                "version": "0.0.1"
+                              }
+                            ],
+                            "taskLogic": {
+                              "key": "TaskLogic",
+                              "logicFlavour": "JAVASCRIPT",
+                              "logic": "/*\n * ============LICENSE_START=======================================================\n *  Copyright (C) 2016-2018 Ericsson. All rights reserved.\n *  Modifications Copyright (C) 2020 Nordix Foundation.\n * ================================================================================\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n *\n * SPDX-License-Identifier: Apache-2.0\n * ============LICENSE_END=========================================================\n */\n\nexecutor.logger.info(executor.subject.id);\nexecutor.logger.info(executor.inFields);\n\nvar vnfID = executor.inFields.get(\"vnfID\");\nif(vnfID == null) {\n   vnfID = executor.inFields.get(\"vnfName\");\n}\nexecutor.logger.info(\"vnfID=\" + vnfID);\n\nvar vcpeClosedLoopStatus = executor.getContextAlbum(\"VCPEClosedLoopStatusAlbum\").get(vnfID.toString());\n\nexecutor.logger.info(\"Logging context information for VNF \\\"\" + vnfID + \"\\\"\");\n\nvar clNotification = new org.onap.policy.controlloop.VirtualControlLoopNotification();\n\nclNotification.setClosedLoopControlName(vcpeClosedLoopStatus.get(\"closedLoopControlName\"));\nclNotification.setClosedLoopAlarmStart(java.time.Instant.ofEpochMilli(vcpeClosedLoopStatus.get(\"closedLoopAlarmStart\")));\nclNotification.setClosedLoopAlarmEnd(java.time.Instant.ofEpochMilli(vcpeClosedLoopStatus.get(\"closedLoopAlarmEnd\")));\nclNotification.setClosedLoopEventClient(vcpeClosedLoopStatus.get(\"closedLoopEventClient\"));\nclNotification.setVersion(vcpeClosedLoopStatus.get(\"version\"));\nclNotification.setRequestId(java.util.UUID.fromString(vcpeClosedLoopStatus.get(\"requestID\")));\nclNotification.setTargetType(vcpeClosedLoopStatus.get(\"target_type\"));\nclNotification.setTarget(vcpeClosedLoopStatus.get(\"target\"));\nclNotification.setFrom(vcpeClosedLoopStatus.get(\"from\"));\nclNotification.setPolicyScope(vcpeClosedLoopStatus.get(\"policyScope\"));\nclNotification.setPolicyName(vcpeClosedLoopStatus.get(\"policyName\"));\nclNotification.setPolicyVersion(vcpeClosedLoopStatus.get(\"policyVersion\"));\nclNotification.setNotification(org.onap.policy.controlloop.ControlLoopNotificationType.toType(vcpeClosedLoopStatus.get(\"notification\")));\nclNotification.setMessage(vcpeClosedLoopStatus.get(\"message\"));\n\nvar notificationInstant = java.time.Instant.ofEpochSecond(vcpeClosedLoopStatus.get(\"notificationTime\"));\nvar notificationTime = java.time.ZonedDateTime.ofInstant(notificationInstant, java.time.ZoneOffset.UTC);\nclNotification.setNotificationTime(notificationTime);\n\nvar aaiInfo = vcpeClosedLoopStatus.get(\"AAI\");\n\nclNotification.getAai().put(\"generic-vnf.resource-version\",        aaiInfo.get(\"genericVnfResourceVersion\"));\nclNotification.getAai().put(\"generic-vnf.vnf-name\",                aaiInfo.get(\"genericVnfVnfName\"));\nclNotification.getAai().put(\"generic-vnf.prov-status\",             aaiInfo.get(\"genericVnfProvStatus\"));\nclNotification.getAai().put(\"generic-vnf.is-closed-loop-disabled\", aaiInfo.get(\"genericVnfIsClosedLoopDisabled\"));\nclNotification.getAai().put(\"generic-vnf.orchestration-status\",    aaiInfo.get(\"genericVnfOrchestrationStatus\"));\nclNotification.getAai().put(\"generic-vnf.vnf-type\",                aaiInfo.get(\"genericVnfVnfType\"));\nclNotification.getAai().put(\"generic-vnf.in-maint\",                aaiInfo.get(\"genericVnfInMaint\"));\nclNotification.getAai().put(\"generic-vnf.service-id\",              aaiInfo.get(\"genericVnfServiceId\"));\n\nif(vnfID != null) {\n   clNotification.getAai().put(\"generic-vnf.vnf-id\",                  aaiInfo.get(\"genericVnfVnfId\"));\n}\nexecutor.outFields.put(\"VirtualControlLoopNotification\", clNotification);\n\nexecutor.logger.info(executor.outFields);\n\ntrue;"
+                            }
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "DeniedTask",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "DeniedTask",
+                              "version": "0.0.1"
+                            },
+                            "inputFields": {
+                              "entry": [
+                                {
+                                  "key": "requestID",
+                                  "value": {
+                                    "key": "requestID",
+                                    "fieldSchemaKey": {
+                                      "name": "UUIDType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                },
+                                {
+                                  "key": "vnfID",
+                                  "value": {
+                                    "key": "vnfID",
+                                    "fieldSchemaKey": {
+                                      "name": "UUIDType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                }
+                              ]
+                            },
+                            "outputFields": {
+                              "entry": [
+                                {
+                                  "key": "requestID",
+                                  "value": {
+                                    "key": "requestID",
+                                    "fieldSchemaKey": {
+                                      "name": "UUIDType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                },
+                                {
+                                  "key": "vnfID",
+                                  "value": {
+                                    "key": "vnfID",
+                                    "fieldSchemaKey": {
+                                      "name": "UUIDType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                }
+                              ]
+                            },
+                            "taskParameters": {
+                              "entry": []
+                            },
+                            "contextAlbumReference": [
+                              {
+                                "name": "VCPEClosedLoopStatusAlbum",
+                                "version": "0.0.1"
+                              }
+                            ],
+                            "taskLogic": {
+                              "key": "TaskLogic",
+                              "logicFlavour": "JAVASCRIPT",
+                              "logic": "/*\n * ============LICENSE_START=======================================================\n *  Copyright (C) 2016-2018 Ericsson. All rights reserved.\n *  Modifications Copyright (C) 2020 Nordix Foundation.\n * ================================================================================\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n *\n * SPDX-License-Identifier: Apache-2.0\n * ============LICENSE_END=========================================================\n */\n\nexecutor.logger.info(executor.subject.id);\nexecutor.logger.info(executor.inFields);\n\nvar vcpeClosedLoopStatus = executor.getContextAlbum(\"VCPEClosedLoopStatusAlbum\").get(\n        executor.inFields.get(\"vnfID\").toString());\n\nvcpeClosedLoopStatus.put(\"notification\",     \"REJECTED\");\nvcpeClosedLoopStatus.put(\"notificationTime\", java.lang.System.currentTimeMillis());\n\nexecutor.logger.info(executor.outFields);\n\ntrue;"
+                            }
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "GetVCPEStateTask",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "GetVCPEStateTask",
+                              "version": "0.0.1"
+                            },
+                            "inputFields": {
+                              "entry": [
+                                {
+                                  "key": "VirtualControlLoopEvent",
+                                  "value": {
+                                    "key": "VirtualControlLoopEvent",
+                                    "fieldSchemaKey": {
+                                      "name": "VirtualControlLoopEventType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                }
+                              ]
+                            },
+                            "outputFields": {
+                              "entry": [
+                                {
+                                  "key": "requestID",
+                                  "value": {
+                                    "key": "requestID",
+                                    "fieldSchemaKey": {
+                                      "name": "UUIDType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                },
+                                {
+                                  "key": "vnfID",
+                                  "value": {
+                                    "key": "vnfID",
+                                    "fieldSchemaKey": {
+                                      "name": "UUIDType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                },
+                                {
+                                  "key": "vnfName",
+                                  "value": {
+                                    "key": "vnfName",
+                                    "fieldSchemaKey": {
+                                      "name": "SimpleStringType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": true
+                                  }
+                                }
+                              ]
+                            },
+                            "taskParameters": {
+                              "entry": []
+                            },
+                            "contextAlbumReference": [
+                              {
+                                "name": "RequestIDVNFIDAlbum",
+                                "version": "0.0.1"
+                              },
+                              {
+                                "name": "VCPEClosedLoopStatusAlbum",
+                                "version": "0.0.1"
+                              }
+                            ],
+                            "taskLogic": {
+                              "key": "TaskLogic",
+                              "logicFlavour": "JAVASCRIPT",
+                              "logic": "/*\n * ============LICENSE_START=======================================================\n *  Copyright (C) 2016-2018 Ericsson. All rights reserved.\n *  Modifications Copyright (C) 2020 Nordix Foundation.\n * ================================================================================\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n *\n * Note: The incoming closedloop message can be ONSET with both VNF-name and VNF-ID\n *       or ABATED with only VNF-name. So need to handle differently. For ABATED case,\n *       since we still keep the RequireIDVNFID context album, we can get it from there.\n *\n * SPDX-License-Identifier: Apache-2.0\n * ============LICENSE_END=========================================================\n */\n\nexecutor.logger.info(executor.subject.id);\nexecutor.logger.info(executor.inFields);\n\nvar clEventType = org.onap.policy.controlloop.VirtualControlLoopEvent;\nvar longType = java.lang.Long;\nvar uuidType = java.util.UUID;\n\nvar clEvent = executor.inFields.get(\"VirtualControlLoopEvent\");\n\nexecutor.logger.info(clEvent.toString());\nexecutor.logger.info(clEvent.getClosedLoopControlName());\n\nvar requestID = clEvent.getRequestId();\nexecutor.logger.info(\"requestID = \" + requestID);\nvar vnfID = null;\nvar vcpeClosedLoopStatus = null;\n\nif (clEvent.getAai().get(\"generic-vnf.vnf-id\") != null) {\n   vnfID = uuidType.fromString(clEvent.getAai().get(\"generic-vnf.vnf-id\"));\n   executor.logger.info(\"vnfID = \" + vnfID);\n   vcpeClosedLoopStatus = executor.getContextAlbum(\"VCPEClosedLoopStatusAlbum\").get(vnfID);\n\n   if (vcpeClosedLoopStatus == null) {\n      executor.logger.info(\"Creating context information for new vCPE VNF \\\"\" + vnfID.toString() + \"\\\"\");\n\n      vcpeClosedLoopStatus = executor.getContextAlbum(\"VCPEClosedLoopStatusAlbum\").getSchemaHelper().createNewInstance();\n\n      vcpeClosedLoopStatus.put(\"closedLoopControlName\", clEvent.getClosedLoopControlName());\n      vcpeClosedLoopStatus.put(\"closedLoopAlarmStart\",  clEvent.getClosedLoopAlarmStart().toEpochMilli());\n      vcpeClosedLoopStatus.put(\"closedLoopEventClient\", clEvent.getClosedLoopEventClient());\n      vcpeClosedLoopStatus.put(\"closedLoopEventStatus\", clEvent.getClosedLoopEventStatus().toString());\n      vcpeClosedLoopStatus.put(\"version\",               clEvent.getVersion());\n      vcpeClosedLoopStatus.put(\"requestID\",             clEvent.getRequestId().toString());\n      vcpeClosedLoopStatus.put(\"target_type\",           clEvent.getTargetType().toString());\n      vcpeClosedLoopStatus.put(\"target\",                clEvent.getTarget());\n      vcpeClosedLoopStatus.put(\"from\",                  clEvent.getFrom());\n      vcpeClosedLoopStatus.put(\"policyScope\",           \"vCPE\");\n      vcpeClosedLoopStatus.put(\"policyName\",            \"ONAPvCPEPolicyModel\");\n      vcpeClosedLoopStatus.put(\"policyVersion\",         \"0.0.1\");\n      vcpeClosedLoopStatus.put(\"notification\",          \"ACTIVE\");\n      vcpeClosedLoopStatus.put(\"notificationTime\",      java.lang.System.currentTimeMillis());\n      vcpeClosedLoopStatus.put(\"message\",               \"\");\n\n      var aaiInfo = executor.getContextAlbum(\"VCPEClosedLoopStatusAlbum\").getSchemaHelper().createNewSubInstance(\"VCPE_AAI_Type\");\n\n      aaiInfo.put(\"genericVnfResourceVersion\",      clEvent.getAai().get(\"generic-vnf.resource-version\"));\n      aaiInfo.put(\"genericVnfVnfName\",              clEvent.getAai().get(\"generic-vnf.vnf-name\"));\n      aaiInfo.put(\"genericVnfProvStatus\",           clEvent.getAai().get(\"generic-vnf.prov-status\"));\n      aaiInfo.put(\"genericVnfIsClosedLoopDisabled\", clEvent.getAai().get(\"generic-vnf.is-closed-loop-disabled\"));\n      aaiInfo.put(\"genericVnfOrchestrationStatus\",  clEvent.getAai().get(\"generic-vnf.orchestration-status\"));\n      aaiInfo.put(\"genericVnfVnfType\",              clEvent.getAai().get(\"generic-vnf.vnf-type\"));\n      aaiInfo.put(\"genericVnfInMaint\",              clEvent.getAai().get(\"generic-vnf.in-maint\"));\n      aaiInfo.put(\"genericVnfServiceId\",            clEvent.getAai().get(\"generic-vnf.service-id\"));\n      aaiInfo.put(\"genericVnfVnfId\",                clEvent.getAai().get(\"generic-vnf.vnf-id\"));\n      aaiInfo.put(\"vserverIsClosedLoopDisabled\",    clEvent.getAai().get(\"vserver.is-closed-loop-disabled\"));\n      aaiInfo.put(\"vserverProvStatus\",              clEvent.getAai().get(\"vserver.prov-status\"));\n      aaiInfo.put(\"vserverName\",                    clEvent.getAai().get(\"vserver.vserver-name\"));\n\n      vcpeClosedLoopStatus.put(\"AAI\", aaiInfo);\n\n      if (clEvent.getClosedLoopAlarmEnd() != null) {\n         vcpeClosedLoopStatus.put(\"closedLoopAlarmEnd\", clEvent.getClosedLoopAlarmEnd().toEpochMilli());\n      } else {\n         vcpeClosedLoopStatus.put(\"closedLoopAlarmEnd\", java.lang.Long.valueOf(0));\n      }\n\n      executor.getContextAlbum(\"VCPEClosedLoopStatusAlbum\").put(vnfID.toString(), vcpeClosedLoopStatus);\n\n      executor.logger.info(\"Created context information for new vCPE VNF \\\"\" + vnfID.toString() + \"\\\"\");\n   }\n\n   executor.outFields.put(\"requestID\", requestID);\n   executor.outFields.put(\"vnfID\", vnfID);\n\n   executor.logger.info(executor.outFields);\n}\nelse {\n    executor.logger.info(\"No vnf-id in VirtualControlLoopEvent, status:\" + clEvent.getClosedLoopEventStatus().toString());\n    var vnfName = clEvent.getAai().get(\"generic-vnf.vnf-name\");\n    executor.logger.info(\"No vnf-id in VirtualControlLoopEvent for \" + vnfName);\n\n    vcpeClosedLoopStatus = executor.getContextAlbum(\"VCPEClosedLoopStatusAlbum\").get(vnfName.toString());\n\n    if (vcpeClosedLoopStatus == null) {\n        executor.logger.info(\"Creating context information for new vCPE VNF \\\"\" + vnfName.toString() + \"\\\"\");\n\n        vcpeClosedLoopStatus = executor.getContextAlbum(\"VCPEClosedLoopStatusAlbum\").getSchemaHelper().createNewInstance();\n\n        vcpeClosedLoopStatus.put(\"closedLoopControlName\", clEvent.getClosedLoopControlName());\n        vcpeClosedLoopStatus.put(\"closedLoopAlarmStart\",  clEvent.getClosedLoopAlarmStart().toEpochMilli());\n        vcpeClosedLoopStatus.put(\"closedLoopEventClient\", clEvent.getClosedLoopEventClient());\n        vcpeClosedLoopStatus.put(\"closedLoopEventStatus\", clEvent.getClosedLoopEventStatus().toString());\n        vcpeClosedLoopStatus.put(\"version\",               clEvent.getVersion());\n        vcpeClosedLoopStatus.put(\"requestID\",             clEvent.getRequestId().toString());\n        vcpeClosedLoopStatus.put(\"target_type\",           clEvent.getTargetType().toString());\n        vcpeClosedLoopStatus.put(\"target\",                clEvent.getTarget());\n        vcpeClosedLoopStatus.put(\"from\",                  clEvent.getFrom());\n        vcpeClosedLoopStatus.put(\"policyScope\",           \"vCPE\");\n        vcpeClosedLoopStatus.put(\"policyName\",            \"ONAPvCPEPolicyModel\");\n        vcpeClosedLoopStatus.put(\"policyVersion\",         \"0.0.1\");\n        vcpeClosedLoopStatus.put(\"notification\",          \"ACTIVE\");\n        vcpeClosedLoopStatus.put(\"notificationTime\",      java.lang.System.currentTimeMillis());\n        vcpeClosedLoopStatus.put(\"message\",               \"\");\n\n        var aaiInfo = executor.getContextAlbum(\"VCPEClosedLoopStatusAlbum\").getSchemaHelper().createNewSubInstance(\"VCPE_AAI_Type\");\n\n        aaiInfo.put(\"genericVnfVnfName\", clEvent.getAai().get(\"generic-vnf.vnf-name\"));\n        vcpeClosedLoopStatus.put(\"AAI\", aaiInfo);\n\n        if (clEvent.getClosedLoopAlarmEnd() != null) {\n            vcpeClosedLoopStatus.put(\"closedLoopAlarmEnd\", clEvent.getClosedLoopAlarmEnd().toEpochMilli());\n        } else {\n            vcpeClosedLoopStatus.put(\"closedLoopAlarmEnd\", java.lang.Long.valueOf(0));\n        }\n\n        executor.getContextAlbum(\"VCPEClosedLoopStatusAlbum\").put(vnfName.toString(), vcpeClosedLoopStatus);\n\n        executor.logger.info(\"Created context information for new vCPE VNF \\\"\" + vnfName.toString() + \"\\\"\");\n    }\n    executor.outFields.put(\"requestID\", requestID);\n    executor.outFields.put(\"vnfName\", vnfName);\n    executor.logger.info(executor.outFields);\n}\n\ntrue;"
+                            }
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "GuardRequestTask",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "GuardRequestTask",
+                              "version": "0.0.1"
+                            },
+                            "inputFields": {
+                              "entry": [
+                                {
+                                  "key": "requestID",
+                                  "value": {
+                                    "key": "requestID",
+                                    "fieldSchemaKey": {
+                                      "name": "UUIDType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                },
+                                {
+                                  "key": "vnfID",
+                                  "value": {
+                                    "key": "vnfID",
+                                    "fieldSchemaKey": {
+                                      "name": "UUIDType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                }
+                              ]
+                            },
+                            "outputFields": {
+                              "entry": [
+                                {
+                                  "key": "decisionAttributes",
+                                  "value": {
+                                    "key": "decisionAttributes",
+                                    "fieldSchemaKey": {
+                                      "name": "GuardDecisionAttributesType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                },
+                                {
+                                  "key": "onapName",
+                                  "value": {
+                                    "key": "onapName",
+                                    "fieldSchemaKey": {
+                                      "name": "SimpleStringType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                }
+                              ]
+                            },
+                            "taskParameters": {
+                              "entry": []
+                            },
+                            "contextAlbumReference": [
+                              {
+                                "name": "ControlLoopExecutionIDAlbum",
+                                "version": "0.0.1"
+                              },
+                              {
+                                "name": "VCPEClosedLoopStatusAlbum",
+                                "version": "0.0.1"
+                              }
+                            ],
+                            "taskLogic": {
+                              "key": "TaskLogic",
+                              "logicFlavour": "JAVASCRIPT",
+                              "logic": "/*\n * ============LICENSE_START=======================================================\n *  Copyright (C) 2016-2018 Ericsson. All rights reserved.\n *  Modifications Copyright (C) 2020 Nordix Foundation.\n * ================================================================================\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n *\n * SPDX-License-Identifier: Apache-2.0\n * ============LICENSE_END=========================================================\n */\n\nexecutor.logger.info(executor.subject.id);\nexecutor.logger.info(executor.inFields);\n\nvar vcpeClosedLoopStatus = executor.getContextAlbum(\"VCPEClosedLoopStatusAlbum\").get(\n        executor.inFields.get(\"vnfID\").toString());\n\nvar guardDecisionAttributes = executor.subject.getOutFieldSchemaHelper(\"decisionAttributes\").createNewInstance();\n\nguardDecisionAttributes.put(\"actor\", \"APPC\");\nguardDecisionAttributes.put(\"recipe\", \"Restart\");\nguardDecisionAttributes.put(\"target\", executor.inFields.get(\"vnfID\").toString());\nguardDecisionAttributes.put(\"clname\", \"APEXvCPEImplementation\");\n\nexecutor.logger.info(guardDecisionAttributes);\n\nexecutor.outFields.put(\"decisionAttributes\", guardDecisionAttributes);\nexecutor.outFields.put(\"onapName\", \"PDPD\");\n\nexecutor.getContextAlbum(\"ControlLoopExecutionIDAlbum\").put(executor.executionId.toString(),\n        executor.inFields.get(\"vnfID\"));\n\nexecutor.logger.info(executor.outFields);\n\ntrue;"
+                            }
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "GuardResponseTask",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "GuardResponseTask",
+                              "version": "0.0.1"
+                            },
+                            "inputFields": {
+                              "entry": [
+                                {
+                                  "key": "decision",
+                                  "value": {
+                                    "key": "decision",
+                                    "fieldSchemaKey": {
+                                      "name": "SimpleStringType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                },
+                                {
+                                  "key": "details",
+                                  "value": {
+                                    "key": "details",
+                                    "fieldSchemaKey": {
+                                      "name": "SimpleStringType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                }
+                              ]
+                            },
+                            "outputFields": {
+                              "entry": [
+                                {
+                                  "key": "requestID",
+                                  "value": {
+                                    "key": "requestID",
+                                    "fieldSchemaKey": {
+                                      "name": "UUIDType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                },
+                                {
+                                  "key": "vnfID",
+                                  "value": {
+                                    "key": "vnfID",
+                                    "fieldSchemaKey": {
+                                      "name": "UUIDType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                }
+                              ]
+                            },
+                            "taskParameters": {
+                              "entry": []
+                            },
+                            "contextAlbumReference": [
+                              {
+                                "name": "ControlLoopExecutionIDAlbum",
+                                "version": "0.0.1"
+                              },
+                              {
+                                "name": "VCPEClosedLoopStatusAlbum",
+                                "version": "0.0.1"
+                              }
+                            ],
+                            "taskLogic": {
+                              "key": "TaskLogic",
+                              "logicFlavour": "JAVASCRIPT",
+                              "logic": "/*\n * ============LICENSE_START=======================================================\n *  Copyright (C) 2016-2018 Ericsson. All rights reserved.\n *  Modifications Copyright (C) 2020 Nordix Foundation.\n * ================================================================================\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n *\n * SPDX-License-Identifier: Apache-2.0\n * ============LICENSE_END=========================================================\n */\n\nexecutor.logger.info(executor.subject.id);\nexecutor.logger.info(executor.inFields);\n\nvar vnfID = executor.getContextAlbum(\"ControlLoopExecutionIDAlbum\").remove(executor.executionId.toString());\n\nexecutor.logger.info(\"Continuing execution with VNF ID: \" + vnfID);\n\nvar vcpeClosedLoopStatus = executor.getContextAlbum(\"VCPEClosedLoopStatusAlbum\").get(vnfID.toString());\nexecutor.logger.info(vcpeClosedLoopStatus);\n\nvar guardResult = executor.inFields.get(\"decision\");\nvar returnValue = true;\n\nif (guardResult == \"PERMIT\") {\n    vcpeClosedLoopStatus.put(\"notification\", \"OPERATION: GUARD_PERMIT\");\n} else if (guardResult == \"DENY\") {\n    vcpeClosedLoopStatus.put(\"notification\", \"OPERATION: GUARD_DENY\");\n} else {\n    executor.message = \"guard result must be either \\\"PERMIT\\\" or \\\"DENY\\\"\";\n    returnValue = false;\n}\n\nvar uuidType = java.util.UUID;\nvar requestID = uuidType.fromString(vcpeClosedLoopStatus.get(\"requestID\"));\n\nexecutor.outFields.put(\"requestID\", requestID);\nexecutor.outFields.put(\"vnfID\", vnfID);\n\nexecutor.logger.info(executor.outFields);\n\n\nreturnValue;"
+                            }
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "NoAAILookupTask",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "NoAAILookupTask",
+                              "version": "0.0.1"
+                            },
+                            "inputFields": {
+                              "entry": [
+                                {
+                                  "key": "requestID",
+                                  "value": {
+                                    "key": "requestID",
+                                    "fieldSchemaKey": {
+                                      "name": "UUIDType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                },
+                                {
+                                  "key": "vnfID",
+                                  "value": {
+                                    "key": "vnfID",
+                                    "fieldSchemaKey": {
+                                      "name": "UUIDType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                }
+                              ]
+                            },
+                            "outputFields": {
+                              "entry": [
+                                {
+                                  "key": "requestID",
+                                  "value": {
+                                    "key": "requestID",
+                                    "fieldSchemaKey": {
+                                      "name": "UUIDType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                },
+                                {
+                                  "key": "vnfID",
+                                  "value": {
+                                    "key": "vnfID",
+                                    "fieldSchemaKey": {
+                                      "name": "UUIDType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                }
+                              ]
+                            },
+                            "taskParameters": {
+                              "entry": []
+                            },
+                            "contextAlbumReference": [],
+                            "taskLogic": {
+                              "key": "TaskLogic",
+                              "logicFlavour": "JAVASCRIPT",
+                              "logic": "/*\n * ============LICENSE_START=======================================================\n *  Copyright (C) 2016-2018 Ericsson. All rights reserved.\n *  Modifications Copyright (C) 2020 Nordix Foundation.\n * ================================================================================\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n *\n * SPDX-License-Identifier: Apache-2.0\n * ============LICENSE_END=========================================================\n */\n\nexecutor.logger.info(executor.subject.id);\nexecutor.logger.info(executor.inFields);\n\nexecutor.logger.info(executor.outFields);\n\ntrue;"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "events": {
+                    "key": {
+                      "name": "ONAPvCPEPolicyModel_Events",
+                      "version": "0.0.1"
+                    },
+                    "eventMap": {
+                      "entry": [
+                        {
+                          "key": {
+                            "name": "APPCRestartVNFRequestEvent",
+                            "version": "2.0.0"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "APPCRestartVNFRequestEvent",
+                              "version": "2.0.0"
+                            },
+                            "nameSpace": "org.onap.policy.apex.onap.vcpe",
+                            "source": "APEX",
+                            "target": "APPC",
+                            "parameter": {
+                              "entry": [
+                                {
+                                  "key": "APPCLCMRequestEvent",
+                                  "value": {
+                                    "key": "APPCLCMRequestEvent",
+                                    "fieldSchemaKey": {
+                                      "name": "APPCLCMRequestType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "APPCRestartVNFResponseEvent",
+                            "version": "2.0.0"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "APPCRestartVNFResponseEvent",
+                              "version": "2.0.0"
+                            },
+                            "nameSpace": "org.onap.policy.apex.onap.vcpe",
+                            "source": "APEX",
+                            "target": "APPC",
+                            "parameter": {
+                              "entry": [
+                                {
+                                  "key": "APPCLCMResponseEvent",
+                                  "value": {
+                                    "key": "APPCLCMResponseEvent",
+                                    "fieldSchemaKey": {
+                                      "name": "APPCLCMResponseType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "ControlLoop-vCPE-48f0c2c3-a172-4192-9ae3-052274181b6e",
+                            "version": "1.0.2"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "ControlLoop-vCPE-48f0c2c3-a172-4192-9ae3-052274181b6e",
+                              "version": "1.0.2"
+                            },
+                            "nameSpace": "org.onap.policy.apex.onap.vcpe",
+                            "source": "DCAE",
+                            "target": "APEX",
+                            "parameter": {
+                              "entry": [
+                                {
+                                  "key": "VirtualControlLoopEvent",
+                                  "value": {
+                                    "key": "VirtualControlLoopEvent",
+                                    "fieldSchemaKey": {
+                                      "name": "VirtualControlLoopEventType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "ControlLoopLogEvent",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "ControlLoopLogEvent",
+                              "version": "0.0.1"
+                            },
+                            "nameSpace": "org.onap.policy.apex.onap.vcpe",
+                            "source": "APEX",
+                            "target": "APEX",
+                            "parameter": {
+                              "entry": [
+                                {
+                                  "key": "VirtualControlLoopNotification",
+                                  "value": {
+                                    "key": "VirtualControlLoopNotification",
+                                    "fieldSchemaKey": {
+                                      "name": "VirtualControlLoopNotificationType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "GuardRequestEvent",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "GuardRequestEvent",
+                              "version": "0.0.1"
+                            },
+                            "nameSpace": "org.onap.policy.apex.onap.vcpe",
+                            "source": "APEX",
+                            "target": "APEX",
+                            "parameter": {
+                              "entry": [
+                                {
+                                  "key": "decisionAttributes",
+                                  "value": {
+                                    "key": "decisionAttributes",
+                                    "fieldSchemaKey": {
+                                      "name": "GuardDecisionAttributesType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                },
+                                {
+                                  "key": "onapName",
+                                  "value": {
+                                    "key": "onapName",
+                                    "fieldSchemaKey": {
+                                      "name": "SimpleStringType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "GuardResponseEvent",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "GuardResponseEvent",
+                              "version": "0.0.1"
+                            },
+                            "nameSpace": "org.onap.policy.apex.onap.vcpe",
+                            "source": "APEX",
+                            "target": "APEX",
+                            "parameter": {
+                              "entry": [
+                                {
+                                  "key": "decision",
+                                  "value": {
+                                    "key": "decision",
+                                    "fieldSchemaKey": {
+                                      "name": "SimpleStringType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                },
+                                {
+                                  "key": "details",
+                                  "value": {
+                                    "key": "details",
+                                    "fieldSchemaKey": {
+                                      "name": "SimpleStringType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "VCPEStateUpdatedEvent",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "VCPEStateUpdatedEvent",
+                              "version": "0.0.1"
+                            },
+                            "nameSpace": "org.onap.policy.apex.onap.vcpe",
+                            "source": "APEX",
+                            "target": "APEX",
+                            "parameter": {
+                              "entry": [
+                                {
+                                  "key": "requestID",
+                                  "value": {
+                                    "key": "requestID",
+                                    "fieldSchemaKey": {
+                                      "name": "UUIDType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                },
+                                {
+                                  "key": "vnfID",
+                                  "value": {
+                                    "key": "vnfID",
+                                    "fieldSchemaKey": {
+                                      "name": "UUIDType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": false
+                                  }
+                                },
+                                {
+                                  "key": "vnfName",
+                                  "value": {
+                                    "key": "vnfName",
+                                    "fieldSchemaKey": {
+                                      "name": "SimpleStringType",
+                                      "version": "0.0.1"
+                                    },
+                                    "optional": true
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "albums": {
+                    "key": {
+                      "name": "ONAPvCPEPolicyModel_Albums",
+                      "version": "0.0.1"
+                    },
+                    "albums": {
+                      "entry": [
+                        {
+                          "key": {
+                            "name": "ControlLoopExecutionIDAlbum",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "ControlLoopExecutionIDAlbum",
+                              "version": "0.0.1"
+                            },
+                            "scope": "policy",
+                            "isWritable": true,
+                            "itemSchema": {
+                              "name": "UUIDType",
+                              "version": "0.0.1"
+                            }
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "RequestIDVNFIDAlbum",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "RequestIDVNFIDAlbum",
+                              "version": "0.0.1"
+                            },
+                            "scope": "policy",
+                            "isWritable": true,
+                            "itemSchema": {
+                              "name": "UUIDType",
+                              "version": "0.0.1"
+                            }
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "VCPEClosedLoopStatusAlbum",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "VCPEClosedLoopStatusAlbum",
+                              "version": "0.0.1"
+                            },
+                            "scope": "policy",
+                            "isWritable": true,
+                            "itemSchema": {
+                              "name": "VCPEClosedLoopStatusType",
+                              "version": "0.0.1"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "schemas": {
+                    "key": {
+                      "name": "ONAPvCPEPolicyModel_Schemas",
+                      "version": "0.0.1"
+                    },
+                    "schemas": {
+                      "entry": [
+                        {
+                          "key": {
+                            "name": "APPCLCMRequestType",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "APPCLCMRequestType",
+                              "version": "0.0.1"
+                            },
+                            "schemaFlavour": "Java",
+                            "schemaDefinition": "org.onap.policy.appclcm.AppcLcmDmaapWrapper"
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "APPCLCMResponseType",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "APPCLCMResponseType",
+                              "version": "0.0.1"
+                            },
+                            "schemaFlavour": "Java",
+                            "schemaDefinition": "org.onap.policy.appclcm.AppcLcmDmaapWrapper"
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "GuardDecisionAttributesType",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "GuardDecisionAttributesType",
+                              "version": "0.0.1"
+                            },
+                            "schemaFlavour": "Avro",
+                            "schemaDefinition": "{\n    \"type\": \"record\",\n    \"name\": \"GuardDecisionAttributes_Type\",\n    \"namespace\": \"org.onap.policy.apex.onap.vcpe\",\n    \"fields\": [\n        {\n            \"name\": \"actor\",\n            \"type\": \"string\"\n        },\n        {\n            \"name\": \"recipe\",\n            \"type\": \"string\"\n        },\n        {\n            \"name\": \"target\",\n            \"type\": \"string\"\n        },\n        {\n            \"name\": \"clname\",\n            \"type\": \"string\"\n        }\n    ]\n}"
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "SimpleBooleanType",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "SimpleBooleanType",
+                              "version": "0.0.1"
+                            },
+                            "schemaFlavour": "Java",
+                            "schemaDefinition": "java.lang.Boolean"
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "SimpleLongType",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "SimpleLongType",
+                              "version": "0.0.1"
+                            },
+                            "schemaFlavour": "Java",
+                            "schemaDefinition": "java.lang.Long"
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "SimpleStringType",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "SimpleStringType",
+                              "version": "0.0.1"
+                            },
+                            "schemaFlavour": "Java",
+                            "schemaDefinition": "java.lang.String"
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "UUIDType",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "UUIDType",
+                              "version": "0.0.1"
+                            },
+                            "schemaFlavour": "Java",
+                            "schemaDefinition": "java.util.UUID"
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "VCPEClosedLoopStatusType",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "VCPEClosedLoopStatusType",
+                              "version": "0.0.1"
+                            },
+                            "schemaFlavour": "Avro",
+                            "schemaDefinition": "{\n    \"type\": \"record\",\n    \"name\": \"VCPEClosedLoopStatus\",\n    \"fields\": [\n        {\n            \"name\": \"AAI\",\n            \"type\": {\n                \"type\": \"record\",\n                \"name\": \"VCPE_AAI_Type\",\n                \"namespace\": \"org.onap.policy.apex.onap.vcpe\",\n                \"fields\": [\n                    {\n                        \"name\": \"genericVnfResourceVersion\",\n                        \"type\": \"string\"\n                    },\n                    {\n                        \"name\": \"genericVnfVnfName\",\n                        \"type\": \"string\"\n                    },\n                    {\n                        \"name\": \"genericVnfProvStatus\",\n                        \"type\": \"string\"\n                    },\n                    {\n                        \"name\": \"genericVnfIsClosedLoopDisabled\",\n                        \"type\": \"string\"\n                    },\n                    {\n                        \"name\": \"genericVnfOrchestrationStatus\",\n                        \"type\": \"string\"\n                    },\n                    {\n                        \"name\": \"genericVnfVnfType\",\n                        \"type\": \"string\"\n                    },\n                    {\n                        \"name\": \"genericVnfInMaint\",\n                        \"type\": \"string\"\n                    },\n                    {\n                        \"name\": \"genericVnfServiceId\",\n                        \"type\": \"string\"\n                    },\n                    {\n                        \"name\": \"genericVnfVnfId\",\n                        \"type\": \"string\"\n                    },\n                    {\n                        \"name\": \"vserverIsClosedLoopDisabled\",\n                        \"type\": \"string\"\n                    },\n                    {\n                        \"name\": \"vserverName\",\n                        \"type\": \"string\"\n                    },\n                    {\n                        \"name\": \"vserverProvStatus\",\n                        \"type\": \"string\"\n                    }\n                ]\n            }\n        },\n        {\n            \"name\": \"closedLoopAlarmStart\",\n            \"type\": \"long\"\n        },\n        {\n            \"name\": \"closedLoopAlarmEnd\",\n            \"type\": \"long\"\n        },\n        {\n            \"name\": \"closedLoopControlName\",\n            \"type\": \"string\"\n        },\n        {\n            \"name\": \"version\",\n            \"type\": \"string\"\n        },\n        {\n            \"name\": \"requestID\",\n            \"type\": \"string\"\n        },\n        {\n            \"name\": \"closedLoopEventClient\",\n            \"type\": \"string\"\n        },\n        {\n            \"name\": \"closedLoopEventStatus\",\n            \"type\": \"string\"\n        },\n        {\n            \"name\": \"target_type\",\n            \"type\": \"string\"\n        },\n        {\n            \"name\": \"target\",\n            \"type\": \"string\"\n        },\n        {\n            \"name\": \"from\",\n            \"type\": \"string\"\n        },\n        {\n            \"name\": \"policyScope\",\n            \"type\": \"string\"\n        },\n        {\n            \"name\": \"policyName\",\n            \"type\": \"string\"\n        },\n        {\n            \"name\": \"policyVersion\",\n            \"type\": \"string\"\n        },\n        {\n            \"name\": \"notification\",\n            \"type\": \"string\"\n        },\n        {\n            \"name\": \"notificationTime\",\n            \"type\": \"long\"\n        },\n        {\n            \"name\": \"message\",\n            \"type\": \"string\"\n        }\n    ]\n}"
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "VirtualControlLoopEventType",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "VirtualControlLoopEventType",
+                              "version": "0.0.1"
+                            },
+                            "schemaFlavour": "Java",
+                            "schemaDefinition": "org.onap.policy.controlloop.VirtualControlLoopEvent"
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "VirtualControlLoopNotificationType",
+                            "version": "0.0.1"
+                          },
+                          "value": {
+                            "key": {
+                              "name": "VirtualControlLoopNotificationType",
+                              "version": "0.0.1"
+                            },
+                            "schemaFlavour": "Java",
+                            "schemaDefinition": "org.onap.policy.controlloop.VirtualControlLoopNotification"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "engineParameters": {
+                "executorParameters": {
+                  "JAVASCRIPT": {
+                    "parameterClassName": "org.onap.policy.apex.plugins.executor.javascript.JavascriptExecutorParameters"
+                  }
+                },
+                "contextParameters": {
+                  "parameterClassName": "org.onap.policy.apex.context.parameters.ContextParameters",
+                  "schemaParameters": {
+                    "Avro": {
+                      "parameterClassName": "org.onap.policy.apex.plugins.context.schema.avro.AvroSchemaHelperParameters"
+                    },
+                    "Java": {
+                      "parameterClassName": "org.onap.policy.apex.context.impl.schema.java.JavaSchemaHelperParameters",
+                      "jsonAdapters": {
+                        "Instant": {
+                          "adaptedClass": "java.time.Instant",
+                          "adaptorClass": "org.onap.policy.controlloop.util.Serialization$GsonInstantAdapter"
+                        }
+                      }
+                    }
+                  }
+                },
+                "taskParameters": [
+                  {
+                    "key": "ParameterKey1",
+                    "value": "ParameterValue1"
+                  },
+                  {
+                    "taskId": "AAILookupTask:0.0.1",
+                    "key": "SomeKeyForThisTask",
+                    "value": "Value"
+                  }
+                ]
+              }
+            },
+            "eventInputParameters": {
+              "GuardRequestorConsumer": {
+                "carrierTechnologyParameters": {
+                  "carrierTechnology": "RESTREQUESTOR",
+                  "parameterClassName": "org.onap.policy.apex.plugins.event.carrier.restrequestor.RestRequestorCarrierTechnologyParameters",
+                  "parameters": {
+                    "url": "http://111.222.333.444:5555/pdp/api/getDecision",
+                    "httpMethod": "POST",
+                    "restRequestTimeout": 2000,
+                    "httpHeader": "Authorization:aaaaaaaaa== ClientAuth:bbbbbbbbb="
+                  }
+                },
+                "eventProtocolParameters": {
+                  "eventProtocol": "JSON"
+                },
+                "eventName": "GuardResponseEvent",
+                "eventNameFilter": "GuardResponseEvent",
+                "requestorMode": true,
+                "requestorPeer": "GuardRequestorProducer",
+                "requestorTimeout": 500
+              },
+              "DCAEConsumer": {
+                "carrierTechnologyParameters": {
+                  "carrierTechnology": "RESTCLIENT",
+                  "parameterClassName": "org.onap.policy.apex.plugins.event.carrier.restclient.RestClientCarrierTechnologyParameters",
+                  "parameters": {
+                    "url": "http://message-router:3904/events/unauthenticated.DCAE_CL_OUTPUT/APEX/1?timeout=60000"
+                  }
+                },
+                "eventProtocolParameters": {
+                  "eventProtocol": "JSON",
+                  "parameters": {
+                    "nameAlias": "closedLoopControlName",
+                    "versionAlias": "version",
+                    "sourceAlias": "from",
+                    "pojoField": "VirtualControlLoopEvent"
+                  }
+                },
+                "eventName": "ControlLoop-vCPE-48f0c2c3-a172-4192-9ae3-052274181b6e"
+              },
+              "APPCConsumer": {
+                "carrierTechnologyParameters": {
+                  "carrierTechnology": "RESTCLIENT",
+                  "parameterClassName": "org.onap.policy.apex.plugins.event.carrier.restclient.RestClientCarrierTechnologyParameters",
+                  "parameters": {
+                    "url": "http://message-router:3904/events/APPC-LCM-WRITE/APEX/1?timeout=60000"
+                  }
+                },
+                "eventProtocolParameters": {
+                  "eventProtocol": "JSON",
+                  "parameters": {
+                    "versionAlias": "version",
+                    "pojoField": "APPCLCMResponseEvent"
+                  }
+                },
+                "eventName": "APPCRestartVNFResponseEvent",
+                "eventNameFilter": "APPCRestartVNFResponseEvent"
+              }
+            },
+            "eventOutputParameters": {
+              "logProducer": {
+                "carrierTechnologyParameters": {
+                  "carrierTechnology": "FILE",
+                  "parameters": {
+                    "fileName": "/tmp/VCPEEventsOut.json"
+                  }
+                },
+                "eventProtocolParameters": {
+                  "eventProtocol": "JSON"
+                }
+              },
+              "GuardRequestorProducer": {
+                "carrierTechnologyParameters": {
+                  "carrierTechnology": "RESTREQUESTOR",
+                  "parameterClassName": "org.onap.policy.apex.plugins.event.carrier.restrequestor.RestRequestorCarrierTechnologyParameters"
+                },
+                "eventProtocolParameters": {
+                  "eventProtocol": "JSON"
+                },
+                "eventNameFilter": "GuardRequestEvent",
+                "requestorMode": true,
+                "requestorPeer": "GuardRequestorConsumer",
+                "requestorTimeout": 500
+              },
+              "APPCProducer": {
+                "carrierTechnologyParameters": {
+                  "carrierTechnology": "RESTCLIENT",
+                  "parameterClassName": "org.onap.policy.apex.plugins.event.carrier.restclient.RestClientCarrierTechnologyParameters",
+                  "parameters": {
+                    "url": "http://message-router:3904/events/APPC-LCM-READ"
+                  }
+                },
+                "eventProtocolParameters": {
+                  "eventProtocol": "JSON",
+                  "parameters": {
+                    "versionAlias": "version",
+                    "sourceAlias": "from",
+                    "pojoField": "APPCLCMRequestEvent"
+                  }
+                },
+                "eventNameFilter": "APPCRestartVNFRequestEvent"
+              },
+              "PolicyLogProducer": {
+                "carrierTechnologyParameters": {
+                  "carrierTechnology": "RESTCLIENT",
+                  "parameterClassName": "org.onap.policy.apex.plugins.event.carrier.restclient.RestClientCarrierTechnologyParameters",
+                  "parameters": {
+                    "url": "http://message-router:3904/events/POLICY-CL-MGT"
+                  }
+                },
+                "eventProtocolParameters": {
+                  "eventProtocol": "JSON",
+                  "parameters": {
+                    "versionAlias": "version",
+                    "sourceAlias": "from",
+                    "pojoField": "VirtualControlLoopNotification"
+                  }
+                },
+                "eventNameFilter": "ControlLoopLogEvent"
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}
