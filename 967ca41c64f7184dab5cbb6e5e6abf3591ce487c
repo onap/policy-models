@@ -33,6 +33,24 @@
       "revId": "967ca41c64f7184dab5cbb6e5e6abf3591ce487c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23d3b05c_fce3f29b",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/revisionhierarchy/HierarchyFetchTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-03-13T20:15:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4afb6f5_3bcdd211",
+      "revId": "967ca41c64f7184dab5cbb6e5e6abf3591ce487c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
