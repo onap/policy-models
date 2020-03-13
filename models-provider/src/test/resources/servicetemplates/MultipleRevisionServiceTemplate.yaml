@@ -1,0 +1,421 @@
+tosca_definitions_version: tosca_simple_yaml_1_1_0
+policy_types:
+   onap.policies.PolicyTypeLevel0:
+      derived_from: tosca.policies.Root
+      version: 1.0.0
+      description: Level 0 policy type
+      properties:
+         policyLevel0Property0:
+            type: policy.data.DataType0
+         policyLevel0Property1:
+            type: list
+            entry_schema:
+               type: policy.data.DataType1
+   onap.policies.PolicyTypeLevel0:
+      derived_from: tosca.policies.Root
+      version: 2.0.0
+      description: Level 0 policy type
+      properties:
+         policyLevel0Property0:
+            type: policy.data.DataType0
+         policyLevel0Property1:
+            type: list
+            entry_schema:
+               type: policy.data.DataType1
+         policyLevel0V2Property2:
+            type: policy.data.DataType5
+   onap.policies.PolicyTypeLevel0:
+      derived_from: tosca.policies.Root
+      version: 3.0.0
+      description: Level 0 policy type
+      properties:
+         policyLevel0Property0:
+            type: policy.data.DataType0
+         policyLevel0Property1:
+            type: list
+            entry_schema:
+               type: policy.data.DataType1
+         policyLevel0V2Property2:
+            type: policy.data.DataType5
+         policyLevel0V3Property3:
+            type: policy.data.DataType6
+   onap.policies.PolicyTypeLevel0.1:
+      derived_from: onap.policies.PolicyTypeLevel0
+      version: 1.0.0
+      description: Level 0.1 policy type
+      properties:
+         policyLevel0.1Property0:
+            type: policy.data.DataType5
+         policyLevel0.1Property1:
+            type: policy.data.DataType6
+   onap.policies.PolicyTypeLevel0.1:
+      derived_from: onap.policies.PolicyTypeLevel0
+      version: 2.0.0
+      description: Level 0.1 policy type
+      properties:
+         policyLevel0.1Property0:
+            type: policy.data.DataType5
+         policyLevel0.1Property1:
+            type: policy.data.DataType6
+         policyLevel0.1V2Property2:
+            type: policy.data.DataType5
+   onap.policies.PolicyTypeLevel0.1:
+      derived_from: onap.policies.PolicyTypeLevel0
+      version: 3.0.0
+      description: Level 0.1 policy type
+      properties:
+         policyLevel0.1Property0:
+            type: policy.data.DataType5
+         policyLevel0.1Property1:
+            type: policy.data.DataType6
+         policyLevel0.1V2Property2:
+            type: policy.data.DataType5
+         policyLevel0.1V3Property3:
+            type: policy.data.DataType6
+   onap.policies.PolicyTypeLevel0.1.2:
+      derived_from: onap.policies.PolicyTypeLevel0.1
+      version: 1.0.0
+      description: Level 0.1.2 policy type
+      properties:
+         policyLevel0.1.2Property0:
+            type: policy.data.DataType5
+         policyLevel0.1.2Property1:
+            type: policy.data.DataType6
+   onap.policies.PolicyTypeLevel0.1.2:
+      derived_from: onap.policies.PolicyTypeLevel0.1
+      version: 2.0.0
+      description: Level 0.1.2 policy type
+      properties:
+         policyLevel0.1.2Property0:
+            type: policy.data.DataType5
+         policyLevel0.1.2Property1:
+            type: policy.data.DataType6
+         policyLevel0.1.2V2Property2:
+            type: policy.data.DataType5
+   onap.policies.PolicyTypeLevel0.1.2:
+      derived_from: onap.policies.PolicyTypeLevel0.1
+      version: 3.0.0
+      description: Level 0.1.2 policy type
+      properties:
+         policyLevel0.1.2Property0:
+            type: policy.data.DataType5
+         policyLevel0.1.2Property1:
+            type: policy.data.DataType6
+         policyLevel0.1.2V2Property2:
+            type: policy.data.DataType5
+         policyLevel0.1.2V3Property3:
+            type: policy.data.DataType6
+   onap.policies.PolicyTypeLevel0.1.2.3:
+      derived_from: onap.policies.PolicyTypeLevel0.1.2
+      version: 1.0.0
+      description: Level 0.1.2.3 policy type
+      properties:
+         policyLevel0.1.2.3Property0:
+            type: policy.data.DataType5
+         policyLevel0.1.2.3Property1:
+            type: policy.data.DataType6
+   onap.policies.PolicyTypeLevel0.1.2.3:
+      derived_from: onap.policies.PolicyTypeLevel0.1.2
+      version: 2.0.0
+      description: Level 0.1.2.3 policy type
+      properties:
+         policyLevel0.1.2.3Property0:
+            type: policy.data.DataType5
+         policyLevel0.1.2.3Property1:
+            type: policy.data.DataType6
+         policyLevel0.1.2.3V2Property2:
+            type: policy.data.DataType5
+   onap.policies.PolicyTypeLevel0.1.2.3:
+      derived_from: onap.policies.PolicyTypeLevel0.1.2
+      version: 3.0.0
+      description: Level 0.1.2.3 policy type
+      properties:
+         policyLevel0.1.2.3Property0:
+            type: policy.data.DataType5
+         policyLevel0.1.2.3Property1:
+            type: policy.data.DataType6
+         policyLevel0.1.2.3V2Property2:
+            type: policy.data.DataType5
+         policyLevel0.1.2.3V3Property3:
+            type: policy.data.DataType6
+data_types:
+   policy.data.DataType0:
+      derived_from: tosca.datatypes.Root
+      version: 1.0.0
+      properties:
+         dataType0Property0:
+            type: policy.data.DataType2
+            required: false
+         dataType0Property1:
+            type: list
+            required: true
+            entry_schema:
+               type: policy.data.DataType3
+   policy.data.DataType1:
+      derived_from: tosca.datatypes.Root
+      version: 1.0.0
+      properties:
+         dataType1Property0:
+            type: policy.data.DataType4
+            required: false
+         dataType1Property1:
+            type: list
+            required: true
+            entry_schema:
+               type: policy.data.DataType5
+   policy.data.DataType2:
+      derived_from: tosca.datatypes.Root
+      version: 1.0.0
+      properties:
+         dataType2Property0:
+            type: string
+            required: false
+         dataType2Property1:
+            type: list
+            required: true
+            entry_schema:
+               type: integer
+   policy.data.DataType3:
+      derived_from: tosca.datatypes.Root
+      version: 1.0.0
+      properties:
+         dataType3Property0:
+            type: string
+            required: false
+   policy.data.DataType4:
+      derived_from: tosca.datatypes.Root
+      version: 1.0.0
+      properties:
+         dataType4Property0:
+            type: string
+            required: false
+         dataType4Property1:
+            type: list
+            required: true
+            entry_schema:
+               type: integer
+   policy.data.DataType5:
+      derived_from: tosca.datatypes.Root
+      version: 1.0.0
+      properties:
+         dataType5Property0:
+            type: string
+            required: false
+   policy.data.DataType5:
+      derived_from: tosca.datatypes.Root
+      version: 2.0.0
+      properties:
+         dataType5Property0:
+            type: string
+            required: false
+         dataType5V2Property1:
+            type: string
+            required: false
+   policy.data.DataType5:
+      derived_from: tosca.datatypes.Root
+      version: 3.0.0
+      properties:
+         dataType5Property0:
+            type: string
+            required: false
+         dataType5V2Property1:
+            type: string
+            required: false
+         dataType5V2Property2:
+            type: integer
+            required: false
+   policy.data.DataType6:
+      derived_from: tosca.datatypes.Root
+      version: 1.0.0
+      properties:
+         dataType6Property0:
+            type: integer
+            required: false
+   policy.data.DataType6:
+      derived_from: tosca.datatypes.Root
+      version: 2.0.0
+      properties:
+         dataType6Property0:
+            type: integer
+            required: false
+         dataType6V2Property1:
+            type: integer
+            required: false
+topology_template:
+   policies:
+   -  onap.policies.PolicyLevel0:
+         type: onap.policies.PolicyTypeLevel0
+         version: 1.0.0
+         type_version: 1.0.0
+         description: Level 0 policy
+         properties:
+            policyLevel0Property0:
+               dataType0Property0:
+                  dataType2Property0: dataType2Property0 value
+                  dataType2Property1:
+                  - 123
+                  - 456
+                  - 789
+               dataType0Property1:
+               - dataType3Property0: dataType3Property0 value 0
+               - dataType3Property0: dataType3Property0 value 1
+               - dataType3Property0: dataType3Property0 value 2
+               - dataType3Property0: dataType3Property0 value 3
+            policyLevel0Property1:
+            - dataType1Property0:
+                  dataType4Property0: dataType4Property0 value
+                  dataType4Property1:
+                  - 123
+                  - 456
+                  - 789
+              dataType1Property1:
+               - dataType5Property0: dataType5Property0 value 0
+               - dataType5Property0: dataType5Property0 value 1
+               - dataType5Property0: dataType5Property0 value 2
+               - dataType5Property0: dataType5Property0 value 3
+            - dataType1Property0:
+                  dataType4Property0: dataType4Property0 value
+                  dataType4Property1:
+                  - 123
+                  - 456
+                  - 789
+              dataType1Property1:
+               - dataType5Property0: dataType5Property0 value 0
+               - dataType5Property0: dataType5Property0 value 1
+               - dataType5Property0: dataType5Property0 value 2
+               - dataType5Property0: dataType5Property0 value 3
+   -  onap.policies.PolicyLevel0.1:
+         type: onap.policies.PolicyTypeLevel0
+         version: 1.0.0
+         type_version: 1.0.0
+         description: Level 0 policy
+         properties:
+            policyLevel0Property0:
+               dataType0Property0:
+                  dataType2Property0: dataType2Property0 value
+                  dataType2Property1:
+                  - 123
+                  - 456
+                  - 789
+               dataType0Property1:
+               - dataType3Property0: dataType3Property0 value 0
+               - dataType3Property0: dataType3Property0 value 1
+               - dataType3Property0: dataType3Property0 value 2
+               - dataType3Property0: dataType3Property0 value 3
+            policyLevel0Property1:
+            - dataType1Property0:
+                  dataType4Property0: dataType4Property0 value
+                  dataType4Property1:
+                  - 123
+                  - 456
+                  - 789
+              dataType1Property1:
+               - dataType5Property0: dataType5Property0 value 0
+               - dataType5Property0: dataType5Property0 value 1
+               - dataType5Property0: dataType5Property0 value 2
+               - dataType5Property0: dataType5Property0 value 3
+            - dataType1Property0:
+                  dataType4Property0: dataType4Property0 value
+                  dataType4Property1:
+                  - 123
+                  - 456
+                  - 789
+              dataType1Property1:
+               - dataType5Property0: dataType5Property0 value 0
+               - dataType5Property0: dataType5Property0 value 1
+               - dataType5Property0: dataType5Property0 value 2
+               - dataType5Property0: dataType5Property0 value 3
+            policyLevel0.1Property0: policyLevel0.1Property0 value
+            policyLevel0.1Property1: 123
+   -  onap.policies.PolicyLevel0.1.2:
+         type: onap.policies.PolicyTypeLevel0
+         version: 1.0.0
+         type_version: 1.0.0
+         description: Level 0 policy
+         properties:
+            policyLevel0Property0:
+               dataType0Property0:
+                  dataType2Property0: dataType2Property0 value
+                  dataType2Property1:
+                  - 123
+                  - 456
+                  - 789
+               dataType0Property1:
+               - dataType3Property0: dataType3Property0 value 0
+               - dataType3Property0: dataType3Property0 value 1
+               - dataType3Property0: dataType3Property0 value 2
+               - dataType3Property0: dataType3Property0 value 3
+            policyLevel0Property1:
+            - dataType1Property0:
+                  dataType4Property0: dataType4Property0 value
+                  dataType4Property1:
+                  - 123
+                  - 456
+                  - 789
+              dataType1Property1:
+               - dataType5Property0: dataType5Property0 value 0
+               - dataType5Property0: dataType5Property0 value 1
+               - dataType5Property0: dataType5Property0 value 2
+               - dataType5Property0: dataType5Property0 value 3
+            - dataType1Property0:
+                  dataType4Property0: dataType4Property0 value
+                  dataType4Property1:
+                  - 123
+                  - 456
+                  - 789
+              dataType1Property1:
+               - dataType5Property0: dataType5Property0 value 0
+               - dataType5Property0: dataType5Property0 value 1
+               - dataType5Property0: dataType5Property0 value 2
+               - dataType5Property0: dataType5Property0 value 3
+            policyLevel0.1Property0: policyLevel0.1Property0 value
+            policyLevel0.1Property1: 123
+            policyLevel0.1.2Property0: policyLevel0.1.2Property0 value
+            policyLevel0.1.2Property1: 456
+   -  onap.policies.PolicyLevel0.1.2.3:
+         type: onap.policies.PolicyTypeLevel0
+         version: 1.0.0
+         type_version: 1.0.0
+         description: Level 0 policy
+         properties:
+            policyLevel0Property0:
+               dataType0Property0:
+                  dataType2Property0: dataType2Property0 value
+                  dataType2Property1:
+                  - 123
+                  - 456
+                  - 789
+               dataType0Property1:
+               - dataType3Property0: dataType3Property0 value 0
+               - dataType3Property0: dataType3Property0 value 1
+               - dataType3Property0: dataType3Property0 value 2
+               - dataType3Property0: dataType3Property0 value 3
+            policyLevel0Property1:
+            - dataType1Property0:
+                  dataType4Property0: dataType4Property0 value
+                  dataType4Property1:
+                  - 123
+                  - 456
+                  - 789
+              dataType1Property1:
+               - dataType5Property0: dataType5Property0 value 0
+               - dataType5Property0: dataType5Property0 value 1
+               - dataType5Property0: dataType5Property0 value 2
+               - dataType5Property0: dataType5Property0 value 3
+            - dataType1Property0:
+                  dataType4Property0: dataType4Property0 value
+                  dataType4Property1:
+                  - 123
+                  - 456
+                  - 789
+              dataType1Property1:
+               - dataType5Property0: dataType5Property0 value 0
+               - dataType5Property0: dataType5Property0 value 1
+               - dataType5Property0: dataType5Property0 value 2
+               - dataType5Property0: dataType5Property0 value 3
+            policyLevel0.1Property0: policyLevel0.1Property0 value
+            policyLevel0.1Property1: 123
+            policyLevel0.1.2Property0: policyLevel0.1.2Property0 value
+            policyLevel0.1.2Property1: 456
+            policyLevel0.1.2.3Property0: policyLevel0.1.2.3Property0 value
+            policyLevel0.1.2.3Property1: 456
