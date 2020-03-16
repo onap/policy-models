@@ -1,8 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP Policy Model
- * ================================================================================
- * Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,14 +26,15 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
+
 import org.junit.Test;
 
 public class PfTimestampKeyTest {
     private static final String VERSION001 = "0.0.1";
-    private static final String CONCEPT_IS_NULL = "copyConcept is marked @NonNull but is null";
-    private static final String NAME_IS_NULL = "name is marked @NonNull but is null";
-    private static final String VERSION_IS_NULL = "version is marked @NonNull but is null";
-    private static final String TIMESTAMP_IS_NULL = "timeStamp is marked @NonNull but is null";
+    private static final String CONCEPT_IS_NULL = "^copyConcept is marked .*on.*ull but is null$";
+    private static final String NAME_IS_NULL = "^name is marked .*on.*ull but is null$";
+    private static final String VERSION_IS_NULL = "^version is marked .*on.*ull but is null$";
+    private static final String TIMESTAMP_IS_NULL = "^timeStamp is marked .*on.*ull but is null$";
     private static final long timeStamp = 1574832537641L;
 
     @Test
@@ -60,24 +59,24 @@ public class PfTimestampKeyTest {
         assertEquals(1, someKey1.getKeys().size());
 
         assertThatThrownBy(() -> new PfTimestampKey((PfTimestampKey) null)).isInstanceOf(NullPointerException.class)
-                .hasMessage(CONCEPT_IS_NULL);
+            .hasMessageMatching(CONCEPT_IS_NULL);
         assertThatThrownBy(() -> new PfTimestampKey(null, null, null)).isInstanceOf(NullPointerException.class)
-                .hasMessage(NAME_IS_NULL);
+            .hasMessageMatching(NAME_IS_NULL);
         assertThatThrownBy(() -> new PfTimestampKey("my-name", null, null)).isInstanceOf(NullPointerException.class)
-                .hasMessage(VERSION_IS_NULL);
+            .hasMessageMatching(VERSION_IS_NULL);
         assertThatThrownBy(() -> new PfTimestampKey("my-name", VERSION001, null))
-                .isInstanceOf(NullPointerException.class).hasMessage(TIMESTAMP_IS_NULL);
+            .isInstanceOf(NullPointerException.class).hasMessageMatching(TIMESTAMP_IS_NULL);
 
         assertThatThrownBy(() -> someKey0.setName(null)).isInstanceOf(NullPointerException.class)
-                .hasMessage(NAME_IS_NULL);
+            .hasMessageMatching(NAME_IS_NULL);
         assertThatThrownBy(() -> someKey0.setVersion(null)).isInstanceOf(NullPointerException.class)
-                .hasMessage(VERSION_IS_NULL);
+            .hasMessageMatching(VERSION_IS_NULL);
         assertThatThrownBy(() -> someKey0.setTimeStamp(null)).isInstanceOf(NullPointerException.class)
-                .hasMessage(TIMESTAMP_IS_NULL);
+            .hasMessageMatching(TIMESTAMP_IS_NULL);
 
         assertFalse(someKey1.isNewerThan(someKey2));
         assertThatThrownBy(() -> someKey1.isNewerThan((PfKey) null)).isInstanceOf(NullPointerException.class)
-                .hasMessage("otherKey is marked @NonNull but is null");
+            .hasMessageMatching("^otherKey is marked .*on.*ull but is null$");
         someKey2.setTimeStamp(new Date(timeStamp + 1));
         assertTrue(someKey2.isNewerThan(someKey1));
         someKey3.setName("my-name3");
@@ -86,7 +85,7 @@ public class PfTimestampKeyTest {
         assertEquals(-1, someKey1.compareTo(someKey2));
         assertEquals(-1, someKey1.compareTo(someKey3));
         assertThatThrownBy(() -> someKey1.compareTo((PfConcept) null)).isInstanceOf(NullPointerException.class)
-                .hasMessage("otherObj is marked @NonNull but is null");
+            .hasMessageMatching("^otherObj is marked .*on.*ull but is null$");
 
         PfTimestampKey someKey4 = new PfTimestampKey("NULL", "0.0.0", new Date(timeStamp));
         assertFalse(someKey4.isNullKey());

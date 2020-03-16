@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -46,10 +46,10 @@ public class PfModelTest {
         assertNotNull(new DummyPfModel(new DummyPfModel()));
 
         assertThatThrownBy(() -> new DummyPfModel((PfConceptKey) null))
-                        .hasMessage("key is marked @NonNull but is null");
+            .hasMessageMatching("^key is marked .*on.*ull but is null$");
 
         assertThatThrownBy(() -> new DummyPfModel((DummyPfModel) null))
-                        .hasMessage("copyConcept is marked @NonNull but is null");
+            .hasMessageMatching("^copyConcept is marked .*on.*ull but is null$");
 
         DummyPfModel dpm = new DummyPfModel(new PfConceptKey("modelKey", VERSION001));
         DummyPfModel dpmClone = new DummyPfModel(dpm);
@@ -74,7 +74,7 @@ public class PfModelTest {
         DummyPfModel dpm = new DummyPfModel(dpmKey);
         assertTrue(dpm.validate(new PfValidationResult()).isValid());
 
-        assertThatThrownBy(() -> dpm.validate(null)).hasMessage("resultIn is marked @NonNull but is null");
+        assertThatThrownBy(() -> dpm.validate(null)).hasMessageMatching("^resultIn is marked .*on.*ull but is null$");
 
         dpm.setKey(PfConceptKey.getNullKey());
         assertFalse(dpm.validate(new PfValidationResult()).isValid());

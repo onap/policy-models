@@ -1,5 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,7 +33,7 @@ import org.onap.policy.models.base.testconcepts.DummyPfConcept;
 public class PfConceptKeyTest {
 
     private static final String VERSION001 = "0.0.1";
-    private static final String ID_IS_NULL = "id is marked @NonNull but is null";
+    private static final String ID_IS_NULL = "id is marked .*on.*ull but is null$";
 
     @Test
     public void testConceptKey() {
@@ -47,6 +48,7 @@ public class PfConceptKeyTest {
         assertEquals(someKey1, someKey2);
         assertEquals(someKey1, someKey3);
         assertFalse(someKey1.isNullVersion());
+        assertFalse(someKey1.isNullName());
         assertEquals("PfConceptKey(name=my-name, version=0.0.1)", someKey1.toString());
 
         assertEquals("my-name", someKey1.getName());
@@ -55,7 +57,6 @@ public class PfConceptKeyTest {
         assertEquals(someKey2, someKey1.getKey());
         assertEquals(1, someKey1.getKeys().size());
 
-
         PfConcept pfc = new DummyPfConcept();
         assertEquals(PfConceptKey.getNullKey().getId(), pfc.getId());
 
@@ -63,16 +64,16 @@ public class PfConceptKeyTest {
 
         assertTrue(PfConceptKey.getNullKey().isNullKey());
 
-        assertThatThrownBy(() -> PfConceptKey.getNullKey().matchesId(null)).hasMessage(ID_IS_NULL);
+        assertThatThrownBy(() -> PfConceptKey.getNullKey().matchesId(null)).hasMessageMatching(ID_IS_NULL);
 
         assertThatThrownBy(() -> someKey0.setName(null)).isInstanceOf(NullPointerException.class)
-                        .hasMessage("name is marked @NonNull but is null");
+            .hasMessageMatching("^name is marked .*on.*ull but is null$");
 
         assertThatThrownBy(() -> someKey0.setVersion(null)).isInstanceOf(NullPointerException.class)
-                        .hasMessage("version is marked @NonNull but is null");
+            .hasMessageMatching("^version is marked .*on.*ull but is null$");
 
         assertThatIllegalArgumentException().isThrownBy(() -> new PfConceptKey("my-name.*", VERSION001)).withMessage(
-                        "parameter 'name': value 'my-name.*', does not match regular expression '^[A-Za-z0-9\\-_\\.]+$'"
-                                        .replace('\'', '"'));
+            "parameter 'name': value 'my-name.*', does not match regular expression '^[A-Za-z0-9\\-_\\.]+$'"
+                .replace('\'', '"'));
     }
 }
