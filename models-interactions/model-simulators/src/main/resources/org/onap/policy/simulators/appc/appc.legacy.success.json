@@ -1,0 +1,17 @@
+{
+  "CommonHeader": {
+    "TimeStamp": 1506051879001,
+    "APIver": "1.01",
+    "RequestID": "c7c6a4aa-bb61-4a15-b831-ba1472dd4a65",
+    "SubRequestID": "${replaceMe}",
+    "RequestTrack": [],
+    "Flags": []
+  },
+  "Status": {
+    "Code": 400,
+    "Value": "SUCCESS"
+  },
+  "Payload": {
+    "generic-vnf.vnf-id": "jimmy-test-vnf2"
+  }
+}
