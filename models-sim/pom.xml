@@ -39,5 +39,6 @@
   <modules>
       <module>models-sim-dmaap</module>
       <module>policy-models-sim-pdp</module>
+      <module>policy-models-simulators</module>
   </modules>
 </project>
