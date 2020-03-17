@@ -1,0 +1,22 @@
+{
+  "body": {
+    "output": {
+      "common-header": {
+        "timestamp": "2017-08-25T21:06:23.037Z",
+        "api-ver": "5.00",
+        "originator-id": "664be3d2-6c12-4f4b-a3e7-c349acced200",
+        "request-id": "664be3d2-6c12-4f4b-a3e7-c349acced200",
+        "sub-request-id": "${replaceMe}",
+        "flags": {}
+      },
+      "status": {
+        "code": 400,
+        "message": "Restart Successful"
+      }
+    }
+  },
+  "version": "2.0",
+  "rpc-name": "restart",
+  "correlation-id": "664be3d2-6c12-4f4b-a3e7-c349acced200-1",
+  "type": "response"
+}
