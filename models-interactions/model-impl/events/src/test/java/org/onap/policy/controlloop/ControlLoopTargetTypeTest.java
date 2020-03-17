@@ -28,6 +28,7 @@ import org.junit.Test;
 public class ControlLoopTargetTypeTest {
 
     @Test
+    @SuppressWarnings("java:S3415")
     public void test() {
         assertEquals("VM", ControlLoopTargetType.VM);
         assertEquals("VF", ControlLoopTargetType.VF);
