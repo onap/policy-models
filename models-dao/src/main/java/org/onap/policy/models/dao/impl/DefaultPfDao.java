@@ -586,7 +586,7 @@ public class DefaultPfDao implements PfDao {
      * @return the updated query string
      */
     private <T extends PfConcept> String setQueryTable(final String queryString, final Class<T> tableClass) {
-        return queryString.replaceAll(TABLE_TOKEN, tableClass.getSimpleName());
+        return queryString.replace(TABLE_TOKEN, tableClass.getSimpleName());
     }
 
     /**

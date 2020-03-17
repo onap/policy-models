@@ -26,7 +26,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.function.Function;
+import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
 
@@ -76,7 +76,7 @@ public final class PfUtils {
      * @param defaultValue value to be returned if source is {@code null}
      * @return a new list, containing mappings of all of the items in the original list
      */
-    public static <T> List<T> mapList(List<T> source, Function<T, T> mapFunc, List<T> defaultValue) {
+    public static <T> List<T> mapList(List<T> source, UnaryOperator<T> mapFunc, List<T> defaultValue) {
         if (source == null) {
             return defaultValue;
         }
@@ -93,7 +93,7 @@ public final class PfUtils {
      * @return a new list, containing mappings of all of the items in the original list,
      *         or {@code null} if the source is {@code null}
      */
-    public static <T> List<T> mapList(List<T> source, Function<T, T> mapFunc) {
+    public static <T> List<T> mapList(List<T> source, UnaryOperator<T> mapFunc) {
         return mapList(source, mapFunc, null);
     }
 
@@ -106,7 +106,7 @@ public final class PfUtils {
      * @param defaultValue value to be returned if source is {@code null}
      * @return a new map, containing mappings of all of the items in the original map
      */
-    public static <T> Map<String, T> mapMap(Map<String, T> source, Function<T, T> mapFunc,
+    public static <T> Map<String, T> mapMap(Map<String, T> source, UnaryOperator<T> mapFunc,
                     Map<String, T> defaultValue) {
         if (source == null) {
             return defaultValue;
@@ -129,7 +129,7 @@ public final class PfUtils {
      * @return a new map, containing mappings of all of the items in the original map,
      *         or {@code null} if the source is {@code null}
      */
-    public static <T> Map<String, T> mapMap(Map<String, T> source, Function<T, T> mapFunc) {
+    public static <T> Map<String, T> mapMap(Map<String, T> source, UnaryOperator<T> mapFunc) {
         return mapMap(source, mapFunc, null);
     }
 
