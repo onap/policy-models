@@ -1,0 +1,53 @@
+{
+    "dmaapProvider": {
+        "name": "DMaaP simulator",
+        "topicSweepSec": 300,
+        "restServerParameters": {
+            
+        }
+    },
+    "simulators": [
+        {
+            "name": "DMaaP simulator",
+            "providerClass": "org.onap.policy.models.sim.dmaap.rest.DmaapSimRestControllerV1",
+            "host": "localhost",
+            "port": 3905,
+            "https": true
+        },
+        {
+            "name": "A&AI simulator",
+            "providerClass": "org.onap.policy.simulators.AaiSimulatorJaxRs",
+            "host": "localhost",
+            "port": 6666,
+            "https": true
+        },
+        {
+            "name": "Guard simulator",
+            "providerClass": "org.onap.policy.simulators.GuardSimulatorJaxRs",
+            "host": "localhost",
+            "port": 6667,
+            "https": true
+        },
+        {
+            "name": "SDNC simulator",
+            "providerClass": "org.onap.policy.simulators.SdncSimulatorJaxRs",
+            "host": "localhost",
+            "port": 6668,
+            "https": true
+        },
+        {
+            "name": "SO simulator",
+            "providerClass": "org.onap.policy.simulators.SoSimulatorJaxRs",
+            "host": "localhost",
+            "port": 6669,
+            "https": true
+        },
+        {
+            "name": "VFC simulator",
+            "providerClass": "org.onap.policy.simulators.VfcSimulatorJaxRs",
+            "host": "localhost",
+            "port": 6670,
+            "https": true
+        }
+    ]
+}
