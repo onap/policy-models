@@ -300,7 +300,11 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
 
     @Override
     public C get(final PfConceptKey conceptKey) {
-        return new PfConceptGetterImpl<>((NavigableMap<PfConceptKey, C>) conceptMap).get(conceptKey);
+        if (conceptKey.isNullVersion()) {
+            return get(conceptKey.getName());
+        } else {
+            return new PfConceptGetterImpl<>((NavigableMap<PfConceptKey, C>) conceptMap).get(conceptKey);
+        }
     }
 
     @Override

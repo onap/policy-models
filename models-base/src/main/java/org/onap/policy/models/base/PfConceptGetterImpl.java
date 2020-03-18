@@ -55,7 +55,7 @@ public class PfConceptGetterImpl<C> implements PfConceptGetter<C> {
         Assertions.argumentNotNull(conceptKeyName, "conceptKeyName may not be null");
 
         // The very fist key that could have this name
-        final PfConceptKey lowestArtifactKey = new PfConceptKey(conceptKeyName, "0.0.1");
+        final PfConceptKey lowestArtifactKey = new PfConceptKey(conceptKeyName, PfKey.NULL_KEY_VERSION);
 
         // Check if we found a key for our name
         PfConceptKey foundKey = conceptMap.ceilingKey(lowestArtifactKey);

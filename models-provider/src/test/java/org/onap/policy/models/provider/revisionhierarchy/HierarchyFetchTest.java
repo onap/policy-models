@@ -20,7 +20,7 @@
 
 package org.onap.policy.models.provider.revisionhierarchy;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 import java.util.Base64;
 
@@ -28,7 +28,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.common.utils.coder.YamlJsonTranslator;
 import org.onap.policy.common.utils.resources.TextFileUtils;
-import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderFactory;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
@@ -49,7 +48,7 @@ public class HierarchyFetchTest {
     }
 
     @Test
-    public void testInitAndClose() throws Exception {
+    public void testMultipleVersions() throws Exception {
         PolicyModelsProvider databaseProvider =
             new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
@@ -58,9 +57,9 @@ public class HierarchyFetchTest {
                 .getTextFileAsString("src/test/resources/servicetemplates/MultipleRevisionServiceTemplate.yaml"),
             ToscaServiceTemplate.class);
 
-        assertThatThrownBy(() -> {
+        assertThatCode(() -> {
             databaseProvider.createPolicies(serviceTemplate);
-        }).isInstanceOf(PfModelRuntimeException.class);
+        }).doesNotThrowAnyException();
 
         databaseProvider.close();
     }
