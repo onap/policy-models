@@ -171,7 +171,23 @@ public class PfConceptContainerTest {
         returnSet = container.getAll(conceptKey.getName(), conceptKey.getVersion());
         assertEquals(conceptKey, returnSet.iterator().next().getKey());
 
+        returnSet = container.getAllNamesAndVersions(conceptKey.getName(), conceptKey.getVersion());
+        assertEquals(conceptKey, returnSet.iterator().next().getKey());
+        returnSet = container.getAllNamesAndVersions(null, conceptKey.getVersion());
+        assertEquals(conceptKey, returnSet.iterator().next().getKey());
+        returnSet = container.getAllNamesAndVersions(null, null);
+        assertEquals(conceptKey, returnSet.iterator().next().getKey());
+        returnSet = container.getAllNamesAndVersions(conceptKey.getName(), null);
+        assertEquals(conceptKey, returnSet.iterator().next().getKey());
+        returnSet = container.getAllNamesAndVersions("IDontExist", "1.0.0");
+        assertTrue(returnSet.isEmpty());
+
         container.getConceptMap().put(conceptKey, new DummyPfConceptSub(conceptKey));
+
+        PfConceptKey anotherKey = new PfConceptKey(conceptKey);
+        assertEquals(conceptKey, container.get(anotherKey).getKey());
+        anotherKey.setVersion(PfKey.NULL_KEY_VERSION);
+        assertEquals(conceptKey, container.get(anotherKey).getKey());
     }
 
     @Test
