@@ -34,6 +34,24 @@
       "revId": "8fdfe4bdac025f450d6b9ea70d7c48afa98fc37e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "badb8245_45a0f5ae",
+        "filename": "models-interactions/model-impl/events/src/test/java/org/onap/policy/controlloop/ControlLoopTargetTypeTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-19T22:21:08Z",
+      "side": 1,
+      "message": "It\u0027s just a bunch of constants - don\u0027t think we need to test it.  If it does need to be tested, then Chris\u0027 original strategy of disabling the sonar would be correct, as the strings are the \"expected\" values and thus should go on the LEFT side.\n\nOn the other hand, since it is just a utility class, it should have a private constructor that does nothing.",
+      "parentUuid": "bddfab2f_21f50c65",
+      "revId": "8fdfe4bdac025f450d6b9ea70d7c48afa98fc37e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
