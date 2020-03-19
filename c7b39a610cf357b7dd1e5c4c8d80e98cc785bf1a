@@ -22,6 +22,30 @@
       "revId": "c7b39a610cf357b7dd1e5c4c8d80e98cc785bf1a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1a46c02_6c91a2ca",
+        "filename": "models-interactions/model-impl/events/src/test/java/org/onap/policy/controlloop/ControlLoopTargetTypeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-19T12:49:30Z",
+      "side": 1,
+      "message": "agreed",
+      "parentUuid": "5fbb720d_e1ca4785",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 5
+      },
+      "revId": "c7b39a610cf357b7dd1e5c4c8d80e98cc785bf1a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
