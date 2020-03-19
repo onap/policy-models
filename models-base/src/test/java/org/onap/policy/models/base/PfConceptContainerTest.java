@@ -216,6 +216,15 @@ public class PfConceptContainerTest {
         assertEquals(dacMap.get(NAME2), outMapList.get(2).get(NAME2));
         assertEquals(dacMap.get(NAME3), outMapList.get(2).get(NAME3));
 
+        List<DummyAuthorativeConcept> outConceptList = container.toAuthorativeList();
+        assertEquals("Hello", outConceptList.get(0).getDescription());
+        assertEquals("Hi", outConceptList.get(1).getDescription());
+        assertEquals("Howdy", outConceptList.get(2).getDescription());
+        assertEquals("Ciao", outConceptList.get(3).getDescription());
+        assertEquals("name4", outConceptList.get(4).getName());
+        assertEquals("1.2.3", outConceptList.get(4).getVersion());
+        assertEquals("0.0.0", outConceptList.get(5).getVersion());
+
         DummyBadPfConceptContainer badContainer = new DummyBadPfConceptContainer();
         assertThatThrownBy(() -> badContainer.fromAuthorative(authorativeList))
             .hasMessage("failed to instantiate instance of container concept class");

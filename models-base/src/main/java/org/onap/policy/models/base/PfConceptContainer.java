@@ -30,6 +30,7 @@ import java.util.Map.Entry;
 import java.util.NavigableMap;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.function.Function;
 
 import javax.persistence.CascadeType;
@@ -153,7 +154,7 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
     public List<Map<String, A>> toAuthorative() {
         // The returned list is a list of map singletons with one map for each map
         // entry in the concept container
-        List<Map<String, A>> toscaPolicyMapList = new ArrayList<>();
+        List<Map<String, A>> toscaConceptMapList = new ArrayList<>();
 
         for (Entry<PfConceptKey, C> conceptEntry : getConceptMap().entrySet()) {
             // Create a map to hold this entry
@@ -165,10 +166,10 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
             toscaPolicyMap.put(conceptEntry.getKey().getName(), authoritiveImpl.toAuthorative());
 
             // Add the map to the returned list
-            toscaPolicyMapList.add(toscaPolicyMap);
+            toscaConceptMapList.add(toscaPolicyMap);
         }
 
-        return toscaPolicyMapList;
+        return toscaConceptMapList;
     }
 
     @Override
@@ -215,6 +216,21 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
             throw new PfModelRuntimeException(Response.Status.BAD_REQUEST,
                 "An incoming list of concepts must have at least one entry");
         }
+    }
+
+    /**
+     * Get an authorative list of the concepts in this container.
+     *
+     * @return the authorative list of concepts
+     */
+    public List<A> toAuthorativeList() {
+        List<A> toscaConceptList = new ArrayList<>();
+
+        for (Map<String, A> toscaConceptMap : toAuthorative()) {
+            toscaConceptList.addAll(toscaConceptMap.values());
+        }
+
+        return toscaConceptList;
     }
 
     @Override
@@ -296,6 +312,26 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
         }
 
         return 0;
+    }
+
+    /**
+     * Get all the concepts that match the given name and version.
+     *
+     * @param conceptKeyName the name of the concept, if null, return all names
+     * @param conceptKeyVersion the version of the concept, if null, return all versions
+     * @return conceptKeyVersion
+     */
+    public Set<C> getAllNamesAndVersions(final String conceptKeyName, final String conceptKeyVersion) {
+        if (conceptKeyName == null || conceptKeyVersion == null) {
+            return getAll(conceptKeyName, conceptKeyVersion);
+        } else {
+            final Set<C> returnSet = new TreeSet<>();
+            C foundConcept = get(conceptKeyName, conceptKeyVersion);
+            if (foundConcept != null) {
+                returnSet.add(foundConcept);
+            }
+            return returnSet;
+        }
     }
 
     @Override
