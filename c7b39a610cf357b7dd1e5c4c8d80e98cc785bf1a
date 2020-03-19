@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5fbb720d_e1ca4785",
+        "filename": "models-interactions/model-impl/events/src/test/java/org/onap/policy/controlloop/ControlLoopTargetTypeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-03-19T09:37:42Z",
+      "side": 1,
+      "message": "This issue shouldn\u0027t be squelched, it\u0027s better to fix it:\nassertEquals(ControlLoopTargetType.VM, \"VM\");\n\nand so on...",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 5
+      },
+      "revId": "c7b39a610cf357b7dd1e5c4c8d80e98cc785bf1a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
