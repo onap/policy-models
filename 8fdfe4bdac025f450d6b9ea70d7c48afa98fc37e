@@ -16,6 +16,24 @@
       "revId": "8fdfe4bdac025f450d6b9ea70d7c48afa98fc37e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bddfab2f_21f50c65",
+        "filename": "models-interactions/model-impl/events/src/test/java/org/onap/policy/controlloop/ControlLoopTargetTypeTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-03-19T21:19:35Z",
+      "side": 1,
+      "message": "Is ControlLoopTargetType unused now?",
+      "parentUuid": "f94a0500_b6beea83",
+      "revId": "8fdfe4bdac025f450d6b9ea70d7c48afa98fc37e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
