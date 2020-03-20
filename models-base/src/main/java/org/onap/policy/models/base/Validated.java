@@ -70,6 +70,7 @@ public class Validated {
      * @param result where to place the result
      * @return the result
      */
+    @SuppressWarnings("java:S3252") // squelch sonar warning for using PkConceptKey instead of PfKeyImpl
     public PfValidationResult validateNotNull(@NonNull PfConceptKey value, @NonNull PfValidationResult result) {
 
         if (PfConceptKey.NULL_KEY_NAME.equals(value.getName())) {

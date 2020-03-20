@@ -29,10 +29,10 @@ public class ControlLoopTargetTypeTest {
 
     @Test
     public void test() {
-        assertEquals("VM", ControlLoopTargetType.VM);
-        assertEquals("VF", ControlLoopTargetType.VF);
-        assertEquals("VFC", ControlLoopTargetType.VFC);
-        assertEquals("VNF", ControlLoopTargetType.VNF);
-        assertEquals("PNF", ControlLoopTargetType.PNF);
+        assertEquals(ControlLoopTargetType.VM, "VM");
+        assertEquals(ControlLoopTargetType.VF, "VF");
+        assertEquals(ControlLoopTargetType.VFC, "VFC");
+        assertEquals(ControlLoopTargetType.VNF, "VNF");
+        assertEquals(ControlLoopTargetType.PNF, "PNF");
     }
 }
