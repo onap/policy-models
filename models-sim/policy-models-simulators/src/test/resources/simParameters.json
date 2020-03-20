@@ -58,7 +58,7 @@
             "useHttps": true
         },
         {
-            "topic": "APPC-LCM-READ",
+            "topic": "APPC-LCM-WRITE",
             "servers": ["localhost"],
             "topicCommInfrastructure": "DMAAP",
             "useHttps": true
@@ -72,7 +72,7 @@
             "useHttps": true
         },
         {
-            "topic": "APPC-LCM-WRITE",
+            "topic": "APPC-LCM-READ",
             "servers": ["localhost"],
             "topicCommInfrastructure": "DMAAP",
             "useHttps": true
@@ -88,8 +88,8 @@
         {
             "name": "APPC-LCM simulator",
             "providerClass": "org.onap.policy.simulators.AppcLcmTopicServer",
-            "sink": "APPC-LCM-READ",
-            "source": "APPC-LCM-WRITE"
+            "sink": "APPC-LCM-WRITE",
+            "source": "APPC-LCM-READ"
         }
     ]
 }
