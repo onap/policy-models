@@ -6,5 +6,6 @@
         "SubRequestID": "111be3d2-6c12-4f4b-a3e7-c349acced200",
         "RequestTrack": [],
         "Flags": []
-    }
+    },
+    "Action": "ModifyConfig"
 }

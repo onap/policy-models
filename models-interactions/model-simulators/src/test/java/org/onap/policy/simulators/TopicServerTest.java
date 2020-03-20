@@ -85,6 +85,23 @@ public class TopicServerTest {
         verify(sink, never()).send(any());
     }
 
+    /**
+     * Tests onTopicEvent() when there is no response.
+     */
+    @Test
+    public void testOnTopicEventNoResponse() {
+        server = new MyServer() {
+            @Override
+            protected String process(MyRequest request) {
+                return null;
+            }
+        };
+
+        server.onTopicEvent(CommInfrastructure.NOOP, MY_TOPIC, "{\"text\": \"bye-bye\"}");
+
+        verify(sink, never()).send(any());
+    }
+
 
     private class MyRequest {
         private String text;
