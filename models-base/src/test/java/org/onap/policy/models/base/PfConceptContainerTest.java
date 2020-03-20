@@ -179,6 +179,8 @@ public class PfConceptContainerTest {
         assertEquals(conceptKey, returnSet.iterator().next().getKey());
         returnSet = container.getAllNamesAndVersions(conceptKey.getName(), null);
         assertEquals(conceptKey, returnSet.iterator().next().getKey());
+        returnSet = container.getAllNamesAndVersions(conceptKey.getName(), "0.0.0");
+        assertEquals(conceptKey, returnSet.iterator().next().getKey());
         returnSet = container.getAllNamesAndVersions("IDontExist", "1.0.0");
         assertTrue(returnSet.isEmpty());
 

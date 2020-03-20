@@ -257,35 +257,123 @@ topology_template:
                   - 456
                   - 789
                dataType0Property1:
-               - dataType3Property0: dataType3Property0 value 0
-               - dataType3Property0: dataType3Property0 value 1
-               - dataType3Property0: dataType3Property0 value 2
-               - dataType3Property0: dataType3Property0 value 3
+               -  dataType3Property0: dataType3Property0 value 0
+               -  dataType3Property0: dataType3Property0 value 1
+               -  dataType3Property0: dataType3Property0 value 2
+               -  dataType3Property0: dataType3Property0 value 3
             policyLevel0Property1:
-            - dataType1Property0:
+            -  dataType1Property0:
                   dataType4Property0: dataType4Property0 value
                   dataType4Property1:
                   - 123
                   - 456
                   - 789
-              dataType1Property1:
-               - dataType5Property0: dataType5Property0 value 0
-               - dataType5Property0: dataType5Property0 value 1
-               - dataType5Property0: dataType5Property0 value 2
-               - dataType5Property0: dataType5Property0 value 3
-            - dataType1Property0:
+               dataType1Property1:
+               -  dataType5Property0: dataType5Property0 value 0
+               -  dataType5Property0: dataType5Property0 value 1
+               -  dataType5Property0: dataType5Property0 value 2
+               -  dataType5Property0: dataType5Property0 value 3
+            -  dataType1Property0:
                   dataType4Property0: dataType4Property0 value
                   dataType4Property1:
                   - 123
                   - 456
                   - 789
-              dataType1Property1:
-               - dataType5Property0: dataType5Property0 value 0
-               - dataType5Property0: dataType5Property0 value 1
-               - dataType5Property0: dataType5Property0 value 2
-               - dataType5Property0: dataType5Property0 value 3
+               dataType1Property1:
+               -  dataType5Property0: dataType5Property0 value 0
+               -  dataType5Property0: dataType5Property0 value 1
+               -  dataType5Property0: dataType5Property0 value 2
+               -  dataType5Property0: dataType5Property0 value 3
+   -  onap.policies.PolicyLevel0:
+         type: onap.policies.PolicyTypeLevel0
+         version: 1.1.0
+         type_version: 2.0.0
+         description: Level 0 policy
+         properties:
+            policyLevel0Property0:
+               dataType0Property0:
+                  dataType2Property0: dataType2Property0 value
+                  dataType2Property1:
+                  - 123
+                  - 456
+                  - 789
+               dataType0Property1:
+               -  dataType3Property0: dataType3Property0 value 0
+               -  dataType3Property0: dataType3Property0 value 1
+               -  dataType3Property0: dataType3Property0 value 2
+               -  dataType3Property0: dataType3Property0 value 3
+            policyLevel0Property1:
+            -  dataType1Property0:
+                  dataType4Property0: dataType4Property0 value
+                  dataType4Property1:
+                  - 123
+                  - 456
+                  - 789
+               dataType1Property1:
+               -  dataType5Property0: dataType5Property0 value 0
+               -  dataType5Property0: dataType5Property0 value 1
+               -  dataType5Property0: dataType5Property0 value 2
+               -  dataType5Property0: dataType5Property0 value 3
+            -  dataType1Property0:
+                  dataType4Property0: dataType4Property0 value
+                  dataType4Property1:
+                  - 123
+                  - 456
+                  - 789
+               dataType1Property1:
+               -  dataType5Property0: dataType5Property0 value 0
+               -  dataType5Property0: dataType5Property0 value 1
+               -  dataType5Property0: dataType5Property0 value 2
+               -  dataType5Property0: dataType5Property0 value 3
+            policyLevel0V2Property2:
+               dataType5Property0: policyLevel0V2Property2D5P0 value
+   -  onap.policies.PolicyLevel0:
+         type: onap.policies.PolicyTypeLevel0
+         version: 1.2.0
+         type_version: 3.0.0
+         description: Level 0 policy
+         properties:
+            policyLevel0Property0:
+               dataType0Property0:
+                  dataType2Property0: dataType2Property0 value
+                  dataType2Property1:
+                  - 123
+                  - 456
+                  - 789
+               dataType0Property1:
+               -  dataType3Property0: dataType3Property0 value 0
+               -  dataType3Property0: dataType3Property0 value 1
+               -  dataType3Property0: dataType3Property0 value 2
+               -  dataType3Property0: dataType3Property0 value 3
+            policyLevel0Property1:
+            -  dataType1Property0:
+                  dataType4Property0: dataType4Property0 value
+                  dataType4Property1:
+                  - 123
+                  - 456
+                  - 789
+               dataType1Property1:
+               -  dataType5Property0: dataType5Property0 value 0
+               -  dataType5Property0: dataType5Property0 value 1
+               -  dataType5Property0: dataType5Property0 value 2
+               -  dataType5Property0: dataType5Property0 value 3
+            -  dataType1Property0:
+                  dataType4Property0: dataType4Property0 value
+                  dataType4Property1:
+                  - 123
+                  - 456
+                  - 789
+               dataType1Property1:
+               -  dataType5Property0: dataType5Property0 value 0
+               -  dataType5Property0: dataType5Property0 value 1
+               -  dataType5Property0: dataType5Property0 value 2
+               -  dataType5Property0: dataType5Property0 value 3
+            policyLevel0V2Property2:
+               dataType5Property0: policyLevel0V2Property2D5P0 value
+            policyLevel0V3Property3:
+               dataType6Property0: 1223456
    -  onap.policies.PolicyLevel0.1:
-         type: onap.policies.PolicyTypeLevel0
+         type: onap.policies.PolicyTypeLevel0.1
          version: 1.0.0
          type_version: 1.0.0
          description: Level 0 policy
@@ -298,37 +386,138 @@ topology_template:
                   - 456
                   - 789
                dataType0Property1:
-               - dataType3Property0: dataType3Property0 value 0
-               - dataType3Property0: dataType3Property0 value 1
-               - dataType3Property0: dataType3Property0 value 2
-               - dataType3Property0: dataType3Property0 value 3
+               -  dataType3Property0: dataType3Property0 value 0
+               -  dataType3Property0: dataType3Property0 value 1
+               -  dataType3Property0: dataType3Property0 value 2
+               -  dataType3Property0: dataType3Property0 value 3
             policyLevel0Property1:
-            - dataType1Property0:
+            -  dataType1Property0:
                   dataType4Property0: dataType4Property0 value
                   dataType4Property1:
                   - 123
                   - 456
                   - 789
-              dataType1Property1:
-               - dataType5Property0: dataType5Property0 value 0
-               - dataType5Property0: dataType5Property0 value 1
-               - dataType5Property0: dataType5Property0 value 2
-               - dataType5Property0: dataType5Property0 value 3
-            - dataType1Property0:
+               dataType1Property1:
+               -  dataType5Property0: dataType5Property0 value 0
+               -  dataType5Property0: dataType5Property0 value 1
+               -  dataType5Property0: dataType5Property0 value 2
+               -  dataType5Property0: dataType5Property0 value 3
+            -  dataType1Property0:
                   dataType4Property0: dataType4Property0 value
                   dataType4Property1:
                   - 123
                   - 456
                   - 789
-              dataType1Property1:
-               - dataType5Property0: dataType5Property0 value 0
-               - dataType5Property0: dataType5Property0 value 1
-               - dataType5Property0: dataType5Property0 value 2
-               - dataType5Property0: dataType5Property0 value 3
-            policyLevel0.1Property0: policyLevel0.1Property0 value
-            policyLevel0.1Property1: 123
+               dataType1Property1:
+               -  dataType5Property0: dataType5Property0 value 0
+               -  dataType5Property0: dataType5Property0 value 1
+               -  dataType5Property0: dataType5Property0 value 2
+               -  dataType5Property0: dataType5Property0 value 3
+            policyLevel0.1Property0:
+               dataType5Property0: policyLevel0.1Property0 value
+            policyLevel0.1Property1:
+               dataType6Property0: 123
+   -  onap.policies.PolicyLevel0.1:
+         type: onap.policies.PolicyTypeLevel0.1
+         version: 1.1.0
+         type_version: 2.0.0
+         description: Level 0 policy
+         properties:
+            policyLevel0Property0:
+               dataType0Property0:
+                  dataType2Property0: dataType2Property0 value
+                  dataType2Property1:
+                  - 123
+                  - 456
+                  - 789
+               dataType0Property1:
+               -  dataType3Property0: dataType3Property0 value 0
+               -  dataType3Property0: dataType3Property0 value 1
+               -  dataType3Property0: dataType3Property0 value 2
+               -  dataType3Property0: dataType3Property0 value 3
+            policyLevel0Property1:
+            -  dataType1Property0:
+                  dataType4Property0: dataType4Property0 value
+                  dataType4Property1:
+                  - 123
+                  - 456
+                  - 789
+               dataType1Property1:
+               -  dataType5Property0: dataType5Property0 value 0
+               -  dataType5Property0: dataType5Property0 value 1
+               -  dataType5Property0: dataType5Property0 value 2
+               -  dataType5Property0: dataType5Property0 value 3
+            -  dataType1Property0:
+                  dataType4Property0: dataType4Property0 value
+                  dataType4Property1:
+                  - 123
+                  - 456
+                  - 789
+               dataType1Property1:
+               -  dataType5Property0: dataType5Property0 value 0
+               -  dataType5Property0: dataType5Property0 value 1
+               -  dataType5Property0: dataType5Property0 value 2
+               -  dataType5Property0: dataType5Property0 value 3
+            policyLevel0.1Property0:
+               dataType5Property0: policyLevel0.1Property0 value
+            policyLevel0.1Property1:
+               dataType6Property0: 123
+            policyLevel0.1V2Property2:
+               dataType5Property0: policyLevel0.1V2Property2D5P0 value
+               dataType5V2Property1: policyLevel0.1V2Property2D5V2P1 value
+   -  onap.policies.PolicyLevel0.1:
+         type: onap.policies.PolicyTypeLevel0.1
+         version: 1.2.0
+         type_version: 3.0.0
+         description: Level 0 policy
+         properties:
+            policyLevel0Property0:
+               dataType0Property0:
+                  dataType2Property0: dataType2Property0 value
+                  dataType2Property1:
+                  - 123
+                  - 456
+                  - 789
+               dataType0Property1:
+               -  dataType3Property0: dataType3Property0 value 0
+               -  dataType3Property0: dataType3Property0 value 1
+               -  dataType3Property0: dataType3Property0 value 2
+               -  dataType3Property0: dataType3Property0 value 3
+            policyLevel0Property1:
+            -  dataType1Property0:
+                  dataType4Property0: dataType4Property0 value
+                  dataType4Property1:
+                  - 123
+                  - 456
+                  - 789
+               dataType1Property1:
+               -  dataType5Property0: dataType5Property0 value 0
+               -  dataType5Property0: dataType5Property0 value 1
+               -  dataType5Property0: dataType5Property0 value 2
+               -  dataType5Property0: dataType5Property0 value 3
+            -  dataType1Property0:
+                  dataType4Property0: dataType4Property0 value
+                  dataType4Property1:
+                  - 123
+                  - 456
+                  - 789
+               dataType1Property1:
+               -  dataType5Property0: dataType5Property0 value 0
+               -  dataType5Property0: dataType5Property0 value 1
+               -  dataType5Property0: dataType5Property0 value 2
+               -  dataType5Property0: dataType5Property0 value 3
+            policyLevel0.1Property0:
+               dataType5Property0: policyLevel0.1Property0 value
+            policyLevel0.1Property1:
+               dataType6Property0: 123
+            policyLevel0.1V2Property2:
+               dataType5Property0: policyLevel0.1V2Property2D5P0 value
+               dataType5V2Property1: policyLevel0.1V2Property2D5V2P1 value
+            policyLevel0V3Property3:
+               dataType6Property0: 1223456
+               dataType6V2Property1: 12211
    -  onap.policies.PolicyLevel0.1.2:
-         type: onap.policies.PolicyTypeLevel0
+         type: onap.policies.PolicyTypeLevel0.1.2
          version: 1.0.0
          type_version: 1.0.0
          description: Level 0 policy
@@ -341,39 +530,155 @@ topology_template:
                   - 456
                   - 789
                dataType0Property1:
-               - dataType3Property0: dataType3Property0 value 0
-               - dataType3Property0: dataType3Property0 value 1
-               - dataType3Property0: dataType3Property0 value 2
-               - dataType3Property0: dataType3Property0 value 3
+               -  dataType3Property0: dataType3Property0 value 0
+               -  dataType3Property0: dataType3Property0 value 1
+               -  dataType3Property0: dataType3Property0 value 2
+               -  dataType3Property0: dataType3Property0 value 3
             policyLevel0Property1:
-            - dataType1Property0:
+            -  dataType1Property0:
                   dataType4Property0: dataType4Property0 value
                   dataType4Property1:
                   - 123
                   - 456
                   - 789
-              dataType1Property1:
-               - dataType5Property0: dataType5Property0 value 0
-               - dataType5Property0: dataType5Property0 value 1
-               - dataType5Property0: dataType5Property0 value 2
-               - dataType5Property0: dataType5Property0 value 3
-            - dataType1Property0:
+               dataType1Property1:
+               -  dataType5Property0: dataType5Property0 value 0
+               -  dataType5Property0: dataType5Property0 value 1
+               -  dataType5Property0: dataType5Property0 value 2
+               -  dataType5Property0: dataType5Property0 value 3
+            -  dataType1Property0:
                   dataType4Property0: dataType4Property0 value
                   dataType4Property1:
                   - 123
                   - 456
                   - 789
-              dataType1Property1:
-               - dataType5Property0: dataType5Property0 value 0
-               - dataType5Property0: dataType5Property0 value 1
-               - dataType5Property0: dataType5Property0 value 2
-               - dataType5Property0: dataType5Property0 value 3
-            policyLevel0.1Property0: policyLevel0.1Property0 value
-            policyLevel0.1Property1: 123
-            policyLevel0.1.2Property0: policyLevel0.1.2Property0 value
-            policyLevel0.1.2Property1: 456
+               dataType1Property1:
+               -  dataType5Property0: dataType5Property0 value 0
+               -  dataType5Property0: dataType5Property0 value 1
+               -  dataType5Property0: dataType5Property0 value 2
+               -  dataType5Property0: dataType5Property0 value 3
+            policyLevel0.1Property0:
+               dataType5Property0: policyLevel0.1Property0 value
+            policyLevel0.1Property1:
+               dataType6Property0: 123
+            policyLevel0.1.2V2Property2:
+               dataType5Property0: policyLevel0.1.2Property2 value
+            policyLevel0.1.2V3Property3:
+               dataType6Property0: 456
+   -  onap.policies.PolicyLevel0.1.2:
+         type: onap.policies.PolicyTypeLevel0.1.2
+         version: 1.1.0
+         type_version: 2.0.0
+         description: Level 0 policy
+         properties:
+            policyLevel0Property0:
+               dataType0Property0:
+                  dataType2Property0: dataType2Property0 value
+                  dataType2Property1:
+                  - 123
+                  - 456
+                  - 789
+               dataType0Property1:
+               -  dataType3Property0: dataType3Property0 value 0
+               -  dataType3Property0: dataType3Property0 value 1
+               -  dataType3Property0: dataType3Property0 value 2
+               -  dataType3Property0: dataType3Property0 value 3
+            policyLevel0Property1:
+            -  dataType1Property0:
+                  dataType4Property0: dataType4Property0 value
+                  dataType4Property1:
+                  - 123
+                  - 456
+                  - 789
+               dataType1Property1:
+               -  dataType5Property0: dataType5Property0 value 0
+               -  dataType5Property0: dataType5Property0 value 1
+               -  dataType5Property0: dataType5Property0 value 2
+               -  dataType5Property0: dataType5Property0 value 3
+            -  dataType1Property0:
+                  dataType4Property0: dataType4Property0 value
+                  dataType4Property1:
+                  - 123
+                  - 456
+                  - 789
+               dataType1Property1:
+               -  dataType5Property0: dataType5Property0 value 0
+               -  dataType5Property0: dataType5Property0 value 1
+               -  dataType5Property0: dataType5Property0 value 2
+               -  dataType5Property0: dataType5Property0 value 3
+            policyLevel0.1Property0:
+               dataType5Property0: policyLevel0.1Property0 value
+            policyLevel0.1Property1:
+               dataType6Property0: 123
+            policyLevel0.1.2Property0:
+               dataType5Property0: policyLevel0.1.2Property0 value
+               dataType5V2Property1: policyLevel0.1V2Property0D5V2P1 value
+               dataType5V3Property2: policyLevel0.1V2Property0D5V3P2 value
+            policyLevel0.1.2Property1:
+               dataType6Property0: 456
+               dataType6V2Property1: 12211
+            policyLevel0.1.2V2Property2:
+               dataType5Property0: policyLevel0.1.2Property2 value
+               dataType5V2Property1: policyLevel0.1V2Property2D5V2P1 value
+               dataType5V3Property2: policyLevel0.1V2Property2D5V3P2 value
+   -  onap.policies.PolicyLevel0.1.2:
+         type: onap.policies.PolicyTypeLevel0.1.2
+         version: 1.2.0
+         type_version: 3.0.0
+         description: Level 0 policy
+         properties:
+            policyLevel0Property0:
+               dataType0Property0:
+                  dataType2Property0: dataType2Property0 value
+                  dataType2Property1:
+                  - 123
+                  - 456
+                  - 789
+               dataType0Property1:
+               -  dataType3Property0: dataType3Property0 value 0
+               -  dataType3Property0: dataType3Property0 value 1
+               -  dataType3Property0: dataType3Property0 value 2
+               -  dataType3Property0: dataType3Property0 value 3
+            policyLevel0Property1:
+            -  dataType1Property0:
+                  dataType4Property0: dataType4Property0 value
+                  dataType4Property1:
+                  - 123
+                  - 456
+                  - 789
+               dataType1Property1:
+               -  dataType5Property0: dataType5Property0 value 0
+               -  dataType5Property0: dataType5Property0 value 1
+               -  dataType5Property0: dataType5Property0 value 2
+               -  dataType5Property0: dataType5Property0 value 3
+            -  dataType1Property0:
+                  dataType4Property0: dataType4Property0 value
+                  dataType4Property1:
+                  - 123
+                  - 456
+                  - 789
+               dataType1Property1:
+               -  dataType5Property0: dataType5Property0 value 0
+               -  dataType5Property0: dataType5Property0 value 1
+               -  dataType5Property0: dataType5Property0 value 2
+               -  dataType5Property0: dataType5Property0 value 3
+            policyLevel0.1Property0:
+               dataType5Property0: policyLevel0.1Property0 value
+            policyLevel0.1Property1:
+               dataType6Property0: 123
+            policyLevel0.1.2Property0:
+               dataType5Property0: policyLevel0.1.2Property0 value
+            policyLevel0.1.2Property1:
+               dataType6Property0: 456
+            policyLevel0.1.2V2Property2:
+               dataType5Property0: policyLevel0.1.2Property2 value
+               dataType5V2Property1: policyLevel0.1V2Property2D5V2P1 value
+               dataType5V3Property2: policyLevel0.1V2Property2D5V3P2 value
+            policyLevel0.1.2V3Property3:
+               dataType6Property0: 456
+               dataType6V2Property1: 12211
    -  onap.policies.PolicyLevel0.1.2.3:
-         type: onap.policies.PolicyTypeLevel0
+         type: onap.policies.PolicyTypeLevel0.1.2.3
          version: 1.0.0
          type_version: 1.0.0
          description: Level 0 policy
@@ -386,36 +691,156 @@ topology_template:
                   - 456
                   - 789
                dataType0Property1:
-               - dataType3Property0: dataType3Property0 value 0
-               - dataType3Property0: dataType3Property0 value 1
-               - dataType3Property0: dataType3Property0 value 2
-               - dataType3Property0: dataType3Property0 value 3
+               -  dataType3Property0: dataType3Property0 value 0
+               -  dataType3Property0: dataType3Property0 value 1
+               -  dataType3Property0: dataType3Property0 value 2
+               -  dataType3Property0: dataType3Property0 value 3
             policyLevel0Property1:
-            - dataType1Property0:
+            -  dataType1Property0:
                   dataType4Property0: dataType4Property0 value
                   dataType4Property1:
                   - 123
                   - 456
                   - 789
-              dataType1Property1:
-               - dataType5Property0: dataType5Property0 value 0
-               - dataType5Property0: dataType5Property0 value 1
-               - dataType5Property0: dataType5Property0 value 2
-               - dataType5Property0: dataType5Property0 value 3
-            - dataType1Property0:
+               dataType1Property1:
+               -  dataType5Property0: dataType5Property0 value 0
+               -  dataType5Property0: dataType5Property0 value 1
+               -  dataType5Property0: dataType5Property0 value 2
+               -  dataType5Property0: dataType5Property0 value 3
+            -  dataType1Property0:
                   dataType4Property0: dataType4Property0 value
                   dataType4Property1:
                   - 123
                   - 456
                   - 789
-              dataType1Property1:
-               - dataType5Property0: dataType5Property0 value 0
-               - dataType5Property0: dataType5Property0 value 1
-               - dataType5Property0: dataType5Property0 value 2
-               - dataType5Property0: dataType5Property0 value 3
-            policyLevel0.1Property0: policyLevel0.1Property0 value
-            policyLevel0.1Property1: 123
-            policyLevel0.1.2Property0: policyLevel0.1.2Property0 value
-            policyLevel0.1.2Property1: 456
-            policyLevel0.1.2.3Property0: policyLevel0.1.2.3Property0 value
-            policyLevel0.1.2.3Property1: 456
+               dataType1Property1:
+               -  dataType5Property0: dataType5Property0 value 0
+               -  dataType5Property0: dataType5Property0 value 1
+               -  dataType5Property0: dataType5Property0 value 2
+               -  dataType5Property0: dataType5Property0 value 3
+            policyLevel0.1Property0:
+               dataType5Property0: policyLevel0.1Property0 value
+            policyLevel0.1Property1:
+               dataType6Property0: 123
+            policyLevel0.1.2Property0:
+               dataType5Property0: policyLevel0.1.2Property0 value
+            policyLevel0.1.2Property1:
+               dataType6Property0: 456
+            policyLevel0.1.2.3Property0:
+               dataType5Property0: policyLevel0.1.2.3Property0 value
+            policyLevel0.1.2.3Property1:
+               dataType6Property0: 789
+   -  onap.policies.PolicyLevel0.1.2.3:
+         type: onap.policies.PolicyTypeLevel0.1.2.3
+         version: 1.1.0
+         type_version: 2.0.0
+         description: Level 0 policy
+         properties:
+            policyLevel0Property0:
+               dataType0Property0:
+                  dataType2Property0: dataType2Property0 value
+                  dataType2Property1:
+                  - 123
+                  - 456
+                  - 789
+               dataType0Property1:
+               -  dataType3Property0: dataType3Property0 value 0
+               -  dataType3Property0: dataType3Property0 value 1
+               -  dataType3Property0: dataType3Property0 value 2
+               -  dataType3Property0: dataType3Property0 value 3
+            policyLevel0Property1:
+            -  dataType1Property0:
+                  dataType4Property0: dataType4Property0 value
+                  dataType4Property1:
+                  - 123
+                  - 456
+                  - 789
+               dataType1Property1:
+               -  dataType5Property0: dataType5Property0 value 0
+               -  dataType5Property0: dataType5Property0 value 1
+               -  dataType5Property0: dataType5Property0 value 2
+               -  dataType5Property0: dataType5Property0 value 3
+            -  dataType1Property0:
+                  dataType4Property0: dataType4Property0 value
+                  dataType4Property1:
+                  - 123
+                  - 456
+                  - 789
+               dataType1Property1:
+               -  dataType5Property0: dataType5Property0 value 0
+               -  dataType5Property0: dataType5Property0 value 1
+               -  dataType5Property0: dataType5Property0 value 2
+               -  dataType5Property0: dataType5Property0 value 3
+            policyLevel0.1Property0:
+               dataType6Property0: policyLevel0.1Property0 value
+            policyLevel0.1Property1:
+               dataType6Property0: 123
+            policyLevel0.1.2Property0:
+               dataType5Property0: policyLevel0.1.2Property0 value
+            policyLevel0.1.2Property1:
+               dataType6Property0: 456
+            policyLevel0.1.2.3Property0:
+               dataType5Property0: policyLevel0.1.2.3Property0 value
+            policyLevel0.1.2.3Property1:
+               dataType6Property0: 789
+            policyLevel0.1.2.3V2Property2:
+               dataType5Property0: policyLevel0.1.2.3Property2 DT5P0 value
+               dataType5V2Property1: policyLevel0.1.2.3Property2 DT5V2P1 value
+   -  onap.policies.PolicyLevel0.1.2.3:
+         type: onap.policies.PolicyTypeLevel0.1.2.3
+         version: 1.2.0
+         type_version: 3.0.0
+         description: Level 0 policy
+         properties:
+            policyLevel0Property0:
+               dataType0Property0:
+                  dataType2Property0: dataType2Property0 value
+                  dataType2Property1:
+                  - 123
+                  - 456
+                  - 789
+               dataType0Property1:
+               -  dataType3Property0: dataType3Property0 value 0
+               -  dataType3Property0: dataType3Property0 value 1
+               -  dataType3Property0: dataType3Property0 value 2
+               -  dataType3Property0: dataType3Property0 value 3
+            policyLevel0Property1:
+            -  dataType1Property0:
+                  dataType4Property0: dataType4Property0 value
+                  dataType4Property1:
+                  - 123
+                  - 456
+                  - 789
+               dataType1Property1:
+               -  dataType5Property0: dataType5Property0 value 0
+               -  dataType5Property0: dataType5Property0 value 1
+               -  dataType5Property0: dataType5Property0 value 2
+               -  dataType5Property0: dataType5Property0 value 3
+            -  dataType1Property0:
+                  dataType4Property0: dataType4Property0 value
+                  dataType4Property1:
+                  - 123
+                  - 456
+                  - 789
+               dataType1Property1:
+               -  dataType5Property0: dataType5Property0 value 0
+               -  dataType5Property0: dataType5Property0 value 1
+               -  dataType5Property0: dataType5Property0 value 2
+               -  dataType5Property0: dataType5Property0 value 3
+            policyLevel0.1Property0:
+               dataType6Property0: policyLevel0.1Property0 value
+            policyLevel0.1Property1:
+               dataType6Property0: 123
+            policyLevel0.1.2Property0:
+               dataType5Property0: policyLevel0.1.2Property0 value
+            policyLevel0.1.2Property1:
+               dataType6Property0: 456
+            policyLevel0.1.2.3Property0:
+               dataType5Property0: policyLevel0.1.2.3Property0 value
+            policyLevel0.1.2.3V2Property2:
+               dataType5Property0: policyLevel0.1.2.3Property2 DT5P0 value
+               dataType5V2Property0: policyLevel0.1.2.3Property2 DT5V2P1 value
+               dataType5V3Property2: policyLevel0.1.2.3Property2 DT5V3P2 value
+            policyLevel0.1.2.3Property1:
+               dataType6Property0: 789
+               dataType6V2Property1: 10

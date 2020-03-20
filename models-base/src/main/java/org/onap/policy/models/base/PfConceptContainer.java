@@ -322,7 +322,7 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
      * @return conceptKeyVersion
      */
     public Set<C> getAllNamesAndVersions(final String conceptKeyName, final String conceptKeyVersion) {
-        if (conceptKeyName == null || conceptKeyVersion == null) {
+        if (conceptKeyName == null || conceptKeyVersion == null || PfKey.NULL_KEY_VERSION.equals(conceptKeyVersion)) {
             return getAll(conceptKeyName, conceptKeyVersion);
         } else {
             final Set<C> returnSet = new TreeSet<>();
