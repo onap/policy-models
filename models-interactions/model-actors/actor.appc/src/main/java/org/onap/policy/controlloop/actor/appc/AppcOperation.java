@@ -145,7 +145,8 @@ public abstract class AppcOperation extends BidirectionalTopicOperation<Request,
     @Override
     protected Status detmStatus(String rawResponse, Response response) {
         if (response.getStatus() == null) {
-            throw new IllegalArgumentException("APP-C response is missing the response status");
+            // no status - this must be a request, not a response - just ignore it
+            return Status.STILL_WAITING;
         }
 
         ResponseCode code = ResponseCode.toResponseCode(response.getStatus().getCode());

@@ -177,10 +177,9 @@ public class AppcOperationTest extends BasicAppcOperation {
     public void testDetmStatusStringResponse() {
         final ResponseStatus status = response.getStatus();
 
-        // null status
+        // null status (i.e., it's a Request, not a Response)
         response.setStatus(null);
-        assertThatIllegalArgumentException().isThrownBy(() -> oper.detmStatus("", response))
-                        .withMessage("APP-C response is missing the response status");
+        assertEquals(Status.STILL_WAITING, oper.detmStatus("", response));
         response.setStatus(status);
 
         // invalid code
