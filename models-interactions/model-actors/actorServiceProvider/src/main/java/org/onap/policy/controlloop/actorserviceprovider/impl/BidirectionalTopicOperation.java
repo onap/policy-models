@@ -106,7 +106,7 @@ public abstract class BidirectionalTopicOperation<Q, S> extends OperationPartial
     @Override
     protected CompletableFuture<OperationOutcome> startOperationAsync(int attempt, OperationOutcome outcome) {
 
-        final Pair<String,Q> pair = makeRequest(attempt);
+        final Pair<String, Q> pair = makeRequest(attempt);
         final Q request = pair.getRight();
         outcome.setSubRequestId(pair.getLeft());
 
@@ -118,10 +118,15 @@ public abstract class BidirectionalTopicOperation<Q, S> extends OperationPartial
         // register a listener BEFORE publishing
 
         BiConsumer<String, StandardCoderObject> listener = (rawResponse, scoResponse) -> {
-            OperationOutcome latestOutcome = processResponse(outcome, rawResponse, scoResponse);
-            if (latestOutcome != null) {
-                // final response - complete the controller
-                controller.completeAsync(() -> latestOutcome, executor);
+            try {
+                OperationOutcome latestOutcome = processResponse(outcome, rawResponse, scoResponse);
+                if (latestOutcome != null) {
+                    // final response - complete the controller
+                    controller.completeAsync(() -> latestOutcome, executor);
+                }
+            } catch (RuntimeException e) {
+                logger.warn("{}: failed to process response for {}", getFullName(), params.getRequestId());
+                controller.completeExceptionally(e);
             }
         };
 

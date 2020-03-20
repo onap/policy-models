@@ -168,10 +168,40 @@ public class BidirectionalTopicOperationTest {
     }
 
     /**
+     * Tests startOperationAsync() when processResponse() throws an exception.
+     */
+    @Test
+    public void testStartOperationAsyncProcException() throws Exception {
+        oper = new MyOperation() {
+            @Override
+            protected OperationOutcome processResponse(OperationOutcome outcome, String rawResponse,
+                            StandardCoderObject scoResponse) {
+                throw EXPECTED_EXCEPTION;
+            }
+        };
+
+        CompletableFuture<OperationOutcome> future = oper.startOperationAsync(1, outcome);
+        assertFalse(future.isDone());
+
+        assertEquals(SUB_REQID, outcome.getSubRequestId());
+
+        verify(forwarder).register(eq(Arrays.asList(REQ_ID)), listenerCaptor.capture());
+
+        verify(forwarder, never()).unregister(any(), any());
+
+        // provide a response
+        listenerCaptor.getValue().accept(responseText, stdResponse);
+        assertTrue(executor.runAll(MAX_REQUESTS));
+        assertTrue(future.isCompletedExceptionally());
+
+        verify(forwarder).unregister(eq(Arrays.asList(REQ_ID)), eq(listenerCaptor.getValue()));
+    }
+
+    /**
      * Tests startOperationAsync() when the publisher throws an exception.
      */
     @Test
-    public void testStartOperationAsyncException() throws Exception {
+    public void testStartOperationAsyncPubException() throws Exception {
         // indicate that nothing was published
         when(handler.send(any())).thenReturn(false);
 
