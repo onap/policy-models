@@ -46,6 +46,30 @@
       "revId": "2ad5c48fc31fd13d9ac1fb174de8fc02929ee3de",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a046e01e_abc21293",
+        "filename": "models-sim/policy-models-simulators/src/main/package/docker/Dockerfile",
+        "patchSetId": 6
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-03-20T12:41:07Z",
+      "side": 1,
+      "message": "There should be in pap, but we haven\u0027t made the changes yet to make sure they point to an exact image yet. This is what we\u0027ll be doing through the next week.",
+      "parentUuid": "f636621f_d3fa05a6",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 27
+      },
+      "revId": "2ad5c48fc31fd13d9ac1fb174de8fc02929ee3de",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
