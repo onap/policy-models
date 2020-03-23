@@ -23,20 +23,19 @@ package org.onap.policy.controlloop.actor.guard;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.SuperBuilder;
+import org.onap.policy.common.parameters.annotations.NotBlank;
+import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
 
 /**
- * Default values to be included if not specified in the payload.
+ * Guard parameters.
  */
+@NotBlank
+@NotNull
 @Data
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder(toBuilder = true)
 public class GuardParams extends HttpParams {
-
-    /*
-     * Optional, default values that are used if missing from the payload.
-     */
-
     private String onapName;
     private String onapComponent;
     private String onapInstance;

@@ -132,15 +132,7 @@ public class VfModuleCreateTest extends BasicSoOperation {
         Map<String, Object> payload = captor.getValue().getPayload();
         assertNotNull(payload);
 
-        @SuppressWarnings("unchecked")
-        Map<String, Object> resource = (Map<String, Object>) payload.get("resource");
-        assertNotNull(resource);
-
-        @SuppressWarnings("unchecked")
-        Map<String, Object> guard = (Map<String, Object>) resource.get("guard");
-        assertNotNull(guard);
-
-        Integer newCount = (Integer) guard.get(VfModuleCreate.PAYLOAD_KEY_VF_COUNT);
+        Integer newCount = (Integer) payload.get(VfModuleCreate.PAYLOAD_KEY_VF_COUNT);
         assertNotNull(newCount);
         assertEquals(origCount + 1, newCount.intValue());
     }

@@ -230,14 +230,7 @@ public abstract class OperationPartial implements Operation {
      */
     protected CompletableFuture<OperationOutcome> startGuardAsync() {
         // get the guard payload
-        Map<String, Object> guardPayload = makeGuardPayload();
-
-        // wrap it in a "resource"
-        Map<String, Object> resource = new LinkedHashMap<>();
-        resource.put("guard", guardPayload);
-
-        Map<String, Object> payload = new LinkedHashMap<>();
-        payload.put("resource", resource);
+        Map<String, Object> payload = makeGuardPayload();
 
         /*
          * Note: can't use constants from actor.guard, because that would create a
@@ -255,7 +248,7 @@ public abstract class OperationPartial implements Operation {
     protected Map<String, Object> makeGuardPayload() {
         Map<String, Object> guard = new LinkedHashMap<>();
         guard.put("actor", params.getActor());
-        guard.put("recipe", params.getOperation());
+        guard.put("operation", params.getOperation());
         guard.put("target", params.getTargetEntity());
         guard.put("requestId", params.getRequestId());
 

@@ -1,11 +1,13 @@
 {
+  "ONAPName": "my-onap-name",
   "ONAPComponent": "my-onap-component",
   "ONAPInstance": "my-onap-instance",
-  "ONAPName": "my-onap-name",
-  "action": "my-action",
   "requestId": "abcdefghi",
+  "action": "guard",
   "resource": {
-    "actor": "resource-actor",
-    "operation": "resource-operation"
+    "guard": {
+      "abc": "123",
+      "hello": "world"
+    }
   }
 }
