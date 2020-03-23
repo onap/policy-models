@@ -33,7 +33,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactory;
-import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.models.decisions.concepts.DecisionRequest;
 
 public class GuardConfigTest {
@@ -77,7 +76,7 @@ public class GuardConfigTest {
         expected.setOnapName(ONAP_NAME);
         expected.setAction(MY_ACTION);
 
-        DecisionRequest actual = Util.translate("", config.makeRequest(), DecisionRequest.class);
+        DecisionRequest actual = config.makeRequest();
         assertEquals(expected, actual);
 
         // check value from superclass
@@ -89,7 +88,7 @@ public class GuardConfigTest {
         config = new GuardConfig(executor, params, factory);
         assertFalse(config.isDisabled());
 
-        actual = Util.translate("", config.makeRequest(), DecisionRequest.class);
+        actual = config.makeRequest();
         assertEquals(new DecisionRequest(), actual);
 
         // try with disabled=true

@@ -20,19 +20,18 @@
 
 package org.onap.policy.controlloop.actor.guard;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.concurrent.Executor;
 import lombok.Getter;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactory;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
+import org.onap.policy.models.decisions.concepts.DecisionRequest;
 
 /**
  * Configuration for Guard Operators.
  */
 public class GuardConfig extends HttpConfig {
-    private final Map<String, Object> defaultRequest = new LinkedHashMap<>();
+    private final DecisionRequest defaultRequest = new DecisionRequest();
 
     /**
      * {@code True} if the associated guard operation is disabled.
@@ -50,32 +49,20 @@ public class GuardConfig extends HttpConfig {
     public GuardConfig(Executor blockingExecutor, GuardParams params, HttpClientFactory clientFactory) {
         super(blockingExecutor, params, clientFactory);
 
-        addProperty("ONAPComponent", params.getOnapComponent());
-        addProperty("ONAPInstance", params.getOnapInstance());
-        addProperty("ONAPName", params.getOnapName());
-        addProperty("action", params.getAction());
+        defaultRequest.setOnapComponent(params.getOnapComponent());
+        defaultRequest.setOnapInstance(params.getOnapInstance());
+        defaultRequest.setOnapName(params.getOnapName());
+        defaultRequest.setAction(params.getAction());
 
         this.disabled = params.isDisabled();
     }
 
     /**
-     * Adds a property to the default request, if the value is not {@code null}.
-     *
-     * @param key property key
-     * @param value property value, or {@code null}
-     */
-    private void addProperty(String key, String value) {
-        if (value != null) {
-            defaultRequest.put(key, value);
-        }
-    }
-
-    /**
      * Creates a new request, with the default values.
      *
-     * @return a new request map
+     * @return a new request
      */
-    public Map<String, Object> makeRequest() {
-        return new LinkedHashMap<>(defaultRequest);
+    public DecisionRequest makeRequest() {
+        return new DecisionRequest(defaultRequest);
     }
 }

@@ -23,6 +23,7 @@ package org.onap.policy.controlloop.actor.guard;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -63,7 +64,14 @@ public class GuardOperationTest extends BasicHttpOperation<DecisionRequest> {
         super.setUpBasic();
 
         guardConfig = mock(GuardConfig.class);
-        when(guardConfig.makeRequest()).thenAnswer(args -> new TreeMap<>(Map.of("action", "guard")));
+        when(guardConfig.makeRequest()).thenAnswer(args -> {
+            DecisionRequest req = new DecisionRequest();
+            req.setAction("guard");
+            req.setOnapComponent("my-onap-component");
+            req.setOnapInstance("my-onap-instance");
+            req.setOnapName("my-onap-name");
+            return req;
+        });
 
         config = guardConfig;
         initConfig();
@@ -134,13 +142,6 @@ public class GuardOperationTest extends BasicHttpOperation<DecisionRequest> {
         payload.put("r u there?", "yes");
         payload.put("requestId", "some request id");
 
-        Map<String, Object> resource = new TreeMap<>();
-        payload.put("resource", resource);
-        resource.put("abc", "def");
-        resource.put("ghi", "jkl");
-
-        verifyPayload("makeReq.json", payload);
-
         // null payload - start with fresh parameters and operation
         params = params.toBuilder().payload(null).build();
         oper = new GuardOperation(params, config);
@@ -151,9 +152,16 @@ public class GuardOperationTest extends BasicHttpOperation<DecisionRequest> {
         params.getPayload().clear();
         params.getPayload().putAll(payload);
 
-        Map<String, Object> requestMap = oper.makeRequest();
+        DecisionRequest request = oper.makeRequest();
 
-        verifyRequest(expectedJsonFile, requestMap, "requestId");
+        assertEquals("guard", request.getAction());
+        assertEquals("my-onap-component", request.getOnapComponent());
+        assertEquals("my-onap-instance", request.getOnapInstance());
+        assertEquals("my-onap-name", request.getOnapName());
+        assertNotNull(request.getRequestId());
+        assertEquals(Map.of("guard", payload), request.getResource());
+
+        verifyRequest(expectedJsonFile, request, "requestId");
     }
 
     @Test
@@ -189,22 +197,6 @@ public class GuardOperationTest extends BasicHttpOperation<DecisionRequest> {
 
     @Override
     protected Map<String, Object> makePayload() {
-        DecisionRequest req = new DecisionRequest();
-        req.setAction("my-action");
-        req.setOnapComponent("my-onap-component");
-        req.setOnapInstance("my-onap-instance");
-        req.setOnapName("my-onap-name");
-        req.setRequestId("my-request-id");
-
-        // add resources
-        Map<String, Object> resource = new TreeMap<>();
-        req.setResource(resource);
-        resource.put("actor", "resource-actor");
-        resource.put("operation", "resource-operation");
-
-        @SuppressWarnings("unchecked")
-        Map<String, Object> map = Util.translate("", req, TreeMap.class);
-
-        return map;
+        return new TreeMap<>(Map.of("hello", "world", "abc", "123"));
     }
 }
