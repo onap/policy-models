@@ -32,7 +32,7 @@ import org.junit.Test;
 import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicOperation.Status;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.sdnr.PciCommonHeader;
-import org.onap.policy.sdnr.PciRequestWrapper;
+import org.onap.policy.sdnr.PciMessage;
 import org.onap.policy.sdnr.util.StatusCodeEnum;
 
 public class SdnrOperationTest extends BasicSdnrOperation {
@@ -57,37 +57,41 @@ public class SdnrOperationTest extends BasicSdnrOperation {
 
     @Test
     public void testMakeRequest() {
-        Pair<String, PciRequestWrapper> result = operation.makeRequest(1);
+        Pair<String, PciMessage> result = operation.makeRequest(1);
         assertNotNull(result.getLeft());
 
-        PciRequestWrapper request = result.getRight();
+        PciMessage request = result.getRight();
 
         assertNotNull(request.getBody());
         assertEquals("1.0", request.getVersion());
         assertEquals("request", request.getType());
 
-        PciCommonHeader header = request.getBody().getCommonHeader();
+        PciCommonHeader header = request.getBody().getInput().getCommonHeader();
         assertNotNull(header);
         assertEquals(params.getRequestId(), header.getRequestId());
     }
 
     @Test
     public void testGetExpectedKeyValues() {
-        PciRequestWrapper request = operation.makeRequest(1).getRight();
-        assertEquals(Arrays.asList(request.getBody().getCommonHeader().getSubRequestId()),
-                operation.getExpectedKeyValues(50, request));
+        PciMessage request = operation.makeRequest(1).getRight();
+        assertEquals(Arrays.asList(request.getBody().getInput().getCommonHeader().getSubRequestId()),
+                        operation.getExpectedKeyValues(50, request));
+    }
 
+    @Test
+    public void testStartPreprocessorAsync() {
+        assertNotNull(operation.startPreprocessorAsync());
     }
 
     @Test
     public void testDetmStatusStringResponse() {
-        final org.onap.policy.sdnr.Status status = response.getBody().getStatus();
+        final org.onap.policy.sdnr.Status status = response.getBody().getOutput().getStatus();
 
         // null status
-        response.getBody().setStatus(null);
+        response.getBody().getOutput().setStatus(null);
         assertThatIllegalArgumentException().isThrownBy(() -> operation.detmStatus("", response))
                         .withMessage("SDNR response is missing the response status");
-        response.getBody().setStatus(status);
+        response.getBody().getOutput().setStatus(status);
 
         // invalid code
         status.setCode(-45);
@@ -106,33 +110,57 @@ public class SdnrOperationTest extends BasicSdnrOperation {
         status.setValue(StatusCodeEnum.REJECT.toString());
         status.setCode(StatusCodeEnum.toValue(StatusCodeEnum.REJECT));
         assertThatIllegalArgumentException().isThrownBy(() -> operation.detmStatus("", response))
-            .withMessage("SDNR request was not accepted, code=" + StatusCodeEnum.REJECT.toString());
+                        .withMessage("SDNR request was not accepted, code=" + StatusCodeEnum.REJECT.toString());
 
         status.setValue(StatusCodeEnum.REJECT.toString());
         status.setCode(313);
         assertThatIllegalArgumentException().isThrownBy(() -> operation.detmStatus("", response))
-            .withMessage("SDNR request was not accepted, code=" + StatusCodeEnum.REJECT.toString());
+                        .withMessage("SDNR request was not accepted, code=" + StatusCodeEnum.REJECT.toString());
 
         status.setValue(StatusCodeEnum.ERROR.toString());
         status.setCode(StatusCodeEnum.toValue(StatusCodeEnum.ERROR));
         assertThatIllegalArgumentException().isThrownBy(() -> operation.detmStatus("", response))
-            .withMessage("SDNR request was not accepted, code=" + StatusCodeEnum.ERROR.toString());
+                        .withMessage("SDNR request was not accepted, code=" + StatusCodeEnum.ERROR.toString());
 
         status.setValue(StatusCodeEnum.FAILURE.toString());
         status.setCode(450);
         assertEquals(Status.FAILURE, operation.detmStatus("", response));
+
+        // null output
+        response.getBody().setOutput(null);
+        assertEquals(Status.STILL_WAITING, operation.detmStatus("", response));
+
+        // null body
+        response.setBody(null);
+        assertEquals(Status.STILL_WAITING, operation.detmStatus("", response));
     }
 
     @Test
     public void testSetOutcome() {
-        final org.onap.policy.sdnr.Status status = response.getBody().getStatus();
+        // with a status value
+        checkOutcome();
+        assertEquals(StatusCodeEnum.SUCCESS.toString(), outcome.getMessage());
+
+        // null status value
+        response.getBody().getOutput().getStatus().setValue(null);
+        checkOutcome();
 
         // null status
-        response.getBody().setStatus(null);
+        response.getBody().getOutput().setStatus(null);
+        checkOutcome();
+
+        // null output
+        response.getBody().setOutput(null);
+        checkOutcome();
+
+        // null body
+        response.setBody(null);
+        checkOutcome();
+    }
+
+    protected void checkOutcome() {
         assertSame(outcome, operation.setOutcome(outcome, PolicyResult.SUCCESS, response));
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
         assertNotNull(outcome.getMessage());
-        response.getBody().setStatus(status);
-
     }
 }

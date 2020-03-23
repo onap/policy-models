@@ -31,37 +31,37 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.Bidirectional
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.topic.SelectorKey;
 import org.onap.policy.controlloop.policy.PolicyResult;
+import org.onap.policy.sdnr.PciBody;
 import org.onap.policy.sdnr.PciCommonHeader;
+import org.onap.policy.sdnr.PciMessage;
 import org.onap.policy.sdnr.PciRequest;
-import org.onap.policy.sdnr.PciRequestWrapper;
 import org.onap.policy.sdnr.PciResponse;
-import org.onap.policy.sdnr.PciResponseWrapper;
 import org.onap.policy.sdnr.util.StatusCodeEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class SdnrOperation extends BidirectionalTopicOperation<PciRequestWrapper, PciResponseWrapper> {
+public abstract class SdnrOperation extends BidirectionalTopicOperation<PciMessage, PciMessage> {
     private static final Logger logger = LoggerFactory.getLogger(SdnrOperation.class);
 
     /**
      * Keys used to match the response with the request listener. The sub request ID is a
      * UUID, so it can be used to uniquely identify the response.
      * <p/>
-     * Note: if these change, then {@link #getExpectedKeyValues(int, Request)} must be
+     * Note: if these change, then {@link #getExpectedKeyValues(int, PciMessage)} must be
      * updated accordingly.
      */
     public static final List<SelectorKey> SELECTOR_KEYS = List.of(new SelectorKey("CommonHeader", "SubRequestID"));
 
     public SdnrOperation(ControlLoopOperationParams params, BidirectionalTopicConfig config) {
-        super(params, config, PciResponseWrapper.class);
+        super(params, config, PciMessage.class);
     }
 
     /**
      * Note: these values must match {@link #SELECTOR_KEYS}.
      */
     @Override
-    protected List<String> getExpectedKeyValues(int attempt, PciRequestWrapper request) {
-        return List.of(request.getBody().getCommonHeader().getSubRequestId());
+    protected List<String> getExpectedKeyValues(int attempt, PciMessage request) {
+        return List.of(request.getBody().getInput().getCommonHeader().getSubRequestId());
     }
 
     @Override
@@ -70,18 +70,23 @@ public abstract class SdnrOperation extends BidirectionalTopicOperation<PciReque
     }
 
     @Override
-    protected Status detmStatus(String rawResponse, PciResponseWrapper responseWrapper) {
-        PciResponse response = responseWrapper.getBody();
+    protected Status detmStatus(String rawResponse, PciMessage responseWrapper) {
+        if (responseWrapper.getBody() == null || responseWrapper.getBody().getOutput() == null) {
+            // no output - this must be a request, not a response - just ignore it
+            logger.info("{}: ignoring request message for {}", getFullName(), params.getRequestId());
+            return Status.STILL_WAITING;
+        }
 
-        if (response == null || response.getStatus() == null) {
+        PciResponse response = responseWrapper.getBody().getOutput();
+
+        if (response.getStatus() == null) {
             throw new IllegalArgumentException("SDNR response is missing the response status");
         }
 
         StatusCodeEnum code = StatusCodeEnum.fromStatusCode(response.getStatus().getCode());
 
         if (code == null) {
-            throw new IllegalArgumentException(
-                            "unknown SDNR response status code: " + response.getStatus().getCode());
+            throw new IllegalArgumentException("unknown SDNR response status code: " + response.getStatus().getCode());
         }
 
         /*
@@ -112,9 +117,12 @@ public abstract class SdnrOperation extends BidirectionalTopicOperation<PciReque
      * Sets the message to the status description, if available.
      */
     @Override
-    public OperationOutcome setOutcome(OperationOutcome outcome, PolicyResult result,
-            PciResponseWrapper responseWrapper) {
-        PciResponse response = responseWrapper.getBody();
+    public OperationOutcome setOutcome(OperationOutcome outcome, PolicyResult result, PciMessage responseWrapper) {
+        if (responseWrapper.getBody() == null || responseWrapper.getBody().getOutput() == null) {
+            return setOutcome(outcome, result);
+        }
+
+        PciResponse response = responseWrapper.getBody().getOutput();
         if (response.getStatus() == null || response.getStatus().getValue() == null) {
             return setOutcome(outcome, result);
         }
@@ -125,17 +133,13 @@ public abstract class SdnrOperation extends BidirectionalTopicOperation<PciReque
     }
 
     @Override
-    protected Pair<String, PciRequestWrapper> makeRequest(int attempt) {
+    protected Pair<String, PciMessage> makeRequest(int attempt) {
         VirtualControlLoopEvent onset = params.getContext().getEvent();
         String subRequestId = UUID.randomUUID().toString();
 
         /* Construct an SDNR request using pci Model */
 
-        /*
-         * The actual pci request is placed in a wrapper used to send through dmaap. The
-         * current version is 2.0 as of R1.
-         */
-        PciRequestWrapper dmaapRequest = new PciRequestWrapper();
+        PciMessage dmaapRequest = new PciMessage();
         dmaapRequest.setVersion("1.0");
         dmaapRequest.setCorrelationId(onset.getRequestId() + "-" + subRequestId);
         dmaapRequest.setType("request");
@@ -152,10 +156,11 @@ public abstract class SdnrOperation extends BidirectionalTopicOperation<PciReque
         sdnrRequest.setPayload(onset.getPayload());
 
         /*
-         * Once the pci request is constructed, add it into the body of the dmaap
-         * wrapper.
+         * Once the pci request is constructed, add it into the body of the dmaap wrapper.
          */
-        dmaapRequest.setBody(sdnrRequest);
+        PciBody body = new PciBody();
+        body.setInput(sdnrRequest);
+        dmaapRequest.setBody(body);
         logger.info("SDNR Request to be sent is {}", dmaapRequest);
 
         /* Return the request to be sent through dmaap. */

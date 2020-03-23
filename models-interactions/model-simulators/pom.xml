@@ -61,6 +61,16 @@
         </dependency>
         <dependency>
             <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
+            <artifactId>sdnc</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
+            <artifactId>sdnr</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
             <artifactId>so</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -74,11 +84,6 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
-            <artifactId>sdnc</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.onap.policy.models</groupId>

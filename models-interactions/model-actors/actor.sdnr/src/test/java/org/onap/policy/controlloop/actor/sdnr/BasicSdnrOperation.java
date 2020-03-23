@@ -38,15 +38,16 @@ import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.impl.OperationMaker;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
 import org.onap.policy.controlloop.policy.PolicyResult;
+import org.onap.policy.sdnr.PciBody;
+import org.onap.policy.sdnr.PciMessage;
 import org.onap.policy.sdnr.PciResponse;
-import org.onap.policy.sdnr.PciResponseWrapper;
 import org.onap.policy.sdnr.Status;
 import org.onap.policy.sdnr.util.StatusCodeEnum;
 import org.powermock.reflect.Whitebox;
 
 public abstract class BasicSdnrOperation extends BasicBidirectionalTopicOperation {
 
-    protected PciResponseWrapper response;
+    protected PciMessage response;
 
     /**
      * Constructs the object using a default actor and operation name.
@@ -71,14 +72,18 @@ public abstract class BasicSdnrOperation extends BasicBidirectionalTopicOperatio
     public void setUp() throws Exception {
         super.setUpBasic();
 
-        response = new PciResponseWrapper();
+        response = new PciMessage();
 
-        PciResponse body = new PciResponse();
+        PciBody body = new PciBody();
+        response.setBody(body);
+
+        PciResponse output = new PciResponse();
+        body.setOutput(output);
+
         Status status = new Status();
+        output.setStatus(status);
         status.setCode(100);
         status.setValue(StatusCodeEnum.SUCCESS.toString());
-        body.setStatus(status);
-        response.setBody(body);
     }
 
     /**

@@ -23,7 +23,7 @@ package org.onap.policy.controlloop.actor.sdnr;
 import org.apache.commons.lang3.tuple.Pair;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
-import org.onap.policy.sdnr.PciRequestWrapper;
+import org.onap.policy.sdnr.PciMessage;
 
 public class ModifyConfigOperation extends SdnrOperation {
     public static final String NAME = "ModifyConfig";
@@ -39,14 +39,14 @@ public class ModifyConfigOperation extends SdnrOperation {
     }
 
     @Override
-    protected Pair<String, PciRequestWrapper> makeRequest(int attempt) {
-        final Pair<String, PciRequestWrapper> req = super.makeRequest(attempt);
-        final PciRequestWrapper request = req.getRight();
+    protected Pair<String, PciMessage> makeRequest(int attempt) {
+        final Pair<String, PciMessage> req = super.makeRequest(attempt);
+        final PciMessage request = req.getRight();
         //
         // Set the recipe and action information
         //
         request.setRpcName(NAME.toLowerCase());
-        request.getBody().setAction(NAME);
+        request.getBody().getInput().setAction(NAME);
         return req;
     }
 }

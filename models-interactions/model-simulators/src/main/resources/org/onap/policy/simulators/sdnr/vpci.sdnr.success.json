@@ -1,0 +1,23 @@
+{
+    "body": {
+        "output": {
+            "CommonHeader": {
+                "TimeStamp": "2018-09-10T07:10:05.614Z",
+                "APIver": "1.0",
+                "RequestID": "9d2d790e-a5f0-11e8-98d0-529269fb1459",
+                "SubRequestID": "${replaceMe}",
+                "RequestTrack": [],
+                "Flags": []
+            },
+            "Status": {
+                "Code": 200,
+                "Value": "SUCCESS"
+            },
+            "Payload": "{ \"Configurations\":[ { \"Status\": { \"Code\": 200, \"Value\": \"SUCCESS\" }, \"data\":{\"FAPService\":{\"alias\":\"Chn0330\",\"X0005b9Lte\":{\"phyCellIdInUse\":6,\"pnfName\":\"ncserver23\"},\"CellConfig\":{\"LTE\":{\"RAN\":{\"Common\":{\"CellIdentity\":\"Chn0330\"}}}}}} } ] }"
+        }
+    },
+    "version": "1.0",
+    "rpc-name": "ModifyConfig",
+    "correlation-id": "9d2d790e-a5f0-11e8-98d0-529269fb1459-1",
+    "type": "response"
+}
