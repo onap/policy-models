@@ -62,6 +62,12 @@
             "servers": ["localhost"],
             "topicCommInfrastructure": "DMAAP",
             "useHttps": true
+        },
+        {
+            "topic": "SDNR-CL",
+            "servers": ["localhost"],
+            "topicCommInfrastructure": "DMAAP",
+            "useHttps": true
         }
     ],
     "topicSources": [
@@ -73,6 +79,12 @@
         },
         {
             "topic": "APPC-LCM-READ",
+            "servers": ["localhost"],
+            "topicCommInfrastructure": "DMAAP",
+            "useHttps": true
+        },
+        {
+            "topic": "SDNR-CL-RSP",
             "servers": ["localhost"],
             "topicCommInfrastructure": "DMAAP",
             "useHttps": true
@@ -90,6 +102,12 @@
             "providerClass": "org.onap.policy.simulators.AppcLcmTopicServer",
             "sink": "APPC-LCM-WRITE",
             "source": "APPC-LCM-READ"
+        },
+        {
+            "name": "SDNR simulator",
+            "providerClass": "org.onap.policy.simulators.SdnrTopicServer",
+            "sink": "SDNR-CL",
+            "source": "SDNR-CL-RSP"
         }
     ]
 }

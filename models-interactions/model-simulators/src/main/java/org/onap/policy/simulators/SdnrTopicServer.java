@@ -20,32 +20,32 @@
 
 package org.onap.policy.simulators;
 
-import org.onap.policy.appclcm.AppcLcmDmaapWrapper;
 import org.onap.policy.common.endpoints.event.comm.TopicSink;
 import org.onap.policy.common.endpoints.event.comm.TopicSource;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
+import org.onap.policy.sdnr.PciMessage;
 
 /**
- * APPC-LCM topic server.
+ * SDNR topic server.
  */
-public class AppcLcmTopicServer extends TopicServer<AppcLcmDmaapWrapper> {
-    public AppcLcmTopicServer(TopicSink sink, TopicSource source) {
-        super(sink, source, new StandardCoder(), AppcLcmDmaapWrapper.class);
+public class SdnrTopicServer extends TopicServer<PciMessage> {
+    public SdnrTopicServer(TopicSink sink, TopicSource source) {
+        super(sink, source, new StandardCoder(), PciMessage.class);
     }
 
     @Override
-    protected String process(AppcLcmDmaapWrapper request) {
+    protected String process(PciMessage request) {
         /*
          * In case the request and response are on the same topic, this may be invoked
-         * with a request or with a response object. If the "output" is not null, then we
-         * know it's a response.
+         * with a request or with a response object. If the "output" is null, then we know
+         * it's a response.
          */
         if (request.getBody().getOutput() != null) {
             return null;
         }
 
-        String response = ResourceUtils.getResourceAsString("org/onap/policy/simulators/appclcm/appc.lcm.success.json");
+        String response = ResourceUtils.getResourceAsString("org/onap/policy/simulators/sdnr/vpci.sdnr.success.json");
         return response.replace("${replaceMe}", request.getBody().getInput().getCommonHeader().getSubRequestId());
     }
 }

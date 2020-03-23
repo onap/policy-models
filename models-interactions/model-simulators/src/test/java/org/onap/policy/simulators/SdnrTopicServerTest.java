@@ -36,7 +36,7 @@ import org.onap.policy.common.endpoints.event.comm.TopicSink;
 import org.onap.policy.common.endpoints.event.comm.TopicSource;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 
-public class AppcLcmTopicServerTest {
+public class SdnrTopicServerTest {
     private static final String MY_TOPIC = "my-topic";
 
     @Mock
@@ -44,7 +44,7 @@ public class AppcLcmTopicServerTest {
     @Mock
     private TopicSource source;
 
-    private AppcLcmTopicServer server;
+    private SdnrTopicServer server;
 
     /**
      * Sets up.
@@ -53,12 +53,12 @@ public class AppcLcmTopicServerTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
 
-        server = new AppcLcmTopicServer(sink, source);
+        server = new SdnrTopicServer(sink, source);
     }
 
     @Test
-    public void testProcessAppcLcmDmaapWrapper() {
-        String request = ResourceUtils.getResourceAsString("org/onap/policy/simulators/appclcm/appc.lcm.request.json");
+    public void testProcess() {
+        String request = ResourceUtils.getResourceAsString("org/onap/policy/simulators/sdnr/vpci.sdnr.request.json");
         assertNotNull(request);
 
         server.onTopicEvent(CommInfrastructure.NOOP, MY_TOPIC, request);
@@ -75,7 +75,7 @@ public class AppcLcmTopicServerTest {
     @Test
     public void testProcessNoResponse() {
         // NOTE: this json file is a RESPONSE, not a request
-        String request = ResourceUtils.getResourceAsString("org/onap/policy/simulators/appclcm/appc.lcm.success.json");
+        String request = ResourceUtils.getResourceAsString("org/onap/policy/simulators/sdnr/vpci.sdnr.success.json");
         assertNotNull(request);
 
         server.onTopicEvent(CommInfrastructure.NOOP, MY_TOPIC, request);

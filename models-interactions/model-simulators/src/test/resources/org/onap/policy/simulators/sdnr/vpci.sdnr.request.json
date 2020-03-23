@@ -1,0 +1,18 @@
+{
+    "body": {
+        "input": {
+            "CommonHeader": {
+                "TimeStamp": "2018-09-10T07:10:05.614Z",
+                "APIver": "1.0",
+                "RequestID": "664be3d2-6c12-4f4b-a3e7-c349acced200",
+                "SubRequestID": "111be3d2-6c12-4f4b-a3e7-c349acced200",
+                "RequestTrack": [],
+                "Flags": []
+            }
+        }
+    },
+    "version": "1.0",
+    "rpc-name": "modifyconfig",
+    "correlation-id": "9d2d790e-a5f0-11e8-98d0-529269fb1459-1",
+    "type": "response"
+}

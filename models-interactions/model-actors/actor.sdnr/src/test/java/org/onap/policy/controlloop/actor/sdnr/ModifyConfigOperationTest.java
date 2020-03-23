@@ -36,7 +36,7 @@ import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.policy.PolicyResult;
-import org.onap.policy.sdnr.PciRequestWrapper;
+import org.onap.policy.sdnr.PciMessage;
 
 public class ModifyConfigOperationTest extends BasicSdnrOperation {
 
@@ -89,7 +89,7 @@ public class ModifyConfigOperationTest extends BasicSdnrOperation {
 
     @Test
     public void testMakeRequest() throws CoderException {
-        Pair<String, PciRequestWrapper> result = oper.makeRequest(1);
+        Pair<String, PciMessage> result = oper.makeRequest(1);
         assertNotNull(result.getLeft());
         assertNotNull(result.getRight());
     }
