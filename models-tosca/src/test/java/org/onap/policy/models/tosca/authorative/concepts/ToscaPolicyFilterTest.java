@@ -151,7 +151,7 @@ public class ToscaPolicyFilterTest {
         assertEquals(VERSION_100, filteredList.get(7).getVersion());
         assertEquals(VERSION_100, filteredList.get(12).getVersion());
 
-        assertEquals(22, policyList.size());
+        assertEquals(23, policyList.size());
         assertEquals(22, filteredList.size());
 
         //
@@ -218,7 +218,7 @@ public class ToscaPolicyFilterTest {
     public void testFilterNameVersion() {
         ToscaPolicyFilter filter = ToscaPolicyFilter.builder().name("operational.modifyconfig").build();
         List<ToscaPolicy> filteredList = filter.filter(policyList);
-        assertEquals(1, filteredList.size());
+        assertEquals(2, filteredList.size());
 
         filter = ToscaPolicyFilter.builder().name("guard.frequency.scaleout").build();
         filteredList = filter.filter(policyList);
@@ -230,7 +230,7 @@ public class ToscaPolicyFilterTest {
 
         filter = ToscaPolicyFilter.builder().version(VERSION_100).build();
         filteredList = filter.filter(policyList);
-        assertEquals(21, filteredList.size());
+        assertEquals(22, filteredList.size());
 
         filter = ToscaPolicyFilter.builder().name("OSDF_CASABLANCA.SubscriberPolicy_v1").version(VERSION_100).build();
         filteredList = filter.filter(policyList);
@@ -238,7 +238,7 @@ public class ToscaPolicyFilterTest {
 
         filter = ToscaPolicyFilter.builder().name("operational.modifyconfig").version(VERSION_100).build();
         filteredList = filter.filter(policyList);
-        assertEquals(1, filteredList.size());
+        assertEquals(2, filteredList.size());
     }
 
     @Test
@@ -246,11 +246,11 @@ public class ToscaPolicyFilterTest {
         // null pattern
         ToscaPolicyFilter filter = ToscaPolicyFilter.builder().versionPrefix(null).build();
         List<ToscaPolicy> filteredList = filter.filter(policyList);
-        assertEquals(22, filteredList.size());
+        assertEquals(23, filteredList.size());
 
         filter = ToscaPolicyFilter.builder().versionPrefix("1.").build();
         filteredList = filter.filter(policyList);
-        assertEquals(20, filteredList.size());
+        assertEquals(21, filteredList.size());
 
         filter = ToscaPolicyFilter.builder().versionPrefix("100.").build();
         filteredList = filter.filter(policyList);
@@ -269,7 +269,7 @@ public class ToscaPolicyFilterTest {
 
         filter = ToscaPolicyFilter.builder().type("onap.policies.controlloop.operational.common.Drools").build();
         filteredList = filter.filter(policyList);
-        assertEquals(3, filteredList.size());
+        assertEquals(4, filteredList.size());
 
         filter = ToscaPolicyFilter.builder().type("onap.policies.monitoring.cdap.tca.hi.lo.app").build();
         filteredList = filter.filter(policyList);
