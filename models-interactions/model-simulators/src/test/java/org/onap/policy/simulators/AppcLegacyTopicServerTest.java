@@ -22,6 +22,8 @@ package org.onap.policy.simulators;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
@@ -55,7 +57,7 @@ public class AppcLegacyTopicServerTest {
     }
 
     @Test
-    public void testProcessAppcLcmDmaapWrapper() {
+    public void testProcess() {
         String request = ResourceUtils.getResourceAsString("org/onap/policy/simulators/appc/appc.legacy.request.json");
         assertNotNull(request);
 
@@ -65,5 +67,19 @@ public class AppcLegacyTopicServerTest {
         verify(sink).send(respCaptor.capture());
 
         assertThat(respCaptor.getValue()).contains("111be3d2").doesNotContain("replaceMe");
+    }
+
+    /**
+     * Tests process() when the message is a response.
+     */
+    @Test
+    public void testProcessNoResponse() {
+        // NOTE: this json file is a RESPONSE, not a request
+        String request = ResourceUtils.getResourceAsString("org/onap/policy/simulators/appc/appc.legacy.success.json");
+        assertNotNull(request);
+
+        server.onTopicEvent(CommInfrastructure.NOOP, MY_TOPIC, request);
+
+        verify(sink, never()).send(any());
     }
 }

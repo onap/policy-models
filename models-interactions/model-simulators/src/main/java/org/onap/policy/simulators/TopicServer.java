@@ -65,8 +65,17 @@ public abstract class TopicServer<Q> implements TopicListener {
             throw new IllegalArgumentException("cannot decode request from " + source.getTopic());
         }
 
-        sink.send(process(req));
+        String resp = process(req);
+        if (resp != null) {
+            sink.send(resp);
+        }
     }
 
+    /**
+     * Processes a request.
+     *
+     * @param request request to be processed
+     * @return the response, or {@code null} if no response is to be sent
+     */
     protected abstract String process(Q request);
 }

@@ -36,6 +36,15 @@ public class AppcLegacyTopicServer extends TopicServer<Request> {
 
     @Override
     protected String process(Request request) {
+        /*
+         * The request and response are on the same topic, thus this may be invoked with a
+         * request or with a response object. If the "action" is null, then we know it's a
+         * response.
+         */
+        if (request.getAction() == null) {
+            return null;
+        }
+
         String response = ResourceUtils.getResourceAsString("org/onap/policy/simulators/appc/appc.legacy.success.json");
         return response.replace("${replaceMe}", request.getCommonHeader().getSubRequestId());
     }
