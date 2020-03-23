@@ -31,7 +31,6 @@ import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.controlloop.actorserviceprovider.CallbackManager;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
-import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.impl.OperationPartial;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
@@ -109,8 +108,7 @@ public class GuardOperation extends HttpOperation<DecisionResponse> {
     protected CompletableFuture<OperationOutcome> startOperationAsync(int attempt, OperationOutcome outcome) {
         outcome.setSubRequestId(String.valueOf(attempt));
 
-        DecisionRequest request = Util.translate(getName(), makeRequest(), DecisionRequest.class);
-
+        DecisionRequest request = makeRequest();
         Entity<DecisionRequest> entity = Entity.entity(request, MediaType.APPLICATION_JSON);
 
         Map<String, Object> headers = makeHeaders();
@@ -129,16 +127,16 @@ public class GuardOperation extends HttpOperation<DecisionResponse> {
     /**
      * Makes a request from the payload.
      *
-     * @return a new request map
+     * @return a new request
      */
-    protected Map<String, Object> makeRequest() {
+    protected DecisionRequest makeRequest() {
         if (params.getPayload() == null) {
             throw new IllegalArgumentException("missing payload");
         }
 
-        Map<String, Object> req = config.makeRequest();
-        req.putAll(params.getPayload());
-        req.computeIfAbsent("requestId", key -> UUID.randomUUID().toString());
+        DecisionRequest req = config.makeRequest();
+        req.setRequestId(UUID.randomUUID().toString());
+        req.setResource(Map.of("guard", params.getPayload()));
 
         return req;
     }

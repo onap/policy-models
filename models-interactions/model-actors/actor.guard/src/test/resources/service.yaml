@@ -26,6 +26,10 @@ httpClients:
 actors:
   GUARD:
     clientName: my-client
+    onapName: my-onap-name
+    onapComponent: my-onap-component
+    onapInstance: my-onap-instance
+    action: guard
     operations:
       Decision:
         path: decide

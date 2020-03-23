@@ -60,12 +60,13 @@ public class GuardParamsTest {
     public void testValidate() {
         assertTrue(params.validate(CONTAINER).isValid());
 
+        testValidateField("onapName", "null", bldr -> bldr.onapName(null));
+        testValidateField("onapComponent", "null", bldr -> bldr.onapComponent(null));
+        testValidateField("onapInstance", "null", bldr -> bldr.onapInstance(null));
+        testValidateField("action", "null", bldr -> bldr.action(null));
+
         // validate one of the superclass fields
         testValidateField("clientName", "null", bldr -> bldr.clientName(null));
-
-        // validate with mostly empty params
-        params = GuardParams.builder().clientName(CLIENT).path(PATH).timeoutSec(TIMEOUT).build();
-        assertTrue(params.validate(CONTAINER).isValid());
     }
 
     @Test

@@ -324,13 +324,7 @@ public class OperationPartialTest {
         Map<String, Object> payload = params.getPayload();
         assertNotNull(payload);
 
-        @SuppressWarnings("unchecked")
-        Map<String, Object> resource = (Map<String, Object>) payload.get("resource");
-        assertNotNull(resource);
-
-        @SuppressWarnings("unchecked")
-        Map<String, Object> guard = (Map<String, Object>) resource.get("guard");
-        assertEquals(oper.makeGuardPayload(), guard);
+        assertEquals(oper.makeGuardPayload(), payload);
     }
 
     @Test
@@ -341,13 +335,13 @@ public class OperationPartialTest {
         // request id changes, so remove it
         payload.remove("requestId");
 
-        assertEquals("{actor=my-actor, recipe=my-operation, target=my-entity}", payload.toString());
+        assertEquals("{actor=my-actor, operation=my-operation, target=my-entity}", payload.toString());
 
         // repeat, but with closed loop name
         event.setClosedLoopControlName("my-loop");
         payload = oper.makeGuardPayload();
         payload.remove("requestId");
-        assertEquals("{actor=my-actor, recipe=my-operation, target=my-entity, clname=my-loop}", payload.toString());
+        assertEquals("{actor=my-actor, operation=my-operation, target=my-entity, clname=my-loop}", payload.toString());
     }
 
     @Test
