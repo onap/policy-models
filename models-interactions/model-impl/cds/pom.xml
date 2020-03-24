@@ -35,7 +35,7 @@
   <properties>
     <grpc.version>1.17.1</grpc.version>
     <protobuf.version>3.6.1</protobuf.version>
-    <grpc.netty.version>4.1.39.Final</grpc.netty.version>
+    <grpc.netty.version>4.1.48.Final</grpc.netty.version>
   </properties>
 
   <dependencies>
