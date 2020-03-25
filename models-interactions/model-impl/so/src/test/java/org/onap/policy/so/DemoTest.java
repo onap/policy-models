@@ -1,8 +1,8 @@
 /*-
  * ============LICENSE_START=======================================================
- * mso
+ * ONAP
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,14 +25,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
-import org.onap.policy.so.SoCloudConfiguration;
-import org.onap.policy.so.SoModelInfo;
-import org.onap.policy.so.SoRelatedInstance;
-import org.onap.policy.so.SoRelatedInstanceListElement;
-import org.onap.policy.so.SoRequest;
-import org.onap.policy.so.SoRequestDetails;
-import org.onap.policy.so.SoRequestInfo;
-import org.onap.policy.so.SoRequestParameters;
 import org.onap.policy.so.util.Serialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,41 +55,35 @@ public class DemoTest {
         request.getRequestDetails().getRequestInfo().setSource("VID");
         request.getRequestDetails().getRequestInfo().setSuppressRollback(true);
 
-        SoRelatedInstanceListElement relatedInstanceListElement1 =
-                new SoRelatedInstanceListElement();
-        SoRelatedInstanceListElement relatedInstanceListElement2 =
-                new SoRelatedInstanceListElement();
-        SoRelatedInstanceListElement relatedInstanceListElement3 =
-                new SoRelatedInstanceListElement();
+        SoRelatedInstanceListElement relatedInstanceListElement1 = new SoRelatedInstanceListElement();
+        SoRelatedInstanceListElement relatedInstanceListElement2 = new SoRelatedInstanceListElement();
+        SoRelatedInstanceListElement relatedInstanceListElement3 = new SoRelatedInstanceListElement();
         relatedInstanceListElement1.setRelatedInstance(new SoRelatedInstance());
         relatedInstanceListElement2.setRelatedInstance(new SoRelatedInstance());
         relatedInstanceListElement3.setRelatedInstance(new SoRelatedInstance());
 
-        relatedInstanceListElement1.getRelatedInstance().setInstanceId(
-                "17ef4658-bd1f-4ef0-9ca0-ea76e2bf122c");
-        relatedInstanceListElement1.getRelatedInstance().setInstanceName(
-                "SOTESTVOL103a-vSAMP12_base_module-0_vol");
+        relatedInstanceListElement1.getRelatedInstance().setInstanceId("17ef4658-bd1f-4ef0-9ca0-ea76e2bf122c");
+        relatedInstanceListElement1.getRelatedInstance().setInstanceName("SOTESTVOL103a-vSAMP12_base_module-0_vol");
         relatedInstanceListElement1.getRelatedInstance().setModelInfo(new SoModelInfo());
         relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelType("volumeGroup");
 
         relatedInstanceListElement2.getRelatedInstance().setInstanceId("serviceInstanceId");
         relatedInstanceListElement2.getRelatedInstance().setModelInfo(new SoModelInfo());
         relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelType("service");
-        relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelInvariantId(
-                "ff3514e3-5a33-55df-13ab-12abad84e7ff");
-        relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelVersionId(
-                "fe6985cd-ea33-3346-ac12-ab121484a3fe");
-        relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelName(
-                "parent service model name");
+        relatedInstanceListElement2.getRelatedInstance().getModelInfo()
+                .setModelInvariantId("ff3514e3-5a33-55df-13ab-12abad84e7ff");
+        relatedInstanceListElement2.getRelatedInstance().getModelInfo()
+                .setModelVersionId("fe6985cd-ea33-3346-ac12-ab121484a3fe");
+        relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelName("parent service model name");
         relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelVersion("1.0");
 
         relatedInstanceListElement3.getRelatedInstance().setInstanceId("vnfInstanceId");
         relatedInstanceListElement3.getRelatedInstance().setModelInfo(new SoModelInfo());
         relatedInstanceListElement3.getRelatedInstance().getModelInfo().setModelType("vnf");
-        relatedInstanceListElement3.getRelatedInstance().getModelInfo().setModelInvariantId(
-                "ff5256d1-5a33-55df-13ab-12abad84e7ff");
-        relatedInstanceListElement3.getRelatedInstance().getModelInfo().setModelVersionId(
-                "fe6478e4-ea33-3346-ac12-ab121484a3fe");
+        relatedInstanceListElement3.getRelatedInstance().getModelInfo()
+                .setModelInvariantId("ff5256d1-5a33-55df-13ab-12abad84e7ff");
+        relatedInstanceListElement3.getRelatedInstance().getModelInfo()
+                .setModelVersionId("fe6478e4-ea33-3346-ac12-ab121484a3fe");
         relatedInstanceListElement3.getRelatedInstance().getModelInfo().setModelName("vSAMP12");
         relatedInstanceListElement3.getRelatedInstance().getModelInfo().setModelVersion("1.0");
         relatedInstanceListElement3.getRelatedInstance().getModelInfo().setModelCustomizationName("vSAMP12 1");
@@ -142,15 +128,13 @@ public class DemoTest {
         request.getRequestDetails().getCloudConfiguration().setLcpCloudRegionId("DFW");
         request.getRequestDetails().getCloudConfiguration().setTenantId("1015548");
 
-        request.getRequestDetails().getRequestInfo().setInstanceName(
-                "Vfmodule_Ete_Name1eScaling63928f-ccdc-4b34-bdef-9bf64109026e");
+        request.getRequestDetails().getRequestInfo()
+                .setInstanceName("Vfmodule_Ete_Name1eScaling63928f-ccdc-4b34-bdef-9bf64109026e");
         request.getRequestDetails().getRequestInfo().setSource("POLICY");
         request.getRequestDetails().getRequestInfo().setSuppressRollback(false);
 
-        SoRelatedInstanceListElement relatedInstanceListElement1 =
-                new SoRelatedInstanceListElement();
-        SoRelatedInstanceListElement relatedInstanceListElement2 =
-                new SoRelatedInstanceListElement();
+        SoRelatedInstanceListElement relatedInstanceListElement1 = new SoRelatedInstanceListElement();
+        SoRelatedInstanceListElement relatedInstanceListElement2 = new SoRelatedInstanceListElement();
         relatedInstanceListElement1.setRelatedInstance(new SoRelatedInstance());
         relatedInstanceListElement2.setRelatedInstance(new SoRelatedInstance());
 
@@ -158,10 +142,10 @@ public class DemoTest {
         relatedInstanceListElement1.getRelatedInstance().setInstanceId(serviceInstanceId);
         relatedInstanceListElement1.getRelatedInstance().setModelInfo(new SoModelInfo());
         relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelType("service");
-        relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelInvariantId(
-                "24329a0c-1d57-4210-b1af-a65df64e9d59");
-        relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelVersionId(
-                "ac642881-8e7e-4217-bd64-16ad41c42e30");
+        relatedInstanceListElement1.getRelatedInstance().getModelInfo()
+                .setModelInvariantId("24329a0c-1d57-4210-b1af-a65df64e9d59");
+        relatedInstanceListElement1.getRelatedInstance().getModelInfo()
+                .setModelVersionId("ac642881-8e7e-4217-bd64-16ad41c42e30");
         relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelName("5116d67e-0b4f-46bf-a46f");
         relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelVersion("2.0");
 
@@ -169,14 +153,14 @@ public class DemoTest {
         relatedInstanceListElement2.getRelatedInstance().setInstanceId(vnfInstanceId);
         relatedInstanceListElement2.getRelatedInstance().setModelInfo(new SoModelInfo());
         relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelType("vnf");
-        relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelInvariantId(
-                "09fd971e-db5f-475d-997c-cf6704b6b8fe");
-        relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelVersionId(
-                "152ed917-6dcc-46ee-bf8a-a775c5aa5a74");
+        relatedInstanceListElement2.getRelatedInstance().getModelInfo()
+                .setModelInvariantId("09fd971e-db5f-475d-997c-cf6704b6b8fe");
+        relatedInstanceListElement2.getRelatedInstance().getModelInfo()
+                .setModelVersionId("152ed917-6dcc-46ee-bf8a-a775c5aa5a74");
         relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelName("9e4c31d2-4b25-4d9e-9fb4");
         relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelVersion("2.0");
-        relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelCustomizationName(
-                "0d9e0d9d-3527-49f4-b3cb 2");
+        relatedInstanceListElement2.getRelatedInstance().getModelInfo()
+                .setModelCustomizationName("0d9e0d9d-3527-49f4-b3cb 2");
 
         request.getRequestDetails().getRelatedInstanceList().add(relatedInstanceListElement1);
         request.getRequestDetails().getRelatedInstanceList().add(relatedInstanceListElement2);
