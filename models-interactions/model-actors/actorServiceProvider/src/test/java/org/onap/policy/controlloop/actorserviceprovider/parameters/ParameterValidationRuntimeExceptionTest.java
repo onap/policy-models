@@ -29,7 +29,6 @@ import org.junit.Test;
 import org.onap.policy.common.parameters.ObjectValidationResult;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.common.parameters.ValidationStatus;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.ParameterValidationRuntimeException;
 
 public class ParameterValidationRuntimeExceptionTest {
 
@@ -68,7 +67,7 @@ public class ParameterValidationRuntimeExceptionTest {
     @Test
     public void testParameterValidationExceptionValidationResultStringThrowable() {
         ParameterValidationRuntimeException ex =
-                        new ParameterValidationRuntimeException(THE_MESSAGE, EXPECTED_EXCEPTION,  result);
+                new ParameterValidationRuntimeException(THE_MESSAGE, EXPECTED_EXCEPTION, result);
         assertSame(result, ex.getResult());
         assertEquals(THE_MESSAGE, ex.getMessage());
         assertEquals(EXPECTED_EXCEPTION, ex.getCause());
