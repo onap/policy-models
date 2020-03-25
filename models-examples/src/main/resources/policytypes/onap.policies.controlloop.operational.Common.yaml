@@ -50,6 +50,8 @@ data_types:
                     Map of values that identify the resource. If none are provided, it is assumed that the
                     entity that generated the ONSET event will be the target.
                 required: false
+                metadata:
+                    clamp_possible_values: ClampExecution:CSAR_RESOURCES
                 entry_schema:
                     type: string
 
@@ -61,20 +63,24 @@ data_types:
                 type: string
                 description: The actor performing the operation.
                 required: true
+                metadata:
+                    clamp_possible_values: Dictionary:DefaultActors,ClampExecution:CDS/actor
             operation:
                 type: string
                 description: The operation the actor is performing.
+                metadata:
+                    clamp_possible_values: Dictionary:DefaultOperations, ClampExecution:CDS/operations
                 required: true
             target:
                 type: onap.datatype.controlloop.Target
                 description: The resource the operation should be performed on.
                 required: true
-                metadata:
-                    clamp_possible_values: <string:see clamp project for syntax>
             payload:
                 type: map
                 description: Name/value pairs of payload information passed by Policy to the actor
                 required: false
+                metadata:
+                    clamp_possible_values: ClampExecution:CDS/payload
                 entry_schema:
                     type: string
 
@@ -94,8 +100,6 @@ data_types:
                 type: onap.datatype.controlloop.Actor
                 description: The definition of the operation to be performed.
                 required: true
-                metadata:
-                    clamp_possible_values: <string:see clamp project for syntax>
             timeout:
                 type: integer
                 description: The amount of time for the actor to perform the operation.
