@@ -38,8 +38,13 @@ public class Response implements Serializable {
     @SerializedName("CommonHeader")
     private CommonHeader commonHeader;
 
+    /**
+     * This should only be populated if the incoming message actually has a "Status"
+     * field. Otherwise, actor.appc will be unable to use this to distinguish between
+     * Request and Response objects.
+     */
     @SerializedName("Status")
-    private ResponseStatus status = new ResponseStatus();
+    private ResponseStatus status;
 
     @SerializedName("Payload")
     private Map<String, Object> payload = new HashMap<>();

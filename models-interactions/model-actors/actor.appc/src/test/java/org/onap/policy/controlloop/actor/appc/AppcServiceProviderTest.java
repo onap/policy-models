@@ -37,6 +37,7 @@ import org.junit.Test;
 import org.onap.policy.appc.Request;
 import org.onap.policy.appc.Response;
 import org.onap.policy.appc.ResponseCode;
+import org.onap.policy.appc.ResponseStatus;
 import org.onap.policy.appc.util.Serialization;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
@@ -194,6 +195,7 @@ public class AppcServiceProviderTest extends BasicActor {
         assertFalse(jsonRequest.contains(SUBVALUE + ".0"));
 
         Response appcResponse = new Response(appcRequest);
+        appcResponse.setStatus(new ResponseStatus());
         appcResponse.getStatus().setCode(ResponseCode.SUCCESS.getValue());
         appcResponse.getStatus().setDescription("AppC success");
         /* Print out request as json to make sure serialization works */
@@ -237,6 +239,7 @@ public class AppcServiceProviderTest extends BasicActor {
         assertTrue(jsonRequest.contains(GENERIC_VNF_ID));
 
         Response appcResponse = new Response(appcRequest);
+        appcResponse.setStatus(new ResponseStatus());
         appcResponse.getStatus().setCode(ResponseCode.SUCCESS.getValue());
         appcResponse.getStatus().setDescription("AppC success");
         /* Print out request as json to make sure serialization works */
