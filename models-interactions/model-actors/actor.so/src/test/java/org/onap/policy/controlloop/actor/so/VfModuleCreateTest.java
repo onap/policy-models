@@ -36,7 +36,9 @@ import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.apache.commons.lang3.tuple.Pair;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.onap.aai.domain.yang.CloudRegion;
@@ -45,6 +47,7 @@ import org.onap.aai.domain.yang.ModelVer;
 import org.onap.aai.domain.yang.ServiceInstance;
 import org.onap.aai.domain.yang.Tenant;
 import org.onap.policy.aai.AaiCqResponse;
+import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
@@ -63,11 +66,36 @@ public class VfModuleCreateTest extends BasicSoOperation {
         super(DEFAULT_ACTOR, VfModuleCreate.NAME);
     }
 
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
+        initBeforeClass();
+    }
+
+    @AfterClass
+    public static void tearDownAfterClass() {
+        destroyAfterClass();
+    }
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
         oper = new VfModuleCreate(params, config);
+    }
+
+    /**
+     * Tests "success" case with simulator.
+     */
+    @Test
+    public void testSuccess() throws Exception {
+        SoParams opParams = SoParams.builder().clientName(MY_CLIENT).path("serviceInstantiation/v7/serviceInstances")
+                        .pathGet("orchestrationRequests/v5/").build();
+        config = new SoConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
+
+        params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).build();
+        oper = new VfModuleCreate(params, config);
+
+        outcome = oper.start().get();
+        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
     }
 
     @Test

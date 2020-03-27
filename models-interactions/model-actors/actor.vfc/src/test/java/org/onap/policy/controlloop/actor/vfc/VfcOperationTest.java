@@ -44,8 +44,8 @@ public class VfcOperationTest extends BasicVfcOperation {
     /**
      * setUp.
      */
-    @Override
     @Before
+    @Override
     public void setUp() throws Exception {
         super.setUp();
 
@@ -84,7 +84,7 @@ public class VfcOperationTest extends BasicVfcOperation {
         response.setJobId("sampleJobId");
         CompletableFuture<OperationOutcome> future2 = oper.postProcessResponse(outcome, PATH, rawResponse, response);
         assertFalse(future2.isDone());
-        //assertSame(outcome, future2.get()); TODO Hanging
+        // assertSame(outcome, future2.get()); TODO Hanging
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
 
         response.getResponseDescriptor().setStatus("FinisHeD");
@@ -100,11 +100,12 @@ public class VfcOperationTest extends BasicVfcOperation {
         assertEquals(PolicyResult.FAILURE, outcome.getResult());
 
         // failed
-        /*response.getResponseDescriptor().setStatus("anything but finished");
-        future2 = oper.postProcessResponse(outcome, PATH, rawResponse, response);
-        assertTrue(future2.isDone());
-        assertSame(outcome, future2.get());
-        assertEquals(PolicyResult.FAILURE, outcome.getResult());*/
+        /*
+         * response.getResponseDescriptor().setStatus("anything but finished"); future2 =
+         * oper.postProcessResponse(outcome, PATH, rawResponse, response);
+         * assertTrue(future2.isDone()); assertSame(outcome, future2.get());
+         * assertEquals(PolicyResult.FAILURE, outcome.getResult());
+         */
     }
 
     @Test
@@ -115,7 +116,9 @@ public class VfcOperationTest extends BasicVfcOperation {
 
         VfcResponseDescriptor mockDescriptor = Mockito.mock(VfcResponseDescriptor.class);
         Mockito.when(mockResponse.getResponseDescriptor()).thenReturn(mockDescriptor);
-        Mockito.when(mockDescriptor.getStatus()).thenReturn("COMPLETE"); // TODO use actual request state value
+
+        // TODO use actual request state value
+        Mockito.when(mockDescriptor.getStatus()).thenReturn("COMPLETE");
         assertNotNull(oper.getRequestState(mockResponse));
     }
 

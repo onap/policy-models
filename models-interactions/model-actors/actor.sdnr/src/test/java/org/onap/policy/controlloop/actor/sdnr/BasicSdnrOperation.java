@@ -31,6 +31,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 import java.util.function.BiConsumer;
+import org.onap.policy.common.endpoints.event.comm.TopicSink;
+import org.onap.policy.common.endpoints.event.comm.TopicSource;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.actor.test.BasicBidirectionalTopicOperation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
@@ -43,6 +45,8 @@ import org.onap.policy.sdnr.PciMessage;
 import org.onap.policy.sdnr.PciResponse;
 import org.onap.policy.sdnr.Status;
 import org.onap.policy.sdnr.util.StatusCodeEnum;
+import org.onap.policy.simulators.SdnrTopicServer;
+import org.onap.policy.simulators.TopicServer;
 import org.powermock.reflect.Whitebox;
 
 public abstract class BasicSdnrOperation extends BasicBidirectionalTopicOperation {
@@ -84,6 +88,15 @@ public abstract class BasicSdnrOperation extends BasicBidirectionalTopicOperatio
         output.setStatus(status);
         status.setCode(100);
         status.setValue(StatusCodeEnum.SUCCESS.toString());
+    }
+
+    public void tearDown() {
+        super.tearDownBasic();
+    }
+
+    @SuppressWarnings("rawtypes")
+    protected TopicServer makeServer(TopicSink sink, TopicSource source) {
+        return new SdnrTopicServer(sink, source);
     }
 
     /**

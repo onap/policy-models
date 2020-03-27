@@ -33,6 +33,9 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
+import org.onap.policy.common.endpoints.event.comm.bus.internal.BusTopicParams;
+import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
+import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.controlloop.actor.test.BasicHttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
@@ -42,6 +45,7 @@ import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.sdnc.SdncRequest;
 import org.onap.policy.sdnc.SdncResponse;
 import org.onap.policy.sdnc.SdncResponseOutput;
+import org.onap.policy.simulators.Util;
 import org.powermock.reflect.Whitebox;
 
 /**
@@ -70,6 +74,22 @@ public abstract class BasicSdncOperation extends BasicHttpOperation<SdncRequest>
      */
     public BasicSdncOperation(String actor, String operation) {
         super(actor, operation);
+    }
+
+    /**
+     * Starts the simulator.
+     */
+    protected static void initBeforeClass() throws Exception {
+        Util.buildSdncSim();
+
+        BusTopicParams clientParams = BusTopicParams.builder().clientName(MY_CLIENT).basePath("restconf/operations/")
+                        .hostname("localhost").managed(true).port(Util.SDNCSIM_SERVER_PORT).build();
+        HttpClientFactoryInstance.getClientFactory().build(clientParams);
+    }
+
+    protected static void destroyAfterClass() {
+        HttpClientFactoryInstance.getClientFactory().destroy();
+        HttpServletServerFactoryInstance.getServerFactory().destroy();
     }
 
     /**
