@@ -37,13 +37,18 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.tuple.Pair;
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.appclcm.AppcLcmBody;
 import org.onap.policy.appclcm.AppcLcmCommonHeader;
 import org.onap.policy.appclcm.AppcLcmDmaapWrapper;
 import org.onap.policy.appclcm.AppcLcmOutput;
 import org.onap.policy.appclcm.AppcLcmResponseStatus;
+import org.onap.policy.common.endpoints.event.comm.TopicSink;
+import org.onap.policy.common.endpoints.event.comm.TopicSource;
 import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
@@ -52,8 +57,12 @@ import org.onap.policy.controlloop.actor.test.BasicBidirectionalTopicOperation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicOperation.Status;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicParams;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.controlloop.policy.Target;
+import org.onap.policy.simulators.AppcLcmTopicServer;
+import org.onap.policy.simulators.TopicServer;
 
 public class AppcLcmOperationTest extends BasicBidirectionalTopicOperation {
 
@@ -68,6 +77,16 @@ public class AppcLcmOperationTest extends BasicBidirectionalTopicOperation {
     private AppcLcmDmaapWrapper response;
     private AppcLcmOperation oper;
 
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
+        BasicBidirectionalTopicOperation.initBeforeClass(MY_SINK, MY_SOURCE);
+    }
+
+    @AfterClass
+    public static void tearDownAfterClass() {
+        destroyAfterClass();
+    }
+
     /**
      * Sets up.
      */
@@ -78,6 +97,38 @@ public class AppcLcmOperationTest extends BasicBidirectionalTopicOperation {
         response = makeResponse();
 
         oper = new AppcLcmOperation(params, config);
+    }
+
+    @After
+    public void tearDown() {
+        super.tearDownBasic();
+    }
+
+    @SuppressWarnings("rawtypes")
+    protected TopicServer makeServer(TopicSink sink, TopicSource source) {
+        return new AppcLcmTopicServer(sink, source);
+    }
+
+    /**
+     * Tests "success" case with simulator.
+     */
+    @Test
+    public void testSuccess() throws Exception {
+        BidirectionalTopicParams opParams =
+                        BidirectionalTopicParams.builder().sinkTopic(MY_SINK).sourceTopic(MY_SOURCE).build();
+        config = new BidirectionalTopicConfig(blockingExecutor, opParams, topicMgr, AppcLcmOperation.SELECTOR_KEYS);
+
+        params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).build();
+
+        oper = new AppcLcmOperation(params, config) {
+            @Override
+            protected CompletableFuture<OperationOutcome> startGuardAsync() {
+                return null;
+            }
+        };
+
+        outcome = oper.start().get();
+        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
     }
 
     @Test

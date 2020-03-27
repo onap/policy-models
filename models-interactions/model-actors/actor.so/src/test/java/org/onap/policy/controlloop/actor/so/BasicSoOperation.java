@@ -30,6 +30,9 @@ import java.util.List;
 import java.util.Map;
 import org.mockito.Mock;
 import org.onap.policy.aai.AaiCqResponse;
+import org.onap.policy.common.endpoints.event.comm.bus.internal.BusTopicParams;
+import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
+import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.controlloop.actor.test.BasicHttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.policy.Target;
@@ -78,6 +81,23 @@ public abstract class BasicSoOperation extends BasicHttpOperation<SoRequest> {
      */
     public BasicSoOperation(String actor, String operation) {
         super(actor, operation);
+    }
+
+    /**
+     * Starts the simulator.
+     */
+    protected static void initBeforeClass() throws Exception {
+        org.onap.policy.simulators.Util.buildSoSim();
+
+        BusTopicParams clientParams =
+                        BusTopicParams.builder().clientName(MY_CLIENT).basePath("").hostname("localhost")
+                                        .managed(true).port(org.onap.policy.simulators.Util.SOSIM_SERVER_PORT).build();
+        HttpClientFactoryInstance.getClientFactory().build(clientParams);
+    }
+
+    protected static void destroyAfterClass() {
+        HttpClientFactoryInstance.getClientFactory().destroy();
+        HttpServletServerFactoryInstance.getServerFactory().destroy();
     }
 
     /**

@@ -30,6 +30,7 @@ import org.onap.policy.common.utils.resources.ResourceUtils;
  * APPC-LCM topic server.
  */
 public class AppcLcmTopicServer extends TopicServer<AppcLcmDmaapWrapper> {
+
     public AppcLcmTopicServer(TopicSink sink, TopicSource source) {
         super(sink, source, new StandardCoder(), AppcLcmDmaapWrapper.class);
     }

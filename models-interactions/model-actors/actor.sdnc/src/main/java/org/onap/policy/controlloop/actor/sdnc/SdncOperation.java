@@ -68,7 +68,7 @@ public abstract class SdncOperation extends HttpOperation<SdncResponse> {
         Map<String, Object> headers = makeHeaders();
 
         headers.put("Accept", MediaType.APPLICATION_JSON);
-        String path = getPath() + request.getUrl();
+        String path = getPath();
         String url = getClient().getBaseUrl() + path;
 
         logMessage(EventType.OUT, CommInfrastructure.REST, url, request);

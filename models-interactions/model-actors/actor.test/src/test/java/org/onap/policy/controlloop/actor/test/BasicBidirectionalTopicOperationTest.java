@@ -28,12 +28,18 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
 import java.util.function.BiConsumer;
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.onap.policy.common.endpoints.event.comm.TopicSink;
+import org.onap.policy.common.endpoints.event.comm.TopicSource;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
+import org.onap.policy.simulators.TopicServer;
 
 public class BasicBidirectionalTopicOperationTest {
     private static final String ACTOR = "my-actor";
@@ -44,6 +50,16 @@ public class BasicBidirectionalTopicOperationTest {
 
     private BasicBidirectionalTopicOperation oper;
 
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
+        BasicBidirectionalTopicOperation.initBeforeClass(BasicBidirectionalTopicOperation.MY_SINK,
+                        BasicBidirectionalTopicOperation.MY_SOURCE);
+    }
+
+    @AfterClass
+    public static void tearDownAfterClass() {
+        BasicBidirectionalTopicOperation.destroyAfterClass();
+    }
 
     /**
      * Sets up.
@@ -52,13 +68,28 @@ public class BasicBidirectionalTopicOperationTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        oper = new BasicBidirectionalTopicOperation(ACTOR, OPERATION);
+        oper = new MyOperation(ACTOR, OPERATION);
         oper.setUpBasic();
+    }
+
+    @After
+    public void tearDown() {
+        oper.tearDownBasic();
+    }
+
+    @Test
+    public void testTopicMgr() {
+        assertNotNull(BasicBidirectionalTopicOperation.topicMgr.getTopicHandler(
+                        BasicBidirectionalTopicOperation.MY_SINK, BasicBidirectionalTopicOperation.MY_SOURCE));
     }
 
     @Test
     public void testBasicBidirectionalTopicOperation() {
-        oper = new BasicBidirectionalTopicOperation();
+        oper.tearDownBasic();
+
+        oper = new MyOperation();
+        oper.setUpBasic();
+
         assertEquals(BasicOperation.DEFAULT_ACTOR, oper.actorName);
         assertEquals(BasicOperation.DEFAULT_OPERATION, oper.operationName);
     }
@@ -100,5 +131,32 @@ public class BasicBidirectionalTopicOperationTest {
         // try with an invalid response
         assertThatIllegalArgumentException().isThrownBy(() -> oper.provideResponse(listener, "{invalid json"))
                         .withMessage("response is not a Map");
+    }
+
+    private static class MyOperation extends BasicBidirectionalTopicOperation {
+        public MyOperation() {
+            super();
+        }
+
+        /**
+         * Constructs the object.
+         *
+         * @param actor actor name
+         * @param operation operation name
+         */
+        public MyOperation(String actor, String operation) {
+            super(actor, operation);
+        }
+
+        @Override
+        @SuppressWarnings("rawtypes")
+        protected TopicServer makeServer(TopicSink sink, TopicSource source) {
+            return new TopicServer<String>(sink, source, null, String.class) {
+                @Override
+                protected String process(String request) {
+                    return null;
+                }
+            };
+        }
     }
 }

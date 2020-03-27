@@ -32,7 +32,6 @@ import org.onap.policy.common.parameters.annotations.NotNull;
  * Parameters used by Operators that connect to a server via HTTP.
  */
 @NotNull
-@NotBlank
 @Data
 @SuperBuilder(toBuilder = true)
 public class HttpParams {
@@ -40,6 +39,7 @@ public class HttpParams {
     /**
      * Name of the HttpClient, as found in the HttpClientFactory.
      */
+    @NotBlank
     private String clientName;
 
     /**

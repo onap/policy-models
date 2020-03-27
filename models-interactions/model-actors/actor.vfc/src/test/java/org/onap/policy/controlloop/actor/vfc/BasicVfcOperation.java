@@ -23,7 +23,11 @@ package org.onap.policy.controlloop.actor.vfc;
 import static org.mockito.Mockito.when;
 
 import org.mockito.Mock;
+import org.onap.policy.common.endpoints.event.comm.bus.internal.BusTopicParams;
+import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
+import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.controlloop.actor.test.BasicHttpOperation;
+import org.onap.policy.simulators.Util;
 import org.onap.policy.vfc.VfcRequest;
 import org.onap.policy.vfc.VfcResponse;
 
@@ -52,6 +56,22 @@ public abstract class BasicVfcOperation extends BasicHttpOperation<VfcRequest> {
      */
     public BasicVfcOperation(String actor, String operation) {
         super(actor, operation);
+    }
+
+    /**
+     * Starts the simulator.
+     */
+    protected static void initBeforeClass() throws Exception {
+        Util.buildVfcSim();
+
+        BusTopicParams clientParams = BusTopicParams.builder().clientName(MY_CLIENT).basePath("api/nslcm/v1/")
+                        .hostname("localhost").managed(true).port(Util.VFCSIM_SERVER_PORT).build();
+        HttpClientFactoryInstance.getClientFactory().build(clientParams);
+    }
+
+    protected static void destroyAfterClass() {
+        HttpClientFactoryInstance.getClientFactory().destroy();
+        HttpServletServerFactoryInstance.getServerFactory().destroy();
     }
 
     /**

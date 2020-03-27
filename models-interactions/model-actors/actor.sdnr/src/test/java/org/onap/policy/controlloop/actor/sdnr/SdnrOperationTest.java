@@ -27,8 +27,12 @@ import static org.junit.Assert.assertSame;
 
 import java.util.Arrays;
 import org.apache.commons.lang3.tuple.Pair;
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.onap.policy.controlloop.actor.test.BasicBidirectionalTopicOperation;
 import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicOperation.Status;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.sdnr.PciCommonHeader;
@@ -39,14 +43,31 @@ public class SdnrOperationTest extends BasicSdnrOperation {
 
     private SdnrOperation operation;
 
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
+        BasicBidirectionalTopicOperation.initBeforeClass(MY_SINK, MY_SOURCE);
+    }
+
+    @AfterClass
+    public static void tearDownAfterClass() {
+        destroyAfterClass();
+    }
+
     /**
      * Setup.
      */
     @Before
+    @Override
     public void setUp() throws Exception {
         super.setUp();
 
         operation = new SdnrOperation(params, config) {};
+    }
+
+    @After
+    @Override
+    public void tearDown() {
+        super.tearDown();
     }
 
     @Test

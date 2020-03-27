@@ -35,8 +35,6 @@ import org.onap.policy.sdnc.SdncRequest;
 public class RerouteOperation extends SdncOperation {
     public static final String NAME = "Reroute";
 
-    public static final String URI = "/GENERIC-RESOURCE-API:network-topology-operation";
-
     // fields in the enrichment data
     public static final String SERVICE_ID_KEY = "service-instance.service-instance-id";
     public static final String NETWORK_ID_KEY = "network-information.network-id";
@@ -79,7 +77,7 @@ public class RerouteOperation extends SdncOperation {
         SdncRequest request = new SdncRequest();
         request.setNsInstanceId(serviceInstance);
         request.setRequestId(context.getRequestId());
-        request.setUrl(URI);
+        request.setUrl("/" + getPath());
 
         SdncHealRequest healRequest = new SdncHealRequest();
         healRequest.setRequestHeaderInfo(headerInfo);

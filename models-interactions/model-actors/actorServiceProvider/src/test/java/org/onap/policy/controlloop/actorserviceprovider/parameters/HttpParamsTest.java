@@ -54,6 +54,10 @@ public class HttpParamsTest {
         testValidateField("timeoutSec", "minimum", bldr -> bldr.timeoutSec(-1));
 
         // check edge cases
+        assertFalse(params.toBuilder().clientName("").build().validate(CONTAINER).isValid());
+
+        assertTrue(params.toBuilder().path("").build().validate(CONTAINER).isValid());
+
         assertFalse(params.toBuilder().timeoutSec(0).build().validate(CONTAINER).isValid());
         assertTrue(params.toBuilder().timeoutSec(1).build().validate(CONTAINER).isValid());
     }

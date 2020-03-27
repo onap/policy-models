@@ -48,7 +48,9 @@ import javax.ws.rs.client.InvocationCallback;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.apache.commons.lang3.tuple.Pair;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
@@ -58,6 +60,7 @@ import org.onap.aai.domain.yang.ModelVer;
 import org.onap.aai.domain.yang.ServiceInstance;
 import org.onap.aai.domain.yang.Tenant;
 import org.onap.policy.aai.AaiCqResponse;
+import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
@@ -89,6 +92,15 @@ public class VfModuleDeleteTest extends BasicSoOperation {
         super(DEFAULT_ACTOR, VfModuleDelete.NAME);
     }
 
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
+        initBeforeClass();
+    }
+
+    @AfterClass
+    public static void tearDownAfterClass() {
+        destroyAfterClass();
+    }
 
     /**
      * Sets up.
@@ -102,6 +114,22 @@ public class VfModuleDeleteTest extends BasicSoOperation {
         configureResponse(coder.encode(response));
 
         oper = new MyOperation(params, config);
+    }
+
+    /**
+     * Tests "success" case with simulator.
+     */
+    @Test
+    public void testSuccess() throws Exception {
+        SoParams opParams = SoParams.builder().clientName(MY_CLIENT).path("serviceInstances/v7")
+                        .pathGet("orchestrationRequests/v5/").build();
+        config = new SoConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
+
+        params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).build();
+        oper = new VfModuleDelete(params, config);
+
+        outcome = oper.start().get();
+        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
     }
 
     @Test

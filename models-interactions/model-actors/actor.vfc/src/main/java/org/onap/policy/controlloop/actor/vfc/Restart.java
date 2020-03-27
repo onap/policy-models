@@ -20,6 +20,7 @@
 
 package org.onap.policy.controlloop.actor.vfc;
 
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
@@ -47,7 +48,10 @@ public class Restart extends VfcOperation {
         String path = getPath() + pair.getLeft();
         String url = getClient().getBaseUrl() + path;
 
-        return handleResponse(outcome, url, callback -> getClient().post(callback, path, entity, null));
+        Map<String, Object> headers = makeHeaders();
+        headers.put("Accept", MediaType.APPLICATION_JSON);
+
+        return handleResponse(outcome, url, callback -> getClient().post(callback, path, entity, headers));
     }
 
     /**
@@ -58,7 +62,7 @@ public class Restart extends VfcOperation {
     protected Pair<String, VfcRequest> makeRequest() {
 
         VfcRequest request = super.constructVfcRequest();
-        String requestUrl = "/ns/" + request.getNsInstanceId() + "/heal";
+        String requestUrl = "/" + request.getNsInstanceId() + "/heal";
         return Pair.of(requestUrl, request);
     }
 }
