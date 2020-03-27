@@ -39,8 +39,6 @@ import org.onap.policy.sdnc.SdncRequest;
 public class BandwidthOnDemandOperation extends SdncOperation {
     public static final String NAME = "BandwidthOnDemand";
 
-    public static final String URI = "/GENERIC-RESOURCE-API:vf-module-topology-operation";
-
     // fields in the enrichment data
     public static final String SERVICE_ID_KEY = "service-instance.service-instance-id";
     public static final String VNF_ID = "vnfId";
@@ -92,7 +90,7 @@ public class BandwidthOnDemandOperation extends SdncOperation {
         SdncRequest request = new SdncRequest();
         request.setNsInstanceId(serviceInstance);
         request.setRequestId(context.getRequestId());
-        request.setUrl(URI);
+        request.setUrl("/" + getPath());
 
         SdncHealVnfInfo vnfInfo = new SdncHealVnfInfo();
         vnfInfo.setVnfId(context.getEnrichment().get(VNF_ID));

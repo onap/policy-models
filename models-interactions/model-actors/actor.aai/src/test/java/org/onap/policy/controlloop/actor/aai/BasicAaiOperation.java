@@ -23,7 +23,11 @@ package org.onap.policy.controlloop.actor.aai;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Map;
+import org.onap.policy.common.endpoints.event.comm.bus.internal.BusTopicParams;
+import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
+import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.controlloop.actor.test.BasicHttpOperation;
+import org.onap.policy.simulators.Util;
 
 /**
  * Superclass for various operator tests.
@@ -45,6 +49,22 @@ public abstract class BasicAaiOperation<Q> extends BasicHttpOperation<Q> {
      */
     public BasicAaiOperation(String actor, String operation) {
         super(actor, operation);
+    }
+
+    /**
+     * Starts the simulator.
+     */
+    protected static void initBeforeClass() throws Exception {
+        Util.buildAaiSim();
+
+        BusTopicParams clientParams = BusTopicParams.builder().clientName(MY_CLIENT).basePath("aai/")
+                        .hostname("localhost").managed(true).port(Util.AAISIM_SERVER_PORT).build();
+        HttpClientFactoryInstance.getClientFactory().build(clientParams);
+    }
+
+    protected static void destroyAfterClass() {
+        HttpClientFactoryInstance.getClientFactory().destroy();
+        HttpServletServerFactoryInstance.getServerFactory().destroy();
     }
 
     protected void verifyHeaders(Map<String, Object> headers) {

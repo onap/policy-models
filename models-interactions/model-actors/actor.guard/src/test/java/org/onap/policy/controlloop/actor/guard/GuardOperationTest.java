@@ -35,9 +35,14 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.onap.policy.common.endpoints.event.comm.bus.internal.BusTopicParams;
+import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
+import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.controlloop.actor.test.BasicHttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
@@ -45,6 +50,7 @@ import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.models.decisions.concepts.DecisionRequest;
 import org.onap.policy.models.decisions.concepts.DecisionResponse;
+import org.onap.policy.simulators.GuardSimulatorJaxRs;
 
 public class GuardOperationTest extends BasicHttpOperation<DecisionRequest> {
 
@@ -55,6 +61,25 @@ public class GuardOperationTest extends BasicHttpOperation<DecisionRequest> {
 
     private GuardConfig guardConfig;
     private GuardOperation oper;
+
+    /**
+     * Starts the simulator.
+     */
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
+        org.onap.policy.simulators.Util.buildGuardSim();
+
+        BusTopicParams clientParams = BusTopicParams.builder().clientName(MY_CLIENT).basePath("policy/pdpx/v1/")
+                        .hostname("localhost").managed(true).port(org.onap.policy.simulators.Util.GUARDSIM_SERVER_PORT)
+                        .build();
+        HttpClientFactoryInstance.getClientFactory().build(clientParams);
+    }
+
+    @AfterClass
+    public static void tearDownAfterClass() {
+        HttpClientFactoryInstance.getClientFactory().destroy();
+        HttpServletServerFactoryInstance.getServerFactory().destroy();
+    }
 
     /**
      * Sets up.
@@ -79,6 +104,37 @@ public class GuardOperationTest extends BasicHttpOperation<DecisionRequest> {
         params = params.toBuilder().startCallback(started).completeCallback(completed).build();
 
         oper = new GuardOperation(params, config);
+    }
+
+    /**
+     * Tests "success" case with simulator.
+     */
+    @Test
+    public void testSuccess() throws Exception {
+        GuardParams opParams = GuardParams.builder().clientName(MY_CLIENT).path("decision").build();
+        config = new GuardConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
+
+        params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).build();
+        oper = new GuardOperation(params, config);
+
+        outcome = oper.start().get();
+        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+    }
+
+    /**
+     * Tests "failure" case with simulator.
+     */
+    @Test
+    public void testFailure() throws Exception {
+        GuardParams opParams = GuardParams.builder().clientName(MY_CLIENT).path("decision").build();
+        config = new GuardConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
+
+        params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor)
+                        .payload(Map.of("clname", GuardSimulatorJaxRs.DENY_CLNAME)).build();
+        oper = new GuardOperation(params, config);
+
+        outcome = oper.start().get();
+        assertEquals(PolicyResult.FAILURE, outcome.getResult());
     }
 
     @Test

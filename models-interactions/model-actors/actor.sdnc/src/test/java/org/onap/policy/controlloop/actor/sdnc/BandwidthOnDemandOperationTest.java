@@ -24,8 +24,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.Map;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
+import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.sdnc.SdncRequest;
 
 public class BandwidthOnDemandOperationTest extends BasicSdncOperation {
@@ -34,6 +40,16 @@ public class BandwidthOnDemandOperationTest extends BasicSdncOperation {
 
     public BandwidthOnDemandOperationTest() {
         super(DEFAULT_ACTOR, BandwidthOnDemandOperation.NAME);
+    }
+
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
+        initBeforeClass();
+    }
+
+    @AfterClass
+    public static void tearDownAfterClass() {
+        destroyAfterClass();
     }
 
     /**
@@ -46,9 +62,25 @@ public class BandwidthOnDemandOperationTest extends BasicSdncOperation {
     }
 
     @Test
-    public void testBandwidthOnDemandOperator() {
+    public void testConstructor() {
         assertEquals(DEFAULT_ACTOR, oper.getActorName());
         assertEquals(BandwidthOnDemandOperation.NAME, oper.getName());
+    }
+
+    /**
+     * Tests "success" case with simulator.
+     */
+    @Test
+    public void testSuccess() throws Exception {
+        HttpParams opParams = HttpParams.builder().clientName(MY_CLIENT)
+                        .path("GENERIC-RESOURCE-API:vf-module-topology-operation").build();
+        config = new HttpConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
+
+        params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).build();
+        oper = new BandwidthOnDemandOperation(params, config);
+
+        outcome = oper.start().get();
+        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
     }
 
     @Test
@@ -56,7 +88,7 @@ public class BandwidthOnDemandOperationTest extends BasicSdncOperation {
         SdncRequest request = oper.makeRequest(1);
         assertEquals("my-service", request.getNsInstanceId());
         assertEquals(REQ_ID, request.getRequestId());
-        assertEquals(BandwidthOnDemandOperation.URI, request.getUrl());
+        assertEquals("/my-path/", request.getUrl());
         assertNotNull(request.getHealRequest().getRequestHeaderInfo().getSvcRequestId());
 
         verifyRequest("bod.json", request, IGNORE_FIELDS);

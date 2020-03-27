@@ -30,6 +30,7 @@ import org.onap.policy.sdnr.PciMessage;
  * SDNR topic server.
  */
 public class SdnrTopicServer extends TopicServer<PciMessage> {
+
     public SdnrTopicServer(TopicSink sink, TopicSource source) {
         super(sink, source, new StandardCoder(), PciMessage.class);
     }
