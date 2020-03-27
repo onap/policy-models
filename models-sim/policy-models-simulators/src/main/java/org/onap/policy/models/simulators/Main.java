@@ -127,11 +127,11 @@ public class Main extends ServiceManagerContainer {
     }
 
     /**
-     * The main method.
+     * The main method. The arguments are validated, thus adding the NOSONAR.
      *
      * @param args the arguments, the first of which is the name of the parameter file
      */
-    public static void main(final String[] args) {
+    public static void main(final String[] args) { // NOSONAR
         try {
             if (args.length != 1) {
                 throw new IllegalArgumentException("arg(s): parameter-file-name");

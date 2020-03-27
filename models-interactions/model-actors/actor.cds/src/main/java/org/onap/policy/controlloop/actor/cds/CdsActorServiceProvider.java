@@ -231,7 +231,7 @@ public class CdsActorServiceProvider extends ActorImpl {
         public void onError(final Throwable throwable) {
             Status status = Status.fromThrowable(throwable);
             cdsStatus.compareAndSet(null, CdsActorConstants.ERROR);
-            LOGGER.error("Failed processing blueprint {} {}", status, throwable);
+            LOGGER.error("Failed processing blueprint {}", status, throwable);
         }
 
         /**

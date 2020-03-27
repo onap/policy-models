@@ -253,7 +253,7 @@ public final class AaiManager {
             urlGet = url + PNF_URL;
             pnfName = URLEncoder.encode(pnfName, StandardCharsets.UTF_8.toString()) + AAI_DEPTH_SUFFIX;
         } catch (UnsupportedEncodingException e) {
-            logger.error("Failed to encode the pnfName: {} using UTF-8 encoding. {}", pnfName, e);
+            logger.error("Failed to encode the pnfName: {} using UTF-8", pnfName, e);
             return null;
         }
         String responseGet = getStringQuery(urlGet, username, password, requestId, pnfName);
