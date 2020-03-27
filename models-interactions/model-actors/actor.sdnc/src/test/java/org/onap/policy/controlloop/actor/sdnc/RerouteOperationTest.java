@@ -24,8 +24,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.Map;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
+import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.sdnc.SdncRequest;
 
 public class RerouteOperationTest extends BasicSdncOperation {
@@ -34,6 +40,16 @@ public class RerouteOperationTest extends BasicSdncOperation {
 
     public RerouteOperationTest() {
         super(DEFAULT_ACTOR, RerouteOperation.NAME);
+    }
+
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
+        initBeforeClass();
+    }
+
+    @AfterClass
+    public static void tearDownAfterClass() {
+        destroyAfterClass();
     }
 
     /**
@@ -45,8 +61,24 @@ public class RerouteOperationTest extends BasicSdncOperation {
         oper = new RerouteOperation(params, config);
     }
 
+    /**
+     * Tests "success" case with simulator.
+     */
     @Test
-    public void testRerouteOperator() {
+    public void testSuccess() throws Exception {
+        HttpParams opParams = HttpParams.builder().clientName(MY_CLIENT)
+                        .path("GENERIC-RESOURCE-API:network-topology-operation").build();
+        config = new HttpConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
+
+        params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).build();
+        oper = new RerouteOperation(params, config);
+
+        outcome = oper.start().get();
+        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+    }
+
+    @Test
+    public void testConstructor() {
         assertEquals(DEFAULT_ACTOR, oper.getActorName());
         assertEquals(RerouteOperation.NAME, oper.getName());
     }
@@ -56,7 +88,7 @@ public class RerouteOperationTest extends BasicSdncOperation {
         SdncRequest request = oper.makeRequest(1);
         assertEquals("my-service", request.getNsInstanceId());
         assertEquals(REQ_ID, request.getRequestId());
-        assertEquals(RerouteOperation.URI, request.getUrl());
+        assertEquals("/my-path/", request.getUrl());
         assertNotNull(request.getHealRequest().getRequestHeaderInfo().getSvcRequestId());
 
         verifyRequest("reroute.json", request, IGNORE_FIELDS);

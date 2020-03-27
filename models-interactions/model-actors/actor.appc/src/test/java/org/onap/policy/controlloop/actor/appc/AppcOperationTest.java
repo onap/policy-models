@@ -30,7 +30,10 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.TreeMap;
 import org.apache.commons.lang3.tuple.Pair;
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.appc.CommonHeader;
 import org.onap.policy.appc.Request;
@@ -42,10 +45,22 @@ import org.onap.policy.controlloop.policy.PolicyResult;
 public class AppcOperationTest extends BasicAppcOperation {
     private AppcOperation oper;
 
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
+        // use same topic name for both sides
+        initBeforeClass(MY_SINK, MY_SINK);
+    }
+
+    @AfterClass
+    public static void tearDownAfterClass() {
+        destroyAfterClass();
+    }
+
     /**
      * Sets up.
      */
     @Before
+    @Override
     public void setUp() throws Exception {
         super.setUp();
 
@@ -57,8 +72,14 @@ public class AppcOperationTest extends BasicAppcOperation {
         };
     }
 
+    @After
+    @Override
+    public void tearDown() {
+        super.tearDown();
+    }
+
     @Test
-    public void testAppcOperation() {
+    public void testConstructor() {
         assertEquals(DEFAULT_ACTOR, oper.getActorName());
         assertEquals(DEFAULT_OPERATION, oper.getName());
     }

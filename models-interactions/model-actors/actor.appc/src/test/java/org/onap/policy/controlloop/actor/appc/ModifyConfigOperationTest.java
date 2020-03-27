@@ -35,7 +35,10 @@ import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.apache.commons.lang3.tuple.Pair;
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.policy.aai.AaiCqResponse;
@@ -43,6 +46,8 @@ import org.onap.policy.appc.Request;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicParams;
 import org.onap.policy.controlloop.policy.PolicyResult;
 
 public class ModifyConfigOperationTest extends BasicAppcOperation {
@@ -53,14 +58,61 @@ public class ModifyConfigOperationTest extends BasicAppcOperation {
         super(DEFAULT_ACTOR, ModifyConfigOperation.NAME);
     }
 
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
+        // use same topic name for both sides
+        initBeforeClass(MY_SINK, MY_SINK);
+    }
+
+    @AfterClass
+    public static void tearDownAfterClass() {
+        destroyAfterClass();
+    }
+
     @Before
+    @Override
     public void setUp() throws Exception {
         super.setUp();
         oper = new ModifyConfigOperation(params, config);
     }
 
+    @After
+    @Override
+    public void tearDown() {
+        super.tearDown();
+    }
+
+    /**
+     * Tests "success" case with simulator.
+     */
     @Test
-    public void testModifyConfigOperation() {
+    public void testSuccess() throws Exception {
+        BidirectionalTopicParams opParams =
+                        BidirectionalTopicParams.builder().sinkTopic(MY_SINK).sourceTopic(MY_SINK).build();
+        config = new BidirectionalTopicConfig(blockingExecutor, opParams, topicMgr, AppcOperation.SELECTOR_KEYS);
+
+        AaiCqResponse cq = mock(AaiCqResponse.class);
+        GenericVnf genvnf = mock(GenericVnf.class);
+        when(genvnf.getVnfId()).thenReturn(MY_VNF);
+        when(cq.getGenericVnfByModelInvariantId(any())).thenReturn(genvnf);
+
+        params.getContext().setProperty(AaiCqResponse.CONTEXT_KEY, cq);
+
+        params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).build();
+
+        oper = new ModifyConfigOperation(params, config) {
+            @Override
+            protected CompletableFuture<OperationOutcome> startGuardAsync() {
+                return null;
+            }
+        };
+
+        outcome = oper.start().get();
+        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+    }
+
+    @Test
+    public void testConstructor() {
         assertEquals(DEFAULT_ACTOR, oper.getActorName());
         assertEquals(ModifyConfigOperation.NAME, oper.getName());
     }

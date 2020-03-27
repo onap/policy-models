@@ -31,16 +31,20 @@ import static org.mockito.Mockito.when;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import javax.ws.rs.client.InvocationCallback;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.aai.AaiConstants;
+import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
 import org.onap.policy.controlloop.policy.PolicyResult;
 
 public class AaiGetOperationTest extends BasicAaiOperation<Void> {
-
     private static final String INPUT_FIELD = "input";
     private static final String TEXT = "my-text";
 
@@ -50,6 +54,16 @@ public class AaiGetOperationTest extends BasicAaiOperation<Void> {
         super(AaiConstants.ACTOR_NAME, AaiGetOperation.TENANT);
     }
 
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
+        initBeforeClass();
+    }
+
+    @AfterClass
+    public static void tearDownAfterClass() {
+        destroyAfterClass();
+    }
+
     /**
      * Sets up.
      */
@@ -57,6 +71,37 @@ public class AaiGetOperationTest extends BasicAaiOperation<Void> {
     public void setUp() throws Exception {
         super.setUpBasic();
         oper = new AaiGetOperation(params, config);
+    }
+
+    /**
+     * Tests "success" case with simulator.
+     */
+    @Test
+    public void testSuccess() throws Exception {
+        HttpParams opParams = HttpParams.builder().clientName(MY_CLIENT).path("v16/search/nodes-query").build();
+        config = new HttpConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
+
+        params = params.toBuilder().targetEntity("OzVServer").retry(0).timeoutSec(5).executor(blockingExecutor).build();
+        oper = new AaiGetOperation(params, config);
+
+        outcome = oper.start().get();
+        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+    }
+
+    /**
+     * Tests "failure" case with simulator.
+     */
+    @Test
+    public void testFailure() throws Exception {
+        HttpParams opParams = HttpParams.builder().clientName(MY_CLIENT).path("v16/search/nodes-query").build();
+        config = new HttpConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
+
+        params = params.toBuilder().targetEntity("failedVserver").retry(0).timeoutSec(5).executor(blockingExecutor)
+                        .build();
+        oper = new AaiGetOperation(params, config);
+
+        outcome = oper.start().get();
+        assertEquals(PolicyResult.FAILURE, outcome.getResult());
     }
 
     @Test

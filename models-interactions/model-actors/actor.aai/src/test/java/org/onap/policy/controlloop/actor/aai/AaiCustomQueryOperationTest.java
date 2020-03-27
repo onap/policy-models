@@ -39,7 +39,9 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.InvocationCallback;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
@@ -47,6 +49,7 @@ import org.mockito.Mock;
 import org.onap.policy.aai.AaiConstants;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactory;
+import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
@@ -54,6 +57,7 @@ import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperator;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.onap.policy.controlloop.policy.PolicyResult;
@@ -62,7 +66,8 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation<Map<String, S
     private static final StandardCoder coder = new StandardCoder();
 
     private static final String MY_LINK = "my-link";
-    private static final String MY_VSERVER = "my-verserver-name";
+    private static final String MY_VSERVER = "my-vserver-name";
+    private static final String SIM_VSERVER = "OzVServer";
 
     @Captor
     private ArgumentCaptor<Entity<Map<String, String>>> entityCaptor;
@@ -74,6 +79,16 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation<Map<String, S
 
     public AaiCustomQueryOperationTest() {
         super(AaiConstants.ACTOR_NAME, AaiCustomQueryOperation.NAME);
+    }
+
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
+        initBeforeClass();
+    }
+
+    @AfterClass
+    public static void tearDownAfterClass() {
+        destroyAfterClass();
     }
 
     /**
@@ -93,8 +108,25 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation<Map<String, S
         oper = new AaiCustomQueryOperation(params, config);
     }
 
+    /**
+     * Tests "success" case with simulator.
+     */
     @Test
-    public void testAaiCustomQueryOperation() {
+    public void testSuccess() throws Exception {
+        HttpParams opParams = HttpParams.builder().clientName(MY_CLIENT).path("v16/query").build();
+        config = new HttpConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
+
+        preloadTenantData();
+
+        params = params.toBuilder().targetEntity(SIM_VSERVER).retry(0).timeoutSec(5).executor(blockingExecutor).build();
+        oper = new AaiCustomQueryOperation(params, config);
+
+        outcome = oper.start().get();
+        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+    }
+
+    @Test
+    public void testConstructor() {
         assertEquals(AaiConstants.ACTOR_NAME, oper.getActorName());
         assertEquals(AaiCustomQueryOperation.NAME, oper.getName());
         assertEquals(MY_VSERVER, oper.getVserver());
@@ -215,6 +247,7 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation<Map<String, S
 
     private void preloadTenantData(StandardCoderObject data) {
         context.setProperty(AaiGetOperation.getTenantKey(MY_VSERVER), data);
+        context.setProperty(AaiGetOperation.getTenantKey(SIM_VSERVER), data);
     }
 
     private PolicyResult getResult(CompletableFuture<OperationOutcome> future2)

@@ -30,6 +30,7 @@ import org.onap.policy.common.utils.resources.ResourceUtils;
  * Legacy APPC topic server.
  */
 public class AppcLegacyTopicServer extends TopicServer<Request> {
+
     public AppcLegacyTopicServer(TopicSink sink, TopicSource source) {
         super(sink, source, new StandardCoderInstantAsMillis(), Request.class);
     }

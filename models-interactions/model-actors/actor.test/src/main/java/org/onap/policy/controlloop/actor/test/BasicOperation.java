@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 import javax.ws.rs.core.Response;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -58,6 +59,12 @@ public class BasicOperation {
     protected static final String DEFAULT_ACTOR = "default-actor";
     protected static final String DEFAULT_OPERATION = "default-operation";
     protected static final String TARGET_ENTITY = "my-target";
+
+    protected static final Executor blockingExecutor = command -> {
+        Thread thread = new Thread(command);
+        thread.setDaemon(true);
+        thread.start();
+    };
 
     protected final String actorName;
     protected final String operationName;

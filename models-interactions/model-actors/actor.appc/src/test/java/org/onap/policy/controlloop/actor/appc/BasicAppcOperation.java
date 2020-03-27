@@ -35,6 +35,8 @@ import java.util.function.BiConsumer;
 import org.onap.policy.appc.Response;
 import org.onap.policy.appc.ResponseCode;
 import org.onap.policy.appc.ResponseStatus;
+import org.onap.policy.common.endpoints.event.comm.TopicSink;
+import org.onap.policy.common.endpoints.event.comm.TopicSource;
 import org.onap.policy.common.utils.coder.StandardCoderInstantAsMillis;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.actor.test.BasicBidirectionalTopicOperation;
@@ -44,6 +46,8 @@ import org.onap.policy.controlloop.actorserviceprovider.impl.OperationMaker;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.controlloop.policy.Target;
+import org.onap.policy.simulators.AppcLegacyTopicServer;
+import org.onap.policy.simulators.TopicServer;
 import org.powermock.reflect.Whitebox;
 
 /**
@@ -92,6 +96,15 @@ public abstract class BasicAppcOperation extends BasicBidirectionalTopicOperatio
         response.setStatus(status);
         status.setCode(ResponseCode.SUCCESS.getValue());
         status.setDescription(MY_DESCRIPTION);
+    }
+
+    public void tearDown() {
+        super.tearDownBasic();
+    }
+
+    @SuppressWarnings("rawtypes")
+    protected TopicServer makeServer(TopicSink sink, TopicSource source) {
+        return new AppcLegacyTopicServer(sink, source);
     }
 
     /**
