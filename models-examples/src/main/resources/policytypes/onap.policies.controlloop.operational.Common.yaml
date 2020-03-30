@@ -69,7 +69,7 @@ data_types:
                 type: string
                 description: The operation the actor is performing.
                 metadata:
-                    clamp_possible_values: Dictionary:DefaultOperations, ClampExecution:CDS/operations
+                    clamp_possible_values: Dictionary:DefaultOperations,ClampExecution:CDS/operation
                 required: true
             target:
                 type: onap.datatype.controlloop.Target
