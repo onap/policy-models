@@ -198,14 +198,14 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
         if (rawResponse.getStatus() == 200) {
             String requestState = getRequestState(response);
             if (COMPLETE.equalsIgnoreCase(requestState)) {
-                populateSubRequestId(outcome, response);
+                extractSubRequestId(response);
                 successfulCompletion();
                 return CompletableFuture
                                 .completedFuture(setOutcome(outcome, PolicyResult.SUCCESS, rawResponse, response));
             }
 
             if (FAILED.equalsIgnoreCase(requestState)) {
-                populateSubRequestId(outcome, response);
+                extractSubRequestId(response);
                 return CompletableFuture
                                 .completedFuture(setOutcome(outcome, PolicyResult.FAILURE, rawResponse, response));
             }
@@ -214,7 +214,7 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
         // still incomplete
 
         // need a request ID with which to query
-        if (!populateSubRequestId(outcome, response)) {
+        if (!extractSubRequestId(response)) {
             throw new IllegalArgumentException("missing request ID in response");
         }
 
@@ -231,13 +231,18 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
         return sleep(getWaitMsGet(), TimeUnit.MILLISECONDS).thenComposeAsync(doGet);
     }
 
-    private boolean populateSubRequestId(OperationOutcome outcome, SoResponse response) {
+    @Override
+    public void generateSubRequestId(int attempt) {
+        setSubRequestId(null);
+    }
+
+    private boolean extractSubRequestId(SoResponse response) {
         if (response == null || response.getRequestReferences() == null
                         || response.getRequestReferences().getRequestId() == null) {
             return false;
         }
 
-        outcome.setSubRequestId(response.getRequestReferences().getRequestId());
+        setSubRequestId(response.getRequestReferences().getRequestId());
         return true;
     }
 

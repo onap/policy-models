@@ -21,7 +21,6 @@
 package org.onap.policy.controlloop.actor.appc;
 
 import java.util.concurrent.CompletableFuture;
-import org.apache.commons.lang3.tuple.Pair;
 import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.policy.aai.AaiConstants;
 import org.onap.policy.aai.AaiCqResponse;
@@ -61,7 +60,7 @@ public class ModifyConfigOperation extends AppcOperation {
     }
 
     @Override
-    protected Pair<String, Request> makeRequest(int attempt) {
+    protected Request makeRequest(int attempt) {
         AaiCqResponse cq = params.getContext().getProperty(AaiCqResponse.CONTEXT_KEY);
 
         GenericVnf genvnf = cq.getGenericVnfByModelInvariantId(params.getTarget().getResourceID());

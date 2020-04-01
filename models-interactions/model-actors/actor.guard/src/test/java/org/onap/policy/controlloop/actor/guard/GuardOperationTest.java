@@ -144,6 +144,12 @@ public class GuardOperationTest extends BasicHttpOperation<DecisionRequest> {
     }
 
     @Test
+    public void testGenerateSubRequestId() {
+        oper.generateSubRequestId(3);
+        assertEquals("3", oper.getSubRequestId());
+    }
+
+    @Test
     public void testStartOperationAsync() throws Exception {
         CompletableFuture<OperationOutcome> future2 = oper.start();
         executor.runAll(100);

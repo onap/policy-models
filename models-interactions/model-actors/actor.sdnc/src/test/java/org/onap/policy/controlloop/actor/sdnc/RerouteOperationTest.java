@@ -21,7 +21,6 @@
 package org.onap.policy.controlloop.actor.sdnc;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 import java.util.Map;
 import org.junit.AfterClass;
@@ -85,11 +84,12 @@ public class RerouteOperationTest extends BasicSdncOperation {
 
     @Test
     public void testMakeRequest() throws Exception {
+        oper.generateSubRequestId(1);
         SdncRequest request = oper.makeRequest(1);
         assertEquals("my-service", request.getNsInstanceId());
         assertEquals(REQ_ID, request.getRequestId());
         assertEquals("/my-path/", request.getUrl());
-        assertNotNull(request.getHealRequest().getRequestHeaderInfo().getSvcRequestId());
+        assertEquals(oper.getSubRequestId(), request.getHealRequest().getRequestHeaderInfo().getSvcRequestId());
 
         verifyRequest("reroute.json", request, IGNORE_FIELDS);
 

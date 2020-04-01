@@ -105,9 +105,12 @@ public class GuardOperation extends HttpOperation<DecisionResponse> {
     }
 
     @Override
-    protected CompletableFuture<OperationOutcome> startOperationAsync(int attempt, OperationOutcome outcome) {
-        outcome.setSubRequestId(String.valueOf(attempt));
+    public void generateSubRequestId(int attempt) {
+        setSubRequestId(String.valueOf(attempt));
+    }
 
+    @Override
+    protected CompletableFuture<OperationOutcome> startOperationAsync(int attempt, OperationOutcome outcome) {
         DecisionRequest request = makeRequest();
         Entity<DecisionRequest> entity = Entity.entity(request, MediaType.APPLICATION_JSON);
 

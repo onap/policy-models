@@ -23,9 +23,7 @@ package org.onap.policy.controlloop.actor.appc;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-import org.apache.commons.lang3.tuple.Pair;
 import org.onap.policy.appc.CommonHeader;
 import org.onap.policy.appc.Request;
 import org.onap.policy.appc.Response;
@@ -86,14 +84,11 @@ public abstract class AppcOperation extends BidirectionalTopicOperation<Request,
      * @param targetVnf target VNF
      * @return a new request
      */
-    protected Pair<String, Request> makeRequest(int attempt, String targetVnf) {
+    protected Request makeRequest(int attempt, String targetVnf) {
         Request request = new Request();
         request.setCommonHeader(new CommonHeader());
         request.getCommonHeader().setRequestId(params.getRequestId());
-
-        // TODO ok to use UUID, or does it have to be the "attempt"?
-        final String subreq = UUID.randomUUID().toString();
-        request.getCommonHeader().setSubRequestId(subreq);
+        request.getCommonHeader().setSubRequestId(getSubRequestId());
 
         request.setAction(getName());
 
@@ -107,7 +102,7 @@ public abstract class AppcOperation extends BidirectionalTopicOperation<Request,
         // add/replace specific values
         request.getPayload().put(VNF_ID_KEY, targetVnf);
 
-        return Pair.of(subreq, request);
+        return request;
     }
 
     /**
@@ -139,7 +134,7 @@ public abstract class AppcOperation extends BidirectionalTopicOperation<Request,
      */
     @Override
     protected List<String> getExpectedKeyValues(int attempt, Request request) {
-        return List.of(request.getCommonHeader().getSubRequestId());
+        return List.of(getSubRequestId());
     }
 
     @Override

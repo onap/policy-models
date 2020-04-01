@@ -28,6 +28,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.UUID;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
@@ -38,7 +39,9 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.Setter;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
@@ -95,6 +98,10 @@ public abstract class OperationPartial implements Operation {
 
     @Getter
     private final String fullName;
+
+    @Getter
+    @Setter(AccessLevel.PROTECTED)
+    private String subRequestId;
 
 
     /**
@@ -271,11 +278,23 @@ public abstract class OperationPartial implements Operation {
     private CompletableFuture<OperationOutcome> startOperationAttempt(
                     PipelineControllerFuture<OperationOutcome> controller, int attempt) {
 
+        generateSubRequestId(attempt);
+
         // propagate "stop" to the operation attempt
         controller.wrap(startAttemptWithoutRetries(attempt)).thenCompose(retryOnFailure(controller, attempt))
                         .whenCompleteAsync(controller.delayedComplete(), params.getExecutor());
 
         return controller;
+    }
+
+    /**
+     * Generates and sets {@link #subRequestId} to a new subrequest ID.
+     * @param attempt attempt number, typically starting with 1
+     */
+    public void generateSubRequestId(int attempt) {
+        // Note: this should be "protected", but that makes junits much messier
+
+        setSubRequestId(UUID.randomUUID().toString());
     }
 
     /**
@@ -889,6 +908,7 @@ public abstract class OperationPartial implements Operation {
         return (outcome, thrown) -> {
 
             if (callbacks.canStart()) {
+                outcome.setSubRequestId(getSubRequestId());
                 outcome.setStart(callbacks.getStartTime());
                 outcome.setEnd(null);
 
@@ -917,6 +937,7 @@ public abstract class OperationPartial implements Operation {
 
         return (outcome, thrown) -> {
             if (callbacks.canEnd()) {
+                outcome.setSubRequestId(getSubRequestId());
                 outcome.setStart(callbacks.getStartTime());
                 outcome.setEnd(callbacks.getEndTime());
 

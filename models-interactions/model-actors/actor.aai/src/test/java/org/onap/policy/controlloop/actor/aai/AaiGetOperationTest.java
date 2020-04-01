@@ -115,6 +115,12 @@ public class AaiGetOperationTest extends BasicAaiOperation<Void> {
     }
 
     @Test
+    public void testGenerateSubRequestId() {
+        oper.generateSubRequestId(3);
+        assertEquals("3", oper.getSubRequestId());
+    }
+
+    @Test
     @SuppressWarnings("unchecked")
     public void testStartOperationAsync_testStartQueryAsync_testPostProcessResponse() throws Exception {
 
@@ -123,6 +129,9 @@ public class AaiGetOperationTest extends BasicAaiOperation<Void> {
         when(rawResponse.readEntity(String.class)).thenReturn(new StandardCoder().encode(reply));
 
         when(webAsync.get(any(InvocationCallback.class))).thenAnswer(provideResponse(rawResponse));
+
+        oper.generateSubRequestId(1);
+        outcome.setSubRequestId(oper.getSubRequestId());
 
         CompletableFuture<OperationOutcome> future2 = oper.startOperationAsync(1, outcome);
         assertFalse(future2.isDone());

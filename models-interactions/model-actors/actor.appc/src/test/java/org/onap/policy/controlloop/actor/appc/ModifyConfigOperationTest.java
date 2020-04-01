@@ -34,7 +34,6 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
-import org.apache.commons.lang3.tuple.Pair;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -161,10 +160,8 @@ public class ModifyConfigOperationTest extends BasicAppcOperation {
         genvnf.setModelInvariantId(RESOURCE_ID);
         cq.setInventoryResponseItems(Arrays.asList(genvnf));
 
-        Pair<String, Request> result = oper.makeRequest(2);
-        assertNotNull(result.getLeft());
-
-        Request request = result.getRight();
+        oper.generateSubRequestId(2);
+        Request request = oper.makeRequest(2);
         assertNotNull(request);
         assertEquals(MY_VNF, request.getPayload().get(ModifyConfigOperation.VNF_ID_KEY));
 

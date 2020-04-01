@@ -22,14 +22,12 @@ package org.onap.policy.controlloop.actor.appc;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 
 import java.util.Arrays;
 import java.util.Map;
 import java.util.TreeMap;
-import org.apache.commons.lang3.tuple.Pair;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -40,6 +38,8 @@ import org.onap.policy.appc.Request;
 import org.onap.policy.appc.ResponseCode;
 import org.onap.policy.appc.ResponseStatus;
 import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicOperation.Status;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.policy.PolicyResult;
 
 public class AppcOperationTest extends BasicAppcOperation {
@@ -64,12 +64,7 @@ public class AppcOperationTest extends BasicAppcOperation {
     public void setUp() throws Exception {
         super.setUp();
 
-        oper = new AppcOperation(params, config) {
-            @Override
-            protected Pair<String, Request> makeRequest(int attempt) {
-                return oper.makeRequest(attempt, MY_VNF);
-            }
-        };
+        oper = new MyOper(params, config);
     }
 
     @After
@@ -91,11 +86,11 @@ public class AppcOperationTest extends BasicAppcOperation {
 
     @Test
     public void testMakeRequest() {
-        Pair<String, Request> result = oper.makeRequest(2, MY_VNF);
-        String subreq = result.getLeft();
+        oper.generateSubRequestId(2);
+        String subreq = oper.getSubRequestId();
         assertNotNull(subreq);
 
-        Request request = result.getRight();
+        Request request = oper.makeRequest(2, MY_VNF);
         assertEquals(DEFAULT_OPERATION, request.getAction());
 
         assertNotNull(request.getPayload());
@@ -106,27 +101,18 @@ public class AppcOperationTest extends BasicAppcOperation {
 
         assertEquals(subreq, header.getSubRequestId());
 
-        // a subsequent request should have a different sub-request id
-        result = oper.makeRequest(2, MY_VNF);
-        assertNotEquals(subreq, result.getLeft());
-
-        assertNotNull(result.getLeft());
-        assertEquals(result.getLeft(), result.getRight().getCommonHeader().getSubRequestId());
+        request = oper.makeRequest(2, MY_VNF);
+        assertEquals(subreq, request.getCommonHeader().getSubRequestId());
 
         // repeat using a null payload
         params = params.toBuilder().payload(null).build();
-        oper = new AppcOperation(params, config) {
-            @Override
-            protected Pair<String, Request> makeRequest(int attempt) {
-                return oper.makeRequest(attempt, MY_VNF);
-            }
-        };
-        assertEquals(Map.of(AppcOperation.VNF_ID_KEY, MY_VNF), oper.makeRequest(2, MY_VNF).getRight().getPayload());
+        oper = new MyOper(params, config);
+        assertEquals(Map.of(AppcOperation.VNF_ID_KEY, MY_VNF), oper.makeRequest(2, MY_VNF).getPayload());
     }
 
     @Test
     public void testConvertPayload() {
-        Request request = oper.makeRequest(2, MY_VNF).getRight();
+        Request request = oper.makeRequest(2, MY_VNF);
 
         // @formatter:off
         assertEquals(
@@ -145,13 +131,8 @@ public class AppcOperationTest extends BasicAppcOperation {
 
         params = params.toBuilder().payload(payload).build();
 
-        oper = new AppcOperation(params, config) {
-            @Override
-            protected Pair<String, Request> makeRequest(int attempt) {
-                return oper.makeRequest(attempt, MY_VNF);
-            }
-        };
-        request = oper.makeRequest(2, MY_VNF).getRight();
+        oper = new MyOper(params, config);
+        request = oper.makeRequest(2, MY_VNF);
 
         // @formatter:off
         assertEquals(
@@ -171,13 +152,8 @@ public class AppcOperationTest extends BasicAppcOperation {
         payload.put(KEY3, "def");
         params = params.toBuilder().payload(payload).build();
 
-        oper = new AppcOperation(params, config) {
-            @Override
-            protected Pair<String, Request> makeRequest(int attempt) {
-                return oper.makeRequest(attempt, MY_VNF);
-            }
-        };
-        request = oper.makeRequest(2, MY_VNF).getRight();
+        oper = new MyOper(params, config);
+        request = oper.makeRequest(2, MY_VNF);
 
         payload.put(AppcOperation.VNF_ID_KEY, MY_VNF);
         payload.put(KEY1, "abc");
@@ -189,7 +165,8 @@ public class AppcOperationTest extends BasicAppcOperation {
 
     @Test
     public void testGetExpectedKeyValues() {
-        Request request = oper.makeRequest(2, MY_VNF).getRight();
+        oper.generateSubRequestId(2);
+        Request request = oper.makeRequest(2, MY_VNF);
         assertEquals(Arrays.asList(request.getCommonHeader().getSubRequestId()),
                         oper.getExpectedKeyValues(50, request));
     }
@@ -248,6 +225,18 @@ public class AppcOperationTest extends BasicAppcOperation {
             assertSame(outcome, oper.setOutcome(outcome, result, response));
             assertEquals(result, outcome.getResult());
             assertEquals(MY_DESCRIPTION, outcome.getMessage());
+        }
+    }
+
+    private static class MyOper extends AppcOperation {
+
+        public MyOper(ControlLoopOperationParams params, BidirectionalTopicConfig config) {
+            super(params, config);
+        }
+
+        @Override
+        protected Request makeRequest(int attempt) {
+            return makeRequest(attempt, MY_VNF);
         }
     }
 }
