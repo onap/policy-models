@@ -161,7 +161,8 @@ public class GuardOperationTest extends BasicHttpOperation<DecisionRequest> {
 
         assertEquals(PolicyResult.SUCCESS, future2.get().getResult());
 
-        assertEquals("1", future2.get().getSubRequestId());
+        assertNotNull(oper.getSubRequestId());
+        assertEquals(oper.getSubRequestId(), future2.get().getSubRequestId());
     }
 
     /**
@@ -189,6 +190,8 @@ public class GuardOperationTest extends BasicHttpOperation<DecisionRequest> {
 
     @Test
     public void testMakeRequest() throws CoderException {
+        oper.generateSubRequestId(2);
+
         verifyPayload("makeReqStd.json", makePayload());
         verifyPayload("makeReqDefault.json", new TreeMap<>());
 

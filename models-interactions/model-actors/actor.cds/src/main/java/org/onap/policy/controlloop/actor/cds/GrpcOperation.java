@@ -92,6 +92,11 @@ public class GrpcOperation extends OperationPartial {
         return allOf(() -> params.getContext().obtain(AaiCqResponse.CONTEXT_KEY, cqParams), this::startGuardAsync);
     }
 
+    @Override
+    public void generateSubRequestId(int attempt) {
+        setSubRequestId("0");
+    }
+
     /**
      * {@inheritDoc}.
      */
@@ -167,7 +172,7 @@ public class GrpcOperation extends OperationPartial {
         // Build CDS gRPC request common-header
         CommonHeader commonHeader = CommonHeader.newBuilder().setOriginatorId(CdsActorConstants.ORIGINATOR_ID)
                         .setRequestId(params.getContext().getEvent().getRequestId().toString())
-                        .setSubRequestId(Integer.toString(0)).build();
+                        .setSubRequestId(getSubRequestId()).build();
 
         // Build CDS gRPC request action-identifier
         ActionIdentifiers actionIdentifiers =

@@ -20,7 +20,6 @@
 
 package org.onap.policy.controlloop.actor.sdnc;
 
-import java.util.UUID;
 import org.apache.commons.lang3.StringUtils;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
@@ -85,7 +84,7 @@ public class BandwidthOnDemandOperation extends SdncOperation {
 
         SdncHealRequestHeaderInfo headerInfo = new SdncHealRequestHeaderInfo();
         headerInfo.setSvcAction("update");
-        headerInfo.setSvcRequestId(UUID.randomUUID().toString());
+        headerInfo.setSvcRequestId(getSubRequestId());
 
         SdncRequest request = new SdncRequest();
         request.setNsInstanceId(serviceInstance);

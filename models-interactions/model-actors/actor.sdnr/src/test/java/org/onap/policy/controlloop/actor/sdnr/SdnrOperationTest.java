@@ -26,7 +26,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 
 import java.util.Arrays;
-import org.apache.commons.lang3.tuple.Pair;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -78,10 +77,9 @@ public class SdnrOperationTest extends BasicSdnrOperation {
 
     @Test
     public void testMakeRequest() {
-        Pair<String, PciMessage> result = operation.makeRequest(1);
-        assertNotNull(result.getLeft());
+        operation.generateSubRequestId(1);
 
-        PciMessage request = result.getRight();
+        PciMessage request = operation.makeRequest(1);
 
         assertNotNull(request.getBody());
         assertEquals("1.0", request.getVersion());
@@ -94,7 +92,9 @@ public class SdnrOperationTest extends BasicSdnrOperation {
 
     @Test
     public void testGetExpectedKeyValues() {
-        PciMessage request = operation.makeRequest(1).getRight();
+        operation.generateSubRequestId(1);
+
+        PciMessage request = operation.makeRequest(1);
         assertEquals(Arrays.asList(request.getBody().getInput().getCommonHeader().getSubRequestId()),
                         operation.getExpectedKeyValues(50, request));
     }

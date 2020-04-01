@@ -142,6 +142,12 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation<Map<String, S
     }
 
     @Test
+    public void testGenerateSubRequestId() {
+        oper.generateSubRequestId(3);
+        assertEquals("3", oper.getSubRequestId());
+    }
+
+    @Test
     @SuppressWarnings("unchecked")
     public void testStartOperationAsync_testStartPreprocessorAsync_testMakeRequest_testPostProcess() throws Exception {
         // need two responses

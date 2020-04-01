@@ -166,21 +166,23 @@ public class SoOperationTest extends BasicSoOperation {
     @Test
     public void testPostProcess() throws Exception {
         // completed
-        outcome.setSubRequestId(null);
+        oper.generateSubRequestId(2);
+        assertNull(oper.getSubRequestId());
         CompletableFuture<OperationOutcome> future2 = oper.postProcessResponse(outcome, PATH, rawResponse, response);
         assertTrue(future2.isDone());
         assertSame(outcome, future2.get());
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
-        assertNotNull(outcome.getSubRequestId());
+        assertNotNull(oper.getSubRequestId());
 
         // failed
-        outcome.setSubRequestId(null);
+        oper.generateSubRequestId(2);
+        assertNull(oper.getSubRequestId());
         response.getRequest().getRequestStatus().setRequestState(SoOperation.FAILED);
         future2 = oper.postProcessResponse(outcome, PATH, rawResponse, response);
         assertTrue(future2.isDone());
         assertSame(outcome, future2.get());
         assertEquals(PolicyResult.FAILURE, outcome.getResult());
-        assertNotNull(outcome.getSubRequestId());
+        assertNotNull(oper.getSubRequestId());
 
         // no request id in the response
         response.getRequestReferences().setRequestId(null);

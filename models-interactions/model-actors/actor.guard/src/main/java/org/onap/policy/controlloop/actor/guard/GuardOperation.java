@@ -21,7 +21,6 @@
 package org.onap.policy.controlloop.actor.guard;
 
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import javax.ws.rs.client.Entity;
@@ -106,8 +105,6 @@ public class GuardOperation extends HttpOperation<DecisionResponse> {
 
     @Override
     protected CompletableFuture<OperationOutcome> startOperationAsync(int attempt, OperationOutcome outcome) {
-        outcome.setSubRequestId(String.valueOf(attempt));
-
         DecisionRequest request = makeRequest();
         Entity<DecisionRequest> entity = Entity.entity(request, MediaType.APPLICATION_JSON);
 
@@ -135,7 +132,7 @@ public class GuardOperation extends HttpOperation<DecisionResponse> {
         }
 
         DecisionRequest req = config.makeRequest();
-        req.setRequestId(UUID.randomUUID().toString());
+        req.setRequestId(getSubRequestId());
         req.setResource(Map.of("guard", params.getPayload()));
 
         return req;

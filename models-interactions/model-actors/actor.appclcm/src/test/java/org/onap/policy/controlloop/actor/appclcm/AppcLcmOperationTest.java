@@ -23,7 +23,6 @@ package org.onap.policy.controlloop.actor.appclcm;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -36,7 +35,6 @@ import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
-import org.apache.commons.lang3.tuple.Pair;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -170,11 +168,11 @@ public class AppcLcmOperationTest extends BasicBidirectionalTopicOperation {
 
     @Test
     public void testMakeRequest() {
-        Pair<String, AppcLcmDmaapWrapper> result = oper.makeRequest(2);
-        String subreq = result.getLeft();
+        oper.generateSubRequestId(2);
+        String subreq = oper.getSubRequestId();
         assertNotNull(subreq);
 
-        AppcLcmDmaapWrapper request = result.getRight();
+        AppcLcmDmaapWrapper request = oper.makeRequest(2);
         assertEquals("DefaultOperation", request.getBody().getInput().getAction());
 
         AppcLcmCommonHeader header = request.getBody().getInput().getCommonHeader();
@@ -185,11 +183,8 @@ public class AppcLcmOperationTest extends BasicBidirectionalTopicOperation {
 
         assertEquals("{vnf-id=my-target}", request.getBody().getInput().getActionIdentifiers().toString());
 
-        // a subsequent request should have a different sub-request id
-        result = oper.makeRequest(2);
-        assertNotEquals(subreq, result.getLeft());
-        assertNotNull(result.getLeft());
-        assertEquals(result.getLeft(), result.getRight().getBody().getInput().getCommonHeader().getSubRequestId());
+        request = oper.makeRequest(2);
+        assertEquals(subreq, request.getBody().getInput().getCommonHeader().getSubRequestId());
     }
 
     @Test
@@ -198,7 +193,8 @@ public class AppcLcmOperationTest extends BasicBidirectionalTopicOperation {
         params = params.toBuilder().operation(AppcLcmConstants.OPERATION_CONFIG_MODIFY).build();
         oper = new AppcLcmOperation(params, config);
 
-        AppcLcmDmaapWrapper req = oper.makeRequest(2).getRight();
+        oper.generateSubRequestId(2);
+        AppcLcmDmaapWrapper req = oper.makeRequest(2);
         assertEquals("{\"key-A\":\"value-A\"}", req.getBody().getInput().getPayload());
 
         // coder exception
@@ -214,13 +210,16 @@ public class AppcLcmOperationTest extends BasicBidirectionalTopicOperation {
             }
         };
 
+        oper.generateSubRequestId(2);
+
         assertThatIllegalArgumentException().isThrownBy(() -> oper.makeRequest(2))
                         .withMessage("Cannot convert payload");
     }
 
     @Test
     public void testGetExpectedKeyValues() {
-        AppcLcmDmaapWrapper request = oper.makeRequest(2).getRight();
+        oper.generateSubRequestId(2);
+        AppcLcmDmaapWrapper request = oper.makeRequest(2);
         assertEquals(Arrays.asList(request.getBody().getInput().getCommonHeader().getSubRequestId()),
                         oper.getExpectedKeyValues(50, request));
     }
