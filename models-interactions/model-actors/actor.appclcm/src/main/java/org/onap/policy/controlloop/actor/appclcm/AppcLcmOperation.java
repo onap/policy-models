@@ -22,10 +22,8 @@ package org.onap.policy.controlloop.actor.appclcm;
 
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.tuple.Pair;
 import org.onap.policy.appclcm.AppcLcmBody;
 import org.onap.policy.appclcm.AppcLcmCommonHeader;
 import org.onap.policy.appclcm.AppcLcmDmaapWrapper;
@@ -81,9 +79,9 @@ public class AppcLcmOperation extends BidirectionalTopicOperation<AppcLcmDmaapWr
     }
 
     @Override
-    protected Pair<String, AppcLcmDmaapWrapper> makeRequest(int attempt) {
+    protected AppcLcmDmaapWrapper makeRequest(int attempt) {
         VirtualControlLoopEvent onset = params.getContext().getEvent();
-        String subRequestId = UUID.randomUUID().toString();
+        String subRequestId = getSubRequestId();
 
         AppcLcmCommonHeader header = new AppcLcmCommonHeader();
         header.setOriginatorId(onset.getRequestId().toString());
@@ -126,7 +124,7 @@ public class AppcLcmOperation extends BidirectionalTopicOperation<AppcLcmDmaapWr
 
         body.setInput(inputRequest);
         dmaapRequest.setBody(body);
-        return Pair.of(subRequestId, dmaapRequest);
+        return dmaapRequest;
     }
 
     /**
@@ -150,7 +148,7 @@ public class AppcLcmOperation extends BidirectionalTopicOperation<AppcLcmDmaapWr
      */
     @Override
     protected List<String> getExpectedKeyValues(int attempt, AppcLcmDmaapWrapper request) {
-        return List.of(request.getBody().getInput().getCommonHeader().getSubRequestId());
+        return List.of(getSubRequestId());
     }
 
     @Override

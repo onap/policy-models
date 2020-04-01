@@ -531,7 +531,7 @@ public class OperationPartialTest {
             }
         };
 
-        verifyRun("testSetRetryFlag_testRetryOnFailure_NullOutcome", 1, 1, PolicyResult.FAILURE, null, noop());
+        verifyRun("testSetRetryFlag_testRetryOnFailure_NullOutcome", 1, 1, PolicyResult.FAILURE, noop());
     }
 
     @Test
@@ -1179,10 +1179,7 @@ public class OperationPartialTest {
     private void verifyRun(String testName, int expectedCallbacks, int expectedOperations,
                     PolicyResult expectedResult) {
 
-        String expectedSubRequestId =
-                        (expectedResult == PolicyResult.FAILURE_EXCEPTION ? null : String.valueOf(expectedOperations));
-
-        verifyRun(testName, expectedCallbacks, expectedOperations, expectedResult, expectedSubRequestId, noop());
+        verifyRun(testName, expectedCallbacks, expectedOperations, expectedResult, noop());
     }
 
     /**
@@ -1192,13 +1189,12 @@ public class OperationPartialTest {
      * @param expectedCallbacks number of callbacks expected
      * @param expectedOperations number of operation invocations expected
      * @param expectedResult expected outcome
-     * @param expectedSubRequestId expected sub request ID
      * @param manipulator function to modify the future returned by
      *        {@link OperationPartial#start(ControlLoopOperationParams)} before the tasks
      *        in the executor are run
      */
     private void verifyRun(String testName, int expectedCallbacks, int expectedOperations, PolicyResult expectedResult,
-                    String expectedSubRequestId, Consumer<CompletableFuture<OperationOutcome>> manipulator) {
+                    Consumer<CompletableFuture<OperationOutcome>> manipulator) {
 
         tstart = null;
         opstart = null;
@@ -1244,7 +1240,9 @@ public class OperationPartialTest {
             }
 
             if (expectedOperations > 0) {
-                assertEquals(testName, expectedSubRequestId, opend.getSubRequestId());
+                assertNotNull(testName, oper.getSubRequestId());
+                assertEquals(testName + " op start", oper.getSubRequestId(), opstart.getSubRequestId());
+                assertEquals(testName + " op end", oper.getSubRequestId(), opend.getSubRequestId());
             }
         }
 

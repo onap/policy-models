@@ -20,7 +20,6 @@
 
 package org.onap.policy.controlloop.actor.sdnr;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.sdnr.PciMessage;
@@ -39,14 +38,13 @@ public class ModifyConfigOperation extends SdnrOperation {
     }
 
     @Override
-    protected Pair<String, PciMessage> makeRequest(int attempt) {
-        final Pair<String, PciMessage> req = super.makeRequest(attempt);
-        final PciMessage request = req.getRight();
+    protected PciMessage makeRequest(int attempt) {
+        final PciMessage request = super.makeRequest(attempt);
         //
         // Set the recipe and action information
         //
         request.setRpcName(NAME.toLowerCase());
         request.getBody().getInput().setAction(NAME);
-        return req;
+        return request;
     }
 }

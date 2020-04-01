@@ -61,8 +61,6 @@ public abstract class SdncOperation extends HttpOperation<SdncResponse> {
     protected CompletableFuture<OperationOutcome> startOperationAsync(int attempt, OperationOutcome outcome) {
 
         SdncRequest request = makeRequest(attempt);
-        outcome.setSubRequestId(request.getHealRequest().getRequestHeaderInfo().getSvcRequestId());
-
         Entity<SdncRequest> entity = Entity.entity(request, MediaType.APPLICATION_JSON);
 
         Map<String, Object> headers = makeHeaders();

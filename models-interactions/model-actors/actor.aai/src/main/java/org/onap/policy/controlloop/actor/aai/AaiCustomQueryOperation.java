@@ -91,6 +91,11 @@ public class AaiCustomQueryOperation extends HttpOperation<String> {
     }
 
     @Override
+    public void generateSubRequestId(int attempt) {
+        setSubRequestId(String.valueOf(attempt));
+    }
+
+    @Override
     protected CompletableFuture<OperationOutcome> startOperationAsync(int attempt, OperationOutcome outcome) {
         outcome.setSubRequestId(String.valueOf(attempt));
 

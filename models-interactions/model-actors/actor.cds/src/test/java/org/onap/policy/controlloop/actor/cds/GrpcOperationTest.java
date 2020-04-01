@@ -173,6 +173,7 @@ public class GrpcOperationTest {
         assertEquals(1000, operation.getTimeoutMs(null));
         assertEquals(1000, operation.getTimeoutMs(0));
         assertEquals(2000, operation.getTimeoutMs(2));
+        operation.generateSubRequestId(1);
         CompletableFuture<OperationOutcome> future3 = operation.startOperationAsync(1, params.makeOutcome());
         assertNotNull(future3);
     }
