@@ -38,8 +38,8 @@ public class CanonicalAbatedTest {
 
         CanonicalAbated abated2 = new CanonicalAbated(new Abated());
         abated2.setRequestId(UUID.randomUUID());
-        abated2.setClosedLoopAlarmStart(Instant.now());
-        abated2.setClosedLoopAlarmEnd(Instant.now());
+        abated2.setClosedLoopAlarmStart(Instant.ofEpochSecond(Instant.now().getEpochSecond() + 1));
+        abated2.setClosedLoopAlarmEnd(Instant.ofEpochSecond(Instant.now().getEpochSecond() + 1));
 
         CanonicalAbated abated3 = new CanonicalAbated(abated2);
 

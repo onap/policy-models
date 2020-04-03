@@ -40,8 +40,8 @@ import org.onap.policy.models.pdp.concepts.PdpEngineWorkerStatistics;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
 
 public class PdpStatisticsProviderTest {
-    private static final String DAO_IS_NULL = "dao is marked @NonNull but is null";
-    private static final String LIST_IS_NULL = "pdpStatisticsList is marked @NonNull but is null";
+    private static final String DAO_IS_NULL = "dao is marked .*ull but is null";
+    private static final String LIST_IS_NULL = "pdpStatisticsList is marked .*ull but is null";
     private static final String GROUP0 = "group0";
     private static final String NAME = "name";
     private static final String GROUP = "group";
@@ -133,11 +133,11 @@ public class PdpStatisticsProviderTest {
 
         assertThatThrownBy(() -> {
             new PdpStatisticsProvider().createPdpStatistics(pfDao, null);
-        }).hasMessage(LIST_IS_NULL);
+        }).hasMessageMatching(LIST_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpStatisticsProvider().updatePdpStatistics(pfDao, null);
-        }).hasMessage(LIST_IS_NULL);
+        }).hasMessageMatching(LIST_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpStatisticsProvider().createPdpStatistics(pfDao, pdpStatisticsNullList);
@@ -152,10 +152,10 @@ public class PdpStatisticsProviderTest {
     public void testGetPdpStatistics() throws Exception {
         assertThatThrownBy(() -> {
             new PdpStatisticsProvider().createPdpStatistics(null, null);
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
         assertThatThrownBy(() -> {
             new PdpStatisticsProvider().getPdpStatistics(null, null, null);
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         List<PdpStatistics> getPdpStatisticsList;
         getPdpStatisticsList = new PdpStatisticsProvider().getPdpStatistics(pfDao, NAME, TIMESTAMP1);
@@ -174,12 +174,12 @@ public class PdpStatisticsProviderTest {
         assertThatThrownBy(() -> {
             new PdpStatisticsProvider().getFilteredPdpStatistics(null, NAME, GROUP, SUBGROUP, TIMESTAMP1, TIMESTAMP2,
                     ORDER, 1);
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpStatisticsProvider().getFilteredPdpStatistics(pfDao, NAME, null, null, TIMESTAMP1, TIMESTAMP2, ORDER,
                     1);
-        }).hasMessage("pdpGroupName is marked @NonNull but is null");
+        }).hasMessageMatching("pdpGroupName is marked .*ull but is null");
 
 
         List<PdpStatistics> createdPdpStatisticsList;
@@ -203,7 +203,7 @@ public class PdpStatisticsProviderTest {
     public void testUpdatePdpStatistics() throws Exception {
         assertThatThrownBy(() -> {
             new PdpStatisticsProvider().updatePdpStatistics(null, null);
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         pdpStatisticsTestList.get(0).setPdpGroupName(GROUP0);
         testListStr = pdpStatisticsTestList.toString();
@@ -218,11 +218,11 @@ public class PdpStatisticsProviderTest {
     public void testDeletePdpStatistics() throws Exception {
         assertThatThrownBy(() -> {
             new PdpStatisticsProvider().deletePdpStatistics(null, null, null);
-        }).hasMessage(DAO_IS_NULL);
+        }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
             new PdpStatisticsProvider().deletePdpStatistics(pfDao, null, null);
-        }).hasMessage("name is marked @NonNull but is null");
+        }).hasMessageMatching("name is marked .*ull but is null");
 
         List<PdpStatistics> deletedPdpStatisticsList =
                 new PdpStatisticsProvider().deletePdpStatistics(pfDao, NAME, null);

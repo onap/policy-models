@@ -38,8 +38,8 @@ public class CanonicalOnsetTest {
 
         CanonicalOnset onset2 = new CanonicalOnset(new Onset());
         onset2.setRequestId(UUID.randomUUID());
-        onset2.setClosedLoopAlarmStart(Instant.now());
-        onset2.setClosedLoopAlarmEnd(Instant.now());
+        onset2.setClosedLoopAlarmStart(Instant.ofEpochSecond(Instant.now().getEpochSecond() + 1));
+        onset2.setClosedLoopAlarmEnd(Instant.ofEpochSecond(Instant.now().getEpochSecond() + 1));
 
         CanonicalOnset onset3 = new CanonicalOnset(onset2);
 
