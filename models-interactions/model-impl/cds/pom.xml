@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   ============LICENSE_START=======================================================
-  Copyright (C) 2019 Bell Canada.
+  Copyright (C) 2019-2020 Bell Canada.
   Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,7 +35,6 @@
   <properties>
     <grpc.version>1.17.1</grpc.version>
     <protobuf.version>3.6.1</protobuf.version>
-    <grpc.netty.version>4.1.48.Final</grpc.netty.version>
   </properties>
 
   <dependencies>
@@ -58,12 +57,10 @@
     <dependency>
       <groupId>io.netty</groupId>
       <artifactId>netty-codec-http2</artifactId>
-      <version>${grpc.netty.version}</version>
     </dependency>
     <dependency>
       <groupId>io.netty</groupId>
       <artifactId>netty-handler-proxy</artifactId>
-      <version>${grpc.netty.version}</version>
     </dependency>
     <dependency>
       <groupId>io.grpc</groupId>
