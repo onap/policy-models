@@ -48,7 +48,8 @@ import org.onap.policy.models.pdp.testconcepts.DummyJpaPdpSubgroupChild;
  */
 public class JpaPdpGroupTest {
 
-    private static final String NULL_KEY_ERROR = "key is marked @NonNull but is null";
+    private static final String NULL_ERROR = " is marked .*ull but is null";
+    private static final String NULL_KEY_ERROR = "key" + NULL_ERROR;
     private static final String PDP_GROUP0 = "PDPGroup0";
     private static final String VERSION = "1.0.0";
 
@@ -56,43 +57,43 @@ public class JpaPdpGroupTest {
     public void testJpaPdpGroup() {
         assertThatThrownBy(() -> {
             new JpaPdpGroup((JpaPdpGroup) null);
-        }).hasMessage("copyConcept is marked @NonNull but is null");
+        }).hasMessageMatching("copyConcept" + NULL_ERROR);
 
         assertThatThrownBy(() -> {
             new JpaPdpGroup((PfConceptKey) null);
-        }).hasMessage(NULL_KEY_ERROR);
+        }).hasMessageMatching(NULL_KEY_ERROR);
 
         assertThatThrownBy(() -> {
             new JpaPdpGroup((PdpGroup) null);
-        }).hasMessage("authorativeConcept is marked @NonNull but is null");
+        }).hasMessageMatching("authorativeConcept" + NULL_ERROR);
 
         assertThatThrownBy(() -> {
             new JpaPdpGroup((JpaPdpGroup) null);
-        }).hasMessage("copyConcept is marked @NonNull but is null");
+        }).hasMessageMatching("copyConcept" + NULL_ERROR);
 
         assertThatThrownBy(() -> {
             new JpaPdpGroup(null, null, null);
-        }).hasMessage(NULL_KEY_ERROR);
+        }).hasMessageMatching(NULL_KEY_ERROR);
 
         assertThatThrownBy(() -> {
             new JpaPdpGroup(new PfConceptKey(), null, null);
-        }).hasMessage("pdpGroupState is marked @NonNull but is null");
+        }).hasMessageMatching("pdpGroupState" + NULL_ERROR);
 
         assertThatThrownBy(() -> {
             new JpaPdpGroup(new PfConceptKey(), PdpState.PASSIVE, null);
-        }).hasMessage("pdpSubGroups is marked @NonNull but is null");
+        }).hasMessageMatching("pdpSubGroups" + NULL_ERROR);
 
         assertThatThrownBy(() -> {
             new JpaPdpGroup(null, PdpState.PASSIVE, null);
-        }).hasMessage(NULL_KEY_ERROR);
+        }).hasMessageMatching(NULL_KEY_ERROR);
 
         assertThatThrownBy(() -> {
             new JpaPdpGroup(null, PdpState.PASSIVE, new ArrayList<>());
-        }).hasMessage(NULL_KEY_ERROR);
+        }).hasMessageMatching(NULL_KEY_ERROR);
 
         assertThatThrownBy(() -> {
             new JpaPdpGroup(null, null, new ArrayList<>());
-        }).hasMessage(NULL_KEY_ERROR);
+        }).hasMessageMatching(NULL_KEY_ERROR);
 
         assertNotNull(new JpaPdpGroup((new PfConceptKey())));
         assertNotNull(new JpaPdpGroup((new JpaPdpGroup())));
@@ -114,7 +115,7 @@ public class JpaPdpGroupTest {
 
         assertThatThrownBy(() -> {
             testJpaPdpGroup.fromAuthorative(null);
-        }).hasMessage("pdpGroup is marked @NonNull but is null");
+        }).hasMessageMatching("pdpGroup" + NULL_ERROR);
 
         testJpaPdpGroup.setKey(new PfConceptKey(PDP_GROUP0, VERSION));
         testJpaPdpGroup.fromAuthorative(testPdpGroup);
@@ -130,7 +131,7 @@ public class JpaPdpGroupTest {
 
         assertThatThrownBy(() -> {
             testJpaPdpGroup.validate(null);
-        }).hasMessage("resultIn is marked @NonNull but is null");
+        }).hasMessageMatching("resultIn" + NULL_ERROR);
 
         assertFalse(testJpaPdpGroup.validate(new PfValidationResult()).isOk());
         testJpaPdpGroup.setPdpGroupState(PdpState.PASSIVE);

@@ -22,6 +22,7 @@ package org.onap.policy.controlloop;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -50,8 +51,9 @@ public class CanonicalOnsetTest {
         assertEquals(ControlLoopEventStatus.ONSET, onset3.getClosedLoopEventStatus());
 
         assertNotEquals(onset1.getRequestId(), onset2.getRequestId());
-        assertNotEquals(onset1.getClosedLoopAlarmStart(), onset2.getClosedLoopAlarmStart());
-        assertNotEquals(onset1.getClosedLoopAlarmEnd(), onset2.getClosedLoopAlarmEnd());
+        assertTrue(onset1.getClosedLoopAlarmStart().getEpochSecond()
+                        <= onset2.getClosedLoopAlarmStart().getEpochSecond());
+        assertTrue(onset1.getClosedLoopAlarmEnd().getEpochSecond() <= onset2.getClosedLoopAlarmEnd().getEpochSecond());
 
         onset2.setFrom("here");
         assertNotEquals(onset1, onset2);

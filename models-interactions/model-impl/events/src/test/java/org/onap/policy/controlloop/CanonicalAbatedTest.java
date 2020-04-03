@@ -22,6 +22,7 @@ package org.onap.policy.controlloop;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -50,8 +51,10 @@ public class CanonicalAbatedTest {
         assertEquals(ControlLoopEventStatus.ABATED, abated3.getClosedLoopEventStatus());
 
         assertNotEquals(abated1.getRequestId(), abated2.getRequestId());
-        assertNotEquals(abated1.getClosedLoopAlarmStart(), abated2.getClosedLoopAlarmStart());
-        assertNotEquals(abated1.getClosedLoopAlarmEnd(), abated2.getClosedLoopAlarmEnd());
+        assertTrue(abated1.getClosedLoopAlarmStart().getEpochSecond()
+                        <= abated2.getClosedLoopAlarmStart().getEpochSecond());
+        assertTrue(abated1.getClosedLoopAlarmEnd().getEpochSecond()
+                        <= abated2.getClosedLoopAlarmEnd().getEpochSecond());
 
         abated2.setFrom("here");
         assertNotEquals(abated1, abated2);

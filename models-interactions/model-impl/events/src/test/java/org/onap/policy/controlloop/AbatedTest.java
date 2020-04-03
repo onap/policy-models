@@ -22,7 +22,7 @@ package org.onap.policy.controlloop;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.time.Instant;
 import org.junit.Test;
@@ -37,14 +37,14 @@ public class AbatedTest {
         event.setClosedLoopAlarmEnd(Instant.now());
 
         Abated abated = new Abated(event);
-        assertEquals(abated, event);
+        assertEquals(event, abated);
         assertEquals(event.getClosedLoopAlarmStart(), abated.getClosedLoopAlarmStart());
         assertEquals(ControlLoopEventStatus.ABATED, abated.getClosedLoopEventStatus());
 
         abated.setClosedLoopAlarmEnd(Instant.now());
-        assertNotEquals(abated, event);
+        assertTrue(abated.getClosedLoopAlarmEnd().getEpochSecond() >= event.getClosedLoopAlarmEnd().getEpochSecond());
 
-        assertEquals(new Abated(abated), abated);
+        assertEquals(abated, new Abated(abated));
     }
 
     @Test
