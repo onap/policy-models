@@ -43,46 +43,46 @@ import org.onap.policy.models.pdp.testconcepts.DummyJpaPdpChild;
  */
 public class JpaPdpTest {
 
-    private static final String NULL_KEY_ERROR = "key is marked @NonNull but is null";
+    private static final String NULL_KEY_ERROR = "key is marked .*ull but is null";
     private static final String PDP1 = "ThePDP";
 
     @Test
     public void testJpaPdp() {
         assertThatThrownBy(() -> {
             new JpaPdp((JpaPdp) null);
-        }).hasMessage("copyConcept is marked @NonNull but is null");
+        }).hasMessageMatching("copyConcept is marked .*ull but is null");
 
         assertThatThrownBy(() -> {
             new JpaPdp((PfReferenceKey) null);
-        }).hasMessage(NULL_KEY_ERROR);
+        }).hasMessageMatching(NULL_KEY_ERROR);
 
         assertThatThrownBy(() -> {
             new JpaPdp(null, null, null);
-        }).hasMessage(NULL_KEY_ERROR);
+        }).hasMessageMatching(NULL_KEY_ERROR);
 
         assertThatThrownBy(() -> {
             new JpaPdp(new PfReferenceKey(), null, null);
-        }).hasMessage("pdpState is marked @NonNull but is null");
+        }).hasMessageMatching("pdpState is marked .*ull but is null");
 
         assertThatThrownBy(() -> {
             new JpaPdp(new PfReferenceKey(), PdpState.ACTIVE, null);
-        }).hasMessage("healthy is marked @NonNull but is null");
+        }).hasMessageMatching("healthy is marked .*ull but is null");
 
         assertThatThrownBy(() -> {
             new JpaPdp(null, PdpState.ACTIVE, null);
-        }).hasMessage(NULL_KEY_ERROR);
+        }).hasMessageMatching(NULL_KEY_ERROR);
 
         assertThatThrownBy(() -> {
             new JpaPdp(null, PdpState.ACTIVE, PdpHealthStatus.UNKNOWN);
-        }).hasMessage(NULL_KEY_ERROR);
+        }).hasMessageMatching(NULL_KEY_ERROR);
 
         assertThatThrownBy(() -> {
             new JpaPdp(null, null, PdpHealthStatus.UNKNOWN);
-        }).hasMessage(NULL_KEY_ERROR);
+        }).hasMessageMatching(NULL_KEY_ERROR);
 
         assertThatThrownBy(() -> {
             new JpaPdp((Pdp) null);
-        }).hasMessage("authorativeConcept is marked @NonNull but is null");
+        }).hasMessageMatching("authorativeConcept is marked .*ull but is null");
 
         assertNotNull(new JpaPdp((new PfReferenceKey())));
 
@@ -97,7 +97,7 @@ public class JpaPdpTest {
 
         assertThatThrownBy(() -> {
             testJpaPdp.fromAuthorative(null);
-        }).hasMessage("pdp is marked @NonNull but is null");
+        }).hasMessageMatching("pdp is marked .*ull but is null");
 
         assertThatThrownBy(() -> new JpaPdp((JpaPdp) null)).isInstanceOf(NullPointerException.class);
 
@@ -114,7 +114,7 @@ public class JpaPdpTest {
 
         assertThatThrownBy(() -> {
             testJpaPdp.validate(null);
-        }).hasMessage("resultIn is marked @NonNull but is null");
+        }).hasMessageMatching("resultIn is marked .*ull but is null");
 
         assertFalse(testJpaPdp.validate(new PfValidationResult()).isOk());
         assertTrue(testJpaPdp.validate(new PfValidationResult()).toString()

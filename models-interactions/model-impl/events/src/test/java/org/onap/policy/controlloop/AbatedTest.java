@@ -41,7 +41,7 @@ public class AbatedTest {
         assertEquals(event.getClosedLoopAlarmStart(), abated.getClosedLoopAlarmStart());
         assertEquals(ControlLoopEventStatus.ABATED, abated.getClosedLoopEventStatus());
 
-        abated.setClosedLoopAlarmEnd(Instant.now());
+        abated.setClosedLoopAlarmEnd(Instant.ofEpochSecond(Instant.now().getEpochSecond() + 1));
         assertNotEquals(abated, event);
 
         assertEquals(new Abated(abated), abated);

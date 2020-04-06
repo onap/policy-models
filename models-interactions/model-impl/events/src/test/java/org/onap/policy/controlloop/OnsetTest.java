@@ -42,7 +42,7 @@ public class OnsetTest {
         assertEquals(ControlLoopEventStatus.ONSET, onset.getClosedLoopEventStatus());
         assertEquals(event.getClosedLoopAlarmEnd(), onset.getClosedLoopAlarmEnd());
 
-        onset.setClosedLoopAlarmEnd(Instant.now());
+        onset.setClosedLoopAlarmEnd(Instant.ofEpochSecond(Instant.now().getEpochSecond() + 1));
         assertNotEquals(onset, event);
 
         assertEquals(new Onset(onset), onset);

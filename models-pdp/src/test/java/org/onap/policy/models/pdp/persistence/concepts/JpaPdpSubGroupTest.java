@@ -48,70 +48,70 @@ import org.onap.policy.models.pdp.testconcepts.DummyJpaPdpSubgroupChild;
  */
 public class JpaPdpSubGroupTest {
 
-    private static final String NULL_KEY_ERROR = "key is marked @NonNull but is null";
+    private static final String NULL_KEY_ERROR = "key is marked .*ull but is null";
     private static final String PDP_A = "PDP-A";
 
     @Test
     public void testJpaPdpSubGroup() {
         assertThatThrownBy(() -> {
             new JpaPdpSubGroup((JpaPdpSubGroup) null);
-        }).hasMessage("copyConcept is marked @NonNull but is null");
+        }).hasMessageMatching("copyConcept is marked .*ull but is null");
 
         assertThatThrownBy(() -> {
             new JpaPdpSubGroup((PfReferenceKey) null);
-        }).hasMessage(NULL_KEY_ERROR);
+        }).hasMessageMatching(NULL_KEY_ERROR);
 
         assertThatThrownBy(() -> {
             new JpaPdpSubGroup((PdpSubGroup) null);
-        }).hasMessage("authorativeConcept is marked @NonNull but is null");
+        }).hasMessageMatching("authorativeConcept is marked .*ull but is null");
 
         assertThatThrownBy(() -> {
             new JpaPdpSubGroup(null, null, null, null);
-        }).hasMessage(NULL_KEY_ERROR);
+        }).hasMessageMatching(NULL_KEY_ERROR);
 
         assertThatThrownBy(() -> {
             new JpaPdpSubGroup(new PfReferenceKey(), null, null, null);
-        }).hasMessage("supportedPolicyTypes is marked @NonNull but is null");
+        }).hasMessageMatching("supportedPolicyTypes is marked .*ull but is null");
 
         assertThatThrownBy(() -> {
             new JpaPdpSubGroup(new PfReferenceKey(), new ArrayList<>(), null, null);
-        }).hasMessage("policies is marked @NonNull but is null");
+        }).hasMessageMatching("policies is marked .*ull but is null");
 
         assertThatThrownBy(() -> {
             new JpaPdpSubGroup(null, new ArrayList<>(), null, null);
-        }).hasMessage(NULL_KEY_ERROR);
+        }).hasMessageMatching(NULL_KEY_ERROR);
 
         assertThatThrownBy(() -> {
             new JpaPdpSubGroup(null, new ArrayList<>(), new ArrayList<>(), null);
-        }).hasMessage(NULL_KEY_ERROR);
+        }).hasMessageMatching(NULL_KEY_ERROR);
 
         assertThatThrownBy(() -> {
             new JpaPdpSubGroup(null, null, new ArrayList<>(), null);
-        }).hasMessage(NULL_KEY_ERROR);
+        }).hasMessageMatching(NULL_KEY_ERROR);
 
         assertThatThrownBy(() -> {
             new JpaPdpSubGroup(null, null, null, new ArrayList<>());
-        }).hasMessage(NULL_KEY_ERROR);
+        }).hasMessageMatching(NULL_KEY_ERROR);
 
         assertThatThrownBy(() -> {
             new JpaPdpSubGroup(new PfReferenceKey(), null, null, new ArrayList<>());
-        }).hasMessage("supportedPolicyTypes is marked @NonNull but is null");
+        }).hasMessageMatching("supportedPolicyTypes is marked .*ull but is null");
 
         assertThatThrownBy(() -> {
             new JpaPdpSubGroup(new PfReferenceKey(), new ArrayList<>(), null, new ArrayList<>());
-        }).hasMessage("policies is marked @NonNull but is null");
+        }).hasMessageMatching("policies is marked .*ull but is null");
 
         assertThatThrownBy(() -> {
             new JpaPdpSubGroup(null, new ArrayList<>(), null, new ArrayList<>());
-        }).hasMessage(NULL_KEY_ERROR);
+        }).hasMessageMatching(NULL_KEY_ERROR);
 
         assertThatThrownBy(() -> {
             new JpaPdpSubGroup(null, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-        }).hasMessage(NULL_KEY_ERROR);
+        }).hasMessageMatching(NULL_KEY_ERROR);
 
         assertThatThrownBy(() -> {
             new JpaPdpSubGroup(null, null, new ArrayList<>(), null);
-        }).hasMessage(NULL_KEY_ERROR);
+        }).hasMessageMatching(NULL_KEY_ERROR);
 
         assertNotNull(new JpaPdpSubGroup((new PfReferenceKey())));
 
@@ -126,7 +126,7 @@ public class JpaPdpSubGroupTest {
 
         assertThatThrownBy(() -> {
             testJpaPdpSubGroup.fromAuthorative(null);
-        }).hasMessage("pdpSubgroup is marked @NonNull but is null");
+        }).hasMessageMatching("pdpSubgroup is marked .*ull but is null");
 
         assertThatThrownBy(() -> new JpaPdpSubGroup((JpaPdpSubGroup) null)).isInstanceOf(NullPointerException.class);
 
@@ -139,7 +139,7 @@ public class JpaPdpSubGroupTest {
 
         assertThatThrownBy(() -> {
             testJpaPdpSubGroup.validate(null);
-        }).hasMessage("resultIn is marked @NonNull but is null");
+        }).hasMessageMatching("resultIn is marked .*ull but is null");
 
         assertFalse(testJpaPdpSubGroup.validate(new PfValidationResult()).isOk());
         assertTrue(testJpaPdpSubGroup.validate(new PfValidationResult()).toString()

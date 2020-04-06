@@ -77,7 +77,7 @@ public class PdpGroupFilterTest {
 
         assertThatThrownBy(() -> {
             filter.filter(null);
-        }).hasMessage("originalList is marked @NonNull but is null");
+        }).hasMessageMatching("originalList is marked .*ull but is null");
     }
 
     @Test
