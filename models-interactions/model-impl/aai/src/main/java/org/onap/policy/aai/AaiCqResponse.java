@@ -100,100 +100,115 @@ public class AaiCqResponse implements Serializable {
             resultsArray = (JSONArray) responseObj.get("results");
         }
         for (int i = 0; i < resultsArray.length(); i++) {
-            // Object is a vserver
-            if (resultsArray.getJSONObject(i).has("vserver")) {
+            final JSONObject resultObject = resultsArray.getJSONObject(i);
 
-                // Create the StreamSource by creating StringReader using the
-                // JSON input
-                StreamSource json = new StreamSource(
-                        new StringReader(resultsArray.getJSONObject(i).getJSONObject("vserver").toString()));
-
-                // Getting the vserver pojo again from the json
-                Vserver vserver = this.getAaiObject(json, Vserver.class);
-                this.inventoryResponseItems.add(vserver);
-            }
-
-            // Object is a Generic VNF
-            if (resultsArray.getJSONObject(i).has(GENERIC_VNF)) {
-                // Create the StreamSource by creating StringReader using the
-                // JSON input
-                StreamSource json = new StreamSource(
-                        new StringReader(resultsArray.getJSONObject(i).getJSONObject(GENERIC_VNF).toString()));
-
-                // Getting the generic vnf pojo again from the json
-                GenericVnf genericVnf = this.getAaiObject(json, GenericVnf.class);
-
-                this.inventoryResponseItems.add(genericVnf);
-            }
-
-            // Object is a Service Instance
-            if (resultsArray.getJSONObject(i).has("service-instance")) {
-
-                // Create the StreamSource by creating StringReader using the
-                // JSON input
-                StreamSource json = new StreamSource(
-                        new StringReader(resultsArray.getJSONObject(i).getJSONObject("service-instance").toString()));
-
-                // Getting the employee pojo again from the json
-                ServiceInstance serviceInstance = this.getAaiObject(json, ServiceInstance.class);
-
-                this.inventoryResponseItems.add(serviceInstance);
-            }
-
-            // Object is a VF Module
-            if (resultsArray.getJSONObject(i).has(VF_MODULE)) {
-                // Create the StreamSource by creating StringReader using the
-                // JSON input
-                StreamSource json = new StreamSource(
-                        new StringReader(resultsArray.getJSONObject(i).getJSONObject(VF_MODULE).toString()));
-
-                // Getting the vf module pojo again from the json
-                VfModule vfModule = this.getAaiObject(json, VfModule.class);
-
-                this.inventoryResponseItems.add(vfModule);
-            }
-
-            // Object is a CloudRegion
-            if (resultsArray.getJSONObject(i).has("cloud-region")) {
-                // Create the StreamSource by creating StringReader using the
-                // JSON input
-                StreamSource json = new StreamSource(
-                        new StringReader(resultsArray.getJSONObject(i).getJSONObject("cloud-region").toString()));
-
-                // Getting the cloud region pojo again from the json
-                CloudRegion cloudRegion = this.getAaiObject(json, CloudRegion.class);
-
-                this.inventoryResponseItems.add(cloudRegion);
-            }
-
-            // Object is a Tenant
-            if (resultsArray.getJSONObject(i).has("tenant")) {
-                // Create the StreamSource by creating StringReader using the
-                // JSON input
-                StreamSource json = new StreamSource(
-                        new StringReader(resultsArray.getJSONObject(i).getJSONObject("tenant").toString()));
-
-                // Getting the tenant pojo again from the json
-                Tenant tenant = this.getAaiObject(json, Tenant.class);
-
-                this.inventoryResponseItems.add(tenant);
-            }
-
-            // Object is a ModelVer
-            if (resultsArray.getJSONObject(i).has("model-ver")) {
-                // Create the StreamSource by creating StringReader using the
-                // JSON input
-                StreamSource json = new StreamSource(
-                        new StringReader(resultsArray.getJSONObject(i).getJSONObject("model-ver").toString()));
-
-                // Getting the ModelVer pojo again from the json
-                ModelVer modelVer = this.getAaiObject(json, ModelVer.class);
-
-                this.inventoryResponseItems.add(modelVer);
-            }
-
+            extractVserver(resultObject);
+            extractGenericVnf(resultObject);
+            extractServiceInstance(resultObject);
+            extractVfModule(resultObject);
+            extractCloudRegion(resultObject);
+            extractTenant(resultObject);
+            extractModelVer(resultObject);
         }
+    }
 
+    private void extractVserver(final JSONObject resultObject) {
+        if (resultObject.has("vserver")) {
+
+            // Create the StreamSource by creating StringReader using the
+            // JSON input
+            StreamSource json = new StreamSource(
+                    new StringReader(resultObject.getJSONObject("vserver").toString()));
+
+            // Getting the vserver pojo again from the json
+            Vserver vserver = this.getAaiObject(json, Vserver.class);
+            this.inventoryResponseItems.add(vserver);
+        }
+    }
+
+    private void extractGenericVnf(final JSONObject resultObject) {
+        if (resultObject.has(GENERIC_VNF)) {
+            // Create the StreamSource by creating StringReader using the
+            // JSON input
+            StreamSource json = new StreamSource(
+                    new StringReader(resultObject.getJSONObject(GENERIC_VNF).toString()));
+
+            // Getting the generic vnf pojo again from the json
+            GenericVnf genericVnf = this.getAaiObject(json, GenericVnf.class);
+
+            this.inventoryResponseItems.add(genericVnf);
+        }
+    }
+
+    private void extractServiceInstance(final JSONObject resultObject) {
+        if (resultObject.has("service-instance")) {
+
+            // Create the StreamSource by creating StringReader using the
+            // JSON input
+            StreamSource json = new StreamSource(
+                    new StringReader(resultObject.getJSONObject("service-instance").toString()));
+
+            // Getting the employee pojo again from the json
+            ServiceInstance serviceInstance = this.getAaiObject(json, ServiceInstance.class);
+
+            this.inventoryResponseItems.add(serviceInstance);
+        }
+    }
+
+    private void extractVfModule(final JSONObject resultObject) {
+        if (resultObject.has(VF_MODULE)) {
+            // Create the StreamSource by creating StringReader using the
+            // JSON input
+            StreamSource json = new StreamSource(
+                    new StringReader(resultObject.getJSONObject(VF_MODULE).toString()));
+
+            // Getting the vf module pojo again from the json
+            VfModule vfModule = this.getAaiObject(json, VfModule.class);
+
+            this.inventoryResponseItems.add(vfModule);
+        }
+    }
+
+    private void extractCloudRegion(final JSONObject resultObject) {
+        if (resultObject.has("cloud-region")) {
+            // Create the StreamSource by creating StringReader using the
+            // JSON input
+            StreamSource json = new StreamSource(
+                    new StringReader(resultObject.getJSONObject("cloud-region").toString()));
+
+            // Getting the cloud region pojo again from the json
+            CloudRegion cloudRegion = this.getAaiObject(json, CloudRegion.class);
+
+            this.inventoryResponseItems.add(cloudRegion);
+        }
+    }
+
+    private void extractTenant(final JSONObject resultObject) {
+        if (resultObject.has("tenant")) {
+            // Create the StreamSource by creating StringReader using the
+            // JSON input
+            StreamSource json = new StreamSource(
+                    new StringReader(resultObject.getJSONObject("tenant").toString()));
+
+            // Getting the tenant pojo again from the json
+            Tenant tenant = this.getAaiObject(json, Tenant.class);
+
+            this.inventoryResponseItems.add(tenant);
+        }
+    }
+
+    private void extractModelVer(final JSONObject resultObject) {
+        if (resultObject.has("model-ver")) {
+            // Create the StreamSource by creating StringReader using the
+            // JSON input
+            StreamSource json = new StreamSource(
+                    new StringReader(resultObject.getJSONObject("model-ver").toString()));
+
+            // Getting the ModelVer pojo again from the json
+            ModelVer modelVer = this.getAaiObject(json, ModelVer.class);
+
+            this.inventoryResponseItems.add(modelVer);
+        }
     }
 
     private <T> T getAaiObject(StreamSource json, final Class<T> classOfResponse) {

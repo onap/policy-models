@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Model
  * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -239,7 +239,7 @@ public class JpaPdpGroup extends PfConcept implements PfAuthorative<PdpGroup> {
         }
 
         if (properties != null) {
-            result = validateProperties(result);
+            validateProperties(result);
         }
 
         if (pdpSubGroups == null) {
@@ -257,11 +257,9 @@ public class JpaPdpGroup extends PfConcept implements PfAuthorative<PdpGroup> {
     /**
      * Validate the properties.
      *
-     * @param resultIn the incoming validation results so far
-     * @return the revalidation results including the property validation results
+     * @param result where to place any new validation results
      */
-    private PfValidationResult validateProperties(PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
+    private void validateProperties(PfValidationResult result) {
 
         for (Entry<String, String> propertyEntry : properties.entrySet()) {
             if (!ParameterValidationUtils.validateStringParameter(propertyEntry.getKey())) {
@@ -273,8 +271,6 @@ public class JpaPdpGroup extends PfConcept implements PfAuthorative<PdpGroup> {
                         "a property value may not be null or blank"));
             }
         }
-
-        return result;
     }
 
     @Override

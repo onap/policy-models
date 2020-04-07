@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * appc
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,12 +29,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.UUID;
-
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 public class CommonHeader implements Serializable {
     private static final long serialVersionUID = -3581658269910980336L;
 
@@ -87,80 +88,5 @@ public class CommonHeader implements Serializable {
         return "CommonHeader [TimeStamp=" + timeStamp + ", APIver=" + apiVer + ", OriginatorId=" + originatorId
                 + ", RequestId=" + requestId + ", SubrequestId=" + subRequestId + ", RequestTrack=" + requestTrack
                 + ", Flags=" + flags + "]";
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((apiVer == null) ? 0 : apiVer.hashCode());
-        result = prime * result + ((flags == null) ? 0 : flags.hashCode());
-        result = prime * result + ((originatorId == null) ? 0 : originatorId.hashCode());
-        result = prime * result + ((requestId == null) ? 0 : requestId.hashCode());
-        result = prime * result + ((requestTrack == null) ? 0 : requestTrack.hashCode());
-        result = prime * result + ((subRequestId == null) ? 0 : subRequestId.hashCode());
-        result = prime * result + ((timeStamp == null) ? 0 : timeStamp.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        CommonHeader other = (CommonHeader) obj;
-        if (apiVer == null) {
-            if (other.apiVer != null) {
-                return false;
-            }
-        } else if (!apiVer.equals(other.apiVer)) {
-            return false;
-        }
-        if (flags == null) {
-            if (other.flags != null) {
-                return false;
-            }
-        } else if (!flags.equals(other.flags)) {
-            return false;
-        }
-        if (originatorId == null) {
-            if (other.originatorId != null) {
-                return false;
-            }
-        } else if (!originatorId.equals(other.originatorId)) {
-            return false;
-        }
-        if (requestId == null) {
-            if (other.requestId != null) {
-                return false;
-            }
-        } else if (!requestId.equals(other.requestId)) {
-            return false;
-        }
-        if (requestTrack == null) {
-            if (other.requestTrack != null) {
-                return false;
-            }
-        } else if (!requestTrack.equals(other.requestTrack)) {
-            return false;
-        }
-        if (subRequestId == null) {
-            if (other.subRequestId != null) {
-                return false;
-            }
-        } else if (!subRequestId.equals(other.subRequestId)) {
-            return false;
-        }
-        if (timeStamp == null) {
-            return other.timeStamp == null;
-        } else {
-            return timeStamp.equals(other.timeStamp);
-        }
     }
 }

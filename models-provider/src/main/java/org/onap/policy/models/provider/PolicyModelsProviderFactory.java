@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,11 +22,8 @@
 package org.onap.policy.models.provider;
 
 import javax.ws.rs.core.Response;
-
 import lombok.NonNull;
-
 import org.onap.policy.models.base.PfModelException;
-import org.onap.policy.models.dao.impl.DefaultPfDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,7 +33,7 @@ import org.slf4j.LoggerFactory;
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 public class PolicyModelsProviderFactory {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultPfDao.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PolicyModelsProviderFactory.class);
 
     /**
      * Creates a new PolicyModelsProvider object from its implementation.
@@ -54,7 +51,7 @@ public class PolicyModelsProviderFactory {
         } catch (final Exception exc) {
             String errorMessage = "could not find implementation of the \"PolicyModelsProvider\" interface \""
                     + parameters.getImplementation() + "\"";
-            LOGGER.warn(errorMessage, exc);
+            LOGGER.warn(errorMessage);
             throw new PfModelException(Response.Status.NOT_FOUND, errorMessage, exc);
         }
 
@@ -76,7 +73,7 @@ public class PolicyModelsProviderFactory {
         } catch (Exception exc) {
             String errorMessage =
                     "could not create an instance of PolicyModelsProvider \"" + parameters.getImplementation() + "\"";
-            LOGGER.warn(errorMessage, exc);
+            LOGGER.warn(errorMessage);
             throw new PfModelException(Response.Status.INTERNAL_SERVER_ERROR, errorMessage, exc);
         }
     }

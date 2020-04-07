@@ -4,6 +4,7 @@
  * ================================================================================
  * Copyright (C) 2018 Wipro Limited Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,11 +23,13 @@
 package org.onap.policy.sdnr;
 
 import java.io.Serializable;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@EqualsAndHashCode(callSuper = true)
 public class PciResponseWrapper extends PciWrapper implements Serializable {
 
     private static final long serialVersionUID = 109837814781086802L;
@@ -40,32 +43,5 @@ public class PciResponseWrapper extends PciWrapper implements Serializable {
     @Override
     public String toString() {
         return "ResponseWrapper [body=" + body + ", toString()=" + super.toString() + "]";
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + ((body == null) ? 0 : body.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (!super.equals(obj)) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        PciResponseWrapper other = (PciResponseWrapper) obj;
-        if (body == null) {
-            return other.body == null;
-        } else {
-            return body.equals(other.body);
-        }
     }
 }

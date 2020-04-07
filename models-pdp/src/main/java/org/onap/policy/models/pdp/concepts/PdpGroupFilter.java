@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -119,10 +119,11 @@ public class PdpGroupFilter implements PfObjectFilter<PdpGroup> {
         }
 
         for (PdpSubGroup pdpSubGroup : pdpGroup.getPdpSubgroups()) {
-            if (matchPolicyTypesExactly && areListsIdentical(pdpSubGroup.getSupportedPolicyTypes(), typeFilter)) {
-                return true;
-            } else if (!matchPolicyTypesExactly
-                    && findSupportedPolicyType(pdpSubGroup.getSupportedPolicyTypes(), typeFilter)) {
+            if (matchPolicyTypesExactly) {
+                if (areListsIdentical(pdpSubGroup.getSupportedPolicyTypes(), typeFilter)) {
+                    return true;
+                }
+            } else if (findSupportedPolicyType(pdpSubGroup.getSupportedPolicyTypes(), typeFilter)) {
                 return true;
             }
         }
@@ -172,9 +173,11 @@ public class PdpGroupFilter implements PfObjectFilter<PdpGroup> {
         }
 
         for (PdpSubGroup pdpSubGroup : pdpGroup.getPdpSubgroups()) {
-            if (matchPoliciesExactly && areListsIdentical(pdpSubGroup.getPolicies(), policyFilter)) {
-                return true;
-            } else if (!matchPoliciesExactly && findSingleElement(pdpSubGroup.getPolicies(), policyFilter)) {
+            if (matchPoliciesExactly) {
+                if (areListsIdentical(pdpSubGroup.getPolicies(), policyFilter)) {
+                    return true;
+                }
+            } else if (findSingleElement(pdpSubGroup.getPolicies(), policyFilter)) {
                 return true;
             }
         }

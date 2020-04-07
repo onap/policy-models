@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2019 Bell Canada.
- * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@
 
 package org.onap.policy.cds.client;
 
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -128,7 +129,7 @@ public class CdsProcessorGrpcClientTest {
 
     @Test
     public void testCdsProcessorGrpcClientConstructor() {
-        new CdsProcessorGrpcClient(listener, props).close();
+        assertThatCode(() -> new CdsProcessorGrpcClient(listener, props).close()).doesNotThrowAnyException();
     }
 
     @Test(expected = IllegalStateException.class)

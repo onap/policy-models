@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * rest
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +21,7 @@
 
 package org.onap.policy.rest;
 
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Map.Entry;
 import javax.xml.bind.DatatypeConverter;
@@ -262,6 +262,6 @@ public class RestManager {
         }
 
         String auth = username + ":" + (password == null ? "" : password);
-        return "Basic " + DatatypeConverter.printBase64Binary(auth.getBytes(Charset.forName("ISO-8859-1")));
+        return "Basic " + DatatypeConverter.printBase64Binary(auth.getBytes(StandardCharsets.ISO_8859_1));
     }
 }

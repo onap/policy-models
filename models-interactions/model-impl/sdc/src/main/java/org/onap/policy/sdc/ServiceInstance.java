@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * sdc
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,6 +30,10 @@ public class ServiceInstance implements Serializable {
 
     private static final long serialVersionUID = 6285260780966679625L;
 
+    /*
+     * Note the field names ending in "UUID" may not be changed without breaking the
+     * interface, due to limitations in the YAML encoder/decoder.
+     */
     private UUID personaModelUUID;
     private UUID serviceUUID;
     private UUID serviceInstanceUUID;

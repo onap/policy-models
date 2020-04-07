@@ -58,7 +58,7 @@ public class PfDaoFactory {
                         | InvocationTargetException | NoSuchMethodException | SecurityException e) {
             String errorMessage =
                     "Policy Framework DAO class not found for DAO plugin \"" + daoParameters.getPluginClass() + "\"";
-            LOGGER.error(errorMessage, e);
+            LOGGER.error(errorMessage);
             throw new PfModelException(Response.Status.INTERNAL_SERVER_ERROR, errorMessage, e);
         }
 

@@ -4,7 +4,7 @@
  * ================================================================================
  * Copyright (C) 2018 Huawei. All rights reserved.
  * ================================================================================
- * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved
+ * Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,12 +24,13 @@
 package org.onap.policy.sdnc;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.endsWith;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.startsWith;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.UUID;
@@ -48,7 +49,6 @@ public class SdncManagerTest implements SdncCallback {
     private RestManager   mockedRestManager;
 
     private Pair<Integer, String> httpResponsePutOk;
-    private Pair<Integer, String> httpResponseGetOk;
     private Pair<Integer, String> httpResponseBadResponse;
     private Pair<Integer, String> httpResponseErr;
 
@@ -63,7 +63,6 @@ public class SdncManagerTest implements SdncCallback {
         mockedRestManager   = mock(RestManager.class);
 
         httpResponsePutOk       = mockedRestManager.new Pair<>(202, Serialization.gsonPretty.toJson(response));
-        httpResponseGetOk       = mockedRestManager.new Pair<>(200, Serialization.gsonPretty.toJson(response));
         httpResponseBadResponse = mockedRestManager.new Pair<>(202, Serialization.gsonPretty.toJson(null));
         httpResponseErr         = mockedRestManager.new Pair<>(200, null);
     }
@@ -120,14 +119,15 @@ public class SdncManagerTest implements SdncCallback {
         SdncManager manager = new SdncManager(this, request, SOMEWHERE_OVER_THE_RAINBOW, DOROTHY, "Exception");
         manager.setRestManager(mockedRestManager);
 
-        Thread managerThread = new Thread(manager);
-        managerThread.start();
-
         when(mockedRestManager.post(startsWith(SOMEWHERE_OVER_THE_RAINBOW), eq(DOROTHY), eq("Exception"), anyMap(),
                         anyString(), anyString())).thenThrow(new RuntimeException("OzException"));
 
+        Thread managerThread = new Thread(manager);
+        managerThread.start();
 
-        managerThread.join(100);
+        managerThread.join(1000);
+
+        verify(mockedRestManager).post(any(), any(), any(), any(), any(), any());
     }
 
     @Test
@@ -135,13 +135,12 @@ public class SdncManagerTest implements SdncCallback {
         SdncManager manager = new SdncManager(this, request, SOMEWHERE_OVER_THE_RAINBOW, DOROTHY, "Null");
         manager.setRestManager(mockedRestManager);
 
-        Thread managerThread = new Thread(manager);
-        managerThread.start();
-
         when(mockedRestManager.post(startsWith(SOMEWHERE_OVER_THE_RAINBOW), eq(DOROTHY), eq("Null"), anyMap(),
                         anyString(), anyString())).thenReturn(null);
 
-        managerThread.join(100);
+        manager.run();
+
+        verify(mockedRestManager).post(any(), any(), any(), any(), any(), any());
     }
 
 
@@ -150,13 +149,12 @@ public class SdncManagerTest implements SdncCallback {
         SdncManager manager = new SdncManager(this, request, SOMEWHERE_OVER_THE_RAINBOW, DOROTHY, "Error0");
         manager.setRestManager(mockedRestManager);
 
-        Thread managerThread = new Thread(manager);
-        managerThread.start();
-
         when(mockedRestManager.post(startsWith(SOMEWHERE_OVER_THE_RAINBOW), eq(DOROTHY), eq("Error0"), anyMap(),
                         anyString(), anyString())).thenReturn(httpResponseErr);
 
-        managerThread.join(100);
+        manager.run();
+
+        verify(mockedRestManager).post(any(), any(), any(), any(), any(), any());
     }
 
     @Test
@@ -164,13 +162,12 @@ public class SdncManagerTest implements SdncCallback {
         SdncManager manager = new SdncManager(this, request, SOMEWHERE_OVER_THE_RAINBOW, DOROTHY, "BadResponse");
         manager.setRestManager(mockedRestManager);
 
-        Thread managerThread = new Thread(manager);
-        managerThread.start();
-
         when(mockedRestManager.post(startsWith(SOMEWHERE_OVER_THE_RAINBOW), eq(DOROTHY), eq("OK"), anyMap(),
                         anyString(), anyString())).thenReturn(httpResponseBadResponse);
 
-        managerThread.join(100);
+        manager.run();
+
+        verify(mockedRestManager).post(any(), any(), any(), any(), any(), any());
     }
 
     @Test
@@ -178,17 +175,12 @@ public class SdncManagerTest implements SdncCallback {
         SdncManager manager = new SdncManager(this, request, SOMEWHERE_OVER_THE_RAINBOW, DOROTHY, "OOK");
         manager.setRestManager(mockedRestManager);
 
-        Thread managerThread = new Thread(manager);
-        managerThread.start();
-
         when(mockedRestManager.post(startsWith(SOMEWHERE_OVER_THE_RAINBOW), eq(DOROTHY), eq("OK"), anyMap(),
                         anyString(), anyString())).thenReturn(httpResponsePutOk);
 
-        when(mockedRestManager.get(endsWith("1234"), eq(DOROTHY), eq("OK"), anyMap()))
-            .thenReturn(httpResponseGetOk);
+        manager.run();
 
-
-        managerThread.join(100);
+        verify(mockedRestManager).post(any(), any(), any(), any(), any(), any());
     }
 
     @Override

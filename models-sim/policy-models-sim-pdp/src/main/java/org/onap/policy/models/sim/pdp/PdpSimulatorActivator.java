@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,7 +55,12 @@ public class PdpSimulatorActivator {
     private List<TopicSink> topicSinks;// topics to which pdp sends pdp status
     private List<TopicSource> topicSources; // topics to which pdp listens to for messages from pap.
     private static final String[] MSG_TYPE_NAMES = { "messageName" };
-    private static final Random RANDOM = new Random();
+
+    /*
+     * This simulator is only used for testing. Consequently, it is safe to use a simple
+     * random number generator, thus the sonar is disabled.
+     */
+    private static final Random RANDOM = new Random();      // NOSONAR
 
     /**
      * Listens for messages on the topic, decodes them into a message, and then dispatches them.

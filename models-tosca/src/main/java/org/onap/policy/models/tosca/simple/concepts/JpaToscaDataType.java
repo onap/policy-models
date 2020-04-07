@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Model
  * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -196,7 +196,7 @@ public class JpaToscaDataType extends JpaToscaEntityType<ToscaDataType> implemen
         PfValidationResult result = super.validate(resultIn);
 
         if (constraints != null) {
-            result = validateConstraints(result);
+            validateConstraints(result);
         }
 
         if (properties != null) {
@@ -209,19 +209,15 @@ public class JpaToscaDataType extends JpaToscaEntityType<ToscaDataType> implemen
     /**
      * Validate the constraints.
      *
-     * @param result The result of validations up to now
-     * @return the validation result
+     * @param result where to put the validation results
      */
-    private PfValidationResult validateConstraints(@NonNull final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
-
+    private void validateConstraints(@NonNull final PfValidationResult result) {
         for (JpaToscaConstraint constraint : constraints) {
             if (constraint == null) {
                 result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
                         "data type constraint may not be null "));
             }
         }
-        return result;
     }
 
     /**

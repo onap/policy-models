@@ -21,6 +21,7 @@
 
 package org.onap.policy.models.base;
 
+import com.google.re2j.Pattern;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -72,6 +73,8 @@ import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> extends PfConcept
     implements PfConceptGetter<C>, PfAuthorative<List<Map<String, A>>> {
     private static final long serialVersionUID = -324211738823208318L;
+
+    private static final Pattern KEY_ID_PATTERN = Pattern.compile(PfKey.KEY_ID_REGEXP);
 
     @EmbeddedId
     private PfConceptKey key;
@@ -183,7 +186,7 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
             for (Entry<String, A> incomingConceptEntry : incomingConceptMap.entrySet()) {
 
                 PfConceptKey conceptKey = new PfConceptKey();
-                if (incomingConceptEntry.getKey().matches(PfKey.KEY_ID_REGEXP)) {
+                if (KEY_ID_PATTERN.matches(incomingConceptEntry.getKey())) {
                     conceptKey = new PfConceptKey(incomingConceptEntry.getKey());
                 } else {
                     conceptKey.setName(incomingConceptEntry.getKey());

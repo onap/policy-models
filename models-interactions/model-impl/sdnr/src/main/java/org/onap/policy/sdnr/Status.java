@@ -4,6 +4,7 @@
  * ================================================================================
  * Copyright (C) 2018 Wipro Limited Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,11 +25,13 @@ package org.onap.policy.sdnr;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 public class Status implements Serializable {
 
     private static final long serialVersionUID = 877641506135467199L;
@@ -56,36 +59,5 @@ public class Status implements Serializable {
     @Override
     public String toString() {
         return "Status [code = " + code + ", value = " + value + "]";
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + code;
-        result = prime * result + ((value == null) ? 0 : value.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        Status other = (Status) obj;
-        if (code != other.code) {
-            return false;
-        }
-        if (value == null) {
-            return other.value == null;
-        } else {
-            return value.equals(other.value);
-        }
     }
 }

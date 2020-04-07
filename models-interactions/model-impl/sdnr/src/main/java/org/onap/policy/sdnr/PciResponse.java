@@ -4,6 +4,7 @@
  * ================================================================================
  * Copyright (C) 2018 Wipro Limited Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,11 +25,13 @@ package org.onap.policy.sdnr;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 public class PciResponse implements Serializable {
 
     private static final long serialVersionUID = 8375708697287669750L;
@@ -61,48 +64,5 @@ public class PciResponse implements Serializable {
     public String toString() {
         return "PciResponse[CommonHeader=" + commonHeader + ", Status=" + status + ", Payload="
                 + payload + "]";
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((commonHeader == null) ? 0 : commonHeader.hashCode());
-        result = prime * result + ((payload == null) ? 0 : payload.hashCode());
-        result = prime * result + ((status == null) ? 0 : status.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        PciResponse other = (PciResponse) obj;
-        if (commonHeader == null) {
-            if (other.commonHeader != null) {
-                return false;
-            }
-        } else if (!commonHeader.equals(other.commonHeader)) {
-            return false;
-        }
-        if (payload == null) {
-            if (other.payload != null) {
-                return false;
-            }
-        } else if (!payload.equals(other.payload)) {
-            return false;
-        }
-        if (status == null) {
-            return other.status == null;
-        } else {
-            return status.equals(other.status);
-        }
     }
 }
