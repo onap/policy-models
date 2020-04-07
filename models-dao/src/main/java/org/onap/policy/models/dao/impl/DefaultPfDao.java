@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -120,7 +120,7 @@ public class DefaultPfDao implements PfDao {
         } catch (final Exception ex) {
             String errorMessage = "Creation of Policy Framework persistence unit \""
                     + daoParameters.getPersistenceUnit() + "\" failed";
-            LOGGER.warn(errorMessage, ex);
+            LOGGER.warn(errorMessage);
             throw new PfModelException(Response.Status.INTERNAL_SERVER_ERROR, errorMessage, ex);
         }
         LOGGER.debug("Created Policy Framework persistence unit \"{}\"", daoParameters.getPersistenceUnit());
@@ -362,11 +362,7 @@ public class DefaultPfDao implements PfDao {
 
         try {
             if (filterMap != null) {
-                StringBuilder bld = new StringBuilder(filterQueryString);
-                for (String key : filterMap.keySet()) {
-                    bld.append("c." + key + "= :" + key + AND);
-                }
-                filterQueryString = bld.toString();
+                filterQueryString = buildFilter(filterMap, filterQueryString);
             }
             filterQueryString = addKeyFilterString(filterQueryString, name, startTime, endTime);
             if (getRecordNum > 0) {
@@ -405,42 +401,30 @@ public class DefaultPfDao implements PfDao {
         }
     }
 
+    private String buildFilter(final Map<String, Object> filterMap, String filterQueryString) {
+        StringBuilder bld = new StringBuilder(filterQueryString);
+        for (String key : filterMap.keySet()) {
+            bld.append("c." + key + "= :" + key + AND);
+        }
+        return bld.toString();
+    }
+
     @Override
     public <T extends PfConcept> T get(final Class<T> someClass, final PfConceptKey key) {
-        if (someClass == null) {
-            return null;
-        }
-        final EntityManager mg = getEntityManager();
-        try {
-            final T t = mg.find(someClass, key);
-            if (t != null) {
-                mg.refresh(t);
-            }
-            return checkAndReturn(someClass, t);
-        } finally {
-            mg.close();
-        }
+        return genericGet(someClass, key);
     }
 
     @Override
     public <T extends PfConcept> T get(final Class<T> someClass, final PfReferenceKey key) {
-        if (someClass == null) {
-            return null;
-        }
-        final EntityManager mg = getEntityManager();
-        try {
-            final T t = mg.find(someClass, key);
-            if (t != null) {
-                mg.refresh(t);
-            }
-            return checkAndReturn(someClass, t);
-        } finally {
-            mg.close();
-        }
+        return genericGet(someClass, key);
     }
 
     @Override
     public <T extends PfConcept> T get(final Class<T> someClass, final PfTimestampKey key) {
+        return genericGet(someClass, key);
+    }
+
+    private <T extends PfConcept> T genericGet(final Class<T> someClass, final Object key) {
         if (someClass == null) {
             return null;
         }
@@ -570,7 +554,11 @@ public class DefaultPfDao implements PfDao {
         final EntityManager mg = getEntityManager();
         long size = 0;
         try {
-            size = mg.createQuery("SELECT COUNT(c) FROM " + someClass.getSimpleName() + " c", Long.class)
+            /*
+             * Concatenation should be safe because the class name should be safe, thus
+             * disabling sonar.
+             */
+            size = mg.createQuery("SELECT COUNT(c) FROM " + someClass.getSimpleName() + " c", Long.class)   // NOSONAR
                     .getSingleResult();
         } finally {
             mg.close();

@@ -4,7 +4,7 @@
  * ================================================================================
  * Copyright (C) 2018 Wipro Limited Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
- * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,11 +25,13 @@ package org.onap.policy.sdnr;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 public class PciRequest implements Serializable {
 
     private static final long serialVersionUID = 323235565922846624L;
@@ -98,48 +100,5 @@ public class PciRequest implements Serializable {
     @Override
     public String toString() {
         return "PciRequest[commonHeader=" + commonHeader + ", action=" + action + ", payload=" + payload + "]";
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((commonHeader == null) ? 0 : commonHeader.hashCode());
-        result = prime * result + ((action == null) ? 0 : action.hashCode());
-        result = prime * result + ((payload == null) ? 0 : payload.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        PciRequest other = (PciRequest) obj;
-        if (commonHeader == null) {
-            if (other.commonHeader != null) {
-                return false;
-            }
-        } else if (!commonHeader.equals(other.commonHeader)) {
-            return false;
-        }
-        if (action == null) {
-            if (other.action != null) {
-                return false;
-            }
-        } else if (!action.equals(other.action)) {
-            return false;
-        }
-        if (payload == null) {
-            return other.payload == null;
-        } else {
-            return payload.equals(other.payload);
-        }
     }
 }

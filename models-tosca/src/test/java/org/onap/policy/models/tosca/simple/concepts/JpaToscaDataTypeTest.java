@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -124,7 +124,7 @@ public class JpaToscaDataTypeTest {
 
         assertThatThrownBy(() -> {
             tdt.validate(null);
-        }).hasMessageMatching("resultIn is marked .*on.*ull but is null");
+        }).hasMessageMatching("result is marked .*on.*ull but is null");
 
         ToscaDataType dat = new ToscaDataType();
         dat.setName("name");

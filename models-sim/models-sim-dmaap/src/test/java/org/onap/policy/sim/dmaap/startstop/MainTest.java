@@ -1,6 +1,6 @@
 /*
  * ============LICENSE_START=======================================================
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
 
 package org.onap.policy.sim.dmaap.startstop;
 
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -88,7 +89,7 @@ public class MainTest {
     @Test
     public void testMain_Help() {
         final String[] NormalParameters = {"-h"};
-        Main.main(NormalParameters);
+        assertThatCode(() -> Main.main(NormalParameters)).doesNotThrowAnyException();
     }
 
     @Test

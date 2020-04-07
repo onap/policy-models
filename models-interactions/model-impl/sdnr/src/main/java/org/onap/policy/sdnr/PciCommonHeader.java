@@ -4,7 +4,7 @@
  * ================================================================================
  * Copyright (C) 2018 Wipro Limited Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
- * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,11 +29,13 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 public class PciCommonHeader implements Serializable {
 
     private static final long serialVersionUID = 5435363539127062114L;
@@ -84,72 +86,5 @@ public class PciCommonHeader implements Serializable {
         return "CommonHeader [timeStamp=" + timeStamp + ", apiVer=" + apiVer
                    + ", requestId=" + requestId + ", subRequestId=" + subRequestId + ", requestTrack=" + requestTrack
                    + ", flags=" + flags + "]";
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((apiVer == null) ? 0 : apiVer.hashCode());
-        result = prime * result + ((flags == null) ? 0 : flags.hashCode());
-        result = prime * result + ((requestTrack == null) ? 0 : requestTrack.hashCode());
-        result = prime * result + ((requestId == null) ? 0 : requestId.hashCode());
-        result = prime * result + ((subRequestId == null) ? 0 : subRequestId.hashCode());
-        result = prime * result + ((timeStamp == null) ? 0 : timeStamp.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        PciCommonHeader other = (PciCommonHeader) obj;
-        if (apiVer == null) {
-            if (other.apiVer != null) {
-                return false;
-            }
-        } else if (!apiVer.equals(other.apiVer)) {
-            return false;
-        }
-        if (flags == null) {
-            if (other.flags != null) {
-                return false;
-            }
-        } else if (!flags.equals(other.flags)) {
-            return false;
-        }
-        if (requestTrack == null) {
-            if (other.requestTrack != null) {
-                return false;
-            }
-        } else if (!requestTrack.equals(other.requestTrack)) {
-            return false;
-        }
-        if (requestId == null) {
-            if (other.requestId != null) {
-                return false;
-            }
-        } else if (!requestId.equals(other.requestId)) {
-            return false;
-        }
-        if (subRequestId == null) {
-            if (other.subRequestId != null) {
-                return false;
-            }
-        } else if (!subRequestId.equals(other.subRequestId)) {
-            return false;
-        }
-        if (timeStamp == null) {
-            return other.timeStamp == null;
-        } else {
-            return timeStamp.equals(other.timeStamp);
-        }
     }
 }

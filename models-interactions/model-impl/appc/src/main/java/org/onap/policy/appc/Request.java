@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * appc
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,11 +26,13 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 public class Request implements Serializable {
     private static final long serialVersionUID = -3912323643990646431L;
 
@@ -51,74 +53,6 @@ public class Request implements Serializable {
 
     public Request() {
         // Initiate an empty Request instance
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((action == null) ? 0 : action.hashCode());
-        result = prime * result + ((commonHeader == null) ? 0 : commonHeader.hashCode());
-        result = prime * result + ((objectId == null) ? 0 : objectId.hashCode());
-        result = prime * result + ((payload == null) ? 0 : payload.hashCode());
-        result = prime * result + ((targetId == null) ? 0 : targetId.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-
-        Request other = (Request) obj;
-        if (action == null) {
-            if (other.action != null) {
-                return false;
-            }
-        } else if (!action.equals(other.action)) {
-            return false;
-        }
-
-        if (commonHeader == null) {
-            if (other.commonHeader != null) {
-                return false;
-            }
-        } else if (!commonHeader.equals(other.commonHeader)) {
-            return false;
-        }
-
-        if (objectId == null) {
-            if (other.objectId != null) {
-                return false;
-            }
-        } else if (!objectId.equals(other.objectId)) {
-            return false;
-        }
-
-        if (payload == null) {
-            if (other.payload != null) {
-                return false;
-            }
-        } else if (!payload.equals(other.payload)) {
-            return false;
-        }
-
-        if (targetId == null) {
-            if (other.targetId != null) {
-                return false;
-            }
-        } else if (!targetId.equals(other.targetId)) {
-            return false;
-        }
-
-        return true;
     }
 
     @Override

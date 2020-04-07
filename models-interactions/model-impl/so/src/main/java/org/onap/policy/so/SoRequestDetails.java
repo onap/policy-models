@@ -4,6 +4,7 @@
  * ================================================================================
  * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,11 +26,13 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 public class SoRequestDetails implements Serializable {
 
     private static final long serialVersionUID = -3283942659786236032L;
@@ -57,81 +60,6 @@ public class SoRequestDetails implements Serializable {
         this.relatedInstanceList = soRequestDetails.relatedInstanceList;
         this.requestParameters = soRequestDetails.requestParameters;
         this.subscriberInfo = soRequestDetails.subscriberInfo;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        SoRequestDetails other = (SoRequestDetails) obj;
-        if (cloudConfiguration == null) {
-            if (other.cloudConfiguration != null) {
-                return false;
-            }
-        } else if (!cloudConfiguration.equals(other.cloudConfiguration)) {
-            return false;
-        }
-        if (configurationParameters == null) {
-            if (other.configurationParameters != null) {
-                return false;
-            }
-        } else if (!configurationParameters.equals(other.configurationParameters)) {
-            return false;
-        }
-        if (modelInfo == null) {
-            if (other.modelInfo != null) {
-                return false;
-            }
-        } else if (!modelInfo.equals(other.modelInfo)) {
-            return false;
-        }
-        if (relatedInstanceList == null) {
-            if (other.relatedInstanceList != null) {
-                return false;
-            }
-        } else if (!relatedInstanceList.equals(other.relatedInstanceList)) {
-            return false;
-        }
-        if (requestInfo == null) {
-            if (other.requestInfo != null) {
-                return false;
-            }
-        } else if (!requestInfo.equals(other.requestInfo)) {
-            return false;
-        }
-        if (requestParameters == null) {
-            if (other.requestParameters != null) {
-                return false;
-            }
-        } else if (!requestParameters.equals(other.requestParameters)) {
-            return false;
-        }
-        if (subscriberInfo == null) {
-            return other.subscriberInfo == null;
-        } else {
-            return subscriberInfo.equals(other.subscriberInfo);
-        }
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((cloudConfiguration == null) ? 0 : cloudConfiguration.hashCode());
-        result = prime * result + ((configurationParameters == null) ? 0 : configurationParameters.hashCode());
-        result = prime * result + ((modelInfo == null) ? 0 : modelInfo.hashCode());
-        result = prime * result + ((relatedInstanceList == null) ? 0 : relatedInstanceList.hashCode());
-        result = prime * result + ((requestInfo == null) ? 0 : requestInfo.hashCode());
-        result = prime * result + ((requestParameters == null) ? 0 : requestParameters.hashCode());
-        result = prime * result + ((subscriberInfo == null) ? 0 : subscriberInfo.hashCode());
-        return result;
     }
 
     @Override

@@ -18,6 +18,7 @@
 
 package org.onap.policy.models.sim.dmaap.provider;
 
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -242,14 +243,15 @@ public class DmaapSimProviderTest {
         // use a real provider so we can test the real makeTimer() method
         DmaapSimProvider prov2 = new DmaapSimProvider(params);
         prov2.start();
-        prov2.stop();
+        assertThatCode(() -> prov2.stop()).doesNotThrowAnyException();
     }
 
     @Test
     public void testMakeTopicData() {
         // use a real provider so we can test the real makeTopicData() method
         DmaapSimProvider prov2 = new DmaapSimProvider(params);
-        prov2.processDmaapMessageGet(TOPIC1, CONSUMER1, CONSUMER_ID1, 0, 0);
+        assertThatCode(() -> prov2.processDmaapMessageGet(TOPIC1, CONSUMER1, CONSUMER_ID1, 0, 0))
+                        .doesNotThrowAnyException();
     }
 
     @Test
