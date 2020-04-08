@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3484e44_389ec11a",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/AaiCqResponse.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-04-08T12:10:14Z",
+      "side": 1,
+      "message": "nice!",
+      "revId": "9b3ff5f270572a6760ff07dda9577cdadb53b088",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fe63f6f_d4b4bcdd",
+        "filename": "models-interactions/model-impl/events/src/test/java/org/onap/policy/controlloop/ControlLoopTargetTypeTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-04-08T12:10:14Z",
+      "side": 1,
+      "message": "thank you - i think we\u0027ve fixed this test multiple times by swapping the args. I don\u0027t think sonar gets this right.",
+      "revId": "9b3ff5f270572a6760ff07dda9577cdadb53b088",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
