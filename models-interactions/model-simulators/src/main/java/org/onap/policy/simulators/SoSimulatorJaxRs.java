@@ -53,22 +53,7 @@ public class SoSimulatorJaxRs {
     @Produces("application/json")
     public String soPostQuery(@PathParam("serviceInstanceId") final String serviceInstanceId,
                     @PathParam("vnfInstanceId") final String vnfInstanceId) {
-        final SoRequest request = new SoRequest();
-        final SoRequestStatus requestStatus = new SoRequestStatus();
-        requestStatus.setRequestState("COMPLETE");
-        request.setRequestStatus(requestStatus);
-        request.setRequestId(UUID.randomUUID());
-
-        final SoResponse response = new SoResponse();
-
-        final SoRequestReferences requestReferences = new SoRequestReferences();
-        final String requestId = UUID.randomUUID().toString();
-        requestReferences.setRequestId(requestId);
-        response.setRequestReferences(requestReferences);
-
-        response.setRequest(request);
-
-        return new Gson().toJson(response);
+        return makeCompleteSuccess();
     }
 
     /**
@@ -85,6 +70,10 @@ public class SoSimulatorJaxRs {
     public String soDelete(@PathParam("serviceInstanceId") final String serviceInstanceId,
                     @PathParam("vnfInstanceId") final String vnfInstanceId,
                     @PathParam("vfModuleInstanceId") final String vfModuleInstanceId) {
+        return makeCompleteSuccess();
+    }
+
+    private String makeCompleteSuccess() {
         final SoRequest request = new SoRequest();
         final SoRequestStatus requestStatus = new SoRequestStatus();
         requestStatus.setRequestState("COMPLETE");

@@ -21,9 +21,10 @@
 
 package org.onap.policy.so;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.util.HashMap;
 import java.util.Map;
-
 import org.junit.Test;
 import org.onap.policy.so.util.Serialization;
 import org.slf4j.Logger;
@@ -103,6 +104,7 @@ public class DemoTest {
 
         logger.debug(Serialization.gsonPretty.toJson(request));
 
+        assertNotNull(request);
     }
 
     @Test
@@ -166,6 +168,8 @@ public class DemoTest {
         request.getRequestDetails().getRelatedInstanceList().add(relatedInstanceListElement2);
 
         logger.debug(Serialization.gsonPretty.toJson(request));
+
+        assertNotNull(request);
     }
 
 }
