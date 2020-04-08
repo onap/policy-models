@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "db9165ab_8e292bef",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/AaiCqResponse.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-04-08T12:52:52Z",
+      "side": 1,
+      "message": "this much could be done using automatic tools.  However, it was very tempting to take this a step further since all of the extracted methods are the same (except for a few simple parameter differences), but that would have entailed manual changes which would have left the possibility of introducing a new bug.  We\u0027ll see if sonar now complains about duplicated code; if it does, then I guess we\u0027ll go ahead with that change anyway.",
+      "parentUuid": "e3484e44_389ec11a",
+      "revId": "9b3ff5f270572a6760ff07dda9577cdadb53b088",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5fe63f6f_d4b4bcdd",
         "filename": "models-interactions/model-impl/events/src/test/java/org/onap/policy/controlloop/ControlLoopTargetTypeTest.java",
         "patchSetId": 2
