@@ -56,9 +56,13 @@ import org.onap.policy.controlloop.policy.PolicyResult;
 public class BasicOperation {
     protected static final UUID REQ_ID = UUID.randomUUID();
     protected static final String SUB_REQ_ID = "my-sub-request-id";
-    protected static final String DEFAULT_ACTOR = "default-actor";
-    protected static final String DEFAULT_OPERATION = "default-operation";
+    protected static final String DEFAULT_ACTOR = "default-Actor";
+    protected static final String DEFAULT_OPERATION = "default-Operation";
     protected static final String TARGET_ENTITY = "my-target";
+    protected static final String CL_NAME = "my-closed-loop";
+    protected static final String EVENT_POLICY_NAME = "my-event-policy-name";
+    protected static final String EVENT_POLICY_VERSION = "my-event-policy-version";
+    protected static final String EVENT_VERSION = "my-event-version";
 
     protected static final Executor blockingExecutor = command -> {
         Thread thread = new Thread(command);
@@ -158,6 +162,10 @@ public class BasicOperation {
         event = new VirtualControlLoopEvent();
         event.setRequestId(REQ_ID);
         event.setAai(enrichment);
+        event.setClosedLoopControlName(CL_NAME);
+        event.setPolicyName(EVENT_POLICY_NAME);
+        event.setPolicyVersion(EVENT_POLICY_VERSION);
+        event.setVersion(EVENT_VERSION);
 
         context = new ControlLoopEventContext(event);
 
