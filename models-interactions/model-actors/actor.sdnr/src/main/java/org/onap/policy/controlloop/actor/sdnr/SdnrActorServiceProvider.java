@@ -29,6 +29,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.ControlLoopResponse;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
+import org.onap.policy.controlloop.actorserviceprovider.Operator;
 import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicActor;
 import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicOperator;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicActorParams;
@@ -43,6 +44,10 @@ import org.onap.policy.sdnr.PciResponseWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * SDNR is an unusual actor in that it uses a single, generic operator to initiate all
+ * operation types. The action taken is always the same, only the operation name changes.
+ */
 public class SdnrActorServiceProvider extends BidirectionalTopicActor<BidirectionalTopicActorParams>  {
 
     private static final String NAME = "SDNR";
@@ -75,8 +80,16 @@ public class SdnrActorServiceProvider extends BidirectionalTopicActor<Bidirectio
     public SdnrActorServiceProvider() {
         super(NAME, BidirectionalTopicActorParams.class);
 
-        addOperator(new BidirectionalTopicOperator(NAME, ModifyConfigOperation.NAME, this, SdnrOperation.SELECTOR_KEYS,
-                ModifyConfigOperation::new));
+        addOperator(new BidirectionalTopicOperator(NAME, SdnrOperation.NAME, this, SdnrOperation.SELECTOR_KEYS,
+                        SdnrOperation::new));
+    }
+
+    @Override
+    public Operator getOperator(String name) {
+        /*
+         * All operations are managed by the same operator, regardless of the name.
+         */
+        return super.getOperator(SdnrOperation.NAME);
     }
 
     // TODO old code: remove lines down to **HERE**
