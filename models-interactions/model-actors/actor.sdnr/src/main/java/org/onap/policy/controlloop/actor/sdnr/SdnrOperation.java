@@ -22,6 +22,7 @@ package org.onap.policy.controlloop.actor.sdnr;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import org.onap.policy.controlloop.ControlLoopResponse;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicOperation;
@@ -38,8 +39,9 @@ import org.onap.policy.sdnr.util.StatusCodeEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class SdnrOperation extends BidirectionalTopicOperation<PciMessage, PciMessage> {
+public class SdnrOperation extends BidirectionalTopicOperation<PciMessage, PciMessage> {
     private static final Logger logger = LoggerFactory.getLogger(SdnrOperation.class);
+    public static final String NAME = "any";
 
     /**
      * Keys used to match the response with the request listener. The sub request ID is a
@@ -68,26 +70,24 @@ public abstract class SdnrOperation extends BidirectionalTopicOperation<PciMessa
         return startGuardAsync();
     }
 
+    /*
+     * NOTE: This should avoid throwing exceptions.
+     */
     @Override
     protected Status detmStatus(String rawResponse, PciMessage responseWrapper) {
         PciResponse response = responseWrapper.getBody().getOutput();
 
         if (response.getStatus() == null) {
-            throw new IllegalArgumentException("SDNR response is missing the response status");
+            logger.warn("SDNR response is missing the response status");
+            return Status.FAILURE;
         }
 
         StatusCodeEnum code = StatusCodeEnum.fromStatusCode(response.getStatus().getCode());
 
         if (code == null) {
-            throw new IllegalArgumentException("unknown SDNR response status code: " + response.getStatus().getCode());
+            logger.warn("unknown SDNR response status code: {}", response.getStatus().getCode());
+            return Status.FAILURE;
         }
-
-        /*
-         * Response and Payload are just printed and no further action needed since
-         * casablanca release
-         */
-        logger.info("SDNR Response Code {} Message is {}", code, response.getStatus().getValue());
-        logger.info("SDNR Response Payload is {}", response.getPayload());
 
         switch (code) {
             case SUCCESS:
@@ -98,7 +98,8 @@ public abstract class SdnrOperation extends BidirectionalTopicOperation<PciMessa
                 return Status.FAILURE;
             case ERROR:
             case REJECT:
-                throw new IllegalArgumentException("SDNR request was not accepted, code=" + code);
+                logger.warn("SDNR request was not accepted, code={}", code);
+                return Status.FAILURE;
             case ACCEPTED:
             default:
                 // awaiting a "final" response
@@ -112,17 +113,43 @@ public abstract class SdnrOperation extends BidirectionalTopicOperation<PciMessa
     @Override
     public OperationOutcome setOutcome(OperationOutcome outcome, PolicyResult result, PciMessage responseWrapper) {
         if (responseWrapper.getBody() == null || responseWrapper.getBody().getOutput() == null) {
+            outcome.setClResponse(makeControlLoopResponse(null, params.getContext().getEvent()));
             return setOutcome(outcome, result);
         }
 
         PciResponse response = responseWrapper.getBody().getOutput();
         if (response.getStatus() == null || response.getStatus().getValue() == null) {
+            outcome.setClResponse(makeControlLoopResponse(null, params.getContext().getEvent()));
             return setOutcome(outcome, result);
         }
 
         outcome.setResult(result);
         outcome.setMessage(response.getStatus().getValue());
+        outcome.setClResponse(makeControlLoopResponse(response.getPayload(), params.getContext().getEvent()));
         return outcome;
+    }
+
+    /**
+     * Converts the SDNR response to a ControlLoopResponse.
+     *
+     * @param responsePayload the response to be converted
+     *
+     * @return a new ControlLoopResponse
+     */
+    private ControlLoopResponse makeControlLoopResponse(String responsePayload,
+            VirtualControlLoopEvent event) {
+
+        ControlLoopResponse clRsp = new ControlLoopResponse();
+        clRsp.setPayload(responsePayload);
+        clRsp.setFrom(params.getActor());
+        clRsp.setTarget("DCAE");
+        clRsp.setClosedLoopControlName(event.getClosedLoopControlName());
+        clRsp.setPolicyName(event.getPolicyName());
+        clRsp.setPolicyVersion(event.getPolicyVersion());
+        clRsp.setRequestId(event.getRequestId());
+        clRsp.setVersion(event.getVersion());
+
+        return clRsp;
     }
 
     @Override
@@ -136,6 +163,7 @@ public abstract class SdnrOperation extends BidirectionalTopicOperation<PciMessa
         dmaapRequest.setVersion("1.0");
         dmaapRequest.setCorrelationId(onset.getRequestId() + "-" + subRequestId);
         dmaapRequest.setType("request");
+        dmaapRequest.setRpcName(params.getOperation().toLowerCase());
 
         /* This is the actual request that is placed in the dmaap wrapper. */
         final PciRequest sdnrRequest = new PciRequest();
@@ -147,6 +175,7 @@ public abstract class SdnrOperation extends BidirectionalTopicOperation<PciMessa
 
         sdnrRequest.setCommonHeader(requestCommonHeader);
         sdnrRequest.setPayload(onset.getPayload());
+        sdnrRequest.setAction(params.getOperation());
 
         /*
          * Once the pci request is constructed, add it into the body of the dmaap wrapper.
@@ -154,7 +183,6 @@ public abstract class SdnrOperation extends BidirectionalTopicOperation<PciMessa
         PciBody body = new PciBody();
         body.setInput(sdnrRequest);
         dmaapRequest.setBody(body);
-        logger.info("SDNR Request to be sent is {}", dmaapRequest);
 
         /* Return the request to be sent through dmaap. */
         return dmaapRequest;

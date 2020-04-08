@@ -23,12 +23,14 @@ package org.onap.policy.controlloop.actorserviceprovider;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import java.time.Instant;
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.controlloop.ControlLoopOperation;
+import org.onap.policy.controlloop.ControlLoopResponse;
 import org.onap.policy.controlloop.policy.PolicyResult;
 
 public class OperationOutcomeTest {
@@ -41,10 +43,16 @@ public class OperationOutcomeTest {
     private static final PolicyResult RESULT = PolicyResult.FAILURE_GUARD;
     private static final String MESSAGE = "my-message";
 
+    private ControlLoopResponse response;
     private OperationOutcome outcome;
 
+    /**
+     * Sets up.
+     */
     @Before
     public void setUp() {
+        response = new ControlLoopResponse();
+
         outcome = new OperationOutcome();
     }
 
@@ -62,6 +70,7 @@ public class OperationOutcomeTest {
         assertEquals(SUB_REQ_ID, outcome2.getSubRequestId());
         assertEquals(RESULT, outcome2.getResult());
         assertEquals(MESSAGE, outcome2.getMessage());
+        assertSame(response, outcome2.getClResponse());
     }
 
     @Test
@@ -133,5 +142,6 @@ public class OperationOutcomeTest {
         outcome.setStart(START);
         outcome.setSubRequestId(SUB_REQ_ID);
         outcome.setTarget(TARGET);
+        outcome.setClResponse(response);
     }
 }
