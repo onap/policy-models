@@ -132,6 +132,11 @@ public class Main extends ServiceManagerContainer {
      * @param args the arguments, the first of which is the name of the parameter file
      */
     public static void main(final String[] args) { // NOSONAR
+        /*
+         * Only one argument is used and is validated implicitly by the constructor (i.e.,
+         * file-not-found), thus sonar is disabled.
+         */
+
         try {
             if (args.length != 1) {
                 throw new IllegalArgumentException("arg(s): parameter-file-name");
