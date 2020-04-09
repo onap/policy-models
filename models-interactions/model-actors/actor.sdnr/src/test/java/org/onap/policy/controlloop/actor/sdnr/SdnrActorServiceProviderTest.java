@@ -22,18 +22,19 @@ package org.onap.policy.controlloop.actor.sdnr;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.UUID;
-
 import org.junit.Test;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.ControlLoopResponse;
 import org.onap.policy.controlloop.ControlLoopTargetType;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
+import org.onap.policy.controlloop.actorserviceprovider.Operator;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.Target;
 import org.onap.policy.controlloop.policy.TargetType;
@@ -91,6 +92,16 @@ public class SdnrActorServiceProviderTest {
         policy.setRetry(2);
         policy.setTimeout(300);
 
+    }
+
+    @Test
+    public void testGetOperator() {
+        SdnrActorServiceProvider sp = new SdnrActorServiceProvider();
+
+        // should always return the same operator regardless of the name
+        Operator oper = sp.getOperator("unknown");
+        assertNotNull(oper);
+        assertSame(oper, sp.getOperator("another"));
     }
 
     @Test
