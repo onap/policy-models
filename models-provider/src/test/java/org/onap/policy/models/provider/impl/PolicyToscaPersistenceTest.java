@@ -137,10 +137,10 @@ public class PolicyToscaPersistenceTest {
     }
 
     @Test
-    public void testNamingPolicyGet() throws PfModelException {
-        String policyYamlString = ResourceUtils.getResourceAsString("policies/sdnc.policy.naming.input.tosca.yaml");
+    public void testNamingPolicyGet() throws Exception {
+        String policyJsonString = ResourceUtils.getResourceAsString("policies/sdnc.policy.naming.input.tosca.json");
         ToscaServiceTemplate serviceTemplate =
-                yamlJsonTranslator.fromYaml(policyYamlString, ToscaServiceTemplate.class);
+                standardCoder.decode(policyJsonString, ToscaServiceTemplate.class);
 
         long createStartTime = System.currentTimeMillis();
         databaseProvider.createPolicies(serviceTemplate);
