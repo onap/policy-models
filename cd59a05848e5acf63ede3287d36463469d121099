@@ -16,6 +16,24 @@
       "revId": "cd59a05848e5acf63ede3287d36463469d121099",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59f8a155_42695461",
+        "filename": "models-examples/src/main/resources/policies/sdnc.policy.naming.input.tosca.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-04-13T20:12:01Z",
+      "side": 1,
+      "message": "No, the policy type has the increment field as integer. Yuriy confirmed in JIRA, but I\u0027m hoping he confirms here as well.",
+      "parentUuid": "5c3b8593_a2203d4f",
+      "revId": "cd59a05848e5acf63ede3287d36463469d121099",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
