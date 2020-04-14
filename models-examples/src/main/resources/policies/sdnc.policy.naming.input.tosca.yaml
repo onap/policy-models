@@ -26,7 +26,7 @@ topology_template:
                             max: zzz
                             scope: ENTIRETY
                             start-value: '1'
-                            length: 3
+                            length: '3'
                             increment: '1'
                             sequence-type: alpha-numeric
                     -   property-name: NFC_NAMING_CODE
@@ -45,6 +45,6 @@ topology_template:
                             max: zzz
                             scope: PRECEEDING
                             start-value: '1'
-                            length: 3
+                            length: '3'
                             increment: '1'
                             sequence-type: alpha-numeric

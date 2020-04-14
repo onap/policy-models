@@ -96,5 +96,5 @@ data_types:
                 type: string
                 required: true
             length:
-                type: integer
+                type: string
                 required: true
