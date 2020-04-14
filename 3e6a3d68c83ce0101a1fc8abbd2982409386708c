@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7ea7af7_a3620096",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-04-14T12:37:53Z",
+      "side": 1,
+      "message": "should this say String instead of integer?\n\nsame comment below",
+      "revId": "3e6a3d68c83ce0101a1fc8abbd2982409386708c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
