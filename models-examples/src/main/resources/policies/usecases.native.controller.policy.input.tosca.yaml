@@ -1,0 +1,74 @@
+tosca_definitions_version: tosca_simple_yaml_1_0_0
+topology_template:
+  policies:
+    - usecases:
+        type: onap.policies.native.drools.Controller
+        type_version: 1.0.0
+        name: usecases
+        version: 1.0.0
+        metadata:
+          policy-id: usecases
+        properties:
+          controllerName: usecases
+          sourceTopics:
+            - topicName: DCAE_TOPIC
+              events:
+                - eventClass: org.onap.policy.controlloop.CanonicalOnset
+                  eventFilter: '[?($.closedLoopEventStatus == ''ONSET'')]'
+                  customSerialization:
+                    customSerializerClass: org.onap.policy.controlloop.util.Serialization
+                    jsonParser: gson
+                - eventClass: org.onap.policy.controlloop.CanonicalAbated
+                  eventFilter: '[?($.closedLoopEventStatus == ''ABATED'')]'
+                  customSerialization:
+                    customSerializerClass: org.onap.policy.controlloop.util.Serialization
+                    jsonParser: gson
+            - topicName: APPC-CL
+              events:
+                - eventClass: org.onap.policy.appc.Response
+                  eventFilter: '[?($.CommonHeader && $.Status)]'
+                  customSerialization:
+                    customSerializerClass: org.onap.policy.appc.util.Serialization
+                    jsonParser: gsonPretty
+            - topicName: APPC-LCM-WRITE
+              events:
+                - eventClass: org.onap.policy.appclcm.AppcLcmDmaapWrapper
+                  eventFilter: '[?($.type == ''response'')]'
+                  customSerialization:
+                    customSerializerClass: org.onap.policy.appclcm.util.Serialization
+                    jsonParser: gson
+            - topicName: SDNR-CL-RSP
+              events:
+                - eventClass: org.onap.policy.sdnr.PciResponseWrapper
+                  eventFilter: '[?($.type == ''response'')]'
+                  customSerialization:
+                    customSerializerClass: org.onap.policy.sdnr.util.Serialization
+                    jsonParser: gson
+          sinkTopics:
+            - topicName: APPC-CL
+              events:
+                - eventClass: org.onap.policy.appc.Request
+                  customSerialization:
+                    customSerializerClass: org.onap.policy.appc.util.Serialization
+                    jsonParser: gsonPretty
+            - topicName: APPC-LCM-READ
+              events:
+                - eventClass: org.onap.policy.appclcm.AppcLcmDmaapWrapper
+                  customSerialization:
+                    customSerializerClass: org.onap.policy.appclcm.util.Serialization
+                    jsonParser: gson
+            - topicName: POLICY-CL-MGT
+              events:
+                - eventClass: org.onap.policy.controlloop.VirtualControlLoopNotification
+                  customSerialization:
+                    customSerializerClass: org.onap.policy.controlloop.util.Serialization
+                    jsonParser: gsonPretty
+            - topicName: DCAE_CL_RSP
+              events:
+                - eventClass: org.onap.policy.controlloop.ControlLoopResponse
+                  customSerialization:
+                    customSerializerClass: org.onap.policy.controlloop.util.Serialization
+                    jsonParser: gsonPretty
+          customConfig:
+            notes: test
+            persistence.type: auto
