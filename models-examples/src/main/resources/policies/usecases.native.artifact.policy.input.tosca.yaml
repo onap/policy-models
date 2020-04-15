@@ -1,0 +1,17 @@
+tosca_definitions_version: tosca_simple_yaml_1_1_0
+topology_template:
+  policies:
+    - usecases:
+        type: onap.policies.native.drools.Artifact
+        type_version: 1.0.0
+        name: usecases.artifacts
+        version: 1.0.0
+        metadata:
+          policy-id: usecases.artifacts
+        properties:
+          rulesArtifact:
+            groupId: org.onap.policy.drools-applications.controlloop.common
+            artifactId: controller-usecases
+            version: 1.6.1
+          controller:
+            name: usecases
