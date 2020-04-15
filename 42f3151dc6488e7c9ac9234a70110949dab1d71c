@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b6b5b137_3e46d769",
+        "filename": "models-examples/src/main/resources/policies/usecases.native.artifact.policy.input.tosca.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-04-15T20:59:54Z",
+      "side": 1,
+      "message": "1_1_0 - I think both work but maybe stay consistent??",
+      "range": {
+        "startLine": 2,
+        "startChar": 54,
+        "endLine": 2,
+        "endChar": 55
+      },
+      "revId": "42f3151dc6488e7c9ac9234a70110949dab1d71c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52a12a40_a5ff1707",
+        "filename": "models-examples/src/main/resources/policies/usecases.native.artifact.policy.input.tosca.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-04-15T20:59:54Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 1,
+        "startChar": 47,
+        "endLine": 1,
+        "endChar": 49
+      },
+      "revId": "42f3151dc6488e7c9ac9234a70110949dab1d71c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
