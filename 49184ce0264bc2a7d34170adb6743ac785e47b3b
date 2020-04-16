@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a710fd0e_a6dd7ab4",
+        "filename": "models-sim/policy-models-sim-pdp/src/main/package/docker/pdp-sim.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-04-16T12:45:40Z",
+      "side": 1,
+      "message": "good catch!",
+      "revId": "49184ce0264bc2a7d34170adb6743ac785e47b3b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
