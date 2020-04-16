@@ -4,6 +4,7 @@ topology_template:
     -   operational.modifyconfig.cds:
             type: onap.policies.controlloop.operational.common.Drools
             type_version: 1.0.0
+            version: 1.0.0
             metadata:
                 policy-id: operational.modifyconfig.cds
             properties:
