@@ -4,8 +4,9 @@ topology_template:
      -
       operational.modifyconfig:
          type: onap.policies.controlloop.Operational
+         type_version: 1.0.0
          version: 1.0.0
-         metadata: 
+         metadata:
            policy-id: operational.modifyconfig
            policy-version: 1
          properties:
@@ -15,7 +16,7 @@ topology_template:
              trigger_policy: unique-policy-id-1-modifyConfig
              timeout: 1200
              abatement: false
- 
+
            policies:
               - id: unique-policy-id-1-modifyConfig
                 name: modify packet gen config
