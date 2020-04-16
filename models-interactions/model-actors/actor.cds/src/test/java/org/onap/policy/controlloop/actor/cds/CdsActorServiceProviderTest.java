@@ -23,8 +23,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyLong;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -32,19 +32,16 @@ import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.protobuf.Struct;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.MockitoAnnotations;
 import org.onap.ccsdk.cds.controllerblueprints.common.api.ActionIdentifiers;
 import org.onap.ccsdk.cds.controllerblueprints.common.api.CommonHeader;
 import org.onap.ccsdk.cds.controllerblueprints.common.api.EventType;
@@ -58,10 +55,10 @@ import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actor.cds.CdsActorServiceProvider.CdsActorServiceManager;
 import org.onap.policy.controlloop.actor.cds.constants.CdsActorConstants;
+import org.onap.policy.controlloop.actor.test.BasicActor;
 import org.onap.policy.controlloop.policy.Policy;
 
-@RunWith(MockitoJUnitRunner.class)
-public class CdsActorServiceProviderTest {
+public class CdsActorServiceProviderTest extends BasicActor {
 
     private static final String CDS_BLUEPRINT_NAME = "vfw-cds";
     private static final String CDS_BLUEPRINT_VERSION = "1.0.0";
@@ -83,6 +80,8 @@ public class CdsActorServiceProviderTest {
      */
     @Before
     public void setup() {
+        MockitoAnnotations.initMocks(this);
+
         // Setup policy
         policy = new Policy();
         Map<String, String> payloadMap = new HashMap<String, String>() {
@@ -126,6 +125,12 @@ public class CdsActorServiceProviderTest {
     @Test
     public void testActor() {
         assertEquals(CdsActorConstants.CDS_ACTOR, cdsActor.actor());
+    }
+
+    @Test
+    public void testActorService() {
+        // verify that it all plugs into the ActorService
+        verifyActorService(CdsActorConstants.CDS_ACTOR, "service.yaml");
     }
 
     @Test
