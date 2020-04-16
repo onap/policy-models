@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2020 Bell Canada. All rights reserved.
+ * Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,15 +30,13 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.MockitoAnnotations;
 import org.onap.ccsdk.cds.controllerblueprints.common.api.EventType;
 import org.onap.ccsdk.cds.controllerblueprints.common.api.Status;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceOutput;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.policy.PolicyResult;
 
-@RunWith(MockitoJUnitRunner.class)
 public class GrpcActorServiceManagerTest {
 
     CdsActorServiceManager manager;
@@ -49,6 +48,7 @@ public class GrpcActorServiceManagerTest {
      */
     @Before
     public void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
         future = new CompletableFuture<>();
         manager = new CdsActorServiceManager(new OperationOutcome(), future);
     }
