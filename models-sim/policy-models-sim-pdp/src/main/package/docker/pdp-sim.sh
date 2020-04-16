@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # ============LICENSE_START=======================================================
-#  Copyright (C) 2019 Nordix Foundation.
+#  Copyright (C) 2019-2020 Nordix Foundation.
 # ================================================================================
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ then
     CONFIG_FILE="$PDP_SIM_HOME/etc/config/OnapPfConfig.json"
 fi
 
-echo "PDP simulatior configuration file: $CONFIG_FILE
+echo "PDP simulator configuration file:" $CONFIG_FILE
 
 $JAVA_HOME/bin/java \
     -cp "$PDP_SIM_HOME/etc:$PDP_SIM_HOME/lib/*" \
