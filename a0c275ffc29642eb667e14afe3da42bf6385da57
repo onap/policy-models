@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ec879e0_573a461f",
+        "filename": "models-examples/src/main/resources/policies/vDNS.policy.operational.input.tosca.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-04-16T14:28:12Z",
+      "side": 1,
+      "message": "I gathered from Pam\u0027s feedback in the past for this one that it is not of the spec, and the api component would put it for components to consume, so we should not add it here.   Better Pam to confirm.",
+      "revId": "a0c275ffc29642eb667e14afe3da42bf6385da57",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2639857d_491454b2",
+        "filename": "models-examples/src/main/resources/policies/vDNS.policy.operational.output.tosca.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-04-16T14:28:12Z",
+      "side": 1,
+      "message": "same - general comment",
+      "revId": "a0c275ffc29642eb667e14afe3da42bf6385da57",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
