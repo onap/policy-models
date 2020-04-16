@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "673bb40b_02f567bf",
+        "filename": "models-examples/src/main/resources/policies/vDNS.policy.operational.input.tosca.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-04-16T14:32:20Z",
+      "side": 1,
+      "message": "Yes, we\u0027ll have to check with Pam.  All I can say is, if you try to push these yaml files into api, they will be rejected.  Once I added the version, it accepted them.",
+      "parentUuid": "3ec879e0_573a461f",
+      "revId": "a0c275ffc29642eb667e14afe3da42bf6385da57",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2639857d_491454b2",
         "filename": "models-examples/src/main/resources/policies/vDNS.policy.operational.output.tosca.yaml",
         "patchSetId": 1
