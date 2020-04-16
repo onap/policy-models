@@ -19,7 +19,7 @@
 #
 actors:
   CDS:
-    gRPC:
+    any:
       timeout: 10
       port: 6700
       host: my-host

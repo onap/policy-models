@@ -48,14 +48,15 @@ import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actor.cds.constants.CdsActorConstants;
 import org.onap.policy.controlloop.actor.cds.request.CdsActionRequest;
+import org.onap.policy.controlloop.actorserviceprovider.Operator;
 import org.onap.policy.controlloop.actorserviceprovider.impl.ActorImpl;
 import org.onap.policy.controlloop.policy.Policy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * CDS Actor service-provider implementation. This is a deploy dark feature for El-Alto
- * release.
+ * CDS is an unusual actor in that it uses a single, generic operator to initiate all
+ * operation types. The action taken is always the same, only the operation name changes.
  */
 public class CdsActorServiceProvider extends ActorImpl {
 
@@ -68,6 +69,14 @@ public class CdsActorServiceProvider extends ActorImpl {
         super(CdsActorConstants.CDS_ACTOR);
 
         addOperator(new GrpcOperator(CdsActorConstants.CDS_ACTOR, GrpcOperation.NAME, GrpcOperation::new));
+    }
+
+    @Override
+    public Operator getOperator(String name) {
+        /*
+         * All operations are managed by the same operator, regardless of the name.
+         */
+        return super.getOperator(GrpcOperation.NAME);
     }
 
     // TODO old code: remove lines down to **HERE**

@@ -23,6 +23,7 @@ package org.onap.policy.controlloop.actor.cds;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -57,6 +58,7 @@ import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actor.cds.CdsActorServiceProvider.CdsActorServiceManager;
 import org.onap.policy.controlloop.actor.cds.constants.CdsActorConstants;
 import org.onap.policy.controlloop.actor.test.BasicActor;
+import org.onap.policy.controlloop.actorserviceprovider.Operator;
 import org.onap.policy.controlloop.policy.Policy;
 
 public class CdsActorServiceProviderTest extends BasicActor {
@@ -132,6 +134,16 @@ public class CdsActorServiceProviderTest extends BasicActor {
     public void testActorService() {
         // verify that it all plugs into the ActorService
         verifyActorService(CdsActorConstants.CDS_ACTOR, "service.yaml");
+    }
+
+    @Test
+    public void testGetOperator() {
+        CdsActorServiceProvider sp = new CdsActorServiceProvider();
+
+        // should always return the same operator regardless of the name
+        Operator oper = sp.getOperator("unknown");
+        assertNotNull(oper);
+        assertSame(oper, sp.getOperator("another"));
     }
 
     @Test
