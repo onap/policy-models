@@ -4,6 +4,7 @@ topology_template:
      -
        onap.restart.tca:
            type: onap.policies.monitoring.cdap.tca.hi.lo.app
+           type_version: 1.0.0
            version: 1.0.0
            metadata:
              policy-id: onap.restart.tca
@@ -11,15 +12,15 @@ topology_template:
            properties:
              tca_policy:
                 domain: measurementsForVfScaling
-                metricsPerEventName: 
-                  - 
+                metricsPerEventName:
+                  -
                     eventName: Measurement_vGMUX
                     controlLoopSchemaType: VNF
                     policyScope: DCAE
                     policyName: "DCAE.Config_tca-hi-lo"
                     policyVersion: "v0.0.1"
-                    thresholds: 
-                      - 
+                    thresholds:
+                      -
                         closedLoopControlName: "ControlLoop-vCPE-48f0c2c3-a172-4192-9ae3-052274181b6e"
                         version: "1.0.2"
                         fieldPath: "$.event.measurementsForVfScalingFields.additionalMeasurements[*].arrayOfFields[0].value"
@@ -27,7 +28,7 @@ topology_template:
                         direction: EQUAL
                         severity: MAJOR
                         closedLoopEventStatus: ABATED
-                      - 
+                      -
                         closedLoopControlName: "ControlLoop-vCPE-48f0c2c3-a172-4192-9ae3-052274181b6e"
                         version: "1.0.2"
                         fieldPath: "$.event.measurementsForVfScalingFields.additionalMeasurements[*].arrayOfFields[0].value"
