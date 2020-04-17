@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e59d3c1_0742b886",
+        "filename": "models-examples/src/main/resources/policies/vDNS.policy.monitoring.input.tosca.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 93
+      },
+      "writtenOn": "2020-04-17T20:29:20Z",
+      "side": 1,
+      "message": "The blueprint I referenced has no policy associated hence was using same default across all usecase; would suggest retaining original policy-name - onap.scaleout.tca here (this will help policy update flow tracking with TCA when multiple usecase are supported through policy)",
+      "range": {
+        "startLine": 29,
+        "startChar": 51,
+        "endLine": 29,
+        "endChar": 72
+      },
+      "revId": "42649a778ce94ab2fa120d1a3482f6fad16eec32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd0a9d5a_0f1a0b17",
+        "filename": "models-examples/src/main/resources/policies/vDNS.policy.monitoring.input.tosca.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 93
+      },
+      "writtenOn": "2020-04-17T20:29:20Z",
+      "side": 1,
+      "message": "onap.scaleout.tca",
+      "range": {
+        "startLine": 19,
+        "startChar": 37,
+        "endLine": 19,
+        "endChar": 58
+      },
+      "revId": "42649a778ce94ab2fa120d1a3482f6fad16eec32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8cb0c4a_2c4b2fbe",
+        "filename": "models-examples/src/main/resources/policies/vDNS.policy.monitoring.output.tosca.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 93
+      },
+      "writtenOn": "2020-04-17T20:29:20Z",
+      "side": 1,
+      "message": "onap.scaleout.tca",
+      "range": {
+        "startLine": 20,
+        "startChar": 37,
+        "endLine": 20,
+        "endChar": 58
+      },
+      "revId": "42649a778ce94ab2fa120d1a3482f6fad16eec32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec892f7c_bd9f9ae6",
+        "filename": "models-examples/src/main/resources/policies/vFirewall.policy.monitoring.input.tosca.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 93
+      },
+      "writtenOn": "2020-04-17T20:29:20Z",
+      "side": 1,
+      "message": "retain onap.vfirewall.tca",
+      "range": {
+        "startLine": 29,
+        "startChar": 51,
+        "endLine": 29,
+        "endChar": 72
+      },
+      "revId": "42649a778ce94ab2fa120d1a3482f6fad16eec32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dad5acee_20a79894",
+        "filename": "models-examples/src/main/resources/policies/vFirewall.policy.monitoring.input.tosca.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 93
+      },
+      "writtenOn": "2020-04-17T20:29:20Z",
+      "side": 1,
+      "message": "onap.vfirewall.tca",
+      "range": {
+        "startLine": 19,
+        "startChar": 29,
+        "endLine": 19,
+        "endChar": 50
+      },
+      "revId": "42649a778ce94ab2fa120d1a3482f6fad16eec32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8dd920c_a4203184",
+        "filename": "models-examples/src/main/resources/policies/vFirewall.policy.monitoring.output.tosca.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 93
+      },
+      "writtenOn": "2020-04-17T20:29:20Z",
+      "side": 1,
+      "message": "onap.vfirewall.tca",
+      "range": {
+        "startLine": 20,
+        "startChar": 29,
+        "endLine": 20,
+        "endChar": 50
+      },
+      "revId": "42649a778ce94ab2fa120d1a3482f6fad16eec32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
