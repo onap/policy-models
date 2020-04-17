@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "d5c47ba2_a1863684",
+        "filename": "models-examples/src/main/resources/policies/vDNS.policy.monitoring.input.tosca.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-04-17T21:04:44Z",
+      "side": 1,
+      "message": "How does anyone know you have a special extra field that has to match the dictionary and policy-id fields?",
+      "parentUuid": "cd0a9d5a_0f1a0b17",
+      "range": {
+        "startLine": 19,
+        "startChar": 37,
+        "endLine": 19,
+        "endChar": 58
+      },
+      "revId": "42649a778ce94ab2fa120d1a3482f6fad16eec32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f8cb0c4a_2c4b2fbe",
         "filename": "models-examples/src/main/resources/policies/vDNS.policy.monitoring.output.tosca.yaml",
         "patchSetId": 1
