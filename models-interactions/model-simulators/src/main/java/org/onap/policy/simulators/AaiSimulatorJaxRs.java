@@ -51,7 +51,7 @@ public class AaiSimulatorJaxRs {
     @Path("/v8/network/generic-vnfs/generic-vnf/{vnfId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces("application/json")
-    public String aaiGetQuery(@PathParam("vnfID") final String vnfId) {
+    public String aaiGetQuery(@PathParam("vnfId") final String vnfId) {
         return "{\"relationship-list\": {\"relationship\":[{\"related-to-property\": [{\"property-key\": "
             + "\"service-instance.service-instance-name\"}]},{\"related-to-property\": [ {\"property-key\": "
             + "\"vserver.vserver-name\",\"property-value\": \"USUCP0PCOIL0110UJZZ01-vsrx\" }]} ]}}";
@@ -93,6 +93,25 @@ public class AaiSimulatorJaxRs {
     public String aaiPutQuery(final String req) throws IOException {
         return IOUtils.toString(getClass().getResource("aai/AaiCqResponse.json"),
             StandardCharsets.UTF_8);
+    }
+
+    /**
+     * A&AI get PNF query.
+     *
+     * @return the result
+     * @throws IOException if a response file cannot be read
+     */
+    @GET
+    @Path("/v16/network/pnfs/pnf/{pnfName}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces("application/json")
+    public String aaiGetPnfQuery(@PathParam("pnfName") final String pnfName) throws IOException {
+        if (GETFAIL.equals(pnfName)) {
+            throw new IllegalArgumentException("query failed, as requested");
+        }
+
+        return IOUtils.toString(getClass().getResource("aai/AaiGetPnfResponse.json"),
+                        StandardCharsets.UTF_8);
     }
 
     /**

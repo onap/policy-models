@@ -21,37 +21,35 @@
 package org.onap.policy.controlloop.actor.aai;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertSame;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import javax.ws.rs.client.InvocationCallback;
+import javax.ws.rs.client.Invocation.Builder;
+import javax.ws.rs.client.WebTarget;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.aai.AaiConstants;
-import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
-import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
-import org.onap.policy.controlloop.policy.PolicyResult;
 
 public class AaiGetOperationTest extends BasicAaiOperation<Void> {
-    private static final String INPUT_FIELD = "input";
-    private static final String TEXT = "my-text";
+    private static final String MY_NAME = "my-operation-name";
+    private static final String PARAM_NAME = "my-param";
+    private static final String PARAM_VALUE = "my-value";
+    private static final String MY_URL = "my-url";
 
     private AaiGetOperation oper;
 
     public AaiGetOperationTest() {
-        super(AaiConstants.ACTOR_NAME, AaiGetOperation.TENANT);
+        super(AaiConstants.ACTOR_NAME, MY_NAME);
     }
 
     @BeforeClass
@@ -73,35 +71,46 @@ public class AaiGetOperationTest extends BasicAaiOperation<Void> {
         oper = new AaiGetOperation(params, config);
     }
 
-    /**
-     * Tests "success" case with simulator.
-     */
     @Test
-    public void testSuccess() throws Exception {
-        HttpParams opParams = HttpParams.builder().clientName(MY_CLIENT).path("v16/search/nodes-query").build();
-        config = new HttpConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
-
-        params = params.toBuilder().targetEntity("OzVServer").retry(0).timeoutSec(5).executor(blockingExecutor).build();
-        oper = new AaiGetOperation(params, config);
-
-        outcome = oper.start().get();
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+    public void testConstructor() {
+        assertEquals(AaiConstants.ACTOR_NAME, oper.getActorName());
+        assertEquals(MY_NAME, oper.getName());
     }
 
-    /**
-     * Tests "failure" case with simulator.
-     */
     @Test
-    public void testFailure() throws Exception {
-        HttpParams opParams = HttpParams.builder().clientName(MY_CLIENT).path("v16/search/nodes-query").build();
-        config = new HttpConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
+    public void testGenerateSubRequestId() {
+        oper.generateSubRequestId(3);
+        assertEquals("3", oper.getSubRequestId());
+    }
 
-        params = params.toBuilder().targetEntity("failedVserver").retry(0).timeoutSec(5).executor(blockingExecutor)
-                        .build();
-        oper = new AaiGetOperation(params, config);
+    @Test
+    public void testAddQuery() {
+        WebTarget web = mock(WebTarget.class);
+        when(web.queryParam(any(), any())).thenReturn(web);
 
-        outcome = oper.start().get();
-        assertEquals(PolicyResult.FAILURE, outcome.getResult());
+        StringBuilder bldr = new StringBuilder();
+
+        assertSame(web, oper.addQuery(web, bldr, ",", PARAM_NAME, PARAM_VALUE));
+        assertEquals(",my-param=my-value", bldr.toString());
+    }
+
+    @Test
+    public void testAddHeaders() {
+        Builder bldr = mock(Builder.class);
+        oper.addHeaders(bldr, Map.of("hdrA", "valA", "hdrB", "valB"));
+
+        verify(bldr, times(2)).header(any(), any());
+        verify(bldr).header("hdrA", "valA");
+        verify(bldr).header("hdrB", "valB");
+    }
+
+    @Test
+    public void testPostProcessResponse() throws Exception {
+        StandardCoderObject resp = new StandardCoderObject();
+        CompletableFuture<OperationOutcome> future2 = oper.postProcessResponse(outcome, MY_URL, null, resp);
+
+        assertSame(outcome, future2.get());
+        assertSame(resp, context.getProperty("AAI.my-operation-name.my-target"));
     }
 
     @Test
@@ -115,77 +124,7 @@ public class AaiGetOperationTest extends BasicAaiOperation<Void> {
     }
 
     @Test
-    public void testGenerateSubRequestId() {
-        oper.generateSubRequestId(3);
-        assertEquals("3", oper.getSubRequestId());
-    }
-
-    @Test
-    @SuppressWarnings("unchecked")
-    public void testStartOperationAsync_testStartQueryAsync_testPostProcessResponse() throws Exception {
-
-        // return a map in the reply
-        Map<String, String> reply = Map.of(INPUT_FIELD, TEXT);
-        when(rawResponse.readEntity(String.class)).thenReturn(new StandardCoder().encode(reply));
-
-        when(webAsync.get(any(InvocationCallback.class))).thenAnswer(provideResponse(rawResponse));
-
-        oper.generateSubRequestId(1);
-        outcome.setSubRequestId(oper.getSubRequestId());
-
-        CompletableFuture<OperationOutcome> future2 = oper.startOperationAsync(1, outcome);
-        assertFalse(future2.isDone());
-
-        executor.runAll(100);
-        assertTrue(future2.isDone());
-
-        assertEquals(PolicyResult.SUCCESS, future2.get().getResult());
-
-        // data should have been cached within the context
-        StandardCoderObject data = context.getProperty(AaiGetOperation.getTenantKey(TARGET_ENTITY));
-        assertNotNull(data);
-        assertEquals(TEXT, data.getString(INPUT_FIELD));
-
-        assertEquals("1", future2.get().getSubRequestId());
-    }
-
-    /**
-     * Tests startOperationAsync() when there's a failure.
-     */
-    @Test
-    @SuppressWarnings("unchecked")
-    public void testStartOperationAsyncFailure() throws Exception {
-
-        when(rawResponse.getStatus()).thenReturn(500);
-        when(rawResponse.readEntity(String.class)).thenReturn("");
-
-        when(webAsync.get(any(InvocationCallback.class))).thenAnswer(provideResponse(rawResponse));
-
-        CompletableFuture<OperationOutcome> future2 = oper.startOperationAsync(1, outcome);
-        assertFalse(future2.isDone());
-
-        executor.runAll(100);
-        assertTrue(future2.isDone());
-
-        assertEquals(PolicyResult.FAILURE, future2.get().getResult());
-
-        // data should NOT have been cached within the context
-        assertNull(context.getProperty(AaiGetOperation.getTenantKey(TARGET_ENTITY)));
-    }
-
-    @Test
     public void testMakeHeaders() {
         verifyHeaders(oper.makeHeaders());
-    }
-
-    @Test
-    public void testAaiGetOperator() {
-        assertEquals(AaiConstants.ACTOR_NAME, oper.getActorName());
-        assertEquals(AaiGetOperation.TENANT, oper.getName());
-    }
-
-    @Test
-    public void testGetTenantKey() {
-        assertEquals("AAI.Tenant." + TARGET_ENTITY, AaiGetOperation.getTenantKey(TARGET_ENTITY));
     }
 }

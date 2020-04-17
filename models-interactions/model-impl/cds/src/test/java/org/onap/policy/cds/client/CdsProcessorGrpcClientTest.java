@@ -92,7 +92,7 @@ public class CdsProcessorGrpcClientTest {
             .register(InProcessChannelBuilder.forName(SERVER_NAME).directExecutor().build());
 
         // Create an instance of the gRPC client
-        client = new CdsProcessorGrpcClient(channel, new CdsProcessorHandler(listener));
+        client = new CdsProcessorGrpcClient(channel, new CdsProcessorHandler(listener, "gRPC://localhost:1234/"));
 
         // Implement the test gRPC server
         BluePrintProcessingServiceImplBase testCdsBlueprintServerImpl = new BluePrintProcessingServiceImplBase() {

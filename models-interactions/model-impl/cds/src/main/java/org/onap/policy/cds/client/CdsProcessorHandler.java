@@ -27,6 +27,9 @@ import org.onap.ccsdk.cds.controllerblueprints.processing.api.BluePrintProcessin
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceInput;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceOutput;
 import org.onap.policy.cds.api.CdsProcessorListener;
+import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
+import org.onap.policy.common.endpoints.utils.NetLoggerUtil;
+import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,9 +38,11 @@ public class CdsProcessorHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(CdsProcessorHandler.class);
 
     private CdsProcessorListener listener;
+    private String url;
 
-    CdsProcessorHandler(final CdsProcessorListener listener) {
+    CdsProcessorHandler(final CdsProcessorListener listener, String url) {
         this.listener = listener;
+        this.url = url;
     }
 
     CountDownLatch process(ExecutionServiceInput request, ManagedChannel channel) {
@@ -50,11 +55,18 @@ public class CdsProcessorHandler {
         final StreamObserver<ExecutionServiceOutput> responseObserver = new StreamObserver<ExecutionServiceOutput>() {
             @Override
             public void onNext(ExecutionServiceOutput output) {
+                LOGGER.info("[{}|{}|{}|]{}{}", EventType.IN, CommInfrastructure.REST, url, NetLoggerUtil.SYSTEM_LS,
+                                output.toString());
+                NetLoggerUtil.log(EventType.IN, CommInfrastructure.REST, url, output.toString());
+
                 listener.onMessage(output);
             }
 
             @Override
             public void onError(Throwable throwable) {
+                LOGGER.info("[{}|{}|{}|]{}{}", EventType.IN, CommInfrastructure.REST, url, NetLoggerUtil.SYSTEM_LS,
+                                throwable.toString());
+                NetLoggerUtil.log(EventType.IN, CommInfrastructure.REST, url, throwable.toString());
                 listener.onError(throwable);
                 finishLatch.countDown();
             }
@@ -69,6 +81,10 @@ public class CdsProcessorHandler {
 
         final StreamObserver<ExecutionServiceInput> requestObserver = asyncStub.process(responseObserver);
         try {
+            LOGGER.info("[{}|{}|{}|]{}{}", EventType.OUT, CommInfrastructure.REST, url, NetLoggerUtil.SYSTEM_LS,
+                            request.toString());
+            NetLoggerUtil.log(EventType.OUT, CommInfrastructure.REST, url, request.toString());
+
             // Send the message to CDS backend for processing
             requestObserver.onNext(request);
             // Mark the end of requests

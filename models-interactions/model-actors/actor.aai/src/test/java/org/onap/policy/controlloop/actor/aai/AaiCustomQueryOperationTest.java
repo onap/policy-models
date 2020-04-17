@@ -103,7 +103,7 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation<Map<String, S
         MyTenantOperator tenantOperator = new MyTenantOperator();
 
         when(service.getActor(AaiConstants.ACTOR_NAME)).thenReturn(tenantActor);
-        when(tenantActor.getOperator(AaiGetOperation.TENANT)).thenReturn(tenantOperator);
+        when(tenantActor.getOperator(AaiGetTenantOperation.NAME)).thenReturn(tenantOperator);
 
         oper = new AaiCustomQueryOperation(params, config);
     }
@@ -160,7 +160,7 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation<Map<String, S
         assertEquals(PolicyResult.SUCCESS, getResult(future2));
 
         // tenant response should have been cached within the context
-        assertNotNull(context.getProperty(AaiGetOperation.getTenantKey(MY_VSERVER)));
+        assertNotNull(context.getProperty(AaiGetTenantOperation.getKey(MY_VSERVER)));
 
         // custom query response should have been cached within the context
         AaiCqResponse cqData = context.getProperty(AaiCqResponse.CONTEXT_KEY);
@@ -187,7 +187,7 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation<Map<String, S
         assertEquals(PolicyResult.SUCCESS, getResult(future2));
 
         // should not have replaced tenant response
-        assertSame(data, context.getProperty(AaiGetOperation.getTenantKey(MY_VSERVER)));
+        assertSame(data, context.getProperty(AaiGetTenantOperation.getKey(MY_VSERVER)));
 
         // custom query response should have been cached within the context
         AaiCqResponse cqData = context.getProperty(AaiCqResponse.CONTEXT_KEY);
@@ -252,8 +252,8 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation<Map<String, S
     }
 
     private void preloadTenantData(StandardCoderObject data) {
-        context.setProperty(AaiGetOperation.getTenantKey(MY_VSERVER), data);
-        context.setProperty(AaiGetOperation.getTenantKey(SIM_VSERVER), data);
+        context.setProperty(AaiGetTenantOperation.getKey(MY_VSERVER), data);
+        context.setProperty(AaiGetTenantOperation.getKey(SIM_VSERVER), data);
     }
 
     private PolicyResult getResult(CompletableFuture<OperationOutcome> future2)
@@ -267,17 +267,17 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation<Map<String, S
 
     protected class MyTenantOperator extends HttpOperator {
         public MyTenantOperator() {
-            super(AaiConstants.ACTOR_NAME, AaiGetOperation.TENANT);
+            super(AaiConstants.ACTOR_NAME, AaiGetTenantOperation.NAME);
 
             HttpParams http = HttpParams.builder().clientName(MY_CLIENT).path(PATH).timeoutSec(1).build();
 
-            configure(Util.translateToMap(AaiGetOperation.TENANT, http));
+            configure(Util.translateToMap(AaiGetTenantOperation.NAME, http));
             start();
         }
 
         @Override
         public Operation buildOperation(ControlLoopOperationParams params) {
-            return new AaiGetOperation(params, getCurrentConfig());
+            return new AaiGetTenantOperation(params, getCurrentConfig());
         }
 
         @Override

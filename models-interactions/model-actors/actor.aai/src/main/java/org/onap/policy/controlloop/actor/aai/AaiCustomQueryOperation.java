@@ -84,10 +84,10 @@ public class AaiCustomQueryOperation extends HttpOperation<String> {
     @Override
     protected CompletableFuture<OperationOutcome> startPreprocessorAsync() {
         ControlLoopOperationParams tenantParams =
-                        params.toBuilder().actor(AaiConstants.ACTOR_NAME).operation(AaiGetOperation.TENANT)
+                        params.toBuilder().actor(AaiConstants.ACTOR_NAME).operation(AaiGetTenantOperation.NAME)
                                         .targetEntity(vserver).payload(null).retry(null).timeoutSec(null).build();
 
-        return params.getContext().obtain(AaiGetOperation.getTenantKey(vserver), tenantParams);
+        return params.getContext().obtain(AaiGetTenantOperation.getKey(vserver), tenantParams);
     }
 
     @Override
@@ -137,7 +137,7 @@ public class AaiCustomQueryOperation extends HttpOperation<String> {
      * Constructs the custom query using the previously retrieved tenant data.
      */
     private Map<String, String> makeRequest() {
-        StandardCoderObject tenant = params.getContext().getProperty(AaiGetOperation.getTenantKey(vserver));
+        StandardCoderObject tenant = params.getContext().getProperty(AaiGetTenantOperation.getKey(vserver));
 
         String resourceLink = tenant.getString(RESULT_DATA, 0, RESOURCE_LINK);
         if (resourceLink == null) {

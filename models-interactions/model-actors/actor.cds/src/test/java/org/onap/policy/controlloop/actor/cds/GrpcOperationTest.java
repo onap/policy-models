@@ -42,30 +42,44 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.onap.aai.domain.yang.GenericVnf;
+import org.onap.aai.domain.yang.ServiceInstance;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceInput;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.cds.client.CdsProcessorGrpcClient;
 import org.onap.policy.cds.properties.CdsServerProperties;
+import org.onap.policy.common.utils.coder.Coder;
+import org.onap.policy.common.utils.coder.CoderException;
+import org.onap.policy.common.utils.coder.StandardCoder;
+import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.common.utils.time.PseudoExecutor;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
+import org.onap.policy.controlloop.actor.aai.AaiGetPnfOperation;
 import org.onap.policy.controlloop.actor.cds.constants.CdsActorConstants;
 import org.onap.policy.controlloop.actorserviceprovider.ActorService;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.policy.PolicyResult;
+import org.onap.policy.controlloop.policy.Target;
+import org.onap.policy.controlloop.policy.TargetType;
 
 public class GrpcOperationTest {
-
+    private static final String TARGET_ENTITY = "entity";
+    private static final String MY_VNF = "my-vnf";
+    private static final String MY_SVC_ID = "my-service-instance-id";
+    private static final String RESOURCE_ID = "my-resource-id";
     private static final String CDS_BLUEPRINT_NAME = "vfw-cds";
     private static final String CDS_BLUEPRINT_VERSION = "1.0.0";
     private static final UUID REQUEST_ID = UUID.randomUUID();
+    private static final Coder coder = new StandardCoder();
 
     @Mock
     private CdsProcessorGrpcClient cdsClient;
     private CdsServerProperties cdsProps;
     private VirtualControlLoopEvent onset;
     private PseudoExecutor executor;
+    private Target target;
     private GrpcOperation operation;
 
     /**
@@ -92,6 +106,10 @@ public class GrpcOperationTest {
 
         // Setup executor
         executor = new PseudoExecutor();
+
+        target = new Target();
+        target.setType(TargetType.VM);
+        target.setResourceID(RESOURCE_ID);
     }
 
     @Test
@@ -106,7 +124,7 @@ public class GrpcOperationTest {
 
         ControlLoopOperationParams params = ControlLoopOperationParams.builder().actor(CdsActorConstants.CDS_ACTOR)
                         .operation(GrpcOperation.NAME).context(context).actorService(new ActorService())
-                        .targetEntity("entity").build();
+                        .targetEntity(TARGET_ENTITY).target(target).build();
         GrpcConfig config = new GrpcConfig(executor, cdsProps);
 
         operation = new GrpcOperation(params, config) {
@@ -128,10 +146,65 @@ public class GrpcOperationTest {
         assertTrue(future3.isDone());
     }
 
+    /**
+     * Tests startPreprocessorAsync() when the target type is PNF.
+     */
+    @Test
+    public void testStartPreprocessorAsyncPnf() throws InterruptedException, ExecutionException, TimeoutException {
+
+        CompletableFuture<OperationOutcome> future2 = new CompletableFuture<>();
+        ControlLoopEventContext context = mock(ControlLoopEventContext.class);
+        when(context.obtain(eq(AaiCqResponse.CONTEXT_KEY), any())).thenReturn(future2);
+        when(context.getEvent()).thenReturn(onset);
+
+        AtomicBoolean guardStarted = new AtomicBoolean();
+
+        target.setType(TargetType.PNF);
+
+        ControlLoopOperationParams params = ControlLoopOperationParams.builder().actor(CdsActorConstants.CDS_ACTOR)
+                        .operation(GrpcOperation.NAME).context(context).actorService(new ActorService())
+                        .targetEntity(TARGET_ENTITY).target(target).build();
+        GrpcConfig config = new GrpcConfig(executor, cdsProps);
+
+        operation = new GrpcOperation(params, config) {
+            @Override
+            protected CompletableFuture<OperationOutcome> startGuardAsync() {
+                guardStarted.set(true);
+                return future2;
+            }
+        };
+
+        CompletableFuture<OperationOutcome> future3 = operation.startPreprocessorAsync();
+        assertNotNull(future3);
+        assertTrue(guardStarted.get());
+        verify(context).obtain(eq(AaiGetPnfOperation.getKey(TARGET_ENTITY)), any());
+
+        future2.complete(params.makeOutcome());
+        assertTrue(executor.runAll(100));
+        assertEquals(PolicyResult.SUCCESS, future3.get(2, TimeUnit.SECONDS).getResult());
+        assertTrue(future3.isDone());
+    }
+
     @Test
     public void testStartOperationAsync() throws Exception {
 
         ControlLoopEventContext context = new ControlLoopEventContext(onset);
+        loadCqData(context);
+
+        verifyOperation(context);
+    }
+
+    /**
+     * Tests startOperationAsync() when the target type is PNF.
+     */
+    @Test
+    public void testStartOperationAsyncPnf() throws Exception {
+
+        target.setType(TargetType.PNF);
+
+        ControlLoopEventContext context = new ControlLoopEventContext(onset);
+        loadPnfData(context);
+
         verifyOperation(context);
     }
 
@@ -142,6 +215,7 @@ public class GrpcOperationTest {
         additionalParams.put("test", "additionalParams");
         onset.setAdditionalEventParams(additionalParams);
         ControlLoopEventContext context = new ControlLoopEventContext(onset);
+        loadCqData(context);
         verifyOperation(context);
     }
 
@@ -151,7 +225,7 @@ public class GrpcOperationTest {
         ControlLoopEventContext context = new ControlLoopEventContext(onset);
         ControlLoopOperationParams params = ControlLoopOperationParams.builder().actor(CdsActorConstants.CDS_ACTOR)
                         .operation(GrpcOperation.NAME).context(context).actorService(new ActorService())
-                        .targetEntity("entity").build();
+                        .targetEntity(TARGET_ENTITY).target(target).build();
 
         GrpcConfig config = new GrpcConfig(executor, cdsProps);
         operation = new GrpcOperation(params, config);
@@ -166,7 +240,7 @@ public class GrpcOperationTest {
 
         ControlLoopOperationParams params = ControlLoopOperationParams.builder().actor(CdsActorConstants.CDS_ACTOR)
                         .operation(GrpcOperation.NAME).context(context).actorService(new ActorService())
-                        .targetEntity("entity").payload(payloadMap).build();
+                        .targetEntity(TARGET_ENTITY).target(target).payload(payloadMap).build();
 
         GrpcConfig config = new GrpcConfig(executor, cdsProps);
         operation = new GrpcOperation(params, config);
@@ -176,5 +250,26 @@ public class GrpcOperationTest {
         operation.generateSubRequestId(1);
         CompletableFuture<OperationOutcome> future3 = operation.startOperationAsync(1, params.makeOutcome());
         assertNotNull(future3);
+    }
+
+    private void loadPnfData(ControlLoopEventContext context) throws CoderException {
+        String json = "{'dataA': 'valueA', 'dataB': 'valueB'}".replace('\'', '"');
+        StandardCoderObject sco = coder.decode(json, StandardCoderObject.class);
+
+        context.setProperty(AaiGetPnfOperation.getKey(TARGET_ENTITY), sco);
+    }
+
+    private void loadCqData(ControlLoopEventContext context) {
+        GenericVnf genvnf = new GenericVnf();
+        genvnf.setVnfId(MY_VNF);
+
+        ServiceInstance serviceInstance = new ServiceInstance();
+        serviceInstance.setServiceInstanceId(MY_SVC_ID);
+
+        AaiCqResponse cq = mock(AaiCqResponse.class);
+        when(cq.getGenericVnfByModelInvariantId(any())).thenReturn(genvnf);
+        when(cq.getServiceInstance()).thenReturn(serviceInstance);
+
+        context.setProperty(AaiCqResponse.CONTEXT_KEY, cq);
     }
 }
