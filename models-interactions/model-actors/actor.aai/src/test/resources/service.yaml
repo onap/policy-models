@@ -31,3 +31,5 @@ actors:
         path: cq
       Tenant:
         path: tenant
+      Pnf:
+        path: pnf

@@ -1,0 +1,12 @@
+{
+  "equip-vendor":"Vendor-A",
+  "ipaddress-v4-oam":"10.10.10.10",
+  "in-maint":false,
+  "pnf-ipv4-address":"3.3.3.3",
+  "resource-version":"1570746989505",
+  "nf-role":"ToR DC101",
+  "equip-type":"Router",
+  "equip-model":"model-123456",
+  "frame-id":"3",
+  "pnf-name":"demo-pnf"
+}
