@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,9 +21,7 @@
 package org.onap.policy.models.sim.pdp.parameters;
 
 import java.util.List;
-
 import lombok.Getter;
-
 import org.onap.policy.common.parameters.ParameterGroupImpl;
 import org.onap.policy.common.parameters.annotations.Min;
 import org.onap.policy.common.parameters.annotations.NotBlank;
@@ -45,6 +43,7 @@ public class PdpStatusParameters extends ParameterGroupImpl {
     private String pdpType;
     private String description;
     private List<ToscaPolicyTypeIdentifierParameters> supportedPolicyTypes;
+    private String pdpGroup;
 
     public PdpStatusParameters() {
         super(PdpStatusParameters.class.getSimpleName());

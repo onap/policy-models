@@ -1,6 +1,7 @@
 {
     "name":"PdpSimulatorParameterGroup",
-    "pdpStatusParameters":{
+    "pdpStatusParameters": {
+        "pdpGroup": "defaultGroup",
         "timeIntervalMs": 120000,
         "pdpType":"apex",
         "description":"Pdp heartbeat",

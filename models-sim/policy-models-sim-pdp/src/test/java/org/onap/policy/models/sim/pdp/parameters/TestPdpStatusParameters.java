@@ -46,6 +46,7 @@ public class TestPdpStatusParameters {
         assertEquals(CommonTestData.PDP_TYPE, pdpStatusParameters.getPdpType());
         assertEquals(CommonTestData.DESCRIPTION, pdpStatusParameters.getDescription());
         assertEquals(CommonTestData.SUPPORTED_POLICY_TYPES, pdpStatusParameters.getSupportedPolicyTypes());
+        assertEquals(CommonTestData.PDP_GROUP, pdpStatusParameters.getPdpGroup());
     }
 
     @Test

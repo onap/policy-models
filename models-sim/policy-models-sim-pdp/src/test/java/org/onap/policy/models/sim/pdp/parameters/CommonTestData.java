@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -43,6 +43,7 @@ public class CommonTestData {
     public static final String PDP_NAME = "apex-pdp";
     public static final String VERSION = "0.0.1";
     public static final String PDP_TYPE = "apex";
+    public static final String PDP_GROUP = "defaultGroup";
     public static final String DESCRIPTION = "Pdp status for HealthCheck";
     public static final String POLICY_NAME = "onap.controllloop.operational.apex.BBS";
     public static final String POLICY_VERSION = "0.0.1";
@@ -150,6 +151,7 @@ public class CommonTestData {
             map.put("pdpName", PDP_NAME);
             map.put("version", VERSION);
             map.put("pdpType", PDP_TYPE);
+            map.put("pdpGroup", PDP_GROUP);
             map.put("description", DESCRIPTION);
             map.put("supportedPolicyTypes", SUPPORTED_POLICY_TYPES);
         }
