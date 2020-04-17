@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "f65c4dab_316db1f6",
+        "filename": "models-examples/src/main/resources/policies/vDNS.policy.monitoring.input.tosca.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 93
+      },
+      "writtenOn": "2020-04-17T21:30:29Z",
+      "side": 1,
+      "message": "I missed line#10 which identifies the policy-id, which is unique for each models.\n\nThe policyName itself can be any artibirary value (used by TCA primarily to map into policyName field in the ONSET/Abatement CL event). If policy is not relying on this value, then I guess current defaults are okay.",
+      "parentUuid": "d5c47ba2_a1863684",
+      "range": {
+        "startLine": 19,
+        "startChar": 37,
+        "endLine": 19,
+        "endChar": 58
+      },
+      "revId": "42649a778ce94ab2fa120d1a3482f6fad16eec32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f8cb0c4a_2c4b2fbe",
         "filename": "models-examples/src/main/resources/policies/vDNS.policy.monitoring.output.tosca.yaml",
         "patchSetId": 1
