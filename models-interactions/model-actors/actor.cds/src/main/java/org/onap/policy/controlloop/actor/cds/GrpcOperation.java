@@ -26,11 +26,15 @@ import com.google.protobuf.Struct;
 import com.google.protobuf.Struct.Builder;
 import com.google.protobuf.util.JsonFormat;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Supplier;
 import lombok.Getter;
+import org.onap.aai.domain.yang.GenericVnf;
+import org.onap.aai.domain.yang.ServiceInstance;
 import org.onap.ccsdk.cds.controllerblueprints.common.api.ActionIdentifiers;
 import org.onap.ccsdk.cds.controllerblueprints.common.api.CommonHeader;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceInput;
@@ -38,12 +42,16 @@ import org.onap.policy.aai.AaiConstants;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.cds.client.CdsProcessorGrpcClient;
 import org.onap.policy.common.utils.coder.CoderException;
+import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.actor.aai.AaiCustomQueryOperation;
+import org.onap.policy.controlloop.actor.aai.AaiGetPnfOperation;
 import org.onap.policy.controlloop.actor.cds.constants.CdsActorConstants;
 import org.onap.policy.controlloop.actor.cds.request.CdsActionRequest;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.impl.OperationPartial;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
+import org.onap.policy.controlloop.policy.TargetType;
 
 /**
  * Operation that uses gRPC to send request to CDS.
@@ -54,12 +62,26 @@ public class GrpcOperation extends OperationPartial {
 
     public static final String NAME = "any";
 
+    private static final String AAI_PNF_PREFIX = "pnf.";
+    private static final String AAI_VNF_ID_KEY = "generic-vnf.vnf-id";
+    private static final String AAI_SERVICE_INSTANCE_ID_KEY = "service-instance.service-instance-id";
+
     private CdsProcessorGrpcClient client;
 
     /**
      * Configuration for this operation.
      */
     private final GrpcConfig config;
+
+    /**
+     * Function to request the A&AI data appropriate to the target type.
+     */
+    private final Supplier<CompletableFuture<OperationOutcome>> aaiRequestor;
+
+    /**
+     * Function to convert the A&AI data associated with the target type.
+     */
+    private final Supplier<Map<String, String>> aaiConverter;
 
     /**
      * Constructs the object.
@@ -70,6 +92,14 @@ public class GrpcOperation extends OperationPartial {
     public GrpcOperation(ControlLoopOperationParams params, GrpcConfig config) {
         super(params, config);
         this.config = config;
+
+        if (TargetType.PNF.equals(params.getTarget().getType())) {
+            aaiRequestor = this::getPnf;
+            aaiConverter = this::convertPnfToAaiProperties;
+        } else {
+            aaiRequestor = this::getCq;
+            aaiConverter = this::convertCqToAaiProperties;
+        }
     }
 
     /**
@@ -81,16 +111,84 @@ public class GrpcOperation extends OperationPartial {
     }
 
     /**
-     * Ensures that A&AI customer query has been performed.
+     * Ensures that A&AI query has been performed, and runs the guard.
      */
     @Override
     @SuppressWarnings("unchecked")
     protected CompletableFuture<OperationOutcome> startPreprocessorAsync() {
+        // run A&AI Query and Guard, in parallel
+        return allOf(aaiRequestor, this::startGuardAsync);
+    }
+
+    /**
+     * Requests the A&AI PNF data.
+     *
+     * @return a future to get the PNF data
+     */
+    private CompletableFuture<OperationOutcome> getPnf() {
+        ControlLoopOperationParams pnfParams = params.toBuilder().actor(AaiConstants.ACTOR_NAME)
+                        .operation(AaiGetPnfOperation.NAME).payload(null).retry(null).timeoutSec(null).build();
+
+        return params.getContext().obtain(AaiGetPnfOperation.getKey(params.getTargetEntity()), pnfParams);
+    }
+
+    /**
+     * Requests the A&AI Custom Query data.
+     *
+     * @return a future to get the custom query data
+     */
+    private CompletableFuture<OperationOutcome> getCq() {
         ControlLoopOperationParams cqParams = params.toBuilder().actor(AaiConstants.ACTOR_NAME)
                         .operation(AaiCustomQueryOperation.NAME).payload(null).retry(null).timeoutSec(null).build();
 
-        // run Custom Query and Guard, in parallel
-        return allOf(() -> params.getContext().obtain(AaiCqResponse.CONTEXT_KEY, cqParams), this::startGuardAsync);
+        return params.getContext().obtain(AaiCqResponse.CONTEXT_KEY, cqParams);
+    }
+
+    /**
+     * Converts the A&AI PNF data to a map suitable for passing via the "aaiProperties"
+     * field in the CDS request.
+     *
+     * @return a map of the PNF data
+     */
+    private Map<String, String> convertPnfToAaiProperties() {
+        // convert PNF data to a Map
+        StandardCoderObject pnf = params.getContext().getProperty(AaiGetPnfOperation.getKey(params.getTargetEntity()));
+        Map<String, Object> source = Util.translateToMap(getFullName(), pnf);
+
+        Map<String, String> result = new LinkedHashMap<>();
+
+        for (Entry<String, Object> ent : source.entrySet()) {
+            result.put(AAI_PNF_PREFIX + ent.getKey(), ent.getValue().toString());
+        }
+
+        return result;
+    }
+
+    /**
+     * Converts the A&AI Custom Query data to a map suitable for passing via the
+     * "aaiProperties" field in the CDS request.
+     *
+     * @return a map of the custom query data
+     */
+    private Map<String, String> convertCqToAaiProperties() {
+        AaiCqResponse aaicq = params.getContext().getProperty(AaiCqResponse.CONTEXT_KEY);
+
+        Map<String, String> result = new LinkedHashMap<>();
+
+        ServiceInstance serviceInstance = aaicq.getServiceInstance();
+        if (serviceInstance == null) {
+            throw new IllegalArgumentException("Target service instance could not be found");
+        }
+
+        GenericVnf genericVnf = aaicq.getGenericVnfByModelInvariantId(params.getTarget().getResourceID());
+        if (genericVnf == null) {
+            throw new IllegalArgumentException("Target generic vnf could not be found");
+        }
+
+        result.put(AAI_SERVICE_INSTANCE_ID_KEY, serviceInstance.getServiceInstanceId());
+        result.put(AAI_VNF_ID_KEY, genericVnf.getVnfId());
+
+        return result;
     }
 
     @Override
@@ -152,7 +250,10 @@ public class GrpcOperation extends OperationPartial {
         // implementation to inject whatever AAI parameters are of interest to them.
         // E.g. For vFW usecase El-Alto inject service-instance-id, generic-vnf-id as
         // needed by CDS.
-        request.setAaiProperties(params.getContext().getEnrichment());
+        //
+        // Note: that is a future enhancement. For now, the actor is hard-coded to
+        // use the A&AI query result specific to the target type
+        request.setAaiProperties(aaiConverter.get());
 
         // Inject any additional event parameters that may be present in the onset event
         if (params.getContext().getEvent().getAdditionalEventParams() != null) {

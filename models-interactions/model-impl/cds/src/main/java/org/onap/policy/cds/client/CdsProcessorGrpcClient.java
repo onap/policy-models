@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2019 Bell Canada.
+ * Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,11 +56,19 @@ public class CdsProcessorGrpcClient implements AutoCloseable {
         Preconditions.checkState(validationResult.getStatus().isValid(), "Error validating CDS server "
             + "properties: " + validationResult.getResult());
 
+        StringBuilder bldr = new StringBuilder("gRPC://");
+        bldr.append(props.getHost());
+        bldr.append(":");
+        bldr.append(props.getPort());
+        bldr.append('/');
+
+        String url = bldr.toString();
+
         this.channel = NettyChannelBuilder.forAddress(props.getHost(), props.getPort())
             .nameResolverFactory(new DnsNameResolverProvider())
             .loadBalancerFactory(new PickFirstLoadBalancerProvider())
             .intercept(new BasicAuthClientHeaderInterceptor(props)).usePlaintext().build();
-        this.handler = new CdsProcessorHandler(listener);
+        this.handler = new CdsProcessorHandler(listener, url);
         LOGGER.info("CdsProcessorListener started");
     }
 

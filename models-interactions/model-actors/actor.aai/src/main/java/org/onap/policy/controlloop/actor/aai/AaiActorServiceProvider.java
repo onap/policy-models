@@ -38,10 +38,7 @@ public class AaiActorServiceProvider extends HttpActor<HttpActorParams> {
         super(NAME, HttpActorParams.class);
 
         addOperator(new HttpOperator(NAME, AaiCustomQueryOperation.NAME, AaiCustomQueryOperation::new));
-
-        // add all "get" operators
-        for (String operation : AaiGetOperation.OPERATIONS) {
-            addOperator(new HttpOperator(NAME, operation, AaiGetOperation::new));
-        }
+        addOperator(new HttpOperator(NAME, AaiGetTenantOperation.NAME, AaiGetTenantOperation::new));
+        addOperator(new HttpOperator(NAME, AaiGetPnfOperation.NAME, AaiGetPnfOperation::new));
     }
 }

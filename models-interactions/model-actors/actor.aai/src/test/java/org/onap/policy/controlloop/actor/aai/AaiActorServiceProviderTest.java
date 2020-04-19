@@ -38,7 +38,8 @@ public class AaiActorServiceProviderTest extends BasicActor {
         // verify that it has the operators we expect
         List<String> expected = new LinkedList<>();
         expected.add(AaiCustomQueryOperation.NAME);
-        expected.addAll(AaiGetOperation.OPERATIONS);
+        expected.add(AaiGetTenantOperation.NAME);
+        expected.add(AaiGetPnfOperation.NAME);
 
         Collections.sort(expected);
 
