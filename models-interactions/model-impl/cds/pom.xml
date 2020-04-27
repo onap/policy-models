@@ -106,7 +106,6 @@
         <groupId>org.onap.policy.common</groupId>
         <artifactId>policy-endpoints</artifactId>
         <version>${policy.common.version}</version>
-        <scope>provided</scope>
     </dependency>
 
     <!-- junit dependencies -->
