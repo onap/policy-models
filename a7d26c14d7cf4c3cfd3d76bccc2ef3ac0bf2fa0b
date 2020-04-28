@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5a2d1cd_29d128fc",
+        "filename": "models-examples/src/main/resources/policies/sdnc.policy.naming.input.tosca.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-04-28T12:17:14Z",
+      "side": 1,
+      "message": "is this correct syntax, is there collision with \"-\" as list entry?",
+      "revId": "a7d26c14d7cf4c3cfd3d76bccc2ef3ac0bf2fa0b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
