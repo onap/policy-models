@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "43777349_4b8378a9",
+        "filename": "models-examples/src/main/resources/policies/sdnc.policy.naming.input.tosca.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 4567
+      },
+      "writtenOn": "2020-04-28T16:33:16Z",
+      "side": 1,
+      "message": "Jorge, Can you update this to be: ONAP_NF_NAMING_TIMESTAMP",
+      "range": {
+        "startLine": 4,
+        "startChar": 20,
+        "endLine": 4,
+        "endChar": 45
+      },
+      "revId": "74ddb8fc403e4c55481f3b1ff759158b66ac8f1c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "78dfb827_d0f5292d",
         "filename": "models-examples/src/main/resources/policies/sdnc.policy.naming.input.tosca.yaml",
         "patchSetId": 6
