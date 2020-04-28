@@ -16,6 +16,24 @@
       "revId": "a7d26c14d7cf4c3cfd3d76bccc2ef3ac0bf2fa0b",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df1e9ea1_5c106696",
+        "filename": "models-examples/src/main/resources/policies/sdnc.policy.naming.input.tosca.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-04-28T12:23:41Z",
+      "side": 1,
+      "message": "Probably should quote it: \u0027-\u0027\nIt is a string anyway",
+      "parentUuid": "e5a2d1cd_29d128fc",
+      "revId": "a7d26c14d7cf4c3cfd3d76bccc2ef3ac0bf2fa0b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
