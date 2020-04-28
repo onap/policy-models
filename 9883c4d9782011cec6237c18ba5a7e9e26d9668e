@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cd7d4b40_9209e12e",
+        "filename": "models-examples/src/main/resources/policies/sdnc.policy.naming.input.tosca.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-04-28T15:38:32Z",
+      "side": 1,
+      "message": "Jorge - I would put that field above \u0027naming-properties\u0027 - should be the same level as naming-recipe, naming-type, naming-properties. See the Policy Type for naming.",
+      "parentUuid": "d964a021_c6860b32",
+      "revId": "9883c4d9782011cec6237c18ba5a7e9e26d9668e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b9243586_5dc79b70",
         "filename": "models-examples/src/main/resources/policies/sdnc.policy.naming.input.tosca.yaml",
         "patchSetId": 5
