@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "4811c80b_df7dfbc9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-04-28T12:26:01Z",
+      "side": 1,
+      "message": "Let\u0027s get a correct JIRA for this - will we need to re-release api?",
+      "range": {
+        "startLine": 9,
+        "startChar": 10,
+        "endLine": 9,
+        "endChar": 21
+      },
+      "revId": "a7d26c14d7cf4c3cfd3d76bccc2ef3ac0bf2fa0b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e5a2d1cd_29d128fc",
         "filename": "models-examples/src/main/resources/policies/sdnc.policy.naming.input.tosca.yaml",
         "patchSetId": 1
