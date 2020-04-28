@@ -149,7 +149,7 @@ public class PolicyToscaPersistenceTest {
 
         long getStartTime = System.currentTimeMillis();
         ToscaServiceTemplate namingServiceTemplate =
-            databaseProvider.getPolicies("SDNC_Policy.ONAP_VNF_NAMING_TIMESTAMP", "1.0.0");
+            databaseProvider.getPolicies("SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP", "1.0.0");
         LOGGER.trace("Naming policy normal get time (ms): {}", System.currentTimeMillis() - getStartTime);
 
         assertEquals(1, namingServiceTemplate.getToscaTopologyTemplate().getPoliciesAsMap().size());
@@ -158,7 +158,7 @@ public class PolicyToscaPersistenceTest {
 
         getStartTime = System.currentTimeMillis();
         ToscaPolicyFilter filter =
-            ToscaPolicyFilter.builder().name("SDNC_Policy.ONAP_VNF_NAMING_TIMESTAMP").version("1.0.0").build();
+            ToscaPolicyFilter.builder().name("SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP").version("1.0.0").build();
         namingServiceTemplate = databaseProvider.getFilteredPolicies(filter);
         LOGGER.trace("Naming policy filtered get time (ms): {}", System.currentTimeMillis() - getStartTime);
 
@@ -167,7 +167,7 @@ public class PolicyToscaPersistenceTest {
         assertEquals(3, namingServiceTemplate.getDataTypesAsMap().size());
 
         getStartTime = System.currentTimeMillis();
-        filter = ToscaPolicyFilter.builder().name("SDNC_Policy.ONAP_VNF_NAMING_TIMESTAMP").build();
+        filter = ToscaPolicyFilter.builder().name("SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP").build();
         namingServiceTemplate = databaseProvider.getFilteredPolicies(filter);
         LOGGER.trace("Naming policy filtered name only get time (ms): {}", System.currentTimeMillis() - getStartTime);
 
@@ -176,7 +176,7 @@ public class PolicyToscaPersistenceTest {
         assertEquals(3, namingServiceTemplate.getDataTypesAsMap().size());
 
         long deleteStartTime = System.currentTimeMillis();
-        databaseProvider.deletePolicy("SDNC_Policy.ONAP_VNF_NAMING_TIMESTAMP", "1.0.0");
+        databaseProvider.deletePolicy("SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP", "1.0.0");
         LOGGER.trace("Naming policy delete time (ms): {}", System.currentTimeMillis() - deleteStartTime);
     }
 
@@ -207,25 +207,25 @@ public class PolicyToscaPersistenceTest {
 
         for (int i = 1; i < 22; i++) {
             ToscaServiceTemplate namingServiceTemplate =
-                databaseProvider.getPolicies("SDNC_Policy.ONAP_VNF_NAMING_TIMESTAMP", i + ".0.0");
+                databaseProvider.getPolicies("SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP", i + ".0.0");
             assertEquals(i + ".0.0", namingServiceTemplate.getToscaTopologyTemplate().getPolicies().get(0).values()
                 .iterator().next().getVersion());
 
             ToscaPolicyFilter policyFilter =
-                ToscaPolicyFilter.builder().name("SDNC_Policy.ONAP_VNF_NAMING_TIMESTAMP").version(i + ".0.0").build();
+                ToscaPolicyFilter.builder().name("SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP").version(i + ".0.0").build();
             namingServiceTemplate = databaseProvider.getFilteredPolicies(policyFilter);
             assertEquals(i + ".0.0", namingServiceTemplate.getToscaTopologyTemplate().getPolicies().get(0).values()
                 .iterator().next().getVersion());
         }
 
-        ToscaPolicyFilter policyFilter = ToscaPolicyFilter.builder().name("SDNC_Policy.ONAP_VNF_NAMING_TIMESTAMP")
+        ToscaPolicyFilter policyFilter = ToscaPolicyFilter.builder().name("SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP")
             .version(ToscaPolicyFilter.LATEST_VERSION).build();
         ToscaServiceTemplate namingServiceTemplate = databaseProvider.getFilteredPolicies(policyFilter);
         assertEquals("21.0.0", namingServiceTemplate.getToscaTopologyTemplate().getPolicies().get(0).values().iterator()
             .next().getVersion());
 
         for (int i = 1; i < 22; i++) {
-            databaseProvider.deletePolicy("SDNC_Policy.ONAP_VNF_NAMING_TIMESTAMP", i + ".0.0");
+            databaseProvider.deletePolicy("SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP", i + ".0.0");
         }
     }
 
