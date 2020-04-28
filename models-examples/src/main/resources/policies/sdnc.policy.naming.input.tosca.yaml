@@ -6,19 +6,21 @@ topology_template:
             version: 1.0.0
             type_version: 1.0.0
             properties:
-                policy-instance-name: ONAP_VNF_NAMING_TIMESTAMP
+                policy-instance-name: ONAP_NF_NAMING_TIMESTAMP
                 naming-models:
                 -   naming-type: VNF
                     naming-recipe: AIC_CLOUD_REGION|DELIMITER|CONSTANT|DELIMITER|TIMESTAMP
+                    name-operation: 'to_lower_case()'
                     naming-properties:
                     -   property-name: AIC_CLOUD_REGION
                     -   property-name: CONSTANT
-                        property-value: ONAP-NF
+                        property-value: onap-nf
                     -   property-name: TIMESTAMP
-                    -   property-value: _
+                    -   property-value: '-'
                         property-name: DELIMITER
                 -   naming-type: VNFC
                     naming-recipe: VNF_NAME|DELIMITER|NFC_NAMING_CODE|DELIMITER|SEQUENCE
+                    name-operation: 'to_lower_case()'
                     naming-properties:
                     -   property-name: VNF_NAME
                     -   property-name: SEQUENCE
@@ -30,13 +32,14 @@ topology_template:
                             increment: '1'
                             sequence-type: alpha-numeric
                     -   property-name: NFC_NAMING_CODE
-                    -   property-value: _
+                    -   property-value: '-'
                         property-name: DELIMITER
                 -   naming-type: VF-MODULE
                     naming-recipe: VNF_NAME|DELIMITER|VF_MODULE_LABEL|DELIMITER|VF_MODULE_TYPE|DELIMITER|SEQUENCE
+                    name-operation: 'to_lower_case()'
                     naming-properties:
                     -   property-name: VNF_NAME
-                    -   property-value: _
+                    -   property-value: '-'
                         property-name: DELIMITER
                     -   property-name: VF_MODULE_LABEL
                     -   property-name: VF_MODULE_TYPE
