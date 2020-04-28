@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "b5281e25_8aa847e9",
+        "filename": "models-examples/src/main/resources/policies/sdnc.policy.naming.input.tosca.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-04-28T17:31:27Z",
+      "side": 1,
+      "message": "no objections",
+      "parentUuid": "ccd15e03_2f6db9ed",
+      "range": {
+        "startLine": 4,
+        "startChar": 20,
+        "endLine": 4,
+        "endChar": 45
+      },
+      "revId": "74ddb8fc403e4c55481f3b1ff759158b66ac8f1c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "78dfb827_d0f5292d",
         "filename": "models-examples/src/main/resources/policies/sdnc.policy.naming.input.tosca.yaml",
         "patchSetId": 6
