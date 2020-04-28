@@ -13,9 +13,9 @@ topology_template:
                     naming-properties:
                     -   property-name: AIC_CLOUD_REGION
                     -   property-name: CONSTANT
-                        property-value: ONAP-NF
+                        property-value: onap-nf
                     -   property-name: TIMESTAMP
-                    -   property-value: _
+                    -   property-value: "-"
                         property-name: DELIMITER
                 -   naming-type: VNFC
                     naming-recipe: VNF_NAME|DELIMITER|NFC_NAMING_CODE|DELIMITER|SEQUENCE
