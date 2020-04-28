@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "abd9cfe7_4280c3f8",
+        "filename": "models-examples/src/main/resources/policies/sdnc.policy.naming.input.tosca.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4567
+      },
+      "writtenOn": "2020-04-28T13:22:07Z",
+      "side": 1,
+      "message": "we want to reuse a common name for CNF \u0026 VNF. Can we change this to be: \n\n                policy-instance-name: ONAP_NF_NAMING_TIMESTAMP",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 63
+      },
+      "revId": "a7d26c14d7cf4c3cfd3d76bccc2ef3ac0bf2fa0b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e5a2d1cd_29d128fc",
         "filename": "models-examples/src/main/resources/policies/sdnc.policy.naming.input.tosca.yaml",
         "patchSetId": 1
