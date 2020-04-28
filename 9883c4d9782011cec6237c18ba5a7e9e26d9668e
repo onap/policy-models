@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d964a021_c6860b32",
+        "filename": "models-examples/src/main/resources/policies/sdnc.policy.naming.input.tosca.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 4567
+      },
+      "writtenOn": "2020-04-28T14:17:14Z",
+      "side": 1,
+      "message": "name-operation: \u0027to_lower_case()\u0027",
+      "revId": "9883c4d9782011cec6237c18ba5a7e9e26d9668e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9243586_5dc79b70",
+        "filename": "models-examples/src/main/resources/policies/sdnc.policy.naming.input.tosca.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 4567
+      },
+      "writtenOn": "2020-04-28T14:17:14Z",
+      "side": 1,
+      "message": "name-operation: \u0027to_lower_case()\u0027",
+      "revId": "9883c4d9782011cec6237c18ba5a7e9e26d9668e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
