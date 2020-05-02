@@ -20,6 +20,7 @@
 
 package org.onap.policy.models.provider.impl;
 
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -29,6 +30,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import lombok.NonNull;
 
@@ -238,8 +241,19 @@ public class PolicyToscaPersistenceTest {
     public void testPolicyPersistence(@NonNull final ToscaServiceTemplate serviceTemplate) throws Exception {
         assertNotNull(serviceTemplate);
 
-        databaseProvider.createPolicies(serviceTemplate);
-        databaseProvider.updatePolicies(serviceTemplate);
+        CountDownLatch threadCountDownLatch = new CountDownLatch(10);
+
+        for (int i = 0; i < 10; i++) {
+            new Thread() {
+                public void run() {
+                    assertThatCode(() -> databaseProvider.createPolicies(serviceTemplate)).doesNotThrowAnyException();
+                    assertThatCode(() -> databaseProvider.updatePolicies(serviceTemplate)).doesNotThrowAnyException();
+                    threadCountDownLatch.countDown();
+                }
+            }.start();
+        }
+
+        threadCountDownLatch.await(10, TimeUnit.SECONDS);
 
         for (Map<String, ToscaPolicy> policyMap : serviceTemplate.getToscaTopologyTemplate().getPolicies()) {
             for (ToscaPolicy policy : policyMap.values()) {

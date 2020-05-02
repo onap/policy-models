@@ -21,11 +21,14 @@
 package org.onap.policy.models.provider.impl;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Base64;
 import java.util.Set;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Before;
@@ -82,7 +85,7 @@ public class PolicyTypePersistenceTest {
             String policyTypeString = ResourceUtils.getResourceAsString(policyTypeFilePath);
 
             ToscaServiceTemplate foundPolicyTypeSt =
-                    yamlTranslator.fromYaml(policyTypeString, ToscaServiceTemplate.class);
+                yamlTranslator.fromYaml(policyTypeString, ToscaServiceTemplate.class);
 
             serviceTemplate.setDerivedFrom(foundPolicyTypeSt.getDerivedFrom());
             serviceTemplate.setDescription(foundPolicyTypeSt.getDescription());
@@ -107,13 +110,25 @@ public class PolicyTypePersistenceTest {
             }
         }
 
-        assertThatCode(() -> databaseProvider.createPolicyTypes(serviceTemplate)).doesNotThrowAnyException();
+        CountDownLatch threadCountDownLatch = new CountDownLatch(10);
+
+        for (int i = 0; i < 10; i++) {
+            new Thread() {
+                public void run() {
+                    assertThatCode(() -> databaseProvider.createPolicyTypes(serviceTemplate))
+                        .doesNotThrowAnyException();
+                    threadCountDownLatch.countDown();
+                }
+            }.start();
+        }
+
+        threadCountDownLatch.await(9, TimeUnit.SECONDS);
 
         ToscaEntityKey resourceOptimizationPtKey =
-                new ToscaEntityKey("onap.policies.optimization.resource.OptimizationPolicy", "1.0.0");
+            new ToscaEntityKey("onap.policies.optimization.resource.OptimizationPolicy", "1.0.0");
 
         ToscaServiceTemplate resOptPolicyTypeSt = databaseProvider.getPolicyTypes(resourceOptimizationPtKey.getName(),
-                resourceOptimizationPtKey.getVersion());
+            resourceOptimizationPtKey.getVersion());
 
         assertEquals(3, resOptPolicyTypeSt.getPolicyTypesAsMap().size());
         assertTrue(resOptPolicyTypeSt.getPolicyTypesAsMap().containsKey(resourceOptimizationPtKey));
