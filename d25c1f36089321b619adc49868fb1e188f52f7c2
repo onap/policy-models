@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "958b8929_f643b949",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-05-02T01:10:04Z",
+      "side": 1,
+      "message": "Synchronizing the methods won\u0027t work as a serialization strategy because synchronization of methods only works on a single object. The DatabaseProvider instantiates a new AuthorativeToscaProvider for each call so synchronizing on a static variable is a way of enforcing synchronization of the calls.",
+      "revId": "d25c1f36089321b619adc49868fb1e188f52f7c2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
