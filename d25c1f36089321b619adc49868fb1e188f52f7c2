@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "d7685cf3_1e263ea3",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/impl/PolicyToscaPersistenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-05-04T15:29:22Z",
+      "side": 1,
+      "message": "don\u0027t need awaitility for this - can just do: latch.await(...)",
+      "revId": "d25c1f36089321b619adc49868fb1e188f52f7c2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dad3df57_d5a77e1d",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/impl/PolicyTypePersistenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-05-04T15:29:22Z",
+      "side": 1,
+      "message": "don\u0027t need awaitility for this - can just do: latch.await(...)",
+      "revId": "d25c1f36089321b619adc49868fb1e188f52f7c2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "958b8929_f643b949",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProvider.java",
         "patchSetId": 1
@@ -13,6 +47,23 @@
       "writtenOn": "2020-05-02T01:10:04Z",
       "side": 1,
       "message": "Synchronizing the methods won\u0027t work as a serialization strategy because synchronization of methods only works on a single object. The DatabaseProvider instantiates a new AuthorativeToscaProvider for each call so synchronizing on a static variable is a way of enforcing synchronization of the calls.",
+      "revId": "d25c1f36089321b619adc49868fb1e188f52f7c2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e97573b4_79af6bbd",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-05-04T15:29:22Z",
+      "side": 1,
+      "message": "don\u0027t need an AtomicBoolean - can just use a plain Object",
       "revId": "d25c1f36089321b619adc49868fb1e188f52f7c2",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
