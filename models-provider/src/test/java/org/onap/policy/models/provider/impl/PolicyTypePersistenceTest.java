@@ -21,7 +21,7 @@
 package org.onap.policy.models.provider.impl;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.awaitility.Awaitility.await;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -40,6 +40,7 @@ import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderFactory;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaEntityKey;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 
 /**
@@ -140,5 +141,32 @@ public class PolicyTypePersistenceTest {
         assertTrue(resOptPolicyTypeSt.getPolicyTypesAsMap().containsKey(optimizationPtKey));
 
         assertEquals(2, resOptPolicyTypeSt.getDataTypesAsMap().size());
+
+        deleteUnreferencedPolicyTypes();
+
+        assertThatThrownBy(() -> {
+            databaseProvider.getPolicyTypes(null, null);
+        }).hasMessageContaining("policy types for null:null do not exist");
+    }
+
+    private void deleteUnreferencedPolicyTypes() throws PfModelException {
+        ToscaServiceTemplate allPolicyTypes = databaseProvider.getPolicyTypes(null, null);
+
+        boolean deleteFailedDueToReference = false;
+
+        for (ToscaPolicyType policyType : allPolicyTypes.getPolicyTypes().values()) {
+            try {
+                ToscaServiceTemplate deletedServiceTemplate =
+                    databaseProvider.deletePolicyType(policyType.getName(), policyType.getVersion());
+                assertEquals(1, deletedServiceTemplate.getPolicyTypesAsMap().size());
+            } catch (Exception pfModelRuntimeException) {
+                assertTrue(pfModelRuntimeException.getMessage().contains("is in use, it is referenced in policy type"));
+                deleteFailedDueToReference = true;
+            }
+        }
+
+        if (deleteFailedDueToReference) {
+            deleteUnreferencedPolicyTypes();
+        }
     }
 }

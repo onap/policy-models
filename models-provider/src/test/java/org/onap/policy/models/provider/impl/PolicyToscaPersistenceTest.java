@@ -179,8 +179,11 @@ public class PolicyToscaPersistenceTest {
         assertEquals(3, namingServiceTemplate.getDataTypesAsMap().size());
 
         long deleteStartTime = System.currentTimeMillis();
-        databaseProvider.deletePolicy("SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP", "1.0.0");
+        ToscaServiceTemplate deletedServiceTemplate =
+            databaseProvider.deletePolicy("SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP", "1.0.0");
         LOGGER.trace("Naming policy delete time (ms): {}", System.currentTimeMillis() - deleteStartTime);
+
+        assertEquals(1, deletedServiceTemplate.getToscaTopologyTemplate().getPoliciesAsMap().size());
     }
 
     @Test
@@ -228,7 +231,9 @@ public class PolicyToscaPersistenceTest {
             .next().getVersion());
 
         for (int i = 1; i < 22; i++) {
-            databaseProvider.deletePolicy("SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP", i + ".0.0");
+            ToscaServiceTemplate deletedServiceTemplate =
+                databaseProvider.deletePolicy("SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP", i + ".0.0");
+            assertEquals(1, deletedServiceTemplate.getToscaTopologyTemplate().getPoliciesAsMap().size());
         }
     }
 
