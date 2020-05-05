@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dfd0636a_190f27cc",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/impl/PolicyToscaPersistenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-05-05T12:43:50Z",
+      "side": 1,
+      "message": "good!",
+      "revId": "83a1bbff60a642043260bfc61e238203a3bba769",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
