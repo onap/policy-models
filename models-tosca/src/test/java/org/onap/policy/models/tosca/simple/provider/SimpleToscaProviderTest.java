@@ -41,6 +41,7 @@ import org.onap.policy.models.dao.DaoParameters;
 import org.onap.policy.models.dao.PfDao;
 import org.onap.policy.models.dao.PfDaoFactory;
 import org.onap.policy.models.dao.impl.DefaultPfDao;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.authorative.provider.AuthorativeToscaProvider;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaDataType;
@@ -368,6 +369,66 @@ public class SimpleToscaProviderTest {
         JpaToscaServiceTemplate createdServiceTemplate =
             new SimpleToscaProvider().createPolicies(pfDao, originalServiceTemplate);
 
+        assertEquals(originalServiceTemplate.getTopologyTemplate().getPolicies(),
+            createdServiceTemplate.getTopologyTemplate().getPolicies());
+    }
+
+    @Test
+    public void testPolicyCreateTypeAndVersion() throws Exception {
+        ToscaServiceTemplate toscaServiceTemplate =
+            standardCoder.decode(ResourceUtils.getResourceAsString(VCPE_INPUT_JSON), ToscaServiceTemplate.class);
+
+        createPolicyTypes();
+
+        ToscaPolicy toscaPolicy =
+            toscaServiceTemplate.getToscaTopologyTemplate().getPoliciesAsMap().values().iterator().next();
+
+        JpaToscaServiceTemplate originalServiceTemplate = new JpaToscaServiceTemplate();
+
+        final String originalPolicyType = toscaPolicy.getType();
+        final String originalPolicyTypeVersion = toscaPolicy.getTypeVersion();
+        toscaPolicy.setType(null);
+        toscaPolicy.setTypeVersion(null);
+
+        assertThatThrownBy(() -> {
+            originalServiceTemplate.fromAuthorative(toscaServiceTemplate);
+        }).hasMessage("PolicyType type not specified, the type of the PolicyType for this policy must be "
+            + "specified in the type field");
+
+        toscaPolicy.setType("IDontExist");
+        assertThatThrownBy(() -> {
+            originalServiceTemplate.fromAuthorative(toscaServiceTemplate);
+        }).hasMessage("PolicyType version not specified, the version of the PolicyType for this policy must be "
+            + "specified in the type_version field");
+
+        toscaPolicy.setTypeVersion("hello");
+        assertThatThrownBy(() -> {
+            originalServiceTemplate.fromAuthorative(toscaServiceTemplate);
+        }).hasMessageContaining("value \"hello\", does not match regular expression");
+
+        toscaPolicy.setTypeVersion("99.100.101");
+        originalServiceTemplate.fromAuthorative(toscaServiceTemplate);
+
+        assertThatThrownBy(() -> {
+            new SimpleToscaProvider().createPolicies(pfDao, originalServiceTemplate);
+        }).hasMessageContaining("policy type IDontExist:99.100.101 referenced in policy not found");
+
+        toscaPolicy.setType("IDontExist");
+        originalServiceTemplate.fromAuthorative(toscaServiceTemplate);
+
+        toscaPolicy.setType(null);
+
+        assertThatThrownBy(() -> {
+            originalServiceTemplate.fromAuthorative(toscaServiceTemplate);
+        }).hasMessage("PolicyType type not specified, the type of the PolicyType for this policy must be "
+            + "specified in the type field");
+
+        toscaPolicy.setType(originalPolicyType);
+        toscaPolicy.setTypeVersion(originalPolicyTypeVersion);
+
+        originalServiceTemplate.fromAuthorative(toscaServiceTemplate);
+        JpaToscaServiceTemplate createdServiceTemplate =
+            new SimpleToscaProvider().createPolicies(pfDao, originalServiceTemplate);
         assertEquals(originalServiceTemplate.getTopologyTemplate().getPolicies(),
             createdServiceTemplate.getTopologyTemplate().getPolicies());
     }

@@ -173,7 +173,7 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
                     propertyMap.put(entry.getKey(), coder.decode(entry.getValue(), Object.class));
                 } catch (CoderException ce) {
                     String errorMessage = "error decoding property JSON value read from database: key=" + entry.getKey()
-                            + ", value=" + entry.getValue();
+                        + ", value=" + entry.getValue();
                     throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR, errorMessage, ce);
                 }
             }
@@ -191,13 +191,17 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
         if (toscaPolicy.getType() != null) {
             type.setName(toscaPolicy.getType());
         } else {
-            type.setName(PfKey.NULL_KEY_NAME);
+            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST,
+                "PolicyType type not specified, the type of the PolicyType for this policy must be specified in "
+                    + "the type field");
         }
 
         if (toscaPolicy.getTypeVersion() != null) {
             type.setVersion(toscaPolicy.getTypeVersion());
         } else {
-            type.setVersion(PfKey.NULL_KEY_VERSION);
+            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST,
+                "PolicyType version not specified, the version of the PolicyType for this policy must be specified in "
+                    + "the type_version field");
         }
 
         if (toscaPolicy.getProperties() != null) {
@@ -215,7 +219,7 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
                     properties.put(propertyEntry.getKey(), coder.encode(propertyEntry.getValue()));
                 } catch (CoderException ce) {
                     String errorMessage = "error encoding property JSON value for database: key="
-                            + propertyEntry.getKey() + ", value=" + propertyEntry.getValue();
+                        + propertyEntry.getKey() + ", value=" + propertyEntry.getValue();
                     throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR, errorMessage, ce);
                 }
             }
@@ -263,12 +267,12 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
 
         if (PfKey.NULL_KEY_VERSION.equals(getKey().getVersion())) {
             result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                    "key version is a null version"));
+                "key version is a null version"));
         }
 
         if (type == null || type.isNullKey()) {
             result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                    "type is null or a null key"));
+                "type is null or a null key"));
         } else {
             result = type.validate(result);
         }
@@ -294,10 +298,10 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
         for (Entry<String, String> propertyEntry : properties.entrySet()) {
             if (!ParameterValidationUtils.validateStringParameter(propertyEntry.getKey())) {
                 result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                        "policy property key may not be null "));
+                    "policy property key may not be null "));
             } else if (propertyEntry.getValue() == null) {
                 result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                        "policy property value may not be null "));
+                    "policy property value may not be null "));
             }
         }
     }
@@ -314,7 +318,7 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
         for (PfConceptKey target : targets) {
             if (target == null) {
                 result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                        "policy target may not be null "));
+                    "policy target may not be null "));
             } else {
                 result = target.validate(result);
             }

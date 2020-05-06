@@ -55,9 +55,13 @@ public class JpaToscaPolicyTest {
         assertNotNull(new JpaToscaPolicy(new PfConceptKey(), new PfConceptKey()));
         assertNotNull(new JpaToscaPolicy(new JpaToscaPolicy()));
 
-        ToscaPolicy pol = new ToscaPolicy();
+        final ToscaPolicy pol = new ToscaPolicy();
         pol.setType("type");
-        assertNotNull(new JpaToscaPolicy(pol));
+        assertThatThrownBy(() -> {
+            new JpaToscaPolicy(pol);
+        }).hasMessage(
+            "PolicyType version not specified, the version of the PolicyType for this policy must be specified in the "
+                + "type_version field");
 
         assertThatThrownBy(() -> {
             new JpaToscaPolicy((PfConceptKey) null);
@@ -170,12 +174,12 @@ public class JpaToscaPolicyTest {
             tp.fromAuthorative(null);
         }).hasMessageMatching("toscaPolicy is marked .*on.*ull but is null");
 
-        pol = new ToscaPolicy();
-        pol.setName("policy");
-        pol.setVersion("1.2.3");
-        pol.setType("poltype");
-        pol.setTypeVersion("2.2.3");
-        tp.fromAuthorative(pol);
+        ToscaPolicy pol1 = new ToscaPolicy();
+        pol1.setName("policy");
+        pol1.setVersion("1.2.3");
+        pol1.setType("poltype");
+        pol1.setTypeVersion("2.2.3");
+        tp.fromAuthorative(pol1);
         assertEquals("2.2.3", tp.getType().getVersion());
     }
 }
