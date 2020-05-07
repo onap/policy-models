@@ -71,14 +71,16 @@ public class AuthorativeToscaProvider {
     public ToscaServiceTemplate getPolicyTypes(@NonNull final PfDao dao, final String name, final String version)
         throws PfModelException {
 
-        LOGGER.debug("->getPolicyTypes: name={}, version={}", name, version);
+        synchronized (providerLockObject) {
+            LOGGER.debug("->getPolicyTypes: name={}, version={}", name, version);
 
-        JpaToscaServiceTemplate jpaServiceTemplate = new SimpleToscaProvider().getPolicyTypes(dao, name, version);
+            JpaToscaServiceTemplate jpaServiceTemplate = new SimpleToscaProvider().getPolicyTypes(dao, name, version);
 
-        ToscaServiceTemplate serviceTemplate = jpaServiceTemplate.toAuthorative();
+            ToscaServiceTemplate serviceTemplate = jpaServiceTemplate.toAuthorative();
 
-        LOGGER.debug("<-getPolicyTypes: name={}, version={}, serviceTemplate={}", name, version, serviceTemplate);
-        return serviceTemplate;
+            LOGGER.debug("<-getPolicyTypes: name={}, version={}, serviceTemplate={}", name, version, serviceTemplate);
+            return serviceTemplate;
+        }
     }
 
     /**
@@ -93,19 +95,21 @@ public class AuthorativeToscaProvider {
     public List<ToscaPolicyType> getPolicyTypeList(@NonNull final PfDao dao, final String name, final String version)
         throws PfModelException {
 
-        LOGGER.debug("->getPolicyTypeList: name={}, version={}", name, version);
+        synchronized (providerLockObject) {
+            LOGGER.debug("->getPolicyTypeList: name={}, version={}", name, version);
 
-        List<ToscaPolicyType> policyTypeList;
+            List<ToscaPolicyType> policyTypeList;
 
-        try {
-            policyTypeList = new ArrayList<>(
-                new SimpleToscaProvider().getPolicyTypes(dao, name, version).toAuthorative().getPolicyTypes().values());
-        } catch (PfModelRuntimeException pfme) {
-            return handlePfModelRuntimeException(pfme);
+            try {
+                policyTypeList = new ArrayList<>(new SimpleToscaProvider().getPolicyTypes(dao, name, version)
+                    .toAuthorative().getPolicyTypes().values());
+            } catch (PfModelRuntimeException pfme) {
+                return handlePfModelRuntimeException(pfme);
+            }
+
+            LOGGER.debug("<-getPolicyTypeList: name={}, version={}, policyTypeList={}", name, version, policyTypeList);
+            return policyTypeList;
         }
-
-        LOGGER.debug("<-getPolicyTypeList: name={}, version={}, policyTypeList={}", name, version, policyTypeList);
-        return policyTypeList;
     }
 
     /**
@@ -119,34 +123,35 @@ public class AuthorativeToscaProvider {
     public ToscaServiceTemplate getFilteredPolicyTypes(@NonNull final PfDao dao,
         @NonNull final ToscaPolicyTypeFilter filter) throws PfModelException {
 
-        LOGGER.debug("->getFilteredPolicyTypes: filter={}", filter);
-        SimpleToscaProvider simpleToscaProvider = new SimpleToscaProvider();
+        synchronized (providerLockObject) {
+            LOGGER.debug("->getFilteredPolicyTypes: filter={}", filter);
+            SimpleToscaProvider simpleToscaProvider = new SimpleToscaProvider();
 
-        final JpaToscaServiceTemplate dbServiceTemplate = simpleToscaProvider.getPolicyTypes(dao, null, null);
+            final JpaToscaServiceTemplate dbServiceTemplate = simpleToscaProvider.getPolicyTypes(dao, null, null);
 
-        List<ToscaPolicyType> filteredPolicyTypes = dbServiceTemplate.getPolicyTypes().toAuthorativeList();
-        filteredPolicyTypes = filter.filter(filteredPolicyTypes);
+            List<ToscaPolicyType> filteredPolicyTypes = dbServiceTemplate.getPolicyTypes().toAuthorativeList();
+            filteredPolicyTypes = filter.filter(filteredPolicyTypes);
 
-        if (CollectionUtils.isEmpty(filteredPolicyTypes)) {
-            throw new PfModelRuntimeException(Response.Status.NOT_FOUND,
-                "policy types for filter " + filter.toString() + " do not exist");
+            if (CollectionUtils.isEmpty(filteredPolicyTypes)) {
+                throw new PfModelRuntimeException(Response.Status.NOT_FOUND,
+                    "policy types for filter " + filter.toString() + " do not exist");
+            }
+
+            JpaToscaServiceTemplate filteredServiceTemplate = new JpaToscaServiceTemplate();
+
+            for (ToscaPolicyType policyType : filteredPolicyTypes) {
+                JpaToscaServiceTemplate cascadedServiceTemplate = simpleToscaProvider
+                    .getCascadedPolicyTypes(dbServiceTemplate, policyType.getName(), policyType.getVersion());
+
+                filteredServiceTemplate =
+                    ToscaServiceTemplateUtils.addFragment(filteredServiceTemplate, cascadedServiceTemplate);
+            }
+
+            ToscaServiceTemplate returnServiceTemplate = filteredServiceTemplate.toAuthorative();
+
+            LOGGER.debug("<-getFilteredPolicyTypes: filter={}, serviceTemplate={}", filter, returnServiceTemplate);
+            return returnServiceTemplate;
         }
-
-        JpaToscaServiceTemplate filteredServiceTemplate = new JpaToscaServiceTemplate();
-
-        for (ToscaPolicyType policyType : filteredPolicyTypes) {
-            JpaToscaServiceTemplate cascadedServiceTemplate = simpleToscaProvider
-                .getCascadedPolicyTypes(dbServiceTemplate, policyType.getName(), policyType.getVersion());
-
-            filteredServiceTemplate =
-                ToscaServiceTemplateUtils.addFragment(filteredServiceTemplate, cascadedServiceTemplate);
-        }
-
-        ToscaServiceTemplate returnServiceTemplate = filteredServiceTemplate.toAuthorative();
-
-        LOGGER.debug("<-getFilteredPolicyTypes: filter={}, serviceTemplate={}", filter, returnServiceTemplate);
-        return returnServiceTemplate;
-
     }
 
     /**
@@ -249,13 +254,17 @@ public class AuthorativeToscaProvider {
      */
     public ToscaServiceTemplate getPolicies(@NonNull final PfDao dao, final String name, final String version)
         throws PfModelException {
-        LOGGER.debug("->getPolicies: name={}, version={}", name, version);
 
-        ToscaServiceTemplate gotServiceTempalate =
-            new SimpleToscaProvider().getPolicies(dao, name, version).toAuthorative();
+        synchronized (providerLockObject) {
+            LOGGER.debug("->getPolicies: name={}, version={}", name, version);
 
-        LOGGER.debug("<-getPolicies: name={}, version={}, gotServiceTempalate={}", name, version, gotServiceTempalate);
-        return gotServiceTempalate;
+            ToscaServiceTemplate gotServiceTempalate =
+                new SimpleToscaProvider().getPolicies(dao, name, version).toAuthorative();
+
+            LOGGER.debug("<-getPolicies: name={}, version={}, gotServiceTempalate={}", name, version,
+                gotServiceTempalate);
+            return gotServiceTempalate;
+        }
     }
 
     /**
@@ -269,19 +278,22 @@ public class AuthorativeToscaProvider {
      */
     public List<ToscaPolicy> getPolicyList(@NonNull final PfDao dao, final String name, final String version)
         throws PfModelException {
-        LOGGER.debug("->getPolicyList: name={}, version={}", name, version);
 
-        List<ToscaPolicy> policyList;
+        synchronized (providerLockObject) {
+            LOGGER.debug("->getPolicyList: name={}, version={}", name, version);
 
-        try {
-            policyList = asConceptList(new SimpleToscaProvider().getPolicies(dao, name, version).toAuthorative()
-                .getToscaTopologyTemplate().getPolicies());
-        } catch (PfModelRuntimeException pfme) {
-            return handlePfModelRuntimeException(pfme);
+            List<ToscaPolicy> policyList;
+
+            try {
+                policyList = asConceptList(new SimpleToscaProvider().getPolicies(dao, name, version).toAuthorative()
+                    .getToscaTopologyTemplate().getPolicies());
+            } catch (PfModelRuntimeException pfme) {
+                return handlePfModelRuntimeException(pfme);
+            }
+
+            LOGGER.debug("<-getPolicyList: name={}, version={}, policyTypeList={}", name, version, policyList);
+            return policyList;
         }
-
-        LOGGER.debug("<-getPolicyList: name={}, version={}, policyTypeList={}", name, version, policyList);
-        return policyList;
     }
 
     /**
@@ -295,35 +307,38 @@ public class AuthorativeToscaProvider {
     public ToscaServiceTemplate getFilteredPolicies(@NonNull final PfDao dao, @NonNull final ToscaPolicyFilter filter)
         throws PfModelException {
 
-        LOGGER.debug("->getFilteredPolicies: filter={}", filter);
-        String version = ToscaPolicyFilter.LATEST_VERSION.equals(filter.getVersion()) ? null : filter.getVersion();
+        synchronized (providerLockObject) {
+            LOGGER.debug("->getFilteredPolicies: filter={}", filter);
+            String version = ToscaPolicyFilter.LATEST_VERSION.equals(filter.getVersion()) ? null : filter.getVersion();
 
-        SimpleToscaProvider simpleToscaProvider = new SimpleToscaProvider();
-        final JpaToscaServiceTemplate dbServiceTemplate =
-            simpleToscaProvider.getPolicies(dao, filter.getName(), version);
+            SimpleToscaProvider simpleToscaProvider = new SimpleToscaProvider();
+            final JpaToscaServiceTemplate dbServiceTemplate =
+                simpleToscaProvider.getPolicies(dao, filter.getName(), version);
 
-        List<ToscaPolicy> filteredPolicies = dbServiceTemplate.getTopologyTemplate().getPolicies().toAuthorativeList();
-        filteredPolicies = filter.filter(filteredPolicies);
+            List<ToscaPolicy> filteredPolicies =
+                dbServiceTemplate.getTopologyTemplate().getPolicies().toAuthorativeList();
+            filteredPolicies = filter.filter(filteredPolicies);
 
-        if (CollectionUtils.isEmpty(filteredPolicies)) {
-            throw new PfModelRuntimeException(Response.Status.NOT_FOUND,
-                "policies for filter " + filter.toString() + " do not exist");
+            if (CollectionUtils.isEmpty(filteredPolicies)) {
+                throw new PfModelRuntimeException(Response.Status.NOT_FOUND,
+                    "policies for filter " + filter.toString() + " do not exist");
+            }
+
+            JpaToscaServiceTemplate filteredServiceTemplate = new JpaToscaServiceTemplate();
+
+            for (ToscaPolicy policy : filteredPolicies) {
+                JpaToscaServiceTemplate cascadedServiceTemplate =
+                    simpleToscaProvider.getCascadedPolicies(dbServiceTemplate, policy.getName(), policy.getVersion());
+
+                filteredServiceTemplate =
+                    ToscaServiceTemplateUtils.addFragment(filteredServiceTemplate, cascadedServiceTemplate);
+            }
+
+            ToscaServiceTemplate returnServiceTemplate = filteredServiceTemplate.toAuthorative();
+
+            LOGGER.debug("<-getFilteredPolicies: filter={}, serviceTemplate={}", filter, returnServiceTemplate);
+            return returnServiceTemplate;
         }
-
-        JpaToscaServiceTemplate filteredServiceTemplate = new JpaToscaServiceTemplate();
-
-        for (ToscaPolicy policy : filteredPolicies) {
-            JpaToscaServiceTemplate cascadedServiceTemplate =
-                simpleToscaProvider.getCascadedPolicies(dbServiceTemplate, policy.getName(), policy.getVersion());
-
-            filteredServiceTemplate =
-                ToscaServiceTemplateUtils.addFragment(filteredServiceTemplate, cascadedServiceTemplate);
-        }
-
-        ToscaServiceTemplate returnServiceTemplate = filteredServiceTemplate.toAuthorative();
-
-        LOGGER.debug("<-getFilteredPolicies: filter={}, serviceTemplate={}", filter, returnServiceTemplate);
-        return returnServiceTemplate;
     }
 
     /**
