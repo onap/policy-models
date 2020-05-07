@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f0166fe_f8f7526f",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-05-07T13:12:45Z",
+      "side": 1,
+      "message": "debug statements better out of synchronized section and in line 81",
+      "revId": "59278e17a3911518c5e3601b6a38bfbbcbcf0fc8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
