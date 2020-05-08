@@ -27,6 +27,9 @@
                                         "entityIds": {
                                             "resourceID": "bbb3cefd-01c8-413c-9bdd-2b92f9ca3d38"
                                         }
+                                    },
+                                    "payload": {
+                                        "streams": "{\"active-streams\": 5 }"
                                     }
                                 },
                                 "timeout": 300,

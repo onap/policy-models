@@ -28,6 +28,8 @@ topology_template:
                   targetType: VNF
                   entityIds:
                     resourceID: Eace933104d443b496b8.nodes.heat.vpg
+                  payload:
+                    streams: '{"active-streams": 5 }'
                 retry: 0
                 timeout: 300
                 success: final_success
