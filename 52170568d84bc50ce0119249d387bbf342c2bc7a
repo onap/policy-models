@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f96f199_7e6530ef",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/impl/DatabasePolicyModelsProviderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-05-10T22:51:49Z",
+      "side": 1,
+      "message": "Legacy operational policy message changes.",
+      "revId": "52170568d84bc50ce0119249d387bbf342c2bc7a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbbc818c_d23a1f64",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/legacy/provider/LegacyProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-05-10T22:51:49Z",
+      "side": 1,
+      "message": "LegacyProvider amended to use the SimpleToscaProvider rather than accessing the database object directly.",
+      "revId": "52170568d84bc50ce0119249d387bbf342c2bc7a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4bdd95a_2f148781",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/provider/SimpleToscaProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-05-10T22:51:49Z",
+      "side": 1,
+      "message": "As well as deleting the object in the DB, the structure of the ServiceTemplate has to be updated as well.",
+      "revId": "52170568d84bc50ce0119249d387bbf342c2bc7a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d52351d_35b06971",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/provider/SimpleToscaServiceTemplateProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-05-10T22:51:49Z",
+      "side": 1,
+      "message": "Catching DB exceptions and rethrowing them so they show up in logs.",
+      "revId": "52170568d84bc50ce0119249d387bbf342c2bc7a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10253858_30975d7b",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/legacy/provider/LegacyProvider4LegacyOperationalTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-05-10T22:51:49Z",
+      "side": 1,
+      "message": "Message changes due to changed implementation of legacy operational policies.",
+      "revId": "52170568d84bc50ce0119249d387bbf342c2bc7a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25b66d3e_5d7de663",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/provider/SimpleToscaProviderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-05-10T22:51:49Z",
+      "side": 1,
+      "message": "Tests amended to make sure the service templates in the database are valid after deletes.",
+      "revId": "52170568d84bc50ce0119249d387bbf342c2bc7a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f77e012e_f093be90",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/provider/SimpleToscaServiceTemplateProviderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-05-10T22:51:49Z",
+      "side": 1,
+      "message": "Data type delete tests changed to ensure that the service template is valid after deletes.",
+      "revId": "52170568d84bc50ce0119249d387bbf342c2bc7a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
