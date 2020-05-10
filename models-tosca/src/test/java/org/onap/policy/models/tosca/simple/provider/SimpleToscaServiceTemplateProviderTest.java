@@ -89,10 +89,10 @@ public class SimpleToscaServiceTemplateProviderTest {
     public void testCreateUpdateGetDeleteDataType() throws PfModelException {
         JpaToscaServiceTemplate serviceTemplate = new JpaToscaServiceTemplate();
 
-        JpaToscaServiceTemplate overwrittenServiceTemplate =
-                new SimpleToscaServiceTemplateProvider().write(pfDao, serviceTemplate);
+        JpaToscaServiceTemplate dbServiceTemplate =
+            new SimpleToscaServiceTemplateProvider().write(pfDao, serviceTemplate);
 
-        assertNull(overwrittenServiceTemplate);
+        assertEquals(serviceTemplate, dbServiceTemplate);
 
         JpaToscaServiceTemplate readServiceTemplate = new SimpleToscaServiceTemplateProvider().read(pfDao);
         assertEquals(serviceTemplate, readServiceTemplate);
@@ -105,8 +105,8 @@ public class SimpleToscaServiceTemplateProviderTest {
         serviceTemplate.setDataTypes(new JpaToscaDataTypes());
         serviceTemplate.getDataTypes().getConceptMap().put(dataType0Key, dataType0);
 
-        overwrittenServiceTemplate = new SimpleToscaServiceTemplateProvider().write(pfDao, serviceTemplate);
-        assertEquals(readServiceTemplate, overwrittenServiceTemplate);
+        dbServiceTemplate = new SimpleToscaServiceTemplateProvider().write(pfDao, serviceTemplate);
+        assertEquals(serviceTemplate, dbServiceTemplate);
 
         readServiceTemplate = new SimpleToscaServiceTemplateProvider().read(pfDao);
         assertEquals(serviceTemplate, readServiceTemplate);
@@ -117,8 +117,8 @@ public class SimpleToscaServiceTemplateProviderTest {
 
         dataType0.setDescription("Updated Description");
 
-        overwrittenServiceTemplate = new SimpleToscaServiceTemplateProvider().write(pfDao, serviceTemplate);
-        assertEquals(readServiceTemplate, overwrittenServiceTemplate);
+        dbServiceTemplate = new SimpleToscaServiceTemplateProvider().write(pfDao, serviceTemplate);
+        assertEquals(serviceTemplate, dbServiceTemplate);
 
         readServiceTemplate = new SimpleToscaServiceTemplateProvider().read(pfDao);
         assertEquals(serviceTemplate, readServiceTemplate);
@@ -135,8 +135,8 @@ public class SimpleToscaServiceTemplateProviderTest {
 
         serviceTemplate.getPolicyTypes().getConceptMap().put(policyType0Key, policyType0);
 
-        overwrittenServiceTemplate = new SimpleToscaServiceTemplateProvider().write(pfDao, serviceTemplate);
-        assertEquals(readServiceTemplate, overwrittenServiceTemplate);
+        dbServiceTemplate = new SimpleToscaServiceTemplateProvider().write(pfDao, serviceTemplate);
+        assertEquals(serviceTemplate, dbServiceTemplate);
 
         readServiceTemplate = new SimpleToscaServiceTemplateProvider().read(pfDao);
         assertEquals(serviceTemplate, readServiceTemplate);

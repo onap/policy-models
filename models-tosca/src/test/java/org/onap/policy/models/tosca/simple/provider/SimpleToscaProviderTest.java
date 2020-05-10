@@ -24,6 +24,7 @@ package org.onap.policy.models.tosca.simple.provider;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.util.Properties;
 
@@ -182,8 +183,8 @@ public class SimpleToscaProviderTest {
 
         deletedServiceTemplate = new SimpleToscaProvider().deleteDataType(pfDao, dataType0v2.getKey());
 
-        assertEquals(dataType0, deletedServiceTemplate.getDataTypes().get(dataType0Key));
-        assertEquals("Updated Description", deletedServiceTemplate.getDataTypes().get(dataType0Key).getDescription());
+        assertEquals(dataType0v2, deletedServiceTemplate.getDataTypes().get(dataType0v2.getKey()));
+        assertNull(deletedServiceTemplate.getDataTypes().get(dataType0v2.getKey()).getDescription());
 
         assertThatThrownBy(() -> new SimpleToscaProvider().deleteDataType(pfDao, dataType0Key))
             .hasMessage("data type DataType0:0.0.1 is in use, it is referenced in policy type pt0:0.0.2");
@@ -282,6 +283,10 @@ public class SimpleToscaProviderTest {
 
         assertThatThrownBy(() -> new SimpleToscaProvider().deletePolicyType(pfDao, policyType0Key))
             .hasMessage("no policy types found");
+
+        JpaToscaServiceTemplate newServiceTemplate =
+            new SimpleToscaProvider().createPolicyTypes(pfDao, serviceTemplate);
+        assertEquals(serviceTemplate, newServiceTemplate);
     }
 
     @Test
@@ -482,6 +487,8 @@ public class SimpleToscaProviderTest {
 
         assertThatThrownBy(() -> new SimpleToscaProvider().deletePolicy(pfDao, policyKey))
             .hasMessage("no policies found");
+
+        new SimpleToscaProvider().createPolicies(pfDao, originalServiceTemplate);
     }
 
     @Test

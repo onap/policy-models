@@ -40,7 +40,7 @@ public class SimpleToscaServiceTemplateProvider {
     // There is only one service template in the database becasue TOSCA does not specify names and versions on service
     // templates.
     private static final PfConceptKey DEFAULT_SERVICE_TEMPLATE_KEY =
-            new PfConceptKey(JpaToscaServiceTemplate.DEFAULT_NAME, JpaToscaServiceTemplate.DEFAULT_VERSION);
+        new PfConceptKey(JpaToscaServiceTemplate.DEFAULT_NAME, JpaToscaServiceTemplate.DEFAULT_VERSION);
 
     /**
      * Get a service template from the database.
@@ -68,17 +68,10 @@ public class SimpleToscaServiceTemplateProvider {
      * @throws PfModelException on errors writing the service template
      */
     public JpaToscaServiceTemplate write(@NonNull final PfDao dao,
-            @NonNull final JpaToscaServiceTemplate serviceTemplate) throws PfModelException {
+        @NonNull final JpaToscaServiceTemplate serviceTemplate) throws PfModelException {
         LOGGER.debug("->write: serviceTempalate={}", serviceTemplate);
 
-        JpaToscaServiceTemplate overwrittenServiceTemplate =
-                dao.get(JpaToscaServiceTemplate.class, serviceTemplate.getKey());
-
-        if (overwrittenServiceTemplate != null) {
-            dao.delete(overwrittenServiceTemplate);
-        }
-
-        dao.create(serviceTemplate);
+        JpaToscaServiceTemplate overwrittenServiceTemplate = dao.update(serviceTemplate);
 
         LOGGER.debug("<-write: overwrittenServiceTemplate={}", overwrittenServiceTemplate);
         return overwrittenServiceTemplate;
@@ -95,7 +88,7 @@ public class SimpleToscaServiceTemplateProvider {
         LOGGER.debug("->delete");
 
         JpaToscaServiceTemplate serviceTemplateToBeDeleted =
-                dao.get(JpaToscaServiceTemplate.class, DEFAULT_SERVICE_TEMPLATE_KEY);
+            dao.get(JpaToscaServiceTemplate.class, DEFAULT_SERVICE_TEMPLATE_KEY);
 
         dao.delete(serviceTemplateToBeDeleted);
 
