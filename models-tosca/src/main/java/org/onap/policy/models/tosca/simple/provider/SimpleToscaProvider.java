@@ -276,10 +276,16 @@ public class SimpleToscaProvider {
             }
         }
 
-        dao.delete(JpaToscaDataType.class, dataTypeKey);
+        serviceTemplate.getDataTypes().getConceptMap().remove(dataTypeKey);
+        new SimpleToscaServiceTemplateProvider().write(dao, serviceTemplate);
+        dao.delete(dataType4Deletion);
 
-        LOGGER.debug("<-deleteDataType: key={}, serviceTempalate={}", dataTypeKey, serviceTemplate);
-        return serviceTemplate;
+        JpaToscaServiceTemplate deletedServiceTemplate = new JpaToscaServiceTemplate();
+        deletedServiceTemplate.setDataTypes(new JpaToscaDataTypes());
+        deletedServiceTemplate.getDataTypes().getConceptMap().put(dataTypeKey, dataType4Deletion);
+
+        LOGGER.debug("<-deleteDataType: key={}, serviceTempalate={}", dataTypeKey, deletedServiceTemplate);
+        return deletedServiceTemplate;
     }
 
     /**
@@ -427,8 +433,7 @@ public class SimpleToscaProvider {
             throw new PfModelRuntimeException(Response.Status.NOT_FOUND, "no policy types found");
         }
 
-        JpaToscaEntityType<? extends ToscaEntity> policyType4Deletion =
-            serviceTemplate.getPolicyTypes().get(policyTypeKey);
+        JpaToscaPolicyType policyType4Deletion = serviceTemplate.getPolicyTypes().get(policyTypeKey);
         if (policyType4Deletion == null) {
             throw new PfModelRuntimeException(Response.Status.NOT_FOUND,
                 POLICY_TYPE + policyTypeKey.getId() + NOT_FOUND);
@@ -453,12 +458,13 @@ public class SimpleToscaProvider {
             }
         }
 
-        dao.delete(JpaToscaPolicyType.class, policyTypeKey);
+        serviceTemplate.getPolicyTypes().getConceptMap().remove(policyTypeKey);
+        new SimpleToscaServiceTemplateProvider().write(dao, serviceTemplate);
+        dao.delete(policyType4Deletion);
 
         JpaToscaServiceTemplate deletedServiceTemplate = new JpaToscaServiceTemplate();
         deletedServiceTemplate.setPolicyTypes(new JpaToscaPolicyTypes());
-        deletedServiceTemplate.getPolicyTypes().getConceptMap().put(policyTypeKey,
-            serviceTemplate.getPolicyTypes().getConceptMap().get(policyTypeKey));
+        deletedServiceTemplate.getPolicyTypes().getConceptMap().put(policyTypeKey, policyType4Deletion);
 
         LOGGER.debug("<-deletePolicyType: key={}, serviceTempalate={}", policyTypeKey, deletedServiceTemplate);
         return deletedServiceTemplate;
@@ -604,13 +610,14 @@ public class SimpleToscaProvider {
             throw new PfModelRuntimeException(Response.Status.NOT_FOUND, "policy " + policyKey.getId() + NOT_FOUND);
         }
 
-        dao.delete(JpaToscaPolicy.class, policyKey);
+        serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().remove(policyKey);
+        new SimpleToscaServiceTemplateProvider().write(dao, serviceTemplate);
+        dao.delete(policy4Deletion);
 
         JpaToscaServiceTemplate deletedServiceTemplate = new JpaToscaServiceTemplate();
         deletedServiceTemplate.setTopologyTemplate(new JpaToscaTopologyTemplate());
         deletedServiceTemplate.getTopologyTemplate().setPolicies(new JpaToscaPolicies());
-        deletedServiceTemplate.getTopologyTemplate().getPolicies().getConceptMap().put(policyKey,
-            serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().get(policyKey));
+        deletedServiceTemplate.getTopologyTemplate().getPolicies().getConceptMap().put(policyKey, policy4Deletion);
 
         LOGGER.debug("<-deletePolicy: key={}, serviceTempalate={}", policyKey, deletedServiceTemplate);
         return deletedServiceTemplate;

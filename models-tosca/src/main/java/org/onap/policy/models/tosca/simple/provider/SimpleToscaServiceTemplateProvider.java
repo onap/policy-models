@@ -20,6 +20,8 @@
 
 package org.onap.policy.models.tosca.simple.provider;
 
+import javax.ws.rs.core.Response.Status;
+
 import lombok.NonNull;
 
 import org.onap.policy.models.base.PfConceptKey;
@@ -40,7 +42,7 @@ public class SimpleToscaServiceTemplateProvider {
     // There is only one service template in the database becasue TOSCA does not specify names and versions on service
     // templates.
     private static final PfConceptKey DEFAULT_SERVICE_TEMPLATE_KEY =
-            new PfConceptKey(JpaToscaServiceTemplate.DEFAULT_NAME, JpaToscaServiceTemplate.DEFAULT_VERSION);
+        new PfConceptKey(JpaToscaServiceTemplate.DEFAULT_NAME, JpaToscaServiceTemplate.DEFAULT_VERSION);
 
     /**
      * Get a service template from the database.
@@ -49,14 +51,20 @@ public class SimpleToscaServiceTemplateProvider {
      * @return the Service Template read from the database
      * @throws PfModelException on errors getting the service template
      */
-    public JpaToscaServiceTemplate read(@NonNull final PfDao dao) throws PfModelException {
+    protected JpaToscaServiceTemplate read(@NonNull final PfDao dao) throws PfModelException {
         LOGGER.debug("->read");
 
-        // Get the service template
-        JpaToscaServiceTemplate serviceTemplate = dao.get(JpaToscaServiceTemplate.class, DEFAULT_SERVICE_TEMPLATE_KEY);
+        try {
+            // Get the service template
+            JpaToscaServiceTemplate serviceTemplate =
+                dao.get(JpaToscaServiceTemplate.class, DEFAULT_SERVICE_TEMPLATE_KEY);
 
-        LOGGER.debug("<-read: serviceTemplate={}", serviceTemplate);
-        return serviceTemplate;
+            LOGGER.debug("<-read: serviceTemplate={}", serviceTemplate);
+            return serviceTemplate;
+        } catch (Exception dbException) {
+            throw new PfModelException(Status.INTERNAL_SERVER_ERROR, "database read error on service tempalate"
+                + DEFAULT_SERVICE_TEMPLATE_KEY.getId() + "\n" + dbException.getMessage(), dbException);
+        }
     }
 
     /**
@@ -67,21 +75,18 @@ public class SimpleToscaServiceTemplateProvider {
      * @return the TOSCA service template overwritten by this method
      * @throws PfModelException on errors writing the service template
      */
-    public JpaToscaServiceTemplate write(@NonNull final PfDao dao,
-            @NonNull final JpaToscaServiceTemplate serviceTemplate) throws PfModelException {
-        LOGGER.debug("->write: serviceTempalate={}", serviceTemplate);
+    protected JpaToscaServiceTemplate write(@NonNull final PfDao dao,
+        @NonNull final JpaToscaServiceTemplate serviceTemplate) throws PfModelException {
 
-        JpaToscaServiceTemplate overwrittenServiceTemplate =
-                dao.get(JpaToscaServiceTemplate.class, serviceTemplate.getKey());
-
-        if (overwrittenServiceTemplate != null) {
-            dao.delete(overwrittenServiceTemplate);
+        try {
+            LOGGER.debug("->write: serviceTempalate={}", serviceTemplate);
+            JpaToscaServiceTemplate overwrittenServiceTemplate = dao.update(serviceTemplate);
+            LOGGER.debug("<-write: overwrittenServiceTemplate={}", overwrittenServiceTemplate);
+            return overwrittenServiceTemplate;
+        } catch (Exception dbException) {
+            throw new PfModelException(Status.INTERNAL_SERVER_ERROR, "database write error on service tempalate"
+                + serviceTemplate.getKey().getId() + "\n" + dbException.getMessage(), dbException);
         }
-
-        dao.create(serviceTemplate);
-
-        LOGGER.debug("<-write: overwrittenServiceTemplate={}", overwrittenServiceTemplate);
-        return overwrittenServiceTemplate;
     }
 
     /**
@@ -91,16 +96,20 @@ public class SimpleToscaServiceTemplateProvider {
      * @return the Service Template stored in the database
      * @throws PfModelException on errors getting the service template
      */
-    public JpaToscaServiceTemplate delete(@NonNull final PfDao dao) throws PfModelException {
-        LOGGER.debug("->delete");
+    protected JpaToscaServiceTemplate delete(@NonNull final PfDao dao) throws PfModelException {
+        try {
+            LOGGER.debug("->delete");
 
-        JpaToscaServiceTemplate serviceTemplateToBeDeleted =
+            JpaToscaServiceTemplate serviceTemplateToBeDeleted =
                 dao.get(JpaToscaServiceTemplate.class, DEFAULT_SERVICE_TEMPLATE_KEY);
 
-        dao.delete(serviceTemplateToBeDeleted);
+            dao.delete(serviceTemplateToBeDeleted);
 
-        LOGGER.debug("<-delete: serviceTemplate={}", serviceTemplateToBeDeleted);
-        return serviceTemplateToBeDeleted;
+            LOGGER.debug("<-delete: serviceTemplate={}", serviceTemplateToBeDeleted);
+            return serviceTemplateToBeDeleted;
+        } catch (Exception dbException) {
+            throw new PfModelException(Status.INTERNAL_SERVER_ERROR, "database delete error on service tempalate"
+                + DEFAULT_SERVICE_TEMPLATE_KEY.getId() + "\n" + dbException.getMessage(), dbException);
+        }
     }
-
 }
