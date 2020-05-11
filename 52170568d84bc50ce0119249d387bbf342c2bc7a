@@ -70,6 +70,23 @@
     },
     {
       "key": {
+        "uuid": "16ad28c7_b571a342",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/provider/SimpleToscaServiceTemplateProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-05-11T12:39:44Z",
+      "side": 1,
+      "message": "is it necessary to append getMessage()?\n\nsame question below",
+      "revId": "52170568d84bc50ce0119249d387bbf342c2bc7a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "10253858_30975d7b",
         "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/legacy/provider/LegacyProvider4LegacyOperationalTest.java",
         "patchSetId": 2
@@ -98,6 +115,23 @@
       "writtenOn": "2020-05-10T22:51:49Z",
       "side": 1,
       "message": "Tests amended to make sure the service templates in the database are valid after deletes.",
+      "revId": "52170568d84bc50ce0119249d387bbf342c2bc7a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e73607e4_7a295f96",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/provider/SimpleToscaProviderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-05-11T12:39:44Z",
+      "side": 1,
+      "message": "sonar: assert or verify something",
       "revId": "52170568d84bc50ce0119249d387bbf342c2bc7a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
