@@ -103,7 +103,7 @@ public class DatabasePolicyModelsProviderTest {
         }).hasMessageMatching("^parameters is marked .*on.*ull but is null$");
 
         PolicyModelsProvider databaseProvider =
-                new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
+            new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
         parameters.setDatabaseUrl("jdbc://www.acmecorp.nonexist");
 
@@ -137,7 +137,7 @@ public class DatabasePolicyModelsProviderTest {
     public void testProviderMethodsNull() throws Exception {
 
         PolicyModelsProvider databaseProvider =
-                new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
+            new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
         assertThatThrownBy(() -> {
             databaseProvider.getFilteredPolicyTypes(null);
@@ -205,7 +205,7 @@ public class DatabasePolicyModelsProviderTest {
 
         assertThatThrownBy(() -> {
             databaseProvider.getOperationalPolicy("", null);
-        }).hasMessage("no policy found for policy: :null");
+        }).hasMessage("service template not found in database");
 
         assertThatThrownBy(() -> {
             databaseProvider.createOperationalPolicy(null);
@@ -313,7 +313,7 @@ public class DatabasePolicyModelsProviderTest {
     @Test
     public void testProviderMethodsNotInit() throws Exception {
         PolicyModelsProvider databaseProvider =
-                new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
+            new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
         databaseProvider.close();
 
@@ -325,15 +325,15 @@ public class DatabasePolicyModelsProviderTest {
     @Test
     public void testProviderMethods() throws PfModelException {
         PolicyModelsProvider databaseProvider =
-                new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
+            new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
         assertThatThrownBy(() -> databaseProvider.getPolicyTypes(NAME, VERSION_100))
-                .hasMessage("service template not found in database");
+            .hasMessage("service template not found in database");
 
         assertTrue(databaseProvider.getPolicyTypeList(NAME, VERSION_100).isEmpty());
 
         assertThatThrownBy(() -> databaseProvider.getFilteredPolicyTypes(ToscaPolicyTypeFilter.builder().build()))
-                .hasMessage("service template not found in database");
+            .hasMessage("service template not found in database");
 
         assertTrue(databaseProvider.getFilteredPolicyTypeList(ToscaPolicyTypeFilter.builder().build()).isEmpty());
 
@@ -346,15 +346,15 @@ public class DatabasePolicyModelsProviderTest {
         }).hasMessage("no policy types specified on service template");
 
         assertThatThrownBy(() -> databaseProvider.deletePolicyType(NAME, VERSION_100))
-                .hasMessage("service template not found in database");
+            .hasMessage("service template not found in database");
 
         assertThatThrownBy(() -> databaseProvider.getPolicies(NAME, VERSION_100))
-                .hasMessage("service template not found in database");
+            .hasMessage("service template not found in database");
 
         assertTrue(databaseProvider.getPolicyList(NAME, VERSION_100).isEmpty());
 
         assertThatThrownBy(() -> databaseProvider.getFilteredPolicies(ToscaPolicyFilter.builder().build()))
-                .hasMessage("service template not found in database");
+            .hasMessage("service template not found in database");
 
         assertTrue(databaseProvider.getFilteredPolicyList(ToscaPolicyFilter.builder().build()).isEmpty());
 
@@ -367,15 +367,15 @@ public class DatabasePolicyModelsProviderTest {
         }).hasMessage("topology template not specified on service template");
 
         assertThatThrownBy(() -> databaseProvider.deletePolicy("Policy", "0.0.0").getToscaTopologyTemplate())
-                .hasMessage("service template not found in database");
+            .hasMessage("service template not found in database");
 
         assertThatThrownBy(() -> {
             databaseProvider.getOperationalPolicy(POLICY_ID, null);
-        }).hasMessage("no policy found for policy: policy_id:null");
+        }).hasMessage("service template not found in database");
 
         assertThatThrownBy(() -> {
             databaseProvider.getOperationalPolicy(POLICY_ID, "10");
-        }).hasMessage("no policy found for policy: policy_id:10");
+        }).hasMessage("service template not found in database");
 
         assertThatThrownBy(() -> {
             databaseProvider.createOperationalPolicy(new LegacyOperationalPolicy());
@@ -387,7 +387,7 @@ public class DatabasePolicyModelsProviderTest {
 
         assertThatThrownBy(() -> {
             databaseProvider.deleteOperationalPolicy(POLICY_ID, "55");
-        }).hasMessage("no policy found for policy: policy_id:55");
+        }).hasMessage("service template not found in database");
 
         assertEquals(0, databaseProvider.getPdpGroups(NAME).size());
         assertEquals(0, databaseProvider.getFilteredPdpGroups(PdpGroupFilter.builder().build()).size());
@@ -427,20 +427,20 @@ public class DatabasePolicyModelsProviderTest {
         statisticsArrayList.add(pdpStatistics);
 
         assertEquals(123,
-                databaseProvider.createPdpGroups(groupList).get(0).getPdpSubgroups().get(0).getDesiredInstanceCount());
+            databaseProvider.createPdpGroups(groupList).get(0).getPdpSubgroups().get(0).getDesiredInstanceCount());
         assertEquals(1, databaseProvider.getPdpGroups(GROUP).size());
 
         pdpSubGroup.setDesiredInstanceCount(234);
         databaseProvider.updatePdpSubGroup(GROUP, pdpSubGroup);
         assertEquals(234,
-                databaseProvider.getPdpGroups(GROUP).get(0).getPdpSubgroups().get(0).getDesiredInstanceCount());
+            databaseProvider.getPdpGroups(GROUP).get(0).getPdpSubgroups().get(0).getDesiredInstanceCount());
 
-        assertEquals("Hello", databaseProvider.getPdpGroups(GROUP).get(0).getPdpSubgroups().get(0).getPdpInstances()
-                .get(0).getMessage());
+        assertEquals("Hello",
+            databaseProvider.getPdpGroups(GROUP).get(0).getPdpSubgroups().get(0).getPdpInstances().get(0).getMessage());
         pdp.setMessage("Howdy");
         databaseProvider.updatePdp(GROUP, "type", pdp);
-        assertEquals("Howdy", databaseProvider.getPdpGroups(GROUP).get(0).getPdpSubgroups().get(0).getPdpInstances()
-                .get(0).getMessage());
+        assertEquals("Howdy",
+            databaseProvider.getPdpGroups(GROUP).get(0).getPdpSubgroups().get(0).getPdpInstances().get(0).getMessage());
 
         assertThatThrownBy(() -> {
             databaseProvider.deletePdpGroup(NAME);
@@ -454,30 +454,30 @@ public class DatabasePolicyModelsProviderTest {
 
         assertEquals(NAME, databaseProvider.getPdpStatistics(null, null).get(0).getPdpInstanceId());
         assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(null, GROUP, null, null, null, ORDER, 0).get(0)
-                .getPdpInstanceId());
+            .getPdpInstanceId());
         assertEquals(0,
-                databaseProvider.getFilteredPdpStatistics(null, GROUP, null, new Date(), null, ORDER, 0).size());
+            databaseProvider.getFilteredPdpStatistics(null, GROUP, null, new Date(), null, ORDER, 0).size());
         assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(null, GROUP, null, null, new Date(), ORDER, 0)
-                .get(0).getPdpInstanceId());
+            .get(0).getPdpInstanceId());
         assertEquals(0,
-                databaseProvider.getFilteredPdpStatistics(null, GROUP, null, new Date(), new Date(), ORDER, 0).size());
+            databaseProvider.getFilteredPdpStatistics(null, GROUP, null, new Date(), new Date(), ORDER, 0).size());
 
         assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(NAME, GROUP, null, null, null, ORDER, 0).get(0)
-                .getPdpInstanceId());
+            .getPdpInstanceId());
         assertEquals(0,
-                databaseProvider.getFilteredPdpStatistics(NAME, GROUP, null, new Date(), new Date(), ORDER, 0).size());
+            databaseProvider.getFilteredPdpStatistics(NAME, GROUP, null, new Date(), new Date(), ORDER, 0).size());
 
         assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(NAME, GROUP, "type", null, null, ORDER, 0).get(0)
-                .getPdpInstanceId());
-        assertEquals(0, databaseProvider.getFilteredPdpStatistics(NAME, GROUP, "type", new Date(), new Date(), ORDER, 0)
-                .size());
+            .getPdpInstanceId());
+        assertEquals(0,
+            databaseProvider.getFilteredPdpStatistics(NAME, GROUP, "type", new Date(), new Date(), ORDER, 0).size());
 
         assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(NAME, GROUP, "type", null, null, ORDER, 1).get(0)
-                .getPdpInstanceId());
+            .getPdpInstanceId());
         assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(NAME, GROUP, "type", null, null, ORDER, 5).get(0)
-                .getPdpInstanceId());
-        assertEquals(0, databaseProvider.getFilteredPdpStatistics(NAME, GROUP, "type", new Date(), new Date(), ORDER, 5)
-                .size());
+            .getPdpInstanceId());
+        assertEquals(0,
+            databaseProvider.getFilteredPdpStatistics(NAME, GROUP, "type", new Date(), new Date(), ORDER, 5).size());
 
         assertEquals(NAME, databaseProvider.deletePdpStatistics(NAME, null).get(0).getPdpInstanceId());
         assertEquals(0, databaseProvider.getPdpStatistics(null, null).size());
@@ -512,15 +512,15 @@ public class DatabasePolicyModelsProviderTest {
         pdpGroups.add(pdpGroup);
 
         PolicyModelsProvider databaseProvider =
-                new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
+            new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
         databaseProvider.createPdpGroups(pdpGroups);
 
         assertThatThrownBy(() -> databaseProvider.deletePolicy("p0", "0.0.1"))
-                .hasMessageContaining("policy is in use, it is deployed in PDP group pdpGroup subgroup pdpType");
+            .hasMessageContaining("policy is in use, it is deployed in PDP group pdpGroup subgroup pdpType");
 
         assertThatThrownBy(() -> databaseProvider.deletePolicy("p3", "0.0.1"))
-                .hasMessageContaining("service template not found in database");
+            .hasMessageContaining("service template not found in database");
 
         databaseProvider.close();
     }
@@ -547,15 +547,15 @@ public class DatabasePolicyModelsProviderTest {
         pdpGroups.add(pdpGroup);
 
         PolicyModelsProvider databaseProvider =
-                new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
+            new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
         databaseProvider.createPdpGroups(pdpGroups);
 
         assertThatThrownBy(() -> databaseProvider.deletePolicyType("pt2", "0.0.1"))
-                .hasMessageContaining("policy type is in use, it is referenced in PDP group pdpGroup subgroup pdpType");
+            .hasMessageContaining("policy type is in use, it is referenced in PDP group pdpGroup subgroup pdpType");
 
         assertThatThrownBy(() -> databaseProvider.deletePolicyType("pt0", "0.0.1"))
-                .hasMessageContaining("service template not found in database");
+            .hasMessageContaining("service template not found in database");
 
         databaseProvider.close();
     }
