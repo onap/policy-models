@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  *
  * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,13 +21,16 @@
 package org.onap.policy.aai;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.Test;
 import org.onap.aai.domain.yang.CloudRegion;
 import org.onap.aai.domain.yang.GenericVnf;
@@ -48,12 +51,7 @@ public class AaiCqResponseTest {
 
     @Test
     public void testConstructor() throws Exception {
-        /*
-         * Read JSON String and add all AaiObjects
-         */
-
-        String responseString = "";
-        responseString = new String(Files.readAllBytes(new File(CQ_RESPONSE_SAMPLE).toPath()));
+        String responseString = getAaiCqResponse();
 
         AaiCqResponse aaiCqResponse;
         aaiCqResponse = new AaiCqResponse(responseString);
@@ -62,15 +60,31 @@ public class AaiCqResponseTest {
     }
 
     @Test
-    public void testAaiMalformedCqResponse() throws Exception {
-        /*
-         * Read JSON String and add all AaiObjects
-         */
+    public void testMultiThreaded() throws Exception {
+        final AtomicInteger success = new AtomicInteger(0);
+        final String json = getAaiCqResponse();
 
-        String responseString = "";
-        responseString = new String(Files.readAllBytes(
-            new File("src/test/resources/org/onap/policy/aai/AaiMalformedCqResponse.json")
-                .toPath()));
+        Thread[] threads = new Thread[5];
+        for (int x = 0; x < threads.length; ++x) {
+            threads[x] = new Thread(() -> runIt(json, success));
+        }
+
+        for (Thread thread : threads) {
+            thread.start();
+        }
+
+        for (Thread thread : threads) {
+            thread.join();
+        }
+
+        assertEquals(threads.length, success.get());
+    }
+
+    @Test
+    public void testAaiMalformedCqResponse() throws Exception {
+        String responseString = Files.readString(
+                        new File("src/test/resources/org/onap/policy/aai/AaiMalformedCqResponse.json").toPath(),
+                        StandardCharsets.UTF_8);
 
         AaiCqResponse aaiCqResponse;
         aaiCqResponse = new AaiCqResponse(responseString);
@@ -100,9 +114,7 @@ public class AaiCqResponseTest {
 
     @Test
     public void testGetServiceInstance() throws Exception {
-
-        String responseString = "";
-        responseString = new String(Files.readAllBytes(new File(CQ_RESPONSE_SAMPLE).toPath()));
+        String responseString = getAaiCqResponse();
 
         AaiCqResponse aaiCqResponse;
         aaiCqResponse = new AaiCqResponse(responseString);
@@ -115,9 +127,7 @@ public class AaiCqResponseTest {
 
     @Test
     public void testGetDefaultCloudRegion() throws Exception {
-
-        String responseString = "";
-        responseString = new String(Files.readAllBytes(new File(CQ_RESPONSE_SAMPLE).toPath()));
+        String responseString = getAaiCqResponse();
 
         AaiCqResponse aaiCqResponse;
         aaiCqResponse = new AaiCqResponse(responseString);
@@ -129,9 +139,7 @@ public class AaiCqResponseTest {
 
     @Test
     public void testGetDefaultTenant() throws Exception {
-
-        String responseString = "";
-        responseString = new String(Files.readAllBytes(new File(CQ_RESPONSE_SAMPLE).toPath()));
+        String responseString = getAaiCqResponse();
 
         AaiCqResponse aaiCqResponse;
         aaiCqResponse = new AaiCqResponse(responseString);
@@ -143,9 +151,7 @@ public class AaiCqResponseTest {
 
     @Test
     public void testGetGenericVnfs() throws Exception {
-
-        String responseString = "";
-        responseString = new String(Files.readAllBytes(new File(CQ_RESPONSE_SAMPLE).toPath()));
+        String responseString = getAaiCqResponse();
 
         AaiCqResponse aaiCqResponse;
         aaiCqResponse = new AaiCqResponse(responseString);
@@ -159,9 +165,7 @@ public class AaiCqResponseTest {
 
     @Test
     public void testGetDefaultGenericVnf() throws Exception {
-
-        String responseString = "";
-        responseString = new String(Files.readAllBytes(new File(CQ_RESPONSE_SAMPLE).toPath()));
+        String responseString = getAaiCqResponse();
 
         AaiCqResponse aaiCqResponse;
         aaiCqResponse = new AaiCqResponse(responseString);
@@ -174,9 +178,7 @@ public class AaiCqResponseTest {
 
     @Test
     public void testGetGenericVnfByName() throws Exception {
-
-        String responseString = "";
-        responseString = new String(Files.readAllBytes(new File(CQ_RESPONSE_SAMPLE).toPath()));
+        String responseString = getAaiCqResponse();
 
         AaiCqResponse aaiCqResponse;
         aaiCqResponse = new AaiCqResponse(responseString);
@@ -188,9 +190,7 @@ public class AaiCqResponseTest {
 
     @Test
     public void testGetGenericVnfByModelInvariantId() throws Exception {
-
-        String responseString = "";
-        responseString = new String(Files.readAllBytes(new File(CQ_RESPONSE_SAMPLE).toPath()));
+        String responseString = getAaiCqResponse();
 
         AaiCqResponse aaiCqResponse;
         aaiCqResponse = new AaiCqResponse(responseString);
@@ -203,9 +203,7 @@ public class AaiCqResponseTest {
 
     @Test
     public void testGetGenericVnfByVfModuleModelInvariantId() throws Exception {
-
-        String responseString = "";
-        responseString = new String(Files.readAllBytes(new File(CQ_RESPONSE_SAMPLE).toPath()));
+        String responseString = getAaiCqResponse();
 
         AaiCqResponse aaiCqResponse;
         aaiCqResponse = new AaiCqResponse(responseString);
@@ -218,9 +216,7 @@ public class AaiCqResponseTest {
 
     @Test
     public void testGetAllVfModules() throws Exception {
-
-        String responseString = "";
-        responseString = new String(Files.readAllBytes(new File(CQ_RESPONSE_SAMPLE).toPath()));
+        String responseString = getAaiCqResponse();
 
         AaiCqResponse aaiCqResponse;
         aaiCqResponse = new AaiCqResponse(responseString);
@@ -234,9 +230,7 @@ public class AaiCqResponseTest {
 
     @Test
     public void testGetVfModuleByVfModuleName() throws Exception {
-
-        String responseString = "";
-        responseString = new String(Files.readAllBytes(new File(CQ_RESPONSE_SAMPLE).toPath()));
+        String responseString = getAaiCqResponse();
 
         AaiCqResponse aaiCqResponse;
         aaiCqResponse = new AaiCqResponse(responseString);
@@ -249,9 +243,7 @@ public class AaiCqResponseTest {
 
     @Test
     public void testGetVfModuleByVfModelInvariantId() throws Exception {
-
-        String responseString = "";
-        responseString = new String(Files.readAllBytes(new File(CQ_RESPONSE_SAMPLE).toPath()));
+        String responseString = getAaiCqResponse();
 
         AaiCqResponse aaiCqResponse;
         aaiCqResponse = new AaiCqResponse(responseString);
@@ -265,9 +257,7 @@ public class AaiCqResponseTest {
 
     @Test
     public void testGetDefaultVfModule() throws Exception {
-
-        String responseString = "";
-        responseString = new String(Files.readAllBytes(new File(CQ_RESPONSE_SAMPLE).toPath()));
+        String responseString = getAaiCqResponse();
 
         AaiCqResponse aaiCqResponse;
         aaiCqResponse = new AaiCqResponse(responseString);
@@ -279,9 +269,7 @@ public class AaiCqResponseTest {
 
     @Test
     public void testGetVserver() throws Exception {
-
-        String responseString = "";
-        responseString = new String(Files.readAllBytes(new File(CQ_RESPONSE_SAMPLE).toPath()));
+        String responseString = getAaiCqResponse();
 
         AaiCqResponse aaiCqResponse;
         aaiCqResponse = new AaiCqResponse(responseString);
@@ -294,9 +282,7 @@ public class AaiCqResponseTest {
 
     @Test
     public void testGetAllModelVer() throws Exception {
-
-        String responseString = "";
-        responseString = new String(Files.readAllBytes(new File(CQ_RESPONSE_SAMPLE).toPath()));
+        String responseString = getAaiCqResponse();
 
         AaiCqResponse aaiCqResponse;
         aaiCqResponse = new AaiCqResponse(responseString);
@@ -310,9 +296,7 @@ public class AaiCqResponseTest {
 
     @Test
     public void testGetModelVerByVersionId() throws Exception {
-
-        String responseString = "";
-        responseString = new String(Files.readAllBytes(new File(CQ_RESPONSE_SAMPLE).toPath()));
+        String responseString = getAaiCqResponse();
 
         AaiCqResponse aaiCqResponse;
         aaiCqResponse = new AaiCqResponse(responseString);
@@ -326,10 +310,8 @@ public class AaiCqResponseTest {
 
     @Test
     public void testGetVfModuleCount() throws Exception {
-        String responseString =
-            new String(Files.readAllBytes(new File(CQ_RESPONSE_SAMPLE).toPath()));
-        AaiCqResponse aaiCqResponse;
-        aaiCqResponse = new AaiCqResponse(responseString);
+        String responseString = getAaiCqResponse();
+        AaiCqResponse aaiCqResponse = new AaiCqResponse(responseString);
         int count = aaiCqResponse.getVfModuleCount("47958575-138f-452a-8c8d-d89b595f8164",
             "e6130d03-56f1-4b0a-9a1d-e1b2ebc30e0e", "94b18b1d-cc91-4f43-911a-e6348665f292");
         assertEquals(1, count);
@@ -337,14 +319,24 @@ public class AaiCqResponseTest {
 
     /**
      * Provides sample CQ response.
-     * 
+     *
      * @return a CQ response
      * @throws Exception file read exception
      */
     public String getAaiCqResponse() throws Exception {
-        String responseString = "";
-        responseString = new String(Files.readAllBytes(new File(CQ_RESPONSE_SAMPLE).toPath()));
-        return responseString;
+        return Files.readString(new File(CQ_RESPONSE_SAMPLE).toPath(), StandardCharsets.UTF_8);
+    }
+
+    /**
+     * Creates a response object from the given json.
+     * @param json response
+     * @param success incremented if the test succeeds
+     */
+    private void runIt(String json, AtomicInteger success) {
+        AaiCqResponse cq = new AaiCqResponse(json);
+        List<VfModule> list = cq.getAllVfModules();
+        assertFalse(list.isEmpty());
+        success.incrementAndGet();
     }
 
 }
