@@ -30,7 +30,6 @@ import java.util.List;
 import java.util.Map;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
 import org.eclipse.persistence.jaxb.JAXBContextFactory;
 import org.eclipse.persistence.jaxb.JAXBContextProperties;
@@ -56,7 +55,6 @@ public class AaiCqResponse implements Serializable {
     private static final String VF_MODULE = "vf-module";
     private static final Logger LOGGER = LoggerFactory.getLogger(AaiCqResponse.class);
     private static JAXBContext jaxbContext;
-    private static Unmarshaller unmarshaller;
 
     // JABX initial stuff
     static {
@@ -76,7 +74,10 @@ public class AaiCqResponse implements Serializable {
                 ModelVer.class
             }, properties);
             // @formatter:on
-            unmarshaller = jaxbContext.createUnmarshaller();
+
+            // verify that we can create an unmarshaller
+            jaxbContext.createUnmarshaller();
+
         } catch (JAXBException e) {
             LOGGER.error("Could not initialize JAXBContext", e);
             LOGGER.info("Problem initiatlizing JAXBContext", e);
@@ -213,7 +214,7 @@ public class AaiCqResponse implements Serializable {
 
     private <T> T getAaiObject(StreamSource json, final Class<T> classOfResponse) {
         try {
-            return unmarshaller.unmarshal(json, classOfResponse).getValue();
+            return jaxbContext.createUnmarshaller().unmarshal(json, classOfResponse).getValue();
         } catch (JAXBException e) {
             LOGGER.error("JAXBCOntext error", e);
             return null;
