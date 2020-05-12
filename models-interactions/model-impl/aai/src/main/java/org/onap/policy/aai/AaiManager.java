@@ -29,7 +29,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
