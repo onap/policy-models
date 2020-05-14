@@ -185,6 +185,8 @@ public class SoOperationTest extends BasicSoOperation {
         assertNotNull(oper.getSubRequestId());
 
         // no request id in the response
+        oper.generateSubRequestId(2);
+        assertNull(oper.getSubRequestId());
         response.getRequestReferences().setRequestId(null);
         response.getRequest().getRequestStatus().setRequestState("unknown");
         assertThatIllegalArgumentException()
@@ -231,7 +233,7 @@ public class SoOperationTest extends BasicSoOperation {
 
         CompletableFuture<OperationOutcome> future2 = oper.postProcessResponse(outcome, PATH, rawResponse, response);
 
-        assertSame(outcome, future2.get(500, TimeUnit.SECONDS));
+        assertSame(outcome, future2.get(5, TimeUnit.SECONDS));
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
         assertEquals(2, oper.getGetCount());
 
@@ -248,6 +250,7 @@ public class SoOperationTest extends BasicSoOperation {
 
         oper.resetGetCount();
         assertEquals(0, oper.getGetCount());
+        assertNull(oper.getSubRequestId());
     }
 
     @Test

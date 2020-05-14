@@ -88,7 +88,7 @@ public class VfModuleCreateTest extends BasicSoOperation {
     @Test
     public void testSuccess() throws Exception {
         SoParams opParams = SoParams.builder().clientName(MY_CLIENT).path("serviceInstantiation/v7/serviceInstances")
-                        .pathGet("orchestrationRequests/v5/").build();
+                        .pathGet("orchestrationRequests/v5/").maxGets(2).build();
         config = new SoConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
 
         params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).build();

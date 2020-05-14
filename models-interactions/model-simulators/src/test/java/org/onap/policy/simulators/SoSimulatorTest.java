@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * simulators
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +21,9 @@
 
 package org.onap.policy.simulators;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 import java.util.HashMap;
@@ -60,6 +62,7 @@ public class SoSimulatorTest {
     @AfterClass
     public static void tearDownSimulator() {
         HttpServletServerFactoryInstance.getServerFactory().destroy();
+        SoSimulatorJaxRs.setYieldIncomplete(false);
     }
 
     /**
@@ -135,25 +138,113 @@ public class SoSimulatorTest {
 
     @Test
     public void testPost() {
-        final String request = Serialization.gsonPretty.toJson(this.createTestRequest());
-        final Pair<Integer, String> httpDetails = new RestManager().post(
+        SoSimulatorJaxRs.setYieldIncomplete(false);
+        String request = Serialization.gsonPretty.toJson(this.createTestRequest());
+        Pair<Integer, String> httpDetails = new RestManager().post(
                         "http://localhost:6667/serviceInstantiation/v7/serviceInstances/12345/vnfs/12345/vfModules/scaleOut",
                         "username",
                         "password", new HashMap<>(), "application/json", request);
         assertNotNull(httpDetails);
-        final SoResponse response = Serialization.gsonPretty.fromJson(httpDetails.second, SoResponse.class);
+        SoResponse response = Serialization.gsonPretty.fromJson(httpDetails.second, SoResponse.class);
         assertNotNull(response);
+        assertNotNull(response.getRequestReferences());
+        assertNotNull(response.getRequestReferences().getRequestId());
+        assertEquals("COMPLETE", response.getRequest().getRequestStatus().getRequestState());
+
+        /*
+         * Repeat, but set the flag indicating that the request should yield incomplete.
+         */
+        SoSimulatorJaxRs.setYieldIncomplete(true);
+
+        request = Serialization.gsonPretty.toJson(this.createTestRequest());
+        httpDetails = new RestManager().post(
+                        "http://localhost:6667/serviceInstantiation/v7/serviceInstances/12345/vnfs/12345/vfModules/scaleOut",
+                        "username",
+                        "password", new HashMap<>(), "application/json", request);
+        assertNotNull(httpDetails);
+        response = Serialization.gsonPretty.fromJson(httpDetails.second, SoResponse.class);
+        assertNotNull(response);
+        assertNotNull(response.getRequestReferences());
+        assertNotNull(response.getRequestReferences().getRequestId());
+        assertEquals("INCOMPLETE", response.getRequest().getRequestStatus().getRequestState());
+
+        // now poll for the response
+        String reqid = response.getRequestReferences().getRequestId();
+        httpDetails = new RestManager().get(
+                        "http://localhost:6667//orchestrationRequests/v5/" + reqid,
+                        "username",
+                        "password", new HashMap<>());
+        assertNotNull(httpDetails);
+        response = Serialization.gsonPretty.fromJson(httpDetails.second, SoResponse.class);
+        assertNotNull(response);
+        assertNull(response.getRequest());
+
+        // poll again
+        httpDetails = new RestManager().get(
+                        "http://localhost:6667//orchestrationRequests/v5/" + reqid,
+                        "username",
+                        "password", new HashMap<>());
+        assertNotNull(httpDetails);
+        response = Serialization.gsonPretty.fromJson(httpDetails.second, SoResponse.class);
+        assertNotNull(response);
+        assertNotNull(response.getRequest());
+        assertNotNull(response.getRequest().getRequestStatus());
+        assertEquals("COMPLETE", response.getRequest().getRequestStatus().getRequestState());
     }
 
     @Test
     public void testDelete() {
-        final String request = Serialization.gsonPretty.toJson(this.createTestRequest());
-        final Pair<Integer, String> httpDetails = new RestManager().delete(
+        SoSimulatorJaxRs.setYieldIncomplete(false);
+        String request = Serialization.gsonPretty.toJson(this.createTestRequest());
+        Pair<Integer, String> httpDetails = new RestManager().delete(
                         "http://localhost:6667/serviceInstances/v7/12345/vnfs/12345/vfModules/12345",
                         "username",
                         "password", new HashMap<>(), "application/json", request);
         assertNotNull(httpDetails);
-        final SoResponse response = Serialization.gsonPretty.fromJson(httpDetails.second, SoResponse.class);
+        SoResponse response = Serialization.gsonPretty.fromJson(httpDetails.second, SoResponse.class);
         assertNotNull(response);
+        assertNotNull(response.getRequestReferences());
+        assertNotNull(response.getRequestReferences().getRequestId());
+        assertEquals("COMPLETE", response.getRequest().getRequestStatus().getRequestState());
+
+        /*
+         * Repeat, but set the flag indicating that the request should yield incomplete.
+         */
+        SoSimulatorJaxRs.setYieldIncomplete(true);
+
+        request = Serialization.gsonPretty.toJson(this.createTestRequest());
+        httpDetails = new RestManager().delete(
+                        "http://localhost:6667/serviceInstances/v7/12345/vnfs/12345/vfModules/12345",
+                        "username",
+                        "password", new HashMap<>(), "application/json", request);
+        assertNotNull(httpDetails);
+        response = Serialization.gsonPretty.fromJson(httpDetails.second, SoResponse.class);
+        assertNotNull(response);
+        assertNotNull(response.getRequestReferences());
+        assertNotNull(response.getRequestReferences().getRequestId());
+        assertEquals("INCOMPLETE", response.getRequest().getRequestStatus().getRequestState());
+
+        // now poll for the response
+        String reqid = response.getRequestReferences().getRequestId();
+        httpDetails = new RestManager().get(
+                        "http://localhost:6667//orchestrationRequests/v5/" + reqid,
+                        "username",
+                        "password", new HashMap<>());
+        assertNotNull(httpDetails);
+        response = Serialization.gsonPretty.fromJson(httpDetails.second, SoResponse.class);
+        assertNotNull(response);
+        assertNull(response.getRequest());
+
+        // poll again
+        httpDetails = new RestManager().get(
+                        "http://localhost:6667//orchestrationRequests/v5/" + reqid,
+                        "username",
+                        "password", new HashMap<>());
+        assertNotNull(httpDetails);
+        response = Serialization.gsonPretty.fromJson(httpDetails.second, SoResponse.class);
+        assertNotNull(response);
+        assertNotNull(response.getRequest());
+        assertNotNull(response.getRequest().getRequestStatus());
+        assertEquals("COMPLETE", response.getRequest().getRequestStatus().getRequestState());
     }
 }

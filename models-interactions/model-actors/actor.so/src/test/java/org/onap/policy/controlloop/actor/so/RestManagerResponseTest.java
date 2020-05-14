@@ -81,6 +81,7 @@ public class RestManagerResponseTest {
         assertThatThrownBy(() -> resp.bufferEntity()).isInstanceOf(UnsupportedOperationException.class);
         assertThatThrownBy(() -> resp.getLength()).isInstanceOf(UnsupportedOperationException.class);
         assertThatThrownBy(() -> resp.readEntity(generic)).isInstanceOf(UnsupportedOperationException.class);
+        assertThatThrownBy(() -> resp.readEntity(String.class, null)).isInstanceOf(UnsupportedOperationException.class);
         assertThatThrownBy(() -> resp.readEntity(generic, null)).isInstanceOf(UnsupportedOperationException.class);
         assertThatThrownBy(() -> resp.getStatusInfo()).isInstanceOf(UnsupportedOperationException.class);
         assertThatThrownBy(() -> resp.getEntity()).isInstanceOf(UnsupportedOperationException.class);
