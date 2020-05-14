@@ -116,6 +116,7 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
      */
     protected void resetGetCount() {
         getCount = 0;
+        setSubRequestId(null);
     }
 
     /**
@@ -214,7 +215,7 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
         // still incomplete
 
         // need a request ID with which to query
-        if (!extractSubRequestId(response)) {
+        if (getSubRequestId() == null && !extractSubRequestId(response)) {
             throw new IllegalArgumentException("missing request ID in response");
         }
 
@@ -227,7 +228,7 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
         }
 
         // sleep and then perform a "get" operation
-        Function<Void, CompletableFuture<OperationOutcome>> doGet = unused -> issueGet(outcome, response);
+        Function<Void, CompletableFuture<OperationOutcome>> doGet = unused -> issueGet(outcome);
         return sleep(getWaitMsGet(), TimeUnit.MILLISECONDS).thenComposeAsync(doGet);
     }
 
@@ -257,18 +258,16 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
      * Issues a "get" request to see if the original request is complete yet.
      *
      * @param outcome outcome to be populated with the response
-     * @param response previous response
      * @return a future that can be used to cancel the "get" request or await its response
      */
-    private CompletableFuture<OperationOutcome> issueGet(OperationOutcome outcome, SoResponse response) {
-        String path = getPathGet() + response.getRequestReferences().getRequestId();
+    private CompletableFuture<OperationOutcome> issueGet(OperationOutcome outcome) {
+        String path = getPathGet() + getSubRequestId();
         String url = getClient().getBaseUrl() + path;
 
         logger.debug("{}: 'get' count {} for {}", getFullName(), getCount, params.getRequestId());
 
         logMessage(EventType.OUT, CommInfrastructure.REST, url, null);
 
-        // TODO should this use "path" or the full "url"?
         return handleResponse(outcome, url, callback -> getClient().get(callback, path, null));
     }
 
