@@ -116,6 +116,7 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
      */
     protected void resetGetCount() {
         getCount = 0;
+        setSubRequestId(null);
     }
 
     /**
@@ -214,7 +215,7 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
         // still incomplete
 
         // need a request ID with which to query
-        if (!extractSubRequestId(response)) {
+        if (getSubRequestId() == null && !extractSubRequestId(response)) {
             throw new IllegalArgumentException("missing request ID in response");
         }
 
@@ -261,7 +262,7 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
      * @return a future that can be used to cancel the "get" request or await its response
      */
     private CompletableFuture<OperationOutcome> issueGet(OperationOutcome outcome, SoResponse response) {
-        String path = getPathGet() + response.getRequestReferences().getRequestId();
+        String path = getPathGet() + getSubRequestId();
         String url = getClient().getBaseUrl() + path;
 
         logger.debug("{}: 'get' count {} for {}", getFullName(), getCount, params.getRequestId());

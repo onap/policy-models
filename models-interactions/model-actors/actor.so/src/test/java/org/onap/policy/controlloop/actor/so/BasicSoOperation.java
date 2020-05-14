@@ -33,9 +33,11 @@ import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.common.endpoints.event.comm.bus.internal.BusTopicParams;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
+import org.onap.policy.common.gson.GsonMessageBodyHandler;
 import org.onap.policy.controlloop.actor.test.BasicHttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.policy.Target;
+import org.onap.policy.simulators.SoSimulatorJaxRs;
 import org.onap.policy.so.SoRequest;
 import org.onap.policy.so.SoRequestParameters;
 import org.onap.policy.so.SoRequestReferences;
@@ -89,13 +91,16 @@ public abstract class BasicSoOperation extends BasicHttpOperation<SoRequest> {
     protected static void initBeforeClass() throws Exception {
         org.onap.policy.simulators.Util.buildSoSim();
 
-        BusTopicParams clientParams =
-                        BusTopicParams.builder().clientName(MY_CLIENT).basePath("").hostname("localhost")
-                                        .managed(true).port(org.onap.policy.simulators.Util.SOSIM_SERVER_PORT).build();
+        BusTopicParams clientParams = BusTopicParams.builder().clientName(MY_CLIENT).basePath("").hostname("localhost")
+                        .managed(true).port(org.onap.policy.simulators.Util.SOSIM_SERVER_PORT)
+                        .serializationProvider(GsonMessageBodyHandler.class.getName()).build();
         HttpClientFactoryInstance.getClientFactory().build(clientParams);
+
+        SoSimulatorJaxRs.setYieldIncomplete(true);
     }
 
     protected static void destroyAfterClass() {
+        SoSimulatorJaxRs.setYieldIncomplete(false);
         HttpClientFactoryInstance.getClientFactory().destroy();
         HttpServletServerFactoryInstance.getServerFactory().destroy();
     }
