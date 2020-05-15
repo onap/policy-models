@@ -21,9 +21,9 @@
 
 package org.onap.policy.simulators;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.HashMap;
@@ -42,7 +42,6 @@ import org.onap.policy.so.SoRequest;
 import org.onap.policy.so.SoRequestDetails;
 import org.onap.policy.so.SoRequestInfo;
 import org.onap.policy.so.SoRequestParameters;
-import org.onap.policy.so.SoResponse;
 import org.onap.policy.so.util.Serialization;
 
 public class SoSimulatorTest {
@@ -62,7 +61,7 @@ public class SoSimulatorTest {
     @AfterClass
     public static void tearDownSimulator() {
         HttpServletServerFactoryInstance.getServerFactory().destroy();
-        SoSimulatorJaxRs.setYieldIncomplete(false);
+        SoSimulatorJaxRs.setRequirePolling(false);
     }
 
     /**
@@ -138,23 +137,19 @@ public class SoSimulatorTest {
 
     @Test
     public void testPost() {
-        SoSimulatorJaxRs.setYieldIncomplete(false);
+        SoSimulatorJaxRs.setRequirePolling(false);
         String request = Serialization.gsonPretty.toJson(this.createTestRequest());
         Pair<Integer, String> httpDetails = new RestManager().post(
                         "http://localhost:6667/serviceInstantiation/v7/serviceInstances/12345/vnfs/12345/vfModules/scaleOut",
                         "username",
                         "password", new HashMap<>(), "application/json", request);
         assertNotNull(httpDetails);
-        SoResponse response = Serialization.gsonPretty.fromJson(httpDetails.second, SoResponse.class);
-        assertNotNull(response);
-        assertNotNull(response.getRequestReferences());
-        assertNotNull(response.getRequestReferences().getRequestId());
-        assertEquals("COMPLETE", response.getRequest().getRequestStatus().getRequestState());
+        assertThat(httpDetails.second).contains("\"COMPLETE\"").doesNotContain("requestSelfLink");
 
         /*
          * Repeat, but set the flag indicating that the request should yield incomplete.
          */
-        SoSimulatorJaxRs.setYieldIncomplete(true);
+        SoSimulatorJaxRs.setRequirePolling(true);
 
         request = Serialization.gsonPretty.toJson(this.createTestRequest());
         httpDetails = new RestManager().post(
@@ -162,55 +157,41 @@ public class SoSimulatorTest {
                         "username",
                         "password", new HashMap<>(), "application/json", request);
         assertNotNull(httpDetails);
-        response = Serialization.gsonPretty.fromJson(httpDetails.second, SoResponse.class);
-        assertNotNull(response);
-        assertNotNull(response.getRequestReferences());
-        assertNotNull(response.getRequestReferences().getRequestId());
-        assertEquals("INCOMPLETE", response.getRequest().getRequestStatus().getRequestState());
+        assertThat(httpDetails.second).contains("requestSelfLink").doesNotContain("\"COMPLETE\"");
 
         // now poll for the response
-        String reqid = response.getRequestReferences().getRequestId();
+        String uri = extractUri(httpDetails.second);
         httpDetails = new RestManager().get(
-                        "http://localhost:6667//orchestrationRequests/v5/" + reqid,
+                        "http://localhost:6667/orchestrationRequests/v5/" + uri,
                         "username",
                         "password", new HashMap<>());
         assertNotNull(httpDetails);
-        response = Serialization.gsonPretty.fromJson(httpDetails.second, SoResponse.class);
-        assertNotNull(response);
-        assertNull(response.getRequest());
+        assertThat(httpDetails.second).contains("\"IN_PROGRESS\"").doesNotContain("requestSelfLink");
 
         // poll again
         httpDetails = new RestManager().get(
-                        "http://localhost:6667//orchestrationRequests/v5/" + reqid,
+                        "http://localhost:6667/orchestrationRequests/v5/" + uri,
                         "username",
                         "password", new HashMap<>());
         assertNotNull(httpDetails);
-        response = Serialization.gsonPretty.fromJson(httpDetails.second, SoResponse.class);
-        assertNotNull(response);
-        assertNotNull(response.getRequest());
-        assertNotNull(response.getRequest().getRequestStatus());
-        assertEquals("COMPLETE", response.getRequest().getRequestStatus().getRequestState());
+        assertThat(httpDetails.second).contains("\"COMPLETE\"").doesNotContain("requestSelfLink");
     }
 
     @Test
     public void testDelete() {
-        SoSimulatorJaxRs.setYieldIncomplete(false);
+        SoSimulatorJaxRs.setRequirePolling(false);
         String request = Serialization.gsonPretty.toJson(this.createTestRequest());
         Pair<Integer, String> httpDetails = new RestManager().delete(
                         "http://localhost:6667/serviceInstances/v7/12345/vnfs/12345/vfModules/12345",
                         "username",
                         "password", new HashMap<>(), "application/json", request);
         assertNotNull(httpDetails);
-        SoResponse response = Serialization.gsonPretty.fromJson(httpDetails.second, SoResponse.class);
-        assertNotNull(response);
-        assertNotNull(response.getRequestReferences());
-        assertNotNull(response.getRequestReferences().getRequestId());
-        assertEquals("COMPLETE", response.getRequest().getRequestStatus().getRequestState());
+        assertThat(httpDetails.second).contains("\"COMPLETE\"").doesNotContain("requestSelfLink");
 
         /*
          * Repeat, but set the flag indicating that the request should yield incomplete.
          */
-        SoSimulatorJaxRs.setYieldIncomplete(true);
+        SoSimulatorJaxRs.setRequirePolling(true);
 
         request = Serialization.gsonPretty.toJson(this.createTestRequest());
         httpDetails = new RestManager().delete(
@@ -218,33 +199,37 @@ public class SoSimulatorTest {
                         "username",
                         "password", new HashMap<>(), "application/json", request);
         assertNotNull(httpDetails);
-        response = Serialization.gsonPretty.fromJson(httpDetails.second, SoResponse.class);
-        assertNotNull(response);
-        assertNotNull(response.getRequestReferences());
-        assertNotNull(response.getRequestReferences().getRequestId());
-        assertEquals("INCOMPLETE", response.getRequest().getRequestStatus().getRequestState());
+        assertThat(httpDetails.second).contains("requestSelfLink").doesNotContain("\"COMPLETE\"");
 
         // now poll for the response
-        String reqid = response.getRequestReferences().getRequestId();
+        String uri = extractUri(httpDetails.second);
         httpDetails = new RestManager().get(
-                        "http://localhost:6667//orchestrationRequests/v5/" + reqid,
+                        "http://localhost:6667/orchestrationRequests/v5/" + uri,
                         "username",
                         "password", new HashMap<>());
         assertNotNull(httpDetails);
-        response = Serialization.gsonPretty.fromJson(httpDetails.second, SoResponse.class);
-        assertNotNull(response);
-        assertNull(response.getRequest());
+        assertThat(httpDetails.second).contains("\"IN_PROGRESS\"").doesNotContain("requestSelfLink");
 
         // poll again
         httpDetails = new RestManager().get(
-                        "http://localhost:6667//orchestrationRequests/v5/" + reqid,
+                        "http://localhost:6667/orchestrationRequests/v5/" + uri,
                         "username",
                         "password", new HashMap<>());
         assertNotNull(httpDetails);
-        response = Serialization.gsonPretty.fromJson(httpDetails.second, SoResponse.class);
-        assertNotNull(response);
-        assertNotNull(response.getRequest());
-        assertNotNull(response.getRequest().getRequestStatus());
-        assertEquals("COMPLETE", response.getRequest().getRequestStatus().getRequestState());
+        assertThat(httpDetails.second).contains("\"COMPLETE\"").doesNotContain("requestSelfLink");
+    }
+
+    private String extractUri(String response) {
+        final String prefix = "\"requestId\": \"";
+
+        int start = response.indexOf(prefix);
+        assertTrue(start >= 0);
+
+        start += prefix.length();
+
+        int end = response.indexOf('"', start);
+        assertTrue(end >= 0);
+
+        return response.substring(start, end);
     }
 }

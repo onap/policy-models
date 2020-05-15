@@ -1,0 +1,7 @@
+{
+    "requestReferences": {
+        "requestId": "${replaceMe}",
+        "instanceId": "68804843-18e0-41a3-8838-a6d90a035e1a",
+        "requestSelfLink": "http://so.onap:8080/orchestrationRequests/v7/b789e4e6-0b92-42c3-a723-1879af9c799d"
+    }
+}

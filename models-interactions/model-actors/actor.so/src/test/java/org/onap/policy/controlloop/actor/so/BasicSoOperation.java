@@ -96,11 +96,11 @@ public abstract class BasicSoOperation extends BasicHttpOperation<SoRequest> {
                         .serializationProvider(GsonMessageBodyHandler.class.getName()).build();
         HttpClientFactoryInstance.getClientFactory().build(clientParams);
 
-        SoSimulatorJaxRs.setYieldIncomplete(true);
+        SoSimulatorJaxRs.setRequirePolling(true);
     }
 
     protected static void destroyAfterClass() {
-        SoSimulatorJaxRs.setYieldIncomplete(false);
+        SoSimulatorJaxRs.setRequirePolling(false);
         HttpClientFactoryInstance.getClientFactory().destroy();
         HttpServletServerFactoryInstance.getServerFactory().destroy();
     }
