@@ -33,24 +33,19 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import lombok.Setter;
-import org.onap.policy.common.utils.coder.Coder;
-import org.onap.policy.common.utils.coder.CoderException;
-import org.onap.policy.common.utils.coder.StandardCoder;
-import org.onap.policy.so.SoRequest;
-import org.onap.policy.so.SoRequestReferences;
-import org.onap.policy.so.SoRequestStatus;
-import org.onap.policy.so.SoResponse;
+import org.onap.policy.common.utils.resources.ResourceUtils;
 
 
 @Path("/")
 public class SoSimulatorJaxRs {
-    private final Coder coder = new StandardCoder();
+
+    private static final String REPLACE_ME = "${replaceMe}";
 
     /**
      * Set of incomplete request IDs. When a POST or DELETE is performed, the new request
-     * ID is added to the set. When the request is polled, the ID is removed and an empty
-     * response is returned. When the request is polled again, it sees that there is no
-     * entry and returns a completion indication.
+     * ID is added to the set. When the request is polled, the ID is removed and an "still
+     * running" response is returned. When the request is polled again, it sees that there
+     * is no entry and returns a completion indication.
      *
      * <p/>
      * This is static so request IDs are retained across servlets.
@@ -58,11 +53,11 @@ public class SoSimulatorJaxRs {
     private static final Set<String> incomplete = ConcurrentHashMap.newKeySet();
 
     /**
-     * {@code True} if the initial request should yield an incomplete, {@code false}
+     * {@code True} if requests should require polling, {@code false}
      * otherwise.  This is used when junit testing the SO actor.
      */
     @Setter
-    private static boolean yieldIncomplete = false;
+    private static boolean requirePolling = false;
 
     /**
      * SO post query.
@@ -76,9 +71,9 @@ public class SoSimulatorJaxRs {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces("application/json")
     public String soPostQuery(@PathParam("serviceInstanceId") final String serviceInstanceId,
-                    @PathParam("vnfInstanceId") final String vnfInstanceId) throws CoderException {
+                    @PathParam("vnfInstanceId") final String vnfInstanceId) {
 
-        return coder.encode(yieldIncomplete ? makeIncomplete() : makeComplete(UUID.randomUUID().toString()));
+        return (requirePolling ? makeStarted() : makeComplete(UUID.randomUUID().toString()));
     }
 
     /**
@@ -94,9 +89,9 @@ public class SoSimulatorJaxRs {
     @Produces("application/json")
     public String soDelete(@PathParam("serviceInstanceId") final String serviceInstanceId,
                     @PathParam("vnfInstanceId") final String vnfInstanceId,
-                    @PathParam("vfModuleInstanceId") final String vfModuleInstanceId) throws CoderException {
+                    @PathParam("vfModuleInstanceId") final String vfModuleInstanceId) {
 
-        return coder.encode(yieldIncomplete ? makeIncomplete() : makeComplete(UUID.randomUUID().toString()));
+        return (requirePolling ? makeStarted() : makeComplete(UUID.randomUUID().toString()));
     }
 
     /**
@@ -109,49 +104,33 @@ public class SoSimulatorJaxRs {
     @Path("/orchestrationRequests/v5/{requestId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces("application/json")
-    public String soGetQuery(@PathParam("requestId") final String requestId) throws CoderException {
+    public String soGetQuery(@PathParam("requestId") final String requestId) {
         if (incomplete.remove(requestId)) {
-            // first poll - return empty response
-            return coder.encode(new SoResponse());
+            // first poll - return "still running"
+            return makeStillRunning(requestId);
 
         } else {
-            return coder.encode(makeComplete(requestId));
+            return makeComplete(requestId);
         }
     }
 
-    private SoResponse makeIncomplete() {
-        final SoResponse response = makeResponse();
-        response.getRequest().getRequestStatus().setRequestState("INCOMPLETE");
+    private String makeStarted() {
+        String requestId = UUID.randomUUID().toString();
 
-        incomplete.add(response.getRequestReferences().getRequestId());
+        String response = ResourceUtils.getResourceAsString("org/onap/policy/simulators/so/so.started.json");
 
-        return response;
+        incomplete.add(requestId);
+
+        return response.replace(REPLACE_ME, requestId);
     }
 
-    private SoResponse makeComplete(String requestId) {
-        final SoResponse response = makeResponse();
-
-        response.getRequest().getRequestStatus().setRequestState("COMPLETE");
-        response.getRequest().setRequestId(UUID.fromString(requestId));
-
-        return response;
+    private String makeComplete(String requestId) {
+        String response = ResourceUtils.getResourceAsString("org/onap/policy/simulators/so/so.complete.success.json");
+        return response.replace(REPLACE_ME, requestId);
     }
 
-    private SoResponse makeResponse() {
-        final SoRequest request = new SoRequest();
-        final SoRequestStatus requestStatus = new SoRequestStatus();
-        request.setRequestStatus(requestStatus);
-        request.setRequestId(UUID.randomUUID());
-
-        final SoResponse response = new SoResponse();
-
-        final SoRequestReferences requestReferences = new SoRequestReferences();
-        final String requestId = UUID.randomUUID().toString();
-        requestReferences.setRequestId(requestId);
-        response.setRequestReferences(requestReferences);
-
-        response.setRequest(request);
-
-        return response;
+    private String makeStillRunning(String requestId) {
+        String response = ResourceUtils.getResourceAsString("org/onap/policy/simulators/so/so.still.running.json");
+        return response.replace(REPLACE_ME, requestId);
     }
 }

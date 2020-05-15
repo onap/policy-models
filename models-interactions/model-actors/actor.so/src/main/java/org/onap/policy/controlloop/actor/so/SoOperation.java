@@ -20,6 +20,17 @@
 
 package org.onap.policy.controlloop.actor.so;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParseException;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,9 +50,11 @@ import org.onap.policy.aai.AaiConstants;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
+import org.onap.policy.common.gson.GsonMessageBodyHandler;
 import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
+import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
@@ -64,7 +77,7 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class SoOperation extends HttpOperation<SoResponse> {
     private static final Logger logger = LoggerFactory.getLogger(SoOperation.class);
-    private static final Coder coder = new StandardCoder();
+    private static final Coder coder = new SoCoder();
 
     public static final String PAYLOAD_KEY_VF_COUNT = "vfCount";
     public static final String FAILED = "FAILED";
@@ -478,5 +491,75 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
 
     public int getWaitSecGet() {
         return config.getWaitSecGet();
+    }
+
+    @Override
+    protected Coder makeCoder() {
+        return coder;
+    }
+
+    /*
+     * TODO: combine this adapter with existing LocalDateTimeTypeAdapter and eliminate the
+     * following two classes.
+     */
+
+    /**
+     * GSON Type Adapter for "LocalDateTime" fields, that uses the standard
+     * RFC_1123_DATE_TIME formatter.
+     */
+    private static class SoLocalDateTimeTypeAdapter extends TypeAdapter<LocalDateTime> {
+        private static final DateTimeFormatter FORMATTER = DateTimeFormatter.RFC_1123_DATE_TIME;
+
+        @Override
+        public LocalDateTime read(JsonReader in) throws IOException {
+            try {
+                if (in.peek() == JsonToken.NULL) {
+                    in.nextNull();
+                    return null;
+                } else {
+                    return LocalDateTime.parse(in.nextString(), FORMATTER);
+                }
+
+            } catch (DateTimeParseException e) {
+                throw new JsonParseException("invalid date", e);
+            }
+        }
+
+        @Override
+        public void write(JsonWriter out, LocalDateTime value) throws IOException {
+            if (value == null) {
+                out.nullValue();
+            } else {
+                String text = value.format(FORMATTER);
+                out.value(text);
+            }
+        }
+    }
+
+    private static class SoCoder extends StandardCoder {
+
+        /**
+         * Gson object used to encode and decode messages.
+         */
+        private static final Gson SO_GSON;
+
+        /**
+         * Gson object used to encode messages in "pretty" format.
+         */
+        private static final Gson SO_GSON_PRETTY;
+
+        static {
+            GsonBuilder builder = GsonMessageBodyHandler
+                            .configBuilder(new GsonBuilder().registerTypeAdapter(StandardCoderObject.class,
+                                            new StandardTypeAdapter()))
+                            .registerTypeAdapter(LocalDateTime.class, new SoLocalDateTimeTypeAdapter());
+
+            SO_GSON = builder.create();
+            SO_GSON_PRETTY = builder.setPrettyPrinting().create();
+        }
+
+        public SoCoder() {
+            super(SO_GSON, SO_GSON_PRETTY);
+        }
     }
 }

@@ -32,6 +32,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -46,6 +48,7 @@ import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.aai.domain.yang.ServiceInstance;
 import org.onap.aai.domain.yang.Tenant;
 import org.onap.policy.aai.AaiCqResponse;
+import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
@@ -421,5 +424,19 @@ public class SoOperationTest extends BasicSoOperation {
         CloudRegion region = new CloudRegion();
         when(cq.getDefaultCloudRegion()).thenReturn(region);
         assertSame(region, oper.getDefaultCloudRegion(cq));
+    }
+
+    @Test
+    public void testMakeCoder() throws CoderException {
+        Coder opcoder = oper.makeCoder();
+
+        // ensure we can decode an SO timestamp
+        String json = "{'request':{'finishTime':'Fri, 15 May 2020 12:14:21 GMT'}}";
+        SoResponse resp = opcoder.decode(json.replace('\'', '"'), SoResponse.class);
+
+        LocalDateTime tfinish = resp.getRequest().getFinishTime();
+        assertNotNull(tfinish);
+        assertEquals(2020, tfinish.getYear());
+        assertEquals(Month.MAY, tfinish.getMonth());
     }
 }
