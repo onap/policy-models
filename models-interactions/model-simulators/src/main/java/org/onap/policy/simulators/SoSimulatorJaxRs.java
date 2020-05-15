@@ -73,7 +73,7 @@ public class SoSimulatorJaxRs {
     public String soPostQuery(@PathParam("serviceInstanceId") final String serviceInstanceId,
                     @PathParam("vnfInstanceId") final String vnfInstanceId) {
 
-        return (requirePolling ? makeStarted() : makeComplete(UUID.randomUUID().toString()));
+        return (requirePolling ? makeStarted() : makeImmediateComplete());
     }
 
     /**
@@ -91,7 +91,7 @@ public class SoSimulatorJaxRs {
                     @PathParam("vnfInstanceId") final String vnfInstanceId,
                     @PathParam("vfModuleInstanceId") final String vfModuleInstanceId) {
 
-        return (requirePolling ? makeStarted() : makeComplete(UUID.randomUUID().toString()));
+        return (requirePolling ? makeStarted() : makeImmediateComplete());
     }
 
     /**
@@ -122,6 +122,11 @@ public class SoSimulatorJaxRs {
         incomplete.add(requestId);
 
         return response.replace(REPLACE_ME, requestId);
+    }
+
+    private String makeImmediateComplete() {
+        String response = ResourceUtils.getResourceAsString("org/onap/policy/simulators/so/so.immediate.success.json");
+        return response.replace(REPLACE_ME, UUID.randomUUID().toString());
     }
 
     private String makeComplete(String requestId) {

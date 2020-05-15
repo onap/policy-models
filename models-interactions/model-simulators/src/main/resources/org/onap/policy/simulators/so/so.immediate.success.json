@@ -1,0 +1,92 @@
+{
+    "requestReferences": {
+        "requestId": "${replaceMe}",
+        "instanceId": "68804843-18e0-41a3-8838-a6d90a035e1a",
+        "requestSelfLink": "http://so.onap:8080/orchestrationRequests/v7/b789e4e6-0b92-42c3-a723-1879af9c799d"
+    },
+    "request": {
+        "requestId": "${replaceMe}",
+        "startTime": "Fri, 15 May 2020 12:12:50 GMT",
+        "finishTime": "Fri, 15 May 2020 12:14:21 GMT",
+        "requestScope": "vfModule",
+        "requestType": "scaleOut",
+        "requestDetails": {
+            "modelInfo": {
+                "modelInvariantId": "2246ebc9-9b9f-42d0-a5e4-0248324fb884",
+                "modelType": "vfModule",
+                "modelName": "VlbCdsSb00..vdns..module-3",
+                "modelVersion": "1",
+                "modelCustomizationUuid": "3a74410a-6c74-4a32-94b2-71488be6da1a",
+                "modelVersionId": "1f94cedb-f656-4ddb-9f55-60ba1fc7d4b1",
+                "modelCustomizationId": "3a74410a-6c74-4a32-94b2-71488be6da1a",
+                "modelUuid": "1f94cedb-f656-4ddb-9f55-60ba1fc7d4b1",
+                "modelInvariantUuid": "2246ebc9-9b9f-42d0-a5e4-0248324fb884"
+            },
+            "requestInfo": {
+                "source": "POLICY",
+                "instanceName": "vfModuleName",
+                "suppressRollback": false,
+                "requestorId": "policy"
+            },
+            "relatedInstanceList": [
+                {
+                    "relatedInstance": {
+                        "instanceId": "c14e61b5-1ee6-4925-b4a9-b9c8dbfe3f34",
+                        "modelInfo": {
+                            "modelInvariantId": "6418bb39-61e1-45fc-a36b-3f211bb846c7",
+                            "modelType": "service",
+                            "modelName": "vLB_CDS_SB00_02",
+                            "modelVersion": "1.0",
+                            "modelVersionId": "d01d9dec-afb6-4a53-bd9e-2eb10ca07a51",
+                            "modelUuid": "d01d9dec-afb6-4a53-bd9e-2eb10ca07a51",
+                            "modelInvariantUuid": "6418bb39-61e1-45fc-a36b-3f211bb846c7"
+                        }
+                    }
+                },
+                {
+                    "relatedInstance": {
+                        "instanceId": "6636c4d5-f608-4376-b6d8-7977e98cb16d",
+                        "modelInfo": {
+                            "modelInvariantId": "827356a9-cb60-4976-9713-c30b4f850b41",
+                            "modelType": "vnf",
+                            "modelName": "vLB_CDS_SB00",
+                            "modelVersion": "1.0",
+                            "modelCustomizationUuid": "6478f94b-0b20-4b44-afc0-94e48070586a",
+                            "modelVersionId": "ca3c4797-0cdd-4797-8bec-9a3ce78ac4da",
+                            "modelCustomizationId": "6478f94b-0b20-4b44-afc0-94e48070586a",
+                            "modelUuid": "ca3c4797-0cdd-4797-8bec-9a3ce78ac4da",
+                            "modelInvariantUuid": "827356a9-cb60-4976-9713-c30b4f850b41"
+                        }
+                    }
+                }
+            ],
+            "cloudConfiguration": {
+                "tenantId": "41d6d38489bd40b09ea8a6b6b852dcbd",
+                "tenantName": "Integration-SB-00",
+                "cloudOwner": "CloudOwner",
+                "lcpCloudRegionId": "RegionOne"
+            },
+            "requestParameters": {
+                "usePreload": false
+            },
+            "configurationParameters": [
+                {
+                    "ip-addr": "$.vf-module-topology.vf-module-parameters.param[16].value",
+                    "oam-ip-addr": "$.vf-module-topology.vf-module-parameters.param[30].value"
+                }
+            ]
+        },
+        "instanceReferences": {
+            "serviceInstanceId": "c14e61b5-1ee6-4925-b4a9-b9c8dbfe3f34",
+            "vnfInstanceId": "6636c4d5-f608-4376-b6d8-7977e98cb16d",
+            "vfModuleInstanceId": "68804843-18e0-41a3-8838-a6d90a035e1a",
+            "vfModuleInstanceName": "vfModuleName"
+        },
+        "requestStatus": {
+            "requestState": "COMPLETE",
+            "statusMessage": "STATUS: ALaCarte-VfModule-scaleOut request was executed correctly. FLOW STATUS: Successfully completed all Building Blocks RESOURCE STATUS: The vf module was found to already exist, thus no new vf module was created in the cloud via this request",
+            "percentProgress": 100,
+            "timestamp": "Fri, 15 May 2020 12:14:21 GMT"
+        }
+    }
+}
