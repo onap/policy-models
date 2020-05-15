@@ -144,7 +144,7 @@ public class SoSimulatorTest {
                         "username",
                         "password", new HashMap<>(), "application/json", request);
         assertNotNull(httpDetails);
-        assertThat(httpDetails.second).contains("\"COMPLETE\"").doesNotContain("requestSelfLink");
+        assertThat(httpDetails.second).contains("\"COMPLETE\"").contains("requestSelfLink");
 
         /*
          * Repeat, but set the flag indicating that the request should yield incomplete.
@@ -186,7 +186,7 @@ public class SoSimulatorTest {
                         "username",
                         "password", new HashMap<>(), "application/json", request);
         assertNotNull(httpDetails);
-        assertThat(httpDetails.second).contains("\"COMPLETE\"").doesNotContain("requestSelfLink");
+        assertThat(httpDetails.second).contains("\"COMPLETE\"").contains("requestSelfLink");
 
         /*
          * Repeat, but set the flag indicating that the request should yield incomplete.
