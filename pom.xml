@@ -42,7 +42,7 @@
     <properties>
         <derby.version>10.13.1.1</derby.version>
         <javax.ws.rs-api.version>2.1.1</javax.ws.rs-api.version>
-        <policy.common.version>1.6.5</policy.common.version>
+        <policy.common.version>1.7.0-SNAPSHOT</policy.common.version>
     </properties>
 
     <modules>
@@ -221,7 +221,7 @@
                         </goals>
                         <phase>process-sources</phase>
                         <configuration>
-                            <!-- Use Google Java Style Guide: https://github.com/checkstyle/checkstyle/blob/master/src/main/resources/google_checks.xml 
+                            <!-- Use Google Java Style Guide: https://github.com/checkstyle/checkstyle/blob/master/src/main/resources/google_checks.xml
                                 with minor changes -->
                             <configLocation>onap-checkstyle/onap-java-style.xml</configLocation>
                             <!-- <sourceDirectory> is needed so that checkstyle ignores the generated sources directory -->
