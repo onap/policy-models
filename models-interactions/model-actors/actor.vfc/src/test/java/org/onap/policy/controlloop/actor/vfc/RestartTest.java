@@ -22,6 +22,7 @@ package org.onap.policy.controlloop.actor.vfc;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.concurrent.CompletableFuture;
 import org.apache.commons.lang3.tuple.Pair;
@@ -33,6 +34,7 @@ import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.vfc.VfcRequest;
+import org.onap.policy.vfc.VfcResponse;
 
 public class RestartTest extends BasicVfcOperation {
     private Restart restartOper;
@@ -72,6 +74,7 @@ public class RestartTest extends BasicVfcOperation {
 
         outcome = restartOper.start().get();
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertTrue(outcome.getResponse() instanceof VfcResponse);
     }
 
     @Test

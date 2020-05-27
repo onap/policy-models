@@ -130,6 +130,7 @@ public class VfModuleDeleteTest extends BasicSoOperation {
 
         outcome = oper.start().get();
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertTrue(outcome.getResponse() instanceof SoResponse);
     }
 
     @Test
@@ -218,6 +219,10 @@ public class VfModuleDeleteTest extends BasicSoOperation {
 
         outcome = future2.get(5, TimeUnit.SECONDS);
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+
+        SoResponse resp = outcome.getResponse();
+        assertNotNull(resp);
+        assertEquals(REQ_ID.toString(), resp.getRequestReferences().getRequestId());
 
         assertEquals(origCount - 1, oper.getVfCount());
     }

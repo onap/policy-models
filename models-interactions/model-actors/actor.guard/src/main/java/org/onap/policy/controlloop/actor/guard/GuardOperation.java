@@ -142,6 +142,8 @@ public class GuardOperation extends HttpOperation<DecisionResponse> {
     protected CompletableFuture<OperationOutcome> postProcessResponse(OperationOutcome outcome, String url,
                     Response rawResponse, DecisionResponse response) {
 
+        outcome.setResponse(response);
+
         // determine the result
         String status = response.getStatus();
         if (status == null) {

@@ -176,6 +176,7 @@ public class SoOperationTest extends BasicSoOperation {
         assertSame(outcome, future2.get());
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
         assertNotNull(oper.getSubRequestId());
+        assertSame(response, outcome.getResponse());
 
         // failed
         oper.generateSubRequestId(2);
@@ -186,6 +187,7 @@ public class SoOperationTest extends BasicSoOperation {
         assertSame(outcome, future2.get());
         assertEquals(PolicyResult.FAILURE, outcome.getResult());
         assertNotNull(oper.getSubRequestId());
+        assertSame(response, outcome.getResponse());
 
         // no request id in the response
         oper.generateSubRequestId(2);
@@ -291,6 +293,7 @@ public class SoOperationTest extends BasicSoOperation {
 
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
         assertEquals("200 " + ControlLoopOperation.SUCCESS_MSG, outcome.getMessage());
+        assertSame(response, outcome.getResponse());
 
         // failure case
         when(rawResponse.getStatus()).thenReturn(500);
@@ -298,6 +301,7 @@ public class SoOperationTest extends BasicSoOperation {
 
         assertEquals(PolicyResult.FAILURE, outcome.getResult());
         assertEquals("500 " + ControlLoopOperation.FAILED_MSG, outcome.getMessage());
+        assertSame(response, outcome.getResponse());
     }
 
     @Test

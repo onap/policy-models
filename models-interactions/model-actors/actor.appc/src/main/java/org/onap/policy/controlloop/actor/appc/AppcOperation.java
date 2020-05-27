@@ -172,11 +172,13 @@ public abstract class AppcOperation extends BidirectionalTopicOperation<Request,
     @Override
     public OperationOutcome setOutcome(OperationOutcome outcome, PolicyResult result, Response response) {
         if (response.getStatus() == null || response.getStatus().getDescription() == null) {
+            outcome.setResponse(response);
             return setOutcome(outcome, result);
         }
 
         outcome.setResult(result);
         outcome.setMessage(response.getStatus().getDescription());
+        outcome.setResponse(response);
         return outcome;
     }
 

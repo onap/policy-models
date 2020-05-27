@@ -20,6 +20,7 @@
 
 package org.onap.policy.controlloop.actor.aai;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.Assert.assertEquals;
@@ -123,6 +124,9 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation<Map<String, S
 
         outcome = oper.start().get();
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+
+        String resp = outcome.getResponse();
+        assertThat(resp).isNotNull().contains("relationship-list");
     }
 
     @Test

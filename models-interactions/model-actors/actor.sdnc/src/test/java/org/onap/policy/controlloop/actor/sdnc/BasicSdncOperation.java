@@ -126,9 +126,11 @@ public abstract class BasicSdncOperation extends BasicHttpOperation<SdncRequest>
         executor.runAll(100);
         assertTrue(future2.isDone());
 
-        assertEquals(PolicyResult.SUCCESS, future2.get().getResult());
+        outcome = future2.get();
+        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertTrue(outcome.getResponse() instanceof SdncResponse);
 
-        assertNotNull(future2.get().getSubRequestId());
+        assertNotNull(outcome.getSubRequestId());
 
         return requestCaptor.getValue().getEntity();
     }

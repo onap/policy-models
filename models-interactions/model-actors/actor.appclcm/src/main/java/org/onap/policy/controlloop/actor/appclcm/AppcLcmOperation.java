@@ -184,16 +184,17 @@ public class AppcLcmOperation extends BidirectionalTopicOperation<AppcLcmDmaapWr
     public OperationOutcome setOutcome(OperationOutcome outcome, PolicyResult result, AppcLcmDmaapWrapper response) {
         AppcLcmResponseStatus status = getStatus(response);
         if (status == null) {
-            return setOutcome(outcome, result);
+            return super.setOutcome(outcome, result, response);
         }
 
         String message = status.getMessage();
         if (message == null) {
-            return setOutcome(outcome, result);
+            return super.setOutcome(outcome, result, response);
         }
 
         outcome.setResult(result);
         outcome.setMessage(message);
+        outcome.setResponse(response);
         return outcome;
     }
 

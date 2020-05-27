@@ -82,30 +82,30 @@ public class VfcOperationTest extends BasicVfcOperation {
 
         response.setResponseDescriptor(new VfcResponseDescriptor());
         response.setJobId("sampleJobId");
+
+        // null status
         CompletableFuture<OperationOutcome> future2 = oper.postProcessResponse(outcome, PATH, rawResponse, response);
         assertFalse(future2.isDone());
-        // assertSame(outcome, future2.get()); TODO Hanging
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
 
         response.getResponseDescriptor().setStatus("FinisHeD");
         future2 = oper.postProcessResponse(outcome, PATH, rawResponse, response);
         assertTrue(future2.isDone());
         assertSame(outcome, future2.get());
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertSame(response, outcome.getResponse());
 
+        // failed
         response.getResponseDescriptor().setStatus("eRRor");
         future2 = oper.postProcessResponse(outcome, PATH, rawResponse, response);
         assertTrue(future2.isDone());
         assertSame(outcome, future2.get());
         assertEquals(PolicyResult.FAILURE, outcome.getResult());
+        assertSame(response, outcome.getResponse());
 
-        // failed
-        /*
-         * response.getResponseDescriptor().setStatus("anything but finished"); future2 =
-         * oper.postProcessResponse(outcome, PATH, rawResponse, response);
-         * assertTrue(future2.isDone()); assertSame(outcome, future2.get());
-         * assertEquals(PolicyResult.FAILURE, outcome.getResult());
-         */
+        // unfinished
+        response.getResponseDescriptor().setStatus("anything but finished");
+        future2 = oper.postProcessResponse(outcome, PATH, rawResponse, response);
+        assertFalse(future2.isDone());
     }
 
     @Test
