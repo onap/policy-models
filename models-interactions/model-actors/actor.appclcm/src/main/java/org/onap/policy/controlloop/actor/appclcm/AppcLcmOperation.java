@@ -182,6 +182,8 @@ public class AppcLcmOperation extends BidirectionalTopicOperation<AppcLcmDmaapWr
      */
     @Override
     public OperationOutcome setOutcome(OperationOutcome outcome, PolicyResult result, AppcLcmDmaapWrapper response) {
+        outcome.setResponse(response);
+
         AppcLcmResponseStatus status = getStatus(response);
         if (status == null) {
             return setOutcome(outcome, result);

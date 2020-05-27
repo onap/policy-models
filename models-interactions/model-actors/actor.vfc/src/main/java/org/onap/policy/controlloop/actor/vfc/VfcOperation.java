@@ -119,6 +119,7 @@ public abstract class VfcOperation extends HttpOperation<VfcResponse> {
         if (getCount++ >= getMaxGets()) {
             logger.warn("{}: execeeded 'get' limit {} for {}", getFullName(), getMaxGets(), params.getRequestId());
             setOutcome(outcome, PolicyResult.FAILURE_TIMEOUT);
+            outcome.setResponse(response);
             outcome.setMessage(VFC_RESPONSE_CODE + " " + outcome.getMessage());
             return CompletableFuture.completedFuture(outcome);
         }
@@ -179,6 +180,7 @@ public abstract class VfcOperation extends HttpOperation<VfcResponse> {
         // set default result and message
         setOutcome(outcome, result);
 
+        outcome.setResponse(response);
         outcome.setMessage(rawResponse.getStatus() + " " + outcome.getMessage());
         return outcome;
     }

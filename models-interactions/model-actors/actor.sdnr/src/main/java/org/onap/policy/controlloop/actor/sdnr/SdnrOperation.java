@@ -118,20 +118,22 @@ public class SdnrOperation extends BidirectionalTopicOperation<PciMessage, PciMe
      */
     @Override
     public OperationOutcome setOutcome(OperationOutcome outcome, PolicyResult result, PciMessage responseWrapper) {
+        outcome.setResponse(responseWrapper);
+
         if (responseWrapper.getBody() == null || responseWrapper.getBody().getOutput() == null) {
             outcome.setControlLoopResponse(makeControlLoopResponse(null));
             return setOutcome(outcome, result);
         }
 
-        PciResponse response = responseWrapper.getBody().getOutput();
-        if (response.getStatus() == null || response.getStatus().getValue() == null) {
-            outcome.setControlLoopResponse(makeControlLoopResponse(response.getPayload()));
+        PciResponse pciResponse = responseWrapper.getBody().getOutput();
+        if (pciResponse.getStatus() == null || pciResponse.getStatus().getValue() == null) {
+            outcome.setControlLoopResponse(makeControlLoopResponse(pciResponse.getPayload()));
             return setOutcome(outcome, result);
         }
 
         outcome.setResult(result);
-        outcome.setMessage(response.getStatus().getValue());
-        outcome.setControlLoopResponse(makeControlLoopResponse(response.getPayload()));
+        outcome.setMessage(pciResponse.getStatus().getValue());
+        outcome.setControlLoopResponse(makeControlLoopResponse(pciResponse.getPayload()));
         return outcome;
     }
 

@@ -43,6 +43,7 @@ public class OperationOutcome {
     private PolicyResult result = PolicyResult.SUCCESS;
     private String message;
     private boolean finalOutcome;
+    private Object response;
     private ControlLoopResponse controlLoopResponse;
 
     /**
@@ -60,6 +61,7 @@ public class OperationOutcome {
         this.result = source.result;
         this.message = source.message;
         this.finalOutcome = source.finalOutcome;
+        this.response = source.response;
         this.controlLoopResponse = source.controlLoopResponse;
     }
 
@@ -83,6 +85,11 @@ public class OperationOutcome {
         clo.setMessage(message);
 
         return clo;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> T getResponse() {
+        return (T) response;
     }
 
     /**

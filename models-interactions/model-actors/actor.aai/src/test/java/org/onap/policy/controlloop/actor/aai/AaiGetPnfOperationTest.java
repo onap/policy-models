@@ -92,6 +92,7 @@ public class AaiGetPnfOperationTest extends BasicAaiOperation<Void> {
 
         outcome = oper.start().get();
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertTrue(outcome.getResponse() instanceof StandardCoderObject);
     }
 
     /**

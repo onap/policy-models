@@ -1027,6 +1027,10 @@ public class OperationPartialTest {
         assertEquals(ControlLoopOperation.SUCCESS_MSG, outcome.getMessage());
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
 
+        oper.setOutcome(outcome, PolicyResult.SUCCESS);
+        assertEquals(ControlLoopOperation.SUCCESS_MSG, outcome.getMessage());
+        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+
         for (PolicyResult result : FAILURE_RESULTS) {
             outcome = new OperationOutcome();
             oper.setOutcome(outcome, result);

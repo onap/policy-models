@@ -62,10 +62,12 @@ public class CdsActorServiceManager implements CdsProcessorListener {
                 break;
             case EVENT_COMPONENT_EXECUTED:
                 outcome.setResult(PolicyResult.SUCCESS);
+                outcome.setResponse(message);
                 future.complete(outcome);
                 break;
             default:
                 outcome.setResult(PolicyResult.FAILURE);
+                outcome.setResponse(message);
                 future.complete(outcome);
                 break;
         }

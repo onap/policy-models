@@ -256,6 +256,7 @@ public class HttpOperationTest {
         callback.get().completed(response);
 
         assertSame(outcome, future2.get(5, TimeUnit.SECONDS));
+        assertSame(TEXT, outcome.getResponse());
 
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
     }
@@ -290,6 +291,7 @@ public class HttpOperationTest {
         assertTrue(result.isDone());
         assertSame(outcome, result.get());
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertSame(TEXT, outcome.getResponse());
     }
 
     /**
@@ -302,6 +304,7 @@ public class HttpOperationTest {
         assertTrue(result.isDone());
         assertSame(outcome, result.get());
         assertEquals(PolicyResult.FAILURE, outcome.getResult());
+        assertSame(TEXT, outcome.getResponse());
     }
 
     /**
@@ -317,6 +320,7 @@ public class HttpOperationTest {
         assertTrue(result.isDone());
         assertSame(outcome, result.get());
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(Integer.valueOf(10), outcome.getResponse());
     }
 
     /**
@@ -357,6 +361,7 @@ public class HttpOperationTest {
         assertNotNull(outcome);
         assertEquals(1, nget);
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertTrue(outcome.getResponse() instanceof MyResponse);
     }
 
     /**
@@ -373,6 +378,7 @@ public class HttpOperationTest {
         assertNotNull(outcome);
         assertEquals(1, ndelete);
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertTrue(outcome.getResponse() instanceof String);
     }
 
     /**
@@ -388,6 +394,7 @@ public class HttpOperationTest {
         assertNotNull(outcome);
         assertEquals(1, npost);
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertTrue(outcome.getResponse() instanceof MyResponse);
     }
 
     /**
@@ -404,6 +411,7 @@ public class HttpOperationTest {
         assertNotNull(outcome);
         assertEquals(1, nput);
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertTrue(outcome.getResponse() instanceof MyResponse);
     }
 
     @Test

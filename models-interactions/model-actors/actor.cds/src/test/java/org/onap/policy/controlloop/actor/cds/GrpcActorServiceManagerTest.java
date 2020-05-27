@@ -22,6 +22,7 @@ package org.onap.policy.controlloop.actor.cds;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import java.util.concurrent.CompletableFuture;
@@ -59,8 +60,9 @@ public class GrpcActorServiceManagerTest {
         Status status = Status.newBuilder().setEventType(EventType.EVENT_COMPONENT_EXECUTED).build();
         output = ExecutionServiceOutput.newBuilder().setStatus(status).build();
         manager.onMessage(output);
-        assertEquals(PolicyResult.SUCCESS, future.get(2, TimeUnit.SECONDS).getResult());
-        assertTrue(future.isDone());
+        OperationOutcome outcome = future.get(2, TimeUnit.SECONDS);
+        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertSame(output, outcome.getResponse());
     }
 
     @Test
@@ -79,8 +81,9 @@ public class GrpcActorServiceManagerTest {
         Status status = Status.newBuilder().setEventType(EventType.EVENT_COMPONENT_FAILURE).build();
         output = ExecutionServiceOutput.newBuilder().setStatus(status).build();
         manager.onMessage(output);
-        assertEquals(PolicyResult.FAILURE, future.get(2, TimeUnit.SECONDS).getResult());
-        assertTrue(future.isDone());
+        OperationOutcome outcome = future.get(2, TimeUnit.SECONDS);
+        assertEquals(PolicyResult.FAILURE, outcome.getResult());
+        assertSame(output, outcome.getResponse());
     }
 
     @Test
@@ -89,6 +92,5 @@ public class GrpcActorServiceManagerTest {
         Exception exception = new Exception("something failed");
         manager.onError(exception);
         assertTrue(future.isCompletedExceptionally());
-        assertTrue(future.isDone());
     }
 }

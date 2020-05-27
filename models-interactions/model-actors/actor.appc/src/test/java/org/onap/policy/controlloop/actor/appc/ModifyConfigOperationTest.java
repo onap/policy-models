@@ -42,6 +42,7 @@ import org.junit.Test;
 import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.appc.Request;
+import org.onap.policy.appc.Response;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
@@ -108,6 +109,7 @@ public class ModifyConfigOperationTest extends BasicAppcOperation {
 
         outcome = oper.start().get();
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertTrue(outcome.getResponse() instanceof Response);
     }
 
     @Test

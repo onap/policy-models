@@ -25,6 +25,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -127,6 +128,7 @@ public class AppcLcmOperationTest extends BasicBidirectionalTopicOperation {
 
         outcome = oper.start().get();
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertTrue(outcome.getResponse() instanceof AppcLcmDmaapWrapper);
     }
 
     @Test
@@ -163,7 +165,8 @@ public class AppcLcmOperationTest extends BasicBidirectionalTopicOperation {
 
         assertTrue(executor.runAll(100));
         assertTrue(future2.isDone());
-        assertEquals(PolicyResult.SUCCESS, future2.get().getResult());
+        outcome = future2.get();
+        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
     }
 
     @Test
@@ -258,21 +261,25 @@ public class AppcLcmOperationTest extends BasicBidirectionalTopicOperation {
         oper.setOutcome(outcome, PolicyResult.SUCCESS, response);
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
         assertEquals(MY_MESSAGE, outcome.getMessage());
+        assertSame(response, outcome.getResponse());
 
         // failure
         oper.setOutcome(outcome, PolicyResult.FAILURE, response);
         assertEquals(PolicyResult.FAILURE, outcome.getResult());
         assertEquals(MY_MESSAGE, outcome.getMessage());
+        assertSame(response, outcome.getResponse());
 
         // null message
         response.getBody().getOutput().getStatus().setMessage(null);
         oper.setOutcome(outcome, PolicyResult.SUCCESS, response);
         assertEquals(ControlLoopOperation.SUCCESS_MSG, outcome.getMessage());
+        assertSame(response, outcome.getResponse());
 
         // null status
         response.getBody().getOutput().setStatus(null);
         oper.setOutcome(outcome, PolicyResult.SUCCESS, response);
         assertEquals(ControlLoopOperation.SUCCESS_MSG, outcome.getMessage());
+        assertSame(response, outcome.getResponse());
     }
 
     @Test

@@ -250,6 +250,7 @@ public abstract class BidirectionalTopicOperation<Q, S> extends OperationPartial
      * @return the updated operation
      */
     public OperationOutcome setOutcome(OperationOutcome outcome, PolicyResult result, S response) {
+        outcome.setResponse(response);
         return setOutcome(outcome, result);
     }
 
