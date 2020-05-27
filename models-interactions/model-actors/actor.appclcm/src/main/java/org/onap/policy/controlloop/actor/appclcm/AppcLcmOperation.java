@@ -181,19 +181,22 @@ public class AppcLcmOperation extends BidirectionalTopicOperation<AppcLcmDmaapWr
      * Sets the message to the status description, if available.
      */
     @Override
-    public OperationOutcome setOutcome(OperationOutcome outcome, PolicyResult result, AppcLcmDmaapWrapper response) {
-        AppcLcmResponseStatus status = getStatus(response);
+    public OperationOutcome setOutcome(OperationOutcome outcome, PolicyResult result, Object response) {
+        AppcLcmDmaapWrapper resp = (AppcLcmDmaapWrapper) response;
+
+        AppcLcmResponseStatus status = getStatus(resp);
         if (status == null) {
-            return setOutcome(outcome, result);
+            return super.setOutcome(outcome, result, resp);
         }
 
         String message = status.getMessage();
         if (message == null) {
-            return setOutcome(outcome, result);
+            return super.setOutcome(outcome, result, resp);
         }
 
         outcome.setResult(result);
         outcome.setMessage(message);
+        outcome.setResponse(resp);
         return outcome;
     }
 

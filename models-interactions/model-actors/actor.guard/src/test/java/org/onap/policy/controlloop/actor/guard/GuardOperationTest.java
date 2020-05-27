@@ -24,6 +24,8 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -119,6 +121,7 @@ public class GuardOperationTest extends BasicHttpOperation<DecisionRequest> {
 
         outcome = oper.start().get();
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertTrue(outcome.getResponse() instanceof DecisionResponse);
     }
 
     /**
@@ -135,6 +138,7 @@ public class GuardOperationTest extends BasicHttpOperation<DecisionRequest> {
 
         outcome = oper.start().get();
         assertEquals(PolicyResult.FAILURE, outcome.getResult());
+        assertTrue(outcome.getResponse() instanceof DecisionResponse);
     }
 
     @Test
@@ -159,7 +163,9 @@ public class GuardOperationTest extends BasicHttpOperation<DecisionRequest> {
         executor.runAll(100);
         assertTrue(future2.isDone());
 
-        assertEquals(PolicyResult.SUCCESS, future2.get().getResult());
+        outcome = future2.get();
+        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(resp, outcome.getResponse());
 
         assertNotNull(oper.getSubRequestId());
         assertEquals(oper.getSubRequestId(), future2.get().getSubRequestId());
@@ -181,7 +187,9 @@ public class GuardOperationTest extends BasicHttpOperation<DecisionRequest> {
         // should already be done
         assertTrue(future2.isDone());
 
-        assertEquals(PolicyResult.SUCCESS, future2.get().getResult());
+        outcome = future2.get();
+        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertNull(outcome.getResponse());
 
         // ensure callbacks were invoked
         verify(started).accept(any());
@@ -246,6 +254,7 @@ public class GuardOperationTest extends BasicHttpOperation<DecisionRequest> {
         oper.postProcessResponse(outcome, BASE_URI, rawResponse, response);
         assertEquals(expectedResult, outcome.getResult());
         assertEquals(expectedMessage, outcome.getMessage());
+        assertSame(response, outcome.getResponse());
     }
 
     @Override

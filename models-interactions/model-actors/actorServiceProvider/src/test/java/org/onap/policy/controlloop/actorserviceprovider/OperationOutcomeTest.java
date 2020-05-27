@@ -42,6 +42,7 @@ public class OperationOutcomeTest {
     private static final String SUB_REQ_ID = "my-sub-request-id";
     private static final PolicyResult RESULT = PolicyResult.FAILURE_GUARD;
     private static final String MESSAGE = "my-message";
+    private static final String RESPONSE = "my-response";
 
     private ControlLoopResponse response;
     private OperationOutcome outcome;
@@ -70,6 +71,7 @@ public class OperationOutcomeTest {
         assertEquals(SUB_REQ_ID, outcome2.getSubRequestId());
         assertEquals(RESULT, outcome2.getResult());
         assertEquals(MESSAGE, outcome2.getMessage());
+        assertSame(RESPONSE, outcome2.getResponse());
         assertSame(response, outcome2.getControlLoopResponse());
     }
 
@@ -142,6 +144,7 @@ public class OperationOutcomeTest {
         outcome.setStart(START);
         outcome.setSubRequestId(SUB_REQ_ID);
         outcome.setTarget(TARGET);
+        outcome.setResponse(RESPONSE);
         outcome.setControlLoopResponse(response);
     }
 }

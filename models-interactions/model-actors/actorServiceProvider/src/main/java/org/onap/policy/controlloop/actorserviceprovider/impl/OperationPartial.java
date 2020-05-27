@@ -440,7 +440,7 @@ public abstract class OperationPartial implements Operation {
                 outcome = origOutcome;
             } else {
                 logger.warn("{}: null outcome; treating as a failure for {}", getFullName(), params.getRequestId());
-                outcome = this.setOutcome(params.makeOutcome(), PolicyResult.FAILURE);
+                outcome = this.setOutcome(params.makeOutcome(), PolicyResult.FAILURE, null);
             }
 
             // ensure correct actor/operation
@@ -955,7 +955,7 @@ public abstract class OperationPartial implements Operation {
      */
     public OperationOutcome setOutcome(OperationOutcome operation, Throwable thrown) {
         PolicyResult result = (isTimeout(thrown) ? PolicyResult.FAILURE_TIMEOUT : PolicyResult.FAILURE_EXCEPTION);
-        return setOutcome(operation, result);
+        return setOutcome(operation, result, null);
     }
 
     /**
@@ -965,11 +965,12 @@ public abstract class OperationPartial implements Operation {
      * @param result result of the operation
      * @return the updated operation
      */
-    public OperationOutcome setOutcome(OperationOutcome operation, PolicyResult result) {
+    public OperationOutcome setOutcome(OperationOutcome operation, PolicyResult result, Object response) {
         logger.trace("{}: set outcome {} for {}", getFullName(), result, params.getRequestId());
         operation.setResult(result);
         operation.setMessage(result == PolicyResult.SUCCESS ? ControlLoopOperation.SUCCESS_MSG
                         : ControlLoopOperation.FAILED_MSG);
+        operation.setResponse(response);
 
         return operation;
     }

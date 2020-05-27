@@ -170,13 +170,16 @@ public abstract class AppcOperation extends BidirectionalTopicOperation<Request,
      * Sets the message to the status description, if available.
      */
     @Override
-    public OperationOutcome setOutcome(OperationOutcome outcome, PolicyResult result, Response response) {
-        if (response.getStatus() == null || response.getStatus().getDescription() == null) {
-            return setOutcome(outcome, result);
+    public OperationOutcome setOutcome(OperationOutcome outcome, PolicyResult result, Object response) {
+        Response resp = (Response) response;
+
+        if (resp.getStatus() == null || resp.getStatus().getDescription() == null) {
+            return super.setOutcome(outcome, result, (Object) response);
         }
 
         outcome.setResult(result);
-        outcome.setMessage(response.getStatus().getDescription());
+        outcome.setMessage(resp.getStatus().getDescription());
+        outcome.setResponse(resp);
         return outcome;
     }
 

@@ -242,18 +242,6 @@ public abstract class BidirectionalTopicOperation<Q, S> extends OperationPartial
     }
 
     /**
-     * Sets an operation's outcome and default message based on the result.
-     *
-     * @param outcome operation to be updated
-     * @param result result of the operation
-     * @param response response used to populate the outcome
-     * @return the updated operation
-     */
-    public OperationOutcome setOutcome(OperationOutcome outcome, PolicyResult result, S response) {
-        return setOutcome(outcome, result);
-    }
-
-    /**
      * Processes a successful response.
      *
      * @param outcome outcome to be populated

@@ -135,6 +135,7 @@ public class SdnrOperationTest extends BasicSdnrOperation {
 
         outcome = operation.start().get();
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertTrue(outcome.getResponse() instanceof PciMessage);
 
         ControlLoopResponse clresp = outcome.getControlLoopResponse();
         assertNotNull(clresp);
@@ -243,5 +244,6 @@ public class SdnrOperationTest extends BasicSdnrOperation {
         assertSame(outcome, operation.setOutcome(outcome, PolicyResult.SUCCESS, response));
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
         assertNotNull(outcome.getMessage());
+        assertSame(response, outcome.getResponse());
     }
 }

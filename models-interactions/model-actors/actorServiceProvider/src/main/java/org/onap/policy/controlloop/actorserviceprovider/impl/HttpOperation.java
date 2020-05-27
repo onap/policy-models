@@ -217,7 +217,7 @@ public abstract class HttpOperation<T> extends OperationPartial {
     public OperationOutcome setOutcome(OperationOutcome outcome, PolicyResult result, Response rawResponse,
                     T response) {
 
-        return setOutcome(outcome, result);
+        return setOutcome(outcome, result, response);
     }
 
     /**

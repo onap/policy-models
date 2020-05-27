@@ -38,6 +38,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.junit.Before;
@@ -85,6 +86,7 @@ public class BidirectionalTopicOperationTest {
     private ControlLoopOperationParams params;
     private OperationOutcome outcome;
     private StandardCoderObject stdResponse;
+    private MyResponse response;
     private String responseText;
     private PseudoExecutor executor;
     private int ntimes;
@@ -109,7 +111,9 @@ public class BidirectionalTopicOperationTest {
         params = ControlLoopOperationParams.builder().actor(ACTOR).operation(OPERATION).executor(executor).build();
         outcome = params.makeOutcome();
 
-        responseText = coder.encode(new MyResponse());
+        response = new MyResponse();
+        response.setRequestId(REQ_ID);
+        responseText = coder.encode(response);
         stdResponse = coder.decode(responseText, StandardCoderObject.class);
 
         ntimes = 1;
@@ -159,6 +163,7 @@ public class BidirectionalTopicOperationTest {
 
         assertSame(outcome, future.get());
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(response, outcome.getResponse());
 
         verify(forwarder).unregister(eq(Arrays.asList(REQ_ID)), eq(listenerCaptor.getValue()));
     }
@@ -258,6 +263,7 @@ public class BidirectionalTopicOperationTest {
 
         assertSame(outcome, oper2.processResponse(outcome, TEXT, null));
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(TEXT, outcome.getResponse());
     }
 
     /**
@@ -270,6 +276,7 @@ public class BidirectionalTopicOperationTest {
 
         assertSame(outcome, oper2.processResponse(outcome, responseText, stdResponse));
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(stdResponse, outcome.getResponse());
     }
 
     /**
@@ -286,6 +293,7 @@ public class BidirectionalTopicOperationTest {
 
         assertSame(outcome, oper.processResponse(outcome, responseText, stdResponse));
         assertEquals(PolicyResult.FAILURE, outcome.getResult());
+        assertEquals(resp, outcome.getResponse());
     }
 
     /**
@@ -295,6 +303,7 @@ public class BidirectionalTopicOperationTest {
     public void testProcessResponseDecodeOk() throws CoderException {
         assertSame(outcome, oper.processResponse(outcome, responseText, stdResponse));
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(response, outcome.getResponse());
     }
 
     /**
@@ -344,8 +353,9 @@ public class BidirectionalTopicOperationTest {
 
     @Getter
     @Setter
+    @EqualsAndHashCode
     public static class MyResponse {
-        private String requestId = REQ_ID;
+        private String requestId;
         private String output;
     }
 

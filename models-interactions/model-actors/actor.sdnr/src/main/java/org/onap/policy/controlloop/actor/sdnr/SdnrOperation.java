@@ -117,21 +117,24 @@ public class SdnrOperation extends BidirectionalTopicOperation<PciMessage, PciMe
      * Sets the message to the status description, if available.
      */
     @Override
-    public OperationOutcome setOutcome(OperationOutcome outcome, PolicyResult result, PciMessage responseWrapper) {
+    public OperationOutcome setOutcome(OperationOutcome outcome, PolicyResult result, Object response) {
+        PciMessage responseWrapper = (PciMessage) response;
+
         if (responseWrapper.getBody() == null || responseWrapper.getBody().getOutput() == null) {
             outcome.setControlLoopResponse(makeControlLoopResponse(null));
-            return setOutcome(outcome, result);
+            return super.setOutcome(outcome, result, response);
         }
 
-        PciResponse response = responseWrapper.getBody().getOutput();
-        if (response.getStatus() == null || response.getStatus().getValue() == null) {
-            outcome.setControlLoopResponse(makeControlLoopResponse(response.getPayload()));
-            return setOutcome(outcome, result);
+        PciResponse pciResponse = responseWrapper.getBody().getOutput();
+        if (pciResponse.getStatus() == null || pciResponse.getStatus().getValue() == null) {
+            outcome.setControlLoopResponse(makeControlLoopResponse(pciResponse.getPayload()));
+            return super.setOutcome(outcome, result, response);
         }
 
         outcome.setResult(result);
-        outcome.setMessage(response.getStatus().getValue());
-        outcome.setControlLoopResponse(makeControlLoopResponse(response.getPayload()));
+        outcome.setMessage(pciResponse.getStatus().getValue());
+        outcome.setResponse(responseWrapper);
+        outcome.setControlLoopResponse(makeControlLoopResponse(pciResponse.getPayload()));
         return outcome;
     }
 

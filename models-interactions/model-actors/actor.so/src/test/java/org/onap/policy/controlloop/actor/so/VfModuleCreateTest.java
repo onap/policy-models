@@ -53,6 +53,7 @@ import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.so.SoRequest;
+import org.onap.policy.so.SoResponse;
 
 public class VfModuleCreateTest extends BasicSoOperation {
     private static final String MODEL_NAME2 = "my-model-name-B";
@@ -96,6 +97,7 @@ public class VfModuleCreateTest extends BasicSoOperation {
 
         outcome = oper.start().get();
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertTrue(outcome.getResponse() instanceof SoResponse);
     }
 
     @Test
@@ -186,6 +188,10 @@ public class VfModuleCreateTest extends BasicSoOperation {
 
         outcome = future2.get(5, TimeUnit.SECONDS);
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+
+        SoResponse resp = outcome.getResponse();
+        assertNotNull(resp);
+        assertEquals(REQ_ID.toString(), resp.getRequestReferences().getRequestId());
 
         assertEquals(origCount + 1, oper.getVfCount());
     }

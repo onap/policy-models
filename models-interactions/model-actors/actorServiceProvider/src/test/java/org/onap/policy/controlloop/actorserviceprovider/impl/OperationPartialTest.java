@@ -1022,16 +1022,25 @@ public class OperationPartialTest {
     public void testSetOutcomeControlLoopOperationOutcomePolicyResult() {
         OperationOutcome outcome;
 
+        final String resp = "my-response";
+
         outcome = new OperationOutcome();
-        oper.setOutcome(outcome, PolicyResult.SUCCESS);
+        oper.setOutcome(outcome, PolicyResult.SUCCESS, null);
         assertEquals(ControlLoopOperation.SUCCESS_MSG, outcome.getMessage());
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertNull(outcome.getResponse());
+
+        oper.setOutcome(outcome, PolicyResult.SUCCESS, resp);
+        assertEquals(ControlLoopOperation.SUCCESS_MSG, outcome.getMessage());
+        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertSame(resp, outcome.getResponse());
 
         for (PolicyResult result : FAILURE_RESULTS) {
             outcome = new OperationOutcome();
-            oper.setOutcome(outcome, result);
+            oper.setOutcome(outcome, result, resp);
             assertEquals(result.toString(), ControlLoopOperation.FAILED_MSG, outcome.getMessage());
             assertEquals(result.toString(), result, outcome.getResult());
+            assertSame(resp, outcome.getResponse());
         }
     }
 

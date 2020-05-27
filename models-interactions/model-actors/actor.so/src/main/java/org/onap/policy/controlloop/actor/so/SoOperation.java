@@ -228,7 +228,7 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
         // see if the limit for the number of "gets" has been reached
         if (getCount++ >= getMaxGets()) {
             logger.warn("{}: execeeded 'get' limit {} for {}", getFullName(), getMaxGets(), params.getRequestId());
-            setOutcome(outcome, PolicyResult.FAILURE_TIMEOUT);
+            setOutcome(outcome, PolicyResult.FAILURE_TIMEOUT, response);
             outcome.setMessage(SO_RESPONSE_CODE + " " + outcome.getMessage());
             return CompletableFuture.completedFuture(outcome);
         }
@@ -314,7 +314,7 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
                     SoResponse response) {
 
         // set default result and message
-        setOutcome(outcome, result);
+        setOutcome(outcome, result, response);
 
         outcome.setMessage(rawResponse.getStatus() + " " + outcome.getMessage());
         return outcome;

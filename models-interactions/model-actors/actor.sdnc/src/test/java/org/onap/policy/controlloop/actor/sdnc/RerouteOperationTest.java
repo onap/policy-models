@@ -21,6 +21,7 @@
 package org.onap.policy.controlloop.actor.sdnc;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Map;
 import org.junit.AfterClass;
@@ -32,6 +33,7 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.sdnc.SdncRequest;
+import org.onap.policy.sdnc.SdncResponse;
 
 public class RerouteOperationTest extends BasicSdncOperation {
 
@@ -74,6 +76,7 @@ public class RerouteOperationTest extends BasicSdncOperation {
 
         outcome = oper.start().get();
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertTrue(outcome.getResponse() instanceof SdncResponse);
     }
 
     @Test

@@ -212,6 +212,7 @@ public class AppcOperationTest extends BasicAppcOperation {
         assertSame(outcome, oper.setOutcome(outcome, PolicyResult.SUCCESS, response));
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
         assertNotNull(outcome.getMessage());
+        assertSame(response, outcome.getResponse());
         response.setStatus(status);
 
         // null description
@@ -219,12 +220,14 @@ public class AppcOperationTest extends BasicAppcOperation {
         assertSame(outcome, oper.setOutcome(outcome, PolicyResult.FAILURE, response));
         assertEquals(PolicyResult.FAILURE, outcome.getResult());
         assertNotNull(outcome.getMessage());
+        assertSame(response, outcome.getResponse());
         status.setDescription(MY_DESCRIPTION);
 
         for (PolicyResult result : PolicyResult.values()) {
             assertSame(outcome, oper.setOutcome(outcome, result, response));
             assertEquals(result, outcome.getResult());
             assertEquals(MY_DESCRIPTION, outcome.getMessage());
+            assertSame(response, outcome.getResponse());
         }
     }
 
