@@ -106,14 +106,16 @@ public class GuardOperation extends HttpOperation<DecisionResponse> {
     @Override
     protected CompletableFuture<OperationOutcome> startOperationAsync(int attempt, OperationOutcome outcome) {
         DecisionRequest request = makeRequest();
-        Entity<DecisionRequest> entity = Entity.entity(request, MediaType.APPLICATION_JSON);
 
         Map<String, Object> headers = makeHeaders();
 
         headers.put("Accept", MediaType.APPLICATION_JSON);
         String url = getUrl();
 
-        logMessage(EventType.OUT, CommInfrastructure.REST, url, request);
+        String strRequest = prettyPrint(request);
+        logMessage(EventType.OUT, CommInfrastructure.REST, url, strRequest);
+
+        Entity<String> entity = Entity.entity(strRequest, MediaType.APPLICATION_JSON);
 
         // @formatter:off
         return handleResponse(outcome, url,

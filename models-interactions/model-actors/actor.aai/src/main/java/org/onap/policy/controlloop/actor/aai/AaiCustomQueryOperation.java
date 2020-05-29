@@ -117,9 +117,10 @@ public class AaiCustomQueryOperation extends HttpOperation<String> {
 
         String url = str.toString();
 
-        logMessage(EventType.OUT, CommInfrastructure.REST, url, request);
+        String strRequest = prettyPrint(request);
+        logMessage(EventType.OUT, CommInfrastructure.REST, url, strRequest);
 
-        Entity<Map<String, String>> entity = Entity.entity(request, MediaType.APPLICATION_JSON);
+        Entity<String> entity = Entity.entity(strRequest, MediaType.APPLICATION_JSON);
 
         return handleResponse(outcome, url, callback -> webldr.async().put(entity, callback));
     }
