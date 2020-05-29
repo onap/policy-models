@@ -59,6 +59,7 @@ import org.slf4j.LoggerFactory;
  * operation types. The action taken is always the same, only the operation name changes.
  */
 public class CdsActorServiceProvider extends ActorImpl {
+    public static final String NAME = CdsActorConstants.CDS_ACTOR;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CdsActorServiceProvider.class);
 

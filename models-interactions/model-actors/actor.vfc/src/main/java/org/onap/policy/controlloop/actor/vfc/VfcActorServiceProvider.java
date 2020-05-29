@@ -42,6 +42,8 @@ public class VfcActorServiceProvider extends ActorImpl {
     // Strings for VFC Actor
     private static final String VFC_ACTOR = "VFC";
 
+    public static final String NAME = VFC_ACTOR;
+
     // Strings for targets
     private static final String TARGET_VM = "VM";
 
@@ -58,9 +60,9 @@ public class VfcActorServiceProvider extends ActorImpl {
      * Constructor.
      */
     public VfcActorServiceProvider() {
-        super(VFC_ACTOR);
+        super(NAME);
 
-        addOperator(new VfcOperator(VFC_ACTOR, Restart.NAME, Restart::new));
+        addOperator(new VfcOperator(NAME, Restart.NAME, Restart::new));
     }
 
     // TODO old code: remove lines down to **HERE**
