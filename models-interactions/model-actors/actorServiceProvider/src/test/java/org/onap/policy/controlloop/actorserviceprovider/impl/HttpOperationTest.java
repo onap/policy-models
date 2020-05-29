@@ -150,8 +150,7 @@ public class HttpOperationTest {
         /*
          * Start the clients, one to the server, and one to a non-existent server.
          */
-        TopicParamsBuilder builder = BusTopicParams.builder().managed(true).hostname("localhost").basePath(BASE_URI)
-                        .serializationProvider(GsonMessageBodyHandler.class.getName());
+        TopicParamsBuilder builder = BusTopicParams.builder().managed(true).hostname("localhost").basePath(BASE_URI);
 
         HttpClientFactoryInstance.getClientFactory().build(builder.clientName(HTTP_CLIENT).port(port).build());
 

@@ -25,7 +25,6 @@ import java.util.Properties;
 import org.onap.policy.common.endpoints.http.server.HttpServletServer;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.common.endpoints.properties.PolicyEndPointProperties;
-import org.onap.policy.common.gson.GsonMessageBodyHandler;
 import org.onap.policy.common.parameters.ParameterRuntimeException;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
@@ -135,7 +134,6 @@ public class Util {
     public static HttpServletServer buildGuardSim() throws InterruptedException {
         HttpServletServer testServer = HttpServletServerFactoryInstance.getServerFactory().build(GUARDSIM_SERVER_NAME,
                 LOCALHOST, GUARDSIM_SERVER_PORT, "/", false, true);
-        testServer.setSerializationProvider(GsonMessageBodyHandler.class.getName());
         testServer.addServletClass("/*", GuardSimulatorJaxRs.class.getName());
         testServer.waitedStart(5000);
         if (!NetworkUtil.isTcpPortOpen(LOCALHOST, testServer.getPort(), 5, 10000L)) {
