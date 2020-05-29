@@ -22,7 +22,6 @@ package org.onap.policy.controlloop.actor.sdnr;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import org.onap.policy.controlloop.ControlLoopResponse;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicOperation;
@@ -121,43 +120,17 @@ public class SdnrOperation extends BidirectionalTopicOperation<PciMessage, PciMe
         outcome.setResponse(responseWrapper);
 
         if (responseWrapper.getBody() == null || responseWrapper.getBody().getOutput() == null) {
-            outcome.setControlLoopResponse(makeControlLoopResponse(null));
             return setOutcome(outcome, result);
         }
 
         PciResponse pciResponse = responseWrapper.getBody().getOutput();
         if (pciResponse.getStatus() == null || pciResponse.getStatus().getValue() == null) {
-            outcome.setControlLoopResponse(makeControlLoopResponse(pciResponse.getPayload()));
             return setOutcome(outcome, result);
         }
 
         outcome.setResult(result);
         outcome.setMessage(pciResponse.getStatus().getValue());
-        outcome.setControlLoopResponse(makeControlLoopResponse(pciResponse.getPayload()));
         return outcome;
-    }
-
-    /**
-     * Converts the SDNR response to a ControlLoopResponse.
-     *
-     * @param responsePayload payload from the response
-     *
-     * @return a new ControlLoopResponse
-     */
-    private ControlLoopResponse makeControlLoopResponse(String responsePayload) {
-        VirtualControlLoopEvent event = params.getContext().getEvent();
-
-        ControlLoopResponse clRsp = new ControlLoopResponse();
-        clRsp.setPayload(responsePayload);
-        clRsp.setFrom(params.getActor());
-        clRsp.setTarget("DCAE");
-        clRsp.setClosedLoopControlName(event.getClosedLoopControlName());
-        clRsp.setPolicyName(event.getPolicyName());
-        clRsp.setPolicyVersion(event.getPolicyVersion());
-        clRsp.setRequestId(event.getRequestId());
-        clRsp.setVersion(event.getVersion());
-
-        return clRsp;
     }
 
     @Override

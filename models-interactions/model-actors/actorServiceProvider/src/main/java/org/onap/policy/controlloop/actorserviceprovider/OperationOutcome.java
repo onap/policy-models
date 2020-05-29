@@ -25,7 +25,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import org.onap.policy.controlloop.ControlLoopOperation;
-import org.onap.policy.controlloop.ControlLoopResponse;
 import org.onap.policy.controlloop.policy.PolicyResult;
 
 /**
@@ -44,7 +43,6 @@ public class OperationOutcome {
     private String message;
     private boolean finalOutcome;
     private Object response;
-    private ControlLoopResponse controlLoopResponse;
 
     /**
      * Copy constructor.
@@ -62,7 +60,6 @@ public class OperationOutcome {
         this.message = source.message;
         this.finalOutcome = source.finalOutcome;
         this.response = source.response;
-        this.controlLoopResponse = source.controlLoopResponse;
     }
 
     /**

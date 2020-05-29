@@ -30,7 +30,6 @@ import java.time.Instant;
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.controlloop.ControlLoopOperation;
-import org.onap.policy.controlloop.ControlLoopResponse;
 import org.onap.policy.controlloop.policy.PolicyResult;
 
 public class OperationOutcomeTest {
@@ -44,7 +43,6 @@ public class OperationOutcomeTest {
     private static final String MESSAGE = "my-message";
     private static final String RESPONSE = "my-response";
 
-    private ControlLoopResponse response;
     private OperationOutcome outcome;
 
     /**
@@ -52,8 +50,6 @@ public class OperationOutcomeTest {
      */
     @Before
     public void setUp() {
-        response = new ControlLoopResponse();
-
         outcome = new OperationOutcome();
     }
 
@@ -72,7 +68,6 @@ public class OperationOutcomeTest {
         assertEquals(RESULT, outcome2.getResult());
         assertEquals(MESSAGE, outcome2.getMessage());
         assertSame(RESPONSE, outcome2.getResponse());
-        assertSame(response, outcome2.getControlLoopResponse());
     }
 
     @Test
@@ -145,6 +140,5 @@ public class OperationOutcomeTest {
         outcome.setSubRequestId(SUB_REQ_ID);
         outcome.setTarget(TARGET);
         outcome.setResponse(RESPONSE);
-        outcome.setControlLoopResponse(response);
     }
 }

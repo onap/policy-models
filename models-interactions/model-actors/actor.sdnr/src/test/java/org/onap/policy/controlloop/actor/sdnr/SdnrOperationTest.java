@@ -36,7 +36,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.onap.policy.controlloop.ControlLoopResponse;
 import org.onap.policy.controlloop.actor.test.BasicBidirectionalTopicOperation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
@@ -136,18 +135,6 @@ public class SdnrOperationTest extends BasicSdnrOperation {
         outcome = operation.start().get();
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
         assertTrue(outcome.getResponse() instanceof PciMessage);
-
-        ControlLoopResponse clresp = outcome.getControlLoopResponse();
-        assertNotNull(clresp);
-
-        assertEquals(DEFAULT_ACTOR, clresp.getFrom());
-        assertEquals("DCAE", clresp.getTarget());
-        assertEquals(CL_NAME, clresp.getClosedLoopControlName());
-        assertEquals(EVENT_POLICY_NAME, clresp.getPolicyName());
-        assertEquals(EVENT_POLICY_VERSION, clresp.getPolicyVersion());
-        assertEquals(EVENT_VERSION, clresp.getVersion());
-        assertEquals(REQ_ID, clresp.getRequestId());
-        assertNotNull(clresp.getPayload());
     }
 
     @Test
