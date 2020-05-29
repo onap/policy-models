@@ -107,10 +107,12 @@ public class VfModuleCreate extends SoOperation {
         String path = getPath() + pair.getLeft();
         SoRequest request = pair.getRight();
 
-        Entity<SoRequest> entity = Entity.entity(request, MediaType.APPLICATION_JSON);
         String url = getClient().getBaseUrl() + path;
 
-        logMessage(EventType.OUT, CommInfrastructure.REST, url, request);
+        String strRequest = prettyPrint(request);
+        logMessage(EventType.OUT, CommInfrastructure.REST, url, strRequest);
+
+        Entity<String> entity = Entity.entity(strRequest, MediaType.APPLICATION_JSON);
 
         Map<String, Object> headers = createSimpleHeaders();
 

@@ -61,7 +61,6 @@ public abstract class SdncOperation extends HttpOperation<SdncResponse> {
     protected CompletableFuture<OperationOutcome> startOperationAsync(int attempt, OperationOutcome outcome) {
 
         SdncRequest request = makeRequest(attempt);
-        Entity<SdncRequest> entity = Entity.entity(request, MediaType.APPLICATION_JSON);
 
         Map<String, Object> headers = makeHeaders();
 
@@ -69,7 +68,10 @@ public abstract class SdncOperation extends HttpOperation<SdncResponse> {
         String path = getPath();
         String url = getClient().getBaseUrl() + path;
 
-        logMessage(EventType.OUT, CommInfrastructure.REST, url, request);
+        String strRequest = prettyPrint(request);
+        logMessage(EventType.OUT, CommInfrastructure.REST, url, strRequest);
+
+        Entity<String> entity = Entity.entity(strRequest, MediaType.APPLICATION_JSON);
 
         // @formatter:off
         return handleResponse(outcome, url,

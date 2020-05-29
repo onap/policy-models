@@ -71,7 +71,7 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation<Map<String, S
     private static final String SIM_VSERVER = "OzVServer";
 
     @Captor
-    private ArgumentCaptor<Entity<Map<String, String>>> entityCaptor;
+    private ArgumentCaptor<Entity<String>> entityCaptor;
 
     @Mock
     private Actor tenantActor;
@@ -217,8 +217,10 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation<Map<String, S
 
         verify(webAsync).put(entityCaptor.capture(), any(InvocationCallback.class));
 
+        String reqText = entityCaptor.getValue().getEntity();
+
         // sort the request fields so they match the order in cq.json
-        Map<String, String> request = new TreeMap<>(entityCaptor.getValue().getEntity());
+        Map<String, String> request = new TreeMap<>(coder.decode(reqText, Map.class));
 
         verifyRequest("cq.json", request);
     }

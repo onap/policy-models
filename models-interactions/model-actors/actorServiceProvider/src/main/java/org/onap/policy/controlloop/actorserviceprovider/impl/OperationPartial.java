@@ -989,35 +989,50 @@ public abstract class OperationPartial implements Operation {
     }
 
     /**
-     * Logs a response. If the response is not of type, String, then it attempts to
+     * Logs a message. If the message is not of type, String, then it attempts to
      * pretty-print it into JSON before logging.
      *
      * @param direction IN or OUT
      * @param infra communication infrastructure on which it was published
      * @param source source name (e.g., the URL or Topic name)
-     * @param response response to be logged
+     * @param message message to be logged
      * @return the JSON text that was logged
      */
-    public <T> String logMessage(EventType direction, CommInfrastructure infra, String source, T response) {
+    public <T> String logMessage(EventType direction, CommInfrastructure infra, String source, T message) {
         String json;
         try {
-            if (response == null) {
-                json = null;
-            } else if (response instanceof String) {
-                json = response.toString();
-            } else {
-                json = makeCoder().encode(response, true);
-            }
+            json = prettyPrint(message);
 
-        } catch (CoderException e) {
+        } catch (IllegalArgumentException e) {
             String type = (direction == EventType.IN ? "response" : "request");
             logger.warn("cannot pretty-print {}", type, e);
-            json = response.toString();
+            json = message.toString();
         }
 
         logger.info("[{}|{}|{}|]{}{}", direction, infra, source, NetLoggerUtil.SYSTEM_LS, json);
 
         return json;
+    }
+
+    /**
+     * Converts a message to a "pretty-printed" String.
+     *
+     * @param message response to be logged
+     * @return the JSON text that was logged
+     * @throws IllegalArgumentException if the message cannot be converted
+     */
+    public <T> String prettyPrint(T message) {
+        if (message == null) {
+            return null;
+        } else if (message instanceof String) {
+            return message.toString();
+        } else {
+            try {
+                return makeCoder().encode(message, true);
+            } catch (CoderException e) {
+                throw new IllegalArgumentException("cannot encode message", e);
+            }
+        }
     }
 
     // these may be overridden by subclasses or junit tests
