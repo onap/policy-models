@@ -50,7 +50,7 @@ import org.slf4j.LoggerFactory;
  */
 public class SdnrActorServiceProvider extends BidirectionalTopicActor<BidirectionalTopicActorParams>  {
 
-    private static final String NAME = "SDNR";
+    public static final String NAME = "SDNR";
 
     // TODO old code: remove lines down to **HERE**
 

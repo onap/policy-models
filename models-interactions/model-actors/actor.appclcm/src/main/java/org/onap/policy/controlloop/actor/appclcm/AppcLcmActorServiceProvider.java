@@ -57,7 +57,7 @@ public class AppcLcmActorServiceProvider extends BidirectionalTopicActor<Bidirec
      * future review it would be better to distinguish them as two separate actors in the yaml but it should be okay for
      * now.
      */
-    private static final String NAME = "APPC";
+    public static final String NAME = "APPC";
 
     private static final Logger logger = LoggerFactory.getLogger(AppcLcmActorServiceProvider.class);
 
