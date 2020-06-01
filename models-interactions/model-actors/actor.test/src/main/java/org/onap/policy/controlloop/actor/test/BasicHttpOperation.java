@@ -53,7 +53,7 @@ public class BasicHttpOperation<Q> extends BasicOperation {
     @Captor
     protected ArgumentCaptor<InvocationCallback<Response>> callbackCaptor;
     @Captor
-    protected ArgumentCaptor<Entity<Q>> requestCaptor;
+    protected ArgumentCaptor<Entity<String>> requestCaptor;
     @Captor
     protected ArgumentCaptor<Map<String, Object>> headerCaptor;
 

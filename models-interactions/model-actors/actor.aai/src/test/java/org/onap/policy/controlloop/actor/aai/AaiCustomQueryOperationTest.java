@@ -38,14 +38,11 @@ import java.util.TreeMap;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
-import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.InvocationCallback;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
 import org.onap.policy.aai.AaiConstants;
 import org.onap.policy.aai.AaiCqResponse;
@@ -69,9 +66,6 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation<Map<String, S
     private static final String MY_LINK = "my-link";
     private static final String MY_VSERVER = "my-vserver-name";
     private static final String SIM_VSERVER = "OzVServer";
-
-    @Captor
-    private ArgumentCaptor<Entity<Map<String, String>>> entityCaptor;
 
     @Mock
     private Actor tenantActor;
@@ -215,10 +209,13 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation<Map<String, S
         oper.start();
         executor.runAll(100);
 
-        verify(webAsync).put(entityCaptor.capture(), any(InvocationCallback.class));
+        verify(webAsync).put(requestCaptor.capture(), any(InvocationCallback.class));
+
+        String reqText = requestCaptor.getValue().getEntity();
+        Map<String,String> reqMap = coder.decode(reqText, Map.class);
 
         // sort the request fields so they match the order in cq.json
-        Map<String, String> request = new TreeMap<>(entityCaptor.getValue().getEntity());
+        Map<String, String> request = new TreeMap<>(reqMap);
 
         verifyRequest("cq.json", request);
     }

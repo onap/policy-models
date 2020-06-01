@@ -61,9 +61,7 @@ import org.onap.aai.domain.yang.ServiceInstance;
 import org.onap.aai.domain.yang.Tenant;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
-import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
-import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
@@ -271,8 +269,10 @@ public class VfModuleDeleteTest extends BasicSoOperation {
 
         Map<String, Object> headers = Map.of("key-A", "value-A");
 
+        String reqText = oper.prettyPrint(req);
+
         final CompletableFuture<Response> delFuture =
-                        oper.delete("my-uri", headers, MediaType.APPLICATION_JSON, req, callback);
+                        oper.delete("my-uri", headers, MediaType.APPLICATION_JSON, reqText, callback);
 
         ArgumentCaptor<HttpRequest> reqCaptor = ArgumentCaptor.forClass(HttpRequest.class);
         verify(javaClient).sendAsync(reqCaptor.capture(), any());
@@ -311,41 +311,16 @@ public class VfModuleDeleteTest extends BasicSoOperation {
         SoRequest req = new SoRequest();
         req.setRequestId(REQ_ID);
 
+        String reqText = oper.prettyPrint(req);
+
         CompletableFuture<Response> delFuture =
-                        oper.delete("/my-uri", Map.of(), MediaType.APPLICATION_JSON, req, callback);
+                        oper.delete("/my-uri", Map.of(), MediaType.APPLICATION_JSON, reqText, callback);
 
         assertTrue(delFuture.isCompletedExceptionally());
 
         ArgumentCaptor<Throwable> thrownCaptor = ArgumentCaptor.forClass(Throwable.class);
         verify(callback).failed(thrownCaptor.capture());
         assertSame(thrown, thrownCaptor.getValue().getCause());
-    }
-
-    @Test
-    public void testEncodeBody() {
-        // try when request is already a string
-        assertEquals("hello", oper.encodeRequest("hello"));
-
-        // try with a real request
-        SoRequest req = new SoRequest();
-        req.setRequestId(REQ_ID);
-        assertEquals("{\"requestId\":\"" + REQ_ID.toString() + "\"}", oper.encodeRequest(req));
-
-        // coder throws an exception
-        oper = new MyOperation(params, config) {
-            @Override
-            protected Coder makeCoder() {
-                return new StandardCoder() {
-                    @Override
-                    public String encode(Object object) throws CoderException {
-                        throw new CoderException(EXPECTED_EXCEPTION);
-                    }
-                };
-            }
-        };
-
-        assertThatIllegalArgumentException().isThrownBy(() -> oper.encodeRequest(req))
-                        .withMessage("cannot encode request");
     }
 
     /**

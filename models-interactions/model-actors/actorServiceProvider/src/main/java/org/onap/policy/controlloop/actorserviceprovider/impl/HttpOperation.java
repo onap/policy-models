@@ -177,7 +177,7 @@ public abstract class HttpOperation<T> extends OperationPartial {
 
         logger.info("{}.{}: response received for {}", params.getActor(), params.getOperation(), params.getRequestId());
 
-        String strResponse = HttpClient.getBody(rawResponse, String.class);
+        String strResponse = rawResponse.readEntity(String.class);
 
         logMessage(EventType.IN, CommInfrastructure.REST, url, strResponse);
 

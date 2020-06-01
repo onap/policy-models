@@ -166,18 +166,8 @@ public abstract class BidirectionalTopicOperation<Q, S> extends OperationPartial
      * @param request request to be published
      */
     protected void publishRequest(Q request) {
-        String json;
-        try {
-            if (request instanceof String) {
-                json = request.toString();
-            } else {
-                json = makeCoder().encode(request);
-            }
-        } catch (CoderException e) {
-            throw new IllegalArgumentException("cannot encode request", e);
-        }
-
-        logMessage(EventType.OUT, topicHandler.getSinkTopicCommInfrastructure(), topicHandler.getSinkTopic(), request);
+        String json = prettyPrint(request);
+        logMessage(EventType.OUT, topicHandler.getSinkTopicCommInfrastructure(), topicHandler.getSinkTopic(), json);
 
         if (!topicHandler.send(json)) {
             throw new IllegalStateException("nothing published");

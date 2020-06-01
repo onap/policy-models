@@ -45,7 +45,6 @@ import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
-import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
@@ -118,13 +117,14 @@ public class VfModuleDelete extends SoOperation {
         SoRequest request = pair.getRight();
         String url = getPath() + pair.getLeft();
 
-        logMessage(EventType.OUT, CommInfrastructure.REST, url, request);
+        String strRequest = prettyPrint(request);
+        logMessage(EventType.OUT, CommInfrastructure.REST, url, strRequest);
 
         Map<String, Object> headers = createSimpleHeaders();
 
         // @formatter:off
         return handleResponse(outcome, url,
-            callback -> delete(url, headers, MediaType.APPLICATION_JSON, request, callback));
+            callback -> delete(url, headers, MediaType.APPLICATION_JSON, strRequest, callback));
         // @formatter:on
     }
 
@@ -143,11 +143,8 @@ public class VfModuleDelete extends SoOperation {
      *         future will actually cancel the underlying HTTP request
      */
     protected <Q> CompletableFuture<Response> delete(String uri, Map<String, Object> headers, String contentType,
-                    Q request, InvocationCallback<Response> callback) {
+                    String request, InvocationCallback<Response> callback) {
         // TODO move to HttpOperation
-
-        // make sure we can encode it before going any further
-        final String body = encodeRequest(request);
 
         final String url = getClient().getBaseUrl() + uri;
 
@@ -161,7 +158,7 @@ public class VfModuleDelete extends SoOperation {
 
         PipelineControllerFuture<Response> controller = new PipelineControllerFuture<>();
 
-        HttpRequest req = builder.method("DELETE", BodyPublishers.ofString(body)).build();
+        HttpRequest req = builder.method("DELETE", BodyPublishers.ofString(request)).build();
 
         CompletableFuture<HttpResponse<String>> future = makeHttpClient().sendAsync(req, BodyHandlers.ofString());
 
@@ -180,26 +177,6 @@ public class VfModuleDelete extends SoOperation {
                         });
 
         return controller;
-    }
-
-    /**
-     * Encodes a request.
-     *
-     * @param <Q> request type
-     * @param request request to be encoded
-     * @return the encoded request
-     */
-    protected <Q> String encodeRequest(Q request) {
-        // TODO move to HttpOperation
-        try {
-            if (request instanceof String) {
-                return request.toString();
-            } else {
-                return makeCoder().encode(request);
-            }
-        } catch (CoderException e) {
-            throw new IllegalArgumentException("cannot encode request", e);
-        }
     }
 
     /**

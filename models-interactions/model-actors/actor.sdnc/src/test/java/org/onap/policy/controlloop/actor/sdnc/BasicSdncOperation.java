@@ -36,6 +36,7 @@ import java.util.concurrent.TimeoutException;
 import org.onap.policy.common.endpoints.event.comm.bus.internal.BusTopicParams;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
+import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.controlloop.actor.test.BasicHttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
@@ -114,7 +115,7 @@ public abstract class BasicSdncOperation extends BasicHttpOperation<SdncRequest>
      * @return the request that was posted
      */
     protected SdncRequest verifyOperation(SdncOperation operation)
-                    throws InterruptedException, ExecutionException, TimeoutException {
+                    throws InterruptedException, ExecutionException, TimeoutException, CoderException {
 
         CompletableFuture<OperationOutcome> future2 = operation.start();
         executor.runAll(100);
@@ -132,7 +133,9 @@ public abstract class BasicSdncOperation extends BasicHttpOperation<SdncRequest>
 
         assertNotNull(outcome.getSubRequestId());
 
-        return requestCaptor.getValue().getEntity();
+        String reqText = requestCaptor.getValue().getEntity();
+
+        return coder.decode(reqText, SdncRequest.class);
     }
 
     /**
