@@ -203,7 +203,7 @@ public class AppcLcmOperationTest extends BasicBidirectionalTopicOperation {
         // coder exception
         oper = new AppcLcmOperation(params, config) {
             @Override
-            protected Coder makeCoder() {
+            protected Coder getCoder() {
                 return new StandardCoder() {
                     @Override
                     public String encode(Object object) throws CoderException {

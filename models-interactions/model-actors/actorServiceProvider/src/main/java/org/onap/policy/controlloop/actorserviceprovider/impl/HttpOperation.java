@@ -186,7 +186,7 @@ public abstract class HttpOperation<T> extends OperationPartial {
             response = responseClass.cast(strResponse);
         } else {
             try {
-                response = makeCoder().decode(strResponse, responseClass);
+                response = getCoder().decode(strResponse, responseClass);
             } catch (CoderException e) {
                 logger.warn("{}.{} cannot decode response for {}", params.getActor(), params.getOperation(),
                                 params.getRequestId(), e);

@@ -1259,7 +1259,7 @@ public class OperationPartialTest {
     private void setOperCoderException() {
         oper = new MyOper() {
             @Override
-            protected Coder makeCoder() {
+            protected Coder getCoder() {
                 return new StandardCoder() {
                     @Override
                     public String encode(Object object, boolean pretty) throws CoderException {

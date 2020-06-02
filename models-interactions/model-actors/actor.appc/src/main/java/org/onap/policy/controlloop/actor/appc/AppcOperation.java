@@ -183,7 +183,7 @@ public abstract class AppcOperation extends BidirectionalTopicOperation<Request,
     }
 
     @Override
-    protected Coder makeCoder() {
+    protected Coder getCoder() {
         return coder;
     }
 }

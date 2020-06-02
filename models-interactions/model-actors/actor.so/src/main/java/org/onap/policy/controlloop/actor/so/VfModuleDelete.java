@@ -165,7 +165,7 @@ public class VfModuleDelete extends SoOperation {
         // propagate "cancel" to the future
         controller.add(future);
 
-        future.thenApply(response -> new RestManagerResponse(response.statusCode(), response.body(), makeCoder()))
+        future.thenApply(response -> new RestManagerResponse(response.statusCode(), response.body(), getCoder()))
                         .whenComplete((resp, thrown) -> {
                             if (thrown != null) {
                                 callback.failed(thrown);

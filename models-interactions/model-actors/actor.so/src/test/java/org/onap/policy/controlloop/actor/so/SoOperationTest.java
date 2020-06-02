@@ -432,7 +432,7 @@ public class SoOperationTest extends BasicSoOperation {
 
     @Test
     public void testMakeCoder() throws CoderException {
-        Coder opcoder = oper.makeCoder();
+        Coder opcoder = oper.getCoder();
 
         // ensure we can decode an SO timestamp
         String json = "{'request':{'finishTime':'Fri, 15 May 2020 12:14:21 GMT'}}";
