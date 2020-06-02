@@ -323,8 +323,8 @@ public class BidirectionalTopicOperationTest {
     }
 
     @Test
-    public void testMakeCoder() {
-        assertNotNull(oper.makeCoder());
+    public void testGetCoder() {
+        assertNotNull(oper.getCoder());
     }
 
     /**
@@ -333,7 +333,7 @@ public class BidirectionalTopicOperationTest {
     private void setOperCoderException() {
         oper = new MyOperation() {
             @Override
-            protected Coder makeCoder() {
+            protected Coder getCoder() {
                 return new StandardCoder() {
                     @Override
                     public String encode(Object object, boolean pretty) throws CoderException {

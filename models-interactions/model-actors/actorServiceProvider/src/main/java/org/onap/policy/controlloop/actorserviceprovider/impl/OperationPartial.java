@@ -1029,7 +1029,7 @@ public abstract class OperationPartial implements Operation {
             return message.toString();
         } else {
             try {
-                return makeCoder().encode(message, true);
+                return getCoder().encode(message, true);
             } catch (CoderException e) {
                 throw new IllegalArgumentException("cannot encode message", e);
             }
@@ -1071,7 +1071,7 @@ public abstract class OperationPartial implements Operation {
 
     // these may be overridden by junit tests
 
-    protected Coder makeCoder() {
+    protected Coder getCoder() {
         return coder;
     }
 }

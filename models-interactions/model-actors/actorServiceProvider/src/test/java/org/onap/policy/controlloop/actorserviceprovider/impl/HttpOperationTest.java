@@ -415,7 +415,7 @@ public class HttpOperationTest {
 
     @Test
     public void testMakeDecoder() {
-        assertNotNull(oper.makeCoder());
+        assertNotNull(oper.getCoder());
     }
 
     /**

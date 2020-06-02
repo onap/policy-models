@@ -489,7 +489,7 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
     }
 
     @Override
-    protected Coder makeCoder() {
+    protected Coder getCoder() {
         return coder;
     }
 

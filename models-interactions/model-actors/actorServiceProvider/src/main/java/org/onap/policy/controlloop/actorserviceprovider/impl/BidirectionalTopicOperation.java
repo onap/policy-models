@@ -201,7 +201,7 @@ public abstract class BidirectionalTopicOperation<Q, S> extends OperationPartial
 
         } else {
             try {
-                response = makeCoder().decode(rawResponse, responseClass);
+                response = getCoder().decode(rawResponse, responseClass);
             } catch (CoderException e) {
                 logger.warn("{}.{} cannot decode response for {}", params.getActor(), params.getOperation(),
                                 params.getRequestId());

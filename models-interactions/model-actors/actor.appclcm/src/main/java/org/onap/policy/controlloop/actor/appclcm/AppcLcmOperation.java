@@ -136,7 +136,7 @@ public class AppcLcmOperation extends BidirectionalTopicOperation<AppcLcmDmaapWr
      */
     private void convertPayload(Map<String, Object> source, AppcLcmInput request) {
         try {
-            String encodedPayloadString = makeCoder().encode(source);
+            String encodedPayloadString = getCoder().encode(source);
             request.setPayload(encodedPayloadString);
         } catch (CoderException e) {
             throw new IllegalArgumentException("Cannot convert payload", e);
