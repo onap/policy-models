@@ -20,7 +20,8 @@
 
 package org.onap.policy.controlloop.actorserviceprovider.pipeline;
 
-import java.util.IdentityHashMap;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Future;
 import lombok.NoArgsConstructor;
 
@@ -38,8 +39,7 @@ public class FutureManager extends ListenerManager {
      * needed if {@link #remove(Future)} is invoked, so that the same {@link Runnable} is
      * used each time.
      */
-    @SuppressWarnings("rawtypes")
-    private final IdentityHashMap<Future, Runnable> future2listener = new IdentityHashMap<>(5);
+    private final Map<Future<?>, Runnable> future2listener = new HashMap<>(5);
 
     /**
      * Adds a future that is to be canceled when this controller is stopped. Note: if the
