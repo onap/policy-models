@@ -22,7 +22,6 @@
 package org.onap.policy.controlloop.actorserviceprovider.spi;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.onap.policy.common.capabilities.Configurable;
@@ -75,17 +74,4 @@ public interface Actor extends Startable, Configurable<Map<String, Object>> {
      * @return the actor sequence number
      */
     public int getSequenceNumber();
-
-
-    // TODO old code: remove lines down to **HERE**
-
-    String actor();
-
-    List<String> recipes();
-
-    List<String> recipeTargets(String recipe);
-
-    List<String> recipePayloads(String recipe);
-
-    // **HERE**
 }

@@ -22,45 +22,11 @@
 
 package org.onap.policy.controlloop.actorserviceprovider;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.onap.policy.controlloop.actorserviceprovider.impl.ActorImpl;
 
 public class DummyActor extends ActorImpl {
 
     public DummyActor() {
         super(DummyActor.class.getSimpleName());
-    }
-
-    @Override
-    public String actor() {
-        return this.getClass().getSimpleName();
-    }
-
-    @Override
-    public List<String> recipes() {
-        List<String> recipeList = new ArrayList<>();
-        recipeList.add("Dorothy");
-        recipeList.add("Wizard");
-
-        return recipeList;
-    }
-
-    @Override
-    public List<String> recipeTargets(String recipe) {
-        List<String> recipeTargetList = new ArrayList<>();
-        recipeTargetList.add("Wicked Witch");
-        recipeTargetList.add("Wizard of Oz");
-
-        return recipeTargetList;
-    }
-
-    @Override
-    public List<String> recipePayloads(String recipe) {
-        List<String> recipePayloadList = new ArrayList<>();
-        recipePayloadList.add("Dorothy");
-        recipePayloadList.add("Toto");
-
-        return recipePayloadList;
     }
 }

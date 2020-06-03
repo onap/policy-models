@@ -23,106 +23,29 @@
 package org.onap.policy.controlloop.actor.vfc;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.Objects;
-import java.util.UUID;
-import org.apache.commons.io.IOUtils;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 import org.junit.Test;
-import org.onap.policy.aai.AaiCqResponse;
-import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
-import org.onap.policy.controlloop.ControlLoopOperation;
-import org.onap.policy.controlloop.VirtualControlLoopEvent;
-import org.onap.policy.controlloop.policy.Policy;
-import org.onap.policy.simulators.Util;
-import org.onap.policy.vfc.VfcRequest;
+import org.onap.policy.controlloop.actor.test.BasicActor;
 
-public class VfcActorServiceProviderTest {
+public class VfcActorServiceProviderTest extends BasicActor {
 
-    private static final String DOROTHY_GALE_1939 = "dorothy.gale.1939";
-    private static final String CQ_RESPONSE_JSON = "aai/AaiCqResponse.json";
-    private static final String RESTART = "Restart";
+    @Test
+    public void testConstructor() {
+        VfcActorServiceProvider prov = new VfcActorServiceProvider();
 
-    /**
-     * Set up before test class.
-     * @throws Exception if the A&AI simulator cannot be started
-     */
-    @BeforeClass
-    public static void setUpSimulator() throws Exception {
-        Util.buildAaiSim();
-    }
+        // verify that it has the operators we expect
+        var expected = Arrays.asList(Restart.NAME).stream().sorted()
+                        .collect(Collectors.toList());
+        var actual = prov.getOperationNames().stream().sorted().collect(Collectors.toList());
 
-    @AfterClass
-    public static void tearDownSimulator() {
-        HttpServletServerFactoryInstance.getServerFactory().destroy();
+        assertEquals(expected.toString(), actual.toString());
     }
 
     @Test
-    public void testMethods() {
-        VfcActorServiceProvider sp = new VfcActorServiceProvider();
-
-        assertEquals("VFC", sp.actor());
-        assertEquals(1, sp.recipes().size());
-        assertEquals(RESTART, sp.recipes().get(0));
-        assertEquals("VM", sp.recipeTargets(RESTART).get(0));
-        assertEquals(0, sp.recipePayloads(RESTART).size());
+    public void testActorService() {
+        // verify that it all plugs into the ActorService
+        verifyActorService(VfcActorServiceProvider.NAME, "service.yaml");
     }
-
-    @Test
-    public void testConstructRequestCq() throws IOException {
-        VirtualControlLoopEvent onset = new VirtualControlLoopEvent();
-        ControlLoopOperation operation = new ControlLoopOperation();
-
-        Policy policy = new Policy();
-        policy.setRecipe("GoToOz");
-
-        assertNull(VfcActorServiceProvider.constructRequestCq(onset, operation, policy, null));
-
-        onset.getAai().put("generic-vnf.vnf-id", DOROTHY_GALE_1939);
-        assertNull(VfcActorServiceProvider.constructRequestCq(onset, operation, policy, null));
-
-
-        UUID requestId = UUID.randomUUID();
-        onset.setRequestId(requestId);
-        assertNull(VfcActorServiceProvider.constructRequestCq(onset, operation, policy, null));
-
-        onset.getAai().put("generic-vnf.vnf-name", "Dorothy");
-        assertNull(VfcActorServiceProvider.constructRequestCq(onset, operation, policy, null));
-
-
-        onset.getAai().put("service-instance.service-instance-id", "");
-        assertNull(VfcActorServiceProvider.constructRequestCq(onset, operation, policy, null));
-
-        assertNull(VfcActorServiceProvider.constructRequestCq(onset, operation, policy,
-                loadAaiResponse(CQ_RESPONSE_JSON)));
-
-        policy.setRecipe(RESTART);
-        assertNotNull(VfcActorServiceProvider.constructRequestCq(onset, operation, policy,
-                loadAaiResponse(CQ_RESPONSE_JSON)));
-
-        VfcRequest request = VfcActorServiceProvider.constructRequestCq(onset, operation, policy,
-                loadAaiResponse(CQ_RESPONSE_JSON));
-
-        assertEquals(requestId, Objects.requireNonNull(request).getRequestId());
-        assertEquals(DOROTHY_GALE_1939, request.getHealRequest().getVnfInstanceId());
-        assertEquals("restartvm", request.getHealRequest().getAdditionalParams().getAction());
-    }
-
-    /**
-     * Reads an AAI vserver named-query response from a file.
-     *
-     * @param fileName name of the file containing the JSON response
-     * @return output from the AAI vserver named-query
-     * @throws IOException if the file cannot be read
-     */
-    private AaiCqResponse loadAaiResponse(String fileName) throws IOException {
-        String resp = IOUtils.toString(getClass().getResource(fileName), StandardCharsets.UTF_8);
-        return new AaiCqResponse(resp);
-    }
-
 }
