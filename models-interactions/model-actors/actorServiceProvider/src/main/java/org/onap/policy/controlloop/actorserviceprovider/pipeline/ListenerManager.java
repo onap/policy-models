@@ -21,7 +21,8 @@
 package org.onap.policy.controlloop.actorserviceprovider.pipeline;
 
 import java.util.ArrayList;
-import java.util.IdentityHashMap;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
@@ -40,7 +41,7 @@ public class ListenerManager {
     /**
      * Listeners to be executed when {@link #stop()} is invoked.
      */
-    private final IdentityHashMap<Runnable, Void> listeners = new IdentityHashMap<>(5);
+    private final Map<Runnable, Void> listeners = new HashMap<>(5);
 
     /**
      * Indicates that operations within the pipeline should stop executing.
