@@ -28,8 +28,10 @@ import static org.junit.Assert.assertNull;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import org.apache.commons.io.IOUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -38,11 +40,12 @@ import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
+import org.onap.policy.controlloop.actor.test.BasicActor;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.simulators.Util;
 import org.onap.policy.vfc.VfcRequest;
 
-public class VfcActorServiceProviderTest {
+public class VfcActorServiceProviderTest extends BasicActor {
 
     private static final String DOROTHY_GALE_1939 = "dorothy.gale.1939";
     private static final String CQ_RESPONSE_JSON = "aai/AaiCqResponse.json";
@@ -60,6 +63,24 @@ public class VfcActorServiceProviderTest {
     @AfterClass
     public static void tearDownSimulator() {
         HttpServletServerFactoryInstance.getServerFactory().destroy();
+    }
+
+    @Test
+    public void testConstructor() {
+        VfcActorServiceProvider prov = new VfcActorServiceProvider();
+        assertEquals(0, prov.getSequenceNumber());
+
+        // verify that it has the operators we expect
+        var expected = Arrays.asList(Restart.NAME).stream().sorted().collect(Collectors.toList());
+        var actual = prov.getOperationNames().stream().sorted().collect(Collectors.toList());
+
+        assertEquals(expected.toString(), actual.toString());
+    }
+
+    @Test
+    public void testActorService() {
+        // verify that it all plugs into the ActorService
+        verifyActorService(VfcActorServiceProvider.NAME, "service.yaml");
     }
 
     @Test
