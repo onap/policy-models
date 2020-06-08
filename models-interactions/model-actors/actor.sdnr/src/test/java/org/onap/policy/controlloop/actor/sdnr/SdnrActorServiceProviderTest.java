@@ -26,14 +26,17 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import org.junit.Test;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.ControlLoopResponse;
 import org.onap.policy.controlloop.ControlLoopTargetType;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
+import org.onap.policy.controlloop.actor.test.BasicActor;
 import org.onap.policy.controlloop.actorserviceprovider.Operator;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.Target;
@@ -45,7 +48,7 @@ import org.onap.policy.sdnr.util.Serialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SdnrActorServiceProviderTest {
+public class SdnrActorServiceProviderTest extends BasicActor {
 
     private static final String MODIFY_CONFIG = "ModifyConfig";
 
@@ -92,6 +95,24 @@ public class SdnrActorServiceProviderTest {
         policy.setRetry(2);
         policy.setTimeout(300);
 
+    }
+
+    @Test
+    public void testConstructor() {
+        SdnrActorServiceProvider prov = new SdnrActorServiceProvider();
+        assertEquals(0, prov.getSequenceNumber());
+
+        // verify that it has the operators we expect
+        var expected = Arrays.asList(SdnrOperation.NAME).stream().sorted().collect(Collectors.toList());
+        var actual = prov.getOperationNames().stream().sorted().collect(Collectors.toList());
+
+        assertEquals(expected.toString(), actual.toString());
+    }
+
+    @Test
+    public void testActorService() {
+        // verify that it all plugs into the ActorService
+        verifyActorService(SdnrActorServiceProvider.NAME, "service.yaml");
     }
 
     @Test
