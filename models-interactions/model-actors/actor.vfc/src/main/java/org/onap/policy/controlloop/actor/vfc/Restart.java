@@ -31,7 +31,7 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.vfc.VfcRequest;
 
 public class Restart extends VfcOperation {
-    public static final String NAME = "VF Module Create";
+    public static final String NAME = "Restart";
 
     public Restart(ControlLoopOperationParams params, HttpConfig config) {
         super(params, config);
