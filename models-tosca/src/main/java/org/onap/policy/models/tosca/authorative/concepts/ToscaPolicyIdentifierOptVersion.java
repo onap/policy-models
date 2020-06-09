@@ -73,4 +73,9 @@ public class ToscaPolicyIdentifierOptVersion implements Comparable<ToscaPolicyId
 
         return ObjectUtils.compare(getVersion(), other.getVersion());
     }
+
+    @Override
+    public String toString() {
+        return this.name + " " + this.version;
+    }
 }
