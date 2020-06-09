@@ -23,6 +23,7 @@ package org.onap.policy.models.tosca.authorative.concepts;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+
 import org.apache.commons.lang3.ObjectUtils;
 import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.common.parameters.ValidationResult;
@@ -82,5 +83,10 @@ public class ToscaPolicyTypeIdentifier implements Comparable<ToscaPolicyTypeIden
         }
 
         return ObjectUtils.compare(getVersion(), other.getVersion());
+    }
+
+    @Override
+    public String toString() {
+        return this.name + " " + this.version;
     }
 }
