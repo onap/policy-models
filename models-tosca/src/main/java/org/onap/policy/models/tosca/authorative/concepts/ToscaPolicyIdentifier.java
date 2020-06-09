@@ -83,4 +83,9 @@ public class ToscaPolicyIdentifier implements Comparable<ToscaPolicyIdentifier> 
 
         return ObjectUtils.compare(getVersion(), other.getVersion());
     }
+
+    @Override
+    public String toString() {
+        return this.name + " " + this.version;
+    }
 }
