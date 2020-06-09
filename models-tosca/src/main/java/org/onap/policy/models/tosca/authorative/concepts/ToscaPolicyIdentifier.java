@@ -3,6 +3,7 @@
  * ONAP Policy Models
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -82,5 +83,10 @@ public class ToscaPolicyIdentifier implements Comparable<ToscaPolicyIdentifier> 
         }
 
         return ObjectUtils.compare(getVersion(), other.getVersion());
+    }
+
+    @Override
+    public String toString() {
+        return this.name + " " + this.version;
     }
 }
