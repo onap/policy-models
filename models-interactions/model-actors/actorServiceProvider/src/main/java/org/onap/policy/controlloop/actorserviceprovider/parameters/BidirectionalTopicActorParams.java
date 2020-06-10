@@ -31,7 +31,7 @@ import org.onap.policy.common.parameters.annotations.Min;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
-public class BidirectionalTopicActorParams extends CommonActorParams {
+public class BidirectionalTopicActorParams extends ActorParams {
 
     /*
      * Optional, default values that are used if missing from the operation-specific

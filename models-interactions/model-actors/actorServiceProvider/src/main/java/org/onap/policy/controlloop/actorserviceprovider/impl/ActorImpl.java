@@ -29,6 +29,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import org.onap.policy.controlloop.actorserviceprovider.Operator;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.ActorParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ParameterValidationRuntimeException;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.slf4j.Logger;
@@ -156,7 +157,8 @@ public class ActorImpl extends StartConfigPartial<Map<String, Object>> implement
 
     /**
      * Extracts the operator parameters from the actor parameters, for a given operator.
-     * This method assumes each operation has its own set of parameters.
+     * This method translates the parameters to an {@link ActorParams} and then creates a function
+     * that will extract operator-specific parameters.
      *
      * @param actorParameters actor parameters
      * @return a function to extract the operator parameters from the actor parameters.
@@ -164,8 +166,13 @@ public class ActorImpl extends StartConfigPartial<Map<String, Object>> implement
      *         the given operation name
      */
     protected Function<String, Map<String, Object>> makeOperatorParameters(Map<String, Object> actorParameters) {
+        String actorName = getName();
 
-        return operName -> Util.translateToMap(getName() + "." + operName, actorParameters.get(operName));
+        // @formatter:off
+        return Util.translate(actorName, actorParameters, ActorParams.class)
+                        .doValidation(actorName)
+                        .makeOperationParameters(actorName);
+        // @formatter:on
     }
 
     /**
