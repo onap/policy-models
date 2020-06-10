@@ -31,7 +31,7 @@ import org.onap.policy.common.parameters.annotations.Min;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
-public class HttpActorParams extends CommonActorParams {
+public class HttpActorParams extends ActorParams {
 
     /*
      * Optional, default values that are used if missing from the operation-specific

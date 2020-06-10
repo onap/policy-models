@@ -36,7 +36,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.Iterator;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.stream.Collectors;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,6 +43,7 @@ import org.onap.policy.common.parameters.ObjectValidationResult;
 import org.onap.policy.common.parameters.ValidationStatus;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.Operator;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.ActorParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ParameterValidationRuntimeException;
 
@@ -84,7 +84,7 @@ public class ActorImplTest {
         sub3 = Map.of("sub C", "value C");
         sub4 = Map.of("sub D", "value D");
 
-        params = Map.of(OPER1, sub1, OPER2, sub2, OPER3, sub3, OPER4, sub4);
+        params = Map.of(ActorParams.OPERATIONS_FIELD, Map.of(OPER1, sub1, OPER2, sub2, OPER3, sub3, OPER4, sub4));
 
         actor = makeActor(oper1, oper2, oper3, oper4);
     }
@@ -285,15 +285,12 @@ public class ActorImplTest {
      */
     @Test
     public void testDoConfigureConfigure() {
-        // need mutable parameters
-        params = new TreeMap<>(params);
-
         // configure one operator
         oper1.configure(sub1);
 
         // configure another and remove its parameters
         oper2.configure(sub2);
-        params.remove(OPER2);
+        params = Map.of(ActorParams.OPERATIONS_FIELD, Map.of(OPER1, sub1, OPER3, sub3, OPER4, sub4));
 
         // create a new, unconfigured actor
         Operator oper5 = spy(new MyOper("UNCONFIGURED"));
