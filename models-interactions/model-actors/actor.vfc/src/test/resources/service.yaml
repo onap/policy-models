@@ -25,10 +25,11 @@ httpClients:
   managed: true
 actors:
   VFC:
-    Restart:
-        clientName: my-client
-        pathGet: jobs
-        maxGets: 20
-        waitSecGet: 20
-        path: ns
-        timeoutSec: 60
+    operations:
+        Restart:
+            clientName: my-client
+            pathGet: jobs
+            maxGets: 20
+            waitSecGet: 20
+            path: ns
+            timeoutSec: 60

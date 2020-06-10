@@ -65,10 +65,10 @@ public class HttpActorParamsTest {
 
         // only a few fields are required
         HttpActorParams sparse = Util.translate(CONTAINER,
-                        Map.of(CommonActorParams.OPERATIONS_FIELD, operations, "timeoutSec", 1), HttpActorParams.class);
+                        Map.of(ActorParams.OPERATIONS_FIELD, operations, "timeoutSec", 1), HttpActorParams.class);
         assertTrue(sparse.validate(CONTAINER).isValid());
 
-        testValidateField(CommonActorParams.OPERATIONS_FIELD, "null", params2 -> params2.setOperations(null));
+        testValidateField(ActorParams.OPERATIONS_FIELD, "null", params2 -> params2.setOperations(null));
         testValidateField("timeoutSec", "minimum", params2 -> params2.setTimeoutSec(-1));
 
         // check edge cases
