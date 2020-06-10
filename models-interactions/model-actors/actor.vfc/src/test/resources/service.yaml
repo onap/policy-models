@@ -25,7 +25,8 @@ httpClients:
   managed: true
 actors:
   VFC:
-    Restart:
+    operations:
+      Restart:
         clientName: my-client
         pathGet: jobs
         maxGets: 20

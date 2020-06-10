@@ -32,7 +32,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.CommonActorParams;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.ActorParams;
 
 public class GuardActorParamsTest {
     private static final String CONTAINER = "my-container";
@@ -75,14 +75,14 @@ public class GuardActorParamsTest {
         assertTrue(params.validate(CONTAINER).isValid());
 
         // only a few fields are required
-        GuardActorParams sparse = Util.translate(CONTAINER, Map.of(CommonActorParams.OPERATIONS_FIELD, operations),
+        GuardActorParams sparse = Util.translate(CONTAINER, Map.of(ActorParams.OPERATIONS_FIELD, operations),
                         GuardActorParams.class);
         assertTrue(sparse.validate(CONTAINER).isValid());
 
         assertEquals(GuardActorParams.DEFAULT_ACTION, sparse.getAction());
 
         // check fields from superclass
-        testValidateField(CommonActorParams.OPERATIONS_FIELD, "null", params2 -> params2.setOperations(null));
+        testValidateField(ActorParams.OPERATIONS_FIELD, "null", params2 -> params2.setOperations(null));
         testValidateField("timeoutSec", "minimum", params2 -> params2.setTimeoutSec(-1));
     }
 

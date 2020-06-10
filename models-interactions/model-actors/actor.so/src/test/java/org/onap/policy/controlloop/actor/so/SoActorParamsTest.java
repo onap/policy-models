@@ -31,7 +31,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.CommonActorParams;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.ActorParams;
 
 
 public class SoActorParamsTest {
@@ -68,7 +68,7 @@ public class SoActorParamsTest {
         assertTrue(params.validate(CONTAINER).isValid());
 
         // only a few fields are required
-        SoActorParams sparse = Util.translate(CONTAINER, Map.of(CommonActorParams.OPERATIONS_FIELD, operations),
+        SoActorParams sparse = Util.translate(CONTAINER, Map.of(ActorParams.OPERATIONS_FIELD, operations),
                         SoActorParams.class);
         assertTrue(sparse.validate(CONTAINER).isValid());
 
@@ -76,7 +76,7 @@ public class SoActorParamsTest {
         testValidateField("waitSecGet", "minimum", params2 -> params2.setWaitSecGet(0));
 
         // check fields from superclass
-        testValidateField(CommonActorParams.OPERATIONS_FIELD, "null", params2 -> params2.setOperations(null));
+        testValidateField(ActorParams.OPERATIONS_FIELD, "null", params2 -> params2.setOperations(null));
         testValidateField("timeoutSec", "minimum", params2 -> params2.setTimeoutSec(-1));
 
         // check edge cases
