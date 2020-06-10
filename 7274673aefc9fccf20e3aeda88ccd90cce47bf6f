@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "600d3b3f_5fd11c5f",
+        "filename": "models-interactions/model-actors/actor.test/src/test/resources/service.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-06-10T23:11:04Z",
+      "side": 1,
+      "message": "The indentation is inconsistent, first 2 lines is 2 spaces, and the last 2 lines is 4.   This applies to other files too.",
+      "revId": "7274673aefc9fccf20e3aeda88ccd90cce47bf6f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
