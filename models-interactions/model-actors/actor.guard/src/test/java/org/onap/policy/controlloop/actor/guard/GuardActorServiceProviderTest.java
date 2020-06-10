@@ -35,7 +35,7 @@ public class GuardActorServiceProviderTest extends BasicActor {
         final GuardActorServiceProvider prov = new GuardActorServiceProvider();
 
         // verify that it has the operators we expect
-        var expected = Arrays.asList(GuardOperation.NAME).stream().sorted().collect(Collectors.toList());
+        var expected = Arrays.asList(DecisionOperation.NAME).stream().sorted().collect(Collectors.toList());
         var actual = prov.getOperationNames().stream().sorted().collect(Collectors.toList());
 
         assertEquals(expected.toString(), actual.toString());
@@ -43,6 +43,6 @@ public class GuardActorServiceProviderTest extends BasicActor {
         // verify that it all plugs into the ActorService
         verifyActorService(GuardActorServiceProvider.NAME, "service.yaml");
 
-        assertTrue(prov.getOperator(GuardOperation.NAME) instanceof GuardOperator);
+        assertTrue(prov.getOperator(DecisionOperation.NAME) instanceof DecisionOperator);
     }
 }

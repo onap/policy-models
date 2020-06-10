@@ -54,7 +54,7 @@ import org.onap.policy.models.decisions.concepts.DecisionRequest;
 import org.onap.policy.models.decisions.concepts.DecisionResponse;
 import org.onap.policy.simulators.GuardSimulatorJaxRs;
 
-public class GuardOperationTest extends BasicHttpOperation<DecisionRequest> {
+public class DecisionOperationTest extends BasicHttpOperation<DecisionRequest> {
 
     @Mock
     private Consumer<OperationOutcome> started;
@@ -62,7 +62,7 @@ public class GuardOperationTest extends BasicHttpOperation<DecisionRequest> {
     private Consumer<OperationOutcome> completed;
 
     private GuardConfig guardConfig;
-    private GuardOperation oper;
+    private DecisionOperation oper;
 
     /**
      * Starts the simulator.
@@ -105,7 +105,7 @@ public class GuardOperationTest extends BasicHttpOperation<DecisionRequest> {
 
         params = params.toBuilder().startCallback(started).completeCallback(completed).build();
 
-        oper = new GuardOperation(params, config);
+        oper = new DecisionOperation(params, config);
     }
 
     /**
@@ -117,7 +117,7 @@ public class GuardOperationTest extends BasicHttpOperation<DecisionRequest> {
         config = new GuardConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
 
         params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).build();
-        oper = new GuardOperation(params, config);
+        oper = new DecisionOperation(params, config);
 
         outcome = oper.start().get();
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
@@ -134,7 +134,7 @@ public class GuardOperationTest extends BasicHttpOperation<DecisionRequest> {
 
         params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor)
                         .payload(Map.of("clname", GuardSimulatorJaxRs.DENY_CLNAME)).build();
-        oper = new GuardOperation(params, config);
+        oper = new DecisionOperation(params, config);
 
         outcome = oper.start().get();
         assertEquals(PolicyResult.FAILURE, outcome.getResult());
@@ -154,7 +154,7 @@ public class GuardOperationTest extends BasicHttpOperation<DecisionRequest> {
         assertFalse(future2.isDone());
 
         DecisionResponse resp = new DecisionResponse();
-        resp.setStatus(GuardOperation.PERMIT);
+        resp.setStatus(DecisionOperation.PERMIT);
         when(rawResponse.readEntity(String.class)).thenReturn(Util.translate("", resp, String.class));
 
         verify(client).post(callbackCaptor.capture(), any(), requestCaptor.capture(), any());
@@ -205,7 +205,7 @@ public class GuardOperationTest extends BasicHttpOperation<DecisionRequest> {
 
         // null payload - start with fresh parameters and operation
         params = params.toBuilder().payload(null).build();
-        oper = new GuardOperation(params, config);
+        oper = new DecisionOperation(params, config);
         assertThatIllegalArgumentException().isThrownBy(() -> oper.makeRequest());
     }
 

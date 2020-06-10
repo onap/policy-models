@@ -32,9 +32,9 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.ParameterVali
 /**
  * Guard Operator.
  */
-public class GuardOperator extends HttpOperator {
+public class DecisionOperator extends HttpOperator {
 
-    public GuardOperator(String actorName, String name,
+    public DecisionOperator(String actorName, String name,
                     @SuppressWarnings("rawtypes") OperationMaker<HttpConfig, HttpOperation> operationMaker) {
         super(actorName, name, operationMaker);
     }
