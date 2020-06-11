@@ -77,11 +77,11 @@ public class BidirectionalTopicActorParamsTest {
 
         // only a few fields are required
         BidirectionalTopicActorParams sparse =
-                        Util.translate(CONTAINER, Map.of(CommonActorParams.OPERATIONS_FIELD, operMap, "timeoutSec", 1),
+                        Util.translate(CONTAINER, Map.of(ActorParams.OPERATIONS_FIELD, operMap, "timeoutSec", 1),
                                         BidirectionalTopicActorParams.class);
         assertTrue(sparse.validate(CONTAINER).isValid());
 
-        testValidateField(CommonActorParams.OPERATIONS_FIELD, "null", params2 -> params2.setOperations(null));
+        testValidateField(ActorParams.OPERATIONS_FIELD, "null", params2 -> params2.setOperations(null));
         testValidateField("timeoutSec", "minimum", params2 -> params2.setTimeoutSec(-1));
 
         // check edge cases

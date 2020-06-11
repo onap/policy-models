@@ -36,6 +36,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
@@ -46,6 +47,7 @@ import org.junit.Test;
 import org.onap.policy.common.parameters.ObjectValidationResult;
 import org.onap.policy.common.parameters.ValidationStatus;
 import org.onap.policy.controlloop.actorserviceprovider.impl.ActorImpl;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.ActorParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ParameterValidationRuntimeException;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 
@@ -80,10 +82,10 @@ public class ActorServiceTest {
         actor3 = spy(new ActorImpl(ACTOR3));
         actor4 = spy(new ActorImpl(ACTOR4));
 
-        sub1 = Map.of("sub A", "value A");
-        sub2 = Map.of("sub B", "value B");
-        sub3 = Map.of("sub C", "value C");
-        sub4 = Map.of("sub D", "value D");
+        sub1 = Map.of("sub A", "value A", ActorParams.OPERATIONS_FIELD, Collections.emptyMap());
+        sub2 = Map.of("sub B", "value B", ActorParams.OPERATIONS_FIELD, Collections.emptyMap());
+        sub3 = Map.of("sub C", "value C", ActorParams.OPERATIONS_FIELD, Collections.emptyMap());
+        sub4 = Map.of("sub D", "value D", ActorParams.OPERATIONS_FIELD, Collections.emptyMap());
 
         params = Map.of(ACTOR1, sub1, ACTOR2, sub2, ACTOR3, sub3, ACTOR4, sub4);
 

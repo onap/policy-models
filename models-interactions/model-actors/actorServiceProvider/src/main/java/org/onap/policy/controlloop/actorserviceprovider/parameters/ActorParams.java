@@ -38,7 +38,7 @@ import org.onap.policy.controlloop.actorserviceprovider.Util;
 @Getter
 @Setter
 @EqualsAndHashCode
-public class CommonActorParams {
+public class ActorParams {
     /**
      * Name of the "operations" field contained within actor parameters.
      */
@@ -84,7 +84,7 @@ public class CommonActorParams {
      * @return "this"
      * @throws IllegalArgumentException if the parameters are invalid
      */
-    public CommonActorParams doValidation(String name) {
+    public ActorParams doValidation(String name) {
         ValidationResult result = validate(name);
         if (!result.isValid()) {
             throw new ParameterValidationRuntimeException("invalid parameters", result);

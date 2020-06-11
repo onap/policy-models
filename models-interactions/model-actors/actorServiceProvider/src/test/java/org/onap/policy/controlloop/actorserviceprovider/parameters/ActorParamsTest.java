@@ -39,7 +39,7 @@ import org.junit.Test;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 
-public class CommonActorParamsTest {
+public class ActorParamsTest {
 
     private static final String CONTAINER = "my-container";
 
@@ -52,7 +52,7 @@ public class CommonActorParamsTest {
     private static final String TEXT2B = "bye";
 
     private Map<String, Map<String, Object>> operations;
-    private CommonActorParams params;
+    private ActorParams params;
 
     /**
      * Initializes {@link #operations} with two items and {@link params} with a fully
@@ -64,7 +64,7 @@ public class CommonActorParamsTest {
         operations.put(PATH1, Map.of("path", URI1));
         operations.put(PATH2, Map.of("path", URI2, "text2", TEXT2B));
 
-        params = makeCommonActorParams();
+        params = makeActorParams();
     }
 
     @Test
@@ -96,29 +96,29 @@ public class CommonActorParamsTest {
         assertTrue(params.validate(CONTAINER).isValid());
 
         // only a few fields are required
-        CommonActorParams sparse = Util.translate(CONTAINER,
-                        Map.of(CommonActorParams.OPERATIONS_FIELD, operations, "timeoutSec", 1),
-                        CommonActorParams.class);
+        ActorParams sparse = Util.translate(CONTAINER,
+                        Map.of(ActorParams.OPERATIONS_FIELD, operations, "timeoutSec", 1),
+                        ActorParams.class);
         assertTrue(sparse.validate(CONTAINER).isValid());
 
-        testValidateField(CommonActorParams.OPERATIONS_FIELD, "null", params2 -> params2.setOperations(null));
+        testValidateField(ActorParams.OPERATIONS_FIELD, "null", params2 -> params2.setOperations(null));
     }
 
-    private void testValidateField(String fieldName, String expected, Consumer<CommonActorParams> makeInvalid) {
+    private void testValidateField(String fieldName, String expected, Consumer<ActorParams> makeInvalid) {
 
         // original params should be valid
         ValidationResult result = params.validate(CONTAINER);
         assertTrue(fieldName, result.isValid());
 
         // make invalid params
-        CommonActorParams params2 = makeCommonActorParams();
+        ActorParams params2 = makeActorParams();
         makeInvalid.accept(params2);
         result = params2.validate(CONTAINER);
         assertFalse(fieldName, result.isValid());
         assertThat(result.getResult()).contains(CONTAINER).contains(fieldName).contains(expected);
     }
 
-    private CommonActorParams makeCommonActorParams() {
+    private ActorParams makeActorParams() {
         MyParams params2 = new MyParams();
         params2.setOperations(operations);
         params2.setText1(TEXT1);
@@ -128,7 +128,7 @@ public class CommonActorParamsTest {
     }
 
     @Setter
-    public static class MyParams extends CommonActorParams {
+    public static class MyParams extends ActorParams {
         @SuppressWarnings("unused")
         private String text1;
 

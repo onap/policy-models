@@ -25,5 +25,6 @@ httpClients:
   managed: true
 actors:
   MyActor:
-    MyOperationA: {}
-    MyOperationB: {}
+    operations:
+      MyOperationA: {}
+      MyOperationB: {}
