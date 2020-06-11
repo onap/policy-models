@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019, 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,6 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.apache.log4j.chainsaw.Main;
 
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.sim.pdp.exception.PdpSimulatorException;
@@ -140,7 +139,7 @@ public class PdpSimulatorCommandLineArguments {
         }
 
         if (commandLine.hasOption('h')) {
-            return help(Main.class.getName());
+            return help(PdpSimulatorMain.class.getName());
         }
 
         if (commandLine.hasOption('v')) {
