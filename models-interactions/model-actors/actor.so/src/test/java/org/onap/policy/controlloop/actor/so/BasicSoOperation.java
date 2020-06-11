@@ -35,6 +35,7 @@ import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.controlloop.actor.test.BasicHttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingConfig;
 import org.onap.policy.controlloop.policy.Target;
 import org.onap.policy.simulators.SoSimulatorJaxRs;
 import org.onap.policy.so.SoRequest;
@@ -62,7 +63,7 @@ public abstract class BasicSoOperation extends BasicHttpOperation<SoRequest> {
     public static final Integer VF_COUNT = 10;
 
     @Mock
-    protected SoConfig config;
+    protected HttpPollingConfig config;
 
     protected Target target;
     protected SoResponse response;
@@ -134,9 +135,9 @@ public abstract class BasicSoOperation extends BasicHttpOperation<SoRequest> {
         super.initConfig();
         when(config.getClient()).thenReturn(client);
         when(config.getPath()).thenReturn(MY_PATH);
-        when(config.getMaxGets()).thenReturn(MAX_GETS);
-        when(config.getPathGet()).thenReturn(PATH_GET);
-        when(config.getWaitSecGet()).thenReturn(WAIT_SEC_GETS);
+        when(config.getMaxPolls()).thenReturn(MAX_GETS);
+        when(config.getPollPath()).thenReturn(PATH_GET);
+        when(config.getPollWaitSec()).thenReturn(WAIT_SEC_GETS);
     }
 
     @Override

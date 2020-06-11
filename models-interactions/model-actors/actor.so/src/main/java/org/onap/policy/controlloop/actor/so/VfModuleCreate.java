@@ -35,7 +35,7 @@ import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingConfig;
 import org.onap.policy.so.SoModelInfo;
 import org.onap.policy.so.SoOperationType;
 import org.onap.policy.so.SoRelatedInstance;
@@ -61,7 +61,7 @@ public class VfModuleCreate extends SoOperation {
      * @param params operation parameters
      * @param config configuration for this operation
      */
-    public VfModuleCreate(ControlLoopOperationParams params, HttpConfig config) {
+    public VfModuleCreate(ControlLoopOperationParams params, HttpPollingConfig config) {
         super(params, config);
 
         // ensure we have the necessary parameters
@@ -101,7 +101,7 @@ public class VfModuleCreate extends SoOperation {
     protected CompletableFuture<OperationOutcome> startOperationAsync(int attempt, OperationOutcome outcome) {
 
         // starting a whole new attempt - reset the count
-        resetGetCount();
+        resetPollCount();
 
         Pair<String, SoRequest> pair = makeRequest();
         String path = getPath() + pair.getLeft();

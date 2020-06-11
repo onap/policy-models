@@ -47,7 +47,7 @@ import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingConfig;
 import org.onap.policy.controlloop.actorserviceprovider.pipeline.PipelineControllerFuture;
 import org.onap.policy.so.SoModelInfo;
 import org.onap.policy.so.SoOperationType;
@@ -71,7 +71,7 @@ public class VfModuleDelete extends SoOperation {
      * @param params operation parameters
      * @param config configuration for this operation
      */
-    public VfModuleDelete(ControlLoopOperationParams params, HttpConfig config) {
+    public VfModuleDelete(ControlLoopOperationParams params, HttpPollingConfig config) {
         super(params, config);
 
         // ensure we have the necessary parameters
@@ -111,7 +111,7 @@ public class VfModuleDelete extends SoOperation {
     protected CompletableFuture<OperationOutcome> startOperationAsync(int attempt, OperationOutcome outcome) {
 
         // starting a whole new attempt - reset the count
-        resetGetCount();
+        resetPollCount();
 
         Pair<String, SoRequest> pair = makeRequest();
         SoRequest request = pair.getRight();

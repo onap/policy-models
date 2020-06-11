@@ -18,38 +18,42 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.controlloop.actor.so;
+package org.onap.policy.controlloop.actorserviceprovider.parameters;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.SuperBuilder;
+import lombok.Getter;
+import lombok.Setter;
 import org.onap.policy.common.parameters.annotations.Min;
-import org.onap.policy.common.parameters.annotations.NotBlank;
-import org.onap.policy.common.parameters.annotations.NotNull;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpActorParams;
 
-@NotNull
-@NotBlank
-@Data
+/**
+ * Parameters used by Actors that, after issuing an HTTP request, must poll the target
+ * server to determine the request completion status.
+ */
+@Getter
+@Setter
 @EqualsAndHashCode(callSuper = true)
-@SuperBuilder(toBuilder = true)
-public class SoParams extends HttpParams {
+public class HttpPollingActorParams extends HttpActorParams {
 
-    /**
-     * Path to use for the "get" request.
+    /*
+     * Optional, default values that are used if missing from the operation-specific
+     * parameters.
      */
-    private String pathGet;
 
     /**
-     * Maximum number of "get" requests permitted, after the initial request, to retrieve
-     * the response.
+     * Path to use when polling for request completion.
+     */
+    private String pollPath;
+
+    /**
+     * Maximum number of times to poll to retrieve the response.
      */
     @Min(0)
-    private int maxGets;
+    private int maxPolls = 3;
 
     /**
-     * Time, in seconds, to wait between issuing "get" requests.
+     * Time, in seconds, to wait between polling.
      */
     @Min(1)
-    private int waitSecGet;
+    private int pollWaitSec = 20;
 }

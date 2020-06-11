@@ -18,32 +18,35 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.controlloop.actor.so;
+package org.onap.policy.controlloop.actorserviceprovider.parameters;
 
 import java.util.concurrent.Executor;
 import lombok.Getter;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactory;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 
+/**
+ * Configuration for HTTP Operators that, after issuing a request, must poll the target
+ * server to determine the request completion status.
+ */
 @Getter
-public class SoConfig extends HttpConfig {
+public class HttpPollingConfig extends HttpConfig {
 
     /**
-     * Path to use for the "get" request. A trailing "/" is added, if it is missing.
+     * Path to use when polling for request completion. A trailing "/" is added, if it is
+     * missing.
      */
-    private String pathGet;
+    private String pollPath;
 
     /**
-     * Maximum number of "get" requests permitted, after the initial request, to retrieve
-     * the response.
+     * Maximum number of times to poll to retrieve the response.
      */
-    private int maxGets;
+    private int maxPolls;
 
     /**
-     * Time, in seconds, to wait between issuing "get" requests.
+     * Time, in seconds, to wait between polling.
      */
-    private int waitSecGet;
+    private int pollWaitSec;
 
 
     /**
@@ -53,11 +56,11 @@ public class SoConfig extends HttpConfig {
      * @param params operator parameters
      * @param clientFactory factory from which to obtain the {@link HttpClient}
      */
-    public SoConfig(Executor blockingExecutor, SoParams params, HttpClientFactory clientFactory) {
+    public HttpPollingConfig(Executor blockingExecutor, HttpPollingParams params, HttpClientFactory clientFactory) {
         super(blockingExecutor, params, clientFactory);
 
-        this.pathGet = params.getPathGet() + (params.getPathGet().endsWith("/") ? "" : "/");
-        this.maxGets = params.getMaxGets();
-        this.waitSecGet = params.getWaitSecGet();
+        this.pollPath = params.getPollPath() + (params.getPollPath().endsWith("/") ? "" : "/");
+        this.maxPolls = params.getMaxPolls();
+        this.pollWaitSec = params.getPollWaitSec();
     }
 }

@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import javax.ws.rs.client.InvocationCallback;
 import javax.ws.rs.core.Response;
@@ -38,6 +39,7 @@ import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingConfig;
 import org.onap.policy.controlloop.actorserviceprovider.pipeline.PipelineControllerFuture;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.slf4j.Logger;
@@ -53,6 +55,13 @@ public abstract class HttpOperation<T> extends OperationPartial {
     private static final Logger logger = LoggerFactory.getLogger(HttpOperation.class);
 
     /**
+     * Response status.
+     */
+    public enum Status {
+        SUCCESS, FAILURE, STILL_WAITING
+    }
+
+    /**
      * Configuration for this operation.
      */
     private final HttpConfig config;
@@ -61,6 +70,17 @@ public abstract class HttpOperation<T> extends OperationPartial {
      * Response class.
      */
     private final Class<T> responseClass;
+
+    /**
+     * {@code True} to use polling, {@code false} otherwise.
+     */
+    private boolean usePolling;
+
+    /**
+     * Number of polls issued so far, on the current operation attempt.
+     */
+    @Getter
+    private int pollCount;
 
 
     /**
@@ -74,6 +94,17 @@ public abstract class HttpOperation<T> extends OperationPartial {
         super(params, config);
         this.config = config;
         this.responseClass = clazz;
+    }
+
+    /**
+     * Indicates that polling should be used.
+     */
+    protected void setUsePolling() {
+        if (!(config instanceof HttpPollingConfig)) {
+            throw new IllegalStateException("cannot poll without polling parameters");
+        }
+
+        usePolling = true;
     }
 
     public HttpClient getClient() {
@@ -120,6 +151,22 @@ public abstract class HttpOperation<T> extends OperationPartial {
      */
     public String getUrl() {
         return (getClient().getBaseUrl() + getPath());
+    }
+
+    /**
+     * Resets the polling count.
+     */
+    protected void resetPollCount() {
+        pollCount = 0;
+    }
+
+    @Override
+    protected CompletableFuture<OperationOutcome> startOperationAsync(int attempt, OperationOutcome outcome) {
+
+        // starting a whole new attempt - reset the count
+        resetPollCount();
+
+        return startOperationAsync(attempt, outcome);
     }
 
     /**
@@ -234,7 +281,88 @@ public abstract class HttpOperation<T> extends OperationPartial {
     protected CompletableFuture<OperationOutcome> postProcessResponse(OperationOutcome outcome, String url,
                     Response rawResponse, T response) {
 
-        return CompletableFuture.completedFuture(outcome);
+        if (!usePolling) {
+            // doesn't use polling - just return the completed future
+            return CompletableFuture.completedFuture(outcome);
+        }
+
+        HttpPollingConfig cfg = (HttpPollingConfig) config;
+
+        switch (detmStatus(rawResponse, response)) {
+            case SUCCESS:
+                logger.info("{}.{} request succeeded for {}", params.getActor(), params.getOperation(),
+                                params.getRequestId());
+                return CompletableFuture
+                                .completedFuture(setOutcome(outcome, PolicyResult.SUCCESS, rawResponse, response));
+
+            case FAILURE:
+                logger.info("{}.{} request failed for {}", params.getActor(), params.getOperation(),
+                                params.getRequestId());
+                return CompletableFuture
+                                .completedFuture(setOutcome(outcome, PolicyResult.FAILURE, rawResponse, response));
+
+            case STILL_WAITING:
+            default:
+                logger.info("{}.{} request incomplete for {}", params.getActor(), params.getOperation(),
+                                params.getRequestId());
+                break;
+        }
+
+        // still incomplete
+
+        // see if the limit for the number of polls has been reached
+        if (pollCount++ >= cfg.getMaxPolls()) {
+            logger.warn("{}: execeeded 'poll' limit {} for {}", getFullName(), cfg.getMaxPolls(),
+                            params.getRequestId());
+            setOutcome(outcome, PolicyResult.FAILURE_TIMEOUT);
+            return CompletableFuture.completedFuture(outcome);
+        }
+
+        // sleep and then poll
+        Function<Void, CompletableFuture<OperationOutcome>> doPoll = unused -> issuePoll(outcome);
+        return sleep(getPollWaitMs(), TimeUnit.MILLISECONDS).thenComposeAsync(doPoll);
+    }
+
+    /**
+     * Polls to see if the original request is complete. This method polls using an HTTP
+     * "get" request whose URL is constructed by appending the extracted "poll ID" to the
+     * poll path from the configuration data.
+     *
+     * @param outcome outcome to be populated with the response
+     * @return a future that can be used to cancel the poll or await its response
+     */
+    protected CompletableFuture<OperationOutcome> issuePoll(OperationOutcome outcome) {
+        String path = getPollingPath();
+        String url = getClient().getBaseUrl() + path;
+
+        logger.debug("{}: 'poll' count {} for {}", getFullName(), pollCount, params.getRequestId());
+
+        logMessage(EventType.OUT, CommInfrastructure.REST, url, null);
+
+        return handleResponse(outcome, url, callback -> getClient().get(callback, path, null));
+    }
+
+    /**
+     * Determines the status of the response. This particular method simply throws an
+     * exception.
+     *
+     * @param rawResponse raw response
+     * @param response decoded response
+     * @return the status of the response
+     */
+    protected Status detmStatus(Response rawResponse, T response) {
+        throw new UnsupportedOperationException("cannot determine response status");
+    }
+
+    /**
+     * Gets the URL to use when polling. Typically, this is some unique ID appended to the
+     * polling path found within the configuration data. This particular method simply
+     * returns the polling path from the configuration data.
+     *
+     * @return the URL to use when polling
+     */
+    protected String getPollingPath() {
+        return ((HttpPollingConfig) config).getPollPath();
     }
 
     /**
@@ -254,5 +382,13 @@ public abstract class HttpOperation<T> extends OperationPartial {
         String json = super.logMessage(direction, infra, sink, request);
         NetLoggerUtil.log(direction, infra, sink, json);
         return json;
+    }
+
+    // these may be overridden by junit tests
+
+    protected long getPollWaitMs() {
+        HttpPollingConfig cfg = (HttpPollingConfig) config;
+
+        return TimeUnit.MILLISECONDS.convert(cfg.getPollWaitSec(), TimeUnit.SECONDS);
     }
 }
