@@ -55,8 +55,8 @@ import org.slf4j.LoggerFactory;
  * <dd>generated</dd>
  * </dl>
  */
-public class GuardOperation extends HttpOperation<DecisionResponse> {
-    private static final Logger logger = LoggerFactory.getLogger(GuardOperation.class);
+public class DecisionOperation extends HttpOperation<DecisionResponse> {
+    private static final Logger logger = LoggerFactory.getLogger(DecisionOperation.class);
 
     // operation name
     public static final String NAME = OperationPartial.GUARD_OPERATION_NAME;
@@ -80,7 +80,7 @@ public class GuardOperation extends HttpOperation<DecisionResponse> {
      * @param params operation parameters
      * @param config configuration for this operation
      */
-    public GuardOperation(ControlLoopOperationParams params, HttpConfig config) {
+    public DecisionOperation(ControlLoopOperationParams params, HttpConfig config) {
         super(params, config, DecisionResponse.class);
         this.config = (GuardConfig) config;
     }

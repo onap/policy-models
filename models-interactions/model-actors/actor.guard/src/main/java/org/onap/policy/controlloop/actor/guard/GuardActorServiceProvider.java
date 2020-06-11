@@ -35,6 +35,6 @@ public class GuardActorServiceProvider extends HttpActor<GuardActorParams> {
     public GuardActorServiceProvider() {
         super(NAME, GuardActorParams.class);
 
-        addOperator(new GuardOperator(NAME, GuardOperation.NAME, GuardOperation::new));
+        addOperator(new DecisionOperator(NAME, DecisionOperation.NAME, DecisionOperation::new));
     }
 }

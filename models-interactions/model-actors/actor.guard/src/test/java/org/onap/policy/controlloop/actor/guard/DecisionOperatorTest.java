@@ -35,7 +35,7 @@ import org.onap.policy.common.endpoints.http.client.HttpClientFactory;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ParameterValidationRuntimeException;
 
-public class GuardOperatorTest {
+public class DecisionOperatorTest {
     private static final String ACTOR = "my-actor";
     private static final String OPERATION = "my-name";
     private static final String CLIENT = "my-client";
@@ -53,7 +53,7 @@ public class GuardOperatorTest {
     private HttpClientFactory factory;
 
 
-    private GuardOperator oper;
+    private DecisionOperator oper;
 
     /**
      * Initializes fields, including {@link #oper}, and resets the static fields used by
@@ -92,7 +92,7 @@ public class GuardOperatorTest {
     }
 
 
-    private class MyOperator extends GuardOperator {
+    private class MyOperator extends DecisionOperator {
         public MyOperator() {
             super(ACTOR, OPERATION, null);
         }
