@@ -27,14 +27,16 @@ import java.util.List;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
-import org.onap.policy.controlloop.actorserviceprovider.impl.ActorImpl;
+import org.onap.policy.controlloop.actorserviceprovider.impl.HttpActor;
+import org.onap.policy.controlloop.actorserviceprovider.impl.HttpPollingOperator;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingActorParams;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.vfc.VfcHealActionVmInfo;
 import org.onap.policy.vfc.VfcHealAdditionalParams;
 import org.onap.policy.vfc.VfcHealRequest;
 import org.onap.policy.vfc.VfcRequest;
 
-public class VfcActorServiceProvider extends ActorImpl {
+public class VfcActorServiceProvider extends HttpActor<HttpPollingActorParams> {
     private static final String GENERIC_VNF_ID = "generic-vnf.vnf-id";
 
     // TODO old code: remove lines down to **HERE**
@@ -60,9 +62,9 @@ public class VfcActorServiceProvider extends ActorImpl {
      * Constructor.
      */
     public VfcActorServiceProvider() {
-        super(NAME);
+        super(NAME, HttpPollingActorParams.class);
 
-        addOperator(new VfcOperator(NAME, Restart.NAME, Restart::new));
+        addOperator(new HttpPollingOperator(NAME, Restart.NAME, Restart::new));
     }
 
     // TODO old code: remove lines down to **HERE**

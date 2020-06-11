@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.controlloop.actor.vfc;
+package org.onap.policy.controlloop.actorserviceprovider.parameters;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -28,28 +28,31 @@ import org.onap.policy.common.parameters.annotations.NotBlank;
 import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
 
+/**
+ * Parameters used by Operators that, after issuing an HTTP request, must poll the target
+ * server to determine the request completion status.
+ */
 @NotNull
 @NotBlank
 @Data
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder(toBuilder = true)
-public class VfcParams extends HttpParams {
+public class HttpPollingParams extends HttpParams {
 
     /**
-     * Path to use for the "get" request.
+     * Path to use when polling for request completion.
      */
-    private String pathGet;
+    private String pollPath;
 
     /**
-     * Maximum number of "get" requests permitted, after the initial request, to retrieve
-     * the response.
+     * Maximum number of times to poll to retrieve the response.
      */
     @Min(0)
-    private int maxGets;
+    private int maxPolls;
 
     /**
-     * Time, in seconds, to wait between issuing "get" requests.
+     * Time, in seconds, to wait between polling.
      */
     @Min(1)
-    private int waitSecGet;
+    private int pollWaitSec;
 }

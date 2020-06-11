@@ -35,6 +35,7 @@ import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.controlloop.actor.test.BasicHttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingConfig;
 import org.onap.policy.controlloop.policy.Target;
 import org.onap.policy.simulators.SoSimulatorJaxRs;
 import org.onap.policy.so.SoRequest;
@@ -56,13 +57,13 @@ public abstract class BasicSoOperation extends BasicHttpOperation<SoRequest> {
     public static final String MODEL_VERS_ID = "my-model-version-id";
     public static final String SUBSCRIPTION_SVC_TYPE = "my-subscription-service-type";
     public static final String MY_PATH = "my-path";
-    public static final String PATH_GET = "my-path-get/";
-    public static final int MAX_GETS = 3;
-    public static final int WAIT_SEC_GETS = 20;
+    public static final String POLL_PATH = "my-poll-path/";
+    public static final int MAX_POLLS = 3;
+    public static final int POLL_WAIT_SEC = 20;
     public static final Integer VF_COUNT = 10;
 
     @Mock
-    protected SoConfig config;
+    protected HttpPollingConfig config;
 
     protected Target target;
     protected SoResponse response;
@@ -134,9 +135,9 @@ public abstract class BasicSoOperation extends BasicHttpOperation<SoRequest> {
         super.initConfig();
         when(config.getClient()).thenReturn(client);
         when(config.getPath()).thenReturn(MY_PATH);
-        when(config.getMaxGets()).thenReturn(MAX_GETS);
-        when(config.getPathGet()).thenReturn(PATH_GET);
-        when(config.getWaitSecGet()).thenReturn(WAIT_SEC_GETS);
+        when(config.getMaxPolls()).thenReturn(MAX_POLLS);
+        when(config.getPollPath()).thenReturn(POLL_PATH);
+        when(config.getPollWaitSec()).thenReturn(POLL_WAIT_SEC);
     }
 
     @Override

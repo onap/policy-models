@@ -25,11 +25,11 @@ httpClients:
   managed: true
 actors:
   VFC:
+    clientName: my-client
+    pollPath: jobs
+    pollWaitSec: 20
+    maxPolls: 20
     operations:
       Restart:
-        clientName: my-client
-        pathGet: jobs
-        maxGets: 20
-        waitSecGet: 20
         path: ns
         timeoutSec: 60

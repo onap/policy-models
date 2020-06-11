@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.controlloop.actor.so;
+package org.onap.policy.controlloop.actorserviceprovider.parameters;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -29,56 +29,55 @@ import java.util.function.Function;
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.common.parameters.ValidationResult;
-import org.onap.policy.controlloop.actor.so.SoParams.SoParamsBuilder;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams.HttpParamsBuilder;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingParams.HttpPollingParamsBuilder;
 
-public class SoParamsTest {
+public class HttpPollingParamsTest {
     private static final String CONTAINER = "my-container";
     private static final String CLIENT = "my-client";
     private static final String PATH = "my-path";
-    private static final String PATH_GET = "my-path-get";
-    private static final int MAX_GETS = 3;
-    private static final int WAIT_SEC_GETS = 20;
+    private static final String POLL_PATH = "my-poll-path";
+    private static final int MAX_POLLS = 3;
+    private static final int POLL_WAIT_SEC = 20;
     private static final int TIMEOUT = 10;
 
-    private SoParams params;
+    private HttpPollingParams params;
 
     @Before
     public void setUp() {
-        params = SoParams.builder().pathGet(PATH_GET).maxGets(MAX_GETS).waitSecGet(WAIT_SEC_GETS).clientName(CLIENT)
-                        .path(PATH).timeoutSec(TIMEOUT).build();
+        params = HttpPollingParams.builder().pollPath(POLL_PATH).maxPolls(MAX_POLLS).pollWaitSec(POLL_WAIT_SEC)
+                        .clientName(CLIENT).path(PATH).timeoutSec(TIMEOUT).build();
     }
 
     @Test
     public void testValidate() {
         assertTrue(params.validate(CONTAINER).isValid());
 
-        testValidateField("pathGet", "null", bldr -> bldr.pathGet(null));
-        testValidateField("maxGets", "minimum", bldr -> bldr.maxGets(-1));
-        testValidateField("waitSecGet", "minimum", bldr -> bldr.waitSecGet(-1));
+        testValidateField("pollPath", "null", bldr -> bldr.pollPath(null));
+        testValidateField("maxPolls", "minimum", bldr -> bldr.maxPolls(-1));
+        testValidateField("pollWaitSec", "minimum", bldr -> bldr.pollWaitSec(-1));
 
         // validate one of the superclass fields
         testValidateField("clientName", "null", bldr -> bldr.clientName(null));
 
         // check edge cases
-        assertTrue(params.toBuilder().maxGets(0).build().validate(CONTAINER).isValid());
-        assertFalse(params.toBuilder().waitSecGet(0).build().validate(CONTAINER).isValid());
-        assertTrue(params.toBuilder().waitSecGet(1).build().validate(CONTAINER).isValid());
+        assertTrue(params.toBuilder().maxPolls(0).build().validate(CONTAINER).isValid());
+        assertFalse(params.toBuilder().pollWaitSec(0).build().validate(CONTAINER).isValid());
+        assertTrue(params.toBuilder().pollWaitSec(1).build().validate(CONTAINER).isValid());
     }
 
     @Test
     public void testBuilder_testToBuilder() {
         assertEquals(CLIENT, params.getClientName());
 
-        assertEquals(PATH_GET, params.getPathGet());
-        assertEquals(MAX_GETS, params.getMaxGets());
-        assertEquals(WAIT_SEC_GETS, params.getWaitSecGet());
+        assertEquals(POLL_PATH, params.getPollPath());
+        assertEquals(MAX_POLLS, params.getMaxPolls());
+        assertEquals(POLL_WAIT_SEC, params.getPollWaitSec());
 
         assertEquals(params, params.toBuilder().build());
     }
 
     private void testValidateField(String fieldName, String expected,
-                    @SuppressWarnings("rawtypes") Function<SoParamsBuilder, HttpParamsBuilder> makeInvalid) {
+                    Function<HttpPollingParamsBuilder<?,?>, HttpPollingParamsBuilder<?,?>> makeInvalid) {
 
         // original params should be valid
         ValidationResult result = params.validate(CONTAINER);

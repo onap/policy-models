@@ -26,6 +26,9 @@ httpClients:
 actors:
   SO:
     clientName: my-client
+    pollPath: orchestrationRequests/v5
+    pollWaitSec: 20
+    maxPolls: 20
     operations:
       VF Module Create:
         path: serviceInstantiation/v7/serviceInstances

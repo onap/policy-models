@@ -18,10 +18,11 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.controlloop.actor.so;
+package org.onap.policy.controlloop.actorserviceprovider.impl;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
@@ -33,26 +34,28 @@ import org.mockito.MockitoAnnotations;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactory;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingConfig;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ParameterValidationRuntimeException;
 
-public class SoOperatorTest {
+public class HttpPollingOperatorTest {
     private static final String ACTOR = "my-actor";
     private static final String OPERATION = "my-name";
     private static final String CLIENT = "my-client";
     private static final String PATH = "/my-path";
-    private static final String PATH_GET = "my-path-get/";
-    private static final int MAX_GETS = 3;
-    private static final int WAIT_SEC_GETS = 20;
+    private static final String POLL_PATH = "my-path-get/";
+    private static final int MAX_POLLS = 3;
+    private static final int POLL_WAIT_SEC = 20;
     private static final int TIMEOUT = 100;
 
     @Mock
     private HttpClient client;
-
     @Mock
     private HttpClientFactory factory;
 
-
-    private SoOperator oper;
+    private HttpPollingOperator oper;
 
     /**
      * Initializes fields, including {@link #oper}, and resets the static fields used by
@@ -66,8 +69,8 @@ public class SoOperatorTest {
 
         oper = new MyOperator();
 
-        SoParams params = SoParams.builder().pathGet(PATH_GET).maxGets(MAX_GETS).waitSecGet(WAIT_SEC_GETS)
-                        .clientName(CLIENT).path(PATH).timeoutSec(TIMEOUT).build();
+        HttpPollingParams params = HttpPollingParams.builder().pollPath(POLL_PATH).maxPolls(MAX_POLLS)
+                        .pollWaitSec(POLL_WAIT_SEC).clientName(CLIENT).path(PATH).timeoutSec(TIMEOUT).build();
         Map<String, Object> paramMap = Util.translateToMap(OPERATION, params);
         oper.configure(paramMap);
     }
@@ -81,22 +84,34 @@ public class SoOperatorTest {
 
     @Test
     public void testDoConfigure_testGetters() {
-        assertTrue(oper.getCurrentConfig() instanceof SoConfig);
+        assertTrue(oper.getCurrentConfig() instanceof HttpPollingConfig);
 
         // test invalid parameters
-        Map<String, Object> paramMap2 = Util.translateToMap(OPERATION, SoParams.builder().build());
+        Map<String, Object> paramMap2 = Util.translateToMap(OPERATION, HttpPollingParams.builder().build());
         assertThatThrownBy(() -> oper.configure(paramMap2)).isInstanceOf(ParameterValidationRuntimeException.class);
     }
 
+    @Test
+    public void testGetClientFactory() {
+        HttpPollingOperator oper2 = new HttpPollingOperator(ACTOR, OPERATION);
+        assertNotNull(oper2.getClientFactory());
+    }
 
-    private class MyOperator extends SoOperator {
+
+    private class MyOperator extends HttpPollingOperator {
         public MyOperator() {
-            super(ACTOR, OPERATION, null);
+            super(ACTOR, OPERATION, MyOperation::new);
         }
 
         @Override
         protected HttpClientFactory getClientFactory() {
             return factory;
+        }
+    }
+
+    private static class MyOperation extends HttpOperation<String> {
+        public MyOperation(ControlLoopOperationParams params, HttpConfig config) {
+            super(params, config, String.class);
         }
     }
 }

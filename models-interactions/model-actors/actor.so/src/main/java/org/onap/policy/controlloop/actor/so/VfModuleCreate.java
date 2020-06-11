@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import org.apache.commons.lang3.tuple.Pair;
 import org.onap.aai.domain.yang.CloudRegion;
 import org.onap.aai.domain.yang.GenericVnf;
@@ -35,7 +36,7 @@ import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingConfig;
 import org.onap.policy.so.SoModelInfo;
 import org.onap.policy.so.SoOperationType;
 import org.onap.policy.so.SoRelatedInstance;
@@ -43,6 +44,7 @@ import org.onap.policy.so.SoRelatedInstanceListElement;
 import org.onap.policy.so.SoRequest;
 import org.onap.policy.so.SoRequestDetails;
 import org.onap.policy.so.SoRequestParameters;
+import org.onap.policy.so.SoResponse;
 
 /**
  * Operation to create a VF Module. This gets the VF count from the A&AI Custom Query
@@ -61,7 +63,7 @@ public class VfModuleCreate extends SoOperation {
      * @param params operation parameters
      * @param config configuration for this operation
      */
-    public VfModuleCreate(ControlLoopOperationParams params, HttpConfig config) {
+    public VfModuleCreate(ControlLoopOperationParams params, HttpPollingConfig config) {
         super(params, config);
 
         // ensure we have the necessary parameters
@@ -101,7 +103,7 @@ public class VfModuleCreate extends SoOperation {
     protected CompletableFuture<OperationOutcome> startOperationAsync(int attempt, OperationOutcome outcome) {
 
         // starting a whole new attempt - reset the count
-        resetGetCount();
+        resetPollCount();
 
         Pair<String, SoRequest> pair = makeRequest();
         String path = getPath() + pair.getLeft();
@@ -120,11 +122,18 @@ public class VfModuleCreate extends SoOperation {
     }
 
     /**
-     * Increments the VF count that's stored in the context.
+     * Increments the VF count that's stored in the context, if the request was
+     * successful.
      */
     @Override
-    protected void successfulCompletion() {
-        setVfCount(getVfCount() + 1);
+    protected Status detmStatus(Response rawResponse, SoResponse response) {
+        Status status = super.detmStatus(rawResponse, response);
+
+        if (status == Status.SUCCESS) {
+            setVfCount(getVfCount() + 1);
+        }
+
+        return status;
     }
 
     /**
