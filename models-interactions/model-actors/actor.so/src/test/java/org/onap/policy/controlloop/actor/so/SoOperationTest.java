@@ -28,7 +28,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -37,8 +36,6 @@ import java.time.Month;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import org.junit.Before;
@@ -56,7 +53,6 @@ import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.so.SoModelInfo;
 import org.onap.policy.so.SoRequest;
 import org.onap.policy.so.SoRequestInfo;
-import org.onap.policy.so.SoRequestReferences;
 import org.onap.policy.so.SoRequestStatus;
 import org.onap.policy.so.SoResponse;
 
@@ -79,11 +75,10 @@ public class SoOperationTest extends BasicSoOperation {
     }
 
     @Test
-    public void testConstructor_testGetWaitMsGet() {
+    public void testConstructor() {
         assertEquals(DEFAULT_ACTOR, oper.getActorName());
         assertEquals(DEFAULT_OPERATION, oper.getName());
         assertSame(config, oper.getConfig());
-        assertEquals(1000 * WAIT_SEC_GETS, oper.getWaitMsGet());
 
         // check when Target is null
         params = params.toBuilder().target(null).build();
@@ -164,98 +159,6 @@ public class SoOperationTest extends BasicSoOperation {
 
         // repeat - shouldn't need to do anything now
         assertNull(oper.obtainVfCount());
-    }
-
-    @Test
-    public void testPostProcess() throws Exception {
-        // completed
-        oper.generateSubRequestId(2);
-        assertNull(oper.getSubRequestId());
-        CompletableFuture<OperationOutcome> future2 = oper.postProcessResponse(outcome, PATH, rawResponse, response);
-        assertTrue(future2.isDone());
-        assertSame(outcome, future2.get());
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
-        assertNotNull(oper.getSubRequestId());
-        assertSame(response, outcome.getResponse());
-
-        // failed
-        oper.generateSubRequestId(2);
-        assertNull(oper.getSubRequestId());
-        response.getRequest().getRequestStatus().setRequestState(SoOperation.FAILED);
-        future2 = oper.postProcessResponse(outcome, PATH, rawResponse, response);
-        assertTrue(future2.isDone());
-        assertSame(outcome, future2.get());
-        assertEquals(PolicyResult.FAILURE, outcome.getResult());
-        assertNotNull(oper.getSubRequestId());
-        assertSame(response, outcome.getResponse());
-
-        // no request id in the response
-        oper.generateSubRequestId(2);
-        assertNull(oper.getSubRequestId());
-        response.getRequestReferences().setRequestId(null);
-        response.getRequest().getRequestStatus().setRequestState("unknown");
-        assertThatIllegalArgumentException()
-                        .isThrownBy(() -> oper.postProcessResponse(outcome, PATH, rawResponse, response))
-                        .withMessage("missing request ID in response");
-        response.getRequestReferences().setRequestId(REQ_ID.toString());
-
-        // status = 500
-        when(rawResponse.getStatus()).thenReturn(500);
-
-        // null request reference
-        SoRequestReferences ref = response.getRequestReferences();
-        response.setRequestReferences(null);
-        assertThatIllegalArgumentException()
-                        .isThrownBy(() -> oper.postProcessResponse(outcome, PATH, rawResponse, response))
-                        .withMessage("missing request ID in response");
-        response.setRequestReferences(ref);
-    }
-
-    /**
-     * Tests postProcess() when the "get" is repeated a couple of times.
-     */
-    @Test
-    public void testPostProcessRepeated_testResetGetCount() throws Exception {
-        /*
-         * Two failures and then a success - should result in two "get" calls.
-         *
-         * Note: getStatus() is invoked twice during each call, so have to double up the
-         * return values.
-         */
-        when(rawResponse.getStatus()).thenReturn(500, 500, 500, 500, 200, 200);
-
-        when(client.get(any(), any(), any())).thenAnswer(provideResponse(rawResponse));
-
-        // use a real executor
-        params = params.toBuilder().executor(ForkJoinPool.commonPool()).build();
-
-        oper = new SoOperation(params, config) {
-            @Override
-            public long getWaitMsGet() {
-                return 1;
-            }
-        };
-
-        CompletableFuture<OperationOutcome> future2 = oper.postProcessResponse(outcome, PATH, rawResponse, response);
-
-        assertSame(outcome, future2.get(5, TimeUnit.SECONDS));
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
-        assertEquals(2, oper.getGetCount());
-
-        /*
-         * repeat - this time, the "get" operations will be exhausted, so it should fail
-         */
-        when(rawResponse.getStatus()).thenReturn(500);
-
-        future2 = oper.postProcessResponse(outcome, PATH, rawResponse, response);
-
-        assertSame(outcome, future2.get(5, TimeUnit.SECONDS));
-        assertEquals(PolicyResult.FAILURE_TIMEOUT, outcome.getResult());
-        assertEquals(MAX_GETS + 1, oper.getGetCount());
-
-        oper.resetGetCount();
-        assertEquals(0, oper.getGetCount());
-        assertNull(oper.getSubRequestId());
     }
 
     @Test

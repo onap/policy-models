@@ -35,7 +35,7 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.ParameterVali
 public class DecisionOperator extends HttpOperator {
 
     public DecisionOperator(String actorName, String name,
-                    @SuppressWarnings("rawtypes") OperationMaker<HttpConfig, HttpOperation> operationMaker) {
+                    OperationMaker<HttpConfig, HttpOperation<?>> operationMaker) {
         super(actorName, name, operationMaker);
     }
 

@@ -32,6 +32,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingConfig;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingParams;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.vfc.VfcRequest;
 import org.onap.policy.vfc.VfcResponse;
@@ -58,7 +62,7 @@ public class RestartTest extends BasicVfcOperation {
         params.getContext().getEnrichment().put("service-instance.service-instance-id", "test-service-instance-id");
         params.getContext().getEnrichment().put("vserver.vserver-id", "test-vserver-id");
         params.getContext().getEnrichment().put("vserver.vserver-name", "test-vserver-name");
-        restartOper = new Restart(params, config);
+        restartOper = new MyOper(params, config);
     }
 
     /**
@@ -66,11 +70,19 @@ public class RestartTest extends BasicVfcOperation {
      */
     @Test
     public void testSuccess() throws Exception {
-        VfcParams opParams = VfcParams.builder().clientName(MY_CLIENT).path("ns").pathGet("jobs").maxGets(1).build();
-        config = new VfcConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
+        HttpPollingParams opParams = HttpPollingParams.builder().clientName(MY_CLIENT).path("ns").pollPath("jobs")
+                        .maxPolls(1).build();
+        config = new HttpPollingConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
 
         params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).build();
-        restartOper = new Restart(params, config);
+
+        restartOper = new Restart(params, config) {
+            @Override
+            protected CompletableFuture<OperationOutcome> startOperationAsync(int attempt, OperationOutcome outcome) {
+                setUsePolling();
+                return super.startOperationAsync(attempt, outcome);
+            }
+        };
 
         outcome = restartOper.start().get();
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
@@ -81,7 +93,7 @@ public class RestartTest extends BasicVfcOperation {
     public void testConstructor() {
         CompletableFuture<OperationOutcome> futureRes = restartOper.startOperationAsync(1, outcome);
         assertNotNull(futureRes);
-        assertEquals(0, restartOper.getGetCount());
+        assertEquals(0, restartOper.getPollCount());
     }
 
     @Test
@@ -89,5 +101,12 @@ public class RestartTest extends BasicVfcOperation {
         Pair<String, VfcRequest> resultPair = restartOper.makeRequest();
         assertNotNull(resultPair.getLeft());
         assertNotNull(resultPair.getRight());
+    }
+
+    private static class MyOper extends Restart {
+        public MyOper(ControlLoopOperationParams params, HttpConfig config) {
+            super(params, config);
+            setUsePolling();
+        }
     }
 }

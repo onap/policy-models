@@ -29,19 +29,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import lombok.Getter;
 import org.onap.aai.domain.yang.CloudRegion;
 import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.aai.domain.yang.ServiceInstance;
 import org.onap.aai.domain.yang.Tenant;
 import org.onap.policy.aai.AaiConstants;
 import org.onap.policy.aai.AaiCqResponse;
-import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
-import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.common.gson.GsonMessageBodyHandler;
 import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
@@ -50,7 +45,7 @@ import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingConfig;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.controlloop.policy.Target;
 import org.onap.policy.so.SoCloudConfiguration;
@@ -61,15 +56,12 @@ import org.onap.policy.so.SoRequestParameters;
 import org.onap.policy.so.SoRequestStatus;
 import org.onap.policy.so.SoResponse;
 import org.onap.policy.so.util.SoLocalDateTimeTypeAdapter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
- * Superclass for SDNC Operators. Note: subclasses should invoke {@link #resetGetCount()}
+ * Superclass for SDNC Operators. Note: subclasses should invoke {@link #resetPollCount()}
  * each time they issue an HTTP request.
  */
 public abstract class SoOperation extends HttpOperation<SoResponse> {
-    private static final Logger logger = LoggerFactory.getLogger(SoOperation.class);
     private static final Coder coder = new SoCoder();
 
     public static final String PAYLOAD_KEY_VF_COUNT = "vfCount";
@@ -81,20 +73,12 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
     public static final String REQ_PARAM_NM = "requestParameters";
     public static final String CONFIG_PARAM_NM = "configurationParameters";
 
-    private final SoConfig config;
-
     // values extracted from the parameter Target
     private final String modelCustomizationId;
     private final String modelInvariantId;
     private final String modelVersionId;
 
     private final String vfCountKey;
-
-    /**
-     * Number of "get" requests issued so far, on the current operation attempt.
-     */
-    @Getter
-    private int getCount;
 
 
     /**
@@ -103,9 +87,8 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
      * @param params operation parameters
      * @param config configuration for this operation
      */
-    public SoOperation(ControlLoopOperationParams params, HttpConfig config) {
+    public SoOperation(ControlLoopOperationParams params, HttpPollingConfig config) {
         super(params, config, SoResponse.class);
-        this.config = (SoConfig) config;
 
         verifyNotNull("Target information", params.getTarget());
 
@@ -117,11 +100,9 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
                         + modelVersionId + "]";
     }
 
-    /**
-     * Subclasses should invoke this before issuing their first HTTP request.
-     */
-    protected void resetGetCount() {
-        getCount = 0;
+    @Override
+    protected void resetPollCount() {
+        super.resetPollCount();
         setSubRequestId(null);
     }
 
@@ -193,28 +174,18 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
         params.getContext().setProperty(vfCountKey, vfCount);
     }
 
-    /**
-     * If the response does not indicate that the request has been completed, then sleep a
-     * bit and issue a "get".
-     */
     @Override
-    protected CompletableFuture<OperationOutcome> postProcessResponse(OperationOutcome outcome, String url,
-                    Response rawResponse, SoResponse response) {
-
-        // see if the request has "completed", whether or not it was successful
+    protected Status detmStatus(Response rawResponse, SoResponse response) {
         if (rawResponse.getStatus() == 200) {
             String requestState = getRequestState(response);
             if (COMPLETE.equalsIgnoreCase(requestState)) {
                 extractSubRequestId(response);
-                successfulCompletion();
-                return CompletableFuture
-                                .completedFuture(setOutcome(outcome, PolicyResult.SUCCESS, rawResponse, response));
+                return Status.SUCCESS;
             }
 
             if (FAILED.equalsIgnoreCase(requestState)) {
                 extractSubRequestId(response);
-                return CompletableFuture
-                                .completedFuture(setOutcome(outcome, PolicyResult.FAILURE, rawResponse, response));
+                return Status.FAILURE;
             }
         }
 
@@ -225,18 +196,12 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
             throw new IllegalArgumentException("missing request ID in response");
         }
 
-        // see if the limit for the number of "gets" has been reached
-        if (getCount++ >= getMaxGets()) {
-            logger.warn("{}: execeeded 'get' limit {} for {}", getFullName(), getMaxGets(), params.getRequestId());
-            setOutcome(outcome, PolicyResult.FAILURE_TIMEOUT);
-            outcome.setResponse(response);
-            outcome.setMessage(SO_RESPONSE_CODE + " " + outcome.getMessage());
-            return CompletableFuture.completedFuture(outcome);
-        }
+        return Status.STILL_WAITING;
+    }
 
-        // sleep and then perform a "get" operation
-        Function<Void, CompletableFuture<OperationOutcome>> doGet = unused -> issueGet(outcome);
-        return sleep(getWaitMsGet(), TimeUnit.MILLISECONDS).thenComposeAsync(doGet);
+    @Override
+    protected String getPollingPath() {
+        return super.getPollingPath() + getSubRequestId();
     }
 
     @Override
@@ -252,30 +217,6 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
 
         setSubRequestId(response.getRequestReferences().getRequestId());
         return true;
-    }
-
-    /**
-     * Invoked when a request completes successfully.
-     */
-    protected void successfulCompletion() {
-        // do nothing
-    }
-
-    /**
-     * Issues a "get" request to see if the original request is complete yet.
-     *
-     * @param outcome outcome to be populated with the response
-     * @return a future that can be used to cancel the "get" request or await its response
-     */
-    private CompletableFuture<OperationOutcome> issueGet(OperationOutcome outcome) {
-        String path = getPathGet() + getSubRequestId();
-        String url = getClient().getBaseUrl() + path;
-
-        logger.debug("{}: 'get' count {} for {}", getFullName(), getCount, params.getRequestId());
-
-        logMessage(EventType.OUT, CommInfrastructure.REST, url, null);
-
-        return handleResponse(outcome, url, callback -> getClient().get(callback, path, null));
     }
 
     /**
@@ -317,8 +258,10 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
         // set default result and message
         setOutcome(outcome, result);
 
+        int code = (result == PolicyResult.FAILURE_TIMEOUT ? SO_RESPONSE_CODE : rawResponse.getStatus());
+
         outcome.setResponse(response);
-        outcome.setMessage(rawResponse.getStatus() + " " + outcome.getMessage());
+        outcome.setMessage(code + " " + outcome.getMessage());
         return outcome;
     }
 
@@ -466,27 +409,6 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
     }
 
     // these may be overridden by junit tests
-
-    /**
-     * Gets the wait time, in milliseconds, between "get" requests.
-     *
-     * @return the wait time, in milliseconds, between "get" requests
-     */
-    public long getWaitMsGet() {
-        return TimeUnit.MILLISECONDS.convert(getWaitSecGet(), TimeUnit.SECONDS);
-    }
-
-    public int getMaxGets() {
-        return config.getMaxGets();
-    }
-
-    public String getPathGet() {
-        return config.getPathGet();
-    }
-
-    public int getWaitSecGet() {
-        return config.getWaitSecGet();
-    }
 
     @Override
     protected Coder getCoder() {

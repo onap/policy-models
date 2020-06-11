@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.controlloop.actor.so;
+package org.onap.policy.controlloop.actorserviceprovider.parameters;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -26,10 +26,14 @@ import lombok.Setter;
 import org.onap.policy.common.parameters.annotations.Min;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpActorParams;
 
+/**
+ * Parameters used by Actors that, after issuing an HTTP request, must poll the target
+ * server to determine the request completion status.
+ */
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
-public class SoActorParams extends HttpActorParams {
+public class HttpPollingActorParams extends HttpActorParams {
 
     /*
      * Optional, default values that are used if missing from the operation-specific
@@ -37,20 +41,19 @@ public class SoActorParams extends HttpActorParams {
      */
 
     /**
-     * Path to use for the "get" request.
+     * Path to use when polling for request completion.
      */
-    private String pathGet = "/orchestrationRequests/v5/";
+    private String pollPath;
 
     /**
-     * Maximum number of "get" requests permitted, after the initial request, to retrieve
-     * the response.
+     * Maximum number of times to poll to retrieve the response.
      */
     @Min(0)
-    private int maxGets = 20;
+    private int maxPolls = 3;
 
     /**
-     * Time, in seconds, to wait between issuing "get" requests.
+     * Time, in seconds, to wait between polling.
      */
     @Min(1)
-    private int waitSecGet = 20;
+    private int pollWaitSec = 20;
 }

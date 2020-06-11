@@ -34,7 +34,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicParams;
@@ -108,8 +107,7 @@ public class BidirectionalTopicOperatorTest {
         AtomicReference<BidirectionalTopicConfig> configRef = new AtomicReference<>();
 
         // @formatter:off
-        @SuppressWarnings("rawtypes")
-        OperationMaker<BidirectionalTopicConfig, BidirectionalTopicOperation> maker =
+        OperationMaker<BidirectionalTopicConfig, BidirectionalTopicOperation<?,?>> maker =
             (params, config) -> {
                 paramsRef.set(params);
                 configRef.set(config);
@@ -152,7 +150,7 @@ public class BidirectionalTopicOperatorTest {
         }
 
         @Override
-        public Operation buildOperation(ControlLoopOperationParams params) {
+        public BidirectionalTopicOperation<?,?> buildOperation(ControlLoopOperationParams params) {
             return null;
         }
     }

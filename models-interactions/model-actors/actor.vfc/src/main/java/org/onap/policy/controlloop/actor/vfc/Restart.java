@@ -41,7 +41,7 @@ public class Restart extends VfcOperation {
     protected CompletableFuture<OperationOutcome> startOperationAsync(int attempt, OperationOutcome outcome) {
 
         // starting a whole new attempt - reset the count
-        resetGetCount();
+        resetPollCount();
 
         Pair<String, VfcRequest> pair = makeRequest();
         Entity<VfcRequest> entity = Entity.entity(pair.getRight(), MediaType.APPLICATION_JSON);

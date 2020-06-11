@@ -51,6 +51,8 @@ import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingConfig;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingParams;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.so.SoRequest;
 import org.onap.policy.so.SoResponse;
@@ -80,7 +82,7 @@ public class VfModuleCreateTest extends BasicSoOperation {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        oper = new VfModuleCreate(params, config);
+        oper = new MyOperation(params, config);
     }
 
     /**
@@ -88,12 +90,20 @@ public class VfModuleCreateTest extends BasicSoOperation {
      */
     @Test
     public void testSuccess() throws Exception {
-        SoParams opParams = SoParams.builder().clientName(MY_CLIENT).path("serviceInstantiation/v7/serviceInstances")
-                        .pathGet("orchestrationRequests/v5/").maxGets(2).build();
-        config = new SoConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
+        HttpPollingParams opParams = HttpPollingParams.builder().clientName(MY_CLIENT)
+                        .path("serviceInstantiation/v7/serviceInstances").pollPath("orchestrationRequests/v5/")
+                        .maxPolls(2).build();
+        config = new HttpPollingConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
 
         params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).build();
-        oper = new VfModuleCreate(params, config);
+
+        oper = new VfModuleCreate(params, config) {
+            @Override
+            protected CompletableFuture<OperationOutcome> startOperationAsync(int attempt, OperationOutcome outcome) {
+                setUsePolling();
+                return super.startOperationAsync(attempt, outcome);
+            }
+        };
 
         outcome = oper.start().get();
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
@@ -107,7 +117,7 @@ public class VfModuleCreateTest extends BasicSoOperation {
 
         // verify that target validation is done
         params = params.toBuilder().target(null).build();
-        assertThatIllegalArgumentException().isThrownBy(() -> new VfModuleCreate(params, config))
+        assertThatIllegalArgumentException().isThrownBy(() -> new MyOperation(params, config))
                         .withMessageContaining("Target information");
     }
 
@@ -118,7 +128,7 @@ public class VfModuleCreateTest extends BasicSoOperation {
 
         AtomicBoolean guardStarted = new AtomicBoolean();
 
-        oper = new VfModuleCreate(params, config) {
+        oper = new MyOperation(params, config) {
             @Override
             protected CompletableFuture<OperationOutcome> startGuardAsync() {
                 guardStarted.set(true);
@@ -177,9 +187,9 @@ public class VfModuleCreateTest extends BasicSoOperation {
         // use a real executor
         params = params.toBuilder().executor(ForkJoinPool.commonPool()).build();
 
-        oper = new VfModuleCreate(params, config) {
+        oper = new MyOperation(params, config) {
             @Override
-            public long getWaitMsGet() {
+            protected long getPollWaitMs() {
                 return 1;
             }
         };
@@ -197,10 +207,10 @@ public class VfModuleCreateTest extends BasicSoOperation {
     }
 
     /**
-     * Tests startOperationAsync() when "get" operations are required.
+     * Tests startOperationAsync() when polling is required.
      */
     @Test
-    public void testStartOperationAsyncWithGets() throws Exception {
+    public void testStartOperationAsyncWithPolling() throws Exception {
         when(rawResponse.getStatus()).thenReturn(500, 500, 500, 500, 200, 200);
 
         when(client.post(any(), any(), any(), any())).thenAnswer(provideResponse(rawResponse));
@@ -209,9 +219,9 @@ public class VfModuleCreateTest extends BasicSoOperation {
         // use a real executor
         params = params.toBuilder().executor(ForkJoinPool.commonPool()).build();
 
-        oper = new VfModuleCreate(params, config) {
+        oper = new MyOperation(params, config) {
             @Override
-            public long getWaitMsGet() {
+            public long getPollWaitMs() {
                 return 1;
             }
         };
@@ -259,5 +269,13 @@ public class VfModuleCreateTest extends BasicSoOperation {
         modelVers.setModelVersion(MODEL_VERS2);
 
         params.getContext().setProperty(AaiCqResponse.CONTEXT_KEY, cq);
+    }
+
+    private class MyOperation extends VfModuleCreate {
+
+        public MyOperation(ControlLoopOperationParams params, HttpPollingConfig config) {
+            super(params, config);
+            setUsePolling();
+        }
     }
 }

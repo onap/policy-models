@@ -21,13 +21,8 @@
 package org.onap.policy.controlloop.actor.vfc;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
 import javax.ws.rs.core.Response;
-import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
-import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
-import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperation;
@@ -39,12 +34,8 @@ import org.onap.policy.vfc.VfcHealAdditionalParams;
 import org.onap.policy.vfc.VfcHealRequest;
 import org.onap.policy.vfc.VfcRequest;
 import org.onap.policy.vfc.VfcResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public abstract class VfcOperation extends HttpOperation<VfcResponse> {
-    private static final Logger logger = LoggerFactory.getLogger(VfcOperation.class);
-
     public static final String FAILED = "FAILED";
     public static final String COMPLETE = "COMPLETE";
     public static final int VFC_RESPONSE_CODE = 999;
@@ -53,13 +44,11 @@ public abstract class VfcOperation extends HttpOperation<VfcResponse> {
     public static final String REQ_PARAM_NM = "requestParameters";
     public static final String CONFIG_PARAM_NM = "configurationParameters";
 
-    private final VfcConfig config;
-
     /**
-     * Number of "get" requests issued so far, on the current operation attempt.
+     * Job ID extracted from the first response.
      */
-    @Getter
-    private int getCount;
+    private String jobId;
+
 
     /**
      * Constructs the object.
@@ -69,14 +58,17 @@ public abstract class VfcOperation extends HttpOperation<VfcResponse> {
      */
     public VfcOperation(ControlLoopOperationParams params, HttpConfig config) {
         super(params, config, VfcResponse.class);
-        this.config = (VfcConfig) config;
     }
 
-    /**
-     * Subclasses should invoke this before issuing their first HTTP request.
-     */
-    protected void resetGetCount() {
-        getCount = 0;
+    @Override
+    protected void resetPollCount() {
+        super.resetPollCount();
+        jobId = null;
+    }
+
+    @Override
+    protected String getPollingPath() {
+        return super.getPollingPath() + jobId;
     }
 
     /**
@@ -87,64 +79,31 @@ public abstract class VfcOperation extends HttpOperation<VfcResponse> {
         return startGuardAsync();
     }
 
-    /**
-     * If the response does not indicate that the request has been completed, then sleep a
-     * bit and issue a "get".
-     */
     @Override
-    protected CompletableFuture<OperationOutcome> postProcessResponse(OperationOutcome outcome, String url,
-            Response rawResponse, VfcResponse response) {
-        // Determine if the request has "completed" and determine if it was successful
+    protected Status detmStatus(Response rawResponse, VfcResponse response) {
         if (rawResponse.getStatus() == 200) {
             String requestState = getRequestState(response);
             if ("finished".equalsIgnoreCase(requestState)) {
-                return CompletableFuture
-                        .completedFuture(setOutcome(outcome, PolicyResult.SUCCESS, rawResponse, response));
+                jobId = response.getJobId();
+                return Status.SUCCESS;
             }
 
             if ("error".equalsIgnoreCase(requestState)) {
-                return CompletableFuture
-                        .completedFuture(setOutcome(outcome, PolicyResult.FAILURE, rawResponse, response));
+                jobId = response.getJobId();
+                return Status.FAILURE;
             }
         }
 
         // still incomplete
 
-        // need a request ID with which to query
-        if (response == null || response.getJobId() == null) {
+        // need a job ID with which to query
+        if (jobId == null && response.getJobId() == null) {
             throw new IllegalArgumentException("missing job ID in response");
         }
 
-        // see if the limit for the number of "gets" has been reached
-        if (getCount++ >= getMaxGets()) {
-            logger.warn("{}: execeeded 'get' limit {} for {}", getFullName(), getMaxGets(), params.getRequestId());
-            setOutcome(outcome, PolicyResult.FAILURE_TIMEOUT);
-            outcome.setResponse(response);
-            outcome.setMessage(VFC_RESPONSE_CODE + " " + outcome.getMessage());
-            return CompletableFuture.completedFuture(outcome);
-        }
+        jobId = response.getJobId();
 
-        // sleep and then perform a "get" operation
-        Function<Void, CompletableFuture<OperationOutcome>> doGet = unused -> issueGet(outcome, response);
-        return sleep(getWaitMsGet(), TimeUnit.MILLISECONDS).thenComposeAsync(doGet);
-    }
-
-    /**
-     * Issues a "get" request to see if the original request is complete yet.
-     *
-     * @param outcome outcome to be populated with the response
-     * @param response previous response
-     * @return a future that can be used to cancel the "get" request or await its response
-     */
-    private CompletableFuture<OperationOutcome> issueGet(OperationOutcome outcome, VfcResponse response) {
-        String path = getPathGet() + response.getJobId();
-        String url = getClient().getBaseUrl() + path;
-
-        logger.debug("{}: 'get' count {} for {}", getFullName(), getCount, params.getRequestId());
-
-        logMessage(EventType.OUT, CommInfrastructure.REST, url, null);
-
-        return handleResponse(outcome, url, callback -> getClient().get(callback, path, null));
+        return Status.STILL_WAITING;
     }
 
     /**
@@ -180,8 +139,10 @@ public abstract class VfcOperation extends HttpOperation<VfcResponse> {
         // set default result and message
         setOutcome(outcome, result);
 
+        int code = (result == PolicyResult.FAILURE_TIMEOUT ? VFC_RESPONSE_CODE : rawResponse.getStatus());
+
         outcome.setResponse(response);
-        outcome.setMessage(rawResponse.getStatus() + " " + outcome.getMessage());
+        outcome.setMessage(code + " " + outcome.getMessage());
         return outcome;
     }
 
@@ -220,28 +181,5 @@ public abstract class VfcOperation extends HttpOperation<VfcResponse> {
         request.setRequestId(context.getEvent().getRequestId());
 
         return request;
-    }
-
-    // These may be overridden by jUnit tests
-
-    /**
-     * Gets the wait time, in milliseconds, between "get" requests.
-     *
-     * @return the wait time, in milliseconds, between "get" requests
-     */
-    public long getWaitMsGet() {
-        return TimeUnit.MILLISECONDS.convert(getWaitSecGet(), TimeUnit.SECONDS);
-    }
-
-    public int getMaxGets() {
-        return config.getMaxGets();
-    }
-
-    public String getPathGet() {
-        return config.getPathGet();
-    }
-
-    public int getWaitSecGet() {
-        return config.getWaitSecGet();
     }
 }

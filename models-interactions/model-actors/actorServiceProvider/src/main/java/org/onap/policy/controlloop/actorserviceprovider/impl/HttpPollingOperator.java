@@ -25,14 +25,17 @@ import org.onap.policy.common.endpoints.http.client.HttpClientFactory;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingConfig;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ParameterValidationRuntimeException;
 
 /**
- * Operator that uses HTTP. The operator's parameters must be an {@link HttpParams}.
+ * Operator that uses HTTP and polls for the request completion status. The operator's
+ * parameters must be an {@link HttpParams}.
  */
-public class HttpOperator extends TypedOperator<HttpConfig,HttpOperation<?>> {
+public class HttpPollingOperator extends TypedOperator<HttpPollingConfig, HttpOperation<?>> {
 
     /**
      * Constructs the object.
@@ -40,7 +43,7 @@ public class HttpOperator extends TypedOperator<HttpConfig,HttpOperation<?>> {
      * @param actorName name of the actor with which this operator is associated
      * @param name operation name
      */
-    protected HttpOperator(String actorName, String name) {
+    protected HttpPollingOperator(String actorName, String name) {
         this(actorName, name, null);
     }
 
@@ -51,8 +54,8 @@ public class HttpOperator extends TypedOperator<HttpConfig,HttpOperation<?>> {
      * @param name operation name
      * @param operationMaker function to make an operation
      */
-    public HttpOperator(String actorName, String name,
-                    OperationMaker<HttpConfig, HttpOperation<?>> operationMaker) {
+    public HttpPollingOperator(String actorName, String name,
+                    OperationMaker<HttpPollingConfig, HttpOperation<?>> operationMaker) {
         super(actorName, name, operationMaker);
     }
 
@@ -62,17 +65,25 @@ public class HttpOperator extends TypedOperator<HttpConfig,HttpOperation<?>> {
      * @param parameters operator parameters
      * @return a new configuration
      */
-    protected HttpConfig makeConfiguration(Map<String, Object> parameters) {
-        HttpParams params = Util.translate(getFullName(), parameters, HttpParams.class);
+    protected HttpPollingConfig makeConfiguration(Map<String, Object> parameters) {
+        HttpPollingParams params = Util.translate(getFullName(), parameters, HttpPollingParams.class);
         ValidationResult result = params.validate(getFullName());
         if (!result.isValid()) {
             throw new ParameterValidationRuntimeException("invalid parameters", result);
         }
 
-        return new HttpConfig(getBlockingExecutor(), params, getClientFactory());
+        return new HttpPollingConfig(getBlockingExecutor(), params, getClientFactory());
     }
 
     // these may be overridden by junit tests
+
+    @Override
+    public HttpOperation<?> buildOperation(ControlLoopOperationParams params) {
+        HttpOperation<?> oper = super.buildOperation(params);
+        oper.setUsePolling();
+
+        return oper;
+    }
 
     protected HttpClientFactory getClientFactory() {
         return HttpClientFactoryInstance.getClientFactory();
