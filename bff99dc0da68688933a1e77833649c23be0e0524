@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b652aff_61bdddee",
+        "filename": "models-sim/policy-models-sim-pdp/src/main/java/org/onap/policy/models/sim/pdp/PdpSimulatorCommandLineArguments.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-06-11T18:06:49Z",
+      "side": 1,
+      "message": "2020 should be on the AT\u0026T line",
+      "revId": "bff99dc0da68688933a1e77833649c23be0e0524",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
