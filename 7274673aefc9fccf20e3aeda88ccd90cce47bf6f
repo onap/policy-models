@@ -16,6 +16,24 @@
       "revId": "7274673aefc9fccf20e3aeda88ccd90cce47bf6f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a322f25_744ddce7",
+        "filename": "models-interactions/model-actors/actor.test/src/test/resources/service.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-06-11T16:57:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "600d3b3f_5fd11c5f",
+      "revId": "7274673aefc9fccf20e3aeda88ccd90cce47bf6f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
