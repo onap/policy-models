@@ -2,6 +2,7 @@
 #
 # ============LICENSE_START=======================================================
 #  Copyright (C) 2019 Nordix Foundation.
+#  Modifications copyright (C) 2020 Bell Canada. All rights reserved.
 # ================================================================================
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -50,6 +51,5 @@ $JAVA_HOME/bin/java \
     -Djavax.net.ssl.keyStorePassword="$KEYSTORE_PASSWD" \
     -Djavax.net.ssl.trustStore="$TRUSTSTORE" \
     -Djavax.net.ssl.trustStorePassword="$TRUSTSTORE_PASSWD" \
-    -Dlogback.configurationFile=$DMAAP_SIM_HOME/etc/logback.xml \
     org.onap.policy.models.sim.dmaap.startstop.Main \
     -c $CONFIG_FILE

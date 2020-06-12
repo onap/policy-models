@@ -4,6 +4,7 @@
 # ONAP
 # ================================================================================
 # Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+# Modifications copyright (C) 2020 Bell Canada. All rights reserved.
 # ================================================================================
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -34,7 +35,6 @@ TRUSTSTORE_PASSWD="Pol1cy_0nap"
 
 ${JAVA_HOME}/bin/java \
     -cp "${SIMULATOR_HOME}/etc:${SIMULATOR_HOME}/lib/*" \
-    -Dlogback.configurationFile=${SIMULATOR_HOME}/etc/logback.xml \
     -Djavax.net.ssl.keyStore="${KEYSTORE}" \
     -Djavax.net.ssl.keyStorePassword="${KEYSTORE_PASSWD}" \
     -Djavax.net.ssl.trustStore="${TRUSTSTORE}" \
