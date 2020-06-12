@@ -3,6 +3,7 @@ policy_types:
     onap.policies.Naming:
         derived_from: tosca.policies.Root
         version: 1.0.0
+        name: onap.policies.Naming
         description: Virtual policy node for naming
         properties:
             policy-instance-name:

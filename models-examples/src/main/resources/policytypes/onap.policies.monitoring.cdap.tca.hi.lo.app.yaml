@@ -3,10 +3,12 @@ policy_types:
    onap.policies.Monitoring:
       derived_from: tosca.policies.Root
       version: 1.0.0
+      name: onap.policies.Monitoring
       description: a base policy type for all policies that govern monitoring provisioning
    onap.policies.monitoring.cdap.tca.hi.lo.app:
       derived_from: onap.policies.Monitoring
       version: 1.0.0
+      name: onap.policies.monitoring.cdap.tca.hi.lo.app
       properties:
          tca_policy:
             type: onap.datatypes.monitoring.tca_policy

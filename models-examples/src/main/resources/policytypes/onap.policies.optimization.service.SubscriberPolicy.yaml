@@ -3,6 +3,7 @@ policy_types:
     onap.policies.optimization.service.SubscriberPolicy:
         derived_from: onap.policies.optimization.Service
         version: 1.0.0
+        name: onap.policies.optimization.service.SubscriberPolicy
         properties:
             subscriberProperties:
                 type: policy.data.subscriberProperties_properties

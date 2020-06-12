@@ -3,6 +3,7 @@ policy_types:
    onap.policies.optimization.resource.DistancePolicy:
       derived_from: onap.policies.optimization.Resource
       version: 1.0.0
+      name: onap.policies.optimization.resource.DistancePolicy
       properties:
          applicableResources:
             type: list

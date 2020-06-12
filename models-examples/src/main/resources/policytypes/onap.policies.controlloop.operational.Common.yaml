@@ -3,6 +3,7 @@ policy_types:
     onap.policies.controlloop.operational.Common:
         derived_from: tosca.policies.Root
         version: 1.0.0
+        name: onap.policies.controlloop.operational.Common
         description: |
             Operational Policy for Control Loop execution. Originated in Frankfurt to support TOSCA Compliant
             Policy Types. This does NOT support the legacy Policy YAML policy type.

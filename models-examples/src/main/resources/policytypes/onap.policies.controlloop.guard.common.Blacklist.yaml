@@ -4,6 +4,7 @@ policy_types:
         derived_from: onap.policies.controlloop.guard.Common
         type_version: 1.0.0
         version: 1.0.0
+        name: onap.policies.controlloop.guard.common.Blacklist
         description: Supports blacklist of entity id's from performing control loop actions on.
         properties:
             blacklist:

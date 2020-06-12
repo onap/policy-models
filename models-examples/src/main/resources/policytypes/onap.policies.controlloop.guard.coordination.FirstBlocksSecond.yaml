@@ -3,14 +3,17 @@ policy_types:
    onap.policies.controlloop.Guard:
       derived_from: tosca.policies.Root
       version: 1.0.0
+      name: onap.policies.controlloop.Guard
       description: Guard Policies for Control Loop Operational Policies
    onap.policies.controlloop.guard.Coordination:
       derived_from: onap.policies.controlloop.Guard
       version: 1.0.0
+      name: onap.policies.controlloop.guard.Coordination
       description: Guard Policies for Control Loop Coordination
    onap.policies.controlloop.guard.coordination.FirstBlocksSecond:
       derived_from: onap.policies.controlloop.guard.Coordination
       version: 1.0.0
+      name: onap.policies.controlloop.guard.coordination.FirstBlocksSecond
       description: Supports one Control Loop blocking another
       properties:
          controlLoop:

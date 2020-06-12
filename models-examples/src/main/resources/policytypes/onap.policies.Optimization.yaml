@@ -3,6 +3,7 @@ policy_types:
    onap.policies.Optimization:
       derived_from: tosca.policies.Root
       version: 1.0.0
+      name: onap.policies.Optimization
       description: The base policy type for all policies that govern optimization
       properties:
          scope:
