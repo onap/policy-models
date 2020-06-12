@@ -37,15 +37,6 @@
     </dependencySets>
     <fileSets>
         <fileSet>
-            <directory>${project.basedir}/src/main/resources
-            </directory>
-            <includes>
-                <include>logback.xml</include>
-            </includes>
-            <outputDirectory>etc</outputDirectory>
-            <lineEnding>unix</lineEnding>
-        </fileSet>
-        <fileSet>
             <directory>${project.basedir}/src/main/resources/config
             </directory>
             <includes>

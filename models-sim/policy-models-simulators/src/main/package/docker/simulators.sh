@@ -34,7 +34,6 @@ TRUSTSTORE_PASSWD="Pol1cy_0nap"
 
 ${JAVA_HOME}/bin/java \
     -cp "${SIMULATOR_HOME}/etc:${SIMULATOR_HOME}/lib/*" \
-    -Dlogback.configurationFile=${SIMULATOR_HOME}/etc/logback.xml \
     -Djavax.net.ssl.keyStore="${KEYSTORE}" \
     -Djavax.net.ssl.keyStorePassword="${KEYSTORE_PASSWD}" \
     -Djavax.net.ssl.trustStore="${TRUSTSTORE}" \

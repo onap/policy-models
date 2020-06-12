@@ -47,15 +47,6 @@
             <fileMode>755</fileMode>
         </fileSet>
         <fileSet>
-            <directory>${project.basedir}/src/main/resources
-            </directory>
-            <includes>
-                <include>logback.xml</include>
-            </includes>
-            <outputDirectory>etc</outputDirectory>
-            <lineEnding>unix</lineEnding>
-        </fileSet>
-        <fileSet>
             <directory>${project.basedir}/src/main/resources/etc
             </directory>
             <includes>

@@ -50,6 +50,5 @@ $JAVA_HOME/bin/java \
     -Djavax.net.ssl.keyStorePassword="$KEYSTORE_PASSWD" \
     -Djavax.net.ssl.trustStore="$TRUSTSTORE" \
     -Djavax.net.ssl.trustStorePassword="$TRUSTSTORE_PASSWD" \
-    -Dlogback.configurationFile=$DMAAP_SIM_HOME/etc/logback.xml \
     org.onap.policy.models.sim.dmaap.startstop.Main \
     -c $CONFIG_FILE
