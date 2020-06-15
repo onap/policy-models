@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70f4f4ab_c41d5e69",
+        "filename": "models-examples/src/main/resources/policies/usecases.native.artifact.policy.input.tosca.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-06-15T12:55:57Z",
+      "side": 1,
+      "message": "Is this correct?",
+      "revId": "ccfe8ca881e3764cebc132f2fa5832493721130f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
