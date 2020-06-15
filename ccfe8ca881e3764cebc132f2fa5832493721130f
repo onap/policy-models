@@ -16,6 +16,24 @@
       "revId": "ccfe8ca881e3764cebc132f2fa5832493721130f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78525dd0_1f85b26b",
+        "filename": "models-examples/src/main/resources/policies/usecases.native.artifact.policy.input.tosca.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-06-15T13:21:11Z",
+      "side": 1,
+      "message": "this is correct,good catch!",
+      "parentUuid": "70f4f4ab_c41d5e69",
+      "revId": "ccfe8ca881e3764cebc132f2fa5832493721130f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
