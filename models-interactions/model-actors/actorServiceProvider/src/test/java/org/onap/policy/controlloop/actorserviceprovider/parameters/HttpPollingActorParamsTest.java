@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.controlloop.actor.so;
+package org.onap.policy.controlloop.actorserviceprovider.parameters;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertFalse;
@@ -34,12 +34,12 @@ import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ActorParams;
 
 
-public class SoActorParamsTest {
+public class HttpPollingActorParamsTest {
     private static final String CONTAINER = "my-container";
     private static final String CLIENT = "my-client";
-    private static final String PATH_GET = "my-path-get";
-    private static final int MAX_GETS = 3;
-    private static final int WAIT_SEC_GETS = 20;
+    private static final String POLL_PATH = "my-poll-path";
+    private static final int MAX_POLLS = 3;
+    private static final int POLL_WAIT_SEC = 20;
     private static final int TIMEOUT = 10;
 
     private static final String PATH1 = "path #1";
@@ -48,7 +48,7 @@ public class SoActorParamsTest {
     private static final String URI2 = "uri #2";
 
     private Map<String, Map<String, Object>> operations;
-    private SoActorParams params;
+    private HttpPollingActorParams params;
 
     /**
      * Initializes {@link #operations} with two items and {@link params} with a fully
@@ -60,7 +60,7 @@ public class SoActorParamsTest {
         operations.put(PATH1, Map.of("path", URI1));
         operations.put(PATH2, Map.of("path", URI2));
 
-        params = makeSoActorParams();
+        params = makeHttpPollingActorParams();
     }
 
     @Test
@@ -68,50 +68,50 @@ public class SoActorParamsTest {
         assertTrue(params.validate(CONTAINER).isValid());
 
         // only a few fields are required
-        SoActorParams sparse = Util.translate(CONTAINER, Map.of(ActorParams.OPERATIONS_FIELD, operations),
-                        SoActorParams.class);
+        HttpPollingActorParams sparse = Util.translate(CONTAINER, Map.of(ActorParams.OPERATIONS_FIELD, operations),
+                        HttpPollingActorParams.class);
         assertTrue(sparse.validate(CONTAINER).isValid());
 
-        testValidateField("maxGets", "minimum", params2 -> params2.setMaxGets(-1));
-        testValidateField("waitSecGet", "minimum", params2 -> params2.setWaitSecGet(0));
+        testValidateField("maxPolls", "minimum", params2 -> params2.setMaxPolls(-1));
+        testValidateField("pollWaitSec", "minimum", params2 -> params2.setPollWaitSec(0));
 
         // check fields from superclass
         testValidateField(ActorParams.OPERATIONS_FIELD, "null", params2 -> params2.setOperations(null));
         testValidateField("timeoutSec", "minimum", params2 -> params2.setTimeoutSec(-1));
 
         // check edge cases
-        params.setMaxGets(0);
+        params.setMaxPolls(0);
         assertTrue(params.validate(CONTAINER).isValid());
-        params.setMaxGets(MAX_GETS);
+        params.setMaxPolls(MAX_POLLS);
 
-        params.setWaitSecGet(1);
+        params.setPollWaitSec(1);
         assertTrue(params.validate(CONTAINER).isValid());
-        params.setWaitSecGet(WAIT_SEC_GETS);
+        params.setPollWaitSec(POLL_WAIT_SEC);
     }
 
-    private void testValidateField(String fieldName, String expected, Consumer<SoActorParams> makeInvalid) {
+    private void testValidateField(String fieldName, String expected, Consumer<HttpPollingActorParams> makeInvalid) {
 
         // original params should be valid
         ValidationResult result = params.validate(CONTAINER);
         assertTrue(fieldName, result.isValid());
 
         // make invalid params
-        SoActorParams params2 = makeSoActorParams();
+        HttpPollingActorParams params2 = makeHttpPollingActorParams();
         makeInvalid.accept(params2);
         result = params2.validate(CONTAINER);
         assertFalse(fieldName, result.isValid());
         assertThat(result.getResult()).contains(CONTAINER).contains(fieldName).contains(expected);
     }
 
-    private SoActorParams makeSoActorParams() {
-        SoActorParams params2 = new SoActorParams();
+    private HttpPollingActorParams makeHttpPollingActorParams() {
+        HttpPollingActorParams params2 = new HttpPollingActorParams();
         params2.setClientName(CLIENT);
         params2.setTimeoutSec(TIMEOUT);
         params2.setOperations(operations);
 
-        params2.setWaitSecGet(WAIT_SEC_GETS);
-        params2.setMaxGets(MAX_GETS);
-        params2.setPathGet(PATH_GET);
+        params2.setPollWaitSec(POLL_WAIT_SEC);
+        params2.setMaxPolls(MAX_POLLS);
+        params2.setPollPath(POLL_PATH);
 
         return params2;
     }

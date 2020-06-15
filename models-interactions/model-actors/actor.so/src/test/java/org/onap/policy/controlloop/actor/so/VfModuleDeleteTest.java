@@ -64,7 +64,8 @@ import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingConfig;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingParams;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.so.SoRequest;
 import org.onap.policy.so.SoResponse;
@@ -119,11 +120,12 @@ public class VfModuleDeleteTest extends BasicSoOperation {
      */
     @Test
     public void testSuccess() throws Exception {
-        SoParams opParams = SoParams.builder().clientName(MY_CLIENT).path("serviceInstances/v7")
-                        .pathGet("orchestrationRequests/v5/").maxGets(2).build();
-        config = new SoConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
+        HttpPollingParams opParams = HttpPollingParams.builder().clientName(MY_CLIENT).path("serviceInstances/v7")
+                        .pollPath("orchestrationRequests/v5/").maxPolls(2).build();
+        config = new HttpPollingConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
 
         params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).build();
+
         oper = new VfModuleDelete(params, config);
 
         outcome = oper.start().get();
@@ -138,7 +140,7 @@ public class VfModuleDeleteTest extends BasicSoOperation {
 
         // verify that target validation is done
         params = params.toBuilder().target(null).build();
-        assertThatIllegalArgumentException().isThrownBy(() -> new VfModuleDelete(params, config))
+        assertThatIllegalArgumentException().isThrownBy(() -> new MyOperation(params, config))
                         .withMessageContaining("Target information");
     }
 
@@ -208,7 +210,7 @@ public class VfModuleDeleteTest extends BasicSoOperation {
 
         oper = new MyOperation(params, config) {
             @Override
-            public long getWaitMsGet() {
+            public long getPollWaitMs() {
                 return 1;
             }
         };
@@ -226,10 +228,10 @@ public class VfModuleDeleteTest extends BasicSoOperation {
     }
 
     /**
-     * Tests startOperationAsync() when "get" operations are required.
+     * Tests startOperationAsync() when polling is required.
      */
     @Test
-    public void testStartOperationAsyncWithGets() throws Exception {
+    public void testStartOperationAsyncWithPolling() throws Exception {
 
         // indicate that the response was incomplete
         configureResponse(coder.encode(response).replace("COMPLETE", "incomplete"));
@@ -242,7 +244,7 @@ public class VfModuleDeleteTest extends BasicSoOperation {
 
         oper = new MyOperation(params, config) {
             @Override
-            public long getWaitMsGet() {
+            public long getPollWaitMs() {
                 return 1;
             }
         };
@@ -383,7 +385,7 @@ public class VfModuleDeleteTest extends BasicSoOperation {
     @Test
     public void testMakeHttpClient() {
         // must use a real operation to invoke this method
-        assertNotNull(new VfModuleDelete(params, config).makeHttpClient());
+        assertNotNull(new MyOperation(params, config).makeHttpClient());
     }
 
 
@@ -428,7 +430,7 @@ public class VfModuleDeleteTest extends BasicSoOperation {
 
     private class MyOperation extends VfModuleDelete {
 
-        public MyOperation(ControlLoopOperationParams params, HttpConfig config) {
+        public MyOperation(ControlLoopOperationParams params, HttpPollingConfig config) {
             super(params, config);
         }
 

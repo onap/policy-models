@@ -21,18 +21,30 @@
 package org.onap.policy.controlloop.actorserviceprovider.impl;
 
 import java.util.Map;
-import org.onap.policy.common.endpoints.http.client.HttpClientFactory;
-import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
-import org.onap.policy.common.parameters.ValidationResult;
-import org.onap.policy.controlloop.actorserviceprovider.Util;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
+import lombok.Getter;
+import org.onap.policy.controlloop.actorserviceprovider.Operation;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.ParameterValidationRuntimeException;
 
 /**
- * Operator that uses HTTP. The operator's parameters must be an {@link HttpParams}.
+ * Operator with typed parameter information.
+ *
+ * @param <C> type of configuration data
+ * @param <T> type of operation that the operator creates
  */
-public class HttpOperator extends TypedOperator<HttpConfig,HttpOperation<?>> {
+public abstract class TypedOperator<C, T extends Operation> extends OperatorPartial {
+
+    /**
+     * Function to make an operation.
+     */
+    private final OperationMaker<C, T> operationMaker;
+
+    /**
+     * Current configuration. This is set by {@link #doConfigure(Map)}.
+     */
+    @Getter
+    private C currentConfig;
+
 
     /**
      * Constructs the object.
@@ -40,7 +52,7 @@ public class HttpOperator extends TypedOperator<HttpConfig,HttpOperation<?>> {
      * @param actorName name of the actor with which this operator is associated
      * @param name operation name
      */
-    protected HttpOperator(String actorName, String name) {
+    protected TypedOperator(String actorName, String name) {
         this(actorName, name, null);
     }
 
@@ -51,9 +63,17 @@ public class HttpOperator extends TypedOperator<HttpConfig,HttpOperation<?>> {
      * @param name operation name
      * @param operationMaker function to make an operation
      */
-    public HttpOperator(String actorName, String name,
-                    OperationMaker<HttpConfig, HttpOperation<?>> operationMaker) {
-        super(actorName, name, operationMaker);
+    public TypedOperator(String actorName, String name, OperationMaker<C, T> operationMaker) {
+        super(actorName, name);
+        this.operationMaker = operationMaker;
+    }
+
+    /**
+     * Translates the parameters, saving the relevant configuration data.
+     */
+    @Override
+    protected void doConfigure(Map<String, Object> parameters) {
+        currentConfig = makeConfiguration(parameters);
     }
 
     /**
@@ -62,19 +82,16 @@ public class HttpOperator extends TypedOperator<HttpConfig,HttpOperation<?>> {
      * @param parameters operator parameters
      * @return a new configuration
      */
-    protected HttpConfig makeConfiguration(Map<String, Object> parameters) {
-        HttpParams params = Util.translate(getFullName(), parameters, HttpParams.class);
-        ValidationResult result = params.validate(getFullName());
-        if (!result.isValid()) {
-            throw new ParameterValidationRuntimeException("invalid parameters", result);
+    protected abstract C makeConfiguration(Map<String, Object> parameters);
+
+    @Override
+    public T buildOperation(ControlLoopOperationParams params) {
+        if (operationMaker == null) {
+            throw new UnsupportedOperationException("cannot make operation for " + getFullName());
         }
 
-        return new HttpConfig(getBlockingExecutor(), params, getClientFactory());
-    }
+        verifyRunning();
 
-    // these may be overridden by junit tests
-
-    protected HttpClientFactory getClientFactory() {
-        return HttpClientFactoryInstance.getClientFactory();
+        return operationMaker.apply(params, currentConfig);
     }
 }

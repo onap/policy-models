@@ -51,6 +51,8 @@ import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingConfig;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingParams;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.so.SoRequest;
 import org.onap.policy.so.SoResponse;
@@ -88,11 +90,13 @@ public class VfModuleCreateTest extends BasicSoOperation {
      */
     @Test
     public void testSuccess() throws Exception {
-        SoParams opParams = SoParams.builder().clientName(MY_CLIENT).path("serviceInstantiation/v7/serviceInstances")
-                        .pathGet("orchestrationRequests/v5/").maxGets(2).build();
-        config = new SoConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
+        HttpPollingParams opParams = HttpPollingParams.builder().clientName(MY_CLIENT)
+                        .path("serviceInstantiation/v7/serviceInstances").pollPath("orchestrationRequests/v5/")
+                        .maxPolls(2).build();
+        config = new HttpPollingConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
 
         params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).build();
+
         oper = new VfModuleCreate(params, config);
 
         outcome = oper.start().get();
@@ -179,7 +183,7 @@ public class VfModuleCreateTest extends BasicSoOperation {
 
         oper = new VfModuleCreate(params, config) {
             @Override
-            public long getWaitMsGet() {
+            protected long getPollWaitMs() {
                 return 1;
             }
         };
@@ -197,10 +201,10 @@ public class VfModuleCreateTest extends BasicSoOperation {
     }
 
     /**
-     * Tests startOperationAsync() when "get" operations are required.
+     * Tests startOperationAsync() when polling is required.
      */
     @Test
-    public void testStartOperationAsyncWithGets() throws Exception {
+    public void testStartOperationAsyncWithPolling() throws Exception {
         when(rawResponse.getStatus()).thenReturn(500, 500, 500, 500, 200, 200);
 
         when(client.post(any(), any(), any(), any())).thenAnswer(provideResponse(rawResponse));
@@ -211,7 +215,7 @@ public class VfModuleCreateTest extends BasicSoOperation {
 
         oper = new VfModuleCreate(params, config) {
             @Override
-            public long getWaitMsGet() {
+            public long getPollWaitMs() {
                 return 1;
             }
         };

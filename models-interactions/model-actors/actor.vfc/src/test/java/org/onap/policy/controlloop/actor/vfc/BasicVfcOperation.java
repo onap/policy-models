@@ -27,17 +27,18 @@ import org.onap.policy.common.endpoints.event.comm.bus.internal.BusTopicParams;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.controlloop.actor.test.BasicHttpOperation;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingConfig;
 import org.onap.policy.simulators.Util;
 import org.onap.policy.vfc.VfcRequest;
 import org.onap.policy.vfc.VfcResponse;
 
 public abstract class BasicVfcOperation extends BasicHttpOperation<VfcRequest> {
-    public static final String PATH_GET = "my-path-get/";
-    public static final int MAX_GETS = 3;
-    public static final int WAIT_SEC_GETS = 20;
+    public static final String POLL_PATH = "my-path-get/";
+    public static final int MAX_POLLS = 3;
+    public static final int POLL_WAIT_SEC = 20;
 
     @Mock
-    protected VfcConfig config;
+    protected HttpPollingConfig config;
 
     protected VfcResponse response;
 
@@ -94,9 +95,9 @@ public abstract class BasicVfcOperation extends BasicHttpOperation<VfcRequest> {
     protected void initConfig() {
         super.initConfig();
         when(config.getClient()).thenReturn(client);
-        when(config.getMaxGets()).thenReturn(MAX_GETS);
-        when(config.getPathGet()).thenReturn(PATH_GET);
-        when(config.getWaitSecGet()).thenReturn(WAIT_SEC_GETS);
+        when(config.getMaxPolls()).thenReturn(MAX_POLLS);
+        when(config.getPollPath()).thenReturn(POLL_PATH);
+        when(config.getPollWaitSec()).thenReturn(POLL_WAIT_SEC);
     }
 
 }

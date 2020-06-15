@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.controlloop.actor.so;
+package org.onap.policy.controlloop.actorserviceprovider.parameters;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
@@ -32,12 +32,12 @@ import org.mockito.MockitoAnnotations;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactory;
 
-public class SoConfigTest {
+public class HttpPollingConfigTest {
     private static final String MY_CLIENT = "my-client";
     private static final String MY_PATH = "my-path";
-    private static final String GET_PATH = "get-path";
+    private static final String POLL_PATH = "poll-path";
     private static final int TIMEOUT_SEC = 10;
-    private static final int MAX_GETS = 20;
+    private static final int MAX_POLLS = 20;
     private static final int WAIT_SEC = 30;
 
     @Mock
@@ -47,8 +47,8 @@ public class SoConfigTest {
     @Mock
     private Executor executor;
 
-    private SoParams params;
-    private SoConfig config;
+    private HttpPollingParams params;
+    private HttpPollingConfig config;
 
     /**
      * Sets up.
@@ -59,24 +59,24 @@ public class SoConfigTest {
 
         when(factory.get(MY_CLIENT)).thenReturn(client);
 
-        params = SoParams.builder().maxGets(MAX_GETS).pathGet(GET_PATH).waitSecGet(WAIT_SEC).clientName(MY_CLIENT)
-                        .path(MY_PATH).timeoutSec(TIMEOUT_SEC).build();
-        config = new SoConfig(executor, params, factory);
+        params = HttpPollingParams.builder().maxPolls(MAX_POLLS).pollPath(POLL_PATH).pollWaitSec(WAIT_SEC)
+                        .clientName(MY_CLIENT).path(MY_PATH).timeoutSec(TIMEOUT_SEC).build();
+        config = new HttpPollingConfig(executor, params, factory);
     }
 
     @Test
     public void test() {
-        assertEquals(GET_PATH + "/", config.getPathGet());
-        assertEquals(MAX_GETS, config.getMaxGets());
-        assertEquals(WAIT_SEC, config.getWaitSecGet());
+        assertEquals(POLL_PATH + "/", config.getPollPath());
+        assertEquals(MAX_POLLS, config.getMaxPolls());
+        assertEquals(WAIT_SEC, config.getPollWaitSec());
 
         // check value from superclass
         assertSame(executor, config.getBlockingExecutor());
         assertSame(client, config.getClient());
 
         // path with trailing "/"
-        params = params.toBuilder().pathGet(GET_PATH + "/").build();
-        config = new SoConfig(executor, params, factory);
-        assertEquals(GET_PATH + "/", config.getPathGet());
+        params = params.toBuilder().pollPath(POLL_PATH + "/").build();
+        config = new HttpPollingConfig(executor, params, factory);
+        assertEquals(POLL_PATH + "/", config.getPollPath());
     }
 }

@@ -34,7 +34,7 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpActorPara
 public class HttpActor<P extends HttpActorParams> extends ActorImpl {
 
     /**
-     * Class of parameters.
+     * Class of Actor parameters.
      */
     private final Class<P> paramsClass;
 

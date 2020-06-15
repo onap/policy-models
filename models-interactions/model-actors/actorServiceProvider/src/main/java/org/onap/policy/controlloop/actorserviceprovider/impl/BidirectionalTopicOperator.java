@@ -23,14 +23,10 @@ package org.onap.policy.controlloop.actorserviceprovider.impl;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
 import org.onap.policy.common.parameters.ValidationResult;
-import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicParams;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ParameterValidationRuntimeException;
 import org.onap.policy.controlloop.actorserviceprovider.topic.BidirectionalTopicHandler;
 import org.onap.policy.controlloop.actorserviceprovider.topic.BidirectionalTopicManager;
@@ -40,13 +36,8 @@ import org.onap.policy.controlloop.actorserviceprovider.topic.SelectorKey;
  * Operator that uses a bidirectional topic. Topic operators may share a
  * {@link BidirectionalTopicHandler}.
  */
-public class BidirectionalTopicOperator extends OperatorPartial {
-
-    /**
-     * Function to make an operation.
-     */
-    @SuppressWarnings("rawtypes")
-    private final OperationMaker<BidirectionalTopicConfig, BidirectionalTopicOperation> operationMaker;
+public class BidirectionalTopicOperator
+                extends TypedOperator<BidirectionalTopicConfig, BidirectionalTopicOperation<?, ?>> {
 
     /**
      * Manager from which to get the topic handlers.
@@ -57,12 +48,6 @@ public class BidirectionalTopicOperator extends OperatorPartial {
      * Keys used to extract the fields used to select responses for this operator.
      */
     private final List<SelectorKey> selectorKeys;
-
-    /**
-     * Current configuration. This is set by {@link #doConfigure(Map)}.
-     */
-    @Getter
-    private BidirectionalTopicConfig currentConfig;
 
 
     /**
@@ -88,17 +73,13 @@ public class BidirectionalTopicOperator extends OperatorPartial {
      * @param selectorKeys keys used to extract the fields used to select responses for
      *        this operator
      */
-    // @formatter:off
     public BidirectionalTopicOperator(String actorName, String name, BidirectionalTopicManager topicManager,
                     List<SelectorKey> selectorKeys,
-                    @SuppressWarnings("rawtypes") OperationMaker<BidirectionalTopicConfig, BidirectionalTopicOperation>
-                        operationMaker) {
-        // @formatter:on
+                    OperationMaker<BidirectionalTopicConfig, BidirectionalTopicOperation<?, ?>> operationMaker) {
 
-        super(actorName, name);
+        super(actorName, name, operationMaker);
         this.topicManager = topicManager;
         this.selectorKeys = selectorKeys;
-        this.operationMaker = operationMaker;
     }
 
     /**
@@ -110,22 +91,10 @@ public class BidirectionalTopicOperator extends OperatorPartial {
      * @param selectorKeys keys used to extract the fields used to select responses for
      *        this operator
      */
-    // @formatter:off
     public BidirectionalTopicOperator(String actorName, String name, BidirectionalTopicManager topicManager,
-                    @SuppressWarnings("rawtypes") OperationMaker<BidirectionalTopicConfig, BidirectionalTopicOperation>
-                        operationMaker,
+                    OperationMaker<BidirectionalTopicConfig, BidirectionalTopicOperation<?, ?>> operationMaker,
                     SelectorKey... selectorKeys) {
-        // @formatter:on
         this(actorName, name, topicManager, Arrays.asList(selectorKeys), operationMaker);
-    }
-
-    /**
-     * Translates the parameters to an {@link HttpParams} and then extracts the relevant
-     * values.
-     */
-    @Override
-    protected void doConfigure(Map<String, Object> parameters) {
-        currentConfig = makeConfiguration(parameters);
     }
 
     /**
@@ -142,16 +111,5 @@ public class BidirectionalTopicOperator extends OperatorPartial {
         }
 
         return new BidirectionalTopicConfig(getBlockingExecutor(), params, topicManager, selectorKeys);
-    }
-
-    @Override
-    public Operation buildOperation(ControlLoopOperationParams params) {
-        if (operationMaker == null) {
-            throw new UnsupportedOperationException("cannot make operation for " + getFullName());
-        }
-
-        verifyRunning();
-
-        return operationMaker.apply(params, currentConfig);
     }
 }

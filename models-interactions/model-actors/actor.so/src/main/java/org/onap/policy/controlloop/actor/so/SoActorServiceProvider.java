@@ -36,6 +36,8 @@ import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpActor;
+import org.onap.policy.controlloop.actorserviceprovider.impl.HttpPollingOperator;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingActorParams;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.so.SoCloudConfiguration;
 import org.onap.policy.so.SoManager;
@@ -51,7 +53,7 @@ import org.onap.policy.so.util.Serialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SoActorServiceProvider extends HttpActor<SoActorParams> {
+public class SoActorServiceProvider extends HttpActor<HttpPollingActorParams> {
     private static final Logger logger = LoggerFactory.getLogger(SoActorServiceProvider.class);
 
     public static final String NAME = "SO";
@@ -96,10 +98,10 @@ public class SoActorServiceProvider extends HttpActor<SoActorParams> {
      * Constructs the object.
      */
     public SoActorServiceProvider() {
-        super(NAME, SoActorParams.class);
+        super(NAME, HttpPollingActorParams.class);
 
-        addOperator(new SoOperator(NAME, VfModuleCreate.NAME, VfModuleCreate::new));
-        addOperator(new SoOperator(NAME, VfModuleDelete.NAME, VfModuleDelete::new));
+        addOperator(new HttpPollingOperator(NAME, VfModuleCreate.NAME, VfModuleCreate::new));
+        addOperator(new HttpPollingOperator(NAME, VfModuleDelete.NAME, VfModuleDelete::new));
     }
 
     // TODO old code: remove lines down to **HERE**

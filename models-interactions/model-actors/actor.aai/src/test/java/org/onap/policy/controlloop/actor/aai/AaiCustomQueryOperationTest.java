@@ -50,9 +50,9 @@ import org.onap.policy.common.endpoints.http.client.HttpClientFactory;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
-import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
+import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperator;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
@@ -277,7 +277,7 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation<Map<String, S
         }
 
         @Override
-        public Operation buildOperation(ControlLoopOperationParams params) {
+        public HttpOperation<?> buildOperation(ControlLoopOperationParams params) {
             return new AaiGetTenantOperation(params, getCurrentConfig());
         }
 
