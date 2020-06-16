@@ -6,6 +6,7 @@ topology_template:
         type: onap.policies.controlloop.guard.common.FrequencyLimiter
         type_version: 1.0.0
         version: 1.0.0
+        name: guard.frequency.scaleout
         metadata:
           policy-id : guard.frequency.scaleout
         properties:

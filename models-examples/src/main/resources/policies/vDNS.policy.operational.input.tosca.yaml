@@ -5,6 +5,7 @@ topology_template:
             type: onap.policies.controlloop.operational.common.Drools
             type_version: 1.0.0
             version: 1.0.0
+            name: operational.scaleout
             metadata:
                 policy-id: operational.scaleout
             properties:

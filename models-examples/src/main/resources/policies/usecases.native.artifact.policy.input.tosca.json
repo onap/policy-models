@@ -3,7 +3,7 @@
     "topology_template": {
         "policies": [
             {
-                "usecases": {
+                "usecases.artifacts": {
                     "type": "onap.policies.native.drools.Artifact",
                     "type_version": "1.0.0",
                     "name": "usecases.artifacts",

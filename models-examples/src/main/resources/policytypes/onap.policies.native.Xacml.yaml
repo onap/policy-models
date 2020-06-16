@@ -4,10 +4,12 @@ policy_types:
         derived_from: tosca.policies.Root
         description: a base policy type for all native PDP policies
         version: 1.0.0
+        name: onap.policies.Native
     onap.policies.native.Xacml:
         derived_from: onap.policies.Native
         description: a policy type for native xacml policies
         version: 1.0.0
+        name: onap.policies.native.Xacml
         properties:
             policy:
                 type: string

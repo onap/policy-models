@@ -5,6 +5,7 @@ topology_template:
             type: onap.policies.controlloop.guard.common.MinMax
             type_version: 1.0.0
             version: 1.0.0
+            name: guard.minmax.scaleout
             metadata:
                 policy-id: guard.minmax.scaleout
             properties:

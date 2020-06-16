@@ -7,8 +7,10 @@
                     "type": "onap.policies.monitoring.cdap.tca.hi.lo.app",
                     "type_version": "1.0.0",
                     "version": "1.0.0",
+                    "name": "onap.restart.tca",
                     "metadata": {
-                        "policy-id": "onap.restart.tca"
+                        "policy-id": "onap.restart.tca",
+                        "policy-version": 1
                     },
                     "properties": {
                         "tca_policy" : {

@@ -3,6 +3,7 @@ policy_types:
    onap.policies.optimization.Service:
       derived_from: onap.policies.Optimization
       version: 1.0.0
+      name: onap.policies.optimization.Service
       description: The base policy type for all policies that govern optimization for a Service.
       properties:
          services:
@@ -12,4 +13,4 @@ policy_types:
                matchable: true
             required: true
             entry_schema:
-               type: string               
+               type: string

@@ -3,6 +3,7 @@ policy_types:
     onap.policies.controlloop.guard.Common:
         derived_from: tosca.policies.Root
         version: 1.0.0
+        name: onap.policies.controlloop.guard.Common
         description: |
             This is the base Policy Type for Guard policies that guard the execution of Operational
             Policies.

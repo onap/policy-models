@@ -5,6 +5,7 @@ topology_template:
             type: onap.policies.Naming
             version: 1.0.0
             type_version: 1.0.0
+            name: SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP
             properties:
                 policy-instance-name: ONAP_NF_NAMING_TIMESTAMP
                 naming-models:

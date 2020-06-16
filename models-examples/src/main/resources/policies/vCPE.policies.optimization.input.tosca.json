@@ -7,6 +7,7 @@
                     "type": "onap.policies.optimization.resource.AffinityPolicy",
                     "version": "1.0.0",
                     "type_version": "1.0.0",
+                    "name": "OSDF_CASABLANCA.Affinity_Default",
                     "metadata": {
                         "policy-id": "OSDF_CASABLANCA.Affinity_Default",
                         "policy-version": 1
@@ -30,6 +31,7 @@
                     "type": "onap.policies.optimization.resource.AffinityPolicy",
                     "version": "1.0.0",
                     "type_version": "1.0.0",
+                    "name": "OSDF_CASABLANCA.Affinity_Default_US",
                     "metadata": {
                         "policy-id": "OSDF_CASABLANCA.Affinity_Default_US",
                         "policy-version": 1
@@ -55,6 +57,7 @@
                     "type": "onap.policies.optimization.resource.AffinityPolicy",
                     "version": "1.0.0",
                     "type_version": "1.0.0",
+                    "name": "OSDF_CASABLANCA.Affinity_Default_vCPE_US_0",
                     "metadata": {
                         "policy-id": "OSDF_CASABLANCA.Affinity_Default_vCPE_US_0",
                         "policy-version": 1
@@ -82,8 +85,9 @@
                     "type": "onap.policies.optimization.resource.AffinityPolicy",
                     "version": "1.0.0",
                     "type_version": "1.0.0",
+                    "name": "OSDF_CASABLANCA.Affinity_vCPE_US_Gold_1",
                     "metadata": {
-                        "policy-id": "OSDF_CASABLANCA.Affinity_vCPE_1",
+                        "policy-id": "OSDF_CASABLANCA.Affinity_vCPE_US_Gold_1",
                         "policy-version": 1
                     },
                     "properties": {
@@ -115,8 +119,9 @@
                     "type": "onap.policies.optimization.resource.AffinityPolicy",
                     "version": "1.0.0",
                     "type_version": "1.0.0",
+                    "name": "OSDF_CASABLANCA.Affinity_vCPE_US_Platinum_1",
                     "metadata": {
-                        "policy-id": "OSDF_CASABLANCA.Affinity_vCPE_1",
+                        "policy-id": "OSDF_CASABLANCA.Affinity_vCPE_US_Platinum_1",
                         "policy-version": 1
                     },
                     "properties": {
@@ -148,6 +153,7 @@
                     "type": "onap.policies.optimization.resource.Vim_fit",
                     "version": "1.0.0",
                     "type_version": "1.0.0",
+                    "name": "OSDF_CASABLANCA.Capacity_vG_1",
                     "metadata": {
                         "policy-id": "OSDF_CASABLANCA.Capacity_vG_1",
                         "policy-version": 1
@@ -178,6 +184,7 @@
                     "type": "onap.policies.optimization.resource.Vim_fit",
                     "version": "1.0.0",
                     "type_version": "1.0.0",
+                    "name": "OSDF_CASABLANCA.Capacity_vG_2",
                     "metadata": {
                         "policy-id": "OSDF_CASABLANCA.Capacity_vG_2",
                         "policy-version": 1
@@ -208,6 +215,7 @@
                     "type": "onap.policies.optimization.resource.DistancePolicy",
                     "version": "1.0.0",
                     "type_version": "1.0.0",
+                    "name": "OSDF_CASABLANCA.Distance_vG_1",
                     "metadata": {
                         "policy-id": "OSDF_CASABLANCA.Distance_vG_1",
                         "policy-version": 1
@@ -244,6 +252,7 @@
                     "type": "onap.policies.optimization.resource.HpaPolicy",
                     "version": "1.0.0",
                     "type_version": "1.0.0",
+                    "name": "OSDF_CASABLANCA.hpa_policy_Default",
                     "metadata": {
                         "policy-id": "OSDF_CASABLANCA.hpa_policy_Default",
                         "policy-version": 1
@@ -321,6 +330,7 @@
                     "type": "onap.policies.optimization.resource.HpaPolicy",
                     "version": "1.0.0",
                     "type_version": "1.0.0",
+                    "name": "OSDF_CASABLANCA.hpa_policy_vG_1",
                     "metadata": {
                         "policy-id": "OSDF_CASABLANCA.hpa_policy_vG_1",
                         "policy-version": 1
@@ -403,6 +413,7 @@
                     "type": "onap.policies.optimization.service.QueryPolicy",
                     "version": "1.0.0",
                     "type_version": "1.0.0",
+                    "name": "OSDF_CASABLANCA.queryPolicy_vCPE",
                     "metadata": {
                         "policy-id": "OSDF_CASABLANCA.queryPolicy_vCPE",
                         "policy-version": 1
@@ -452,6 +463,7 @@
                     "type": "onap.policies.optimization.service.SubscriberPolicy",
                     "version": "1.0.0",
                     "type_version": "1.0.0",
+                    "name": "OSDF_CASABLANCA.SubscriberPolicy_v1",
                     "metadata": {
                         "policy-id": "OSDF_CASABLANCA.SubscriberPolicy_v1",
                         "policy-version": 1
@@ -482,6 +494,7 @@
                     "type": "onap.policies.optimization.service.SubscriberPolicy",
                     "version": "1.0.0",
                     "type_version": "1.0.0",
+                    "name": "OSDF_CASABLANCA.SubscriberPolicy_v2",
                     "metadata": {
                         "policy-id": "OSDF_CASABLANCA.SubscriberPolicy_v2",
                         "policy-version": 1
@@ -512,6 +525,7 @@
                     "type": "onap.policies.optimization.resource.VnfPolicy",
                     "version": "1.0.0",
                     "type_version": "1.0.0",
+                    "name": "OSDF_CASABLANCA.vnfPolicy_vG",
                     "metadata": {
                         "policy-id": "OSDF_CASABLANCA.vnfPolicy_vG",
                         "policy-version": 1

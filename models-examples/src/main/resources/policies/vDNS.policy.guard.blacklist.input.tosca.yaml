@@ -5,6 +5,7 @@ topology_template:
             type: onap.policies.controlloop.guard.common.Blacklist
             type_version: 1.0.0
             version: 1.0.0
+            name: guard.blacklist.scaleout
             metadata:
                 policy-id: guard.blacklist.scaleout
             properties:
