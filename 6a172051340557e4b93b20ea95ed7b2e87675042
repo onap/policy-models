@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "e533f133_0f9f818f",
+        "filename": "models-base/src/test/java/org/onap/policy/models/base/PfModelExceptionInfoTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 4903
+      },
+      "writtenOn": "2020-06-18T10:36:12Z",
+      "side": 1,
+      "message": "Update License. Same in other files",
+      "range": {
+        "startLine": 4,
+        "startChar": 3,
+        "endLine": 4,
+        "endChar": 10
+      },
+      "revId": "6a172051340557e4b93b20ea95ed7b2e87675042",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3ff01597_4061c870",
         "filename": "models-errors/src/test/java/org/onap/policy/models/errors/concepts/ErrorResponseUtilsTest.java",
         "patchSetId": 1
