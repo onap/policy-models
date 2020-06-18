@@ -21,17 +21,15 @@
 
 package org.onap.policy.models.tosca.simple.serialization;
 
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
 import java.util.Map;
-
 import org.junit.Test;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
@@ -132,7 +130,7 @@ public class MonitoringPolicySerializationTest {
 
     @Test
     public void testSerialization() {
-        try {
+        assertThatCode(() -> {
             // vCPE
             JpaToscaServiceTemplate serviceTemplate = deserializeMonitoringInputJson(VCPE_MON_INPUT_JSON);
             String serializedServiceTemplate = serializeMonitoringServiceTemplate(serviceTemplate);
@@ -148,10 +146,7 @@ public class MonitoringPolicySerializationTest {
             serializedServiceTemplate = serializeMonitoringServiceTemplate(serviceTemplate);
             verifyVfwMonitoringOutputserialization(serializedServiceTemplate);
 
-        } catch (Exception e) {
-            LOGGER.warn("No exception should be thrown", e);
-            fail("No exception should be thrown");
-        }
+        }).as("No exception should be thrown").doesNotThrowAnyException();
     }
 
     private JpaToscaServiceTemplate deserializeMonitoringInputJson(String resourcePath) throws Exception {

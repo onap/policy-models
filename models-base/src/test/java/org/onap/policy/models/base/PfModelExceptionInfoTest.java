@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,10 +20,10 @@
 
 package org.onap.policy.models.base;
 
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.junit.Assert.assertEquals;
 
 import javax.ws.rs.core.Response;
-
 import org.junit.Test;
 import org.onap.policy.models.errors.concepts.ErrorResponseInfo;
 
@@ -36,19 +36,17 @@ public class PfModelExceptionInfoTest {
 
     @Test
     public void testExceptionInfo() {
-        try {
-            throw new PfModelException(Response.Status.ACCEPTED, "HELLO");
-        } catch (PfModelException pfme) {
-            String errorMessage = getErrorMessage(pfme);
-            assertEquals("Server returned: Accepted", errorMessage.substring(0, 25));
-        }
+        final PfModelException pfme = new PfModelException(Response.Status.ACCEPTED, "HELLO");
+        assertThatCode(() -> {
+            throw pfme;
+        }).hasMessageContaining("HELLO");
+        assertEquals("Server returned: Accepted", getErrorMessage(pfme).substring(0, 25));
 
-        try {
-            throw new PfModelRuntimeException(Response.Status.ACCEPTED, "HELLO");
-        } catch (PfModelRuntimeException pfme) {
-            String errorMessage = getErrorMessage(pfme);
-            assertEquals("Server returned: Accepted", errorMessage.substring(0, 25));
-        }
+        final PfModelRuntimeException pfmr = new PfModelRuntimeException(Response.Status.ACCEPTED, "HELLO");
+        assertThatCode(() -> {
+            throw pfmr;
+        }).hasMessageContaining("HELLO");
+        assertEquals("Server returned: Accepted", getErrorMessage(pfmr).substring(0, 25));
     }
 
     private String getErrorMessage(final ErrorResponseInfo eri) {
