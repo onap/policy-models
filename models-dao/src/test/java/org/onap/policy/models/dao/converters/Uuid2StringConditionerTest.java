@@ -23,7 +23,6 @@ package org.onap.policy.models.dao.converters;
 import static org.junit.Assert.assertEquals;
 
 import java.util.UUID;
-
 import org.junit.Test;
 
 /**

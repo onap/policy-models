@@ -21,7 +21,6 @@
 package org.onap.policy.models.pdp.concepts;
 
 import java.util.List;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

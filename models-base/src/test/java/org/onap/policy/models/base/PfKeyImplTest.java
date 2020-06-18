@@ -29,12 +29,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Field;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import org.junit.Test;
 import org.onap.policy.models.base.PfKey.Compatibility;
 import org.onap.policy.models.base.testconcepts.DummyPfKey;

@@ -24,10 +24,8 @@
 package org.onap.policy.models.tosca.simple.concepts;
 
 import java.io.Serializable;
-
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConstraint;
 

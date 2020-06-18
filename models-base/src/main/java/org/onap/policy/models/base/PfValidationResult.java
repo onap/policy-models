@@ -22,7 +22,6 @@ package org.onap.policy.models.base;
 
 import java.util.LinkedList;
 import java.util.List;
-
 import lombok.Getter;
 
 /**

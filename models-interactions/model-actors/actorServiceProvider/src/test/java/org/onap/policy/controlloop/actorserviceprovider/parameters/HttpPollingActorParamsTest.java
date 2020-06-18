@@ -31,7 +31,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.ActorParams;
 
 
 public class HttpPollingActorParamsTest {

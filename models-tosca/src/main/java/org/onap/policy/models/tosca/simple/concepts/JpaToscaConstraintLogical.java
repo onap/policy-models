@@ -21,12 +21,10 @@
 package org.onap.policy.models.tosca.simple.concepts;
 
 import javax.persistence.Column;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
-
 import org.apache.commons.lang3.ObjectUtils;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConstraint;
 
@@ -112,20 +110,16 @@ public class JpaToscaConstraintLogical extends JpaToscaConstraint {
         if (toscaConstraint.getEqual() != null) {
             operation = JpaToscaConstraintOperation.EQ;
             compareTo = toscaConstraint.getEqual();
-        }
-        else if (toscaConstraint.getGreaterThan() != null) {
+        } else  if (toscaConstraint.getGreaterThan() != null) {
             operation = JpaToscaConstraintOperation.GT;
             compareTo = toscaConstraint.getGreaterThan();
-        }
-        else if (toscaConstraint.getGreaterOrEqual() != null) {
+        } else  if (toscaConstraint.getGreaterOrEqual() != null) {
             operation = JpaToscaConstraintOperation.GE;
             compareTo = toscaConstraint.getGreaterOrEqual();
-        }
-        else if (toscaConstraint.getLessThan() != null) {
+        } else  if (toscaConstraint.getLessThan() != null) {
             operation = JpaToscaConstraintOperation.LT;
             compareTo = toscaConstraint.getLessThan();
-        }
-        else if (toscaConstraint.getLessOrEqual() != null) {
+        } else  if (toscaConstraint.getLessOrEqual() != null) {
             operation = JpaToscaConstraintOperation.LE;
             compareTo = toscaConstraint.getLessOrEqual();
         }

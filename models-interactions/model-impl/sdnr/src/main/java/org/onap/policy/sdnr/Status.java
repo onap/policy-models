@@ -23,7 +23,6 @@
 package org.onap.policy.sdnr;
 
 import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

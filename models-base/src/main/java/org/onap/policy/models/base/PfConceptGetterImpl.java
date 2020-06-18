@@ -23,7 +23,6 @@ package org.onap.policy.models.base;
 import java.util.NavigableMap;
 import java.util.Set;
 import java.util.TreeSet;
-
 import org.onap.policy.common.utils.validation.Assertions;
 
 /**
@@ -70,8 +69,7 @@ public class PfConceptGetterImpl<C> implements PfConceptGetter<C> {
                 break;
             }
             foundKey = nextkey;
-        }
-        while (true);
+        } while (true);
 
         return conceptMap.get(foundKey);
     }
@@ -121,8 +119,7 @@ public class PfConceptGetterImpl<C> implements PfConceptGetter<C> {
                 break;
             }
             returnSet.add(conceptMap.get(foundKey));
-        }
-        while (true);
+        } while (true);
 
         return returnSet;
     }

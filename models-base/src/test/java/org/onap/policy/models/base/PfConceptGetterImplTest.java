@@ -71,7 +71,7 @@ public class PfConceptGetterImplTest {
         assertThatThrownBy(() -> getter.get((String) null, VERSION001)).hasMessage("conceptKeyName may not be null");
 
         assertEquals(keyW002, getter.get("W", VERSION002));
-        assertEquals(keyW002, getter.get("W", (String)null));
+        assertEquals(keyW002, getter.get("W", (String) null));
 
         assertEquals(new TreeSet<PfConceptKey>(keyMap.values()), getter.getAll(null));
         assertEquals(new TreeSet<PfConceptKey>(keyMap.values()), getter.getAll(null, null));

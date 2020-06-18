@@ -24,11 +24,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Function;
-
 import javax.ws.rs.core.Response;
-
 import lombok.NonNull;
-
 import org.apache.commons.collections4.CollectionUtils;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptContainer;

@@ -23,14 +23,11 @@ package org.onap.policy.models.tosca.simple.concepts;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.ElementCollection;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
-
 import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConstraint;
 

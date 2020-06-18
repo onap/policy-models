@@ -21,7 +21,6 @@
 package org.onap.policy.models.dao.converters;
 
 import java.util.UUID;
-
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 import javax.xml.bind.annotation.adapters.XmlAdapter;

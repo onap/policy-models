@@ -200,7 +200,7 @@ public class ControlLoopCompiler implements Serializable {
         //
         // They really shouldn't have any policies attached.
         //
-        if ((policy.getPolicies() != null || policy.getPolicies().isEmpty()) && callback != null ) {
+        if ((policy.getPolicies() != null || policy.getPolicies().isEmpty()) && callback != null) {
             callback.onWarning("Open Loop policy contains policies. The policies will never be invoked.");
         }
     }
@@ -299,7 +299,7 @@ public class ControlLoopCompiler implements Serializable {
         if (LOGGER.isDebugEnabled()) {
             LOGGER.info("Trigger Node {}", node);
         }
-        if (graph.inDegreeOf(node) > 0 ) {
+        if (graph.inDegreeOf(node) > 0) {
             //
             // Really should NEVER get here unless someone messed up the code above.
             //
@@ -353,10 +353,10 @@ public class ControlLoopCompiler implements Serializable {
         if (! isRecipeOk(operPolicy, callback)) {
             isOk = false;
         }
-        if (! isTargetOk(operPolicy, callback) ) {
+        if (! isTargetOk(operPolicy, callback)) {
             isOk = false;
         }
-        if (! arePolicyResultsOk(operPolicy, callback) ) {
+        if (! arePolicyResultsOk(operPolicy, callback)) {
             isOk = false;
         }
         return isOk;
@@ -434,19 +434,19 @@ public class ControlLoopCompiler implements Serializable {
         // Check that policy results are connected to either default final * or another policy
         //
         boolean isOk = isSuccessPolicyResultOk(operPolicy, callback);
-        if (! isFailurePolicyResultOk(operPolicy, callback) ) {
+        if (! isFailurePolicyResultOk(operPolicy, callback)) {
             isOk = false;
         }
-        if (! isFailureRetriesPolicyResultOk(operPolicy, callback) ) {
+        if (! isFailureRetriesPolicyResultOk(operPolicy, callback)) {
             isOk = false;
         }
-        if (! isFailureTimeoutPolicyResultOk(operPolicy, callback) ) {
+        if (! isFailureTimeoutPolicyResultOk(operPolicy, callback)) {
             isOk = false;
         }
-        if (! isFailureExceptionPolicyResultOk(operPolicy, callback) ) {
+        if (! isFailureExceptionPolicyResultOk(operPolicy, callback)) {
             isOk = false;
         }
-        if (! isFailureGuardPolicyResultOk(operPolicy, callback) ) {
+        if (! isFailureGuardPolicyResultOk(operPolicy, callback)) {
             isOk = false;
         }
         return isOk;

@@ -31,10 +31,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-
 import java.lang.reflect.Type;
 import java.time.Instant;
-
 import org.onap.policy.sdnr.PciRequest;
 import org.onap.policy.sdnr.PciResponse;
 

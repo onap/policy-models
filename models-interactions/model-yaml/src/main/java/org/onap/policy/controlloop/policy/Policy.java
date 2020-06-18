@@ -336,7 +336,7 @@ public class Policy implements Serializable {
     }
 
     private boolean equalsMayBeNull(final Object obj1, final Object obj2) {
-        if ( obj1 == null ) {
+        if (obj1 == null) {
             return obj2 == null;
         }
         return obj1.equals(obj2);

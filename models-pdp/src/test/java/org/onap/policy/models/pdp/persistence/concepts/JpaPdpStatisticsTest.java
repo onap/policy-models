@@ -29,7 +29,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Date;
-
 import org.junit.Test;
 import org.onap.policy.models.base.PfTimestampKey;
 import org.onap.policy.models.base.PfValidationResult;

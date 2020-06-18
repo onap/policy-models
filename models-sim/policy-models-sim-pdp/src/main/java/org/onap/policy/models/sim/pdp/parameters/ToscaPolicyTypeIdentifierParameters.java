@@ -23,7 +23,6 @@ package org.onap.policy.models.sim.pdp.parameters;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-
 import org.onap.policy.common.parameters.annotations.NotBlank;
 import org.onap.policy.common.parameters.annotations.NotNull;
 

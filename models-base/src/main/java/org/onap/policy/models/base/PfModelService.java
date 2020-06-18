@@ -22,9 +22,7 @@ package org.onap.policy.models.base;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
 import javax.ws.rs.core.Response;
-
 import lombok.NonNull;
 
 /**

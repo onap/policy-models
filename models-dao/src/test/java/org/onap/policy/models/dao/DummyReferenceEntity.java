@@ -23,16 +23,13 @@ package org.onap.policy.models.dao;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-
 import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfKey;

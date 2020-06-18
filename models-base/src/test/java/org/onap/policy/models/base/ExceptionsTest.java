@@ -25,9 +25,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
-
 import javax.ws.rs.core.Response;
-
 import org.junit.Test;
 import org.onap.policy.models.errors.concepts.ErrorResponse;
 

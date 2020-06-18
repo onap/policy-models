@@ -32,7 +32,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.UUID;
-
 import org.junit.Ignore;
 import org.junit.Test;
 import org.onap.aai.domain.yang.Pnf;

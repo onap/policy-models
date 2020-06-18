@@ -23,7 +23,6 @@ package org.onap.policy.models.sim.pdp.comm;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import org.onap.policy.common.endpoints.event.comm.TopicSink;
 import org.onap.policy.common.endpoints.event.comm.client.TopicSinkClient;
 import org.onap.policy.models.pdp.concepts.PdpStatus;

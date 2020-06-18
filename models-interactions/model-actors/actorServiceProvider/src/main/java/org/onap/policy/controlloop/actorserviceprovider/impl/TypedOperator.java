@@ -24,7 +24,6 @@ import java.util.Map;
 import lombok.Getter;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
 
 /**
  * Operator with typed parameter information.

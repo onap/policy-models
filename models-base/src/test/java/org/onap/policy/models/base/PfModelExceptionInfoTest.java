@@ -23,7 +23,6 @@ package org.onap.policy.models.base;
 import static org.junit.Assert.assertEquals;
 
 import javax.ws.rs.core.Response;
-
 import org.junit.Test;
 import org.onap.policy.models.errors.concepts.ErrorResponseInfo;
 

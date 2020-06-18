@@ -23,11 +23,9 @@ package org.onap.policy.models.pdp.concepts;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
 import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.pdp.enums.PdpHealthStatus;
 import org.onap.policy.models.pdp.enums.PdpMessageType;

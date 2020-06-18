@@ -23,7 +23,6 @@ package org.onap.policy.sdc;
 
 import java.io.Serializable;
 import java.util.UUID;
-
 import lombok.Data;
 
 @Data

@@ -23,7 +23,6 @@ package org.onap.policy.models.dao;
 
 import java.lang.reflect.InvocationTargetException;
 import javax.ws.rs.core.Response;
-
 import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfModelException;
 import org.slf4j.Logger;

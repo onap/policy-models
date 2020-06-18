@@ -31,7 +31,6 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import org.junit.Test;
-
 import org.onap.policy.models.base.testconcepts.DummyPfObject;
 import org.onap.policy.models.base.testconcepts.DummyPfObjectFilter;
 

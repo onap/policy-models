@@ -31,18 +31,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Lob;
 import javax.persistence.Table;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-
 import org.apache.commons.collections4.CollectionUtils;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;

@@ -121,8 +121,7 @@ public class CambriaMessageBodyHandler implements MessageBodyReader<Object> {
             if ((chr = reader.read()) < 0) {
                 return false;
             }
-        }
-        while (Character.isWhitespace(chr));
+        } while (Character.isWhitespace(chr));
 
         // push the last character back onto the reader
         reader.reset();

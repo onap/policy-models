@@ -24,17 +24,14 @@ package org.onap.policy.models.base;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-
 import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 
@@ -134,9 +131,8 @@ public abstract class PfModel extends PfConcept {
                 result = validateArtifactKeyInModel((PfConceptKey) pfKey, artifactKeySet, result);
             } else if (pfKey instanceof PfReferenceKey) {
                 result = validateReferenceKeyInModel((PfReferenceKey) pfKey, referenceKeySet, result);
-            }
-            // It must be a PfKeyUse, nothing else is legal
-            else {
+            } else {
+                // It must be a PfKeyUse, nothing else is legal
                 usedKeySet.add((PfKeyUse) pfKey);
             }
         }

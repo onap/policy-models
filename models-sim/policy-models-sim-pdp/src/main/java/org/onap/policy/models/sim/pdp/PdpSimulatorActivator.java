@@ -52,7 +52,7 @@ public class PdpSimulatorActivator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PdpSimulatorActivator.class);
     private final PdpSimulatorParameterGroup pdpSimulatorParameterGroup;
-    private List<TopicSink> topicSinks;// topics to which pdp sends pdp status
+    private List<TopicSink> topicSinks; // topics to which pdp sends pdp status
     private List<TopicSource> topicSources; // topics to which pdp listens to for messages from pap.
     private static final String[] MSG_TYPE_NAMES = { "messageName" };
 

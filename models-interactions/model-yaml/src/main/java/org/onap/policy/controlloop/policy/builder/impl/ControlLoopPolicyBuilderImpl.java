@@ -22,10 +22,8 @@
 package org.onap.policy.controlloop.policy.builder.impl;
 
 import com.google.common.base.Strings;
-
 import java.util.LinkedList;
 import java.util.UUID;
-
 import org.onap.aai.domain.yang.Pnf;
 import org.onap.policy.controlloop.compiler.CompilerException;
 import org.onap.policy.controlloop.compiler.ControlLoopCompiler;

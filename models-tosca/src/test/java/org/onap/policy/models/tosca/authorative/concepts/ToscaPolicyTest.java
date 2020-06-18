@@ -25,7 +25,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 
 import java.util.LinkedHashMap;
-
 import org.junit.Test;
 
 /**

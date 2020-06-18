@@ -21,10 +21,8 @@
 package org.onap.policy.models.decisions.concepts;
 
 import javax.ws.rs.core.Response;
-
 import lombok.Getter;
 import lombok.ToString;
-
 import org.onap.policy.models.errors.concepts.ErrorResponse;
 import org.onap.policy.models.errors.concepts.ErrorResponseInfo;
 import org.onap.policy.models.errors.concepts.ErrorResponseUtils;

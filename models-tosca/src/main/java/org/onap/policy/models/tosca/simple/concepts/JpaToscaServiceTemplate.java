@@ -22,13 +22,11 @@
 package org.onap.policy.models.tosca.simple.concepts;
 
 import com.google.gson.annotations.SerializedName;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -39,11 +37,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-
 import org.apache.commons.lang3.ObjectUtils;
 import org.onap.policy.common.utils.validation.ParameterValidationUtils;
 import org.onap.policy.models.base.PfAuthorative;

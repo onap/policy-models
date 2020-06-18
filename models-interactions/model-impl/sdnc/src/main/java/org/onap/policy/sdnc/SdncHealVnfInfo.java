@@ -20,7 +20,6 @@
 package org.onap.policy.sdnc;
 
 import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 import lombok.Getter;
 import lombok.Setter;

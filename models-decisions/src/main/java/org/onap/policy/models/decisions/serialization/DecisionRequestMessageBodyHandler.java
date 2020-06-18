@@ -21,9 +21,7 @@
 package org.onap.policy.models.decisions.serialization;
 
 import com.google.gson.GsonBuilder;
-
 import org.onap.policy.common.gson.GsonMessageBodyHandler;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

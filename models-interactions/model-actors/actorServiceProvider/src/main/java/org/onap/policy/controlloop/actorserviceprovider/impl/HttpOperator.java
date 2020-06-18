@@ -32,7 +32,7 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.ParameterVali
 /**
  * Operator that uses HTTP. The operator's parameters must be an {@link HttpParams}.
  */
-public class HttpOperator extends TypedOperator<HttpConfig,HttpOperation<?>> {
+public class HttpOperator extends TypedOperator<HttpConfig, HttpOperation<?>> {
 
     /**
      * Constructs the object.

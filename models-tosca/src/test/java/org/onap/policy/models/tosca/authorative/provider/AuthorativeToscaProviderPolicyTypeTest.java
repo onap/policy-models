@@ -27,11 +27,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import com.google.gson.GsonBuilder;
-
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Properties;
-
 import org.apache.commons.lang3.ObjectUtils;
 import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.junit.After;

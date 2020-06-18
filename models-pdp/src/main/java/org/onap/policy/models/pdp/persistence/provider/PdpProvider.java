@@ -23,11 +23,8 @@ package org.onap.policy.models.pdp.persistence.provider;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.ws.rs.core.Response;
-
 import lombok.NonNull;
-
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfModelException;

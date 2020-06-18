@@ -29,9 +29,7 @@ import static org.junit.Assert.fail;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
 import java.util.Map;
-
 import org.junit.Test;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;

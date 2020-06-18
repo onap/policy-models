@@ -27,10 +27,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.UUID;
-
 import org.junit.Test;
 import org.onap.policy.sdnr.util.Serialization;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -21,12 +21,9 @@
 package org.onap.policy.models.errors.concepts;
 
 import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 import java.util.List;
-
 import javax.ws.rs.core.Response;
-
 import lombok.Data;
 
 /**

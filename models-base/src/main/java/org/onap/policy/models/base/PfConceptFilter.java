@@ -23,7 +23,6 @@ package org.onap.policy.models.base;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
@@ -60,8 +59,7 @@ public class PfConceptFilter implements PfObjectFilter<PfConcept> {
 
         if (LATEST_VERSION.equals(version)) {
             return this.latestVersionFilter(returnList);
-        }
-        else {
+        } else  {
             return returnList;
         }
     }

@@ -71,15 +71,15 @@ public class PfUtilsTest {
 
     @Test
     public void testMapMap() {
-        Map<String,String> resultMap = PfUtils.mapMap(null, item -> {
+        Map<String, String> resultMap = PfUtils.mapMap(null, item -> {
             throw new RuntimeException("should not be invoked");
         });
         assertNull(resultMap);
 
-        Map<String,String> origMap = new TreeMap<>();
+        Map<String, String> origMap = new TreeMap<>();
         origMap.put("key2A", "xyz2");
         origMap.put("key2B", "pdq2");
-        Map<String,String> newMap = PfUtils.mapMap(origMap, text -> text + "X");
+        Map<String, String> newMap = PfUtils.mapMap(origMap, text -> text + "X");
 
         assertEquals("{key2A=xyz2X, key2B=pdq2X}", newMap.toString());
 

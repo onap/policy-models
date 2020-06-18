@@ -26,18 +26,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
-
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.EmbeddedId;
 import javax.persistence.MappedSuperclass;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-
 import org.apache.commons.lang3.ObjectUtils;
 import org.onap.policy.common.utils.validation.ParameterValidationUtils;
 import org.onap.policy.models.base.PfAuthorative;

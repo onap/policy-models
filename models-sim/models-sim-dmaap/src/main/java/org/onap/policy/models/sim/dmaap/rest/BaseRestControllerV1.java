@@ -28,7 +28,6 @@ import io.swagger.annotations.SwaggerDefinition;
 import io.swagger.annotations.Tag;
 import java.net.HttpURLConnection;
 import java.util.UUID;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;

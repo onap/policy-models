@@ -22,7 +22,6 @@
 package org.onap.policy.controlloop;
 
 import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 import java.util.UUID;
 import lombok.Data;

@@ -22,7 +22,6 @@
 package org.onap.policy.controlloop.policy.guard.builder.impl;
 
 import java.util.LinkedList;
-
 import org.onap.policy.controlloop.compiler.CompilerException;
 import org.onap.policy.controlloop.compiler.ControlLoopCompilerCallback;
 import org.onap.policy.controlloop.guard.compiler.ControlLoopGuardCompiler;
@@ -105,7 +104,7 @@ public class ControlLoopGuardBuilderImpl implements ControlLoopGuardBuilder {
         if (constraints == null) {
             throw new BuilderException("Constraint much not be null");
         }
-        if (!addLimitConstraints(id,constraints)) {
+        if (!addLimitConstraints(id, constraints)) {
             throw new BuilderException(NO_EXISTING_GUARD_POLICY_MATCHING_THE_ID + id);
         }
         return this;

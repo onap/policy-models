@@ -22,7 +22,6 @@
 package org.onap.policy.models.sim.dmaap.parameters;
 
 import lombok.Getter;
-
 import org.onap.policy.common.parameters.ParameterGroupImpl;
 import org.onap.policy.common.parameters.annotations.Min;
 import org.onap.policy.common.parameters.annotations.NotBlank;

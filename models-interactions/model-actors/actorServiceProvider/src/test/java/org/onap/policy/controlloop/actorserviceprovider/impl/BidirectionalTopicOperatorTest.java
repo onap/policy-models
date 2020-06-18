@@ -107,7 +107,7 @@ public class BidirectionalTopicOperatorTest {
         AtomicReference<BidirectionalTopicConfig> configRef = new AtomicReference<>();
 
         // @formatter:off
-        OperationMaker<BidirectionalTopicConfig, BidirectionalTopicOperation<?,?>> maker =
+        OperationMaker<BidirectionalTopicConfig, BidirectionalTopicOperation<?, ?>> maker =
             (params, config) -> {
                 paramsRef.set(params);
                 configRef.set(config);
@@ -150,7 +150,7 @@ public class BidirectionalTopicOperatorTest {
         }
 
         @Override
-        public BidirectionalTopicOperation<?,?> buildOperation(ControlLoopOperationParams params) {
+        public BidirectionalTopicOperation<?, ?> buildOperation(ControlLoopOperationParams params) {
             return null;
         }
     }

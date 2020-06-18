@@ -32,7 +32,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfValidationResult;
