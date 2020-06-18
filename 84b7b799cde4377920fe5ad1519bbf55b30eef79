@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9cfd8c5a_f683c97a",
+        "filename": "models-base/src/test/java/org/onap/policy/models/base/PfModelExceptionInfoTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-06-18T14:11:57Z",
+      "side": 1,
+      "message": "hmm.  Looking at both the old and new code, not sure why it ever bothered to throw an exception at all.  In any event, let\u0027s just delete the whole assertThatCode block and simply assert that its message contains \"HELLO\"",
+      "revId": "84b7b799cde4377920fe5ad1519bbf55b30eef79",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15f1bb0f_c419cdb0",
+        "filename": "models-base/src/test/java/org/onap/policy/models/base/PfModelExceptionInfoTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-06-18T14:11:57Z",
+      "side": 1,
+      "message": "same comment here",
+      "revId": "84b7b799cde4377920fe5ad1519bbf55b30eef79",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afc90e59_85ff36b5",
+        "filename": "models-errors/src/test/java/org/onap/policy/models/errors/concepts/ErrorResponseUtilsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-06-18T14:11:57Z",
+      "side": 1,
+      "message": "similar comment",
+      "revId": "84b7b799cde4377920fe5ad1519bbf55b30eef79",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
