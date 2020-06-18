@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,10 +21,10 @@
 
 package org.onap.policy.models.errors.concepts;
 
+import static org.assertj.core.api.Assertions.assertThatIOException;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
-
 import org.junit.Test;
 
 /**
@@ -37,15 +37,15 @@ public class ErrorResponseUtilsTest {
 
     @Test
     public void testErrorResponseUtils() {
-        try {
-            throw new IOException(EXCEPTION1, new NumberFormatException("Exception 0"));
-        } catch (Exception ioe) {
-            ErrorResponse errorResponse = new ErrorResponse();
-            ErrorResponseUtils.getExceptionMessages(errorResponse, ioe);
+        final IOException ioe = new IOException(EXCEPTION1, new NumberFormatException("Exception 0"));
+        final ErrorResponse errorResponse = new ErrorResponse();
+        assertThatIOException().isThrownBy(() -> {
+            throw ioe;
+        }).withMessage(EXCEPTION1);
 
-            assertEquals(EXCEPTION1, errorResponse.getErrorMessage());
-            assertEquals(EXCEPTION1, errorResponse.getErrorDetails().get(0));
-            assertEquals("Exception 0", errorResponse.getErrorDetails().get(1));
-        }
+        ErrorResponseUtils.getExceptionMessages(errorResponse, ioe);
+        assertEquals(EXCEPTION1, errorResponse.getErrorMessage());
+        assertEquals(EXCEPTION1, errorResponse.getErrorDetails().get(0));
+        assertEquals("Exception 0", errorResponse.getErrorDetails().get(1));
     }
 }
