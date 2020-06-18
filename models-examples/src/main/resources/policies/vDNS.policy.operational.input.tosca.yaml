@@ -25,7 +25,7 @@ topology_template:
                                 modelInvariantId: e6130d03-56f1-4b0a-9a1d-e1b2ebc30e0e
                                 modelVersionId: 94b18b1d-cc91-4f43-911a-e6348665f292
                                 modelName: VfwclVfwsnkBbefb8ce2bde..base_vfw..module-0
-                                modelVersion: 1
+                                modelVersion: "1"
                                 modelCustomizationId: 47958575-138f-452a-8c8d-d89b595f8164
                         payload:
                             requestParameters: '{"usePreload":true,"userParams":[]}'
