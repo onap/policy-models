@@ -27,7 +27,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.LinkedHashMap;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.common.utils.coder.StandardCoder;

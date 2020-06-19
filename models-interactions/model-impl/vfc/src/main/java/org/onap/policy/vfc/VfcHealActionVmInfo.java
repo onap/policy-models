@@ -21,7 +21,6 @@
 package org.onap.policy.vfc;
 
 import java.io.Serializable;
-
 import lombok.Getter;
 import lombok.Setter;
 

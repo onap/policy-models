@@ -21,7 +21,6 @@
 package org.onap.policy.models.decisions.concepts;
 
 import java.util.Map;
-
 import lombok.Data;
 
 /**

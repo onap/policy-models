@@ -24,9 +24,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
-
 import javax.ws.rs.core.Response;
-
 import org.junit.Test;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.slf4j.Logger;

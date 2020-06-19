@@ -22,11 +22,8 @@
 package org.onap.policy.models.tosca.legacy.provider;
 
 import java.util.Map;
-
 import javax.ws.rs.core.Response;
-
 import lombok.NonNull;
-
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;

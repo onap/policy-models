@@ -88,7 +88,7 @@ public class PdpProviderTest {
         jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_DRIVER, "org.h2.Driver");
         jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_URL, "jdbc:h2:mem:testdb");
 
-        daoParameters.setJdbcProperties(jdbcProperties );
+        daoParameters.setJdbcProperties(jdbcProperties);
 
         pfDao = new PfDaoFactory().createPfDao(daoParameters);
         pfDao.init(daoParameters);

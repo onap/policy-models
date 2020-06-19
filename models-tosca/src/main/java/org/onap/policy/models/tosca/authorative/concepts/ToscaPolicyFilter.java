@@ -23,11 +23,9 @@ package org.onap.policy.models.tosca.authorative.concepts;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
-
 import org.onap.policy.models.base.PfObjectFilter;
 
 /**
@@ -70,8 +68,7 @@ public class ToscaPolicyFilter implements PfObjectFilter<ToscaPolicy> {
 
         if (LATEST_VERSION.equals(version)) {
             return this.latestVersionFilter(returnList);
-        }
-        else {
+        } else  {
             return returnList;
         }
     }

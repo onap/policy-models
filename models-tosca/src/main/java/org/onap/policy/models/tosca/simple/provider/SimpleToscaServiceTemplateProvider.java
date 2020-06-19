@@ -21,9 +21,7 @@
 package org.onap.policy.models.tosca.simple.provider;
 
 import javax.ws.rs.core.Response.Status;
-
 import lombok.NonNull;
-
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.dao.PfDao;

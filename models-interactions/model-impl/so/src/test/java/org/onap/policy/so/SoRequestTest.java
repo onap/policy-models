@@ -27,7 +27,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-
 import org.junit.Test;
 
 public class SoRequestTest {

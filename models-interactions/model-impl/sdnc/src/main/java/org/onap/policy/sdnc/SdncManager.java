@@ -23,17 +23,14 @@
 package org.onap.policy.sdnc;
 
 import com.google.gson.JsonSyntaxException;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.rest.RestManager;
 import org.onap.policy.rest.RestManager.Pair;
 import org.onap.policy.sdnc.util.Serialization;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -41,7 +41,7 @@ public class VfcHealAdditionalParamsTest {
         assertEquals(action, additionalParams.getAction());
 
         VfcHealActionVmInfo actionInfo = new VfcHealActionVmInfo();
-        additionalParams.setActionInfo(actionInfo );
+        additionalParams.setActionInfo(actionInfo);
         assertEquals(actionInfo, additionalParams.getActionInfo());
 
         assertNotEquals(0, additionalParams.hashCode());

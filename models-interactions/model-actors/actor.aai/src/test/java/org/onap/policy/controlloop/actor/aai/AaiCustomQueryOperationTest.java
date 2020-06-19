@@ -212,7 +212,7 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation<Map<String, S
         verify(webAsync).put(requestCaptor.capture(), any(InvocationCallback.class));
 
         String reqText = requestCaptor.getValue().getEntity();
-        Map<String,String> reqMap = coder.decode(reqText, Map.class);
+        Map<String, String> reqMap = coder.decode(reqText, Map.class);
 
         // sort the request fields so they match the order in cq.json
         Map<String, String> request = new TreeMap<>(reqMap);

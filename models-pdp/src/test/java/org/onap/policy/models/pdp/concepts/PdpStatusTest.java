@@ -27,7 +27,6 @@ import static org.onap.policy.models.pdp.concepts.PdpMessageUtils.removeVariable
 
 import java.util.Arrays;
 import java.util.Collections;
-
 import org.junit.Test;
 import org.onap.policy.models.pdp.enums.PdpHealthStatus;
 import org.onap.policy.models.pdp.enums.PdpState;

@@ -21,9 +21,7 @@
 package org.onap.policy.models.base.testconcepts;
 
 import javax.ws.rs.core.Response;
-
 import lombok.NonNull;
-
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelRuntimeException;
 

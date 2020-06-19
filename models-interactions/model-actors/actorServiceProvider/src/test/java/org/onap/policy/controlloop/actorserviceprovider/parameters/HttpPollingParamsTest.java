@@ -77,7 +77,7 @@ public class HttpPollingParamsTest {
     }
 
     private void testValidateField(String fieldName, String expected,
-                    Function<HttpPollingParamsBuilder<?,?>, HttpPollingParamsBuilder<?,?>> makeInvalid) {
+                    Function<HttpPollingParamsBuilder<?, ?>, HttpPollingParamsBuilder<?, ?>> makeInvalid) {
 
         // original params should be valid
         ValidationResult result = params.validate(CONTAINER);

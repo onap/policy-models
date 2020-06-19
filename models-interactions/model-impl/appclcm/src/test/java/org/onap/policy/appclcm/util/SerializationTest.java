@@ -26,7 +26,6 @@ import static org.junit.Assert.assertEquals;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-
 import org.junit.Test;
 
 public class SerializationTest {

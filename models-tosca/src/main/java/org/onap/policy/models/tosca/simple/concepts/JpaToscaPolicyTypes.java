@@ -24,17 +24,14 @@ package org.onap.policy.models.tosca.simple.concepts;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.ToString;
-
 import org.onap.policy.models.base.PfConceptContainer;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfValidationResult;

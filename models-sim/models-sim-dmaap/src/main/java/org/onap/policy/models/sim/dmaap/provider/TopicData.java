@@ -112,8 +112,7 @@ public class TopicData {
 
         do {
             result = group2data.computeIfAbsent(consumerGroup, maker).read(maxRead, waitMs);
-        }
-        while (result == ConsumerGroupData.UNREADABLE_LIST);
+        } while (result == ConsumerGroupData.UNREADABLE_LIST);
 
         // @formatter:on
 

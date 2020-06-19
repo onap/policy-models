@@ -23,11 +23,9 @@ package org.onap.policy.models.base;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
-
 import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 

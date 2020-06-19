@@ -26,7 +26,6 @@ import static org.junit.Assert.assertNotNull;
 
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-
 import org.junit.Test;
 import org.onap.policy.common.utils.coder.YamlJsonTranslator;
 import org.slf4j.Logger;

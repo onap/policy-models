@@ -29,7 +29,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.junit.Test;
 
 public class ResponseTest {

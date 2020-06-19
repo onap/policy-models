@@ -185,7 +185,7 @@ public class TopicDataTest {
 
         coder = mock(Coder.class);
         when(coder.encode(any())).thenThrow(new CoderException(EXPECTED_EXCEPTION));
-        assertNull(data.convertMessageToString(new TreeMap<String,Object>(), coder));
+        assertNull(data.convertMessageToString(new TreeMap<String, Object>(), coder));
     }
 
     @Test

@@ -29,7 +29,7 @@ import java.util.Map;
 public class Constraint {
 
     private Integer freqLimitPerTarget;
-    private Map<String,String> timeWindow;
+    private Map<String, String> timeWindow;
     private Map<String, String> activeTimeRange;
     private Integer minVnfCount;
     private Integer maxVnfCount;

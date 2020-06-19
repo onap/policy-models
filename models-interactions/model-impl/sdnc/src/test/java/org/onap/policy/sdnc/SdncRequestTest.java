@@ -26,7 +26,6 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.UUID;
-
 import org.junit.Test;
 
 public class SdncRequestTest {

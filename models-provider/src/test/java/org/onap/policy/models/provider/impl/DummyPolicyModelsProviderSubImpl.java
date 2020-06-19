@@ -21,7 +21,6 @@
 package org.onap.policy.models.provider.impl;
 
 import lombok.NonNull;
-
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 

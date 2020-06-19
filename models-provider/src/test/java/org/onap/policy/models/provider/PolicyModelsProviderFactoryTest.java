@@ -24,7 +24,6 @@ package org.onap.policy.models.provider;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import lombok.ToString;
-
 import org.junit.Test;
 
 /**
@@ -42,33 +41,33 @@ public class PolicyModelsProviderFactoryTest {
         // @formatter:off
         assertThatThrownBy(() -> {
             factory.createPolicyModelsProvider(null);
-        })  .hasMessageMatching("^parameters is marked .*on.*ull but is null$");
+        }).hasMessageMatching("^parameters is marked .*on.*ull but is null$");
 
         assertThatThrownBy(() -> {
             PolicyModelsProviderParameters pars = new PolicyModelsProviderParameters();
             pars.setImplementation(null);
             factory.createPolicyModelsProvider(pars);
-        })  .hasMessage("could not find implementation of the \"PolicyModelsProvider\" interface \"null\"");
+        }).hasMessage("could not find implementation of the \"PolicyModelsProvider\" interface \"null\"");
 
         assertThatThrownBy(() -> {
             PolicyModelsProviderParameters pars = new PolicyModelsProviderParameters();
             pars.setImplementation("com.acmecorp.RoadRunner");
             factory.createPolicyModelsProvider(pars);
-        })  .hasMessage("could not find implementation of the \"PolicyModelsProvider\" "
+        }).hasMessage("could not find implementation of the \"PolicyModelsProvider\" "
                 + "interface \"com.acmecorp.RoadRunner\"");
 
         assertThatThrownBy(() -> {
             PolicyModelsProviderParameters pars = new PolicyModelsProviderParameters();
             pars.setImplementation("java.lang.String");
             factory.createPolicyModelsProvider(pars);
-        })  .hasMessage(
+        }).hasMessage(
                 "the class \"java.lang.String\" is not an implementation of the \"PolicyModelsProvider\" interface");
 
         assertThatThrownBy(() -> {
             PolicyModelsProviderParameters pars = new PolicyModelsProviderParameters();
             pars.setImplementation("org.onap.policy.models.provider.impl.DummyBadProviderImpl");
             factory.createPolicyModelsProvider(pars);
-        })  .hasMessage("could not create an instance of PolicyModelsProvider "
+        }).hasMessage("could not create an instance of PolicyModelsProvider "
                 + "\"org.onap.policy.models.provider.impl.DummyBadProviderImpl\"");
         // @formatter:on
     }

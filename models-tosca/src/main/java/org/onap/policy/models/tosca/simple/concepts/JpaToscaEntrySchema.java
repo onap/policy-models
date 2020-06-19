@@ -26,15 +26,12 @@ package org.onap.policy.models.tosca.simple.concepts;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-
 import org.apache.commons.lang3.ObjectUtils;
 import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfAuthorative;

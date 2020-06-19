@@ -23,11 +23,9 @@ package org.onap.policy.models.pdp.concepts;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
-
 import org.apache.commons.lang3.ObjectUtils;
 import org.onap.policy.models.base.PfObjectFilter;
 import org.onap.policy.models.pdp.enums.PdpState;

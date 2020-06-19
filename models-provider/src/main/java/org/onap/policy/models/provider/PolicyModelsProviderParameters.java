@@ -22,7 +22,6 @@
 package org.onap.policy.models.provider;
 
 import lombok.Data;
-
 import org.onap.policy.common.parameters.GroupValidationResult;
 import org.onap.policy.common.parameters.ParameterGroup;
 import org.onap.policy.common.parameters.ValidationStatus;

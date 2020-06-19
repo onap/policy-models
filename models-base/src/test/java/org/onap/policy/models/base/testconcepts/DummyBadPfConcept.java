@@ -21,7 +21,6 @@
 package org.onap.policy.models.base.testconcepts;
 
 import lombok.NonNull;
-
 import org.onap.policy.models.base.PfConceptKey;
 
 /**

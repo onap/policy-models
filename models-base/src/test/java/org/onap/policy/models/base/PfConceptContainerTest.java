@@ -33,7 +33,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-
 import org.junit.Test;
 import org.onap.policy.models.base.testconcepts.DummyAuthorativeConcept;
 import org.onap.policy.models.base.testconcepts.DummyBadPfConceptContainer;

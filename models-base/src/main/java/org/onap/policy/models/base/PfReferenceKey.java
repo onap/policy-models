@@ -23,14 +23,11 @@ package org.onap.policy.models.base;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-
 import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 

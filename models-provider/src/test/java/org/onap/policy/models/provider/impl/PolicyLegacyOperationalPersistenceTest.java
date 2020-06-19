@@ -27,9 +27,7 @@ import static org.junit.Assert.assertNotNull;
 import java.net.URISyntaxException;
 import java.util.Base64;
 import java.util.Set;
-
 import lombok.NonNull;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

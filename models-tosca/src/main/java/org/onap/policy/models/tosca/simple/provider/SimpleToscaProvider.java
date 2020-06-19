@@ -23,11 +23,8 @@ package org.onap.policy.models.tosca.simple.provider;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import javax.ws.rs.core.Response;
-
 import lombok.NonNull;
-
 import org.apache.commons.collections4.CollectionUtils;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptFilter;

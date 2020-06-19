@@ -25,11 +25,8 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
-
 import javax.ws.rs.core.Response;
-
 import lombok.NonNull;
-
 import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;

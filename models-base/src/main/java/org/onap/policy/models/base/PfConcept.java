@@ -23,7 +23,6 @@ package org.onap.policy.models.base;
 
 import java.io.Serializable;
 import java.util.List;
-
 import lombok.NonNull;
 
 /**

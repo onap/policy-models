@@ -23,9 +23,7 @@ package org.onap.policy.models.tosca.legacy.mapping;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.ws.rs.core.Response;
-
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;

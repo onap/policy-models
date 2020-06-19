@@ -22,7 +22,6 @@ package org.onap.policy.models.base.testconcepts;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import org.onap.policy.models.base.PfNameVersion;
 
 /**

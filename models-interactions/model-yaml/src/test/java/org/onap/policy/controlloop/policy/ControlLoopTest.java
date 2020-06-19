@@ -27,10 +27,8 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.Ignore;
 import org.junit.Test;
-
 import org.onap.aai.domain.yang.Pnf;
 import org.onap.policy.common.utils.io.Serializer;
 import org.onap.policy.sdc.Resource;

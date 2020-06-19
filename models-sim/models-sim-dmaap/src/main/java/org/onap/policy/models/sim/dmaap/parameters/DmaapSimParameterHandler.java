@@ -22,7 +22,6 @@
 package org.onap.policy.models.sim.dmaap.parameters;
 
 import java.io.File;
-
 import org.onap.policy.common.parameters.GroupValidationResult;
 import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;

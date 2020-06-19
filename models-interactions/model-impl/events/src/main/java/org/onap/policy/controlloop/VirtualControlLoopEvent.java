@@ -22,7 +22,6 @@
 package org.onap.policy.controlloop;
 
 import com.google.gson.annotations.SerializedName;
-
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;

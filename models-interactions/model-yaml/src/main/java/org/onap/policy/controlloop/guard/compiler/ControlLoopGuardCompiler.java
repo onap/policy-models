@@ -22,11 +22,9 @@
 package org.onap.policy.controlloop.guard.compiler;
 
 import java.io.InputStream;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import org.onap.policy.controlloop.compiler.CompilerException;
 import org.onap.policy.controlloop.compiler.ControlLoopCompilerCallback;
 import org.onap.policy.controlloop.policy.guard.Constraint;

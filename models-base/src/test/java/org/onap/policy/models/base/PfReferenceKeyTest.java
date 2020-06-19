@@ -29,7 +29,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Field;
-
 import org.junit.Test;
 
 public class PfReferenceKeyTest {

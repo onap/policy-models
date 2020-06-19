@@ -23,7 +23,6 @@ package org.onap.policy.controlloop.policy.builder.impl;
 
 import java.util.LinkedList;
 import java.util.List;
-
 import org.onap.policy.controlloop.policy.builder.Message;
 import org.onap.policy.controlloop.policy.builder.Results;
 

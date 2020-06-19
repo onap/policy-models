@@ -22,7 +22,6 @@
 package org.onap.policy.appclcm;
 
 import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashMap;

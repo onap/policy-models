@@ -28,13 +28,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import javax.ws.rs.core.Response;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.base.PfNameVersion;
 

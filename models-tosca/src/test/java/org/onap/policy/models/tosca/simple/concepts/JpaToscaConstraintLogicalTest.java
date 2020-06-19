@@ -26,7 +26,6 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
-
 import org.junit.Test;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConstraint;
 

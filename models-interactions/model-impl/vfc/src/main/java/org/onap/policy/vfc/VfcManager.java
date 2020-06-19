@@ -22,10 +22,8 @@
 package org.onap.policy.vfc;
 
 import com.google.gson.JsonSyntaxException;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;

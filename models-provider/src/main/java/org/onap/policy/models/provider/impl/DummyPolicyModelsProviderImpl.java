@@ -24,9 +24,7 @@ package org.onap.policy.models.provider.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import javax.ws.rs.core.Response;
-
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.base.PfModelException;

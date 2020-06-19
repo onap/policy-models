@@ -25,12 +25,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-
 import lombok.NonNull;
-
 import org.apache.commons.collections4.CollectionUtils;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
