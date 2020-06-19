@@ -5,7 +5,7 @@
  * Copyright (C) 2018 Huawei. All rights reserved.
  * ================================================================================
  * Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,10 +34,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.UUID;
+import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.rest.RestManager;
-import org.onap.policy.rest.RestManager.Pair;
 import org.onap.policy.sdnc.SdncManager.SdncCallback;
 import org.onap.policy.sdnc.util.Serialization;
 
@@ -62,9 +62,9 @@ public class SdncManagerTest implements SdncCallback {
     public void setupMockedRest() {
         mockedRestManager   = mock(RestManager.class);
 
-        httpResponsePutOk       = mockedRestManager.new Pair<>(202, Serialization.gsonPretty.toJson(response));
-        httpResponseBadResponse = mockedRestManager.new Pair<>(202, Serialization.gsonPretty.toJson(null));
-        httpResponseErr         = mockedRestManager.new Pair<>(200, null);
+        httpResponsePutOk       = Pair.of(202, Serialization.gsonPretty.toJson(response));
+        httpResponseBadResponse = Pair.of(202, Serialization.gsonPretty.toJson(null));
+        httpResponseErr         = Pair.of(200, null);
     }
 
     /**
