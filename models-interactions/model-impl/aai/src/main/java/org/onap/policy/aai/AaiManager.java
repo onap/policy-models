@@ -3,7 +3,7 @@
  * aai
  * ================================================================================
  * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * Modifications Copyright (C) 2019 Samsung Electronics Co., Ltd.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -36,8 +36,8 @@ import org.onap.policy.common.endpoints.utils.NetLoggerUtil;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
+import org.onap.policy.common.utils.resources.Pair;
 import org.onap.policy.rest.RestManager;
-import org.onap.policy.rest.RestManager.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -154,17 +154,17 @@ public final class AaiManager {
             return null;
         }
 
-        int httpResponseCode = httpDetails.first;
+        int httpResponseCode = httpDetails.first();
 
         NetLoggerUtil.log(EventType.IN, CommInfrastructure.REST, url, "Response code: " + httpResponseCode);
-        NetLoggerUtil.getNetworkLogger().debug(httpDetails.second);
+        NetLoggerUtil.getNetworkLogger().debug(httpDetails.second());
 
         logger.debug(url);
         logger.debug("{}", httpResponseCode);
-        logger.debug(httpDetails.second);
+        logger.debug(httpDetails.second());
 
-        if (httpDetails.second != null) {
-            return new AaiCqResponse(httpDetails.second);
+        if (httpDetails.second() != null) {
+            return new AaiCqResponse(httpDetails.second());
         }
         return null;
     }
@@ -197,17 +197,17 @@ public final class AaiManager {
                 return null;
             }
 
-            int httpResponseCode = httpDetailsGet.first;
+            int httpResponseCode = httpDetailsGet.first();
 
             NetLoggerUtil.log(EventType.IN, CommInfrastructure.REST, url, "Response code: " + httpResponseCode);
-            NetLoggerUtil.getNetworkLogger().debug(httpDetailsGet.second);
+            NetLoggerUtil.getNetworkLogger().debug(httpDetailsGet.second());
 
             logger.debug(urlGet);
             logger.debug("{}", httpResponseCode);
-            logger.debug(httpDetailsGet.second);
+            logger.debug(httpDetailsGet.second());
 
-            if (httpResponseCode == 200 && httpDetailsGet.second != null) {
-                return httpDetailsGet.second;
+            if (httpResponseCode == 200 && httpDetailsGet.second() != null) {
+                return httpDetailsGet.second();
             }
             try {
                 Thread.sleep(1000);

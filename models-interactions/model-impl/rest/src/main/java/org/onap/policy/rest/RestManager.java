@@ -3,7 +3,7 @@
  * rest
  * ================================================================================
  * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,6 +38,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
+import org.onap.policy.common.utils.resources.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,29 +48,19 @@ public class RestManager {
     // Constants for string literals
     private static final String CONTENT_TYPE = "Content-Type";
 
-    public class Pair<A, B> {
-        public final A first;
-        public final B second;
-
-        public Pair(A first, B second) {
-            this.first = first;
-            this.second = second;
-        }
-    }
-
     /**
      * Perform REST PUT.
      *
-     * @param url         the url
-     * @param username    the user name
-     * @param password    the password
-     * @param headers     any headers
+     * @param url the url
+     * @param username the user name
+     * @param password the password
+     * @param headers any headers
      * @param contentType what the content type is
-     * @param body        body to send
+     * @param body body to send
      * @return the response status code and the body
      */
-    public Pair<Integer, String> put(String url, String username, String password,
-                                      Map<String, String> headers, String contentType, String body) {
+    public Pair<Integer, String> put(String url, String username, String password, Map<String, String> headers,
+            String contentType, String body) {
         HttpPut put = new HttpPut(url);
         addHeaders(put, username, password, headers);
         put.addHeader(CONTENT_TYPE, contentType);
@@ -87,16 +78,16 @@ public class RestManager {
     /**
      * Perform REST Post.
      *
-     * @param url         the url
-     * @param username    the user name
-     * @param password    the password
-     * @param headers     any headers
+     * @param url the url
+     * @param username the user name
+     * @param password the password
+     * @param headers any headers
      * @param contentType what the content type is
-     * @param body        body to send
+     * @param body body to send
      * @return the response status code and the body
      */
-    public Pair<Integer, String> post(String url, String username, String password,
-                                      Map<String, String> headers, String contentType, String body) {
+    public Pair<Integer, String> post(String url, String username, String password, Map<String, String> headers,
+            String contentType, String body) {
         HttpPost post = new HttpPost(url);
         addHeaders(post, username, password, headers);
         post.addHeader(CONTENT_TYPE, contentType);
@@ -114,14 +105,13 @@ public class RestManager {
     /**
      * Do a REST get.
      *
-     * @param url      URL
+     * @param url URL
      * @param username user name
      * @param password password
-     * @param headers  any headers to add
+     * @param headers any headers to add
      * @return a Pair for the response status and the body
      */
-    public Pair<Integer, String> get(String url, String username, String password,
-                                     Map<String, String> headers) {
+    public Pair<Integer, String> get(String url, String username, String password, Map<String, String> headers) {
         HttpGet get = new HttpGet(url);
         addHeaders(get, username, password, headers);
         return sendRequest(get);
@@ -131,16 +121,16 @@ public class RestManager {
      * Perform REST Delete. <br/>
      * <i>Note: Many REST endpoints will return a 400 error for delete requests with a non-empty body</i>
      *
-     * @param url         the url
-     * @param username    the user name
-     * @param password    the password
-     * @param headers     any headers
+     * @param url the url
+     * @param username the user name
+     * @param password the password
+     * @param headers any headers
      * @param contentType what the content type is
-     * @param body        body (optional) to send
+     * @param body body (optional) to send
      * @return the response status code and the body
      */
     public Pair<Integer, String> delete(String url, String username, String password, Map<String, String> headers,
-                                        String contentType, String body) {
+            String contentType, String body) {
         HttpDeleteWithBody delete = new HttpDeleteWithBody(url);
         addHeaders(delete, username, password, headers);
         if (body != null && !body.isEmpty()) {
@@ -160,10 +150,10 @@ public class RestManager {
     /**
      * Perform REST Delete.
      *
-     * @param url         the url
-     * @param username    the user name
-     * @param password    the password
-     * @param headers     any headers
+     * @param url the url
+     * @param username the user name
+     * @param password the password
+     * @param headers any headers
      * @return the response status code and the body
      */
     public Pair<Integer, String> delete(String url, String username, String password, Map<String, String> headers) {
@@ -175,15 +165,15 @@ public class RestManager {
     /**
      * Perform REST Patch.
      *
-     * @param url         the url
-     * @param username    the user name
-     * @param password    the password
-     * @param headers     any headers
-     * @param body        body to send
+     * @param url the url
+     * @param username the user name
+     * @param password the password
+     * @param headers any headers
+     * @param body body to send
      * @return the response status code and the body
      */
-    public Pair<Integer, String> patch(String url, String username, String password,
-                                       Map<String, String> headers, String body) {
+    public Pair<Integer, String> patch(String url, String username, String password, Map<String, String> headers,
+            String body) {
         String contentType = "application/merge-patch+json";
         HttpPatch patch = new HttpPatch(url);
         addHeaders(patch, username, password, headers);
@@ -211,20 +201,15 @@ public class RestManager {
         }
 
         try (CloseableHttpClient client =
-                     HttpClientBuilder
-                             .create()
-                             .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
-                             .build()) {
+                HttpClientBuilder.create().setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE).build()) {
             HttpResponse response = client.execute(request);
             if (response != null) {
                 String returnBody = EntityUtils.toString(response.getEntity(), "UTF-8");
-                logger.debug("HTTP Response Status Code: {}",
-                        response.getStatusLine().getStatusCode());
+                logger.debug("HTTP Response Status Code: {}", response.getStatusLine().getStatusCode());
                 logger.debug("HTTP Response Body:");
                 logger.debug(returnBody);
 
-                return new Pair<>(response.getStatusLine().getStatusCode(),
-                        returnBody);
+                return new Pair<>(response.getStatusLine().getStatusCode(), returnBody);
             } else {
                 logger.error("Response from {} is null", request.getURI());
                 return null;
@@ -238,13 +223,12 @@ public class RestManager {
     /**
      * Add header to the request.
      *
-     * @param request  http request to send
+     * @param request http request to send
      * @param username the user name
      * @param password the password
-     * @param headers  any headers
+     * @param headers any headers
      */
-    private void addHeaders(HttpRequestBase request, String username, String password, Map<String,
-            String> headers) {
+    private void addHeaders(HttpRequestBase request, String username, String password, Map<String, String> headers) {
         String authHeader = makeAuthHeader(username, password);
         if (headers != null) {
             for (Entry<String, String> entry : headers.entrySet()) {
