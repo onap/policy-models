@@ -3,7 +3,7 @@
  * vfc
  * ================================================================================
  * Copyright (C) 2018-2020 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.. All rights reserved.
+ * Modifications Copyright (C) 2019-2020 Nordix Foundation.. All rights reserved.
  * Modifications Copyright (C) 2018-2019 AT&T Corporation. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -37,8 +37,8 @@ import java.util.List;
 import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
+import org.onap.policy.common.utils.resources.Pair;
 import org.onap.policy.rest.RestManager;
-import org.onap.policy.rest.RestManager.Pair;
 import org.onap.policy.vfc.VfcManager.VfcCallback;
 import org.onap.policy.vfc.util.Serialization;
 
@@ -64,9 +64,9 @@ public class VfcManagerTest implements VfcCallback {
     public void setupMockedRest() {
         mockedRestManager   = mock(RestManager.class);
 
-        httpResponsePutOk       = mockedRestManager.new Pair<>(202, Serialization.gsonPretty.toJson(response));
-        httpResponseBadResponse = mockedRestManager.new Pair<>(202, Serialization.gsonPretty.toJson(null));
-        httpResponseErr         = mockedRestManager.new Pair<>(200, null);
+        httpResponsePutOk       = new Pair<>(202, Serialization.gsonPretty.toJson(response));
+        httpResponseBadResponse = new Pair<>(202, Serialization.gsonPretty.toJson(null));
+        httpResponseErr         = new Pair<>(200, null);
     }
 
     /**

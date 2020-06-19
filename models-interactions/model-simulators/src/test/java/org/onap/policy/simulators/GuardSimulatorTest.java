@@ -3,7 +3,7 @@
  * simulators
  * ================================================================================
  * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,10 +33,10 @@ import org.junit.Test;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
+import org.onap.policy.common.utils.resources.Pair;
 import org.onap.policy.models.decisions.concepts.DecisionRequest;
 import org.onap.policy.models.decisions.concepts.DecisionResponse;
 import org.onap.policy.rest.RestManager;
-import org.onap.policy.rest.RestManager.Pair;
 
 public class GuardSimulatorTest {
     private static final StandardCoder coder = new StandardCoder();
@@ -65,18 +65,18 @@ public class GuardSimulatorTest {
         Pair<Integer, String> response =
                 new RestManager().post(url, "testUname", "testPass", null, "application/json", request);
         assertNotNull(response);
-        assertNotNull(response.first);
-        assertNotNull(response.second);
+        assertNotNull(response.first());
+        assertNotNull(response.second());
 
-        DecisionResponse decision = coder.decode(response.second, DecisionResponse.class);
+        DecisionResponse decision = coder.decode(response.second(), DecisionResponse.class);
         assertEquals("Permit", decision.getStatus());
 
         request = makeRequest("test_actor_id", "test_op_id", "test_target", "denyGuard");
         response = new RestManager().post(url, "testUname", "testPass", null, "application/json", request);
         assertNotNull(response);
-        assertNotNull(response.first);
-        assertNotNull(response.second);
-        decision = coder.decode(response.second, DecisionResponse.class);
+        assertNotNull(response.first());
+        assertNotNull(response.second());
+        decision = coder.decode(response.second(), DecisionResponse.class);
         assertEquals("Deny", decision.getStatus());
     }
 

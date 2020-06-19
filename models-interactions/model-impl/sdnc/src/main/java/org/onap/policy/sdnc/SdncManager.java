@@ -3,7 +3,7 @@
  * Copyright (C) 2018 Huawei. All rights reserved.
  * ================================================================================
  * Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * Modifications Copyright (C) 2019 Samsung Electronics Co., Ltd.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,17 +23,14 @@
 package org.onap.policy.sdnc;
 
 import com.google.gson.JsonSyntaxException;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
+import org.onap.policy.common.utils.resources.Pair;
 import org.onap.policy.rest.RestManager;
-import org.onap.policy.rest.RestManager.Pair;
 import org.onap.policy.sdnc.util.Serialization;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -128,9 +125,9 @@ public final class SdncManager implements Runnable {
         }
 
         try {
-            SdncResponse response = Serialization.gsonPretty.fromJson(httpDetails.second, SdncResponse.class);
-            NetLoggerUtil.log(EventType.IN, CommInfrastructure.REST, sdncUrl, httpDetails.second);
-            logger.info("[IN|{}|{}|]{}{}", "Sdnc", sdncUrl, NetLoggerUtil.SYSTEM_LS, httpDetails.second);
+            SdncResponse response = Serialization.gsonPretty.fromJson(httpDetails.second(), SdncResponse.class);
+            NetLoggerUtil.log(EventType.IN, CommInfrastructure.REST, sdncUrl, httpDetails.second());
+            logger.info("[IN|{}|{}|]{}{}", "Sdnc", sdncUrl, NetLoggerUtil.SYSTEM_LS, httpDetails.second());
             String body = Serialization.gsonPretty.toJson(response);
             logger.info("Response to Sdnc Heal post:");
             logger.info(body);
@@ -138,7 +135,7 @@ public final class SdncManager implements Runnable {
 
             if (!"200".equals(response.getResponseOutput().getResponseCode())) {
                 logger.info(
-                    "Sdnc Heal Restcall failed with http error code {} {}", httpDetails.first, httpDetails.second
+                    "Sdnc Heal Restcall failed with http error code {} {}", httpDetails.first(), httpDetails.second()
                 );
             }
 

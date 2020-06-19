@@ -3,7 +3,7 @@
  * aai
  * ================================================================================
  * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,8 +39,8 @@ import java.util.Map;
 import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
+import org.onap.policy.common.utils.resources.Pair;
 import org.onap.policy.rest.RestManager;
-import org.onap.policy.rest.RestManager.Pair;
 
 public class AaiManagerTest {
     private static final String CQ_QUERY_URL = "http://testing.cq.query";
@@ -66,10 +66,10 @@ public class AaiManagerTest {
 
         String aaiCqResponse = new AaiCqResponseTest().getAaiCqResponse();
         String tenantResponse = this.getTenantQueryResponse();
-        httpCqResponseOk = restManagerMock.new Pair<>(200, aaiCqResponse);
-        httpTenantResponseOk = restManagerMock.new Pair<>(200, tenantResponse);
-        httpResponseErr0 = restManagerMock.new Pair<>(200, null);
-        httpResponseErr1 = restManagerMock.new Pair<>(200, "{");
+        httpCqResponseOk = new Pair<>(200, aaiCqResponse);
+        httpTenantResponseOk = new Pair<>(200, tenantResponse);
+        httpResponseErr0 = new Pair<>(200, null);
+        httpResponseErr1 = new Pair<>(200, "{");
 
     }
 
@@ -128,7 +128,7 @@ public class AaiManagerTest {
         String pnfResponse = "{\"pnf-name\":" + pnfName
                                      + ",\"pnf-id\":\"123456\",\"in-maint\":false,\"ipaddress-v4-oam\":\"1.1.1.1\"}";
 
-        Pair<Integer, String> pnfHttpResponse = restManagerMock.new Pair<>(200, pnfResponse);
+        Pair<Integer, String> pnfHttpResponse = new Pair<>(200, pnfResponse);
         when(restManagerMock.get(contains(pnfName), eq(DOROTHY), eq("Gale"), anyMap()))
                 .thenReturn(pnfHttpResponse);
 

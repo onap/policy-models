@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2017-2019 Intel Corp. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * Modifications Copyright (C) 2018-2019 AT&T Corporation. All rights reserved.
  * Modifications Copyright (C) 2019 Samsung Electronics Co., Ltd.
  * ================================================================================
@@ -22,15 +22,13 @@
 package org.onap.policy.vfc;
 
 import com.google.gson.JsonSyntaxException;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
+import org.onap.policy.common.utils.resources.Pair;
 import org.onap.policy.rest.RestManager;
-import org.onap.policy.rest.RestManager.Pair;
 import org.onap.policy.vfc.util.Serialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -119,7 +117,7 @@ public final class VfcManager implements Runnable {
             return;
         }
 
-        if (httpDetails.first != 202) {
+        if (httpDetails.first() != 202) {
             logger.warn("VFC Heal Restcall failed");
             return;
         }
@@ -146,8 +144,8 @@ public final class VfcManager implements Runnable {
      */
     private void handleVfcResponse(Map<String, String> headers, Pair<Integer, String> httpDetails, String vfcUrl)
             throws InterruptedException {
-        VfcResponse response = Serialization.gsonPretty.fromJson(httpDetails.second, VfcResponse.class);
-        NetLoggerUtil.log(EventType.IN, CommInfrastructure.REST, vfcUrl, httpDetails.second);
+        VfcResponse response = Serialization.gsonPretty.fromJson(httpDetails.second(), VfcResponse.class);
+        NetLoggerUtil.log(EventType.IN, CommInfrastructure.REST, vfcUrl, httpDetails.second());
         String body = Serialization.gsonPretty.toJson(response);
         logger.debug("Response to VFC Heal post:");
         logger.debug(body);
@@ -161,15 +159,15 @@ public final class VfcManager implements Runnable {
         while (attemptsLeft-- > 0) {
             NetLoggerUtil.getNetworkLogger().info("[OUT|{}|{}|]", "VFC", urlGet);
             Pair<Integer, String> httpDetailsGet = restManager.get(urlGet, username, password, headers);
-            responseGet = Serialization.gsonPretty.fromJson(httpDetailsGet.second, VfcResponse.class);
-            NetLoggerUtil.log(EventType.IN, CommInfrastructure.REST, vfcUrl, httpDetailsGet.second);
+            responseGet = Serialization.gsonPretty.fromJson(httpDetailsGet.second(), VfcResponse.class);
+            NetLoggerUtil.log(EventType.IN, CommInfrastructure.REST, vfcUrl, httpDetailsGet.second());
             responseGet.setRequestId(vfcRequest.getRequestId().toString());
             body = Serialization.gsonPretty.toJson(responseGet);
             logger.debug("Response to VFC Heal get:");
             logger.debug(body);
 
             String responseStatus = responseGet.getResponseDescriptor().getStatus();
-            if (httpDetailsGet.first == 200
+            if (httpDetailsGet.first() == 200
                     && ("finished".equalsIgnoreCase(responseStatus) || "error".equalsIgnoreCase(responseStatus))) {
                 logger.debug("VFC Heal Status {}", responseGet.getResponseDescriptor().getStatus());
                 this.callback.onResponse(responseGet);
