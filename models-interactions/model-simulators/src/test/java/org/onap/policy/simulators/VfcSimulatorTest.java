@@ -3,7 +3,7 @@
  * simulators
  * ================================================================================
  * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,12 +26,12 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.HashMap;
+import org.apache.commons.lang3.tuple.Pair;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.rest.RestManager;
-import org.onap.policy.rest.RestManager.Pair;
 import org.onap.policy.vfc.VfcResponse;
 import org.onap.policy.vfc.util.Serialization;
 
@@ -60,8 +60,8 @@ public class VfcSimulatorTest {
                 new RestManager().post("http://localhost:6668/api/nslcm/v1/ns/1234567890/heal", "username", "password",
                         new HashMap<String, String>(), "application/json", "Some Request Here");
         assertNotNull(httpDetails);
-        assertTrue(httpDetails.first == 202);
-        final VfcResponse response = Serialization.gsonPretty.fromJson(httpDetails.second, VfcResponse.class);
+        assertTrue(httpDetails.getLeft() == 202);
+        final VfcResponse response = Serialization.gsonPretty.fromJson(httpDetails.getRight(), VfcResponse.class);
         assertNotNull(response);
     }
 
@@ -70,7 +70,7 @@ public class VfcSimulatorTest {
         final Pair<Integer, String> httpDetails = new RestManager().get("http://localhost:6668/api/nslcm/v1/jobs/1234",
                 "username", "password", new HashMap<String, String>());
         assertNotNull(httpDetails);
-        final VfcResponse response = Serialization.gsonPretty.fromJson(httpDetails.second, VfcResponse.class);
+        final VfcResponse response = Serialization.gsonPretty.fromJson(httpDetails.getRight(), VfcResponse.class);
         assertNotNull(response);
     }
 }

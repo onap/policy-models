@@ -3,7 +3,7 @@
  * simulators
  * ================================================================================
  * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,12 +28,12 @@ import static org.junit.Assert.fail;
 
 import java.util.HashMap;
 import java.util.UUID;
+import org.apache.commons.lang3.tuple.Pair;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.rest.RestManager;
-import org.onap.policy.rest.RestManager.Pair;
 import org.onap.policy.so.SoCloudConfiguration;
 import org.onap.policy.so.SoModelInfo;
 import org.onap.policy.so.SoRelatedInstance;
@@ -144,7 +144,7 @@ public class SoSimulatorTest {
                         "username",
                         "password", new HashMap<>(), "application/json", request);
         assertNotNull(httpDetails);
-        assertThat(httpDetails.second).contains("\"COMPLETE\"").contains("requestSelfLink");
+        assertThat(httpDetails.getRight()).contains("\"COMPLETE\"").contains("requestSelfLink");
 
         /*
          * Repeat, but set the flag indicating that the request should yield incomplete.
@@ -157,16 +157,16 @@ public class SoSimulatorTest {
                         "username",
                         "password", new HashMap<>(), "application/json", request);
         assertNotNull(httpDetails);
-        assertThat(httpDetails.second).contains("requestSelfLink").doesNotContain("\"COMPLETE\"");
+        assertThat(httpDetails.getRight()).contains("requestSelfLink").doesNotContain("\"COMPLETE\"");
 
         // now poll for the response
-        String uri = extractUri(httpDetails.second);
+        String uri = extractUri(httpDetails.getRight());
         httpDetails = new RestManager().get(
                         "http://localhost:6667/orchestrationRequests/v5/" + uri,
                         "username",
                         "password", new HashMap<>());
         assertNotNull(httpDetails);
-        assertThat(httpDetails.second).contains("\"IN_PROGRESS\"").doesNotContain("requestSelfLink");
+        assertThat(httpDetails.getRight()).contains("\"IN_PROGRESS\"").doesNotContain("requestSelfLink");
 
         // poll again
         httpDetails = new RestManager().get(
@@ -174,7 +174,7 @@ public class SoSimulatorTest {
                         "username",
                         "password", new HashMap<>());
         assertNotNull(httpDetails);
-        assertThat(httpDetails.second).contains("\"COMPLETE\"").doesNotContain("requestSelfLink");
+        assertThat(httpDetails.getRight()).contains("\"COMPLETE\"").doesNotContain("requestSelfLink");
     }
 
     @Test
@@ -186,7 +186,7 @@ public class SoSimulatorTest {
                         "username",
                         "password", new HashMap<>(), "application/json", request);
         assertNotNull(httpDetails);
-        assertThat(httpDetails.second).contains("\"COMPLETE\"").contains("requestSelfLink");
+        assertThat(httpDetails.getRight()).contains("\"COMPLETE\"").contains("requestSelfLink");
 
         /*
          * Repeat, but set the flag indicating that the request should yield incomplete.
@@ -199,16 +199,16 @@ public class SoSimulatorTest {
                         "username",
                         "password", new HashMap<>(), "application/json", request);
         assertNotNull(httpDetails);
-        assertThat(httpDetails.second).contains("requestSelfLink").doesNotContain("\"COMPLETE\"");
+        assertThat(httpDetails.getRight()).contains("requestSelfLink").doesNotContain("\"COMPLETE\"");
 
         // now poll for the response
-        String uri = extractUri(httpDetails.second);
+        String uri = extractUri(httpDetails.getRight());
         httpDetails = new RestManager().get(
                         "http://localhost:6667/orchestrationRequests/v5/" + uri,
                         "username",
                         "password", new HashMap<>());
         assertNotNull(httpDetails);
-        assertThat(httpDetails.second).contains("\"IN_PROGRESS\"").doesNotContain("requestSelfLink");
+        assertThat(httpDetails.getRight()).contains("\"IN_PROGRESS\"").doesNotContain("requestSelfLink");
 
         // poll again
         httpDetails = new RestManager().get(
@@ -216,7 +216,7 @@ public class SoSimulatorTest {
                         "username",
                         "password", new HashMap<>());
         assertNotNull(httpDetails);
-        assertThat(httpDetails.second).contains("\"COMPLETE\"").doesNotContain("requestSelfLink");
+        assertThat(httpDetails.getRight()).contains("\"COMPLETE\"").doesNotContain("requestSelfLink");
     }
 
     private String extractUri(String response) {
