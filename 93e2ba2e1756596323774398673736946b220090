@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d8974f6_3c6a0067",
+        "filename": "models-interactions/model-yaml/src/main/java/org/onap/policy/controlloop/compiler/ControlLoopCompiler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 6593
+      },
+      "writtenOn": "2020-06-24T15:57:24Z",
+      "side": 1,
+      "message": "This is deprecated from 1.2.0 onward\u0027s so I could only upgrade to 1.2.0 as I was not exactly sure what all this graph was doing, might need a big enough rework to upgrade to 1.5.0",
+      "range": {
+        "startLine": 119,
+        "startChar": 28,
+        "endLine": 120,
+        "endChar": 77
+      },
+      "revId": "93e2ba2e1756596323774398673736946b220090",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
