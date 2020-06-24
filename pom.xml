@@ -153,7 +153,7 @@
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-security</artifactId>
-            <version>9.4.25.v20191220</version>
+            <version>9.4.30.v20200611</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
@@ -176,7 +176,6 @@
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.6</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>

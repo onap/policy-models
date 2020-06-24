@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import org.apache.commons.lang3.StringUtils;
-import org.jgrapht.DirectedGraph;
+import org.jgrapht.Graph;
 import org.jgrapht.graph.ClassBasedEdgeFactory;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedMultigraph;
@@ -115,7 +115,7 @@ public class ControlLoopCompiler implements Serializable {
             //
             // For this version we can use a directed multigraph, in the future we may not be able to
             //
-            DirectedGraph<NodeWrapper, LabeledEdge> graph =
+            Graph<NodeWrapper, LabeledEdge> graph =
                             new DirectedMultigraph<>(new ClassBasedEdgeFactory<NodeWrapper,
                                             LabeledEdge>(LabeledEdge.class));
             //
@@ -226,7 +226,7 @@ public class ControlLoopCompiler implements Serializable {
     }
 
     private static Map<Policy, PolicyNodeWrapper> addPoliciesAsNodes(ControlLoopPolicy policy,
-            DirectedGraph<NodeWrapper, LabeledEdge> graph, TriggerNodeWrapper triggerNode,
+        Graph<NodeWrapper, LabeledEdge> graph, TriggerNodeWrapper triggerNode,
             ControlLoopCompilerCallback callback) {
         Map<Policy, PolicyNodeWrapper> mapNodes = new HashMap<>();
         for (Policy operPolicy : policy.getPolicies()) {
@@ -259,7 +259,7 @@ public class ControlLoopCompiler implements Serializable {
         return mapNodes;
     }
 
-    private static void addEdge(DirectedGraph<NodeWrapper, LabeledEdge> graph, Map<Policy, PolicyNodeWrapper> mapNodes,
+    private static void addEdge(Graph<NodeWrapper, LabeledEdge> graph, Map<Policy, PolicyNodeWrapper> mapNodes,
                     String policyId, String connectedPolicy,
                     FinalResultNodeWrapper finalResultNodeWrapper,
                     PolicyResult policyResult, NodeWrapper node) throws CompilerException {
@@ -278,7 +278,7 @@ public class ControlLoopCompiler implements Serializable {
         }
     }
 
-    private static void validateNodesAndEdges(DirectedGraph<NodeWrapper, LabeledEdge> graph,
+    private static void validateNodesAndEdges(Graph<NodeWrapper, LabeledEdge> graph,
                     ControlLoopCompilerCallback callback) throws CompilerException {
         for (NodeWrapper node : graph.vertexSet()) {
             if (node instanceof TriggerNodeWrapper) {
@@ -294,7 +294,7 @@ public class ControlLoopCompiler implements Serializable {
         }
     }
 
-    private static void validateTriggerNodeWrapper(DirectedGraph<NodeWrapper, LabeledEdge> graph,
+    private static void validateTriggerNodeWrapper(Graph<NodeWrapper, LabeledEdge> graph,
                     NodeWrapper node) throws CompilerException {
         if (LOGGER.isDebugEnabled()) {
             LOGGER.info("Trigger Node {}", node);
@@ -313,7 +313,7 @@ public class ControlLoopCompiler implements Serializable {
         }
     }
 
-    private static void validateFinalResultNodeWrapper(DirectedGraph<NodeWrapper, LabeledEdge> graph,
+    private static void validateFinalResultNodeWrapper(Graph<NodeWrapper, LabeledEdge> graph,
                     NodeWrapper node) throws CompilerException {
         if (LOGGER.isDebugEnabled()) {
             LOGGER.info("FinalResult Node {}", node);
@@ -326,7 +326,7 @@ public class ControlLoopCompiler implements Serializable {
         }
     }
 
-    private static void validatePolicyNodeWrapper(DirectedGraph<NodeWrapper, LabeledEdge> graph,
+    private static void validatePolicyNodeWrapper(Graph<NodeWrapper, LabeledEdge> graph,
                     NodeWrapper node, ControlLoopCompilerCallback callback) throws CompilerException {
         if (LOGGER.isDebugEnabled()) {
             LOGGER.info("Policy Node {}", node);
