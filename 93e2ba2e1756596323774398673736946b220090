@@ -22,6 +22,53 @@
       "revId": "93e2ba2e1756596323774398673736946b220090",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "958b27df_2650dbe9",
+        "filename": "models-interactions/model-yaml/src/main/java/org/onap/policy/controlloop/compiler/ControlLoopCompiler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-06-24T17:01:12Z",
+      "side": 1,
+      "message": "I think this code will get removed after M1 - so no need.",
+      "parentUuid": "4d8974f6_3c6a0067",
+      "range": {
+        "startLine": 119,
+        "startChar": 28,
+        "endLine": 120,
+        "endChar": 77
+      },
+      "revId": "93e2ba2e1756596323774398673736946b220090",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1617eebd_a40dfe69",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-06-24T17:01:12Z",
+      "side": 1,
+      "message": "Let\u0027s match against oparent, this gets ahead of it.\n\nWe can go back into oparent and add this in as a dependency, and then upgrade it to 9.4.30.v20200611\n\nthen remove this \u003cversion\u003e tag",
+      "range": {
+        "startLine": 156,
+        "startChar": 20,
+        "endLine": 156,
+        "endChar": 38
+      },
+      "revId": "93e2ba2e1756596323774398673736946b220090",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
