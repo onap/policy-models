@@ -35,16 +35,20 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.aai.domain.yang.ServiceInstance;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceInput;
+import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceOutput;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.cds.client.CdsProcessorGrpcClient;
 import org.onap.policy.cds.properties.CdsServerProperties;
@@ -63,6 +67,8 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOp
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.controlloop.policy.Target;
 import org.onap.policy.controlloop.policy.TargetType;
+import org.onap.policy.simulators.CdsSimulator;
+import org.onap.policy.simulators.Util;
 
 public class GrpcOperationTest {
     private static final String TARGET_ENTITY = "entity";
@@ -74,6 +80,14 @@ public class GrpcOperationTest {
     private static final UUID REQUEST_ID = UUID.randomUUID();
     private static final Coder coder = new StandardCoder();
 
+    protected static final Executor blockingExecutor = command -> {
+        Thread thread = new Thread(command);
+        thread.setDaemon(true);
+        thread.start();
+    };
+
+    private static CdsSimulator sim;
+
     @Mock
     private CdsProcessorGrpcClient cdsClient;
     private CdsServerProperties cdsProps;
@@ -81,6 +95,16 @@ public class GrpcOperationTest {
     private PseudoExecutor executor;
     private Target target;
     private GrpcOperation operation;
+
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
+        sim = Util.buildCdsSim();
+    }
+
+    @AfterClass
+    public static void tearDownAfterClass() {
+        sim.stop();
+    }
 
     /**
      * Sets up the fields.
@@ -110,6 +134,40 @@ public class GrpcOperationTest {
         target = new Target();
         target.setType(TargetType.VM);
         target.setResourceID(RESOURCE_ID);
+    }
+
+    /**
+     * Tests "success" case with simulator.
+     */
+    @Test
+    public void testSuccess() throws Exception {
+        ControlLoopEventContext context = new ControlLoopEventContext(onset);
+        loadCqData(context);
+
+        Map<String, Object> payload = Map.of("artifact_name", "my_artifact", "artifact_version", "1.0");
+
+        final ControlLoopOperationParams params = ControlLoopOperationParams.builder()
+                        .actor(CdsActorConstants.CDS_ACTOR).operation("subscribe").context(context)
+                        .actorService(new ActorService()).targetEntity(TARGET_ENTITY).target(target).retry(0)
+                        .timeoutSec(5).executor(blockingExecutor).payload(payload).build();
+
+        cdsProps.setHost("localhost");
+        cdsProps.setPort(sim.getPort());
+        cdsProps.setTimeout(3);
+
+        GrpcConfig config = new GrpcConfig(blockingExecutor, cdsProps);
+
+        operation = new GrpcOperation(params, config) {
+            @Override
+            protected CompletableFuture<OperationOutcome> startGuardAsync() {
+                // indicate that guard completed successfully
+                return CompletableFuture.completedFuture(params.makeOutcome());
+            }
+        };
+
+        OperationOutcome outcome = operation.start().get();
+        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertTrue(outcome.getResponse() instanceof ExecutionServiceOutput);
     }
 
     @Test

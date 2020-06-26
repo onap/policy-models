@@ -1,0 +1,14 @@
+{
+    "commonHeader": {
+        "originatorId": "POLICY",
+        "requestId": "c7c6a4aa-bb61-4a15-b831-ba1472dd4a65",
+        "subRequestId": "111be3d2-6c12-4f4b-a3e7-c349acced200"
+    },
+    "actionIdentifiers": {
+        "blueprintName": "pm_control",
+        "blueprintVersion": "1.0.0",
+        "actionName": "create-subscription",
+        "mode": "sync"
+    },
+    "payload": {}
+}
