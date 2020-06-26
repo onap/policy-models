@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae9884ca_f5d09e10",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2020-06-26T13:56:18Z",
+      "side": 1,
+      "message": "Pleas have a smaller summary message. And use description to elaborate further.\nHave a look here for commit message guidelines - https://wiki.onap.org/display/DW/Commit+Messages",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 108
+      },
+      "revId": "035696dc4cfa84c528c196ed09c49d3608bdd107",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
