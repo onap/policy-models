@@ -22,6 +22,30 @@
       "revId": "f7da60fabf647665d61f142a0d6ba9a9fc940106",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a57448a4_4b8b6028",
+        "filename": "models-interactions/model-impl/sdnc/src/main/java/org/onap/policy/sdnc/SdncManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-06-26T21:23:17Z",
+      "side": 1,
+      "message": "oh my, how could I have missed this?!  Maybe I should quit before I get further behind... :-D",
+      "parentUuid": "8b33aefe_0a58f48f",
+      "range": {
+        "startLine": 138,
+        "startChar": 75,
+        "endLine": 138,
+        "endChar": 76
+      },
+      "revId": "f7da60fabf647665d61f142a0d6ba9a9fc940106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
