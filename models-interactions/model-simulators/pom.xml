@@ -56,6 +56,11 @@
         </dependency>
         <dependency>
             <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
+            <artifactId>cds</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
             <artifactId>appclcm</artifactId>
             <version>${project.version}</version>
         </dependency>

@@ -21,6 +21,7 @@
 
 package org.onap.policy.simulators;
 
+import java.io.IOException;
 import java.util.Properties;
 import org.onap.policy.common.endpoints.http.server.HttpServletServer;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
@@ -46,6 +47,7 @@ public class Util {
     public static final int VFCSIM_SERVER_PORT = 6668;
     public static final int GUARDSIM_SERVER_PORT = 6669;
     public static final int SDNCSIM_SERVER_PORT = 6670;
+    public static final int CDSSIM_SERVER_PORT = 6671;
     public static final int DMAAPSIM_SERVER_PORT = 3904;
 
     private static final String CANNOT_PROCESS_PARAMETERS = "cannot parse parameters ";
@@ -67,9 +69,21 @@ public class Util {
                 .build(AAISIM_SERVER_NAME, LOCALHOST, AAISIM_SERVER_PORT, "/", false, true);
         testServer.addServletClass("/*", AaiSimulatorJaxRs.class.getName());
         testServer.waitedStart(5000);
-        if (!NetworkUtil.isTcpPortOpen(LOCALHOST, testServer.getPort(), 5, 10000L)) {
-            throw new IllegalStateException(CANNOT_CONNECT + testServer.getPort());
-        }
+        waitForServerToListen(testServer.getPort());
+        return testServer;
+    }
+
+    /**
+     * Build a CDS simulator.
+     *
+     * @return the simulator
+     * @throws InterruptedException if a thread is interrupted
+     * @throws IOException if an I/O error occurs
+     */
+    public static CdsSimulator buildCdsSim() throws InterruptedException, IOException {
+        final CdsSimulator testServer = new CdsSimulator(LOCALHOST, CDSSIM_SERVER_PORT);
+        testServer.start();
+        waitForServerToListen(testServer.getPort());
         return testServer;
     }
 
@@ -84,9 +98,7 @@ public class Util {
                 .build(SDNCSIM_SERVER_NAME, LOCALHOST, SDNCSIM_SERVER_PORT, "/", false, true);
         testServer.addServletClass("/*", SdncSimulatorJaxRs.class.getName());
         testServer.waitedStart(5000);
-        if (!NetworkUtil.isTcpPortOpen(LOCALHOST, testServer.getPort(), 5, 10000L)) {
-            throw new IllegalStateException(CANNOT_CONNECT + testServer.getPort());
-        }
+        waitForServerToListen(testServer.getPort());
         return testServer;
     }
 
@@ -102,9 +114,7 @@ public class Util {
                 .build(SOSIM_SERVER_NAME, LOCALHOST, SOSIM_SERVER_PORT, "/", false, true);
         testServer.addServletClass("/*", SoSimulatorJaxRs.class.getName());
         testServer.waitedStart(5000);
-        if (!NetworkUtil.isTcpPortOpen(LOCALHOST, testServer.getPort(), 5, 10000L)) {
-            throw new IllegalStateException(CANNOT_CONNECT + testServer.getPort());
-        }
+        waitForServerToListen(testServer.getPort());
         return testServer;
     }
 
@@ -119,9 +129,7 @@ public class Util {
                 .build(VFCSIM_SERVER_NAME, LOCALHOST, VFCSIM_SERVER_PORT, "/", false, true);
         testServer.addServletClass("/*", VfcSimulatorJaxRs.class.getName());
         testServer.waitedStart(5000);
-        if (!NetworkUtil.isTcpPortOpen(LOCALHOST, testServer.getPort(), 5, 10000L)) {
-            throw new IllegalStateException(CANNOT_CONNECT + testServer.getPort());
-        }
+        waitForServerToListen(testServer.getPort());
         return testServer;
     }
 
@@ -136,9 +144,7 @@ public class Util {
                 LOCALHOST, GUARDSIM_SERVER_PORT, "/", false, true);
         testServer.addServletClass("/*", GuardSimulatorJaxRs.class.getName());
         testServer.waitedStart(5000);
-        if (!NetworkUtil.isTcpPortOpen(LOCALHOST, testServer.getPort(), 5, 10000L)) {
-            throw new IllegalStateException(CANNOT_CONNECT + testServer.getPort());
-        }
+        waitForServerToListen(testServer.getPort());
         return testServer;
     }
 
@@ -170,9 +176,13 @@ public class Util {
 
         HttpServletServer testServer = HttpServletServerFactoryInstance.getServerFactory().build(props).get(0);
         testServer.waitedStart(5000);
-        if (!NetworkUtil.isTcpPortOpen(LOCALHOST, testServer.getPort(), 50, 1000L)) {
-            throw new IllegalStateException(CANNOT_CONNECT + testServer.getPort());
-        }
+        waitForServerToListen(testServer.getPort());
         return testServer;
+    }
+
+    private static void waitForServerToListen(int port) throws InterruptedException {
+        if (!NetworkUtil.isTcpPortOpen(LOCALHOST, port, 200, 250L)) {
+            throw new IllegalStateException(CANNOT_CONNECT + port);
+        }
     }
 }
