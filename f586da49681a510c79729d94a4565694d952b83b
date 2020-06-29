@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6985ad3c_b33325c4",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 4903
+      },
+      "writtenOn": "2020-06-29T15:54:10Z",
+      "side": 1,
+      "message": "I was planning to make this a bit more configurable, by choosing the response file dynamically based on blueprintName and actionName (with appropriate fileNames and ability to mount them externally) from the CDSRequest. This would improve the usability of the CDSSimulator for different cases. We can look into this later.",
+      "range": {
+        "startLine": 66,
+        "startChar": 68,
+        "endLine": 66,
+        "endChar": 108
+      },
+      "revId": "f586da49681a510c79729d94a4565694d952b83b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
