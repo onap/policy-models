@@ -153,7 +153,6 @@
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-security</artifactId>
-            <version>9.4.30.v20200611</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
@@ -190,11 +189,6 @@
             <groupId>org.glassfish</groupId>
             <artifactId>javax.json</artifactId>
             <version>${version.javax.json}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>${version.json}</version>
         </dependency>
     </dependencies>
 
