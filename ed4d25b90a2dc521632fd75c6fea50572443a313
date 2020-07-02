@@ -22,6 +22,30 @@
       "revId": "ed4d25b90a2dc521632fd75c6fea50572443a313",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d12bf375_5b1b4797",
+        "filename": "models-interactions/model-actors/actor.appc/src/test/java/org/onap/policy/controlloop/actor/appc/AppcActorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-07-02T18:26:09Z",
+      "side": 1,
+      "message": "Thanks!  I purposely opened every single changed file and still managed to miss this. :-(",
+      "parentUuid": "2c46f583_5d28eaf9",
+      "range": {
+        "startLine": 5,
+        "startChar": 22,
+        "endLine": 5,
+        "endChar": 26
+      },
+      "revId": "ed4d25b90a2dc521632fd75c6fea50572443a313",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
