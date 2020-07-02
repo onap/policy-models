@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2c46f583_5d28eaf9",
+        "filename": "models-interactions/model-actors/actor.appc/src/test/java/org/onap/policy/controlloop/actor/appc/AppcActorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-07-02T16:35:17Z",
+      "side": 1,
+      "message": "Pedantic Pete comment!",
+      "range": {
+        "startLine": 5,
+        "startChar": 22,
+        "endLine": 5,
+        "endChar": 26
+      },
+      "revId": "ed4d25b90a2dc521632fd75c6fea50572443a313",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
