@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP - Policy Drools Applications
+ * ONAP
  * ================================================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
  * Modifications Copyright (C) 2018-2019 AT&T Corp. All rights reserved.
@@ -45,7 +45,7 @@ import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.simulators.Util;
 import org.onap.policy.vfc.VfcRequest;
 
-public class VfcActorServiceProviderTest extends BasicActor {
+public class VfcActorTest extends BasicActor {
 
     private static final String DOROTHY_GALE_1939 = "dorothy.gale.1939";
     private static final String CQ_RESPONSE_JSON = "aai/AaiCqResponse.json";
@@ -67,7 +67,7 @@ public class VfcActorServiceProviderTest extends BasicActor {
 
     @Test
     public void testConstructor() {
-        VfcActorServiceProvider prov = new VfcActorServiceProvider();
+        VfcActor prov = new VfcActor();
         assertEquals(0, prov.getSequenceNumber());
 
         // verify that it has the operators we expect
@@ -80,12 +80,12 @@ public class VfcActorServiceProviderTest extends BasicActor {
     @Test
     public void testActorService() {
         // verify that it all plugs into the ActorService
-        verifyActorService(VfcActorServiceProvider.NAME, "service.yaml");
+        verifyActorService(VfcActor.NAME, "service.yaml");
     }
 
     @Test
     public void testMethods() {
-        VfcActorServiceProvider sp = new VfcActorServiceProvider();
+        VfcActor sp = new VfcActor();
 
         assertEquals("VFC", sp.actor());
         assertEquals(1, sp.recipes().size());
@@ -102,31 +102,31 @@ public class VfcActorServiceProviderTest extends BasicActor {
         Policy policy = new Policy();
         policy.setRecipe("GoToOz");
 
-        assertNull(VfcActorServiceProvider.constructRequestCq(onset, operation, policy, null));
+        assertNull(VfcActor.constructRequestCq(onset, operation, policy, null));
 
         onset.getAai().put("generic-vnf.vnf-id", DOROTHY_GALE_1939);
-        assertNull(VfcActorServiceProvider.constructRequestCq(onset, operation, policy, null));
+        assertNull(VfcActor.constructRequestCq(onset, operation, policy, null));
 
 
         UUID requestId = UUID.randomUUID();
         onset.setRequestId(requestId);
-        assertNull(VfcActorServiceProvider.constructRequestCq(onset, operation, policy, null));
+        assertNull(VfcActor.constructRequestCq(onset, operation, policy, null));
 
         onset.getAai().put("generic-vnf.vnf-name", "Dorothy");
-        assertNull(VfcActorServiceProvider.constructRequestCq(onset, operation, policy, null));
+        assertNull(VfcActor.constructRequestCq(onset, operation, policy, null));
 
 
         onset.getAai().put("service-instance.service-instance-id", "");
-        assertNull(VfcActorServiceProvider.constructRequestCq(onset, operation, policy, null));
+        assertNull(VfcActor.constructRequestCq(onset, operation, policy, null));
 
-        assertNull(VfcActorServiceProvider.constructRequestCq(onset, operation, policy,
+        assertNull(VfcActor.constructRequestCq(onset, operation, policy,
                 loadAaiResponse(CQ_RESPONSE_JSON)));
 
         policy.setRecipe(RESTART);
-        assertNotNull(VfcActorServiceProvider.constructRequestCq(onset, operation, policy,
+        assertNotNull(VfcActor.constructRequestCq(onset, operation, policy,
                 loadAaiResponse(CQ_RESPONSE_JSON)));
 
-        VfcRequest request = VfcActorServiceProvider.constructRequestCq(onset, operation, policy,
+        VfcRequest request = VfcActor.constructRequestCq(onset, operation, policy,
                 loadAaiResponse(CQ_RESPONSE_JSON));
 
         assertEquals(requestId, Objects.requireNonNull(request).getRequestId());

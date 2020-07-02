@@ -36,7 +36,7 @@ import org.onap.policy.vfc.VfcHealAdditionalParams;
 import org.onap.policy.vfc.VfcHealRequest;
 import org.onap.policy.vfc.VfcRequest;
 
-public class VfcActorServiceProvider extends HttpActor<HttpPollingActorParams> {
+public class VfcActor extends HttpActor<HttpPollingActorParams> {
     private static final String GENERIC_VNF_ID = "generic-vnf.vnf-id";
 
     // TODO old code: remove lines down to **HERE**
@@ -61,7 +61,7 @@ public class VfcActorServiceProvider extends HttpActor<HttpPollingActorParams> {
     /**
      * Constructor.
      */
-    public VfcActorServiceProvider() {
+    public VfcActor() {
         super(NAME, HttpPollingActorParams.class);
 
         addOperator(new HttpPollingOperator(NAME, Restart.NAME, Restart::new));

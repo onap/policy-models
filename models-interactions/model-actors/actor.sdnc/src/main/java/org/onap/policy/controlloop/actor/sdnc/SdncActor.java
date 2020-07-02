@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * SdncActorServiceProvider
+ * ONAP
  * ================================================================================
  * Copyright (C) 2018-2019 Huawei Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
@@ -47,8 +47,8 @@ import org.onap.policy.sdnc.SdncRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SdncActorServiceProvider extends HttpActor<HttpActorParams> {
-    private static final Logger logger = LoggerFactory.getLogger(SdncActorServiceProvider.class);
+public class SdncActor extends HttpActor<HttpActorParams> {
+    private static final Logger logger = LoggerFactory.getLogger(SdncActor.class);
 
     public static final String NAME = "SDNC";
 
@@ -75,7 +75,7 @@ public class SdncActorServiceProvider extends HttpActor<HttpActorParams> {
     /**
      * Constructs the object.
      */
-    public SdncActorServiceProvider() {
+    public SdncActor() {
         super(NAME, HttpActorParams.class);
 
         addOperator(new HttpOperator(NAME, RerouteOperation.NAME, RerouteOperation::new));

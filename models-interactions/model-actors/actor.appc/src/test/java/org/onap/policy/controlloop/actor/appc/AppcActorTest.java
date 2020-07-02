@@ -1,8 +1,8 @@
 /*-
  * ============LICENSE_START=======================================================
- * AppcServiceProviderTest
+ * ONAP
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -52,7 +52,7 @@ import org.onap.policy.simulators.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AppcServiceProviderTest extends BasicActor {
+public class AppcActorTest extends BasicActor {
 
     private static final String GENERIC_VNF_ID = "generic-vnf.vnf-id";
 
@@ -60,7 +60,7 @@ public class AppcServiceProviderTest extends BasicActor {
 
     private static final String JSON_OUTPUT = "JSON Output: \n";
 
-    private static final Logger logger = LoggerFactory.getLogger(AppcServiceProviderTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(AppcActorTest.class);
 
     private static final VirtualControlLoopEvent onsetEvent;
     private static final ControlLoopOperation operation;
@@ -133,7 +133,7 @@ public class AppcServiceProviderTest extends BasicActor {
 
     @Test
     public void testConstructor() {
-        AppcActorServiceProvider prov = new AppcActorServiceProvider();
+        AppcActor prov = new AppcActor();
         assertEquals(0, prov.getSequenceNumber());
 
         // verify that it has the operators we expect
@@ -146,7 +146,7 @@ public class AppcServiceProviderTest extends BasicActor {
     @Test
     public void testActorService() {
         // verify that it all plugs into the ActorService
-        verifyActorService(AppcActorServiceProvider.NAME, "service.yaml");
+        verifyActorService(AppcActor.NAME, "service.yaml");
     }
 
     @Test
@@ -156,7 +156,7 @@ public class AppcServiceProviderTest extends BasicActor {
         policy.getPayload().put(KEY2, VALUE2);
 
         Request appcRequest;
-        appcRequest = AppcActorServiceProvider.constructRequest(onsetEvent, operation, policy, "vnf01");
+        appcRequest = AppcActor.constructRequest(onsetEvent, operation, policy, "vnf01");
 
         /* The service provider must return a non null APPC request */
         assertNotNull(appcRequest);
@@ -207,7 +207,7 @@ public class AppcServiceProviderTest extends BasicActor {
     public void testConstructModifyConfigRequest_NullPayload() {
 
         Request appcRequest;
-        appcRequest = AppcActorServiceProvider.constructRequest(onsetEvent, operation, policy, "vnf01");
+        appcRequest = AppcActor.constructRequest(onsetEvent, operation, policy, "vnf01");
 
         /* The service provider must return a non null APPC request */
         assertNotNull(appcRequest);
@@ -249,7 +249,7 @@ public class AppcServiceProviderTest extends BasicActor {
 
     @Test
     public void testMethods() {
-        AppcActorServiceProvider sp = new AppcActorServiceProvider();
+        AppcActor sp = new AppcActor();
 
         assertEquals("APPC", sp.actor());
         assertEquals(4, sp.recipes().size());

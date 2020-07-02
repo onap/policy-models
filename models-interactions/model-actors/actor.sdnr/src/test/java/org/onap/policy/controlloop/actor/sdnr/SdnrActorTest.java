@@ -1,8 +1,8 @@
 /*-
- * SdnrActorServiceProviderTest
+ * ONAP
  * ================================================================================
  * Copyright (C) 2018 Wipro Limited Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,11 +48,11 @@ import org.onap.policy.sdnr.util.Serialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SdnrActorServiceProviderTest extends BasicActor {
+public class SdnrActorTest extends BasicActor {
 
     private static final String MODIFY_CONFIG = "ModifyConfig";
 
-    private static final Logger logger = LoggerFactory.getLogger(SdnrActorServiceProviderTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(SdnrActorTest.class);
 
     private static final VirtualControlLoopEvent onsetEvent;
     private static final ControlLoopOperation operation;
@@ -99,7 +99,7 @@ public class SdnrActorServiceProviderTest extends BasicActor {
 
     @Test
     public void testConstructor() {
-        SdnrActorServiceProvider prov = new SdnrActorServiceProvider();
+        SdnrActor prov = new SdnrActor();
         assertEquals(0, prov.getSequenceNumber());
 
         // verify that it has the operators we expect
@@ -112,12 +112,12 @@ public class SdnrActorServiceProviderTest extends BasicActor {
     @Test
     public void testActorService() {
         // verify that it all plugs into the ActorService
-        verifyActorService(SdnrActorServiceProvider.NAME, "service.yaml");
+        verifyActorService(SdnrActor.NAME, "service.yaml");
     }
 
     @Test
     public void testGetOperator() {
-        SdnrActorServiceProvider sp = new SdnrActorServiceProvider();
+        SdnrActor sp = new SdnrActor();
 
         // should always return the same operator regardless of the name
         Operator oper = sp.getOperator("unknown");
@@ -128,7 +128,7 @@ public class SdnrActorServiceProviderTest extends BasicActor {
     @Test
     public void testGetControlLoopResponse() {
         PciRequest sdnrRequest;
-        sdnrRequest = SdnrActorServiceProvider.constructRequest(onsetEvent, operation, policy).getBody();
+        sdnrRequest = SdnrActor.constructRequest(onsetEvent, operation, policy).getBody();
         PciResponse sdnrResponse = new PciResponse(sdnrRequest);
         sdnrResponse.getStatus().setCode(200);
         sdnrResponse.getStatus().setValue("SDNR success");
@@ -139,7 +139,7 @@ public class SdnrActorServiceProviderTest extends BasicActor {
         PciResponseWrapper pciResponseWrapper = new PciResponseWrapper();
         pciResponseWrapper.setBody(sdnrResponse);
 
-        ControlLoopResponse clRsp = SdnrActorServiceProvider.getControlLoopResponse(pciResponseWrapper, onsetEvent);
+        ControlLoopResponse clRsp = SdnrActor.getControlLoopResponse(pciResponseWrapper, onsetEvent);
         assertEquals(clRsp.getClosedLoopControlName(), onsetEvent.getClosedLoopControlName());
         assertEquals(clRsp.getRequestId(), onsetEvent.getRequestId());
         assertEquals(clRsp.getPolicyName(), onsetEvent.getPolicyName());
@@ -154,7 +154,7 @@ public class SdnrActorServiceProviderTest extends BasicActor {
     public void testConstructModifyConfigRequest() {
 
         PciRequest sdnrRequest;
-        sdnrRequest = SdnrActorServiceProvider.constructRequest(onsetEvent, operation, policy).getBody();
+        sdnrRequest = SdnrActor.constructRequest(onsetEvent, operation, policy).getBody();
 
         /* The service provider must return a non null SDNR request */
         assertNotNull(sdnrRequest);
@@ -193,7 +193,7 @@ public class SdnrActorServiceProviderTest extends BasicActor {
 
     @Test
     public void testMethods() {
-        SdnrActorServiceProvider sp = new SdnrActorServiceProvider();
+        SdnrActor sp = new SdnrActor();
 
         assertEquals("SDNR", sp.actor());
         assertEquals(1, sp.recipes().size());

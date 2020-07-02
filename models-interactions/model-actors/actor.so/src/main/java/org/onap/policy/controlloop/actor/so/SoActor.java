@@ -1,6 +1,6 @@
 /*
  * ============LICENSE_START=======================================================
- * SOActorServiceProvider
+ * ONAP
  * ================================================================================
  * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
@@ -53,8 +53,8 @@ import org.onap.policy.so.util.Serialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SoActorServiceProvider extends HttpActor<HttpPollingActorParams> {
-    private static final Logger logger = LoggerFactory.getLogger(SoActorServiceProvider.class);
+public class SoActor extends HttpActor<HttpPollingActorParams> {
+    private static final Logger logger = LoggerFactory.getLogger(SoActor.class);
 
     public static final String NAME = "SO";
 
@@ -97,7 +97,7 @@ public class SoActorServiceProvider extends HttpActor<HttpPollingActorParams> {
     /**
      * Constructs the object.
      */
-    public SoActorServiceProvider() {
+    public SoActor() {
         super(NAME, HttpPollingActorParams.class);
 
         addOperator(new HttpPollingOperator(NAME, VfModuleCreate.NAME, VfModuleCreate::new));

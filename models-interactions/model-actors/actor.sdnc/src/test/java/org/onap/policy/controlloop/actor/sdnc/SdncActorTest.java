@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * TestSdncActorServiceProvider
+ * ONAP
  * ================================================================================
  * Copyright (C) 2018-2019 Huawei. All rights reserved.
  * Modifications Copyright (C) 2018-2020 AT&T Corp. All rights reserved.
@@ -40,7 +40,7 @@ import org.onap.policy.controlloop.actor.test.BasicActor;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.sdnc.SdncRequest;
 
-public class SdncActorServiceProviderTest extends BasicActor {
+public class SdncActorTest extends BasicActor {
 
     private static final String REROUTE = RerouteOperation.NAME;
 
@@ -61,7 +61,7 @@ public class SdncActorServiceProviderTest extends BasicActor {
 
     @Test
     public void testSdncActorServiceProvider() {
-        final SdncActorServiceProvider prov = new SdncActorServiceProvider();
+        final SdncActor prov = new SdncActor();
 
         // verify that it has the operators we expect
         var expected = Arrays.asList(BandwidthOnDemandOperation.NAME, RerouteOperation.NAME).stream().sorted()
@@ -71,7 +71,7 @@ public class SdncActorServiceProviderTest extends BasicActor {
         assertEquals(expected.toString(), actual.toString());
 
         // verify that it all plugs into the ActorService
-        verifyActorService(SdncActorServiceProvider.NAME, "service.yaml");
+        verifyActorService(SdncActor.NAME, "service.yaml");
     }
 
     @Test
@@ -82,7 +82,7 @@ public class SdncActorServiceProviderTest extends BasicActor {
         Policy policy = new Policy();
         policy.setRecipe(REROUTE);
 
-        SdncActorServiceProvider provider = new SdncActorServiceProvider();
+        SdncActor provider = new SdncActor();
         assertNull(provider.constructRequest(onset, operation, policy));
 
         onset.getAai().put("network-information.network-id", "network-5555");
@@ -113,7 +113,7 @@ public class SdncActorServiceProviderTest extends BasicActor {
 
     @Test
     public void testMethods() {
-        SdncActorServiceProvider sp = new SdncActorServiceProvider();
+        SdncActor sp = new SdncActor();
 
         assertEquals("SDNC", sp.actor());
         assertEquals(1, sp.recipes().size());

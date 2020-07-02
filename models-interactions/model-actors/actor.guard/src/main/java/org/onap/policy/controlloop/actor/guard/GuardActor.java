@@ -2,7 +2,9 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2018-2019 Huawei Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2020 AT&T Intellectual Property.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,27 +20,21 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.controlloop.actor.aai;
+package org.onap.policy.controlloop.actor.guard;
 
-import org.onap.policy.aai.AaiConstants;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpActor;
-import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperator;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpActorParams;
+import org.onap.policy.controlloop.actorserviceprovider.impl.OperationPartial;
 
-/**
- * A&AI Actor.
- */
-public class AaiActorServiceProvider extends HttpActor<HttpActorParams> {
-    public static final String NAME = AaiConstants.ACTOR_NAME;
+public class GuardActor extends HttpActor<GuardActorParams> {
+    // actor name
+    public static final String NAME = OperationPartial.GUARD_ACTOR_NAME;
 
     /**
      * Constructs the object.
      */
-    public AaiActorServiceProvider() {
-        super(NAME, HttpActorParams.class);
+    public GuardActor() {
+        super(NAME, GuardActorParams.class);
 
-        addOperator(new HttpOperator(NAME, AaiCustomQueryOperation.NAME, AaiCustomQueryOperation::new));
-        addOperator(new HttpOperator(NAME, AaiGetTenantOperation.NAME, AaiGetTenantOperation::new));
-        addOperator(new HttpOperator(NAME, AaiGetPnfOperation.NAME, AaiGetPnfOperation::new));
+        addOperator(new DecisionOperator(NAME, DecisionOperation.NAME, DecisionOperation::new));
     }
 }
