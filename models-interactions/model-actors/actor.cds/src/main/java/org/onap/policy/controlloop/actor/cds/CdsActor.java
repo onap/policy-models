@@ -58,15 +58,15 @@ import org.slf4j.LoggerFactory;
  * CDS is an unusual actor in that it uses a single, generic operator to initiate all
  * operation types. The action taken is always the same, only the operation name changes.
  */
-public class CdsActorServiceProvider extends ActorImpl {
+public class CdsActor extends ActorImpl {
     public static final String NAME = CdsActorConstants.CDS_ACTOR;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CdsActorServiceProvider.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CdsActor.class);
 
     /**
      * Constructs the object.
      */
-    public CdsActorServiceProvider() {
+    public CdsActor() {
         super(CdsActorConstants.CDS_ACTOR);
 
         addOperator(new GrpcOperator(CdsActorConstants.CDS_ACTOR, GrpcOperation.NAME, GrpcOperation::new));

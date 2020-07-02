@@ -49,7 +49,7 @@ import org.onap.policy.controlloop.policy.PolicyResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AppcLcmActorServiceProvider extends BidirectionalTopicActor<BidirectionalTopicActorParams> {
+public class AppcLcmActor extends BidirectionalTopicActor<BidirectionalTopicActorParams> {
 
     /*
      * Confirmed by Daniel, should be 'APPC'.
@@ -59,7 +59,7 @@ public class AppcLcmActorServiceProvider extends BidirectionalTopicActor<Bidirec
      */
     public static final String NAME = "APPC";
 
-    private static final Logger logger = LoggerFactory.getLogger(AppcLcmActorServiceProvider.class);
+    private static final Logger logger = LoggerFactory.getLogger(AppcLcmActor.class);
 
     /* To be used in future releases to restart a single vm */
     private static final String APPC_VM_ID = "vm-id";
@@ -89,7 +89,7 @@ public class AppcLcmActorServiceProvider extends BidirectionalTopicActor<Bidirec
     /**
      * Constructs the object.
      */
-    public AppcLcmActorServiceProvider() {
+    public AppcLcmActor() {
         super(NAME, BidirectionalTopicActorParams.class);
 
         // add LCM operations first as they take precedence

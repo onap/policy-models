@@ -1,10 +1,9 @@
 /*
  * ============LICENSE_START=======================================================
- * TestSOActorServiceProvider
+ * ONAP
  * ================================================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
- * ================================================================================
- * Modifications Copyright (C) 2018-2019 AT&T. All rights reserved.
+ * Modifications Copyright (C) 2018-2020 AT&T. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -50,7 +49,7 @@ import org.onap.policy.so.SoRequest;
 import org.onap.policy.so.SoRequestParameters;
 import org.onap.policy.so.util.Serialization;
 
-public class SoActorServiceProviderTest extends BasicActor {
+public class SoActorTest extends BasicActor {
 
     private static final String C_VALUE = "cvalue";
     private static final String A_VALUE = "avalue";
@@ -71,7 +70,7 @@ public class SoActorServiceProviderTest extends BasicActor {
 
     @Test
     public void testConstructor() {
-        SoActorServiceProvider prov = new SoActorServiceProvider();
+        SoActor prov = new SoActor();
 
         // verify that it has the operators we expect
         var expected = Arrays.asList(VfModuleCreate.NAME, VfModuleDelete.NAME).stream().sorted()
@@ -84,18 +83,18 @@ public class SoActorServiceProviderTest extends BasicActor {
     @Test
     public void testActorService() {
         // verify that it all plugs into the ActorService
-        verifyActorService(SoActorServiceProvider.NAME, "service.yaml");
+        verifyActorService(SoActor.NAME, "service.yaml");
     }
 
     @Test
     public void testSendRequest() {
-        assertThatCode(() -> SoActorServiceProvider.sendRequest(UUID.randomUUID().toString(), null, null, null, null,
+        assertThatCode(() -> SoActor.sendRequest(UUID.randomUUID().toString(), null, null, null, null,
                         null)).doesNotThrowAnyException();
     }
 
     @Test
     public void testMethods() {
-        SoActorServiceProvider sp = new SoActorServiceProvider();
+        SoActor sp = new SoActor();
 
         assertEquals("SO", sp.actor());
         assertEquals(2, sp.recipes().size());
@@ -121,16 +120,16 @@ public class SoActorServiceProviderTest extends BasicActor {
 
         instantiateTargetCq(policy);
 
-        assertNull(new SoActorServiceProvider().constructRequestCq(onset, operation, policy, aaiCqResp));
+        assertNull(new SoActor().constructRequestCq(onset, operation, policy, aaiCqResp));
 
         policy.setActor("SO");
 
-        assertNull(new SoActorServiceProvider().constructRequestCq(onset, operation, policy, aaiCqRespMissing));
+        assertNull(new SoActor().constructRequestCq(onset, operation, policy, aaiCqRespMissing));
 
         policy.setRecipe(VF_MODULE_CREATE);
 
         // empty policy payload
-        SoRequest request = new SoActorServiceProvider().constructRequestCq(onset, operation, policy, aaiCqResp);
+        SoRequest request = new SoActor().constructRequestCq(onset, operation, policy, aaiCqResp);
         assertNotNull(request);
 
         assertEquals("vfModuleName", request.getRequestDetails().getRequestInfo().getInstanceName());
@@ -139,7 +138,7 @@ public class SoActorServiceProviderTest extends BasicActor {
 
         // non-empty policy payload
         policy.setPayload(makePayload());
-        request = new SoActorServiceProvider().constructRequestCq(onset, operation, policy, aaiCqResp);
+        request = new SoActor().constructRequestCq(onset, operation, policy, aaiCqResp);
         assertNotNull(request);
         assertEquals(true, request.getRequestDetails().getRequestParameters().isUsePreload());
         assertEquals(A_VALUE, request.getRequestDetails().getRequestParameters().getUserParams().get(0).get("akey"));
@@ -148,26 +147,26 @@ public class SoActorServiceProviderTest extends BasicActor {
 
         // payload with config, but no request params
         policy.setPayload(makePayload());
-        policy.getPayload().remove(SoActorServiceProvider.REQ_PARAM_NM);
-        request = new SoActorServiceProvider().constructRequestCq(onset, operation, policy, aaiCqResp);
+        policy.getPayload().remove(SoActor.REQ_PARAM_NM);
+        request = new SoActor().constructRequestCq(onset, operation, policy, aaiCqResp);
         assertNotNull(request);
         assertNull(request.getRequestDetails().getRequestParameters());
         assertNotNull(request.getRequestDetails().getConfigurationParameters());
 
         // payload with request, but no config params
         policy.setPayload(makePayload());
-        policy.getPayload().remove(SoActorServiceProvider.CONFIG_PARAM_NM);
-        request = new SoActorServiceProvider().constructRequestCq(onset, operation, policy, aaiCqResp);
+        policy.getPayload().remove(SoActor.CONFIG_PARAM_NM);
+        request = new SoActor().constructRequestCq(onset, operation, policy, aaiCqResp);
         assertNotNull(request);
         assertNotNull(request.getRequestDetails().getRequestParameters());
         assertNull(request.getRequestDetails().getConfigurationParameters());
 
         // null response
-        assertNull(new SoActorServiceProvider().constructRequestCq(onset, operation, policy, null));
+        assertNull(new SoActor().constructRequestCq(onset, operation, policy, null));
 
         instantiateTargetCq(policy);
         policy.setRecipe(VF_MODULE_DELETE);
-        SoRequest deleteRequest = new SoActorServiceProvider().constructRequestCq(onset, operation, policy, aaiCqResp);
+        SoRequest deleteRequest = new SoActor().constructRequestCq(onset, operation, policy, aaiCqResp);
         assertNotNull(deleteRequest);
         assertEquals(SoOperationType.DELETE_VF_MODULE, deleteRequest.getOperationType());
 
@@ -178,12 +177,12 @@ public class SoActorServiceProviderTest extends BasicActor {
         policy.setRecipe(VF_MODULE_CREATE);
 
         // null tenant
-        assertNull(new SoActorServiceProvider().constructRequestCq(onset, operation, policy, aaiCqRespMissing));
+        assertNull(new SoActor().constructRequestCq(onset, operation, policy, aaiCqRespMissing));
 
         // null service item
-        assertNull(new SoActorServiceProvider().constructRequestCq(onset, operation, policy, aaiCqRespMissing));
+        assertNull(new SoActor().constructRequestCq(onset, operation, policy, aaiCqRespMissing));
 
-        assertNull(new SoActorServiceProvider().constructRequestCq(onset, operation, policy, null));
+        assertNull(new SoActor().constructRequestCq(onset, operation, policy, null));
     }
 
     /**
@@ -208,8 +207,8 @@ public class SoActorServiceProviderTest extends BasicActor {
     private Map<String, String> makePayload() {
         Map<String, String> payload = new TreeMap<>();
 
-        payload.put(SoActorServiceProvider.REQ_PARAM_NM, makeReqParams());
-        payload.put(SoActorServiceProvider.CONFIG_PARAM_NM, makeConfigParams());
+        payload.put(SoActor.REQ_PARAM_NM, makeReqParams());
+        payload.put(SoActor.CONFIG_PARAM_NM, makeConfigParams());
 
         return payload;
     }

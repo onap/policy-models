@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * SdnrActorServiceProvider
+ * ONAP
  * ================================================================================
  * Copyright (C) 2018 Wipro Limited Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
@@ -48,13 +48,13 @@ import org.slf4j.LoggerFactory;
  * SDNR is an unusual actor in that it uses a single, generic operator to initiate all
  * operation types. The action taken is always the same, only the operation name changes.
  */
-public class SdnrActorServiceProvider extends BidirectionalTopicActor<BidirectionalTopicActorParams>  {
+public class SdnrActor extends BidirectionalTopicActor<BidirectionalTopicActorParams>  {
 
     public static final String NAME = "SDNR";
 
     // TODO old code: remove lines down to **HERE**
 
-    private static final Logger logger = LoggerFactory.getLogger(SdnrActorServiceProvider.class);
+    private static final Logger logger = LoggerFactory.getLogger(SdnrActor.class);
 
     // Strings for targets
     private static final String TARGET_VNF = "VNF";
@@ -77,7 +77,7 @@ public class SdnrActorServiceProvider extends BidirectionalTopicActor<Bidirectio
     /**
      * Constructor.
      */
-    public SdnrActorServiceProvider() {
+    public SdnrActor() {
         super(NAME, BidirectionalTopicActorParams.class);
 
         addOperator(new BidirectionalTopicOperator(NAME, SdnrOperation.NAME, this, SdnrOperation.SELECTOR_KEYS,

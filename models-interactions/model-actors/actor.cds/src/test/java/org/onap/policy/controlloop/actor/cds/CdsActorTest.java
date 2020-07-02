@@ -55,13 +55,13 @@ import org.onap.policy.cds.client.CdsProcessorGrpcClient;
 import org.onap.policy.cds.properties.CdsServerProperties;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
-import org.onap.policy.controlloop.actor.cds.CdsActorServiceProvider.CdsActorServiceManager;
+import org.onap.policy.controlloop.actor.cds.CdsActor.CdsActorServiceManager;
 import org.onap.policy.controlloop.actor.cds.constants.CdsActorConstants;
 import org.onap.policy.controlloop.actor.test.BasicActor;
 import org.onap.policy.controlloop.actorserviceprovider.Operator;
 import org.onap.policy.controlloop.policy.Policy;
 
-public class CdsActorServiceProviderTest extends BasicActor {
+public class CdsActorTest extends BasicActor {
 
     private static final String CDS_BLUEPRINT_NAME = "vfw-cds";
     private static final String CDS_BLUEPRINT_VERSION = "1.0.0";
@@ -71,7 +71,7 @@ public class CdsActorServiceProviderTest extends BasicActor {
 
     @Mock
     private CdsProcessorGrpcClient cdsClient;
-    private CdsActorServiceProvider cdsActor;
+    private CdsActor cdsActor;
     private Policy policy;
     private CdsServerProperties cdsProps;
     private Map<String, String> aaiParams;
@@ -114,7 +114,7 @@ public class CdsActorServiceProviderTest extends BasicActor {
         when(cdsClient.sendRequest(any(ExecutionServiceInput.class))).thenReturn(mock(CountDownLatch.class));
 
         // Setup the cdsActor
-        cdsActor = new CdsActorServiceProvider();
+        cdsActor = new CdsActor();
 
         // Setup onset event
         onset = new VirtualControlLoopEvent();
@@ -138,7 +138,7 @@ public class CdsActorServiceProviderTest extends BasicActor {
 
     @Test
     public void testGetOperator() {
-        CdsActorServiceProvider sp = new CdsActorServiceProvider();
+        CdsActor sp = new CdsActor();
 
         // should always return the same operator regardless of the name
         Operator oper = sp.getOperator("unknown");
@@ -206,7 +206,7 @@ public class CdsActorServiceProviderTest extends BasicActor {
             any(TimeUnit.class));
         when(cdsClient.sendRequest(any(ExecutionServiceInput.class))).thenReturn(countDownLatch);
 
-        CdsActorServiceProvider.CdsActorServiceManager cdsActorSvcMgr = cdsActor.new CdsActorServiceManager();
+        CdsActor.CdsActorServiceManager cdsActorSvcMgr = cdsActor.new CdsActorServiceManager();
         CdsResponse response =
             cdsActorSvcMgr.sendRequestToCds(cdsClient, cdsProps, ExecutionServiceInput.newBuilder().build());
         assertTrue(Thread.interrupted());
@@ -216,7 +216,7 @@ public class CdsActorServiceProviderTest extends BasicActor {
 
     @Test
     public void testSendRequestToCdsLatchTimedOut() {
-        CdsActorServiceProvider.CdsActorServiceManager cdsActorSvcMgr = cdsActor.new CdsActorServiceManager();
+        CdsActor.CdsActorServiceManager cdsActorSvcMgr = cdsActor.new CdsActorServiceManager();
         CdsResponse response =
             cdsActorSvcMgr.sendRequestToCds(cdsClient, cdsProps, ExecutionServiceInput.newBuilder().build());
         assertNotNull(response);
