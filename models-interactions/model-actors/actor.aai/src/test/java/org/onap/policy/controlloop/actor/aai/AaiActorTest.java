@@ -18,31 +18,36 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.controlloop.actor.guard;
+package org.onap.policy.controlloop.actor.aai;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.Test;
 import org.onap.policy.controlloop.actor.test.BasicActor;
 
-public class GuardActorServiceProviderTest extends BasicActor {
+public class AaiActorTest extends BasicActor {
 
     @Test
-    public void test() {
-        final GuardActorServiceProvider prov = new GuardActorServiceProvider();
+    public void testAaiActorServiceProvider() {
+        final AaiActor prov = new AaiActor();
 
         // verify that it has the operators we expect
-        var expected = Arrays.asList(DecisionOperation.NAME).stream().sorted().collect(Collectors.toList());
+        List<String> expected = new LinkedList<>();
+        expected.add(AaiCustomQueryOperation.NAME);
+        expected.add(AaiGetTenantOperation.NAME);
+        expected.add(AaiGetPnfOperation.NAME);
+
+        Collections.sort(expected);
+
         var actual = prov.getOperationNames().stream().sorted().collect(Collectors.toList());
 
         assertEquals(expected.toString(), actual.toString());
 
         // verify that it all plugs into the ActorService
-        verifyActorService(GuardActorServiceProvider.NAME, "service.yaml");
-
-        assertTrue(prov.getOperator(DecisionOperation.NAME) instanceof DecisionOperator);
+        verifyActorService(AaiActor.NAME, "service.yaml");
     }
 }

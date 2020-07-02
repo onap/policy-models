@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * APPCActorServiceProvider
+ * ONAP
  * ================================================================================
  * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
@@ -41,10 +41,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public class AppcActorServiceProvider extends BidirectionalTopicActor<BidirectionalTopicActorParams> {
+public class AppcActor extends BidirectionalTopicActor<BidirectionalTopicActorParams> {
     public static final String NAME = "APPC";
 
-    private static final Logger logger = LoggerFactory.getLogger(AppcActorServiceProvider.class);
+    private static final Logger logger = LoggerFactory.getLogger(AppcActor.class);
 
     // TODO old code: remove lines down to **HERE**
 
@@ -74,7 +74,7 @@ public class AppcActorServiceProvider extends BidirectionalTopicActor<Bidirectio
     /**
      * Constructs the object.
      */
-    public AppcActorServiceProvider() {
+    public AppcActor() {
         super(NAME, BidirectionalTopicActorParams.class);
 
         addOperator(new BidirectionalTopicOperator(NAME, ModifyConfigOperation.NAME, this, AppcOperation.SELECTOR_KEYS,
