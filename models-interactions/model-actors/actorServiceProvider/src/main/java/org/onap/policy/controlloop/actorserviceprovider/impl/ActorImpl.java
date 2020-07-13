@@ -21,8 +21,6 @@
 package org.onap.policy.controlloop.actorserviceprovider.impl;
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -220,28 +218,4 @@ public class ActorImpl extends StartConfigPartial<Map<String, Object>> implement
                         "failed to shutdown operation {}.{}", actorName, oper.getName()));
         // @formatter:on
     }
-
-    // TODO old code: remove lines down to **HERE**
-
-    @Override
-    public String actor() {
-        return null;
-    }
-
-    @Override
-    public List<String> recipes() {
-        return Collections.emptyList();
-    }
-
-    @Override
-    public List<String> recipeTargets(String recipe) {
-        return Collections.emptyList();
-    }
-
-    @Override
-    public List<String> recipePayloads(String recipe) {
-        return Collections.emptyList();
-    }
-
-    // **HERE**
 }
