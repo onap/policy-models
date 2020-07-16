@@ -21,6 +21,8 @@
 
 package org.onap.policy.simulators;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -34,13 +36,19 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import lombok.Setter;
 import org.onap.policy.common.utils.resources.ResourceUtils;
+import org.onap.policy.so.SoRequest;
 
+import io.swagger.annotations.ApiParam;
+
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 @Path("/")
 public class SoSimulatorJaxRs {
 
     private static final String REPLACE_ME = "${replaceMe}";
-
+    //private static final Logger logger = LoggerFactory.getLogger(SoSimulatorJaxRs.class);
+    //private static final Logger logger1 = LoggerFactory.getLogger(Rules.class);
     /**
      * Set of incomplete request IDs. When a POST or DELETE is performed, the new request
      * ID is added to the set. When the request is polled, the ID is removed and a "still
@@ -71,8 +79,14 @@ public class SoSimulatorJaxRs {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces("application/json")
     public String soPostQuery(@PathParam("serviceInstanceId") final String serviceInstanceId,
-                    @PathParam("vnfInstanceId") final String vnfInstanceId) {
+                    @PathParam("vnfInstanceId") final String vnfInstanceId, @ApiParam(required=true) SoRequest request) {
 
+        List<Map<String, String>> useParam = null;
+        useParam = request.getRequestDetails().getRequestParameters().getUserParams();
+        if(!useParam.isEmpty() && useParam.toString().contains("FAIL")) {
+            // this will be treated as a failure by the SO actor as it's missing the request ID
+            return "{\"response\" : \"FAILED\" }";
+        }
         return (requirePolling ? makeStarted() : makeImmediateComplete());
     }
 
