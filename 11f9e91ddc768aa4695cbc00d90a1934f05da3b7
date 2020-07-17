@@ -22,6 +22,30 @@
       "revId": "11f9e91ddc768aa4695cbc00d90a1934f05da3b7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2728739f_c12ab017",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/SoSimulatorJaxRs.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-07-17T15:59:03Z",
+      "side": 1,
+      "message": "their first response includes a request ID that is used when polling for final completion",
+      "parentUuid": "b09f8739_d477c68b",
+      "range": {
+        "startLine": 82,
+        "startChar": 73,
+        "endLine": 82,
+        "endChar": 95
+      },
+      "revId": "11f9e91ddc768aa4695cbc00d90a1934f05da3b7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
