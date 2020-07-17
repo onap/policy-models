@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "3cb519b7_c59624ad",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/SoSimulatorJaxRs.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1725
+      },
+      "writtenOn": "2020-07-17T15:44:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0164c64_14d4ea29",
+      "range": {
+        "startLine": 79,
+        "startChar": 34,
+        "endLine": 79,
+        "endChar": 43
+      },
+      "revId": "e783f4de7a51bab4351ce6d7381cf628bf0469af",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b78d4a3b_23307f71",
         "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/SoSimulatorJaxRs.java",
         "patchSetId": 5
@@ -75,6 +99,24 @@
         "id": 811
       },
       "writtenOn": "2020-07-17T15:37:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b78d4a3b_23307f71",
+      "revId": "e783f4de7a51bab4351ce6d7381cf628bf0469af",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c37a8b7b_3052f447",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/SoSimulatorJaxRs.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1725
+      },
+      "writtenOn": "2020-07-17T15:44:53Z",
       "side": 1,
       "message": "Done",
       "parentUuid": "b78d4a3b_23307f71",
