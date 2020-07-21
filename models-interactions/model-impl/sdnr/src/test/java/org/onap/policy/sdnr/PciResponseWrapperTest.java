@@ -22,10 +22,8 @@
 package org.onap.policy.sdnr;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -50,18 +48,21 @@ public class PciResponseWrapperTest {
         PciResponseWrapper copiedPciResponseWrapper = new PciResponseWrapper();
         copiedPciResponseWrapper.setBody(responseWrapper.getBody());
 
-        assertTrue(responseWrapper.equals(responseWrapper));
-        //assertTrue(responseWrapper.equals(copiedPciResponseWrapper));
-        assertFalse(responseWrapper.equals(null));
-        assertFalse(responseWrapper.equals("Hello"));
+        /*
+         * Disabling sonar to test equals().
+         */
+        assertEquals(responseWrapper, responseWrapper);                 // NOSONAR
+        //assertEquals(responseWrapper, copiedPciResponseWrapper);
+        assertNotEquals(responseWrapper, null);
+        assertNotEquals(responseWrapper, "Hello");                      // NOSONAR
 
         responseWrapper.setBody(null);
-        assertFalse(responseWrapper.equals(copiedPciResponseWrapper));
+        assertNotEquals(responseWrapper, copiedPciResponseWrapper);
         copiedPciResponseWrapper.setBody(null);
-        //assertTrue(responseWrapper.equals(copiedPciResponseWrapper));
+        //assertEquals(responseWrapper, copiedPciResponseWrapper);
         responseWrapper.setBody(response);
-        //assertFalse(responseWrapper.equals(copiedPciResponseWrapper));
+        //assertNotEquals(responseWrapper, copiedPciResponseWrapper);
         copiedPciResponseWrapper.setBody(response);
-        //assertTrue(responseWrapper.equals(copiedPciResponseWrapper));
+        //assertEquals(responseWrapper, copiedPciResponseWrapper);
     }
 }

@@ -23,7 +23,8 @@
 package org.onap.policy.so;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
@@ -33,9 +34,9 @@ public class SoServiceExceptionHolderTest {
     public void testConstructor() {
         SoServiceExceptionHolder obj = new SoServiceExceptionHolder();
 
-        assertTrue(obj.getMessageId() == null);
-        assertTrue(obj.getText() == null);
-        assertTrue(obj.getVariables() != null);
+        assertNull(obj.getMessageId());
+        assertNull(obj.getText());
+        assertNotNull(obj.getVariables());
         assertEquals(0, obj.getVariables().size());
     }
 

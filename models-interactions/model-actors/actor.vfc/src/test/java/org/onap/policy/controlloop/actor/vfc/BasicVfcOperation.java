@@ -29,10 +29,9 @@ import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInst
 import org.onap.policy.controlloop.actor.test.BasicHttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingConfig;
 import org.onap.policy.simulators.Util;
-import org.onap.policy.vfc.VfcRequest;
 import org.onap.policy.vfc.VfcResponse;
 
-public abstract class BasicVfcOperation extends BasicHttpOperation<VfcRequest> {
+public abstract class BasicVfcOperation extends BasicHttpOperation {
     public static final String POLL_PATH = "my-path-get/";
     public static final int MAX_POLLS = 3;
     public static final int POLL_WAIT_SEC = 20;

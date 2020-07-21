@@ -23,7 +23,7 @@
 package org.onap.policy.so;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
@@ -33,8 +33,8 @@ public class SoInstanceReferencesTest {
     public void testConstructor() {
         SoInstanceReferences obj = new SoInstanceReferences();
 
-        assertTrue(obj.getInstanceId() == null);
-        assertTrue(obj.getRequestId() == null);
+        assertNull(obj.getInstanceId());
+        assertNull(obj.getRequestId());
     }
 
     @Test

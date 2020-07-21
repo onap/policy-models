@@ -32,7 +32,7 @@ import org.onap.policy.simulators.Util;
 /**
  * Superclass for various operator tests.
  */
-public abstract class BasicAaiOperation<Q> extends BasicHttpOperation<Q> {
+public abstract class BasicAaiOperation extends BasicHttpOperation {
 
     /**
      * Constructs the object using a default actor and operation name.

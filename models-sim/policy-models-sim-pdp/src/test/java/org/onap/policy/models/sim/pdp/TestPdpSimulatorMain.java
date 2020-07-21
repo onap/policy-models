@@ -24,6 +24,7 @@ package org.onap.policy.models.sim.pdp;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
@@ -81,14 +82,14 @@ public class TestPdpSimulatorMain {
     public void testPdpSimulator_NoArguments() {
         final String[] pdpSimulatorConfigParameters = {};
         pdpSimulator = new PdpSimulatorMain(pdpSimulatorConfigParameters);
-        assertTrue(pdpSimulator.getParameters() == null);
+        assertNull(pdpSimulator.getParameters());
     }
 
     @Test
     public void testPdpSimulator_InvalidArguments() {
         final String[] pdpSimulatorConfigParameters = { "src/test/resourcesPdpSimulatorConfigParameters.json" };
         pdpSimulator = new PdpSimulatorMain(pdpSimulatorConfigParameters);
-        assertTrue(pdpSimulator.getParameters() == null);
+        assertNull(pdpSimulator.getParameters());
     }
 
     @Test
@@ -102,6 +103,6 @@ public class TestPdpSimulatorMain {
         final String[] pdpSimulatorConfigParameters =
             { "-c", "src/test/resources/PdpSimulatorConfigParameters_InvalidName.json" };
         pdpSimulator = new PdpSimulatorMain(pdpSimulatorConfigParameters);
-        assertTrue(pdpSimulator.getParameters() == null);
+        assertNull(pdpSimulator.getParameters());
     }
 }

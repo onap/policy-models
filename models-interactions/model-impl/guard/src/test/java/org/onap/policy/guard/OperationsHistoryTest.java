@@ -19,7 +19,7 @@
 package org.onap.policy.guard;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
@@ -61,9 +61,12 @@ public class OperationsHistoryTest {
 
         int hc = dao.hashCode();
         dao.setId(101L);
-        assertTrue(hc != dao.hashCode());
+        assertNotEquals(hc, dao.hashCode());
 
-        assertTrue(dao.equals(dao));
-        assertFalse(dao.equals(new OperationsHistory()));
+        /*
+         * Disabling sonar to test equals().
+         */
+        assertEquals(dao, dao);             // NOSONAR
+        assertNotEquals(dao, new OperationsHistory());
     }
 }

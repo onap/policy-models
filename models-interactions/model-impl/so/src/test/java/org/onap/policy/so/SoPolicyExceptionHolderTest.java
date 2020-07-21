@@ -22,7 +22,7 @@
 package org.onap.policy.so;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
@@ -32,8 +32,8 @@ public class SoPolicyExceptionHolderTest {
     public void testConstructor() {
         SoPolicyExceptionHolder obj = new SoPolicyExceptionHolder();
 
-        assertTrue(obj.getMessageId() == null);
-        assertTrue(obj.getText() == null);
+        assertNull(obj.getMessageId());
+        assertNull(obj.getText());
     }
 
     @Test

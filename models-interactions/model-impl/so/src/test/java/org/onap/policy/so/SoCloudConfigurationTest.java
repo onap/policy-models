@@ -23,7 +23,7 @@
 package org.onap.policy.so;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
@@ -33,8 +33,8 @@ public class SoCloudConfigurationTest {
     public void testConstructor() {
         SoCloudConfiguration obj = new SoCloudConfiguration();
 
-        assertTrue(obj.getLcpCloudRegionId() == null);
-        assertTrue(obj.getTenantId() == null);
+        assertNull(obj.getLcpCloudRegionId());
+        assertNull(obj.getTenantId());
     }
 
     @Test

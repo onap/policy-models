@@ -219,7 +219,7 @@ public class JpaPdpSubGroupTest {
         assertEquals(0, testJpaPdpSubGroup.compareTo(otherJpaPdpSubGroup));
         assertEquals(-1, testJpaPdpSubGroup.compareTo(null));
         assertEquals(0, testJpaPdpSubGroup.compareTo(testJpaPdpSubGroup));
-        assertFalse(testJpaPdpSubGroup.compareTo(new DummyJpaPdpSubgroupChild()) == 0);
+        assertNotEquals(0, testJpaPdpSubGroup.compareTo(new DummyJpaPdpSubgroupChild()));
 
         testJpaPdpSubGroup.getKey().setParentKeyName("Parent1");
         assertEquals(1, testJpaPdpSubGroup.compareTo(otherJpaPdpSubGroup));

@@ -23,7 +23,7 @@
 package org.onap.policy.so;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
@@ -33,13 +33,13 @@ public class SoModelInfoTest {
     public void testConstructor() {
         SoModelInfo obj = new SoModelInfo();
 
-        assertTrue(obj.getModelCustomizationId() == null);
-        assertTrue(obj.getModelCustomizationName() == null);
-        assertTrue(obj.getModelInvariantId() == null);
-        assertTrue(obj.getModelName() == null);
-        assertTrue(obj.getModelType() == null);
-        assertTrue(obj.getModelVersion() == null);
-        assertTrue(obj.getModelVersionId() == null);
+        assertNull(obj.getModelCustomizationId());
+        assertNull(obj.getModelCustomizationName());
+        assertNull(obj.getModelInvariantId());
+        assertNull(obj.getModelName());
+        assertNull(obj.getModelType());
+        assertNull(obj.getModelVersion());
+        assertNull(obj.getModelVersionId());
     }
 
     @Test

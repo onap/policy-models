@@ -23,10 +23,8 @@
 package org.onap.policy.sdnr;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -70,54 +68,54 @@ public class PciWrapperTest {
         copiedPciWrapper.setCorrelationId(wrapper.getCorrelationId());
         copiedPciWrapper.setType(wrapper.getType());
 
-        assertTrue(wrapper.equals(wrapper));
-        assertTrue(wrapper.equals(copiedPciWrapper));
-        assertFalse(wrapper.equals(null));
-        assertFalse(wrapper.equals("Hello"));
+        assertEquals(wrapper, wrapper);
+        assertEquals(wrapper, copiedPciWrapper);
+        assertNotEquals(wrapper, null);
+        assertNotEquals(wrapper, "Hello");
 
         wrapper.setVersion(null);
-        assertFalse(wrapper.equals(copiedPciWrapper));
+        assertNotEquals(wrapper, copiedPciWrapper);
         copiedPciWrapper.setVersion(null);
-        assertTrue(wrapper.equals(copiedPciWrapper));
+        assertEquals(wrapper, copiedPciWrapper);
         wrapper.setVersion(VERSION_19);
-        assertFalse(wrapper.equals(copiedPciWrapper));
+        assertNotEquals(wrapper, copiedPciWrapper);
         copiedPciWrapper.setVersion(VERSION_19);
-        assertTrue(wrapper.equals(copiedPciWrapper));
+        assertEquals(wrapper, copiedPciWrapper);
 
         wrapper.setCambriaPartition(null);
-        assertFalse(wrapper.equals(copiedPciWrapper));
+        assertNotEquals(wrapper, copiedPciWrapper);
         copiedPciWrapper.setCambriaPartition(null);
-        assertTrue(wrapper.equals(copiedPciWrapper));
+        assertEquals(wrapper, copiedPciWrapper);
         wrapper.setCambriaPartition(THE_EMERALD_CITY);
-        assertFalse(wrapper.equals(copiedPciWrapper));
+        assertNotEquals(wrapper, copiedPciWrapper);
         copiedPciWrapper.setCambriaPartition(THE_EMERALD_CITY);
-        assertTrue(wrapper.equals(copiedPciWrapper));
+        assertEquals(wrapper, copiedPciWrapper);
 
         wrapper.setRpcName(null);
-        assertFalse(wrapper.equals(copiedPciWrapper));
+        assertNotEquals(wrapper, copiedPciWrapper);
         copiedPciWrapper.setRpcName(null);
-        assertTrue(wrapper.equals(copiedPciWrapper));
+        assertEquals(wrapper, copiedPciWrapper);
         wrapper.setRpcName(TORNADO);
-        assertFalse(wrapper.equals(copiedPciWrapper));
+        assertNotEquals(wrapper, copiedPciWrapper);
         copiedPciWrapper.setRpcName(TORNADO);
-        assertTrue(wrapper.equals(copiedPciWrapper));
+        assertEquals(wrapper, copiedPciWrapper);
 
         wrapper.setCorrelationId(null);
-        assertFalse(wrapper.equals(copiedPciWrapper));
+        assertNotEquals(wrapper, copiedPciWrapper);
         copiedPciWrapper.setCorrelationId(null);
-        assertTrue(wrapper.equals(copiedPciWrapper));
+        assertEquals(wrapper, copiedPciWrapper);
         wrapper.setCorrelationId(YELLOW_BRICK_ROAD);
-        assertFalse(wrapper.equals(copiedPciWrapper));
+        assertNotEquals(wrapper, copiedPciWrapper);
         copiedPciWrapper.setCorrelationId(YELLOW_BRICK_ROAD);
-        assertTrue(wrapper.equals(copiedPciWrapper));
+        assertEquals(wrapper, copiedPciWrapper);
 
         wrapper.setType(null);
-        assertFalse(wrapper.equals(copiedPciWrapper));
+        assertNotEquals(wrapper, copiedPciWrapper);
         copiedPciWrapper.setType(null);
-        assertTrue(wrapper.equals(copiedPciWrapper));
+        assertEquals(wrapper, copiedPciWrapper);
         wrapper.setType(MUNCHKIN);
-        assertFalse(wrapper.equals(copiedPciWrapper));
+        assertNotEquals(wrapper, copiedPciWrapper);
         copiedPciWrapper.setType(MUNCHKIN);
-        assertTrue(wrapper.equals(copiedPciWrapper));
+        assertEquals(wrapper, copiedPciWrapper);
     }
 }

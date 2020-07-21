@@ -40,7 +40,7 @@ import org.onap.policy.aai.AaiConstants;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 
-public class AaiGetOperationTest extends BasicAaiOperation<Void> {
+public class AaiGetOperationTest extends BasicAaiOperation {
     private static final String MY_NAME = "my-operation-name";
     private static final String PARAM_NAME = "my-param";
     private static final String PARAM_VALUE = "my-value";

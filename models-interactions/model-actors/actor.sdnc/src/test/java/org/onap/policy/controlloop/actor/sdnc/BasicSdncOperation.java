@@ -52,7 +52,7 @@ import org.powermock.reflect.Whitebox;
 /**
  * Superclass for various operator tests.
  */
-public abstract class BasicSdncOperation extends BasicHttpOperation<SdncRequest> {
+public abstract class BasicSdncOperation extends BasicHttpOperation {
     /**
      * Fields to be ignored when comparing requests with JSON.
      */

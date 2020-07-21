@@ -23,7 +23,7 @@ package org.onap.policy.models.pdp.concepts;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotSame;
 import static org.onap.policy.models.pdp.concepts.PdpMessageUtils.removeVariableFields;
 
 import java.util.Arrays;
@@ -69,7 +69,7 @@ public class PdpUpdateTest {
         assertEquals(removeVariableFields(orig.toString()), removeVariableFields(other.toString()));
 
         // ensure list and items are not the same object
-        assertTrue(other.getPolicies() != policies);
-        assertTrue(other.getPolicies().get(0) != policies.get(0));
+        assertNotSame(other.getPolicies(), policies);
+        assertNotSame(other.getPolicies().get(0), policies.get(0));
     }
 }

@@ -42,10 +42,8 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 
 /**
  * Superclass for various HttpOperation tests.
- *
- * @param <Q> request type
  */
-public class BasicHttpOperation<Q> extends BasicOperation {
+public class BasicHttpOperation extends BasicOperation {
     protected static final String MY_CLIENT = "my-client";
     protected static final String BASE_URI = "http://my-host:6969/base-uri/";
     protected static final String PATH = "my-path/";

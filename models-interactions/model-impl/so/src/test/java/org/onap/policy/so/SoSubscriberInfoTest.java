@@ -23,7 +23,7 @@
 package org.onap.policy.so;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
@@ -33,9 +33,9 @@ public class SoSubscriberInfoTest {
     public void testConstructor() {
         SoSubscriberInfo obj = new SoSubscriberInfo();
 
-        assertTrue(obj.getGlobalSubscriberId() == null);
-        assertTrue(obj.getSubscriberCommonSiteId() == null);
-        assertTrue(obj.getSubscriberName() == null);
+        assertNull(obj.getGlobalSubscriberId());
+        assertNull(obj.getSubscriberCommonSiteId());
+        assertNull(obj.getSubscriberName());
     }
 
     @Test

@@ -134,7 +134,6 @@ public class VfModuleDelete extends SoOperation {
      * HttpClient, as the JerseyClient does not support it. This will add the content-type
      * and authorization headers, so they should not be included within "headers".
      *
-     * @param <Q> request type
      * @param uri URI suffix, to be appended to the URI prefix
      * @param headers headers to be included
      * @param contentType content type of the request
@@ -143,7 +142,7 @@ public class VfModuleDelete extends SoOperation {
      * @return a future to await the response. Note: it's untested whether canceling this
      *         future will actually cancel the underlying HTTP request
      */
-    protected <Q> CompletableFuture<Response> delete(String uri, Map<String, Object> headers, String contentType,
+    protected CompletableFuture<Response> delete(String uri, Map<String, Object> headers, String contentType,
                     String request, InvocationCallback<Response> callback) {
         // TODO move to HttpOperation
 

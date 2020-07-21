@@ -29,6 +29,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 import org.junit.Before;
 import org.junit.Test;
@@ -97,7 +98,8 @@ public class BidirectionalTopicOperatorTest {
 
         // invalid parameters
         params.setSourceTopic(null);
-        assertThatThrownBy(() -> oper.configure(Util.translateToMap(OPERATION, params)))
+        Map<String, Object> map = Util.translateToMap(OPERATION, params);
+        assertThatThrownBy(() -> oper.configure(map))
                         .isInstanceOf(ParameterValidationRuntimeException.class);
     }
 

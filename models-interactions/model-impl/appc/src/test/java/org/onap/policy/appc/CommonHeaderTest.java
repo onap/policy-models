@@ -22,10 +22,8 @@
 package org.onap.policy.appc;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -85,78 +83,81 @@ public class CommonHeaderTest {
         copiedCommonHeader.setSubRequestId(commonHeader.getSubRequestId());
         copiedCommonHeader.setTimeStamp(commonHeader.getTimeStamp());
 
-        assertTrue(commonHeader.equals(commonHeader));
-        assertTrue(commonHeader.equals(copiedCommonHeader));
-        assertFalse(commonHeader.equals(null));
-        assertFalse(commonHeader.equals("Hello"));
+        /*
+         * Disabling sonar to test equals().
+         */
+        assertEquals(commonHeader, commonHeader);           // NOSONAR
+        assertEquals(commonHeader, copiedCommonHeader);
+        assertNotEquals(commonHeader, null);
+        assertNotEquals(commonHeader, "Hello");             // NOSONAR
 
         CommonHeader clonedCommonHeader = new CommonHeader(commonHeader);
         clonedCommonHeader.setApiVer(commonHeader.getApiVer());
         clonedCommonHeader.setTimeStamp(commonHeader.getTimeStamp());
 
-        assertTrue(commonHeader.equals(clonedCommonHeader));
+        assertEquals(commonHeader, clonedCommonHeader);
 
         commonHeader.setApiVer(null);
-        assertFalse(commonHeader.equals(copiedCommonHeader));
+        assertNotEquals(commonHeader, copiedCommonHeader);
         copiedCommonHeader.setApiVer(null);
-        assertTrue(commonHeader.equals(copiedCommonHeader));
+        assertEquals(commonHeader, copiedCommonHeader);
         commonHeader.setApiVer(KANSAS);
-        assertFalse(commonHeader.equals(copiedCommonHeader));
+        assertNotEquals(commonHeader, copiedCommonHeader);
         copiedCommonHeader.setApiVer(KANSAS);
-        assertTrue(commonHeader.equals(copiedCommonHeader));
+        assertEquals(commonHeader, copiedCommonHeader);
 
         commonHeader.setFlags(null);
-        assertFalse(commonHeader.equals(copiedCommonHeader));
+        assertNotEquals(commonHeader, copiedCommonHeader);
         copiedCommonHeader.setFlags(null);
-        assertTrue(commonHeader.equals(copiedCommonHeader));
+        assertEquals(commonHeader, copiedCommonHeader);
         commonHeader.setFlags(flagSet);
-        assertFalse(commonHeader.equals(copiedCommonHeader));
+        assertNotEquals(commonHeader, copiedCommonHeader);
         copiedCommonHeader.setFlags(flagSet);
-        assertTrue(commonHeader.equals(copiedCommonHeader));
+        assertEquals(commonHeader, copiedCommonHeader);
 
         commonHeader.setOriginatorId(null);
-        assertFalse(commonHeader.equals(copiedCommonHeader));
+        assertNotEquals(commonHeader, copiedCommonHeader);
         copiedCommonHeader.setOriginatorId(null);
-        assertTrue(commonHeader.equals(copiedCommonHeader));
+        assertEquals(commonHeader, copiedCommonHeader);
         commonHeader.setOriginatorId(DOROTHY);
-        assertFalse(commonHeader.equals(copiedCommonHeader));
+        assertNotEquals(commonHeader, copiedCommonHeader);
         copiedCommonHeader.setOriginatorId(DOROTHY);
-        assertTrue(commonHeader.equals(copiedCommonHeader));
+        assertEquals(commonHeader, copiedCommonHeader);
 
         commonHeader.setRequestId(null);
-        assertFalse(commonHeader.equals(copiedCommonHeader));
+        assertNotEquals(commonHeader, copiedCommonHeader);
         copiedCommonHeader.setRequestId(null);
-        assertTrue(commonHeader.equals(copiedCommonHeader));
+        assertEquals(commonHeader, copiedCommonHeader);
         commonHeader.setRequestId(requestId);
-        assertFalse(commonHeader.equals(copiedCommonHeader));
+        assertNotEquals(commonHeader, copiedCommonHeader);
         copiedCommonHeader.setRequestId(requestId);
-        assertTrue(commonHeader.equals(copiedCommonHeader));
+        assertEquals(commonHeader, copiedCommonHeader);
 
         commonHeader.setRequestTrack(null);
-        assertFalse(commonHeader.equals(copiedCommonHeader));
+        assertNotEquals(commonHeader, copiedCommonHeader);
         copiedCommonHeader.setRequestTrack(null);
-        assertTrue(commonHeader.equals(copiedCommonHeader));
+        assertEquals(commonHeader, copiedCommonHeader);
         commonHeader.setRequestTrack(requestTrackSet);
-        assertFalse(commonHeader.equals(copiedCommonHeader));
+        assertNotEquals(commonHeader, copiedCommonHeader);
         copiedCommonHeader.setRequestTrack(requestTrackSet);
-        assertTrue(commonHeader.equals(copiedCommonHeader));
+        assertEquals(commonHeader, copiedCommonHeader);
 
         commonHeader.setSubRequestId(null);
-        assertFalse(commonHeader.equals(copiedCommonHeader));
+        assertNotEquals(commonHeader, copiedCommonHeader);
         copiedCommonHeader.setSubRequestId(null);
-        assertTrue(commonHeader.equals(copiedCommonHeader));
+        assertEquals(commonHeader, copiedCommonHeader);
         commonHeader.setSubRequestId(CAN_I_GO_HOME);
-        assertFalse(commonHeader.equals(copiedCommonHeader));
+        assertNotEquals(commonHeader, copiedCommonHeader);
         copiedCommonHeader.setSubRequestId(CAN_I_GO_HOME);
-        assertTrue(commonHeader.equals(copiedCommonHeader));
+        assertEquals(commonHeader, copiedCommonHeader);
 
         commonHeader.setTimeStamp(null);
-        assertFalse(commonHeader.equals(copiedCommonHeader));
+        assertNotEquals(commonHeader, copiedCommonHeader);
         copiedCommonHeader.setTimeStamp(null);
-        assertTrue(commonHeader.equals(copiedCommonHeader));
+        assertEquals(commonHeader, copiedCommonHeader);
         commonHeader.setTimeStamp(timestamp);
-        assertFalse(commonHeader.equals(copiedCommonHeader));
+        assertNotEquals(commonHeader, copiedCommonHeader);
         copiedCommonHeader.setTimeStamp(timestamp);
-        assertTrue(commonHeader.equals(copiedCommonHeader));
+        assertEquals(commonHeader, copiedCommonHeader);
     }
 }

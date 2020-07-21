@@ -173,7 +173,7 @@ public class JpaPdpGroupTest {
         assertEquals(0, testJpaPdpGroup.compareTo(otherJpaPdpGroup));
         assertEquals(-1, testJpaPdpGroup.compareTo(null));
         assertEquals(0, testJpaPdpGroup.compareTo(testJpaPdpGroup));
-        assertFalse(testJpaPdpGroup.compareTo(new DummyJpaPdpSubgroupChild()) == 0);
+        assertNotEquals(0, testJpaPdpGroup.compareTo(new DummyJpaPdpSubgroupChild()));
 
         testJpaPdpGroup.getKey().setName("OtherName");
         assertEquals(-1, testJpaPdpGroup.compareTo(otherJpaPdpGroup));

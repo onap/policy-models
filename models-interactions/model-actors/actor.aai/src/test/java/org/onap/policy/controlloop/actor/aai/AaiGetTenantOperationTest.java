@@ -44,7 +44,7 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
 import org.onap.policy.controlloop.policy.PolicyResult;
 
-public class AaiGetTenantOperationTest extends BasicAaiOperation<Void> {
+public class AaiGetTenantOperationTest extends BasicAaiOperation {
     private static final String INPUT_FIELD = "input";
     private static final String TEXT = "my-text";
 

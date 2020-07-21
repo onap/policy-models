@@ -26,8 +26,6 @@ import com.google.gson.GsonBuilder;
 
 public final class Serialization {
 
-    // TODO remove this class
-
     public static final Gson gsonPretty = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
 
     private Serialization() {

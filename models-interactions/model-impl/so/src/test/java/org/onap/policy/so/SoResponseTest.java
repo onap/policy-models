@@ -23,7 +23,7 @@
 package org.onap.policy.so;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
@@ -34,9 +34,9 @@ public class SoResponseTest {
         SoResponse obj = new SoResponse();
 
         assertEquals(0, obj.getHttpResponseCode());
-        assertTrue(obj.getRequest() == null);
-        assertTrue(obj.getRequestError() == null);
-        assertTrue(obj.getRequestReferences() == null);
+        assertNull(obj.getRequest());
+        assertNull(obj.getRequestError());
+        assertNull(obj.getRequestReferences());
     }
 
     @Test

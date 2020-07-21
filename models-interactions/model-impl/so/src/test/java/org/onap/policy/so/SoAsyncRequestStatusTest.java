@@ -23,7 +23,7 @@
 package org.onap.policy.so;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNull;
 
 import java.time.LocalDateTime;
 import org.junit.Test;
@@ -34,13 +34,13 @@ public class SoAsyncRequestStatusTest {
     public void testConstructor() {
         SoAsyncRequestStatus obj = new SoAsyncRequestStatus();
 
-        assertTrue(obj.getCorrelator() == null);
-        assertTrue(obj.getFinishTime() == null);
-        assertTrue(obj.getInstanceReferences() == null);
-        assertTrue(obj.getRequestId() == null);
-        assertTrue(obj.getRequestScope() == null);
-        assertTrue(obj.getRequestStatus() == null);
-        assertTrue(obj.getStartTime() == null);
+        assertNull(obj.getCorrelator());
+        assertNull(obj.getFinishTime());
+        assertNull(obj.getInstanceReferences());
+        assertNull(obj.getRequestId());
+        assertNull(obj.getRequestScope());
+        assertNull(obj.getRequestStatus());
+        assertNull(obj.getStartTime());
     }
 
     @Test

@@ -48,7 +48,7 @@ public class BasicBidirectionalTopicOperationTest {
     @Mock
     private BiConsumer<String, StandardCoderObject> listener;
 
-    private BasicBidirectionalTopicOperation oper;
+    private BasicBidirectionalTopicOperation<String> oper;
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
@@ -133,7 +133,7 @@ public class BasicBidirectionalTopicOperationTest {
                         .withMessage("response is not a Map");
     }
 
-    private static class MyOperation extends BasicBidirectionalTopicOperation {
+    private static class MyOperation extends BasicBidirectionalTopicOperation<String> {
         public MyOperation() {
             super();
         }
@@ -149,8 +149,7 @@ public class BasicBidirectionalTopicOperationTest {
         }
 
         @Override
-        @SuppressWarnings("rawtypes")
-        protected TopicServer makeServer(TopicSink sink, TopicSource source) {
+        protected TopicServer<String> makeServer(TopicSink sink, TopicSource source) {
             return new TopicServer<String>(sink, source, null, String.class) {
                 @Override
                 protected String process(String request) {

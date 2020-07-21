@@ -72,10 +72,13 @@ public class RequestTest {
         copiedRequest.setPayload(request.getPayload());
         copiedRequest.setTargetId(request.getTargetId());
 
-        assertEquals(request, request);
+        /*
+         * Disabling sonar to test equals().
+         */
+        assertEquals(request, request);             // NOSONAR
         assertEquals(request, copiedRequest);
-        assertNotEquals(null, request);
-        assertNotEquals("Hello", request);
+        assertNotEquals(request, null);
+        assertNotEquals(request, "Hello");          // NOSONAR
 
         request.setCommonHeader(null);
         assertNotEquals(request, copiedRequest);

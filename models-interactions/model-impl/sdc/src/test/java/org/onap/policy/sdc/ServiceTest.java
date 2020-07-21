@@ -22,7 +22,6 @@
 package org.onap.policy.sdc;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.util.UUID;
 import org.junit.Test;
@@ -107,13 +106,13 @@ public class ServiceTest {
     public void testEquals() {
         Service s1 = new Service();
         Service s2 = new Service(s1);
-        assertTrue(s1.equals(s2));
-        assertTrue(s2.equals(s1));
+        assertEquals(s1, s2);
+        assertEquals(s2, s1);
 
         s1 = new Service(UUID.randomUUID(), UUID.randomUUID(), EQUALS_TEST, VERSION_111);
         s2 = new Service(s1);
-        assertTrue(s1.equals(s2));
-        assertTrue(s2.equals(s1));
+        assertEquals(s1, s2);
+        assertEquals(s2, s1);
     }
 
     @Test

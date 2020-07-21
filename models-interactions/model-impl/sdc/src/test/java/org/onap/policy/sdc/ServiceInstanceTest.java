@@ -22,7 +22,6 @@
 package org.onap.policy.sdc;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.util.UUID;
 import org.junit.Test;
@@ -125,8 +124,8 @@ public class ServiceInstanceTest {
     public void testEquals() {
         ServiceInstance si1 = new ServiceInstance();
         ServiceInstance si2 = new ServiceInstance(si1);
-        assertTrue(si1.equals(si2));
-        assertTrue(si2.equals(si1));
+        assertEquals(si1, si2);
+        assertEquals(si2, si1);
 
         si1.setServiceInstanceName(INSTANCE);
         si1.setServiceName(SERVICE);
@@ -136,8 +135,8 @@ public class ServiceInstanceTest {
         si1.setWidgetModelUUID(UUID.randomUUID());
         si1.setWidgetModelVersion(VERSION_333);
         si2 = new ServiceInstance(si1);
-        assertTrue(si1.equals(si2));
-        assertTrue(si2.equals(si1));
+        assertEquals(si1, si2);
+        assertEquals(si2, si1);
     }
 
     @Test

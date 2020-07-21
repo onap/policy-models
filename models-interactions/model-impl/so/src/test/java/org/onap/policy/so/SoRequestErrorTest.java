@@ -23,7 +23,7 @@
 package org.onap.policy.so;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
@@ -33,8 +33,8 @@ public class SoRequestErrorTest {
     public void testConstructor() {
         SoRequestError obj = new SoRequestError();
 
-        assertTrue(obj.getPolicyException() == null);
-        assertTrue(obj.getServiceException() == null);
+        assertNull(obj.getPolicyException());
+        assertNull(obj.getServiceException());
     }
 
     @Test

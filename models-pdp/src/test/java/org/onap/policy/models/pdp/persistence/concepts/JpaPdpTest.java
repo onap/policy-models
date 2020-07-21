@@ -24,6 +24,7 @@ package org.onap.policy.models.pdp.persistence.concepts;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -161,7 +162,7 @@ public class JpaPdpTest {
         assertEquals(0, testJpaPdp.compareTo(otherJpaPdp));
         assertEquals(-1, testJpaPdp.compareTo(null));
         assertEquals(0, testJpaPdp.compareTo(testJpaPdp));
-        assertFalse(testJpaPdp.compareTo(new DummyJpaPdpChild()) == 0);
+        assertNotEquals(0, testJpaPdp.compareTo(new DummyJpaPdpChild()));
 
         testJpaPdp.getKey().setParentLocalName("ParentLocal1");
         assertEquals(1, testJpaPdp.compareTo(otherJpaPdp));

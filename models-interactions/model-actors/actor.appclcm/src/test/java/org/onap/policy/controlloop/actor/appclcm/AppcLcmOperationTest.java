@@ -63,7 +63,7 @@ import org.onap.policy.controlloop.policy.Target;
 import org.onap.policy.simulators.AppcLcmTopicServer;
 import org.onap.policy.simulators.TopicServer;
 
-public class AppcLcmOperationTest extends BasicBidirectionalTopicOperation {
+public class AppcLcmOperationTest extends BasicBidirectionalTopicOperation<AppcLcmDmaapWrapper> {
 
     private static final String EXPECTED_EXCEPTION = "expected exception";
     private static final String PAYLOAD_KEY1 = "key-A";
@@ -103,8 +103,7 @@ public class AppcLcmOperationTest extends BasicBidirectionalTopicOperation {
         super.tearDownBasic();
     }
 
-    @SuppressWarnings("rawtypes")
-    protected TopicServer makeServer(TopicSink sink, TopicSource source) {
+    protected TopicServer<AppcLcmDmaapWrapper> makeServer(TopicSink sink, TopicSource source) {
         return new AppcLcmTopicServer(sink, source);
     }
 

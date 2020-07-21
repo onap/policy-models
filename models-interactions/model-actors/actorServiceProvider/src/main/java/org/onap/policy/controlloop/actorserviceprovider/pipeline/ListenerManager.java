@@ -101,7 +101,6 @@ public class ListenerManager {
      * @param listener listener to be executed
      */
     protected void runListener(Runnable listener) {
-        // TODO do this asynchronously?
         Util.runFunction(listener, "pipeline listener {} threw an exception", listener);
     }
 

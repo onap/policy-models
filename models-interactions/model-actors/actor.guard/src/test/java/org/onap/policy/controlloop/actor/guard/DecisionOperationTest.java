@@ -54,7 +54,7 @@ import org.onap.policy.models.decisions.concepts.DecisionRequest;
 import org.onap.policy.models.decisions.concepts.DecisionResponse;
 import org.onap.policy.simulators.GuardSimulatorJaxRs;
 
-public class DecisionOperationTest extends BasicHttpOperation<DecisionRequest> {
+public class DecisionOperationTest extends BasicHttpOperation {
 
     @Mock
     private Consumer<OperationOutcome> started;

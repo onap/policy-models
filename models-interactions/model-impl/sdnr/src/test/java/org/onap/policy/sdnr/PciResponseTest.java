@@ -22,10 +22,11 @@
 
 package org.onap.policy.sdnr;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -40,13 +41,13 @@ public class PciResponseTest {
     @Test
     public void testHashCode() {
         PciResponse response = new PciResponse();
-        assertTrue(response.hashCode() != 0);
+        assertNotEquals(0, response.hashCode());
         response.setCommonHeader(new PciCommonHeader());
-        assertTrue(response.hashCode() != 0);
+        assertNotEquals(0, response.hashCode());
         response.setPayload(responsePayload);
-        assertTrue(response.hashCode() != 0);
+        assertNotEquals(0, response.hashCode());
         response.setStatus(null);
-        assertTrue(response.hashCode() != 0);
+        assertNotEquals(0, response.hashCode());
     }
 
     @Test
@@ -66,43 +67,43 @@ public class PciResponseTest {
     @Test
     public void testEqualsObject() {
         PciResponse response = new PciResponse();
-        assertTrue(response.equals(response));
-        assertFalse(response.equals(null));
-        assertFalse(response.equals(new Object()));
+        assertEquals(response, response);
+        assertNotEquals(response, null);
+        assertNotEquals(response, new Object());
 
         PciResponse response2 = new PciResponse();
-        assertTrue(response.equals(response2));
+        assertEquals(response, response2);
 
         response.setCommonHeader(new PciCommonHeader());
-        assertFalse(response.equals(response2));
+        assertNotEquals(response, response2);
         response2.setCommonHeader(response.getCommonHeader());
-        assertTrue(response.equals(response2));
+        assertEquals(response, response2);
 
         response.setPayload(responsePayload);
-        assertFalse(response.equals(response2));
+        assertNotEquals(response, response2);
         response2.setPayload(response.getPayload());
-        assertTrue(response.equals(response2));
+        assertEquals(response, response2);
 
         response.setCommonHeader(null);
-        assertFalse(response.equals(response2));
+        assertNotEquals(response, response2);
         response2.setCommonHeader(null);
-        assertTrue(response.equals(response2));
+        assertEquals(response, response2);
 
         response.setPayload(null);
-        assertFalse(response.equals(response2));
+        assertNotEquals(response, response2);
         response2.setPayload(response.getPayload());
-        assertTrue(response.equals(response2));
+        assertEquals(response, response2);
 
         response.setStatus(null);
-        assertFalse(response.equals(response2));
+        assertNotEquals(response, response2);
         response2.setStatus(response.getStatus());
-        assertTrue(response.equals(response2));
+        assertEquals(response, response2);
 
         Status stat = new Status();
         stat.setCode(5);
         response.setStatus(stat);
         response2.setStatus(new Status());
-        assertFalse(response.equals(response2));
+        assertNotEquals(response, response2);
     }
 
     @Test
@@ -113,7 +114,7 @@ public class PciResponseTest {
 
         PciResponse response = new PciResponse(request);
 
-        assertTrue(response.getCommonHeader().equals(request.getCommonHeader()));
+        assertEquals(response.getCommonHeader(), request.getCommonHeader());
     }
 
 }

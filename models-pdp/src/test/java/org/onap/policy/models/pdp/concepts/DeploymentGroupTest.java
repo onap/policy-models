@@ -23,6 +23,7 @@ package org.onap.policy.models.pdp.concepts;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -73,7 +74,7 @@ public class DeploymentGroupTest {
         assertEquals(hash, group.hashCode());
 
         group.setName("B");
-        assertTrue(hash != group.hashCode());
+        assertNotEquals(hash, group.hashCode());
     }
 
     @Test

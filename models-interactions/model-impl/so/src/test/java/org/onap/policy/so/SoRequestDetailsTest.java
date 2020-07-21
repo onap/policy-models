@@ -27,6 +27,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -39,13 +40,13 @@ public class SoRequestDetailsTest {
     public void testConstructor() {
         SoRequestDetails obj = new SoRequestDetails();
 
-        assertTrue(obj.getCloudConfiguration() == null);
-        assertTrue(obj.getModelInfo() == null);
-        assertTrue(obj.getRequestInfo() == null);
-        assertTrue(obj.getRequestParameters() == null);
-        assertTrue(obj.getSubscriberInfo() == null);
+        assertNull(obj.getCloudConfiguration());
+        assertNull(obj.getModelInfo());
+        assertNull(obj.getRequestInfo());
+        assertNull(obj.getRequestParameters());
+        assertNull(obj.getSubscriberInfo());
 
-        assertTrue(obj.getRelatedInstanceList() != null);
+        assertNotNull(obj.getRelatedInstanceList());
         assertEquals(0, obj.getRelatedInstanceList().size());
     }
 
@@ -73,7 +74,7 @@ public class SoRequestDetailsTest {
         obj.setSubscriberInfo(subscriberInfo);
         assertEquals(subscriberInfo, obj.getSubscriberInfo());
     }
-    
+
     @Test
     public void testSoMRequestDetailsMethods() {
         SoRequestDetails details = new SoRequestDetails();
@@ -118,7 +119,7 @@ public class SoRequestDetailsTest {
         assertTrue(details.equals(copiedDetails));
         assertFalse(details.equals(null));
         assertFalse(details.equals("Hello"));
-        
+
         details.setCloudConfiguration(null);
         assertFalse(details.equals(copiedDetails));
         copiedDetails.setCloudConfiguration(null);
@@ -136,7 +137,7 @@ public class SoRequestDetailsTest {
         assertFalse(details.equals(copiedDetails));
         copiedDetails.setModelInfo(modelInfo);
         assertTrue(details.equals(copiedDetails));
-        
+
         details.setRequestInfo(null);
         assertFalse(details.equals(copiedDetails));
         copiedDetails.setRequestInfo(null);

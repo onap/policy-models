@@ -23,7 +23,7 @@
 package org.onap.policy.so;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
@@ -33,7 +33,7 @@ public class SoRelatedInstanceListElementTest {
     public void testConstructor() {
         SoRelatedInstanceListElement obj = new SoRelatedInstanceListElement();
 
-        assertTrue(obj.getRelatedInstance() == null);
+        assertNull(obj.getRelatedInstance());
     }
 
     @Test
