@@ -2,8 +2,7 @@
  * ============LICENSE_START=======================================================
  * so
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved
+ * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,7 +22,7 @@
 package org.onap.policy.so;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
@@ -33,8 +32,8 @@ public class SoInstanceReferencesTest {
     public void testConstructor() {
         SoInstanceReferences obj = new SoInstanceReferences();
 
-        assertTrue(obj.getInstanceId() == null);
-        assertTrue(obj.getRequestId() == null);
+        assertNull(obj.getInstanceId());
+        assertNull(obj.getRequestId());
     }
 
     @Test

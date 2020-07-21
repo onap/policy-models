@@ -4,7 +4,7 @@
  * ================================================================================
  * Copyright (C) 2018 Wipro Limited Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
- * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,10 +23,8 @@
 package org.onap.policy.sdnr;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import java.time.Instant;
 import java.util.HashMap;
@@ -79,70 +77,73 @@ public class PciCommonHeaderTest {
         copiedPciCommonHeader.setSubRequestId(commonHeader.getSubRequestId());
         copiedPciCommonHeader.setTimeStamp(commonHeader.getTimeStamp());
 
-        assertTrue(commonHeader.equals(commonHeader));
-        assertTrue(commonHeader.equals(copiedPciCommonHeader));
-        assertFalse(commonHeader.equals(null));
-        assertFalse(commonHeader.equals("Hello"));
+        /*
+         * Disabling sonar to test equals().
+         */
+        assertEquals(commonHeader, commonHeader);           // NOSONAR
+        assertEquals(commonHeader, copiedPciCommonHeader);
+        assertNotEquals(commonHeader, null);
+        assertNotEquals(commonHeader, "Hello");             // NOSONAR
 
         PciCommonHeader clonedPciCommonHeader = new PciCommonHeader(commonHeader);
         clonedPciCommonHeader.setApiVer(commonHeader.getApiVer());
         clonedPciCommonHeader.setTimeStamp(commonHeader.getTimeStamp());
 
-        assertTrue(commonHeader.equals(clonedPciCommonHeader));
+        assertEquals(commonHeader, clonedPciCommonHeader);
 
         commonHeader.setApiVer(null);
-        assertFalse(commonHeader.equals(copiedPciCommonHeader));
+        assertNotEquals(commonHeader, copiedPciCommonHeader);
         copiedPciCommonHeader.setApiVer(null);
-        assertTrue(commonHeader.equals(copiedPciCommonHeader));
+        assertEquals(commonHeader, copiedPciCommonHeader);
         commonHeader.setApiVer(KANSAS);
-        assertFalse(commonHeader.equals(copiedPciCommonHeader));
+        assertNotEquals(commonHeader, copiedPciCommonHeader);
         copiedPciCommonHeader.setApiVer(KANSAS);
-        assertTrue(commonHeader.equals(copiedPciCommonHeader));
+        assertEquals(commonHeader, copiedPciCommonHeader);
 
         commonHeader.setFlags(null);
-        assertFalse(commonHeader.equals(copiedPciCommonHeader));
+        assertNotEquals(commonHeader, copiedPciCommonHeader);
         copiedPciCommonHeader.setFlags(null);
-        assertTrue(commonHeader.equals(copiedPciCommonHeader));
+        assertEquals(commonHeader, copiedPciCommonHeader);
         commonHeader.setFlags(flagMap);
-        assertFalse(commonHeader.equals(copiedPciCommonHeader));
+        assertNotEquals(commonHeader, copiedPciCommonHeader);
         copiedPciCommonHeader.setFlags(flagMap);
-        assertTrue(commonHeader.equals(copiedPciCommonHeader));
+        assertEquals(commonHeader, copiedPciCommonHeader);
 
         commonHeader.setRequestTrack(null);
-        assertFalse(commonHeader.equals(copiedPciCommonHeader));
+        assertNotEquals(commonHeader, copiedPciCommonHeader);
         copiedPciCommonHeader.setRequestTrack(null);
-        assertTrue(commonHeader.equals(copiedPciCommonHeader));
+        assertEquals(commonHeader, copiedPciCommonHeader);
         commonHeader.setRequestTrack(requestMap);
-        assertFalse(commonHeader.equals(copiedPciCommonHeader));
+        assertNotEquals(commonHeader, copiedPciCommonHeader);
         copiedPciCommonHeader.setRequestTrack(requestMap);
-        assertTrue(commonHeader.equals(copiedPciCommonHeader));
+        assertEquals(commonHeader, copiedPciCommonHeader);
 
 
         commonHeader.setRequestId(null);
-        assertFalse(commonHeader.equals(copiedPciCommonHeader));
+        assertNotEquals(commonHeader, copiedPciCommonHeader);
         copiedPciCommonHeader.setRequestId(null);
-        assertTrue(commonHeader.equals(copiedPciCommonHeader));
+        assertEquals(commonHeader, copiedPciCommonHeader);
         commonHeader.setRequestId(requestId);
-        assertFalse(commonHeader.equals(copiedPciCommonHeader));
+        assertNotEquals(commonHeader, copiedPciCommonHeader);
         copiedPciCommonHeader.setRequestId(requestId);
-        assertTrue(commonHeader.equals(copiedPciCommonHeader));
+        assertEquals(commonHeader, copiedPciCommonHeader);
 
         commonHeader.setSubRequestId(null);
-        assertFalse(commonHeader.equals(copiedPciCommonHeader));
+        assertNotEquals(commonHeader, copiedPciCommonHeader);
         copiedPciCommonHeader.setSubRequestId(null);
-        assertTrue(commonHeader.equals(copiedPciCommonHeader));
+        assertEquals(commonHeader, copiedPciCommonHeader);
         commonHeader.setSubRequestId(CAN_I_GO_HOME);
-        assertFalse(commonHeader.equals(copiedPciCommonHeader));
+        assertNotEquals(commonHeader, copiedPciCommonHeader);
         copiedPciCommonHeader.setSubRequestId(CAN_I_GO_HOME);
-        assertTrue(commonHeader.equals(copiedPciCommonHeader));
+        assertEquals(commonHeader, copiedPciCommonHeader);
 
         commonHeader.setTimeStamp(null);
-        assertFalse(commonHeader.equals(copiedPciCommonHeader));
+        assertNotEquals(commonHeader, copiedPciCommonHeader);
         copiedPciCommonHeader.setTimeStamp(null);
-        assertTrue(commonHeader.equals(copiedPciCommonHeader));
+        assertEquals(commonHeader, copiedPciCommonHeader);
         commonHeader.setTimeStamp(timestamp);
-        assertFalse(commonHeader.equals(copiedPciCommonHeader));
+        assertNotEquals(commonHeader, copiedPciCommonHeader);
         copiedPciCommonHeader.setTimeStamp(timestamp);
-        assertTrue(commonHeader.equals(copiedPciCommonHeader));
+        assertEquals(commonHeader, copiedPciCommonHeader);
     }
 }

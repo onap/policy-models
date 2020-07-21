@@ -22,6 +22,7 @@ package org.onap.policy.sim.dmaap.startstop;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
@@ -75,7 +76,7 @@ public class MainTest {
     public void testMain_NoArguments() {
         final String[] NormalParameters = {};
         main = new Main(NormalParameters);
-        assertTrue(main.getParameters() == null);
+        assertNull(main.getParameters());
     }
 
     @Test
@@ -83,7 +84,7 @@ public class MainTest {
         // note: this is missing the "-c" argument, thus the ARGUMENTS are invalid
         final String[] NormalParameters = {"parameters/NormalParameters.json"};
         main = new Main(NormalParameters);
-        assertTrue(main.getParameters() == null);
+        assertNull(main.getParameters());
     }
 
     @Test
@@ -96,6 +97,6 @@ public class MainTest {
     public void testMain_InvalidParameters() {
         final String[] NormalParameters = {"-c", "parameters/InvalidParameters.json"};
         main = new Main(NormalParameters);
-        assertTrue(main.getParameters() == null);
+        assertNull(main.getParameters());
     }
 }

@@ -2,8 +2,7 @@
  * ============LICENSE_START=======================================================
  * so
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved
+ * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,7 +22,7 @@
 package org.onap.policy.so;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
@@ -33,9 +32,9 @@ public class SoSubscriberInfoTest {
     public void testConstructor() {
         SoSubscriberInfo obj = new SoSubscriberInfo();
 
-        assertTrue(obj.getGlobalSubscriberId() == null);
-        assertTrue(obj.getSubscriberCommonSiteId() == null);
-        assertTrue(obj.getSubscriberName() == null);
+        assertNull(obj.getGlobalSubscriberId());
+        assertNull(obj.getSubscriberCommonSiteId());
+        assertNull(obj.getSubscriberName());
     }
 
     @Test

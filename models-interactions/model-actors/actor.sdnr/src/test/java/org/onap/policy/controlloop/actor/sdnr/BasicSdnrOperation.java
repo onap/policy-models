@@ -49,7 +49,7 @@ import org.onap.policy.simulators.SdnrTopicServer;
 import org.onap.policy.simulators.TopicServer;
 import org.powermock.reflect.Whitebox;
 
-public abstract class BasicSdnrOperation extends BasicBidirectionalTopicOperation {
+public abstract class BasicSdnrOperation extends BasicBidirectionalTopicOperation<PciMessage> {
 
     protected PciMessage response;
 
@@ -94,8 +94,7 @@ public abstract class BasicSdnrOperation extends BasicBidirectionalTopicOperatio
         super.tearDownBasic();
     }
 
-    @SuppressWarnings("rawtypes")
-    protected TopicServer makeServer(TopicSink sink, TopicSource source) {
+    protected TopicServer<PciMessage> makeServer(TopicSink sink, TopicSource source) {
         return new SdnrTopicServer(sink, source);
     }
 

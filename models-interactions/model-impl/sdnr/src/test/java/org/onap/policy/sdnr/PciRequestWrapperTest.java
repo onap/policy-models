@@ -4,6 +4,7 @@
  * ================================================================================
  * Copyright (C) 2018 Wipro Limited Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,10 +23,8 @@
 package org.onap.policy.sdnr;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -50,18 +49,21 @@ public class PciRequestWrapperTest {
         PciRequestWrapper copiedPciRequestWrapper = new PciRequestWrapper();
         copiedPciRequestWrapper.setBody(requestWrapper.getBody());
 
-        assertTrue(requestWrapper.equals(requestWrapper));
-        assertTrue(requestWrapper.equals(copiedPciRequestWrapper));
-        assertFalse(requestWrapper.equals(null));
-        assertFalse(requestWrapper.equals("Hello"));
+        /*
+         * Disabling sonar to test equals().
+         */
+        assertEquals(requestWrapper, requestWrapper);           // NOSONAR
+        assertEquals(requestWrapper, copiedPciRequestWrapper);
+        assertNotEquals(requestWrapper, null);
+        assertNotEquals(requestWrapper, "Hello");               // NOSONAR
 
         requestWrapper.setBody(null);
-        assertFalse(requestWrapper.equals(copiedPciRequestWrapper));
+        assertNotEquals(requestWrapper, copiedPciRequestWrapper);
         copiedPciRequestWrapper.setBody(null);
-        assertTrue(requestWrapper.equals(copiedPciRequestWrapper));
+        assertEquals(requestWrapper, copiedPciRequestWrapper);
         requestWrapper.setBody(request);
-        assertFalse(requestWrapper.equals(copiedPciRequestWrapper));
+        assertNotEquals(requestWrapper, copiedPciRequestWrapper);
         copiedPciRequestWrapper.setBody(request);
-        assertTrue(requestWrapper.equals(copiedPciRequestWrapper));
+        assertEquals(requestWrapper, copiedPciRequestWrapper);
     }
 }

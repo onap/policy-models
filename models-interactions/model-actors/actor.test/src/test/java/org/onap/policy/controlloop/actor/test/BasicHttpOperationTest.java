@@ -35,18 +35,18 @@ public class BasicHttpOperationTest {
     private static final String ACTOR = "my-actor";
     private static final String OPERATION = "my-operation";
 
-    private BasicHttpOperation<String> oper;
+    private BasicHttpOperation oper;
 
 
     @Before
     public void setUp() throws Exception {
-        oper = new BasicHttpOperation<>(ACTOR, OPERATION);
+        oper = new BasicHttpOperation(ACTOR, OPERATION);
         oper.setUpBasic();
     }
 
     @Test
     public void testBasicHttpOperation() {
-        oper = new BasicHttpOperation<>();
+        oper = new BasicHttpOperation();
         assertEquals(BasicOperation.DEFAULT_ACTOR, oper.actorName);
         assertEquals(BasicOperation.DEFAULT_OPERATION, oper.operationName);
     }

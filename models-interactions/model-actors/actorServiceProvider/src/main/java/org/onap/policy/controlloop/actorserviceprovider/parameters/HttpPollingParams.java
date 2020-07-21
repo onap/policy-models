@@ -26,7 +26,6 @@ import lombok.experimental.SuperBuilder;
 import org.onap.policy.common.parameters.annotations.Min;
 import org.onap.policy.common.parameters.annotations.NotBlank;
 import org.onap.policy.common.parameters.annotations.NotNull;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
 
 /**
  * Parameters used by Operators that, after issuing an HTTP request, must poll the target

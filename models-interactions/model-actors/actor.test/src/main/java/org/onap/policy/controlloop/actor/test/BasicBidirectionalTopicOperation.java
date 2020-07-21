@@ -45,8 +45,10 @@ import org.onap.policy.simulators.Util;
 
 /**
  * Superclass for various BidirectionalTopicOperation tests.
+ *
+ * @param <Q> request type
  */
-public abstract class BasicBidirectionalTopicOperation extends BasicOperation {
+public abstract class BasicBidirectionalTopicOperation<Q> extends BasicOperation {
     protected static final String MY_SINK = "my-sink";
     protected static final String MY_SOURCE = "my-source";
     protected static final int TIMEOUT_SEC = 10;
@@ -74,8 +76,7 @@ public abstract class BasicBidirectionalTopicOperation extends BasicOperation {
     @Mock
     protected BidirectionalTopicConfig config;
 
-    @SuppressWarnings("rawtypes")
-    private TopicServer topicServer;
+    private TopicServer<Q> topicServer;
 
     /**
      * Constructs the object using a default actor and operation name.
@@ -161,8 +162,7 @@ public abstract class BasicBidirectionalTopicOperation extends BasicOperation {
      * @param source topic from which the simulator should receive messages
      * @return a new topic server/simulator
      */
-    @SuppressWarnings("rawtypes")
-    protected abstract TopicServer makeServer(TopicSink sink, TopicSource source);
+    protected abstract TopicServer<Q> makeServer(TopicSink sink, TopicSource source);
 
     /**
      * Initializes a configuration.

@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * appc
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,10 +22,8 @@
 package org.onap.policy.appc;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -69,36 +67,39 @@ public class ResponseTest {
         copiedResponse.setStatus(response.getStatus());
         copiedResponse.setPayload(response.getPayload());
 
-        assertTrue(response.equals(response));
-        assertTrue(response.equals(copiedResponse));
-        assertFalse(response.equals(null));
-        assertFalse(response.equals("Hello"));
+        /*
+         * Disabling sonar to test equals().
+         */
+        assertEquals(response, response);           // NOSONAR
+        assertEquals(response, copiedResponse);
+        assertNotEquals(response, null);
+        assertNotEquals(response, "Hello");         // NOSONAR
 
         response.setCommonHeader(null);
-        assertFalse(response.equals(copiedResponse));
+        assertNotEquals(response, copiedResponse);
         copiedResponse.setCommonHeader(null);
-        assertTrue(response.equals(copiedResponse));
+        assertEquals(response, copiedResponse);
         response.setCommonHeader(commonHeader);
-        assertFalse(response.equals(copiedResponse));
+        assertNotEquals(response, copiedResponse);
         copiedResponse.setCommonHeader(commonHeader);
-        assertTrue(response.equals(copiedResponse));
+        assertEquals(response, copiedResponse);
 
         response.setStatus(null);
-        assertFalse(response.equals(copiedResponse));
+        assertNotEquals(response, copiedResponse);
         copiedResponse.setStatus(null);
-        assertTrue(response.equals(copiedResponse));
+        assertEquals(response, copiedResponse);
         response.setStatus(status);
-        assertFalse(response.equals(copiedResponse));
+        assertNotEquals(response, copiedResponse);
         copiedResponse.setStatus(status);
-        assertTrue(response.equals(copiedResponse));
+        assertEquals(response, copiedResponse);
 
         response.setPayload(new HashMap<String, Object>());
-        assertFalse(response.equals(copiedResponse));
+        assertNotEquals(response, copiedResponse);
         copiedResponse.setPayload(new HashMap<String, Object>());
-        assertTrue(response.equals(copiedResponse));
+        assertEquals(response, copiedResponse);
         response.setPayload(payload);
-        assertFalse(response.equals(copiedResponse));
+        assertNotEquals(response, copiedResponse);
         copiedResponse.setPayload(payload);
-        assertTrue(response.equals(copiedResponse));
+        assertEquals(response, copiedResponse);
     }
 }

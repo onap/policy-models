@@ -47,7 +47,7 @@ import org.onap.policy.so.SoResponse;
 /**
  * Superclass for various operator tests.
  */
-public abstract class BasicSoOperation extends BasicHttpOperation<SoRequest> {
+public abstract class BasicSoOperation extends BasicHttpOperation {
     protected static final String[] IGNORE_FIELDS = {"RequestID", "subRequestID", "seconds", "nanos"};
 
     public static final String MODEL_CUSTOM_ID = "my-model-customization-id";

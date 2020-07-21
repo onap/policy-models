@@ -4,7 +4,7 @@
  * ================================================================================
  * Copyright (C) 2018 Wipro Limited Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
- * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,10 +23,8 @@
 package org.onap.policy.sdnr;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -61,36 +59,39 @@ public class PciRequestTest {
         copiedPciRequest.setAction(request.getAction());
         copiedPciRequest.setPayload(request.getPayload());
 
-        assertTrue(request.equals(request));
-        assertTrue(request.equals(copiedPciRequest));
-        assertFalse(request.equals(null));
-        assertFalse(request.equals("Hello"));
+        /*
+         * Disabling sonar to test equals().
+         */
+        assertEquals(request, request);             // NOSONAR
+        assertEquals(request, copiedPciRequest);
+        assertNotEquals(request, null);
+        assertNotEquals(request, "Hello");          // NOSONAR
 
         request.setCommonHeader(null);
-        assertFalse(request.equals(copiedPciRequest));
+        assertNotEquals(request, copiedPciRequest);
         copiedPciRequest.setCommonHeader(null);
-        assertTrue(request.equals(copiedPciRequest));
+        assertEquals(request, copiedPciRequest);
         request.setCommonHeader(commonHeader);
-        assertFalse(request.equals(copiedPciRequest));
+        assertNotEquals(request, copiedPciRequest);
         copiedPciRequest.setCommonHeader(commonHeader);
-        assertTrue(request.equals(copiedPciRequest));
+        assertEquals(request, copiedPciRequest);
 
         request.setAction(null);
-        assertFalse(request.equals(copiedPciRequest));
+        assertNotEquals(request, copiedPciRequest);
         copiedPciRequest.setAction(null);
-        assertTrue(request.equals(copiedPciRequest));
+        assertEquals(request, copiedPciRequest);
         request.setAction(MODIFY);
-        assertFalse(request.equals(copiedPciRequest));
+        assertNotEquals(request, copiedPciRequest);
         copiedPciRequest.setAction(MODIFY);
-        assertTrue(request.equals(copiedPciRequest));
+        assertEquals(request, copiedPciRequest);
 
         request.setPayload(null);
-        assertFalse(request.equals(copiedPciRequest));
+        assertNotEquals(request, copiedPciRequest);
         copiedPciRequest.setPayload(null);
-        assertTrue(request.equals(copiedPciRequest));
+        assertEquals(request, copiedPciRequest);
         request.setPayload(requestPayload);
-        assertFalse(request.equals(copiedPciRequest));
+        assertNotEquals(request, copiedPciRequest);
         copiedPciRequest.setPayload(requestPayload);
-        assertTrue(request.equals(copiedPciRequest));
+        assertEquals(request, copiedPciRequest);
     }
 }

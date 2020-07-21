@@ -32,6 +32,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 import java.util.function.BiConsumer;
+import org.onap.policy.appc.Request;
 import org.onap.policy.appc.Response;
 import org.onap.policy.appc.ResponseCode;
 import org.onap.policy.appc.ResponseStatus;
@@ -53,7 +54,7 @@ import org.powermock.reflect.Whitebox;
 /**
  * Superclass for various operator tests.
  */
-public abstract class BasicAppcOperation extends BasicBidirectionalTopicOperation {
+public abstract class BasicAppcOperation extends BasicBidirectionalTopicOperation<Request> {
     protected static final String[] IGNORE_FIELDS = {"RequestID", "subRequestID", "TimeStamp"};
     protected static final String MY_DESCRIPTION = "my-description";
     protected static final String MY_VNF = "my-vnf";
@@ -102,8 +103,7 @@ public abstract class BasicAppcOperation extends BasicBidirectionalTopicOperatio
         super.tearDownBasic();
     }
 
-    @SuppressWarnings("rawtypes")
-    protected TopicServer makeServer(TopicSink sink, TopicSource source) {
+    protected TopicServer<Request> makeServer(TopicSink sink, TopicSource source) {
         return new AppcLegacyTopicServer(sink, source);
     }
 

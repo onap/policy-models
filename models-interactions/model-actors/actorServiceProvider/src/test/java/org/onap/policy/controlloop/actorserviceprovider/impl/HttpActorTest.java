@@ -74,7 +74,8 @@ public class HttpActorTest {
 
         // with invalid actor parameters
         params.setOperations(null);
-        assertThatThrownBy(() -> prov.makeOperatorParameters(Util.translateToMap(prov.getName(), params)))
+        Map<String, Object> map = Util.translateToMap(prov.getName(), params);
+        assertThatThrownBy(() -> prov.makeOperatorParameters(map))
                         .isInstanceOf(ParameterValidationRuntimeException.class);
     }
 

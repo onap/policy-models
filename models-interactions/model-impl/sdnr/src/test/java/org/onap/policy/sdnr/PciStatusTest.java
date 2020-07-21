@@ -4,7 +4,7 @@
  * ================================================================================
  * Copyright (C) 2018 Wipro Limited Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
- * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,10 +23,8 @@
 package org.onap.policy.sdnr;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -52,27 +50,30 @@ public class PciStatusTest {
         copiedStatus.setCode(status.getCode());
         copiedStatus.setValue(status.getValue());
 
-        assertTrue(status.equals(status));
-        assertTrue(status.equals(copiedStatus));
-        assertFalse(status.equals(null));
-        assertFalse(status.equals("Hello"));
+        /*
+         * Disabling sonar to test equals().
+         */
+        assertEquals(status, status);           // NOSONAR
+        assertEquals(status, copiedStatus);
+        assertNotEquals(status, null);
+        assertNotEquals(status, "Hello");       // NOSONAR
 
         status.setCode(-1);
-        assertFalse(status.equals(copiedStatus));
+        assertNotEquals(status, copiedStatus);
         copiedStatus.setCode(-1);
-        assertTrue(status.equals(copiedStatus));
+        assertEquals(status, copiedStatus);
         status.setCode(1234);
-        assertFalse(status.equals(copiedStatus));
+        assertNotEquals(status, copiedStatus);
         copiedStatus.setCode(1234);
-        assertTrue(status.equals(copiedStatus));
+        assertEquals(status, copiedStatus);
 
         status.setValue(null);
-        assertFalse(status.equals(copiedStatus));
+        assertNotEquals(status, copiedStatus);
         copiedStatus.setValue(null);
-        assertTrue(status.equals(copiedStatus));
+        assertEquals(status, copiedStatus);
         status.setValue(THE_WONDERFUL_LAND_OF_OZ);
-        assertFalse(status.equals(copiedStatus));
+        assertNotEquals(status, copiedStatus);
         copiedStatus.setValue(THE_WONDERFUL_LAND_OF_OZ);
-        assertTrue(status.equals(copiedStatus));
+        assertEquals(status, copiedStatus);
     }
 }

@@ -47,13 +47,13 @@ public class BasicOperationTest {
 
     @Before
     public void setUp() throws Exception {
-        oper = new BasicHttpOperation<>(ACTOR, OPERATION);
+        oper = new BasicHttpOperation(ACTOR, OPERATION);
         oper.setUpBasic();
     }
 
     @Test
     public void testBasicHttpOperation() {
-        oper = new BasicHttpOperation<>();
+        oper = new BasicHttpOperation();
         assertEquals(BasicHttpOperation.DEFAULT_ACTOR, oper.actorName);
         assertEquals(BasicHttpOperation.DEFAULT_OPERATION, oper.operationName);
     }

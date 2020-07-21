@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * so
  * ================================================================================
- * Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2018-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,7 +22,6 @@
 package org.onap.policy.so;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -73,12 +72,16 @@ public class SoResponseWrapperTest {
 
         SoResponseWrapper identicalResponseWrapper = new SoResponseWrapper(response, requestId);
 
-        assertEquals(responseWrapper,  responseWrapper);
+        /*
+         * Disabling sonar because we are purposely checking various branches of the
+         * equals() method.
+         */
+        assertEquals(responseWrapper,  responseWrapper);        // NOSONAR
         assertEquals(responseWrapper,  identicalResponseWrapper);
         assertNotEquals(null, responseWrapper);
-        assertNotEquals("Hello", responseWrapper);
-        assertFalse(responseWrapper.equals(null));
-        assertFalse(responseWrapper.equals("AString"));
+        assertNotEquals("Hello", responseWrapper);              // NOSONAR
+        assertNotEquals(responseWrapper, null);
+        assertNotEquals(responseWrapper, "AString");            // NOSONAR
 
         assertEquals(new SoResponseWrapper(null, null), new SoResponseWrapper(null, null));
         assertNotEquals(new SoResponseWrapper(null, null), identicalResponseWrapper);

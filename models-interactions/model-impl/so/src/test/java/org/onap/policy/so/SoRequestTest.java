@@ -2,8 +2,7 @@
  * ============LICENSE_START=======================================================
  * so
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved
+ * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,7 +22,7 @@
 package org.onap.policy.so;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNull;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -35,13 +34,13 @@ public class SoRequestTest {
     public void testConstructor() {
         SoRequest obj = new SoRequest();
 
-        assertTrue(obj.getFinishTime() == null);
-        assertTrue(obj.getRequestDetails() == null);
-        assertTrue(obj.getRequestId() == null);
-        assertTrue(obj.getRequestScope() == null);
-        assertTrue(obj.getRequestStatus() == null);
-        assertTrue(obj.getRequestType() == null);
-        assertTrue(obj.getStartTime() == null);
+        assertNull(obj.getFinishTime());
+        assertNull(obj.getRequestDetails());
+        assertNull(obj.getRequestId());
+        assertNull(obj.getRequestScope());
+        assertNull(obj.getRequestStatus());
+        assertNull(obj.getRequestType());
+        assertNull(obj.getStartTime());
     }
 
     @Test

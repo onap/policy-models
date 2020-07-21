@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -219,7 +219,7 @@ public class JpaPdpSubGroupTest {
         assertEquals(0, testJpaPdpSubGroup.compareTo(otherJpaPdpSubGroup));
         assertEquals(-1, testJpaPdpSubGroup.compareTo(null));
         assertEquals(0, testJpaPdpSubGroup.compareTo(testJpaPdpSubGroup));
-        assertFalse(testJpaPdpSubGroup.compareTo(new DummyJpaPdpSubgroupChild()) == 0);
+        assertNotEquals(0, testJpaPdpSubGroup.compareTo(new DummyJpaPdpSubgroupChild()));
 
         testJpaPdpSubGroup.getKey().setParentKeyName("Parent1");
         assertEquals(1, testJpaPdpSubGroup.compareTo(otherJpaPdpSubGroup));

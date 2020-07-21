@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * simulators
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -58,6 +58,6 @@ public class AaiSimulatorTest {
         final AaiCqResponse response = new AaiManager(new RestManager()).getCustomQueryResponse("http://localhost:6666",
                 "testUser", "testPass", UUID.randomUUID(), "f953c499-4b1e-426b-8c6d-e9e9f1fc730f");
         assertNotNull(response);
-        assertEquals(response.getVserver().getVserverId(), "f953c499-4b1e-426b-8c6d-e9e9f1fc730f");
+        assertEquals("f953c499-4b1e-426b-8c6d-e9e9f1fc730f", response.getVserver().getVserverId());
     }
 }

@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * appc
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,10 +22,8 @@
 package org.onap.policy.appc;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -57,36 +55,39 @@ public class ResponseStatusTest {
         copiedStatus.setDescription(status.getDescription());
         copiedStatus.setValue(status.getValue());
 
-        assertTrue(status.equals(status));
-        assertTrue(status.equals(copiedStatus));
-        assertFalse(status.equals(null));
-        assertFalse(status.equals("Hello"));
+        /*
+         * Disabling sonar to test equals().
+         */
+        assertEquals(status, status);           // NOSONAR
+        assertEquals(status, copiedStatus);
+        assertNotEquals(status, null);
+        assertNotEquals(status, "Hello");       // NOSONAR
 
         status.setCode(-1);
-        assertFalse(status.equals(copiedStatus));
+        assertNotEquals(status, copiedStatus);
         copiedStatus.setCode(-1);
-        assertTrue(status.equals(copiedStatus));
+        assertEquals(status, copiedStatus);
         status.setCode(1234);
-        assertFalse(status.equals(copiedStatus));
+        assertNotEquals(status, copiedStatus);
         copiedStatus.setCode(1234);
-        assertTrue(status.equals(copiedStatus));
+        assertEquals(status, copiedStatus);
 
         status.setDescription(null);
-        assertFalse(status.equals(copiedStatus));
+        assertNotEquals(status, copiedStatus);
         copiedStatus.setDescription(null);
-        assertTrue(status.equals(copiedStatus));
+        assertEquals(status, copiedStatus);
         status.setDescription(THE_WONDERFUL_LAND_OF_OZ);
-        assertFalse(status.equals(copiedStatus));
+        assertNotEquals(status, copiedStatus);
         copiedStatus.setDescription(THE_WONDERFUL_LAND_OF_OZ);
-        assertTrue(status.equals(copiedStatus));
+        assertEquals(status, copiedStatus);
 
         status.setValue(null);
-        assertFalse(status.equals(copiedStatus));
+        assertNotEquals(status, copiedStatus);
         copiedStatus.setValue(null);
-        assertTrue(status.equals(copiedStatus));
+        assertEquals(status, copiedStatus);
         status.setValue(THERE_S_NO_PLACE_LIKE_HOME);
-        assertFalse(status.equals(copiedStatus));
+        assertNotEquals(status, copiedStatus);
         copiedStatus.setValue(THERE_S_NO_PLACE_LIKE_HOME);
-        assertTrue(status.equals(copiedStatus));
+        assertEquals(status, copiedStatus);
     }
 }

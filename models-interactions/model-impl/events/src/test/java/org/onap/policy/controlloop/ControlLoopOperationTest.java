@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * controlloop
  * ================================================================================
- * Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2018-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,11 +35,14 @@ public class ControlLoopOperationTest {
     public void test() {
         ControlLoopOperation operation = new ControlLoopOperation();
 
-        assertEquals(operation, operation);
-        assertNotEquals(operation, new String());
+        /*
+         * Disabling sonar to test equals().
+         */
+        assertEquals(operation, operation);         // NOSONAR
+        assertNotEquals(operation, "");             // NOSONAR
         assertNotEquals(operation, null);
 
-        assertTrue(operation.hashCode() != 0);
+        assertNotEquals(0, operation.hashCode());
         assertTrue(operation.toString().startsWith("ControlLoopOperation"));
 
         assertNotNull(operation);
@@ -68,7 +71,7 @@ public class ControlLoopOperationTest {
         operation.setTarget("target");
         assertEquals("target", operation.getTarget());
 
-        assertTrue(operation.hashCode() != 0);
+        assertNotEquals(0, operation.hashCode());
 
         ControlLoopOperation operation2 = new ControlLoopOperation(operation);
         assertEquals(now, operation2.getEnd());

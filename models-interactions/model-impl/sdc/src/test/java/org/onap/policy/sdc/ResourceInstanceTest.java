@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * sdc
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,7 +22,6 @@
 package org.onap.policy.sdc;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.util.UUID;
 import org.junit.Test;
@@ -112,8 +111,8 @@ public class ResourceInstanceTest {
     public void testEquals() {
         ResourceInstance ri1 = new ResourceInstance();
         ResourceInstance ri2 = new ResourceInstance(ri1);
-        assertTrue(ri1.equals(ri2));
-        assertTrue(ri2.equals(ri1));
+        assertEquals(ri1, ri2);
+        assertEquals(ri2, ri1);
 
         ri1.setResourceInstanceName(INSTANCE);
         ri1.setResourceName(RESOURCE);
@@ -122,8 +121,8 @@ public class ResourceInstanceTest {
         ri1.setResourceVersion(VERSION_000);
         ri1.setResourceType(ResourceType.VL);
         ri2 = new ResourceInstance(ri1);
-        assertTrue(ri1.equals(ri2));
-        assertTrue(ri2.equals(ri1));
+        assertEquals(ri1, ri2);
+        assertEquals(ri2, ri1);
     }
 
     @Test

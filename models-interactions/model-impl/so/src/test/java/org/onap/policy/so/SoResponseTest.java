@@ -2,8 +2,7 @@
  * ============LICENSE_START=======================================================
  * so
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved
+ * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,7 +22,7 @@
 package org.onap.policy.so;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
@@ -34,9 +33,9 @@ public class SoResponseTest {
         SoResponse obj = new SoResponse();
 
         assertEquals(0, obj.getHttpResponseCode());
-        assertTrue(obj.getRequest() == null);
-        assertTrue(obj.getRequestError() == null);
-        assertTrue(obj.getRequestReferences() == null);
+        assertNull(obj.getRequest());
+        assertNull(obj.getRequestError());
+        assertNull(obj.getRequestReferences());
     }
 
     @Test

@@ -24,7 +24,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.onap.policy.common.parameters.annotations.Min;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpActorParams;
 
 /**
  * Parameters used by Actors that, after issuing an HTTP request, must poll the target

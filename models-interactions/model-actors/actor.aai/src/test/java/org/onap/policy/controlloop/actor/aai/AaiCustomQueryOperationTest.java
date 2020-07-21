@@ -60,7 +60,7 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.onap.policy.controlloop.policy.PolicyResult;
 
-public class AaiCustomQueryOperationTest extends BasicAaiOperation<Map<String, String>> {
+public class AaiCustomQueryOperationTest extends BasicAaiOperation {
     private static final StandardCoder coder = new StandardCoder();
 
     private static final String MY_LINK = "my-link";
