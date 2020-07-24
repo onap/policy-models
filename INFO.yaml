@@ -28,22 +28,7 @@ meetings:
       repeats: 'weekly'
       time: '13:00 UTC'
 repositories:
-    - 'policy-apex-pdp'
-    - 'policy-api'
-    - 'policy-common'
-    - 'policy-core'
-    - 'policy-distribution'
-    - 'policy-docker'
-    - 'policy-drools-applications'
-    - 'policy-drools-pdp'
-    - 'policy-engine'
-    - 'policy-gui'
-    - 'policy-models'
-    - 'policy-oom'
-    - 'policy-pap'
-    - 'policy-parent'
-    - 'policy-pdp'
-    - 'policy-xacml-pdp'
+    - 'policy/models'
 committers:
     - <<: *onap_releng_ptl
     - name: 'Jorge Hernandez'
@@ -66,11 +51,20 @@ committers:
       company: 'Ericsson'
       id: 'ramverma'
       timezone: 'Europe/Ireland'
+    - name: 'Ajith Sreekumar'
+      email: 'ajith.sreekumar@bell.ca'
+      company: 'Ericsson'
+      id: 'a.sreekumar'
+      timezone: 'Europe/Ireland'
 tsc:
     approval: 'https://lists.onap.org/pipermail/onap-tsc'
     changes:
         - type: 'Addition'
           name: 'Jim Hahn'
+          link: https://lists.onap.org/g/onap-tsc/message/4976
+        - type: 'Addition'
           name: 'Ram Krishna Verma'
           link: https://lists.onap.org/g/onap-tsc/message/4977
-          link: https://lists.onap.org/g/onap-tsc/message/4976
+        - type: 'Addition'
+          name: 'Ajith Sreekumar'
+          link: https://lists.onap.org/g/onap-tsc/message/6869
