@@ -20,10 +20,12 @@
 
 package org.onap.policy.controlloop.actor.vfc;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.AfterClass;
@@ -32,6 +34,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingParams;
 import org.onap.policy.controlloop.policy.PolicyResult;
@@ -86,6 +89,18 @@ public class RestartTest extends BasicVfcOperation {
         CompletableFuture<OperationOutcome> futureRes = restartOper.startOperationAsync(1, outcome);
         assertNotNull(futureRes);
         assertEquals(0, restartOper.getPollCount());
+    }
+
+    @Test
+    public void testGetPropertyNames() {
+        // @formatter:off
+        assertThat(restartOper.getPropertyNames()).isEqualTo(
+                        List.of(
+                            OperationProperties.SERVICE_INSTANCE_ID,
+                            OperationProperties.VSERVER_ID,
+                            OperationProperties.VSERVER_NAME,
+                            OperationProperties.GENERIC_VNF_ID));
+        // @formatter:on
     }
 
     @Test

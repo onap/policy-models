@@ -20,12 +20,14 @@
 
 package org.onap.policy.controlloop.actor.appc;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.policy.aai.AaiConstants;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.appc.Request;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.slf4j.Logger;
@@ -36,6 +38,8 @@ public class ModifyConfigOperation extends AppcOperation {
 
     public static final String NAME = "ModifyConfig";
 
+    private static final List<String> PROPERTY_NAMES = List.of(OperationProperties.AAI_RESOURCE_VNF);
+
     /**
      * Constructs the object.
      *
@@ -43,7 +47,7 @@ public class ModifyConfigOperation extends AppcOperation {
      * @param config configuration for this operation
      */
     public ModifyConfigOperation(ControlLoopOperationParams params, BidirectionalTopicConfig config) {
-        super(params, config);
+        super(params, config, PROPERTY_NAMES);
     }
 
     /**

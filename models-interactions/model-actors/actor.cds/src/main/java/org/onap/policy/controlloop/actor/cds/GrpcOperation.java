@@ -25,8 +25,10 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.Struct;
 import com.google.protobuf.Struct.Builder;
 import com.google.protobuf.util.JsonFormat;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
@@ -48,6 +50,7 @@ import org.onap.policy.controlloop.actor.aai.AaiGetPnfOperation;
 import org.onap.policy.controlloop.actor.cds.constants.CdsActorConstants;
 import org.onap.policy.controlloop.actor.cds.request.CdsActionRequest;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.impl.OperationPartial;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
@@ -84,6 +87,19 @@ public class GrpcOperation extends OperationPartial {
      */
     private final Supplier<Map<String, String>> aaiConverter;
 
+
+    // @formatter:off
+    private static final List<String> PNF_PROPERTY_NAMES = List.of(
+                            OperationProperties.AAI_PNF,
+                            OperationProperties.ADDITIONAL_EVENT_PARAMS);
+
+
+    private static final List<String> VNF_PROPERTY_NAMES = List.of(
+                            OperationProperties.AAI_MODEL_INVARIANT_GENERIC_VNF,
+                            OperationProperties.AAI_RESOURCE_SERVICE_INSTANCE,
+                            OperationProperties.ADDITIONAL_EVENT_PARAMS);
+    // @formatter:on
+
     /**
      * Constructs the object.
      *
@@ -91,7 +107,7 @@ public class GrpcOperation extends OperationPartial {
      * @param config configuration for this operation
      */
     public GrpcOperation(ControlLoopOperationParams params, GrpcConfig config) {
-        super(params, config);
+        super(params, config, Collections.emptyList());
         this.config = config;
 
         if (TargetType.PNF.equals(params.getTarget().getType())) {
@@ -101,6 +117,11 @@ public class GrpcOperation extends OperationPartial {
             aaiRequestor = this::getCq;
             aaiConverter = this::convertCqToAaiProperties;
         }
+    }
+
+    @Override
+    public List<String> getPropertyNames() {
+        return (TargetType.PNF.equals(params.getTarget().getType()) ? PNF_PROPERTY_NAMES : VNF_PROPERTY_NAMES);
     }
 
     /**
@@ -287,8 +308,7 @@ public class GrpcOperation extends OperationPartial {
 
         // Build CDS gRPC request common-header
         CommonHeader commonHeader = CommonHeader.newBuilder().setOriginatorId(CdsActorConstants.ORIGINATOR_ID)
-                        .setRequestId(params.getContext().getEvent().getRequestId().toString())
-                        .setSubRequestId(getSubRequestId()).build();
+                        .setRequestId(params.getRequestId().toString()).setSubRequestId(getSubRequestId()).build();
 
         // Build CDS gRPC request action-identifier
         ActionIdentifiers actionIdentifiers =

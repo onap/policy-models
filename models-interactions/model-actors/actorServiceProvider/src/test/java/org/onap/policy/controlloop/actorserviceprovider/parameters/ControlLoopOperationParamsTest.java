@@ -126,7 +126,7 @@ public class ControlLoopOperationParamsTest {
         params = ControlLoopOperationParams.builder().actorService(actorService).completeCallback(completer)
                         .context(context).executor(executor).actor(ACTOR).operation(OPERATION).payload(payload)
                         .retry(RETRY).target(TARGET).targetEntity(TARGET_ENTITY).timeoutSec(TIMEOUT)
-                        .startCallback(starter).build();
+                        .startCallback(starter).preprocessed(true).build();
 
         outcome = params.makeOutcome();
     }
@@ -136,6 +136,13 @@ public class ControlLoopOperationParamsTest {
         assertSame(operFuture, params.start());
 
         assertThatIllegalArgumentException().isThrownBy(() -> params.toBuilder().context(null).build().start());
+    }
+
+    @Test
+    public void testBuild() {
+        assertSame(operation, params.build());
+
+        assertThatIllegalArgumentException().isThrownBy(() -> params.toBuilder().context(null).build().build());
     }
 
     @Test
@@ -289,6 +296,14 @@ public class ControlLoopOperationParamsTest {
 
         // should be null when unspecified
         assertNull(ControlLoopOperationParams.builder().build().getPayload());
+    }
+
+    @Test
+    public void test() {
+        assertTrue(params.isPreprocessed());
+
+        // should be false when unspecified
+        assertFalse(ControlLoopOperationParams.builder().build().isPreprocessed());
     }
 
     @Test

@@ -20,6 +20,7 @@
 
 package org.onap.policy.controlloop.actor.guard;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
@@ -81,7 +82,7 @@ public class DecisionOperation extends HttpOperation<DecisionResponse> {
      * @param config configuration for this operation
      */
     public DecisionOperation(ControlLoopOperationParams params, HttpConfig config) {
-        super(params, config, DecisionResponse.class);
+        super(params, config, DecisionResponse.class, Collections.emptyList());
         this.config = (GuardConfig) config;
     }
 

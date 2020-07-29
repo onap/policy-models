@@ -20,6 +20,7 @@
 
 package org.onap.policy.controlloop.actor.sdnc;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import javax.ws.rs.client.Entity;
@@ -44,9 +45,10 @@ public abstract class SdncOperation extends HttpOperation<SdncResponse> {
      *
      * @param params operation parameters
      * @param config configuration for this operation
+     * @param propertyNames names of properties required by this operation
      */
-    public SdncOperation(ControlLoopOperationParams params, HttpConfig config) {
-        super(params, config, SdncResponse.class);
+    public SdncOperation(ControlLoopOperationParams params, HttpConfig config, List<String> propertyNames) {
+        super(params, config, SdncResponse.class, propertyNames);
     }
 
     /**

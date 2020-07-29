@@ -19,6 +19,7 @@
 
 package org.onap.policy.controlloop.actor.cds;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -30,6 +31,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -62,6 +64,7 @@ import org.onap.policy.controlloop.actor.aai.AaiGetPnfOperation;
 import org.onap.policy.controlloop.actor.cds.constants.CdsActorConstants;
 import org.onap.policy.controlloop.actorserviceprovider.ActorService;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.policy.PolicyResult;
@@ -168,6 +171,43 @@ public class GrpcOperationTest {
         OperationOutcome outcome = operation.start().get();
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
         assertTrue(outcome.getResponse() instanceof ExecutionServiceOutput);
+    }
+
+    @Test
+    public void testGetPropertyNames() {
+        ControlLoopEventContext context = mock(ControlLoopEventContext.class);
+        when(context.getEvent()).thenReturn(onset);
+
+        ControlLoopOperationParams params = ControlLoopOperationParams.builder().actor(CdsActorConstants.CDS_ACTOR)
+                        .operation(GrpcOperation.NAME).context(context).actorService(new ActorService())
+                        .targetEntity(TARGET_ENTITY).target(target).build();
+        GrpcConfig config = new GrpcConfig(executor, cdsProps);
+
+        /*
+         * check VNF case
+         */
+        operation = new GrpcOperation(params, config);
+
+        // @formatter:off
+        assertThat(operation.getPropertyNames()).isEqualTo(
+                        List.of(
+                            OperationProperties.AAI_MODEL_INVARIANT_GENERIC_VNF,
+                            OperationProperties.AAI_RESOURCE_SERVICE_INSTANCE,
+                            OperationProperties.ADDITIONAL_EVENT_PARAMS));
+        // @formatter:on
+
+        /*
+         * check PNF case
+         */
+        target.setType(TargetType.PNF);
+        operation = new GrpcOperation(params, config);
+
+        // @formatter:off
+        assertThat(operation.getPropertyNames()).isEqualTo(
+                        List.of(
+                            OperationProperties.AAI_PNF,
+                            OperationProperties.ADDITIONAL_EVENT_PARAMS));
+        // @formatter:on
     }
 
     @Test

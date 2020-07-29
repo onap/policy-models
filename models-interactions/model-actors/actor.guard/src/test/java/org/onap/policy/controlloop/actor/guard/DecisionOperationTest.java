@@ -20,6 +20,7 @@
 
 package org.onap.policy.controlloop.actor.guard;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -145,6 +146,11 @@ public class DecisionOperationTest extends BasicHttpOperation {
     public void testConstructor() {
         assertEquals(DEFAULT_ACTOR, oper.getActorName());
         assertEquals(DEFAULT_OPERATION, oper.getName());
+    }
+
+    @Test
+    public void testGetPropertyNames() {
+        assertThat(oper.getPropertyNames()).isEmpty();
     }
 
     @Test

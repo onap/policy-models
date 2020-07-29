@@ -20,6 +20,7 @@
 
 package org.onap.policy.controlloop.actor.aai;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.CompletableFuture;
@@ -36,6 +37,7 @@ import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
@@ -57,6 +59,8 @@ public class AaiCustomQueryOperation extends HttpOperation<String> {
     public static final String RESOURCE_LINK = "resource-link";
     public static final String RESULT_DATA = "result-data";
 
+    private static final List<String> PROPERTY_NAMES = List.of(OperationProperties.AAI_VSERVER_LINK);
+
     // TODO make this configurable
     private static final String PREFIX = "/aai/v16";
 
@@ -70,7 +74,7 @@ public class AaiCustomQueryOperation extends HttpOperation<String> {
      * @param config configuration for this operation
      */
     public AaiCustomQueryOperation(ControlLoopOperationParams params, HttpConfig config) {
-        super(params, config, String.class);
+        super(params, config, String.class, PROPERTY_NAMES);
 
         this.vserver = params.getContext().getEnrichment().get(VSERVER_VSERVER_NAME);
         if (StringUtils.isBlank(this.vserver)) {
