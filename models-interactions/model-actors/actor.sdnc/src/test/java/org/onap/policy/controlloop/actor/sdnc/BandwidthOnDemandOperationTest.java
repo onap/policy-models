@@ -20,15 +20,18 @@
 
 package org.onap.policy.controlloop.actor.sdnc;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
 import java.util.Map;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
+import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
 import org.onap.policy.controlloop.policy.PolicyResult;
@@ -66,6 +69,19 @@ public class BandwidthOnDemandOperationTest extends BasicSdncOperation {
     public void testConstructor() {
         assertEquals(DEFAULT_ACTOR, oper.getActorName());
         assertEquals(BandwidthOnDemandOperation.NAME, oper.getName());
+    }
+
+    @Test
+    public void testGetPropertyNames() {
+        // @formatter:off
+        assertThat(oper.getPropertyNames()).isEqualTo(
+                        List.of(
+                            OperationProperties.SERVICE_INSTANCE_ID,
+                            OperationProperties.BANDWIDTH,
+                            OperationProperties.BANDWIDTH_CHANGE_TIME,
+                            OperationProperties.VNF_ID));
+
+        // @formatter:on
     }
 
     /**

@@ -20,6 +20,7 @@
 
 package org.onap.policy.controlloop.actor.appc;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -32,6 +33,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.junit.After;
@@ -45,6 +47,7 @@ import org.onap.policy.appc.Request;
 import org.onap.policy.appc.Response;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicParams;
@@ -116,6 +119,11 @@ public class ModifyConfigOperationTest extends BasicAppcOperation {
     public void testConstructor() {
         assertEquals(DEFAULT_ACTOR, oper.getActorName());
         assertEquals(ModifyConfigOperation.NAME, oper.getName());
+    }
+
+    @Test
+    public void testGetPropertyNames() {
+        assertThat(oper.getPropertyNames()).isEqualTo(List.of(OperationProperties.AAI_RESOURCE_VNF));
     }
 
     @Test

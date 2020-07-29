@@ -20,6 +20,7 @@
 
 package org.onap.policy.controlloop.actor.so;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -39,6 +40,7 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ForkJoinPool;
@@ -63,6 +65,7 @@ import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingParams;
@@ -142,6 +145,19 @@ public class VfModuleDeleteTest extends BasicSoOperation {
         params = params.toBuilder().target(null).build();
         assertThatIllegalArgumentException().isThrownBy(() -> new MyOperation(params, config))
                         .withMessageContaining("Target information");
+    }
+
+    @Test
+    public void testGetPropertyNames() {
+        // @formatter:off
+        assertThat(oper.getPropertyNames()).isEqualTo(
+                        List.of(
+                            OperationProperties.AAI_MODEL_SERVICE,
+                            OperationProperties.AAI_MODEL_VNF,
+                            OperationProperties.AAI_MODEL_CLOUD_REGION,
+                            OperationProperties.AAI_MODEL_TENANT,
+                            OperationProperties.VF_COUNT));
+        // @formatter:on
     }
 
     @Test

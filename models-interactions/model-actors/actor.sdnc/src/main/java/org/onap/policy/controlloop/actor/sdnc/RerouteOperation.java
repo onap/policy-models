@@ -20,7 +20,9 @@
 
 package org.onap.policy.controlloop.actor.sdnc;
 
+import java.util.List;
 import org.apache.commons.lang3.StringUtils;
+import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
@@ -38,6 +40,12 @@ public class RerouteOperation extends SdncOperation {
     public static final String SERVICE_ID_KEY = "service-instance.service-instance-id";
     public static final String NETWORK_ID_KEY = "network-information.network-id";
 
+    // @formatter:off
+    private static final List<String> PROPERTY_NAMES = List.of(
+                            OperationProperties.SERVICE_ID,
+                            OperationProperties.NETWORK_ID);
+    // @formatter:on
+
     /**
      * Constructs the object.
      *
@@ -45,7 +53,7 @@ public class RerouteOperation extends SdncOperation {
      * @param config configuration for this operation
      */
     public RerouteOperation(ControlLoopOperationParams params, HttpConfig config) {
-        super(params, config);
+        super(params, config, PROPERTY_NAMES);
     }
 
     @Override
@@ -75,7 +83,7 @@ public class RerouteOperation extends SdncOperation {
 
         SdncRequest request = new SdncRequest();
         request.setNsInstanceId(serviceInstance);
-        request.setRequestId(context.getRequestId());
+        request.setRequestId(params.getRequestId());
         request.setUrl("/" + getPath());
 
         SdncHealRequest healRequest = new SdncHealRequest();

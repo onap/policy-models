@@ -20,6 +20,7 @@
 
 package org.onap.policy.controlloop.actor.so;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import javax.ws.rs.client.Entity;
@@ -35,6 +36,7 @@ import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingConfig;
 import org.onap.policy.so.SoModelInfo;
@@ -57,6 +59,15 @@ public class VfModuleCreate extends SoOperation {
 
     private static final String PATH_PREFIX = "/";
 
+    // @formatter:off
+    private static final List<String> PROPERTY_NAMES = List.of(
+                            OperationProperties.AAI_MODEL_SERVICE,
+                            OperationProperties.AAI_MODEL_VNF,
+                            OperationProperties.AAI_MODEL_CLOUD_REGION,
+                            OperationProperties.AAI_MODEL_TENANT,
+                            OperationProperties.VF_COUNT);
+    // @formatter:off
+
     /**
      * Constructs the object.
      *
@@ -64,7 +75,7 @@ public class VfModuleCreate extends SoOperation {
      * @param config configuration for this operation
      */
     public VfModuleCreate(ControlLoopOperationParams params, HttpPollingConfig config) {
-        super(params, config);
+        super(params, config, PROPERTY_NAMES);
 
         // ensure we have the necessary parameters
         validateTarget();

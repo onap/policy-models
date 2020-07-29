@@ -51,6 +51,7 @@ import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperator;
@@ -137,6 +138,11 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation {
         params.getContext().getEnrichment().remove(AaiCustomQueryOperation.VSERVER_VSERVER_NAME);
         assertThatIllegalArgumentException().isThrownBy(() -> new AaiCustomQueryOperation(params, config))
                         .withMessage("missing " + AaiCustomQueryOperation.VSERVER_VSERVER_NAME + " in enrichment data");
+    }
+
+    @Test
+    public void testGetPropertyNames() {
+        assertThat(oper.getPropertyNames()).isEqualTo(List.of(OperationProperties.AAI_VSERVER_LINK));
     }
 
     @Test

@@ -34,6 +34,7 @@ import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.common.parameters.BeanValidator;
 import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.controlloop.actorserviceprovider.ActorService;
+import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
@@ -89,6 +90,12 @@ public class ControlLoopOperationParams {
     private Map<String, Object> payload;
 
     /**
+     * {@code True} if the preprocessing steps have already been executed, {@code false}
+     * otherwise.
+     */
+    private boolean preprocessed;
+
+    /**
      * Number of retries allowed, or {@code null} if no retries.
      */
     private Integer retry;
@@ -137,6 +144,16 @@ public class ControlLoopOperationParams {
      * @throws IllegalArgumentException if the parameters are invalid
      */
     public CompletableFuture<OperationOutcome> start() {
+        return build().start();
+    }
+
+    /**
+     * Builds the specified operation.
+     *
+     * @return a new operation
+     * @throws IllegalArgumentException if the parameters are invalid
+     */
+    public Operation build() {
         BeanValidationResult result = validate();
         if (!result.isValid()) {
             logger.warn("parameter error in operation {}.{} for {}:\n{}", getActor(), getOperation(), getRequestId(),
@@ -148,8 +165,7 @@ public class ControlLoopOperationParams {
         return actorService
                     .getActor(getActor())
                     .getOperator(getOperation())
-                    .buildOperation(this)
-                    .start();
+                    .buildOperation(this);
         // @formatter:on
     }
 

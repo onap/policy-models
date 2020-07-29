@@ -26,6 +26,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
+import java.util.Collections;
 import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
@@ -111,7 +112,7 @@ public class HttpPollingOperatorTest {
 
     private static class MyOperation extends HttpOperation<String> {
         public MyOperation(ControlLoopOperationParams params, HttpConfig config) {
-            super(params, config, String.class);
+            super(params, config, String.class, Collections.emptyList());
         }
     }
 }
