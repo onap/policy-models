@@ -28,6 +28,7 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.when;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import org.junit.Before;
@@ -157,7 +158,7 @@ public class HttpOperatorTest {
 
     private class MyOperation extends HttpOperation<String> {
         public MyOperation(ControlLoopOperationParams params, HttpConfig config) {
-            super(params, config, String.class);
+            super(params, config, String.class, Collections.emptyList());
         }
 
         @Override

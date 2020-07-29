@@ -28,6 +28,7 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.CompletableFuture;
@@ -46,6 +47,7 @@ import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingConfig;
 import org.onap.policy.controlloop.actorserviceprovider.pipeline.PipelineControllerFuture;
@@ -66,6 +68,15 @@ public class VfModuleDelete extends SoOperation {
 
     private static final String PATH_PREFIX = "/";
 
+    // @formatter:off
+    private static final List<String> PROPERTY_NAMES = List.of(
+                            OperationProperties.AAI_MODEL_SERVICE,
+                            OperationProperties.AAI_MODEL_VNF,
+                            OperationProperties.AAI_MODEL_CLOUD_REGION,
+                            OperationProperties.AAI_MODEL_TENANT,
+                            OperationProperties.DATA_VF_COUNT);
+    // @formatter:on
+
     /**
      * Constructs the object.
      *
@@ -73,7 +84,7 @@ public class VfModuleDelete extends SoOperation {
      * @param config configuration for this operation
      */
     public VfModuleDelete(ControlLoopOperationParams params, HttpPollingConfig config) {
-        super(params, config);
+        super(params, config, PROPERTY_NAMES);
 
         // ensure we have the necessary parameters
         validateTarget();

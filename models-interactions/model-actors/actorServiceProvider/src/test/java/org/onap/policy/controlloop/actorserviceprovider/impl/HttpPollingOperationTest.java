@@ -31,6 +31,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.Collections;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
@@ -196,7 +197,7 @@ public class HttpPollingOperationTest {
     @Test
     public void testDetmStatus() {
         // make an operation that does NOT override detmStatus()
-        oper = new HttpOperation<String>(params, config, String.class) {};
+        oper = new HttpOperation<String>(params, config, String.class, Collections.emptyList()) {};
 
         assertThatThrownBy(() -> oper.detmStatus(rawResponse, response))
                         .isInstanceOf(UnsupportedOperationException.class);
@@ -230,7 +231,7 @@ public class HttpPollingOperationTest {
     private static class MyOper extends HttpOperation<String> {
 
         public MyOper(ControlLoopOperationParams params, HttpConfig config) {
-            super(params, config, String.class);
+            super(params, config, String.class, Collections.emptyList());
 
             setUsePolling();
         }

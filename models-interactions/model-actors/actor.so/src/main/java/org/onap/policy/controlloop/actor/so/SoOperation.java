@@ -86,9 +86,10 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
      *
      * @param params operation parameters
      * @param config configuration for this operation
+     * @param propertyNames names of properties required by this operation
      */
-    public SoOperation(ControlLoopOperationParams params, HttpPollingConfig config) {
-        super(params, config, SoResponse.class);
+    public SoOperation(ControlLoopOperationParams params, HttpPollingConfig config, List<String> propertyNames) {
+        super(params, config, SoResponse.class, propertyNames);
 
         setUsePolling();
 

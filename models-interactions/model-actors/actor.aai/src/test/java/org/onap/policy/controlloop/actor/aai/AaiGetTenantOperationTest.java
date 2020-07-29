@@ -20,6 +20,7 @@
 
 package org.onap.policy.controlloop.actor.aai;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -77,6 +78,11 @@ public class AaiGetTenantOperationTest extends BasicAaiOperation {
     public void testConstructor() {
         assertEquals(AaiConstants.ACTOR_NAME, oper.getActorName());
         assertEquals(AaiGetTenantOperation.NAME, oper.getName());
+    }
+
+    @Test
+    public void testGetPropertyNames() {
+        assertThat(oper.getPropertyNames()).isEmpty();
     }
 
     /**

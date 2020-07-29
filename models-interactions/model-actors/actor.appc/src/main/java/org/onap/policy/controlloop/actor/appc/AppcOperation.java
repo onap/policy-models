@@ -63,9 +63,11 @@ public abstract class AppcOperation extends BidirectionalTopicOperation<Request,
      *
      * @param params operation parameters
      * @param config configuration for this operation
+     * @param propertyNames names of properties required by this operation
      */
-    public AppcOperation(ControlLoopOperationParams params, BidirectionalTopicConfig config) {
-        super(params, config, Response.class);
+    public AppcOperation(ControlLoopOperationParams params, BidirectionalTopicConfig config,
+                    List<String> propertyNames) {
+        super(params, config, Response.class, propertyNames);
     }
 
     /**

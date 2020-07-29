@@ -20,7 +20,9 @@
 
 package org.onap.policy.controlloop.actor.sdnc;
 
+import java.util.List;
 import org.apache.commons.lang3.StringUtils;
+import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
@@ -42,6 +44,14 @@ public class BandwidthOnDemandOperation extends SdncOperation {
     public static final String SERVICE_ID_KEY = "service-instance.service-instance-id";
     public static final String VNF_ID = "vnfId";
 
+    // @formatter:off
+    private static final List<String> PROPERTY_NAMES = List.of(
+                            OperationProperties.ENRICHMENT_SERVICE_INSTANCE_ID,
+                            OperationProperties.ENRICHMENT_BANDWIDTH,
+                            OperationProperties.ENRICHMENT_BANDWIDTH_CHANGE_TIME,
+                            OperationProperties.ENRICHMENT_VNF_ID);
+    // @formatter:on
+
     /**
      * Constructs the object.
      *
@@ -49,7 +59,7 @@ public class BandwidthOnDemandOperation extends SdncOperation {
      * @param config configuration for this operation
      */
     public BandwidthOnDemandOperation(ControlLoopOperationParams params, HttpConfig config) {
-        super(params, config);
+        super(params, config, PROPERTY_NAMES);
     }
 
     @Override
@@ -88,7 +98,7 @@ public class BandwidthOnDemandOperation extends SdncOperation {
 
         SdncRequest request = new SdncRequest();
         request.setNsInstanceId(serviceInstance);
-        request.setRequestId(context.getRequestId());
+        request.setRequestId(params.getRequestId());
         request.setUrl("/" + getPath());
 
         SdncHealVnfInfo vnfInfo = new SdncHealVnfInfo();

@@ -21,6 +21,7 @@
 package org.onap.policy.controlloop.actorserviceprovider.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
@@ -90,9 +91,11 @@ public abstract class HttpOperation<T> extends OperationPartial {
      * @param params operation parameters
      * @param config configuration for this operation
      * @param clazz response class
+     * @param propertyNames names of properties required by this operation
      */
-    public HttpOperation(ControlLoopOperationParams params, HttpConfig config, Class<T> clazz) {
-        super(params, config);
+    public HttpOperation(ControlLoopOperationParams params, HttpConfig config, Class<T> clazz,
+                    List<String> propertyNames) {
+        super(params, config, propertyNames);
         this.config = config;
         this.responseClass = clazz;
     }

@@ -502,7 +502,7 @@ public class HttpOperationTest {
 
     private class MyGetOperation<T> extends HttpOperation<T> {
         public MyGetOperation(Class<T> responseClass) {
-            super(HttpOperationTest.this.params, HttpOperationTest.this.config, responseClass);
+            super(HttpOperationTest.this.params, HttpOperationTest.this.config, responseClass, Collections.emptyList());
         }
 
         @Override
@@ -523,7 +523,8 @@ public class HttpOperationTest {
 
     private class MyPostOperation extends HttpOperation<MyResponse> {
         public MyPostOperation() {
-            super(HttpOperationTest.this.params, HttpOperationTest.this.config, MyResponse.class);
+            super(HttpOperationTest.this.params, HttpOperationTest.this.config, MyResponse.class,
+                            Collections.emptyList());
         }
 
         @Override
@@ -550,7 +551,8 @@ public class HttpOperationTest {
 
     private class MyPutOperation extends HttpOperation<MyResponse> {
         public MyPutOperation() {
-            super(HttpOperationTest.this.params, HttpOperationTest.this.config, MyResponse.class);
+            super(HttpOperationTest.this.params, HttpOperationTest.this.config, MyResponse.class,
+                            Collections.emptyList());
         }
 
         @Override
@@ -577,7 +579,7 @@ public class HttpOperationTest {
 
     private class MyDeleteOperation extends HttpOperation<String> {
         public MyDeleteOperation() {
-            super(HttpOperationTest.this.params, HttpOperationTest.this.config, String.class);
+            super(HttpOperationTest.this.params, HttpOperationTest.this.config, String.class, Collections.emptyList());
         }
 
         @Override
