@@ -20,10 +20,12 @@
 
 package org.onap.policy.controlloop.actor.vfc;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import javax.ws.rs.core.Response;
 import org.apache.commons.lang3.StringUtils;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
@@ -44,6 +46,14 @@ public abstract class VfcOperation extends HttpOperation<VfcResponse> {
     public static final String REQ_PARAM_NM = "requestParameters";
     public static final String CONFIG_PARAM_NM = "configurationParameters";
 
+    // @formatter:off
+    private static final List<String> PROPERTY_NAMES = List.of(
+                            OperationProperties.ENRICHMENT_SERVICE_INSTANCE_ID,
+                            OperationProperties.ENRICHMENT_VSERVER_ID,
+                            OperationProperties.ENRICHMENT_VSERVER_NAME,
+                            OperationProperties.ENRICHMENT_GENERIC_VNF_ID);
+    // @formatter:on
+
     /**
      * Job ID extracted from the first response.
      */
@@ -57,7 +67,7 @@ public abstract class VfcOperation extends HttpOperation<VfcResponse> {
      * @param config configuration for this operation
      */
     public VfcOperation(ControlLoopOperationParams params, HttpConfig config) {
-        super(params, config, VfcResponse.class);
+        super(params, config, VfcResponse.class, PROPERTY_NAMES);
 
         setUsePolling();
     }
@@ -180,14 +190,14 @@ public abstract class VfcOperation extends HttpOperation<VfcResponse> {
         additionalParams.setActionInfo(vmActionInfo);
 
         VfcHealRequest healRequest = new VfcHealRequest();
-        healRequest.setVnfInstanceId(params.getContext().getEvent().getAai().get(GENERIC_VNF_ID));
+        healRequest.setVnfInstanceId(params.getContext().getEnrichment().get(GENERIC_VNF_ID));
         healRequest.setCause(getName());
         healRequest.setAdditionalParams(additionalParams);
 
         VfcRequest request = new VfcRequest();
         request.setHealRequest(healRequest);
         request.setNsInstanceId(serviceInstance);
-        request.setRequestId(context.getEvent().getRequestId());
+        request.setRequestId(params.getRequestId());
 
         return request;
     }

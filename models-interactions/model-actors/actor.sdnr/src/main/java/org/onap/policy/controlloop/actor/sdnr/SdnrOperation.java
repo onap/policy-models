@@ -22,8 +22,8 @@ package org.onap.policy.controlloop.actor.sdnr;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicOperation;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
@@ -46,6 +46,8 @@ public class SdnrOperation extends BidirectionalTopicOperation<PciMessage, PciMe
      */
     public static final String NAME = "any";
 
+    private static final List<String> PROPERTY_NAMES = List.of(OperationProperties.AAI_VSERVER_LINK);
+
     /**
      * Keys used to match the response with the request listener. The sub request ID is a
      * UUID, so it can be used to uniquely identify the response.
@@ -57,7 +59,7 @@ public class SdnrOperation extends BidirectionalTopicOperation<PciMessage, PciMe
                     List.of(new SelectorKey("body", "output", "CommonHeader", "SubRequestID"));
 
     public SdnrOperation(ControlLoopOperationParams params, BidirectionalTopicConfig config) {
-        super(params, config, PciMessage.class);
+        super(params, config, PciMessage.class, PROPERTY_NAMES);
     }
 
     /**
@@ -135,14 +137,13 @@ public class SdnrOperation extends BidirectionalTopicOperation<PciMessage, PciMe
 
     @Override
     protected PciMessage makeRequest(int attempt) {
-        VirtualControlLoopEvent onset = params.getContext().getEvent();
         String subRequestId = getSubRequestId();
 
         /* Construct an SDNR request using pci Model */
 
         PciMessage dmaapRequest = new PciMessage();
         dmaapRequest.setVersion("1.0");
-        dmaapRequest.setCorrelationId(onset.getRequestId() + "-" + subRequestId);
+        dmaapRequest.setCorrelationId(params.getRequestId() + "-" + subRequestId);
         dmaapRequest.setType("request");
         dmaapRequest.setRpcName(params.getOperation().toLowerCase());
 
@@ -151,11 +152,11 @@ public class SdnrOperation extends BidirectionalTopicOperation<PciMessage, PciMe
 
         /* The common header is a required field for all SDNR requests. */
         PciCommonHeader requestCommonHeader = new PciCommonHeader();
-        requestCommonHeader.setRequestId(onset.getRequestId());
+        requestCommonHeader.setRequestId(params.getRequestId());
         requestCommonHeader.setSubRequestId(subRequestId);
 
         sdnrRequest.setCommonHeader(requestCommonHeader);
-        sdnrRequest.setPayload(onset.getPayload());
+        sdnrRequest.setPayload(params.getContext().getEvent().getPayload());
         sdnrRequest.setAction(params.getOperation());
 
         /*

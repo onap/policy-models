@@ -23,6 +23,7 @@ package org.onap.policy.controlloop.actorserviceprovider.impl;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -103,17 +104,27 @@ public abstract class OperationPartial implements Operation {
     @Setter(AccessLevel.PROTECTED)
     private String subRequestId;
 
+    @Getter
+    private final List<String> propertyNames;
+
+    /**
+     * Values for the properties identified by {@link #getPropertyNames()}.
+     */
+    private final Map<String, Object> properties = new HashMap<>();
+
 
     /**
      * Constructs the object.
      *
      * @param params operation parameters
      * @param config configuration for this operation
+     * @param propertyNames names of properties required by this operation
      */
-    public OperationPartial(ControlLoopOperationParams params, OperatorConfig config) {
+    public OperationPartial(ControlLoopOperationParams params, OperatorConfig config, List<String> propertyNames) {
         this.params = params;
         this.config = config;
         this.fullName = params.getActor() + "." + params.getOperation();
+        this.propertyNames = propertyNames;
     }
 
     public Executor getBlockingExecutor() {
@@ -126,6 +137,27 @@ public abstract class OperationPartial implements Operation {
 
     public String getName() {
         return params.getOperation();
+    }
+
+    /**
+     * Sets a property.
+     *
+     * @param name property name
+     * @param value new value
+     */
+    public void setProperty(String name, Object value) {
+        properties.put(name, value);
+    }
+
+    /**
+     * Gets a property's value.
+     *
+     * @param name name of the property of interest
+     * @return the property's value, or {@code null} if it has no value
+     */
+    @SuppressWarnings("unchecked")
+    public <T> T getProperty(String name) {
+        return (T) properties.get(name);
     }
 
     @Override

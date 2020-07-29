@@ -60,6 +60,9 @@ public class SoOperationTest extends BasicSoOperation {
 
     private static final String VF_COUNT_KEY = SoConstants.VF_COUNT_PREFIX
                     + "[my-model-customization-id][my-model-invariant-id][my-model-version-id]";
+
+    private static final List<String> PROP_NAMES = Collections.emptyList();
+
     private SoOperation oper;
 
     /**
@@ -71,7 +74,7 @@ public class SoOperationTest extends BasicSoOperation {
 
         initConfig();
 
-        oper = new SoOperation(params, config) {};
+        oper = new SoOperation(params, config, PROP_NAMES) {};
     }
 
     @Test
@@ -83,7 +86,7 @@ public class SoOperationTest extends BasicSoOperation {
 
         // check when Target is null
         params = params.toBuilder().target(null).build();
-        assertThatIllegalArgumentException().isThrownBy(() -> new SoOperation(params, config) {})
+        assertThatIllegalArgumentException().isThrownBy(() -> new SoOperation(params, config, PROP_NAMES) {})
                         .withMessageContaining("Target information");
     }
 
@@ -222,7 +225,7 @@ public class SoOperationTest extends BasicSoOperation {
 
         // try with null target
         params = params.toBuilder().target(null).build();
-        assertThatIllegalArgumentException().isThrownBy(() -> new SoOperation(params, config) {})
+        assertThatIllegalArgumentException().isThrownBy(() -> new SoOperation(params, config, PROP_NAMES) {})
                         .withMessageContaining("missing Target");
     }
 
@@ -258,7 +261,7 @@ public class SoOperationTest extends BasicSoOperation {
 
         // null payload
         params = params.toBuilder().payload(null).build();
-        oper = new SoOperation(params, config) {};
+        oper = new SoOperation(params, config, PROP_NAMES) {};
         assertTrue(oper.buildRequestParameters().isEmpty());
     }
 
@@ -278,7 +281,7 @@ public class SoOperationTest extends BasicSoOperation {
 
         // null payload
         params = params.toBuilder().payload(null).build();
-        oper = new SoOperation(params, config) {};
+        oper = new SoOperation(params, config, PROP_NAMES) {};
         assertTrue(oper.buildConfigurationParameters().isEmpty());
     }
 

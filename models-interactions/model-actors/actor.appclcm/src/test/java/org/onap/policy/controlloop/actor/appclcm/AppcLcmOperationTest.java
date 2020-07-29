@@ -20,6 +20,7 @@
 
 package org.onap.policy.controlloop.actor.appclcm;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -139,6 +140,11 @@ public class AppcLcmOperationTest extends BasicBidirectionalTopicOperation<AppcL
         params = params.toBuilder().targetEntity("").build();
         assertThatIllegalArgumentException().isThrownBy(() -> new AppcLcmOperation(params, config))
                         .withMessage("missing targetEntity");
+    }
+
+    @Test
+    public void testGetPropertyNames() {
+        assertThat(oper.getPropertyNames()).isEmpty();
     }
 
     @Test

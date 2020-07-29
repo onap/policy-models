@@ -26,6 +26,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 import org.junit.After;
@@ -234,7 +235,7 @@ public class AppcOperationTest extends BasicAppcOperation {
     private static class MyOper extends AppcOperation {
 
         public MyOper(ControlLoopOperationParams params, BidirectionalTopicConfig config) {
-            super(params, config);
+            super(params, config, Collections.emptyList());
         }
 
         @Override

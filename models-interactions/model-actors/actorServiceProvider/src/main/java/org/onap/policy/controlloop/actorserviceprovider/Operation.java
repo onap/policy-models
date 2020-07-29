@@ -20,6 +20,7 @@
 
 package org.onap.policy.controlloop.actorserviceprovider;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -41,6 +42,21 @@ public interface Operation {
      * @return the operation name
      */
     String getName();
+
+    /**
+     * Gets the names of the properties required by the operation.
+     *
+     * @return the names of the properties required by the operation
+     */
+    List<String> getPropertyNames();
+
+    /**
+     * Sets a property.
+     *
+     * @param name property name
+     * @param value new value
+     */
+    public void setProperty(String name, Object value);
 
     /**
      * Called by enforcement PDP engine to start the operation. As part of the operation,

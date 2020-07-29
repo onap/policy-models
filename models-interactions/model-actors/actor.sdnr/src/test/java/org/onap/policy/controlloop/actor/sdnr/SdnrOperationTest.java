@@ -20,6 +20,7 @@
 
 package org.onap.policy.controlloop.actor.sdnr;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -29,6 +30,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.junit.After;
@@ -38,6 +40,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.controlloop.actor.test.BasicBidirectionalTopicOperation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicOperation.Status;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
@@ -83,6 +86,11 @@ public class SdnrOperationTest extends BasicSdnrOperation {
     public void testSdnrOperation() {
         assertEquals(DEFAULT_ACTOR, operation.getActorName());
         assertEquals(DEFAULT_OPERATION, operation.getName());
+    }
+
+    @Test
+    public void testGetPropertyNames() {
+        assertThat(operation.getPropertyNames()).isEqualTo(List.of(OperationProperties.AAI_VSERVER_LINK));
     }
 
     @Test

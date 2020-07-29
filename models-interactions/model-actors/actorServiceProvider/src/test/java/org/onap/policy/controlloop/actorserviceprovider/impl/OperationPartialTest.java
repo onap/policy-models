@@ -36,6 +36,7 @@ import ch.qos.logback.classic.Logger;
 import java.time.Instant;
 import java.util.ArrayDeque;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
@@ -105,6 +106,8 @@ public class OperationPartialTest {
      */
     private static final Logger logger = (Logger) LoggerFactory.getLogger(OperationPartial.class);
     private static final ExtractAppender appender = new ExtractAppender();
+
+    private static final List<String> PROP_NAMES = List.of("hello", "world");
 
     @Mock
     private ActorService service;
@@ -214,6 +217,22 @@ public class OperationPartialTest {
         oper2.getBlockingExecutor().execute(() -> future.complete(null));
 
         assertNull(future.get(5, TimeUnit.SECONDS));
+    }
+
+    @Test
+    public void testGetPropertyNames() {
+        assertThat(oper.getPropertyNames()).isEqualTo(PROP_NAMES);
+    }
+
+    @Test
+    public void testGetProperty_testSetProperty() {
+        oper.setProperty("propertyA", "valueA");
+        oper.setProperty("propertyB", "valueB");
+        oper.setProperty("propertyC", 20);
+
+        assertEquals("valueA", oper.getProperty("propertyA"));
+        assertEquals("valueB", oper.getProperty("propertyB"));
+        assertEquals(Integer.valueOf(20), oper.getProperty("propertyC"));
     }
 
     @Test
@@ -406,7 +425,7 @@ public class OperationPartialTest {
         /*
          * Use an operation that doesn't override doOperation().
          */
-        OperationPartial oper2 = new OperationPartial(params, config) {};
+        OperationPartial oper2 = new OperationPartial(params, config, Collections.emptyList()) {};
 
         oper2.start();
         assertTrue(executor.runAll(MAX_REQUESTS));
@@ -1118,7 +1137,7 @@ public class OperationPartialTest {
     @Test
     public void testGetRetryWait() {
         // need an operator that doesn't override the retry time
-        OperationPartial oper2 = new OperationPartial(params, config) {};
+        OperationPartial oper2 = new OperationPartial(params, config, Collections.emptyList()) {};
         assertEquals(OperationPartial.DEFAULT_RETRY_WAIT_MS, oper2.getRetryWaitMs());
     }
 
@@ -1290,7 +1309,7 @@ public class OperationPartialTest {
 
 
         public MyOper() {
-            super(OperationPartialTest.this.params, config);
+            super(OperationPartialTest.this.params, config, PROP_NAMES);
         }
 
         @Override

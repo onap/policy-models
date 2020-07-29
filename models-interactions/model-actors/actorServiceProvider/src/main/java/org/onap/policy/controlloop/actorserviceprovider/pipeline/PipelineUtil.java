@@ -20,6 +20,7 @@
 
 package org.onap.policy.controlloop.actorserviceprovider.pipeline;
 
+import java.util.Collections;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ForkJoinPool;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
@@ -38,7 +39,7 @@ public class PipelineUtil extends OperationPartial {
      * @param params utility parameters
      */
     public PipelineUtil(ControlLoopOperationParams params) {
-        super(params, new OperatorConfig(ForkJoinPool.commonPool()));
+        super(params, new OperatorConfig(ForkJoinPool.commonPool()), Collections.emptyList());
     }
 
     @Override

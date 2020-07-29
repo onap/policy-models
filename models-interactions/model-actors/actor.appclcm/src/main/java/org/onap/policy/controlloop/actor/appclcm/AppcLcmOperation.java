@@ -20,6 +20,7 @@
 
 package org.onap.policy.controlloop.actor.appclcm;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -32,7 +33,6 @@ import org.onap.policy.appclcm.AppcLcmOutput;
 import org.onap.policy.appclcm.AppcLcmResponseCode;
 import org.onap.policy.appclcm.AppcLcmResponseStatus;
 import org.onap.policy.common.utils.coder.CoderException;
-import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicOperation;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
@@ -62,7 +62,7 @@ public class AppcLcmOperation extends BidirectionalTopicOperation<AppcLcmDmaapWr
      * @param config configuration for this operation
      */
     public AppcLcmOperation(ControlLoopOperationParams params, BidirectionalTopicConfig config) {
-        super(params, config, AppcLcmDmaapWrapper.class);
+        super(params, config, AppcLcmDmaapWrapper.class, Collections.emptyList());
 
         if (StringUtils.isBlank(params.getTargetEntity())) {
             throw new IllegalArgumentException("missing targetEntity");
@@ -80,12 +80,11 @@ public class AppcLcmOperation extends BidirectionalTopicOperation<AppcLcmDmaapWr
 
     @Override
     protected AppcLcmDmaapWrapper makeRequest(int attempt) {
-        VirtualControlLoopEvent onset = params.getContext().getEvent();
         String subRequestId = getSubRequestId();
 
         AppcLcmCommonHeader header = new AppcLcmCommonHeader();
-        header.setOriginatorId(onset.getRequestId().toString());
-        header.setRequestId(onset.getRequestId());
+        header.setOriginatorId(params.getRequestId().toString());
+        header.setRequestId(params.getRequestId());
         header.setSubRequestId(subRequestId);
 
         AppcLcmInput inputRequest = new AppcLcmInput();
@@ -118,7 +117,7 @@ public class AppcLcmOperation extends BidirectionalTopicOperation<AppcLcmDmaapWr
         AppcLcmDmaapWrapper dmaapRequest = new AppcLcmDmaapWrapper();
         dmaapRequest.setBody(body);
         dmaapRequest.setVersion("2.0");
-        dmaapRequest.setCorrelationId(onset.getRequestId() + "-" + subRequestId);
+        dmaapRequest.setCorrelationId(params.getRequestId() + "-" + subRequestId);
         dmaapRequest.setRpcName(recipeFormatter.getUrlRecipe());
         dmaapRequest.setType("request");
 
