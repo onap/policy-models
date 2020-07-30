@@ -1,0 +1,8 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+2: Jim Hahn <jrh3@att.com>
+Code-Review+1: Ram Krishna Verma <ram_krishna.verma@bell.ca>
+Submitted-by: Jim Hahn <jrh3@att.com>
+Submitted-at: Thu, 30 Jul 2020 20:06:57 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/policy/models/+/110757
+Project: policy/models
+Branch: refs/heads/master
