@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * policy-yaml
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018, 2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -136,7 +136,7 @@ public class ControlLoopGuardCompiler {
             }
         }
     }
-    
+
     private static void validateConstraints(List<GuardPolicy> policies, 
                     ControlLoopCompilerCallback callback) throws CompilerException {
         if (policies == null) {
@@ -152,5 +152,5 @@ public class ControlLoopGuardCompiler {
             }
         }
     }
-    
+
 }
