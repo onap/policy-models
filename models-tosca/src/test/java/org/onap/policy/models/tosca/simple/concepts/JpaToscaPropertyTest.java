@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,9 @@ package org.onap.policy.models.tosca.simple.concepts;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
@@ -102,7 +104,7 @@ public class JpaToscaPropertyTest {
         assertEquals(tp, tdtClone0);
         assertEquals(0, tp.compareTo(tdtClone0));
 
-        assertTrue(tdtClone0.getMetadata() != tp.getMetadata());
+        assertNotSame(tdtClone0.getMetadata(), tp.getMetadata());
 
         JpaToscaProperty tdtClone1 = new JpaToscaProperty(tp);
         assertEquals(tp, tdtClone1);
@@ -110,37 +112,37 @@ public class JpaToscaPropertyTest {
 
         assertEquals(-1, tp.compareTo(null));
         assertEquals(0, tp.compareTo(tp));
-        assertFalse(tp.compareTo(tp.getKey()) == 0);
+        assertEquals(0, tp.compareTo(tp.getKey()));
 
         PfReferenceKey otherDtKey = new PfReferenceKey("otherDt", VERSION_001, "OtherProperty");
         JpaToscaProperty otherDt = new JpaToscaProperty(otherDtKey);
 
-        assertFalse(tp.compareTo(otherDt) == 0);
+        assertNotEquals(0, tp.compareTo(otherDt));
         otherDt.setKey(pkey);
-        assertFalse(tp.compareTo(otherDt) == 0);
+        assertNotEquals(0, tp.compareTo(otherDt));
         otherDt.setType(ptypeKey);
-        assertFalse(tp.compareTo(otherDt) == 0);
+        assertNotEquals(0, tp.compareTo(otherDt));
         otherDt.setDescription(A_DESCRIPTION);
-        assertFalse(tp.compareTo(otherDt) == 0);
+        assertNotEquals(0, tp.compareTo(otherDt));
         otherDt.setRequired(false);
-        assertFalse(tp.compareTo(otherDt) == 0);
+        assertNotEquals(0, tp.compareTo(otherDt));
         otherDt.setDefaultValue(DEFAULT_KEY);
-        assertFalse(tp.compareTo(otherDt) == 0);
+        assertNotEquals(0, tp.compareTo(otherDt));
         otherDt.setStatus(ToscaProperty.Status.SUPPORTED);
-        assertFalse(tp.compareTo(otherDt) == 0);
-        assertFalse(tp.compareTo(otherDt) == 0);
+        assertNotEquals(0, tp.compareTo(otherDt));
+        assertNotEquals(0, tp.compareTo(otherDt));
         otherDt.setConstraints(constraints);
-        assertFalse(tp.compareTo(otherDt) == 0);
+        assertNotEquals(0, tp.compareTo(otherDt));
         otherDt.setEntrySchema(tes);
         assertEquals(0, tp.compareTo(otherDt));
 
         otherDt.setRequired(true);
-        assertFalse(tp.compareTo(otherDt) == 0);
+        assertNotEquals(0, tp.compareTo(otherDt));
         otherDt.setRequired(false);
         assertEquals(0, tp.compareTo(otherDt));
 
         otherDt.setStatus(ToscaProperty.Status.UNSUPPORTED);
-        assertFalse(tp.compareTo(otherDt) == 0);
+        assertNotEquals(0, tp.compareTo(otherDt));
         otherDt.setStatus(ToscaProperty.Status.SUPPORTED);
         assertEquals(0, tp.compareTo(otherDt));
 

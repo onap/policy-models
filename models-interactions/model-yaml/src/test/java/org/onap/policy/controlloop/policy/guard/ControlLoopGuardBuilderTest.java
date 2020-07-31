@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * policy-yaml unit test
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,6 +21,7 @@
 
 package org.onap.policy.controlloop.policy.guard;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -149,7 +150,7 @@ public class ControlLoopGuardBuilderTest {
         // Assert there are no Error/Warning message
         //
         results = builder.buildSpecification();
-        assertTrue(results.getMessages().size() == 1);
+        assertEquals(1, results.getMessages().size());
     }
 
     @Test

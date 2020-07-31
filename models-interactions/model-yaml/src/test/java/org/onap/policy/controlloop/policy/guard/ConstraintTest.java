@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
- * Modifications Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2018-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,6 +22,7 @@ package org.onap.policy.controlloop.policy.guard;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -211,49 +212,49 @@ public class ConstraintTest {
 
         Constraint constraint1 = new Constraint();
         Constraint constraint2 = new Constraint();
-        assertTrue(constraint1.equals(constraint2));
+        assertEquals(constraint1, constraint2);
 
         constraint1.setFreq_limit_per_target(freqLimitPerTarget);
-        assertFalse(constraint1.equals(constraint2));
+        assertNotEquals(constraint1, constraint2);
         constraint2.setFreq_limit_per_target(freqLimitPerTarget);
-        assertTrue(constraint1.equals(constraint2));
+        assertEquals(constraint1, constraint2);
         assertEquals(constraint1.hashCode(), constraint2.hashCode());
 
         constraint1.setTime_window(timeWindow);
-        assertFalse(constraint1.equals(constraint2));
+        assertNotEquals(constraint1, constraint2);
         constraint2.setTime_window(timeWindow);
-        assertTrue(constraint1.equals(constraint2));
+        assertEquals(constraint1, constraint2);
         assertEquals(constraint1.hashCode(), constraint2.hashCode());
 
         constraint1.setActive_time_range(activeTimeRange);
-        assertFalse(constraint1.equals(constraint2));
+        assertNotEquals(constraint1, constraint2);
         constraint2.setActive_time_range(activeTimeRange);
-        assertTrue(constraint1.equals(constraint2));
+        assertEquals(constraint1, constraint2);
         assertEquals(constraint1.hashCode(), constraint2.hashCode());
 
         constraint1.setBlacklist(blacklist);
-        assertFalse(constraint1.equals(constraint2));
+        assertNotEquals(constraint1, constraint2);
         constraint2.setBlacklist(blacklist);
-        assertTrue(constraint1.equals(constraint2));
+        assertEquals(constraint1, constraint2);
         assertEquals(constraint1.hashCode(), constraint2.hashCode());
     }
 
     @Test
     public void testEqualsSameObject() {
         Constraint constraint = new Constraint();
-        assertTrue(constraint.equals(constraint));
+        assertEquals(constraint, constraint);
     }
 
     @Test
     public void testEqualsNull() {
         Constraint constraint = new Constraint();
-        assertFalse(constraint.equals(null));
+        assertNotEquals(constraint, null);
     }
 
     @Test
     public void testEqualsInstanceOfDiffClass() {
         Constraint constraint = new Constraint();
-        assertFalse(constraint.equals(""));
+        assertNotEquals(constraint, "");
     }
 
 }
