@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -78,7 +78,7 @@ public class EndToEndTest extends CommonRestServer {
     public static void setUpBeforeClass() throws Exception {
         TopicEndpointManager.getManager().shutdown();
 
-        CommonRestServer.setUpBeforeClass();
+        CommonRestServer.reconfigure(true);
 
         queue = new LinkedBlockingQueue<>();
         queue2 = new LinkedBlockingQueue<>();

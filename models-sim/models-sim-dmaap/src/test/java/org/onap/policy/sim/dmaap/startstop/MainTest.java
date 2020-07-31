@@ -29,7 +29,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
-import org.onap.policy.models.sim.dmaap.DmaapSimException;
+import org.onap.policy.models.sim.dmaap.rest.CommonRestServer;
 import org.onap.policy.models.sim.dmaap.startstop.Main;
 import org.onap.policy.sim.dmaap.parameters.CommonTestData;
 
@@ -38,7 +38,7 @@ import org.onap.policy.sim.dmaap.parameters.CommonTestData;
  *
  * @author Ram Krishna Verma (ram.krishna.verma@est.tech)
  */
-public class MainTest {
+public class MainTest extends CommonRestServer {
     private Main main;
 
     /**
@@ -63,8 +63,9 @@ public class MainTest {
     }
 
     @Test
-    public void testMain() throws DmaapSimException {
-        final String[] NormalParameters = {"-c", "parameters/NormalParameters.json"};
+    public void testMain() throws Exception {
+        CommonRestServer.reconfigure(false);
+        final String[] NormalParameters = {"-c", CONFIG_FILE};
         main = new Main(NormalParameters);
         assertTrue(main.getParameters().isValid());
         assertEquals(CommonTestData.SIM_GROUP_NAME, main.getParameters().getName());
@@ -80,9 +81,11 @@ public class MainTest {
     }
 
     @Test
-    public void testMain_InvalidArguments() {
+    public void testMain_InvalidArguments() throws Exception {
+        CommonRestServer.reconfigure(false);
+
         // note: this is missing the "-c" argument, thus the ARGUMENTS are invalid
-        final String[] NormalParameters = {"parameters/NormalParameters.json"};
+        final String[] NormalParameters = {CONFIG_FILE};
         main = new Main(NormalParameters);
         assertNull(main.getParameters());
     }

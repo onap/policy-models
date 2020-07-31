@@ -1,6 +1,6 @@
 /*
  * ============LICENSE_START=======================================================
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,6 @@ import lombok.Getter;
 import org.glassfish.jersey.client.ClientProperties;
 import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.common.gson.GsonMessageBodyHandler;
 import org.onap.policy.common.utils.network.NetworkUtil;
@@ -56,6 +55,8 @@ public class CommonRestServer {
     public static final String NAME = "DMaaP Simulator";
     public static final String ENDPOINT_PREFIX = "events/";
 
+    protected static final String CONFIG_FILE = "src/test/resources/parameters/TestConfigParams.json";
+
     @Getter
     private static int port;
 
@@ -66,20 +67,24 @@ public class CommonRestServer {
     /**
      * Allocates a port for the server, writes a config file, and then starts Main.
      *
+     * @param shouldStartMain {@code true} if Main should be started, {@code false}
+     *        otherwise
+     *
      * @throws Exception if an error occurs
      */
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
+    public static void reconfigure(boolean shouldStartMain) throws Exception {
         port = NetworkUtil.allocPort();
 
         httpPrefix = "http://localhost:" + port + "/";
 
         String json = new CommonTestData().getParameterGroupAsString(port);
-        makeConfigFile("src/test/resources/parameters/TestConfigParams.json", json);
+        makeConfigFile(CONFIG_FILE, json);
 
         HttpServletServerFactoryInstance.getServerFactory().destroy();
 
-        startMain();
+        if (shouldStartMain) {
+            startMain();
+        }
     }
 
     /**
