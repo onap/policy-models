@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -129,7 +129,7 @@ public class AuthorativeToscaProviderPolicyTest {
         ToscaPolicy createdPolicy =
                 createdServiceTemplate.getToscaTopologyTemplate().getPolicies().get(0).get(policyKey.getName());
         assertEquals(0, beforePolicy.compareNameVersion(beforePolicy, createdPolicy));
-        assertTrue(beforePolicy.getType().equals(createdPolicy.getType()));
+        assertEquals(beforePolicy.getType(), createdPolicy.getType());
 
         ToscaServiceTemplate gotServiceTemplate =
                 new AuthorativeToscaProvider().getPolicies(pfDao, policyKey.getName(), policyKey.getVersion());
@@ -137,7 +137,7 @@ public class AuthorativeToscaProviderPolicyTest {
         ToscaPolicy gotPolicy =
                 gotServiceTemplate.getToscaTopologyTemplate().getPolicies().get(0).get(policyKey.getName());
         assertEquals(0, beforePolicy.compareNameVersion(beforePolicy, gotPolicy));
-        assertTrue(beforePolicy.getType().equals(gotPolicy.getType()));
+        assertEquals(beforePolicy.getType(), gotPolicy.getType());
 
         List<ToscaPolicy> gotPolicyList = new AuthorativeToscaProvider().getPolicyList(pfDao, POLICY1, VERSION_100);
         assertEquals(1, gotPolicyList.size());
@@ -200,7 +200,7 @@ public class AuthorativeToscaProviderPolicyTest {
         ToscaPolicy createdPolicy =
                 createdServiceTemplate.getToscaTopologyTemplate().getPolicies().get(0).get(policyKey.getName());
         assertEquals(0, beforePolicy.compareNameVersion(beforePolicy, createdPolicy));
-        assertTrue(beforePolicy.getType().equals(createdPolicy.getType()));
+        assertEquals(beforePolicy.getType(), createdPolicy.getType());
 
         ToscaServiceTemplate gotServiceTemplate =
                 new AuthorativeToscaProvider().getFilteredPolicies(pfDao, ToscaPolicyFilter.builder().build());
@@ -208,21 +208,21 @@ public class AuthorativeToscaProviderPolicyTest {
         ToscaPolicy gotPolicy =
                 gotServiceTemplate.getToscaTopologyTemplate().getPolicies().get(0).get(policyKey.getName());
         assertEquals(0, beforePolicy.compareNameVersion(beforePolicy, gotPolicy));
-        assertTrue(beforePolicy.getType().equals(gotPolicy.getType()));
+        assertEquals(beforePolicy.getType(), gotPolicy.getType());
 
         gotServiceTemplate = new AuthorativeToscaProvider().getFilteredPolicies(pfDao,
                 ToscaPolicyFilter.builder().name(policyKey.getName()).build());
 
         gotPolicy = gotServiceTemplate.getToscaTopologyTemplate().getPolicies().get(0).get(policyKey.getName());
         assertEquals(0, beforePolicy.compareNameVersion(beforePolicy, gotPolicy));
-        assertTrue(beforePolicy.getType().equals(gotPolicy.getType()));
+        assertEquals(beforePolicy.getType(), gotPolicy.getType());
 
         gotServiceTemplate = new AuthorativeToscaProvider().getFilteredPolicies(pfDao,
                 ToscaPolicyFilter.builder().name(policyKey.getName()).version(VERSION_100).build());
 
         gotPolicy = gotServiceTemplate.getToscaTopologyTemplate().getPolicies().get(0).get(policyKey.getName());
         assertEquals(0, beforePolicy.compareNameVersion(beforePolicy, gotPolicy));
-        assertTrue(beforePolicy.getType().equals(gotPolicy.getType()));
+        assertEquals(beforePolicy.getType(), gotPolicy.getType());
 
         List<ToscaPolicy> gotPolicyList = new AuthorativeToscaProvider().getPolicyList(pfDao, POLICY1, VERSION_100);
         assertEquals(1, gotPolicyList.size());
@@ -274,7 +274,7 @@ public class AuthorativeToscaProviderPolicyTest {
         ToscaPolicy createdPolicy =
                 createdServiceTemplate.getToscaTopologyTemplate().getPolicies().get(0).get(policyKey.getName());
         assertEquals(0, beforePolicy.compareNameVersion(beforePolicy, createdPolicy));
-        assertTrue(beforePolicy.getType().equals(createdPolicy.getType()));
+        assertEquals(beforePolicy.getType(), createdPolicy.getType());
     }
 
     @Test
@@ -311,7 +311,7 @@ public class AuthorativeToscaProviderPolicyTest {
         ToscaPolicy createdPolicy =
                 createdServiceTemplate.getToscaTopologyTemplate().getPolicies().get(0).get(policyKey.getName());
         assertEquals(0, beforePolicy.compareNameVersion(beforePolicy, createdPolicy));
-        assertTrue(beforePolicy.getType().equals(createdPolicy.getType()));
+        assertEquals(beforePolicy.getType(), createdPolicy.getType());
 
         ToscaServiceTemplate updatedServiceTemplate =
                 new AuthorativeToscaProvider().updatePolicies(pfDao, toscaServiceTemplate);
@@ -319,7 +319,7 @@ public class AuthorativeToscaProviderPolicyTest {
         ToscaPolicy updatedPolicy =
                 updatedServiceTemplate.getToscaTopologyTemplate().getPolicies().get(0).get(policyKey.getName());
         assertEquals(0, beforePolicy.compareNameVersion(beforePolicy, updatedPolicy));
-        assertTrue(beforePolicy.getType().equals(updatedPolicy.getType()));
+        assertEquals(beforePolicy.getType(), updatedPolicy.getType());
     }
 
     @Test
@@ -368,7 +368,7 @@ public class AuthorativeToscaProviderPolicyTest {
         ToscaPolicy createdPolicy =
                 createdServiceTemplate.getToscaTopologyTemplate().getPolicies().get(0).get(policyKey.getName());
         assertEquals(0, beforePolicy.compareNameVersion(beforePolicy, createdPolicy));
-        assertTrue(beforePolicy.getType().equals(createdPolicy.getType()));
+        assertEquals(beforePolicy.getType(), createdPolicy.getType());
 
         ToscaServiceTemplate deletedServiceTemplate =
                 new AuthorativeToscaProvider().deletePolicy(pfDao, policyKey.getName(), policyKey.getVersion());
@@ -376,7 +376,7 @@ public class AuthorativeToscaProviderPolicyTest {
         ToscaPolicy deletedPolicy =
                 deletedServiceTemplate.getToscaTopologyTemplate().getPolicies().get(0).get(policyKey.getName());
         assertEquals(0, beforePolicy.compareNameVersion(beforePolicy, createdPolicy));
-        assertTrue(beforePolicy.getType().equals(deletedPolicy.getType()));
+        assertEquals(beforePolicy.getType(), deletedPolicy.getType());
 
         // @formatter:off
         assertThatThrownBy(
@@ -438,7 +438,7 @@ public class AuthorativeToscaProviderPolicyTest {
         ToscaPolicy createdPolicy =
                 createdServiceTemplate.getToscaTopologyTemplate().getPolicies().get(0).get(policyKey.getName());
         assertEquals(0, beforePolicy.compareNameVersion(beforePolicy, createdPolicy));
-        assertTrue(beforePolicy.getType().equals(createdPolicy.getType()));
+        assertEquals(beforePolicy.getType(), createdPolicy.getType());
 
         assertEquals(1, toscaServiceTemplate.getToscaTopologyTemplate().getPoliciesAsMap().size());
         assertEquals(1, createdServiceTemplate.getToscaTopologyTemplate().getPoliciesAsMap().size());

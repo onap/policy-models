@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * policy-yaml unit test
  * ================================================================================
- * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2018, 2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,6 +23,7 @@ package org.onap.policy.controlloop.policy;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -43,13 +44,13 @@ public class PolicyTest {
 
     @Test
     public void testHashCode() {
-        assertTrue(policy.hashCode() != 0);
+        assertNotEquals(policy.hashCode(), 0);
 
         policy.setActor("a");
         int hc1 = policy.hashCode();
 
         policy.setActor("b");
-        assertTrue(hc1 != policy.hashCode());
+        assertNotEquals(hc1, policy.hashCode());
     }
 
     @Test
@@ -66,10 +67,10 @@ public class PolicyTest {
         policy.setActor("act");
         policy.setDescription("desc");
         policy.setFailure("fail");
-        policy.setFailure_exception("failex");
-        policy.setFailure_guard("failguard");
-        policy.setFailure_retries("failretry");
-        policy.setFailure_timeout("failtimeout");
+        policy.setFailureException("failex");
+        policy.setFailureGuard("failguard");
+        policy.setFailureRetries("failretry");
+        policy.setFailureTimeout("failtimeout");
         policy.setId("myid");
         policy.setName("myname");
         policy.setOperationsAccumulateParams(operationsAccumulateParams);
@@ -83,10 +84,10 @@ public class PolicyTest {
         assertEquals("act", policy.getActor());
         assertEquals("desc", policy.getDescription());
         assertEquals("fail", policy.getFailure());
-        assertEquals("failex", policy.getFailure_exception());
-        assertEquals("failguard", policy.getFailure_guard());
-        assertEquals("failretry", policy.getFailure_retries());
-        assertEquals("failtimeout", policy.getFailure_timeout());
+        assertEquals("failex", policy.getFailureException());
+        assertEquals("failguard", policy.getFailureGuard());
+        assertEquals("failretry", policy.getFailureRetries());
+        assertEquals("failtimeout", policy.getFailureTimeout());
         assertEquals("myid", policy.getId());
         assertEquals("myname", policy.getName());
         assertEquals(operationsAccumulateParams, policy.getOperationsAccumulateParams());
@@ -97,16 +98,16 @@ public class PolicyTest {
         assertEquals(target, policy.getTarget());
         assertEquals(30, policy.getTimeout().intValue());
 
-        assertTrue(policy.equals(policy));
-        assertTrue(policy.hashCode() != new Policy().hashCode());
-        assertFalse(policy.equals(new Policy()));
+        assertEquals(policy, policy);
+        assertNotEquals(policy.hashCode(), new Policy().hashCode());
+        assertNotEquals(policy, new Policy());
 
         Policy policy2 = Serializer.roundTrip(policy);
-        assertTrue(policy.equals(policy2));
+        assertEquals(policy, policy2);
         assertEquals(policy.hashCode(), policy2.hashCode());
 
         policy2 = new Policy(policy);
-        assertTrue(policy.equals(policy2));
+        assertEquals(policy, policy2);
         assertEquals(policy.hashCode(), policy2.hashCode());
     }
 
@@ -131,7 +132,7 @@ public class PolicyTest {
         assertEquals(payload, policy.getPayload());
         assertEquals(target, policy.getTarget());
 
-        assertTrue(policy.hashCode() != new Policy().hashCode());
+        assertNotEquals(policy.hashCode(), new Policy().hashCode());
     }
 
     @Test
@@ -151,7 +152,7 @@ public class PolicyTest {
         assertEquals(201, policy.getRetry().intValue());
         assertEquals(202, policy.getTimeout().intValue());
 
-        assertTrue(policy.hashCode() != new Policy().hashCode());
+        assertNotEquals(policy.hashCode(), new Policy().hashCode());
     }
 
     @Test
@@ -183,7 +184,7 @@ public class PolicyTest {
         assertEquals(301, policy.getRetry().intValue());
         assertEquals(302, policy.getTimeout().intValue());
 
-        assertTrue(policy.hashCode() != new Policy().hashCode());
+        assertNotEquals(policy.hashCode(), new Policy().hashCode());
     }
 
     @Test
@@ -205,17 +206,17 @@ public class PolicyTest {
 
     @Test
     public void testEqualsObject() {
-        assertTrue(policy.equals(policy));
+    	assertEquals(policy, policy);
 
         policy.setId("idE");
-        assertFalse(policy.equals(new Policy()));
+        assertNotEquals(policy, new Policy());
 
         Policy policy2 = new Policy();
         policy2.setId(policy.getId());
-        assertTrue(policy.equals(policy2));
+        assertEquals(policy, policy2);
 
         policy2.setId("idX");
-        assertFalse(policy.equals(policy2));
+        assertNotEquals(policy, policy2);
     }
 
 }

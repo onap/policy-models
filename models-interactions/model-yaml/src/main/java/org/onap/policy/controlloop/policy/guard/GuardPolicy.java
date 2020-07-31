@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * policy-yaml
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019, 2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -120,19 +120,19 @@ public class GuardPolicy {
         this.description = description;
     }
 
-    public MatchParameters getMatch_parameters() {
+    public MatchParameters getMatchParameters() {
         return matchParameters;
     }
 
-    public void setMatch_parameters(MatchParameters matchParameters) {
+    public void setMatchParameters(MatchParameters matchParameters) {
         this.matchParameters = matchParameters;
     }
 
-    public List<Constraint> getLimit_constraints() {
+    public List<Constraint> getLimitConstraints() {
         return  limitConstraints;
     }
 
-    public void setLimit_constraints(List<Constraint> limitConstraints) {
+    public void setLimitConstraints(List<Constraint> limitConstraints) {
         this.limitConstraints = limitConstraints;
     }
 

@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * policy-yaml unit test
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,6 +23,7 @@ package org.onap.policy.controlloop.policy.guard;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -82,38 +83,38 @@ public class ControlLoopGuardTest {
         ControlLoopGuard controlLoopGuard1 = new ControlLoopGuard();
         ControlLoopGuard controlLoopGuard2 = new ControlLoopGuard();
 
-        assertTrue(controlLoopGuard1.equals(controlLoopGuard2));
+        assertEquals(controlLoopGuard1, controlLoopGuard2);
         assertEquals(controlLoopGuard1.hashCode(), controlLoopGuard2.hashCode());
 
         controlLoopGuard1.setGuard(guard1);
-        assertFalse(controlLoopGuard1.equals(controlLoopGuard2));
+        assertNotEquals(controlLoopGuard1, controlLoopGuard2);
         controlLoopGuard2.setGuard(guard1);
-        assertTrue(controlLoopGuard1.equals(controlLoopGuard2));
+        assertEquals(controlLoopGuard1, controlLoopGuard2);
         assertEquals(controlLoopGuard1.hashCode(), controlLoopGuard2.hashCode());
 
         controlLoopGuard1.setGuards(guardPolicies);
-        assertFalse(controlLoopGuard1.equals(controlLoopGuard2));
+        assertNotEquals(controlLoopGuard1, controlLoopGuard2);
         controlLoopGuard2.setGuards(guardPolicies);
-        assertTrue(controlLoopGuard1.equals(controlLoopGuard2));
+        assertEquals(controlLoopGuard1, controlLoopGuard2);
         assertEquals(controlLoopGuard1.hashCode(), controlLoopGuard2.hashCode());
     }
 
     @Test
     public void testEqualsSameObject() {
         ControlLoopGuard controlLoopGuard = new ControlLoopGuard();
-        assertTrue(controlLoopGuard.equals(controlLoopGuard));
+        assertEquals(controlLoopGuard, controlLoopGuard);
     }
 
     @Test
     public void testEqualsNull() {
         ControlLoopGuard controlLoopGuard = new ControlLoopGuard();
-        assertFalse(controlLoopGuard.equals(null));
+        assertNotEquals(controlLoopGuard, null);
     }
 
     @Test
     public void testEqualsInstanceOfDiffClass() {
         ControlLoopGuard controlLoopGuard = new ControlLoopGuard();
-        assertFalse(controlLoopGuard.equals(""));
+        assertNotEquals(controlLoopGuard, "");
     }
 
     /**

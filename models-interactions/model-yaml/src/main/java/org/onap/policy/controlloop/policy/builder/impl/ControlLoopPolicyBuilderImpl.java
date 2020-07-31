@@ -198,7 +198,7 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
 
         Policy trigger = new Policy(policyParam);
 
-        controlLoopPolicy.getControlLoop().setTrigger_policy(trigger.getId());
+        controlLoopPolicy.getControlLoop().setTriggerPolicy(trigger.getId());
 
         this.addNewPolicy(trigger);
         //
@@ -216,7 +216,7 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
         if (trigger == null) {
             throw new BuilderException(UNKNOWN_POLICY + id);
         } else {
-            this.controlLoopPolicy.getControlLoop().setTrigger_policy(id);
+            this.controlLoopPolicy.getControlLoop().setTriggerPolicy(id);
         }
         return new ControlLoop(this.controlLoopPolicy.getControlLoop());
     }
@@ -255,16 +255,16 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
                     existingPolicy.setFailure(newPolicy.getId());
                     break;
                 case FAILURE_EXCEPTION:
-                    existingPolicy.setFailure_exception(newPolicy.getId());
+                    existingPolicy.setFailureException(newPolicy.getId());
                     break;
                 case FAILURE_RETRIES:
-                    existingPolicy.setFailure_retries(newPolicy.getId());
+                    existingPolicy.setFailureRetries(newPolicy.getId());
                     break;
                 case FAILURE_TIMEOUT:
-                    existingPolicy.setFailure_timeout(newPolicy.getId());
+                    existingPolicy.setFailureTimeout(newPolicy.getId());
                     break;
                 case FAILURE_GUARD:
-                    existingPolicy.setFailure_guard(newPolicy.getId());
+                    existingPolicy.setFailureGuard(newPolicy.getId());
                     break;
                 case SUCCESS:
                     existingPolicy.setSuccess(newPolicy.getId());
@@ -305,16 +305,16 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
                     existingPolicy.setFailure(policyResultId);
                     break;
                 case FAILURE_EXCEPTION:
-                    existingPolicy.setFailure_exception(policyResultId);
+                    existingPolicy.setFailureException(policyResultId);
                     break;
                 case FAILURE_RETRIES:
-                    existingPolicy.setFailure_retries(policyResultId);
+                    existingPolicy.setFailureRetries(policyResultId);
                     break;
                 case FAILURE_TIMEOUT:
-                    existingPolicy.setFailure_timeout(policyResultId);
+                    existingPolicy.setFailureTimeout(policyResultId);
                     break;
                 case FAILURE_GUARD:
-                    existingPolicy.setFailure_guard(policyResultId);
+                    existingPolicy.setFailureGuard(policyResultId);
                     break;
                 case SUCCESS:
                     existingPolicy.setSuccess(policyResultId);
@@ -427,16 +427,16 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
 
     @Override
     public boolean isOpenLoop() {
-        return this.controlLoopPolicy.getControlLoop().getTrigger_policy()
+        return this.controlLoopPolicy.getControlLoop().getTriggerPolicy()
             .equals(FinalResult.FINAL_OPENLOOP.toString());
     }
 
     @Override
     public Policy getTriggerPolicy() throws BuilderException {
-        if (this.controlLoopPolicy.getControlLoop().getTrigger_policy().equals(FinalResult.FINAL_OPENLOOP.toString())) {
+        if (this.controlLoopPolicy.getControlLoop().getTriggerPolicy().equals(FinalResult.FINAL_OPENLOOP.toString())) {
             return null;
         } else {
-            return new Policy(this.findPolicy(this.controlLoopPolicy.getControlLoop().getTrigger_policy()));
+            return new Policy(this.findPolicy(this.controlLoopPolicy.getControlLoop().getTriggerPolicy()));
         }
     }
 
@@ -454,8 +454,8 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
         //
         // Check if the policy to remove is trigger_policy
         //
-        if (this.controlLoopPolicy.getControlLoop().getTrigger_policy().equals(policyId)) {
-            this.controlLoopPolicy.getControlLoop().setTrigger_policy(FinalResult.FINAL_OPENLOOP.toString());
+        if (this.controlLoopPolicy.getControlLoop().getTriggerPolicy().equals(policyId)) {
+            this.controlLoopPolicy.getControlLoop().setTriggerPolicy(FinalResult.FINAL_OPENLOOP.toString());
         } else {
             updateChainedPoliciesForPolicyRemoval(policyId);
         }
@@ -474,17 +474,17 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
             if (policy.getFailure().equals(idOfPolicyBeingRemoved)) {
                 policy.setFailure(FinalResult.FINAL_FAILURE.toString());
             }
-            if (policy.getFailure_retries().equals(idOfPolicyBeingRemoved)) {
-                policy.setFailure_retries(FinalResult.FINAL_FAILURE_RETRIES.toString());
+            if (policy.getFailureRetries().equals(idOfPolicyBeingRemoved)) {
+                policy.setFailureRetries(FinalResult.FINAL_FAILURE_RETRIES.toString());
             }
-            if (policy.getFailure_timeout().equals(idOfPolicyBeingRemoved)) {
-                policy.setFailure_timeout(FinalResult.FINAL_FAILURE_TIMEOUT.toString());
+            if (policy.getFailureTimeout().equals(idOfPolicyBeingRemoved)) {
+                policy.setFailureTimeout(FinalResult.FINAL_FAILURE_TIMEOUT.toString());
             }
-            if (policy.getFailure_exception().equals(idOfPolicyBeingRemoved)) {
-                policy.setFailure_exception(FinalResult.FINAL_FAILURE_EXCEPTION.toString());
+            if (policy.getFailureException().equals(idOfPolicyBeingRemoved)) {
+                policy.setFailureException(FinalResult.FINAL_FAILURE_EXCEPTION.toString());
             }
-            if (policy.getFailure_guard().equals(idOfPolicyBeingRemoved)) {
-                policy.setFailure_guard(FinalResult.FINAL_FAILURE_GUARD.toString());
+            if (policy.getFailureGuard().equals(idOfPolicyBeingRemoved)) {
+                policy.setFailureGuard(FinalResult.FINAL_FAILURE_GUARD.toString());
             }
             this.controlLoopPolicy.getPolicies().set(index, policy);
         }
@@ -501,10 +501,10 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
         //
         existingPolicy.setSuccess(FinalResult.FINAL_SUCCESS.toString());
         existingPolicy.setFailure(FinalResult.FINAL_FAILURE.toString());
-        existingPolicy.setFailure_retries(FinalResult.FINAL_FAILURE_RETRIES.toString());
-        existingPolicy.setFailure_timeout(FinalResult.FINAL_FAILURE_TIMEOUT.toString());
-        existingPolicy.setFailure_exception(FinalResult.FINAL_FAILURE_EXCEPTION.toString());
-        existingPolicy.setFailure_guard(FinalResult.FINAL_FAILURE_GUARD.toString());
+        existingPolicy.setFailureRetries(FinalResult.FINAL_FAILURE_RETRIES.toString());
+        existingPolicy.setFailureTimeout(FinalResult.FINAL_FAILURE_TIMEOUT.toString());
+        existingPolicy.setFailureException(FinalResult.FINAL_FAILURE_EXCEPTION.toString());
+        existingPolicy.setFailureGuard(FinalResult.FINAL_FAILURE_GUARD.toString());
         return new Policy(existingPolicy);
     }
 
@@ -517,7 +517,7 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
         //
         // Revert controlLoop back to an open loop
         //
-        this.controlLoopPolicy.getControlLoop().setTrigger_policy(FinalResult.FINAL_OPENLOOP.toString());
+        this.controlLoopPolicy.getControlLoop().setTriggerPolicy(FinalResult.FINAL_OPENLOOP.toString());
         return this;
     }
 
