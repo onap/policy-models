@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * policy-yaml
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018, 2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -133,12 +133,12 @@ public class Constraint {
         this.blacklist = new LinkedList<>(constraint.blacklist);
     }
 
-    public Integer getFreq_limit_per_target() {
+    public Integer getFreqLimitPerTarget() {
         return freqLimitPerTarget;
     }
 
 
-    public void setFreq_limit_per_target(Integer freqLimitPerTarget) {
+    public void setFreqLimitPerTarget(Integer freqLimitPerTarget) {
         this.freqLimitPerTarget = freqLimitPerTarget;
     }
 
@@ -148,7 +148,7 @@ public class Constraint {
     }
 
 
-    public void setTime_window(Map<String, String> timeWindow) {
+    public void setTimeWindow(Map<String, String> timeWindow) {
         this.timeWindow = timeWindow;
     }
 
@@ -158,7 +158,7 @@ public class Constraint {
     }
 
 
-    public void setActive_time_range(Map<String, String> activeTimeRange) {
+    public void setActiveTimeRange(Map<String, String> activeTimeRange) {
         this.activeTimeRange = activeTimeRange;
     }
 

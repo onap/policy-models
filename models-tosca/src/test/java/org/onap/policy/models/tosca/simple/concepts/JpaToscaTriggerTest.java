@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ package org.onap.policy.models.tosca.simple.concepts;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -113,35 +114,35 @@ public class JpaToscaTriggerTest {
 
         assertEquals(-1, tdt.compareTo(null));
         assertEquals(0, tdt.compareTo(tdt));
-        assertFalse(tdt.compareTo(tdt.getKey()) == 0);
+        assertNotEquals(tdt.compareTo(tdt.getKey()), 0);
 
         PfReferenceKey otherDtKey = new PfReferenceKey("otherDt", VERSION_001, "OtherTrigger");
         JpaToscaTrigger otherDt = new JpaToscaTrigger(otherDtKey);
 
-        assertFalse(tdt.compareTo(otherDt) == 0);
+        assertNotEquals(tdt.compareTo(otherDt), 0);
         otherDt.setKey(tkey);
-        assertFalse(tdt.compareTo(otherDt) == 0);
+        assertNotEquals(tdt.compareTo(otherDt), 0);
         otherDt.setDescription(A_DESCRIPTION);
-        assertFalse(tdt.compareTo(otherDt) == 0);
+        assertNotEquals(tdt.compareTo(otherDt), 0);
         otherDt.setEventType(EVENT_TYPE);
-        assertFalse(tdt.compareTo(otherDt) == 0);
+        assertNotEquals(tdt.compareTo(otherDt), 0);
         otherDt.setSchedule(schedule);
-        assertFalse(tdt.compareTo(otherDt) == 0);
+        assertNotEquals(tdt.compareTo(otherDt), 0);
         otherDt.setTargetFilter(targetFilter);
-        assertFalse(tdt.compareTo(otherDt) == 0);
+        assertNotEquals(tdt.compareTo(otherDt), 0);
         otherDt.setCondition(lsc);
-        assertFalse(tdt.compareTo(otherDt) == 0);
+        assertNotEquals(tdt.compareTo(otherDt), 0);
         otherDt.setConstraint(lsc);
-        assertFalse(tdt.compareTo(otherDt) == 0);
+        assertNotEquals(tdt.compareTo(otherDt), 0);
         otherDt.setPeriod(Duration.ZERO);
-        assertFalse(tdt.compareTo(otherDt) == 0);
+        assertNotEquals(tdt.compareTo(otherDt), 0);
         otherDt.setMethod(A_METHOD);
-        assertFalse(tdt.compareTo(otherDt) == 0);
+        assertNotEquals(tdt.compareTo(otherDt), 0);
         otherDt.setAction(ACTION);
         assertEquals(0, tdt.compareTo(otherDt));
 
         otherDt.setEvaluations(100);
-        assertFalse(tdt.compareTo(otherDt) == 0);
+        assertNotEquals(tdt.compareTo(otherDt), 0);
         otherDt.setEvaluations(0);
         assertEquals(0, tdt.compareTo(otherDt));
 

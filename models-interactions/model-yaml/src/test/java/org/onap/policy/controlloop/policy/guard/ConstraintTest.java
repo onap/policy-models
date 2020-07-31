@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
- * Modifications Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2018-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,6 +22,7 @@ package org.onap.policy.controlloop.policy.guard;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -41,7 +42,7 @@ public class ConstraintTest {
     public void testConstraint() {
         Constraint constraint = new Constraint();
 
-        assertNull(constraint.getFreq_limit_per_target());
+        assertNull(constraint.getFreqLimitPerTarget());
         assertNull(constraint.getTime_window());
         assertNull(constraint.getActive_time_range());
         assertNull(constraint.getBlacklist());
@@ -51,8 +52,8 @@ public class ConstraintTest {
     public void testGetAndSetFreq_limit_per_target() {
         Integer freqLimitPerTarget = 10;
         Constraint constraint = new Constraint();
-        constraint.setFreq_limit_per_target(freqLimitPerTarget);
-        assertEquals(freqLimitPerTarget, constraint.getFreq_limit_per_target());
+        constraint.setFreqLimitPerTarget(freqLimitPerTarget);
+        assertEquals(freqLimitPerTarget, constraint.getFreqLimitPerTarget());
     }
 
     @Test
@@ -60,7 +61,7 @@ public class ConstraintTest {
         Map<String, String> timeWindow = new HashMap<>();
         timeWindow.put(TIME_WINDOW_KEY, TIME_WINDOW_VALUE);
         Constraint constraint = new Constraint();
-        constraint.setTime_window(timeWindow);
+        constraint.setTimeWindow(timeWindow);
         assertEquals(timeWindow, constraint.getTime_window());
     }
 
@@ -69,7 +70,7 @@ public class ConstraintTest {
         Map<String, String> activeTimeRange = new HashMap<>();
         activeTimeRange.put(TIME_WINDOW_KEY, TIME_WINDOW_VALUE);
         Constraint constraint = new Constraint();
-        constraint.setActive_time_range(activeTimeRange);;
+        constraint.setActiveTimeRange(activeTimeRange);;
         assertEquals(activeTimeRange, constraint.getActive_time_range());
     }
 
@@ -89,7 +90,7 @@ public class ConstraintTest {
 
         Constraint constraint = new Constraint(freqLimitPerTarget, timeWindow);
 
-        assertEquals(freqLimitPerTarget, constraint.getFreq_limit_per_target());
+        assertEquals(freqLimitPerTarget, constraint.getFreqLimitPerTarget());
         assertEquals(timeWindow, constraint.getTime_window());
         assertNull(constraint.getActive_time_range());
         assertNull(constraint.getBlacklist());
@@ -101,7 +102,7 @@ public class ConstraintTest {
         blacklist.add(BLACKLIST_ITEM);
         Constraint constraint = new Constraint(blacklist);
 
-        assertNull(constraint.getFreq_limit_per_target());
+        assertNull(constraint.getFreqLimitPerTarget());
         assertNull(constraint.getTime_window());
         assertNull(constraint.getActive_time_range());
         assertEquals(blacklist, constraint.getBlacklist());
@@ -115,7 +116,7 @@ public class ConstraintTest {
         blacklist.add(BLACKLIST_ITEM);
         Constraint constraint = new Constraint(freqLimitPerTarget, timeWindow, blacklist);
 
-        assertEquals(freqLimitPerTarget, constraint.getFreq_limit_per_target());
+        assertEquals(freqLimitPerTarget, constraint.getFreqLimitPerTarget());
         assertEquals(timeWindow, constraint.getTime_window());
         assertNull(constraint.getActive_time_range());
         assertEquals(blacklist, constraint.getBlacklist());
@@ -129,7 +130,7 @@ public class ConstraintTest {
         activeTimeRange.put(TIME_WINDOW_KEY, TIME_WINDOW_VALUE);
         Constraint constraint = new Constraint(freqLimitPerTarget, timeWindow, activeTimeRange);
 
-        assertEquals(freqLimitPerTarget, constraint.getFreq_limit_per_target());
+        assertEquals(freqLimitPerTarget, constraint.getFreqLimitPerTarget());
         assertEquals(timeWindow, constraint.getTime_window());
         assertEquals(activeTimeRange, constraint.getActive_time_range());
         assertNull(constraint.getBlacklist());
@@ -146,7 +147,7 @@ public class ConstraintTest {
         blacklist.add(BLACKLIST_ITEM);
         Constraint constraint = new Constraint(freqLimitPerTarget, timeWindow, activeTimeRange, blacklist);
 
-        assertEquals(freqLimitPerTarget, constraint.getFreq_limit_per_target());
+        assertEquals(freqLimitPerTarget, constraint.getFreqLimitPerTarget());
         assertEquals(timeWindow, constraint.getTime_window());
         assertEquals(activeTimeRange, constraint.getActive_time_range());
         assertEquals(blacklist, constraint.getBlacklist());
@@ -163,7 +164,7 @@ public class ConstraintTest {
         Constraint constraint1 = new Constraint(freqLimitPerTarget, timeWindow, activeTimeRange, blacklist);
         Constraint constraint2 = new Constraint(constraint1);
 
-        assertEquals(freqLimitPerTarget, constraint2.getFreq_limit_per_target());
+        assertEquals(freqLimitPerTarget, constraint2.getFreqLimitPerTarget());
         assertEquals(timeWindow, constraint2.getTime_window());
         assertEquals(activeTimeRange, constraint2.getActive_time_range());
         assertEquals(blacklist, constraint2.getBlacklist());
@@ -177,13 +178,13 @@ public class ConstraintTest {
         Constraint constraint = new Constraint();
         assertTrue(constraint.isValid());
 
-        constraint.setFreq_limit_per_target(freqLimitPerTarget);
+        constraint.setFreqLimitPerTarget(freqLimitPerTarget);
         assertFalse(constraint.isValid());
 
-        constraint.setTime_window(timeWindow);
+        constraint.setTimeWindow(timeWindow);
         assertTrue(constraint.isValid());
 
-        constraint.setFreq_limit_per_target(null);
+        constraint.setFreqLimitPerTarget(null);
         assertFalse(constraint.isValid());
     }
 
@@ -211,49 +212,49 @@ public class ConstraintTest {
 
         Constraint constraint1 = new Constraint();
         Constraint constraint2 = new Constraint();
-        assertTrue(constraint1.equals(constraint2));
+        assertEquals(constraint1, constraint2);
 
-        constraint1.setFreq_limit_per_target(freqLimitPerTarget);
-        assertFalse(constraint1.equals(constraint2));
-        constraint2.setFreq_limit_per_target(freqLimitPerTarget);
-        assertTrue(constraint1.equals(constraint2));
+        constraint1.setFreqLimitPerTarget(freqLimitPerTarget);
+        assertNotEquals(constraint1, constraint2);
+        constraint2.setFreqLimitPerTarget(freqLimitPerTarget);
+        assertEquals(constraint1, constraint2);
         assertEquals(constraint1.hashCode(), constraint2.hashCode());
 
-        constraint1.setTime_window(timeWindow);
-        assertFalse(constraint1.equals(constraint2));
-        constraint2.setTime_window(timeWindow);
-        assertTrue(constraint1.equals(constraint2));
+        constraint1.setTimeWindow(timeWindow);
+        assertNotEquals(constraint1, constraint2);
+        constraint2.setTimeWindow(timeWindow);
+        assertEquals(constraint1, constraint2);
         assertEquals(constraint1.hashCode(), constraint2.hashCode());
 
-        constraint1.setActive_time_range(activeTimeRange);
-        assertFalse(constraint1.equals(constraint2));
-        constraint2.setActive_time_range(activeTimeRange);
-        assertTrue(constraint1.equals(constraint2));
+        constraint1.setActiveTimeRange(activeTimeRange);
+        assertNotEquals(constraint1, constraint2);
+        constraint2.setActiveTimeRange(activeTimeRange);
+        assertEquals(constraint1, constraint2);
         assertEquals(constraint1.hashCode(), constraint2.hashCode());
 
         constraint1.setBlacklist(blacklist);
-        assertFalse(constraint1.equals(constraint2));
+        assertNotEquals(constraint1, constraint2);
         constraint2.setBlacklist(blacklist);
-        assertTrue(constraint1.equals(constraint2));
+        assertEquals(constraint1, constraint2);
         assertEquals(constraint1.hashCode(), constraint2.hashCode());
     }
 
     @Test
     public void testEqualsSameObject() {
         Constraint constraint = new Constraint();
-        assertTrue(constraint.equals(constraint));
+        assertEquals(constraint, constraint);
     }
 
     @Test
     public void testEqualsNull() {
         Constraint constraint = new Constraint();
-        assertFalse(constraint.equals(null));
+        assertNotEquals(constraint, null);
     }
 
     @Test
     public void testEqualsInstanceOfDiffClass() {
         Constraint constraint = new Constraint();
-        assertFalse(constraint.equals(""));
+        assertNotEquals(constraint, "");
     }
 
 }
