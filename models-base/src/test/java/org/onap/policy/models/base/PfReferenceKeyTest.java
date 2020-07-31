@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -103,16 +103,16 @@ public class PfReferenceKeyTest {
         assertEquals("PfReferenceKey(parentKeyName=NPKN, parentKeyVersion=0.0.1, parentLocalName=NPKLN, localName=NLN)",
             clonedReferenceKey.toString());
 
-        assertFalse(testReferenceKey.hashCode() == 0);
+        assertNotEquals(0, testReferenceKey.hashCode());
 
-        assertTrue(testReferenceKey.equals(testReferenceKey));
-        assertTrue(testReferenceKey.equals(clonedReferenceKey));
-        assertFalse(testReferenceKey.equals("Hello"));
-        assertFalse(testReferenceKey.equals(new PfReferenceKey("PKN", VERSION002, "PLN", "LN")));
-        assertFalse(testReferenceKey.equals(new PfReferenceKey("NPKN", VERSION002, "PLN", "LN")));
-        assertFalse(testReferenceKey.equals(new PfReferenceKey("NPKN", VERSION001, "PLN", "LN")));
-        assertFalse(testReferenceKey.equals(new PfReferenceKey("NPKN", VERSION001, "NPLN", "LN")));
-        assertTrue(testReferenceKey.equals(new PfReferenceKey("NPKN", VERSION001, NPKLN, "NLN")));
+        assertEquals(testReferenceKey, testReferenceKey);
+        assertEquals(testReferenceKey, clonedReferenceKey);
+        assertNotEquals(testReferenceKey, (Object) "Hello");
+        assertNotEquals(testReferenceKey, new PfReferenceKey("PKN", VERSION002, "PLN", "LN"));
+        assertNotEquals(testReferenceKey, new PfReferenceKey("NPKN", VERSION002, "PLN", "LN"));
+        assertNotEquals(testReferenceKey, new PfReferenceKey("NPKN", VERSION001, "PLN", "LN"));
+        assertNotEquals(testReferenceKey, new PfReferenceKey("NPKN", VERSION001, "NPLN", "LN"));
+        assertEquals(testReferenceKey, new PfReferenceKey("NPKN", VERSION001, NPKLN, "NLN"));
 
         assertEquals(0, testReferenceKey.compareTo(testReferenceKey));
         assertEquals(0, testReferenceKey.compareTo(clonedReferenceKey));
@@ -123,7 +123,7 @@ public class PfReferenceKeyTest {
         assertNotEquals(0, testReferenceKey.compareTo(new PfReferenceKey("NPKN", VERSION001, "NPLN", "LN")));
         assertEquals(0, testReferenceKey.compareTo(new PfReferenceKey("NPKN", VERSION001, NPKLN, "NLN")));
 
-        assertFalse(testReferenceKey.equals(null));
+        assertNotEquals(testReferenceKey, null);
 
         assertThatThrownBy(() -> new PfReferenceKey((PfReferenceKey) null)).isInstanceOf(NullPointerException.class);
 

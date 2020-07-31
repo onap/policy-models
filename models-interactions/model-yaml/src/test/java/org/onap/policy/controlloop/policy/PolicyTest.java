@@ -43,7 +43,7 @@ public class PolicyTest {
 
     @Test
     public void testHashCode() {
-        assertTrue(policy.hashCode() != 0);
+    	assertTrue(policy.hashCode() != 0);
 
         policy.setActor("a");
         int hc1 = policy.hashCode();
@@ -205,7 +205,7 @@ public class PolicyTest {
 
     @Test
     public void testEqualsObject() {
-        assertTrue(policy.equals(policy));
+    	assertTrue(policy.equals(policy));
 
         policy.setId("idE");
         assertFalse(policy.equals(new Policy()));

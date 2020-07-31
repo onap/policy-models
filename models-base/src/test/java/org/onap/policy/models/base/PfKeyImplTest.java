@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -137,9 +138,9 @@ public class PfKeyImplTest {
         assertEquals(0, someKey0.compareTo(someKey0));
         assertEquals(-36, someKey0.compareTo(new DummyPfKey()));
 
-        assertFalse(someKey0.equals(null));
-        assertTrue(someKey0.equals(someKey0));
-        assertFalse(someKey0.equals(new DummyPfKey()));
+        assertNotEquals(someKey0, null);
+        assertEquals(someKey0, someKey0);
+        assertNotEquals(someKey0, new DummyPfKey());
 
         MyKey someKey8 = new MyKey();
         someKey8.setVersion(VERSION001);
