@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * policy-yaml
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -226,35 +226,35 @@ public class Policy implements Serializable {
         this.failure = failure;
     }
 
-    public String getFailure_retries() {
+    public String getFailureRetries() {
         return failureRetries;
     }
 
-    public void setFailure_retries(String failureRetries) {
+    public void setFailureRetries(String failureRetries) {
         this.failureRetries = failureRetries;
     }
 
-    public String getFailure_timeout() {
+    public String getFailureTimeout() {
         return failureTimeout;
     }
 
-    public void setFailure_timeout(String failureTimeout) {
+    public void setFailureTimeout(String failureTimeout) {
         this.failureTimeout = failureTimeout;
     }
 
-    public String getFailure_exception() {
+    public String getFailureException() {
         return failureException;
     }
 
-    public void setFailure_exception(String failureException) {
+    public void setFailureException(String failureException) {
         this.failureException = failureException;
     }
 
-    public String getFailure_guard() {
+    public String getFailureGuard() {
         return failureGuard;
     }
 
-    public void setFailure_guard(String failureGuard) {
+    public void setFailureGuard(String failureGuard) {
         this.failureGuard = failureGuard;
     }
 

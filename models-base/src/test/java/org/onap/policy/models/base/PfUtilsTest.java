@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ package org.onap.policy.models.base;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 
 import java.util.Arrays;
@@ -48,7 +49,7 @@ public class PfUtilsTest {
         assertEquals(0, PfUtils.compareObjects(null, null));
         assertEquals(-1, PfUtils.compareObjects(HELLO, null));
         assertEquals(1, PfUtils.compareObjects(null, HELLO));
-        assertFalse(PfUtils.compareObjects(HELLO, "goodbye") == 0);
+        assertNotEquals(PfUtils.compareObjects(HELLO, "goodbye"), 0);
         assertEquals(0, PfUtils.compareObjects(HELLO, HELLO));
     }
 
@@ -91,12 +92,12 @@ public class PfUtilsTest {
     @Test
     public void testMakeCopy() {
         assertNull(PfUtils.makeCopy((MyObject) null));
-
+        NoCopyConstructor noCopyConstructor = new NoCopyConstructor();
         MyObject origObject = new MyObject();
         origObject.name = HELLO;
         assertEquals(origObject.toString(), PfUtils.makeCopy(origObject).toString());
 
-        assertThatThrownBy(() -> PfUtils.makeCopy(new NoCopyConstructor())).isInstanceOf(PfModelRuntimeException.class);
+        assertThatThrownBy(() -> PfUtils.makeCopy(noCopyConstructor)).isInstanceOf(PfModelRuntimeException.class);
     }
 
     @Getter

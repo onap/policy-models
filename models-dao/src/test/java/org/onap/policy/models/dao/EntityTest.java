@@ -26,7 +26,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -184,13 +184,13 @@ public class EntityTest {
         pfDao.create(keyInfo0);
 
         final DummyConceptEntity keyInfoBack0 = pfDao.get(DummyConceptEntity.class, aKey0);
-        assertTrue(keyInfo0.equals(keyInfoBack0));
+        assertEquals(keyInfo0, keyInfoBack0);
 
         final DummyConceptEntity keyInfoBackNull = pfDao.get(DummyConceptEntity.class, PfConceptKey.getNullKey());
         assertNull(keyInfoBackNull);
 
         final DummyConceptEntity keyInfoBack1 = pfDao.getConcept(DummyConceptEntity.class, aKey0);
-        assertTrue(keyInfoBack0.equals(keyInfoBack1));
+        assertEquals(keyInfoBack0, keyInfoBack1);
 
         final DummyConceptEntity keyInfoBack2 =
                 pfDao.getConcept(DummyConceptEntity.class, new PfConceptKey("A-KEY3", VERSION001));
@@ -205,12 +205,12 @@ public class EntityTest {
         Set<DummyConceptEntity> keyInfoSetOut = new TreeSet<>(pfDao.getAll(DummyConceptEntity.class));
 
         keyInfoSetIn.add(keyInfo0);
-        assertTrue(keyInfoSetIn.equals(keyInfoSetOut));
+        assertEquals(keyInfoSetIn, keyInfoSetOut);
 
         pfDao.delete(keyInfo1);
         keyInfoSetIn.remove(keyInfo1);
         keyInfoSetOut = new TreeSet<>(pfDao.getAll(DummyConceptEntity.class));
-        assertTrue(keyInfoSetIn.equals(keyInfoSetOut));
+        assertEquals(keyInfoSetIn, keyInfoSetOut);
 
         pfDao.deleteCollection(keyInfoSetIn);
         keyInfoSetOut = new TreeSet<>(pfDao.getAll(DummyConceptEntity.class));
@@ -221,7 +221,7 @@ public class EntityTest {
         keyInfoSetIn.add(keyInfo0);
         pfDao.createCollection(keyInfoSetIn);
         keyInfoSetOut = new TreeSet<>(pfDao.getAll(DummyConceptEntity.class));
-        assertTrue(keyInfoSetIn.equals(keyInfoSetOut));
+        assertEquals(keyInfoSetIn, keyInfoSetOut);
 
         pfDao.delete(DummyConceptEntity.class, aKey0);
         keyInfoSetOut = new TreeSet<>(pfDao.getAll(DummyConceptEntity.class));
@@ -243,7 +243,7 @@ public class EntityTest {
         keyInfoSetIn.add(keyInfo0);
         pfDao.createCollection(keyInfoSetIn);
         keyInfoSetOut = new TreeSet<>(pfDao.getAll(DummyConceptEntity.class));
-        assertTrue(keyInfoSetIn.equals(keyInfoSetOut));
+        assertEquals(keyInfoSetIn, keyInfoSetOut);
 
         pfDao.deleteAll(DummyConceptEntity.class);
         assertEquals(0, pfDao.size(DummyConceptEntity.class));

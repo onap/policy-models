@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Models
  * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -67,7 +67,7 @@ public class ToscaIdentifierTestBase<T extends Comparable<T>> {
 
         assertTrue(ident.compareTo(null) > 0);
 
-        assertTrue(ident.compareTo(makeIdent(NAME, VERSION)) == 0);
+        assertEquals(ident.compareTo(makeIdent(NAME, VERSION)), 0);
         assertTrue(ident.compareTo(makeIdent(NAME, null)) > 0);
         assertTrue(ident.compareTo(makeIdent(null, VERSION)) > 0);
         assertTrue(ident.compareTo(makeIdent(NAME, VERSION + "a")) < 0);

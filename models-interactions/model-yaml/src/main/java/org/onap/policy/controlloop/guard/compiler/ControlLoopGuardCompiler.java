@@ -128,7 +128,7 @@ public class ControlLoopGuardCompiler {
         // Ensure each guard policy has at least one constraints
         //
         for (GuardPolicy policy : policies) {
-            if (policy.getLimit_constraints() == null || policy.getLimit_constraints().isEmpty()) {
+            if (policy.getLimitConstraints() == null || policy.getLimitConstraints().isEmpty()) {
                 if (callback != null) {
                     callback.onError(GUARD_POLICY + policy.getName() + " does not have any limit constraint");
                 }
@@ -146,8 +146,8 @@ public class ControlLoopGuardCompiler {
             throw new CompilerException(GUARD_POLICIES_SHOULD_NOT_BE_NULL);
         }
         for (GuardPolicy policy : policies) {
-            Set<Constraint> newSet = new HashSet<>(policy.getLimit_constraints());
-            if (newSet.size() != policy.getLimit_constraints().size() && callback != null) {
+            Set<Constraint> newSet = new HashSet<>(policy.getLimitConstraints());
+            if (newSet.size() != policy.getLimitConstraints().size() && callback != null) {
                 callback.onWarning(GUARD_POLICY + policy.getName() + " has duplicate limit constraints");
             }
         }
