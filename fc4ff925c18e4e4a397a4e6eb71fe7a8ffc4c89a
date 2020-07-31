@@ -16,6 +16,24 @@
       "revId": "fc4ff925c18e4e4a397a4e6eb71fe7a8ffc4c89a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c32f052e_2f64baf9",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/OperationProperties.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-07-31T18:22:56Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "83a8da97_fc485ee5",
+      "revId": "fc4ff925c18e4e4a397a4e6eb71fe7a8ffc4c89a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
