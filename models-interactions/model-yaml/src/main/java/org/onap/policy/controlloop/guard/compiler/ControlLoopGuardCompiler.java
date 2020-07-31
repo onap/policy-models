@@ -136,7 +136,7 @@ public class ControlLoopGuardCompiler {
             }
         }
     }
-    
+
     private static void validateConstraints(List<GuardPolicy> policies, 
                     ControlLoopCompilerCallback callback) throws CompilerException {
         if (policies == null) {
@@ -152,5 +152,5 @@ public class ControlLoopGuardCompiler {
             }
         }
     }
-    
+
 }

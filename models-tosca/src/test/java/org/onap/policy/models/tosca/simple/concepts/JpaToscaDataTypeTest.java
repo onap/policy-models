@@ -24,6 +24,7 @@ package org.onap.policy.models.tosca.simple.concepts;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -88,16 +89,16 @@ public class JpaToscaDataTypeTest {
 
         assertEquals(-1, tdt.compareTo(null));
         assertEquals(0, tdt.compareTo(tdt));
-        assertFalse(tdt.compareTo(tdt.getKey()) == 0);
+        assertNotEquals(tdt.compareTo(tdt.getKey()), 0);
 
         PfConceptKey otherDtKey = new PfConceptKey("otherDt", VERSION_001);
         JpaToscaDataType otherDt = new JpaToscaDataType(otherDtKey);
 
-        assertFalse(tdt.compareTo(otherDt) == 0);
+        assertNotEquals(tdt.compareTo(otherDt), 0);
         otherDt.setKey(dtKey);
-        assertFalse(tdt.compareTo(otherDt) == 0);
+        assertNotEquals(tdt.compareTo(otherDt), 0);
         otherDt.setConstraints(constraints);
-        assertFalse(tdt.compareTo(otherDt) == 0);
+        assertNotEquals(tdt.compareTo(otherDt), 0);
         otherDt.setProperties(properties);
         assertEquals(0, tdt.compareTo(otherDt));
 
