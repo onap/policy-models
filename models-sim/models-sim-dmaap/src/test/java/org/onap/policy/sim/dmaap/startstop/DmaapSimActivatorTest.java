@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 AT&T Intellectual Property.
+ *  Copyright (C) 2019-2020 AT&T Intellectual Property.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +31,7 @@ import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInst
 import org.onap.policy.common.utils.services.Registry;
 import org.onap.policy.models.sim.dmaap.parameters.DmaapSimParameterGroup;
 import org.onap.policy.models.sim.dmaap.parameters.DmaapSimParameterHandler;
+import org.onap.policy.models.sim.dmaap.rest.CommonRestServer;
 import org.onap.policy.models.sim.dmaap.startstop.DmaapSimActivator;
 import org.onap.policy.models.sim.dmaap.startstop.DmaapSimCommandLineArguments;
 
@@ -38,7 +39,7 @@ import org.onap.policy.models.sim.dmaap.startstop.DmaapSimCommandLineArguments;
 /**
  * Class to perform unit test of {@link DmaapSimActivator}}.
  */
-public class DmaapSimActivatorTest {
+public class DmaapSimActivatorTest extends CommonRestServer {
 
     private DmaapSimActivator activator;
 
@@ -52,7 +53,9 @@ public class DmaapSimActivatorTest {
         Registry.newRegistry();
         HttpServletServerFactoryInstance.getServerFactory().destroy();
 
-        final String[] papConfigParameters = {"-c", "parameters/NormalParameters.json"};
+        CommonRestServer.reconfigure(false);
+
+        final String[] papConfigParameters = {"-c", CONFIG_FILE};
         final DmaapSimCommandLineArguments arguments = new DmaapSimCommandLineArguments(papConfigParameters);
         final DmaapSimParameterGroup parGroup = new DmaapSimParameterHandler().getParameters(arguments);
 
