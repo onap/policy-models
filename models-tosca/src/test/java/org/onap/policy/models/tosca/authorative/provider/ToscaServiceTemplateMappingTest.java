@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Model
  * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -97,6 +97,6 @@ public class ToscaServiceTemplateMappingTest {
         JpaToscaServiceTemplate internalPolicyTypes2 = new JpaToscaServiceTemplate();
         internalPolicyTypes2.fromAuthorative(plainPolicyTypes2);
         assertTrue(internalPolicyTypes2.validate(new PfValidationResult()).isValid());
-        assertTrue(internalPolicyTypes.compareTo(internalPolicyTypes2) == 0);
+        assertEquals(internalPolicyTypes.compareTo(internalPolicyTypes2), 0);
     }
 }

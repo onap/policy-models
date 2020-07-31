@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -71,12 +71,12 @@ public class PfKeyUseTest {
         PfKeyUse clonedKeyUse = new PfKeyUse(keyUse);
         assertEquals("PfKeyUse(usedKey=PfConceptKey(name=Key, version=0.0.1))", clonedKeyUse.toString());
 
-        assertFalse(keyUse.hashCode() == 0);
+        assertNotEquals(keyUse.hashCode() , 0);
 
-        assertTrue(keyUse.equals(keyUse));
-        assertTrue(keyUse.equals(clonedKeyUse));
-        assertFalse(keyUse.equals("Hello"));
-        assertTrue(keyUse.equals(new PfKeyUse(key)));
+        assertEquals(keyUse, keyUse);
+        assertEquals(keyUse, clonedKeyUse);
+        assertNotEquals(keyUse, "Hello");
+        assertEquals(keyUse, new PfKeyUse(key));
 
         assertEquals(0, keyUse.compareTo(keyUse));
         assertEquals(0, keyUse.compareTo(clonedKeyUse));

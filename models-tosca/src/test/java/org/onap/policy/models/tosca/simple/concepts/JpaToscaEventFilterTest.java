@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ package org.onap.policy.models.tosca.simple.concepts;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -84,18 +85,18 @@ public class JpaToscaEventFilterTest {
 
         assertEquals(-1, tef.compareTo(null));
         assertEquals(0, tef.compareTo(tef));
-        assertFalse(tef.compareTo(tef.getKey()) == 0);
+        assertNotEquals(tef.compareTo(tef.getKey()), 0);
 
         PfReferenceKey otherDtKey = new PfReferenceKey("otherDt", VERSION_001, "OtherEventFilter");
         JpaToscaEventFilter otherDt = new JpaToscaEventFilter(otherDtKey);
 
-        assertFalse(tef.compareTo(otherDt) == 0);
+        assertNotEquals(tef.compareTo(otherDt), 0);
         otherDt.setKey(efKey);
-        assertFalse(tef.compareTo(otherDt) == 0);
+        assertNotEquals(tef.compareTo(otherDt), 0);
         otherDt.setNode(nodeKey);
-        assertFalse(tef.compareTo(otherDt) == 0);
+        assertNotEquals(tef.compareTo(otherDt), 0);
         otherDt.setRequirement(A_REQUREMENT);
-        assertFalse(tef.compareTo(otherDt) == 0);
+        assertNotEquals(tef.compareTo(otherDt), 0);
         otherDt.setCapability(A_CAPABILITY);
         assertEquals(0, tef.compareTo(otherDt));
 

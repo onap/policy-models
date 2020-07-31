@@ -128,10 +128,10 @@ public class ControlLoopGuardBuilderImpl implements ControlLoopGuardBuilder {
             if (!cons.isValid()) {
                 throw new BuilderException("Invalid guard constraint - some required fields are missing");
             }
-            if (policy.getLimit_constraints() == null) {
-                policy.setLimit_constraints(new LinkedList<>());
+            if (policy.getLimitConstraints() == null) {
+                policy.setLimitConstraints(new LinkedList<>());
             }
-            policy.getLimit_constraints().add(cons);
+            policy.getLimitConstraints().add(cons);
         }
     }
 
@@ -167,7 +167,7 @@ public class ControlLoopGuardBuilderImpl implements ControlLoopGuardBuilder {
             if (!cons.isValid()) {
                 throw new BuilderException("Invalid guard constraint - some required fields are missing");
             }
-            boolean removed = policy.getLimit_constraints().remove(cons);
+            boolean removed = policy.getLimitConstraints().remove(cons);
             if (!removed) {
                 throw new BuilderException("Unknown guard constraint: " + cons);
             }
@@ -186,7 +186,7 @@ public class ControlLoopGuardBuilderImpl implements ControlLoopGuardBuilder {
         for (GuardPolicy policy: clGuard.getGuards()) {
             if (policy.getId().equals(id)) {
                 exist = true;
-                policy.getLimit_constraints().clear();
+                policy.getLimitConstraints().clear();
             }
         }
         if (!exist) {
