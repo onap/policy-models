@@ -500,7 +500,7 @@ public class ControlLoopPolicyBuilderTest {
             PolicyResult.SUCCESS);
         //
         // @formatter:on
-        assertTrue(builder.getTriggerPolicy().getSuccess().equals(onSuccessPolicy1.getId()));
+        assertEquals(builder.getTriggerPolicy().getSuccess(), onSuccessPolicy1.getId());
 
         //
         // Test remove policy

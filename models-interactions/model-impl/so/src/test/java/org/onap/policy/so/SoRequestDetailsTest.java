@@ -24,11 +24,9 @@
 package org.onap.policy.so;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,63 +113,63 @@ public class SoRequestDetailsTest {
 
         SoRequestDetails copiedDetails = new SoRequestDetails(details);
 
-        assertTrue(details.equals(details));
-        assertTrue(details.equals(copiedDetails));
-        assertFalse(details.equals(null));
-        assertFalse(details.equals("Hello"));
+        assertEquals(details, details);
+        assertEquals(details, copiedDetails);
+        assertNotEquals(details, null);
+        assertNotEquals(details, (Object) "Hello");
 
         details.setCloudConfiguration(null);
-        assertFalse(details.equals(copiedDetails));
+        assertNotEquals(details, copiedDetails);
         copiedDetails.setCloudConfiguration(null);
-        assertTrue(details.equals(copiedDetails));
+        assertEquals(details, copiedDetails);
         details.setCloudConfiguration(cloudConfiguration);
-        assertFalse(details.equals(copiedDetails));
+        assertNotEquals(details, copiedDetails);
         copiedDetails.setCloudConfiguration(cloudConfiguration);
-        assertTrue(details.equals(copiedDetails));
+        assertEquals(details, copiedDetails);
 
         details.setModelInfo(null);
-        assertFalse(details.equals(copiedDetails));
+        assertNotEquals(details, copiedDetails);
         copiedDetails.setModelInfo(null);
-        assertTrue(details.equals(copiedDetails));
+        assertEquals(details, copiedDetails);
         details.setModelInfo(modelInfo);
-        assertFalse(details.equals(copiedDetails));
+        assertNotEquals(details, copiedDetails);
         copiedDetails.setModelInfo(modelInfo);
-        assertTrue(details.equals(copiedDetails));
+        assertEquals(details, copiedDetails);
 
         details.setRequestInfo(null);
-        assertFalse(details.equals(copiedDetails));
+        assertNotEquals(details, copiedDetails);
         copiedDetails.setRequestInfo(null);
-        assertTrue(details.equals(copiedDetails));
+        assertEquals(details, copiedDetails);
         details.setRequestInfo(requestInfo);
-        assertFalse(details.equals(copiedDetails));
+        assertNotEquals(details, copiedDetails);
         copiedDetails.setRequestInfo(requestInfo);
-        assertTrue(details.equals(copiedDetails));
+        assertEquals(details, copiedDetails);
 
         details.setRequestParameters(null);
-        assertFalse(details.equals(copiedDetails));
+        assertNotEquals(details, copiedDetails);
         copiedDetails.setRequestParameters(null);
-        assertTrue(details.equals(copiedDetails));
+        assertEquals(details, copiedDetails);
         details.setRequestParameters(requestParameters);
-        assertFalse(details.equals(copiedDetails));
+        assertNotEquals(details, copiedDetails);
         copiedDetails.setRequestParameters(requestParameters);
-        assertTrue(details.equals(copiedDetails));
+        assertEquals(details, copiedDetails);
 
         details.setSubscriberInfo(null);
-        assertFalse(details.equals(copiedDetails));
+        assertNotEquals(details, copiedDetails);
         copiedDetails.setSubscriberInfo(null);
-        assertTrue(details.equals(copiedDetails));
+        assertEquals(details, copiedDetails);
         details.setSubscriberInfo(subscriberInfo);
-        assertFalse(details.equals(copiedDetails));
+        assertNotEquals(details, copiedDetails);
         copiedDetails.setSubscriberInfo(subscriberInfo);
-        assertTrue(details.equals(copiedDetails));
+        assertEquals(details, copiedDetails);
 
         details.setRelatedInstanceList(null);
-        assertFalse(details.equals(copiedDetails));
+        assertNotEquals(details, copiedDetails);
         copiedDetails.setRelatedInstanceList(null);
-        assertTrue(details.equals(copiedDetails));
+        assertEquals(details, copiedDetails);
         details.setRelatedInstanceList(relatedInstanceList);
-        assertFalse(details.equals(copiedDetails));
+        assertNotEquals(details, copiedDetails);
         copiedDetails.setRelatedInstanceList(relatedInstanceList);
-        assertTrue(details.equals(copiedDetails));
+        assertEquals(details, copiedDetails);
     }
 }
