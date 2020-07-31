@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ package org.onap.policy.models.tosca.simple.concepts;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -80,14 +81,14 @@ public class JpaToscaModelTest {
 
         assertEquals(-1, tm.compareTo(null));
         assertEquals(0, tm.compareTo(tm));
-        assertFalse(tm.compareTo(tm.getKey()) == 0);
+        assertNotEquals(0, tm.compareTo(tm.getKey()));
 
         PfConceptKey otherDtKey = new PfConceptKey("otherDt", VERSION_001);
         JpaToscaModel otherDt = new JpaToscaModel(otherDtKey);
 
-        assertFalse(tm.compareTo(otherDt) == 0);
+        assertNotEquals(0, tm.compareTo(otherDt));
         otherDt.setKey(tmKey);
-        assertFalse(tm.compareTo(otherDt) == 0);
+        assertNotEquals(0, tm.compareTo(otherDt));
         otherDt.setServiceTemplates(tsts);
         assertEquals(0, tm.compareTo(otherDt));
 
