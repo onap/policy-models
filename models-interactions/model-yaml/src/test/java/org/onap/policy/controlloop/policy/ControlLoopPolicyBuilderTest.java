@@ -72,12 +72,12 @@ public class ControlLoopPolicyBuilderTest {
         Service usp = new Service("vUSP");
         Service trinity = new Service("Trinity");
         builder = builder.addService(scp, usp, trinity);
-        assertTrue(builder.getControlLoop().getServices().size() == 3);
+        assertEquals(builder.getControlLoop().getServices().size(), 3);
         //
         // Test remove services
         //
         builder = builder.removeService(scp);
-        assertTrue(builder.getControlLoop().getServices().size() == 2);
+        assertEquals(builder.getControlLoop().getServices().size(), 2);
         builder = builder.removeAllServices();
         assertTrue(builder.getControlLoop().getServices().isEmpty());
         //
@@ -87,12 +87,12 @@ public class ControlLoopPolicyBuilderTest {
         Resource com = new Resource("vCTS", ResourceType.VF);
         Resource rar = new Resource("vCTS", ResourceType.VF);
         builder = builder.addResource(cts, com, rar);
-        assertTrue(builder.getControlLoop().getResources().size() == 3);
+        assertEquals(builder.getControlLoop().getResources().size(), 3);
         //
         // Test remove resources
         //
         builder = builder.removeResource(cts);
-        assertTrue(builder.getControlLoop().getResources().size() == 2);
+        assertEquals(builder.getControlLoop().getResources().size(), 2);
         builder = builder.removeAllResources();
         assertTrue(builder.getControlLoop().getResources().isEmpty());
     }
@@ -125,7 +125,7 @@ public class ControlLoopPolicyBuilderTest {
         UUID uuid = UUID.randomUUID();
         Service serviceWithUuid = new Service(uuid);
         builder.addService(serviceWithUuid);
-        assertTrue(builder.getControlLoop().getServices().size() == 1);
+        assertEquals(builder.getControlLoop().getServices().size(), 1);
     }
 
     @Test
@@ -156,7 +156,7 @@ public class ControlLoopPolicyBuilderTest {
         UUID uuid = UUID.randomUUID();
         Resource resourceWithUuid = new Resource(uuid);
         builder.addResource(resourceWithUuid);
-        assertTrue(builder.getControlLoop().getResources().size() == 1);
+        assertEquals(builder.getControlLoop().getResources().size(), 1);
 
         builder.removeResource(resourceWithUuid);
         assertTrue(builder.getControlLoop().getResources().isEmpty());
@@ -217,8 +217,8 @@ public class ControlLoopPolicyBuilderTest {
         Service usp = new Service("vUSP");
         ControlLoopPolicyBuilder builder =
             ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400, cts, scp, usp);
-        assertTrue(builder.getControlLoop().getResources().size() == 1);
-        assertTrue(builder.getControlLoop().getServices().size() == 2);
+        assertEquals(builder.getControlLoop().getResources().size(), 1);
+        assertEquals(builder.getControlLoop().getServices().size(), 2);
     }
 
     @Test
@@ -228,8 +228,8 @@ public class ControlLoopPolicyBuilderTest {
         Service scp = new Service("vSCP");
         ControlLoopPolicyBuilder builder =
             ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400, scp, cts, com);
-        assertTrue(builder.getControlLoop().getServices().size() == 1);
-        assertTrue(builder.getControlLoop().getResources().size() == 2);
+        assertEquals(builder.getControlLoop().getServices().size(), 1);
+        assertEquals(builder.getControlLoop().getResources().size(), 2);
     }
 
     @Test
@@ -395,11 +395,11 @@ public class ControlLoopPolicyBuilderTest {
         //
         @SuppressWarnings("unused")
         ControlLoop cl = builder.setExistingTriggerPolicy(triggerPolicy1.getId());
-        assertTrue(builder.getControlLoop().getTrigger_policy().equals(triggerPolicy1.getId()));
+        assertEquals(builder.getControlLoop().getTrigger_policy(), triggerPolicy1.getId());
         //
         // Test get trigger policy
         //
-        assertTrue(builder.getTriggerPolicy().equals(triggerPolicy1));
+        assertEquals(builder.getTriggerPolicy(), triggerPolicy1);
     }
 
     @Test
@@ -477,11 +477,11 @@ public class ControlLoopPolicyBuilderTest {
             PolicyResult.FAILURE, PolicyResult.FAILURE_EXCEPTION, PolicyResult.FAILURE_RETRIES,
             PolicyResult.FAILURE_TIMEOUT, PolicyResult.FAILURE_GUARD);
         //
-        assertTrue(builder.getTriggerPolicy().getFailure().equals(onRestartFailurePolicy1.getId()));
-        assertTrue(builder.getTriggerPolicy().getFailure_exception().equals(onRestartFailurePolicy1.getId()));
-        assertTrue(builder.getTriggerPolicy().getFailure_retries().equals(onRestartFailurePolicy1.getId()));
-        assertTrue(builder.getTriggerPolicy().getFailure_timeout().equals(onRestartFailurePolicy1.getId()));
-        assertTrue(builder.getTriggerPolicy().getFailure_guard().equals(onRestartFailurePolicy1.getId()));
+        assertEquals(builder.getTriggerPolicy().getFailure(), onRestartFailurePolicy1.getId());
+        assertEquals(builder.getTriggerPolicy().getFailure_exception(), onRestartFailurePolicy1.getId());
+        assertEquals(builder.getTriggerPolicy().getFailure_retries(), onRestartFailurePolicy1.getId());
+        assertEquals(builder.getTriggerPolicy().getFailure_timeout(), onRestartFailurePolicy1.getId());
+        assertEquals(builder.getTriggerPolicy().getFailure_guard(), onRestartFailurePolicy1.getId());
 
         //
         // Test create a policy and chain it to the results of trigger policy success
@@ -500,19 +500,19 @@ public class ControlLoopPolicyBuilderTest {
             PolicyResult.SUCCESS);
         //
         // @formatter:on
-        assertTrue(builder.getTriggerPolicy().getSuccess().equals(onSuccessPolicy1.getId()));
+        assertEquals(builder.getTriggerPolicy().getSuccess(), onSuccessPolicy1.getId());
 
         //
         // Test remove policy
         //
         boolean removed = builder.removePolicy(onRestartFailurePolicy1.getId());
         assertTrue(removed);
-        assertTrue(builder.getTriggerPolicy().getFailure().equals(FinalResult.FINAL_FAILURE.toString()));
-        assertTrue(
-            builder.getTriggerPolicy().getFailure_retries().equals(FinalResult.FINAL_FAILURE_RETRIES.toString()));
-        assertTrue(
-            builder.getTriggerPolicy().getFailure_timeout().equals(FinalResult.FINAL_FAILURE_TIMEOUT.toString()));
-        assertTrue(builder.getTriggerPolicy().getFailure_guard().equals(FinalResult.FINAL_FAILURE_GUARD.toString()));
+        assertEquals(builder.getTriggerPolicy().getFailure(), FinalResult.FINAL_FAILURE.toString());
+        assertEquals(
+            builder.getTriggerPolicy().getFailure_retries(), FinalResult.FINAL_FAILURE_RETRIES.toString());
+        assertEquals(
+            builder.getTriggerPolicy().getFailure_timeout(), FinalResult.FINAL_FAILURE_TIMEOUT.toString());
+        assertEquals(builder.getTriggerPolicy().getFailure_guard(), FinalResult.FINAL_FAILURE_GUARD.toString());
         //
         // Create another policy and chain it to the results of trigger policy
         //
@@ -535,37 +535,37 @@ public class ControlLoopPolicyBuilderTest {
         // Test reset policy results
         //
         triggerPolicy = builder.resetPolicyResults(triggerPolicy.getId());
-        assertTrue(builder.getTriggerPolicy().getFailure().equals(FinalResult.FINAL_FAILURE.toString()));
-        assertTrue(
-            builder.getTriggerPolicy().getFailure_retries().equals(FinalResult.FINAL_FAILURE_RETRIES.toString()));
-        assertTrue(
-            builder.getTriggerPolicy().getFailure_timeout().equals(FinalResult.FINAL_FAILURE_TIMEOUT.toString()));
+        assertEquals(builder.getTriggerPolicy().getFailure(), FinalResult.FINAL_FAILURE.toString());
+        assertEquals(
+            builder.getTriggerPolicy().getFailure_retries(), FinalResult.FINAL_FAILURE_RETRIES.toString());
+        assertEquals(
+            builder.getTriggerPolicy().getFailure_timeout(), FinalResult.FINAL_FAILURE_TIMEOUT.toString());
         //
         // Test set the policy results to an existing operational policy
         //
         Policy onRestartFailurePolicy3 = builder.setPolicyForPolicyResult(onRestartFailurePolicy2.getId(),
             triggerPolicy.getId(), PolicyResult.FAILURE, PolicyResult.FAILURE_RETRIES, PolicyResult.FAILURE_TIMEOUT);
-        assertTrue(builder.getTriggerPolicy().getFailure().equals(onRestartFailurePolicy3.getId()));
-        assertTrue(builder.getTriggerPolicy().getFailure_retries().equals(onRestartFailurePolicy3.getId()));
-        assertTrue(builder.getTriggerPolicy().getFailure_timeout().equals(onRestartFailurePolicy3.getId()));
+        assertEquals(builder.getTriggerPolicy().getFailure(), onRestartFailurePolicy3.getId());
+        assertEquals(builder.getTriggerPolicy().getFailure_retries(), onRestartFailurePolicy3.getId());
+        assertEquals(builder.getTriggerPolicy().getFailure_timeout(), onRestartFailurePolicy3.getId());
         //
         // Test set the policy result for success to an existing operational policy
         //
         Policy onRestartFailurePolicy4 = builder.setPolicyForPolicyResult(onRestartFailurePolicy2.getId(),
             triggerPolicy.getId(), PolicyResult.FAILURE, PolicyResult.FAILURE_EXCEPTION, PolicyResult.FAILURE_GUARD,
             PolicyResult.FAILURE_RETRIES, PolicyResult.FAILURE_TIMEOUT, PolicyResult.SUCCESS);
-        assertTrue(builder.getTriggerPolicy().getFailure().equals(onRestartFailurePolicy4.getId()));
-        assertTrue(builder.getTriggerPolicy().getFailure_exception().equals(onRestartFailurePolicy4.getId()));
-        assertTrue(builder.getTriggerPolicy().getFailure_guard().equals(onRestartFailurePolicy4.getId()));
-        assertTrue(builder.getTriggerPolicy().getFailure_retries().equals(onRestartFailurePolicy4.getId()));
-        assertTrue(builder.getTriggerPolicy().getFailure_timeout().equals(onRestartFailurePolicy4.getId()));
-        assertTrue(builder.getTriggerPolicy().getSuccess().equals(onRestartFailurePolicy4.getId()));
+        assertEquals(builder.getTriggerPolicy().getFailure(), onRestartFailurePolicy4.getId());
+        assertEquals(builder.getTriggerPolicy().getFailure_exception(), onRestartFailurePolicy4.getId());
+        assertEquals(builder.getTriggerPolicy().getFailure_guard(), onRestartFailurePolicy4.getId());
+        assertEquals(builder.getTriggerPolicy().getFailure_retries(), onRestartFailurePolicy4.getId());
+        assertEquals(builder.getTriggerPolicy().getFailure_timeout(), onRestartFailurePolicy4.getId());
+        assertEquals(builder.getTriggerPolicy().getSuccess(), onRestartFailurePolicy4.getId());
 
         //
         // Test remove all existing operational policies
         //
         builder = builder.removeAllPolicies();
-        assertTrue(builder.getControlLoop().getTrigger_policy().equals(FinalResult.FINAL_OPENLOOP.toString()));
+        assertEquals(builder.getControlLoop().getTrigger_policy(), FinalResult.FINAL_OPENLOOP.toString());
     }
 
     @Test
@@ -740,7 +740,7 @@ public class ControlLoopPolicyBuilderTest {
         // @SuppressWarnings("unused")
         boolean removed = builder.removePolicy(policy1.getId());
         assertTrue(removed);
-        assertTrue(builder.getTriggerPolicy() == null);
+        assertNull(builder.getTriggerPolicy());
         //
         // Set a valid trigger policy
         //

@@ -145,17 +145,17 @@ public class ControlLoopCompiler implements Serializable {
             //
             FinalResultNodeWrapper finalSuccess = new FinalResultNodeWrapper(FinalResult.FINAL_SUCCESS);
             FinalResultNodeWrapper finalFailure = new FinalResultNodeWrapper(FinalResult.FINAL_FAILURE);
-            FinalResultNodeWrapper finalFailureTimeout = new FinalResultNodeWrapper(FinalResult.FINAL_FAILURE_TIMEOUT);
-            FinalResultNodeWrapper finalFailureRetries = new FinalResultNodeWrapper(FinalResult.FINAL_FAILURE_RETRIES);
-            FinalResultNodeWrapper finalFailureException =
+            FinalResultNodeWrapper finalFailure_timeout = new FinalResultNodeWrapper(FinalResult.FINAL_FAILURE_TIMEOUT);
+            FinalResultNodeWrapper finalFailure_retries = new FinalResultNodeWrapper(FinalResult.FINAL_FAILURE_RETRIES);
+            FinalResultNodeWrapper finalFailure_exception =
                             new FinalResultNodeWrapper(FinalResult.FINAL_FAILURE_EXCEPTION);
-            FinalResultNodeWrapper finalFailureGuard = new FinalResultNodeWrapper(FinalResult.FINAL_FAILURE_GUARD);
+            FinalResultNodeWrapper finalFailure_guard = new FinalResultNodeWrapper(FinalResult.FINAL_FAILURE_GUARD);
             graph.addVertex(finalSuccess);
             graph.addVertex(finalFailure);
-            graph.addVertex(finalFailureTimeout);
-            graph.addVertex(finalFailureRetries);
-            graph.addVertex(finalFailureException);
-            graph.addVertex(finalFailureGuard);
+            graph.addVertex(finalFailure_timeout);
+            graph.addVertex(finalFailure_retries);
+            graph.addVertex(finalFailure_exception);
+            graph.addVertex(finalFailure_guard);
             //
             // Work through the policies and add them in as nodes.
             //
@@ -175,13 +175,13 @@ public class ControlLoopCompiler implements Serializable {
                                 PolicyResult.SUCCESS, node);
                 addEdge(graph, mapNodes, operPolicy.getId(), operPolicy.getFailure(), finalFailure,
                                 PolicyResult.FAILURE, node);
-                addEdge(graph, mapNodes, operPolicy.getId(), operPolicy.getFailure_timeout(), finalFailureTimeout,
+                addEdge(graph, mapNodes, operPolicy.getId(), operPolicy.getFailure_timeout(), finalFailure_timeout,
                                 PolicyResult.FAILURE_TIMEOUT, node);
-                addEdge(graph, mapNodes, operPolicy.getId(), operPolicy.getFailure_retries(), finalFailureRetries,
+                addEdge(graph, mapNodes, operPolicy.getId(), operPolicy.getFailure_retries(), finalFailure_retries,
                                 PolicyResult.FAILURE_RETRIES, node);
-                addEdge(graph, mapNodes, operPolicy.getId(), operPolicy.getFailure_exception(), finalFailureException,
+                addEdge(graph, mapNodes, operPolicy.getId(), operPolicy.getFailure_exception(), finalFailure_exception,
                                 PolicyResult.FAILURE_EXCEPTION, node);
-                addEdge(graph, mapNodes, operPolicy.getId(), operPolicy.getFailure_guard(), finalFailureGuard,
+                addEdge(graph, mapNodes, operPolicy.getId(), operPolicy.getFailure_guard(), finalFailure_guard,
                                 PolicyResult.FAILURE_GUARD, node);
             }
             validateNodesAndEdges(graph, callback);
