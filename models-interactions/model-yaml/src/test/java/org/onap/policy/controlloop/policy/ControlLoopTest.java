@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
- * Modifications Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2018-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,6 +22,7 @@ package org.onap.policy.controlloop.policy;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -51,19 +52,19 @@ public class ControlLoopTest {
     @Test
     public void testEqualsSameInstance() {
         ControlLoop controlLoop1 = new ControlLoop();
-        assertTrue(controlLoop1.equals(controlLoop1));
+        assertEquals(controlLoop1 , controlLoop1);
     }
 
     @Test
     public void testEqualsNull() {
         ControlLoop controlLoop1 = new ControlLoop();
-        assertFalse(controlLoop1.equals(null));
+        assertNotEquals(controlLoop1 , null);
     }
 
     @Test
     public void testEqualsInstanceOfDiffClass() {
         ControlLoop controlLoop1 = new ControlLoop();
-        assertFalse(controlLoop1.equals(""));
+        assertNotEquals(controlLoop1 , "");
     }
 
     @Test
@@ -75,17 +76,17 @@ public class ControlLoopTest {
         controlLoop1.setControlLoopName(controlLoopName);
         controlLoop1.setVersion(version);
         controlLoop1.setPnf(pnf);
-        controlLoop1.setTrigger_policy(triggerPolicy);
+        controlLoop1.setTriggerPolicy(triggerPolicy);
         controlLoop1.setAbatement(abatement);
 
         ControlLoop controlLoop2 = new ControlLoop();
         controlLoop2.setControlLoopName(controlLoopName);
         controlLoop2.setVersion(version);
         controlLoop2.setPnf(pnf);
-        controlLoop2.setTrigger_policy(triggerPolicy);
+        controlLoop2.setTriggerPolicy(triggerPolicy);
         controlLoop2.setAbatement(abatement);
 
-        assertTrue(controlLoop1.equals(controlLoop2));
+        assertEquals(controlLoop1 , controlLoop2);
     }
 
     @Test
@@ -109,7 +110,7 @@ public class ControlLoopTest {
         resources.add(resource2);
         controlLoop1.setResources(resources);
         controlLoop1.setPnf(pnf);
-        controlLoop1.setTrigger_policy(triggerPolicy);
+        controlLoop1.setTriggerPolicy(triggerPolicy);
         controlLoop1.setTimeout(timeout);
         controlLoop1.setAbatement(abatement);
 
@@ -129,15 +130,15 @@ public class ControlLoopTest {
         controlLoop2Resources.add(controlLoop2Resource2);
         controlLoop2.setResources(controlLoop2Resources);
         controlLoop2.setPnf(pnf);
-        controlLoop2.setTrigger_policy(triggerPolicy);
+        controlLoop2.setTriggerPolicy(triggerPolicy);
         controlLoop2.setTimeout(timeout);
         controlLoop1.setAbatement(abatement);
 
-        assertTrue(controlLoop1.equals(controlLoop2));
+        assertEquals(controlLoop1 , controlLoop2);
         assertEquals(controlLoop1.hashCode(), controlLoop2.hashCode());
 
         controlLoop2 = Serializer.roundTrip(controlLoop1);
-        assertTrue(controlLoop1.equals(controlLoop2));
+        assertEquals(controlLoop1 , controlLoop2);
         assertEquals(controlLoop1.hashCode(), controlLoop2.hashCode());
     }
 
@@ -167,7 +168,7 @@ public class ControlLoopTest {
         resources.add(resource2);
         controlLoop1.setResources(resources);
         controlLoop1.setPnf(pnf);
-        controlLoop1.setTrigger_policy(triggerPolicy);
+        controlLoop1.setTriggerPolicy(triggerPolicy);
         controlLoop1.setAbatement(abatement);
 
         ControlLoop controlLoop2 = new ControlLoop(controlLoop1);
@@ -177,10 +178,10 @@ public class ControlLoopTest {
         assertEquals(controlLoop1.getServices(), controlLoop2.getServices());
         assertEquals(controlLoop1.getResources(), controlLoop2.getResources());
         assertEquals(controlLoop1.getPnf(), controlLoop2.getPnf());
-        assertEquals(controlLoop1.getTrigger_policy(), controlLoop2.getTrigger_policy());
+        assertEquals(controlLoop1.getTriggerPolicy(), controlLoop2.getTriggerPolicy());
         assertEquals(controlLoop1.getAbatement(), controlLoop2.getAbatement());
 
-        assertTrue(controlLoop1.equals(controlLoop2));
+        assertEquals(controlLoop1 , controlLoop2);
     }
 
 }

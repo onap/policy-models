@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ package org.onap.policy.models.base;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -119,19 +120,19 @@ public class PfConceptContainerTest {
         assertThatThrownBy(() -> new DummyPfConceptContainer((DummyPfConceptContainer) null))
             .isInstanceOf(NullPointerException.class);
 
-        assertFalse(container.compareTo(null) == 0);
+        assertNotEquals(container.compareTo(null) , 0);
         assertEquals(0, container.compareTo(container));
-        assertFalse(container.compareTo(conceptKey) == 0);
+        assertNotEquals(container.compareTo(conceptKey) ,0);
 
         DummyPfConceptContainer testContainer = new DummyPfConceptContainer(container);
         testContainer.getKey().setVersion("0.0.2");
-        assertFalse(container.compareTo(testContainer) == 0);
+        assertNotEquals(container.compareTo(testContainer) , 0);
         testContainer.getKey().setVersion(container.getKey().getVersion());
         assertEquals(0, container.compareTo(testContainer));
 
         PfConceptKey testConceptKey = new PfConceptKey("TestKey", VERSION0_0_1);
         testContainer.getConceptMap().put(testConceptKey, new DummyPfConcept(testConceptKey));
-        assertFalse(container.compareTo(testContainer) == 0);
+        assertNotEquals(container.compareTo(testContainer) , 0);
 
         final DummyPfConceptContainer container3 = container;
         assertThatThrownBy(() -> container3.validate(null))
@@ -191,7 +192,7 @@ public class PfConceptContainerTest {
         assertEquals(conceptKey, container.get(anotherKey).getKey());
     }
 
-    @Test
+	@Test
     public void testAuthorative() {
         Map<String, DummyAuthorativeConcept> dacMap = new LinkedHashMap<>();
         dacMap.put(NAME0, new DummyAuthorativeConcept(NAME0, "1.2.3", "Hello"));

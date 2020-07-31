@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
- *  Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -109,7 +109,7 @@ public class MonitoringPolicySerializationTest {
                 ToscaServiceTemplateUtils.addFragment(policyTypeServiceTemplate, serviceTemplateFromJson);
         verifyVcpeMonitoringInputDeserialization(mergedServiceTemplate);
         JpaToscaServiceTemplate serviceTemplateFromYaml = deserializeMonitoringInputYaml(VCPE_MON_INPUT_YAML);
-        assertTrue(serviceTemplateFromJson.compareTo(serviceTemplateFromYaml) == 0);
+        assertEquals(serviceTemplateFromJson.compareTo(serviceTemplateFromYaml) , 0);
 
         // vDNS
         serviceTemplateFromJson = deserializeMonitoringInputJson(VDNS_MON_INPUT_JSON);
@@ -117,7 +117,7 @@ public class MonitoringPolicySerializationTest {
                 ToscaServiceTemplateUtils.addFragment(policyTypeServiceTemplate, serviceTemplateFromJson);
         verifyVdnsMonitoringInputDeserialization(mergedServiceTemplate);
         serviceTemplateFromYaml = deserializeMonitoringInputYaml(VDNS_MON_INPUT_YAML);
-        assertTrue(serviceTemplateFromJson.compareTo(serviceTemplateFromYaml) == 0);
+        assertEquals(serviceTemplateFromJson.compareTo(serviceTemplateFromYaml) , 0);
 
         // vFirewall
         serviceTemplateFromJson = deserializeMonitoringInputJson(VFW_MON_INPUT_JSON);
@@ -125,7 +125,7 @@ public class MonitoringPolicySerializationTest {
                 ToscaServiceTemplateUtils.addFragment(policyTypeServiceTemplate, serviceTemplateFromJson);
         verifyVfwMonitoringInputDeserialization(mergedServiceTemplate);
         serviceTemplateFromYaml = deserializeMonitoringInputYaml(VFW_MON_INPUT_YAML);
-        assertTrue(serviceTemplateFromJson.compareTo(serviceTemplateFromYaml) == 0);
+        assertEquals(serviceTemplateFromJson.compareTo(serviceTemplateFromYaml) , 0);
     }
 
     @Test
@@ -189,7 +189,7 @@ public class MonitoringPolicySerializationTest {
                 serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap();
 
         // Check policies
-        assertTrue(policiesConceptMap.size() == 1);
+        assertEquals(policiesConceptMap.size() , 1);
         assertEquals(POLICY1, policiesConceptMap.keySet().iterator().next().getName());
         assertEquals("onap.restart.tca:1.0.0",
                 serviceTemplate.getTopologyTemplate().getPolicies().get(POLICY1).getId());
@@ -197,12 +197,12 @@ public class MonitoringPolicySerializationTest {
         JpaToscaPolicy policyVal = policiesConceptMap.values().iterator().next();
 
         // Check metadata
-        assertTrue(policyVal.getMetadata().size() == 2);
+        assertEquals(policyVal.getMetadata().size() , 2);
         assertEquals(POLICY_ID, policyVal.getMetadata().entrySet().iterator().next().getKey());
         assertEquals(POLICY1, policyVal.getMetadata().entrySet().iterator().next().getValue());
 
         // Check properties
-        assertTrue(policiesConceptMap.values().iterator().next().getProperties().size() == 1);
+        assertEquals(policiesConceptMap.values().iterator().next().getProperties().size() , 1);
         assertEquals(TCA_POLICY, policyVal.getProperties().keySet().iterator().next());
         assertNotNull(policyVal.getProperties().values().iterator().next());
     }
@@ -221,7 +221,7 @@ public class MonitoringPolicySerializationTest {
                 serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap();
 
         // Check policies
-        assertTrue(policiesConceptMap.size() == 1);
+        assertEquals(policiesConceptMap.size() , 1);
         assertEquals(POLICY2, policiesConceptMap.keySet().iterator().next().getName());
         assertEquals("onap.scaleout.tca:1.0.0",
                 serviceTemplate.getTopologyTemplate().getPolicies().get(POLICY2).getId());
@@ -229,12 +229,12 @@ public class MonitoringPolicySerializationTest {
         JpaToscaPolicy policyVal = policiesConceptMap.values().iterator().next();
 
         // Check metadata
-        assertTrue(policyVal.getMetadata().size() == 2);
+        assertEquals(policyVal.getMetadata().size() , 2);
         assertEquals(POLICY_ID, policyVal.getMetadata().entrySet().iterator().next().getKey());
         assertEquals(POLICY2, policyVal.getMetadata().entrySet().iterator().next().getValue());
 
         // Check properties
-        assertTrue(policiesConceptMap.values().iterator().next().getProperties().size() == 1);
+        assertEquals(policiesConceptMap.values().iterator().next().getProperties().size() , 1);
         assertEquals(TCA_POLICY, policyVal.getProperties().keySet().iterator().next());
         assertNotNull(policyVal.getProperties().values().iterator().next());
     }
@@ -253,7 +253,7 @@ public class MonitoringPolicySerializationTest {
                 serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap();
 
         // Check policies
-        assertTrue(policiesConceptMap.size() == 1);
+        assertEquals(policiesConceptMap.size() , 1);
         assertEquals(POLICY3, policiesConceptMap.keySet().iterator().next().getName());
         assertEquals("onap.vfirewall.tca:1.0.0",
                 serviceTemplate.getTopologyTemplate().getPolicies().get(POLICY3).getId());
@@ -261,12 +261,12 @@ public class MonitoringPolicySerializationTest {
         JpaToscaPolicy policyVal = policiesConceptMap.values().iterator().next();
 
         // Check metadata
-        assertTrue(policyVal.getMetadata().size() == 2);
+        assertEquals(policyVal.getMetadata().size() , 2);
         assertEquals(POLICY_ID, policyVal.getMetadata().entrySet().iterator().next().getKey());
         assertEquals(POLICY3, policyVal.getMetadata().entrySet().iterator().next().getValue());
 
         // Check properties
-        assertTrue(policiesConceptMap.values().iterator().next().getProperties().size() == 1);
+        assertEquals(policiesConceptMap.values().iterator().next().getProperties().size() , 1);
         assertEquals(TCA_POLICY, policyVal.getProperties().keySet().iterator().next());
         assertNotNull(policyVal.getProperties().values().iterator().next());
     }
@@ -277,7 +277,7 @@ public class MonitoringPolicySerializationTest {
         assertEquals(YAML_VERSION, serviceTemplateJsonObject.get(DEFINITION_VERSION).getAsString());
         JsonObject topologyTemplateJsonObject = serviceTemplateJsonObject.get(TOPOLOGY_TEMPLATE).getAsJsonObject();
         JsonArray policiesJsonArray = topologyTemplateJsonObject.get(POLICIES).getAsJsonArray();
-        assertTrue(policiesJsonArray.size() == 1);
+        assertEquals(policiesJsonArray.size() , 1);
         JsonObject policy = policiesJsonArray.iterator().next().getAsJsonObject();
         assertNotNull(policy.get(POLICY1));
         JsonObject policyVal = policy.get(POLICY1).getAsJsonObject();
@@ -294,7 +294,7 @@ public class MonitoringPolicySerializationTest {
         assertEquals(YAML_VERSION, serviceTemplateJsonObject.get(DEFINITION_VERSION).getAsString());
         JsonObject topologyTemplateJsonObject = serviceTemplateJsonObject.get(TOPOLOGY_TEMPLATE).getAsJsonObject();
         JsonArray policiesJsonArray = topologyTemplateJsonObject.get(POLICIES).getAsJsonArray();
-        assertTrue(policiesJsonArray.size() == 1);
+        assertEquals(policiesJsonArray.size() , 1);
         JsonObject policy = policiesJsonArray.iterator().next().getAsJsonObject();
         assertNotNull(policy.get(POLICY2));
         JsonObject policyVal = policy.get(POLICY2).getAsJsonObject();
@@ -311,7 +311,7 @@ public class MonitoringPolicySerializationTest {
         assertEquals(YAML_VERSION, serviceTemplateJsonObject.get(DEFINITION_VERSION).getAsString());
         JsonObject topologyTemplateJsonObject = serviceTemplateJsonObject.get(TOPOLOGY_TEMPLATE).getAsJsonObject();
         JsonArray policiesJsonArray = topologyTemplateJsonObject.get(POLICIES).getAsJsonArray();
-        assertTrue(policiesJsonArray.size() == 1);
+        assertEquals(policiesJsonArray.size() , 1);
         JsonObject policy = policiesJsonArray.iterator().next().getAsJsonObject();
         assertNotNull(policy.get(POLICY3));
         JsonObject policyVal = policy.get(POLICY3).getAsJsonObject();

@@ -98,7 +98,7 @@ public class ControlLoopCompiler implements Serializable {
             if ((!controlLoop.getVersion().contentEquals(ControlLoop.getCompilerVersion())) && callback != null) {
                 callback.onError("Unsupported version for this compiler");
             }
-            if (StringUtils.isEmpty(controlLoop.getTrigger_policy())) {
+            if (StringUtils.isEmpty(controlLoop.getTriggerPolicy())) {
                 throw new CompilerException("trigger_policy is not valid");
             }
         }
@@ -123,7 +123,7 @@ public class ControlLoopCompiler implements Serializable {
             // attempting to create a FinalResult object from it. If its a policy id, this should
             // return null.
             //
-            FinalResult triggerResult = FinalResult.toResult(policy.getControlLoop().getTrigger_policy());
+            FinalResult triggerResult = FinalResult.toResult(policy.getControlLoop().getTriggerPolicy());
             TriggerNodeWrapper triggerNode;
             //
             // Did this turn into a FinalResult object?
@@ -175,13 +175,13 @@ public class ControlLoopCompiler implements Serializable {
                                 PolicyResult.SUCCESS, node);
                 addEdge(graph, mapNodes, operPolicy.getId(), operPolicy.getFailure(), finalFailure,
                                 PolicyResult.FAILURE, node);
-                addEdge(graph, mapNodes, operPolicy.getId(), operPolicy.getFailure_timeout(), finalFailureTimeout,
+                addEdge(graph, mapNodes, operPolicy.getId(), operPolicy.getFailureTimeout(), finalFailureTimeout,
                                 PolicyResult.FAILURE_TIMEOUT, node);
-                addEdge(graph, mapNodes, operPolicy.getId(), operPolicy.getFailure_retries(), finalFailureRetries,
+                addEdge(graph, mapNodes, operPolicy.getId(), operPolicy.getFailureRetries(), finalFailureRetries,
                                 PolicyResult.FAILURE_RETRIES, node);
-                addEdge(graph, mapNodes, operPolicy.getId(), operPolicy.getFailure_exception(), finalFailureException,
+                addEdge(graph, mapNodes, operPolicy.getId(), operPolicy.getFailureException(), finalFailureException,
                                 PolicyResult.FAILURE_EXCEPTION, node);
-                addEdge(graph, mapNodes, operPolicy.getId(), operPolicy.getFailure_guard(), finalFailureGuard,
+                addEdge(graph, mapNodes, operPolicy.getId(), operPolicy.getFailureGuard(), finalFailureGuard,
                                 PolicyResult.FAILURE_GUARD, node);
             }
             validateNodesAndEdges(graph, callback);
@@ -211,7 +211,7 @@ public class ControlLoopCompiler implements Serializable {
         boolean triggerPolicyFound = false;
         for (Policy operPolicy : policy.getPolicies()) {
             sum += operPolicy.getTimeout().intValue();
-            if (policy.getControlLoop().getTrigger_policy().equals(operPolicy.getId())) {
+            if (policy.getControlLoop().getTriggerPolicy().equals(operPolicy.getId())) {
                 triggerPolicyFound = true;
             }
         }
@@ -249,7 +249,7 @@ public class ControlLoopCompiler implements Serializable {
             //
             // Is this the trigger policy?
             //
-            if (operPolicy.getId().equals(policy.getControlLoop().getTrigger_policy())) {
+            if (operPolicy.getId().equals(policy.getControlLoop().getTriggerPolicy())) {
                 //
                 // Yes add an edge from our trigger event node to this policy
                 //
@@ -475,8 +475,8 @@ public class ControlLoopCompiler implements Serializable {
     }
 
     private static boolean isFailureRetriesPolicyResultOk(Policy operPolicy, ControlLoopCompilerCallback callback) {
-        if (FinalResult.toResult(operPolicy.getFailure_retries()) != null
-                        && !operPolicy.getFailure_retries().equals(FinalResult.FINAL_FAILURE_RETRIES.toString())) {
+        if (FinalResult.toResult(operPolicy.getFailureRetries()) != null
+                        && !operPolicy.getFailureRetries().equals(FinalResult.FINAL_FAILURE_RETRIES.toString())) {
             if (callback != null) {
                 callback.onError("Policy failure retries is neither another policy nor FINAL_FAILURE_RETRIES");
             }
@@ -486,8 +486,8 @@ public class ControlLoopCompiler implements Serializable {
     }
 
     private static boolean isFailureTimeoutPolicyResultOk(Policy operPolicy, ControlLoopCompilerCallback callback) {
-        if (FinalResult.toResult(operPolicy.getFailure_timeout()) != null
-                        && !operPolicy.getFailure_timeout().equals(FinalResult.FINAL_FAILURE_TIMEOUT.toString())) {
+        if (FinalResult.toResult(operPolicy.getFailureTimeout()) != null
+                        && !operPolicy.getFailureTimeout().equals(FinalResult.FINAL_FAILURE_TIMEOUT.toString())) {
             if (callback != null) {
                 callback.onError("Policy failure timeout is neither another policy nor FINAL_FAILURE_TIMEOUT");
             }
@@ -497,8 +497,8 @@ public class ControlLoopCompiler implements Serializable {
     }
 
     private static boolean isFailureExceptionPolicyResultOk(Policy operPolicy, ControlLoopCompilerCallback callback) {
-        if (FinalResult.toResult(operPolicy.getFailure_exception()) != null
-                        && !operPolicy.getFailure_exception().equals(FinalResult.FINAL_FAILURE_EXCEPTION.toString())) {
+        if (FinalResult.toResult(operPolicy.getFailureException()) != null
+                        && !operPolicy.getFailureException().equals(FinalResult.FINAL_FAILURE_EXCEPTION.toString())) {
             if (callback != null) {
                 callback.onError("Policy failure exception is neither another policy nor FINAL_FAILURE_EXCEPTION");
             }
@@ -508,8 +508,8 @@ public class ControlLoopCompiler implements Serializable {
     }
 
     private static boolean isFailureGuardPolicyResultOk(Policy operPolicy, ControlLoopCompilerCallback callback) {
-        if (FinalResult.toResult(operPolicy.getFailure_guard()) != null
-                        && !operPolicy.getFailure_guard().equals(FinalResult.FINAL_FAILURE_GUARD.toString())) {
+        if (FinalResult.toResult(operPolicy.getFailureGuard()) != null
+                        && !operPolicy.getFailureGuard().equals(FinalResult.FINAL_FAILURE_GUARD.toString())) {
             if (callback != null) {
                 callback.onError("Policy failure guard is neither another policy nor FINAL_FAILURE_GUARD");
             }

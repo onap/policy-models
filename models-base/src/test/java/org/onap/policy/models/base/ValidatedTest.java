@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Models
  * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -149,9 +149,10 @@ public class ValidatedTest {
         assertTrue(msg.getMessage().contains("name invalid-null"));
         assertTrue(it.next().getMessage().contains("version invalid-null"));
 
+        PfValidationResult pfValidationResult = new PfValidationResult();
         final PfConceptKey key2 = key;
         assertThatThrownBy(() -> validated.validateNotNull(key2, null)).isInstanceOf(NullPointerException.class);
-        assertThatThrownBy(() -> validated.validateNotNull(null, new PfValidationResult()))
+        assertThatThrownBy(() -> validated.validateNotNull(null, pfValidationResult))
                         .isInstanceOf(NullPointerException.class);
     }
 

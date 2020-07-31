@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
- * Modifications Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2018-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,6 +22,7 @@ package org.onap.policy.controlloop.policy.guard;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -43,8 +44,8 @@ public class GuardPolicyTest {
         assertNotNull(guardPolicy.getId());
         assertNull(guardPolicy.getName());
         assertNull(guardPolicy.getDescription());
-        assertNull(guardPolicy.getMatch_parameters());
-        assertNull(guardPolicy.getLimit_constraints());
+        assertNull(guardPolicy.getMatchParameters());
+        assertNull(guardPolicy.getLimitConstraints());
     }
 
     @Test
@@ -55,8 +56,8 @@ public class GuardPolicyTest {
         assertEquals(id, guardPolicy.getId());
         assertNull(guardPolicy.getName());
         assertNull(guardPolicy.getDescription());
-        assertNull(guardPolicy.getMatch_parameters());
-        assertNull(guardPolicy.getLimit_constraints());
+        assertNull(guardPolicy.getMatchParameters());
+        assertNull(guardPolicy.getLimitConstraints());
     }
 
     @Test
@@ -72,8 +73,8 @@ public class GuardPolicyTest {
         assertNotNull(guardPolicy.getId());
         assertEquals(name, guardPolicy.getName());
         assertEquals(description, guardPolicy.getDescription());
-        assertEquals(matchParameters, guardPolicy.getMatch_parameters());
-        assertNull(guardPolicy.getLimit_constraints());
+        assertEquals(matchParameters, guardPolicy.getMatchParameters());
+        assertNull(guardPolicy.getLimitConstraints());
     }
 
     @Test
@@ -87,8 +88,8 @@ public class GuardPolicyTest {
         assertNotNull(guardPolicy.getId());
         assertEquals(name, guardPolicy.getName());
         assertNull(guardPolicy.getDescription());
-        assertEquals(matchParameters, guardPolicy.getMatch_parameters());
-        assertEquals(limitConstraints, guardPolicy.getLimit_constraints());
+        assertEquals(matchParameters, guardPolicy.getMatchParameters());
+        assertEquals(limitConstraints, guardPolicy.getLimitConstraints());
     }
 
     @Test
@@ -103,8 +104,8 @@ public class GuardPolicyTest {
         assertNotNull(guardPolicy.getId());
         assertEquals(name, guardPolicy.getName());
         assertEquals(description, guardPolicy.getDescription());
-        assertEquals(matchParameters, guardPolicy.getMatch_parameters());
-        assertEquals(limitConstraints, guardPolicy.getLimit_constraints());
+        assertEquals(matchParameters, guardPolicy.getMatchParameters());
+        assertEquals(limitConstraints, guardPolicy.getLimitConstraints());
     }
 
     @Test
@@ -120,8 +121,8 @@ public class GuardPolicyTest {
         assertEquals(id, guardPolicy.getId());
         assertEquals(name, guardPolicy.getName());
         assertEquals(description, guardPolicy.getDescription());
-        assertEquals(matchParameters, guardPolicy.getMatch_parameters());
-        assertEquals(limitConstraints, guardPolicy.getLimit_constraints());
+        assertEquals(matchParameters, guardPolicy.getMatchParameters());
+        assertEquals(limitConstraints, guardPolicy.getLimitConstraints());
     }
 
     @Test
@@ -140,8 +141,8 @@ public class GuardPolicyTest {
         assertEquals(id, guardPolicy2.getId());
         assertEquals(name, guardPolicy2.getName());
         assertEquals(description, guardPolicy2.getDescription());
-        assertEquals(matchParameters, guardPolicy2.getMatch_parameters());
-        assertEquals(limitConstraints, guardPolicy2.getLimit_constraints());
+        assertEquals(matchParameters, guardPolicy2.getMatchParameters());
+        assertEquals(limitConstraints, guardPolicy2.getLimitConstraints());
     }
 
     @Test
@@ -172,8 +173,8 @@ public class GuardPolicyTest {
     public void testSetAndGetMatchParameters() {
         MatchParameters matchParameters = new MatchParameters();
         GuardPolicy guardPolicy = new GuardPolicy();
-        guardPolicy.setMatch_parameters(matchParameters);
-        assertEquals(matchParameters, guardPolicy.getMatch_parameters());
+        guardPolicy.setMatchParameters(matchParameters);
+        assertEquals(matchParameters, guardPolicy.getMatchParameters());
     }
 
     @Test
@@ -181,8 +182,8 @@ public class GuardPolicyTest {
         LinkedList<Constraint> limitConstraints = new LinkedList<>();
         limitConstraints.add(new Constraint());
         GuardPolicy guardPolicy = new GuardPolicy();
-        guardPolicy.setLimit_constraints(limitConstraints);
-        assertEquals(limitConstraints, guardPolicy.getLimit_constraints());
+        guardPolicy.setLimitConstraints(limitConstraints);
+        assertEquals(limitConstraints, guardPolicy.getLimitConstraints());
     }
 
     @Test
@@ -220,55 +221,55 @@ public class GuardPolicyTest {
         final String description = GUARD_DESCRIPTION;
         GuardPolicy guardPolicy1 = new GuardPolicy(id);
         GuardPolicy guardPolicy2 = new GuardPolicy();
-        assertFalse(guardPolicy1.equals(guardPolicy2));
+        assertNotEquals(guardPolicy1 , guardPolicy2);
 
         guardPolicy2.setId(id);
-        assertTrue(guardPolicy1.equals(guardPolicy2));
+        assertEquals(guardPolicy1 , guardPolicy2);
         assertEquals(guardPolicy1.hashCode(), guardPolicy2.hashCode());
 
         guardPolicy1.setName(name);
-        assertFalse(guardPolicy1.equals(guardPolicy2));
+        assertNotEquals(guardPolicy1 , guardPolicy2);
         guardPolicy2.setName(name);
-        assertTrue(guardPolicy1.equals(guardPolicy2));
+        assertEquals(guardPolicy1 , guardPolicy2);
         assertEquals(guardPolicy1.hashCode(), guardPolicy2.hashCode());
 
         guardPolicy1.setDescription(description);
-        assertFalse(guardPolicy1.equals(guardPolicy2));
+        assertNotEquals(guardPolicy1 , guardPolicy2);
         guardPolicy2.setDescription(description);
-        assertTrue(guardPolicy1.equals(guardPolicy2));
+        assertEquals(guardPolicy1 , guardPolicy2);
         assertEquals(guardPolicy1.hashCode(), guardPolicy2.hashCode());
 
         MatchParameters matchParameters = new MatchParameters();
-        guardPolicy1.setMatch_parameters(matchParameters);
-        assertFalse(guardPolicy1.equals(guardPolicy2));
-        guardPolicy2.setMatch_parameters(matchParameters);
-        assertTrue(guardPolicy1.equals(guardPolicy2));
+        guardPolicy1.setMatchParameters(matchParameters);
+        assertNotEquals(guardPolicy1 , guardPolicy2);
+        guardPolicy2.setMatchParameters(matchParameters);
+        assertEquals(guardPolicy1 , guardPolicy2);
         assertEquals(guardPolicy1.hashCode(), guardPolicy2.hashCode());
 
         LinkedList<Constraint> limitConstraints = new LinkedList<>();
         limitConstraints.add(new Constraint());
-        guardPolicy1.setLimit_constraints(limitConstraints);
-        assertFalse(guardPolicy1.equals(guardPolicy2));
-        guardPolicy2.setLimit_constraints(limitConstraints);
-        assertTrue(guardPolicy1.equals(guardPolicy2));
+        guardPolicy1.setLimitConstraints(limitConstraints);
+        assertNotEquals(guardPolicy1 , guardPolicy2);
+        guardPolicy2.setLimitConstraints(limitConstraints);
+        assertEquals(guardPolicy1 , guardPolicy2);
         assertEquals(guardPolicy1.hashCode(), guardPolicy2.hashCode());
     }
 
     @Test
     public void testEqualsSameObject() {
         GuardPolicy guardPolicy = new GuardPolicy();
-        assertTrue(guardPolicy.equals(guardPolicy));
+        assertEquals(guardPolicy , guardPolicy);
     }
 
     @Test
     public void testEqualsNull() {
         GuardPolicy guardPolicy = new GuardPolicy();
-        assertFalse(guardPolicy.equals(null));
+        assertNotEquals(guardPolicy , null);
     }
 
     @Test
     public void testEqualsInstanceOfDiffClass() {
         GuardPolicy guardPolicy = new GuardPolicy();
-        assertFalse(guardPolicy.equals(""));
+        assertNotEquals(guardPolicy , "");
     }
 }

@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -100,20 +101,20 @@ public class JpaToscaServiceTemplateTest {
 
         assertEquals(-1, tst.compareTo(null));
         assertEquals(0, tst.compareTo(tst));
-        assertFalse(tst.compareTo(tst.getKey()) == 0);
+        assertNotEquals(tst.compareTo(tst.getKey()) , 0);
 
         PfConceptKey otherDtKey = new PfConceptKey("otherDt", VERSION_001);
         JpaToscaServiceTemplate otherDt = new JpaToscaServiceTemplate(otherDtKey);
 
-        assertFalse(tst.compareTo(otherDt) == 0);
+        assertNotEquals(tst.compareTo(otherDt) , 0);
         otherDt.setKey(tstKey);
-        assertFalse(tst.compareTo(otherDt) == 0);
+        assertNotEquals(tst.compareTo(otherDt) , 0);
         otherDt.setToscaDefinitionsVersion("Tosca Version");
-        assertFalse(tst.compareTo(otherDt) == 0);
+        assertNotEquals(tst.compareTo(otherDt) , 0);
         otherDt.setDataTypes(dataTypes);
-        assertFalse(tst.compareTo(otherDt) == 0);
+        assertNotEquals(tst.compareTo(otherDt) , 0);
         otherDt.setPolicyTypes(policyTypes);
-        assertFalse(tst.compareTo(otherDt) == 0);
+        assertNotEquals(tst.compareTo(otherDt) , 0);
         otherDt.setTopologyTemplate(ttt);
         assertEquals(0, tst.compareTo(otherDt));
 

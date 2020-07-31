@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
- * Modifications Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2018, 2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,6 +22,7 @@ package org.onap.policy.controlloop.policy;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -88,18 +89,18 @@ public class OperationsAccumulateParamsTest {
         OperationsAccumulateParams operationsAccumulateParams1 = new OperationsAccumulateParams();
         OperationsAccumulateParams operationsAccumulateParams2 = new OperationsAccumulateParams();
 
-        assertTrue(operationsAccumulateParams1.equals(operationsAccumulateParams2));
+        assertEquals(operationsAccumulateParams1 , operationsAccumulateParams2);
 
         operationsAccumulateParams1.setPeriod(period);
-        assertFalse(operationsAccumulateParams1.equals(operationsAccumulateParams2));
+        assertNotEquals(operationsAccumulateParams1 , operationsAccumulateParams2);
         operationsAccumulateParams2.setPeriod(period);
-        assertTrue(operationsAccumulateParams1.equals(operationsAccumulateParams2));
+        assertEquals(operationsAccumulateParams1 , operationsAccumulateParams2);
         assertEquals(operationsAccumulateParams1.hashCode(), operationsAccumulateParams2.hashCode());
 
         operationsAccumulateParams1.setLimit(limit);;
-        assertFalse(operationsAccumulateParams1.equals(operationsAccumulateParams2));
+        assertNotEquals(operationsAccumulateParams1 , operationsAccumulateParams2);
         operationsAccumulateParams2.setLimit(limit);
-        assertTrue(operationsAccumulateParams1.equals(operationsAccumulateParams2));
+        assertEquals(operationsAccumulateParams1 , operationsAccumulateParams2);
         assertEquals(operationsAccumulateParams1.hashCode(), operationsAccumulateParams2.hashCode());
     }
 
@@ -107,19 +108,19 @@ public class OperationsAccumulateParamsTest {
     @Test
     public void testEqualsSameObject() {
         OperationsAccumulateParams operationsAccumulateParams = new OperationsAccumulateParams();
-        assertTrue(operationsAccumulateParams.equals(operationsAccumulateParams));
+        assertEquals(operationsAccumulateParams , operationsAccumulateParams);
     }
 
     @Test
     public void testEqualsNull() {
         OperationsAccumulateParams operationsAccumulateParams = new OperationsAccumulateParams();
-        assertFalse(operationsAccumulateParams.equals(null));
+        assertNotEquals(operationsAccumulateParams , null);
     }
 
     @Test
     public void testEqualsInstanceOfDiffClass() {
         OperationsAccumulateParams operationsAccumulateParams = new OperationsAccumulateParams();
-        assertFalse(operationsAccumulateParams.equals(""));
+        assertNotEquals(operationsAccumulateParams , "");
     }
 
 }
