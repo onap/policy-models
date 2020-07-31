@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "83a8da97_fc485ee5",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/OperationProperties.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-07-31T13:48:16Z",
+      "side": 1,
+      "message": "Should they have a prefix (same as AAI_ ones) such as \"EVENT_\" of something of that sort, for easier identication on their origin?",
+      "revId": "fc4ff925c18e4e4a397a4e6eb71fe7a8ffc4c89a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
