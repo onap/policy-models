@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
- * Modifications Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2018-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,6 +22,7 @@ package org.onap.policy.controlloop.policy.guard;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -220,55 +221,55 @@ public class GuardPolicyTest {
         final String description = GUARD_DESCRIPTION;
         GuardPolicy guardPolicy1 = new GuardPolicy(id);
         GuardPolicy guardPolicy2 = new GuardPolicy();
-        assertFalse(guardPolicy1.equals(guardPolicy2));
+        assertNotEquals(guardPolicy1, guardPolicy2);
 
         guardPolicy2.setId(id);
-        assertTrue(guardPolicy1.equals(guardPolicy2));
+        assertEquals(guardPolicy1, guardPolicy2);
         assertEquals(guardPolicy1.hashCode(), guardPolicy2.hashCode());
 
         guardPolicy1.setName(name);
-        assertFalse(guardPolicy1.equals(guardPolicy2));
+        assertNotEquals(guardPolicy1, guardPolicy2);
         guardPolicy2.setName(name);
-        assertTrue(guardPolicy1.equals(guardPolicy2));
+        assertEquals(guardPolicy1, guardPolicy2);
         assertEquals(guardPolicy1.hashCode(), guardPolicy2.hashCode());
 
         guardPolicy1.setDescription(description);
-        assertFalse(guardPolicy1.equals(guardPolicy2));
+        assertNotEquals(guardPolicy1, guardPolicy2);
         guardPolicy2.setDescription(description);
-        assertTrue(guardPolicy1.equals(guardPolicy2));
+        assertEquals(guardPolicy1, guardPolicy2);
         assertEquals(guardPolicy1.hashCode(), guardPolicy2.hashCode());
 
         MatchParameters matchParameters = new MatchParameters();
         guardPolicy1.setMatch_parameters(matchParameters);
-        assertFalse(guardPolicy1.equals(guardPolicy2));
+        assertNotEquals(guardPolicy1, guardPolicy2);
         guardPolicy2.setMatch_parameters(matchParameters);
-        assertTrue(guardPolicy1.equals(guardPolicy2));
+        assertEquals(guardPolicy1, guardPolicy2);
         assertEquals(guardPolicy1.hashCode(), guardPolicy2.hashCode());
 
         LinkedList<Constraint> limitConstraints = new LinkedList<>();
         limitConstraints.add(new Constraint());
         guardPolicy1.setLimit_constraints(limitConstraints);
-        assertFalse(guardPolicy1.equals(guardPolicy2));
+        assertNotEquals(guardPolicy1, guardPolicy2);
         guardPolicy2.setLimit_constraints(limitConstraints);
-        assertTrue(guardPolicy1.equals(guardPolicy2));
+        assertEquals(guardPolicy1, guardPolicy2);
         assertEquals(guardPolicy1.hashCode(), guardPolicy2.hashCode());
     }
 
     @Test
     public void testEqualsSameObject() {
         GuardPolicy guardPolicy = new GuardPolicy();
-        assertTrue(guardPolicy.equals(guardPolicy));
+        assertEquals(guardPolicy, guardPolicy);
     }
 
     @Test
     public void testEqualsNull() {
         GuardPolicy guardPolicy = new GuardPolicy();
-        assertFalse(guardPolicy.equals(null));
+        assertNotEquals(guardPolicy, null);
     }
 
     @Test
     public void testEqualsInstanceOfDiffClass() {
         GuardPolicy guardPolicy = new GuardPolicy();
-        assertFalse(guardPolicy.equals(""));
+        assertNotEquals(guardPolicy, "");
     }
 }

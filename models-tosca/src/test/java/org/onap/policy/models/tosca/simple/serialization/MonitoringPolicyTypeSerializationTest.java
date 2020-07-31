@@ -148,7 +148,7 @@ public class MonitoringPolicyTypeSerializationTest {
 
         // Check policy_types
         Map<PfConceptKey, JpaToscaPolicyType> policyTypesConceptMap = serviceTemplate.getPolicyTypes().getConceptMap();
-        assertTrue(policyTypesConceptMap.size() == 2);
+        assertEquals(2, policyTypesConceptMap.size());
         Iterator<Entry<PfConceptKey, JpaToscaPolicyType>> policyTypesIter = policyTypesConceptMap.entrySet().iterator();
 
         Entry<PfConceptKey, JpaToscaPolicyType> firstPolicyType = policyTypesIter.next();
@@ -162,7 +162,7 @@ public class MonitoringPolicyTypeSerializationTest {
         assertEquals("onap.policies.monitoring.cdap.tca.hi.lo.app", secondPolicyType.getKey().getName());
         assertEquals(VERSION_100, secondPolicyType.getKey().getVersion());
         assertEquals(MONITORING, secondPolicyType.getValue().getDerivedFrom().getName());
-        assertTrue(secondPolicyType.getValue().getProperties().size() == 1);
+        assertEquals(1, secondPolicyType.getValue().getProperties().size());
 
         JpaToscaProperty property = secondPolicyType.getValue().getProperties().values().iterator().next();
         assertEquals("onap.policies.monitoring.cdap.tca.hi.lo.app", property.getKey().getParentKeyName());
@@ -173,7 +173,7 @@ public class MonitoringPolicyTypeSerializationTest {
 
         // Check data_types
         Map<PfConceptKey, JpaToscaDataType> dataTypesConceptMap = serviceTemplate.getDataTypes().getConceptMap();
-        assertTrue(dataTypesConceptMap.size() == 3);
+        assertEquals(3, dataTypesConceptMap.size());
         Iterator<Entry<PfConceptKey, JpaToscaDataType>> dataTypesIter = dataTypesConceptMap.entrySet().iterator();
 
         Entry<PfConceptKey, JpaToscaDataType> firstDataType = dataTypesIter.next();
@@ -181,7 +181,7 @@ public class MonitoringPolicyTypeSerializationTest {
         JpaToscaDataType firstDataTypeVal = firstDataType.getValue();
         assertEquals(DATATYPE_ROOT, firstDataTypeVal.getDerivedFrom().getName());
         assertEquals(VERSION_000, firstDataTypeVal.getDerivedFrom().getVersion());
-        assertTrue(firstDataTypeVal.getProperties().size() == 6);
+        assertEquals(6, firstDataTypeVal.getProperties().size());
         Iterator<JpaToscaProperty> firstDataTypePropertiesIter = firstDataTypeVal.getProperties().values().iterator();
 
         JpaToscaProperty firstDataTypeFirstProperty = firstDataTypePropertiesIter.next();
@@ -191,7 +191,7 @@ public class MonitoringPolicyTypeSerializationTest {
         assertTrue(firstDataTypeFirstProperty.isRequired());
         assertEquals("Specifies Control Loop Schema Type for the event Name e.g. VNF, VM",
                 firstDataTypeFirstProperty.getDescription());
-        assertTrue(firstDataTypeFirstProperty.getConstraints().size() == 1);
+        assertEquals(1, firstDataTypeFirstProperty.getConstraints().size());
         assertEquals("org.onap.policy.models.tosca.simple.concepts.JpaToscaConstraintValidValues",
                 firstDataTypeFirstProperty.getConstraints().iterator().next().getClass().getName());
         assertEquals(2,
@@ -240,7 +240,7 @@ public class MonitoringPolicyTypeSerializationTest {
         JpaToscaDataType secondDataTypeVal = secondDataType.getValue();
         assertEquals(DATATYPE_ROOT, secondDataTypeVal.getDerivedFrom().getName());
         assertEquals(VERSION_000, secondDataTypeVal.getDerivedFrom().getVersion());
-        assertTrue(secondDataTypeVal.getProperties().size() == 2);
+        assertEquals(2, secondDataTypeVal.getProperties().size());
         Iterator<JpaToscaProperty> secondDataTypePropertiesIter = secondDataTypeVal.getProperties().values().iterator();
 
         JpaToscaProperty secondDataTypeFirstProperty = secondDataTypePropertiesIter.next();
@@ -250,7 +250,7 @@ public class MonitoringPolicyTypeSerializationTest {
         assertTrue(secondDataTypeFirstProperty.isRequired());
         assertEquals("Domain name to which TCA needs to be applied", secondDataTypeFirstProperty.getDescription());
         assertEquals("measurementsForVfScaling", secondDataTypeFirstProperty.getDefaultValue());
-        assertTrue(secondDataTypeFirstProperty.getConstraints().size() == 1);
+        assertEquals(1, secondDataTypeFirstProperty.getConstraints().size());
         assertTrue(secondDataTypeFirstProperty.getConstraints().iterator().next() instanceof JpaToscaConstraintLogical);
         assertEquals("measurementsForVfScaling",
                 ((JpaToscaConstraintLogical) (secondDataTypeFirstProperty.getConstraints().iterator().next()))
@@ -271,7 +271,7 @@ public class MonitoringPolicyTypeSerializationTest {
         JpaToscaDataType thirdDataTypeVal = thirdDataType.getValue();
         assertEquals(DATATYPE_ROOT, thirdDataTypeVal.getDerivedFrom().getName());
         assertEquals(VERSION_000, thirdDataTypeVal.getDerivedFrom().getVersion());
-        assertTrue(thirdDataTypeVal.getProperties().size() == 7);
+        assertEquals(7, thirdDataTypeVal.getProperties().size());
         Iterator<JpaToscaProperty> thirdDataTypePropertiesIter = thirdDataTypeVal.getProperties().values().iterator();
 
         JpaToscaProperty thirdDataTypeFirstProperty = thirdDataTypePropertiesIter.next();
@@ -289,13 +289,13 @@ public class MonitoringPolicyTypeSerializationTest {
         assertTrue(thirdDataTypeSecondProperty.isRequired());
         assertEquals("Closed Loop Event Status of the threshold", thirdDataTypeSecondProperty.getDescription());
         assertNotNull(thirdDataTypeSecondProperty.getConstraints());
-        assertTrue(thirdDataTypeSecondProperty.getConstraints().size() == 1);
+        assertEquals(1, thirdDataTypeSecondProperty.getConstraints().size());
         assertEquals("JpaToscaConstraintValidValues(validValues=[ONSET, ABATED])",
                 thirdDataTypeSecondProperty.getConstraints().iterator().next().toString());
         assertTrue(thirdDataTypeSecondProperty.getConstraints().iterator()
                 .next() instanceof JpaToscaConstraintValidValues);
-        assertTrue(((JpaToscaConstraintValidValues) (thirdDataTypeSecondProperty.getConstraints().iterator().next()))
-                .getValidValues().size() == 2);
+        assertEquals(2, ((JpaToscaConstraintValidValues) (thirdDataTypeSecondProperty.getConstraints().iterator().next()))
+                .getValidValues().size());
 
         JpaToscaProperty thirdDataTypeThirdProperty = thirdDataTypePropertiesIter.next();
         assertEquals(THRESHOLDS, thirdDataTypeThirdProperty.getKey().getParentKeyName());
@@ -304,12 +304,12 @@ public class MonitoringPolicyTypeSerializationTest {
         assertTrue(thirdDataTypeThirdProperty.isRequired());
         assertEquals("Direction of the threshold", thirdDataTypeThirdProperty.getDescription());
         assertNotNull(thirdDataTypeThirdProperty.getConstraints());
-        assertTrue(thirdDataTypeThirdProperty.getConstraints().size() == 1);
+        assertEquals(1, thirdDataTypeThirdProperty.getConstraints().size());
         assertEquals(
                 "JpaToscaConstraintValidValues(validValues=[LESS, LESS_OR_EQUAL, GREATER, GREATER_OR_EQUAL, EQUAL])",
                 thirdDataTypeThirdProperty.getConstraints().iterator().next().toString());
-        assertTrue(((JpaToscaConstraintValidValues) (thirdDataTypeThirdProperty.getConstraints().iterator().next()))
-                .getValidValues().size() == 5);
+        assertEquals(5, ((JpaToscaConstraintValidValues) (thirdDataTypeThirdProperty.getConstraints().iterator().next()))
+                .getValidValues().size());
 
         JpaToscaProperty thirdDataTypeFourthProperty = thirdDataTypePropertiesIter.next();
         assertEquals(THRESHOLDS, thirdDataTypeFourthProperty.getKey().getParentKeyName());
@@ -319,9 +319,9 @@ public class MonitoringPolicyTypeSerializationTest {
         assertEquals("Json field Path as per CEF message which needs to be analyzed for TCA",
                 thirdDataTypeFourthProperty.getDescription());
         assertNotNull(thirdDataTypeFourthProperty.getConstraints());
-        assertTrue(thirdDataTypeFourthProperty.getConstraints().size() == 1);
-        assertTrue(((JpaToscaConstraintValidValues) (thirdDataTypeFourthProperty.getConstraints().iterator().next()))
-                .getValidValues().size() == 43);
+        assertEquals(1, thirdDataTypeFourthProperty.getConstraints().size());
+        assertEquals(43, ((JpaToscaConstraintValidValues) (thirdDataTypeFourthProperty.getConstraints().iterator().next()))
+                .getValidValues().size());
 
         JpaToscaProperty thirdDataTypeFifthProperty = thirdDataTypePropertiesIter.next();
         assertEquals(THRESHOLDS, thirdDataTypeFifthProperty.getKey().getParentKeyName());
@@ -330,11 +330,11 @@ public class MonitoringPolicyTypeSerializationTest {
         assertTrue(thirdDataTypeFifthProperty.isRequired());
         assertEquals("Threshold Event Severity", thirdDataTypeFifthProperty.getDescription());
         assertNotNull(thirdDataTypeFifthProperty.getConstraints());
-        assertTrue(thirdDataTypeFifthProperty.getConstraints().size() == 1);
+        assertEquals(1, thirdDataTypeFifthProperty.getConstraints().size());
         assertEquals("JpaToscaConstraintValidValues(validValues=[CRITICAL, MAJOR, MINOR, WARNING, NORMAL])",
                 thirdDataTypeFifthProperty.getConstraints().iterator().next().toString());
-        assertTrue(((JpaToscaConstraintValidValues) (thirdDataTypeFifthProperty.getConstraints().iterator().next()))
-                .getValidValues().size() == 5);
+        assertEquals(5, ((JpaToscaConstraintValidValues) (thirdDataTypeFifthProperty.getConstraints().iterator().next()))
+                .getValidValues().size());
         ;
 
         JpaToscaProperty thirdDataTypeSixthProperty = thirdDataTypePropertiesIter.next();
@@ -365,7 +365,7 @@ public class MonitoringPolicyTypeSerializationTest {
 
         // Check policy_types
         Map<PfConceptKey, JpaToscaPolicyType> policyTypesConceptMap = serviceTemplate.getPolicyTypes().getConceptMap();
-        assertTrue(policyTypesConceptMap.size() == 2);
+        assertEquals(2, policyTypesConceptMap.size());
         Iterator<Entry<PfConceptKey, JpaToscaPolicyType>> policyTypesIter = policyTypesConceptMap.entrySet().iterator();
 
         Entry<PfConceptKey, JpaToscaPolicyType> firstPolicyType = policyTypesIter.next();
@@ -379,7 +379,7 @@ public class MonitoringPolicyTypeSerializationTest {
         assertEquals(DCAE, secondPolicyType.getKey().getName());
         assertEquals(VERSION_100, secondPolicyType.getKey().getVersion());
         assertEquals("onap.policies.Monitoring", secondPolicyType.getValue().getDerivedFrom().getName());
-        assertTrue(secondPolicyType.getValue().getProperties().size() == 2);
+        assertEquals(2, secondPolicyType.getValue().getProperties().size());
 
         Iterator<JpaToscaProperty> propertiesIter = secondPolicyType.getValue().getProperties().values().iterator();
 
