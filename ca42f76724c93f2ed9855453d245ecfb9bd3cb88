@@ -1,0 +1,248 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c16f643e_16b32b40",
+        "filename": "models-base/src/test/java/org/onap/policy/models/base/PfConceptContainerTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-03T16:54:36Z",
+      "side": 1,
+      "message": "swap the arguments\n\nsame comment below",
+      "revId": "ca42f76724c93f2ed9855453d245ecfb9bd3cb88",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94e1671c_cc35f69f",
+        "filename": "models-base/src/test/java/org/onap/policy/models/base/PfKeyUseTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-03T16:54:36Z",
+      "side": 1,
+      "message": "swap arguments\n\nthe other lines look correct",
+      "revId": "ca42f76724c93f2ed9855453d245ecfb9bd3cb88",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84660622_3e48c424",
+        "filename": "models-base/src/test/java/org/onap/policy/models/base/PfModelTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-03T16:54:36Z",
+      "side": 1,
+      "message": "swap the arguments",
+      "revId": "ca42f76724c93f2ed9855453d245ecfb9bd3cb88",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2773a5ca_d2f49709",
+        "filename": "models-base/src/test/java/org/onap/policy/models/base/PfReferenceKeyTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-03T16:54:36Z",
+      "side": 1,
+      "message": "swap the arguments",
+      "revId": "ca42f76724c93f2ed9855453d245ecfb9bd3cb88",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8af68602_6747f38d",
+        "filename": "models-interactions/model-yaml/src/main/java/org/onap/policy/controlloop/guard/compiler/ControlLoopGuardCompiler.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-03T16:54:36Z",
+      "side": 1,
+      "message": "add \", 2020\" and remove all other trailing spaces\n\nOR\n\njust remove this file from the review",
+      "range": {
+        "startLine": 5,
+        "startChar": 22,
+        "endLine": 5,
+        "endChar": 27
+      },
+      "revId": "ca42f76724c93f2ed9855453d245ecfb9bd3cb88",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f6e6bcc_c446981e",
+        "filename": "models-interactions/model-yaml/src/main/java/org/onap/policy/controlloop/policy/ControlLoop.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-03T16:54:36Z",
+      "side": 1,
+      "message": "can remove this file from the review",
+      "revId": "ca42f76724c93f2ed9855453d245ecfb9bd3cb88",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c620534c_d04745ac",
+        "filename": "models-interactions/model-yaml/src/main/java/org/onap/policy/controlloop/policy/Policy.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-03T16:54:36Z",
+      "side": 1,
+      "message": "can remove this file from the review",
+      "revId": "ca42f76724c93f2ed9855453d245ecfb9bd3cb88",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfc8791b_9be1d176",
+        "filename": "models-interactions/model-yaml/src/main/java/org/onap/policy/controlloop/policy/guard/Constraint.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-03T16:54:36Z",
+      "side": 1,
+      "message": "can remove this file from the review",
+      "revId": "ca42f76724c93f2ed9855453d245ecfb9bd3cb88",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2f16b70_0070c41c",
+        "filename": "models-interactions/model-yaml/src/main/java/org/onap/policy/controlloop/policy/guard/GuardPolicy.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-03T16:54:36Z",
+      "side": 1,
+      "message": "can remove this file from the review",
+      "revId": "ca42f76724c93f2ed9855453d245ecfb9bd3cb88",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "addecad8_c212e0e5",
+        "filename": "models-interactions/model-yaml/src/test/java/org/onap/policy/controlloop/policy/ControlLoopPolicyBuilderTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-03T16:54:36Z",
+      "side": 1,
+      "message": "swap arguments\n\nprobably applies to the remaining lines, too",
+      "revId": "ca42f76724c93f2ed9855453d245ecfb9bd3cb88",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d88d004a_75379673",
+        "filename": "models-interactions/model-yaml/src/test/java/org/onap/policy/controlloop/policy/guard/ControlLoopGuardBuilderTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-03T16:54:36Z",
+      "side": 1,
+      "message": "swap arguments",
+      "revId": "ca42f76724c93f2ed9855453d245ecfb9bd3cb88",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21a67524_1725dadc",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/authorative/concepts/ToscaIdentifierTestBase.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-03T16:54:36Z",
+      "side": 1,
+      "message": "swap arguments",
+      "revId": "ca42f76724c93f2ed9855453d245ecfb9bd3cb88",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1db496cd_bf24d4bf",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/authorative/provider/ToscaServiceTemplateMappingTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-03T16:54:36Z",
+      "side": 1,
+      "message": "swap arguments",
+      "revId": "ca42f76724c93f2ed9855453d245ecfb9bd3cb88",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd1bab2e_8b92bd4f",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaDataTypeTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-03T16:54:36Z",
+      "side": 1,
+      "message": "swap arguments\n\nsame comment below AND in remaining files",
+      "revId": "ca42f76724c93f2ed9855453d245ecfb9bd3cb88",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
