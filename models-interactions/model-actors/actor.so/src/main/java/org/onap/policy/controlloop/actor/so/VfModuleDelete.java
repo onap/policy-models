@@ -70,10 +70,10 @@ public class VfModuleDelete extends SoOperation {
 
     // @formatter:off
     private static final List<String> PROPERTY_NAMES = List.of(
-                            OperationProperties.AAI_MODEL_SERVICE,
-                            OperationProperties.AAI_MODEL_VNF,
-                            OperationProperties.AAI_MODEL_CLOUD_REGION,
-                            OperationProperties.AAI_MODEL_TENANT,
+                            OperationProperties.AAI_SERVICE,
+                            OperationProperties.AAI_VNF,
+                            OperationProperties.AAI_DEFAULT_CLOUD_REGION,
+                            OperationProperties.AAI_DEFAULT_TENANT,
                             OperationProperties.DATA_VF_COUNT);
     // @formatter:on
 
@@ -239,12 +239,11 @@ public class VfModuleDelete extends SoOperation {
      * @return a pair containing the request URL and the new request
      */
     protected Pair<String, SoRequest> makeRequest() {
-        final AaiCqResponse aaiCqResponse = params.getContext().getProperty(AaiCqResponse.CONTEXT_KEY);
         final SoModelInfo soModelInfo = prepareSoModelInfo();
-        final GenericVnf vnfItem = getVnfItem(aaiCqResponse, soModelInfo);
-        final ServiceInstance vnfServiceItem = getServiceInstance(aaiCqResponse);
-        final Tenant tenantItem = getDefaultTenant(aaiCqResponse);
-        final CloudRegion cloudRegionItem = getDefaultCloudRegion(aaiCqResponse);
+        final GenericVnf vnfItem = getVnfItem(soModelInfo);
+        final ServiceInstance vnfServiceItem = getServiceInstance();
+        final Tenant tenantItem = getDefaultTenant();
+        final CloudRegion cloudRegionItem = getDefaultCloudRegion();
 
         SoRequest request = new SoRequest();
         request.setOperationType(SoOperationType.DELETE_VF_MODULE);

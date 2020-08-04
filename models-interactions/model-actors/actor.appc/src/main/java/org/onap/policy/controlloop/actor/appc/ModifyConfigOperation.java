@@ -69,7 +69,19 @@ public class ModifyConfigOperation extends AppcOperation {
 
     @Override
     protected Request makeRequest(int attempt) {
+        return makeRequest(attempt, getVnfId());
+    }
+
+    protected String getVnfId() {
+        GenericVnf vnf = this.getProperty(OperationProperties.AAI_RESOURCE_VNF);
+        if (vnf != null) {
+            return vnf.getVnfId();
+        }
+
         AaiCqResponse cq = params.getContext().getProperty(AaiCqResponse.CONTEXT_KEY);
+        if (cq == null) {
+            throw new IllegalStateException("target vnf-id could not be determined");
+        }
 
         GenericVnf genvnf = cq.getGenericVnfByModelInvariantId(params.getTarget().getResourceID());
         if (genvnf == null) {
@@ -77,6 +89,6 @@ public class ModifyConfigOperation extends AppcOperation {
             throw new IllegalArgumentException("target vnf-id could not be found");
         }
 
-        return makeRequest(attempt, genvnf.getVnfId());
+        return genvnf.getVnfId();
     }
 }

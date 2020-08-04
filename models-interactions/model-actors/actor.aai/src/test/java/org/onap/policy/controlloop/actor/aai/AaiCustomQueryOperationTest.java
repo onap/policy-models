@@ -23,6 +23,7 @@ package org.onap.policy.controlloop.actor.aai;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -113,10 +114,11 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation {
         HttpParams opParams = HttpParams.builder().clientName(MY_CLIENT).path("v16/query").build();
         config = new HttpConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
 
-        preloadTenantData();
-
-        params = params.toBuilder().targetEntity(SIM_VSERVER).retry(0).timeoutSec(5).executor(blockingExecutor).build();
+        params = params.toBuilder().targetEntity(SIM_VSERVER).retry(0).timeoutSec(5).executor(blockingExecutor)
+                        .preprocessed(true).build();
         oper = new AaiCustomQueryOperation(params, config);
+
+        oper.setProperty(OperationProperties.AAI_VSERVER_LINK, MY_LINK);
 
         outcome = oper.start().get();
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
@@ -129,15 +131,19 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation {
     public void testConstructor() {
         assertEquals(AaiConstants.ACTOR_NAME, oper.getActorName());
         assertEquals(AaiCustomQueryOperation.NAME, oper.getName());
-        assertEquals(MY_VSERVER, oper.getVserver());
 
         // verify that it works with an empty target entity
         params = params.toBuilder().targetEntity("").build();
         assertThatCode(() -> new AaiCustomQueryOperation(params, config)).doesNotThrowAnyException();
+    }
+
+    @Test
+    public void testGetVserver() {
+        assertEquals(MY_VSERVER, oper.getVserver());
 
         // try without enrichment data
         params.getContext().getEnrichment().remove(AaiCustomQueryOperation.VSERVER_VSERVER_NAME);
-        assertThatIllegalArgumentException().isThrownBy(() -> new AaiCustomQueryOperation(params, config))
+        assertThatIllegalArgumentException().isThrownBy(() -> oper.getVserver())
                         .withMessage("missing " + AaiCustomQueryOperation.VSERVER_VSERVER_NAME + " in enrichment data");
     }
 
@@ -215,7 +221,7 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void testMakeRequest() throws Exception {
+    public void testMakeRequest_testGetVserverLink() throws Exception {
         // preload
         preloadTenantData();
 
@@ -237,17 +243,24 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
-    public void testMakeRequestNoResourceLink() throws Exception {
+    public void testGetVserverLinkViaProperty() throws Exception {
+        oper.setProperty(OperationProperties.AAI_VSERVER_LINK, MY_LINK);
+        assertEquals(MY_LINK, oper.getVserverLink());
+    }
+
+    @Test
+    public void testGetVserverLinkNoTenantData() throws Exception {
+        assertThatIllegalStateException().isThrownBy(() -> oper.getVserverLink())
+                        .withMessage("cannot perform custom query - cannot determine resource-link");
+    }
+
+    @Test
+    public void testGetVserverLinkNoResourceLink() throws Exception {
         // pre-load EMPTY tenant data
         preloadTenantData(new StandardCoderObject());
 
-        when(rawResponse.readEntity(String.class)).thenReturn(makeCqReply());
-        when(webAsync.put(any(), any(InvocationCallback.class))).thenAnswer(provideResponse(rawResponse, 1));
-
-        CompletableFuture<OperationOutcome> future2 = oper.start();
-
-        assertEquals(PolicyResult.FAILURE_EXCEPTION, getResult(future2));
+        assertThatIllegalArgumentException().isThrownBy(() -> oper.getVserverLink())
+                        .withMessage("cannot perform custom query - no resource-link");
     }
 
     private String makeTenantReply() throws Exception {

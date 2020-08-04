@@ -20,10 +20,12 @@
       "vf-module-input-parameters": {
         "param": [
           {
-            "name": "bandwidth"
+            "name": "bandwidth",
+            "value": "my-bandwidth"
           },
           {
-            "name": "bandwidth-change-time"
+            "name": "bandwidth-change-time",
+            "value": "my-change-time"
           }
         ]
       }

@@ -137,6 +137,43 @@ public class VfModuleDeleteTest extends BasicSoOperation {
         assertTrue(outcome.getResponse() instanceof SoResponse);
     }
 
+    /**
+     * Tests "success" case with simulator, using properties instead of custom query data.
+     */
+    @Test
+    public void testSuccessViaProperties() throws Exception {
+        HttpPollingParams opParams = HttpPollingParams.builder().clientName(MY_CLIENT).path("serviceInstances/v7")
+                        .pollPath("orchestrationRequests/v5/").maxPolls(2).build();
+        config = new HttpPollingConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
+
+        params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).preprocessed(true).build();
+        params.getContext().removeProperty(AaiCqResponse.CONTEXT_KEY);
+
+        oper = new VfModuleDelete(params, config);
+
+        // set the properties
+        ServiceInstance instance = new ServiceInstance();
+        instance.setServiceInstanceId(SVC_INSTANCE_ID);
+        oper.setProperty(OperationProperties.AAI_SERVICE, instance);
+
+        GenericVnf vnf = new GenericVnf();
+        vnf.setVnfId(VNF_ID);
+        oper.setProperty(OperationProperties.AAI_VNF, vnf);
+
+        oper.setProperty(OperationProperties.AAI_DEFAULT_CLOUD_REGION, new CloudRegion());
+        oper.setProperty(OperationProperties.AAI_DEFAULT_TENANT, new Tenant());
+
+        oper.setProperty(OperationProperties.DATA_VF_COUNT, VF_COUNT);
+
+        // run the operation
+        outcome = oper.start().get();
+        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertTrue(outcome.getResponse() instanceof SoResponse);
+
+        int count = oper.getProperty(OperationProperties.DATA_VF_COUNT);
+        assertEquals(VF_COUNT - 1, count);
+    }
+
     @Test
     public void testConstructor() {
         assertEquals(DEFAULT_ACTOR, oper.getActorName());
@@ -153,10 +190,10 @@ public class VfModuleDeleteTest extends BasicSoOperation {
         // @formatter:off
         assertThat(oper.getPropertyNames()).isEqualTo(
                         List.of(
-                            OperationProperties.AAI_MODEL_SERVICE,
-                            OperationProperties.AAI_MODEL_VNF,
-                            OperationProperties.AAI_MODEL_CLOUD_REGION,
-                            OperationProperties.AAI_MODEL_TENANT,
+                            OperationProperties.AAI_SERVICE,
+                            OperationProperties.AAI_VNF,
+                            OperationProperties.AAI_DEFAULT_CLOUD_REGION,
+                            OperationProperties.AAI_DEFAULT_TENANT,
                             OperationProperties.DATA_VF_COUNT));
         // @formatter:on
     }
