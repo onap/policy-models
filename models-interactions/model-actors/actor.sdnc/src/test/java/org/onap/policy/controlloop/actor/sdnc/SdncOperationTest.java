@@ -23,6 +23,7 @@ package org.onap.policy.controlloop.actor.sdnc;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Collections;
@@ -30,6 +31,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import org.junit.Before;
 import org.junit.Test;
+import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.sdnc.SdncHealRequest;
 import org.onap.policy.sdnc.SdncHealRequestHeaderInfo;
 import org.onap.policy.sdnc.SdncRequest;
@@ -99,6 +101,44 @@ public class SdncOperationTest extends BasicSdncOperation {
         // null output
         response.setResponseOutput(null);
         assertFalse(oper.isSuccess(null, response));
+    }
+
+    @Test
+    public void testGetOptProperty() {
+        // in neither property nor enrichment
+        assertNull(oper.getOptProperty("propA", "propA2"));
+
+        // both - should choose the property
+        remakeOper(Map.of("propB2", "valueB2"));
+        oper.setProperty("propB", "valueB");
+        assertEquals("valueB", oper.getOptProperty("propB", "propB2"));
+
+        // both - should choose the property, even if it's null
+        remakeOper(Map.of("propC2", "valueC2"));
+        oper.setProperty("propC", null);
+        assertNull(oper.getOptProperty("propC", "propC2"));
+
+        // only in enrichment data
+        remakeOper(Map.of("propD2", "valueD2"));
+        assertEquals("valueD2", oper.getOptProperty("propD", "propD2"));
+    }
+
+    /**
+     * Remakes the operation, with the specified A&AI enrichment data.
+     *
+     * @param aai A&AI enrichment data
+     */
+    private void remakeOper(Map<String, String> aai) {
+        event.setAai(aai);
+        context = new ControlLoopEventContext(event);
+        params = params.toBuilder().context(context).build();
+
+        oper = new SdncOperation(params, config, Collections.emptyList()) {
+            @Override
+            protected SdncRequest makeRequest(int attempt) {
+                return request;
+            }
+        };
     }
 
     @Override

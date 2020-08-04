@@ -23,7 +23,6 @@ package org.onap.policy.controlloop.actor.sdnc;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
-import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.sdnc.SdncHealNetworkInfo;
@@ -58,16 +57,14 @@ public class RerouteOperation extends SdncOperation {
 
     @Override
     protected SdncRequest makeRequest(int attempt) {
-        ControlLoopEventContext context = params.getContext();
-
-        String serviceInstance = context.getEnrichment().get(SERVICE_ID_KEY);
+        String serviceInstance = getOptProperty(OperationProperties.ENRICHMENT_SERVICE_ID, SERVICE_ID_KEY);
         if (StringUtils.isBlank(serviceInstance)) {
             throw new IllegalArgumentException("missing enrichment data, " + SERVICE_ID_KEY);
         }
         SdncHealServiceInfo serviceInfo = new SdncHealServiceInfo();
         serviceInfo.setServiceInstanceId(serviceInstance);
 
-        String networkId = context.getEnrichment().get(NETWORK_ID_KEY);
+        String networkId = getOptProperty(OperationProperties.ENRICHMENT_NETWORK_ID, NETWORK_ID_KEY);
         if (StringUtils.isBlank(networkId)) {
             throw new IllegalArgumentException("missing enrichment data, " + NETWORK_ID_KEY);
         }

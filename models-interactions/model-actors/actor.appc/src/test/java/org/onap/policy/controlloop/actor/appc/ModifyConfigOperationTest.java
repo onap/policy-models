@@ -22,6 +22,7 @@ package org.onap.policy.controlloop.actor.appc;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -102,7 +103,7 @@ public class ModifyConfigOperationTest extends BasicAppcOperation {
 
         params.getContext().setProperty(AaiCqResponse.CONTEXT_KEY, cq);
 
-        params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).build();
+        params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).preprocessed(true).build();
 
         oper = new ModifyConfigOperation(params, config) {
             @Override
@@ -110,6 +111,8 @@ public class ModifyConfigOperationTest extends BasicAppcOperation {
                 return null;
             }
         };
+
+        oper.setProperty(OperationProperties.AAI_RESOURCE_VNF, MY_VNF);
 
         outcome = oper.start().get();
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
@@ -168,17 +171,7 @@ public class ModifyConfigOperationTest extends BasicAppcOperation {
 
     @Test
     public void testMakeRequest() throws CoderException {
-        AaiCqResponse cq = new AaiCqResponse("{}");
-
-        // missing vnf-id
-        params.getContext().setProperty(AaiCqResponse.CONTEXT_KEY, cq);
-        assertThatIllegalArgumentException().isThrownBy(() -> oper.makeRequest(1));
-
-        // populate the CQ data with a vnf-id
-        GenericVnf genvnf = new GenericVnf();
-        genvnf.setVnfId(MY_VNF);
-        genvnf.setModelInvariantId(RESOURCE_ID);
-        cq.setInventoryResponseItems(Arrays.asList(genvnf));
+        oper.setProperty(OperationProperties.AAI_RESOURCE_VNF, MY_VNF);
 
         oper.generateSubRequestId(2);
         Request request = oper.makeRequest(2);
@@ -186,5 +179,33 @@ public class ModifyConfigOperationTest extends BasicAppcOperation {
         assertEquals(MY_VNF, request.getPayload().get(ModifyConfigOperation.VNF_ID_KEY));
 
         verifyRequest("modifyConfig.json", request, IGNORE_FIELDS);
+    }
+
+    @Test
+    public void testGetVnfIdViaProperty() throws CoderException {
+        oper.setProperty(OperationProperties.AAI_RESOURCE_VNF, MY_VNF);
+        assertEquals(MY_VNF, oper.getVnfId());
+    }
+
+    @Test
+    public void testGetVnfId() throws CoderException {
+        // no CQ data
+        assertThatIllegalStateException().isThrownBy(() -> oper.getVnfId())
+                        .withMessage("target vnf-id could not be determined");
+
+        AaiCqResponse cq = new AaiCqResponse("{}");
+
+        // missing vnf-id
+        params.getContext().setProperty(AaiCqResponse.CONTEXT_KEY, cq);
+        assertThatIllegalArgumentException().isThrownBy(() -> oper.getVnfId())
+                        .withMessage("target vnf-id could not be found");
+
+        // populate the CQ data with a vnf-id
+        GenericVnf genvnf = new GenericVnf();
+        genvnf.setVnfId(MY_VNF);
+        genvnf.setModelInvariantId(RESOURCE_ID);
+        cq.setInventoryResponseItems(Arrays.asList(genvnf));
+
+        assertEquals(MY_VNF, oper.getVnfId());
     }
 }
