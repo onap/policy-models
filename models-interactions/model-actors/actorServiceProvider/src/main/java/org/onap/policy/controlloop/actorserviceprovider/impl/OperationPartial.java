@@ -140,6 +140,17 @@ public abstract class OperationPartial implements Operation {
     }
 
     /**
+     * Determines if a property has been assigned for the operation.
+     *
+     * @param name property name
+     * @return {@code true} if the given property has been assigned for the operation,
+     *         {@code false} otherwise
+     */
+    public boolean containsProperty(String name) {
+        return properties.containsKey(name);
+    }
+
+    /**
      * Sets a property.
      *
      * @param name property name
@@ -326,6 +337,7 @@ public abstract class OperationPartial implements Operation {
 
     /**
      * Generates and sets {@link #subRequestId} to a new subrequest ID.
+     *
      * @param attempt attempt number, typically starting with 1
      */
     public void generateSubRequestId(int attempt) {

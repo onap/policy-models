@@ -38,6 +38,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -108,6 +109,51 @@ public class VfModuleCreateTest extends BasicSoOperation {
         assertTrue(outcome.getResponse() instanceof SoResponse);
     }
 
+    /**
+     * Tests "success" case with simulator, using properties instead of custom query data.
+     */
+    @Test
+    public void testSuccessViaProperties() throws Exception {
+        HttpPollingParams opParams = HttpPollingParams.builder().clientName(MY_CLIENT)
+                        .path("serviceInstantiation/v7/serviceInstances").pollPath("orchestrationRequests/v5/")
+                        .maxPolls(2).build();
+        config = new HttpPollingConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
+
+        params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).preprocessed(true).build();
+        params.getContext().removeProperty(AaiCqResponse.CONTEXT_KEY);
+
+        oper = new VfModuleCreate(params, config);
+
+        // set the properties
+        ServiceInstance instance = new ServiceInstance();
+        instance.setServiceInstanceId(SVC_INSTANCE_ID);
+        oper.setProperty(OperationProperties.AAI_SERVICE, instance);
+
+        ModelVer modelVers = new ModelVer();
+        modelVers.setModelName(MODEL_NAME2);
+        modelVers.setModelVersion(MODEL_VERS2);
+
+        oper.setProperty(OperationProperties.AAI_SERVICE_MODEL, modelVers);
+        oper.setProperty(OperationProperties.AAI_VNF_MODEL, modelVers);
+
+        GenericVnf vnf = new GenericVnf();
+        vnf.setVnfId(VNF_ID);
+        oper.setProperty(OperationProperties.AAI_VNF, vnf);
+
+        oper.setProperty(OperationProperties.AAI_DEFAULT_CLOUD_REGION, new CloudRegion());
+        oper.setProperty(OperationProperties.AAI_DEFAULT_TENANT, new Tenant());
+
+        AtomicInteger vfCount = new AtomicInteger(VF_COUNT);
+        oper.setProperty(OperationProperties.DATA_VF_COUNT, vfCount);
+
+        // run the operation
+        outcome = oper.start().get();
+        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertTrue(outcome.getResponse() instanceof SoResponse);
+
+        assertEquals(VF_COUNT + 1, vfCount.get());
+    }
+
     @Test
     public void testConstructor() {
         assertEquals(DEFAULT_ACTOR, oper.getActorName());
@@ -124,10 +170,12 @@ public class VfModuleCreateTest extends BasicSoOperation {
         // @formatter:off
         assertThat(oper.getPropertyNames()).isEqualTo(
                         List.of(
-                            OperationProperties.AAI_MODEL_SERVICE,
-                            OperationProperties.AAI_MODEL_VNF,
-                            OperationProperties.AAI_MODEL_CLOUD_REGION,
-                            OperationProperties.AAI_MODEL_TENANT,
+                            OperationProperties.AAI_SERVICE,
+                            OperationProperties.AAI_SERVICE_MODEL,
+                            OperationProperties.AAI_VNF,
+                            OperationProperties.AAI_VNF_MODEL,
+                            OperationProperties.AAI_DEFAULT_CLOUD_REGION,
+                            OperationProperties.AAI_DEFAULT_TENANT,
                             OperationProperties.DATA_VF_COUNT));
         // @formatter:on
     }

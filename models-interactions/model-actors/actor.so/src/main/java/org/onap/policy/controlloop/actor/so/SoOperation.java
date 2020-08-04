@@ -29,10 +29,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Function;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.onap.aai.domain.yang.CloudRegion;
 import org.onap.aai.domain.yang.GenericVnf;
+import org.onap.aai.domain.yang.ModelVer;
 import org.onap.aai.domain.yang.ServiceInstance;
 import org.onap.aai.domain.yang.Tenant;
 import org.onap.policy.aai.AaiConstants;
@@ -43,6 +46,7 @@ import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingConfig;
@@ -170,10 +174,21 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
     }
 
     protected int getVfCount() {
+        AtomicInteger count = getProperty(OperationProperties.DATA_VF_COUNT);
+        if (count != null) {
+            return count.get();
+        }
+
         return params.getContext().getProperty(vfCountKey);
     }
 
     protected void setVfCount(int vfCount) {
+        AtomicInteger count = getProperty(OperationProperties.DATA_VF_COUNT);
+        if (count != null) {
+            count.set(vfCount);
+            return;
+        }
+
         params.getContext().setProperty(vfCountKey, vfCount);
     }
 
@@ -370,45 +385,77 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
         return headers;
     }
 
+    /**
+     * Gets an item from a property. If the property is not found, then it invokes the
+     * given function to retrieve it from the custom query data. If that fails as well,
+     * then an exception is thrown.
+     *
+     * @param propName property name
+     * @param getter method to extract the value from the custom query data
+     * @param errmsg error message to include in any exception
+     * @return the retrieved item
+     */
+    protected <T> T getItem(String propName, Function<AaiCqResponse, T> getter, String errmsg) {
+        if (containsProperty(propName)) {
+            return getProperty(propName);
+        }
+
+        final AaiCqResponse aaiCqResponse = params.getContext().getProperty(AaiCqResponse.CONTEXT_KEY);
+        T item = getter.apply(aaiCqResponse);
+        if (item == null) {
+            throw new IllegalArgumentException(errmsg);
+        }
+
+        return item;
+    }
+
     /*
      * These methods extract data from the Custom Query and throw an
      * IllegalArgumentException if the desired data item is not found.
      */
 
-    protected GenericVnf getVnfItem(AaiCqResponse aaiCqResponse, SoModelInfo soModelInfo) {
-        GenericVnf vnf = aaiCqResponse.getGenericVnfByVfModuleModelInvariantId(soModelInfo.getModelInvariantId());
-        if (vnf == null) {
-            throw new IllegalArgumentException("missing generic VNF");
-        }
-
-        return vnf;
+    protected GenericVnf getVnfItem(SoModelInfo soModelInfo) {
+        // @formatter:off
+        return getItem(OperationProperties.AAI_VNF,
+            cq -> cq.getGenericVnfByVfModuleModelInvariantId(soModelInfo.getModelInvariantId()),
+            "missing generic VNF");
+        // @formatter:on
     }
 
-    protected ServiceInstance getServiceInstance(AaiCqResponse aaiCqResponse) {
-        ServiceInstance vnfService = aaiCqResponse.getServiceInstance();
-        if (vnfService == null) {
-            throw new IllegalArgumentException("missing VNF Service Item");
-        }
-
-        return vnfService;
+    protected ServiceInstance getServiceInstance() {
+        return getItem(OperationProperties.AAI_SERVICE, AaiCqResponse::getServiceInstance, "missing VNF Service Item");
     }
 
-    protected Tenant getDefaultTenant(AaiCqResponse aaiCqResponse) {
-        Tenant tenant = aaiCqResponse.getDefaultTenant();
-        if (tenant == null) {
-            throw new IllegalArgumentException("missing Tenant Item");
-        }
-
-        return tenant;
+    protected Tenant getDefaultTenant() {
+        // @formatter:off
+        return getItem(OperationProperties.AAI_DEFAULT_TENANT,
+            AaiCqResponse::getDefaultTenant,
+            "missing Default Tenant Item");
+        // @formatter:on
     }
 
-    protected CloudRegion getDefaultCloudRegion(AaiCqResponse aaiCqResponse) {
-        CloudRegion cloudRegion = aaiCqResponse.getDefaultCloudRegion();
-        if (cloudRegion == null) {
-            throw new IllegalArgumentException("missing Cloud Region");
-        }
+    protected CloudRegion getDefaultCloudRegion() {
+        // @formatter:off
+        return getItem(OperationProperties.AAI_DEFAULT_CLOUD_REGION,
+            AaiCqResponse::getDefaultCloudRegion,
+            "missing Default Cloud Region");
+        // @formatter:on
+    }
 
-        return cloudRegion;
+    protected ModelVer getVnfModel(GenericVnf vnfItem) {
+        // @formatter:off
+        return getItem(OperationProperties.AAI_VNF_MODEL,
+            cq -> cq.getModelVerByVersionId(vnfItem.getModelVersionId()),
+            "missing generic VNF Model");
+        // @formatter:on
+    }
+
+    protected ModelVer getServiceModel(ServiceInstance vnfServiceItem) {
+        // @formatter:off
+        return getItem(OperationProperties.AAI_SERVICE_MODEL,
+            cq -> cq.getModelVerByVersionId(vnfServiceItem.getModelVersionId()),
+            "missing Service Model");
+        // @formatter:on
     }
 
     // these may be overridden by junit tests

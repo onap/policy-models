@@ -44,7 +44,6 @@ import org.onap.policy.aai.AaiConstants;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.cds.client.CdsProcessorGrpcClient;
 import org.onap.policy.common.utils.coder.CoderException;
-import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.actor.aai.AaiCustomQueryOperation;
 import org.onap.policy.controlloop.actor.aai.AaiGetPnfOperation;
 import org.onap.policy.controlloop.actor.cds.constants.CdsActorConstants;
@@ -91,13 +90,15 @@ public class GrpcOperation extends OperationPartial {
     // @formatter:off
     private static final List<String> PNF_PROPERTY_NAMES = List.of(
                             OperationProperties.AAI_PNF,
-                            OperationProperties.EVENT_ADDITIONAL_PARAMS);
+                            OperationProperties.EVENT_ADDITIONAL_PARAMS,
+                            OperationProperties.OPT_CDS_GRPC_AAI_PROPERTIES);
 
 
     private static final List<String> VNF_PROPERTY_NAMES = List.of(
-                            OperationProperties.AAI_MODEL_INVARIANT_GENERIC_VNF,
-                            OperationProperties.AAI_RESOURCE_SERVICE_INSTANCE,
-                            OperationProperties.EVENT_ADDITIONAL_PARAMS);
+                            OperationProperties.AAI_RESOURCE_VNF,
+                            OperationProperties.AAI_SERVICE,
+                            OperationProperties.EVENT_ADDITIONAL_PARAMS,
+                            OperationProperties.OPT_CDS_GRPC_AAI_PROPERTIES);
     // @formatter:on
 
     /**
@@ -177,11 +178,15 @@ public class GrpcOperation extends OperationPartial {
      * @return a map of the PNF data
      */
     private Map<String, String> convertPnfToAaiProperties() {
-        // convert PNF data to a Map
-        StandardCoderObject pnf = params.getContext().getProperty(AaiGetPnfOperation.getKey(params.getTargetEntity()));
-        Map<String, Object> source = Util.translateToMap(getFullName(), pnf);
+        Map<String, String> result = this.getProperty(OperationProperties.OPT_CDS_GRPC_AAI_PROPERTIES);
+        if (result != null) {
+            return result;
+        }
 
-        Map<String, String> result = new LinkedHashMap<>();
+        // convert PNF data to a Map
+        Map<String, Object> source = Util.translateToMap(getFullName(), getPnfData());
+
+        result = new LinkedHashMap<>();
 
         for (Entry<String, Object> ent : source.entrySet()) {
             result.put(AAI_PNF_PREFIX + ent.getKey(), ent.getValue().toString());
@@ -191,30 +196,75 @@ public class GrpcOperation extends OperationPartial {
     }
 
     /**
+     * Gets the PNF from the operation properties, if it exists, or from the context
+     * properties otherwise.
+     *
+     * @return the PNF item
+     */
+    protected Object getPnfData() {
+        Object pnf = getProperty(OperationProperties.AAI_PNF);
+        if (pnf != null) {
+            return pnf;
+        }
+
+        pnf = params.getContext().getProperty(AaiGetPnfOperation.getKey(params.getTargetEntity()));
+        if (pnf == null) {
+            throw new IllegalArgumentException("missing PNF data");
+        }
+
+        return pnf;
+    }
+
+    /**
      * Converts the A&AI Custom Query data to a map suitable for passing via the
      * "aaiProperties" field in the CDS request.
      *
      * @return a map of the custom query data
      */
     private Map<String, String> convertCqToAaiProperties() {
+        Map<String, String> result = this.getProperty(OperationProperties.OPT_CDS_GRPC_AAI_PROPERTIES);
+        if (result != null) {
+            return result;
+        }
+
+        result = new LinkedHashMap<>();
+
+        result.put(AAI_SERVICE_INSTANCE_ID_KEY, getServiceInstanceId());
+        result.put(AAI_VNF_ID_KEY, getVnfId());
+
+        return result;
+    }
+
+    protected String getServiceInstanceId() {
+        ServiceInstance serviceInstance = getProperty(OperationProperties.AAI_SERVICE);
+        if (serviceInstance != null) {
+            return serviceInstance.getServiceInstanceId();
+        }
+
         AaiCqResponse aaicq = params.getContext().getProperty(AaiCqResponse.CONTEXT_KEY);
 
-        Map<String, String> result = new LinkedHashMap<>();
-
-        ServiceInstance serviceInstance = aaicq.getServiceInstance();
+        serviceInstance = aaicq.getServiceInstance();
         if (serviceInstance == null) {
             throw new IllegalArgumentException("Target service instance could not be found");
         }
 
-        GenericVnf genericVnf = aaicq.getGenericVnfByModelInvariantId(params.getTarget().getResourceID());
+        return serviceInstance.getServiceInstanceId();
+    }
+
+    protected String getVnfId() {
+        GenericVnf genericVnf = getProperty(OperationProperties.AAI_RESOURCE_VNF);
+        if (genericVnf != null) {
+            return genericVnf.getVnfId();
+        }
+
+        AaiCqResponse aaicq = params.getContext().getProperty(AaiCqResponse.CONTEXT_KEY);
+
+        genericVnf = aaicq.getGenericVnfByModelInvariantId(params.getTarget().getResourceID());
         if (genericVnf == null) {
             throw new IllegalArgumentException("Target generic vnf could not be found");
         }
 
-        result.put(AAI_SERVICE_INSTANCE_ID_KEY, serviceInstance.getServiceInstanceId());
-        result.put(AAI_VNF_ID_KEY, genericVnf.getVnfId());
-
-        return result;
+        return genericVnf.getVnfId();
     }
 
     @Override
@@ -232,7 +282,7 @@ public class GrpcOperation extends OperationPartial {
          * construct the request first so that we don't have to clean up the "client" if
          * an exception is thrown
          */
-        ExecutionServiceInput request = constructRequest(params);
+        ExecutionServiceInput request = constructRequest();
 
         CompletableFuture<OperationOutcome> future = new CompletableFuture<>();
 
@@ -255,10 +305,9 @@ public class GrpcOperation extends OperationPartial {
      * enriched parameters. TO-DO: Avoid leaking Exceptions to the Kie Session thread. TBD
      * item for Frankfurt release.
      *
-     * @param params the control loop parameters specifying the onset, payload, etc.
      * @return an ExecutionServiceInput instance.
      */
-    public ExecutionServiceInput constructRequest(ControlLoopOperationParams params) {
+    public ExecutionServiceInput constructRequest() {
 
         // For the current operational TOSCA policy model (yaml) CBA name and version are
         // embedded in the payload
@@ -295,8 +344,9 @@ public class GrpcOperation extends OperationPartial {
         request.setAaiProperties(aaiConverter.get());
 
         // Inject any additional event parameters that may be present in the onset event
-        if (params.getContext().getEvent().getAdditionalEventParams() != null) {
-            request.setAdditionalEventParams(params.getContext().getEvent().getAdditionalEventParams());
+        Map<String, String> additionalParams = getAdditionalEventParams();
+        if (additionalParams != null) {
+            request.setAdditionalEventParams(additionalParams);
         }
 
         Builder struct = Struct.newBuilder();
@@ -322,6 +372,14 @@ public class GrpcOperation extends OperationPartial {
         // Finally build & return the ExecutionServiceInput gRPC request object.
         return ExecutionServiceInput.newBuilder().setCommonHeader(commonHeader).setActionIdentifiers(actionIdentifiers)
                         .setPayload(struct.build()).build();
+    }
+
+    protected Map<String, String> getAdditionalEventParams() {
+        if (containsProperty(OperationProperties.EVENT_ADDITIONAL_PARAMS)) {
+            return getProperty(OperationProperties.EVENT_ADDITIONAL_PARAMS);
+        }
+
+        return params.getContext().getEvent().getAdditionalEventParams();
     }
 
     private Map<String, String> convertPayloadMap(Map<String, Object> payload) {

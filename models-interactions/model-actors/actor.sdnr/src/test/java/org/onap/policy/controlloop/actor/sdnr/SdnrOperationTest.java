@@ -24,6 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -90,7 +91,7 @@ public class SdnrOperationTest extends BasicSdnrOperation {
 
     @Test
     public void testGetPropertyNames() {
-        assertThat(operation.getPropertyNames()).isEqualTo(List.of(OperationProperties.AAI_VSERVER_LINK));
+        assertThat(operation.getPropertyNames()).isEqualTo(List.of(OperationProperties.EVENT_PAYLOAD));
     }
 
     @Test
@@ -233,6 +234,24 @@ public class SdnrOperationTest extends BasicSdnrOperation {
         // null body
         response.setBody(null);
         checkOutcome();
+    }
+
+    @Test
+    public void testGetEventPayload() {
+        // in neither property nor event
+        assertNull(operation.getEventPayload());
+
+        // only in event
+        event.setPayload("valueA2");
+        assertEquals("valueA2", operation.getEventPayload());
+
+        // both - should choose the property
+        operation.setProperty(OperationProperties.EVENT_PAYLOAD, "valueB");
+        assertEquals("valueB", operation.getEventPayload());
+
+        // both - should choose the property, even if it's null
+        operation.setProperty(OperationProperties.EVENT_PAYLOAD, null);
+        assertNull(operation.getEventPayload());
     }
 
     protected void checkOutcome() {
