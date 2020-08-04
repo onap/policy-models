@@ -25,6 +25,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -149,6 +150,15 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation {
     public void testGenerateSubRequestId() {
         oper.generateSubRequestId(3);
         assertEquals("3", oper.getSubRequestId());
+    }
+
+    /**
+     * Tests startPreprocessorAsync(), when preprocessing is disabled.
+     */
+    @Test
+    public void testStartPreprocessorAsyncDisabled() {
+        params = params.toBuilder().preprocessed(true).build();
+        assertNull(new AaiCustomQueryOperation(params, config).startPreprocessorAsync());
     }
 
     @Test

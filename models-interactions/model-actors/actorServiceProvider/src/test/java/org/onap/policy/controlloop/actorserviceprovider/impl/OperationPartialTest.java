@@ -346,6 +346,15 @@ public class OperationPartialTest {
         assertEquals(oper.makeGuardPayload(), payload);
     }
 
+    /**
+     * Tests startGuardAsync() when preprocessing is disabled.
+     */
+    @Test
+    public void testStartGuardAsyncDisabled() {
+        params = params.toBuilder().preprocessed(true).build();
+        assertNull(new MyOper().startGuardAsync());
+    }
+
     @Test
     public void testMakeGuardPayload() {
         Map<String, Object> payload = oper.makeGuardPayload();

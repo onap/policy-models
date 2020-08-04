@@ -268,6 +268,10 @@ public abstract class OperationPartial implements Operation {
      *         {@code null} if this operation has no guard
      */
     protected CompletableFuture<OperationOutcome> startGuardAsync() {
+        if (params.isPreprocessed()) {
+            return null;
+        }
+
         // get the guard payload
         Map<String, Object> payload = makeGuardPayload();
 
@@ -285,6 +289,7 @@ public abstract class OperationPartial implements Operation {
      * @return a new guard payload
      */
     protected Map<String, Object> makeGuardPayload() {
+        // TODO delete this once preprocessing is done by the application
         Map<String, Object> guard = new LinkedHashMap<>();
         guard.put("actor", params.getActor());
         guard.put("operation", params.getOperation());

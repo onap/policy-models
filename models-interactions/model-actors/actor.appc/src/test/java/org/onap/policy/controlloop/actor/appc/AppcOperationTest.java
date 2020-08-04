@@ -23,6 +23,7 @@ package org.onap.policy.controlloop.actor.appc;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 
 import java.util.Arrays;
@@ -83,6 +84,15 @@ public class AppcOperationTest extends BasicAppcOperation {
     @Test
     public void testStartPreprocessorAsync() {
         assertNotNull(oper.startPreprocessorAsync());
+    }
+
+    /**
+     * Tests startPreprocessorAsync(), when preprocessing is disabled.
+     */
+    @Test
+    public void testStartPreprocessorAsyncDisabled() {
+        params = params.toBuilder().preprocessed(true).build();
+        assertNull(new MyOper(params, config).startPreprocessorAsync());
     }
 
     @Test

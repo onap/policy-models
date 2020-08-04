@@ -56,6 +56,10 @@ public class ModifyConfigOperation extends AppcOperation {
     @Override
     @SuppressWarnings("unchecked")
     protected CompletableFuture<OperationOutcome> startPreprocessorAsync() {
+        if (params.isPreprocessed()) {
+            return null;
+        }
+
         ControlLoopOperationParams cqParams = params.toBuilder().actor(AaiConstants.ACTOR_NAME)
                         .operation(AaiCqResponse.OPERATION).payload(null).retry(null).timeoutSec(null).build();
 

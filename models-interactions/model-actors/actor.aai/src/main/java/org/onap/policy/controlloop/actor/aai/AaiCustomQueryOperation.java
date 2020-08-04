@@ -87,6 +87,10 @@ public class AaiCustomQueryOperation extends HttpOperation<String> {
      */
     @Override
     protected CompletableFuture<OperationOutcome> startPreprocessorAsync() {
+        if (params.isPreprocessed()) {
+            return null;
+        }
+
         ControlLoopOperationParams tenantParams =
                         params.toBuilder().actor(AaiConstants.ACTOR_NAME).operation(AaiGetTenantOperation.NAME)
                                         .targetEntity(vserver).payload(null).retry(null).timeoutSec(null).build();

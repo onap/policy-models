@@ -25,6 +25,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -149,6 +150,15 @@ public class VfModuleCreateTest extends BasicSoOperation {
         CompletableFuture<OperationOutcome> future3 = oper.startPreprocessorAsync();
         assertNotNull(future3);
         assertTrue(guardStarted.get());
+    }
+
+    /**
+     * Tests startPreprocessorAsync(), when preprocessing is disabled.
+     */
+    @Test
+    public void testStartPreprocessorAsyncDisabled() {
+        params = params.toBuilder().preprocessed(true).build();
+        assertNull(new VfModuleCreate(params, config).startPreprocessorAsync());
     }
 
     @Test
