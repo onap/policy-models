@@ -25,6 +25,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -154,6 +155,15 @@ public class ModifyConfigOperationTest extends BasicAppcOperation {
         assertTrue(executor.runAll(100));
         assertTrue(future3.isDone());
         assertEquals(PolicyResult.SUCCESS, future3.get().getResult());
+    }
+
+    /**
+     * Tests startPreprocessorAsync(), when preprocessing is disabled.
+     */
+    @Test
+    public void testStartPreprocessorAsyncDisabled() {
+        params = params.toBuilder().preprocessed(true).build();
+        assertNull(new ModifyConfigOperation(params, config).startPreprocessorAsync());
     }
 
     @Test

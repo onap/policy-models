@@ -96,6 +96,9 @@ public class VfModuleDelete extends SoOperation {
     @Override
     @SuppressWarnings("unchecked")
     protected CompletableFuture<OperationOutcome> startPreprocessorAsync() {
+        if (params.isPreprocessed()) {
+            return null;
+        }
 
         // need the VF count
         ControlLoopOperationParams cqParams = params.toBuilder().actor(AaiConstants.ACTOR_NAME)

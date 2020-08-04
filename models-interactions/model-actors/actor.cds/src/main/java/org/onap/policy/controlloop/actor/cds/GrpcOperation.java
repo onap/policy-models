@@ -138,6 +138,10 @@ public class GrpcOperation extends OperationPartial {
     @Override
     @SuppressWarnings("unchecked")
     protected CompletableFuture<OperationOutcome> startPreprocessorAsync() {
+        if (params.isPreprocessed()) {
+            return null;
+        }
+
         // run A&AI Query and Guard, in parallel
         return allOf(aaiRequestor, this::startGuardAsync);
     }

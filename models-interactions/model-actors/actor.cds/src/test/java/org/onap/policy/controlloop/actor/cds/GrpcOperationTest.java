@@ -23,6 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -93,10 +94,15 @@ public class GrpcOperationTest {
 
     @Mock
     private CdsProcessorGrpcClient cdsClient;
+    @Mock
+    private ControlLoopEventContext context;
     private CdsServerProperties cdsProps;
     private VirtualControlLoopEvent onset;
     private PseudoExecutor executor;
     private Target target;
+    private ControlLoopOperationParams params;
+    private GrpcConfig config;
+    private CompletableFuture<OperationOutcome> cqFuture;
     private GrpcOperation operation;
 
     @BeforeClass
@@ -137,6 +143,14 @@ public class GrpcOperationTest {
         target = new Target();
         target.setType(TargetType.VM);
         target.setResourceID(RESOURCE_ID);
+
+        cqFuture = new CompletableFuture<>();
+        when(context.obtain(eq(AaiCqResponse.CONTEXT_KEY), any())).thenReturn(cqFuture);
+        when(context.getEvent()).thenReturn(onset);
+
+        params = ControlLoopOperationParams.builder().actor(CdsActorConstants.CDS_ACTOR)
+                        .operation(GrpcOperation.NAME).context(context).actorService(new ActorService())
+                        .targetEntity(TARGET_ENTITY).target(target).build();
     }
 
     /**
@@ -149,7 +163,7 @@ public class GrpcOperationTest {
 
         Map<String, Object> payload = Map.of("artifact_name", "my_artifact", "artifact_version", "1.0");
 
-        final ControlLoopOperationParams params = ControlLoopOperationParams.builder()
+        params = ControlLoopOperationParams.builder()
                         .actor(CdsActorConstants.CDS_ACTOR).operation("subscribe").context(context)
                         .actorService(new ActorService()).targetEntity(TARGET_ENTITY).target(target).retry(0)
                         .timeoutSec(5).executor(blockingExecutor).payload(payload).build();
@@ -175,13 +189,6 @@ public class GrpcOperationTest {
 
     @Test
     public void testGetPropertyNames() {
-        ControlLoopEventContext context = mock(ControlLoopEventContext.class);
-        when(context.getEvent()).thenReturn(onset);
-
-        ControlLoopOperationParams params = ControlLoopOperationParams.builder().actor(CdsActorConstants.CDS_ACTOR)
-                        .operation(GrpcOperation.NAME).context(context).actorService(new ActorService())
-                        .targetEntity(TARGET_ENTITY).target(target).build();
-        GrpcConfig config = new GrpcConfig(executor, cdsProps);
 
         /*
          * check VNF case
@@ -212,24 +219,13 @@ public class GrpcOperationTest {
 
     @Test
     public void testStartPreprocessorAsync() throws InterruptedException, ExecutionException, TimeoutException {
-
-        CompletableFuture<OperationOutcome> future2 = new CompletableFuture<>();
-        ControlLoopEventContext context = mock(ControlLoopEventContext.class);
-        when(context.obtain(eq(AaiCqResponse.CONTEXT_KEY), any())).thenReturn(future2);
-        when(context.getEvent()).thenReturn(onset);
-
         AtomicBoolean guardStarted = new AtomicBoolean();
-
-        ControlLoopOperationParams params = ControlLoopOperationParams.builder().actor(CdsActorConstants.CDS_ACTOR)
-                        .operation(GrpcOperation.NAME).context(context).actorService(new ActorService())
-                        .targetEntity(TARGET_ENTITY).target(target).build();
-        GrpcConfig config = new GrpcConfig(executor, cdsProps);
 
         operation = new GrpcOperation(params, config) {
             @Override
             protected CompletableFuture<OperationOutcome> startGuardAsync() {
                 guardStarted.set(true);
-                return future2;
+                return cqFuture;
             }
         };
 
@@ -238,7 +234,7 @@ public class GrpcOperationTest {
         assertTrue(guardStarted.get());
         verify(context).obtain(eq(AaiCqResponse.CONTEXT_KEY), any());
 
-        future2.complete(params.makeOutcome());
+        cqFuture.complete(params.makeOutcome());
         assertTrue(executor.runAll(100));
         assertEquals(PolicyResult.SUCCESS, future3.get(2, TimeUnit.SECONDS).getResult());
         assertTrue(future3.isDone());
@@ -249,26 +245,15 @@ public class GrpcOperationTest {
      */
     @Test
     public void testStartPreprocessorAsyncPnf() throws InterruptedException, ExecutionException, TimeoutException {
-
-        CompletableFuture<OperationOutcome> future2 = new CompletableFuture<>();
-        ControlLoopEventContext context = mock(ControlLoopEventContext.class);
-        when(context.obtain(eq(AaiCqResponse.CONTEXT_KEY), any())).thenReturn(future2);
-        when(context.getEvent()).thenReturn(onset);
-
         AtomicBoolean guardStarted = new AtomicBoolean();
 
         target.setType(TargetType.PNF);
-
-        ControlLoopOperationParams params = ControlLoopOperationParams.builder().actor(CdsActorConstants.CDS_ACTOR)
-                        .operation(GrpcOperation.NAME).context(context).actorService(new ActorService())
-                        .targetEntity(TARGET_ENTITY).target(target).build();
-        GrpcConfig config = new GrpcConfig(executor, cdsProps);
 
         operation = new GrpcOperation(params, config) {
             @Override
             protected CompletableFuture<OperationOutcome> startGuardAsync() {
                 guardStarted.set(true);
-                return future2;
+                return cqFuture;
             }
         };
 
@@ -277,10 +262,19 @@ public class GrpcOperationTest {
         assertTrue(guardStarted.get());
         verify(context).obtain(eq(AaiGetPnfOperation.getKey(TARGET_ENTITY)), any());
 
-        future2.complete(params.makeOutcome());
+        cqFuture.complete(params.makeOutcome());
         assertTrue(executor.runAll(100));
         assertEquals(PolicyResult.SUCCESS, future3.get(2, TimeUnit.SECONDS).getResult());
         assertTrue(future3.isDone());
+    }
+
+    /**
+     * Tests startPreprocessorAsync(), when preprocessing is disabled.
+     */
+    @Test
+    public void testStartPreprocessorAsyncDisabled() {
+        params = params.toBuilder().preprocessed(true).build();
+        assertNull(new GrpcOperation(params, config).startPreprocessorAsync());
     }
 
     @Test
@@ -319,13 +313,6 @@ public class GrpcOperationTest {
 
     @Test
     public void testStartOperationAsyncError() throws Exception {
-
-        ControlLoopEventContext context = new ControlLoopEventContext(onset);
-        ControlLoopOperationParams params = ControlLoopOperationParams.builder().actor(CdsActorConstants.CDS_ACTOR)
-                        .operation(GrpcOperation.NAME).context(context).actorService(new ActorService())
-                        .targetEntity(TARGET_ENTITY).target(target).build();
-
-        GrpcConfig config = new GrpcConfig(executor, cdsProps);
         operation = new GrpcOperation(params, config);
         assertThatIllegalArgumentException().isThrownBy(() -> operation.startOperationAsync(1, params.makeOutcome()));
     }
