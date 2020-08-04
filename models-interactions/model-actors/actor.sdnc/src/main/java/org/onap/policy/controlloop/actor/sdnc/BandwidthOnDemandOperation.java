@@ -23,7 +23,6 @@ package org.onap.policy.controlloop.actor.sdnc;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
-import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.sdnc.SdncHealRequest;
@@ -38,10 +37,13 @@ import org.onap.policy.sdnc.SdncHealVnfInfo;
 import org.onap.policy.sdnc.SdncRequest;
 
 public class BandwidthOnDemandOperation extends SdncOperation {
+
     public static final String NAME = "BandwidthOnDemand";
 
     // fields in the enrichment data
     public static final String SERVICE_ID_KEY = "service-instance.service-instance-id";
+    public static final String BANDWIDTH = "bandwidth";
+    public static final String BANDWIDTH_CHANGE_TIME = "bandwidth-change-time";
     public static final String VNF_ID = "vnfId";
 
     // @formatter:off
@@ -64,20 +66,18 @@ public class BandwidthOnDemandOperation extends SdncOperation {
 
     @Override
     protected SdncRequest makeRequest(int attempt) {
-        ControlLoopEventContext context = params.getContext();
-
-        String serviceInstance = context.getEnrichment().get(SERVICE_ID_KEY);
+        String serviceInstance = getOptProperty(OperationProperties.ENRICHMENT_SERVICE_ID, SERVICE_ID_KEY);
         if (StringUtils.isBlank(serviceInstance)) {
             throw new IllegalArgumentException("missing enrichment data, " + SERVICE_ID_KEY);
         }
 
         SdncHealVfModuleParameter bandwidth = new SdncHealVfModuleParameter();
-        bandwidth.setName("bandwidth");
-        bandwidth.setValue(context.getEnrichment().get("bandwidth"));
+        bandwidth.setName(BANDWIDTH);
+        bandwidth.setValue(getOptProperty(OperationProperties.ENRICHMENT_BANDWIDTH, BANDWIDTH));
 
         SdncHealVfModuleParameter timeStamp = new SdncHealVfModuleParameter();
-        timeStamp.setName("bandwidth-change-time");
-        timeStamp.setValue(context.getEnrichment().get("bandwidth-change-time"));
+        timeStamp.setName(BANDWIDTH_CHANGE_TIME);
+        timeStamp.setValue(getOptProperty(OperationProperties.ENRICHMENT_BANDWIDTH_CHANGE_TIME, BANDWIDTH_CHANGE_TIME));
 
         SdncHealVfModuleParametersInfo vfParametersInfo = new SdncHealVfModuleParametersInfo();
         vfParametersInfo.addParameters(bandwidth);
@@ -102,7 +102,7 @@ public class BandwidthOnDemandOperation extends SdncOperation {
         request.setUrl("/" + getPath());
 
         SdncHealVnfInfo vnfInfo = new SdncHealVnfInfo();
-        vnfInfo.setVnfId(context.getEnrichment().get(VNF_ID));
+        vnfInfo.setVnfId(getOptProperty(OperationProperties.ENRICHMENT_VNF_ID, VNF_ID));
 
         SdncHealVfModuleInfo vfModuleInfo = new SdncHealVfModuleInfo();
         vfModuleInfo.setVfModuleId("");

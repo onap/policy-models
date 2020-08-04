@@ -29,6 +29,7 @@ import javax.ws.rs.core.Response;
 import org.apache.commons.lang3.tuple.Pair;
 import org.onap.aai.domain.yang.CloudRegion;
 import org.onap.aai.domain.yang.GenericVnf;
+import org.onap.aai.domain.yang.ModelVer;
 import org.onap.aai.domain.yang.ServiceInstance;
 import org.onap.aai.domain.yang.Tenant;
 import org.onap.policy.aai.AaiConstants;
@@ -61,10 +62,12 @@ public class VfModuleCreate extends SoOperation {
 
     // @formatter:off
     private static final List<String> PROPERTY_NAMES = List.of(
-                            OperationProperties.AAI_MODEL_SERVICE,
-                            OperationProperties.AAI_MODEL_VNF,
-                            OperationProperties.AAI_MODEL_CLOUD_REGION,
-                            OperationProperties.AAI_MODEL_TENANT,
+                            OperationProperties.AAI_SERVICE,
+                            OperationProperties.AAI_SERVICE_MODEL,
+                            OperationProperties.AAI_VNF,
+                            OperationProperties.AAI_VNF_MODEL,
+                            OperationProperties.AAI_DEFAULT_CLOUD_REGION,
+                            OperationProperties.AAI_DEFAULT_TENANT,
                             OperationProperties.DATA_VF_COUNT);
     // @formatter:off
 
@@ -156,12 +159,13 @@ public class VfModuleCreate extends SoOperation {
      * @return a pair containing the request URL and the new request
      */
     protected Pair<String, SoRequest> makeRequest() {
-        final AaiCqResponse aaiCqResponse = params.getContext().getProperty(AaiCqResponse.CONTEXT_KEY);
         final SoModelInfo soModelInfo = prepareSoModelInfo();
-        final GenericVnf vnfItem = getVnfItem(aaiCqResponse, soModelInfo);
-        final ServiceInstance vnfServiceItem = getServiceInstance(aaiCqResponse);
-        final Tenant tenantItem = getDefaultTenant(aaiCqResponse);
-        final CloudRegion cloudRegionItem = getDefaultCloudRegion(aaiCqResponse);
+        final GenericVnf vnfItem = getVnfItem(soModelInfo);
+        final ServiceInstance vnfServiceItem = getServiceInstance();
+        final Tenant tenantItem = getDefaultTenant();
+        final CloudRegion cloudRegionItem = getDefaultCloudRegion();
+        final ModelVer vnfModel = getVnfModel(vnfItem);
+        final ModelVer vnfServiceModel = getServiceModel(vnfServiceItem);
 
         SoRequest request = new SoRequest();
         request.setOperationType(SoOperationType.SCALE_OUT);
@@ -198,10 +202,8 @@ public class VfModuleCreate extends SoOperation {
                         .setModelInvariantId(vnfServiceItem.getModelInvariantId());
         relatedInstanceListElement1.getRelatedInstance().getModelInfo()
                         .setModelVersionId(vnfServiceItem.getModelVersionId());
-        relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelName(
-                        aaiCqResponse.getModelVerByVersionId(vnfServiceItem.getModelVersionId()).getModelName());
-        relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelVersion(
-                        aaiCqResponse.getModelVerByVersionId(vnfServiceItem.getModelVersionId()).getModelVersion());
+        relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelName(vnfModel.getModelName());
+        relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelVersion(vnfModel.getModelVersion());
 
         // VNF Item
         relatedInstanceListElement2.getRelatedInstance().setInstanceId(vnfItem.getVnfId());
@@ -211,10 +213,9 @@ public class VfModuleCreate extends SoOperation {
                         .setModelInvariantId(vnfItem.getModelInvariantId());
         relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelVersionId(vnfItem.getModelVersionId());
 
+        relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelName(vnfServiceModel.getModelName());
         relatedInstanceListElement2.getRelatedInstance().getModelInfo()
-                        .setModelName(aaiCqResponse.getModelVerByVersionId(vnfItem.getModelVersionId()).getModelName());
-        relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelVersion(
-                        aaiCqResponse.getModelVerByVersionId(vnfItem.getModelVersionId()).getModelVersion());
+                        .setModelVersion(vnfServiceModel.getModelVersion());
 
         relatedInstanceListElement2.getRelatedInstance().getModelInfo()
                         .setModelCustomizationId(vnfItem.getModelCustomizationId());

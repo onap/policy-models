@@ -46,7 +46,7 @@ public class SdnrOperation extends BidirectionalTopicOperation<PciMessage, PciMe
      */
     public static final String NAME = "any";
 
-    private static final List<String> PROPERTY_NAMES = List.of(OperationProperties.AAI_VSERVER_LINK);
+    private static final List<String> PROPERTY_NAMES = List.of(OperationProperties.EVENT_PAYLOAD);
 
     /**
      * Keys used to match the response with the request listener. The sub request ID is a
@@ -156,7 +156,7 @@ public class SdnrOperation extends BidirectionalTopicOperation<PciMessage, PciMe
         requestCommonHeader.setSubRequestId(subRequestId);
 
         sdnrRequest.setCommonHeader(requestCommonHeader);
-        sdnrRequest.setPayload(params.getContext().getEvent().getPayload());
+        sdnrRequest.setPayload(getEventPayload());
         sdnrRequest.setAction(params.getOperation());
 
         /*
@@ -168,5 +168,19 @@ public class SdnrOperation extends BidirectionalTopicOperation<PciMessage, PciMe
 
         /* Return the request to be sent through dmaap. */
         return dmaapRequest;
+    }
+
+    /**
+     * Gets the event payload, first checking for it in the properties and then in the
+     * event.
+     *
+     * @return the event payload
+     */
+    protected String getEventPayload() {
+        if (containsProperty(OperationProperties.EVENT_PAYLOAD)) {
+            return getProperty(OperationProperties.EVENT_PAYLOAD);
+        }
+
+        return params.getContext().getEvent().getPayload();
     }
 }

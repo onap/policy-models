@@ -26,7 +26,6 @@ import javax.ws.rs.core.Response;
 import org.apache.commons.lang3.StringUtils;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
-import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
@@ -133,7 +132,7 @@ public abstract class VfcOperation extends HttpOperation<VfcResponse> {
      */
     protected String getRequestState(VfcResponse response) {
         if (response == null || response.getResponseDescriptor() == null
-                || StringUtils.isBlank(response.getResponseDescriptor().getStatus())) {
+                        || StringUtils.isBlank(response.getResponseDescriptor().getStatus())) {
             return null;
         }
         return response.getResponseDescriptor().getStatus();
@@ -153,7 +152,7 @@ public abstract class VfcOperation extends HttpOperation<VfcResponse> {
      */
     @Override
     public OperationOutcome setOutcome(OperationOutcome outcome, PolicyResult result, Response rawResponse,
-            VfcResponse response) {
+                    VfcResponse response) {
 
         // set default result and message
         setOutcome(outcome, result);
@@ -171,14 +170,16 @@ public abstract class VfcOperation extends HttpOperation<VfcResponse> {
      * @return request
      */
     protected VfcRequest constructVfcRequest() {
-        ControlLoopEventContext context = params.getContext();
-        String serviceInstance = context.getEnrichment().get("service-instance.service-instance-id");
-        String vmId = context.getEnrichment().get("vserver.vserver-id");
-        String vmName = context.getEnrichment().get("vserver.vserver-name");
+        final String serviceInstance = getOptProperty(OperationProperties.ENRICHMENT_SERVICE_INSTANCE_ID,
+                        "service-instance.service-instance-id");
+        final String vmId = getOptProperty(OperationProperties.ENRICHMENT_VSERVER_ID, "vserver.vserver-id");
+        final String vmName = getOptProperty(OperationProperties.ENRICHMENT_VSERVER_NAME, "vserver.vserver-name");
+        final String vnfId = getOptProperty(OperationProperties.ENRICHMENT_GENERIC_VNF_ID, GENERIC_VNF_ID);
 
         if (StringUtils.isBlank(serviceInstance) || StringUtils.isBlank(vmId) || StringUtils.isBlank(vmName)) {
+            // original code did not check the VNF id, so we won't check it either
             throw new IllegalArgumentException(
-                    "Cannot extract enrichment data for service instance, server id, or server name.");
+                            "Cannot extract enrichment data for service instance, server id, or server name.");
         }
 
         VfcHealActionVmInfo vmActionInfo = new VfcHealActionVmInfo();
@@ -190,7 +191,7 @@ public abstract class VfcOperation extends HttpOperation<VfcResponse> {
         additionalParams.setActionInfo(vmActionInfo);
 
         VfcHealRequest healRequest = new VfcHealRequest();
-        healRequest.setVnfInstanceId(params.getContext().getEnrichment().get(GENERIC_VNF_ID));
+        healRequest.setVnfInstanceId(vnfId);
         healRequest.setCause(getName());
         healRequest.setAdditionalParams(additionalParams);
 
@@ -200,5 +201,22 @@ public abstract class VfcOperation extends HttpOperation<VfcResponse> {
         request.setRequestId(params.getRequestId());
 
         return request;
+    }
+
+    /**
+     * Gets an optional property, first checking the properties, then checking the
+     * enrichment data.
+     *
+     * @param propName property name
+     * @param enrichmentName property name within the enrichment data
+     * @return the property's value, or {@code null} if it is not found
+     */
+    protected String getOptProperty(String propName, String enrichmentName) {
+        if (containsProperty(propName)) {
+            // return the value, even if it's null
+            return getProperty(propName);
+        }
+
+        return params.getContext().getEnrichment().get(enrichmentName);
     }
 }

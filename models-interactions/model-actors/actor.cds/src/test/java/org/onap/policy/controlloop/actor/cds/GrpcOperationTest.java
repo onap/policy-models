@@ -24,6 +24,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -31,6 +32,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +51,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.onap.aai.domain.yang.GenericVnf;
+import org.onap.aai.domain.yang.Pnf;
 import org.onap.aai.domain.yang.ServiceInstance;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceInput;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceOutput;
@@ -187,6 +190,37 @@ public class GrpcOperationTest {
         assertTrue(outcome.getResponse() instanceof ExecutionServiceOutput);
     }
 
+    /**
+     * Tests "success" case with simulator using properties.
+     */
+    @Test
+    public void testSuccessViaProperties() throws Exception {
+        ControlLoopEventContext context = new ControlLoopEventContext(onset);
+        loadCqData(context);
+
+        Map<String, Object> payload = Map.of("artifact_name", "my_artifact", "artifact_version", "1.0");
+
+        params = ControlLoopOperationParams.builder()
+                        .actor(CdsActorConstants.CDS_ACTOR).operation("subscribe").context(context)
+                        .actorService(new ActorService()).targetEntity(TARGET_ENTITY).target(target).retry(0)
+                        .timeoutSec(5).executor(blockingExecutor).payload(payload).preprocessed(true).build();
+
+        cdsProps.setHost("localhost");
+        cdsProps.setPort(sim.getPort());
+        cdsProps.setTimeout(3);
+
+        GrpcConfig config = new GrpcConfig(blockingExecutor, cdsProps);
+
+        operation = new GrpcOperation(params, config);
+
+        // set the properties
+        operation.setProperty(OperationProperties.OPT_CDS_GRPC_AAI_PROPERTIES, Collections.emptyMap());
+
+        OperationOutcome outcome = operation.start().get();
+        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertTrue(outcome.getResponse() instanceof ExecutionServiceOutput);
+    }
+
     @Test
     public void testGetPropertyNames() {
 
@@ -198,9 +232,10 @@ public class GrpcOperationTest {
         // @formatter:off
         assertThat(operation.getPropertyNames()).isEqualTo(
                         List.of(
-                            OperationProperties.AAI_MODEL_INVARIANT_GENERIC_VNF,
-                            OperationProperties.AAI_RESOURCE_SERVICE_INSTANCE,
-                            OperationProperties.EVENT_ADDITIONAL_PARAMS));
+                            OperationProperties.AAI_RESOURCE_VNF,
+                            OperationProperties.AAI_SERVICE,
+                            OperationProperties.EVENT_ADDITIONAL_PARAMS,
+                            OperationProperties.OPT_CDS_GRPC_AAI_PROPERTIES));
         // @formatter:on
 
         /*
@@ -213,8 +248,74 @@ public class GrpcOperationTest {
         assertThat(operation.getPropertyNames()).isEqualTo(
                         List.of(
                             OperationProperties.AAI_PNF,
-                            OperationProperties.EVENT_ADDITIONAL_PARAMS));
+                            OperationProperties.EVENT_ADDITIONAL_PARAMS,
+                            OperationProperties.OPT_CDS_GRPC_AAI_PROPERTIES));
         // @formatter:on
+    }
+
+    @Test
+    public void testGetPnf() {
+        ControlLoopEventContext context = new ControlLoopEventContext(onset);
+        params = params.toBuilder().context(context).build();
+        operation = new GrpcOperation(params, config);
+
+        // in neither property nor context
+        assertThatIllegalArgumentException().isThrownBy(() -> operation.getPnfData())
+                        .withMessage("missing PNF data");
+
+        // only in context
+        Pnf pnf = new Pnf();
+        params.getContext().setProperty(AaiGetPnfOperation.getKey(params.getTargetEntity()), pnf);
+        assertSame(pnf, operation.getPnfData());
+
+        // both - should choose the property
+        Pnf pnf2 = new Pnf();
+        operation.setProperty(OperationProperties.AAI_PNF, pnf2);
+        assertSame(pnf2, operation.getPnfData());
+    }
+
+    @Test
+    public void testGetServiceInstanceId() {
+        ControlLoopEventContext context = new ControlLoopEventContext(onset);
+        params = params.toBuilder().context(context).build();
+        operation = new GrpcOperation(params, config);
+
+        // in neither property nor custom query
+        context.setProperty(AaiCqResponse.CONTEXT_KEY, mock(AaiCqResponse.class));
+        assertThatIllegalArgumentException().isThrownBy(() -> operation.getServiceInstanceId())
+                        .withMessage("Target service instance could not be found");
+
+        // only in custom query
+        loadCqData(params.getContext());
+        assertEquals(MY_SVC_ID, operation.getServiceInstanceId());
+
+        // both - should choose the property
+        ServiceInstance serviceInstance = new ServiceInstance();
+        serviceInstance.setServiceInstanceId("another-service-id");
+        operation.setProperty(OperationProperties.AAI_SERVICE, serviceInstance);
+        assertEquals("another-service-id", operation.getServiceInstanceId());
+    }
+
+    @Test
+    public void testGetVnfId() {
+        ControlLoopEventContext context = new ControlLoopEventContext(onset);
+        params = params.toBuilder().context(context).build();
+        operation = new GrpcOperation(params, config);
+
+        // in neither property nor custom query
+        context.setProperty(AaiCqResponse.CONTEXT_KEY, mock(AaiCqResponse.class));
+        assertThatIllegalArgumentException().isThrownBy(() -> operation.getVnfId())
+                        .withMessage("Target generic vnf could not be found");
+
+        // only in custom query
+        loadCqData(params.getContext());
+        assertEquals(MY_VNF, operation.getVnfId());
+
+        // both - should choose the property
+        GenericVnf vnf = new GenericVnf();
+        vnf.setVnfId("another-vnf-id");
+        operation.setProperty(OperationProperties.AAI_RESOURCE_VNF, vnf);
+        assertEquals("another-vnf-id", operation.getVnfId());
     }
 
     @Test
@@ -315,6 +416,29 @@ public class GrpcOperationTest {
     public void testStartOperationAsyncError() throws Exception {
         operation = new GrpcOperation(params, config);
         assertThatIllegalArgumentException().isThrownBy(() -> operation.startOperationAsync(1, params.makeOutcome()));
+    }
+
+    @Test
+    public void testGetAdditionalEventParams() {
+        operation = new GrpcOperation(params, config);
+
+        // in neither property nor context
+        assertNull(operation.getAdditionalEventParams());
+
+        final Map<String, String> eventParams = Collections.emptyMap();
+
+        // only in context
+        onset.setAdditionalEventParams(eventParams);
+        assertSame(eventParams, operation.getAdditionalEventParams());
+
+        // both - should choose the property, even if it's null
+        operation.setProperty(OperationProperties.EVENT_ADDITIONAL_PARAMS, null);
+        assertNull(operation.getAdditionalEventParams());
+
+        // both - should choose the property
+        final Map<String, String> propParams = Collections.emptyMap();
+        operation.setProperty(OperationProperties.EVENT_ADDITIONAL_PARAMS, propParams);
+        assertSame(propParams, operation.getAdditionalEventParams());
     }
 
     private void verifyOperation(ControlLoopEventContext context) {
