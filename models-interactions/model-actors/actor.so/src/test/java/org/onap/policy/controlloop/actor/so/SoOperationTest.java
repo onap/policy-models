@@ -36,12 +36,15 @@ import java.time.Month;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.aai.domain.yang.CloudRegion;
 import org.onap.aai.domain.yang.GenericVnf;
+import org.onap.aai.domain.yang.ModelVer;
 import org.onap.aai.domain.yang.ServiceInstance;
 import org.onap.aai.domain.yang.Tenant;
 import org.onap.policy.aai.AaiCqResponse;
@@ -49,6 +52,7 @@ import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.so.SoModelInfo;
 import org.onap.policy.so.SoRequest;
@@ -62,6 +66,8 @@ public class SoOperationTest extends BasicSoOperation {
                     + "[my-model-customization-id][my-model-invariant-id][my-model-version-id]";
 
     private static final List<String> PROP_NAMES = Collections.emptyList();
+
+    private static final String VERSION_ID = "1.2.3";
 
     private SoOperation oper;
 
@@ -136,6 +142,22 @@ public class SoOperationTest extends BasicSoOperation {
         assertNull(oper.obtainVfCount());
         vfcount = context.getProperty(VF_COUNT_KEY);
         assertEquals(VF_COUNT + 1, vfcount.intValue());
+        assertEquals(VF_COUNT + 1, oper.getVfCount());
+    }
+
+    /**
+     * Tests the VF Count methods when properties are being used.
+     * @throws Exception if an error occurs
+     */
+    @Test
+    public void testGetVfCount_testSetVfCount_ViaProperties() throws Exception {
+        AtomicInteger count = new AtomicInteger(VF_COUNT);
+        oper.setProperty(OperationProperties.DATA_VF_COUNT, count);
+
+        // verify that the count was stored
+        assertEquals(VF_COUNT.intValue(), oper.getVfCount());
+
+        oper.setVfCount(VF_COUNT + 1);
         assertEquals(VF_COUNT + 1, oper.getVfCount());
     }
 
@@ -286,55 +308,111 @@ public class SoOperationTest extends BasicSoOperation {
     }
 
     @Test
-    public void testGetVnfItem() {
-        // missing data
+    public void testGetItem() {
         AaiCqResponse cq = mock(AaiCqResponse.class);
-        assertThatIllegalArgumentException().isThrownBy(() -> oper.getVnfItem(cq, oper.prepareSoModelInfo()))
-                        .withMessage("missing generic VNF");
+        params.getContext().setProperty(AaiCqResponse.CONTEXT_KEY, cq);
 
-        // valid data
-        GenericVnf vnf = new GenericVnf();
-        when(cq.getGenericVnfByVfModuleModelInvariantId(MODEL_INVAR_ID)).thenReturn(vnf);
-        assertSame(vnf, oper.getVnfItem(cq, oper.prepareSoModelInfo()));
+        // in neither property nor custom query
+        assertThatIllegalArgumentException().isThrownBy(() -> oper.getItem("propA", cq2 -> null, "not found"))
+                        .withMessage("not found");
+
+        // only in custom query
+        assertEquals("valueB", oper.getItem("propB", cq2 -> "valueB", "failureB"));
+
+        // both - should choose the property
+        oper.setProperty("propC", "valueC");
+        assertEquals("valueC", oper.getItem("propC", cq2 -> "valueC2", "failureC"));
+
+        // both - should choose the property, even if it's null
+        oper.setProperty("propD", null);
+        assertNull(oper.getItem("propD", cq2 -> "valueD2", "failureD"));
+    }
+
+    @Test
+    public void testGetVnfItem() {
+        // @formatter:off
+        verifyItems(OperationProperties.AAI_VNF, new GenericVnf(), new GenericVnf(),
+            (cq, instance) -> when(cq.getGenericVnfByVfModuleModelInvariantId(MODEL_INVAR_ID)).thenReturn(instance),
+            () -> oper.getVnfItem(oper.prepareSoModelInfo()),
+            "missing generic VNF");
+        // @formatter:on
     }
 
     @Test
     public void testGetServiceInstance() {
-        // missing data
-        AaiCqResponse cq = mock(AaiCqResponse.class);
-        assertThatIllegalArgumentException().isThrownBy(() -> oper.getServiceInstance(cq))
-                        .withMessage("missing VNF Service Item");
-
-        // valid data
-        ServiceInstance instance = new ServiceInstance();
-        when(cq.getServiceInstance()).thenReturn(instance);
-        assertSame(instance, oper.getServiceInstance(cq));
+        // @formatter:off
+        verifyItems(OperationProperties.AAI_SERVICE, new ServiceInstance(), new ServiceInstance(),
+            (cq, instance) -> when(cq.getServiceInstance()).thenReturn(instance),
+            () -> oper.getServiceInstance(),
+            "missing VNF Service Item");
+        // @formatter:on
     }
 
     @Test
     public void testGetDefaultTenant() {
-        // missing data
-        AaiCqResponse cq = mock(AaiCqResponse.class);
-        assertThatIllegalArgumentException().isThrownBy(() -> oper.getDefaultTenant(cq))
-                        .withMessage("missing Tenant Item");
+        // @formatter:off
+        verifyItems(OperationProperties.AAI_DEFAULT_TENANT, new Tenant(), new Tenant(),
+            (cq, tenant) -> when(cq.getDefaultTenant()).thenReturn(tenant),
+            () -> oper.getDefaultTenant(),
+            "missing Default Tenant Item");
+        // @formatter:on
+    }
 
-        // valid data
-        Tenant tenant = new Tenant();
-        when(cq.getDefaultTenant()).thenReturn(tenant);
-        assertSame(tenant, oper.getDefaultTenant(cq));
+    @Test
+    public void testGetVnfModel() {
+        GenericVnf vnf = new GenericVnf();
+        vnf.setModelVersionId(VERSION_ID);
+
+        // @formatter:off
+        verifyItems(OperationProperties.AAI_VNF_MODEL, new ModelVer(), new ModelVer(),
+            (cq, model) -> when(cq.getModelVerByVersionId(VERSION_ID)).thenReturn(model),
+            () -> oper.getVnfModel(vnf),
+            "missing generic VNF Model");
+        // @formatter:on
+    }
+
+    @Test
+    public void testGetServiceModel() {
+        ServiceInstance service = new ServiceInstance();
+        service.setModelVersionId(VERSION_ID);
+
+        // @formatter:off
+        verifyItems(OperationProperties.AAI_SERVICE_MODEL, new ModelVer(), new ModelVer(),
+            (cq, model) -> when(cq.getModelVerByVersionId(VERSION_ID)).thenReturn(model),
+            () -> oper.getServiceModel(service),
+            "missing Service Model");
+        // @formatter:on
     }
 
     @Test
     public void testGetDefaultCloudRegion() {
-        // missing data
-        AaiCqResponse cq = mock(AaiCqResponse.class);
-        assertThatIllegalArgumentException().isThrownBy(() -> oper.getDefaultCloudRegion(cq))
-                        .withMessage("missing Cloud Region");
+        // @formatter:off
+        verifyItems(OperationProperties.AAI_DEFAULT_CLOUD_REGION, new CloudRegion(), new CloudRegion(),
+            (cq, region) -> when(cq.getDefaultCloudRegion()).thenReturn(region),
+            () -> oper.getDefaultCloudRegion(),
+            "missing Default Cloud Region");
+        // @formatter:on
+    }
 
-        // valid data
-        CloudRegion region = new CloudRegion();
-        when(cq.getDefaultCloudRegion()).thenReturn(region);
-        assertSame(region, oper.getDefaultCloudRegion(cq));
+    private <T> void verifyItems(String propName, T item1, T item2, BiConsumer<AaiCqResponse, T> setter,
+                    Supplier<T> getter, String errmsg) {
+        AaiCqResponse cq = mock(AaiCqResponse.class);
+        params.getContext().setProperty(AaiCqResponse.CONTEXT_KEY, cq);
+
+        // in neither property nor custom query
+        assertThatIllegalArgumentException().isThrownBy(getter::get).withMessage(errmsg);
+
+        // only in custom query
+        setter.accept(cq, item2);
+        assertSame(item2, getter.get());
+
+        // both - should choose the property
+        oper.setProperty(propName, item1);
+        assertSame(item1, getter.get());
+
+        // both - should choose the property, even if it's null
+        oper.setProperty(propName, null);
+        assertNull(getter.get());
     }
 
     @Test

@@ -32,6 +32,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
@@ -42,7 +43,13 @@ import org.onap.policy.vfc.VfcRequest;
 import org.onap.policy.vfc.VfcResponse;
 
 public class RestartTest extends BasicVfcOperation {
+    private static final String TEST_SERVICE_INSTANCE_ID = "test-service-instance-id";
+    private static final String TEST_VSERVER_ID = "test-vserver-id";
+    private static final String TEST_VSERVER_NAME = "test-vserver-name";
+    private static final String TEST_GENERIC_VNF_ID = "test-generic-vnf-id";
+
     private Restart restartOper;
+
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
@@ -60,9 +67,9 @@ public class RestartTest extends BasicVfcOperation {
     @Before
     public void setup() throws Exception {
         super.setUp();
-        params.getContext().getEnrichment().put("service-instance.service-instance-id", "test-service-instance-id");
-        params.getContext().getEnrichment().put("vserver.vserver-id", "test-vserver-id");
-        params.getContext().getEnrichment().put("vserver.vserver-name", "test-vserver-name");
+        params.getContext().getEnrichment().put("service-instance.service-instance-id", TEST_SERVICE_INSTANCE_ID);
+        params.getContext().getEnrichment().put("vserver.vserver-id", TEST_VSERVER_ID);
+        params.getContext().getEnrichment().put("vserver.vserver-name", TEST_VSERVER_NAME);
         restartOper = new Restart(params, config);
     }
 
@@ -79,6 +86,32 @@ public class RestartTest extends BasicVfcOperation {
 
         restartOper = new Restart(params, config);
 
+        outcome = restartOper.start().get();
+        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertTrue(outcome.getResponse() instanceof VfcResponse);
+    }
+
+    /**
+     * Tests "success" case with simulator, using properties instead of custom query data.
+     */
+    @Test
+    public void testSuccessViaProperties() throws Exception {
+        HttpPollingParams opParams = HttpPollingParams.builder().clientName(MY_CLIENT).path("ns").pollPath("jobs")
+                        .maxPolls(1).build();
+        config = new HttpPollingConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
+
+        params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).preprocessed(true).build();
+        params.getContext().removeProperty(AaiCqResponse.CONTEXT_KEY);
+
+        restartOper = new Restart(params, config);
+
+        // set the properties
+        restartOper.setProperty(OperationProperties.ENRICHMENT_SERVICE_INSTANCE_ID, TEST_SERVICE_INSTANCE_ID);
+        restartOper.setProperty(OperationProperties.ENRICHMENT_VSERVER_ID, TEST_VSERVER_ID);
+        restartOper.setProperty(OperationProperties.ENRICHMENT_VSERVER_NAME, TEST_VSERVER_NAME);
+        restartOper.setProperty(OperationProperties.ENRICHMENT_GENERIC_VNF_ID, TEST_GENERIC_VNF_ID);
+
+        // run the operation
         outcome = restartOper.start().get();
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
         assertTrue(outcome.getResponse() instanceof VfcResponse);
