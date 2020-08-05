@@ -1,4 +1,5 @@
 # UUID                                                                        	Group Name
 #
 daebbf523be390041a1a9c0e340a6d833aae5043                                      	GitHub Replication
+f7d4dd958fcd86453a86a95c87a97a1d80103dc7                                      	saml/onap-gerrit-policy-models-committers
 ldap:cn=onap-gerrit-policy-models-committers,ou=Groups,dc=freestandards,dc=org	ldap/onap-gerrit-policy-models-committers
