@@ -73,6 +73,12 @@
             <groupId>org.onap.aai.schema-service</groupId>
             <artifactId>aai-schema</artifactId>
             <version>1.7.2</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.code.javaparser</groupId>
+                    <artifactId>javaparser</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 </project>
