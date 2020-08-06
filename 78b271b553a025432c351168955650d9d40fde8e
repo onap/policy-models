@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca90ef20_3389d5dd",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/serialization/MonitoringPolicyTypeSerializationTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-06T16:15:28Z",
+      "side": 1,
+      "message": "tabs \u003d\u003e spaces\n\nthere\u0027s a setting on eclipse to always use spaces",
+      "revId": "78b271b553a025432c351168955650d9d40fde8e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
