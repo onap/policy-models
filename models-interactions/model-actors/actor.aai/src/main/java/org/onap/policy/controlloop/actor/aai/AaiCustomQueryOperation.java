@@ -29,7 +29,6 @@ import javax.ws.rs.client.Invocation.Builder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 import org.onap.policy.aai.AaiConstants;
 import org.onap.policy.aai.AaiCqResponse;
@@ -64,9 +63,6 @@ public class AaiCustomQueryOperation extends HttpOperation<String> {
     // TODO make this configurable
     private static final String PREFIX = "/aai/v16";
 
-    @Getter
-    private final String vserver;
-
     /**
      * Constructs the object.
      *
@@ -75,11 +71,20 @@ public class AaiCustomQueryOperation extends HttpOperation<String> {
      */
     public AaiCustomQueryOperation(ControlLoopOperationParams params, HttpConfig config) {
         super(params, config, String.class, PROPERTY_NAMES);
+    }
 
-        this.vserver = params.getContext().getEnrichment().get(VSERVER_VSERVER_NAME);
-        if (StringUtils.isBlank(this.vserver)) {
+    /**
+     * Gets the vserver name from the enrichment data.
+     *
+     * @return the vserver name
+     */
+    protected String getVserver() {
+        String vserver = this.params.getContext().getEnrichment().get(VSERVER_VSERVER_NAME);
+        if (StringUtils.isBlank(vserver)) {
             throw new IllegalArgumentException("missing " + VSERVER_VSERVER_NAME + " in enrichment data");
         }
+
+        return vserver;
     }
 
     /**
@@ -91,6 +96,7 @@ public class AaiCustomQueryOperation extends HttpOperation<String> {
             return null;
         }
 
+        String vserver = getVserver();
         ControlLoopOperationParams tenantParams =
                         params.toBuilder().actor(AaiConstants.ACTOR_NAME).operation(AaiGetTenantOperation.NAME)
                                         .targetEntity(vserver).payload(null).retry(null).timeoutSec(null).build();
@@ -146,16 +152,33 @@ public class AaiCustomQueryOperation extends HttpOperation<String> {
      * Constructs the custom query using the previously retrieved tenant data.
      */
     private Map<String, String> makeRequest() {
-        StandardCoderObject tenant = params.getContext().getProperty(AaiGetTenantOperation.getKey(vserver));
+        return Map.of("start", getVserverLink(), "query", "query/closed-loop");
+    }
 
-        String resourceLink = tenant.getString(RESULT_DATA, 0, RESOURCE_LINK);
+    /**
+     * Gets the vserver link, first checking the properties, and then the tenant data.
+     *
+     * @return the vserver link
+     */
+    protected String getVserverLink() {
+        String resourceLink = getProperty(OperationProperties.AAI_VSERVER_LINK);
+        if (resourceLink != null) {
+            return resourceLink;
+        }
+
+        String vserver = getVserver();
+        StandardCoderObject tenant = params.getContext().getProperty(AaiGetTenantOperation.getKey(vserver));
+        if (tenant == null) {
+            throw new IllegalStateException("cannot perform custom query - cannot determine resource-link");
+        }
+
+        resourceLink = tenant.getString(RESULT_DATA, 0, RESOURCE_LINK);
         if (resourceLink == null) {
             throw new IllegalArgumentException("cannot perform custom query - no resource-link");
         }
 
         resourceLink = resourceLink.replace(PREFIX, "");
-
-        return Map.of("start", resourceLink, "query", "query/closed-loop");
+        return resourceLink;
     }
 
     @Override

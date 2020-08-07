@@ -32,6 +32,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
+import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
 import org.onap.policy.controlloop.policy.PolicyResult;
@@ -39,6 +40,8 @@ import org.onap.policy.sdnc.SdncRequest;
 import org.onap.policy.sdnc.SdncResponse;
 
 public class RerouteOperationTest extends BasicSdncOperation {
+    private static final String MY_SERVICE = "my-service";
+    private static final String MY_NETWORK = "my-network";
 
     private RerouteOperation oper;
 
@@ -74,8 +77,11 @@ public class RerouteOperationTest extends BasicSdncOperation {
                         .path("GENERIC-RESOURCE-API:network-topology-operation").build();
         config = new HttpConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
 
-        params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).build();
+        params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).preprocessed(true).build();
         oper = new RerouteOperation(params, config);
+
+        oper.setProperty(OperationProperties.ENRICHMENT_SERVICE_ID, MY_SERVICE);
+        oper.setProperty(OperationProperties.ENRICHMENT_NETWORK_ID, MY_NETWORK);
 
         outcome = oper.start().get();
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
@@ -102,7 +108,7 @@ public class RerouteOperationTest extends BasicSdncOperation {
     public void testMakeRequest() throws Exception {
         oper.generateSubRequestId(1);
         SdncRequest request = oper.makeRequest(1);
-        assertEquals("my-service", request.getNsInstanceId());
+        assertEquals(MY_SERVICE, request.getNsInstanceId());
         assertEquals(REQ_ID, request.getRequestId());
         assertEquals("/my-path/", request.getUrl());
         assertEquals(oper.getSubRequestId(), request.getHealRequest().getRequestHeaderInfo().getSvcRequestId());
@@ -117,8 +123,22 @@ public class RerouteOperationTest extends BasicSdncOperation {
         verifyRequest("reroute.json", verifyOperation(oper), IGNORE_FIELDS);
     }
 
+    @Test
+    public void testMakeRequestViaProperties() throws Exception {
+        // clear the enrichment data and remake the operation
+        event.setAai(null);
+        context = new ControlLoopEventContext(event);
+        params = params.toBuilder().context(context).build();
+        oper = new RerouteOperation(params, config);
+
+        oper.setProperty(OperationProperties.ENRICHMENT_SERVICE_ID, MY_SERVICE);
+        oper.setProperty(OperationProperties.ENRICHMENT_NETWORK_ID, MY_NETWORK);
+
+        verifyRequest("reroute.json", verifyOperation(oper), IGNORE_FIELDS);
+    }
+
     @Override
     protected Map<String, String> makeEnrichment() {
-        return Map.of(RerouteOperation.SERVICE_ID_KEY, "my-service", RerouteOperation.NETWORK_ID_KEY, "my-network");
+        return Map.of(RerouteOperation.SERVICE_ID_KEY, MY_SERVICE, RerouteOperation.NETWORK_ID_KEY, MY_NETWORK);
     }
 }
