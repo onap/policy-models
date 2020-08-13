@@ -60,6 +60,8 @@ import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.onap.policy.controlloop.policy.Target;
 
 public class ControlLoopOperationParamsTest {
+    private static final String NULL_MSG = "null";
+    private static final String REQUEST_ID_NAME = "requestId";
     private static final String EXPECTED_EXCEPTION = "expected exception";
     private static final String ACTOR = "my-actor";
     private static final String OPERATION = "my-operation";
@@ -68,6 +70,7 @@ public class ControlLoopOperationParamsTest {
     private static final Integer RETRY = 3;
     private static final Integer TIMEOUT = 100;
     private static final UUID REQ_ID = UUID.randomUUID();
+    private static final UUID REQ_ID2 = UUID.randomUUID();
 
     @Mock
     private Actor actor;
@@ -133,28 +136,41 @@ public class ControlLoopOperationParamsTest {
 
     @Test
     public void testStart() {
-        assertSame(operFuture, params.start());
-
         assertThatIllegalArgumentException().isThrownBy(() -> params.toBuilder().context(null).build().start());
+
+        assertSame(operFuture, params.start());
     }
 
     @Test
     public void testBuild() {
-        assertSame(operation, params.build());
-
         assertThatIllegalArgumentException().isThrownBy(() -> params.toBuilder().context(null).build().build());
+
+        assertSame(operation, params.build());
     }
 
     @Test
     public void testGetRequestId() {
         assertSame(REQ_ID, params.getRequestId());
 
+        // when both request ID and event request ID are set - should use request ID
+        // parameter
+        assertSame(REQ_ID2, params.toBuilder().requestId(REQ_ID2).build().getRequestId());
+    }
+
+    /**
+     * Tests getRequestId() when the request ID is not available in the context.
+     */
+    @Test
+    public void testGetRequestIdNotFromContext() {
         // try with null context
         assertNull(params.toBuilder().context(null).build().getRequestId());
 
         // try with null event
         when(context.getEvent()).thenReturn(null);
         assertNull(params.getRequestId());
+
+        // set request ID directly
+        assertSame(REQ_ID2, params.toBuilder().requestId(REQ_ID2).build().getRequestId());
     }
 
     @Test
@@ -225,12 +241,14 @@ public class ControlLoopOperationParamsTest {
 
     @Test
     public void testValidateFields() {
-        testValidate("actor", "null", bldr -> bldr.actor(null));
-        testValidate("actorService", "null", bldr -> bldr.actorService(null));
-        testValidate("context", "null", bldr -> bldr.context(null));
-        testValidate("executor", "null", bldr -> bldr.executor(null));
-        testValidate("operation", "null", bldr -> bldr.operation(null));
-        testValidate("target", "null", bldr -> bldr.targetEntity(null));
+        testValidate("actor", NULL_MSG, bldr -> bldr.actor(null));
+        testValidate("actorService", NULL_MSG, bldr -> bldr.actorService(null));
+        testValidate("executor", NULL_MSG, bldr -> bldr.executor(null));
+        testValidate("operation", NULL_MSG, bldr -> bldr.operation(null));
+        testValidate("target", NULL_MSG, bldr -> bldr.targetEntity(null));
+
+        // note: if context is null, then it will ACTUALLY complain about the request ID
+        testValidate(REQUEST_ID_NAME, NULL_MSG, bldr -> bldr.context(null));
 
         // check edge cases
         assertTrue(params.toBuilder().build().validate().isValid());
@@ -242,6 +260,26 @@ public class ControlLoopOperationParamsTest {
         // test with minimal fields
         assertTrue(ControlLoopOperationParams.builder().actorService(actorService).context(context).actor(ACTOR)
                         .operation(OPERATION).targetEntity(TARGET_ENTITY).build().validate().isValid());
+
+        // test when event has no request ID
+        when(event.getRequestId()).thenReturn(null);
+        BeanValidationResult result = params.validate();
+        assertFalse(result.isValid());
+        assertThat(result.getResult()).contains("event").contains(REQUEST_ID_NAME).contains(NULL_MSG);
+
+        // try when context has no event
+        when(context.getEvent()).thenReturn(null);
+        result = params.validate();
+        assertFalse(result.isValid());
+        assertThat(result.getResult()).contains("event").doesNotContain(REQUEST_ID_NAME).contains(NULL_MSG);
+
+        // has both request ID and context, but no event
+        result = params.toBuilder().requestId(REQ_ID2).build().validate();
+        assertTrue(result.isValid());
+
+        // has request ID, but not context
+        result = params.toBuilder().requestId(REQ_ID2).context(null).build().validate();
+        assertTrue(result.isValid());
     }
 
     private void testValidate(String fieldName, String expected,

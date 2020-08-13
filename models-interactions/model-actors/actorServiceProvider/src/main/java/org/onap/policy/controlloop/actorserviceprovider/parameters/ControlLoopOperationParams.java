@@ -33,6 +33,7 @@ import lombok.Getter;
 import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.common.parameters.BeanValidator;
 import org.onap.policy.common.parameters.annotations.NotNull;
+import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.ActorService;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
@@ -68,8 +69,12 @@ public class ControlLoopOperationParams {
     /**
      * Event for which the operation applies.
      */
-    @NotNull
     private ControlLoopEventContext context;
+
+    /**
+     * If {@code null}, this value is extracted from the context.
+     */
+    private UUID requestId;
 
     /**
      * Executor to use to run the operation.
@@ -175,7 +180,12 @@ public class ControlLoopOperationParams {
      * @return the event's request ID, or {@code null} if no request ID is available
      */
     public UUID getRequestId() {
-        return (context == null || context.getEvent() == null ? null : context.getEvent().getRequestId());
+        if (requestId == null && context != null && context.getEvent() != null) {
+            // cache the request ID
+            requestId = context.getEvent().getRequestId();
+        }
+
+        return requestId;
     }
 
     /**
@@ -230,6 +240,34 @@ public class ControlLoopOperationParams {
      * @return the validation result
      */
     public BeanValidationResult validate() {
-        return new BeanValidator().validateTop(ControlLoopOperationParams.class.getSimpleName(), this);
+        BeanValidationResult result =
+                        new BeanValidator().validateTop(ControlLoopOperationParams.class.getSimpleName(), this);
+
+        // validate that we have a request ID, or that we can get it from the context's
+        // event
+
+        if (context == null) {
+            // no context specified - invoker must provide a request ID then
+            result.validateNotNull("requestId", requestId);
+
+        } else if (requestId == null) {
+            // have a context, but no request ID - check the context's event for the
+            // request ID
+            BeanValidationResult contextResult = new BeanValidationResult("context", context);
+            VirtualControlLoopEvent event = context.getEvent();
+            contextResult.validateNotNull("event", event);
+
+            if (event != null) {
+                // cache the request id for later use
+                BeanValidationResult eventResult = new BeanValidationResult("event", event);
+                eventResult.validateNotNull("requestId", event.getRequestId());
+
+                contextResult.addResult(eventResult);
+            }
+
+            result.addResult(contextResult);
+        }
+
+        return result;
     }
 }
