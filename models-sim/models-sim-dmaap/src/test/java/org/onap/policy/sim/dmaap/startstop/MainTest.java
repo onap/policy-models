@@ -42,7 +42,7 @@ public class MainTest extends CommonRestServer {
     private Main main;
 
     /**
-     * Set up.
+     * Sets up.
      */
     @Before
     public void setUp() {
@@ -64,7 +64,7 @@ public class MainTest extends CommonRestServer {
 
     @Test
     public void testMain() throws Exception {
-        CommonRestServer.reconfigure(false);
+        CommonRestServer.reconfigure();
         final String[] NormalParameters = {"-c", CONFIG_FILE};
         main = new Main(NormalParameters);
         assertTrue(main.getParameters().isValid());
@@ -82,7 +82,7 @@ public class MainTest extends CommonRestServer {
 
     @Test
     public void testMain_InvalidArguments() throws Exception {
-        CommonRestServer.reconfigure(false);
+        CommonRestServer.reconfigure();
 
         // note: this is missing the "-c" argument, thus the ARGUMENTS are invalid
         final String[] NormalParameters = {CONFIG_FILE};

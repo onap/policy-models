@@ -53,7 +53,7 @@ public class DmaapSimActivatorTest extends CommonRestServer {
         Registry.newRegistry();
         HttpServletServerFactoryInstance.getServerFactory().destroy();
 
-        CommonRestServer.reconfigure(false);
+        CommonRestServer.reconfigure();
 
         final String[] papConfigParameters = {"-c", CONFIG_FILE};
         final DmaapSimCommandLineArguments arguments = new DmaapSimCommandLineArguments(papConfigParameters);

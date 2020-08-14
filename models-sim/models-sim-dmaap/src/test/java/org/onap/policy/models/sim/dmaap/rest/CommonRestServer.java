@@ -30,25 +30,15 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import lombok.Getter;
 import org.glassfish.jersey.client.ClientProperties;
-import org.junit.AfterClass;
-import org.junit.Before;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.common.gson.GsonMessageBodyHandler;
 import org.onap.policy.common.utils.network.NetworkUtil;
-import org.onap.policy.common.utils.services.Registry;
-import org.onap.policy.models.sim.dmaap.DmaapSimException;
-import org.onap.policy.models.sim.dmaap.startstop.Main;
 import org.onap.policy.sim.dmaap.parameters.CommonTestData;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Common base class for rest server tests.
  */
 public class CommonRestServer {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(CommonRestServer.class);
-
     public static final String NOT_ALIVE = "not alive";
     public static final String ALIVE = "alive";
     public static final String SELF = "self";
@@ -62,17 +52,12 @@ public class CommonRestServer {
 
     protected static String httpPrefix;
 
-    private static Main main;
-
     /**
-     * Allocates a port for the server, writes a config file, and then starts Main.
-     *
-     * @param shouldStartMain {@code true} if Main should be started, {@code false}
-     *        otherwise
+     * Allocates a port for the server, writes a config file.
      *
      * @throws Exception if an error occurs
      */
-    public static void reconfigure(boolean shouldStartMain) throws Exception {
+    public static void reconfigure() throws Exception {
         port = NetworkUtil.allocPort();
 
         httpPrefix = "http://localhost:" + port + "/";
@@ -81,41 +66,6 @@ public class CommonRestServer {
         makeConfigFile(CONFIG_FILE, json);
 
         HttpServletServerFactoryInstance.getServerFactory().destroy();
-
-        if (shouldStartMain) {
-            startMain();
-        }
-    }
-
-    /**
-     * Stops Main.
-     */
-    @AfterClass
-    public static void teardownAfterClass() {
-        try {
-            if (main != null) {
-                Main main2 = main;
-                main = null;
-
-                main2.shutdown();
-            }
-
-        } catch (DmaapSimException exp) {
-            LOGGER.error("cannot stop main", exp);
-        }
-    }
-
-    /**
-     * Set up.
-     *
-     * @throws Exception if an error occurs
-     */
-    @Before
-    public void setUp() throws Exception {
-        // restart, if not currently running
-        if (main == null) {
-            startMain();
-        }
     }
 
     /**
@@ -131,28 +81,6 @@ public class CommonRestServer {
 
         try (FileOutputStream output = new FileOutputStream(file)) {
             output.write(json.getBytes(StandardCharsets.UTF_8));
-        }
-    }
-
-    /**
-     * Starts the "Main".
-     *
-     * @throws Exception if an error occurs
-     */
-    private static void startMain() throws Exception {
-        Registry.newRegistry();
-
-        // make sure port is available
-        if (NetworkUtil.isTcpPortOpen("localhost", port, 1, 1L)) {
-            throw new IllegalStateException("port " + port + " is still in use");
-        }
-
-        final String[] simConfigParameters = {"-c", "src/test/resources/parameters/TestConfigParams.json"};
-
-        main = new Main(simConfigParameters);
-
-        if (!NetworkUtil.isTcpPortOpen("localhost", port, 60, 1000L)) {
-            throw new IllegalStateException("server is not listening on port " + port);
         }
     }
 
