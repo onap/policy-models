@@ -42,7 +42,11 @@ import org.onap.policy.common.endpoints.parameters.TopicParameterGroup;
 import org.onap.policy.common.endpoints.parameters.TopicParameters;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
+import org.onap.policy.common.utils.network.NetworkUtil;
+import org.onap.policy.common.utils.services.Registry;
+import org.onap.policy.models.sim.dmaap.DmaapSimException;
 import org.onap.policy.models.sim.dmaap.rest.CommonRestServer;
+import org.onap.policy.models.sim.dmaap.startstop.Main;
 
 /**
  * This tests the simulator using dmaap endpoints to verify that it works from publisher
@@ -53,6 +57,8 @@ public class EndToEndTest extends CommonRestServer {
     private static final String TOPIC = "MY-TOPIC";
     private static final String TOPIC2 = "MY-TOPIC-B";
     private static final int MAX_MSG = 200;
+
+    private static Main main;
 
     /**
      * Messages from the topic are placed here by the endpoint.
@@ -78,7 +84,9 @@ public class EndToEndTest extends CommonRestServer {
     public static void setUpBeforeClass() throws Exception {
         TopicEndpointManager.getManager().shutdown();
 
-        CommonRestServer.reconfigure(true);
+        CommonRestServer.reconfigure();
+
+        startMain();
 
         queue = new LinkedBlockingQueue<>();
         queue2 = new LinkedBlockingQueue<>();
@@ -103,11 +111,13 @@ public class EndToEndTest extends CommonRestServer {
      * Stops the topics and clears the queues.
      */
     @AfterClass
-    public static void tearDownAfterClass() {
+    public static void tearDownAfterClass() throws DmaapSimException {
         TopicEndpointManager.getManager().shutdown();
 
         queue = null;
         queue2 = null;
+
+        main.shutdown();
     }
 
     /**
@@ -116,8 +126,7 @@ public class EndToEndTest extends CommonRestServer {
      * @throws CoderException if the parameters cannot be decoded
      */
     @Before
-    @Override
-    public void setUp() throws CoderException {
+    public void setUp() {
         queue.clear();
         queue2.clear();
     }
@@ -188,5 +197,27 @@ public class EndToEndTest extends CommonRestServer {
 
         assertEquals(testName + " message 1", msg1, queue.poll(MAX_WAIT_SEC, TimeUnit.SECONDS));
         assertEquals(testName + " message 2", msg2, queue.poll(MAX_WAIT_SEC, TimeUnit.SECONDS));
+    }
+
+    /**
+     * Starts the "Main".
+     *
+     * @throws Exception if an error occurs
+     */
+    private static void startMain() throws Exception {
+        Registry.newRegistry();
+
+        // make sure port is available
+        if (NetworkUtil.isTcpPortOpen("localhost", port, 1, 1L)) {
+            throw new IllegalStateException("port " + port + " is still in use");
+        }
+
+        final String[] simConfigParameters = {"-c", "src/test/resources/parameters/TestConfigParams.json"};
+
+        main = new Main(simConfigParameters);
+
+        if (!NetworkUtil.isTcpPortOpen("localhost", port, 60, 1000L)) {
+            throw new IllegalStateException("server is not listening on port " + port);
+        }
     }
 }
