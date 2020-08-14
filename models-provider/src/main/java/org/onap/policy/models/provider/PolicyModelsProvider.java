@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,7 +35,6 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
-import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
 
 /**
  * This interface describes the operations that are provided to users and components for reading objects from and
@@ -192,48 +192,6 @@ public interface PolicyModelsProvider extends AutoCloseable {
      */
     public ToscaServiceTemplate deletePolicy(@NonNull final String name, @NonNull final String version)
             throws PfModelException;
-
-    /**
-     * Get legacy operational policy.
-     *
-     * @param policyId ID of the policy
-     * @param policyVersion version of the policy, set to null to get the latest policy
-     * @return the policies found
-     * @throws PfModelException on errors getting policies
-     */
-    public LegacyOperationalPolicy getOperationalPolicy(@NonNull final String policyId, final String policyVersion)
-            throws PfModelException;
-
-    /**
-     * Create legacy operational policy.
-     *
-     * @param legacyOperationalPolicy the definition of the policy to be created.
-     * @return the created policy
-     * @throws PfModelException on errors creating policies
-     */
-    public LegacyOperationalPolicy createOperationalPolicy(
-            @NonNull final LegacyOperationalPolicy legacyOperationalPolicy) throws PfModelException;
-
-    /**
-     * Update legacy operational policy.
-     *
-     * @param legacyOperationalPolicy the definition of the policy to be updated
-     * @return the updated policy
-     * @throws PfModelException on errors updating policies
-     */
-    public LegacyOperationalPolicy updateOperationalPolicy(
-            @NonNull final LegacyOperationalPolicy legacyOperationalPolicy) throws PfModelException;
-
-    /**
-     * Delete legacy operational policy.
-     *
-     * @param policyId ID of the policy.
-     * @param policyVersion version of the policy
-     * @return the deleted policy
-     * @throws PfModelException on errors deleting policies
-     */
-    public LegacyOperationalPolicy deleteOperationalPolicy(@NonNull final String policyId,
-            @NonNull final String policyVersion) throws PfModelException;
 
     /**
      * Get PDP groups.

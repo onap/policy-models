@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,8 +52,6 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifier;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.authorative.provider.AuthorativeToscaProvider;
-import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
-import org.onap.policy.models.tosca.legacy.provider.LegacyProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -239,38 +238,6 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
         assertPolicyNotDeployedInPdpGroup(policyIdentifier);
 
         return new AuthorativeToscaProvider().deletePolicy(pfDao, name, version);
-    }
-
-    @Override
-    public LegacyOperationalPolicy getOperationalPolicy(@NonNull final String policyId, final String policyVersion)
-            throws PfModelException {
-        assertInitialized();
-        return new LegacyProvider().getOperationalPolicy(pfDao, policyId, policyVersion);
-    }
-
-    @Override
-    public LegacyOperationalPolicy createOperationalPolicy(
-            @NonNull final LegacyOperationalPolicy legacyOperationalPolicy) throws PfModelException {
-        assertInitialized();
-        return new LegacyProvider().createOperationalPolicy(pfDao, legacyOperationalPolicy);
-    }
-
-    @Override
-    public LegacyOperationalPolicy updateOperationalPolicy(
-            @NonNull final LegacyOperationalPolicy legacyOperationalPolicy) throws PfModelException {
-        assertInitialized();
-        return new LegacyProvider().updateOperationalPolicy(pfDao, legacyOperationalPolicy);
-    }
-
-    @Override
-    public LegacyOperationalPolicy deleteOperationalPolicy(@NonNull final String policyId,
-            @NonNull final String policyVersion) throws PfModelException {
-        assertInitialized();
-
-        assertPolicyNotDeployedInPdpGroup(
-                new ToscaPolicyIdentifier(policyId, policyVersion + LegacyProvider.LEGACY_MINOR_PATCH_SUFFIX));
-
-        return new LegacyProvider().deleteOperationalPolicy(pfDao, policyId, policyVersion);
     }
 
     @Override

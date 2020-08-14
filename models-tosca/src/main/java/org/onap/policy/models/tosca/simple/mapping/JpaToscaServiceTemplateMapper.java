@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +24,7 @@ package org.onap.policy.models.tosca.simple.mapping;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
 
 /**
- * This interface is used to map legacy and proprietary policies into and out of TOSCA service templates.
+ * This interface is used to map proprietary policies into and out of TOSCA service templates.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  * @param <I> the type for the incoming policy definition
