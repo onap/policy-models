@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,7 +41,6 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
-import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
 
 /**
  * Dummy implementation of {@link PolicyModelsProvider} with bad constructor.
@@ -101,30 +101,6 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
 
     @Override
     public ToscaServiceTemplate deletePolicy(final String name, final String version) throws PfModelException {
-        return null;
-    }
-
-    @Override
-    public LegacyOperationalPolicy getOperationalPolicy(@NonNull final String policyId, final String policyVersion)
-            throws PfModelException {
-        return null;
-    }
-
-    @Override
-    public LegacyOperationalPolicy createOperationalPolicy(@NonNull LegacyOperationalPolicy legacyOperationalPolicy)
-            throws PfModelException {
-        return null;
-    }
-
-    @Override
-    public LegacyOperationalPolicy updateOperationalPolicy(@NonNull LegacyOperationalPolicy legacyOperationalPolicy)
-            throws PfModelException {
-        return null;
-    }
-
-    @Override
-    public LegacyOperationalPolicy deleteOperationalPolicy(@NonNull String policyId,
-            @NonNull final String policyVersion) throws PfModelException {
         return null;
     }
 
