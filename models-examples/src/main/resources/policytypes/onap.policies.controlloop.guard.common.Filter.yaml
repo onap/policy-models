@@ -1,0 +1,65 @@
+tosca_definitions_version: tosca_simple_yaml_1_1_0
+policy_types:
+   onap.policies.controlloop.guard.common.Filter:
+      derived_from: onap.policies.controlloop.guard.Common
+      type_version: 1.0.0
+      version: 1.0.0
+      name: onap.policies.controlloop.guard.common.Filter
+      description: Supports filtering of A&AI entities such as vnf-id, type, service, geographic region, etc.
+      properties:
+         algorithm:
+            type: string
+            description: Designates the precendence of blacklist vs whitelist
+            required: true
+            default: blacklist-overrides
+            constraints:
+            - valid_values: ["blacklist-overrides", "whitelist-overrides"]
+         filters:
+            type: list
+            description: List of filters to be applied.
+            required: true
+            entry_schema:
+               type: onap.datatypes.guard.filter
+data_types:
+   onap.datatypes.guard.filter:
+      derived_from: tosca.nodes.Root
+      properties:
+         field:
+            type: string
+            description: Name of the field to perform the filter on using the A&AI <node>.<property> syntax.
+            required: true
+            constraints:
+               - valid_values:
+                  - generic-vnf.vnf-name
+                  - generic-vnf.vnf-id
+                  - generic-vnf.vnf-type
+                  - generic-vnf.nf-naming-code
+                  - vserver.vserver-id
+                  - cloud-region.cloud-region-id
+         filter:
+            type: string
+            description: The filter value itself. For example, "RegionOne" "vFWCL*"
+            required: true
+         function:
+            type: string
+            description: The function applied to the filter.
+            required: true
+            constraints:
+               - valid_values:
+                  - string-equal
+                  - string-equal-ignore-case
+                  - string-regexp-match
+                  - string-contains
+                  - string-greater-than
+                  - string-greater-than-or-equal
+                  - string-less-than
+                  - string-less-than-or-equal
+                  - string-starts-with
+                  - string-ends-with
+         blacklist:
+            type: boolean
+            description: |
+               Indicates if the filter should be treated as a blacklist (true)
+               or whitelist (false).
+            required: true
+            default: true
