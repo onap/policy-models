@@ -94,14 +94,14 @@ public class HttpPollingOperatorTest {
 
     @Test
     public void testGetClientFactory() {
-        HttpPollingOperator oper2 = new HttpPollingOperator(ACTOR, OPERATION);
+        HttpPollingOperator oper2 = new HttpPollingOperator(ACTOR, OPERATION, Collections.emptyList());
         assertNotNull(oper2.getClientFactory());
     }
 
 
     private class MyOperator extends HttpPollingOperator {
         public MyOperator() {
-            super(ACTOR, OPERATION, MyOperation::new);
+            super(ACTOR, OPERATION, Collections.emptyList(), MyOperation::new);
         }
 
         @Override
@@ -112,7 +112,7 @@ public class HttpPollingOperatorTest {
 
     private static class MyOperation extends HttpOperation<String> {
         public MyOperation(ControlLoopOperationParams params, HttpConfig config) {
-            super(params, config, String.class, Collections.emptyList());
+            super(params, config, String.class);
         }
     }
 }

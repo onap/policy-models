@@ -37,6 +37,7 @@ import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.ActorService;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.Operator;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.policy.Target;
@@ -150,6 +151,16 @@ public class ControlLoopOperationParams {
      */
     public CompletableFuture<OperationOutcome> start() {
         return build().start();
+    }
+
+    /**
+     * Gets the operator specified by the parameters that will be used to build the
+     * operation.
+     *
+     * @return the operator
+     */
+    public Operator getOperator() {
+        return actorService.getActor(getActor()).getOperator(getOperation());
     }
 
     /**

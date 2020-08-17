@@ -58,7 +58,7 @@ public class AaiCustomQueryOperation extends HttpOperation<String> {
     public static final String RESOURCE_LINK = "resource-link";
     public static final String RESULT_DATA = "result-data";
 
-    private static final List<String> PROPERTY_NAMES = List.of(OperationProperties.AAI_VSERVER_LINK);
+    public static final List<String> PROPERTY_NAMES = List.of(OperationProperties.AAI_VSERVER_LINK);
 
     // TODO make this configurable
     private static final String PREFIX = "/aai/v16";
@@ -70,7 +70,7 @@ public class AaiCustomQueryOperation extends HttpOperation<String> {
      * @param config configuration for this operation
      */
     public AaiCustomQueryOperation(ControlLoopOperationParams params, HttpConfig config) {
-        super(params, config, String.class, PROPERTY_NAMES);
+        super(params, config, String.class);
     }
 
     /**

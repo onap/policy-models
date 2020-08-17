@@ -61,7 +61,7 @@ public class VfModuleCreate extends SoOperation {
     private static final String PATH_PREFIX = "/";
 
     // @formatter:off
-    private static final List<String> PROPERTY_NAMES = List.of(
+    public static final List<String> PROPERTY_NAMES = List.of(
                             OperationProperties.AAI_SERVICE,
                             OperationProperties.AAI_SERVICE_MODEL,
                             OperationProperties.AAI_VNF,
@@ -78,7 +78,7 @@ public class VfModuleCreate extends SoOperation {
      * @param config configuration for this operation
      */
     public VfModuleCreate(ControlLoopOperationParams params, HttpPollingConfig config) {
-        super(params, config, PROPERTY_NAMES);
+        super(params, config);
 
         // ensure we have the necessary parameters
         validateTarget();

@@ -20,12 +20,10 @@
 
 package org.onap.policy.controlloop.actor.vfc;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.AfterClass;
@@ -122,18 +120,6 @@ public class RestartTest extends BasicVfcOperation {
         CompletableFuture<OperationOutcome> futureRes = restartOper.startOperationAsync(1, outcome);
         assertNotNull(futureRes);
         assertEquals(0, restartOper.getPollCount());
-    }
-
-    @Test
-    public void testGetPropertyNames() {
-        // @formatter:off
-        assertThat(restartOper.getPropertyNames()).isEqualTo(
-                        List.of(
-                            OperationProperties.ENRICHMENT_SERVICE_ID,
-                            OperationProperties.ENRICHMENT_VSERVER_ID,
-                            OperationProperties.ENRICHMENT_VSERVER_NAME,
-                            OperationProperties.ENRICHMENT_GENERIC_VNF_ID));
-        // @formatter:on
     }
 
     @Test

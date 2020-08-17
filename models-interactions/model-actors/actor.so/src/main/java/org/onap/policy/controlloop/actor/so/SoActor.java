@@ -34,7 +34,9 @@ public class SoActor extends HttpActor<HttpPollingActorParams> {
     public SoActor() {
         super(NAME, HttpPollingActorParams.class);
 
-        addOperator(new HttpPollingOperator(NAME, VfModuleCreate.NAME, VfModuleCreate::new));
-        addOperator(new HttpPollingOperator(NAME, VfModuleDelete.NAME, VfModuleDelete::new));
+        addOperator(new HttpPollingOperator(NAME, VfModuleCreate.NAME, VfModuleCreate.PROPERTY_NAMES,
+                        VfModuleCreate::new));
+        addOperator(new HttpPollingOperator(NAME, VfModuleDelete.NAME, VfModuleDelete.PROPERTY_NAMES,
+                        VfModuleDelete::new));
     }
 }

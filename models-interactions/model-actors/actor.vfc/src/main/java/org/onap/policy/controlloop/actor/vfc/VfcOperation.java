@@ -46,7 +46,7 @@ public abstract class VfcOperation extends HttpOperation<VfcResponse> {
     public static final String CONFIG_PARAM_NM = "configurationParameters";
 
     // @formatter:off
-    private static final List<String> PROPERTY_NAMES = List.of(
+    public static final List<String> PROPERTY_NAMES = List.of(
                             OperationProperties.ENRICHMENT_SERVICE_ID,
                             OperationProperties.ENRICHMENT_VSERVER_ID,
                             OperationProperties.ENRICHMENT_VSERVER_NAME,
@@ -66,7 +66,7 @@ public abstract class VfcOperation extends HttpOperation<VfcResponse> {
      * @param config configuration for this operation
      */
     public VfcOperation(ControlLoopOperationParams params, HttpConfig config) {
-        super(params, config, VfcResponse.class, PROPERTY_NAMES);
+        super(params, config, VfcResponse.class);
 
         setUsePolling();
     }

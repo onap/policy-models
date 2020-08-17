@@ -22,6 +22,7 @@
 
 package org.onap.policy.controlloop.actor.appclcm;
 
+import java.util.Collections;
 import org.onap.policy.controlloop.actor.appc.AppcOperation;
 import org.onap.policy.controlloop.actor.appc.ModifyConfigOperation;
 import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicActor;
@@ -31,10 +32,10 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.Bidirectional
 public class AppcLcmActor extends BidirectionalTopicActor<BidirectionalTopicActorParams> {
 
     /*
-     * Confirmed by Daniel, should be 'APPC'.
-     * The actor name defined in the yaml for both legacy operations and lcm operations is still “APPC”. Perhaps in a
-     * future review it would be better to distinguish them as two separate actors in the yaml but it should be okay for
-     * now.
+     * Confirmed by Daniel, should be 'APPC'. The actor name defined in the yaml for both
+     * legacy operations and lcm operations is still “APPC”. Perhaps in a future review it
+     * would be better to distinguish them as two separate actors in the yaml but it
+     * should be okay for now.
      */
     public static final String NAME = "APPC";
 
@@ -46,12 +47,13 @@ public class AppcLcmActor extends BidirectionalTopicActor<BidirectionalTopicActo
 
         // add LCM operations first as they take precedence
         for (String opname : AppcLcmConstants.OPERATION_NAMES) {
-            addOperator(new BidirectionalTopicOperator(NAME, opname, this, AppcLcmOperation.SELECTOR_KEYS,
-                            AppcLcmOperation::new));
+            addOperator(new BidirectionalTopicOperator(NAME, opname, Collections.emptyList(), this,
+                            AppcLcmOperation.SELECTOR_KEYS, AppcLcmOperation::new));
         }
 
         // add legacy operations
-        addOperator(new BidirectionalTopicOperator(NAME, ModifyConfigOperation.NAME, this, AppcOperation.SELECTOR_KEYS,
+        addOperator(new BidirectionalTopicOperator(NAME, ModifyConfigOperation.NAME,
+                        ModifyConfigOperation.PROPERTY_NAMES, this, AppcOperation.SELECTOR_KEYS,
                         ModifyConfigOperation::new));
     }
 

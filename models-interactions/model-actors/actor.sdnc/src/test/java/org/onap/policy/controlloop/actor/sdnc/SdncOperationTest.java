@@ -26,7 +26,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 import org.junit.Before;
@@ -60,7 +59,7 @@ public class SdncOperationTest extends BasicSdncOperation {
         healRequest.setRequestHeaderInfo(headerInfo);
         headerInfo.setSvcRequestId(SUB_REQ_ID);
 
-        oper = new SdncOperation(params, config, Collections.emptyList()) {
+        oper = new SdncOperation(params, config) {
             @Override
             protected SdncRequest makeRequest(int attempt) {
                 return request;
@@ -133,7 +132,7 @@ public class SdncOperationTest extends BasicSdncOperation {
         context = new ControlLoopEventContext(event);
         params = params.toBuilder().context(context).build();
 
-        oper = new SdncOperation(params, config, Collections.emptyList()) {
+        oper = new SdncOperation(params, config) {
             @Override
             protected SdncRequest makeRequest(int attempt) {
                 return request;

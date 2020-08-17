@@ -20,7 +20,6 @@
 
 package org.onap.policy.controlloop.actor.so;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -41,7 +40,6 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ForkJoinPool;
@@ -183,19 +181,6 @@ public class VfModuleDeleteTest extends BasicSoOperation {
         params = params.toBuilder().target(null).build();
         assertThatIllegalArgumentException().isThrownBy(() -> new MyOperation(params, config))
                         .withMessageContaining("Target information");
-    }
-
-    @Test
-    public void testGetPropertyNames() {
-        // @formatter:off
-        assertThat(oper.getPropertyNames()).isEqualTo(
-                        List.of(
-                            OperationProperties.AAI_SERVICE,
-                            OperationProperties.AAI_VNF,
-                            OperationProperties.AAI_DEFAULT_CLOUD_REGION,
-                            OperationProperties.AAI_DEFAULT_TENANT,
-                            OperationProperties.DATA_VF_COUNT));
-        // @formatter:on
     }
 
     @Test

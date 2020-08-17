@@ -40,7 +40,7 @@ public class RerouteOperation extends SdncOperation {
     public static final String NETWORK_ID_KEY = "network-information.network-id";
 
     // @formatter:off
-    private static final List<String> PROPERTY_NAMES = List.of(
+    public static final List<String> PROPERTY_NAMES = List.of(
                             OperationProperties.ENRICHMENT_SERVICE_ID,
                             OperationProperties.ENRICHMENT_NETWORK_ID);
     // @formatter:on
@@ -52,7 +52,7 @@ public class RerouteOperation extends SdncOperation {
      * @param config configuration for this operation
      */
     public RerouteOperation(ControlLoopOperationParams params, HttpConfig config) {
-        super(params, config, PROPERTY_NAMES);
+        super(params, config);
     }
 
     @Override

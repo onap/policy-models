@@ -76,11 +76,10 @@ public abstract class BidirectionalTopicOperation<Q, S> extends OperationPartial
      * @param params operation parameters
      * @param config configuration for this operation
      * @param clazz response class
-     * @param propertyNames names of properties required by this operation
      */
     public BidirectionalTopicOperation(ControlLoopOperationParams params, BidirectionalTopicConfig config,
-                    Class<S> clazz, List<String> propertyNames) {
-        super(params, config, propertyNames);
+                    Class<S> clazz) {
+        super(params, config);
         this.config = config;
         this.responseClass = clazz;
         this.forwarder = config.getForwarder();

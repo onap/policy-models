@@ -20,7 +20,6 @@
 
 package org.onap.policy.controlloop.actor.aai;
 
-import java.util.Collections;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.CompletableFuture;
@@ -59,7 +58,7 @@ public class AaiGetOperation extends HttpOperation<StandardCoderObject> {
      * @param config configuration for this operation
      */
     public AaiGetOperation(ControlLoopOperationParams params, HttpConfig config) {
-        super(params, config, StandardCoderObject.class, Collections.emptyList());
+        super(params, config, StandardCoderObject.class);
         this.propertyPrefix = getFullName() + ".";
     }
 

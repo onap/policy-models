@@ -19,7 +19,6 @@
 
 package org.onap.policy.controlloop.actor.cds;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -34,7 +33,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -219,38 +217,6 @@ public class GrpcOperationTest {
         OperationOutcome outcome = operation.start().get();
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
         assertTrue(outcome.getResponse() instanceof ExecutionServiceOutput);
-    }
-
-    @Test
-    public void testGetPropertyNames() {
-
-        /*
-         * check VNF case
-         */
-        operation = new GrpcOperation(params, config);
-
-        // @formatter:off
-        assertThat(operation.getPropertyNames()).isEqualTo(
-                        List.of(
-                            OperationProperties.AAI_RESOURCE_VNF,
-                            OperationProperties.AAI_SERVICE,
-                            OperationProperties.EVENT_ADDITIONAL_PARAMS,
-                            OperationProperties.OPT_CDS_GRPC_AAI_PROPERTIES));
-        // @formatter:on
-
-        /*
-         * check PNF case
-         */
-        target.setType(TargetType.PNF);
-        operation = new GrpcOperation(params, config);
-
-        // @formatter:off
-        assertThat(operation.getPropertyNames()).isEqualTo(
-                        List.of(
-                            OperationProperties.AAI_PNF,
-                            OperationProperties.EVENT_ADDITIONAL_PARAMS,
-                            OperationProperties.OPT_CDS_GRPC_AAI_PROPERTIES));
-        // @formatter:on
     }
 
     @Test

@@ -104,9 +104,6 @@ public abstract class OperationPartial implements Operation {
     @Setter(AccessLevel.PROTECTED)
     private String subRequestId;
 
-    @Getter
-    private final List<String> propertyNames;
-
     /**
      * Values for the properties identified by {@link #getPropertyNames()}.
      */
@@ -118,13 +115,11 @@ public abstract class OperationPartial implements Operation {
      *
      * @param params operation parameters
      * @param config configuration for this operation
-     * @param propertyNames names of properties required by this operation
      */
-    public OperationPartial(ControlLoopOperationParams params, OperatorConfig config, List<String> propertyNames) {
+    public OperationPartial(ControlLoopOperationParams params, OperatorConfig config) {
         this.params = params;
         this.config = config;
         this.fullName = params.getActor() + "." + params.getOperation();
-        this.propertyNames = propertyNames;
     }
 
     public Executor getBlockingExecutor() {

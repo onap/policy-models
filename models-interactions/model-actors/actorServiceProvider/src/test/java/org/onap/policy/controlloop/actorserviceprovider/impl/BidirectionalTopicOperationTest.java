@@ -35,7 +35,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
@@ -364,7 +363,7 @@ public class BidirectionalTopicOperationTest {
     private class MyStringOperation extends BidirectionalTopicOperation<String, String> {
 
         public MyStringOperation() {
-            super(BidirectionalTopicOperationTest.this.params, config, String.class, Collections.emptyList());
+            super(BidirectionalTopicOperationTest.this.params, config, String.class);
         }
 
         @Override
@@ -386,8 +385,7 @@ public class BidirectionalTopicOperationTest {
 
     private class MyScoOperation extends BidirectionalTopicOperation<MyRequest, StandardCoderObject> {
         public MyScoOperation() {
-            super(BidirectionalTopicOperationTest.this.params, config, StandardCoderObject.class,
-                            Collections.emptyList());
+            super(BidirectionalTopicOperationTest.this.params, config, StandardCoderObject.class);
         }
 
         @Override
@@ -409,7 +407,7 @@ public class BidirectionalTopicOperationTest {
 
     private class MyOperation extends BidirectionalTopicOperation<MyRequest, MyResponse> {
         public MyOperation() {
-            super(BidirectionalTopicOperationTest.this.params, config, MyResponse.class, Collections.emptyList());
+            super(BidirectionalTopicOperationTest.this.params, config, MyResponse.class);
         }
 
         @Override

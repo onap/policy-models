@@ -20,7 +20,6 @@
 
 package org.onap.policy.controlloop.actor.sdnr;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -31,7 +30,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.junit.After;
@@ -87,11 +85,6 @@ public class SdnrOperationTest extends BasicSdnrOperation {
     public void testSdnrOperation() {
         assertEquals(DEFAULT_ACTOR, operation.getActorName());
         assertEquals(DEFAULT_OPERATION, operation.getName());
-    }
-
-    @Test
-    public void testGetPropertyNames() {
-        assertThat(operation.getPropertyNames()).isEqualTo(List.of(OperationProperties.EVENT_PAYLOAD));
     }
 
     @Test

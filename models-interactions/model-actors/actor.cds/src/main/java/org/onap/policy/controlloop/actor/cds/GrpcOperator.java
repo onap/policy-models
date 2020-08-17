@@ -18,16 +18,20 @@
 
 package org.onap.policy.controlloop.actor.cds;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import lombok.Getter;
 import org.onap.policy.cds.properties.CdsServerProperties;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
+import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.impl.OperationMaker;
 import org.onap.policy.controlloop.actorserviceprovider.impl.OperatorPartial;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ParameterValidationRuntimeException;
+import org.onap.policy.controlloop.policy.TargetType;
 
 /**
  * Operator that uses gRPC. The operator's parameters must be a
@@ -35,6 +39,21 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.ParameterVali
  */
 @Getter
 public class GrpcOperator extends OperatorPartial {
+
+
+    // @formatter:off
+    private static final List<String> PNF_PROPERTY_NAMES = List.of(
+                            OperationProperties.AAI_PNF,
+                            OperationProperties.EVENT_ADDITIONAL_PARAMS,
+                            OperationProperties.OPT_CDS_GRPC_AAI_PROPERTIES);
+
+
+    private static final List<String> VNF_PROPERTY_NAMES = List.of(
+                            OperationProperties.AAI_RESOURCE_VNF,
+                            OperationProperties.AAI_SERVICE,
+                            OperationProperties.EVENT_ADDITIONAL_PARAMS,
+                            OperationProperties.OPT_CDS_GRPC_AAI_PROPERTIES);
+    // @formatter:on
 
     /**
      * Function to make an operation.
@@ -64,7 +83,7 @@ public class GrpcOperator extends OperatorPartial {
      * @param operationMaker function to make an operation
      */
     public GrpcOperator(String actorName, String name, OperationMaker<GrpcConfig, GrpcOperation> operationMaker) {
-        super(actorName, name);
+        super(actorName, name, Collections.emptyList());
         this.operationMaker = operationMaker;
     }
 
@@ -90,6 +109,11 @@ public class GrpcOperator extends OperatorPartial {
             throw new ParameterValidationRuntimeException("invalid parameters", result);
         }
         return new GrpcConfig(getBlockingExecutor(), params);
+    }
+
+    @Override
+    public List<String> getPropertyNames(ControlLoopOperationParams params) {
+        return (TargetType.PNF.equals(params.getTarget().getType()) ? PNF_PROPERTY_NAMES : VNF_PROPERTY_NAMES);
     }
 
     /**

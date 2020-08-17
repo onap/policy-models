@@ -19,11 +19,13 @@
 
 package org.onap.policy.controlloop.actor.cds;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 
+import java.util.List;
 import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,6 +34,7 @@ import org.onap.policy.cds.properties.CdsServerProperties;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actor.cds.constants.CdsActorConstants;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
+import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
@@ -41,9 +44,9 @@ import org.onap.policy.controlloop.policy.TargetType;
 
 public class GrpcOperatorTest {
 
-    GrpcOperator operation;
-    Map<String, Object> paramMap;
-    Map<String, Object> invalidParamMap;
+    private GrpcOperator operation;
+    private Map<String, Object> paramMap;
+    private Map<String, Object> invalidParamMap;
 
     /**
      * Initializes fields, including {@link #operation}.
@@ -82,6 +85,41 @@ public class GrpcOperatorTest {
         // use invalidParamsMap
         assertThatExceptionOfType(ParameterValidationRuntimeException.class)
                         .isThrownBy(() -> operation.makeConfiguration(invalidParamMap));
+    }
+
+    @Test
+    public void testGetPropertyNames() {
+
+        Target target = new Target();
+
+        ControlLoopOperationParams params = ControlLoopOperationParams.builder().target(target).build();
+
+        /*
+         * check VNF case
+         */
+        target.setType(TargetType.VNF);
+
+        // @formatter:off
+        assertThat(operation.getPropertyNames(params)).isEqualTo(
+                        List.of(
+                            OperationProperties.AAI_RESOURCE_VNF,
+                            OperationProperties.AAI_SERVICE,
+                            OperationProperties.EVENT_ADDITIONAL_PARAMS,
+                            OperationProperties.OPT_CDS_GRPC_AAI_PROPERTIES));
+        // @formatter:on
+
+        /*
+         * check PNF case
+         */
+        target.setType(TargetType.PNF);
+
+        // @formatter:off
+        assertThat(operation.getPropertyNames(params)).isEqualTo(
+                        List.of(
+                            OperationProperties.AAI_PNF,
+                            OperationProperties.EVENT_ADDITIONAL_PARAMS,
+                            OperationProperties.OPT_CDS_GRPC_AAI_PROPERTIES));
+        // @formatter:on
     }
 
     @Test

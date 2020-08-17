@@ -20,6 +20,7 @@
 
 package org.onap.policy.controlloop.actorserviceprovider.impl;
 
+import java.util.List;
 import java.util.Map;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactory;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
@@ -40,9 +41,10 @@ public class HttpPollingOperator extends TypedOperator<HttpPollingConfig, HttpOp
      *
      * @param actorName name of the actor with which this operator is associated
      * @param name operation name
+     * @param propertyNames names of properties required by this operation
      */
-    protected HttpPollingOperator(String actorName, String name) {
-        this(actorName, name, null);
+    protected HttpPollingOperator(String actorName, String name, List<String> propertyNames) {
+        this(actorName, name, propertyNames, null);
     }
 
     /**
@@ -50,11 +52,12 @@ public class HttpPollingOperator extends TypedOperator<HttpPollingConfig, HttpOp
      *
      * @param actorName name of the actor with which this operator is associated
      * @param name operation name
+     * @param propertyNames names of properties required by this operation
      * @param operationMaker function to make an operation
      */
-    public HttpPollingOperator(String actorName, String name,
+    public HttpPollingOperator(String actorName, String name, List<String> propertyNames,
                     OperationMaker<HttpPollingConfig, HttpOperation<?>> operationMaker) {
-        super(actorName, name, operationMaker);
+        super(actorName, name, propertyNames, operationMaker);
     }
 
     /**

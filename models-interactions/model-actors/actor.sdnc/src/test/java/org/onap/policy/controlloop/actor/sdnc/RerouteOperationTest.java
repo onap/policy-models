@@ -20,11 +20,9 @@
 
 package org.onap.policy.controlloop.actor.sdnc;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.List;
 import java.util.Map;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -92,16 +90,6 @@ public class RerouteOperationTest extends BasicSdncOperation {
     public void testConstructor() {
         assertEquals(DEFAULT_ACTOR, oper.getActorName());
         assertEquals(RerouteOperation.NAME, oper.getName());
-    }
-
-    @Test
-    public void testGetPropertyNames() {
-        // @formatter:off
-        assertThat(oper.getPropertyNames()).isEqualTo(
-                        List.of(
-                            OperationProperties.ENRICHMENT_SERVICE_ID,
-                            OperationProperties.ENRICHMENT_NETWORK_ID));
-        // @formatter:on
     }
 
     @Test

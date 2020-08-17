@@ -35,7 +35,9 @@ public class SdncActor extends HttpActor<HttpActorParams> {
     public SdncActor() {
         super(NAME, HttpActorParams.class);
 
-        addOperator(new HttpOperator(NAME, RerouteOperation.NAME, RerouteOperation::new));
-        addOperator(new HttpOperator(NAME, BandwidthOnDemandOperation.NAME, BandwidthOnDemandOperation::new));
+        addOperator(new HttpOperator(NAME, RerouteOperation.NAME, RerouteOperation.PROPERTY_NAMES,
+                        RerouteOperation::new));
+        addOperator(new HttpOperator(NAME, BandwidthOnDemandOperation.NAME, BandwidthOnDemandOperation.PROPERTY_NAMES,
+                        BandwidthOnDemandOperation::new));
     }
 }

@@ -25,10 +25,8 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.Struct;
 import com.google.protobuf.Struct.Builder;
 import com.google.protobuf.util.JsonFormat;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
@@ -86,21 +84,6 @@ public class GrpcOperation extends OperationPartial {
      */
     private final Supplier<Map<String, String>> aaiConverter;
 
-
-    // @formatter:off
-    private static final List<String> PNF_PROPERTY_NAMES = List.of(
-                            OperationProperties.AAI_PNF,
-                            OperationProperties.EVENT_ADDITIONAL_PARAMS,
-                            OperationProperties.OPT_CDS_GRPC_AAI_PROPERTIES);
-
-
-    private static final List<String> VNF_PROPERTY_NAMES = List.of(
-                            OperationProperties.AAI_RESOURCE_VNF,
-                            OperationProperties.AAI_SERVICE,
-                            OperationProperties.EVENT_ADDITIONAL_PARAMS,
-                            OperationProperties.OPT_CDS_GRPC_AAI_PROPERTIES);
-    // @formatter:on
-
     /**
      * Constructs the object.
      *
@@ -108,7 +91,7 @@ public class GrpcOperation extends OperationPartial {
      * @param config configuration for this operation
      */
     public GrpcOperation(ControlLoopOperationParams params, GrpcConfig config) {
-        super(params, config, Collections.emptyList());
+        super(params, config);
         this.config = config;
 
         if (TargetType.PNF.equals(params.getTarget().getType())) {
@@ -118,11 +101,6 @@ public class GrpcOperation extends OperationPartial {
             aaiRequestor = this::getCq;
             aaiConverter = this::convertCqToAaiProperties;
         }
-    }
-
-    @Override
-    public List<String> getPropertyNames() {
-        return (TargetType.PNF.equals(params.getTarget().getType()) ? PNF_PROPERTY_NAMES : VNF_PROPERTY_NAMES);
     }
 
     /**

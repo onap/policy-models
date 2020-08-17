@@ -20,6 +20,7 @@
 
 package org.onap.policy.controlloop.actor.aai;
 
+import java.util.Collections;
 import org.onap.policy.aai.AaiConstants;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpActor;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperator;
@@ -37,8 +38,10 @@ public class AaiActor extends HttpActor<HttpActorParams> {
     public AaiActor() {
         super(NAME, HttpActorParams.class);
 
-        addOperator(new HttpOperator(NAME, AaiCustomQueryOperation.NAME, AaiCustomQueryOperation::new));
-        addOperator(new HttpOperator(NAME, AaiGetTenantOperation.NAME, AaiGetTenantOperation::new));
-        addOperator(new HttpOperator(NAME, AaiGetPnfOperation.NAME, AaiGetPnfOperation::new));
+        addOperator(new HttpOperator(NAME, AaiCustomQueryOperation.NAME, AaiCustomQueryOperation.PROPERTY_NAMES,
+                        AaiCustomQueryOperation::new));
+        addOperator(new HttpOperator(NAME, AaiGetTenantOperation.NAME, Collections.emptyList(),
+                        AaiGetTenantOperation::new));
+        addOperator(new HttpOperator(NAME, AaiGetPnfOperation.NAME, Collections.emptyList(), AaiGetPnfOperation::new));
     }
 }

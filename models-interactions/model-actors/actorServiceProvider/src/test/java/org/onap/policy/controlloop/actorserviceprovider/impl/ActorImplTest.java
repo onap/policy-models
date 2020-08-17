@@ -34,6 +34,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -378,7 +379,7 @@ public class ActorImplTest {
     private static class MyOper extends OperatorPartial {
 
         public MyOper(String name) {
-            super(ACTOR_NAME, name);
+            super(ACTOR_NAME, name, Collections.emptyList());
         }
 
         @Override
