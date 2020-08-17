@@ -20,7 +20,6 @@
 
 package org.onap.policy.controlloop.actor.appclcm;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -62,7 +61,7 @@ public class AppcLcmOperation extends BidirectionalTopicOperation<AppcLcmDmaapWr
      * @param config configuration for this operation
      */
     public AppcLcmOperation(ControlLoopOperationParams params, BidirectionalTopicConfig config) {
-        super(params, config, AppcLcmDmaapWrapper.class, Collections.emptyList());
+        super(params, config, AppcLcmDmaapWrapper.class);
 
         if (StringUtils.isBlank(params.getTargetEntity())) {
             throw new IllegalArgumentException("missing targetEntity");

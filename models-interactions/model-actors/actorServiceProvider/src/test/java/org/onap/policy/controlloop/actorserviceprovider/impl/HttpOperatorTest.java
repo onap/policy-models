@@ -135,19 +135,19 @@ public class HttpOperatorTest {
         assertNotSame(operation1, operation2);
 
         // with no operation-maker
-        HttpOperator oper3 = new HttpOperator(ACTOR, OPERATION);
+        HttpOperator oper3 = new HttpOperator(ACTOR, OPERATION, Collections.emptyList());
         assertThatThrownBy(() -> oper3.buildOperation(params)).isInstanceOf(UnsupportedOperationException.class);
     }
 
     @Test
     public void testGetClientFactory() {
-        HttpOperator oper2 = new HttpOperator(ACTOR, OPERATION);
+        HttpOperator oper2 = new HttpOperator(ACTOR, OPERATION, Collections.emptyList());
         assertNotNull(oper2.getClientFactory());
     }
 
     private class MyOperator extends HttpOperator {
         public MyOperator() {
-            super(ACTOR, OPERATION, MyOperation::new);
+            super(ACTOR, OPERATION, Collections.emptyList(), MyOperation::new);
         }
 
         @Override
@@ -158,7 +158,7 @@ public class HttpOperatorTest {
 
     private class MyOperation extends HttpOperation<String> {
         public MyOperation(ControlLoopOperationParams params, HttpConfig config) {
-            super(params, config, String.class, Collections.emptyList());
+            super(params, config, String.class);
         }
 
         @Override

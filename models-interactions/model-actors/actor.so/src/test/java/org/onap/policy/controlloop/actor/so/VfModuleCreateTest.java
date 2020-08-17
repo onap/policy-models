@@ -20,7 +20,6 @@
 
 package org.onap.policy.controlloop.actor.so;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -32,7 +31,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ForkJoinPool;
@@ -162,21 +160,6 @@ public class VfModuleCreateTest extends BasicSoOperation {
         params = params.toBuilder().target(null).build();
         assertThatIllegalArgumentException().isThrownBy(() -> new VfModuleCreate(params, config))
                         .withMessageContaining("Target information");
-    }
-
-    @Test
-    public void testGetPropertyNames() {
-        // @formatter:off
-        assertThat(oper.getPropertyNames()).isEqualTo(
-                        List.of(
-                            OperationProperties.AAI_SERVICE,
-                            OperationProperties.AAI_SERVICE_MODEL,
-                            OperationProperties.AAI_VNF,
-                            OperationProperties.AAI_VNF_MODEL,
-                            OperationProperties.AAI_DEFAULT_CLOUD_REGION,
-                            OperationProperties.AAI_DEFAULT_TENANT,
-                            OperationProperties.DATA_VF_COUNT));
-        // @formatter:on
     }
 
     @Test

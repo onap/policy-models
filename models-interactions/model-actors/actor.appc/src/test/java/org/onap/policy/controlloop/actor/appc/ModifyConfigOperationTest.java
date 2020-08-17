@@ -20,7 +20,6 @@
 
 package org.onap.policy.controlloop.actor.appc;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.junit.Assert.assertEquals;
@@ -35,7 +34,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.junit.After;
@@ -128,11 +126,6 @@ public class ModifyConfigOperationTest extends BasicAppcOperation {
     public void testConstructor() {
         assertEquals(DEFAULT_ACTOR, oper.getActorName());
         assertEquals(ModifyConfigOperation.NAME, oper.getName());
-    }
-
-    @Test
-    public void testGetPropertyNames() {
-        assertThat(oper.getPropertyNames()).isEqualTo(List.of(OperationProperties.AAI_RESOURCE_VNF));
     }
 
     @Test

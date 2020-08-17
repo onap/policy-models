@@ -20,11 +20,13 @@
 
 package org.onap.policy.controlloop.actorserviceprovider.impl;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import org.junit.Before;
@@ -36,6 +38,8 @@ public class OperatorPartialTest {
     private static final String ACTOR = "my-actor";
     private static final String OPERATION = "my-name";
 
+    private static final List<String> PROP_NAMES = List.of("hello", "world");
+
     private OperatorPartial operator;
 
     /**
@@ -43,7 +47,7 @@ public class OperatorPartialTest {
      */
     @Before
     public void setUp() {
-        operator = new OperatorPartial(ACTOR, OPERATION) {
+        operator = new OperatorPartial(ACTOR, OPERATION, PROP_NAMES) {
             @Override
             public Operation buildOperation(ControlLoopOperationParams params) {
                 return null;
@@ -88,6 +92,11 @@ public class OperatorPartialTest {
         operator.shutdown();
 
         verify(operator).doShutdown();
+    }
+
+    @Test
+    public void testGetPropertyNames() {
+        assertThat(operator.getPropertyNames(null)).isEqualTo(PROP_NAMES);
     }
 
     @Test

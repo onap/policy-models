@@ -46,7 +46,7 @@ public class SdnrOperation extends BidirectionalTopicOperation<PciMessage, PciMe
      */
     public static final String NAME = "any";
 
-    private static final List<String> PROPERTY_NAMES = List.of(OperationProperties.EVENT_PAYLOAD);
+    public static final List<String> PROPERTY_NAMES = List.of(OperationProperties.EVENT_PAYLOAD);
 
     /**
      * Keys used to match the response with the request listener. The sub request ID is a
@@ -59,7 +59,7 @@ public class SdnrOperation extends BidirectionalTopicOperation<PciMessage, PciMe
                     List.of(new SelectorKey("body", "output", "CommonHeader", "SubRequestID"));
 
     public SdnrOperation(ControlLoopOperationParams params, BidirectionalTopicConfig config) {
-        super(params, config, PciMessage.class, PROPERTY_NAMES);
+        super(params, config, PciMessage.class);
     }
 
     /**

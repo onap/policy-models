@@ -35,7 +35,8 @@ public class AppcActor extends BidirectionalTopicActor<BidirectionalTopicActorPa
     public AppcActor() {
         super(NAME, BidirectionalTopicActorParams.class);
 
-        addOperator(new BidirectionalTopicOperator(NAME, ModifyConfigOperation.NAME, this, AppcOperation.SELECTOR_KEYS,
+        addOperator(new BidirectionalTopicOperator(NAME, ModifyConfigOperation.NAME,
+                        ModifyConfigOperation.PROPERTY_NAMES, this, AppcOperation.SELECTOR_KEYS,
                         ModifyConfigOperation::new));
     }
 }

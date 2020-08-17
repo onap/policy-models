@@ -20,6 +20,7 @@
 
 package org.onap.policy.controlloop.actor.guard;
 
+import java.util.Collections;
 import java.util.Map;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
@@ -36,7 +37,7 @@ public class DecisionOperator extends HttpOperator {
 
     public DecisionOperator(String actorName, String name,
                     OperationMaker<HttpConfig, HttpOperation<?>> operationMaker) {
-        super(actorName, name, operationMaker);
+        super(actorName, name, Collections.emptyList(), operationMaker);
     }
 
     @Override

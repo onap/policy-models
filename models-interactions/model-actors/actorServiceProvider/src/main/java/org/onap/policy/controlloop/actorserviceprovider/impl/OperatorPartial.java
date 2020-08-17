@@ -20,10 +20,12 @@
 
 package org.onap.policy.controlloop.actorserviceprovider.impl;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executor;
 import lombok.Getter;
 import org.onap.policy.controlloop.actorserviceprovider.Operator;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 
 /**
  * Partial implementation of an operator.
@@ -49,16 +51,20 @@ public abstract class OperatorPartial extends StartConfigPartial<Map<String, Obj
     @Getter
     private final String name;
 
+    private final List<String> propertyNames;
+
     /**
      * Constructs the object.
      *
      * @param actorName name of the actor with which this operator is associated
      * @param name operation name
+     * @param propertyNames names of properties required by this operation
      */
-    public OperatorPartial(String actorName, String name) {
+    public OperatorPartial(String actorName, String name, List<String> propertyNames) {
         super(actorName + "." + name);
         this.actorName = actorName;
         this.name = name;
+        this.propertyNames = propertyNames;
     }
 
     /**
@@ -102,5 +108,10 @@ public abstract class OperatorPartial extends StartConfigPartial<Map<String, Obj
     @Override
     protected void doShutdown() {
         // do nothing
+    }
+
+    @Override
+    public List<String> getPropertyNames(ControlLoopOperationParams params) {
+        return propertyNames;
     }
 }

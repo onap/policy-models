@@ -20,6 +20,7 @@
 
 package org.onap.policy.controlloop.actor.test;
 
+import java.util.Collections;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.impl.OperatorPartial;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
@@ -27,7 +28,7 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOp
 public class DummyOperator extends OperatorPartial {
 
     public DummyOperator(String actorName, String name) {
-        super(actorName, name);
+        super(actorName, name, Collections.emptyList());
     }
 
     @Override

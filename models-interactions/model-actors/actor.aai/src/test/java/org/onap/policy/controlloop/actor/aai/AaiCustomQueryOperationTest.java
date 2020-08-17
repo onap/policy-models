@@ -34,6 +34,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -145,11 +146,6 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation {
         params.getContext().getEnrichment().remove(AaiCustomQueryOperation.VSERVER_VSERVER_NAME);
         assertThatIllegalArgumentException().isThrownBy(() -> oper.getVserver())
                         .withMessage("missing " + AaiCustomQueryOperation.VSERVER_VSERVER_NAME + " in enrichment data");
-    }
-
-    @Test
-    public void testGetPropertyNames() {
-        assertThat(oper.getPropertyNames()).isEqualTo(List.of(OperationProperties.AAI_VSERVER_LINK));
     }
 
     @Test
@@ -297,7 +293,7 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation {
 
     protected class MyTenantOperator extends HttpOperator {
         public MyTenantOperator() {
-            super(AaiConstants.ACTOR_NAME, AaiGetTenantOperation.NAME);
+            super(AaiConstants.ACTOR_NAME, AaiGetTenantOperation.NAME, Collections.emptyList());
 
             HttpParams http = HttpParams.builder().clientName(MY_CLIENT).path(PATH).timeoutSec(1).build();
 

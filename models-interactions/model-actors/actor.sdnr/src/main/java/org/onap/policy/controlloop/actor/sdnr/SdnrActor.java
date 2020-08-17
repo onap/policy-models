@@ -30,7 +30,7 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.Bidirectional
  * SDNR is an unusual actor in that it uses a single, generic operator to initiate all
  * operation types. The action taken is always the same, only the operation name changes.
  */
-public class SdnrActor extends BidirectionalTopicActor<BidirectionalTopicActorParams>  {
+public class SdnrActor extends BidirectionalTopicActor<BidirectionalTopicActorParams> {
 
     public static final String NAME = "SDNR";
 
@@ -40,8 +40,8 @@ public class SdnrActor extends BidirectionalTopicActor<BidirectionalTopicActorPa
     public SdnrActor() {
         super(NAME, BidirectionalTopicActorParams.class);
 
-        addOperator(new BidirectionalTopicOperator(NAME, SdnrOperation.NAME, this, SdnrOperation.SELECTOR_KEYS,
-                        SdnrOperation::new));
+        addOperator(new BidirectionalTopicOperator(NAME, SdnrOperation.NAME, SdnrOperation.PROPERTY_NAMES, this,
+                        SdnrOperation.SELECTOR_KEYS, SdnrOperation::new));
     }
 
     @Override

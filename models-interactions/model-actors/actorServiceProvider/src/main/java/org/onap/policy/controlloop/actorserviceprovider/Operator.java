@@ -20,6 +20,7 @@
 
 package org.onap.policy.controlloop.actorserviceprovider;
 
+import java.util.List;
 import java.util.Map;
 import org.onap.policy.common.capabilities.Configurable;
 import org.onap.policy.common.capabilities.Startable;
@@ -44,6 +45,15 @@ public interface Operator extends Startable, Configurable<Map<String, Object>> {
      * @return the operation name
      */
     String getName();
+
+    /**
+     * Gets the names of the properties required by the operation.
+     *
+     * @param params parameters that will be used to construct the operation. Note: the
+     *        parameters may not be fully populated yet
+     * @return the names of the properties required by the operation
+     */
+    List<String> getPropertyNames(ControlLoopOperationParams params);
 
     /**
      * Called by enforcement PDP engine to build the operation.

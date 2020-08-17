@@ -55,13 +55,14 @@ public class BidirectionalTopicOperator
      *
      * @param actorName name of the actor with which this operator is associated
      * @param name operation name
+     * @param propertyNames names of properties required by this operation
      * @param topicManager manager from which to get the topic handler
      * @param selectorKeys keys used to extract the fields used to select responses for
      *        this operator
      */
-    protected BidirectionalTopicOperator(String actorName, String name, BidirectionalTopicManager topicManager,
-                    List<SelectorKey> selectorKeys) {
-        this(actorName, name, topicManager, selectorKeys, null);
+    protected BidirectionalTopicOperator(String actorName, String name, List<String> propertyNames,
+                    BidirectionalTopicManager topicManager, List<SelectorKey> selectorKeys) {
+        this(actorName, name, propertyNames, topicManager, selectorKeys, null);
     }
 
     /**
@@ -69,15 +70,16 @@ public class BidirectionalTopicOperator
      *
      * @param actorName name of the actor with which this operator is associated
      * @param name operation name
+     * @param propertyNames names of properties required by this operation
      * @param topicManager manager from which to get the topic handler
      * @param selectorKeys keys used to extract the fields used to select responses for
      *        this operator
      */
-    public BidirectionalTopicOperator(String actorName, String name, BidirectionalTopicManager topicManager,
-                    List<SelectorKey> selectorKeys,
+    public BidirectionalTopicOperator(String actorName, String name, List<String> propertyNames,
+                    BidirectionalTopicManager topicManager, List<SelectorKey> selectorKeys,
                     OperationMaker<BidirectionalTopicConfig, BidirectionalTopicOperation<?, ?>> operationMaker) {
 
-        super(actorName, name, operationMaker);
+        super(actorName, name, propertyNames, operationMaker);
         this.topicManager = topicManager;
         this.selectorKeys = selectorKeys;
     }
@@ -87,14 +89,16 @@ public class BidirectionalTopicOperator
      *
      * @param actorName name of the actor with which this operator is associated
      * @param name operation name
+     * @param propertyNames names of properties required by this operation
      * @param topicManager manager from which to get the topic handler
      * @param selectorKeys keys used to extract the fields used to select responses for
      *        this operator
      */
-    public BidirectionalTopicOperator(String actorName, String name, BidirectionalTopicManager topicManager,
+    public BidirectionalTopicOperator(String actorName, String name, List<String> propertyNames,
+                    BidirectionalTopicManager topicManager,
                     OperationMaker<BidirectionalTopicConfig, BidirectionalTopicOperation<?, ?>> operationMaker,
                     SelectorKey... selectorKeys) {
-        this(actorName, name, topicManager, Arrays.asList(selectorKeys), operationMaker);
+        this(actorName, name, propertyNames, topicManager, Arrays.asList(selectorKeys), operationMaker);
     }
 
     /**

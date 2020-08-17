@@ -20,6 +20,7 @@
 
 package org.onap.policy.controlloop.actorserviceprovider.impl;
 
+import java.util.List;
 import java.util.Map;
 import lombok.Getter;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
@@ -50,9 +51,10 @@ public abstract class TypedOperator<C, T extends Operation> extends OperatorPart
      *
      * @param actorName name of the actor with which this operator is associated
      * @param name operation name
+     * @param propertyNames names of properties required by this operation
      */
-    protected TypedOperator(String actorName, String name) {
-        this(actorName, name, null);
+    protected TypedOperator(String actorName, String name, List<String> propertyNames) {
+        this(actorName, name, propertyNames, null);
     }
 
     /**
@@ -60,10 +62,12 @@ public abstract class TypedOperator<C, T extends Operation> extends OperatorPart
      *
      * @param actorName name of the actor with which this operator is associated
      * @param name operation name
+     * @param propertyNames names of properties required by this operation
      * @param operationMaker function to make an operation
      */
-    public TypedOperator(String actorName, String name, OperationMaker<C, T> operationMaker) {
-        super(actorName, name);
+    public TypedOperator(String actorName, String name, List<String> propertyNames,
+                    OperationMaker<C, T> operationMaker) {
+        super(actorName, name, propertyNames);
         this.operationMaker = operationMaker;
     }
 

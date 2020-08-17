@@ -28,6 +28,7 @@ import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
@@ -99,8 +100,7 @@ public class BidirectionalTopicOperatorTest {
         // invalid parameters
         params.setSourceTopic(null);
         Map<String, Object> map = Util.translateToMap(OPERATION, params);
-        assertThatThrownBy(() -> oper.configure(map))
-                        .isInstanceOf(ParameterValidationRuntimeException.class);
+        assertThatThrownBy(() -> oper.configure(map)).isInstanceOf(ParameterValidationRuntimeException.class);
     }
 
     @Test
@@ -117,8 +117,8 @@ public class BidirectionalTopicOperatorTest {
             };
         // @formatter:on
 
-        BidirectionalTopicOperator oper2 =
-                        new BidirectionalTopicOperator(ACTOR, OPERATION, mgr, maker, new SelectorKey(""));
+        BidirectionalTopicOperator oper2 = new BidirectionalTopicOperator(ACTOR, OPERATION, Collections.emptyList(),
+                        mgr, maker, new SelectorKey(""));
 
         assertEquals(ACTOR, oper2.getActorName());
         assertEquals(OPERATION, oper2.getName());
@@ -140,15 +140,15 @@ public class BidirectionalTopicOperatorTest {
         assertSame(oper2.getCurrentConfig(), configRef.get());
 
         // with no operation-maker
-        BidirectionalTopicOperator oper3 =
-                        new BidirectionalTopicOperator(ACTOR, OPERATION, mgr, Arrays.asList(new SelectorKey("")));
+        BidirectionalTopicOperator oper3 = new BidirectionalTopicOperator(ACTOR, OPERATION, Collections.emptyList(),
+                        mgr, Arrays.asList(new SelectorKey("")));
         assertThatThrownBy(() -> oper3.buildOperation(params2)).isInstanceOf(UnsupportedOperationException.class);
     }
 
 
     private class MyOperator extends BidirectionalTopicOperator {
         public MyOperator(List<SelectorKey> selectorKeys) {
-            super(ACTOR, OPERATION, mgr, selectorKeys);
+            super(ACTOR, OPERATION, Collections.emptyList(), mgr, selectorKeys);
         }
 
         @Override

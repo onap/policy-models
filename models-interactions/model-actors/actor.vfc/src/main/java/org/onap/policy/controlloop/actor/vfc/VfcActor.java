@@ -33,6 +33,6 @@ public class VfcActor extends HttpActor<HttpPollingActorParams> {
     public VfcActor() {
         super(NAME, HttpPollingActorParams.class);
 
-        addOperator(new HttpPollingOperator(NAME, Restart.NAME, Restart::new));
+        addOperator(new HttpPollingOperator(NAME, Restart.NAME, VfcOperation.PROPERTY_NAMES, Restart::new));
     }
 }

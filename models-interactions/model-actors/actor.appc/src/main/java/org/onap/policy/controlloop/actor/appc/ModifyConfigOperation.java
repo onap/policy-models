@@ -38,7 +38,7 @@ public class ModifyConfigOperation extends AppcOperation {
 
     public static final String NAME = "ModifyConfig";
 
-    private static final List<String> PROPERTY_NAMES = List.of(OperationProperties.AAI_RESOURCE_VNF);
+    public static final List<String> PROPERTY_NAMES = List.of(OperationProperties.AAI_RESOURCE_VNF);
 
     /**
      * Constructs the object.
@@ -47,7 +47,7 @@ public class ModifyConfigOperation extends AppcOperation {
      * @param config configuration for this operation
      */
     public ModifyConfigOperation(ControlLoopOperationParams params, BidirectionalTopicConfig config) {
-        super(params, config, PROPERTY_NAMES);
+        super(params, config);
     }
 
     /**

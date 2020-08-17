@@ -107,8 +107,6 @@ public class OperationPartialTest {
     private static final Logger logger = (Logger) LoggerFactory.getLogger(OperationPartial.class);
     private static final ExtractAppender appender = new ExtractAppender();
 
-    private static final List<String> PROP_NAMES = List.of("hello", "world");
-
     @Mock
     private ActorService service;
     @Mock
@@ -207,7 +205,7 @@ public class OperationPartialTest {
         CompletableFuture<Void> future = new CompletableFuture<>();
 
         // use the real executor
-        OperatorPartial oper2 = new OperatorPartial(ACTOR, OPERATION) {
+        OperatorPartial oper2 = new OperatorPartial(ACTOR, OPERATION, Collections.emptyList()) {
             @Override
             public Operation buildOperation(ControlLoopOperationParams params) {
                 return null;
@@ -217,11 +215,6 @@ public class OperationPartialTest {
         oper2.getBlockingExecutor().execute(() -> future.complete(null));
 
         assertNull(future.get(5, TimeUnit.SECONDS));
-    }
-
-    @Test
-    public void testGetPropertyNames() {
-        assertThat(oper.getPropertyNames()).isEqualTo(PROP_NAMES);
     }
 
     @Test
@@ -434,7 +427,7 @@ public class OperationPartialTest {
         /*
          * Use an operation that doesn't override doOperation().
          */
-        OperationPartial oper2 = new OperationPartial(params, config, Collections.emptyList()) {};
+        OperationPartial oper2 = new OperationPartial(params, config) {};
 
         oper2.start();
         assertTrue(executor.runAll(MAX_REQUESTS));
@@ -1146,7 +1139,7 @@ public class OperationPartialTest {
     @Test
     public void testGetRetryWait() {
         // need an operator that doesn't override the retry time
-        OperationPartial oper2 = new OperationPartial(params, config, Collections.emptyList()) {};
+        OperationPartial oper2 = new OperationPartial(params, config) {};
         assertEquals(OperationPartial.DEFAULT_RETRY_WAIT_MS, oper2.getRetryWaitMs());
     }
 
@@ -1318,7 +1311,7 @@ public class OperationPartialTest {
 
 
         public MyOper() {
-            super(OperationPartialTest.this.params, config, PROP_NAMES);
+            super(OperationPartialTest.this.params, config);
         }
 
         @Override

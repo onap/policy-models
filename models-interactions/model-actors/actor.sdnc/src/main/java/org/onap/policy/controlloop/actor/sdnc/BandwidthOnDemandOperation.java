@@ -47,7 +47,7 @@ public class BandwidthOnDemandOperation extends SdncOperation {
     public static final String VNF_ID = "vnfId";
 
     // @formatter:off
-    private static final List<String> PROPERTY_NAMES = List.of(
+    public static final List<String> PROPERTY_NAMES = List.of(
                             OperationProperties.ENRICHMENT_SERVICE_ID,
                             OperationProperties.ENRICHMENT_BANDWIDTH,
                             OperationProperties.ENRICHMENT_BANDWIDTH_CHANGE_TIME,
@@ -61,7 +61,7 @@ public class BandwidthOnDemandOperation extends SdncOperation {
      * @param config configuration for this operation
      */
     public BandwidthOnDemandOperation(ControlLoopOperationParams params, HttpConfig config) {
-        super(params, config, PROPERTY_NAMES);
+        super(params, config);
     }
 
     @Override
