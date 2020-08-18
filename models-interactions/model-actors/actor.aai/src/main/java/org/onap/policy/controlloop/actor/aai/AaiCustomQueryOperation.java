@@ -193,8 +193,10 @@ public class AaiCustomQueryOperation extends HttpOperation<String> {
     protected CompletableFuture<OperationOutcome> postProcessResponse(OperationOutcome outcome, String url,
                     Response rawResponse, String response) {
 
-        logger.info("{}: caching response for {}", getFullName(), params.getRequestId());
-        params.getContext().setProperty(AaiCqResponse.CONTEXT_KEY, new AaiCqResponse(response));
+        if (params.getContext() != null) {
+            logger.info("{}: caching response for {}", getFullName(), params.getRequestId());
+            params.getContext().setProperty(AaiCqResponse.CONTEXT_KEY, new AaiCqResponse(response));
+        }
 
         return super.postProcessResponse(outcome, url, rawResponse, response);
     }
