@@ -99,7 +99,7 @@ public class DecisionOperation extends HttpOperation<DecisionResponse> {
         final Executor executor = params.getExecutor();
         final CallbackManager callbacks = new CallbackManager();
 
-        return CompletableFuture.completedFuture(params.makeOutcome())
+        return CompletableFuture.completedFuture(params.makeOutcome(getTargetEntity()))
                         .whenCompleteAsync(callbackStarted(callbacks), executor)
                         .whenCompleteAsync(callbackCompleted(callbacks), executor);
     }

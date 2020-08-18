@@ -20,7 +20,7 @@
 
 package org.onap.policy.controlloop.actor.aai;
 
-import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.CompletableFuture;
@@ -29,6 +29,7 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
@@ -45,6 +46,8 @@ public class AaiGetOperation extends HttpOperation<StandardCoderObject> {
 
     public static final int DEFAULT_RETRY = 3;
 
+    private static final List<String> PROPERTY_NAMES = List.of(OperationProperties.AAI_TARGET_ENTITY);
+
 
     /**
      * Responses that are retrieved from A&AI are placed in the operation context under
@@ -59,7 +62,7 @@ public class AaiGetOperation extends HttpOperation<StandardCoderObject> {
      * @param config configuration for this operation
      */
     public AaiGetOperation(ControlLoopOperationParams params, HttpConfig config) {
-        super(params, config, StandardCoderObject.class, Collections.emptyList());
+        super(params, config, StandardCoderObject.class, PROPERTY_NAMES);
         this.propertyPrefix = getFullName() + ".";
     }
 
@@ -110,9 +113,9 @@ public class AaiGetOperation extends HttpOperation<StandardCoderObject> {
     @Override
     protected CompletableFuture<OperationOutcome> postProcessResponse(OperationOutcome outcome, String url,
                     Response rawResponse, StandardCoderObject response) {
-        String entity = params.getTargetEntity();
 
         if (params.getContext() != null) {
+            String entity = getTargetEntity();
             logger.info("{}: caching response of {} for {}", getFullName(), entity, params.getRequestId());
             params.getContext().setProperty(propertyPrefix + entity, response);
         }

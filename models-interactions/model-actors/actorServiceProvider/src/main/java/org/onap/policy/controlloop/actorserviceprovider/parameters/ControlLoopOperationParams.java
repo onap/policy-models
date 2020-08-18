@@ -69,6 +69,7 @@ public class ControlLoopOperationParams {
     /**
      * Event for which the operation applies.
      */
+    // TODO to be removed
     private ControlLoopEventContext context;
 
     /**
@@ -106,15 +107,15 @@ public class ControlLoopOperationParams {
     private Integer retry;
 
     /**
-     * The entity's target information. May be {@code null}, depending on the requirement
-     * of the operation to be invoked.
+     * The Target information, extracted from the Policy. May be {@code null}, depending
+     * on the requirement of the operation to be invoked.
      */
     private Target target;
 
     /**
      * Target entity.
      */
-    @NotNull
+    // TODO to be removed
     private String targetEntity;
 
     /**
@@ -193,7 +194,19 @@ public class ControlLoopOperationParams {
      *
      * @return a new operation outcome
      */
+    // TODO to be removed
     public OperationOutcome makeOutcome() {
+        return makeOutcome(getTargetEntity());
+    }
+
+    /**
+     * Makes an operation outcome, populating it from the parameters.
+     *
+     * @param targetEntity the target entity
+     *
+     * @return a new operation outcome
+     */
+    public OperationOutcome makeOutcome(String targetEntity) {
         OperationOutcome outcome = new OperationOutcome();
         outcome.setActor(getActor());
         outcome.setOperation(getOperation());

@@ -21,7 +21,6 @@
 package org.onap.policy.controlloop.actor.aai;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.junit.Assert.assertEquals;
@@ -114,27 +113,22 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation {
         HttpParams opParams = HttpParams.builder().clientName(MY_CLIENT).path("v16/query").build();
         config = new HttpConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
 
-        params = params.toBuilder().targetEntity(SIM_VSERVER).retry(0).timeoutSec(5).executor(blockingExecutor)
-                        .preprocessed(true).build();
+        params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).preprocessed(true).build();
         oper = new AaiCustomQueryOperation(params, config);
+        oper.setProperty(OperationProperties.AAI_TARGET_ENTITY, SIM_VSERVER);
 
         oper.setProperty(OperationProperties.AAI_VSERVER_LINK, MY_LINK);
 
         outcome = oper.start().get();
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
 
-        String resp = outcome.getResponse();
-        assertThat(resp).isNotNull().contains("relationship-list");
+        assertNotNull(outcome.getResponse());
     }
 
     @Test
     public void testConstructor() {
         assertEquals(AaiConstants.ACTOR_NAME, oper.getActorName());
         assertEquals(AaiCustomQueryOperation.NAME, oper.getName());
-
-        // verify that it works with an empty target entity
-        params = params.toBuilder().targetEntity("").build();
-        assertThatCode(() -> new AaiCustomQueryOperation(params, config)).doesNotThrowAnyException();
     }
 
     @Test
@@ -261,6 +255,15 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation {
 
         assertThatIllegalArgumentException().isThrownBy(() -> oper.getVserverLink())
                         .withMessage("cannot perform custom query - no resource-link");
+    }
+
+    @Test
+    public void testSetOutcome() {
+        outcome = oper.setOutcome(params.makeOutcome(null), PolicyResult.SUCCESS, null, null);
+        assertNull(outcome.getResponse());
+
+        outcome = oper.setOutcome(params.makeOutcome(null), PolicyResult.SUCCESS, null, "{}");
+        assertTrue(outcome.getResponse() instanceof AaiCqResponse);
     }
 
     private String makeTenantReply() throws Exception {

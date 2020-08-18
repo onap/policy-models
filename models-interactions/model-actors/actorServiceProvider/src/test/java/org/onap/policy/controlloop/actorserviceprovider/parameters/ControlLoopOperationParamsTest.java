@@ -131,7 +131,7 @@ public class ControlLoopOperationParamsTest {
                         .retry(RETRY).target(TARGET).targetEntity(TARGET_ENTITY).timeoutSec(TIMEOUT)
                         .startCallback(starter).preprocessed(true).build();
 
-        outcome = params.makeOutcome();
+        outcome = params.makeOutcome(TARGET_ENTITY);
     }
 
     @Test
@@ -245,7 +245,10 @@ public class ControlLoopOperationParamsTest {
         testValidate("actorService", NULL_MSG, bldr -> bldr.actorService(null));
         testValidate("executor", NULL_MSG, bldr -> bldr.executor(null));
         testValidate("operation", NULL_MSG, bldr -> bldr.operation(null));
-        testValidate("target", NULL_MSG, bldr -> bldr.targetEntity(null));
+
+        // has no target entity
+        BeanValidationResult result = params.toBuilder().targetEntity(null).build().validate();
+        assertTrue(result.isValid());
 
         // note: if context is null, then it will ACTUALLY complain about the request ID
         testValidate(REQUEST_ID_NAME, NULL_MSG, bldr -> bldr.context(null));
@@ -263,7 +266,7 @@ public class ControlLoopOperationParamsTest {
 
         // test when event has no request ID
         when(event.getRequestId()).thenReturn(null);
-        BeanValidationResult result = params.validate();
+        result = params.validate();
         assertFalse(result.isValid());
         assertThat(result.getResult()).contains("event").contains(REQUEST_ID_NAME).contains(NULL_MSG);
 

@@ -168,7 +168,7 @@ public class SdnrOperationTest extends BasicSdnrOperation {
         assertFalse(future.isDone());
         assertTrue(guardStarted.get());
 
-        future2.complete(params.makeOutcome());
+        future2.complete(params.makeOutcome(null));
         assertTrue(executor.runAll(100));
         assertTrue(future3.isDone());
         assertEquals(PolicyResult.SUCCESS, future3.get().getResult());

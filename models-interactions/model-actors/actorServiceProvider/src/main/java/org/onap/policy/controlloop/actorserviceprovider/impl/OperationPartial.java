@@ -53,6 +53,7 @@ import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.actorserviceprovider.CallbackManager;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.OperatorConfig;
 import org.onap.policy.controlloop.actorserviceprovider.pipeline.PipelineControllerFuture;
@@ -157,6 +158,7 @@ public abstract class OperationPartial implements Operation {
      * @param value new value
      */
     public void setProperty(String name, Object value) {
+        logger.info("{}: set property {}={}", getFullName(), name, value);
         properties.put(name, value);
     }
 
@@ -230,7 +232,7 @@ public abstract class OperationPartial implements Operation {
             // propagate "stop" to the callbacks
             controller.add(callbacks);
 
-            final OperationOutcome outcome2 = params.makeOutcome();
+            final OperationOutcome outcome2 = params.makeOutcome(getTargetEntity());
 
             // TODO need a FAILURE_MISSING_DATA (e.g., A&AI)
 
@@ -304,7 +306,7 @@ public abstract class OperationPartial implements Operation {
         Map<String, Object> guard = new LinkedHashMap<>();
         guard.put("actor", params.getActor());
         guard.put("operation", params.getOperation());
-        guard.put("target", params.getTargetEntity());
+        guard.put("target", getTargetEntity());
         guard.put("requestId", params.getRequestId());
 
         String clname = params.getContext().getEvent().getClosedLoopControlName();
@@ -358,7 +360,7 @@ public abstract class OperationPartial implements Operation {
         logger.info("{}: start operation attempt {} for {}", getFullName(), attempt, params.getRequestId());
 
         final Executor executor = params.getExecutor();
-        final OperationOutcome outcome = params.makeOutcome();
+        final OperationOutcome outcome = params.makeOutcome(getTargetEntity());
         final CallbackManager callbacks = new CallbackManager();
 
         // this operation attempt gets its own controller
@@ -489,7 +491,7 @@ public abstract class OperationPartial implements Operation {
                 outcome = origOutcome;
             } else {
                 logger.warn("{}: null outcome; treating as a failure for {}", getFullName(), params.getRequestId());
-                outcome = this.setOutcome(params.makeOutcome(), PolicyResult.FAILURE);
+                outcome = this.setOutcome(params.makeOutcome(getTargetEntity()), PolicyResult.FAILURE);
             }
 
             // ensure correct actor/operation
@@ -588,7 +590,7 @@ public abstract class OperationPartial implements Operation {
     private Function<Throwable, OperationOutcome> fromException(String type) {
 
         return thrown -> {
-            OperationOutcome outcome = params.makeOutcome();
+            OperationOutcome outcome = params.makeOutcome(getTargetEntity());
 
             if (thrown instanceof CancellationException || thrown.getCause() instanceof CancellationException) {
                 // do not include exception in the message, as it just clutters the log
@@ -1104,6 +1106,16 @@ public abstract class OperationPartial implements Operation {
      */
     protected long getRetryWaitMs() {
         return DEFAULT_RETRY_WAIT_MS;
+    }
+
+    /**
+     * Gets the target entity, first trying the properties and then the parameters.
+     *
+     * @return the target entity
+     */
+    protected String getTargetEntity() {
+        String targetEntity = getProperty(OperationProperties.AAI_TARGET_ENTITY);
+        return (targetEntity != null ? targetEntity : params.getTargetEntity());
     }
 
     /**

@@ -110,7 +110,7 @@ public class BidirectionalTopicOperationTest {
         executor = new PseudoExecutor();
 
         params = ControlLoopOperationParams.builder().actor(ACTOR).operation(OPERATION).executor(executor).build();
-        outcome = params.makeOutcome();
+        outcome = params.makeOutcome(null);
 
         response = new MyResponse();
         response.setRequestId(REQ_ID);
