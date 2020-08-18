@@ -100,7 +100,7 @@ public class HttpPollingOperationTest {
         when(rawResponse.readEntity(String.class)).thenReturn(response);
 
         params = ControlLoopOperationParams.builder().actor(MY_ACTOR).operation(MY_OPERATION).build();
-        outcome = params.makeOutcome();
+        outcome = params.makeOutcome(null);
 
         oper = new MyOper(params, config);
     }

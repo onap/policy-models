@@ -159,7 +159,7 @@ public class ModifyConfigOperationTest extends BasicAppcOperation {
         assertTrue(guardStarted.get());
         verify(context).obtain(eq(AaiCqResponse.CONTEXT_KEY), any());
 
-        future2.complete(params.makeOutcome());
+        future2.complete(params.makeOutcome(null));
         assertTrue(executor.runAll(100));
         assertTrue(future3.isDone());
         assertEquals(PolicyResult.SUCCESS, future3.get().getResult());

@@ -23,6 +23,9 @@ package org.onap.policy.controlloop.actorserviceprovider;
 /**
  * Names of properties needed by the Actors defined within this repo. Note: this is not
  * exhaustive, as additional property names may be returned by company-defined Actors.
+ * <p/>
+ * Note: any time a property is added, applications using the actors must be updated to
+ * provide the property's value when requested.
  */
 public class OperationProperties {
 
@@ -43,6 +46,23 @@ public class OperationProperties {
     public static final String AAI_DEFAULT_TENANT = "AAI/defaultTenant";
 
     /**
+     * A&AI PNF. Obtained as follows:
+     * <ol>
+     * <li>using the target entity, invoke AaiGetPnfOperation</li>
+     * </ol>
+     */
+    public static final String AAI_PNF = "AAI/pnf";
+
+    /**
+     * A&AI VNF id for the target resource ID. Obtained as follows:
+     * <ol>
+     * <li>using the target resource ID, invoke the custom query
+     * getGenericVnfByModelInvariantId() method to get the generic VNF</li>
+     * </ol>
+     */
+    public static final String AAI_RESOURCE_VNF = "AAI/resourceId/vnf";
+
+    /**
      * A&AI Service instance. Obtained as follows:
      * <ol>
      * <li>invoke the custom query getServiceInstance() method</li>
@@ -58,6 +78,13 @@ public class OperationProperties {
      * </ol>
      */
     public static final String AAI_SERVICE_MODEL = "AAI/service/model";
+
+    /**
+     * A&AI Target Entity. This is a String that can typically be found in the enrichment
+     * data, depending on the Target type. Sometimes, however, it must be retrieved via an
+     * A&AI query.
+     */
+    public static final String AAI_TARGET_ENTITY = "AAI/targetEntity";
 
     /**
      * A&AI VNF. Obtained as follows:
@@ -81,23 +108,6 @@ public class OperationProperties {
      * </ol>
      */
     public static final String AAI_VNF_MODEL = "AAI/vnf/model";
-
-    /**
-     * A&AI VNF id for the target resource ID. Obtained as follows:
-     * <ol>
-     * <li>using the target resource ID, invoke the custom query
-     * getGenericVnfByModelInvariantId() method to get the generic VNF</li>
-     * </ol>
-     */
-    public static final String AAI_RESOURCE_VNF = "AAI/resourceId/vnf";
-
-    /**
-     * A&AI PNF. Obtained as follows:
-     * <ol>
-     * <li>using the target entity, invoke AaiGetPnfOperation</li>
-     * </ol>
-     */
-    public static final String AAI_PNF = "AAI/pnf";
 
     /**
      * A&AI link to the vserver. Obtained as follows:

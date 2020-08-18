@@ -136,7 +136,7 @@ public class BasicOperation {
         when(guardActor.getOperator(OperationPartial.GUARD_OPERATION_NAME)).thenReturn(guardOperator);
         when(guardOperator.buildOperation(any())).thenReturn(guardOperation);
 
-        outcome = params.makeOutcome();
+        outcome = params.makeOutcome(TARGET_ENTITY);
         outcome.setResult(PolicyResult.SUCCESS);
         when(guardOperation.start()).thenReturn(CompletableFuture.completedFuture(outcome));
 
@@ -147,7 +147,7 @@ public class BasicOperation {
         when(cqOperation.start()).thenReturn(cqFuture);
 
         // get a fresh outcome
-        outcome = params.makeOutcome();
+        outcome = params.makeOutcome(TARGET_ENTITY);
     }
 
     /**
@@ -226,7 +226,7 @@ public class BasicOperation {
      */
     protected void provideCqResponse(AaiCqResponse cq) {
         context.setProperty(AaiCqResponse.CONTEXT_KEY, cq);
-        OperationOutcome outcome2 = params.makeOutcome();
+        OperationOutcome outcome2 = params.makeOutcome(TARGET_ENTITY);
         outcome2.setResult(PolicyResult.SUCCESS);
         cqFuture.complete(outcome2);
     }

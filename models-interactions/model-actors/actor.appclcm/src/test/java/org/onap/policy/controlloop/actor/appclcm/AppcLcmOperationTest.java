@@ -32,6 +32,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
@@ -55,6 +56,7 @@ import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.actor.test.BasicBidirectionalTopicOperation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicOperation.Status;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
@@ -135,16 +137,11 @@ public class AppcLcmOperationTest extends BasicBidirectionalTopicOperation<AppcL
     public void testConstructor() {
         assertEquals(DEFAULT_ACTOR, oper.getActorName());
         assertEquals(DEFAULT_OPERATION, oper.getName());
-
-        // missing target entity
-        params = params.toBuilder().targetEntity("").build();
-        assertThatIllegalArgumentException().isThrownBy(() -> new AppcLcmOperation(params, config))
-                        .withMessage("missing targetEntity");
     }
 
     @Test
     public void testGetPropertyNames() {
-        assertThat(oper.getPropertyNames()).isEmpty();
+        assertThat(oper.getPropertyNames()).isEqualTo(List.of(OperationProperties.AAI_TARGET_ENTITY));
     }
 
     @Test

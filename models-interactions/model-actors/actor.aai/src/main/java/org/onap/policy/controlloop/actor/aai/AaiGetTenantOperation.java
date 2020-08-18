@@ -76,7 +76,7 @@ public class AaiGetTenantOperation extends AaiGetOperation {
         str.append(path);
 
         web = addQuery(web, str, "?", "search-node-type", "vserver");
-        web = addQuery(web, str, "&", "filter", "vserver-name:EQUALS:" + params.getTargetEntity());
+        web = addQuery(web, str, "&", "filter", "vserver-name:EQUALS:" + getTargetEntity());
 
         Builder webldr = web.request();
         addHeaders(webldr, headers);

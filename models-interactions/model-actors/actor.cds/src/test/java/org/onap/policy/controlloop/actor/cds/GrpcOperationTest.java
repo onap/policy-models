@@ -151,9 +151,9 @@ public class GrpcOperationTest {
         when(context.obtain(eq(AaiCqResponse.CONTEXT_KEY), any())).thenReturn(cqFuture);
         when(context.getEvent()).thenReturn(onset);
 
-        params = ControlLoopOperationParams.builder().actor(CdsActorConstants.CDS_ACTOR)
-                        .operation(GrpcOperation.NAME).context(context).actorService(new ActorService())
-                        .targetEntity(TARGET_ENTITY).target(target).build();
+        params = ControlLoopOperationParams.builder().actor(CdsActorConstants.CDS_ACTOR).operation(GrpcOperation.NAME)
+                        .context(context).actorService(new ActorService()).targetEntity(TARGET_ENTITY).target(target)
+                        .build();
     }
 
     /**
@@ -166,10 +166,9 @@ public class GrpcOperationTest {
 
         Map<String, Object> payload = Map.of("artifact_name", "my_artifact", "artifact_version", "1.0");
 
-        params = ControlLoopOperationParams.builder()
-                        .actor(CdsActorConstants.CDS_ACTOR).operation("subscribe").context(context)
-                        .actorService(new ActorService()).targetEntity(TARGET_ENTITY).target(target).retry(0)
-                        .timeoutSec(5).executor(blockingExecutor).payload(payload).build();
+        params = ControlLoopOperationParams.builder().actor(CdsActorConstants.CDS_ACTOR).operation("subscribe")
+                        .context(context).actorService(new ActorService()).targetEntity(TARGET_ENTITY).target(target)
+                        .retry(0).timeoutSec(5).executor(blockingExecutor).payload(payload).build();
 
         cdsProps.setHost("localhost");
         cdsProps.setPort(sim.getPort());
@@ -181,7 +180,7 @@ public class GrpcOperationTest {
             @Override
             protected CompletableFuture<OperationOutcome> startGuardAsync() {
                 // indicate that guard completed successfully
-                return CompletableFuture.completedFuture(params.makeOutcome());
+                return CompletableFuture.completedFuture(params.makeOutcome(null));
             }
         };
 
@@ -200,10 +199,9 @@ public class GrpcOperationTest {
 
         Map<String, Object> payload = Map.of("artifact_name", "my_artifact", "artifact_version", "1.0");
 
-        params = ControlLoopOperationParams.builder()
-                        .actor(CdsActorConstants.CDS_ACTOR).operation("subscribe").context(context)
-                        .actorService(new ActorService()).targetEntity(TARGET_ENTITY).target(target).retry(0)
-                        .timeoutSec(5).executor(blockingExecutor).payload(payload).preprocessed(true).build();
+        params = ControlLoopOperationParams.builder().actor(CdsActorConstants.CDS_ACTOR).operation("subscribe")
+                        .context(context).actorService(new ActorService()).targetEntity(TARGET_ENTITY).target(target)
+                        .retry(0).timeoutSec(5).executor(blockingExecutor).payload(payload).preprocessed(true).build();
 
         cdsProps.setHost("localhost");
         cdsProps.setPort(sim.getPort());
@@ -260,8 +258,7 @@ public class GrpcOperationTest {
         operation = new GrpcOperation(params, config);
 
         // in neither property nor context
-        assertThatIllegalArgumentException().isThrownBy(() -> operation.getPnfData())
-                        .withMessage("missing PNF data");
+        assertThatIllegalArgumentException().isThrownBy(() -> operation.getPnfData()).withMessage("missing PNF data");
 
         // only in context
         Pnf pnf = new Pnf();
@@ -335,7 +332,7 @@ public class GrpcOperationTest {
         assertTrue(guardStarted.get());
         verify(context).obtain(eq(AaiCqResponse.CONTEXT_KEY), any());
 
-        cqFuture.complete(params.makeOutcome());
+        cqFuture.complete(params.makeOutcome(null));
         assertTrue(executor.runAll(100));
         assertEquals(PolicyResult.SUCCESS, future3.get(2, TimeUnit.SECONDS).getResult());
         assertTrue(future3.isDone());
@@ -363,7 +360,7 @@ public class GrpcOperationTest {
         assertTrue(guardStarted.get());
         verify(context).obtain(eq(AaiGetPnfOperation.getKey(TARGET_ENTITY)), any());
 
-        cqFuture.complete(params.makeOutcome());
+        cqFuture.complete(params.makeOutcome(null));
         assertTrue(executor.runAll(100));
         assertEquals(PolicyResult.SUCCESS, future3.get(2, TimeUnit.SECONDS).getResult());
         assertTrue(future3.isDone());
@@ -415,7 +412,8 @@ public class GrpcOperationTest {
     @Test
     public void testStartOperationAsyncError() throws Exception {
         operation = new GrpcOperation(params, config);
-        assertThatIllegalArgumentException().isThrownBy(() -> operation.startOperationAsync(1, params.makeOutcome()));
+        assertThatIllegalArgumentException()
+                        .isThrownBy(() -> operation.startOperationAsync(1, params.makeOutcome(null)));
     }
 
     @Test
@@ -457,7 +455,7 @@ public class GrpcOperationTest {
         assertEquals(1000, operation.getTimeoutMs(0));
         assertEquals(2000, operation.getTimeoutMs(2));
         operation.generateSubRequestId(1);
-        CompletableFuture<OperationOutcome> future3 = operation.startOperationAsync(1, params.makeOutcome());
+        CompletableFuture<OperationOutcome> future3 = operation.startOperationAsync(1, params.makeOutcome(null));
         assertNotNull(future3);
     }
 

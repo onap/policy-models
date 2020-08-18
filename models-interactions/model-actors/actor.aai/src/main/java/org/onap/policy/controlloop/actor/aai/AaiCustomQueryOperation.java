@@ -40,6 +40,7 @@ import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
+import org.onap.policy.controlloop.policy.PolicyResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -184,6 +185,19 @@ public class AaiCustomQueryOperation extends HttpOperation<String> {
     @Override
     protected Map<String, Object> makeHeaders() {
         return AaiUtil.makeHeaders(params);
+    }
+
+    @Override
+    public OperationOutcome setOutcome(OperationOutcome outcome, PolicyResult result, Response rawResponse,
+                    String response) {
+
+        super.setOutcome(outcome, result, rawResponse, response);
+
+        if (response != null) {
+            outcome.setResponse(new AaiCqResponse(response));
+        }
+
+        return outcome;
     }
 
     /**

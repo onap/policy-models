@@ -20,11 +20,9 @@
 
 package org.onap.policy.controlloop.actor.appclcm;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import org.apache.commons.lang3.StringUtils;
 import org.onap.policy.appclcm.AppcLcmBody;
 import org.onap.policy.appclcm.AppcLcmCommonHeader;
 import org.onap.policy.appclcm.AppcLcmDmaapWrapper;
@@ -34,6 +32,7 @@ import org.onap.policy.appclcm.AppcLcmResponseCode;
 import org.onap.policy.appclcm.AppcLcmResponseStatus;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicOperation;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
@@ -44,6 +43,8 @@ public class AppcLcmOperation extends BidirectionalTopicOperation<AppcLcmDmaapWr
 
     private static final String MISSING_STATUS = "APPC-LCM response is missing the response status";
     public static final String VNF_ID_KEY = "vnf-id";
+
+    private static final List<String> PROPERTY_NAMES = List.of(OperationProperties.AAI_TARGET_ENTITY);
 
     /**
      * Keys used to match the response with the request listener. The sub request ID is a
@@ -62,11 +63,7 @@ public class AppcLcmOperation extends BidirectionalTopicOperation<AppcLcmDmaapWr
      * @param config configuration for this operation
      */
     public AppcLcmOperation(ControlLoopOperationParams params, BidirectionalTopicConfig config) {
-        super(params, config, AppcLcmDmaapWrapper.class, Collections.emptyList());
-
-        if (StringUtils.isBlank(params.getTargetEntity())) {
-            throw new IllegalArgumentException("missing targetEntity");
-        }
+        super(params, config, AppcLcmDmaapWrapper.class, PROPERTY_NAMES);
     }
 
     /**
@@ -97,7 +94,7 @@ public class AppcLcmOperation extends BidirectionalTopicOperation<AppcLcmDmaapWr
          * Action Identifiers are required for APPC LCM requests. For R1, the recipes
          * supported by Policy only require a vnf-id.
          */
-        inputRequest.setActionIdentifiers(Map.of(VNF_ID_KEY, params.getTargetEntity()));
+        inputRequest.setActionIdentifiers(Map.of(VNF_ID_KEY, getTargetEntity()));
 
         /*
          * For R1, the payloads will not be required for the Restart, Rebuild, or Migrate

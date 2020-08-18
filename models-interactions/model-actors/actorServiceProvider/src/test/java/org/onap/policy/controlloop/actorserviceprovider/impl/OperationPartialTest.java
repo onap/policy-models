@@ -75,6 +75,7 @@ import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.ActorService;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.Operator;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
@@ -399,7 +400,7 @@ public class OperationPartialTest {
     public void testIsActorFailed() {
         assertFalse(oper.isActorFailed(null));
 
-        OperationOutcome outcome = params.makeOutcome();
+        OperationOutcome outcome = params.makeOutcome(null);
 
         // incorrect outcome
         outcome.setResult(PolicyResult.SUCCESS);
@@ -459,7 +460,7 @@ public class OperationPartialTest {
             @Override
             protected CompletableFuture<OperationOutcome> startOperationAsync(int attempt, OperationOutcome outcome) {
 
-                OperationOutcome outcome2 = params.makeOutcome();
+                OperationOutcome outcome2 = params.makeOutcome(null);
                 outcome2.setResult(PolicyResult.SUCCESS);
 
                 /*
@@ -596,7 +597,7 @@ public class OperationPartialTest {
     public void testIsSameOperation() {
         assertFalse(oper.isSameOperation(null));
 
-        OperationOutcome outcome = params.makeOutcome();
+        OperationOutcome outcome = params.makeOutcome(null);
 
         // wrong actor - should be false
         outcome.setActor(null);
@@ -667,7 +668,7 @@ public class OperationPartialTest {
         // first task completes, others do not
         List<Supplier<CompletableFuture<OperationOutcome>>> tasks = new LinkedList<>();
 
-        final OperationOutcome outcome = params.makeOutcome();
+        final OperationOutcome outcome = params.makeOutcome(null);
 
         tasks.add(() -> CompletableFuture.completedFuture(outcome));
         tasks.add(() -> new CompletableFuture<>());
@@ -732,7 +733,7 @@ public class OperationPartialTest {
 
     @Test
     public void testAllOfArray() throws Exception {
-        final OperationOutcome outcome = params.makeOutcome();
+        final OperationOutcome outcome = params.makeOutcome(null);
 
         CompletableFuture<OperationOutcome> future1 = new CompletableFuture<>();
         CompletableFuture<OperationOutcome> future2 = new CompletableFuture<>();
@@ -763,7 +764,7 @@ public class OperationPartialTest {
 
     @Test
     public void testAllOfList() throws Exception {
-        final OperationOutcome outcome = params.makeOutcome();
+        final OperationOutcome outcome = params.makeOutcome(null);
 
         CompletableFuture<OperationOutcome> future1 = new CompletableFuture<>();
         CompletableFuture<OperationOutcome> future2 = new CompletableFuture<>();
@@ -852,9 +853,9 @@ public class OperationPartialTest {
 
         // null outcome - takes precedence over a success
         List<Supplier<CompletableFuture<OperationOutcome>>> tasks = new LinkedList<>();
-        tasks.add(() -> CompletableFuture.completedFuture(params.makeOutcome()));
+        tasks.add(() -> CompletableFuture.completedFuture(params.makeOutcome(null)));
         tasks.add(() -> CompletableFuture.completedFuture(null));
-        tasks.add(() -> CompletableFuture.completedFuture(params.makeOutcome()));
+        tasks.add(() -> CompletableFuture.completedFuture(params.makeOutcome(null)));
         CompletableFuture<OperationOutcome> result = oper.allOf(tasks);
 
         assertTrue(executor.runAll(MAX_REQUESTS));
@@ -865,9 +866,9 @@ public class OperationPartialTest {
         IllegalStateException except = new IllegalStateException(EXPECTED_EXCEPTION);
 
         tasks.clear();
-        tasks.add(() -> CompletableFuture.completedFuture(params.makeOutcome()));
+        tasks.add(() -> CompletableFuture.completedFuture(params.makeOutcome(null)));
         tasks.add(() -> CompletableFuture.failedFuture(except));
-        tasks.add(() -> CompletableFuture.completedFuture(params.makeOutcome()));
+        tasks.add(() -> CompletableFuture.completedFuture(params.makeOutcome(null)));
         result = oper.allOf(tasks);
 
         assertTrue(executor.runAll(MAX_REQUESTS));
@@ -880,7 +881,7 @@ public class OperationPartialTest {
      */
     @Test
     public void testSequence() throws Exception {
-        final OperationOutcome outcome = params.makeOutcome();
+        final OperationOutcome outcome = params.makeOutcome(null);
 
         List<Supplier<CompletableFuture<OperationOutcome>>> tasks = new LinkedList<>();
         tasks.add(() -> CompletableFuture.completedFuture(outcome));
@@ -902,7 +903,7 @@ public class OperationPartialTest {
         assertSame(outcome, result.get());
 
         // second task fails, third should not run
-        OperationOutcome failure = params.makeOutcome();
+        OperationOutcome failure = params.makeOutcome(null);
         failure.setResult(PolicyResult.FAILURE);
         tasks.clear();
         tasks.add(() -> CompletableFuture.completedFuture(outcome));
@@ -941,7 +942,7 @@ public class OperationPartialTest {
         OperationOutcome expectedOutcome = null;
 
         for (int count = 0; count < results.length; ++count) {
-            OperationOutcome outcome = params.makeOutcome();
+            OperationOutcome outcome = params.makeOutcome(null);
             outcome.setResult(results[count]);
             tasks.add(() -> CompletableFuture.completedFuture(outcome));
 
@@ -961,7 +962,7 @@ public class OperationPartialTest {
     public void testDetmPriority() throws CoderException {
         assertEquals(1, oper.detmPriority(null));
 
-        OperationOutcome outcome = params.makeOutcome();
+        OperationOutcome outcome = params.makeOutcome(null);
 
         Map<PolicyResult, Integer> map = Map.of(PolicyResult.SUCCESS, 0, PolicyResult.FAILURE_GUARD, 2,
                         PolicyResult.FAILURE_RETRIES, 3, PolicyResult.FAILURE, 4, PolicyResult.FAILURE_TIMEOUT, 5,
@@ -1151,6 +1152,16 @@ public class OperationPartialTest {
     }
 
     @Test
+    public void testGetTargetEntity() {
+        // get it from the params
+        assertEquals(MY_TARGET_ENTITY, oper.getTargetEntity());
+
+        // now get it from the properties
+        oper.setProperty(OperationProperties.AAI_TARGET_ENTITY, "entityX");
+        assertEquals("entityX", oper.getTargetEntity());
+    }
+
+    @Test
     public void testGetTimeOutMs() {
         assertEquals(TIMEOUT * 1000, oper.getTimeoutMs(params.getTimeoutSec()));
 
@@ -1187,14 +1198,14 @@ public class OperationPartialTest {
     }
 
     private OperationOutcome makeSuccess() {
-        OperationOutcome outcome = params.makeOutcome();
+        OperationOutcome outcome = params.makeOutcome(null);
         outcome.setResult(PolicyResult.SUCCESS);
 
         return outcome;
     }
 
     private OperationOutcome makeFailure() {
-        OperationOutcome outcome = params.makeOutcome();
+        OperationOutcome outcome = params.makeOutcome(null);
         outcome.setResult(PolicyResult.FAILURE);
 
         return outcome;

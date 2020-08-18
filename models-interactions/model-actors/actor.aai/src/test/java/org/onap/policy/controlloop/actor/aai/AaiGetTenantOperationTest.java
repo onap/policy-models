@@ -29,6 +29,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import javax.ws.rs.client.InvocationCallback;
@@ -41,6 +42,7 @@ import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
 import org.onap.policy.controlloop.policy.PolicyResult;
@@ -82,7 +84,7 @@ public class AaiGetTenantOperationTest extends BasicAaiOperation {
 
     @Test
     public void testGetPropertyNames() {
-        assertThat(oper.getPropertyNames()).isEmpty();
+        assertThat(oper.getPropertyNames()).isEqualTo(List.of(OperationProperties.AAI_TARGET_ENTITY));
     }
 
     /**
@@ -93,8 +95,9 @@ public class AaiGetTenantOperationTest extends BasicAaiOperation {
         HttpParams opParams = HttpParams.builder().clientName(MY_CLIENT).path("v16/search/nodes-query").build();
         config = new HttpConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
 
-        params = params.toBuilder().targetEntity("OzVServer").retry(0).timeoutSec(5).executor(blockingExecutor).build();
+        params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).build();
         oper = new AaiGetTenantOperation(params, config);
+        oper.setProperty(OperationProperties.AAI_TARGET_ENTITY, "OzVServer");
 
         outcome = oper.start().get();
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
@@ -109,9 +112,9 @@ public class AaiGetTenantOperationTest extends BasicAaiOperation {
         HttpParams opParams = HttpParams.builder().clientName(MY_CLIENT).path("v16/search/nodes-query").build();
         config = new HttpConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
 
-        params = params.toBuilder().targetEntity("failedVserver").retry(0).timeoutSec(5).executor(blockingExecutor)
-                        .build();
+        params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).build();
         oper = new AaiGetTenantOperation(params, config);
+        oper.setProperty(OperationProperties.AAI_TARGET_ENTITY, "failedVserver");
 
         outcome = oper.start().get();
         assertEquals(PolicyResult.FAILURE, outcome.getResult());

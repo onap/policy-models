@@ -51,12 +51,29 @@ public interface Operation {
     List<String> getPropertyNames();
 
     /**
+     * Determines if a property has been assigned for the operation.
+     *
+     * @param name property name
+     * @return {@code true} if the given property has been assigned for the operation,
+     *         {@code false} otherwise
+     */
+    public boolean containsProperty(String name);
+
+    /**
      * Sets a property.
      *
      * @param name property name
      * @param value new value
      */
     public void setProperty(String name, Object value);
+
+    /**
+     * Gets a property's value.
+     *
+     * @param name name of the property of interest
+     * @return the property's value, or {@code null} if it has no value
+     */
+    public <T> T getProperty(String name);
 
     /**
      * Called by enforcement PDP engine to start the operation. As part of the operation,

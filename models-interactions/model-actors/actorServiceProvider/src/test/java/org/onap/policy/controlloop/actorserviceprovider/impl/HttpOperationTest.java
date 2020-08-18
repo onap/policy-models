@@ -190,7 +190,7 @@ public class HttpOperationTest {
         context = new ControlLoopEventContext(event);
         params = ControlLoopOperationParams.builder().actor(ACTOR).operation(OPERATION).context(context).build();
 
-        outcome = params.makeOutcome();
+        outcome = params.makeOutcome(null);
 
         callback = new AtomicReference<>();
         future = new CompletableFuture<>();
