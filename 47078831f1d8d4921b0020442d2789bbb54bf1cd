@@ -71,6 +71,23 @@
     },
     {
       "key": {
+        "uuid": "06a46487_8fc7340d",
+        "filename": "models-interactions/model-yaml/src/main/java/org/onap/policy/controlloop/guard/compiler/ControlLoopGuardCompiler.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-19T12:48:35Z",
+      "side": 1,
+      "message": "can just remove this file from the review",
+      "revId": "47078831f1d8d4921b0020442d2789bbb54bf1cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a45079f1_ffc18ae3",
         "filename": "models-interactions/model-yaml/src/main/java/org/onap/policy/controlloop/guard/compiler/ControlLoopGuardCompiler.java",
         "patchSetId": 11
