@@ -1,0 +1,257 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f78bdd30_0a20d6c9",
+        "filename": "models-base/src/test/java/org/onap/policy/models/base/PfKeyUseTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-08-19T08:12:30Z",
+      "side": 1,
+      "message": "You\u0027ll probably get a \"comparing dissimilar objects\" issue here. try:\n\nassertNotEquals(keyUse, (Object) \"Hello\");",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 6
+      },
+      "revId": "47078831f1d8d4921b0020442d2789bbb54bf1cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31226fc0_eb892c5c",
+        "filename": "models-base/src/test/java/org/onap/policy/models/base/PfReferenceKeyTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-08-19T08:12:30Z",
+      "side": 1,
+      "message": "Same comment",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 110,
+        "endChar": 6
+      },
+      "revId": "47078831f1d8d4921b0020442d2789bbb54bf1cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1dae3f4a_42fcb2a0",
+        "filename": "models-interactions/model-impl/so/src/test/java/org/onap/policy/so/SoRequestDetailsTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-08-19T08:12:30Z",
+      "side": 1,
+      "message": "Same comment",
+      "range": {
+        "startLine": 119,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 6
+      },
+      "revId": "47078831f1d8d4921b0020442d2789bbb54bf1cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a45079f1_ffc18ae3",
+        "filename": "models-interactions/model-yaml/src/main/java/org/onap/policy/controlloop/guard/compiler/ControlLoopGuardCompiler.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-08-19T08:12:30Z",
+      "side": 1,
+      "message": "tabs",
+      "range": {
+        "startLine": 11,
+        "startChar": 1,
+        "endLine": 13,
+        "endChar": 3
+      },
+      "revId": "47078831f1d8d4921b0020442d2789bbb54bf1cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99bdad8c_56cf11b5",
+        "filename": "models-interactions/model-yaml/src/test/java/org/onap/policy/controlloop/policy/ControlLoopTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-08-19T08:12:30Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 5
+      },
+      "revId": "47078831f1d8d4921b0020442d2789bbb54bf1cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "641d8ec8_3638aec4",
+        "filename": "models-interactions/model-yaml/src/test/java/org/onap/policy/controlloop/policy/OperationsAccumulateParamsTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-08-19T08:12:30Z",
+      "side": 1,
+      "message": "Tabs",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 3
+      },
+      "revId": "47078831f1d8d4921b0020442d2789bbb54bf1cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "813c9d1d_f8b7b28b",
+        "filename": "models-interactions/model-yaml/src/test/java/org/onap/policy/controlloop/policy/OperationsAccumulateParamsTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-08-19T08:12:30Z",
+      "side": 1,
+      "message": "Here too.",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 123,
+        "endChar": 5
+      },
+      "revId": "47078831f1d8d4921b0020442d2789bbb54bf1cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f236ef9_4d27863a",
+        "filename": "models-interactions/model-yaml/src/test/java/org/onap/policy/controlloop/policy/PolicyTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-08-19T08:12:30Z",
+      "side": 1,
+      "message": "tabs",
+      "range": {
+        "startLine": 11,
+        "startChar": 1,
+        "endLine": 13,
+        "endChar": 3
+      },
+      "revId": "47078831f1d8d4921b0020442d2789bbb54bf1cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea0151e2_ff217148",
+        "filename": "models-interactions/model-yaml/src/test/java/org/onap/policy/controlloop/policy/guard/ConstraintTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-08-19T08:12:30Z",
+      "side": 1,
+      "message": "here too",
+      "range": {
+        "startLine": 257,
+        "startChar": 0,
+        "endLine": 257,
+        "endChar": 5
+      },
+      "revId": "47078831f1d8d4921b0020442d2789bbb54bf1cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01d03b3c_1512ed0f",
+        "filename": "models-interactions/model-yaml/src/test/java/org/onap/policy/controlloop/policy/guard/ControlLoopGuardTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-08-19T08:12:30Z",
+      "side": 1,
+      "message": "And here",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 5
+      },
+      "revId": "47078831f1d8d4921b0020442d2789bbb54bf1cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47d8c857_0f6cf768",
+        "filename": "models-interactions/model-yaml/src/test/java/org/onap/policy/controlloop/policy/guard/GuardPolicyTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-08-19T08:12:30Z",
+      "side": 1,
+      "message": "here too.",
+      "range": {
+        "startLine": 273,
+        "startChar": 24,
+        "endLine": 273,
+        "endChar": 35
+      },
+      "revId": "47078831f1d8d4921b0020442d2789bbb54bf1cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
