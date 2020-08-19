@@ -842,7 +842,7 @@ public class SimpleToscaProviderTest {
 
     private void createPolicyTypes() throws CoderException, PfModelException {
         Object yamlObject = new Yaml()
-            .load(ResourceUtils.getResourceAsString("policytypes/onap.policies.monitoring.cdap.tca.hi.lo.app.yaml"));
+            .load(ResourceUtils.getResourceAsString("policytypes/onap.policies.monitoring.tcagen2.yaml"));
         String yamlAsJsonString = new StandardCoder().encode(yamlObject);
 
         ToscaServiceTemplate toscaServiceTemplatePolicyType =

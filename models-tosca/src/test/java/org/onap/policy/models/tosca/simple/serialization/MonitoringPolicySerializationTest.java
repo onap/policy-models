@@ -61,7 +61,7 @@ public class MonitoringPolicySerializationTest {
 
     private static final String TOPOLOGY_TEMPLATE = "topology_template";
 
-    private static final String TCA_POLICY = "tca_policy";
+    private static final String TCA_POLICY = "tca.policy";
 
     private static final String PROPERTIES2 = "properties";
 
@@ -75,7 +75,7 @@ public class MonitoringPolicySerializationTest {
 
     private static final String POLICY1 = "onap.restart.tca";
 
-    private static final String TYPE1 = "onap.policies.monitoring.cdap.tca.hi.lo.app";
+    private static final String TYPE1 = "onap.policies.monitoring.tcagen2";
 
     private static final String METADATA = "metadata";
 
@@ -96,7 +96,7 @@ public class MonitoringPolicySerializationTest {
     @Test
     public void testDeserialization() throws Exception {
         String policyTypeInputJson =
-                ResourceUtils.getResourceAsString("policytypes/onap.policies.monitoring.cdap.tca.hi.lo.app.yaml");
+                ResourceUtils.getResourceAsString("policytypes/onap.policies.monitoring.tcagen2.yaml");
         ToscaServiceTemplate plainPolicyTypes =
                 yamlJsonTranslator.fromYaml(policyTypeInputJson, ToscaServiceTemplate.class);
 

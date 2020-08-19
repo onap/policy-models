@@ -7,7 +7,7 @@
             {
                 "onap.vfirewall.tca":
                 {
-                    "type": "onap.policies.monitoring.cdap.tca.hi.lo.app",
+                    "type": "onap.policies.monitoring.tcagen2",
                     "type_version": "1.0.0",
                     "version": "1.0.0",
                     "name": "onap.vfirewall.tca",
@@ -18,7 +18,7 @@
 
                     "properties":
                     {
-                        "tca_policy":
+                        "tca.policy":
                         {
                             "domain": "measurementsForVfScaling",
                             "metricsPerEventName":

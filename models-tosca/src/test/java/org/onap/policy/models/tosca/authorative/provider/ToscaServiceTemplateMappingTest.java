@@ -56,7 +56,7 @@ public class ToscaServiceTemplateMappingTest {
     @Test
     public void testPlainToscaPolicies() throws Exception {
         String policyTypeInputJson =
-                ResourceUtils.getResourceAsString("policytypes/onap.policies.monitoring.cdap.tca.hi.lo.app.yaml");
+                ResourceUtils.getResourceAsString("policytypes/onap.policies.monitoring.tcagen2.yaml");
         ToscaServiceTemplate plainPolicyTypes =
                 yamlJsonTranslator.fromYaml(policyTypeInputJson, ToscaServiceTemplate.class);
 
@@ -85,7 +85,7 @@ public class ToscaServiceTemplateMappingTest {
     public void testPlainToscaPolicyTypes() throws Exception {
         Yaml yaml = new Yaml();
         String inputYaml =
-                ResourceUtils.getResourceAsString("policytypes/onap.policies.monitoring.cdap.tca.hi.lo.app.yaml");
+                ResourceUtils.getResourceAsString("policytypes/onap.policies.monitoring.tcagen2.yaml");
         Object yamlObject = yaml.load(inputYaml);
         String yamlAsJsonString = standardCoder.encode(yamlObject);
 

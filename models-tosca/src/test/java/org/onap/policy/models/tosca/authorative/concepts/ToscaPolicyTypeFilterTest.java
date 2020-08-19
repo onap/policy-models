@@ -72,7 +72,7 @@ public class ToscaPolicyTypeFilterTest {
         "policytypes/onap.policies.controlloop.guard.common.FrequencyLimiter.yaml",
         "policytypes/onap.policies.controlloop.guard.coordination.FirstBlocksSecond.yaml",
         "policytypes/onap.policies.Optimization.yaml",
-        "policytypes/onap.policies.monitoring.cdap.tca.hi.lo.app.yaml"
+        "policytypes/onap.policies.monitoring.tcagen2.yaml"
     };
     // @formatter:on
 
@@ -171,7 +171,7 @@ public class ToscaPolicyTypeFilterTest {
         List<ToscaPolicyType> filteredList = filter.filter(typeList);
         assertEquals(1, filteredList.size());
 
-        filter = ToscaPolicyTypeFilter.builder().name("onap.policies.monitoring.cdap.tca.hi.lo.app").build();
+        filter = ToscaPolicyTypeFilter.builder().name("onap.policies.monitoring.tcagen2").build();
         filteredList = filter.filter(typeList);
         assertEquals(1, filteredList.size());
 

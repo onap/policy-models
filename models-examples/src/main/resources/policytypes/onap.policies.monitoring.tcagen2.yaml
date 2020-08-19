@@ -5,12 +5,12 @@ policy_types:
       version: 1.0.0
       name: onap.policies.Monitoring
       description: a base policy type for all policies that govern monitoring provisioning
-   onap.policies.monitoring.cdap.tca.hi.lo.app:
+   onap.policies.monitoring.tcagen2:
       derived_from: onap.policies.Monitoring
       version: 1.0.0
-      name: onap.policies.monitoring.cdap.tca.hi.lo.app
+      name: onap.policies.monitoring.tcagen2
       properties:
-         tca_policy:
+         tca.policy:
             type: onap.datatypes.monitoring.tca_policy
             description: TCA Policy JSON
             required: true
