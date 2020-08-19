@@ -3,7 +3,7 @@ topology_template:
   policies:
     -
       onap.vfirewall.tca:
-        type: onap.policy.monitoring.cdap.tca.hi.lo.app
+        type: onap.policy.monitoring.tcagen2
         type_version: 1.0.0
         version: 1.0.0
         name: onap.vfirewall.tca
@@ -11,7 +11,7 @@ topology_template:
            policy-id: onap.vfirewall.tca
            policy-version: 1
         properties:
-           tca_policy:
+           tca.policy:
               domain: measurementsForVfScaling
               metricsPerEventName:
               -

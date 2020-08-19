@@ -3,7 +3,7 @@ topology_template:
    policies:
      -
        onap.restart.tca:
-           type: onap.policies.monitoring.cdap.tca.hi.lo.app
+           type: onap.policies.monitoring.tcagen2
            type_version: 1.0.0
            version: 1.0.0
            name: onap.restart.tca
@@ -11,7 +11,7 @@ topology_template:
              policy-id: onap.restart.tca
              policy-version: 1
            properties:
-             tca_policy:
+             tca.policy:
                 domain: measurementsForVfScaling
                 metricsPerEventName:
                   -

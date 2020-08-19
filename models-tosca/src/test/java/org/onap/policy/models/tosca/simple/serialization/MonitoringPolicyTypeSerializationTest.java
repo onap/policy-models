@@ -73,7 +73,7 @@ public class MonitoringPolicyTypeSerializationTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MonitoringPolicyTypeSerializationTest.class);
 
-    private static final String MONITORING_TCA_YAML = "policytypes/onap.policies.monitoring.cdap.tca.hi.lo.app.yaml";
+    private static final String MONITORING_TCA_YAML = "policytypes/onap.policies.monitoring.tcagen2.yaml";
     private static final String MONITORING_COLLECTORS_YAML =
             "policytypes/onap.policies.monitoring.dcaegen2.collectors.datafile.datafile-app-server.yaml";
 
@@ -159,15 +159,15 @@ public class MonitoringPolicyTypeSerializationTest {
                 firstPolicyType.getValue().getDescription());
 
         Entry<PfConceptKey, JpaToscaPolicyType> secondPolicyType = policyTypesIter.next();
-        assertEquals("onap.policies.monitoring.cdap.tca.hi.lo.app", secondPolicyType.getKey().getName());
+        assertEquals("onap.policies.monitoring.tcagen2", secondPolicyType.getKey().getName());
         assertEquals(VERSION_100, secondPolicyType.getKey().getVersion());
         assertEquals(MONITORING, secondPolicyType.getValue().getDerivedFrom().getName());
         assertTrue(secondPolicyType.getValue().getProperties().size() == 1);
 
         JpaToscaProperty property = secondPolicyType.getValue().getProperties().values().iterator().next();
-        assertEquals("onap.policies.monitoring.cdap.tca.hi.lo.app", property.getKey().getParentKeyName());
+        assertEquals("onap.policies.monitoring.tcagen2", property.getKey().getParentKeyName());
         assertEquals(VERSION_100, property.getKey().getParentKeyVersion());
-        assertEquals("tca_policy", property.getKey().getLocalName());
+        assertEquals("tca.policy", property.getKey().getLocalName());
         assertEquals(TCA, property.getType().getName());
         assertEquals("TCA Policy JSON", property.getDescription());
 
