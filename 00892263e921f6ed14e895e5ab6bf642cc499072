@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "800d227c_bc3f381c",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.monitoring.tcagen2.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-19T15:36:28Z",
+      "side": 1,
+      "message": "Vijay - really just need you to confirm this file. The other files are JUnits that were built to support testing which utilized this policy type extensively.",
+      "revId": "00892263e921f6ed14e895e5ab6bf642cc499072",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
