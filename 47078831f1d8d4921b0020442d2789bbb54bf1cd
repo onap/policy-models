@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a96be1af_7b6cc6a0",
+        "filename": "models-base/src/test/java/org/onap/policy/models/base/PfKeyUseTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-08-20T09:57:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f78bdd30_0a20d6c9",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 6
+      },
+      "revId": "47078831f1d8d4921b0020442d2789bbb54bf1cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31226fc0_eb892c5c",
         "filename": "models-base/src/test/java/org/onap/policy/models/base/PfReferenceKeyTest.java",
         "patchSetId": 11
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "551db210_63e5ff57",
+        "filename": "models-base/src/test/java/org/onap/policy/models/base/PfReferenceKeyTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-08-20T09:57:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31226fc0_eb892c5c",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 110,
+        "endChar": 6
+      },
+      "revId": "47078831f1d8d4921b0020442d2789bbb54bf1cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1dae3f4a_42fcb2a0",
         "filename": "models-interactions/model-impl/so/src/test/java/org/onap/policy/so/SoRequestDetailsTest.java",
         "patchSetId": 11
@@ -68,6 +116,30 @@
       "revId": "47078831f1d8d4921b0020442d2789bbb54bf1cd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8696ec53_b10ed3e3",
+        "filename": "models-interactions/model-impl/so/src/test/java/org/onap/policy/so/SoRequestDetailsTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-08-20T09:57:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1dae3f4a_42fcb2a0",
+      "range": {
+        "startLine": 119,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 6
+      },
+      "revId": "47078831f1d8d4921b0020442d2789bbb54bf1cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
