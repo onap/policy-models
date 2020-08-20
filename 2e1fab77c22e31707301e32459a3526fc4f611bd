@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc37c49f_f96f6b5d",
+        "filename": "models-base/src/test/java/org/onap/policy/models/base/PfKeyImplTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-20T12:23:21Z",
+      "side": 1,
+      "message": "seems like this should be assertNotNull - but we\u0027ll see if sonar comes back on it.",
+      "range": {
+        "startLine": 141,
+        "startChar": 8,
+        "endLine": 141,
+        "endChar": 40
+      },
+      "revId": "2e1fab77c22e31707301e32459a3526fc4f611bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fb815cc_7c4dd4c0",
+        "filename": "models-base/src/test/java/org/onap/policy/models/base/PfReferenceKeyTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-20T12:23:21Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 126,
+        "startChar": 8,
+        "endLine": 126,
+        "endChar": 48
+      },
+      "revId": "2e1fab77c22e31707301e32459a3526fc4f611bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad19cc30_0555a215",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/serialization/MonitoringPolicySerializationTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-20T12:23:21Z",
+      "side": 1,
+      "message": "This review needs to be re-based - I just changed this value in my other review.",
+      "range": {
+        "startLine": 78,
+        "startChar": 40,
+        "endLine": 78,
+        "endChar": 86
+      },
+      "revId": "2e1fab77c22e31707301e32459a3526fc4f611bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
