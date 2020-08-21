@@ -21,21 +21,12 @@
 package org.onap.policy.controlloop.actor.appc;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import org.onap.aai.domain.yang.GenericVnf;
-import org.onap.policy.aai.AaiConstants;
-import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.appc.Request;
-import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ModifyConfigOperation extends AppcOperation {
-    private static final Logger logger = LoggerFactory.getLogger(ModifyConfigOperation.class);
-
     public static final String NAME = "ModifyConfig";
 
     private static final List<String> PROPERTY_NAMES = List.of(OperationProperties.AAI_RESOURCE_VNF);
@@ -50,46 +41,8 @@ public class ModifyConfigOperation extends AppcOperation {
         super(params, config, PROPERTY_NAMES);
     }
 
-    /**
-     * Ensures that A&AI customer query has been performed, and then runs the guard query.
-     */
-    @Override
-    @SuppressWarnings("unchecked")
-    protected CompletableFuture<OperationOutcome> startPreprocessorAsync() {
-        if (params.isPreprocessed()) {
-            return null;
-        }
-
-        ControlLoopOperationParams cqParams = params.toBuilder().actor(AaiConstants.ACTOR_NAME)
-                        .operation(AaiCqResponse.OPERATION).payload(null).retry(null).timeoutSec(null).build();
-
-        // run Custom Query and Guard, in parallel
-        return allOf(() -> params.getContext().obtain(AaiCqResponse.CONTEXT_KEY, cqParams), this::startGuardAsync);
-    }
-
     @Override
     protected Request makeRequest(int attempt) {
-        return makeRequest(attempt, getVnfId());
-    }
-
-    protected String getVnfId() {
-        GenericVnf vnf = this.getProperty(OperationProperties.AAI_RESOURCE_VNF);
-        if (vnf != null) {
-            return vnf.getVnfId();
-        }
-
-        AaiCqResponse cq = params.getContext().getProperty(AaiCqResponse.CONTEXT_KEY);
-        if (cq == null) {
-            throw new IllegalStateException("target vnf-id could not be determined");
-        }
-
-        GenericVnf genvnf = cq.getGenericVnfByModelInvariantId(params.getTargetEntityIds()
-                .get(ControlLoopOperationParams.PARAMS_ENTITY_RESOURCEID));
-        if (genvnf == null) {
-            logger.info("{}: target entity could not be found for {}", getFullName(), params.getRequestId());
-            throw new IllegalArgumentException("target vnf-id could not be found");
-        }
-
-        return genvnf.getVnfId();
+        return makeRequest(attempt, getRequiredProperty(OperationProperties.AAI_RESOURCE_VNF, "resource VNF"));
     }
 }

@@ -25,7 +25,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
-import java.util.Map;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -33,10 +32,8 @@ import org.junit.Test;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
-import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
-import org.onap.policy.sdnc.SdncRequest;
 import org.onap.policy.sdnc.SdncResponse;
 
 public class BandwidthOnDemandOperationTest extends BasicSdncOperation {
@@ -114,42 +111,11 @@ public class BandwidthOnDemandOperationTest extends BasicSdncOperation {
 
     @Test
     public void testMakeRequest() throws Exception {
-        oper.generateSubRequestId(1);
-        SdncRequest request = oper.makeRequest(1);
-        assertEquals(MY_SERVICE, request.getNsInstanceId());
-        assertEquals(REQ_ID, request.getRequestId());
-        assertEquals("/my-path/", request.getUrl());
-        assertEquals(oper.getSubRequestId(), request.getHealRequest().getRequestHeaderInfo().getSvcRequestId());
-
-        verifyRequest("bod.json", request, IGNORE_FIELDS);
-
-        verifyMissing(BandwidthOnDemandOperation.SERVICE_ID_KEY, "service", BandwidthOnDemandOperation::new);
-
-        // perform the operation
-        makeContext();
-        verifyRequest("bod.json", verifyOperation(oper), IGNORE_FIELDS);
-    }
-
-    @Test
-    public void testMakeRequestViaProperties() throws Exception {
-        // clear the enrichment data and remake the operation
-        event.setAai(null);
-        context = new ControlLoopEventContext(event);
-        params = params.toBuilder().context(context).build();
-        oper = new BandwidthOnDemandOperation(params, config);
-
         oper.setProperty(OperationProperties.ENRICHMENT_SERVICE_ID, MY_SERVICE);
         oper.setProperty(OperationProperties.ENRICHMENT_BANDWIDTH, MY_BANDWIDTH);
         oper.setProperty(OperationProperties.ENRICHMENT_BANDWIDTH_CHANGE_TIME, MY_CHANGE_TIME);
         oper.setProperty(OperationProperties.ENRICHMENT_VNF_ID, MY_VNF);
 
         verifyRequest("bod.json", verifyOperation(oper), IGNORE_FIELDS);
-    }
-
-    @Override
-    protected Map<String, String> makeEnrichment() {
-        return Map.of(BandwidthOnDemandOperation.SERVICE_ID_KEY, MY_SERVICE, BandwidthOnDemandOperation.BANDWIDTH,
-                        MY_BANDWIDTH, BandwidthOnDemandOperation.BANDWIDTH_CHANGE_TIME, MY_CHANGE_TIME,
-                        BandwidthOnDemandOperation.VNF_ID, MY_VNF);
     }
 }

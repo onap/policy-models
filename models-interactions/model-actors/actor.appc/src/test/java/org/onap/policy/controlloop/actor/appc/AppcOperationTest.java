@@ -23,7 +23,6 @@ package org.onap.policy.controlloop.actor.appc;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 
 import java.util.Arrays;
@@ -82,26 +81,12 @@ public class AppcOperationTest extends BasicAppcOperation {
     }
 
     @Test
-    public void testStartPreprocessorAsync() {
-        assertNotNull(oper.startPreprocessorAsync());
-    }
-
-    /**
-     * Tests startPreprocessorAsync(), when preprocessing is disabled.
-     */
-    @Test
-    public void testStartPreprocessorAsyncDisabled() {
-        params = params.toBuilder().preprocessed(true).build();
-        assertNull(new MyOper(params, config).startPreprocessorAsync());
-    }
-
-    @Test
     public void testMakeRequest() {
         oper.generateSubRequestId(2);
         String subreq = oper.getSubRequestId();
         assertNotNull(subreq);
 
-        Request request = oper.makeRequest(2, MY_VNF);
+        Request request = oper.makeRequest(2, genvnf);
         assertEquals(DEFAULT_OPERATION, request.getAction());
 
         assertNotNull(request.getPayload());
@@ -112,18 +97,18 @@ public class AppcOperationTest extends BasicAppcOperation {
 
         assertEquals(subreq, header.getSubRequestId());
 
-        request = oper.makeRequest(2, MY_VNF);
+        request = oper.makeRequest(2, genvnf);
         assertEquals(subreq, request.getCommonHeader().getSubRequestId());
 
         // repeat using a null payload
         params = params.toBuilder().payload(null).build();
         oper = new MyOper(params, config);
-        assertEquals(Map.of(AppcOperation.VNF_ID_KEY, MY_VNF), oper.makeRequest(2, MY_VNF).getPayload());
+        assertEquals(Map.of(AppcOperation.VNF_ID_KEY, MY_VNF), oper.makeRequest(2, genvnf).getPayload());
     }
 
     @Test
     public void testConvertPayload() {
-        Request request = oper.makeRequest(2, MY_VNF);
+        Request request = oper.makeRequest(2, genvnf);
 
         // @formatter:off
         assertEquals(
@@ -143,7 +128,7 @@ public class AppcOperationTest extends BasicAppcOperation {
         params = params.toBuilder().payload(payload).build();
 
         oper = new MyOper(params, config);
-        request = oper.makeRequest(2, MY_VNF);
+        request = oper.makeRequest(2, genvnf);
 
         // @formatter:off
         assertEquals(
@@ -164,7 +149,7 @@ public class AppcOperationTest extends BasicAppcOperation {
         params = params.toBuilder().payload(payload).build();
 
         oper = new MyOper(params, config);
-        request = oper.makeRequest(2, MY_VNF);
+        request = oper.makeRequest(2, genvnf);
 
         payload.put(AppcOperation.VNF_ID_KEY, MY_VNF);
         payload.put(KEY1, "abc");
@@ -177,7 +162,7 @@ public class AppcOperationTest extends BasicAppcOperation {
     @Test
     public void testGetExpectedKeyValues() {
         oper.generateSubRequestId(2);
-        Request request = oper.makeRequest(2, MY_VNF);
+        Request request = oper.makeRequest(2, genvnf);
         assertEquals(Arrays.asList(request.getCommonHeader().getSubRequestId()),
                         oper.getExpectedKeyValues(50, request));
     }
@@ -242,7 +227,7 @@ public class AppcOperationTest extends BasicAppcOperation {
         }
     }
 
-    private static class MyOper extends AppcOperation {
+    private class MyOper extends AppcOperation {
 
         public MyOper(ControlLoopOperationParams params, BidirectionalTopicConfig config) {
             super(params, config, Collections.emptyList());
@@ -250,7 +235,7 @@ public class AppcOperationTest extends BasicAppcOperation {
 
         @Override
         protected Request makeRequest(int attempt) {
-            return makeRequest(attempt, MY_VNF);
+            return makeRequest(attempt, genvnf);
         }
     }
 }

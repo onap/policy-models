@@ -42,8 +42,6 @@ import org.onap.aai.domain.yang.CloudRegion;
 import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.aai.domain.yang.ServiceInstance;
 import org.onap.aai.domain.yang.Tenant;
-import org.onap.policy.aai.AaiConstants;
-import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
@@ -59,10 +57,8 @@ import org.onap.policy.so.SoRequestDetails;
 import org.onap.policy.so.SoResponse;
 
 /**
- * Operation to delete a VF Module. This gets the VF count from the A&AI Custom Query
- * response and stores it in the context. It also passes the count-1 to the guard. Once
- * the "delete" completes successfully, it decrements the VF count that's stored in the
- * context.
+ * Operation to delete a VF Module. When this completes successfully, it decrements its VF
+ * Count property.
  */
 public class VfModuleDelete extends SoOperation {
     public static final String NAME = "VF Module Delete";
@@ -91,38 +87,6 @@ public class VfModuleDelete extends SoOperation {
 
         // ensure we have the necessary parameters
         validateTarget();
-    }
-
-    /**
-     * Ensures that A&AI custom query has been performed, and then runs the guard.
-     */
-    @Override
-    @SuppressWarnings("unchecked")
-    protected CompletableFuture<OperationOutcome> startPreprocessorAsync() {
-        if (params.isPreprocessed()) {
-            return null;
-        }
-
-        // need the VF count
-        ControlLoopOperationParams cqParams = params.toBuilder().actor(AaiConstants.ACTOR_NAME)
-                        .operation(AaiCqResponse.OPERATION).payload(null).retry(null).timeoutSec(null).build();
-
-        // run Custom Query, extract the VF count, and then run the Guard
-
-        // @formatter:off
-        return sequence(() -> params.getContext().obtain(AaiCqResponse.CONTEXT_KEY, cqParams),
-                        this::obtainVfCount, this::startGuardAsync);
-        // @formatter:on
-    }
-
-    @Override
-    protected Map<String, Object> makeGuardPayload() {
-        Map<String, Object> payload = super.makeGuardPayload();
-
-        // run guard with the proposed vf count
-        payload.put(PAYLOAD_KEY_VF_COUNT, getVfCount() - 1);
-
-        return payload;
     }
 
     @Override
@@ -261,7 +225,7 @@ public class VfModuleDelete extends SoOperation {
         details.setConfigurationParameters(null);
 
         // cloudConfiguration
-        details.setCloudConfiguration(constructCloudConfigurationCq(tenantItem, cloudRegionItem));
+        details.setCloudConfiguration(constructCloudConfiguration(tenantItem, cloudRegionItem));
 
         // modelInfo
         details.setModelInfo(soModelInfo);

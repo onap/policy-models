@@ -23,7 +23,7 @@ package org.onap.policy.controlloop.actor.appc;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.concurrent.CompletableFuture;
+import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.policy.appc.CommonHeader;
 import org.onap.policy.appc.Request;
 import org.onap.policy.appc.Response;
@@ -71,14 +71,6 @@ public abstract class AppcOperation extends BidirectionalTopicOperation<Request,
     }
 
     /**
-     * Starts the GUARD.
-     */
-    @Override
-    protected CompletableFuture<OperationOutcome> startPreprocessorAsync() {
-        return startGuardAsync();
-    }
-
-    /**
      * Makes a request, given the target VNF. This is a support function for
      * {@link #makeRequest(int)}.
      *
@@ -86,7 +78,7 @@ public abstract class AppcOperation extends BidirectionalTopicOperation<Request,
      * @param targetVnf target VNF
      * @return a new request
      */
-    protected Request makeRequest(int attempt, String targetVnf) {
+    protected Request makeRequest(int attempt, GenericVnf targetVnf) {
         Request request = new Request();
         request.setCommonHeader(new CommonHeader());
         request.getCommonHeader().setRequestId(params.getRequestId());
@@ -102,7 +94,7 @@ public abstract class AppcOperation extends BidirectionalTopicOperation<Request,
         }
 
         // add/replace specific values
-        request.getPayload().put(VNF_ID_KEY, targetVnf);
+        request.getPayload().put(VNF_ID_KEY, targetVnf.getVnfId());
 
         return request;
     }

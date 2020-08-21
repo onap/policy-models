@@ -29,7 +29,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 import javax.ws.rs.client.Invocation.Builder;
 import javax.ws.rs.client.WebTarget;
 import org.junit.AfterClass;
@@ -37,14 +36,11 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.aai.AaiConstants;
-import org.onap.policy.common.utils.coder.StandardCoderObject;
-import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 
 public class AaiGetOperationTest extends BasicAaiOperation {
     private static final String MY_NAME = "my-operation-name";
     private static final String PARAM_NAME = "my-param";
     private static final String PARAM_VALUE = "my-value";
-    private static final String MY_URL = "my-url";
 
     private AaiGetOperation oper;
 
@@ -102,15 +98,6 @@ public class AaiGetOperationTest extends BasicAaiOperation {
         verify(bldr, times(2)).header(any(), any());
         verify(bldr).header("hdrA", "valA");
         verify(bldr).header("hdrB", "valB");
-    }
-
-    @Test
-    public void testPostProcessResponse() throws Exception {
-        StandardCoderObject resp = new StandardCoderObject();
-        CompletableFuture<OperationOutcome> future2 = oper.postProcessResponse(outcome, MY_URL, null, resp);
-
-        assertSame(outcome, future2.get());
-        assertSame(resp, context.getProperty("AAI.my-operation-name.my-target"));
     }
 
     @Test

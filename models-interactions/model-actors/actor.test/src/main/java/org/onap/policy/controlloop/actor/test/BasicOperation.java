@@ -21,34 +21,22 @@
 package org.onap.policy.controlloop.actor.test;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import javax.ws.rs.core.Response;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.onap.policy.aai.AaiConstants;
-import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.common.utils.time.PseudoExecutor;
-import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.ActorService;
-import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
-import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
-import org.onap.policy.controlloop.actorserviceprovider.Operator;
-import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
-import org.onap.policy.controlloop.actorserviceprovider.impl.OperationPartial;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
-import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 
 /**
  * Superclass for various Operation tests.
@@ -76,27 +64,9 @@ public class BasicOperation {
 
     @Mock
     protected ActorService service;
-    @Mock
-    protected Actor guardActor;
-    @Mock
-    protected Operator guardOperator;
-    @Mock
-    protected Operation guardOperation;
-    @Mock
-    protected Actor cqActor;
-    @Mock
-    protected Operator cqOperator;
-    @Mock
-    protected Operation cqOperation;
-    @Mock
-    protected AaiCqResponse cqResponse;
 
-    protected CompletableFuture<OperationOutcome> cqFuture;
     protected CompletableFuture<Response> future;
     protected ControlLoopOperationParams params;
-    protected Map<String, String> enrichment;
-    protected VirtualControlLoopEvent event;
-    protected ControlLoopEventContext context;
     protected OperationOutcome outcome;
     protected PseudoExecutor executor;
 
@@ -125,62 +95,25 @@ public class BasicOperation {
     public void setUpBasic() {
         MockitoAnnotations.initMocks(this);
 
-        cqFuture = new CompletableFuture<>();
         future = new CompletableFuture<>();
 
         executor = new PseudoExecutor();
 
         makeContext();
 
-        when(service.getActor(OperationPartial.GUARD_ACTOR_NAME)).thenReturn(guardActor);
-        when(guardActor.getOperator(OperationPartial.GUARD_OPERATION_NAME)).thenReturn(guardOperator);
-        when(guardOperator.buildOperation(any())).thenReturn(guardOperation);
-
-        outcome = params.makeOutcome(TARGET_ENTITY);
-        outcome.setResult(OperationResult.SUCCESS);
-        when(guardOperation.start()).thenReturn(CompletableFuture.completedFuture(outcome));
-
-        when(service.getActor(AaiConstants.ACTOR_NAME)).thenReturn(cqActor);
-        when(cqActor.getOperator("CustomQuery")).thenReturn(cqOperator);
-        when(cqOperator.buildOperation(any())).thenReturn(cqOperation);
-
-        when(cqOperation.start()).thenReturn(cqFuture);
-
         // get a fresh outcome
         outcome = params.makeOutcome(TARGET_ENTITY);
     }
 
     /**
-     * Reinitializes {@link #enrichment}, {@link #event}, {@link #context}, and
-     * {@link #params}.
+     * Reinitializes {@link #params}.
      * <p/>
      * Note: {@link #params} is configured to use {@link #executor}.
      */
     protected void makeContext() {
-        enrichment = new TreeMap<>(makeEnrichment());
-
-        event = new VirtualControlLoopEvent();
-        event.setRequestId(REQ_ID);
-        event.setAai(enrichment);
-        event.setClosedLoopControlName(CL_NAME);
-        event.setPolicyName(EVENT_POLICY_NAME);
-        event.setPolicyVersion(EVENT_POLICY_VERSION);
-        event.setVersion(EVENT_VERSION);
-
-        context = new ControlLoopEventContext(event);
-
-        params = ControlLoopOperationParams.builder().executor(executor).context(context).actorService(service)
+        params = ControlLoopOperationParams.builder().executor(executor).requestId(REQ_ID).actorService(service)
                         .actor(actorName).operation(operationName).targetEntity(TARGET_ENTITY).payload(makePayload())
                         .build();
-    }
-
-    /**
-     * Makes enrichment data.
-     *
-     * @return enrichment data
-     */
-    protected Map<String, String> makeEnrichment() {
-        return new TreeMap<>();
     }
 
 
@@ -217,17 +150,5 @@ public class BasicOperation {
         expected = expected.trim();
 
         assertEquals(expected, json);
-    }
-
-    /**
-     * Provides a response to a custom query.
-     *
-     * @param cq response to provide
-     */
-    protected void provideCqResponse(AaiCqResponse cq) {
-        context.setProperty(AaiCqResponse.CONTEXT_KEY, cq);
-        OperationOutcome outcome2 = params.makeOutcome(TARGET_ENTITY);
-        outcome2.setResult(OperationResult.SUCCESS);
-        cqFuture.complete(outcome2);
     }
 }

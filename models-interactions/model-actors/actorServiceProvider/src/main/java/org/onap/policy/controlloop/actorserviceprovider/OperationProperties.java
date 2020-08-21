@@ -54,7 +54,7 @@ public class OperationProperties {
     public static final String AAI_PNF = "AAI/pnf";
 
     /**
-     * A&AI VNF id for the target resource ID. Obtained as follows:
+     * A&AI [Generic] VNF for the target resource ID. Obtained as follows:
      * <ol>
      * <li>using the target resource ID, invoke the custom query
      * getGenericVnfByModelInvariantId() method to get the generic VNF</li>

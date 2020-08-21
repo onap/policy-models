@@ -103,7 +103,6 @@ public class BasicBidirectionalTopicOperationTest {
     @Test
     public void testSetUp() {
         assertNotNull(oper.config);
-        assertNotNull(oper.context);
         assertNotNull(oper.outcome);
         assertNotNull(oper.executor);
     }
