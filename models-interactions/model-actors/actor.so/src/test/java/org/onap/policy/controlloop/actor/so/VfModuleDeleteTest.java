@@ -23,9 +23,7 @@ package org.onap.policy.controlloop.actor.so;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -46,7 +44,6 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
 import javax.ws.rs.client.InvocationCallback;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -59,10 +56,8 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.onap.aai.domain.yang.CloudRegion;
 import org.onap.aai.domain.yang.GenericVnf;
-import org.onap.aai.domain.yang.ModelVer;
 import org.onap.aai.domain.yang.ServiceInstance;
 import org.onap.aai.domain.yang.Tenant;
-import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
@@ -76,8 +71,6 @@ import org.onap.policy.so.SoResponse;
 
 public class VfModuleDeleteTest extends BasicSoOperation {
     private static final String EXPECTED_EXCEPTION = "expected exception";
-    private static final String MODEL_NAME2 = "my-model-name-B";
-    private static final String MODEL_VERS2 = "my-model-version-B";
     private static final String SVC_INSTANCE_ID = "my-service-instance-id";
     private static final String VNF_ID = "my-vnf-id";
 
@@ -117,6 +110,8 @@ public class VfModuleDeleteTest extends BasicSoOperation {
         configureResponse(coder.encode(response));
 
         oper = new MyOperation(params, config);
+
+        loadProperties();
     }
 
     /**
@@ -128,42 +123,11 @@ public class VfModuleDeleteTest extends BasicSoOperation {
                         .pollPath("orchestrationRequests/v5/").maxPolls(2).build();
         config = new HttpPollingConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
 
-        params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).build();
-
-        oper = new VfModuleDelete(params, config);
-
-        outcome = oper.start().get();
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
-        assertTrue(outcome.getResponse() instanceof SoResponse);
-    }
-
-    /**
-     * Tests "success" case with simulator, using properties instead of custom query data.
-     */
-    @Test
-    public void testSuccessViaProperties() throws Exception {
-        HttpPollingParams opParams = HttpPollingParams.builder().clientName(MY_CLIENT).path("serviceInstances/v7")
-                        .pollPath("orchestrationRequests/v5/").maxPolls(2).build();
-        config = new HttpPollingConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
-
         params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).preprocessed(true).build();
-        params.getContext().removeProperty(AaiCqResponse.CONTEXT_KEY);
 
         oper = new VfModuleDelete(params, config);
 
-        // set the properties
-        ServiceInstance instance = new ServiceInstance();
-        instance.setServiceInstanceId(SVC_INSTANCE_ID);
-        oper.setProperty(OperationProperties.AAI_SERVICE, instance);
-
-        GenericVnf vnf = new GenericVnf();
-        vnf.setVnfId(VNF_ID);
-        oper.setProperty(OperationProperties.AAI_VNF, vnf);
-
-        oper.setProperty(OperationProperties.AAI_DEFAULT_CLOUD_REGION, new CloudRegion());
-        oper.setProperty(OperationProperties.AAI_DEFAULT_TENANT, new Tenant());
-
-        oper.setProperty(OperationProperties.DATA_VF_COUNT, VF_COUNT);
+        loadProperties();
 
         // run the operation
         outcome = oper.start().get();
@@ -199,75 +163,7 @@ public class VfModuleDeleteTest extends BasicSoOperation {
     }
 
     @Test
-    public void testStartPreprocessorAsync() throws Exception {
-        // insert CQ data so it's there for the check
-        context.setProperty(AaiCqResponse.CONTEXT_KEY, makeCqResponse());
-
-        AtomicBoolean guardStarted = new AtomicBoolean();
-
-        oper = new MyOperation(params, config) {
-            @Override
-            protected CompletableFuture<OperationOutcome> startGuardAsync() {
-                guardStarted.set(true);
-                return super.startGuardAsync();
-            }
-        };
-
-        CompletableFuture<OperationOutcome> future3 = oper.startPreprocessorAsync();
-        assertNotNull(future3);
-        assertTrue(guardStarted.get());
-    }
-
-    /**
-     * Tests startPreprocessorAsync(), when preprocessing is disabled.
-     */
-    @Test
-    public void testStartPreprocessorAsyncDisabled() {
-        params = params.toBuilder().preprocessed(true).build();
-        assertNull(new MyOperation(params, config).startPreprocessorAsync());
-    }
-
-    @Test
-    public void testStartGuardAsync() throws Exception {
-        // remove CQ data so it's forced to query
-        context.removeProperty(AaiCqResponse.CONTEXT_KEY);
-
-        CompletableFuture<OperationOutcome> future2 = oper.startPreprocessorAsync();
-        assertTrue(executor.runAll(100));
-        assertFalse(future2.isDone());
-
-        provideCqResponse(makeCqResponse());
-        assertTrue(executor.runAll(100));
-        assertTrue(future2.isDone());
-        assertEquals(PolicyResult.SUCCESS, future2.get().getResult());
-    }
-
-    @Test
-    public void testMakeGuardPayload() {
-        final int origCount = 30;
-        oper.setVfCount(origCount);
-
-        CompletableFuture<OperationOutcome> future2 = oper.startPreprocessorAsync();
-        assertTrue(executor.runAll(100));
-        assertTrue(future2.isDone());
-
-        // get the payload from the request
-        ArgumentCaptor<ControlLoopOperationParams> captor = ArgumentCaptor.forClass(ControlLoopOperationParams.class);
-        verify(guardOperator).buildOperation(captor.capture());
-
-        Map<String, Object> payload = captor.getValue().getPayload();
-        assertNotNull(payload);
-
-        Integer newCount = (Integer) payload.get(VfModuleDelete.PAYLOAD_KEY_VF_COUNT);
-        assertNotNull(newCount);
-        assertEquals(origCount - 1, newCount.intValue());
-    }
-
-    @Test
     public void testStartOperationAsync_testSuccessfulCompletion() throws Exception {
-        final int origCount = 30;
-        oper.setVfCount(origCount);
-
         // use a real executor
         params = params.toBuilder().executor(ForkJoinPool.commonPool()).build();
 
@@ -277,6 +173,11 @@ public class VfModuleDeleteTest extends BasicSoOperation {
                 return 1;
             }
         };
+
+        loadProperties();
+
+        final int origCount = 30;
+        oper.setVfCount(origCount);
 
         CompletableFuture<OperationOutcome> future2 = oper.start();
 
@@ -311,6 +212,8 @@ public class VfModuleDeleteTest extends BasicSoOperation {
                 return 1;
             }
         };
+
+        loadProperties();
 
         CompletableFuture<OperationOutcome> future2 = oper.start();
 
@@ -451,32 +354,6 @@ public class VfModuleDeleteTest extends BasicSoOperation {
         assertNotNull(new MyOperation(params, config).makeHttpClient());
     }
 
-
-    @Override
-    protected void makeContext() {
-        super.makeContext();
-
-        AaiCqResponse cq = mock(AaiCqResponse.class);
-
-        GenericVnf vnf = new GenericVnf();
-        when(cq.getGenericVnfByVfModuleModelInvariantId(MODEL_INVAR_ID)).thenReturn(vnf);
-        vnf.setVnfId(VNF_ID);
-
-        ServiceInstance instance = new ServiceInstance();
-        when(cq.getServiceInstance()).thenReturn(instance);
-        instance.setServiceInstanceId(SVC_INSTANCE_ID);
-
-        when(cq.getDefaultTenant()).thenReturn(new Tenant());
-        when(cq.getDefaultCloudRegion()).thenReturn(new CloudRegion());
-
-        ModelVer modelVers = new ModelVer();
-        when(cq.getModelVerByVersionId(any())).thenReturn(modelVers);
-        modelVers.setModelName(MODEL_NAME2);
-        modelVers.setModelVersion(MODEL_VERS2);
-
-        params.getContext().setProperty(AaiCqResponse.CONTEXT_KEY, cq);
-    }
-
     private void initHostPort() {
         when(client.getBaseUrl()).thenReturn("http://my-host:6969/");
     }
@@ -501,5 +378,21 @@ public class VfModuleDeleteTest extends BasicSoOperation {
         protected java.net.http.HttpClient makeHttpClient() {
             return javaClient;
         }
+    }
+
+    private void loadProperties() {
+        // set the properties
+        ServiceInstance instance = new ServiceInstance();
+        instance.setServiceInstanceId(SVC_INSTANCE_ID);
+        oper.setProperty(OperationProperties.AAI_SERVICE, instance);
+
+        GenericVnf vnf = new GenericVnf();
+        vnf.setVnfId(VNF_ID);
+        oper.setProperty(OperationProperties.AAI_VNF, vnf);
+
+        oper.setProperty(OperationProperties.AAI_DEFAULT_CLOUD_REGION, new CloudRegion());
+        oper.setProperty(OperationProperties.AAI_DEFAULT_TENANT, new Tenant());
+
+        oper.setProperty(OperationProperties.DATA_VF_COUNT, VF_COUNT);
     }
 }

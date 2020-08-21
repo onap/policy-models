@@ -51,14 +51,6 @@ public abstract class SdncOperation extends HttpOperation<SdncResponse> {
         super(params, config, SdncResponse.class, propertyNames);
     }
 
-    /**
-     * Starts the GUARD.
-     */
-    @Override
-    protected CompletableFuture<OperationOutcome> startPreprocessorAsync() {
-        return startGuardAsync();
-    }
-
     @Override
     protected CompletableFuture<OperationOutcome> startOperationAsync(int attempt, OperationOutcome outcome) {
 
@@ -95,22 +87,5 @@ public abstract class SdncOperation extends HttpOperation<SdncResponse> {
     @Override
     protected boolean isSuccess(Response rawResponse, SdncResponse response) {
         return response.getResponseOutput() != null && "200".equals(response.getResponseOutput().getResponseCode());
-    }
-
-    /**
-     * Gets an optional property, first checking the properties, then checking the
-     * enrichment data.
-     *
-     * @param propName property name
-     * @param enrichmentName property name within the enrichment data
-     * @return the property's value, or {@code null} if it is not found
-     */
-    protected String getOptProperty(String propName, String enrichmentName) {
-        if (containsProperty(propName)) {
-            // return the value, even if it's null
-            return getProperty(propName);
-        }
-
-        return params.getContext().getEnrichment().get(enrichmentName);
     }
 }

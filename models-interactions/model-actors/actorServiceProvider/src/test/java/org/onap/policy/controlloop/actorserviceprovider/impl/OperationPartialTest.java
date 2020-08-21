@@ -29,7 +29,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import ch.qos.logback.classic.Logger;
@@ -60,7 +59,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
@@ -71,13 +69,11 @@ import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.test.log.logback.ExtractAppender;
 import org.onap.policy.common.utils.time.PseudoExecutor;
 import org.onap.policy.controlloop.ControlLoopOperation;
-import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.ActorService;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.Operator;
-import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.OperatorConfig;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
@@ -119,8 +115,6 @@ public class OperationPartialTest {
     @Mock
     private Operation guardOperation;
 
-    private VirtualControlLoopEvent event;
-    private ControlLoopEventContext context;
     private PseudoExecutor executor;
     private ControlLoopOperationParams params;
 
@@ -167,14 +161,9 @@ public class OperationPartialTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-
-        event = new VirtualControlLoopEvent();
-        event.setRequestId(REQ_ID);
-
-        context = new ControlLoopEventContext(event);
         executor = new PseudoExecutor();
 
-        params = ControlLoopOperationParams.builder().completeCallback(this::completer).context(context)
+        params = ControlLoopOperationParams.builder().completeCallback(this::completer).requestId(REQ_ID)
                         .executor(executor).actorService(service).actor(ACTOR).operation(OPERATION).timeoutSec(TIMEOUT)
                         .startCallback(this::starter).targetEntity(MY_TARGET_ENTITY).build();
 
@@ -226,14 +215,20 @@ public class OperationPartialTest {
     }
 
     @Test
-    public void testGetProperty_testSetProperty() {
+    public void testGetProperty_testSetProperty_testGetRequiredProperty() {
         oper.setProperty("propertyA", "valueA");
         oper.setProperty("propertyB", "valueB");
         oper.setProperty("propertyC", 20);
+        oper.setProperty("propertyD", "valueD");
 
         assertEquals("valueA", oper.getProperty("propertyA"));
         assertEquals("valueB", oper.getProperty("propertyB"));
         assertEquals(Integer.valueOf(20), oper.getProperty("propertyC"));
+
+        assertEquals("valueD", oper.getRequiredProperty("propertyD", "typeD"));
+
+        assertThatIllegalStateException().isThrownBy(() -> oper.getRequiredProperty("propertyUnknown", "some type"))
+                        .withMessage("missing some type");
     }
 
     @Test
@@ -259,118 +254,6 @@ public class OperationPartialTest {
         assertEquals(MAX_PARALLEL, numStart);
         assertEquals(MAX_PARALLEL, oper.getCount());
         assertEquals(MAX_PARALLEL, numEnd);
-    }
-
-    /**
-     * Tests startPreprocessor() when the preprocessor returns a failure.
-     */
-    @Test
-    public void testStartPreprocessorFailure() {
-        oper.setPreProc(CompletableFuture.completedFuture(makeFailure()));
-
-        verifyRun("testStartPreprocessorFailure", 1, 0, PolicyResult.FAILURE_GUARD);
-    }
-
-    /**
-     * Tests startPreprocessor() when the preprocessor throws an exception.
-     */
-    @Test
-    public void testStartPreprocessorException() {
-        // arrange for the preprocessor to throw an exception
-        oper.setPreProc(CompletableFuture.failedFuture(new IllegalStateException(EXPECTED_EXCEPTION)));
-
-        verifyRun("testStartPreprocessorException", 1, 0, PolicyResult.FAILURE_GUARD);
-    }
-
-    /**
-     * Tests startPreprocessor() when the pipeline is not running.
-     */
-    @Test
-    public void testStartPreprocessorNotRunning() {
-        // arrange for the preprocessor to return success, which will be ignored
-        // oper.setGuard(CompletableFuture.completedFuture(makeSuccess()));
-
-        oper.start().cancel(false);
-        assertTrue(executor.runAll(MAX_REQUESTS));
-
-        assertNull(opstart);
-        assertNull(opend);
-
-        assertEquals(0, numStart);
-        assertEquals(0, oper.getCount());
-        assertEquals(0, numEnd);
-    }
-
-    /**
-     * Tests startPreprocessor() when the preprocessor <b>builder</b> throws an exception.
-     */
-    @Test
-    public void testStartPreprocessorBuilderException() {
-        oper = new MyOper() {
-            @Override
-            protected CompletableFuture<OperationOutcome> startPreprocessorAsync() {
-                throw new IllegalStateException(EXPECTED_EXCEPTION);
-            }
-        };
-
-        assertThatIllegalStateException().isThrownBy(() -> oper.start());
-
-        // should be nothing in the queue
-        assertEquals(0, executor.getQueueLength());
-    }
-
-    @Test
-    public void testStartPreprocessorAsync() {
-        assertNull(oper.startPreprocessorAsync());
-    }
-
-    @Test
-    public void testStartGuardAsync() throws Exception {
-        CompletableFuture<OperationOutcome> future = oper.startGuardAsync();
-        assertTrue(future.isDone());
-        assertEquals(PolicyResult.SUCCESS, future.get().getResult());
-
-        // verify the parameters that were passed
-        ArgumentCaptor<ControlLoopOperationParams> paramsCaptor =
-                        ArgumentCaptor.forClass(ControlLoopOperationParams.class);
-        verify(guardOperator).buildOperation(paramsCaptor.capture());
-
-        params = paramsCaptor.getValue();
-        assertEquals(OperationPartial.GUARD_ACTOR_NAME, params.getActor());
-        assertEquals(OperationPartial.GUARD_OPERATION_NAME, params.getOperation());
-        assertNull(params.getRetry());
-        assertNull(params.getTimeoutSec());
-
-        Map<String, Object> payload = params.getPayload();
-        assertNotNull(payload);
-
-        assertEquals(oper.makeGuardPayload(), payload);
-    }
-
-    /**
-     * Tests startGuardAsync() when preprocessing is disabled.
-     */
-    @Test
-    public void testStartGuardAsyncDisabled() {
-        params = params.toBuilder().preprocessed(true).build();
-        assertNull(new MyOper().startGuardAsync());
-    }
-
-    @Test
-    public void testMakeGuardPayload() {
-        Map<String, Object> payload = oper.makeGuardPayload();
-        assertSame(REQ_ID, payload.get("requestId"));
-
-        // request id changes, so remove it
-        payload.remove("requestId");
-
-        assertEquals("{actor=my-actor, operation=my-operation, target=my-entity}", payload.toString());
-
-        // repeat, but with closed loop name
-        event.setClosedLoopControlName("my-loop");
-        payload = oper.makeGuardPayload();
-        payload.remove("requestId");
-        assertEquals("{actor=my-actor, operation=my-operation, target=my-entity, clname=my-loop}", payload.toString());
     }
 
     @Test
@@ -614,34 +497,6 @@ public class OperationPartialTest {
         outcome.setOperation(OPERATION);
 
         assertTrue(oper.isSameOperation(outcome));
-    }
-
-    /**
-     * Tests handleFailure() when the outcome is a success.
-     */
-    @Test
-    public void testHandlePreprocessorFailureSuccess() {
-        oper.setPreProc(CompletableFuture.completedFuture(makeSuccess()));
-        verifyRun("testHandlePreprocessorFailureTrue", 1, 1, PolicyResult.SUCCESS);
-    }
-
-    /**
-     * Tests handleFailure() when the outcome is <i>not</i> a success.
-     */
-    @Test
-    public void testHandlePreprocessorFailureFailed() throws Exception {
-        oper.setPreProc(CompletableFuture.completedFuture(makeFailure()));
-        verifyRun("testHandlePreprocessorFailureFalse", 1, 0, PolicyResult.FAILURE_GUARD);
-    }
-
-    /**
-     * Tests handleFailure() when the outcome is {@code null}.
-     */
-    @Test
-    public void testHandlePreprocessorFailureNull() throws Exception {
-        // arrange to return a null outcome from the preprocessor
-        oper.setPreProc(CompletableFuture.completedFuture(null));
-        verifyRun("testHandlePreprocessorFailureNull", 1, 0, PolicyResult.FAILURE_GUARD);
     }
 
     @Test
@@ -1204,13 +1059,6 @@ public class OperationPartialTest {
         return outcome;
     }
 
-    private OperationOutcome makeFailure() {
-        OperationOutcome outcome = params.makeOutcome(null);
-        outcome.setResult(PolicyResult.FAILURE);
-
-        return outcome;
-    }
-
     /**
      * Verifies a run.
      *
@@ -1357,11 +1205,6 @@ public class OperationPartialTest {
              * "executor", thus we avoid sleep timers altogether by simply returning 0.
              */
             return 0L;
-        }
-
-        @Override
-        protected CompletableFuture<OperationOutcome> startPreprocessorAsync() {
-            return (preProc != null ? preProc : super.startPreprocessorAsync());
         }
     }
 }

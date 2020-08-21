@@ -28,15 +28,11 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -55,9 +51,7 @@ import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.actor.test.BasicBidirectionalTopicOperation;
-import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
-import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicOperation.Status;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicParams;
@@ -121,12 +115,7 @@ public class AppcLcmOperationTest extends BasicBidirectionalTopicOperation<AppcL
 
         params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).build();
 
-        oper = new AppcLcmOperation(params, config) {
-            @Override
-            protected CompletableFuture<OperationOutcome> startGuardAsync() {
-                return null;
-            }
-        };
+        oper = new AppcLcmOperation(params, config);
 
         outcome = oper.start().get();
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
@@ -142,33 +131,6 @@ public class AppcLcmOperationTest extends BasicBidirectionalTopicOperation<AppcL
     @Test
     public void testGetPropertyNames() {
         assertThat(oper.getPropertyNames()).isEqualTo(List.of(OperationProperties.AAI_TARGET_ENTITY));
-    }
-
-    @Test
-    public void testStartPreprocessorAsync() throws Exception {
-        context = mock(ControlLoopEventContext.class);
-        when(context.getEvent()).thenReturn(event);
-        params = params.toBuilder().context(context).build();
-
-        AtomicBoolean guardStarted = new AtomicBoolean();
-
-        oper = new AppcLcmOperation(params, config) {
-            @Override
-            protected CompletableFuture<OperationOutcome> startGuardAsync() {
-                guardStarted.set(true);
-                return super.startGuardAsync();
-            }
-        };
-
-        CompletableFuture<OperationOutcome> future2 = oper.startPreprocessorAsync();
-        assertNotNull(future2);
-        assertFalse(future.isDone());
-        assertTrue(guardStarted.get());
-
-        assertTrue(executor.runAll(100));
-        assertTrue(future2.isDone());
-        outcome = future2.get();
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
     }
 
     @Test
