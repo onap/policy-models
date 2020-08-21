@@ -26,11 +26,9 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.vfc.VfcResponse;
 import org.onap.policy.vfc.VfcResponseDescriptor;
 
@@ -60,11 +58,6 @@ public class VfcOperationTest extends BasicVfcOperation {
     }
 
     @Test
-    public void testStartPreprocessorAsync() {
-        assertNotNull(oper.startPreprocessorAsync());
-    }
-
-    @Test
     public void testResetPollCount() {
         oper.resetPollCount();
         assertEquals(0, oper.getPollCount());
@@ -87,38 +80,5 @@ public class VfcOperationTest extends BasicVfcOperation {
     @Test
     public void testIsSuccess() {
         assertTrue(oper.isSuccess(rawResponse, response));
-    }
-
-    @Test
-    public void testGetOptProperty() {
-        // in neither property nor enrichment
-        assertNull(oper.getOptProperty("propA", "propA2"));
-
-        // both - should choose the property
-        remakeOper(Map.of("propB2", "valueB2"));
-        oper.setProperty("propB", "valueB");
-        assertEquals("valueB", oper.getOptProperty("propB", "propB2"));
-
-        // both - should choose the property, even if it's null
-        remakeOper(Map.of("propC2", "valueC2"));
-        oper.setProperty("propC", null);
-        assertNull(oper.getOptProperty("propC", "propC2"));
-
-        // only in enrichment data
-        remakeOper(Map.of("propD2", "valueD2"));
-        assertEquals("valueD2", oper.getOptProperty("propD", "propD2"));
-    }
-
-    /**
-     * Remakes the operation, with the specified A&AI enrichment data.
-     *
-     * @param aai A&AI enrichment data
-     */
-    private void remakeOper(Map<String, String> aai) {
-        event.setAai(aai);
-        context = new ControlLoopEventContext(event);
-        params = params.toBuilder().context(context).build();
-
-        oper = new VfcOperation(params, config) {};
     }
 }

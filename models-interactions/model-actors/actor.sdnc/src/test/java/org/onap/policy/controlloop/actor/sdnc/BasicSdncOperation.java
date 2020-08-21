@@ -20,7 +20,6 @@
 
 package org.onap.policy.controlloop.actor.sdnc;
 
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -29,7 +28,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
@@ -40,14 +38,11 @@ import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.controlloop.actor.test.BasicHttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
-import org.onap.policy.controlloop.actorserviceprovider.impl.OperationMaker;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.sdnc.SdncRequest;
 import org.onap.policy.sdnc.SdncResponse;
 import org.onap.policy.sdnc.SdncResponseOutput;
 import org.onap.policy.simulators.Util;
-import org.powermock.reflect.Whitebox;
 
 /**
  * Superclass for various operator tests.
@@ -137,25 +132,4 @@ public abstract class BasicSdncOperation extends BasicHttpOperation {
 
         return coder.decode(reqText, SdncRequest.class);
     }
-
-    /**
-     * Verifies that an exception is thrown if a field is missing from the enrichment
-     * data.
-     *
-     * @param fieldName name of the field to be removed from the enrichment data
-     * @param expectedText text expected in the exception message
-     */
-    protected void verifyMissing(String fieldName, String expectedText,
-                    OperationMaker<HttpConfig, SdncOperation> maker) {
-
-        makeContext();
-        enrichment.remove(fieldName);
-
-        SdncOperation oper = maker.apply(params, config);
-
-        assertThatIllegalArgumentException().isThrownBy(() -> Whitebox.invokeMethod(oper, "makeRequest", 1))
-                        .withMessageContaining("missing").withMessageContaining(expectedText);
-    }
-
-    protected abstract Map<String, String> makeEnrichment();
 }

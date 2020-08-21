@@ -30,6 +30,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,11 +38,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactory;
-import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
-import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
@@ -112,10 +111,8 @@ public class HttpOperatorTest {
         assertNotNull(oper2);
         assertNotNull(oper2.getClientFactory());
 
-        VirtualControlLoopEvent event = new VirtualControlLoopEvent();
-        ControlLoopEventContext context = new ControlLoopEventContext(event);
-        ControlLoopOperationParams params =
-                        ControlLoopOperationParams.builder().actor(ACTOR).operation(OPERATION).context(context).build();
+        ControlLoopOperationParams params = ControlLoopOperationParams.builder().actor(ACTOR).operation(OPERATION)
+                        .requestId(UUID.randomUUID()).build();
 
         // configure and start it
         HttpParams params2 = HttpParams.builder().clientName(HTTP_CLIENT).path(PATH).timeoutSec(TIMEOUT).build();

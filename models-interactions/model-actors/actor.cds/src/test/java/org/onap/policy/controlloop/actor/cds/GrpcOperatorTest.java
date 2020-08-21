@@ -25,15 +25,14 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Map;
+import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.MockitoAnnotations;
 import org.onap.policy.cds.properties.CdsServerProperties;
-import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actor.cds.constants.CdsActorConstants;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
-import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ParameterValidationRuntimeException;
 import org.onap.policy.controlloop.policy.Target;
@@ -86,12 +85,10 @@ public class GrpcOperatorTest {
 
     @Test
     public void testBuildOperation() {
-        VirtualControlLoopEvent event = new VirtualControlLoopEvent();
-        ControlLoopEventContext context = new ControlLoopEventContext(event);
         Target target = new Target();
         target.setType(TargetType.VM);
         ControlLoopOperationParams params = ControlLoopOperationParams.builder().actor(CdsActorConstants.CDS_ACTOR)
-                        .operation(GrpcOperation.NAME).context(context).target(target).build();
+                        .operation(GrpcOperation.NAME).requestId(UUID.randomUUID()).target(target).build();
 
         // not configured yet
         assertThatIllegalStateException().isThrownBy(() -> operation.buildOperation(params));

@@ -28,8 +28,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
-import java.util.function.Function;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.onap.aai.domain.yang.CloudRegion;
@@ -37,8 +35,6 @@ import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.aai.domain.yang.ModelVer;
 import org.onap.aai.domain.yang.ServiceInstance;
 import org.onap.aai.domain.yang.Tenant;
-import org.onap.policy.aai.AaiConstants;
-import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.common.gson.GsonMessageBodyHandler;
 import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
@@ -67,7 +63,6 @@ import org.onap.policy.so.util.SoLocalDateTimeTypeAdapter;
 public abstract class SoOperation extends HttpOperation<SoResponse> {
     private static final Coder coder = new SoCoder();
 
-    public static final String PAYLOAD_KEY_VF_COUNT = "vfCount";
     public static final String FAILED = "FAILED";
     public static final String COMPLETE = "COMPLETE";
     public static final int SO_RESPONSE_CODE = 999;
@@ -80,8 +75,6 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
     private final String modelCustomizationId;
     private final String modelInvariantId;
     private final String modelVersionId;
-
-    private final String vfCountKey;
 
 
     /**
@@ -101,9 +94,6 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
         this.modelCustomizationId = params.getTarget().getModelCustomizationId();
         this.modelInvariantId = params.getTarget().getModelInvariantId();
         this.modelVersionId = params.getTarget().getModelVersionId();
-
-        vfCountKey = SoConstants.VF_COUNT_PREFIX + "[" + modelCustomizationId + "][" + modelInvariantId + "]["
-                        + modelVersionId + "]";
     }
 
     @Override
@@ -113,8 +103,8 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
     }
 
     /**
-     * Validates that the parameters contain the required target information to extract
-     * the VF count from the custom query.
+     * Validates that the parameters contain the required target information to construct
+     * the request.
      */
     protected void validateTarget() {
         verifyNotNull("modelCustomizationId", modelCustomizationId);
@@ -124,69 +114,16 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
 
     private void verifyNotNull(String type, Object value) {
         if (value == null) {
-            throw new IllegalArgumentException("missing " + type + " for guard payload");
+            throw new IllegalArgumentException("missing Target." + type);
         }
-    }
-
-    /**
-     * Starts the GUARD.
-     */
-    @Override
-    protected CompletableFuture<OperationOutcome> startPreprocessorAsync() {
-        return startGuardAsync();
-    }
-
-    /**
-     * Gets the VF Count.
-     *
-     * @return a future to cancel or await the VF Count
-     */
-    @SuppressWarnings("unchecked")
-    protected CompletableFuture<OperationOutcome> obtainVfCount() {
-        if (params.getContext().contains(vfCountKey)) {
-            // already have the VF count
-            return null;
-        }
-
-        // need custom query from which to extract the VF count
-        ControlLoopOperationParams cqParams = params.toBuilder().actor(AaiConstants.ACTOR_NAME)
-                        .operation(AaiCqResponse.OPERATION).payload(null).retry(null).timeoutSec(null).build();
-
-        // run Custom Query and then extract the VF count
-        return sequence(() -> params.getContext().obtain(AaiCqResponse.CONTEXT_KEY, cqParams), this::storeVfCount);
-    }
-
-    /**
-     * Stores the VF count.
-     *
-     * @return {@code null}
-     */
-    private CompletableFuture<OperationOutcome> storeVfCount() {
-        if (!params.getContext().contains(vfCountKey)) {
-            AaiCqResponse cq = params.getContext().getProperty(AaiCqResponse.CONTEXT_KEY);
-            int vfcount = cq.getVfModuleCount(modelCustomizationId, modelInvariantId, modelVersionId);
-
-            params.getContext().setProperty(vfCountKey, vfcount);
-        }
-
-        return null;
     }
 
     protected int getVfCount() {
-        if (containsProperty(OperationProperties.DATA_VF_COUNT)) {
-            return getProperty(OperationProperties.DATA_VF_COUNT);
-        }
-
-        return params.getContext().getProperty(vfCountKey);
+        return getRequiredProperty(OperationProperties.DATA_VF_COUNT, "VF Count");
     }
 
     protected void setVfCount(int vfCount) {
-        if (containsProperty(OperationProperties.DATA_VF_COUNT)) {
-            setProperty(OperationProperties.DATA_VF_COUNT, vfCount);
-            return;
-        }
-
-        params.getContext().setProperty(vfCountKey, vfCount);
+        setProperty(OperationProperties.DATA_VF_COUNT, vfCount);
     }
 
     @Override
@@ -358,13 +295,12 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
     }
 
     /**
-     * Construct cloudConfiguration for the SO requestDetails. Overridden for custom
-     * query.
+     * Construct cloudConfiguration for the SO requestDetails.
      *
      * @param tenantItem tenant item from A&AI named-query response
      * @return SO cloud configuration
      */
-    protected SoCloudConfiguration constructCloudConfigurationCq(Tenant tenantItem, CloudRegion cloudRegionItem) {
+    protected SoCloudConfiguration constructCloudConfiguration(Tenant tenantItem, CloudRegion cloudRegionItem) {
         SoCloudConfiguration cloudConfiguration = new SoCloudConfiguration();
         cloudConfiguration.setTenantId(tenantItem.getTenantId());
         cloudConfiguration.setLcpCloudRegionId(cloudRegionItem.getCloudRegionId());
@@ -382,77 +318,33 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
         return headers;
     }
 
-    /**
-     * Gets an item from a property. If the property is not found, then it invokes the
-     * given function to retrieve it from the custom query data. If that fails as well,
-     * then an exception is thrown.
-     *
-     * @param propName property name
-     * @param getter method to extract the value from the custom query data
-     * @param errmsg error message to include in any exception
-     * @return the retrieved item
-     */
-    protected <T> T getItem(String propName, Function<AaiCqResponse, T> getter, String errmsg) {
-        if (containsProperty(propName)) {
-            return getProperty(propName);
-        }
-
-        final AaiCqResponse aaiCqResponse = params.getContext().getProperty(AaiCqResponse.CONTEXT_KEY);
-        T item = getter.apply(aaiCqResponse);
-        if (item == null) {
-            throw new IllegalArgumentException(errmsg);
-        }
-
-        return item;
-    }
-
     /*
      * These methods extract data from the Custom Query and throw an
      * IllegalArgumentException if the desired data item is not found.
      */
 
     protected GenericVnf getVnfItem(SoModelInfo soModelInfo) {
-        // @formatter:off
-        return getItem(OperationProperties.AAI_VNF,
-            cq -> cq.getGenericVnfByVfModuleModelInvariantId(soModelInfo.getModelInvariantId()),
-            "missing generic VNF");
-        // @formatter:on
+        return getRequiredProperty(OperationProperties.AAI_VNF, "generic VNF");
     }
 
     protected ServiceInstance getServiceInstance() {
-        return getItem(OperationProperties.AAI_SERVICE, AaiCqResponse::getServiceInstance, "missing VNF Service Item");
+        return getRequiredProperty(OperationProperties.AAI_SERVICE, "VNF Service Item");
     }
 
     protected Tenant getDefaultTenant() {
-        // @formatter:off
-        return getItem(OperationProperties.AAI_DEFAULT_TENANT,
-            AaiCqResponse::getDefaultTenant,
-            "missing Default Tenant Item");
-        // @formatter:on
+        return getRequiredProperty(OperationProperties.AAI_DEFAULT_TENANT, "Default Tenant Item");
     }
 
     protected CloudRegion getDefaultCloudRegion() {
-        // @formatter:off
-        return getItem(OperationProperties.AAI_DEFAULT_CLOUD_REGION,
-            AaiCqResponse::getDefaultCloudRegion,
-            "missing Default Cloud Region");
-        // @formatter:on
+        return getRequiredProperty(OperationProperties.AAI_DEFAULT_CLOUD_REGION, "Default Cloud Region");
     }
 
-    protected ModelVer getVnfModel(GenericVnf vnfItem) {
-        // @formatter:off
-        return getItem(OperationProperties.AAI_VNF_MODEL,
-            cq -> cq.getModelVerByVersionId(vnfItem.getModelVersionId()),
-            "missing generic VNF Model");
-        // @formatter:on
+    protected ModelVer getVnfModel() {
+        return getRequiredProperty(OperationProperties.AAI_VNF_MODEL, "generic VNF Model");
     }
 
-    protected ModelVer getServiceModel(ServiceInstance vnfServiceItem) {
-        // @formatter:off
-        return getItem(OperationProperties.AAI_SERVICE_MODEL,
-            cq -> cq.getModelVerByVersionId(vnfServiceItem.getModelVersionId()),
-            "missing Service Model");
-        // @formatter:on
+    protected ModelVer getServiceModel() {
+        return getRequiredProperty(OperationProperties.AAI_SERVICE_MODEL, "Service Model");
     }
 
     // these may be overridden by junit tests

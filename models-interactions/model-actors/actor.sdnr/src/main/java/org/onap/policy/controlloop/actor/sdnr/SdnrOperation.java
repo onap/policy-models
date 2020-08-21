@@ -21,7 +21,6 @@
 package org.onap.policy.controlloop.actor.sdnr;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicOperation;
@@ -68,11 +67,6 @@ public class SdnrOperation extends BidirectionalTopicOperation<PciMessage, PciMe
     @Override
     protected List<String> getExpectedKeyValues(int attempt, PciMessage request) {
         return List.of(getSubRequestId());
-    }
-
-    @Override
-    protected CompletableFuture<OperationOutcome> startPreprocessorAsync() {
-        return startGuardAsync();
     }
 
     /*
@@ -156,7 +150,7 @@ public class SdnrOperation extends BidirectionalTopicOperation<PciMessage, PciMe
         requestCommonHeader.setSubRequestId(subRequestId);
 
         sdnrRequest.setCommonHeader(requestCommonHeader);
-        sdnrRequest.setPayload(getEventPayload());
+        sdnrRequest.setPayload(getProperty(OperationProperties.EVENT_PAYLOAD));
         sdnrRequest.setAction(params.getOperation());
 
         /*
@@ -168,19 +162,5 @@ public class SdnrOperation extends BidirectionalTopicOperation<PciMessage, PciMe
 
         /* Return the request to be sent through dmaap. */
         return dmaapRequest;
-    }
-
-    /**
-     * Gets the event payload, first checking for it in the properties and then in the
-     * event.
-     *
-     * @return the event payload
-     */
-    protected String getEventPayload() {
-        if (containsProperty(OperationProperties.EVENT_PAYLOAD)) {
-            return getProperty(OperationProperties.EVENT_PAYLOAD);
-        }
-
-        return params.getContext().getEvent().getPayload();
     }
 }

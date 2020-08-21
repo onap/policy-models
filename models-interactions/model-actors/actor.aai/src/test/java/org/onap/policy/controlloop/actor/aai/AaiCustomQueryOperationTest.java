@@ -21,12 +21,9 @@
 package org.onap.policy.controlloop.actor.aai;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -44,33 +41,20 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.mockito.Mock;
 import org.onap.policy.aai.AaiConstants;
 import org.onap.policy.aai.AaiCqResponse;
-import org.onap.policy.common.endpoints.http.client.HttpClientFactory;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.utils.coder.StandardCoder;
-import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
-import org.onap.policy.controlloop.actorserviceprovider.Util;
-import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperation;
-import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperator;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
-import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.onap.policy.controlloop.policy.PolicyResult;
 
 public class AaiCustomQueryOperationTest extends BasicAaiOperation {
     private static final StandardCoder coder = new StandardCoder();
 
     private static final String MY_LINK = "my-link";
-    private static final String MY_VSERVER = "my-vserver-name";
-    private static final String SIM_VSERVER = "OzVServer";
-
-    @Mock
-    private Actor tenantActor;
 
     private AaiCustomQueryOperation oper;
 
@@ -95,14 +79,8 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation {
     public void setUp() throws Exception {
         super.setUpBasic();
 
-        params.getContext().getEnrichment().put(AaiCustomQueryOperation.VSERVER_VSERVER_NAME, MY_VSERVER);
-
-        MyTenantOperator tenantOperator = new MyTenantOperator();
-
-        when(service.getActor(AaiConstants.ACTOR_NAME)).thenReturn(tenantActor);
-        when(tenantActor.getOperator(AaiGetTenantOperation.NAME)).thenReturn(tenantOperator);
-
         oper = new AaiCustomQueryOperation(params, config);
+        oper.setProperty(OperationProperties.AAI_VSERVER_LINK, MY_LINK);
     }
 
     /**
@@ -115,7 +93,6 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation {
 
         params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).preprocessed(true).build();
         oper = new AaiCustomQueryOperation(params, config);
-        oper.setProperty(OperationProperties.AAI_TARGET_ENTITY, SIM_VSERVER);
 
         oper.setProperty(OperationProperties.AAI_VSERVER_LINK, MY_LINK);
 
@@ -132,16 +109,6 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation {
     }
 
     @Test
-    public void testGetVserver() {
-        assertEquals(MY_VSERVER, oper.getVserver());
-
-        // try without enrichment data
-        params.getContext().getEnrichment().remove(AaiCustomQueryOperation.VSERVER_VSERVER_NAME);
-        assertThatIllegalArgumentException().isThrownBy(() -> oper.getVserver())
-                        .withMessage("missing " + AaiCustomQueryOperation.VSERVER_VSERVER_NAME + " in enrichment data");
-    }
-
-    @Test
     public void testGetPropertyNames() {
         assertThat(oper.getPropertyNames()).isEqualTo(List.of(OperationProperties.AAI_VSERVER_LINK));
     }
@@ -152,18 +119,9 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation {
         assertEquals("3", oper.getSubRequestId());
     }
 
-    /**
-     * Tests startPreprocessorAsync(), when preprocessing is disabled.
-     */
-    @Test
-    public void testStartPreprocessorAsyncDisabled() {
-        params = params.toBuilder().preprocessed(true).build();
-        assertNull(new AaiCustomQueryOperation(params, config).startPreprocessorAsync());
-    }
-
     @Test
     @SuppressWarnings("unchecked")
-    public void testStartOperationAsync_testStartPreprocessorAsync_testMakeRequest_testPostProcess() throws Exception {
+    public void testStartOperationAsync_testMakeRequest() throws Exception {
         // need two responses
         when(rawResponse.readEntity(String.class)).thenReturn(makeTenantReply()).thenReturn(makeCqReply());
         when(webAsync.get(any(InvocationCallback.class))).thenAnswer(provideResponse(rawResponse));
@@ -173,39 +131,7 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation {
 
         assertEquals(PolicyResult.SUCCESS, getResult(future2));
 
-        // tenant response should have been cached within the context
-        assertNotNull(context.getProperty(AaiGetTenantOperation.getKey(MY_VSERVER)));
-
-        // custom query response should have been cached within the context
-        AaiCqResponse cqData = context.getProperty(AaiCqResponse.CONTEXT_KEY);
-        assertNotNull(cqData);
-
         assertEquals("1", future2.get().getSubRequestId());
-    }
-
-    /**
-     * Tests when preprocessor step is not needed.
-     */
-    @Test
-    @SuppressWarnings("unchecked")
-    public void testStartOperationAsync_testStartPreprocessorAsyncNotNeeded() throws Exception {
-        // pre-load the tenant data
-        final StandardCoderObject data = preloadTenantData();
-
-        // only need one response
-        when(rawResponse.readEntity(String.class)).thenReturn(makeCqReply());
-        when(webAsync.put(any(), any(InvocationCallback.class))).thenAnswer(provideResponse(rawResponse, 1));
-
-        CompletableFuture<OperationOutcome> future2 = oper.start();
-
-        assertEquals(PolicyResult.SUCCESS, getResult(future2));
-
-        // should not have replaced tenant response
-        assertSame(data, context.getProperty(AaiGetTenantOperation.getKey(MY_VSERVER)));
-
-        // custom query response should have been cached within the context
-        AaiCqResponse cqData = context.getProperty(AaiCqResponse.CONTEXT_KEY);
-        assertNotNull(cqData);
     }
 
     @Test
@@ -216,9 +142,6 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation {
     @Test
     @SuppressWarnings("unchecked")
     public void testMakeRequest_testGetVserverLink() throws Exception {
-        // preload
-        preloadTenantData();
-
         when(rawResponse.readEntity(String.class)).thenReturn(makeCqReply());
         when(webAsync.put(any(), any(InvocationCallback.class))).thenAnswer(provideResponse(rawResponse, 1));
 
@@ -237,24 +160,9 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation {
     }
 
     @Test
-    public void testGetVserverLinkViaProperty() throws Exception {
+    public void testGetVserverLink() throws Exception {
         oper.setProperty(OperationProperties.AAI_VSERVER_LINK, MY_LINK);
         assertEquals(MY_LINK, oper.getVserverLink());
-    }
-
-    @Test
-    public void testGetVserverLinkNoTenantData() throws Exception {
-        assertThatIllegalStateException().isThrownBy(() -> oper.getVserverLink())
-                        .withMessage("cannot perform custom query - cannot determine resource-link");
-    }
-
-    @Test
-    public void testGetVserverLinkNoResourceLink() throws Exception {
-        // pre-load EMPTY tenant data
-        preloadTenantData(new StandardCoderObject());
-
-        assertThatIllegalArgumentException().isThrownBy(() -> oper.getVserverLink())
-                        .withMessage("cannot perform custom query - no resource-link");
     }
 
     @Test
@@ -278,17 +186,6 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation {
         return "{}";
     }
 
-    private StandardCoderObject preloadTenantData() throws Exception {
-        StandardCoderObject data = coder.decode(makeTenantReply(), StandardCoderObject.class);
-        preloadTenantData(data);
-        return data;
-    }
-
-    private void preloadTenantData(StandardCoderObject data) {
-        context.setProperty(AaiGetTenantOperation.getKey(MY_VSERVER), data);
-        context.setProperty(AaiGetTenantOperation.getKey(SIM_VSERVER), data);
-    }
-
     private PolicyResult getResult(CompletableFuture<OperationOutcome> future2)
                     throws InterruptedException, ExecutionException, TimeoutException {
 
@@ -296,26 +193,5 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation {
         assertTrue(future2.isDone());
 
         return future2.get().getResult();
-    }
-
-    protected class MyTenantOperator extends HttpOperator {
-        public MyTenantOperator() {
-            super(AaiConstants.ACTOR_NAME, AaiGetTenantOperation.NAME);
-
-            HttpParams http = HttpParams.builder().clientName(MY_CLIENT).path(PATH).timeoutSec(1).build();
-
-            configure(Util.translateToMap(AaiGetTenantOperation.NAME, http));
-            start();
-        }
-
-        @Override
-        public HttpOperation<?> buildOperation(ControlLoopOperationParams params) {
-            return new AaiGetTenantOperation(params, getCurrentConfig());
-        }
-
-        @Override
-        protected HttpClientFactory getClientFactory() {
-            return factory;
-        }
     }
 }

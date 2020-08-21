@@ -24,7 +24,6 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -65,9 +64,7 @@ import org.slf4j.LoggerFactory;
  * Partial implementation of an operator. In general, it's preferable that subclasses
  * would override {@link #startOperationAsync(int, OperationOutcome)
  * startOperationAsync()}. However, if that proves to be too difficult, then they can
- * simply override {@link #doOperation(int, OperationOutcome) doOperation()}. In addition,
- * if the operation requires any preprocessor steps, the subclass may choose to override
- * {@link #startPreprocessorAsync()}.
+ * simply override {@link #doOperation(int, OperationOutcome) doOperation()}.
  * <p/>
  * The futures returned by the methods within this class can be canceled, and will
  * propagate the cancellation to any subtasks. Thus it is also expected that any futures
@@ -157,153 +154,36 @@ public abstract class OperationPartial implements Operation {
         return (T) properties.get(name);
     }
 
+    /**
+     * Gets a property value, throwing an exception if it's missing.
+     *
+     * @param name property name
+     * @param propertyType property type, used in an error message if the property value
+     *        is {@code null}
+     * @return the property value
+     */
+    @SuppressWarnings("unchecked")
+    protected <T> T getRequiredProperty(String name, String propertyType) {
+        T value = (T) properties.get(name);
+        if (value == null) {
+            throw new IllegalStateException("missing " + propertyType);
+        }
+
+        return value;
+    }
+
     @Override
     public CompletableFuture<OperationOutcome> start() {
         // allocate a controller for the entire operation
         final PipelineControllerFuture<OperationOutcome> controller = new PipelineControllerFuture<>();
 
-        CompletableFuture<OperationOutcome> preproc = startPreprocessorAsync();
-        if (preproc == null) {
-            // no preprocessor required - just start the operation
-            return startOperationAttempt(controller, 1);
-        }
-
-        /*
-         * Do preprocessor first and then, if successful, start the operation. Note:
-         * operations create their own outcome, ignoring the outcome from any previous
-         * steps.
-         *
-         * Wrap the preprocessor to ensure "stop" is propagated to it.
-         */
-        // @formatter:off
-        controller.wrap(preproc)
-                        .exceptionally(fromException("preprocessor of operation"))
-                        .thenCompose(handlePreprocessorFailure(controller))
-                        .thenCompose(unusedOutcome -> startOperationAttempt(controller, 1))
-                        .whenCompleteAsync(controller.delayedComplete(), params.getExecutor());
-        // @formatter:on
-
-        return controller;
+        // start attempt #1
+        return startOperationAttempt(controller, 1);
     }
 
     /**
-     * Handles a failure in the preprocessor pipeline. If a failure occurred, then it
-     * invokes the call-backs, marks the controller complete, and returns an incomplete
-     * future, effectively halting the pipeline. Otherwise, it returns the outcome that it
-     * received.
-     * <p/>
-     * Assumes that no callbacks have been invoked yet.
-     *
-     * @param controller pipeline controller
-     * @return a function that checks the outcome status and continues, if successful, or
-     *         indicates a failure otherwise
-     */
-    private Function<OperationOutcome, CompletableFuture<OperationOutcome>> handlePreprocessorFailure(
-                    PipelineControllerFuture<OperationOutcome> controller) {
-
-        return outcome -> {
-
-            if (isSuccess(outcome)) {
-                logger.info("{}: preprocessor succeeded for {}", getFullName(), params.getRequestId());
-                return CompletableFuture.completedFuture(outcome);
-            }
-
-            logger.warn("preprocessor failed, discontinuing operation {} for {}", getFullName(), params.getRequestId());
-
-            final Executor executor = params.getExecutor();
-            final CallbackManager callbacks = new CallbackManager();
-
-            // propagate "stop" to the callbacks
-            controller.add(callbacks);
-
-            final OperationOutcome outcome2 = params.makeOutcome(getTargetEntity());
-
-            // TODO need a FAILURE_MISSING_DATA (e.g., A&AI)
-
-            outcome2.setFinalOutcome(true);
-            outcome2.setResult(PolicyResult.FAILURE_GUARD);
-            outcome2.setMessage(outcome != null ? outcome.getMessage() : null);
-
-            // @formatter:off
-            CompletableFuture.completedFuture(outcome2)
-                            .whenCompleteAsync(callbackStarted(callbacks), executor)
-                            .whenCompleteAsync(callbackCompleted(callbacks), executor)
-                            .whenCompleteAsync(controller.delayedComplete(), executor);
-            // @formatter:on
-
-            return new CompletableFuture<>();
-        };
-    }
-
-    /**
-     * Invokes the operation's preprocessor step(s) as a "future". This method simply
-     * returns {@code null}.
-     * <p/>
-     * This method assumes the following:
-     * <ul>
-     * <li>the operator is alive</li>
-     * <li>exceptions generated within the pipeline will be handled by the invoker</li>
-     * </ul>
-     *
-     * @return a function that will start the preprocessor and returns its outcome, or
-     *         {@code null} if this operation needs no preprocessor
-     */
-    protected CompletableFuture<OperationOutcome> startPreprocessorAsync() {
-        return null;
-    }
-
-    /**
-     * Invokes the operation's guard step(s) as a "future".
-     * <p/>
-     * This method assumes the following:
-     * <ul>
-     * <li>the operator is alive</li>
-     * <li>exceptions generated within the pipeline will be handled by the invoker</li>
-     * </ul>
-     *
-     * @return a function that will start the guard checks and returns its outcome, or
-     *         {@code null} if this operation has no guard
-     */
-    protected CompletableFuture<OperationOutcome> startGuardAsync() {
-        if (params.isPreprocessed()) {
-            return null;
-        }
-
-        // get the guard payload
-        Map<String, Object> payload = makeGuardPayload();
-
-        /*
-         * Note: can't use constants from actor.guard, because that would create a
-         * circular dependency.
-         */
-        return params.toBuilder().actor(GUARD_ACTOR_NAME).operation(GUARD_OPERATION_NAME).retry(null).timeoutSec(null)
-                        .payload(payload).build().start();
-    }
-
-    /**
-     * Creates a payload to execute a guard operation.
-     *
-     * @return a new guard payload
-     */
-    protected Map<String, Object> makeGuardPayload() {
-        // TODO delete this once preprocessing is done by the application
-        Map<String, Object> guard = new LinkedHashMap<>();
-        guard.put("actor", params.getActor());
-        guard.put("operation", params.getOperation());
-        guard.put("target", getTargetEntity());
-        guard.put("requestId", params.getRequestId());
-
-        String clname = params.getContext().getEvent().getClosedLoopControlName();
-        if (clname != null) {
-            guard.put("clname", clname);
-        }
-
-        return guard;
-    }
-
-    /**
-     * Starts the operation attempt, with no preprocessor. When all retries complete, it
-     * will complete the controller.
+     * Starts the operation attempt. When all retries complete, it will complete the
+     * controller.
      *
      * @param controller controller for all operation attempts
      * @param attempt attempt number, typically starting with 1

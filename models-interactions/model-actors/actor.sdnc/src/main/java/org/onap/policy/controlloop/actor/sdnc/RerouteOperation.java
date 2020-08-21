@@ -57,14 +57,14 @@ public class RerouteOperation extends SdncOperation {
 
     @Override
     protected SdncRequest makeRequest(int attempt) {
-        String serviceInstance = getOptProperty(OperationProperties.ENRICHMENT_SERVICE_ID, SERVICE_ID_KEY);
+        String serviceInstance = getProperty(OperationProperties.ENRICHMENT_SERVICE_ID);
         if (StringUtils.isBlank(serviceInstance)) {
             throw new IllegalArgumentException("missing enrichment data, " + SERVICE_ID_KEY);
         }
         SdncHealServiceInfo serviceInfo = new SdncHealServiceInfo();
         serviceInfo.setServiceInstanceId(serviceInstance);
 
-        String networkId = getOptProperty(OperationProperties.ENRICHMENT_NETWORK_ID, NETWORK_ID_KEY);
+        String networkId = getProperty(OperationProperties.ENRICHMENT_NETWORK_ID);
         if (StringUtils.isBlank(networkId)) {
             throw new IllegalArgumentException("missing enrichment data, " + NETWORK_ID_KEY);
         }

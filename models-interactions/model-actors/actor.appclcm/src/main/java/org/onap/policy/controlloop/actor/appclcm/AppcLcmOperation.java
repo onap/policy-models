@@ -22,7 +22,6 @@ package org.onap.policy.controlloop.actor.appclcm;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 import org.onap.policy.appclcm.AppcLcmBody;
 import org.onap.policy.appclcm.AppcLcmCommonHeader;
 import org.onap.policy.appclcm.AppcLcmDmaapWrapper;
@@ -64,15 +63,6 @@ public class AppcLcmOperation extends BidirectionalTopicOperation<AppcLcmDmaapWr
      */
     public AppcLcmOperation(ControlLoopOperationParams params, BidirectionalTopicConfig config) {
         super(params, config, AppcLcmDmaapWrapper.class, PROPERTY_NAMES);
-    }
-
-    /**
-     * Ensures that A&AI customer query has been performed, and then runs the guard query.
-     * Starts the GUARD using startGuardAsync.
-     */
-    @Override
-    protected CompletableFuture<OperationOutcome> startPreprocessorAsync() {
-        return startGuardAsync();
     }
 
     @Override

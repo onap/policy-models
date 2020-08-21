@@ -29,20 +29,15 @@ import javax.ws.rs.client.Invocation.Builder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import org.apache.commons.lang3.StringUtils;
-import org.onap.policy.aai.AaiConstants;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
-import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.controlloop.policy.PolicyResult;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * A&AI Custom Query. Stores the {@link AaiCqResponse} in the context. In addition, if the
@@ -51,8 +46,6 @@ import org.slf4j.LoggerFactory;
  * applies to the vserver, thus the target entity may be set to an empty string.
  */
 public class AaiCustomQueryOperation extends HttpOperation<String> {
-    private static final Logger logger = LoggerFactory.getLogger(AaiCustomQueryOperation.class);
-
     public static final String NAME = AaiCqResponse.OPERATION;
 
     public static final String VSERVER_VSERVER_NAME = "vserver.vserver-name";
@@ -60,9 +53,6 @@ public class AaiCustomQueryOperation extends HttpOperation<String> {
     public static final String RESULT_DATA = "result-data";
 
     private static final List<String> PROPERTY_NAMES = List.of(OperationProperties.AAI_VSERVER_LINK);
-
-    // TODO make this configurable
-    private static final String PREFIX = "/aai/v16";
 
     /**
      * Constructs the object.
@@ -72,37 +62,6 @@ public class AaiCustomQueryOperation extends HttpOperation<String> {
      */
     public AaiCustomQueryOperation(ControlLoopOperationParams params, HttpConfig config) {
         super(params, config, String.class, PROPERTY_NAMES);
-    }
-
-    /**
-     * Gets the vserver name from the enrichment data.
-     *
-     * @return the vserver name
-     */
-    protected String getVserver() {
-        String vserver = this.params.getContext().getEnrichment().get(VSERVER_VSERVER_NAME);
-        if (StringUtils.isBlank(vserver)) {
-            throw new IllegalArgumentException("missing " + VSERVER_VSERVER_NAME + " in enrichment data");
-        }
-
-        return vserver;
-    }
-
-    /**
-     * Queries the vserver, if necessary.
-     */
-    @Override
-    protected CompletableFuture<OperationOutcome> startPreprocessorAsync() {
-        if (params.isPreprocessed()) {
-            return null;
-        }
-
-        String vserver = getVserver();
-        ControlLoopOperationParams tenantParams =
-                        params.toBuilder().actor(AaiConstants.ACTOR_NAME).operation(AaiGetTenantOperation.NAME)
-                                        .targetEntity(vserver).payload(null).retry(null).timeoutSec(null).build();
-
-        return params.getContext().obtain(AaiGetTenantOperation.getKey(vserver), tenantParams);
     }
 
     @Override
@@ -162,24 +121,7 @@ public class AaiCustomQueryOperation extends HttpOperation<String> {
      * @return the vserver link
      */
     protected String getVserverLink() {
-        String resourceLink = getProperty(OperationProperties.AAI_VSERVER_LINK);
-        if (resourceLink != null) {
-            return resourceLink;
-        }
-
-        String vserver = getVserver();
-        StandardCoderObject tenant = params.getContext().getProperty(AaiGetTenantOperation.getKey(vserver));
-        if (tenant == null) {
-            throw new IllegalStateException("cannot perform custom query - cannot determine resource-link");
-        }
-
-        resourceLink = tenant.getString(RESULT_DATA, 0, RESOURCE_LINK);
-        if (resourceLink == null) {
-            throw new IllegalArgumentException("cannot perform custom query - no resource-link");
-        }
-
-        resourceLink = resourceLink.replace(PREFIX, "");
-        return resourceLink;
+        return getRequiredProperty(OperationProperties.AAI_VSERVER_LINK, "vserver link");
     }
 
     @Override
@@ -198,20 +140,5 @@ public class AaiCustomQueryOperation extends HttpOperation<String> {
         }
 
         return outcome;
-    }
-
-    /**
-     * Injects the response into the context.
-     */
-    @Override
-    protected CompletableFuture<OperationOutcome> postProcessResponse(OperationOutcome outcome, String url,
-                    Response rawResponse, String response) {
-
-        if (params.getContext() != null) {
-            logger.info("{}: caching response for {}", getFullName(), params.getRequestId());
-            params.getContext().setProperty(AaiCqResponse.CONTEXT_KEY, new AaiCqResponse(response));
-        }
-
-        return super.postProcessResponse(outcome, url, rawResponse, response);
     }
 }

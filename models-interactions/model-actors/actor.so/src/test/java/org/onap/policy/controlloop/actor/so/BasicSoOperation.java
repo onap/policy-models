@@ -20,7 +20,6 @@
 
 package org.onap.policy.controlloop.actor.so;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.util.Collections;
@@ -29,7 +28,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import org.mockito.Mock;
-import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.common.endpoints.event.comm.bus.internal.BusTopicParams;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
@@ -169,10 +167,5 @@ public abstract class BasicSoOperation extends BasicHttpOperation {
         payload.put(SoOperation.CONFIG_PARAM_NM, Util.translate("", config, String.class));
 
         return payload;
-    }
-
-    protected AaiCqResponse makeCqResponse() {
-        when(cqResponse.getVfModuleCount(any(), any(), any())).thenReturn(VF_COUNT);
-        return cqResponse;
     }
 }
