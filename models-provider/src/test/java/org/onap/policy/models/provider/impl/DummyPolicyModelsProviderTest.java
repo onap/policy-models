@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +40,6 @@ import org.onap.policy.models.provider.PolicyModelsProviderParameters;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
-import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
 
 /**
  * Test the dummy models provider implementation.
@@ -48,7 +48,6 @@ import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
  */
 public class DummyPolicyModelsProviderTest {
 
-    private static final String POLICY_ID = "policy_id";
     private static final String VERSION = "version";
 
     @Test
@@ -95,11 +94,6 @@ public class DummyPolicyModelsProviderTest {
         assertNotNull(dummyProvider.createPolicies(new ToscaServiceTemplate()));
         assertNotNull(dummyProvider.updatePolicies(new ToscaServiceTemplate()));
         assertNotNull(dummyProvider.deletePolicy("name", VERSION));
-
-        assertNotNull(dummyProvider.getOperationalPolicy(POLICY_ID, "1"));
-        assertNotNull(dummyProvider.createOperationalPolicy(new LegacyOperationalPolicy()));
-        assertNotNull(dummyProvider.updateOperationalPolicy(new LegacyOperationalPolicy()));
-        assertNotNull(dummyProvider.deleteOperationalPolicy(POLICY_ID, "1"));
 
         assertTrue(dummyProvider.getPdpGroups("name").isEmpty());
         assertTrue(dummyProvider.getFilteredPdpGroups(PdpGroupFilter.builder().build()).isEmpty());

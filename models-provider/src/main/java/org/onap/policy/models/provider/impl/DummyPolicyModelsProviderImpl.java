@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +42,6 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
-import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
 
 /**
  * This class provides a dummy implementation of the Policy Models Provider for the ONAP Policy Framework.
@@ -137,31 +137,6 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
     @Override
     public ToscaServiceTemplate deletePolicy(final String name, final String version) throws PfModelException {
         return getDummyResponse("dummyimpl/DummyToscaPolicyDeleteResponse.json");
-    }
-
-    @Override
-
-    public LegacyOperationalPolicy getOperationalPolicy(final String policyId, final String policyVersion)
-            throws PfModelException {
-        return new LegacyOperationalPolicy();
-    }
-
-    @Override
-    public LegacyOperationalPolicy createOperationalPolicy(final LegacyOperationalPolicy legacyOperationalPolicy)
-            throws PfModelException {
-        return legacyOperationalPolicy;
-    }
-
-    @Override
-    public LegacyOperationalPolicy updateOperationalPolicy(final LegacyOperationalPolicy legacyOperationalPolicy)
-            throws PfModelException {
-        return legacyOperationalPolicy;
-    }
-
-    @Override
-    public LegacyOperationalPolicy deleteOperationalPolicy(final String policyId, final String policyVersion)
-            throws PfModelException {
-        return new LegacyOperationalPolicy();
     }
 
     @Override

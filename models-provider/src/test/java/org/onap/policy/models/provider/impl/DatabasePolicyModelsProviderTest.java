@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,7 +49,6 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifier;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifier;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
-import org.onap.policy.models.tosca.legacy.concepts.LegacyOperationalPolicy;
 
 /**
  * Test the database models provider implementation.
@@ -60,8 +60,6 @@ public class DatabasePolicyModelsProviderTest {
 
     private static final String TEMPLATE_IS_NULL = "^serviceTemplate is marked .*on.*ull but is null$";
 
-    private static final String POLICY_ID_IS_NULL = "^policyId is marked .*on.*ull but is null$";
-
     private static final String SUBGROUP_IS_NULL = "^pdpSubGroup is marked .*on.*ull but is null$";
 
     private static final String GROUP_IS_NULL = "^pdpGroupName is marked .*on.*ull but is null$";
@@ -69,8 +67,6 @@ public class DatabasePolicyModelsProviderTest {
     private static final String NAME_IS_NULL = "^name is marked .*on.*ull but is null$";
 
     private static final String FILTER_IS_NULL = "^filter is marked .*on.*ull but is null$";
-
-    private static final String POLICY_ID = "policy_id";
 
     private static final String GROUP = "group";
 
@@ -193,38 +189,6 @@ public class DatabasePolicyModelsProviderTest {
         assertThatThrownBy(() -> {
             databaseProvider.deletePolicy("aaa", null);
         }).hasMessageMatching("^version is marked .*on.*ull but is null$");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.getOperationalPolicy(null, null);
-        }).hasMessageMatching(POLICY_ID_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            databaseProvider.getOperationalPolicy(null, "");
-        }).hasMessageMatching(POLICY_ID_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            databaseProvider.getOperationalPolicy("", null);
-        }).hasMessage("service template not found in database");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.createOperationalPolicy(null);
-        }).hasMessageMatching("^legacyOperationalPolicy is marked .*on.*ull but is null$");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updateOperationalPolicy(null);
-        }).hasMessageMatching("^legacyOperationalPolicy is marked .*on.*ull but is null$");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.deleteOperationalPolicy(null, null);
-        }).hasMessageMatching(POLICY_ID_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            databaseProvider.deleteOperationalPolicy(null, "");
-        }).hasMessageMatching(POLICY_ID_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            databaseProvider.deleteOperationalPolicy("", null);
-        }).hasMessageMatching("^policyVersion is marked .*on.*ull but is null$");
 
         assertThatThrownBy(() -> {
             databaseProvider.getFilteredPdpGroups(null);
@@ -367,26 +331,6 @@ public class DatabasePolicyModelsProviderTest {
 
         assertThatThrownBy(() -> databaseProvider.deletePolicy("Policy", "0.0.0").getToscaTopologyTemplate())
             .hasMessage("service template not found in database");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.getOperationalPolicy(POLICY_ID, null);
-        }).hasMessage("service template not found in database");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.getOperationalPolicy(POLICY_ID, "10");
-        }).hasMessage("service template not found in database");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.createOperationalPolicy(new LegacyOperationalPolicy());
-        }).hasMessageMatching(NAME_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updateOperationalPolicy(new LegacyOperationalPolicy());
-        }).hasMessageMatching(NAME_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            databaseProvider.deleteOperationalPolicy(POLICY_ID, "55");
-        }).hasMessage("service template not found in database");
 
         assertEquals(0, databaseProvider.getPdpGroups(NAME).size());
         assertEquals(0, databaseProvider.getFilteredPdpGroups(PdpGroupFilter.builder().build()).size());
