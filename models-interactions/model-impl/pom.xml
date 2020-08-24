@@ -45,7 +45,6 @@
       <module>events</module>
       <module>guard</module>
       <module>rest</module>
-      <module>sdc</module>
       <module>sdnc</module>
       <module>sdnr</module>
       <module>so</module>

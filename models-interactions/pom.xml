@@ -36,7 +36,6 @@
 
   <modules>
       <module>model-simulators</module>
-      <module>model-yaml</module>
       <module>model-impl</module>
       <module>model-actors</module>
   </modules>
