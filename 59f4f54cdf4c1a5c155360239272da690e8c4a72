@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9211026_3e610238",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/Validated.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-25T20:07:01Z",
+      "side": 1,
+      "message": "Using PfKey vs PfConceptKey?",
+      "range": {
+        "startLine": 75,
+        "startChar": 12,
+        "endLine": 75,
+        "endChar": 18
+      },
+      "revId": "59f4f54cdf4c1a5c155360239272da690e8c4a72",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}

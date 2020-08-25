@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04b64e8d_61d2ba09",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-25T20:07:01Z",
+      "side": 0,
+      "message": "So this will register as not a security risk? I think that\u0027s why it was added.",
+      "range": {
+        "startLine": 559,
+        "startChar": 106,
+        "endLine": 559,
+        "endChar": 118
+      },
+      "revId": "43aaa62cdf9a7dadfb6d688f1fe83c5bd355a86d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
