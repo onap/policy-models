@@ -22,6 +22,30 @@
       "revId": "43aaa62cdf9a7dadfb6d688f1fe83c5bd355a86d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e511dbcf_814a2274",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-25T20:11:23Z",
+      "side": 0,
+      "message": "not sure.  It doesn\u0027t trigger a sonar in my eclipse, so thought I\u0027d try without it.  If it reports it in sonar cloud, then I\u0027ll add it back in.",
+      "parentUuid": "04b64e8d_61d2ba09",
+      "range": {
+        "startLine": 559,
+        "startChar": 106,
+        "endLine": 559,
+        "endChar": 118
+      },
+      "revId": "43aaa62cdf9a7dadfb6d688f1fe83c5bd355a86d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }

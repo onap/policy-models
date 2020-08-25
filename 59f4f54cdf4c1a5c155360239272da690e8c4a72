@@ -22,6 +22,30 @@
       "revId": "59f4f54cdf4c1a5c155360239272da690e8c4a72",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fa396c0_4950ab6e",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/Validated.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-25T20:11:23Z",
+      "side": 1,
+      "message": "Yes, the constant is defined if PfKey, thus sonar complains if PfConceptKey is used instead.",
+      "parentUuid": "e9211026_3e610238",
+      "range": {
+        "startLine": 75,
+        "startChar": 12,
+        "endLine": 75,
+        "endChar": 18
+      },
+      "revId": "59f4f54cdf4c1a5c155360239272da690e8c4a72",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
