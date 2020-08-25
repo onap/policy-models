@@ -552,11 +552,7 @@ public class DefaultPfDao implements PfDao {
         final EntityManager mg = getEntityManager();
         long size = 0;
         try {
-            /*
-             * Concatenation should be safe because the class name should be safe, thus
-             * disabling sonar.
-             */
-            size = mg.createQuery("SELECT COUNT(c) FROM " + someClass.getSimpleName() + " c", Long.class)   // NOSONAR
+            size = mg.createQuery("SELECT COUNT(c) FROM " + someClass.getSimpleName() + " c", Long.class)
                     .getSingleResult();
         } finally {
             mg.close();

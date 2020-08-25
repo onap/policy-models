@@ -139,8 +139,8 @@ public class PfKeyImplTest {
         assertEquals(-36, someKey0.compareTo(new DummyPfKey()));
 
         assertNotEquals(someKey0, null);
-        assertEquals(someKey0, someKey0);
-        assertNotEquals(someKey0, new DummyPfKey());
+        assertEquals(someKey0, (Object) someKey0);
+        assertNotEquals(someKey0, (Object) new DummyPfKey());
 
         MyKey someKey8 = new MyKey();
         someKey8.setVersion(VERSION001);

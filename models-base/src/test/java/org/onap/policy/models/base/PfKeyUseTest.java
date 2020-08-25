@@ -73,7 +73,7 @@ public class PfKeyUseTest {
 
         assertNotEquals(0, keyUse.hashCode());
 
-        assertEquals(keyUse, keyUse);
+        assertEquals(keyUse, (Object) keyUse);
         assertEquals(keyUse, clonedKeyUse);
         assertNotEquals(keyUse, (Object) "Hello");
         assertEquals(keyUse, new PfKeyUse(key));

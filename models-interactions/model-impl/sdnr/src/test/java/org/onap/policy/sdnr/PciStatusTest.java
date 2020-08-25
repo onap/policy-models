@@ -50,13 +50,10 @@ public class PciStatusTest {
         copiedStatus.setCode(status.getCode());
         copiedStatus.setValue(status.getValue());
 
-        /*
-         * Disabling sonar to test equals().
-         */
-        assertEquals(status, status);           // NOSONAR
+        assertEquals(status, (Object) status);
         assertEquals(status, copiedStatus);
         assertNotEquals(status, null);
-        assertNotEquals(status, "Hello");       // NOSONAR
+        assertNotEquals(status, (Object) "Hello");
 
         status.setCode(-1);
         assertNotEquals(status, copiedStatus);

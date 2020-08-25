@@ -72,16 +72,10 @@ public class SoResponseWrapperTest {
 
         SoResponseWrapper identicalResponseWrapper = new SoResponseWrapper(response, requestId);
 
-        /*
-         * Disabling sonar because we are purposely checking various branches of the
-         * equals() method.
-         */
-        assertEquals(responseWrapper,  responseWrapper);        // NOSONAR
+        assertEquals(responseWrapper,  (Object) responseWrapper);
         assertEquals(responseWrapper,  identicalResponseWrapper);
-        assertNotEquals(null, responseWrapper);
-        assertNotEquals("Hello", responseWrapper);              // NOSONAR
         assertNotEquals(responseWrapper, null);
-        assertNotEquals(responseWrapper, "AString");            // NOSONAR
+        assertNotEquals(responseWrapper, (Object) "AString");
 
         assertEquals(new SoResponseWrapper(null, null), new SoResponseWrapper(null, null));
         assertNotEquals(new SoResponseWrapper(null, null), identicalResponseWrapper);

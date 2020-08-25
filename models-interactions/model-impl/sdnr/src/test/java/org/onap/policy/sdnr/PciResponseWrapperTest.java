@@ -49,13 +49,10 @@ public class PciResponseWrapperTest {
         PciResponseWrapper copiedPciResponseWrapper = new PciResponseWrapper();
         copiedPciResponseWrapper.setBody(responseWrapper.getBody());
 
-        /*
-         * Disabling sonar to test equals().
-         */
-        assertEquals(responseWrapper, responseWrapper);                 // NOSONAR
+        assertEquals(responseWrapper, (Object) responseWrapper);
         //assertEquals(responseWrapper, copiedPciResponseWrapper);
         assertNotEquals(responseWrapper, null);
-        assertNotEquals(responseWrapper, "Hello");                      // NOSONAR
+        assertNotEquals(responseWrapper, (Object) "Hello");
 
         responseWrapper.setBody(null);
         assertNotEquals(responseWrapper, copiedPciResponseWrapper);

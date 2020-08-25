@@ -67,13 +67,10 @@ public class ResponseTest {
         copiedResponse.setStatus(response.getStatus());
         copiedResponse.setPayload(response.getPayload());
 
-        /*
-         * Disabling sonar to test equals().
-         */
-        assertEquals(response, response);           // NOSONAR
+        assertEquals(response, (Object) response);
         assertEquals(response, copiedResponse);
         assertNotEquals(response, null);
-        assertNotEquals(response, "Hello");         // NOSONAR
+        assertNotEquals(response, (Object) "Hello");
 
         response.setCommonHeader(null);
         assertNotEquals(response, copiedResponse);

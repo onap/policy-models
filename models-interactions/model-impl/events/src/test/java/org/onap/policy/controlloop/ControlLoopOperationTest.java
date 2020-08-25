@@ -35,11 +35,8 @@ public class ControlLoopOperationTest {
     public void test() {
         ControlLoopOperation operation = new ControlLoopOperation();
 
-        /*
-         * Disabling sonar to test equals().
-         */
-        assertEquals(operation, operation);         // NOSONAR
-        assertNotEquals(operation, "");             // NOSONAR
+        assertEquals(operation, (Object) operation);
+        assertNotEquals(operation, (Object) "");
         assertNotEquals(operation, null);
 
         assertNotEquals(0, operation.hashCode());
