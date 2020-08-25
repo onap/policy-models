@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61,7 +62,7 @@ public class JpaToscaServiceTemplates extends PfConceptContainer<JpaToscaService
      * @param key the concept key
      */
     public JpaToscaServiceTemplates(final PfConceptKey key) {
-        super(key, new TreeMap<PfConceptKey, JpaToscaServiceTemplate>());
+        super(key, new TreeMap<>());
     }
 
     /**

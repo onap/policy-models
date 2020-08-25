@@ -59,13 +59,10 @@ public class PciRequestTest {
         copiedPciRequest.setAction(request.getAction());
         copiedPciRequest.setPayload(request.getPayload());
 
-        /*
-         * Disabling sonar to test equals().
-         */
-        assertEquals(request, request);             // NOSONAR
+        assertEquals(request, (Object) request);
         assertEquals(request, copiedPciRequest);
         assertNotEquals(request, null);
-        assertNotEquals(request, "Hello");          // NOSONAR
+        assertNotEquals(request, (Object) "Hello");
 
         request.setCommonHeader(null);
         assertNotEquals(request, copiedPciRequest);

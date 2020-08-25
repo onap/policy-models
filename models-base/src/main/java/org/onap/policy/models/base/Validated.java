@@ -1,6 +1,6 @@
 /*
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -70,14 +70,13 @@ public class Validated {
      * @param result where to place the result
      * @return the result
      */
-    @SuppressWarnings("java:S3252") // squelch sonar warning for using PkConceptKey instead of PfKeyImpl
     public PfValidationResult validateNotNull(@NonNull PfConceptKey value, @NonNull PfValidationResult result) {
 
-        if (PfConceptKey.NULL_KEY_NAME.equals(value.getName())) {
+        if (PfKey.NULL_KEY_NAME.equals(value.getName())) {
             addError(value, "name", result, "null");
         }
 
-        if (PfConceptKey.NULL_KEY_VERSION.equals(value.getVersion())) {
+        if (PfKey.NULL_KEY_VERSION.equals(value.getVersion())) {
             addError(value, "version", result, "null");
         }
 

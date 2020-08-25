@@ -113,7 +113,7 @@ public class SoRequestDetailsTest {
 
         SoRequestDetails copiedDetails = new SoRequestDetails(details);
 
-        assertEquals(details, details);
+        assertEquals(details, (Object) details);
         assertEquals(details, copiedDetails);
         assertNotEquals(details, null);
         assertNotEquals(details, (Object) "Hello");

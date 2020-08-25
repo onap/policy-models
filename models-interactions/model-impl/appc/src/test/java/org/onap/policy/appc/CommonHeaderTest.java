@@ -83,13 +83,10 @@ public class CommonHeaderTest {
         copiedCommonHeader.setSubRequestId(commonHeader.getSubRequestId());
         copiedCommonHeader.setTimeStamp(commonHeader.getTimeStamp());
 
-        /*
-         * Disabling sonar to test equals().
-         */
-        assertEquals(commonHeader, commonHeader);           // NOSONAR
+        assertEquals(commonHeader, (Object) commonHeader);
         assertEquals(commonHeader, copiedCommonHeader);
         assertNotEquals(commonHeader, null);
-        assertNotEquals(commonHeader, "Hello");             // NOSONAR
+        assertNotEquals(commonHeader, (Object) "Hello");
 
         CommonHeader clonedCommonHeader = new CommonHeader(commonHeader);
         clonedCommonHeader.setApiVer(commonHeader.getApiVer());

@@ -106,7 +106,7 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
      * @param key the concept key
      */
     public PfConceptContainer(@NonNull final PfConceptKey key) {
-        this(key, new TreeMap<PfConceptKey, C>());
+        this(key, new TreeMap<>());
     }
 
     /**
