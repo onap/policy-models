@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2020 Wipro Limited.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -76,13 +77,14 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
     public static final String CONFIG_PARAM_NM = "configurationParameters";
 
     // values extracted from the parameter Target
-    private final String modelCustomizationId;
-    private final String modelInvariantId;
-    private final String modelVersionId;
-    private final String modelName;
-    private final String modelVersion;
+    private String modelCustomizationId;
+    private String modelInvariantId;
+    private String modelVersionId;
+    private String modelName;
+    private String modelVersion;
 
-    private final String vfCountKey;
+
+    private String vfCountKey;
 
 
     /**
@@ -95,25 +97,36 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
     public SoOperation(ControlLoopOperationParams params, HttpPollingConfig config, List<String> propertyNames) {
         super(params, config, SoResponse.class, propertyNames);
 
-        setUsePolling();
-
         verifyNotNull("Target information", params.getTargetType());
+    }
 
-        verifyNotNull("Target entity Ids information", params.getTargetEntityIds());
+    /**
+     * Constructs the object.
+     *
+     * @param params operation parameters
+     * @param config configuration for this operation
+     * @param propertyNames names of properties required by this operation
+     * @param targetEntityIds Target Entity information
+     */
+    public SoOperation(ControlLoopOperationParams params, HttpPollingConfig config, List<String> propertyNames,
+                       Map<String, String> targetEntityIds) {
+        this(params, config, propertyNames);
 
-        this.modelCustomizationId = params.getTargetEntityIds()
+        verifyNotNull("Target entity Ids information", targetEntityIds);
+
+        this.modelCustomizationId = targetEntityIds
                 .get(ControlLoopOperationParams.PARAMS_ENTITY_MODEL_CUSTOMIZATION_ID);
-        this.modelInvariantId = params.getTargetEntityIds()
+        this.modelInvariantId = targetEntityIds
                 .get(ControlLoopOperationParams.PARAMS_ENTITY_MODEL_INVARIANT_ID);
-        this.modelVersionId = params.getTargetEntityIds()
+        this.modelVersionId = targetEntityIds
                 .get(ControlLoopOperationParams.PARAMS_ENTITY_MODEL_VERSION_ID);
-        this.modelVersion = params.getTargetEntityIds()
+        this.modelVersion = targetEntityIds
                 .get(ControlLoopOperationParams.PARAMS_ENTITY_MODEL_VERSION);
-        this.modelName = params.getTargetEntityIds()
+        this.modelName = targetEntityIds
                 .get(ControlLoopOperationParams.PARAMS_ENTITY_MODEL_NAME);
 
-        vfCountKey = SoConstants.VF_COUNT_PREFIX + "[" + modelCustomizationId + "][" + modelInvariantId + "]["
-                        + modelVersionId + "]";
+        this.vfCountKey = SoConstants.VF_COUNT_PREFIX + "[" + modelCustomizationId + "][" + modelInvariantId + "]["
+                + modelVersionId + "]";
     }
 
     @Override

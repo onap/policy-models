@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2020 Wipro Limited.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -179,6 +180,7 @@ public class VfModuleDeleteTest extends BasicSoOperation {
     public void testConstructor() {
         assertEquals(DEFAULT_ACTOR, oper.getActorName());
         assertEquals(VfModuleDelete.NAME, oper.getName());
+        assertTrue(oper.isUsePolling());
 
         // verify that target validation is done
         params = params.toBuilder().targetType(null).build();
