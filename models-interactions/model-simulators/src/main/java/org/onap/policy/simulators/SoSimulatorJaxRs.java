@@ -4,6 +4,7 @@
  * ================================================================================
  * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2020 Wipro Limited.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +32,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -38,6 +40,7 @@ import javax.ws.rs.core.MediaType;
 import lombok.Setter;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.so.SoRequest;
+import org.onap.policy.so.SoRequest3gpp;
 
 @Path("/")
 public class SoSimulatorJaxRs {
@@ -121,6 +124,14 @@ public class SoSimulatorJaxRs {
         } else {
             return makeComplete(requestId);
         }
+    }
+
+    @PUT
+    @Path("/3gppservices/v7/modify")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces("application/json")
+    public String soPost3gpp(@ApiParam(required = true) SoRequest3gpp request) {
+        return ResourceUtils.getResourceAsString("org/onap/policy/simulators/so/so.3gpp.success.json");
     }
 
     private String makeStarted() {
