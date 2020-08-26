@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2020 Wipro Limited.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -62,6 +63,9 @@ import org.onap.policy.so.SoRequest;
 import org.onap.policy.so.SoResponse;
 
 public class VfModuleCreateTest extends BasicSoOperation {
+
+    private static final String VF_COUNT_KEY = SoConstants.VF_COUNT_PREFIX
+            + "[my-model-customization-id][my-model-invariant-id][my-model-version-id]";
     private static final String MODEL_NAME2 = "my-model-name-B";
     private static final String MODEL_VERS2 = "my-model-version-B";
     private static final String SVC_INSTANCE_ID = "my-service-instance-id";
@@ -157,6 +161,7 @@ public class VfModuleCreateTest extends BasicSoOperation {
     public void testConstructor() {
         assertEquals(DEFAULT_ACTOR, oper.getActorName());
         assertEquals(VfModuleCreate.NAME, oper.getName());
+        assertTrue(oper.isUsePolling());
 
         // verify that target validation is done
         params = params.toBuilder().target(null).build();
@@ -336,5 +341,72 @@ public class VfModuleCreateTest extends BasicSoOperation {
         modelVers.setModelVersion(MODEL_VERS2);
 
         params.getContext().setProperty(AaiCqResponse.CONTEXT_KEY, cq);
+    }
+
+    @Test
+    public void testObtainVfCount_testGetVfCount_testSetVfCount() throws Exception {
+        // insert CQ data so it's there for the check
+        context.setProperty(AaiCqResponse.CONTEXT_KEY, makeCqResponse());
+
+        // shouldn't actually need to do anything
+        assertNull(oper.obtainVfCount());
+
+        // verify that the count was stored
+        Integer vfcount = context.getProperty(VF_COUNT_KEY);
+        assertEquals(VF_COUNT, vfcount);
+        assertEquals(VF_COUNT.intValue(), oper.getVfCount());
+
+        // change the count and then verify that it isn't overwritten by another call
+        oper.setVfCount(VF_COUNT + 1);
+
+        assertNull(oper.obtainVfCount());
+        vfcount = context.getProperty(VF_COUNT_KEY);
+        assertEquals(VF_COUNT + 1, vfcount.intValue());
+        assertEquals(VF_COUNT + 1, oper.getVfCount());
+    }
+
+    /**
+     * Tests the VF Count methods when properties are being used.
+     * @throws Exception if an error occurs
+     */
+    @Test
+    public void testGetVfCount_testSetVfCount_ViaProperties() throws Exception {
+        oper.setProperty(OperationProperties.DATA_VF_COUNT, VF_COUNT);
+
+        // verify that the count was stored
+        assertEquals(VF_COUNT.intValue(), oper.getVfCount());
+
+        oper.setVfCount(VF_COUNT + 1);
+
+        int count = oper.getProperty(OperationProperties.DATA_VF_COUNT);
+        assertEquals(VF_COUNT + 1, count);
+        assertEquals(VF_COUNT + 1, oper.getVfCount());
+    }
+
+    /**
+     * Tests obtainVfCount() when it actually has to query.
+     */
+    @Test
+    public void testObtainVfCountQuery() throws Exception {
+        params.getContext().removeProperty(AaiCqResponse.CONTEXT_KEY);
+        CompletableFuture<OperationOutcome> future2 = oper.obtainVfCount();
+        assertNotNull(future2);
+        assertTrue(executor.runAll(100));
+
+        // not done yet
+        assertFalse(future2.isDone());
+
+        provideCqResponse(makeCqResponse());
+
+        assertTrue(executor.runAll(100));
+        assertTrue(future2.isDone());
+        assertEquals(PolicyResult.SUCCESS, future2.get().getResult());
+
+        // verify that the count was stored
+        Integer vfcount = context.getProperty(VF_COUNT_KEY);
+        assertEquals(VF_COUNT, vfcount);
+
+        // repeat - shouldn't need to do anything now
+        assertNull(oper.obtainVfCount());
     }
 }
