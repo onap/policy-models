@@ -4,6 +4,7 @@
  * ================================================================================
  * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019-2020 Nordix Foundation.
+ * Modifications Copyright (C) 2020 Wipro Limited.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +23,7 @@
 package org.onap.policy.simulators;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -39,6 +41,7 @@ import org.onap.policy.so.SoModelInfo;
 import org.onap.policy.so.SoRelatedInstance;
 import org.onap.policy.so.SoRelatedInstanceListElement;
 import org.onap.policy.so.SoRequest;
+import org.onap.policy.so.SoRequest3gpp;
 import org.onap.policy.so.SoRequestDetails;
 import org.onap.policy.so.SoRequestInfo;
 import org.onap.policy.so.SoRequestParameters;
@@ -217,6 +220,32 @@ public class SoSimulatorTest {
                         "password", new HashMap<>());
         assertNotNull(httpDetails);
         assertThat(httpDetails.getRight()).contains("\"COMPLETE\"").doesNotContain("requestSelfLink");
+    }
+
+    @Test
+    public void testModifyNssi() {
+        SoSimulatorJaxRs.setRequirePolling(false);
+        String request = Serialization.gsonPretty.toJson(this.createNssiRequest());
+        Pair<Integer, String> httpDetails = new RestManager().put(
+                "http://localhost:6667/3gppservices/v7/modify",
+                "username",
+                "password", new HashMap<>(), "application/json", request);
+        assertNotNull(httpDetails);
+        assertEquals(200, httpDetails.getLeft().intValue());
+        assertThat(httpDetails.getRight()).contains("jobId").contains("status");
+    }
+
+    private SoRequest3gpp createNssiRequest() {
+        SoRequest3gpp request = new SoRequest3gpp();
+
+        request.setName("URLLC_core1");
+        request.setServiceInstanceID("ff67a209-dc69-4a1a-b89a-c1f55c2a8842");
+        request.setGlobalSubscriberId("5G Customer");
+        request.setSubscriptionServiceType("5G");
+        request.setNetworkType("an");
+        request.setAdditionalProperties(new HashMap<String, Object>());
+
+        return request;
     }
 
     private String extractUri(String response) {
