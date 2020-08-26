@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be31263d_d8115100",
+        "filename": "models-interactions/model-actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SoOperation.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-26T14:54:39Z",
+      "side": 0,
+      "message": "maybe extract these lines into a common method that the subclasses can invoke\n\nsame for lines 105-106",
+      "range": {
+        "startLine": 101,
+        "startChar": 8,
+        "endLine": 104,
+        "endChar": 0
+      },
+      "revId": "8ec1942774a2f26225d116ffba5b9b48e90ba15a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5d9b7f2_a8adf198",
+        "filename": "models-interactions/model-actors/actor.so/src/test/java/org/onap/policy/controlloop/actor/so/SoOperationTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-26T14:54:39Z",
+      "side": 0,
+      "message": "these test methods are still needed; the code still appears in SoOperation, thus is must still be tested",
+      "revId": "8ec1942774a2f26225d116ffba5b9b48e90ba15a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
