@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2020 Wipro Limited.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -62,6 +63,8 @@ import org.onap.policy.so.SoRequest;
 import org.onap.policy.so.SoResponse;
 
 public class VfModuleCreateTest extends BasicSoOperation {
+
+
     private static final String MODEL_NAME2 = "my-model-name-B";
     private static final String MODEL_VERS2 = "my-model-version-B";
     private static final String SVC_INSTANCE_ID = "my-service-instance-id";
@@ -157,6 +160,7 @@ public class VfModuleCreateTest extends BasicSoOperation {
     public void testConstructor() {
         assertEquals(DEFAULT_ACTOR, oper.getActorName());
         assertEquals(VfModuleCreate.NAME, oper.getName());
+        assertTrue(oper.isUsePolling());
 
         // verify that target validation is done
         params = params.toBuilder().target(null).build();

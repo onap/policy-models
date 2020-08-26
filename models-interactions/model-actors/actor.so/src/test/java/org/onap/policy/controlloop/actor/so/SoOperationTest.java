@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2020 Wipro Limited.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -79,7 +80,7 @@ public class SoOperationTest extends BasicSoOperation {
 
         initConfig();
 
-        oper = new SoOperation(params, config, PROP_NAMES) {};
+        oper = new SoOperation(params, config, PROP_NAMES, params.getTarget()) {};
     }
 
     @Test
@@ -87,7 +88,6 @@ public class SoOperationTest extends BasicSoOperation {
         assertEquals(DEFAULT_ACTOR, oper.getActorName());
         assertEquals(DEFAULT_OPERATION, oper.getName());
         assertSame(config, oper.getConfig());
-        assertTrue(oper.isUsePolling());
 
         // check when Target is null
         params = params.toBuilder().target(null).build();

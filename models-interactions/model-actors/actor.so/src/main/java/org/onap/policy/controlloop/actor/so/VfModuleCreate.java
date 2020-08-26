@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2020 Wipro Limited.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -78,8 +79,9 @@ public class VfModuleCreate extends SoOperation {
      * @param config configuration for this operation
      */
     public VfModuleCreate(ControlLoopOperationParams params, HttpPollingConfig config) {
-        super(params, config, PROPERTY_NAMES);
+        super(params, config, PROPERTY_NAMES, params.getTarget());
 
+        setUsePolling();
         // ensure we have the necessary parameters
         validateTarget();
     }

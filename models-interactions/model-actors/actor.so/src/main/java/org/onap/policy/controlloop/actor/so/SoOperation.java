@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2020 Wipro Limited.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -77,11 +78,11 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
     public static final String CONFIG_PARAM_NM = "configurationParameters";
 
     // values extracted from the parameter Target
-    private final String modelCustomizationId;
-    private final String modelInvariantId;
-    private final String modelVersionId;
+    private String modelCustomizationId;
+    private String modelInvariantId;
+    private String modelVersionId;
 
-    private final String vfCountKey;
+    private String vfCountKey;
 
 
     /**
@@ -94,16 +95,28 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
     public SoOperation(ControlLoopOperationParams params, HttpPollingConfig config, List<String> propertyNames) {
         super(params, config, SoResponse.class, propertyNames);
 
-        setUsePolling();
-
         verifyNotNull("Target information", params.getTarget());
+
+    }
+
+    /**
+     * Constructs the object.
+     *
+     * @param params operation parameters
+     * @param config configuration for this operation
+     * @param propertyNames names of properties required by this operation
+     * @param target Target information
+     */
+    public SoOperation(ControlLoopOperationParams params, HttpPollingConfig config, List<String> propertyNames,
+                       Target target) {
+        this(params, config, propertyNames);
 
         this.modelCustomizationId = params.getTarget().getModelCustomizationId();
         this.modelInvariantId = params.getTarget().getModelInvariantId();
         this.modelVersionId = params.getTarget().getModelVersionId();
 
-        vfCountKey = SoConstants.VF_COUNT_PREFIX + "[" + modelCustomizationId + "][" + modelInvariantId + "]["
-                        + modelVersionId + "]";
+        this.vfCountKey = SoConstants.VF_COUNT_PREFIX + "[" + modelCustomizationId + "][" + modelInvariantId + "]["
+                + modelVersionId + "]";
     }
 
     @Override
