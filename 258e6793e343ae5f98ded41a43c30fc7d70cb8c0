@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d1f0e1cb_ca96da53",
+        "filename": "models-examples/src/main/resources/policies/slicing.policy.operational.input.tosca.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-26T12:10:24Z",
+      "side": 1,
+      "message": "These do not need to be in examples - nor does there need to be input vs output versions of them anymore.",
+      "revId": "258e6793e343ae5f98ded41a43c30fc7d70cb8c0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a05289e8_fb627af0",
+        "filename": "models-interactions/model-actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/ModifyNssi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-26T12:10:24Z",
+      "side": 1,
+      "message": "Do not use jackson",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 51
+      },
+      "revId": "258e6793e343ae5f98ded41a43c30fc7d70cb8c0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2dce34bd_95caced0",
+        "filename": "models-interactions/model-actors/actor.so/src/test/java/org/onap/policy/controlloop/actor/so/ModifyNssiTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-26T12:10:24Z",
+      "side": 1,
+      "message": "Do not use jackson",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 0
+      },
+      "revId": "258e6793e343ae5f98ded41a43c30fc7d70cb8c0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88b4683c_cf21e84c",
+        "filename": "models-interactions/model-actors/actor.so/src/test/java/org/onap/policy/controlloop/actor/so/ModifyNssiTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-26T12:10:24Z",
+      "side": 1,
+      "message": "move into src/test/resources",
+      "range": {
+        "startLine": 107,
+        "startChar": 39,
+        "endLine": 107,
+        "endChar": 90
+      },
+      "revId": "258e6793e343ae5f98ded41a43c30fc7d70cb8c0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac0fc578_a8592197",
+        "filename": "models-interactions/model-impl/so/src/main/java/org/onap/policy/so/SoRequest3gpp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-26T12:10:24Z",
+      "side": 1,
+      "message": "use lombok instead of declaring setter/getters",
+      "range": {
+        "startLine": 26,
+        "startChar": 1,
+        "endLine": 26,
+        "endChar": 52
+      },
+      "revId": "258e6793e343ae5f98ded41a43c30fc7d70cb8c0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63ee2399_1328269a",
+        "filename": "models-interactions/model-impl/so/src/main/java/org/onap/policy/so/SoRequest3gpp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-26T12:10:24Z",
+      "side": 1,
+      "message": "add comment so silly sonar issue doesn\u0027t creep up",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 5
+      },
+      "revId": "258e6793e343ae5f98ded41a43c30fc7d70cb8c0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a7a4669_e1af9876",
+        "filename": "models-interactions/model-impl/so/src/test/java/org/onap/policy/so/SoRequest3gppTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-26T12:10:24Z",
+      "side": 1,
+      "message": "use pojo utils class to get covera",
+      "revId": "258e6793e343ae5f98ded41a43c30fc7d70cb8c0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
