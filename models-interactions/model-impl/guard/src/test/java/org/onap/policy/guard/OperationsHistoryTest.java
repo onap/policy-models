@@ -63,10 +63,7 @@ public class OperationsHistoryTest {
         dao.setId(101L);
         assertNotEquals(hc, dao.hashCode());
 
-        /*
-         * Disabling sonar to test equals().
-         */
-        assertEquals(dao, dao);             // NOSONAR
+        assertEquals(dao, (Object) dao);
         assertNotEquals(dao, new OperationsHistory());
     }
 }

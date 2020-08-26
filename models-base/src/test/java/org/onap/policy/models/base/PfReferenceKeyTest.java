@@ -105,7 +105,7 @@ public class PfReferenceKeyTest {
 
         assertNotEquals(0, testReferenceKey.hashCode());
 
-        assertEquals(testReferenceKey, testReferenceKey);
+        assertEquals(testReferenceKey, (Object) testReferenceKey);
         assertEquals(testReferenceKey, clonedReferenceKey);
         assertNotEquals(testReferenceKey, (Object) "Hello");
         assertNotEquals(testReferenceKey, new PfReferenceKey("PKN", VERSION002, "PLN", "LN"));

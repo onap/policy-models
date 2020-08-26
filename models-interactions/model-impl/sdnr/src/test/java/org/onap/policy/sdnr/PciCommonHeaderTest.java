@@ -77,13 +77,10 @@ public class PciCommonHeaderTest {
         copiedPciCommonHeader.setSubRequestId(commonHeader.getSubRequestId());
         copiedPciCommonHeader.setTimeStamp(commonHeader.getTimeStamp());
 
-        /*
-         * Disabling sonar to test equals().
-         */
-        assertEquals(commonHeader, commonHeader);           // NOSONAR
+        assertEquals(commonHeader, (Object) commonHeader);
         assertEquals(commonHeader, copiedPciCommonHeader);
         assertNotEquals(commonHeader, null);
-        assertNotEquals(commonHeader, "Hello");             // NOSONAR
+        assertNotEquals(commonHeader, (Object) "Hello");
 
         PciCommonHeader clonedPciCommonHeader = new PciCommonHeader(commonHeader);
         clonedPciCommonHeader.setApiVer(commonHeader.getApiVer());

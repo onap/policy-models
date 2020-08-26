@@ -37,12 +37,10 @@ public class JpaToscaConstraintLogical extends JpaToscaConstraint {
     private static final long serialVersionUID = -2730203215911880756L;
 
     @Column
-    @NonNull
     @Getter
     private JpaToscaConstraintOperation operation;
 
     @Column
-    @NonNull
     @Getter
     private String compareTo;
 
@@ -63,8 +61,10 @@ public class JpaToscaConstraintLogical extends JpaToscaConstraint {
      *
      * @param authorativeConcept the authorative concept to copy from
      */
-    @SuppressWarnings("java:S2637")
     public JpaToscaConstraintLogical(final ToscaConstraint authorativeConcept) {
+        /*
+         * The following will call invoke fromAuthorative() which will populate the class fields.
+         */
         super(authorativeConcept);
     }
 

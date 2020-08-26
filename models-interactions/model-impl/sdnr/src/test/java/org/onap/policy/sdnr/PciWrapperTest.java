@@ -68,10 +68,10 @@ public class PciWrapperTest {
         copiedPciWrapper.setCorrelationId(wrapper.getCorrelationId());
         copiedPciWrapper.setType(wrapper.getType());
 
-        assertEquals(wrapper, wrapper);
+        assertEquals(wrapper, (Object) wrapper);
         assertEquals(wrapper, copiedPciWrapper);
         assertNotEquals(wrapper, null);
-        assertNotEquals(wrapper, "Hello");
+        assertNotEquals(wrapper, (Object) "Hello");
 
         wrapper.setVersion(null);
         assertNotEquals(wrapper, copiedPciWrapper);
