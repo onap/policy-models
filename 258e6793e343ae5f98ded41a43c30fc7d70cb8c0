@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "c9d157f4_9ee2336f",
+        "filename": "models-interactions/model-actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/ModifyNssi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 2671
+      },
+      "writtenOn": "2020-08-26T12:43:14Z",
+      "side": 1,
+      "message": "Okay Pam. Is there any other json library that we have which can be used?",
+      "parentUuid": "a05289e8_fb627af0",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 51
+      },
+      "revId": "258e6793e343ae5f98ded41a43c30fc7d70cb8c0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2dce34bd_95caced0",
         "filename": "models-interactions/model-actors/actor.so/src/test/java/org/onap/policy/controlloop/actor/so/ModifyNssiTest.java",
         "patchSetId": 4
