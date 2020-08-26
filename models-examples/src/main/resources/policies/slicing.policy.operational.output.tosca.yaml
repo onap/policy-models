@@ -1,0 +1,32 @@
+tosca_definitions_version: tosca_simple_yaml_1_1_0
+topology_template:
+   policies:
+      -   operational.modifynssi:
+             type: onap.policies.controlloop.operational.common.Drools
+             type_version: 1.0.0
+             version: 1.0.0
+             name: operational.modifynssi
+             metadata:
+                policy-id: operational.modifynssi
+             properties:
+                id: ControlLoop-Slicing-116d7b00-dbeb-4d03-8719-d0a658fa735b
+                timeout: 1200
+                abatement: false
+                trigger: unique-policy-id-1-modify-nssi
+                operations:
+                   -   id: unique-policy-id-1-modify-nssi
+                       description: Modify resource allocation for a slice subnet instance
+                       operation:
+                          actor: SO
+                          operation: Modify NSSI
+                          target:
+                             targetType: SERVICEINSTANCE
+                       timeout: 1200
+                       retries: 0
+                       success: final_success
+                       failure: final_failure
+                       failure_timeout: final_failure_timeout
+                       failure_retries: final_failure_retries
+                       failure_exception: final_failure_exception
+                       failure_guard: final_failure_guard
+                controllerName: frankfurt
