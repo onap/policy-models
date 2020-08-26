@@ -16,6 +16,24 @@
       "revId": "01708dc5116c80f3105cd7c7dd25ac19d2554e8a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38279f90_3bcacd9f",
+        "filename": "models-interactions/model-actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/ModifyNssi.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 2671
+      },
+      "writtenOn": "2020-08-26T15:41:39Z",
+      "side": 1,
+      "message": "Yes Jim. There were some complications in implementing the job status api in SO. So, it was decided not to poll the SO for this release. So, the control loop will be in a best effort basis for this release. May be, I need to make a note of it somewhere so that we can track it.",
+      "parentUuid": "473e7d8c_3fa02191",
+      "revId": "01708dc5116c80f3105cd7c7dd25ac19d2554e8a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
