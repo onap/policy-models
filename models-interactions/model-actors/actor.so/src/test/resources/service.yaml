@@ -34,3 +34,5 @@ actors:
         path: serviceInstantiation/v7/serviceInstances
       VF Module Delete:
         path: serviceInstances/v7
+      Modify NSSI:
+        path: 3gppservices/v7/modify
