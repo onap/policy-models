@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "473e7d8c_3fa02191",
+        "filename": "models-interactions/model-actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/ModifyNssi.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-26T15:07:53Z",
+      "side": 1,
+      "message": "so the way this is written, it does not do any polling.  However, I seem to recall some code extracting the jobId - typically, code only extracts the jobId if it\u0027s going to use it to poll.  Are we sure this won\u0027t be polling?",
+      "revId": "01708dc5116c80f3105cd7c7dd25ac19d2554e8a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
