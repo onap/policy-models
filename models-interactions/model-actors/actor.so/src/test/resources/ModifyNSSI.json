@@ -1,0 +1,19 @@
+{
+  "name": "eMBB-001",
+  "globalSubscriberId": "5GCustomer",
+  "subscriptionServiceType": "5G",
+  "networkType": "an",
+  "serviceInstanceID": "02328c27-bb1a-4b0d-a437-111dc7087665",
+  "additionalProperties": {
+    "modifyAction": "allocate",
+    "snssaiList": [
+      "001-100001"
+    ],
+    "sliceProfileId": "",
+    "nsiInfo": {
+      "nsiId": "NSI-M-001-HDBNJ-NSMF-01-A-ZX",
+      "nsiName": "eMBB-001"
+    },
+    "scriptName": "AN1"
+  }
+}
