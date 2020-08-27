@@ -1,0 +1,210 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d71f0060_8e45ca46",
+        "filename": "models-interactions/model-actors/actor.aai/src/main/java/org/onap/policy/controlloop/actor/aai/AaiCustomQueryOperation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-27T14:50:06Z",
+      "side": 1,
+      "message": "ah, I overlooked this one in drools-apps - thx!",
+      "revId": "1621218c69038d41fb48bc6063e093297371a8b7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4dcd5b61_b1e4ebe6",
+        "filename": "models-interactions/model-actors/actor.appc/src/test/java/org/onap/policy/controlloop/actor/appc/BasicAppcOperation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-27T14:50:06Z",
+      "side": 1,
+      "message": "FYI: could just use Map.of(...) instead of new/put",
+      "revId": "1621218c69038d41fb48bc6063e093297371a8b7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca1948d9_ec2c08b1",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/GrpcOperation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-27T14:50:06Z",
+      "side": 1,
+      "message": "change to ControlLoopTargetType.PNF\n\nsame comment below and other places where the target type is specified/checked",
+      "range": {
+        "startLine": 113,
+        "startChar": 12,
+        "endLine": 113,
+        "endChar": 17
+      },
+      "revId": "1621218c69038d41fb48bc6063e093297371a8b7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62880bf6_08acea9c",
+        "filename": "models-interactions/model-actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SoOperation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-27T14:50:06Z",
+      "side": 1,
+      "message": "should also verify that getTargetEntityIds() is not null",
+      "revId": "1621218c69038d41fb48bc6063e093297371a8b7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa3a1674_9ee66e62",
+        "filename": "models-interactions/model-actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SoOperation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-27T14:50:06Z",
+      "side": 1,
+      "message": "I guess we don\u0027t need this test if we validate it in the constructor",
+      "range": {
+        "startLine": 287,
+        "startChar": 8,
+        "endLine": 289,
+        "endChar": 9
+      },
+      "revId": "1621218c69038d41fb48bc6063e093297371a8b7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76c9d045_7b0a3ee0",
+        "filename": "models-interactions/model-actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SoOperation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-27T14:50:06Z",
+      "side": 1,
+      "message": "use constants\n\nsame comment below",
+      "range": {
+        "startLine": 291,
+        "startChar": 64,
+        "endLine": 291,
+        "endChar": 86
+      },
+      "revId": "1621218c69038d41fb48bc6063e093297371a8b7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e43315b0_7c8355c3",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/OperationFinalResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-27T14:50:06Z",
+      "side": 1,
+      "message": "should this be \"success\"?  Or does it matter?  Seems like these are published in the notification messages.\n\nsame comment below",
+      "range": {
+        "startLine": 27,
+        "startChar": 25,
+        "endLine": 27,
+        "endChar": 32
+      },
+      "revId": "1621218c69038d41fb48bc6063e093297371a8b7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46f2aa53_08cbc37b",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/OperationResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-27T14:50:06Z",
+      "side": 1,
+      "message": "not sure if this should be \"Failure_retries\" or \"failure_retries\".  Or maybe it doesn\u0027t matter since toResult() ignores case.\n\nsame question for all of these",
+      "range": {
+        "startLine": 35,
+        "startChar": 21,
+        "endLine": 35,
+        "endChar": 36
+      },
+      "revId": "1621218c69038d41fb48bc6063e093297371a8b7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f8b69b1_7d396e56",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/parameters/ControlLoopOperationParams.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-27T14:50:06Z",
+      "side": 1,
+      "message": "great! I was thinking we needed to put these constants somewhere in models",
+      "revId": "1621218c69038d41fb48bc6063e093297371a8b7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffeeb5dc_af751940",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/parameters/ControlLoopOperationParams.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-27T14:50:06Z",
+      "side": 1,
+      "message": "\"resourceID\"",
+      "range": {
+        "startLine": 56,
+        "startChar": 59,
+        "endLine": 56,
+        "endChar": 69
+      },
+      "revId": "1621218c69038d41fb48bc6063e093297371a8b7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
