@@ -54,7 +54,6 @@ import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.impl.OperationPartial;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.pipeline.PipelineControllerFuture;
-import org.onap.policy.controlloop.policy.TargetType;
 
 /**
  * Operation that uses gRPC to send request to CDS.
@@ -111,7 +110,7 @@ public class GrpcOperation extends OperationPartial {
         super(params, config, Collections.emptyList());
         this.config = config;
 
-        if (TargetType.PNF.equals(params.getTarget().getType())) {
+        if ("PNF".equals(params.getTargetType())) {
             aaiRequestor = this::getPnf;
             aaiConverter = this::convertPnfToAaiProperties;
         } else {
@@ -122,7 +121,7 @@ public class GrpcOperation extends OperationPartial {
 
     @Override
     public List<String> getPropertyNames() {
-        return (TargetType.PNF.equals(params.getTarget().getType()) ? PNF_PROPERTY_NAMES : VNF_PROPERTY_NAMES);
+        return ("PNF".equals(params.getTargetType()) ? PNF_PROPERTY_NAMES : VNF_PROPERTY_NAMES);
     }
 
     /**
@@ -259,7 +258,8 @@ public class GrpcOperation extends OperationPartial {
 
         AaiCqResponse aaicq = params.getContext().getProperty(AaiCqResponse.CONTEXT_KEY);
 
-        genericVnf = aaicq.getGenericVnfByModelInvariantId(params.getTarget().getResourceID());
+        genericVnf = aaicq.getGenericVnfByModelInvariantId(params.getTargetEntityIds()
+                .get(ControlLoopOperationParams.PARAMS_ENTITY_RESOURCEID));
         if (genericVnf == null) {
             throw new IllegalArgumentException("Target generic vnf could not be found");
         }

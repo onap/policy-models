@@ -37,12 +37,12 @@ import org.onap.policy.common.endpoints.utils.NetLoggerUtil;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingConfig;
 import org.onap.policy.controlloop.actorserviceprovider.pipeline.PipelineControllerFuture;
-import org.onap.policy.controlloop.policy.PolicyResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -243,11 +243,12 @@ public abstract class HttpOperation<T> extends OperationPartial {
         if (!isSuccess(rawResponse, response)) {
             logger.info("{}.{} request failed with http error code {} for {}", params.getActor(), params.getOperation(),
                             rawResponse.getStatus(), params.getRequestId());
-            return CompletableFuture.completedFuture(setOutcome(outcome, PolicyResult.FAILURE, rawResponse, response));
+            return CompletableFuture.completedFuture(
+                    setOutcome(outcome, OperationResult.FAILURE, rawResponse, response));
         }
 
         logger.info("{}.{} request succeeded for {}", params.getActor(), params.getOperation(), params.getRequestId());
-        setOutcome(outcome, PolicyResult.SUCCESS, rawResponse, response);
+        setOutcome(outcome, OperationResult.SUCCESS, rawResponse, response);
         return postProcessResponse(outcome, url, rawResponse, response);
     }
 
@@ -260,7 +261,7 @@ public abstract class HttpOperation<T> extends OperationPartial {
      * @param response decoded response
      * @return the updated operation
      */
-    public OperationOutcome setOutcome(OperationOutcome outcome, PolicyResult result, Response rawResponse,
+    public OperationOutcome setOutcome(OperationOutcome outcome, OperationResult result, Response rawResponse,
                     T response) {
 
         outcome.setResponse(response);
@@ -292,13 +293,13 @@ public abstract class HttpOperation<T> extends OperationPartial {
                 logger.info("{}.{} request succeeded for {}", params.getActor(), params.getOperation(),
                                 params.getRequestId());
                 return CompletableFuture
-                                .completedFuture(setOutcome(outcome, PolicyResult.SUCCESS, rawResponse, response));
+                                .completedFuture(setOutcome(outcome, OperationResult.SUCCESS, rawResponse, response));
 
             case FAILURE:
                 logger.info("{}.{} request failed for {}", params.getActor(), params.getOperation(),
                                 params.getRequestId());
                 return CompletableFuture
-                                .completedFuture(setOutcome(outcome, PolicyResult.FAILURE, rawResponse, response));
+                                .completedFuture(setOutcome(outcome, OperationResult.FAILURE, rawResponse, response));
 
             case STILL_WAITING:
             default:
@@ -313,7 +314,7 @@ public abstract class HttpOperation<T> extends OperationPartial {
         if (pollCount++ >= cfg.getMaxPolls()) {
             logger.warn("{}: execeeded 'poll' limit {} for {}", getFullName(), cfg.getMaxPolls(),
                             params.getRequestId());
-            setOutcome(outcome, PolicyResult.FAILURE_TIMEOUT);
+            setOutcome(outcome, OperationResult.FAILURE_TIMEOUT);
             return CompletableFuture.completedFuture(outcome);
         }
 

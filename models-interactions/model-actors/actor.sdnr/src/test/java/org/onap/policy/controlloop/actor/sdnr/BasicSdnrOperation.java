@@ -36,10 +36,10 @@ import org.onap.policy.common.endpoints.event.comm.TopicSource;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.actor.test.BasicBidirectionalTopicOperation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.impl.OperationMaker;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
-import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.sdnr.PciBody;
 import org.onap.policy.sdnr.PciMessage;
 import org.onap.policy.sdnr.PciResponse;
@@ -94,6 +94,7 @@ public abstract class BasicSdnrOperation extends BasicBidirectionalTopicOperatio
         super.tearDownBasic();
     }
 
+    @Override
     protected TopicServer<PciMessage> makeServer(TopicSink sink, TopicSource source) {
         return new SdnrTopicServer(sink, source);
     }
@@ -117,7 +118,7 @@ public abstract class BasicSdnrOperation extends BasicBidirectionalTopicOperatio
         assertTrue(future2.isDone());
 
         outcome = future2.get();
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
     }
 
     /**

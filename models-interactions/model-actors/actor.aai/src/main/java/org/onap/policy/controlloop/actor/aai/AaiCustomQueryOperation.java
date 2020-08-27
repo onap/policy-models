@@ -37,10 +37,10 @@ import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
-import org.onap.policy.controlloop.policy.PolicyResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -188,7 +188,7 @@ public class AaiCustomQueryOperation extends HttpOperation<String> {
     }
 
     @Override
-    public OperationOutcome setOutcome(OperationOutcome outcome, PolicyResult result, Response rawResponse,
+    public OperationOutcome setOutcome(OperationOutcome outcome, OperationResult result, Response rawResponse,
                     String response) {
 
         super.setOutcome(outcome, result, rawResponse, response);

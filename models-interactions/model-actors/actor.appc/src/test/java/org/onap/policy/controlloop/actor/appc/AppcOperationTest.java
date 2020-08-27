@@ -39,10 +39,10 @@ import org.onap.policy.appc.CommonHeader;
 import org.onap.policy.appc.Request;
 import org.onap.policy.appc.ResponseCode;
 import org.onap.policy.appc.ResponseStatus;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicOperation.Status;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
-import org.onap.policy.controlloop.policy.PolicyResult;
 
 public class AppcOperationTest extends BasicAppcOperation {
     private AppcOperation oper;
@@ -220,21 +220,21 @@ public class AppcOperationTest extends BasicAppcOperation {
 
         // null status
         response.setStatus(null);
-        assertSame(outcome, oper.setOutcome(outcome, PolicyResult.SUCCESS, response));
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertSame(outcome, oper.setOutcome(outcome, OperationResult.SUCCESS, response));
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertNotNull(outcome.getMessage());
         assertSame(response, outcome.getResponse());
         response.setStatus(status);
 
         // null description
         status.setDescription(null);
-        assertSame(outcome, oper.setOutcome(outcome, PolicyResult.FAILURE, response));
-        assertEquals(PolicyResult.FAILURE, outcome.getResult());
+        assertSame(outcome, oper.setOutcome(outcome, OperationResult.FAILURE, response));
+        assertEquals(OperationResult.FAILURE, outcome.getResult());
         assertNotNull(outcome.getMessage());
         assertSame(response, outcome.getResponse());
         status.setDescription(MY_DESCRIPTION);
 
-        for (PolicyResult result : PolicyResult.values()) {
+        for (OperationResult result : OperationResult.values()) {
             assertSame(outcome, oper.setOutcome(outcome, result, response));
             assertEquals(result, outcome.getResult());
             assertEquals(MY_DESCRIPTION, outcome.getMessage());

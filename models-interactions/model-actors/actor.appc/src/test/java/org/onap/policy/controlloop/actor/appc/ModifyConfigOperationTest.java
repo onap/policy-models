@@ -51,10 +51,10 @@ import org.onap.policy.appc.Response;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicParams;
-import org.onap.policy.controlloop.policy.PolicyResult;
 
 public class ModifyConfigOperationTest extends BasicAppcOperation {
 
@@ -120,7 +120,7 @@ public class ModifyConfigOperationTest extends BasicAppcOperation {
         oper.setProperty(OperationProperties.AAI_RESOURCE_VNF, genvnf);
 
         outcome = oper.start().get();
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertTrue(outcome.getResponse() instanceof Response);
     }
 
@@ -162,7 +162,7 @@ public class ModifyConfigOperationTest extends BasicAppcOperation {
         future2.complete(params.makeOutcome(null));
         assertTrue(executor.runAll(100));
         assertTrue(future3.isDone());
-        assertEquals(PolicyResult.SUCCESS, future3.get().getResult());
+        assertEquals(OperationResult.SUCCESS, future3.get().getResult());
     }
 
     /**

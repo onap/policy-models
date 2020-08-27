@@ -35,8 +35,8 @@ import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.controlloop.actor.test.BasicHttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingConfig;
-import org.onap.policy.controlloop.policy.Target;
 import org.onap.policy.simulators.SoSimulatorJaxRs;
 import org.onap.policy.so.SoRequest;
 import org.onap.policy.so.SoRequestParameters;
@@ -65,7 +65,8 @@ public abstract class BasicSoOperation extends BasicHttpOperation {
     @Mock
     protected HttpPollingConfig config;
 
-    protected Target target;
+    protected String targetType = "VNF";
+    protected Map<String, String> targetEntities = new HashMap<>();
     protected SoResponse response;
 
     /**
@@ -144,14 +145,14 @@ public abstract class BasicSoOperation extends BasicHttpOperation {
     protected void makeContext() {
         super.makeContext();
 
-        target = new Target();
-        target.setModelCustomizationId(MODEL_CUSTOM_ID);
-        target.setModelInvariantId(MODEL_INVAR_ID);
-        target.setModelName(MODEL_NAME);
-        target.setModelVersion(MODEL_VERSION);
-        target.setModelVersionId(MODEL_VERS_ID);
+        targetEntities = new HashMap<>();
+        targetEntities.put(ControlLoopOperationParams.PARAMS_ENTITY_MODEL_CUSTOMIZATION_ID, MODEL_CUSTOM_ID);
+        targetEntities.put(ControlLoopOperationParams.PARAMS_ENTITY_MODEL_INVARIANT_ID, MODEL_INVAR_ID);
+        targetEntities.put(ControlLoopOperationParams.PARAMS_ENTITY_MODEL_NAME, MODEL_NAME);
+        targetEntities.put(ControlLoopOperationParams.PARAMS_ENTITY_MODEL_VERSION, MODEL_VERSION);
+        targetEntities.put(ControlLoopOperationParams.PARAMS_ENTITY_MODEL_VERSION_ID, MODEL_VERS_ID);
 
-        params = params.toBuilder().target(target).build();
+        params = params.toBuilder().targetType(targetType).targetEntityIds(targetEntities).build();
     }
 
     @Override

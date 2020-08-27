@@ -31,11 +31,11 @@ import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.controlloop.actorserviceprovider.CallbackManager;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.impl.OperationPartial;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
-import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.models.decisions.concepts.DecisionRequest;
 import org.onap.policy.models.decisions.concepts.DecisionResponse;
 import org.slf4j.Logger;
@@ -150,15 +150,15 @@ public class DecisionOperation extends HttpOperation<DecisionResponse> {
         // determine the result
         String status = response.getStatus();
         if (status == null) {
-            outcome.setResult(PolicyResult.FAILURE);
+            outcome.setResult(OperationResult.FAILURE);
             outcome.setMessage("response contains no status");
             return CompletableFuture.completedFuture(outcome);
         }
 
         if (PERMIT.equalsIgnoreCase(status) || INDETERMINATE.equalsIgnoreCase(status)) {
-            outcome.setResult(PolicyResult.SUCCESS);
+            outcome.setResult(OperationResult.SUCCESS);
         } else {
-            outcome.setResult(PolicyResult.FAILURE);
+            outcome.setResult(OperationResult.FAILURE);
         }
 
         // set the message

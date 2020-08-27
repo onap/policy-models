@@ -42,11 +42,11 @@ import org.junit.Test;
 import org.onap.policy.controlloop.actor.test.BasicBidirectionalTopicOperation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicOperation.Status;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicParams;
-import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.sdnr.PciCommonHeader;
 import org.onap.policy.sdnr.PciMessage;
 import org.onap.policy.sdnr.PciRequest;
@@ -142,7 +142,7 @@ public class SdnrOperationTest extends BasicSdnrOperation {
         };
 
         outcome = operation.start().get();
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertTrue(outcome.getResponse() instanceof PciMessage);
     }
 
@@ -171,7 +171,7 @@ public class SdnrOperationTest extends BasicSdnrOperation {
         future2.complete(params.makeOutcome(null));
         assertTrue(executor.runAll(100));
         assertTrue(future3.isDone());
-        assertEquals(PolicyResult.SUCCESS, future3.get().getResult());
+        assertEquals(OperationResult.SUCCESS, future3.get().getResult());
     }
 
     @Test
@@ -255,8 +255,8 @@ public class SdnrOperationTest extends BasicSdnrOperation {
     }
 
     protected void checkOutcome() {
-        assertSame(outcome, operation.setOutcome(outcome, PolicyResult.SUCCESS, response));
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertSame(outcome, operation.setOutcome(outcome, OperationResult.SUCCESS, response));
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertNotNull(outcome.getMessage());
         assertSame(response, outcome.getResponse());
     }

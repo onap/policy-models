@@ -69,11 +69,9 @@ import org.onap.policy.controlloop.actor.cds.constants.CdsActorConstants;
 import org.onap.policy.controlloop.actorserviceprovider.ActorService;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
-import org.onap.policy.controlloop.policy.PolicyResult;
-import org.onap.policy.controlloop.policy.Target;
-import org.onap.policy.controlloop.policy.TargetType;
 import org.onap.policy.simulators.CdsSimulator;
 import org.onap.policy.simulators.Util;
 
@@ -102,7 +100,8 @@ public class GrpcOperationTest {
     private CdsServerProperties cdsProps;
     private VirtualControlLoopEvent onset;
     private PseudoExecutor executor;
-    private Target target;
+    private String targetType;
+    private Map<String, String> targetEntityIds;
     private ControlLoopOperationParams params;
     private GrpcConfig config;
     private CompletableFuture<OperationOutcome> cqFuture;
@@ -143,17 +142,18 @@ public class GrpcOperationTest {
         // Setup executor
         executor = new PseudoExecutor();
 
-        target = new Target();
-        target.setType(TargetType.VM);
-        target.setResourceID(RESOURCE_ID);
+        targetType = "VM";
+        targetEntityIds = new HashMap<>();
+        targetEntityIds.put(ControlLoopOperationParams.PARAMS_ENTITY_RESOURCEID, RESOURCE_ID);
 
         cqFuture = new CompletableFuture<>();
         when(context.obtain(eq(AaiCqResponse.CONTEXT_KEY), any())).thenReturn(cqFuture);
         when(context.getEvent()).thenReturn(onset);
 
-        params = ControlLoopOperationParams.builder().actor(CdsActorConstants.CDS_ACTOR).operation(GrpcOperation.NAME)
-                        .context(context).actorService(new ActorService()).targetEntity(TARGET_ENTITY).target(target)
-                        .build();
+        params = ControlLoopOperationParams.builder().actor(CdsActorConstants.CDS_ACTOR)
+                .operation(GrpcOperation.NAME).context(context).actorService(new ActorService())
+                .targetEntity(TARGET_ENTITY).targetType(targetType).targetEntityIds(targetEntityIds)
+                .build();
     }
 
     /**
@@ -167,7 +167,8 @@ public class GrpcOperationTest {
         Map<String, Object> payload = Map.of("artifact_name", "my_artifact", "artifact_version", "1.0");
 
         params = ControlLoopOperationParams.builder().actor(CdsActorConstants.CDS_ACTOR).operation("subscribe")
-                        .context(context).actorService(new ActorService()).targetEntity(TARGET_ENTITY).target(target)
+                        .context(context).actorService(new ActorService()).targetEntity(TARGET_ENTITY)
+                        .targetType(targetType).targetEntityIds(targetEntityIds)
                         .retry(0).timeoutSec(5).executor(blockingExecutor).payload(payload).build();
 
         cdsProps.setHost("localhost");
@@ -185,7 +186,7 @@ public class GrpcOperationTest {
         };
 
         OperationOutcome outcome = operation.start().get();
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertTrue(outcome.getResponse() instanceof ExecutionServiceOutput);
     }
 
@@ -200,7 +201,8 @@ public class GrpcOperationTest {
         Map<String, Object> payload = Map.of("artifact_name", "my_artifact", "artifact_version", "1.0");
 
         params = ControlLoopOperationParams.builder().actor(CdsActorConstants.CDS_ACTOR).operation("subscribe")
-                        .context(context).actorService(new ActorService()).targetEntity(TARGET_ENTITY).target(target)
+                        .context(context).actorService(new ActorService()).targetEntity(TARGET_ENTITY)
+                        .targetType(targetType).targetEntityIds(targetEntityIds)
                         .retry(0).timeoutSec(5).executor(blockingExecutor).payload(payload).preprocessed(true).build();
 
         cdsProps.setHost("localhost");
@@ -215,7 +217,7 @@ public class GrpcOperationTest {
         operation.setProperty(OperationProperties.OPT_CDS_GRPC_AAI_PROPERTIES, Collections.emptyMap());
 
         OperationOutcome outcome = operation.start().get();
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertTrue(outcome.getResponse() instanceof ExecutionServiceOutput);
     }
 
@@ -239,7 +241,7 @@ public class GrpcOperationTest {
         /*
          * check PNF case
          */
-        target.setType(TargetType.PNF);
+        params = params.toBuilder().targetType("PNF").build();
         operation = new GrpcOperation(params, config);
 
         // @formatter:off
@@ -334,7 +336,7 @@ public class GrpcOperationTest {
 
         cqFuture.complete(params.makeOutcome(null));
         assertTrue(executor.runAll(100));
-        assertEquals(PolicyResult.SUCCESS, future3.get(2, TimeUnit.SECONDS).getResult());
+        assertEquals(OperationResult.SUCCESS, future3.get(2, TimeUnit.SECONDS).getResult());
         assertTrue(future3.isDone());
     }
 
@@ -345,7 +347,7 @@ public class GrpcOperationTest {
     public void testStartPreprocessorAsyncPnf() throws InterruptedException, ExecutionException, TimeoutException {
         AtomicBoolean guardStarted = new AtomicBoolean();
 
-        target.setType(TargetType.PNF);
+        params = params.toBuilder().targetType("PNF").build();
 
         operation = new GrpcOperation(params, config) {
             @Override
@@ -362,7 +364,7 @@ public class GrpcOperationTest {
 
         cqFuture.complete(params.makeOutcome(null));
         assertTrue(executor.runAll(100));
-        assertEquals(PolicyResult.SUCCESS, future3.get(2, TimeUnit.SECONDS).getResult());
+        assertEquals(OperationResult.SUCCESS, future3.get(2, TimeUnit.SECONDS).getResult());
         assertTrue(future3.isDone());
     }
 
@@ -390,7 +392,7 @@ public class GrpcOperationTest {
     @Test
     public void testStartOperationAsyncPnf() throws Exception {
 
-        target.setType(TargetType.PNF);
+        targetType = "PNF";
 
         ControlLoopEventContext context = new ControlLoopEventContext(onset);
         loadPnfData(context);
@@ -447,7 +449,8 @@ public class GrpcOperationTest {
 
         ControlLoopOperationParams params = ControlLoopOperationParams.builder().actor(CdsActorConstants.CDS_ACTOR)
                         .operation(GrpcOperation.NAME).context(context).actorService(new ActorService())
-                        .targetEntity(TARGET_ENTITY).target(target).payload(payloadMap).build();
+                        .targetEntity(TARGET_ENTITY).targetType(targetType).targetEntityIds(targetEntityIds)
+                        .payload(payloadMap).build();
 
         GrpcConfig config = new GrpcConfig(executor, cdsProps);
         operation = new GrpcOperation(params, config);
