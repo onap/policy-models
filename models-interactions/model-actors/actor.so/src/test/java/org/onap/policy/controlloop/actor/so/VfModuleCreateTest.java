@@ -54,10 +54,10 @@ import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingParams;
-import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.so.SoRequest;
 import org.onap.policy.so.SoResponse;
 
@@ -83,6 +83,7 @@ public class VfModuleCreateTest extends BasicSoOperation {
         destroyAfterClass();
     }
 
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -104,7 +105,7 @@ public class VfModuleCreateTest extends BasicSoOperation {
         oper = new VfModuleCreate(params, config);
 
         outcome = oper.start().get();
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertTrue(outcome.getResponse() instanceof SoResponse);
     }
 
@@ -146,7 +147,7 @@ public class VfModuleCreateTest extends BasicSoOperation {
 
         // run the operation
         outcome = oper.start().get();
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertTrue(outcome.getResponse() instanceof SoResponse);
 
         int count = oper.getProperty(OperationProperties.DATA_VF_COUNT);
@@ -159,7 +160,7 @@ public class VfModuleCreateTest extends BasicSoOperation {
         assertEquals(VfModuleCreate.NAME, oper.getName());
 
         // verify that target validation is done
-        params = params.toBuilder().target(null).build();
+        params = params.toBuilder().targetType(null).build();
         assertThatIllegalArgumentException().isThrownBy(() -> new VfModuleCreate(params, config))
                         .withMessageContaining("Target information");
     }
@@ -220,7 +221,7 @@ public class VfModuleCreateTest extends BasicSoOperation {
         provideCqResponse(makeCqResponse());
         assertTrue(executor.runAll(100));
         assertTrue(future2.isDone());
-        assertEquals(PolicyResult.SUCCESS, future2.get().getResult());
+        assertEquals(OperationResult.SUCCESS, future2.get().getResult());
     }
 
     @Test
@@ -264,7 +265,7 @@ public class VfModuleCreateTest extends BasicSoOperation {
         CompletableFuture<OperationOutcome> future2 = oper.start();
 
         outcome = future2.get(5, TimeUnit.SECONDS);
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
 
         SoResponse resp = outcome.getResponse();
         assertNotNull(resp);
@@ -296,7 +297,7 @@ public class VfModuleCreateTest extends BasicSoOperation {
         CompletableFuture<OperationOutcome> future2 = oper.start();
 
         outcome = future2.get(5, TimeUnit.SECONDS);
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
     }
 
     @Test

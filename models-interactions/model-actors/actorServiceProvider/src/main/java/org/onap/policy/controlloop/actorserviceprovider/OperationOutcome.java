@@ -25,7 +25,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import org.onap.policy.controlloop.ControlLoopOperation;
-import org.onap.policy.controlloop.policy.PolicyResult;
 
 /**
  * Outcome from an operation. Objects of this type are passed from one stage to the next.
@@ -39,7 +38,7 @@ public class OperationOutcome {
     private Instant start;
     private Instant end;
     private String subRequestId;
-    private PolicyResult result = PolicyResult.SUCCESS;
+    private OperationResult result = OperationResult.SUCCESS;
     private String message;
     private boolean finalOutcome;
     private Object response;
@@ -119,7 +118,7 @@ public class OperationOutcome {
      *
      * @param result new result
      */
-    public void setResult(@NonNull PolicyResult result) {
+    public void setResult(@NonNull OperationResult result) {
         this.result = result;
     }
 }

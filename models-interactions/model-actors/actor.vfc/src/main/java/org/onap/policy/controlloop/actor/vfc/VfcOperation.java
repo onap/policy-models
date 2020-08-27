@@ -26,10 +26,10 @@ import javax.ws.rs.core.Response;
 import org.apache.commons.lang3.StringUtils;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
-import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.vfc.VfcHealActionVmInfo;
 import org.onap.policy.vfc.VfcHealAdditionalParams;
 import org.onap.policy.vfc.VfcHealRequest;
@@ -151,13 +151,13 @@ public abstract class VfcOperation extends HttpOperation<VfcResponse> {
      * Prepends the message with the http status code.
      */
     @Override
-    public OperationOutcome setOutcome(OperationOutcome outcome, PolicyResult result, Response rawResponse,
+    public OperationOutcome setOutcome(OperationOutcome outcome, OperationResult result, Response rawResponse,
                     VfcResponse response) {
 
         // set default result and message
         setOutcome(outcome, result);
 
-        int code = (result == PolicyResult.FAILURE_TIMEOUT ? VFC_RESPONSE_CODE : rawResponse.getStatus());
+        int code = (result == OperationResult.FAILURE_TIMEOUT ? VFC_RESPONSE_CODE : rawResponse.getStatus());
 
         outcome.setResponse(response);
         outcome.setMessage(code + " " + outcome.getMessage());

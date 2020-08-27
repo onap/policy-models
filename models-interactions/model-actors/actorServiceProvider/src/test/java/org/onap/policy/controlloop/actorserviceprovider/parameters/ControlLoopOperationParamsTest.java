@@ -57,7 +57,6 @@ import org.onap.policy.controlloop.actorserviceprovider.Operator;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams.ControlLoopOperationParamsBuilder;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
-import org.onap.policy.controlloop.policy.Target;
 
 public class ControlLoopOperationParamsTest {
     private static final String NULL_MSG = "null";
@@ -65,7 +64,6 @@ public class ControlLoopOperationParamsTest {
     private static final String EXPECTED_EXCEPTION = "expected exception";
     private static final String ACTOR = "my-actor";
     private static final String OPERATION = "my-operation";
-    private static final Target TARGET = new Target();
     private static final String TARGET_ENTITY = "my-target";
     private static final Integer RETRY = 3;
     private static final Integer TIMEOUT = 100;
@@ -128,7 +126,7 @@ public class ControlLoopOperationParamsTest {
 
         params = ControlLoopOperationParams.builder().actorService(actorService).completeCallback(completer)
                         .context(context).executor(executor).actor(ACTOR).operation(OPERATION).payload(payload)
-                        .retry(RETRY).target(TARGET).targetEntity(TARGET_ENTITY).timeoutSec(TIMEOUT)
+                        .retry(RETRY).targetEntity(TARGET_ENTITY).timeoutSec(TIMEOUT)
                         .startCallback(starter).preprocessed(true).build();
 
         outcome = params.makeOutcome(TARGET_ENTITY);
@@ -257,7 +255,7 @@ public class ControlLoopOperationParamsTest {
         assertTrue(params.toBuilder().build().validate().isValid());
 
         // these can be null
-        assertTrue(params.toBuilder().payload(null).retry(null).target(null).timeoutSec(null).startCallback(null)
+        assertTrue(params.toBuilder().payload(null).retry(null).timeoutSec(null).startCallback(null)
                         .completeCallback(null).build().validate().isValid());
 
         // test with minimal fields
@@ -353,14 +351,6 @@ public class ControlLoopOperationParamsTest {
 
         // should be null when unspecified
         assertNull(ControlLoopOperationParams.builder().build().getRetry());
-    }
-
-    @Test
-    public void testTarget() {
-        assertSame(TARGET, params.getTarget());
-
-        // should be null when unspecified
-        assertNull(ControlLoopOperationParams.builder().build().getTarget());
     }
 
     @Test

@@ -43,9 +43,9 @@ import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
-import org.onap.policy.controlloop.policy.PolicyResult;
 
 public class AaiGetPnfOperationTest extends BasicAaiOperation {
     private static final String INPUT_FIELD = "input";
@@ -100,7 +100,7 @@ public class AaiGetPnfOperationTest extends BasicAaiOperation {
         oper.setProperty(OperationProperties.AAI_TARGET_ENTITY, "OzVServer");
 
         outcome = oper.start().get();
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertTrue(outcome.getResponse() instanceof StandardCoderObject);
     }
 
@@ -117,7 +117,7 @@ public class AaiGetPnfOperationTest extends BasicAaiOperation {
         oper.setProperty(OperationProperties.AAI_TARGET_ENTITY, "getFail");
 
         outcome = oper.start().get();
-        assertEquals(PolicyResult.FAILURE, outcome.getResult());
+        assertEquals(OperationResult.FAILURE, outcome.getResult());
     }
 
     @Test
@@ -139,7 +139,7 @@ public class AaiGetPnfOperationTest extends BasicAaiOperation {
         executor.runAll(100);
         assertTrue(future2.isDone());
 
-        assertEquals(PolicyResult.SUCCESS, future2.get().getResult());
+        assertEquals(OperationResult.SUCCESS, future2.get().getResult());
 
         // data should have been cached within the context
         StandardCoderObject data = context.getProperty(AaiGetPnfOperation.getKey(TARGET_ENTITY));
@@ -167,7 +167,7 @@ public class AaiGetPnfOperationTest extends BasicAaiOperation {
         executor.runAll(100);
         assertTrue(future2.isDone());
 
-        assertEquals(PolicyResult.FAILURE, future2.get().getResult());
+        assertEquals(OperationResult.FAILURE, future2.get().getResult());
 
         // data should NOT have been cached within the context
         assertNull(context.getProperty(AaiGetPnfOperation.getKey(TARGET_ENTITY)));
