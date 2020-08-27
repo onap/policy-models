@@ -119,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "137b2849_972e6e21",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/GrpcOperation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-27T18:37:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca1948d9_ec2c08b1",
+      "range": {
+        "startLine": 113,
+        "startChar": 12,
+        "endLine": 113,
+        "endChar": 17
+      },
+      "revId": "1621218c69038d41fb48bc6063e093297371a8b7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "62880bf6_08acea9c",
         "filename": "models-interactions/model-actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SoOperation.java",
         "patchSetId": 3
