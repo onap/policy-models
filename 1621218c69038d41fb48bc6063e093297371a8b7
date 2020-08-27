@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "db5e2477_81233fc1",
+        "filename": "models-interactions/model-actors/actor.aai/src/main/java/org/onap/policy/controlloop/actor/aai/AaiCustomQueryOperation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-27T16:07:37Z",
+      "side": 1,
+      "message": "new class - but I copied it basically from the old class",
+      "parentUuid": "d71f0060_8e45ca46",
+      "revId": "1621218c69038d41fb48bc6063e093297371a8b7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4dcd5b61_b1e4ebe6",
         "filename": "models-interactions/model-actors/actor.appc/src/test/java/org/onap/policy/controlloop/actor/appc/BasicAppcOperation.java",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "1621218c69038d41fb48bc6063e093297371a8b7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d437a1a_d9909203",
+        "filename": "models-interactions/model-actors/actor.appc/src/test/java/org/onap/policy/controlloop/actor/appc/BasicAppcOperation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-27T16:07:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4dcd5b61_b1e4ebe6",
+      "revId": "1621218c69038d41fb48bc6063e093297371a8b7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -56,6 +92,30 @@
       "revId": "1621218c69038d41fb48bc6063e093297371a8b7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6b8ff62_c4b0df80",
+        "filename": "models-interactions/model-actors/actor.cds/src/main/java/org/onap/policy/controlloop/actor/cds/GrpcOperation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-27T16:07:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca1948d9_ec2c08b1",
+      "range": {
+        "startLine": 113,
+        "startChar": 12,
+        "endLine": 113,
+        "endChar": 17
+      },
+      "revId": "1621218c69038d41fb48bc6063e093297371a8b7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -99,6 +159,30 @@
     },
     {
       "key": {
+        "uuid": "dcb8bc92_eb87924d",
+        "filename": "models-interactions/model-actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SoOperation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-27T16:07:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa3a1674_9ee66e62",
+      "range": {
+        "startLine": 287,
+        "startChar": 8,
+        "endLine": 289,
+        "endChar": 9
+      },
+      "revId": "1621218c69038d41fb48bc6063e093297371a8b7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76c9d045_7b0a3ee0",
         "filename": "models-interactions/model-actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SoOperation.java",
         "patchSetId": 3
@@ -122,6 +206,30 @@
     },
     {
       "key": {
+        "uuid": "21453cd4_f8af91c3",
+        "filename": "models-interactions/model-actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SoOperation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-27T16:07:37Z",
+      "side": 1,
+      "message": "Done - had to rename the local variables to not clash with defined properties in the class.",
+      "parentUuid": "76c9d045_7b0a3ee0",
+      "range": {
+        "startLine": 291,
+        "startChar": 64,
+        "endLine": 291,
+        "endChar": 86
+      },
+      "revId": "1621218c69038d41fb48bc6063e093297371a8b7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e43315b0_7c8355c3",
         "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/OperationFinalResult.java",
         "patchSetId": 3
@@ -133,6 +241,30 @@
       "writtenOn": "2020-08-27T14:50:06Z",
       "side": 1,
       "message": "should this be \"success\"?  Or does it matter?  Seems like these are published in the notification messages.\n\nsame comment below",
+      "range": {
+        "startLine": 27,
+        "startChar": 25,
+        "endLine": 27,
+        "endChar": 32
+      },
+      "revId": "1621218c69038d41fb48bc6063e093297371a8b7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07425e0e_9efbb6ae",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/OperationFinalResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-27T16:07:37Z",
+      "side": 1,
+      "message": "I just copied the previous class over - I never changed this value. Its the same as it was before.",
+      "parentUuid": "e43315b0_7c8355c3",
       "range": {
         "startLine": 27,
         "startChar": 25,
@@ -168,6 +300,30 @@
     },
     {
       "key": {
+        "uuid": "613ab44f_f52dd779",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/OperationResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-27T16:07:37Z",
+      "side": 1,
+      "message": "Same here - I created a new class but copied the original classes values.",
+      "parentUuid": "46f2aa53_08cbc37b",
+      "range": {
+        "startLine": 35,
+        "startChar": 21,
+        "endLine": 35,
+        "endChar": 36
+      },
+      "revId": "1621218c69038d41fb48bc6063e093297371a8b7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0f8b69b1_7d396e56",
         "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/parameters/ControlLoopOperationParams.java",
         "patchSetId": 3
@@ -182,6 +338,24 @@
       "revId": "1621218c69038d41fb48bc6063e093297371a8b7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cd54a4f_015bcd49",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/parameters/ControlLoopOperationParams.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-27T16:07:37Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0f8b69b1_7d396e56",
+      "revId": "1621218c69038d41fb48bc6063e093297371a8b7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -205,6 +379,30 @@
       "revId": "1621218c69038d41fb48bc6063e093297371a8b7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05de694c_bbd7ee8b",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/parameters/ControlLoopOperationParams.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-27T16:07:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffeeb5dc_af751940",
+      "range": {
+        "startLine": 56,
+        "startChar": 59,
+        "endLine": 56,
+        "endChar": 69
+      },
+      "revId": "1621218c69038d41fb48bc6063e093297371a8b7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
