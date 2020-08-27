@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "944fa048_90e3894b",
+        "filename": "models-interactions/model-actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SoOperation.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-27T17:13:26Z",
+      "side": 1,
+      "message": "So  remove 288-294, then just do a check on the classes properties, and lastly then use them?",
+      "parentUuid": "042ca3a0_57cee47d",
+      "revId": "abf8d141df425d3ed3d3bbc0e6b807162bc8f6a3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7f15edf7_9ef1e756",
         "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/TargetType.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2020-08-27T16:44:33Z",
       "side": 1,
       "message": "As long as the names match the enum name, do we really need to store the string?\n\nWipro wants to use \"SERVICEINSTANCE\".  Is that not in the schema?  If not, we may need to feed that back to them.",
+      "revId": "abf8d141df425d3ed3d3bbc0e6b807162bc8f6a3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75a43048_21de2626",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/TargetType.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-27T17:13:26Z",
+      "side": 1,
+      "message": "No these are general categories, not specifics. I\u0027m not up-reving the operational policy type to support a new constraint.",
+      "parentUuid": "7f15edf7_9ef1e756",
       "revId": "abf8d141df425d3ed3d3bbc0e6b807162bc8f6a3",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
