@@ -35,9 +35,9 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 import org.junit.Before;
 import org.junit.Test;
@@ -52,7 +52,8 @@ import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
-import org.onap.policy.controlloop.policy.PolicyResult;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.so.SoModelInfo;
 import org.onap.policy.so.SoRequest;
 import org.onap.policy.so.SoRequestInfo;
@@ -73,6 +74,7 @@ public class SoOperationTest extends BasicSoOperation {
     /**
      * Sets up.
      */
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -90,7 +92,7 @@ public class SoOperationTest extends BasicSoOperation {
         assertTrue(oper.isUsePolling());
 
         // check when Target is null
-        params = params.toBuilder().target(null).build();
+        params = params.toBuilder().targetType(null).build();
         assertThatIllegalArgumentException().isThrownBy(() -> new SoOperation(params, config, PROP_NAMES) {})
                         .withMessageContaining("Target information");
     }
@@ -98,23 +100,23 @@ public class SoOperationTest extends BasicSoOperation {
     @Test
     public void testValidateTarget() {
         // check when various fields are null
-        verifyNotNull("modelCustomizationId", target::getModelCustomizationId, target::setModelCustomizationId);
-        verifyNotNull("modelInvariantId", target::getModelInvariantId, target::setModelInvariantId);
-        verifyNotNull("modelVersionId", target::getModelVersionId, target::setModelVersionId);
+        verifyNotNull(ControlLoopOperationParams.PARAMS_ENTITY_MODEL_CUSTOMIZATION_ID, targetEntities);
+        verifyNotNull(ControlLoopOperationParams.PARAMS_ENTITY_MODEL_INVARIANT_ID, targetEntities);
+        verifyNotNull(ControlLoopOperationParams.PARAMS_ENTITY_MODEL_VERSION_ID, targetEntities);
 
         // verify it's still valid
         assertThatCode(() -> new VfModuleCreate(params, config)).doesNotThrowAnyException();
     }
 
-    private void verifyNotNull(String expectedText, Supplier<String> getter, Consumer<String> setter) {
-        String originalValue = getter.get();
+    private void verifyNotNull(String expectedText, Map<String, String> targetEntities) {
+        String originalValue = targetEntities.get(expectedText);
 
         // try with null
-        setter.accept(null);
+        targetEntities.put(expectedText, null);
         assertThatIllegalArgumentException().isThrownBy(() -> new VfModuleCreate(params, config))
                         .withMessageContaining(expectedText);
 
-        setter.accept(originalValue);
+        targetEntities.put(expectedText, originalValue);
     }
 
     @Test
@@ -178,7 +180,7 @@ public class SoOperationTest extends BasicSoOperation {
 
         assertTrue(executor.runAll(100));
         assertTrue(future2.isDone());
-        assertEquals(PolicyResult.SUCCESS, future2.get().getResult());
+        assertEquals(OperationResult.SUCCESS, future2.get().getResult());
 
         // verify that the count was stored
         Integer vfcount = context.getProperty(VF_COUNT_KEY);
@@ -219,47 +221,47 @@ public class SoOperationTest extends BasicSoOperation {
     public void testSetOutcome() {
         // success case
         when(rawResponse.getStatus()).thenReturn(200);
-        assertSame(outcome, oper.setOutcome(outcome, PolicyResult.SUCCESS, rawResponse, response));
+        assertSame(outcome, oper.setOutcome(outcome, OperationResult.SUCCESS, rawResponse, response));
 
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertEquals("200 " + ControlLoopOperation.SUCCESS_MSG, outcome.getMessage());
         assertSame(response, outcome.getResponse());
 
         // failure case
         when(rawResponse.getStatus()).thenReturn(500);
-        assertSame(outcome, oper.setOutcome(outcome, PolicyResult.FAILURE, rawResponse, response));
+        assertSame(outcome, oper.setOutcome(outcome, OperationResult.FAILURE, rawResponse, response));
 
-        assertEquals(PolicyResult.FAILURE, outcome.getResult());
+        assertEquals(OperationResult.FAILURE, outcome.getResult());
         assertEquals("500 " + ControlLoopOperation.FAILED_MSG, outcome.getMessage());
         assertSame(response, outcome.getResponse());
     }
 
     @Test
     public void testPrepareSoModelInfo() throws CoderException {
-        verifyMissingModelInfo(target::getModelCustomizationId, target::setModelCustomizationId);
-        verifyMissingModelInfo(target::getModelInvariantId, target::setModelInvariantId);
-        verifyMissingModelInfo(target::getModelName, target::setModelName);
-        verifyMissingModelInfo(target::getModelVersion, target::setModelVersion);
-        verifyMissingModelInfo(target::getModelVersionId, target::setModelVersionId);
+        verifyMissingModelInfo(ControlLoopOperationParams.PARAMS_ENTITY_MODEL_CUSTOMIZATION_ID, targetEntities);
+        verifyMissingModelInfo(ControlLoopOperationParams.PARAMS_ENTITY_MODEL_INVARIANT_ID, targetEntities);
+        verifyMissingModelInfo(ControlLoopOperationParams.PARAMS_ENTITY_MODEL_NAME, targetEntities);
+        verifyMissingModelInfo(ControlLoopOperationParams.PARAMS_ENTITY_MODEL_VERSION, targetEntities);
+        verifyMissingModelInfo(ControlLoopOperationParams.PARAMS_ENTITY_MODEL_VERSION_ID, targetEntities);
 
         // valid data
         SoModelInfo info = oper.prepareSoModelInfo();
         verifyRequest("model.json", info);
 
         // try with null target
-        params = params.toBuilder().target(null).build();
+        params = params.toBuilder().targetType(null).build();
         assertThatIllegalArgumentException().isThrownBy(() -> new SoOperation(params, config, PROP_NAMES) {})
                         .withMessageContaining("missing Target");
     }
 
-    private void verifyMissingModelInfo(Supplier<String> getter, Consumer<String> setter) {
-        String original = getter.get();
+    private void verifyMissingModelInfo(String key, Map<String, String> targetEntities) {
+        String original = targetEntities.get(key);
 
-        setter.accept(null);
+        targetEntities.put(key, null);
         assertThatIllegalArgumentException().isThrownBy(() -> oper.prepareSoModelInfo())
                         .withMessage("missing VF Module model");
 
-        setter.accept(original);
+        targetEntities.put(key, original);
     }
 
     @Test

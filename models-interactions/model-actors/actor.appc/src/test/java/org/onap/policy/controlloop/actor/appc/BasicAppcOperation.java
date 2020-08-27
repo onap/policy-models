@@ -27,6 +27,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -42,11 +43,10 @@ import org.onap.policy.common.utils.coder.StandardCoderInstantAsMillis;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.actor.test.BasicBidirectionalTopicOperation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.impl.OperationMaker;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
-import org.onap.policy.controlloop.policy.PolicyResult;
-import org.onap.policy.controlloop.policy.Target;
 import org.onap.policy.simulators.AppcLegacyTopicServer;
 import org.onap.policy.simulators.TopicServer;
 import org.powermock.reflect.Whitebox;
@@ -103,6 +103,7 @@ public abstract class BasicAppcOperation extends BasicBidirectionalTopicOperatio
         super.tearDownBasic();
     }
 
+    @Override
     protected TopicServer<Request> makeServer(TopicSink sink, TopicSource source) {
         return new AppcLegacyTopicServer(sink, source);
     }
@@ -126,7 +127,7 @@ public abstract class BasicAppcOperation extends BasicBidirectionalTopicOperatio
         assertTrue(future2.isDone());
 
         outcome = future2.get();
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertEquals(MY_DESCRIPTION, outcome.getMessage());
     }
 
@@ -153,10 +154,10 @@ public abstract class BasicAppcOperation extends BasicBidirectionalTopicOperatio
     protected void makeContext() {
         super.makeContext();
 
-        Target target = new Target();
-        target.setResourceID(RESOURCE_ID);
+        Map<String, String> entities = new HashMap<>();
+        entities.put("resourceId", RESOURCE_ID);
 
-        params = params.toBuilder().target(target).build();
+        params = params.toBuilder().targetEntityIds(entities).build();
     }
 
     /**

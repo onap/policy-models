@@ -43,12 +43,12 @@ import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.ActorService;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.actorserviceprovider.Operator;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.impl.OperationPartial;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
-import org.onap.policy.controlloop.policy.PolicyResult;
 
 /**
  * Superclass for various Operation tests.
@@ -137,7 +137,7 @@ public class BasicOperation {
         when(guardOperator.buildOperation(any())).thenReturn(guardOperation);
 
         outcome = params.makeOutcome(TARGET_ENTITY);
-        outcome.setResult(PolicyResult.SUCCESS);
+        outcome.setResult(OperationResult.SUCCESS);
         when(guardOperation.start()).thenReturn(CompletableFuture.completedFuture(outcome));
 
         when(service.getActor(AaiConstants.ACTOR_NAME)).thenReturn(cqActor);
@@ -227,7 +227,7 @@ public class BasicOperation {
     protected void provideCqResponse(AaiCqResponse cq) {
         context.setProperty(AaiCqResponse.CONTEXT_KEY, cq);
         OperationOutcome outcome2 = params.makeOutcome(TARGET_ENTITY);
-        outcome2.setResult(PolicyResult.SUCCESS);
+        outcome2.setResult(OperationResult.SUCCESS);
         cqFuture.complete(outcome2);
     }
 }

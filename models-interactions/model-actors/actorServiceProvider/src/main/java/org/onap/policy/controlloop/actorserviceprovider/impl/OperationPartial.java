@@ -54,10 +54,10 @@ import org.onap.policy.controlloop.actorserviceprovider.CallbackManager;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.OperatorConfig;
 import org.onap.policy.controlloop.actorserviceprovider.pipeline.PipelineControllerFuture;
-import org.onap.policy.controlloop.policy.PolicyResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -132,10 +132,12 @@ public abstract class OperationPartial implements Operation {
         return config.getBlockingExecutor();
     }
 
+    @Override
     public String getActorName() {
         return params.getActor();
     }
 
+    @Override
     public String getName() {
         return params.getOperation();
     }
@@ -221,7 +223,7 @@ public abstract class OperationPartial implements Operation {
             // TODO need a FAILURE_MISSING_DATA (e.g., A&AI)
 
             outcome2.setFinalOutcome(true);
-            outcome2.setResult(PolicyResult.FAILURE_GUARD);
+            outcome2.setResult(OperationResult.FAILURE_GUARD);
             outcome2.setMessage(outcome != null ? outcome.getMessage() : null);
 
             // @formatter:off
@@ -392,7 +394,7 @@ public abstract class OperationPartial implements Operation {
      * @return {@code true} if the outcome was successful
      */
     protected boolean isSuccess(OperationOutcome outcome) {
-        return (outcome != null && outcome.getResult() == PolicyResult.SUCCESS);
+        return (outcome != null && outcome.getResult() == OperationResult.SUCCESS);
     }
 
     /**
@@ -403,7 +405,7 @@ public abstract class OperationPartial implements Operation {
      *         <i>and</i> was associated with this operator, {@code false} otherwise
      */
     protected boolean isActorFailed(OperationOutcome outcome) {
-        return (isSameOperation(outcome) && outcome.getResult() == PolicyResult.FAILURE);
+        return (isSameOperation(outcome) && outcome.getResult() == OperationResult.FAILURE);
     }
 
     /**
@@ -475,7 +477,7 @@ public abstract class OperationPartial implements Operation {
                 outcome = origOutcome;
             } else {
                 logger.warn("{}: null outcome; treating as a failure for {}", getFullName(), params.getRequestId());
-                outcome = this.setOutcome(params.makeOutcome(getTargetEntity()), PolicyResult.FAILURE);
+                outcome = this.setOutcome(params.makeOutcome(getTargetEntity()), OperationResult.FAILURE);
             }
 
             // ensure correct actor/operation
@@ -483,7 +485,7 @@ public abstract class OperationPartial implements Operation {
             outcome.setOperation(getName());
 
             // determine if we should retry, based on the result
-            if (outcome.getResult() != PolicyResult.FAILURE) {
+            if (outcome.getResult() != OperationResult.FAILURE) {
                 // do not retry success or other failure types (e.g., exception)
                 outcome.setFinalOutcome(true);
                 return outcome;
@@ -504,7 +506,7 @@ public abstract class OperationPartial implements Operation {
                  * FAILURE_RETRIES
                  */
                 logger.info("operation {} retries exhausted for {}", getFullName(), params.getRequestId());
-                outcome.setResult(PolicyResult.FAILURE_RETRIES);
+                outcome.setResult(OperationResult.FAILURE_RETRIES);
                 outcome.setFinalOutcome(true);
             }
 
@@ -989,7 +991,8 @@ public abstract class OperationPartial implements Operation {
      * @return the updated operation
      */
     public OperationOutcome setOutcome(OperationOutcome operation, Throwable thrown) {
-        PolicyResult result = (isTimeout(thrown) ? PolicyResult.FAILURE_TIMEOUT : PolicyResult.FAILURE_EXCEPTION);
+        OperationResult result = (isTimeout(thrown) ? OperationResult.FAILURE_TIMEOUT
+                : OperationResult.FAILURE_EXCEPTION);
         return setOutcome(operation, result);
     }
 
@@ -1000,10 +1003,10 @@ public abstract class OperationPartial implements Operation {
      * @param result result of the operation
      * @return the updated operation
      */
-    public OperationOutcome setOutcome(OperationOutcome operation, PolicyResult result) {
+    public OperationOutcome setOutcome(OperationOutcome operation, OperationResult result) {
         logger.trace("{}: set outcome {} for {}", getFullName(), result, params.getRequestId());
         operation.setResult(result);
-        operation.setMessage(result == PolicyResult.SUCCESS ? ControlLoopOperation.SUCCESS_MSG
+        operation.setMessage(result == OperationResult.SUCCESS ? ControlLoopOperation.SUCCESS_MSG
                         : ControlLoopOperation.FAILED_MSG);
 
         return operation;
