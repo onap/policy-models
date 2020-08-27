@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "0cca1a41_05a01bbf",
+        "filename": "models-interactions/model-actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SoOperation.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-27T17:43:55Z",
+      "side": 1,
+      "message": "yes, plz.  Could actually add validateNotNull for each of them in the constructor and then remove lines 296-299, too",
+      "parentUuid": "944fa048_90e3894b",
+      "revId": "abf8d141df425d3ed3d3bbc0e6b807162bc8f6a3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7f15edf7_9ef1e756",
         "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/TargetType.java",
         "patchSetId": 4
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "No these are general categories, not specifics. I\u0027m not up-reving the operational policy type to support a new constraint.",
       "parentUuid": "7f15edf7_9ef1e756",
+      "revId": "abf8d141df425d3ed3d3bbc0e6b807162bc8f6a3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58b194b8_994d56d9",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/TargetType.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-27T17:43:55Z",
+      "side": 1,
+      "message": "As long as it matches the existing schema constraint, that\u0027s fine.  So then Wipro may require a schema update - is that even possible at this point?",
+      "parentUuid": "75a43048_21de2626",
       "revId": "abf8d141df425d3ed3d3bbc0e6b807162bc8f6a3",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
