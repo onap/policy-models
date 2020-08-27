@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "042ca3a0_57cee47d",
+        "filename": "models-interactions/model-actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SoOperation.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-27T16:44:33Z",
+      "side": 1,
+      "message": "I just realized how silly this is - the values were already extracted in the constructor so no need to re-extract them.  Don\u0027t know why I did that in the first place.",
+      "revId": "abf8d141df425d3ed3d3bbc0e6b807162bc8f6a3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f15edf7_9ef1e756",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/main/java/org/onap/policy/controlloop/actorserviceprovider/TargetType.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-27T16:44:33Z",
+      "side": 1,
+      "message": "As long as the names match the enum name, do we really need to store the string?\n\nWipro wants to use \"SERVICEINSTANCE\".  Is that not in the schema?  If not, we may need to feed that back to them.",
+      "revId": "abf8d141df425d3ed3d3bbc0e6b807162bc8f6a3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
