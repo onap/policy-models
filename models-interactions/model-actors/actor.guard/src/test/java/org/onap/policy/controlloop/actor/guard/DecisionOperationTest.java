@@ -49,8 +49,8 @@ import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInst
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.controlloop.actor.test.BasicHttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
-import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.models.decisions.concepts.DecisionRequest;
 import org.onap.policy.models.decisions.concepts.DecisionResponse;
 import org.onap.policy.simulators.GuardSimulatorJaxRs;
@@ -121,7 +121,7 @@ public class DecisionOperationTest extends BasicHttpOperation {
         oper = new DecisionOperation(params, config);
 
         outcome = oper.start().get();
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertTrue(outcome.getResponse() instanceof DecisionResponse);
     }
 
@@ -138,7 +138,7 @@ public class DecisionOperationTest extends BasicHttpOperation {
         oper = new DecisionOperation(params, config);
 
         outcome = oper.start().get();
-        assertEquals(PolicyResult.FAILURE, outcome.getResult());
+        assertEquals(OperationResult.FAILURE, outcome.getResult());
         assertTrue(outcome.getResponse() instanceof DecisionResponse);
     }
 
@@ -170,7 +170,7 @@ public class DecisionOperationTest extends BasicHttpOperation {
         assertTrue(future2.isDone());
 
         outcome = future2.get();
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertEquals(resp, outcome.getResponse());
 
         assertNotNull(oper.getSubRequestId());
@@ -194,7 +194,7 @@ public class DecisionOperationTest extends BasicHttpOperation {
         assertTrue(future2.isDone());
 
         outcome = future2.get();
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertNull(outcome.getResponse());
 
         // ensure callbacks were invoked
@@ -237,26 +237,26 @@ public class DecisionOperationTest extends BasicHttpOperation {
 
         // null status
         response.setStatus(null);
-        verifyOutcome(response, PolicyResult.FAILURE, "response contains no status");
+        verifyOutcome(response, OperationResult.FAILURE, "response contains no status");
 
         // permit, mixed case
         response.setStatus("peRmit");
-        verifyOutcome(response, PolicyResult.SUCCESS, "peRmit");
+        verifyOutcome(response, OperationResult.SUCCESS, "peRmit");
 
         // indeterminate, mixed case
         response.setStatus("inDETerminate");
-        verifyOutcome(response, PolicyResult.SUCCESS, "inDETerminate");
+        verifyOutcome(response, OperationResult.SUCCESS, "inDETerminate");
 
         // deny, mixed case
         response.setStatus("deNY");
-        verifyOutcome(response, PolicyResult.FAILURE, "deNY");
+        verifyOutcome(response, OperationResult.FAILURE, "deNY");
 
         // unknown status
         response.setStatus("unknown");
-        verifyOutcome(response, PolicyResult.FAILURE, "unknown");
+        verifyOutcome(response, OperationResult.FAILURE, "unknown");
     }
 
-    private void verifyOutcome(DecisionResponse response, PolicyResult expectedResult, String expectedMessage) {
+    private void verifyOutcome(DecisionResponse response, OperationResult expectedResult, String expectedMessage) {
         oper.postProcessResponse(outcome, BASE_URI, rawResponse, response);
         assertEquals(expectedResult, outcome.getResult());
         assertEquals(expectedMessage, outcome.getMessage());

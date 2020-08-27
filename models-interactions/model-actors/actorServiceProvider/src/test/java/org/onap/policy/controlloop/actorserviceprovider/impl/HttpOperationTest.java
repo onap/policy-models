@@ -79,11 +79,11 @@ import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.network.NetworkUtil;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
-import org.onap.policy.controlloop.policy.PolicyResult;
 
 public class HttpOperationTest {
 
@@ -257,7 +257,7 @@ public class HttpOperationTest {
         assertSame(outcome, future2.get(5, TimeUnit.SECONDS));
         assertSame(TEXT, outcome.getResponse());
 
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
     }
 
     /**
@@ -289,7 +289,7 @@ public class HttpOperationTest {
         CompletableFuture<OperationOutcome> result = oper.processResponse(outcome, PATH, response);
         assertTrue(result.isDone());
         assertSame(outcome, result.get());
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertSame(TEXT, outcome.getResponse());
     }
 
@@ -302,7 +302,7 @@ public class HttpOperationTest {
         CompletableFuture<OperationOutcome> result = oper.processResponse(outcome, PATH, response);
         assertTrue(result.isDone());
         assertSame(outcome, result.get());
-        assertEquals(PolicyResult.FAILURE, outcome.getResult());
+        assertEquals(OperationResult.FAILURE, outcome.getResult());
         assertSame(TEXT, outcome.getResponse());
     }
 
@@ -318,7 +318,7 @@ public class HttpOperationTest {
         CompletableFuture<OperationOutcome> result = oper2.processResponse(outcome, PATH, response);
         assertTrue(result.isDone());
         assertSame(outcome, result.get());
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertEquals(Integer.valueOf(10), outcome.getResponse());
     }
 
@@ -359,7 +359,7 @@ public class HttpOperationTest {
         OperationOutcome outcome = runOperation(oper2);
         assertNotNull(outcome);
         assertEquals(1, nget);
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertTrue(outcome.getResponse() instanceof MyResponse);
     }
 
@@ -376,7 +376,7 @@ public class HttpOperationTest {
         OperationOutcome outcome = runOperation(oper2);
         assertNotNull(outcome);
         assertEquals(1, ndelete);
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertTrue(outcome.getResponse() instanceof String);
     }
 
@@ -392,7 +392,7 @@ public class HttpOperationTest {
         OperationOutcome outcome = runOperation(oper2);
         assertNotNull(outcome);
         assertEquals(1, npost);
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertTrue(outcome.getResponse() instanceof MyResponse);
     }
 
@@ -409,7 +409,7 @@ public class HttpOperationTest {
         OperationOutcome outcome = runOperation(oper2);
         assertNotNull(outcome);
         assertEquals(1, nput);
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertTrue(outcome.getResponse() instanceof MyResponse);
     }
 

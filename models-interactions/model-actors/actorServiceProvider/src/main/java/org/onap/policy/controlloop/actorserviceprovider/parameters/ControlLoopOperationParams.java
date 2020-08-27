@@ -37,9 +37,9 @@ import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.ActorService;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.TargetType;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
-import org.onap.policy.controlloop.policy.Target;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,6 +53,13 @@ import org.slf4j.LoggerFactory;
 @EqualsAndHashCode
 public class ControlLoopOperationParams {
     private static final Logger logger = LoggerFactory.getLogger(ControlLoopOperationParams.class);
+
+    public static final String PARAMS_ENTITY_RESOURCEID = "resourceID";
+    public static final String PARAMS_ENTITY_MODEL_INVARIANT_ID = "modelInvariantId";
+    public static final String PARAMS_ENTITY_MODEL_VERSION_ID = "modelVersionId";
+    public static final String PARAMS_ENTITY_MODEL_NAME = "modelName";
+    public static final String PARAMS_ENTITY_MODEL_VERSION = "modelVersion";
+    public static final String PARAMS_ENTITY_MODEL_CUSTOMIZATION_ID = "modelCustomizationId";
 
     /**
      * Actor name.
@@ -107,10 +114,16 @@ public class ControlLoopOperationParams {
     private Integer retry;
 
     /**
-     * The Target information, extracted from the Policy. May be {@code null}, depending
+     * The Target Type information, extracted from the Policy. May be {@code null}, depending
      * on the requirement of the operation to be invoked.
      */
-    private Target target;
+    private TargetType targetType;
+
+    /**
+     * Target entitiy ids, extracted from the Policy. May be (@code null}, depending on
+     * the requirement of the operation to be invoked.
+     */
+    private Map<String, String> targetEntityIds;
 
     /**
      * Target entity.

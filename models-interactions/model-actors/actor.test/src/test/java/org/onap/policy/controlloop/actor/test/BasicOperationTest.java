@@ -34,9 +34,9 @@ import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.impl.OperationPartial;
-import org.onap.policy.controlloop.policy.PolicyResult;
 
 public class BasicOperationTest {
     private static final String ACTOR = "my-actor";
@@ -75,7 +75,7 @@ public class BasicOperationTest {
         CompletableFuture<OperationOutcome> future = oper.service.getActor(OperationPartial.GUARD_ACTOR_NAME)
                         .getOperator(OperationPartial.GUARD_OPERATION_NAME).buildOperation(null).start();
         assertTrue(future.isDone());
-        assertEquals(PolicyResult.SUCCESS, future.get().getResult());
+        assertEquals(OperationResult.SUCCESS, future.get().getResult());
     }
 
     @Test
@@ -116,6 +116,6 @@ public class BasicOperationTest {
 
         assertSame(cq, oper.context.getProperty(AaiCqResponse.CONTEXT_KEY));
         assertTrue(oper.cqFuture.isDone());
-        assertEquals(PolicyResult.SUCCESS, oper.cqFuture.get().getResult());
+        assertEquals(OperationResult.SUCCESS, oper.cqFuture.get().getResult());
     }
 }

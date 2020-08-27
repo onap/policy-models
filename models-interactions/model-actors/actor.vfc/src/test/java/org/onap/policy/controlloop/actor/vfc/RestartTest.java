@@ -36,9 +36,9 @@ import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingParams;
-import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.vfc.VfcRequest;
 import org.onap.policy.vfc.VfcResponse;
 
@@ -87,7 +87,7 @@ public class RestartTest extends BasicVfcOperation {
         restartOper = new Restart(params, config);
 
         outcome = restartOper.start().get();
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertTrue(outcome.getResponse() instanceof VfcResponse);
     }
 
@@ -113,7 +113,7 @@ public class RestartTest extends BasicVfcOperation {
 
         // run the operation
         outcome = restartOper.start().get();
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertTrue(outcome.getResponse() instanceof VfcResponse);
     }
 
