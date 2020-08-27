@@ -83,7 +83,8 @@ public class ModifyConfigOperation extends AppcOperation {
             throw new IllegalStateException("target vnf-id could not be determined");
         }
 
-        GenericVnf genvnf = cq.getGenericVnfByModelInvariantId(params.getTarget().getResourceID());
+        GenericVnf genvnf = cq.getGenericVnfByModelInvariantId(params.getTargetEntityIds()
+                .get(ControlLoopOperationParams.PARAMS_ENTITY_RESOURCEID));
         if (genvnf == null) {
             logger.info("{}: target entity could not be found for {}", getFullName(), params.getRequestId());
             throw new IllegalArgumentException("target vnf-id could not be found");

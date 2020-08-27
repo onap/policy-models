@@ -30,7 +30,6 @@ import java.time.Instant;
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.controlloop.ControlLoopOperation;
-import org.onap.policy.controlloop.policy.PolicyResult;
 
 public class OperationOutcomeTest {
     private static final String ACTOR = "my-actor";
@@ -39,7 +38,7 @@ public class OperationOutcomeTest {
     private static final Instant START = Instant.ofEpochMilli(10);
     private static final Instant END = Instant.ofEpochMilli(20);
     private static final String SUB_REQ_ID = "my-sub-request-id";
-    private static final PolicyResult RESULT = PolicyResult.FAILURE_GUARD;
+    private static final OperationResult RESULT = OperationResult.FAILURE_GUARD;
     private static final String MESSAGE = "my-message";
     private static final String RESPONSE = "my-response";
 
@@ -124,8 +123,8 @@ public class OperationOutcomeTest {
 
     @Test
     public void testSetResult() {
-        outcome.setResult(PolicyResult.FAILURE_EXCEPTION);
-        assertEquals(PolicyResult.FAILURE_EXCEPTION, outcome.getResult());
+        outcome.setResult(OperationResult.FAILURE_EXCEPTION);
+        assertEquals(OperationResult.FAILURE_EXCEPTION, outcome.getResult());
 
         assertThatThrownBy(() -> outcome.setResult(null));
     }

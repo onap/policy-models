@@ -23,7 +23,7 @@ import org.onap.ccsdk.cds.controllerblueprints.common.api.EventType;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceOutput;
 import org.onap.policy.cds.api.CdsProcessorListener;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
-import org.onap.policy.controlloop.policy.PolicyResult;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,12 +61,12 @@ public class CdsActorServiceManager implements CdsProcessorListener {
                 LOGGER.info("CDS is processing the message: {}", message);
                 break;
             case EVENT_COMPONENT_EXECUTED:
-                outcome.setResult(PolicyResult.SUCCESS);
+                outcome.setResult(OperationResult.SUCCESS);
                 outcome.setResponse(message);
                 future.complete(outcome);
                 break;
             default:
-                outcome.setResult(PolicyResult.FAILURE);
+                outcome.setResult(OperationResult.FAILURE);
                 outcome.setResponse(message);
                 future.complete(outcome);
                 break;

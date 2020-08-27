@@ -24,11 +24,11 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicOperation;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.topic.SelectorKey;
-import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.sdnr.PciBody;
 import org.onap.policy.sdnr.PciCommonHeader;
 import org.onap.policy.sdnr.PciMessage;
@@ -118,7 +118,7 @@ public class SdnrOperation extends BidirectionalTopicOperation<PciMessage, PciMe
      * Sets the message to the status description, if available.
      */
     @Override
-    public OperationOutcome setOutcome(OperationOutcome outcome, PolicyResult result, PciMessage responseWrapper) {
+    public OperationOutcome setOutcome(OperationOutcome outcome, OperationResult result, PciMessage responseWrapper) {
         outcome.setResponse(responseWrapper);
 
         if (responseWrapper.getBody() == null || responseWrapper.getBody().getOutput() == null) {

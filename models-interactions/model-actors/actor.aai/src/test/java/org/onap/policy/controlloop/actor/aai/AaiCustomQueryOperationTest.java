@@ -53,6 +53,7 @@ import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperator;
@@ -60,7 +61,6 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOp
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
-import org.onap.policy.controlloop.policy.PolicyResult;
 
 public class AaiCustomQueryOperationTest extends BasicAaiOperation {
     private static final StandardCoder coder = new StandardCoder();
@@ -120,7 +120,7 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation {
         oper.setProperty(OperationProperties.AAI_VSERVER_LINK, MY_LINK);
 
         outcome = oper.start().get();
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
 
         assertNotNull(outcome.getResponse());
     }
@@ -171,7 +171,7 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation {
 
         CompletableFuture<OperationOutcome> future2 = oper.start();
 
-        assertEquals(PolicyResult.SUCCESS, getResult(future2));
+        assertEquals(OperationResult.SUCCESS, getResult(future2));
 
         // tenant response should have been cached within the context
         assertNotNull(context.getProperty(AaiGetTenantOperation.getKey(MY_VSERVER)));
@@ -198,7 +198,7 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation {
 
         CompletableFuture<OperationOutcome> future2 = oper.start();
 
-        assertEquals(PolicyResult.SUCCESS, getResult(future2));
+        assertEquals(OperationResult.SUCCESS, getResult(future2));
 
         // should not have replaced tenant response
         assertSame(data, context.getProperty(AaiGetTenantOperation.getKey(MY_VSERVER)));
@@ -259,10 +259,10 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation {
 
     @Test
     public void testSetOutcome() {
-        outcome = oper.setOutcome(params.makeOutcome(null), PolicyResult.SUCCESS, null, null);
+        outcome = oper.setOutcome(params.makeOutcome(null), OperationResult.SUCCESS, null, null);
         assertNull(outcome.getResponse());
 
-        outcome = oper.setOutcome(params.makeOutcome(null), PolicyResult.SUCCESS, null, "{}");
+        outcome = oper.setOutcome(params.makeOutcome(null), OperationResult.SUCCESS, null, "{}");
         assertTrue(outcome.getResponse() instanceof AaiCqResponse);
     }
 
@@ -289,7 +289,7 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation {
         context.setProperty(AaiGetTenantOperation.getKey(SIM_VSERVER), data);
     }
 
-    private PolicyResult getResult(CompletableFuture<OperationOutcome> future2)
+    private OperationResult getResult(CompletableFuture<OperationOutcome> future2)
                     throws InterruptedException, ExecutionException, TimeoutException {
 
         executor.runAll(100);

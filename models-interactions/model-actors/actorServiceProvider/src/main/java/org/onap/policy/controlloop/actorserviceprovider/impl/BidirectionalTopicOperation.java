@@ -29,12 +29,12 @@ import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.pipeline.PipelineControllerFuture;
 import org.onap.policy.controlloop.actorserviceprovider.topic.BidirectionalTopicHandler;
 import org.onap.policy.controlloop.actorserviceprovider.topic.Forwarder;
-import org.onap.policy.controlloop.policy.PolicyResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -215,14 +215,14 @@ public abstract class BidirectionalTopicOperation<Q, S> extends OperationPartial
             case SUCCESS:
                 logger.info("{}.{} request succeeded for {}", params.getActor(), params.getOperation(),
                                 params.getRequestId());
-                setOutcome(outcome, PolicyResult.SUCCESS, response);
+                setOutcome(outcome, OperationResult.SUCCESS, response);
                 postProcessResponse(outcome, rawResponse, response);
                 return outcome;
 
             case FAILURE:
                 logger.info("{}.{} request failed for {}", params.getActor(), params.getOperation(),
                                 params.getRequestId());
-                return setOutcome(outcome, PolicyResult.FAILURE, response);
+                return setOutcome(outcome, OperationResult.FAILURE, response);
 
             case STILL_WAITING:
             default:
@@ -240,7 +240,7 @@ public abstract class BidirectionalTopicOperation<Q, S> extends OperationPartial
      * @param response response used to populate the outcome
      * @return the updated operation
      */
-    public OperationOutcome setOutcome(OperationOutcome outcome, PolicyResult result, S response) {
+    public OperationOutcome setOutcome(OperationOutcome outcome, OperationResult result, S response) {
         outcome.setResponse(response);
         return setOutcome(outcome, result);
     }

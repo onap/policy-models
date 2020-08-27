@@ -32,10 +32,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
-import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.sdnc.SdncRequest;
 import org.onap.policy.sdnc.SdncResponse;
 
@@ -62,6 +62,7 @@ public class RerouteOperationTest extends BasicSdncOperation {
     /**
      * Set up.
      */
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -84,7 +85,7 @@ public class RerouteOperationTest extends BasicSdncOperation {
         oper.setProperty(OperationProperties.ENRICHMENT_NETWORK_ID, MY_NETWORK);
 
         outcome = oper.start().get();
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertTrue(outcome.getResponse() instanceof SdncResponse);
     }
 

@@ -32,12 +32,11 @@ import org.onap.policy.cds.properties.CdsServerProperties;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actor.cds.constants.CdsActorConstants;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
+import org.onap.policy.controlloop.actorserviceprovider.TargetType;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ParameterValidationRuntimeException;
-import org.onap.policy.controlloop.policy.Target;
-import org.onap.policy.controlloop.policy.TargetType;
 
 public class GrpcOperatorTest {
 
@@ -88,10 +87,8 @@ public class GrpcOperatorTest {
     public void testBuildOperation() {
         VirtualControlLoopEvent event = new VirtualControlLoopEvent();
         ControlLoopEventContext context = new ControlLoopEventContext(event);
-        Target target = new Target();
-        target.setType(TargetType.VM);
         ControlLoopOperationParams params = ControlLoopOperationParams.builder().actor(CdsActorConstants.CDS_ACTOR)
-                        .operation(GrpcOperation.NAME).context(context).target(target).build();
+                        .operation(GrpcOperation.NAME).context(context).targetType(TargetType.VM).build();
 
         // not configured yet
         assertThatIllegalStateException().isThrownBy(() -> operation.buildOperation(params));
