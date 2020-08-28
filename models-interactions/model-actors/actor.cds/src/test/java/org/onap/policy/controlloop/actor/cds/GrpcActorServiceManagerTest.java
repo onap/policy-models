@@ -36,7 +36,7 @@ import org.onap.ccsdk.cds.controllerblueprints.common.api.EventType;
 import org.onap.ccsdk.cds.controllerblueprints.common.api.Status;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceOutput;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
-import org.onap.policy.controlloop.policy.PolicyResult;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 
 public class GrpcActorServiceManagerTest {
 
@@ -61,7 +61,7 @@ public class GrpcActorServiceManagerTest {
         output = ExecutionServiceOutput.newBuilder().setStatus(status).build();
         manager.onMessage(output);
         OperationOutcome outcome = future.get(2, TimeUnit.SECONDS);
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertSame(output, outcome.getResponse());
     }
 
@@ -82,7 +82,7 @@ public class GrpcActorServiceManagerTest {
         output = ExecutionServiceOutput.newBuilder().setStatus(status).build();
         manager.onMessage(output);
         OperationOutcome outcome = future.get(2, TimeUnit.SECONDS);
-        assertEquals(PolicyResult.FAILURE, outcome.getResult());
+        assertEquals(OperationResult.FAILURE, outcome.getResult());
         assertSame(output, outcome.getResponse());
     }
 

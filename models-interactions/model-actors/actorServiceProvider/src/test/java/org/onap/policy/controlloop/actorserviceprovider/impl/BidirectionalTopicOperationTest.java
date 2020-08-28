@@ -55,11 +55,11 @@ import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.common.utils.time.PseudoExecutor;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.topic.BidirectionalTopicHandler;
 import org.onap.policy.controlloop.actorserviceprovider.topic.Forwarder;
-import org.onap.policy.controlloop.policy.PolicyResult;
 
 public class BidirectionalTopicOperationTest {
     private static final CommInfrastructure SINK_INFRA = CommInfrastructure.NOOP;
@@ -163,7 +163,7 @@ public class BidirectionalTopicOperationTest {
         assertTrue(future.isDone());
 
         assertSame(outcome, future.get());
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertEquals(response, outcome.getResponse());
 
         verify(forwarder).unregister(eq(Arrays.asList(REQ_ID)), eq(listenerCaptor.getValue()));
@@ -263,7 +263,7 @@ public class BidirectionalTopicOperationTest {
         MyStringOperation oper2 = new MyStringOperation();
 
         assertSame(outcome, oper2.processResponse(outcome, TEXT, null));
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertEquals(TEXT, outcome.getResponse());
     }
 
@@ -276,7 +276,7 @@ public class BidirectionalTopicOperationTest {
         MyScoOperation oper2 = new MyScoOperation();
 
         assertSame(outcome, oper2.processResponse(outcome, responseText, stdResponse));
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertEquals(stdResponse, outcome.getResponse());
     }
 
@@ -293,7 +293,7 @@ public class BidirectionalTopicOperationTest {
         stdResponse = coder.decode(responseText, StandardCoderObject.class);
 
         assertSame(outcome, oper.processResponse(outcome, responseText, stdResponse));
-        assertEquals(PolicyResult.FAILURE, outcome.getResult());
+        assertEquals(OperationResult.FAILURE, outcome.getResult());
         assertEquals(resp, outcome.getResponse());
     }
 
@@ -303,7 +303,7 @@ public class BidirectionalTopicOperationTest {
     @Test
     public void testProcessResponseDecodeOk() throws CoderException {
         assertSame(outcome, oper.processResponse(outcome, responseText, stdResponse));
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertEquals(response, outcome.getResponse());
     }
 

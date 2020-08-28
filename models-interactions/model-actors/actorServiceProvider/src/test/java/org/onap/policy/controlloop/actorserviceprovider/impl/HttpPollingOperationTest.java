@@ -44,10 +44,10 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.stubbing.Answer;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingConfig;
-import org.onap.policy.controlloop.policy.PolicyResult;
 
 /**
  * Tests HttpOperation when polling is enabled.
@@ -134,7 +134,7 @@ public class HttpPollingOperationTest {
                         oper.postProcessResponse(outcome, FULL_PATH, rawResponse, response);
         assertTrue(future2.isDone());
         assertSame(outcome, future2.get());
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertNotNull(oper.getSubRequestId());
         assertSame(response, outcome.getResponse());
 
@@ -144,7 +144,7 @@ public class HttpPollingOperationTest {
         future2 = oper.postProcessResponse(outcome, FULL_PATH, rawResponse, response);
         assertTrue(future2.isDone());
         assertSame(outcome, future2.get());
-        assertEquals(PolicyResult.FAILURE, outcome.getResult());
+        assertEquals(OperationResult.FAILURE, outcome.getResult());
         assertNotNull(oper.getSubRequestId());
         assertSame(response, outcome.getResponse());
     }
@@ -175,7 +175,7 @@ public class HttpPollingOperationTest {
                         oper.postProcessResponse(outcome, FULL_PATH, rawResponse, response);
 
         assertSame(outcome, future2.get(5, TimeUnit.SECONDS));
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertEquals(2, oper.getPollCount());
 
         /*
@@ -186,7 +186,7 @@ public class HttpPollingOperationTest {
         future2 = oper.postProcessResponse(outcome, FULL_PATH, rawResponse, response);
 
         assertSame(outcome, future2.get(5, TimeUnit.SECONDS));
-        assertEquals(PolicyResult.FAILURE_TIMEOUT, outcome.getResult());
+        assertEquals(OperationResult.FAILURE_TIMEOUT, outcome.getResult());
         assertEquals(MAX_POLLS + 1, oper.getPollCount());
 
         oper.resetPollCount();

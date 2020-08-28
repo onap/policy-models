@@ -40,9 +40,9 @@ import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.controlloop.actor.test.BasicHttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.actorserviceprovider.impl.OperationMaker;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
-import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.sdnc.SdncRequest;
 import org.onap.policy.sdnc.SdncResponse;
 import org.onap.policy.sdnc.SdncResponseOutput;
@@ -128,7 +128,7 @@ public abstract class BasicSdncOperation extends BasicHttpOperation {
         assertTrue(future2.isDone());
 
         outcome = future2.get();
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertTrue(outcome.getResponse() instanceof SdncResponse);
 
         assertNotNull(outcome.getSubRequestId());
@@ -157,5 +157,6 @@ public abstract class BasicSdncOperation extends BasicHttpOperation {
                         .withMessageContaining("missing").withMessageContaining(expectedText);
     }
 
+    @Override
     protected abstract Map<String, String> makeEnrichment();
 }

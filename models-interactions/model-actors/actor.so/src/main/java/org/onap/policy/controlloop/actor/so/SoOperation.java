@@ -46,11 +46,10 @@ import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingConfig;
-import org.onap.policy.controlloop.policy.PolicyResult;
-import org.onap.policy.controlloop.policy.Target;
 import org.onap.policy.so.SoCloudConfiguration;
 import org.onap.policy.so.SoModelInfo;
 import org.onap.policy.so.SoRequest;
@@ -80,6 +79,8 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
     private final String modelCustomizationId;
     private final String modelInvariantId;
     private final String modelVersionId;
+    private final String modelName;
+    private final String modelVersion;
 
     private final String vfCountKey;
 
@@ -96,11 +97,20 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
 
         setUsePolling();
 
-        verifyNotNull("Target information", params.getTarget());
+        verifyNotNull("Target information", params.getTargetType());
 
-        this.modelCustomizationId = params.getTarget().getModelCustomizationId();
-        this.modelInvariantId = params.getTarget().getModelInvariantId();
-        this.modelVersionId = params.getTarget().getModelVersionId();
+        verifyNotNull("Target entity Ids information", params.getTargetEntityIds());
+
+        this.modelCustomizationId = params.getTargetEntityIds()
+                .get(ControlLoopOperationParams.PARAMS_ENTITY_MODEL_CUSTOMIZATION_ID);
+        this.modelInvariantId = params.getTargetEntityIds()
+                .get(ControlLoopOperationParams.PARAMS_ENTITY_MODEL_INVARIANT_ID);
+        this.modelVersionId = params.getTargetEntityIds()
+                .get(ControlLoopOperationParams.PARAMS_ENTITY_MODEL_VERSION_ID);
+        this.modelVersion = params.getTargetEntityIds()
+                .get(ControlLoopOperationParams.PARAMS_ENTITY_MODEL_VERSION);
+        this.modelName = params.getTargetEntityIds()
+                .get(ControlLoopOperationParams.PARAMS_ENTITY_MODEL_NAME);
 
         vfCountKey = SoConstants.VF_COUNT_PREFIX + "[" + modelCustomizationId + "][" + modelInvariantId + "]["
                         + modelVersionId + "]";
@@ -117,9 +127,9 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
      * the VF count from the custom query.
      */
     protected void validateTarget() {
-        verifyNotNull("modelCustomizationId", modelCustomizationId);
-        verifyNotNull("modelInvariantId", modelInvariantId);
-        verifyNotNull("modelVersionId", modelVersionId);
+        verifyNotNull(ControlLoopOperationParams.PARAMS_ENTITY_MODEL_CUSTOMIZATION_ID, modelCustomizationId);
+        verifyNotNull(ControlLoopOperationParams.PARAMS_ENTITY_MODEL_INVARIANT_ID, modelInvariantId);
+        verifyNotNull(ControlLoopOperationParams.PARAMS_ENTITY_MODEL_VERSION_ID, modelVersionId);
     }
 
     private void verifyNotNull(String type, Object value) {
@@ -267,13 +277,13 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
      * Prepends the message with the http status code.
      */
     @Override
-    public OperationOutcome setOutcome(OperationOutcome outcome, PolicyResult result, Response rawResponse,
+    public OperationOutcome setOutcome(OperationOutcome outcome, OperationResult result, Response rawResponse,
                     SoResponse response) {
 
         // set default result and message
         setOutcome(outcome, result);
 
-        int code = (result == PolicyResult.FAILURE_TIMEOUT ? SO_RESPONSE_CODE : rawResponse.getStatus());
+        int code = (result == OperationResult.FAILURE_TIMEOUT ? SO_RESPONSE_CODE : rawResponse.getStatus());
 
         outcome.setResponse(response);
         outcome.setMessage(code + " " + outcome.getMessage());
@@ -281,23 +291,12 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
     }
 
     protected SoModelInfo prepareSoModelInfo() {
-        Target target = params.getTarget();
-        if (target == null) {
-            throw new IllegalArgumentException("missing Target");
-        }
-
-        if (target.getModelCustomizationId() == null || target.getModelInvariantId() == null
-                        || target.getModelName() == null || target.getModelVersion() == null
-                        || target.getModelVersionId() == null) {
-            throw new IllegalArgumentException("missing VF Module model");
-        }
-
         SoModelInfo soModelInfo = new SoModelInfo();
-        soModelInfo.setModelCustomizationId(target.getModelCustomizationId());
-        soModelInfo.setModelInvariantId(target.getModelInvariantId());
-        soModelInfo.setModelName(target.getModelName());
-        soModelInfo.setModelVersion(target.getModelVersion());
-        soModelInfo.setModelVersionId(target.getModelVersionId());
+        soModelInfo.setModelCustomizationId(modelCustomizationId);
+        soModelInfo.setModelInvariantId(modelInvariantId);
+        soModelInfo.setModelName(modelName);
+        soModelInfo.setModelVersion(modelVersion);
+        soModelInfo.setModelVersionId(modelVersionId);
         soModelInfo.setModelType("vfModule");
         return soModelInfo;
     }

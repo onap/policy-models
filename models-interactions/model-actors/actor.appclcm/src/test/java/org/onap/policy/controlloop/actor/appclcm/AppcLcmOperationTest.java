@@ -32,6 +32,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -57,12 +58,12 @@ import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.actor.test.BasicBidirectionalTopicOperation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicOperation.Status;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicParams;
-import org.onap.policy.controlloop.policy.PolicyResult;
-import org.onap.policy.controlloop.policy.Target;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.simulators.AppcLcmTopicServer;
 import org.onap.policy.simulators.TopicServer;
 
@@ -106,6 +107,7 @@ public class AppcLcmOperationTest extends BasicBidirectionalTopicOperation<AppcL
         super.tearDownBasic();
     }
 
+    @Override
     protected TopicServer<AppcLcmDmaapWrapper> makeServer(TopicSink sink, TopicSource source) {
         return new AppcLcmTopicServer(sink, source);
     }
@@ -129,7 +131,7 @@ public class AppcLcmOperationTest extends BasicBidirectionalTopicOperation<AppcL
         };
 
         outcome = oper.start().get();
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertTrue(outcome.getResponse() instanceof AppcLcmDmaapWrapper);
     }
 
@@ -168,7 +170,7 @@ public class AppcLcmOperationTest extends BasicBidirectionalTopicOperation<AppcL
         assertTrue(executor.runAll(100));
         assertTrue(future2.isDone());
         outcome = future2.get();
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
     }
 
     @Test
@@ -260,26 +262,26 @@ public class AppcLcmOperationTest extends BasicBidirectionalTopicOperation<AppcL
 
     @Test
     public void testSetOutcome() {
-        oper.setOutcome(outcome, PolicyResult.SUCCESS, response);
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        oper.setOutcome(outcome, OperationResult.SUCCESS, response);
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertEquals(MY_MESSAGE, outcome.getMessage());
         assertSame(response, outcome.getResponse());
 
         // failure
-        oper.setOutcome(outcome, PolicyResult.FAILURE, response);
-        assertEquals(PolicyResult.FAILURE, outcome.getResult());
+        oper.setOutcome(outcome, OperationResult.FAILURE, response);
+        assertEquals(OperationResult.FAILURE, outcome.getResult());
         assertEquals(MY_MESSAGE, outcome.getMessage());
         assertSame(response, outcome.getResponse());
 
         // null message
         response.getBody().getOutput().getStatus().setMessage(null);
-        oper.setOutcome(outcome, PolicyResult.SUCCESS, response);
+        oper.setOutcome(outcome, OperationResult.SUCCESS, response);
         assertEquals(ControlLoopOperation.SUCCESS_MSG, outcome.getMessage());
         assertSame(response, outcome.getResponse());
 
         // null status
         response.getBody().getOutput().setStatus(null);
-        oper.setOutcome(outcome, PolicyResult.SUCCESS, response);
+        oper.setOutcome(outcome, OperationResult.SUCCESS, response);
         assertEquals(ControlLoopOperation.SUCCESS_MSG, outcome.getMessage());
         assertSame(response, outcome.getResponse());
     }
@@ -348,10 +350,10 @@ public class AppcLcmOperationTest extends BasicBidirectionalTopicOperation<AppcL
     protected void makeContext() {
         super.makeContext();
 
-        Target target = new Target();
-        target.setResourceID(RESOURCE_ID);
+        Map<String, String> targetEntities = new HashMap<>();
+        targetEntities.put(ControlLoopOperationParams.PARAMS_ENTITY_RESOURCEID, RESOURCE_ID);
 
-        params = params.toBuilder().target(target).build();
+        params = params.toBuilder().targetEntityIds(targetEntities).build();
     }
 
     @Override
