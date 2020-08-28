@@ -38,7 +38,7 @@
                 "failure_guard": "final_failure_guard"
               }
             ],
-            "controllerName": "frankfurt"
+            "controllerName": "usecases"
           }
         }
       }
