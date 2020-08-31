@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "c2a0cb44_b50f3f52",
+        "filename": "models-interactions/model-actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/ModifyNssi.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-31T11:19:48Z",
+      "side": 1,
+      "message": "add \", e\" to the constructor so the stack trace isn\u0027t lost",
+      "revId": "1ac4ddd3842d8007a1b0ecc8dbb35a7cc11ea962",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2aa2a89_2f7243e9",
+        "filename": "models-interactions/model-actors/actor.so/src/test/java/org/onap/policy/controlloop/actor/so/ModifyNssiTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-31T11:19:48Z",
+      "side": 1,
+      "message": "should probably throw IllegalArgumentException here",
+      "revId": "1ac4ddd3842d8007a1b0ecc8dbb35a7cc11ea962",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "39b2ea97_ae04289a",
         "filename": "models-interactions/model-impl/so/src/main/java/org/onap/policy/so/SoRequest3gpp.java",
         "patchSetId": 8
@@ -18,6 +52,29 @@
         "startChar": 19,
         "endLine": 35,
         "endChar": 37
+      },
+      "revId": "1ac4ddd3842d8007a1b0ecc8dbb35a7cc11ea962",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63f54a9f_f049ec4b",
+        "filename": "models-interactions/model-impl/so/src/main/java/org/onap/policy/so/SoRequest3gpp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-31T11:19:48Z",
+      "side": 1,
+      "message": "yes, maybe change to \"serviceInstanceId\"",
+      "range": {
+        "startLine": 35,
+        "startChar": 19,
+        "endLine": 35,
+        "endChar": 36
       },
       "revId": "1ac4ddd3842d8007a1b0ecc8dbb35a7cc11ea962",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
