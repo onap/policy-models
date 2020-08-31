@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39b2ea97_ae04289a",
+        "filename": "models-interactions/model-impl/so/src/main/java/org/onap/policy/so/SoRequest3gpp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-31T11:13:14Z",
+      "side": 1,
+      "message": "checkstyle doesn\u0027t like multiple upper case - you can always add annotation to set the serialization. Strange that it didn\u0027t catch this.",
+      "range": {
+        "startLine": 35,
+        "startChar": 19,
+        "endLine": 35,
+        "endChar": 37
+      },
+      "revId": "1ac4ddd3842d8007a1b0ecc8dbb35a7cc11ea962",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
