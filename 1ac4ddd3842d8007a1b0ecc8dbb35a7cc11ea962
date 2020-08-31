@@ -79,6 +79,54 @@
       "revId": "1ac4ddd3842d8007a1b0ecc8dbb35a7cc11ea962",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c193210_e7b35975",
+        "filename": "models-interactions/model-impl/so/src/main/java/org/onap/policy/so/SoRequest3gpp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 2671
+      },
+      "writtenOn": "2020-08-31T11:50:55Z",
+      "side": 1,
+      "message": "Some checkstyle allows consecutive upper case characters upto a limit, may be 2 to 3 characters. That might be the reason it went under the radar.",
+      "parentUuid": "39b2ea97_ae04289a",
+      "range": {
+        "startLine": 35,
+        "startChar": 19,
+        "endLine": 35,
+        "endChar": 37
+      },
+      "revId": "1ac4ddd3842d8007a1b0ecc8dbb35a7cc11ea962",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6081fe78_84376e52",
+        "filename": "models-interactions/model-impl/so/src/main/java/org/onap/policy/so/SoRequest3gpp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 2671
+      },
+      "writtenOn": "2020-08-31T11:50:55Z",
+      "side": 1,
+      "message": "Okay. Let me change it.",
+      "parentUuid": "63f54a9f_f049ec4b",
+      "range": {
+        "startLine": 35,
+        "startChar": 19,
+        "endLine": 35,
+        "endChar": 36
+      },
+      "revId": "1ac4ddd3842d8007a1b0ecc8dbb35a7cc11ea962",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
