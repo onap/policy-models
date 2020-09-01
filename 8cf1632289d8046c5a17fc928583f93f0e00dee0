@@ -52,6 +52,24 @@
       "revId": "8cf1632289d8046c5a17fc928583f93f0e00dee0",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de1be769_2d1848c5",
+        "filename": "models-interactions/model-actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SoOperation.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-09-01T12:51:25Z",
+      "side": 1,
+      "message": "could still make them final and set them to null in the first constructor.  Maybe also extend the comment on line 79 to indicate that these fields are required by any subclasses that make use of prepareSoModelInfo().",
+      "parentUuid": "75ce82ab_8e3782ea",
+      "revId": "8cf1632289d8046c5a17fc928583f93f0e00dee0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
