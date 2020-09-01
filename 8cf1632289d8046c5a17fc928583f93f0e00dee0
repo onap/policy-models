@@ -16,6 +16,24 @@
       "revId": "8cf1632289d8046c5a17fc928583f93f0e00dee0",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10ee161b_c1fd54fd",
+        "filename": "models-interactions/model-actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SoOperation.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-09-01T11:44:12Z",
+      "side": 1,
+      "message": "Curious also - Krishna what was the reason to remove the final?",
+      "parentUuid": "c2b641f2_8c3fc800",
+      "revId": "8cf1632289d8046c5a17fc928583f93f0e00dee0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
