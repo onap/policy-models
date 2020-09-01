@@ -138,6 +138,9 @@ public class DecisionOperation extends HttpOperation<DecisionResponse> {
         req.setRequestId(getSubRequestId());
         req.setResource(Map.of("guard", params.getPayload()));
 
+
+        logger.info("Decision Request: {}", req);
+
         return req;
     }
 
