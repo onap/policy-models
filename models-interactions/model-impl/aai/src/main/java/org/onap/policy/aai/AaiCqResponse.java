@@ -383,6 +383,24 @@ public class AaiCqResponse implements Serializable {
     }
 
     /**
+     * Returns the VNF given the vnf-id.
+     *
+     * @param vnfId The vnf-id
+     * @return generic Vnf
+     */
+    public GenericVnf getGenericVnfByVnfId(String vnfId) {
+        List<GenericVnf> genericVnfList = this.getGenericVnfs();
+
+        for (GenericVnf genVnf : genericVnfList) {
+            if (vnfId.equals(genVnf.getVnfId())) {
+                return genVnf;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Get the generic vnf associated with the vserver in the custom query.
      *
      * @return Generic VNF

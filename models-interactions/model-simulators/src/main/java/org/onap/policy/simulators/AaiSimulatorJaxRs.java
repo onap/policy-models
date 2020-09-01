@@ -68,6 +68,7 @@ public class AaiSimulatorJaxRs {
     @Produces("application/json")
     public String aaiGetVserverQuery(@QueryParam("filter") final String filter) {
         if (filter.equals("vserver-name:EQUALS:f953c499-4b1e-426b-8c6d-e9e9f1fc730f")
+            || filter.equals("vserver-name:EQUALS:Ete_vFWCLvFWSNK_7ba1fbde_0")
             || filter.equals("vserver-name:EQUALS:OzVServer")
             || filter.equals("vserver-name:EQUALS:testVserverName")) {
             return "{\"result-data\":[{\"resource-type\": \"vserver\",\"resource-link\":\"/aai/v15/"
