@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fdc6946c_21840969",
+        "filename": "models-interactions/model-actors/actor.guard/src/main/java/org/onap/policy/controlloop/actor/guard/DecisionOperation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-09-02T03:18:30Z",
+      "side": 1,
+      "message": "shouldn\u0027t be needed - the request is already logged in both the network log and the debug log; I see it every time I run one of these junits, too.",
+      "revId": "8792cc942b366f5d5d929bc90f4ce1ba20d0542c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
