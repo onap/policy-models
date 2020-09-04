@@ -1,7 +1,7 @@
 #
 # ============LICENSE_START=======================================================
 #  Copyright (C) 2019 Nordix Foundation.
-#  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property.
+#  Modifications Copyright (C) 2019 AT&T Intellectual Property.
 # ================================================================================
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,7 +19,11 @@
 # ============LICENSE_END=========================================================
 #
 
-FROM onap/policy-jre-alpine:2.1.0
+#
+# Docker file to build an image that runs the DMaaP simulator on Java 8 in alpine
+#
+
+FROM onap/policy-jre-alpine
 
 LABEL maintainer="Policy Team"
 

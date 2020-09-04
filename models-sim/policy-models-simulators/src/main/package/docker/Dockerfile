@@ -24,7 +24,7 @@
 # Docker file to build an image that runs the simulators
 #
 
-FROM onap/policy-jre-alpine:2.1.0
+FROM onap/policy-jre-alpine:2.0.1
 
 LABEL maintainer="Policy Team"
 
