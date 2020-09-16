@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +26,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.net.URISyntaxException;
-import java.util.Base64;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -78,7 +78,7 @@ public class PolicyToscaPersistenceTest {
         parameters.setDatabaseDriver("org.h2.Driver");
         parameters.setDatabaseUrl("jdbc:h2:mem:testdb");
         parameters.setDatabaseUser("policy");
-        parameters.setDatabasePassword(Base64.getEncoder().encodeToString("P01icY".getBytes()));
+        parameters.setDatabasePassword("P01icY");
         parameters.setPersistenceUnit("ToscaConceptTest");
 
         databaseProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
@@ -248,6 +248,7 @@ public class PolicyToscaPersistenceTest {
 
         for (int i = 0; i < 10; i++) {
             new Thread() {
+                @Override
                 public void run() {
                     assertThatCode(() -> databaseProvider.createPolicies(serviceTemplate)).doesNotThrowAnyException();
                     assertThatCode(() -> databaseProvider.updatePolicies(serviceTemplate)).doesNotThrowAnyException();

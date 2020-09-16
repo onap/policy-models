@@ -22,7 +22,6 @@
 
 package org.onap.policy.models.provider.impl;
 
-import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -95,15 +94,12 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
         daoParameters.setPluginClass(DefaultPfDao.class.getName());
         daoParameters.setPersistenceUnit(parameters.getPersistenceUnit());
 
-        // Decode the password using Base64
-        String decodedPassword = new String(Base64.getDecoder().decode(getValue(parameters.getDatabasePassword())));
-
         // @formatter:off
         Properties jdbcProperties = new Properties();
         jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_DRIVER,   parameters.getDatabaseDriver());
         jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_URL,      parameters.getDatabaseUrl());
         jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_USER,     parameters.getDatabaseUser());
-        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_PASSWORD, decodedPassword);
+        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_PASSWORD, parameters.getDatabasePassword());
         // @formatter:on
 
         daoParameters.setJdbcProperties(jdbcProperties);
@@ -118,13 +114,6 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
             this.close();
             throw new PfModelException(Response.Status.NOT_ACCEPTABLE, errorMessage, exc);
         }
-    }
-
-    private String getValue(final String value) {
-        if (value != null && value.startsWith("${") && value.endsWith("}")) {
-            return System.getenv(value.substring(2, value.length() - 1));
-        }
-        return value;
     }
 
     @Override

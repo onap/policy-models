@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +40,7 @@ import org.onap.policy.models.provider.impl.DatabasePolicyModelsProviderImpl;
  * defaults to {@link DatabasePolicyModelsProviderImpl} and may not be null
  * <li>databaseUrl: The JDBC URL for the database, mandatory.
  * <li>databaseUser: The user id to use for connecting to the database, optional, defaults to null.
- * <li>databasePassword: The password to use for connecting to the database encoded in Base64, optional,
+ * <li>databasePassword: The password to use for connecting to the database, optional,
  * defaults to null.
  * <li>persistenceUnit: The persistence unit refined in META-INF/persistence.xml to use for connecting
  * to the database, mandatory.
