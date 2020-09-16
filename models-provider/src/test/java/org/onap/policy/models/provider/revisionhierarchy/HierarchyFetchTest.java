@@ -23,7 +23,6 @@ package org.onap.policy.models.provider.revisionhierarchy;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.junit.Assert.assertEquals;
 
-import java.util.Base64;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +47,7 @@ public class HierarchyFetchTest {
         parameters.setDatabaseDriver("org.h2.Driver");
         parameters.setDatabaseUrl("jdbc:h2:mem:testdb");
         parameters.setDatabaseUser("policy");
-        parameters.setDatabasePassword(Base64.getEncoder().encodeToString("P01icY".getBytes()));
+        parameters.setDatabasePassword("P01icY");
         parameters.setPersistenceUnit("ToscaConceptTest");
     }
 
