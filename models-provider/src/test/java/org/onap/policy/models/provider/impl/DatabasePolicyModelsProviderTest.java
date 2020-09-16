@@ -28,7 +28,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import org.junit.Before;
@@ -87,7 +86,7 @@ public class DatabasePolicyModelsProviderTest {
         parameters.setDatabaseDriver("org.h2.Driver");
         parameters.setDatabaseUrl("jdbc:h2:mem:testdb");
         parameters.setDatabaseUser("policy");
-        parameters.setDatabasePassword(Base64.getEncoder().encodeToString("P01icY".getBytes()));
+        parameters.setDatabasePassword("P01icY");
         parameters.setPersistenceUnit("ToscaConceptTest");
     }
 

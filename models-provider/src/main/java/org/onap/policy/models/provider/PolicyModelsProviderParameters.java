@@ -39,7 +39,7 @@ import org.onap.policy.models.provider.impl.DatabasePolicyModelsProviderImpl;
  * defaults to {@link DatabasePolicyModelsProviderImpl} and may not be null
  * <li>databaseUrl: The JDBC URL for the database, mandatory.
  * <li>databaseUser: The user id to use for connecting to the database, optional, defaults to null.
- * <li>databasePassword: The password to use for connecting to the database encoded in Base64, optional,
+ * <li>databasePassword: The password to use for connecting to the database, optional,
  * defaults to null.
  * <li>persistenceUnit: The persistence unit refined in META-INF/persistence.xml to use for connecting
  * to the database, mandatory.
