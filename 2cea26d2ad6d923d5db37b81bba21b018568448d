@@ -129,6 +129,30 @@
       "revId": "2cea26d2ad6d923d5db37b81bba21b018568448d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "776119b7_25997935",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-09-16T16:34:35Z",
+      "side": 1,
+      "message": "yes - that would be best, unless we anticipate changes in the next week for common. I don\u0027t think so after today\u0027s meeting.",
+      "parentUuid": "5ae555e7_7747a634",
+      "range": {
+        "startLine": 45,
+        "startChar": 35,
+        "endLine": 45,
+        "endChar": 45
+      },
+      "revId": "2cea26d2ad6d923d5db37b81bba21b018568448d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
