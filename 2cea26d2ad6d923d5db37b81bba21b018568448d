@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c763fcf0_d440cc69",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProviderParameters.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-09-16T16:04:29Z",
+      "side": 1,
+      "message": "This needs a license update 😊",
+      "revId": "2cea26d2ad6d923d5db37b81bba21b018568448d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
