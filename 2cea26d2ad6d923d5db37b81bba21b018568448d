@@ -105,6 +105,30 @@
       "revId": "2cea26d2ad6d923d5db37b81bba21b018568448d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ae555e7_7747a634",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-09-16T16:09:34Z",
+      "side": 1,
+      "message": "maybe so, sorry",
+      "parentUuid": "c1a79396_97b8cc83",
+      "range": {
+        "startLine": 45,
+        "startChar": 35,
+        "endLine": 45,
+        "endChar": 45
+      },
+      "revId": "2cea26d2ad6d923d5db37b81bba21b018568448d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
