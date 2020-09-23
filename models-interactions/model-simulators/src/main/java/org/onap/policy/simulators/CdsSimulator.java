@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2020 Nordix Foundation.
  *  Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,19 +29,26 @@ import io.grpc.netty.NettyServerBuilder;
 import io.grpc.stub.StreamObserver;
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.nio.charset.StandardCharsets;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import lombok.Getter;
-import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.onap.ccsdk.cds.controllerblueprints.common.api.ActionIdentifiers;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.BluePrintProcessingServiceGrpc.BluePrintProcessingServiceImplBase;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceInput;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceOutput;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceOutput.Builder;
+import org.onap.policy.common.utils.resources.ResourceUtils;
 
 public class CdsSimulator {
     @Getter
     private final int port;
 
     private final Server server;
+
+    private final String resourceLocation;
+
+    private AtomicInteger countOfEvents = new AtomicInteger(1);
 
     /**
      * Constructs the object, but does not start it.
@@ -49,7 +57,21 @@ public class CdsSimulator {
      * @param port port of the server
      */
     public CdsSimulator(String host, int port) {
+        this(host, port, "org/onap/policy/simulators/cds/", 0, 0);
+    }
+
+    /**
+     * Constructs the object, but does not start it.
+     *
+     * @param host host name of the server
+     * @param port port of the server
+     * @param countOfSuccesfulEvents number of successive successful events
+     * @param requestedResponseDelayMs time for the request to be processed
+     */
+    public CdsSimulator(String host, int port, String resourceLocation, int countOfSuccesfulEvents,
+        long requestedResponseDelayMs) {
         this.port = port;
+        this.resourceLocation = resourceLocation;
 
         BluePrintProcessingServiceImplBase testCdsBlueprintServerImpl = new BluePrintProcessingServiceImplBase() {
 
@@ -62,18 +84,17 @@ public class CdsSimulator {
                     @Override
                     public void onNext(final ExecutionServiceInput executionServiceInput) {
                         try {
-                            String responseString = IOUtils.toString(
-                                            getClass().getResource("cds/CreateSubscriptionResponseEvent.json"),
-                                            StandardCharsets.UTF_8);
+                            String responseString = getResponseString(executionServiceInput, countOfSuccesfulEvents);
                             Builder builder = ExecutionServiceOutput.newBuilder();
                             JsonFormat.parser().ignoringUnknownFields().merge(responseString, builder);
+                            TimeUnit.MILLISECONDS.sleep(requestedResponseDelayMs);
                             responseObserver.onNext(builder.build());
-
                         } catch (InvalidProtocolBufferException e) {
                             throw new SimulatorRuntimeException("Cannot convert ExecutionServiceOutput output", e);
-
                         } catch (IOException e) {
                             throw new SimulatorRuntimeException("Cannot read ExecutionServiceOutput from file", e);
+                        } catch (InterruptedException e) {
+                            throw new SimulatorRuntimeException("Execution Interrupted", e);
                         }
                     }
 
@@ -100,5 +121,32 @@ public class CdsSimulator {
 
     public void stop() {
         server.shutdown();
+    }
+
+    /**
+     * Constructs the ResponseString on the basis of request.
+     *
+     * @param executionServiceInput service input
+     * @param countOfSuccesfulEvents number of successive successful events
+     * @return  responseString
+     */
+    public String getResponseString(ExecutionServiceInput executionServiceInput, int countOfSuccesfulEvents) {
+        String resourceName = "DefaultResponseEvent";
+        if (!StringUtils.isBlank(executionServiceInput.getActionIdentifiers().getActionName())) {
+            ActionIdentifiers actionIdentifiers = executionServiceInput.getActionIdentifiers();
+            resourceName = actionIdentifiers.getBlueprintName() + "-" + actionIdentifiers.getActionName();
+        }
+        if (countOfSuccesfulEvents > 0 && countOfEvents.getAndIncrement() % countOfSuccesfulEvents == 0) {
+            // generating the failure response
+            resourceName = resourceName + "-error.json";
+        } else {
+            resourceName = resourceName + ".json";
+        }
+        String responseString = ResourceUtils.getResourceAsString(resourceLocation + resourceName);
+        if (responseString == null) {
+            responseString = ResourceUtils.getResourceAsString(resourceLocation
+                + "DefaultResponseEvent.json");
+        }
+        return responseString;
     }
 }
