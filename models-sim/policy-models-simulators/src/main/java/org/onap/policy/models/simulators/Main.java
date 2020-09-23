@@ -21,6 +21,7 @@
 package org.onap.policy.models.simulators;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
@@ -48,6 +49,7 @@ import org.onap.policy.models.sim.dmaap.parameters.DmaapSimParameterGroup;
 import org.onap.policy.models.sim.dmaap.provider.DmaapSimProvider;
 import org.onap.policy.models.sim.dmaap.rest.CambriaMessageBodyHandler;
 import org.onap.policy.models.sim.dmaap.rest.TextMessageBodyHandler;
+import org.onap.policy.simulators.CdsSimulator;
 import org.onap.policy.simulators.TopicServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,6 +88,12 @@ public class Main extends ServiceManagerContainer {
         // dmaap provider
         AtomicReference<DmaapSimProvider> provRef = new AtomicReference<>();
         addAction(provName, () -> provRef.set(buildDmaapProvider(dmaapProv)), () -> provRef.get().shutdown());
+
+        CdsServerParameters cdsServer = params.getGrpcServer();
+
+        // Cds Simulator
+        AtomicReference<CdsSimulator> cdsSim = new AtomicReference<>();
+        addAction(cdsServer.getName(), () -> cdsSim.set(buildCdsSimulator(cdsServer)), () -> cdsSim.get().stop());
 
         // REST server simulators
         // @formatter:off
@@ -173,9 +181,16 @@ public class Main extends ServiceManagerContainer {
         DmaapSimProvider prov = new DmaapSimProvider(params);
         DmaapSimProvider.setInstance(prov);
         prov.start();
-
         return prov;
     }
+
+    private CdsSimulator buildCdsSimulator(CdsServerParameters params) throws IOException {
+        CdsSimulator cdsSimulator = new CdsSimulator(params.getHost(), params.getPort(),
+            params.getSuccessRepeatCount(), params.getResponseTime());
+        cdsSimulator.start();
+        return cdsSimulator;
+    }
+
 
     private TopicSink startSink(TopicParameters params) {
         TopicSink sink = TopicEndpointManager.getManager().addTopicSinks(List.of(params)).get(0);

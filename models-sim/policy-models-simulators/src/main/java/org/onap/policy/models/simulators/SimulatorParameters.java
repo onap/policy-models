@@ -44,6 +44,8 @@ public class SimulatorParameters {
      */
     private DmaapSimParameterGroup dmaapProvider;
 
+    private CdsServerParameters grpcServer;
+
     /**
      * Parameters for the REST server simulators that are to be started.
      */
