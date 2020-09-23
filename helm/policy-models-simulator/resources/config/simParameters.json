@@ -118,7 +118,7 @@
         "timeout": 30,
         "username": "ccsdkapps",
         "password": "ccsdkapps",
-        "resourceLocation": "org/onap/policy/simulators/cds/",
+	      "resourceLocation": "/opt/app/policy/simulators/etc/mounted/",
         "successRepeatCount": 0,
         "requestedResponseDelayMs": 0
     }

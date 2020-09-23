@@ -1,0 +1,29 @@
+{
+  "commonHeader": {
+    "timestamp": "2020-03-20T14:00:25.217Z",
+    "requestId": "123456-1000",
+    "subRequestId": "sub-123456-1000",
+    "flag": {
+    },
+    "originatorId": "sdnc"
+  },
+  "actionIdentifiers": {
+    "blueprintName": "pm_control",
+    "blueprintVersion": "1.0.0",
+    "actionName": "create-subscription",
+    "mode": "sync"
+  },
+  "status": {
+    "code": 200,
+    "message": "success",
+    "eventType": "EVENT_COMPONENT_EXECUTED",
+    "timestamp": "Fri Mar 20 14:00:26 GMT 2020"
+  },
+  "payload": {
+    "create-subscription-response": {
+      "odl-response": {
+        "status": "success"
+      }
+    }
+  }
+}

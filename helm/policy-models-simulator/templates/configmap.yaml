@@ -1,0 +1,18 @@
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+ name: {{ include "policy-models-simulator.fullname" . }}-configmap
+ labels:
+  app: {{ include "policy-models-simulator.name" . }}
+  chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+  heritage: {{ .Release.Service }}
+{{- with .Files.Glob "resources/config/*store" }}
+binaryData:
+{{- range $path, $bytes := . }}
+  {{ base $path }}: {{ $.Files.Get $path | b64enc | quote }}
+{{- end }}
+{{- end }}
+data:
+{{ tpl (.Files.Glob "resources/config/*.{json,xml}").AsConfig . | indent 2 }}
+{{ tpl (.Files.Glob "resources/cds/*.{json,xml}").AsConfig . | indent 2 }}
