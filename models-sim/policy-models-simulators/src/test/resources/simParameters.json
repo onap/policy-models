@@ -109,5 +109,17 @@
             "sink": "SDNR-CL",
             "source": "SDNR-CL-RSP"
         }
-    ]
+    ],
+    "grpcServer": {
+        "name": "CDS simulator",
+        "providerClass": "org.onap.policy.simulators.CdsSimulator",
+        "host": "0.0.0.0",
+        "port": 6680,
+        "timeout": 30,
+        "username": "ccsdkapps",
+        "password": "ccsdkapps",
+        "resourceLocation": "org/onap/policy/simulators/cds/",
+        "successRepeatCount": 0,
+        "requestedResponseDelayMs": 0
+    }
 }
