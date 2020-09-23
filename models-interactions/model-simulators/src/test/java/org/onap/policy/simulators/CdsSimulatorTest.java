@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,11 +29,13 @@ import io.grpc.internal.DnsNameResolverProvider;
 import io.grpc.internal.PickFirstLoadBalancerProvider;
 import io.grpc.netty.NettyChannelBuilder;
 import io.grpc.stub.StreamObserver;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.io.IOUtils;
+import org.json.simple.parser.ParseException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,7 +43,9 @@ import org.onap.ccsdk.cds.controllerblueprints.processing.api.BluePrintProcessin
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.BluePrintProcessingServiceGrpc.BluePrintProcessingServiceStub;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceInput;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceOutput;
+import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
+import org.onap.policy.common.utils.resources.ResourceUtils;
 
 public class CdsSimulatorTest {
     private static final StandardCoder coder = new StandardCoder();
@@ -61,7 +66,6 @@ public class CdsSimulatorTest {
     public void test() throws Exception {
         String reqstr = IOUtils.toString(getClass().getResource("cds/cds.request.json"), StandardCharsets.UTF_8);
         ExecutionServiceInput request = coder.decode(reqstr, ExecutionServiceInput.class);
-
         ManagedChannel channel = NettyChannelBuilder.forAddress("localhost", sim.getPort())
             .nameResolverFactory(new DnsNameResolverProvider())
             .loadBalancerFactory(new PickFirstLoadBalancerProvider()).usePlaintext().build();
@@ -110,5 +114,16 @@ public class CdsSimulatorTest {
         } finally {
             channel.shutdown();
         }
+    }
+
+    @Test
+    public void testGetResponseString() throws IOException, CoderException, ParseException {
+        CdsSimulator cdsSimulator = new CdsSimulator("localhost", sim.getPort());
+        String reqstr = ResourceUtils.getResourceAsString(
+            "org/onap/policy/simulators/cds/cds.request.json");
+        String responseqstr = ResourceUtils.getResourceAsString(
+            "org/onap/policy/simulators/cds//pm_control-create-subscription.json");
+        ExecutionServiceInput request = coder.decode(reqstr, ExecutionServiceInput.class);
+        assertEquals(cdsSimulator.getResponseString(request, 0), responseqstr);
     }
 }
