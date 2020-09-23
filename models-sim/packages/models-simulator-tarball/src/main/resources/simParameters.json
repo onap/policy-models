@@ -1,0 +1,28 @@
+{
+    "dmaapProvider": {
+        "name": "DMaaP simulator",
+        "topicSweepSec": 300,
+        "restServerParameters": {
+
+        }
+    },
+    "restServers": [
+        {
+            "name": "DMaaP simulator",
+            "providerClass": "org.onap.policy.models.sim.dmaap.rest.DmaapSimRestControllerV1",
+            "host": "localhost",
+            "port": 3905,
+            "https": true
+        }
+    ],
+    "grpcServer": {
+            "name": "CDS simulator",
+            "providerClass": "org.onap.policy.simulators.CdsSimulator",
+            "host": "0.0.0.0",
+            "port": 6680,
+            "username": "ccsdkapps",
+            "password": "ccsdkapps",
+            "successRepeatCount": 7,
+            "responseTime": 2000
+        }
+}

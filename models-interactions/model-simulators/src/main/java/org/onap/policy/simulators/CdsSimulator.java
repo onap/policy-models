@@ -21,6 +21,7 @@
 
 package org.onap.policy.simulators;
 
+import com.att.aft.dme2.internal.apache.commons.lang.StringUtils;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.util.JsonFormat;
 import io.grpc.Server;
@@ -42,6 +43,8 @@ public class CdsSimulator {
 
     private final Server server;
 
+    private int  countOfEvents = 1;
+
     /**
      * Constructs the object, but does not start it.
      *
@@ -49,6 +52,18 @@ public class CdsSimulator {
      * @param port port of the server
      */
     public CdsSimulator(String host, int port) {
+        this(host, port, 3, 0);
+    }
+
+    /**
+     * Constructs the object, but does not start it.
+     *
+     * @param host host name of the server
+     * @param port port of the server
+     * @param countOfSuccesfulEvents number of successive successful events
+     * @param responseTimer time for the request to be processed
+     */
+    public CdsSimulator(String host, int port, int countOfSuccesfulEvents, int responseTimer) {
         this.port = port;
 
         BluePrintProcessingServiceImplBase testCdsBlueprintServerImpl = new BluePrintProcessingServiceImplBase() {
@@ -58,22 +73,27 @@ public class CdsSimulator {
                             final StreamObserver<ExecutionServiceOutput> responseObserver) {
 
                 return new StreamObserver<ExecutionServiceInput>() {
+                    final long requested = System.currentTimeMillis();
 
                     @Override
                     public void onNext(final ExecutionServiceInput executionServiceInput) {
                         try {
-                            String responseString = IOUtils.toString(
-                                            getClass().getResource("cds/CreateSubscriptionResponseEvent.json"),
-                                            StandardCharsets.UTF_8);
+                            String responseString = getResponseString(executionServiceInput, countOfSuccesfulEvents);
                             Builder builder = ExecutionServiceOutput.newBuilder();
                             JsonFormat.parser().ignoringUnknownFields().merge(responseString, builder);
+                            if (responseTimer > 0) {
+                                long leftToSleep = requested + responseTimer - System.currentTimeMillis();
+                                Thread.sleep(leftToSleep);
+                            }
                             responseObserver.onNext(builder.build());
-
+                            countOfEvents++;
                         } catch (InvalidProtocolBufferException e) {
                             throw new SimulatorRuntimeException("Cannot convert ExecutionServiceOutput output", e);
 
                         } catch (IOException e) {
                             throw new SimulatorRuntimeException("Cannot read ExecutionServiceOutput from file", e);
+                        } catch (InterruptedException e) {
+                            throw new SimulatorRuntimeException("Execution Interrupted", e);
                         }
                     }
 
@@ -100,5 +120,34 @@ public class CdsSimulator {
 
     public void stop() {
         server.shutdown();
+    }
+
+    /**
+     * Constructs the ResponseString on the basis of request.
+     *
+     * @param executionServiceInput service input
+     * @param countOfSuccesfulEvents number of successive successful events
+     * @return  responseString
+     */
+    public String getResponseString(ExecutionServiceInput executionServiceInput, int countOfSuccesfulEvents)
+        throws IOException {
+        String resourceName = "cds/DefaultResponseEvent.json";
+        String responseString;
+        if (!StringUtils.isBlank(executionServiceInput.getActionIdentifiers().getActionName())) {
+            resourceName = "cds/" + executionServiceInput.getActionIdentifiers().getActionName()
+                + ".json";
+        }
+        try {
+            responseString = IOUtils.toString(getClass().getResource(resourceName), StandardCharsets.UTF_8);
+        } catch (NullPointerException e) {
+            responseString = IOUtils.toString(getClass().getResource("cds/DefaultResponseEvent.json"),
+                StandardCharsets.UTF_8);
+        }
+        // generating the failure response by just changing the status message and status code
+        if (countOfSuccesfulEvents > 0 && countOfEvents % countOfSuccesfulEvents == 0) {
+            responseString = responseString.replace("success", "failure");
+            responseString = responseString.replace("200", "500");
+        }
+        return responseString;
     }
 }
