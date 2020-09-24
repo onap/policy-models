@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb1d66fc_ab52d634",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 4903
+      },
+      "writtenOn": "2020-09-24T10:40:26Z",
+      "side": 1,
+      "message": "As the intention of this responseTimer is to wait for the said time to return a response, I guess you are doing this to substract the time already taken to read the response. Just waiting for the specific time should have been ok as well.\nYou might want to avoid Thread.sleep and use something like a latch if possible.",
+      "range": {
+        "startLine": 85,
+        "startChar": 34,
+        "endLine": 85,
+        "endChar": 106
+      },
+      "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "503bd745_d2a70d16",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 4903
+      },
+      "writtenOn": "2020-09-24T10:40:26Z",
+      "side": 1,
+      "message": "Better to keep the responses like \u003cblueprintName\u003e-\u003cactionName\u003e.json so that the simulator can support different scenarios in usecases testing.",
+      "range": {
+        "startLine": 137,
+        "startChar": 36,
+        "endLine": 138,
+        "endChar": 26
+      },
+      "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef6349c1_76cfd78e",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 4903
+      },
+      "writtenOn": "2020-09-24T10:40:26Z",
+      "side": 1,
+      "message": "eventType also will have to be changed to \"EVENT_COMPONENT_FAILURE\".\nAlso when it comes to CDS failure, the ExecutionServiceOutput usually has the payload content same as that of ExecutionServiceInput object by default unless there is some payload specific to error. But the same payload as success response doesn\u0027t make much sense, if the simulator is to behave like a real CDS.",
+      "range": {
+        "startLine": 149,
+        "startChar": 12,
+        "endLine": 149,
+        "endChar": 66
+      },
+      "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11bc1308_526e0164",
+        "filename": "models-interactions/model-simulators/src/main/resources/org/onap/policy/simulators/cds/DefaultResponseEvent.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4903
+      },
+      "writtenOn": "2020-09-24T10:40:26Z",
+      "side": 1,
+      "message": "DefaultResponseEvent is better to be made from the ExecutionServiceInput itself, because commonHeader, actionIdentifier and payload are usually same in this case.",
+      "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "584b9605_6c5ea005",
+        "filename": "models-interactions/model-simulators/src/main/resources/org/onap/policy/simulators/cds/DefaultResponseEvent.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 4903
+      },
+      "writtenOn": "2020-09-24T10:40:26Z",
+      "side": 1,
+      "message": "Status usually is something similar to below when blueprint name/actionname is not available as per the CBA published:\n \"status\": {\n    \"code\": 500,\n    \"eventType\": \"EVENT_COMPONENT_FAILURE\",\n    \"timestamp\": \"2020-07-02T14:56:25.608Z\",\n    \"errorMessage\": \"failed to get  get cba file name from db : file check failed.\",\n    \"message\": \"failure\"\n  }",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 4
+      },
+      "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
