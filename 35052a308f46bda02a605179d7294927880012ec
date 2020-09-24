@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a62482e_ff517c51",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaProperty.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-09-24T15:32:42Z",
+      "side": 1,
+      "message": "not sure if the parenthesis are needed ..   \nI suppose we\u0027ll need to open a ticket in honolulu to handle object and string mappings, is that correct?",
+      "revId": "35052a308f46bda02a605179d7294927880012ec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
