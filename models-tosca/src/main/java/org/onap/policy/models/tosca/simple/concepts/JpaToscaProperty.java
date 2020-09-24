@@ -196,7 +196,7 @@ public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaPr
 
         description = toscaProperty.getDescription();
         required = toscaProperty.isRequired();
-        defaultValue = toscaProperty.getDefaultValue();
+        defaultValue = (toscaProperty.getDefaultValue() != null ? toscaProperty.getDefaultValue().toString() : null);
         status = toscaProperty.getStatus();
 
         if (toscaProperty.getConstraints() != null) {
