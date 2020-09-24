@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "e19da7cc_0e2b73fc",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-09-24T13:47:36Z",
+      "side": 1,
+      "message": "use apache commons StringUtils instead of from this package",
+      "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cb1d66fc_ab52d634",
         "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
         "patchSetId": 3
@@ -25,6 +42,23 @@
     },
     {
       "key": {
+        "uuid": "87eaad1f_8e7ffc6d",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-09-24T13:47:36Z",
+      "side": 1,
+      "message": "sonar will complain about it",
+      "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "503bd745_d2a70d16",
         "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
         "patchSetId": 3
@@ -42,6 +76,40 @@
         "endLine": 138,
         "endChar": 26
       },
+      "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a38f2bf2_904673fe",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-09-24T13:47:36Z",
+      "side": 1,
+      "message": "There is a ResourceUtils in policy/commons that we should reuse",
+      "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44512182_aba4dcbb",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-09-24T13:47:36Z",
+      "side": 1,
+      "message": "I don\u0027t think we should catch NullPointerExceptions, if the response is not in the jar, it would probably be a bug",
       "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
@@ -128,6 +196,74 @@
     },
     {
       "key": {
+        "uuid": "ae116573_c1b27e2f",
+        "filename": "models-sim/packages/models-simulator-docker/src/main/docker/Dockerfile",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-09-24T13:47:36Z",
+      "side": 1,
+      "message": "This should be Bell Canada",
+      "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "371c711f_443e215e",
+        "filename": "models-sim/packages/models-simulator-docker/src/main/docker/Dockerfile",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-09-24T13:47:36Z",
+      "side": 1,
+      "message": "2.1.1 is the latest",
+      "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86d3ffed_07b35c8f",
+        "filename": "models-sim/packages/models-simulator-docker/src/main/docker/simulators.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-09-24T13:47:36Z",
+      "side": 1,
+      "message": "Bell Canada in License, general comment",
+      "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9adcd7eb_623c1cd2",
+        "filename": "models-sim/packages/models-simulator-docker/src/main/docker/simulators.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-09-24T13:47:36Z",
+      "side": 1,
+      "message": "It would be great if we could support http option for simulators so not to have to deal with https .. Is there an easy way?",
+      "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3e8212b0_ab6c110f",
         "filename": "models-sim/packages/pom.xml",
         "patchSetId": 3
@@ -145,6 +281,23 @@
         "endLine": 51,
         "endChar": 3
       },
+      "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aeb54e6d_686ca21f",
+        "filename": "models-sim/policy-models-simulators/src/main/java/org/onap/policy/models/simulators/CdsServerParameters.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-09-24T13:47:36Z",
+      "side": 1,
+      "message": "This would be good to have in an utility (static) in policy/commons",
       "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
