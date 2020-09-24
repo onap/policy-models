@@ -59,6 +59,29 @@
     },
     {
       "key": {
+        "uuid": "c44d4bf8_84d2a08a",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 4903
+      },
+      "writtenOn": "2020-09-24T15:02:39Z",
+      "side": 1,
+      "message": "Keep the directory as dynamic. otherwise we won\u0027t be able to mount the directory(containing response json files) and get cds responses based on the input",
+      "range": {
+        "startLine": 137,
+        "startChar": 28,
+        "endLine": 137,
+        "endChar": 35
+      },
+      "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "503bd745_d2a70d16",
         "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
         "patchSetId": 3
