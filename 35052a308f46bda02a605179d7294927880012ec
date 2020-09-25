@@ -16,6 +16,24 @@
       "revId": "35052a308f46bda02a605179d7294927880012ec",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "586cee35_32613456",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaProperty.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-09-25T07:11:29Z",
+      "side": 1,
+      "message": "I thought we already have a JIRA in this area but we don\u0027t, I\u0027ll open one. It\u0027s related to JIRA POLICY-2540 but not quite the same. \n\nThis isn\u0027t the only case and is actually a trivial case of a much larger case of problems because our TOSCA handling is not type aware. In other words, we need to change our TOSCA handling so that it reads and checks the types of everything. What we have now is a bare minimum where everything is treated as strings. It works and we haven\u0027t got into trouble with it yet but in time we will.\n\nThe problem is that it\u0027s a lot of tricky work to do this, XXL T shirt size and until there\u0027s a real need to do it, it will be hard to justify.",
+      "parentUuid": "2a62482e_ff517c51",
+      "revId": "35052a308f46bda02a605179d7294927880012ec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
