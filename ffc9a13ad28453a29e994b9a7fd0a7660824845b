@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a9be2a10_9ea14489",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 6738
+      },
+      "writtenOn": "2020-09-25T15:40:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e19da7cc_0e2b73fc",
+      "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb1d66fc_ab52d634",
         "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
         "patchSetId": 3
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "0055f9a4_6cf1e945",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 6738
+      },
+      "writtenOn": "2020-09-25T15:40:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "cb1d66fc_ab52d634",
+      "range": {
+        "startLine": 85,
+        "startChar": 34,
+        "endLine": 85,
+        "endChar": 106
+      },
+      "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87eaad1f_8e7ffc6d",
         "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
         "patchSetId": 3
@@ -56,6 +98,24 @@
       "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e338d324_228d76ec",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 6738
+      },
+      "writtenOn": "2020-09-25T15:40:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "87eaad1f_8e7ffc6d",
+      "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "0f4207fe_1ba7438f",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 6738
+      },
+      "writtenOn": "2020-09-25T15:40:19Z",
+      "side": 1,
+      "message": "The directory is passed from simParamter.json.",
+      "parentUuid": "c44d4bf8_84d2a08a",
+      "range": {
+        "startLine": 137,
+        "startChar": 28,
+        "endLine": 137,
+        "endChar": 35
+      },
+      "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "503bd745_d2a70d16",
         "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
         "patchSetId": 3
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "f5346e9f_252ed8de",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 6738
+      },
+      "writtenOn": "2020-09-25T15:40:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "503bd745_d2a70d16",
+      "range": {
+        "startLine": 137,
+        "startChar": 36,
+        "endLine": 138,
+        "endChar": 26
+      },
+      "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a38f2bf2_904673fe",
         "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
         "patchSetId": 3
@@ -119,6 +227,24 @@
       "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84d9a15b_14bdfd2a",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 6738
+      },
+      "writtenOn": "2020-09-25T15:40:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a38f2bf2_904673fe",
+      "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -139,6 +265,24 @@
     },
     {
       "key": {
+        "uuid": "e23850ba_56dda905",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 6738
+      },
+      "writtenOn": "2020-09-25T15:40:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "44512182_aba4dcbb",
+      "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ef6349c1_76cfd78e",
         "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
         "patchSetId": 3
@@ -150,6 +294,30 @@
       "writtenOn": "2020-09-24T10:40:26Z",
       "side": 1,
       "message": "eventType also will have to be changed to \"EVENT_COMPONENT_FAILURE\".\nAlso when it comes to CDS failure, the ExecutionServiceOutput usually has the payload content same as that of ExecutionServiceInput object by default unless there is some payload specific to error. But the same payload as success response doesn\u0027t make much sense, if the simulator is to behave like a real CDS.",
+      "range": {
+        "startLine": 149,
+        "startChar": 12,
+        "endLine": 149,
+        "endChar": 66
+      },
+      "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7992e24_2df666e7",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 6738
+      },
+      "writtenOn": "2020-09-25T15:40:19Z",
+      "side": 1,
+      "message": "The failure response files also need to be mounted with filename \u003cblueprintname\u003e-\u003cactionname\u003e-error.json",
+      "parentUuid": "ef6349c1_76cfd78e",
       "range": {
         "startLine": 149,
         "startChar": 12,
@@ -179,6 +347,24 @@
     },
     {
       "key": {
+        "uuid": "b0302cd0_e72ab389",
+        "filename": "models-interactions/model-simulators/src/main/resources/org/onap/policy/simulators/cds/DefaultResponseEvent.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6738
+      },
+      "writtenOn": "2020-09-25T15:40:19Z",
+      "side": 1,
+      "message": "Different response files to be mounted for failure scenarios.",
+      "parentUuid": "11bc1308_526e0164",
+      "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "584b9605_6c5ea005",
         "filename": "models-interactions/model-simulators/src/main/resources/org/onap/policy/simulators/cds/DefaultResponseEvent.json",
         "patchSetId": 3
@@ -202,6 +388,30 @@
     },
     {
       "key": {
+        "uuid": "6109171c_29c9c08e",
+        "filename": "models-interactions/model-simulators/src/main/resources/org/onap/policy/simulators/cds/DefaultResponseEvent.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 6738
+      },
+      "writtenOn": "2020-09-25T15:40:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "584b9605_6c5ea005",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 4
+      },
+      "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea728e54_5febb7b1",
         "filename": "models-interactions/model-simulators/src/test/java/org/onap/policy/simulators/CdsSimulatorTest.java",
         "patchSetId": 3
@@ -219,6 +429,24 @@
     },
     {
       "key": {
+        "uuid": "80516c3d_2c270359",
+        "filename": "models-interactions/model-simulators/src/test/java/org/onap/policy/simulators/CdsSimulatorTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6738
+      },
+      "writtenOn": "2020-09-25T15:40:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ea728e54_5febb7b1",
+      "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae116573_c1b27e2f",
         "filename": "models-sim/packages/models-simulator-docker/src/main/docker/Dockerfile",
         "patchSetId": 3
@@ -233,6 +461,24 @@
       "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49a73991_61d9de5b",
+        "filename": "models-sim/packages/models-simulator-docker/src/main/docker/Dockerfile",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 6738
+      },
+      "writtenOn": "2020-09-25T15:40:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ae116573_c1b27e2f",
+      "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -270,6 +516,24 @@
     },
     {
       "key": {
+        "uuid": "4c58598c_8dd9538f",
+        "filename": "models-sim/packages/models-simulator-docker/src/main/docker/simulators.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6738
+      },
+      "writtenOn": "2020-09-25T15:40:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "86d3ffed_07b35c8f",
+      "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adcd7eb_623c1cd2",
         "filename": "models-sim/packages/models-simulator-docker/src/main/docker/simulators.sh",
         "patchSetId": 3
@@ -281,6 +545,24 @@
       "writtenOn": "2020-09-24T13:47:36Z",
       "side": 1,
       "message": "It would be great if we could support http option for simulators so not to have to deal with https .. Is there an easy way?",
+      "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82634f0c_7d99f3ef",
+        "filename": "models-sim/packages/models-simulator-docker/src/main/docker/simulators.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 6738
+      },
+      "writtenOn": "2020-09-25T15:40:19Z",
+      "side": 1,
+      "message": "I will look into this and try to implement the changes while pushing the Helm chart for this models-simulator",
+      "parentUuid": "9adcd7eb_623c1cd2",
       "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
@@ -310,6 +592,30 @@
     },
     {
       "key": {
+        "uuid": "82f243ce_0fd0efe7",
+        "filename": "models-sim/packages/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 6738
+      },
+      "writtenOn": "2020-09-25T15:40:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3e8212b0_ab6c110f",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 3
+      },
+      "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aeb54e6d_686ca21f",
         "filename": "models-sim/policy-models-simulators/src/main/java/org/onap/policy/models/simulators/CdsServerParameters.java",
         "patchSetId": 3
@@ -321,6 +627,24 @@
       "writtenOn": "2020-09-24T13:47:36Z",
       "side": 1,
       "message": "This would be good to have in an utility (static) in policy/commons",
+      "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eac6f61e_03166a37",
+        "filename": "models-sim/policy-models-simulators/src/main/java/org/onap/policy/models/simulators/CdsServerParameters.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 6738
+      },
+      "writtenOn": "2020-09-25T15:40:19Z",
+      "side": 1,
+      "message": "Agree. Can be taken as a separate Jira.",
+      "parentUuid": "aeb54e6d_686ca21f",
       "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
