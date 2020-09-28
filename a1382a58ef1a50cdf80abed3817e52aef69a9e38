@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1aa998e8_9289224d",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaProperty.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-09-28T14:38:07Z",
+      "side": 1,
+      "message": "maybe we should use a Coder to convert it to a String?  And use a Coder to decode it when extracting back out of the DB?",
+      "revId": "a1382a58ef1a50cdf80abed3817e52aef69a9e38",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
