@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "37c1ad64_eaab1b6a",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.monitoring.dcae-pm-mapper.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-09-28T10:20:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "27674fd8_d9aa770c",
+      "range": {
+        "startLine": 24,
+        "startChar": 12,
+        "endLine": 24,
+        "endChar": 24
+      },
+      "revId": "b066eda14d8d54d117c4f9f6793c8e43b3678aa7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7010ab2b_1875dd9b",
         "filename": "models-examples/src/main/resources/policytypes/onap.policies.monitoring.dcae-pm-subscription-handler.yaml",
         "patchSetId": 1
@@ -93,6 +117,30 @@
       "revId": "b066eda14d8d54d117c4f9f6793c8e43b3678aa7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb4a37f0_37db0b6c",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.monitoring.dcae-pm-subscription-handler.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-09-28T10:20:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "611810da_db662969",
+      "range": {
+        "startLine": 64,
+        "startChar": 12,
+        "endLine": 64,
+        "endChar": 24
+      },
+      "revId": "b066eda14d8d54d117c4f9f6793c8e43b3678aa7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
