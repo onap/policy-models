@@ -34,6 +34,24 @@
       "revId": "a1382a58ef1a50cdf80abed3817e52aef69a9e38",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98afcc4a_28696363",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaProperty.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-09-28T21:03:29Z",
+      "side": 1,
+      "message": "since it comes in off the wire (or from a text file), it must be a type that gson knows about or it would never been decoded in the first place.  Hence it must be ok to encode it again.  \n\nAlso avoids the need for the null check, as gson will return null for that.",
+      "parentUuid": "db667ed4_8aff32f0",
+      "revId": "a1382a58ef1a50cdf80abed3817e52aef69a9e38",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
