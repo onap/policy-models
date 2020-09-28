@@ -16,6 +16,24 @@
       "revId": "a1382a58ef1a50cdf80abed3817e52aef69a9e38",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db667ed4_8aff32f0",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaProperty.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-09-28T20:51:05Z",
+      "side": 1,
+      "message": "thought about it too, if I understood it correctly one of the problems, is that the \"class\" to encode and decode against is not known, neither the format, json, or yaml.",
+      "parentUuid": "1aa998e8_9289224d",
+      "revId": "a1382a58ef1a50cdf80abed3817e52aef69a9e38",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
