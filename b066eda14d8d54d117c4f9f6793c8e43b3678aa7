@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "27674fd8_d9aa770c",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.monitoring.dcae-pm-mapper.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-09-28T10:19:36Z",
+      "side": 1,
+      "message": "This is OK",
+      "parentUuid": "7ef38676_99a3d266",
+      "range": {
+        "startLine": 24,
+        "startChar": 12,
+        "endLine": 24,
+        "endChar": 24
+      },
+      "revId": "b066eda14d8d54d117c4f9f6793c8e43b3678aa7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7010ab2b_1875dd9b",
         "filename": "models-examples/src/main/resources/policytypes/onap.policies.monitoring.dcae-pm-subscription-handler.yaml",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2020-09-24T13:33:45Z",
       "side": 1,
       "message": "This is commented out due to a bug in the Policy TOSCA code.",
+      "range": {
+        "startLine": 64,
+        "startChar": 12,
+        "endLine": 64,
+        "endChar": 24
+      },
+      "revId": "b066eda14d8d54d117c4f9f6793c8e43b3678aa7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "611810da_db662969",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.monitoring.dcae-pm-subscription-handler.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-09-28T10:19:36Z",
+      "side": 1,
+      "message": "THis is OK",
+      "parentUuid": "7010ab2b_1875dd9b",
       "range": {
         "startLine": 64,
         "startChar": 12,
