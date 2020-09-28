@@ -1,0 +1,146 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a9d2409_1cf3253d",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-09-28T15:19:58Z",
+      "side": 1,
+      "message": "AtomicInteger",
+      "revId": "1950621dec52e9256200be6c0a92ac8da18398bb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3874e38_9f61113b",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-09-28T15:19:58Z",
+      "side": 1,
+      "message": "will this throw an exception if \"responseString\" is null?",
+      "revId": "1950621dec52e9256200be6c0a92ac8da18398bb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33717b05_65860850",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-09-28T15:19:58Z",
+      "side": 1,
+      "message": "do the S3P tests load lots of simultaneous threads.  If so, then this could be problematic as it ties up a server thread.  However, if we don\u0027t run a lot of simultaneous threads, then this is fine since it\u0027s in a simulator rather than a real server.",
+      "revId": "1950621dec52e9256200be6c0a92ac8da18398bb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a16654a5_c94b729d",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-09-28T15:19:58Z",
+      "side": 1,
+      "message": "if leftToSleep is negative, this will throw an exception",
+      "revId": "1950621dec52e9256200be6c0a92ac8da18398bb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b275073_8562cc98",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-09-28T15:19:58Z",
+      "side": 1,
+      "message": "use plain string concatenation:\n\n  resourceName +\u003d \"-error.json\"\n\nsimilar on line 148",
+      "revId": "1950621dec52e9256200be6c0a92ac8da18398bb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8334a04_2ade38e0",
+        "filename": "models-interactions/model-simulators/src/test/java/org/onap/policy/simulators/CdsSimulatorTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-09-28T15:19:58Z",
+      "side": 1,
+      "message": "swap arguments to assertEquals()",
+      "revId": "1950621dec52e9256200be6c0a92ac8da18398bb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e7194de_82756c65",
+        "filename": "models-sim/packages/models-simulator-docker/pom.xml",
+        "patchSetId": 8
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-09-28T15:19:58Z",
+      "side": 1,
+      "message": "change \"PAP\"",
+      "revId": "1950621dec52e9256200be6c0a92ac8da18398bb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b397041d_483b848a",
+        "filename": "models-sim/packages/models-simulator-docker/src/main/docker/Dockerfile",
+        "patchSetId": 8
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-09-28T15:19:58Z",
+      "side": 1,
+      "message": "2.1.1",
+      "range": {
+        "startLine": 28,
+        "startChar": 28,
+        "endLine": 28,
+        "endChar": 33
+      },
+      "revId": "1950621dec52e9256200be6c0a92ac8da18398bb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}

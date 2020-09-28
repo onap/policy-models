@@ -569,6 +569,24 @@
     },
     {
       "key": {
+        "uuid": "294703e9_aa307590",
+        "filename": "models-sim/packages/models-simulator-docker/src/main/docker/simulators.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-09-28T15:19:58Z",
+      "side": 1,
+      "message": "to switch to http, we\u0027d have to overlay the defaultConfig.json in all of the repos.  That could be done since we\u0027re already overlaying them in the CSITs anyway.  If we did that, then we could probably change the simulator name to \"message-router\", which would also solve the issue raised in my review.  If we used http, could we remove these keystore/truststore parameters from the JVM command line, too?\n\nIs that the way we want to go?  The downside of switching to HTTP would be that we would no longer be testing that everything works with HTTPS until the integration lab, but that might be OK.",
+      "parentUuid": "82634f0c_7d99f3ef",
+      "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3e8212b0_ab6c110f",
         "filename": "models-sim/packages/pom.xml",
         "patchSetId": 3
