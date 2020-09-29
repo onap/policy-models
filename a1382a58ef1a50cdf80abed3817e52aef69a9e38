@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "cf140235_db3fb0a6",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaProperty.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-09-29T17:03:22Z",
+      "side": 1,
+      "message": "need to decode the value here, right?",
+      "revId": "a1382a58ef1a50cdf80abed3817e52aef69a9e38",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1aa998e8_9289224d",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaProperty.java",
         "patchSetId": 2
@@ -67,6 +84,24 @@
       "side": 1,
       "message": "This is a tiny symptom of a bigger problem with TOSCA type management. OK, we (well Java/GSON) knows the type on the way into the DB, but on the way out of the DB, we have no idea what the type is unless we use the type of the property specified in TOSCA.\n\nTo implement type handling in TOSCA would be a major job.\n\nLet\u0027s chat about this at the scrum.",
       "parentUuid": "98afcc4a_28696363",
+      "revId": "a1382a58ef1a50cdf80abed3817e52aef69a9e38",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61195b21_8b6e1e47",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaProperty.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-09-29T17:03:22Z",
+      "side": 1,
+      "message": "no matter what we choose to do, toString() will probably not provide a value that can be decoded when retrieved from the DB",
+      "parentUuid": "23565e83_8e334d3f",
       "revId": "a1382a58ef1a50cdf80abed3817e52aef69a9e38",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
