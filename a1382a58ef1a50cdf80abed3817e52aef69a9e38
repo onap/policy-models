@@ -52,6 +52,24 @@
       "revId": "a1382a58ef1a50cdf80abed3817e52aef69a9e38",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23565e83_8e334d3f",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaProperty.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-09-29T08:30:57Z",
+      "side": 1,
+      "message": "This is a tiny symptom of a bigger problem with TOSCA type management. OK, we (well Java/GSON) knows the type on the way into the DB, but on the way out of the DB, we have no idea what the type is unless we use the type of the property specified in TOSCA.\n\nTo implement type handling in TOSCA would be a major job.\n\nLet\u0027s chat about this at the scrum.",
+      "parentUuid": "98afcc4a_28696363",
+      "revId": "a1382a58ef1a50cdf80abed3817e52aef69a9e38",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
