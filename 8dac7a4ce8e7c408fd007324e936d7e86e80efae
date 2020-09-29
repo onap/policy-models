@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fbe46f49_453ac8c8",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-09-29T15:34:53Z",
+      "side": 1,
+      "message": "use timeLapsedSinceRequest instead, which will avoid the possibility that the System.currentTime() returns a different value when it\u0027s called again",
+      "range": {
+        "startLine": 93,
+        "startChar": 85,
+        "endLine": 94,
+        "endChar": 57
+      },
+      "revId": "8dac7a4ce8e7c408fd007324e936d7e86e80efae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ede1897_772cdbe8",
+        "filename": "models-sim/policy-models-simulators/src/main/resources/simParameters.json",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-09-29T15:34:53Z",
+      "side": 1,
+      "message": "I\u0027m ok with this, though we typically just use \"Ms\" instead of \"InMillis\"",
+      "range": {
+        "startLine": 28,
+        "startChar": 35,
+        "endLine": 28,
+        "endChar": 43
+      },
+      "revId": "8dac7a4ce8e7c408fd007324e936d7e86e80efae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
