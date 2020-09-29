@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "66691db0_525d25a3",
+        "filename": "models-sim/packages/models-simulator-tarball/src/main/resources/simParameters.json",
+        "patchSetId": 10
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-09-29T19:49:08Z",
+      "side": 1,
+      "message": "I think we should include all of the simulators in this list (e.g., A\u0026AI, APPC)",
+      "revId": "d52e928ecf89f7fcff86abd6b0e35b662bf1175e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "787f02d2_3b679e3b",
         "filename": "models-sim/packages/models-simulator-tarball/src/main/resources/simParameters.json",
         "patchSetId": 10
@@ -13,6 +30,30 @@
       "writtenOn": "2020-09-29T19:07:52Z",
       "side": 1,
       "message": "Do we need both to start the dmaap simulator? If not, then why do we need \"dmaapProvider\"? Also, I see that \"restServerParameters\" is empty.",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 6
+      },
+      "revId": "d52e928ecf89f7fcff86abd6b0e35b662bf1175e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7636f2bf_259f81d7",
+        "filename": "models-sim/packages/models-simulator-tarball/src/main/resources/simParameters.json",
+        "patchSetId": 10
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-09-29T19:49:08Z",
+      "side": 1,
+      "message": "the \"restServerParameters\" contained within \"dmaapProvider\" is a left-over artifact from how it\u0027s packed in the other simulators - might be able to remove it once the other dmaap simulator packages are removed.",
+      "parentUuid": "787f02d2_3b679e3b",
       "range": {
         "startLine": 2,
         "startChar": 0,
