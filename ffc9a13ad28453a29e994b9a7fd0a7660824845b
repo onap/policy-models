@@ -605,6 +605,24 @@
     },
     {
       "key": {
+        "uuid": "0d6f870a_2a67791f",
+        "filename": "models-sim/packages/models-simulator-docker/src/main/docker/simulators.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 6738
+      },
+      "writtenOn": "2020-09-29T15:34:35Z",
+      "side": 1,
+      "message": "I think we can take this in a separate Jira as this could be some added effort.",
+      "parentUuid": "294703e9_aa307590",
+      "revId": "ffc9a13ad28453a29e994b9a7fd0a7660824845b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3e8212b0_ab6c110f",
         "filename": "models-sim/packages/pom.xml",
         "patchSetId": 3
