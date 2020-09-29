@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "787f02d2_3b679e3b",
+        "filename": "models-sim/packages/models-simulator-tarball/src/main/resources/simParameters.json",
+        "patchSetId": 10
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2020-09-29T19:07:52Z",
+      "side": 1,
+      "message": "Do we need both to start the dmaap simulator? If not, then why do we need \"dmaapProvider\"? Also, I see that \"restServerParameters\" is empty.",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 6
+      },
+      "revId": "d52e928ecf89f7fcff86abd6b0e35b662bf1175e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be290b73_da28fde0",
+        "filename": "models-sim/packages/models-simulator-tarball/src/main/resources/simParameters.json",
+        "patchSetId": 10
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2020-09-29T19:07:52Z",
+      "side": 1,
+      "message": "Is this milliseconds? If yes, I prefer to rename to \"responseTimeMs\"",
+      "range": {
+        "startLine": 26,
+        "startChar": 28,
+        "endLine": 26,
+        "endChar": 32
+      },
+      "revId": "d52e928ecf89f7fcff86abd6b0e35b662bf1175e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fd35529_ca260586",
+        "filename": "models-sim/packages/pom.xml",
+        "patchSetId": 10
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2020-09-29T19:07:52Z",
+      "side": 1,
+      "message": "Better to call this - \"models-sim-packages\" or \"models-simulator-packages\"",
+      "range": {
+        "startLine": 30,
+        "startChar": 16,
+        "endLine": 30,
+        "endChar": 32
+      },
+      "revId": "d52e928ecf89f7fcff86abd6b0e35b662bf1175e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a10509e_3601a9d0",
+        "filename": "models-sim/policy-models-simulators/src/main/resources/simParameters.json",
+        "patchSetId": 10
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2020-09-29T19:07:52Z",
+      "side": 1,
+      "message": "same question",
+      "range": {
+        "startLine": 2,
+        "startChar": 2,
+        "endLine": 17,
+        "endChar": 6
+      },
+      "revId": "d52e928ecf89f7fcff86abd6b0e35b662bf1175e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
