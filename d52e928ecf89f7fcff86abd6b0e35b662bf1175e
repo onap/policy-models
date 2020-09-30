@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f9c93f50_5b926c58",
+        "filename": "models-sim/packages/models-simulator-tarball/src/main/resources/simParameters.json",
+        "patchSetId": 10
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 6738
+      },
+      "writtenOn": "2020-09-30T11:23:42Z",
+      "side": 1,
+      "message": "While doing a clean up realised that this file was not required inside main and hence removed this. \nThe sample simParameter.json added in test/resources includes :\n1. All parameters for all the existing simulators. As per the requirement of testing, the undesired simulator details can be removed from this file and mounted to the kubernetes pod.\n2. responseTime renamed to requestedResponseDelayMs",
+      "parentUuid": "66691db0_525d25a3",
+      "revId": "d52e928ecf89f7fcff86abd6b0e35b662bf1175e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "787f02d2_3b679e3b",
         "filename": "models-sim/packages/models-simulator-tarball/src/main/resources/simParameters.json",
         "patchSetId": 10
@@ -109,6 +127,30 @@
       "revId": "d52e928ecf89f7fcff86abd6b0e35b662bf1175e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75325133_3e0e3784",
+        "filename": "models-sim/packages/pom.xml",
+        "patchSetId": 10
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 6738
+      },
+      "writtenOn": "2020-09-30T11:23:42Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4fd35529_ca260586",
+      "range": {
+        "startLine": 30,
+        "startChar": 16,
+        "endLine": 30,
+        "endChar": 32
+      },
+      "revId": "d52e928ecf89f7fcff86abd6b0e35b662bf1175e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
