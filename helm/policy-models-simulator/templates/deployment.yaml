@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "policy-models-simulator.fullname" . }}
+  labels:
+{{ include "policy-models-simulator.labels" . | indent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "policy-models-simulator.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "policy-models-simulator.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      serviceAccountName: {{ template "policy-models-simulator.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["/opt/app/policy/simulators/bin/simulators.sh"]
+          args: ["/opt/app/policy/simulators/etc/mounted/simParameters.json"] 
+          ports:
+          - containerPort: {{ .Values.service.internalPort }}
+          - containerPort: {{ .Values.service.internalPort2 }}
+          - containerPort: {{ .Values.service.internalPort3 }}
+          - containerPort: {{ .Values.service.internalPort4 }}
+          - containerPort: {{ .Values.service.internalPort5 }}  
+          - containerPort: {{ .Values.service.internalPort6 }}
+          livenessProbe:
+            exec:
+              command:
+              - /bin/bash
+              - -c
+              - nodetool status | grep $POD_IP | awk '$1!="UN" { exit 1; }'
+              initialDelaySeconds: 120
+              periodSeconds: 20
+          readinessProbe:
+            exec:
+              command:
+              - /bin/bash
+              - -c
+              - nodetool status | grep $POD_IP | awk '$1!="UN" { exit 1; }'
+              initialDelaySeconds: 120
+              periodSeconds: 20
+          volumeMounts:
+            - mountPath: /opt/app/policy/simulators/etc/mounted/
+              name: simconfig
+              readOnly: true   
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      volumes:
+        - name: simconfig
+          configMap:
+            name: {{ include "policy-models-simulator.fullname" . }}-configmap
+            defaultMode: 0755
+

@@ -1,0 +1,125 @@
+{
+    "dmaapProvider": {
+        "name": "DMaaP simulator",
+        "topicSweepSec": 300,
+        "restServerParameters": {
+
+        }
+    },
+    "restServers": [
+        {
+            "name": "DMaaP simulator",
+            "providerClass": "org.onap.policy.models.sim.dmaap.rest.DmaapSimRestControllerV1",
+            "host": "localhost",
+            "port": 3905,
+            "https": true
+        },
+        {
+            "name": "A&AI simulator",
+            "providerClass": "org.onap.policy.simulators.AaiSimulatorJaxRs",
+            "host": "localhost",
+            "port": 6666,
+            "https": true
+        },
+        {
+            "name": "Guard simulator",
+            "providerClass": "org.onap.policy.simulators.GuardSimulatorJaxRs",
+            "host": "localhost",
+            "port": 6667,
+            "https": true
+        },
+        {
+            "name": "SDNC simulator",
+            "providerClass": "org.onap.policy.simulators.SdncSimulatorJaxRs",
+            "host": "localhost",
+            "port": 6668,
+            "https": true
+        },
+        {
+            "name": "SO simulator",
+            "providerClass": "org.onap.policy.simulators.SoSimulatorJaxRs",
+            "host": "localhost",
+            "port": 6669,
+            "https": true
+        },
+        {
+            "name": "VFC simulator",
+            "providerClass": "org.onap.policy.simulators.VfcSimulatorJaxRs",
+            "host": "localhost",
+            "port": 6670,
+            "https": true
+        }
+    ],
+    "topicSinks": [
+        {
+            "topic": "APPC-CL",
+            "servers": ["localhost"],
+            "topicCommInfrastructure": "DMAAP",
+            "useHttps": true
+        },
+        {
+            "topic": "APPC-LCM-WRITE",
+            "servers": ["localhost"],
+            "topicCommInfrastructure": "DMAAP",
+            "useHttps": true
+        },
+        {
+            "topic": "SDNR-CL",
+            "servers": ["localhost"],
+            "topicCommInfrastructure": "DMAAP",
+            "useHttps": true
+        }
+    ],
+    "topicSources": [
+        {
+            "topic": "APPC-CL",
+            "servers": ["localhost"],
+            "topicCommInfrastructure": "DMAAP",
+            "useHttps": true
+        },
+        {
+            "topic": "APPC-LCM-READ",
+            "servers": ["localhost"],
+            "topicCommInfrastructure": "DMAAP",
+            "useHttps": true
+        },
+        {
+            "topic": "SDNR-CL-RSP",
+            "servers": ["localhost"],
+            "topicCommInfrastructure": "DMAAP",
+            "useHttps": true
+        }
+    ],
+    "topicServers": [
+        {
+            "name": "APPC Legacy simulator",
+            "providerClass": "org.onap.policy.simulators.AppcLegacyTopicServer",
+            "sink": "APPC-CL",
+            "source": "APPC-CL"
+        },
+        {
+            "name": "APPC-LCM simulator",
+            "providerClass": "org.onap.policy.simulators.AppcLcmTopicServer",
+            "sink": "APPC-LCM-WRITE",
+            "source": "APPC-LCM-READ"
+        },
+        {
+            "name": "SDNR simulator",
+            "providerClass": "org.onap.policy.simulators.SdnrTopicServer",
+            "sink": "SDNR-CL",
+            "source": "SDNR-CL-RSP"
+        }
+    ],
+    "grpcServer": {
+        "name": "CDS simulator",
+        "providerClass": "org.onap.policy.simulators.CdsSimulator",
+        "host": "0.0.0.0",
+        "port": 6680,
+        "timeout": 30,
+        "username": "ccsdkapps",
+        "password": "ccsdkapps",
+	      "resourceLocation": "/opt/app/policy/simulators/etc/mounted/",
+        "successRepeatCount": 0,
+        "requestedResponseDelayMs": 0
+    }
+}
