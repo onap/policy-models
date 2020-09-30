@@ -62,7 +62,6 @@ import org.onap.policy.models.base.PfValidationResult.ValidationResult;
  */
 //@formatter:on
 @MappedSuperclass
-@Entity
 @Table(name = "PfConceptContainer")
 @Data
 @EqualsAndHashCode(callSuper = false)
