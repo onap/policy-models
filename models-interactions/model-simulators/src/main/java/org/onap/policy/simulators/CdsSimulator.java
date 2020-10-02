@@ -91,9 +91,8 @@ public class CdsSimulator {
                             responseObserver.onNext(builder.build());
                         } catch (InvalidProtocolBufferException e) {
                             throw new SimulatorRuntimeException("Cannot convert ExecutionServiceOutput output", e);
-                        } catch (IOException e) {
-                            throw new SimulatorRuntimeException("Cannot read ExecutionServiceOutput from file", e);
                         } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
                             throw new SimulatorRuntimeException("Execution Interrupted", e);
                         }
                     }
