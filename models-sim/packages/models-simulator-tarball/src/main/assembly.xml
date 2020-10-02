@@ -46,5 +46,14 @@
             <outputDirectory>etc${file.separator}ssl</outputDirectory>
             <lineEnding>keep</lineEnding>
         </fileSet>
+        <fileSet>
+            <directory>${project.basedir}/src/main/resources/etc
+            </directory>
+            <includes>
+                <include>*.xml</include>
+            </includes>
+            <outputDirectory>etc</outputDirectory>
+            <lineEnding>unix</lineEnding>
+        </fileSet>
     </fileSets>
 </assembly>
