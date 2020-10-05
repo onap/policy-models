@@ -83,18 +83,22 @@ public class Main extends ServiceManagerContainer {
         }
 
         DmaapSimParameterGroup dmaapProv = params.getDmaapProvider();
-        String dmaapName = dmaapProv.getName();
-        String provName = dmaapName.replace("simulator", "provider");
+        String dmaapName = (dmaapProv != null ? dmaapProv.getName() : null);
 
         // dmaap provider
-        AtomicReference<DmaapSimProvider> provRef = new AtomicReference<>();
-        addAction(provName, () -> provRef.set(buildDmaapProvider(dmaapProv)), () -> provRef.get().shutdown());
+        if (dmaapProv != null) {
+            String provName = dmaapName.replace("simulator", "provider");
+            AtomicReference<DmaapSimProvider> provRef = new AtomicReference<>();
+            addAction(provName, () -> provRef.set(buildDmaapProvider(dmaapProv)), () -> provRef.get().shutdown());
+        }
 
         CdsServerParameters cdsServer = params.getGrpcServer();
 
         // Cds Simulator
-        AtomicReference<CdsSimulator> cdsSim = new AtomicReference<>();
-        addAction(cdsServer.getName(), () -> cdsSim.set(buildCdsSimulator(cdsServer)), () -> cdsSim.get().stop());
+        if (cdsServer != null) {
+            AtomicReference<CdsSimulator> cdsSim = new AtomicReference<>();
+            addAction(cdsServer.getName(), () -> cdsSim.set(buildCdsSimulator(cdsServer)), () -> cdsSim.get().stop());
+        }
 
         // REST server simulators
         // @formatter:off
@@ -276,7 +280,7 @@ public class Main extends ServiceManagerContainer {
         props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_SWAGGER_SUFFIX, "false");
         props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_MANAGED_SUFFIX, "true");
 
-        if (dmaapName.equals(params.getName())) {
+        if (dmaapName != null && dmaapName.equals(params.getName())) {
             props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_SERIALIZATION_PROVIDER,
                             String.join(",", CambriaMessageBodyHandler.class.getName(),
                                             GsonMessageBodyHandler.class.getName(),

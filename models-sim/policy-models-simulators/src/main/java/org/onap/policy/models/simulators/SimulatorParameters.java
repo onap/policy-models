@@ -27,14 +27,12 @@ import lombok.Getter;
 import org.onap.policy.common.endpoints.parameters.TopicParameters;
 import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.common.parameters.BeanValidator;
-import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.models.sim.dmaap.parameters.DmaapSimParameterGroup;
 
 /**
  * Simulator parameters.
  */
 @Getter
-@NotNull
 public class SimulatorParameters {
 
     /**
@@ -76,6 +74,14 @@ public class SimulatorParameters {
      */
     public BeanValidationResult validate(String containerName) {
         BeanValidationResult result = new BeanValidator().validateTop(containerName, this);
+
+        if (dmaapProvider != null) {
+            result.addResult(dmaapProvider.validate());
+        }
+
+        if (grpcServer != null) {
+            result.addResult(grpcServer.validate());
+        }
 
         result.validateList("restServers", restServers, params -> params.validate("restServers"));
         result.validateList("topicServers", topicServers, params -> params.validate("topicServers"));

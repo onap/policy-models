@@ -34,14 +34,24 @@ public class SimulatorParametersTest {
 
     @Test
     public void testValidate() throws CoderException {
-        // some fields missing
-        BeanValidationResult result = new SimulatorParameters().validate("InvalidParams");
-        assertFalse(result.isValid());
-        assertNotNull(result.getResult());
 
         // everything populated
         SimulatorParameters params = new StandardCoder().decode(new File("src/test/resources/simParameters.json"),
                         SimulatorParameters.class);
         assertNull(params.validate("ValidParams").getResult());
+
+        // invalid dmaap provider
+        params = new StandardCoder().decode(new File("src/test/resources/invalidDmaapParameters.json"),
+                        SimulatorParameters.class);
+        BeanValidationResult result = params.validate("InvalidDmaapParams");
+        assertFalse(result.isValid());
+        assertNotNull(result.getResult());
+
+        // invalid grpc server
+        params = new StandardCoder().decode(new File("src/test/resources/invalidGrpcParameters.json"),
+                        SimulatorParameters.class);
+        result = params.validate("InvalidGrpcParams");
+        assertFalse(result.isValid());
+        assertNotNull(result.getResult());
     }
 }

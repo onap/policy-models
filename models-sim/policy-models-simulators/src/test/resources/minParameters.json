@@ -1,0 +1,14 @@
+{
+    "restServers": [
+        {
+            "name": "A&AI simulator",
+            "providerClass": "org.onap.policy.simulators.AaiSimulatorJaxRs",
+            "host": "localhost",
+            "port": 6766,
+            "https": true
+        }
+    ],
+    "topicSinks": [],
+    "topicSources": [],
+    "topicServers": []
+}
