@@ -45,6 +45,7 @@ import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceIn
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceOutput;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
+import org.onap.policy.common.utils.network.NetworkUtil;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 
 public class CdsSimulatorTest {
@@ -52,9 +53,15 @@ public class CdsSimulatorTest {
 
     private CdsSimulator sim;
 
+    /**
+     * Starts the simulator, allocating a unique port for each test so we don't have to
+     * wait for the prior server to shut down.
+     */
     @Before
     public void setUp() throws Exception {
-        sim = Util.buildCdsSim();
+        int port = NetworkUtil.allocPort();
+        sim = new CdsSimulator("localhost", port);
+        sim.start();
     }
 
     @After
