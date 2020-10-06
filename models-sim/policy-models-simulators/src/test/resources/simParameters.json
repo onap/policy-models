@@ -1,10 +1,7 @@
 {
     "dmaapProvider": {
         "name": "DMaaP simulator",
-        "topicSweepSec": 300,
-        "restServerParameters": {
-
-        }
+        "topicSweepSec": 300
     },
     "restServers": [
         {

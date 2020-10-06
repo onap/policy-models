@@ -109,7 +109,7 @@ public class MainTest {
 
     @Test
     public void testConstructor() throws Exception {
-        assertThatIllegalArgumentException().isThrownBy(() -> new Main("invalidSimParameters.json"))
+        assertThatIllegalArgumentException().isThrownBy(() -> new Main("invalidDmaapParameters.json"))
                         .withMessage("invalid simulator parameters");
     }
 
@@ -125,12 +125,19 @@ public class MainTest {
         Main.main(new String[] {PARAMETER_FILE});
 
         // don't need to wait long, because buildXxx() does the wait for us
-        for (int port = 6666; port <= 6670; ++port) {
+        for (int port : new int[] {6666, 6667, 6668, 6669, 6670, 6680}) {
             assertTrue("simulator on port " + port, NetworkUtil.isTcpPortOpen(HOST, port, 1, 100));
         }
 
         // it's sufficient to verify that one of the simulators works
         checkAai();
+    }
+
+    @Test
+    public void testMainMinimalParameters() {
+        Main.main(new String[] {"minParameters.json"});
+        assertNotNull(Main.getInstance());
+        assertTrue(Main.getInstance().isAlive());
     }
 
     private void checkAai() throws HttpClientConfigException {

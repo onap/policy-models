@@ -1,0 +1,7 @@
+{
+    "grpcServer": {},
+    "restServers": [],
+    "topicSinks": [],
+    "topicSources": [],
+    "topicServers": []
+}
