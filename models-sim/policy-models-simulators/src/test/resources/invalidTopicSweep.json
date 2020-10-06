@@ -1,0 +1,10 @@
+{
+    "dmaapProvider": {
+        "name": "DMaaP simulator",
+        "topicSweepSec":0
+    },
+    "restServers": [],
+    "topicSinks": [],
+    "topicSources": [],
+    "topicServers": []
+}
