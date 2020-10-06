@@ -52,7 +52,7 @@ public class Util {
 
     private static final String CANNOT_PROCESS_PARAMETERS = "cannot parse parameters ";
     private static final String CANNOT_CONNECT = "cannot connect to port ";
-    private static final String LOCALHOST = "localhost";
+    public static final String LOCALHOST = "localhost";
 
     private Util() {
         // Prevent instantiation of this class
