@@ -111,7 +111,7 @@ data_types:
     onap.datatypes.drools.controller.relation:
         derived_from: tosca.datatypes.Root
         properties:
-            controllerName:
+            name:
                 type: string
                 required: true
                 description: the name of drools controller policy
