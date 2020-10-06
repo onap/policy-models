@@ -25,10 +25,12 @@ import lombok.Getter;
 import org.onap.policy.common.parameters.ParameterGroupImpl;
 import org.onap.policy.common.parameters.annotations.Min;
 import org.onap.policy.common.parameters.annotations.NotBlank;
+import org.onap.policy.common.parameters.annotations.NotNull;
 
 /**
  * Class to hold all parameters needed for the DMaaP simulator component.
  */
+@NotNull
 @NotBlank
 @Getter
 public class DmaapSimParameterGroup extends ParameterGroupImpl {

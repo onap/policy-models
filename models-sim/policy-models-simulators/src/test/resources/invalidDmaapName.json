@@ -1,0 +1,10 @@
+{
+    "dmaapProvider": {
+        "name": null,
+        "topicSweepSec":300
+    },
+    "restServers": [],
+    "topicSinks": [],
+    "topicSources": [],
+    "topicServers": []
+}

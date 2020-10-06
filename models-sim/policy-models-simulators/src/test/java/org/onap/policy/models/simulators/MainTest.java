@@ -109,7 +109,7 @@ public class MainTest {
 
     @Test
     public void testConstructor() throws Exception {
-        assertThatIllegalArgumentException().isThrownBy(() -> new Main("invalidDmaapParameters.json"))
+        assertThatIllegalArgumentException().isThrownBy(() -> new Main("invalidDmaapProvider.json"))
                         .withMessage("invalid simulator parameters");
     }
 
