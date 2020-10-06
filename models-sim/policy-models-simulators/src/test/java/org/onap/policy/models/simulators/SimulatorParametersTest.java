@@ -20,6 +20,7 @@
 
 package org.onap.policy.models.simulators;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -34,23 +35,50 @@ public class SimulatorParametersTest {
 
     @Test
     public void testValidate() throws CoderException {
-
-        // everything populated
         SimulatorParameters params = new StandardCoder().decode(new File("src/test/resources/simParameters.json"),
                         SimulatorParameters.class);
         assertNull(params.validate("ValidParams").getResult());
+    }
 
-        // invalid dmaap provider
-        params = new StandardCoder().decode(new File("src/test/resources/invalidDmaapParameters.json"),
-                        SimulatorParameters.class);
+    @Test
+    public void testValidateEmptyRestServer() throws CoderException {
+        SimulatorParameters params = new StandardCoder()
+                        .decode(new File("src/test/resources/emptyRestServer.json"), SimulatorParameters.class);
+        assertNull(params.validate("ValidParams").getResult());
+    }
+
+    @Test
+    public void testValidateInvalidDmaapProvider() throws CoderException {
+        SimulatorParameters params = new StandardCoder()
+                        .decode(new File("src/test/resources/invalidDmaapProvider.json"), SimulatorParameters.class);
         BeanValidationResult result = params.validate("InvalidDmaapParams");
         assertFalse(result.isValid());
         assertNotNull(result.getResult());
+    }
 
-        // invalid grpc server
-        params = new StandardCoder().decode(new File("src/test/resources/invalidGrpcParameters.json"),
-                        SimulatorParameters.class);
-        result = params.validate("InvalidGrpcParams");
+    @Test
+    public void testValidateInvalidDmaapName() throws CoderException {
+        SimulatorParameters params = new StandardCoder().decode(
+                        new File("src/test/resources/invalidDmaapName.json"), SimulatorParameters.class);
+        BeanValidationResult result = params.validate("InvalidDmaapParams");
+        assertFalse(result.isValid());
+        assertThat(result.getResult()).contains("item \"name\" value \"null\"");
+    }
+
+    @Test
+    public void testValidateInvalidTopicSweep() throws CoderException {
+        SimulatorParameters params = new StandardCoder().decode(
+                        new File("src/test/resources/invalidTopicSweep.json"), SimulatorParameters.class);
+        BeanValidationResult result = params.validate("InvalidDmaapParams");
+        assertFalse(result.isValid());
+        assertThat(result.getResult()).contains("topicSweepSec");
+    }
+
+    @Test
+    public void testValidateInvalidGrpcServer() throws CoderException {
+        SimulatorParameters params = new StandardCoder()
+                        .decode(new File("src/test/resources/invalidGrpcServer.json"), SimulatorParameters.class);
+        BeanValidationResult result = params.validate("InvalidGrpcParams");
         assertFalse(result.isValid());
         assertNotNull(result.getResult());
     }

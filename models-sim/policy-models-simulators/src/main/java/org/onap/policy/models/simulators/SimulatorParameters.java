@@ -27,6 +27,8 @@ import lombok.Getter;
 import org.onap.policy.common.endpoints.parameters.TopicParameters;
 import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.common.parameters.BeanValidator;
+import org.onap.policy.common.parameters.ObjectValidationResult;
+import org.onap.policy.common.parameters.ValidationStatus;
 import org.onap.policy.models.sim.dmaap.parameters.DmaapSimParameterGroup;
 
 /**
@@ -76,7 +78,17 @@ public class SimulatorParameters {
         BeanValidationResult result = new BeanValidator().validateTop(containerName, this);
 
         if (dmaapProvider != null) {
-            result.addResult(dmaapProvider.validate());
+            // do not want full validation of the provider, so validate the relevant
+            // fields ourselves
+            BeanValidationResult subResult = new BeanValidationResult("dmaapProvider", dmaapProvider);
+            subResult.validateNotNull("name", dmaapProvider.getName());
+            if (dmaapProvider.getTopicSweepSec() < 1) {
+                ObjectValidationResult fieldResult =
+                                new ObjectValidationResult("topicSweepSec", dmaapProvider.getTopicSweepSec(),
+                                                ValidationStatus.INVALID, "is below the minimum value: 1");
+                subResult.addResult(fieldResult);
+            }
+            result.addResult(subResult);
         }
 
         if (grpcServer != null) {
