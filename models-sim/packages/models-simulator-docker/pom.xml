@@ -43,6 +43,8 @@
         <docker.pull.registry>nexus3.onap.org:10001</docker.pull.registry>
         <docker.push.registry>nexus3.onap.org:10003</docker.push.registry>
         <maven.build.timestamp.format>yyyyMMdd'T'HHmm</maven.build.timestamp.format>
+        <!-- There is no code in this sub-module, only holds interfaces. So skip sonar. -->
+        <sonar.skip>true</sonar.skip>
     </properties>
 
     <build>

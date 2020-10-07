@@ -35,6 +35,11 @@
   <name>${project.artifactId}</name>
   <description>A module that runs all "simulators", including DMaaP.</description>
 
+  <properties>
+      <!-- There is no code in this sub-module, only holds interfaces. So skip sonar. -->
+      <sonar.skip>true</sonar.skip>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>org.onap.policy.models.sim</groupId>
