@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "facf86f5_1bbd75d3",
+        "filename": "models-sim/packages/models-simulator-docker/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-10-07T19:55:58Z",
+      "side": 1,
+      "message": "Oh I wonder if this should be ${project.version}",
+      "range": {
+        "startLine": 172,
+        "startChar": 21,
+        "endLine": 172,
+        "endChar": 35
+      },
+      "revId": "e575010b26cb8a656e05280184f614677f236bbd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e6a143c_1e0e055a",
+        "filename": "models-sim/packages/models-simulator-tarball/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-10-07T19:55:58Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 48,
+        "startChar": 15,
+        "endLine": 48,
+        "endChar": 29
+      },
+      "revId": "e575010b26cb8a656e05280184f614677f236bbd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
