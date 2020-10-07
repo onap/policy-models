@@ -39,8 +39,13 @@ import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceIn
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceOutput;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceOutput.Builder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CdsSimulator {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CdsSimulator.class);
+
     @Getter
     private final int port;
 
@@ -83,6 +88,7 @@ public class CdsSimulator {
 
                     @Override
                     public void onNext(final ExecutionServiceInput executionServiceInput) {
+                        LOGGER.info("Received request input to CDS: {}", executionServiceInput);
                         try {
                             String responseString = getResponseString(executionServiceInput, countOfSuccesfulEvents);
                             Builder builder = ExecutionServiceOutput.newBuilder();
@@ -141,11 +147,14 @@ public class CdsSimulator {
         } else {
             resourceName = resourceName + ".json";
         }
+        LOGGER.info("Fetching response from {}", resourceName);
         String responseString = ResourceUtils.getResourceAsString(resourceLocation + resourceName);
         if (responseString == null) {
+            LOGGER.info("Expected response file {} not found in {}", resourceName, resourceLocation);
             responseString = ResourceUtils.getResourceAsString(resourceLocation
                 + "DefaultResponseEvent.json");
         }
+        LOGGER.debug("Returning response from CDS Simulator: {}", responseString);
         return responseString;
     }
 }

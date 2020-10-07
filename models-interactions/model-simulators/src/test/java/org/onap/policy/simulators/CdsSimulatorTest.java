@@ -24,6 +24,7 @@ package org.onap.policy.simulators;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import com.google.protobuf.util.JsonFormat;
 import io.grpc.ManagedChannel;
 import io.grpc.internal.DnsNameResolverProvider;
 import io.grpc.internal.PickFirstLoadBalancerProvider;
@@ -42,6 +43,7 @@ import org.junit.Test;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.BluePrintProcessingServiceGrpc;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.BluePrintProcessingServiceGrpc.BluePrintProcessingServiceStub;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceInput;
+import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceInput.Builder;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceOutput;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
@@ -72,7 +74,10 @@ public class CdsSimulatorTest {
     @Test
     public void test() throws Exception {
         String reqstr = IOUtils.toString(getClass().getResource("cds/cds.request.json"), StandardCharsets.UTF_8);
-        ExecutionServiceInput request = coder.decode(reqstr, ExecutionServiceInput.class);
+        ExecutionServiceInput request;
+        Builder builder = ExecutionServiceInput.newBuilder();
+        JsonFormat.parser().ignoringUnknownFields().merge(reqstr, builder);
+        request = builder.build();
         ManagedChannel channel = NettyChannelBuilder.forAddress(Util.LOCALHOST, sim.getPort())
             .nameResolverFactory(new DnsNameResolverProvider())
             .loadBalancerFactory(new PickFirstLoadBalancerProvider()).usePlaintext().build();
