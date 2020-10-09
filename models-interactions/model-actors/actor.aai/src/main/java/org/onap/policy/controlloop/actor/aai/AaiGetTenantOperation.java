@@ -24,7 +24,6 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import javax.ws.rs.client.Invocation.Builder;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
 import org.onap.policy.aai.AaiConstants;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
@@ -65,9 +64,7 @@ public class AaiGetTenantOperation extends AaiGetOperation {
 
     @Override
     protected CompletableFuture<OperationOutcome> startOperationAsync(int attempt, OperationOutcome outcome) {
-        Map<String, Object> headers = makeHeaders();
-
-        headers.put("Accept", MediaType.APPLICATION_JSON);
+        final Map<String, Object> headers = makeHeaders();
 
         StringBuilder str = new StringBuilder(getClient().getBaseUrl());
 

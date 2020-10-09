@@ -70,5 +70,6 @@ public abstract class BasicAaiOperation extends BasicHttpOperation {
     protected void verifyHeaders(Map<String, Object> headers) {
         assertEquals("POLICY", headers.get("X-FromAppId").toString());
         assertEquals(params.getRequestId().toString(), headers.get("X-TransactionId"));
+        assertEquals("application/json", headers.get("Accept").toString());
     }
 }

@@ -22,6 +22,7 @@ package org.onap.policy.controlloop.actor.aai;
 
 import java.util.HashMap;
 import java.util.Map;
+import javax.ws.rs.core.MediaType;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 
 /**
@@ -44,6 +45,7 @@ public class AaiUtil {
 
         headers.put("X-FromAppId", "POLICY");
         headers.put("X-TransactionId", params.getRequestId().toString());
+        headers.put("Accept", MediaType.APPLICATION_JSON);
 
         return headers;
     }
