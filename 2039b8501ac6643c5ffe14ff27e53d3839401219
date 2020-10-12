@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d922715_ad5b46a2",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-10-12T17:13:50Z",
+      "side": 1,
+      "message": "not exactly sure why another thread was created for this.  Appears that stop() could be modified to invoke server.awaitTermination() and still have the same functionality, with one less thread, unless it\u0027s preferred that awaitTermination() be run in the background.",
+      "revId": "2039b8501ac6643c5ffe14ff27e53d3839401219",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8f27341_c3629db8",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-10-12T17:13:50Z",
+      "side": 1,
+      "message": "doesn\u0027t appear that this field is needed",
+      "revId": "2039b8501ac6643c5ffe14ff27e53d3839401219",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52633b6d_8b260689",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-10-12T17:13:50Z",
+      "side": 1,
+      "message": "can use Thread.currentThread()",
+      "range": {
+        "startLine": 193,
+        "startChar": 12,
+        "endLine": 193,
+        "endChar": 30
+      },
+      "revId": "2039b8501ac6643c5ffe14ff27e53d3839401219",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
