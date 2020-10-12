@@ -128,13 +128,16 @@ public class CdsSimulatorTest {
     }
 
     @Test
-    public void testGetResponseString() throws IOException, CoderException, ParseException {
+    public void testGetResponse() throws IOException, CoderException, ParseException {
         CdsSimulator cdsSimulator = new CdsSimulator(Util.LOCALHOST, sim.getPort());
         String reqstr = ResourceUtils.getResourceAsString(
             "org/onap/policy/simulators/cds/cds.request.json");
         String responseqstr = ResourceUtils.getResourceAsString(
             "org/onap/policy/simulators/cds/pm_control-create-subscription.json");
         ExecutionServiceInput request = coder.decode(reqstr, ExecutionServiceInput.class);
-        assertEquals(responseqstr, cdsSimulator.getResponseString(request, 0));
+        org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceOutput.Builder esoBuilder =
+            ExecutionServiceOutput.newBuilder();
+        JsonFormat.parser().ignoringUnknownFields().merge(responseqstr, esoBuilder);
+        assertEquals(esoBuilder.toString(), cdsSimulator.getResponse(request, 0).toString());
     }
 }

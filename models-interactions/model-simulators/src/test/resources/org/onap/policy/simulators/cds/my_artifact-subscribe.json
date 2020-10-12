@@ -1,0 +1,27 @@
+{
+  "commonHeader": {
+    "timestamp": "2020-03-20T14:00:25.217Z",
+    "requestId": "123456-1000",
+    "subRequestId": "sub-123456-1000",
+    "flag": {
+    },
+    "originatorId": "sdnc"
+  },
+  "actionIdentifiers": {
+    "blueprintName": "my_artifact",
+    "blueprintVersion": "1.0.0",
+    "actionName": "subscribe",
+    "mode": "sync"
+  },
+  "status": {
+    "code": 200,
+    "message": "success",
+    "eventType": "EVENT_COMPONENT_EXECUTED",
+    "timestamp": "2020-07-02T14:56:25.608Z"
+  },
+  "payload": {
+    "subscription-response": {
+        "status": "success"
+    }
+  }
+}

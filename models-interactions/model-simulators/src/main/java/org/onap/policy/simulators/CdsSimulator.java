@@ -29,11 +29,14 @@ import io.grpc.netty.NettyServerBuilder;
 import io.grpc.stub.StreamObserver;
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 import org.onap.ccsdk.cds.controllerblueprints.common.api.ActionIdentifiers;
+import org.onap.ccsdk.cds.controllerblueprints.common.api.EventType;
+import org.onap.ccsdk.cds.controllerblueprints.common.api.Status;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.BluePrintProcessingServiceGrpc.BluePrintProcessingServiceImplBase;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceInput;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceOutput;
@@ -42,7 +45,7 @@ import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CdsSimulator {
+public class CdsSimulator implements Runnable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CdsSimulator.class);
 
@@ -54,6 +57,8 @@ public class CdsSimulator {
     private final String resourceLocation;
 
     private AtomicInteger countOfEvents = new AtomicInteger(1);
+
+    private Thread cdsSimulatorThread;
 
     /**
      * Constructs the object, but does not start it.
@@ -82,7 +87,7 @@ public class CdsSimulator {
 
             @Override
             public StreamObserver<ExecutionServiceInput> process(
-                            final StreamObserver<ExecutionServiceOutput> responseObserver) {
+                final StreamObserver<ExecutionServiceOutput> responseObserver) {
 
                 return new StreamObserver<ExecutionServiceInput>() {
 
@@ -90,9 +95,7 @@ public class CdsSimulator {
                     public void onNext(final ExecutionServiceInput executionServiceInput) {
                         LOGGER.info("Received request input to CDS: {}", executionServiceInput);
                         try {
-                            String responseString = getResponseString(executionServiceInput, countOfSuccesfulEvents);
-                            Builder builder = ExecutionServiceOutput.newBuilder();
-                            JsonFormat.parser().ignoringUnknownFields().merge(responseString, builder);
+                            Builder builder = getResponse(executionServiceInput, countOfSuccesfulEvents);
                             TimeUnit.MILLISECONDS.sleep(requestedResponseDelayMs);
                             responseObserver.onNext(builder.build());
                         } catch (InvalidProtocolBufferException e) {
@@ -117,13 +120,22 @@ public class CdsSimulator {
         };
 
         server = NettyServerBuilder.forAddress(new InetSocketAddress(host, port)).addService(testCdsBlueprintServerImpl)
-                        .build();
+            .build();
     }
 
+    /**
+     * Start the server.
+     *
+     * @throws IOException IO exception.
+     */
     public void start() throws IOException {
-        server.start();
+        cdsSimulatorThread = new Thread(this);
+        cdsSimulatorThread.start();
     }
 
+    /**
+     * Stop the server.
+     */
     public void stop() {
         server.shutdown();
     }
@@ -133,9 +145,11 @@ public class CdsSimulator {
      *
      * @param executionServiceInput service input
      * @param countOfSuccesfulEvents number of successive successful events
-     * @return  responseString
+     * @return builder for ExecutionServiceOutput response
+     * @throws InvalidProtocolBufferException when response string cannot be converted
      */
-    public String getResponseString(ExecutionServiceInput executionServiceInput, int countOfSuccesfulEvents) {
+    public Builder getResponse(ExecutionServiceInput executionServiceInput, int countOfSuccesfulEvents)
+        throws InvalidProtocolBufferException {
         String resourceName = "DefaultResponseEvent";
         if (!StringUtils.isBlank(executionServiceInput.getActionIdentifiers().getActionName())) {
             ActionIdentifiers actionIdentifiers = executionServiceInput.getActionIdentifiers();
@@ -149,12 +163,34 @@ public class CdsSimulator {
         }
         LOGGER.info("Fetching response from {}", resourceName);
         String responseString = ResourceUtils.getResourceAsString(resourceLocation + resourceName);
-        if (responseString == null) {
+        Builder builder = ExecutionServiceOutput.newBuilder();
+        if (null == responseString) {
             LOGGER.info("Expected response file {} not found in {}", resourceName, resourceLocation);
-            responseString = ResourceUtils.getResourceAsString(resourceLocation
-                + "DefaultResponseEvent.json");
+            ActionIdentifiers actionIdentifiers = executionServiceInput.getActionIdentifiers();
+            builder.setCommonHeader(executionServiceInput.getCommonHeader());
+            builder.setActionIdentifiers(actionIdentifiers);
+            builder.setPayload(executionServiceInput.getPayload());
+            builder.setStatus(Status.newBuilder().setCode(500).setMessage("failure")
+                .setErrorMessage("failed to get  get cba file name(" + actionIdentifiers.getBlueprintName()
+                    + "), version(" + actionIdentifiers.getBlueprintVersion() + ") from db : file check failed.")
+                .setEventType(EventType.EVENT_COMPONENT_FAILURE).setTimestamp(Instant.now().toString()));
+        } else {
+            LOGGER.debug("Returning response from CDS Simulator: {}", responseString);
+            JsonFormat.parser().ignoringUnknownFields().merge(responseString, builder);
         }
-        LOGGER.debug("Returning response from CDS Simulator: {}", responseString);
-        return responseString;
+        return builder;
+    }
+
+    @Override
+    public void run() {
+        try {
+            server.start();
+            server.awaitTermination();
+        } catch (IOException e) {
+            LOGGER.error("gRPC server failed to start.");
+        } catch (InterruptedException e) {
+            LOGGER.info("gRPC server is terminated");
+            cdsSimulatorThread.interrupt();
+        }
     }
 }
