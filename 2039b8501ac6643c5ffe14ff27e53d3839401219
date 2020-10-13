@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "128eb46e_dd30d452",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-10-13T14:29:46Z",
+      "side": 1,
+      "message": "Thanks for explaining.  Perhaps add a comment to the start() method indicating that we have to wrap the server in a non-daemon thread to prevent the Main thread from exiting prematurely.\n\nMight also want to have start() invoke server.start() directly, and all that wrapper thread would do then is invoke awaitTermination().  That way, any exceptions from server.start() are propagated out of start().",
+      "parentUuid": "32ad8ef4_700f9490",
+      "revId": "2039b8501ac6643c5ffe14ff27e53d3839401219",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d8f27341_c3629db8",
         "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
         "patchSetId": 2
