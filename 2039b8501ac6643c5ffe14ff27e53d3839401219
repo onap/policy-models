@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "32ad8ef4_700f9490",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4903
+      },
+      "writtenOn": "2020-10-13T14:21:56Z",
+      "side": 1,
+      "message": "The grpc server uses daemon threads by default. Hence the application will exit as soon the main thread completes. That is why we need awaitTermination to keep the main thread alive until the server is terminated.\n\nWhen awaitTermination is just called without running this as a separate thread, it was messing up other simulators to start up, for example dmaap or aai simulator will not work as the main thread gets kind of stuck waiting for the gRPC server to finish. That is why the gRPC server is run in a separate thread.",
+      "parentUuid": "7afde403_eeb984d5",
+      "revId": "2039b8501ac6643c5ffe14ff27e53d3839401219",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d8f27341_c3629db8",
         "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
         "patchSetId": 2
