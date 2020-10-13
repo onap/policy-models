@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c86830a4_b4f25d02",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4903
+      },
+      "writtenOn": "2020-10-13T09:31:57Z",
+      "side": 1,
+      "message": "awaitTermination basically asks the main thread to wait until the server is terminated. Adding awaitTermination to stop() doesn\u0027t work because, Main process is terminated and there is no one calling the stop method itself.\n\nI could add awaitTermination to start() after starting the server. But this would end up in making the Main thread work only for the CDS simulators and the other simulators get messed up and wont start (I tested this). Hence, running the gRPC server in a thread. We are running the Rest servers also in separate thread.",
+      "parentUuid": "8d922715_ad5b46a2",
+      "revId": "2039b8501ac6643c5ffe14ff27e53d3839401219",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d8f27341_c3629db8",
         "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "2039b8501ac6643c5ffe14ff27e53d3839401219",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63bd593d_f2f79ae0",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 4903
+      },
+      "writtenOn": "2020-10-13T09:31:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8f27341_c3629db8",
+      "revId": "2039b8501ac6643c5ffe14ff27e53d3839401219",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -56,6 +92,30 @@
       "revId": "2039b8501ac6643c5ffe14ff27e53d3839401219",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b660822b_20a79640",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/CdsSimulator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 4903
+      },
+      "writtenOn": "2020-10-13T09:31:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52633b6d_8b260689",
+      "range": {
+        "startLine": 193,
+        "startChar": 12,
+        "endLine": 193,
+        "endChar": 30
+      },
+      "revId": "2039b8501ac6643c5ffe14ff27e53d3839401219",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
