@@ -70,7 +70,8 @@ public class AaiSimulatorJaxRs {
         if (filter.equals("vserver-name:EQUALS:f953c499-4b1e-426b-8c6d-e9e9f1fc730f")
             || filter.equals("vserver-name:EQUALS:Ete_vFWCLvFWSNK_7ba1fbde_0")
             || filter.equals("vserver-name:EQUALS:OzVServer")
-            || filter.equals("vserver-name:EQUALS:testVserverName")) {
+            || filter.equals("vserver-name:EQUALS:testVserverName")
+            || filter.startsWith("vserver-name:EQUALS:vserver-")) {
             return "{\"result-data\":[{\"resource-type\": \"vserver\",\"resource-link\":\"/aai/v15/"
                 + "cloud-infrastructure/cloud-regions/cloud-region/CloudOwner/RegionOne/tenants"
                 + "/tenant/3f2aaef74ecb4b19b35e26d0849fe9a2/vservers/vserver/"

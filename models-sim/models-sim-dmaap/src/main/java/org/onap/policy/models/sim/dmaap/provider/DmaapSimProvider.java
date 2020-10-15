@@ -21,6 +21,9 @@
 
 package org.onap.policy.models.sim.dmaap.provider;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParseException;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -34,6 +37,8 @@ import javax.ws.rs.core.Response.Status;
 import lombok.Getter;
 import lombok.Setter;
 import org.onap.policy.common.utils.services.ServiceManagerContainer;
+import org.onap.policy.models.sim.dmaap.filter.Filter;
+import org.onap.policy.models.sim.dmaap.filter.FilterTypeAdapterFactory;
 import org.onap.policy.models.sim.dmaap.parameters.DmaapSimParameterGroup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +50,12 @@ import org.slf4j.LoggerFactory;
  */
 public class DmaapSimProvider extends ServiceManagerContainer {
     private static final Logger LOGGER = LoggerFactory.getLogger(DmaapSimProvider.class);
+
+    /**
+     * Used to decode a Filter.
+     */
+    private static final Gson filterDecoder =
+                    new GsonBuilder().registerTypeAdapterFactory(new FilterTypeAdapterFactory()).create();
 
     @Getter
     @Setter
@@ -83,7 +94,7 @@ public class DmaapSimProvider extends ServiceManagerContainer {
      */
     @SuppressWarnings("unchecked")
     public Response processDmaapMessagePut(final String topicName, final Object dmaapMessage) {
-        LOGGER.debug("Topic: {}, Received DMaaP message(s): {}", topicName, dmaapMessage);
+        LOGGER.info("Topic: {}, Received DMaaP message(s): {}", topicName, dmaapMessage);
 
         List<Object> lst;
 
@@ -117,21 +128,28 @@ public class DmaapSimProvider extends ServiceManagerContainer {
      * @param consumerId the consumer ID that is waiting
      * @param limit the maximum number of messages to get
      * @param timeoutMs the length of time to wait for
+     * @param filterStr optional message filter
      * @return the DMaaP message or
      */
     public Response processDmaapMessageGet(final String topicName, final String consumerGroup, final String consumerId,
-                    final int limit, final long timeoutMs) {
+                    final int limit, final long timeoutMs, final String filterStr) {
 
         LOGGER.debug("Topic: {}, Request for DMaaP message: {}: {} with limit={} timeout={}", topicName, consumerGroup,
                         consumerId, limit, timeoutMs);
 
         try {
-            List<String> lst = topic2data.computeIfAbsent(topicName, this::makeTopicData).read(consumerGroup, limit,
-                            timeoutMs);
+            Filter filter = filterDecoder.fromJson(filterStr, Filter.class);
 
-            LOGGER.debug("Topic: {}, Retrieved {} messages for: {}: {}", topicName, lst.size(), consumerGroup,
+            List<String> lst = topic2data.computeIfAbsent(topicName, this::makeTopicData).read(consumerGroup, limit,
+                            timeoutMs, filter);
+
+            LOGGER.info("Topic: {}, Retrieved {} messages for: {}: {}", topicName, lst.size(), consumerGroup,
                             consumerId);
             return Response.status(Status.OK).entity(lst).build();
+
+        } catch (JsonParseException e) {
+            LOGGER.warn("Topic: {}, Invalid filter for {}: {}", topicName, consumerGroup, filterStr, e);
+            return Response.status(Status.BAD_REQUEST).build();
 
         } catch (InterruptedException e) {
             LOGGER.warn("Topic: {}, Request for DMaaP message interrupted: {}: {}", topicName, consumerGroup,

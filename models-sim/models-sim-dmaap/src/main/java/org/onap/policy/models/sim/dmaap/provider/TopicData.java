@@ -30,6 +30,7 @@ import java.util.function.Function;
 import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
+import org.onap.policy.models.sim.dmaap.filter.Filter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -92,12 +93,14 @@ public class TopicData {
      * @param consumerGroup name of the consumer group from which to read
      * @param maxRead maximum number of messages to read
      * @param waitMs time to wait, in milliseconds, if the queue is currently empty
+     * @param filter filter to apply to messages, or {@code null} to return all messages
      * @return a list of messages read from the queue, empty if no messages became
      *         available before the wait time elapsed
      * @throws InterruptedException if this thread was interrupted while waiting for the
      *         first message
      */
-    public List<String> read(String consumerGroup, int maxRead, long waitMs) throws InterruptedException {
+    public List<String> read(String consumerGroup, int maxRead, long waitMs, Filter filter)
+                    throws InterruptedException {
         /*
          * It's possible that this thread may spin several times while waiting for
          * removeIdleConsumers() to complete its call to iter.remove(), thus we create
@@ -111,7 +114,7 @@ public class TopicData {
         // @formatter:off
 
         do {
-            result = group2data.computeIfAbsent(consumerGroup, maker).read(maxRead, waitMs);
+            result = group2data.computeIfAbsent(consumerGroup, maker).read(maxRead, waitMs, filter);
         } while (result == ConsumerGroupData.UNREADABLE_LIST);
 
         // @formatter:on

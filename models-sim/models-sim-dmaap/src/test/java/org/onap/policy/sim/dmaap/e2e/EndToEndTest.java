@@ -188,6 +188,48 @@ public class EndToEndTest extends CommonRestServer {
         test("testText", "text/plain", (wtr, messages) -> messages.forEach(wtr::println));
     }
 
+    @Test
+    public void testFiltered() throws Exception {
+
+        /*
+         * Force consumer name to be registered with the server by attempting to fetch a message.
+         */
+        buildConsumer(0).fetch();
+
+        String msg1 = "{'text':'hello'}".replace('\'', '"');
+        String msg2 = "{'text':'world'}".replace('\'', '"');
+
+        URL url = new URL(httpPrefix + "events/" + TOPIC3);
+
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Content-type", "application/json");
+        conn.setDoOutput(true);
+        conn.connect();
+
+        try (PrintWriter wtr = new PrintWriter(conn.getOutputStream())) {
+            List<String> messages = Arrays.asList(msg1, msg2, msg2, msg1);
+            wtr.write("[" + String.join(", ", messages) + "]");
+        }
+
+        final String testName = "testFiltered";
+        assertEquals(testName + " response code", HttpURLConnection.HTTP_OK, conn.getResponseCode());
+
+        // fetch the messages, using a filter
+        String filter = "{'class':'Equals','field':'text','value':'hello'}".replace('\'', '"');
+        Iterator<String> iter = buildConsumer(1000, filter).fetch().iterator();
+
+        assertTrue(testName + " have message 1", iter.hasNext());
+        assertEquals(testName + " message 1", msg1, iter.next());
+
+        // should be message 1 again, as both copies of message 2 should have been discarded
+        assertTrue(testName + " have message 2", iter.hasNext());
+        assertEquals(testName + " message 2", msg1, iter.next());
+
+        // no more messages
+        assertFalse(testName + " extra message", iter.hasNext());
+    }
+
     /**
      * Uses a raw URL connection to ensure the server can process messages of the given
      * media type.
@@ -236,11 +278,17 @@ public class EndToEndTest extends CommonRestServer {
     }
 
     private CambriaConsumer buildConsumer(int timeoutMs) throws MalformedURLException, GeneralSecurityException {
+        return buildConsumer(timeoutMs, null);
+    }
+
+    private CambriaConsumer buildConsumer(int timeoutMs, String filter)
+                    throws MalformedURLException, GeneralSecurityException {
         ConsumerBuilder builder = new CambriaClientBuilders.ConsumerBuilder();
 
         builder.knownAs(String.valueOf(consumerName), "my-consumer-id")
                 .usingHosts(hostPort).onTopic(TOPIC3)
-                .waitAtServer(timeoutMs).receivingAtMost(5);
+                .waitAtServer(timeoutMs).receivingAtMost(5)
+                .withServerSideFilter(filter);
 
         builder.withSocketTimeout(timeoutMs + 2000);
 

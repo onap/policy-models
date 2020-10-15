@@ -32,6 +32,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -39,6 +40,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import org.junit.After;
@@ -51,6 +53,7 @@ import org.mockito.MockitoAnnotations;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
+import org.onap.policy.models.sim.dmaap.filter.And;
 import org.onap.policy.models.sim.dmaap.parameters.DmaapSimParameterGroup;
 
 public class DmaapSimProviderTest {
@@ -123,8 +126,8 @@ public class DmaapSimProviderTest {
         when(data1.write(any())).thenReturn(2);
 
         // force topics to exist
-        prov.processDmaapMessageGet(TOPIC1, CONSUMER1, CONSUMER_ID1, 1, 0);
-        prov.processDmaapMessageGet(TOPIC2, CONSUMER1, CONSUMER_ID1, 1, 0);
+        prov.processDmaapMessageGet(TOPIC1, CONSUMER1, CONSUMER_ID1, 1, 0, null);
+        prov.processDmaapMessageGet(TOPIC2, CONSUMER1, CONSUMER_ID1, 1, 0, null);
 
         List<Object> lst = Arrays.asList("hello", "world");
         Response resp = prov.processDmaapMessagePut(TOPIC1, lst);
@@ -152,8 +155,8 @@ public class DmaapSimProviderTest {
         prov = spy(new MyProvider(params));
 
         // force topics to exist
-        prov.processDmaapMessageGet(TOPIC1, CONSUMER1, CONSUMER_ID1, 1, 0);
-        prov.processDmaapMessageGet(TOPIC2, CONSUMER1, CONSUMER_ID1, 1, 0);
+        prov.processDmaapMessageGet(TOPIC1, CONSUMER1, CONSUMER_ID1, 1, 0, null);
+        prov.processDmaapMessageGet(TOPIC2, CONSUMER1, CONSUMER_ID1, 1, 0, null);
 
         final String value1 = "abc";
         Response resp = prov.processDmaapMessagePut(TOPIC1, value1);
@@ -182,18 +185,50 @@ public class DmaapSimProviderTest {
     @Test
     public void testProcessDmaapMessageGet() throws InterruptedException {
         List<String> msgs = Arrays.asList("400", "500");
-        when(data1.read(any(), anyInt(), anyLong())).thenReturn(msgs);
+        when(data1.read(any(), anyInt(), anyLong(), any())).thenReturn(new ArrayList<>(msgs));
 
-        Response resp = prov.processDmaapMessageGet(TOPIC1, CONSUMER1, CONSUMER_ID1, 4, 400L);
+        Response resp = prov.processDmaapMessageGet(TOPIC1, CONSUMER1, CONSUMER_ID1, 4, 400L, null);
+        assertEquals(Status.OK.getStatusCode(), resp.getStatus());
+        assertEquals(msgs.toString(), resp.getEntity().toString());
+    }
+
+    @Test
+    public void testProcessDmaapMessageGetFiltered() throws InterruptedException {
+        List<String> msgs = Arrays.asList(
+                        "{'name':'hello'}",
+                        "{'name':'world'}",
+                        "{'name':'jello'}").stream()
+                        .map(text -> text.replace('\'', '"')).collect(Collectors.toList());
+        And filter = new And();
+        when(data1.read(any(), anyInt(), anyLong(), eq(filter))).thenReturn(new ArrayList<>(msgs));
+
+        Response resp = prov.processDmaapMessageGet(TOPIC1, CONSUMER1, CONSUMER_ID1, 4, 400L,
+                        "{'class':'And','filters':[]}".replace('\'', '"'));
+        assertEquals(Status.OK.getStatusCode(), resp.getStatus());
+
+        assertEquals(msgs.toString(), resp.getEntity().toString());
+    }
+
+    @Test
+    public void testProcessDmaapMessageGetInvalidFilter() throws InterruptedException {
+        List<String> msgs = Arrays.asList("400", "500");
+        when(data1.read(any(), anyInt(), anyLong(), any())).thenReturn(new ArrayList<>(msgs));
+
+        // invalid filter
+        Response resp = prov.processDmaapMessageGet(TOPIC1, CONSUMER1, CONSUMER_ID1, 4, 400L, "[]");
+        assertEquals(Status.BAD_REQUEST.getStatusCode(), resp.getStatus());
+
+        // messages should have been left on the queue
+        resp = prov.processDmaapMessageGet(TOPIC1, CONSUMER1, CONSUMER_ID1, 4, 400L, null);
         assertEquals(Status.OK.getStatusCode(), resp.getStatus());
         assertEquals(msgs.toString(), resp.getEntity().toString());
     }
 
     @Test
     public void testProcessDmaapMessageGet_Timeout() throws InterruptedException {
-        when(data1.read(any(), anyInt(), anyLong())).thenReturn(Collections.emptyList());
+        when(data1.read(any(), anyInt(), anyLong(), any())).thenReturn(Collections.emptyList());
 
-        Response resp = prov.processDmaapMessageGet(TOPIC1, CONSUMER1, CONSUMER_ID1, 3, 300L);
+        Response resp = prov.processDmaapMessageGet(TOPIC1, CONSUMER1, CONSUMER_ID1, 3, 300L, null);
         assertEquals(Status.OK.getStatusCode(), resp.getStatus());
         assertEquals("[]", resp.getEntity().toString());
     }
@@ -205,8 +240,9 @@ public class DmaapSimProviderTest {
         // put in a background thread so it doesn't interrupt the tester thread
         new Thread(() -> {
             try {
-                when(data1.read(any(), anyInt(), anyLong())).thenThrow(new InterruptedException(EXPECTED_EXCEPTION));
-                respQueue.offer(prov.processDmaapMessageGet(TOPIC1, CONSUMER1, CONSUMER_ID1, 3, 300L));
+                when(data1.read(any(), anyInt(), anyLong(), any()))
+                                .thenThrow(new InterruptedException(EXPECTED_EXCEPTION));
+                respQueue.offer(prov.processDmaapMessageGet(TOPIC1, CONSUMER1, CONSUMER_ID1, 3, 300L, null));
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
@@ -222,8 +258,8 @@ public class DmaapSimProviderTest {
     @Test
     public void testSweepTopicTaskRun() {
         prov.start();
-        prov.processDmaapMessageGet(TOPIC1, CONSUMER1, CONSUMER_ID1, 0, 0);
-        prov.processDmaapMessageGet(TOPIC2, CONSUMER1, CONSUMER_ID1, 0, 0);
+        prov.processDmaapMessageGet(TOPIC1, CONSUMER1, CONSUMER_ID1, 0, 0, null);
+        prov.processDmaapMessageGet(TOPIC2, CONSUMER1, CONSUMER_ID1, 0, 0, null);
 
         ArgumentCaptor<Runnable> captor = ArgumentCaptor.forClass(Runnable.class);
         verify(timer).scheduleWithFixedDelay(captor.capture(), anyLong(), anyLong(), any(TimeUnit.class));
@@ -250,7 +286,7 @@ public class DmaapSimProviderTest {
     public void testMakeTopicData() {
         // use a real provider so we can test the real makeTopicData() method
         DmaapSimProvider prov2 = new DmaapSimProvider(params);
-        assertThatCode(() -> prov2.processDmaapMessageGet(TOPIC1, CONSUMER1, CONSUMER_ID1, 0, 0))
+        assertThatCode(() -> prov2.processDmaapMessageGet(TOPIC1, CONSUMER1, CONSUMER_ID1, 0, 0, null))
                         .doesNotThrowAnyException();
     }
 

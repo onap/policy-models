@@ -47,6 +47,7 @@ public class DmaapSimRestControllerV1 extends BaseRestControllerV1 {
      * @param consumerGroup consumer group that is getting the message
      * @param consumerId consumer ID that is getting the message
      * @param timeoutMs timeout for the message
+     * @param filter optional message filter
      * @return the message
      */
     @GET
@@ -55,10 +56,11 @@ public class DmaapSimRestControllerV1 extends BaseRestControllerV1 {
                     @PathParam("consumerGroup") final String consumerGroup,
                     @PathParam("consumerId") final String consumerId,
                     @QueryParam("limit") @DefaultValue("1") final int limit,
-                    @QueryParam("timeout") @DefaultValue("15000") final long timeoutMs) {
+                    @QueryParam("timeout") @DefaultValue("15000") final long timeoutMs,
+                    @QueryParam("filter") final String filter) {
 
         return DmaapSimProvider.getInstance().processDmaapMessageGet(topicName, consumerGroup, consumerId, limit,
-                        timeoutMs);
+                        timeoutMs, filter);
     }
 
     /**

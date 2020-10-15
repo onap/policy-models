@@ -20,6 +20,7 @@
 
 package org.onap.policy.models.sim.dmaap.provider;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
@@ -34,6 +35,8 @@ import java.util.concurrent.TimeUnit;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.onap.policy.models.sim.dmaap.filter.Equals;
+import org.onap.policy.models.sim.dmaap.filter.FilterSupport;
 
 public class ConsumerGroupDataTest {
     private static final int WAIT_MS = 5000;
@@ -114,7 +117,7 @@ public class ConsumerGroupDataTest {
         data.shouldRemove();
 
         long tbeg = System.currentTimeMillis();
-        assertSame(ConsumerGroupData.UNREADABLE_LIST, data.read(1, WAIT_MS));
+        assertSame(ConsumerGroupData.UNREADABLE_LIST, data.read(1, WAIT_MS, null));
 
         // should not have waited
         assertTrue(System.currentTimeMillis() < tbeg + MIN_WAIT_MS);
@@ -179,6 +182,60 @@ public class ConsumerGroupDataTest {
         assertEquals(expected, actual);
     }
 
+    @Test
+    public void testGetNextFilteredMessage() throws InterruptedException {
+        // first and third messages are not valid JSON objects so should be discarded
+        data.enqueue(MSG1, FilterSupport.SCO_STR, FilterSupport.INVALID_MESSAGE, FilterSupport.SCO_STR);
+
+        Equals filter = new Equals();
+        filter.setField("text");
+        filter.setValue("some data");
+
+        assertThat(data.read(3, WAIT_MS, filter)).isEqualTo(List.of(FilterSupport.SCO_STR, FilterSupport.SCO_STR));
+    }
+
+    /**
+     * Tests getNextFilteredMessage() when there is no message.
+     */
+    @Test
+    public void testGetNextFilteredMessageNoMessage() throws InterruptedException {
+        assertThat(data.read(2, 2, null)).isEmpty();
+    }
+
+    /**
+     * Tests getNextFilteredMessage() when the first message doesn't pass the filter and
+     * there are no messages after it.
+     */
+    @Test
+    public void testGetNextFilteredMessageNoMessageAfterFilter() throws InterruptedException {
+        // the only message is not a valid JSON object so should be discarded
+        data.enqueue(FilterSupport.INVALID_MESSAGE);
+
+        Equals filter = new Equals();
+        filter.setField("last");
+        filter.setValue("smith");
+
+        assertThat(data.read(2, 0, filter)).isEmpty();
+    }
+
+    @Test
+    public void testFilter() {
+        // unfiltered
+        assertTrue(data.filter(null, "{}"));
+
+        // passes the filter
+        Equals filter = new Equals();
+        filter.setField("name");
+        filter.setValue("john");
+        assertTrue(data.filter(filter, FilterSupport.SCO_STR));
+
+        // doesn't pass the filter
+        filter.setValue("mismatch");
+        assertFalse(data.filter(filter, FilterSupport.SCO_STR));
+
+        // invalid message
+        assertFalse(data.filter(filter, FilterSupport.INVALID_MESSAGE));
+    }
 
     /**
      * Starts a reader thread.
@@ -278,7 +335,7 @@ public class ConsumerGroupDataTest {
         @Override
         public void run() {
             try {
-                result = group.read(limit, waitMs);
+                result = group.read(limit, waitMs, null);
 
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();

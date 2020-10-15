@@ -27,6 +27,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -45,6 +46,7 @@ import org.junit.Test;
 import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
+import org.onap.policy.models.sim.dmaap.filter.And;
 import org.powermock.reflect.Whitebox;
 
 public class TopicDataTest {
@@ -70,9 +72,9 @@ public class TopicDataTest {
         consgrp2 = mock(ConsumerGroupData.class);
         consgrp3 = mock(ConsumerGroupData.class);
 
-        when(consgrp1.read(anyInt(), anyLong())).thenReturn(Collections.emptyList());
-        when(consgrp2.read(anyInt(), anyLong())).thenReturn(Collections.emptyList());
-        when(consgrp3.read(anyInt(), anyLong())).thenReturn(Collections.emptyList());
+        when(consgrp1.read(anyInt(), anyLong(), any())).thenReturn(Collections.emptyList());
+        when(consgrp2.read(anyInt(), anyLong(), any())).thenReturn(Collections.emptyList());
+        when(consgrp3.read(anyInt(), anyLong(), any())).thenReturn(Collections.emptyList());
 
         groups = new LinkedList<>(Arrays.asList(consgrp1, consgrp2, consgrp3));
 
@@ -87,9 +89,9 @@ public class TopicDataTest {
     @Test
     public void testRemoveIdleConsumers() throws Exception {
         // force two consumers into the map
-        data.read(GROUP1, 0, 0);
-        data.read(GROUP2, 0, 0);
-        data.read(GROUP3, 0, 0);
+        data.read(GROUP1, 0, 0, null);
+        data.read(GROUP2, 0, 0, null);
+        data.read(GROUP3, 0, 0, null);
 
         // indicate that one should be removed
         when(consgrp1.shouldRemove()).thenReturn(true);
@@ -113,40 +115,54 @@ public class TopicDataTest {
     public void testRead() throws Exception {
         List<String> lst = Collections.emptyList();
 
-        when(consgrp1.read(anyInt(), anyLong())).thenReturn(ConsumerGroupData.UNREADABLE_LIST)
+        when(consgrp1.read(anyInt(), anyLong(), any())).thenReturn(ConsumerGroupData.UNREADABLE_LIST)
                         .thenReturn(ConsumerGroupData.UNREADABLE_LIST).thenReturn(lst);
 
-        assertSame(lst, data.read(GROUP1, 10, 20));
+        assertSame(lst, data.read(GROUP1, 10, 20, null));
 
         // should have invoked three times
-        verify(consgrp1, times(3)).read(anyInt(), anyLong());
+        verify(consgrp1, times(3)).read(anyInt(), anyLong(), any());
 
         // should have used the given values
-        verify(consgrp1, times(3)).read(10, 20);
+        verify(consgrp1, times(3)).read(10, 20, null);
 
         // should not have allocated more than one group
         assertEquals(2, groups.size());
     }
 
+    /**
+     * Tests read() when messages are filtered.
+     */
+    @Test
+    public void testReadFiltered() throws Exception {
+        List<String> lst = List.of("filtered1", "filtered2");
+
+        And filter = new And();
+
+        when(consgrp1.read(anyInt(), anyLong(), eq(filter))).thenReturn(lst);
+
+        assertSame(lst, data.read(GROUP1, 10, 20, filter));
+    }
+
     @Test
     public void testRead_MultipleGroups() throws Exception {
         List<String> lst1 = Collections.emptyList();
-        when(consgrp1.read(anyInt(), anyLong())).thenReturn(lst1);
+        when(consgrp1.read(anyInt(), anyLong(), any())).thenReturn(lst1);
 
         List<String> lst2 = Collections.emptyList();
-        when(consgrp2.read(anyInt(), anyLong())).thenReturn(lst2);
+        when(consgrp2.read(anyInt(), anyLong(), any())).thenReturn(lst2);
 
         // one from each group
-        assertSame(lst1, data.read(GROUP1, 0, 0));
-        assertSame(lst2, data.read(GROUP2, 0, 0));
+        assertSame(lst1, data.read(GROUP1, 0, 0, null));
+        assertSame(lst2, data.read(GROUP2, 0, 0, null));
 
         // repeat
-        assertSame(lst1, data.read(GROUP1, 0, 0));
-        assertSame(lst2, data.read(GROUP2, 0, 0));
+        assertSame(lst1, data.read(GROUP1, 0, 0, null));
+        assertSame(lst2, data.read(GROUP2, 0, 0, null));
 
         // again
-        assertSame(lst1, data.read(GROUP1, 0, 0));
-        assertSame(lst2, data.read(GROUP2, 0, 0));
+        assertSame(lst1, data.read(GROUP1, 0, 0, null));
+        assertSame(lst2, data.read(GROUP2, 0, 0, null));
 
         // should still have group3 in the list
         assertEquals(1, groups.size());
@@ -159,8 +175,8 @@ public class TopicDataTest {
         data.write(messages);
 
         // add two groups
-        data.read(GROUP1, 0, 0);
-        data.read(GROUP2, 0, 0);
+        data.read(GROUP1, 0, 0, null);
+        data.read(GROUP2, 0, 0, null);
 
         data.write(messages);
 
@@ -194,11 +210,11 @@ public class TopicDataTest {
         TopicData data2 = new TopicData("real-data-topic");
 
         // force a group into the topic
-        data2.read(GROUP1, 0, 0);
+        data2.read(GROUP1, 0, 0, null);
 
         data2.write(Arrays.asList("abc", "def", "ghi"));
 
-        assertEquals("[abc, def]", data2.read(GROUP1, 2, 0).toString());
+        assertEquals("[abc, def]", data2.read(GROUP1, 2, 0, null).toString());
     }
 
     /**

@@ -60,7 +60,7 @@ public class DmaapSimRestControllerV1Test {
 
     @Test
     public void test() {
-        Response resp = rest.getDmaapMessage(TOPIC, CONSUMER, CONSUMER_ID, LIMIT, 0);
+        Response resp = rest.getDmaapMessage(TOPIC, CONSUMER, CONSUMER_ID, LIMIT, 0, null);
         assertEquals(Response.Status.OK.getStatusCode(), resp.getStatus());
         assertEquals("[]", resp.getEntity().toString());
 
@@ -74,12 +74,12 @@ public class DmaapSimRestControllerV1Test {
         assertEquals(3, getCount(resp));
 
         // hadn't registered with topic 2 so nothing expected from there
-        resp = rest.getDmaapMessage(TOPIC2, CONSUMER, CONSUMER_ID, LIMIT, 0);
+        resp = rest.getDmaapMessage(TOPIC2, CONSUMER, CONSUMER_ID, LIMIT, 0, null);
         assertEquals(Response.Status.OK.getStatusCode(), resp.getStatus());
         assertEquals("[]", resp.getEntity().toString());
 
         // now read from topic 1
-        resp = rest.getDmaapMessage(TOPIC, CONSUMER, CONSUMER_ID, LIMIT, 0);
+        resp = rest.getDmaapMessage(TOPIC, CONSUMER, CONSUMER_ID, LIMIT, 0, null);
         assertEquals(Response.Status.OK.getStatusCode(), resp.getStatus());
         assertEquals("[my-message, my-message-B]", resp.getEntity().toString());
     }
