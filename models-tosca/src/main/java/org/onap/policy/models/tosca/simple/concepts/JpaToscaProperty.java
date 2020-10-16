@@ -35,14 +35,19 @@ import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+import javax.ws.rs.core.Response;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.lang3.ObjectUtils;
+import org.onap.policy.common.utils.coder.CoderException;
+import org.onap.policy.common.utils.coder.StandardCoder;
+import org.onap.policy.common.utils.coder.YamlJsonTranslator;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
+import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.base.PfValidationMessage;
@@ -112,7 +117,7 @@ public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaPr
     /**
      * The Key Constructor creates a {@link JpaToscaProperty} object with the given concept key.
      *
-     * @param key the key
+     * @param key  the key
      * @param type the key of the property type
      */
     public JpaToscaProperty(@NonNull final PfReferenceKey key, @NonNull final PfConceptKey type) {
@@ -159,8 +164,11 @@ public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaPr
 
         toscaProperty.setDescription(description);
         toscaProperty.setRequired(required);
-        toscaProperty.setDefaultValue(defaultValue);
         toscaProperty.setStatus(status);
+
+        if (defaultValue != null) {
+            toscaProperty.setDefaultValue(new YamlJsonTranslator().fromYaml(defaultValue, Object.class));
+        }
 
         if (constraints != null) {
             List<ToscaConstraint> toscaConstraints = new ArrayList<>();
@@ -196,8 +204,13 @@ public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaPr
 
         description = toscaProperty.getDescription();
         required = toscaProperty.isRequired();
-        defaultValue = toscaProperty.getDefaultValue();
         status = toscaProperty.getStatus();
+
+        if (toscaProperty.getDefaultValue() != null) {
+            defaultValue = new YamlJsonTranslator().toYaml(toscaProperty.getDefaultValue()).trim();
+        } else {
+            defaultValue = null;
+        }
 
         if (toscaProperty.getConstraints() != null) {
             constraints = new ArrayList<>();
@@ -262,14 +275,14 @@ public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaPr
 
         if (key.isNullKey()) {
             result.addValidationMessage(
-                    new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID, "key is a null key"));
+                new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID, "key is a null key"));
         }
 
         result = key.validate(result);
 
         if (type == null || type.isNullKey()) {
             result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "property type may not be null"));
+                "property type may not be null"));
         }
 
         return validateFields(result);
@@ -286,19 +299,19 @@ public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaPr
 
         if (description != null && description.trim().length() == 0) {
             result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "property description may not be blank"));
+                "property description may not be blank"));
         }
 
         if (defaultValue != null && defaultValue.trim().length() == 0) {
             result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "property default value may not be null"));
+                "property default value may not be null"));
         }
 
         if (constraints != null) {
             for (JpaToscaConstraint constraint : constraints) {
                 if (constraint == null) {
                     result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                            "property constraint may not be null "));
+                        "property constraint may not be null "));
                 }
             }
         }

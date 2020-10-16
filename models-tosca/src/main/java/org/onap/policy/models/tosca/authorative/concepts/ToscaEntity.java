@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Model
  * ================================================================================
- * Copyright (C) 2019 Nordix Foundation.
+ * Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -88,7 +88,7 @@ public class ToscaEntity implements PfNameVersion {
      *
      * @param listOfMapsOfEntities the incoming list of maps of entities
      * @return The entities on a regular map
-     * @throws PfModelException on duplicate entity entries
+     * @throws PfModelRuntimeException on duplicate entity entries
      */
     public static <T extends ToscaEntity> Map<ToscaEntityKey, T> getEntityListMapAsMap(
             List<Map<String, T>> listOfMapsOfEntities) {
@@ -114,7 +114,7 @@ public class ToscaEntity implements PfNameVersion {
      *
      * @param mapOfEntities the incoming list of maps of entities
      * @return The entities on a regular map
-     * @throws PfModelException on duplicate entity entries
+     * @throws PfModelRuntimeException on duplicate entity entries
      */
     public static <T extends ToscaEntity> Map<ToscaEntityKey, T> getEntityMapAsMap(Map<String, T> mapOfEntities) {
         // Declare the return map
