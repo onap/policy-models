@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cdd951c4_22927e4a",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-10-27T18:10:32Z",
+      "side": 1,
+      "message": "will make this change in the next review",
+      "parentUuid": "779ca550_a4b9ca25",
+      "range": {
+        "startLine": 30,
+        "startChar": 19,
+        "endLine": 30,
+        "endChar": 22
+      },
+      "revId": "ee142f53056dc67886cbf71ffc9759ef1ad4a203",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "39571785_b5c9c56e",
         "filename": "pom.xml",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2020-10-27T17:58:07Z",
       "side": 1,
       "message": "And point to 1.8.0-SNAPSHOT",
+      "range": {
+        "startLine": 45,
+        "startChar": 31,
+        "endLine": 45,
+        "endChar": 36
+      },
+      "revId": "ee142f53056dc67886cbf71ffc9759ef1ad4a203",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "efbe273c_b40d6300",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-10-27T18:10:32Z",
+      "side": 1,
+      "message": "will make this change in the next review",
+      "parentUuid": "39571785_b5c9c56e",
       "range": {
         "startLine": 45,
         "startChar": 31,
