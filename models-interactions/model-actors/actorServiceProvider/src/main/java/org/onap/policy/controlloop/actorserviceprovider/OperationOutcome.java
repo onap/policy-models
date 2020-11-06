@@ -66,7 +66,7 @@ public class OperationOutcome {
      * this object. Sets the outcome field to the string representation of this object's
      * outcome.
      *
-     * @return
+     * @return ControlLoopOperation
      */
     public ControlLoopOperation toControlLoopOperation() {
         ControlLoopOperation clo = new ControlLoopOperation();

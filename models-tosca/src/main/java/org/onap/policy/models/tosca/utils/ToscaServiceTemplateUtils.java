@@ -52,7 +52,7 @@ public class ToscaServiceTemplateUtils {
      *
      * @param originalTemplate the original service template
      * @param fragmentTemplate the fragment being added to the original service template
-     * @return
+     * @return JpaToscaServiceTemplate
      */
     public static JpaToscaServiceTemplate addFragment(@NonNull final JpaToscaServiceTemplate originalTemplate,
             @NonNull final JpaToscaServiceTemplate fragmentTemplate) {
