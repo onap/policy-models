@@ -28,6 +28,7 @@ import org.onap.policy.aai.AaiConstants;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 
@@ -72,8 +73,10 @@ public class AaiGetTenantOperation extends AaiGetOperation {
         WebTarget web = getClient().getWebTarget().path(path);
         str.append(path);
 
+        String target = getProperty(OperationProperties.AAI_TARGET_ENTITY);
+
         web = addQuery(web, str, "?", "search-node-type", "vserver");
-        web = addQuery(web, str, "&", "filter", "vserver-name:EQUALS:" + getTargetEntity());
+        web = addQuery(web, str, "&", "filter", "vserver-name:EQUALS:" + target);
 
         Builder webldr = web.request();
         addHeaders(webldr, headers);

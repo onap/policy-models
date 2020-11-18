@@ -165,7 +165,7 @@ public class OperationPartialTest {
 
         params = ControlLoopOperationParams.builder().completeCallback(this::completer).requestId(REQ_ID)
                         .executor(executor).actorService(service).actor(ACTOR).operation(OPERATION).timeoutSec(TIMEOUT)
-                        .startCallback(this::starter).targetEntity(MY_TARGET_ENTITY).build();
+                        .startCallback(this::starter).build();
 
         when(service.getActor(OperationPartial.GUARD_ACTOR_NAME)).thenReturn(guardActor);
         when(guardActor.getOperator(OperationPartial.GUARD_OPERATION_NAME)).thenReturn(guardOperator);
@@ -924,6 +924,12 @@ public class OperationPartialTest {
     }
 
     @Test
+    public void testMakeOutcome() {
+        oper.setProperty(OperationProperties.AAI_TARGET_ENTITY, MY_TARGET_ENTITY);
+        assertEquals(MY_TARGET_ENTITY, oper.makeOutcome().getTarget());
+    }
+
+    @Test
     public void testIsTimeout() {
         final TimeoutException timex = new TimeoutException(EXPECTED_EXCEPTION);
 
@@ -1004,16 +1010,6 @@ public class OperationPartialTest {
         // need an operator that doesn't override the retry time
         OperationPartial oper2 = new OperationPartial(params, config, Collections.emptyList()) {};
         assertEquals(OperationPartial.DEFAULT_RETRY_WAIT_MS, oper2.getRetryWaitMs());
-    }
-
-    @Test
-    public void testGetTargetEntity() {
-        // get it from the params
-        assertEquals(MY_TARGET_ENTITY, oper.getTargetEntity());
-
-        // now get it from the properties
-        oper.setProperty(OperationProperties.AAI_TARGET_ENTITY, "entityX");
-        assertEquals("entityX", oper.getTargetEntity());
     }
 
     @Test

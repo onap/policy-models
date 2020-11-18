@@ -74,7 +74,6 @@ public class BasicOperationTest {
         assertEquals(ACTOR, oper.params.getActor());
         assertEquals(OPERATION, oper.params.getOperation());
         assertSame(BasicHttpOperation.REQ_ID, oper.params.getRequestId());
-        assertEquals(BasicHttpOperation.TARGET_ENTITY, oper.params.getTargetEntity());
     }
 
     @Test

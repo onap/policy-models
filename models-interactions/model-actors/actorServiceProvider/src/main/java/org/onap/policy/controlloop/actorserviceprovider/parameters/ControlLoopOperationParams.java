@@ -97,13 +97,6 @@ public class ControlLoopOperationParams {
     private Map<String, Object> payload;
 
     /**
-     * {@code True} if the preprocessing steps have already been executed, {@code false}
-     * otherwise.
-     */
-    // TODO remove this once the rules no longer reference it
-    private boolean preprocessed;
-
-    /**
      * Number of retries allowed, or {@code null} if no retries.
      */
     private Integer retry;
@@ -119,12 +112,6 @@ public class ControlLoopOperationParams {
      * the requirement of the operation to be invoked.
      */
     private Map<String, String> targetEntityIds;
-
-    /**
-     * Target entity.
-     */
-    // TODO to be removed
-    private String targetEntity;
 
     /**
      * Timeout, in seconds, or {@code null} if no timeout. Zero and negative values also
@@ -190,16 +177,6 @@ public class ControlLoopOperationParams {
      */
     public UUID getRequestId() {
         return requestId;
-    }
-
-    /**
-     * Makes an operation outcome, populating it from the parameters.
-     *
-     * @return a new operation outcome
-     */
-    // TODO to be removed
-    public OperationOutcome makeOutcome() {
-        return makeOutcome(getTargetEntity());
     }
 
     /**

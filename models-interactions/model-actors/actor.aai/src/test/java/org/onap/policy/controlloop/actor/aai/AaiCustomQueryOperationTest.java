@@ -91,7 +91,7 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation {
         HttpParams opParams = HttpParams.builder().clientName(MY_CLIENT).path("v16/query").build();
         config = new HttpConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
 
-        params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).preprocessed(true).build();
+        params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).build();
         oper = new AaiCustomQueryOperation(params, config);
 
         oper.setProperty(OperationProperties.AAI_VSERVER_LINK, MY_LINK);

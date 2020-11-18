@@ -72,6 +72,7 @@ public class AaiGetTenantOperationTest extends BasicAaiOperation {
     public void setUp() throws Exception {
         super.setUpBasic();
         oper = new AaiGetTenantOperation(params, config);
+        oper.setProperty(OperationProperties.AAI_TARGET_ENTITY, TARGET_ENTITY);
     }
 
     @Test
