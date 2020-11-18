@@ -72,6 +72,7 @@ public class AaiGetPnfOperationTest extends BasicAaiOperation {
     public void setUp() throws Exception {
         super.setUpBasic();
         oper = new AaiGetPnfOperation(params, config);
+        oper.setProperty(OperationProperties.AAI_TARGET_ENTITY, TARGET_ENTITY);
     }
 
     @Test

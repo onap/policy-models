@@ -112,7 +112,7 @@ public class BasicOperation {
      */
     protected void makeContext() {
         params = ControlLoopOperationParams.builder().executor(executor).requestId(REQ_ID).actorService(service)
-                        .actor(actorName).operation(operationName).targetEntity(TARGET_ENTITY).payload(makePayload())
+                        .actor(actorName).operation(operationName).payload(makePayload())
                         .build();
     }
 
