@@ -113,7 +113,7 @@ public class ControlLoopOperationParamsTest {
         params = ControlLoopOperationParams.builder().actorService(actorService).completeCallback(completer)
                         .requestId(REQ_ID).executor(executor).actor(ACTOR).operation(OPERATION).payload(payload)
                         .retry(RETRY).targetEntity(TARGET_ENTITY).timeoutSec(TIMEOUT)
-                        .startCallback(starter).preprocessed(true).build();
+                        .startCallback(starter).build();
 
         outcome = params.makeOutcome(TARGET_ENTITY);
     }
@@ -274,14 +274,6 @@ public class ControlLoopOperationParamsTest {
 
         // should be null when unspecified
         assertNull(ControlLoopOperationParams.builder().build().getPayload());
-    }
-
-    @Test
-    public void test() {
-        assertTrue(params.isPreprocessed());
-
-        // should be false when unspecified
-        assertFalse(ControlLoopOperationParams.builder().build().isPreprocessed());
     }
 
     @Test

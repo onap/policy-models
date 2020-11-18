@@ -82,7 +82,7 @@ public class ModifyConfigOperationTest extends BasicAppcOperation {
                         BidirectionalTopicParams.builder().sinkTopic(MY_SINK).sourceTopic(MY_SINK).build();
         config = new BidirectionalTopicConfig(blockingExecutor, opParams, topicMgr, AppcOperation.SELECTOR_KEYS);
 
-        params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).preprocessed(true).build();
+        params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).build();
 
         oper = new ModifyConfigOperation(params, config);
 

@@ -96,7 +96,7 @@ public class BandwidthOnDemandOperationTest extends BasicSdncOperation {
                         .path("GENERIC-RESOURCE-API:vf-module-topology-operation").build();
         config = new HttpConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
 
-        params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).preprocessed(true).build();
+        params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).build();
         oper = new BandwidthOnDemandOperation(params, config);
 
         oper.setProperty(OperationProperties.ENRICHMENT_SERVICE_ID, MY_SERVICE);

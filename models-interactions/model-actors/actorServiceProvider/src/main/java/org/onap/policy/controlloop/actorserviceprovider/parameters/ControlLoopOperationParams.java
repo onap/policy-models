@@ -97,13 +97,6 @@ public class ControlLoopOperationParams {
     private Map<String, Object> payload;
 
     /**
-     * {@code True} if the preprocessing steps have already been executed, {@code false}
-     * otherwise.
-     */
-    // TODO remove this once the rules no longer reference it
-    private boolean preprocessed;
-
-    /**
      * Number of retries allowed, or {@code null} if no retries.
      */
     private Integer retry;

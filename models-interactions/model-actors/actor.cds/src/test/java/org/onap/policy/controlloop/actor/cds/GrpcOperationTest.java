@@ -139,7 +139,7 @@ public class GrpcOperationTest {
         params = ControlLoopOperationParams.builder().actor(CdsActorConstants.CDS_ACTOR).operation("subscribe")
                         .requestId(REQUEST_ID).actorService(new ActorService()).targetEntity(TARGET_ENTITY)
                         .retry(0).timeoutSec(5).executor(blockingExecutor).payload(payload)
-                        .preprocessed(true).build();
+                        .build();
 
         cdsProps.setHost("localhost");
         cdsProps.setPort(sim.getPort());

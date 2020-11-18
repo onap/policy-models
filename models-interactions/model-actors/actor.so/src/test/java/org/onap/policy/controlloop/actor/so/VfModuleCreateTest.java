@@ -98,7 +98,7 @@ public class VfModuleCreateTest extends BasicSoOperation {
                         .maxPolls(2).build();
         config = new HttpPollingConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
 
-        params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).preprocessed(true).build();
+        params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).build();
 
         oper = new VfModuleCreate(params, config);
 
