@@ -66,18 +66,18 @@ public class BandwidthOnDemandOperation extends SdncOperation {
 
     @Override
     protected SdncRequest makeRequest(int attempt) {
-        String serviceInstance = getOptProperty(OperationProperties.ENRICHMENT_SERVICE_ID, SERVICE_ID_KEY);
+        String serviceInstance = getProperty(OperationProperties.ENRICHMENT_SERVICE_ID);
         if (StringUtils.isBlank(serviceInstance)) {
             throw new IllegalArgumentException("missing enrichment data, " + SERVICE_ID_KEY);
         }
 
         SdncHealVfModuleParameter bandwidth = new SdncHealVfModuleParameter();
         bandwidth.setName(BANDWIDTH);
-        bandwidth.setValue(getOptProperty(OperationProperties.ENRICHMENT_BANDWIDTH, BANDWIDTH));
+        bandwidth.setValue(getProperty(OperationProperties.ENRICHMENT_BANDWIDTH));
 
         SdncHealVfModuleParameter timeStamp = new SdncHealVfModuleParameter();
         timeStamp.setName(BANDWIDTH_CHANGE_TIME);
-        timeStamp.setValue(getOptProperty(OperationProperties.ENRICHMENT_BANDWIDTH_CHANGE_TIME, BANDWIDTH_CHANGE_TIME));
+        timeStamp.setValue(getProperty(OperationProperties.ENRICHMENT_BANDWIDTH_CHANGE_TIME));
 
         SdncHealVfModuleParametersInfo vfParametersInfo = new SdncHealVfModuleParametersInfo();
         vfParametersInfo.addParameters(bandwidth);
@@ -102,7 +102,7 @@ public class BandwidthOnDemandOperation extends SdncOperation {
         request.setUrl("/" + getPath());
 
         SdncHealVnfInfo vnfInfo = new SdncHealVnfInfo();
-        vnfInfo.setVnfId(getOptProperty(OperationProperties.ENRICHMENT_VNF_ID, VNF_ID));
+        vnfInfo.setVnfId(getProperty(OperationProperties.ENRICHMENT_VNF_ID));
 
         SdncHealVfModuleInfo vfModuleInfo = new SdncHealVfModuleInfo();
         vfModuleInfo.setVfModuleId("");

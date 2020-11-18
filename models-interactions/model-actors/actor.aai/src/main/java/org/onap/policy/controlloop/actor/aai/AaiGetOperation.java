@@ -23,18 +23,13 @@ package org.onap.policy.controlloop.actor.aai;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.concurrent.CompletableFuture;
 import javax.ws.rs.client.Invocation.Builder;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Response;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
-import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Superclass of A&AI operators that use "get" to perform their request and store their
@@ -42,18 +37,9 @@ import org.slf4j.LoggerFactory;
  * which they are stored is ${actor}.${operation}.${targetEntity}.
  */
 public class AaiGetOperation extends HttpOperation<StandardCoderObject> {
-    private static final Logger logger = LoggerFactory.getLogger(AaiGetOperation.class);
-
     public static final int DEFAULT_RETRY = 3;
 
     private static final List<String> PROPERTY_NAMES = List.of(OperationProperties.AAI_TARGET_ENTITY);
-
-
-    /**
-     * Responses that are retrieved from A&AI are placed in the operation context under
-     * the name "${propertyPrefix}.${targetEntity}".
-     */
-    private final String propertyPrefix;
 
     /**
      * Constructs the object.
@@ -63,7 +49,6 @@ public class AaiGetOperation extends HttpOperation<StandardCoderObject> {
      */
     public AaiGetOperation(ControlLoopOperationParams params, HttpConfig config) {
         super(params, config, StandardCoderObject.class, PROPERTY_NAMES);
-        this.propertyPrefix = getFullName() + ".";
     }
 
     @Override
@@ -105,22 +90,6 @@ public class AaiGetOperation extends HttpOperation<StandardCoderObject> {
     @Override
     protected Map<String, Object> makeHeaders() {
         return AaiUtil.makeHeaders(params);
-    }
-
-    /**
-     * Injects the response into the context.
-     */
-    @Override
-    protected CompletableFuture<OperationOutcome> postProcessResponse(OperationOutcome outcome, String url,
-                    Response rawResponse, StandardCoderObject response) {
-
-        if (params.getContext() != null) {
-            String entity = getTargetEntity();
-            logger.info("{}: caching response of {} for {}", getFullName(), entity, params.getRequestId());
-            params.getContext().setProperty(propertyPrefix + entity, response);
-        }
-
-        return super.postProcessResponse(outcome, url, rawResponse, response);
     }
 
     /**

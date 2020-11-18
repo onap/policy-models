@@ -20,7 +20,6 @@
 
 package org.onap.policy.controlloop.actor.sdnr;
 
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -38,8 +37,6 @@ import org.onap.policy.controlloop.actor.test.BasicBidirectionalTopicOperation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
-import org.onap.policy.controlloop.actorserviceprovider.impl.OperationMaker;
-import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
 import org.onap.policy.sdnr.PciBody;
 import org.onap.policy.sdnr.PciMessage;
 import org.onap.policy.sdnr.PciResponse;
@@ -47,7 +44,6 @@ import org.onap.policy.sdnr.Status;
 import org.onap.policy.sdnr.util.StatusCodeEnum;
 import org.onap.policy.simulators.SdnrTopicServer;
 import org.onap.policy.simulators.TopicServer;
-import org.powermock.reflect.Whitebox;
 
 public abstract class BasicSdnrOperation extends BasicBidirectionalTopicOperation<PciMessage> {
 
@@ -119,25 +115,6 @@ public abstract class BasicSdnrOperation extends BasicBidirectionalTopicOperatio
 
         outcome = future2.get();
         assertEquals(OperationResult.SUCCESS, outcome.getResult());
-    }
-
-    /**
-     * Verifies that an exception is thrown if a field is missing from the enrichment
-     * data.
-     *
-     * @param fieldName name of the field to be removed from the enrichment data
-     * @param expectedText text expected in the exception message
-     */
-    protected void verifyMissing(String fieldName, String expectedText,
-                    OperationMaker<BidirectionalTopicConfig, SdnrOperation> maker) {
-
-        makeContext();
-        enrichment.remove(fieldName);
-
-        SdnrOperation oper = maker.apply(params, config);
-
-        assertThatIllegalArgumentException().isThrownBy(() -> Whitebox.invokeMethod(oper, "makeRequest", 1))
-                        .withMessageContaining("missing").withMessageContaining(expectedText);
     }
 
     /**

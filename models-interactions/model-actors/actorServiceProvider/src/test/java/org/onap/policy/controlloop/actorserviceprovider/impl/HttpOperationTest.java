@@ -77,10 +77,8 @@ import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.common.gson.GsonMessageBodyHandler;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.network.NetworkUtil;
-import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
-import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
@@ -118,8 +116,6 @@ public class HttpOperationTest {
     @Mock
     private Executor executor;
 
-    private VirtualControlLoopEvent event;
-    private ControlLoopEventContext context;
     private ControlLoopOperationParams params;
     private OperationOutcome outcome;
     private AtomicReference<InvocationCallback<Response>> callback;
@@ -184,11 +180,7 @@ public class HttpOperationTest {
         when(response.readEntity(String.class)).thenReturn(TEXT);
         when(response.getStatus()).thenReturn(200);
 
-        event = new VirtualControlLoopEvent();
-        event.setRequestId(REQ_ID);
-
-        context = new ControlLoopEventContext(event);
-        params = ControlLoopOperationParams.builder().actor(ACTOR).operation(OPERATION).context(context).build();
+        params = ControlLoopOperationParams.builder().actor(ACTOR).operation(OPERATION).requestId(REQ_ID).build();
 
         outcome = params.makeOutcome(null);
 

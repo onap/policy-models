@@ -22,28 +22,20 @@ package org.onap.policy.controlloop.actor.sdnr;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.atomic.AtomicBoolean;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.controlloop.actor.test.BasicBidirectionalTopicOperation;
-import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
-import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicOperation.Status;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicParams;
@@ -134,44 +126,11 @@ public class SdnrOperationTest extends BasicSdnrOperation {
 
         params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).build();
 
-        operation = new SdnrOperation(params, config) {
-            @Override
-            protected CompletableFuture<OperationOutcome> startGuardAsync() {
-                return null;
-            }
-        };
+        operation = new SdnrOperation(params, config);
 
         outcome = operation.start().get();
         assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertTrue(outcome.getResponse() instanceof PciMessage);
-    }
-
-    @Test
-    public void testStartPreprocessorAsync() throws Exception {
-        final CompletableFuture<OperationOutcome> future2 = new CompletableFuture<>();
-        context = mock(ControlLoopEventContext.class);
-        when(context.getEvent()).thenReturn(event);
-        params = params.toBuilder().context(context).build();
-
-        AtomicBoolean guardStarted = new AtomicBoolean();
-
-        operation = new SdnrOperation(params, config) {
-            @Override
-            protected CompletableFuture<OperationOutcome> startGuardAsync() {
-                guardStarted.set(true);
-                return super.startGuardAsync();
-            }
-        };
-        CompletableFuture<OperationOutcome> future3 = operation.startPreprocessorAsync();
-
-        assertNotNull(future3);
-        assertFalse(future.isDone());
-        assertTrue(guardStarted.get());
-
-        future2.complete(params.makeOutcome(null));
-        assertTrue(executor.runAll(100));
-        assertTrue(future3.isDone());
-        assertEquals(OperationResult.SUCCESS, future3.get().getResult());
     }
 
     @Test
@@ -234,24 +193,6 @@ public class SdnrOperationTest extends BasicSdnrOperation {
         // null body
         response.setBody(null);
         checkOutcome();
-    }
-
-    @Test
-    public void testGetEventPayload() {
-        // in neither property nor event
-        assertNull(operation.getEventPayload());
-
-        // only in event
-        event.setPayload("valueA2");
-        assertEquals("valueA2", operation.getEventPayload());
-
-        // both - should choose the property
-        operation.setProperty(OperationProperties.EVENT_PAYLOAD, "valueB");
-        assertEquals("valueB", operation.getEventPayload());
-
-        // both - should choose the property, even if it's null
-        operation.setProperty(OperationProperties.EVENT_PAYLOAD, null);
-        assertNull(operation.getEventPayload());
     }
 
     protected void checkOutcome() {

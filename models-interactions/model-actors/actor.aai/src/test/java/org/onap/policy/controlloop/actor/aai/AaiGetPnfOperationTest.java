@@ -23,8 +23,6 @@ package org.onap.policy.controlloop.actor.aai;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -141,11 +139,6 @@ public class AaiGetPnfOperationTest extends BasicAaiOperation {
 
         assertEquals(OperationResult.SUCCESS, future2.get().getResult());
 
-        // data should have been cached within the context
-        StandardCoderObject data = context.getProperty(AaiGetPnfOperation.getKey(TARGET_ENTITY));
-        assertNotNull(data);
-        assertEquals(TEXT, data.getString(INPUT_FIELD));
-
         assertEquals("1", future2.get().getSubRequestId());
     }
 
@@ -168,9 +161,6 @@ public class AaiGetPnfOperationTest extends BasicAaiOperation {
         assertTrue(future2.isDone());
 
         assertEquals(OperationResult.FAILURE, future2.get().getResult());
-
-        // data should NOT have been cached within the context
-        assertNull(context.getProperty(AaiGetPnfOperation.getKey(TARGET_ENTITY)));
     }
 
     @Test

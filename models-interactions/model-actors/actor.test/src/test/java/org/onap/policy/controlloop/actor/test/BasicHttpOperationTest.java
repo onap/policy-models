@@ -64,7 +64,6 @@ public class BasicHttpOperationTest {
         assertEquals(200, oper.rawResponse.getStatus());
         assertNotNull(oper.future);
         assertEquals(BasicHttpOperation.BASE_URI, oper.client.getBaseUrl());
-        assertNotNull(oper.context);
         assertNotNull(oper.outcome);
         assertNotNull(oper.executor);
     }
