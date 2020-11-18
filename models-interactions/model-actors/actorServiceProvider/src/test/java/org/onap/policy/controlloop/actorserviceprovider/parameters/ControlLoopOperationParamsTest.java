@@ -112,8 +112,8 @@ public class ControlLoopOperationParamsTest {
 
         params = ControlLoopOperationParams.builder().actorService(actorService).completeCallback(completer)
                         .requestId(REQ_ID).executor(executor).actor(ACTOR).operation(OPERATION).payload(payload)
-                        .retry(RETRY).targetEntity(TARGET_ENTITY).timeoutSec(TIMEOUT)
-                        .startCallback(starter).preprocessed(true).build();
+                        .retry(RETRY).timeoutSec(TIMEOUT)
+                        .startCallback(starter).build();
 
         outcome = params.makeOutcome(TARGET_ENTITY);
     }
@@ -212,7 +212,7 @@ public class ControlLoopOperationParamsTest {
         testValidate("requestId", NULL_MSG, bldr -> bldr.requestId(null));
 
         // has no target entity
-        BeanValidationResult result = params.toBuilder().targetEntity(null).build().validate();
+        BeanValidationResult result = params.toBuilder().build().validate();
         assertTrue(result.isValid());
 
         // check edge cases
@@ -224,7 +224,7 @@ public class ControlLoopOperationParamsTest {
 
         // test with minimal fields
         assertTrue(ControlLoopOperationParams.builder().actorService(actorService).requestId(REQ_ID).actor(ACTOR)
-                        .operation(OPERATION).targetEntity(TARGET_ENTITY).build().validate().isValid());
+                        .operation(OPERATION).build().validate().isValid());
     }
 
     private void testValidate(String fieldName, String expected,
@@ -277,14 +277,6 @@ public class ControlLoopOperationParamsTest {
     }
 
     @Test
-    public void test() {
-        assertTrue(params.isPreprocessed());
-
-        // should be false when unspecified
-        assertFalse(ControlLoopOperationParams.builder().build().isPreprocessed());
-    }
-
-    @Test
     public void testGetRetry() {
         assertSame(RETRY, params.getRetry());
 
@@ -311,10 +303,5 @@ public class ControlLoopOperationParamsTest {
     @Test
     public void testGetCompleteCallback() {
         assertSame(completer, params.getCompleteCallback());
-    }
-
-    @Test
-    public void testGetTargetEntity() {
-        assertEquals(TARGET_ENTITY, params.getTargetEntity());
     }
 }

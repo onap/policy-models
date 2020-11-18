@@ -64,7 +64,6 @@ import org.onap.policy.simulators.CdsSimulator;
 import org.onap.policy.simulators.Util;
 
 public class GrpcOperationTest {
-    private static final String TARGET_ENTITY = "entity";
     private static final String MY_VNF = "my-vnf";
     private static final String MY_SVC_ID = "my-service-instance-id";
     private static final String RESOURCE_ID = "my-resource-id";
@@ -125,7 +124,7 @@ public class GrpcOperationTest {
         targetEntityIds.put(ControlLoopOperationParams.PARAMS_ENTITY_RESOURCEID, RESOURCE_ID);
 
         params = ControlLoopOperationParams.builder().actor(CdsActorConstants.CDS_ACTOR).operation(GrpcOperation.NAME)
-                        .requestId(REQUEST_ID).actorService(new ActorService()).targetEntity(TARGET_ENTITY)
+                        .requestId(REQUEST_ID).actorService(new ActorService())
                         .build();
     }
 
@@ -137,9 +136,9 @@ public class GrpcOperationTest {
         Map<String, Object> payload = Map.of("artifact_name", "my_artifact", "artifact_version", "1.0");
 
         params = ControlLoopOperationParams.builder().actor(CdsActorConstants.CDS_ACTOR).operation("subscribe")
-                        .requestId(REQUEST_ID).actorService(new ActorService()).targetEntity(TARGET_ENTITY)
+                        .requestId(REQUEST_ID).actorService(new ActorService())
                         .retry(0).timeoutSec(5).executor(blockingExecutor).payload(payload)
-                        .preprocessed(true).build();
+                        .build();
 
         cdsProps.setHost("localhost");
         cdsProps.setPort(sim.getPort());
@@ -231,7 +230,7 @@ public class GrpcOperationTest {
 
         ControlLoopOperationParams params = ControlLoopOperationParams.builder().actor(CdsActorConstants.CDS_ACTOR)
                         .operation(GrpcOperation.NAME).requestId(REQUEST_ID).actorService(new ActorService())
-                        .targetType(targetType).targetEntity(TARGET_ENTITY).payload(payloadMap).build();
+                        .targetType(targetType).payload(payloadMap).build();
 
         GrpcConfig config = new GrpcConfig(executor, cdsProps);
         operation = new GrpcOperation(params, config);

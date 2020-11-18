@@ -22,6 +22,7 @@ package org.onap.policy.controlloop.actor.appclcm;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -94,6 +95,7 @@ public class AppcLcmOperationTest extends BasicBidirectionalTopicOperation<AppcL
         response = makeResponse();
 
         oper = new AppcLcmOperation(params, config);
+        oper.setProperty(OperationProperties.AAI_TARGET_ENTITY, TARGET_ENTITY);
     }
 
     @After
@@ -118,6 +120,7 @@ public class AppcLcmOperationTest extends BasicBidirectionalTopicOperation<AppcL
         params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).build();
 
         oper = new AppcLcmOperation(params, config);
+        oper.setProperty(OperationProperties.AAI_TARGET_ENTITY, TARGET_ENTITY);
 
         outcome = oper.start().get();
         assertEquals(OperationResult.SUCCESS, outcome.getResult());
@@ -161,6 +164,7 @@ public class AppcLcmOperationTest extends BasicBidirectionalTopicOperation<AppcL
         // only builds a payload for ConfigModify
         params = params.toBuilder().operation(AppcLcmConstants.OPERATION_CONFIG_MODIFY).build();
         oper = new AppcLcmOperation(params, config);
+        oper.setProperty(OperationProperties.AAI_TARGET_ENTITY, TARGET_ENTITY);
 
         oper.generateSubRequestId(2);
         AppcLcmDmaapWrapper req = oper.makeRequest(2);
@@ -181,8 +185,7 @@ public class AppcLcmOperationTest extends BasicBidirectionalTopicOperation<AppcL
 
         oper.generateSubRequestId(2);
 
-        assertThatIllegalArgumentException().isThrownBy(() -> oper.makeRequest(2))
-                        .withMessage("Cannot convert payload");
+        assertThatThrownBy(() -> oper.makeRequest(2)).isInstanceOf(NullPointerException.class);
     }
 
     @Test

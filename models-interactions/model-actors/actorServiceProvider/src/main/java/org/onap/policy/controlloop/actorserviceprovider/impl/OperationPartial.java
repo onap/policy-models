@@ -226,7 +226,7 @@ public abstract class OperationPartial implements Operation {
         logger.info("{}: start operation attempt {} for {}", getFullName(), attempt, params.getRequestId());
 
         final Executor executor = params.getExecutor();
-        final OperationOutcome outcome = params.makeOutcome(getTargetEntity());
+        final OperationOutcome outcome = makeOutcome();
         final CallbackManager callbacks = new CallbackManager();
 
         // this operation attempt gets its own controller
@@ -357,7 +357,7 @@ public abstract class OperationPartial implements Operation {
                 outcome = origOutcome;
             } else {
                 logger.warn("{}: null outcome; treating as a failure for {}", getFullName(), params.getRequestId());
-                outcome = this.setOutcome(params.makeOutcome(getTargetEntity()), OperationResult.FAILURE);
+                outcome = this.setOutcome(makeOutcome(), OperationResult.FAILURE);
             }
 
             // ensure correct actor/operation
@@ -456,7 +456,7 @@ public abstract class OperationPartial implements Operation {
     private Function<Throwable, OperationOutcome> fromException(String type) {
 
         return thrown -> {
-            OperationOutcome outcome = params.makeOutcome(getTargetEntity());
+            OperationOutcome outcome = makeOutcome();
 
             if (thrown instanceof CancellationException || thrown.getCause() instanceof CancellationException) {
                 // do not include exception in the message, as it just clutters the log
@@ -893,6 +893,16 @@ public abstract class OperationPartial implements Operation {
     }
 
     /**
+     * Makes an outcome, populating the "target" field with the contents of the target
+     * entity property.
+     *
+     * @return a new operation outcome
+     */
+    protected OperationOutcome makeOutcome() {
+        return params.makeOutcome(getProperty(OperationProperties.AAI_TARGET_ENTITY));
+    }
+
+    /**
      * Determines if a throwable is due to a timeout.
      *
      * @param thrown throwable of interest
@@ -973,16 +983,6 @@ public abstract class OperationPartial implements Operation {
      */
     protected long getRetryWaitMs() {
         return DEFAULT_RETRY_WAIT_MS;
-    }
-
-    /**
-     * Gets the target entity, first trying the properties and then the parameters.
-     *
-     * @return the target entity
-     */
-    protected String getTargetEntity() {
-        String targetEntity = getProperty(OperationProperties.AAI_TARGET_ENTITY);
-        return (targetEntity != null ? targetEntity : params.getTargetEntity());
     }
 
     /**

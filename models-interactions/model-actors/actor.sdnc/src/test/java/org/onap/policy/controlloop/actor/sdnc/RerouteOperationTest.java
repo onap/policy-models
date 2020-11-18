@@ -75,7 +75,7 @@ public class RerouteOperationTest extends BasicSdncOperation {
                         .path("GENERIC-RESOURCE-API:network-topology-operation").build();
         config = new HttpConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
 
-        params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).preprocessed(true).build();
+        params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).build();
         oper = new RerouteOperation(params, config);
 
         oper.setProperty(OperationProperties.ENRICHMENT_SERVICE_ID, MY_SERVICE);

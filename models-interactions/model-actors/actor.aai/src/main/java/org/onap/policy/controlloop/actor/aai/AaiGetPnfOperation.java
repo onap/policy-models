@@ -30,6 +30,7 @@ import org.onap.policy.aai.AaiConstants;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 
@@ -71,7 +72,8 @@ public class AaiGetPnfOperation extends AaiGetOperation {
 
         StringBuilder str = new StringBuilder(getClient().getBaseUrl());
 
-        String path = getPath() + URI_SEP + URLEncoder.encode(getTargetEntity(), StandardCharsets.UTF_8);
+        String target = getProperty(OperationProperties.AAI_TARGET_ENTITY);
+        String path = getPath() + URI_SEP + URLEncoder.encode(target, StandardCharsets.UTF_8);
         WebTarget web = getClient().getWebTarget().path(path);
         str.append(path);
 

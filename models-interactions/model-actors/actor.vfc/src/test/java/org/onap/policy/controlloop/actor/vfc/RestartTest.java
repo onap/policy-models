@@ -81,7 +81,7 @@ public class RestartTest extends BasicVfcOperation {
                         .maxPolls(1).build();
         config = new HttpPollingConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
 
-        params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).preprocessed(true).build();
+        params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).build();
 
         restartOper = new Restart(params, config);
 
