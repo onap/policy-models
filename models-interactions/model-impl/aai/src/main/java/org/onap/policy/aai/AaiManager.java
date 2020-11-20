@@ -59,10 +59,10 @@ public final class AaiManager {
     private final RestManager restManager;
 
     /** custom query and other AAI resource URLs. */
-    private static final String CQ_URL = "/aai/v16/query?format=resource";
-    private static final String TENANT_URL = "/aai/v16/search/nodes-query?"
+    private static final String CQ_URL = "/aai/v20/query?format=resource";
+    private static final String TENANT_URL = "/aai/v20/search/nodes-query?"
                     + "search-node-type=vserver&filter=vserver-name:EQUALS:";
-    private static final String PREFIX = "/aai/v16";
+    private static final String PREFIX = "/aai/v20";
     private static final String PNF_URL = PREFIX + "/network/pnfs/pnf/";
     private static final String AAI_DEPTH_SUFFIX = "?depth=0";
 
