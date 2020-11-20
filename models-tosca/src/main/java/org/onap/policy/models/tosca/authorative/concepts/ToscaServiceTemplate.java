@@ -3,7 +3,7 @@
  * ONAP Policy Model
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,28 +37,39 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class ToscaServiceTemplate extends ToscaEntity {
-
     @ApiModelProperty(name = "tosca_definitions_version")
     @SerializedName("tosca_definitions_version")
     private String toscaDefinitionsVersion;
-
-    @ApiModelProperty(name = "topology_template")
-    @SerializedName("topology_template")
-    private ToscaTopologyTemplate toscaTopologyTemplate;
-
-    @ApiModelProperty(name = "policy_types")
-    @SerializedName("policy_types")
-    private Map<String, ToscaPolicyType> policyTypes;
 
     @ApiModelProperty(name = "data_types")
     @SerializedName("data_types")
     private Map<String, ToscaDataType> dataTypes;
 
-    public Map<ToscaEntityKey, ToscaPolicyType> getPolicyTypesAsMap() {
-        return ToscaEntity.getEntityMapAsMap(policyTypes);
-    }
+    @ApiModelProperty(name = "capability_types")
+    @SerializedName("capability_types")
+    private Map<String, ToscaCapabilityType> capabilityTypes;
+
+    @ApiModelProperty(name = "node_types")
+    @SerializedName("node_types")
+    private Map<String, ToscaNodeType> nodeTypes;
+
+    @ApiModelProperty(name = "relationship_types")
+    @SerializedName("relationship_types")
+    private Map<String, ToscaRelationshipType> relationshipTypes;
+
+    @ApiModelProperty(name = "policy_types")
+    @SerializedName("policy_types")
+    private Map<String, ToscaPolicyType> policyTypes;
+
+    @ApiModelProperty(name = "topology_template")
+    @SerializedName("topology_template")
+    private ToscaTopologyTemplate toscaTopologyTemplate;
 
     public Map<ToscaEntityKey, ToscaDataType> getDataTypesAsMap() {
         return ToscaEntity.getEntityMapAsMap(dataTypes);
+    }
+
+    public Map<ToscaEntityKey, ToscaPolicyType> getPolicyTypesAsMap() {
+        return ToscaEntity.getEntityMapAsMap(policyTypes);
     }
 }

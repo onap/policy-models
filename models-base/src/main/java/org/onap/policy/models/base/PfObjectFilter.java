@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,6 +23,7 @@ package org.onap.policy.models.base;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -34,7 +35,7 @@ import java.util.regex.Pattern;
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 @FunctionalInterface
-public interface PfObjectFilter<T extends Comparable<T>> {
+public interface PfObjectFilter<T> {
     /**
      * Filter an incoming list, removing items that do not match the filter.
      *
@@ -118,15 +119,16 @@ public interface PfObjectFilter<T extends Comparable<T>> {
      * Sort an incoming list and remove all but the latest version of each concept.
      *
      * @param originalList the incoming list
+     * @param versionComparator the comparator to use to order versions of the incoming object
      * @return the filtered list
      */
-    public default List<T> latestVersionFilter(final List<T> originalList) {
+    public default List<T> latestVersionFilter(final List<T> originalList, final Comparator<T> versionComparator) {
         if (originalList.size() <= 1) {
             return originalList;
         }
 
         List<T> filteredList = new ArrayList<>(originalList);
-        Collections.sort(filteredList);
+        Collections.sort(filteredList, versionComparator);
 
         int icur = 0;
         for (int j = 1; j < filteredList.size(); j++) {

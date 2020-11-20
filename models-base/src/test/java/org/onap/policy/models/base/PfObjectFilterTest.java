@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,12 +26,14 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import org.junit.Test;
 import org.onap.policy.models.base.testconcepts.DummyPfObject;
+import org.onap.policy.models.base.testconcepts.DummyPfObjectComparator;
 import org.onap.policy.models.base.testconcepts.DummyPfObjectFilter;
 
 /**
@@ -96,7 +98,7 @@ public class PfObjectFilterTest {
         assertEquals(true, dof.filterString(HELLO, HELLO));
         assertEquals(true, dof.filterString(HELLO, null));
 
-        List<DummyPfObject> latestVersionList = dof.latestVersionFilter(doList);
+        List<DummyPfObject> latestVersionList = dof.latestVersionFilter(doList, new DummyPfObjectComparator());
         assertEquals(3, latestVersionList.size());
         assertEquals("aaaaa", latestVersionList.get(0).getName());
         assertEquals(VERSION002, latestVersionList.get(0).getVersion());
@@ -107,7 +109,8 @@ public class PfObjectFilterTest {
 
         latestVersionList.remove(2);
         latestVersionList.remove(1);
-        List<DummyPfObject> newestVersionList = dof.latestVersionFilter(latestVersionList);
+        List<DummyPfObject> newestVersionList = dof.latestVersionFilter(latestVersionList,
+            new DummyPfObjectComparator());
         assertEquals(latestVersionList, newestVersionList);
 
         MyFilter filter = new MyFilter();

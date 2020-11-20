@@ -56,11 +56,11 @@ public class ToscaPolicyTest {
         assertEquals("3.2.1", type.getVersion());
 
         ToscaPolicy clonedPolicy0 = new ToscaPolicy(policy);
-        assertEquals(0, policy.compareTo(clonedPolicy0));
+        assertEquals(0, new ToscaPolicyComparator().compare(policy, clonedPolicy0));
 
         policy.setProperties(new LinkedHashMap<String, Object>());
         policy.getProperties().put("PropertyKey", "PropertyValue");
         ToscaPolicy clonedPolicy1 = new ToscaPolicy(policy);
-        assertEquals(0, policy.compareTo(clonedPolicy1));
+        assertEquals(0, new ToscaPolicyComparator().compare(policy, clonedPolicy1));
     }
 }

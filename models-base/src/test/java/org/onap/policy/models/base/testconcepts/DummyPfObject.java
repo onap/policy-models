@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,21 +33,8 @@ import org.onap.policy.models.base.PfNameVersion;
  */
 @Data
 @RequiredArgsConstructor
-public class DummyPfObject implements PfNameVersion, Comparable<DummyPfObject> {
+public class DummyPfObject implements PfNameVersion {
     private String name;
     private String version;
     private String description;
-
-    @Override
-    public int compareTo(@NonNull final DummyPfObject otherObject) {
-        int result = ObjectUtils.compare(this.name, otherObject.name);
-        if (result != 0) {
-            return result;
-        }
-        result = ObjectUtils.compare(this.version, otherObject.version);
-        if (result != 0) {
-            return result;
-        }
-        return ObjectUtils.compare(this.description, otherObject.description);
-    }
 }

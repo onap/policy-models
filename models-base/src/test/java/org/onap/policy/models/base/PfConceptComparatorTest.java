@@ -1,9 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP Policy Model
- * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,24 +18,18 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.models.tosca.authorative.concepts;
+package org.onap.policy.models.base;
 
-import java.util.List;
-import java.util.Map;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import static org.junit.Assert.assertEquals;
 
-/**
- * Class to represent TOSCA data type matching input/output from/to client.
- *
- * @author Chenfei Gao (cgao@research.att.com)
- */
-@Data
-@EqualsAndHashCode(callSuper = true)
-@NoArgsConstructor
-public class ToscaDataType extends ToscaEntity {
-    private List<ToscaConstraint> constraints;
+import org.junit.Test;
+import org.onap.policy.models.base.testconcepts.DummyBadPfConcept;
+import org.onap.policy.models.base.testconcepts.DummyPfConcept;
 
-    private Map<String, ToscaProperty> properties;
+public class PfConceptComparatorTest {
+
+    @Test
+    public void testPfConceptComparator() {
+        assertEquals(0, new PfConceptComparator().compare(new DummyPfConcept(), new DummyPfConcept()));
+    }
 }

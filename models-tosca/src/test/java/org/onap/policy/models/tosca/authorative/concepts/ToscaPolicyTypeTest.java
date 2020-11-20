@@ -46,7 +46,7 @@ public class ToscaPolicyTypeTest {
         tpt.setDescription("Desc");
 
         ToscaPolicyType clonedTpt0 = new ToscaPolicyType(tpt);
-        assertEquals(0, tpt.compareTo(clonedTpt0));
+        assertEquals(0, new ToscaPolicyTypeComparator().compare(tpt, clonedTpt0));
 
         tpt.setMetadata(new LinkedHashMap<>());
         tpt.setProperties(new LinkedHashMap<>());
@@ -57,6 +57,6 @@ public class ToscaPolicyTypeTest {
         tpt.getProperties().put("Property0", tp);
 
         ToscaPolicyType clonedTpt1 = new ToscaPolicyType(tpt);
-        assertEquals(0, tpt.compareTo(clonedTpt1));
+        assertEquals(0, new ToscaPolicyTypeComparator().compare(tpt, clonedTpt1));
     }
 }

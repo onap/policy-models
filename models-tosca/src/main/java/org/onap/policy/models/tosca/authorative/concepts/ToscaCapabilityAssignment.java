@@ -1,9 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP Policy Model
- * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Copyright (C) 2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,22 +21,14 @@
 package org.onap.policy.models.tosca.authorative.concepts;
 
 import java.util.List;
+import java.util.Map;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-/**
- * Class to represent TOSCA entry schema matching input/output from/to client.
- *
- * @author Chenfei Gao (cgao@research.att.com)
- */
 @Data
-public class ToscaEntrySchema {
-    private String name;
-
-    private String type;
-
-    private String typeVersion;
-
-    private String description;
-
-    private List<ToscaConstraint> constraints;
+@NoArgsConstructor
+public class ToscaCapabilityAssignment extends ToscaEntity {
+    private Map<String, Object> properties;
+    private Map<String, Object> attributes;
+    private List<Object> occurrences;
 }
