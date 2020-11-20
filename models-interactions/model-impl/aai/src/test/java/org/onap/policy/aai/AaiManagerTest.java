@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * aai
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -94,18 +94,12 @@ public class AaiManagerTest {
         when(restManagerMock.put(eq(""), eq("Foo"), eq("Bar"), anyMap(), anyString(), anyString()))
                 .thenReturn(httpResponseErr0);
 
-        when(restManagerMock.get(eq("/aai/v11/query?format=resource"), eq("Foo"), eq("Bar"), anyMap()))
-                .thenReturn(httpResponseErr0);
-
         AaiCqResponse aaiCqResponseNull =
                 aaiManager.getCustomQueryResponse("", "Foo", "Bar", vserverNameRequestId, "Foo");
         assertNull(aaiCqResponseNull);
 
 
         when(restManagerMock.put(eq("Error"), eq("Foo"), eq("Bar"), anyMap(), anyString(), anyString()))
-                .thenReturn(httpResponseErr1);
-
-        when(restManagerMock.get(eq("Error/aai/v11/query?format=resource"), eq("Foo"), eq("Bar"), anyMap()))
                 .thenReturn(httpResponseErr1);
 
         AaiCqResponse aaiCqResponseErr =
