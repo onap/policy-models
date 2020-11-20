@@ -2,8 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Model
  * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019-2020 Nordix Foundation.
+ * Copyright (C) 2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,39 +22,21 @@
 
 package org.onap.policy.models.tosca.authorative.concepts;
 
-import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.List;
+import java.util.Map;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
-/**
- * Class to represent TOSCA constraint matching input/output from/to client.
- *
- * @author Chenfei Gao (cgao@research.att.com)
- */
 @Data
-public class ToscaConstraint {
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+public class ToscaRelationshipType extends ToscaEntity implements Comparable<ToscaRelationshipType> {
+    @ApiModelProperty(name = "properties")
+    private Map<String, ToscaProperty> properties;
 
-    @ApiModelProperty(name = "valid_values")
-    @SerializedName("valid_values")
-    private List<String> validValues;
-
-    @ApiModelProperty(name = "equal")
-    private String equal;
-
-    @ApiModelProperty(name = "greater_than")
-    @SerializedName("greater_than")
-    private String greaterThan;
-
-    @ApiModelProperty(name = "greater_or_equal")
-    @SerializedName("greater_or_equal")
-    private String greaterOrEqual;
-
-    @ApiModelProperty(name = "less_than")
-    @SerializedName("less_than")
-    private String lessThan;
-
-    @ApiModelProperty(name = "less_or_equal")
-    @SerializedName("less_or_equal")
-    private String lessOrEqual;
+    @Override
+    public int compareTo(final ToscaRelationshipType other) {
+        return compareNameVersion(this, other);
+    }
 }

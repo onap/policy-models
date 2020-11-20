@@ -43,16 +43,20 @@ import org.onap.policy.models.base.PfNameVersion;
 @Data
 @NoArgsConstructor
 public class ToscaEntity implements PfNameVersion {
+    @ApiModelProperty(name = "name")
     private String name;
 
+    @ApiModelProperty(name = "version")
     private String version;
 
     @ApiModelProperty(name = "derived_from")
     @SerializedName("derived_from")
     private String derivedFrom;
 
+    @ApiModelProperty(name = "metadata")
     private Map<String, String> metadata;
 
+    @ApiModelProperty(name = "description")
     private String description;
 
     /**

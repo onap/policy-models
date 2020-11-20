@@ -3,7 +3,7 @@
  * ONAP Policy Model
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@
 
 package org.onap.policy.models.tosca.authorative.concepts;
 
+import io.swagger.annotations.ApiModelProperty;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -40,6 +41,7 @@ import lombok.NonNull;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 public class ToscaPolicyType extends ToscaEntity implements Comparable<ToscaPolicyType> {
+    @ApiModelProperty(name = "properties")
     private Map<String, ToscaProperty> properties;
 
     /**

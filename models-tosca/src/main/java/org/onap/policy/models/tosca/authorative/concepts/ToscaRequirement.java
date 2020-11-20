@@ -1,9 +1,6 @@
-/*-
+/*
  * ============LICENSE_START=======================================================
- * ONAP Policy Model
- * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019-2020 Nordix Foundation.
+ * Copyright (C) 2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,21 +24,26 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.List;
 import java.util.Map;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
-/**
- * Class to represent TOSCA data type matching input/output from/to client.
- *
- * @author Chenfei Gao (cgao@research.att.com)
- */
 @Data
-@EqualsAndHashCode(callSuper = true)
-@NoArgsConstructor
-public class ToscaDataType extends ToscaEntity {
-    @ApiModelProperty(name = "constraints")
-    private List<ToscaConstraint> constraints;
+public class ToscaRequirement extends ToscaEntity  implements Comparable<ToscaEntity> {
+    @ApiModelProperty(name = "capability")
+    private String capability;
+
+    @ApiModelProperty(name = "node")
+    private String node;
+
+    @ApiModelProperty(name = "relationship")
+    private String relationship;
+
+    @ApiModelProperty(name = "occurrences")
+    private List<Object> occurrences;
 
     @ApiModelProperty(name = "properties")
-    private Map<String, ToscaProperty> properties;
+    private Map<String, Object> properties;
+
+    @Override
+    public int compareTo(final ToscaEntity other) {
+        return compareNameVersion(this, other);
+    }
 }
