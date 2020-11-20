@@ -1,0 +1,169 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "14ac07f8_abb539a8",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaCapabilityAssignment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-11-20T14:25:08Z",
+      "side": 1,
+      "message": "I assume this annotation cannot be used at the class level",
+      "revId": "498f9b61ee4a63805ea314e65f54ab2e8f846ea7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8924fabe_6862ab9f",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaCapabilityAssignment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-11-20T14:25:08Z",
+      "side": 1,
+      "message": "looking at javadocs for Comparable, is compareTo() consistent with equals()?  It isn\u0027t a requirement, but \"It is strongly recommended\".\n\nsame comment in other classes",
+      "revId": "498f9b61ee4a63805ea314e65f54ab2e8f846ea7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0f333c1_3c525c13",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaConstraint.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-11-20T14:25:08Z",
+      "side": 1,
+      "message": "hmm.  feels like these should be a single field, possibly an enum.  maybe some day...",
+      "revId": "498f9b61ee4a63805ea314e65f54ab2e8f846ea7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95a7f0ec_897da119",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaParameter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-11-20T14:25:08Z",
+      "side": 1,
+      "message": "for consistency, should this be type_version?",
+      "revId": "498f9b61ee4a63805ea314e65f54ab2e8f846ea7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a1920ff_4829214c",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaProperty.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-11-20T14:25:08Z",
+      "side": 1,
+      "message": "maybe in the future we could change this to type_version (and default_value below)",
+      "revId": "498f9b61ee4a63805ea314e65f54ab2e8f846ea7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e77faf7_d67fdba3",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaRequirement.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-11-20T14:25:08Z",
+      "side": 1,
+      "message": "odd that this isn\u0027t a ToscaCapability",
+      "range": {
+        "startLine": 31,
+        "startChar": 12,
+        "endLine": 31,
+        "endChar": 19
+      },
+      "revId": "498f9b61ee4a63805ea314e65f54ab2e8f846ea7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e6f0915_0531c9a1",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaRequirement.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-11-20T14:25:08Z",
+      "side": 1,
+      "message": "odd that this isn\u0027t a ToscaProperty",
+      "range": {
+        "startLine": 43,
+        "startChar": 24,
+        "endLine": 43,
+        "endChar": 30
+      },
+      "revId": "498f9b61ee4a63805ea314e65f54ab2e8f846ea7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85dbf046_04f5f4fb",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaSchemaDefinition.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-11-20T14:25:08Z",
+      "side": 1,
+      "message": "type_version?",
+      "revId": "498f9b61ee4a63805ea314e65f54ab2e8f846ea7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "754defcc_1923498d",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaServiceTemplate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-11-20T14:25:08Z",
+      "side": 1,
+      "message": "need a junit for this",
+      "revId": "498f9b61ee4a63805ea314e65f54ab2e8f846ea7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
