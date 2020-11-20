@@ -2,8 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Model
  * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019-2020 Nordix Foundation.
+ * Copyright (C) 2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,37 +22,28 @@
 
 package org.onap.policy.models.tosca.authorative.concepts;
 
-import com.google.gson.annotations.SerializedName;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.List;
+import java.util.Map;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
-/**
- * Class to represent TOSCA constraint matching input/output from/to client.
- *
- * @author Chenfei Gao (cgao@research.att.com)
- */
 @Data
-public class ToscaConstraint {
-    @ApiModelProperty(name = "valid_values")
-    @SerializedName("valid_values")
-    private List<String> validValues;
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+public class ToscaNodeTemplate extends ToscaEntity implements Comparable<ToscaNodeTemplate> {
+    private String type;
+    private Map<String, Object> properties;
+    private List<Map<String, ToscaRequirement>> requirements;
+    private Map<String, ToscaCapabilityAssignment> capabilities;
 
-    private String equal;
+    @Override
+    public int compareTo(final ToscaNodeTemplate other) {
+        return compareNameVersion(this, other);
+    }
 
-    @ApiModelProperty(name = "greater_than")
-    @SerializedName("greater_than")
-    private String greaterThan;
-
-    @ApiModelProperty(name = "greater_or_equal")
-    @SerializedName("greater_or_equal")
-    private String greaterOrEqual;
-
-    @ApiModelProperty(name = "less_than")
-    @SerializedName("less_than")
-    private String lessThan;
-
-    @ApiModelProperty(name = "less_or_equal")
-    @SerializedName("less_or_equal")
-    private String lessOrEqual;
+    @Override
+    public boolean equals(final Object other) {
+        return compareTo((ToscaNodeTemplate) other) == 0;
+    }
 }

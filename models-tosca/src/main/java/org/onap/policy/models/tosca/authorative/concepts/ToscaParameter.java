@@ -2,8 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Model
  * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019-2020 Nordix Foundation.
+ * Copyright (C) 2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,45 +24,18 @@ package org.onap.policy.models.tosca.authorative.concepts;
 
 import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.List;
-import java.util.Map;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-/**
- * Class to represent TOSCA property matching input/output from/to client.
- *
- * @author Chenfei Gao (cgao@research.att.com)
- */
 @Data
-public class ToscaProperty {
-    public enum Status {
-        SUPPORTED, UNSUPPORTED, EXPERIMENTAL, DEPRECATED
-    }
-
+@NoArgsConstructor
+public class ToscaParameter {
     private String name;
     private String type;
 
     @ApiModelProperty(name = "type_version")
     @SerializedName("type_version")
+
     private String typeVersion;
-
-    private String description;
-
-    @ApiModelProperty(name = "default")
-    @SerializedName("default")
-    private Object defaultValue;
-
-    private boolean required = false;
-    private Status status;
-    private List<ToscaConstraint> constraints;
-
-    @ApiModelProperty(name = "key_schema")
-    @SerializedName("key_schema")
-    private ToscaSchemaDefinition keySchema;
-
-    @ApiModelProperty(name = "entry_schema")
-    @SerializedName("entry_schema")
-    private ToscaSchemaDefinition entrySchema;
-
-    private Map<String, String> metadata;
+    private Object value;
 }
