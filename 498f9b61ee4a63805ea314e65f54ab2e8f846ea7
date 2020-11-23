@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "200f5a1a_b20b7d8e",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaCapabilityAssignment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-11-23T17:25:11Z",
+      "side": 1,
+      "message": "No it can\u0027t, It\u0027s used by Swagger to override the name so ut\u0027s probably overused in these classes, it\u0027s only needed in cases where the name on the API should be overridden.\n\nI\u0027ll remove it wherever it\u0027s not needed....Too much copy-paste from original.\n\nSo it should only appear with @SerializedName",
+      "parentUuid": "14ac07f8_abb539a8",
+      "revId": "498f9b61ee4a63805ea314e65f54ab2e8f846ea7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8924fabe_6862ab9f",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaCapabilityAssignment.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2020-11-20T14:25:08Z",
       "side": 1,
       "message": "looking at javadocs for Comparable, is compareTo() consistent with equals()?  It isn\u0027t a requirement, but \"It is strongly recommended\".\n\nsame comment in other classes",
+      "revId": "498f9b61ee4a63805ea314e65f54ab2e8f846ea7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2009c974_4af2bca9",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaCapabilityAssignment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-11-23T17:25:11Z",
+      "side": 1,
+      "message": "Will check.",
+      "parentUuid": "8924fabe_6862ab9f",
       "revId": "498f9b61ee4a63805ea314e65f54ab2e8f846ea7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "9079c66a_5697cdb4",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaConstraint.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-11-23T17:25:11Z",
+      "side": 1,
+      "message": "I just added the annotations here, I didn\u0027t dare change it.",
+      "parentUuid": "a0f333c1_3c525c13",
+      "revId": "498f9b61ee4a63805ea314e65f54ab2e8f846ea7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "95a7f0ec_897da119",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaParameter.java",
         "patchSetId": 1
@@ -67,6 +121,24 @@
       "revId": "498f9b61ee4a63805ea314e65f54ab2e8f846ea7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "112a3fe9_eb06a916",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaParameter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-11-23T17:25:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "95a7f0ec_897da119",
+      "revId": "498f9b61ee4a63805ea314e65f54ab2e8f846ea7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "0f7176bf_bb146985",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaProperty.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-11-23T17:25:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8a1920ff_4829214c",
+      "revId": "498f9b61ee4a63805ea314e65f54ab2e8f846ea7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e77faf7_d67fdba3",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaRequirement.java",
         "patchSetId": 1
@@ -98,6 +188,30 @@
       "writtenOn": "2020-11-20T14:25:08Z",
       "side": 1,
       "message": "odd that this isn\u0027t a ToscaCapability",
+      "range": {
+        "startLine": 31,
+        "startChar": 12,
+        "endLine": 31,
+        "endChar": 19
+      },
+      "revId": "498f9b61ee4a63805ea314e65f54ab2e8f846ea7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47b25081_a47c6fb9",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaRequirement.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-11-23T17:25:11Z",
+      "side": 1,
+      "message": "This is how it is done in TOSCA. I pasted the stuff from the spec below but for me this is not nice because you have to go hunting for a Capability Definition or a Capability type if you want to verify a capability is valid [not that we do that ;-)]. Here\u0027s the chapter and verse from the spec:\n\nThe optional reserved keyname used to provide the name of either a:\n\n·         Capability definition within a target node template that can fulfill the requirement.\n\n·         Capability Type that the provider will use to select a type-compatible target node template to fulfill the requirement at runtime.",
+      "parentUuid": "1e77faf7_d67fdba3",
       "range": {
         "startLine": 31,
         "startChar": 12,
@@ -133,6 +247,30 @@
     },
     {
       "key": {
+        "uuid": "222723ad_fdeeefb9",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaRequirement.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-11-23T17:25:11Z",
+      "side": 1,
+      "message": "This is a map of an object which is supposed to be of the type of the property specified in the the ToscaProperty definition.",
+      "parentUuid": "8e6f0915_0531c9a1",
+      "range": {
+        "startLine": 43,
+        "startChar": 24,
+        "endLine": 43,
+        "endChar": 30
+      },
+      "revId": "498f9b61ee4a63805ea314e65f54ab2e8f846ea7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "85dbf046_04f5f4fb",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaSchemaDefinition.java",
         "patchSetId": 1
@@ -150,6 +288,24 @@
     },
     {
       "key": {
+        "uuid": "079db960_4776a454",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaSchemaDefinition.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-11-23T17:25:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "85dbf046_04f5f4fb",
+      "revId": "498f9b61ee4a63805ea314e65f54ab2e8f846ea7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "754defcc_1923498d",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaServiceTemplate.java",
         "patchSetId": 1
@@ -164,6 +320,24 @@
       "revId": "498f9b61ee4a63805ea314e65f54ab2e8f846ea7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a8aaff1_58d4fb39",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaServiceTemplate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-11-23T17:25:11Z",
+      "side": 1,
+      "message": "It\u0027s covered by org.onap.policy.models.tosca.authorative.provider.AuthorativeToscaProviderPolicyTest but we could add a specific test class for this class if we wanted.",
+      "parentUuid": "754defcc_1923498d",
+      "revId": "498f9b61ee4a63805ea314e65f54ab2e8f846ea7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
