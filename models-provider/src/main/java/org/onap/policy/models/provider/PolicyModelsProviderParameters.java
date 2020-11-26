@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
  * ================================================================================
@@ -61,6 +61,8 @@ public class PolicyModelsProviderParameters implements ParameterGroup {
     private String databaseUser;
     private String databasePassword;
     private String persistenceUnit;
+    private String[] connectionFailedStrings;
+    private Integer retryPeriodSeconds;
 
     /**
      * Validate the model provider parameters.
