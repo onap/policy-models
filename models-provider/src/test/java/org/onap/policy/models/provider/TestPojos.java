@@ -20,7 +20,6 @@
 
 package org.onap.policy.models.provider;
 
-import com.openpojo.reflection.filters.FilterPackageInfo;
 import com.openpojo.validation.Validator;
 import com.openpojo.validation.ValidatorBuilder;
 import com.openpojo.validation.rule.impl.GetterMustExistRule;
@@ -49,7 +48,7 @@ public class TestPojos {
                 .with(new SetterTester())
                 .with(new GetterTester())
                 .build();
-        validator.validate(POJO_PACKAGE, new FilterPackageInfo());
+        validator.validate(POJO_PACKAGE, pojoClass -> !pojoClass.getSourcePath().contains("/test-classes/"));
         // :formatter:on
     }
 }
