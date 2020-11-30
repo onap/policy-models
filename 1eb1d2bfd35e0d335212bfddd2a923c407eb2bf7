@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "a9a95a75_01136957",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaCapabilityAssignment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-11-30T20:38:00Z",
+      "side": 1,
+      "message": "we have sprint planning tomorrow, but can discuss it briefly.\n\nbasically, the \"consistent with equals\" contract is that compareTo() should only return 0 if equals() returns true, and goes on to say that it\u0027s dangerous to do otherwise.  Of course, if equals() is implemented, then it should work with arbitrary objects so that it can be used to identify matching items in a List\u003cObject\u003e.  And if equals() is implemented, then hashCode() should typically be implemented.\n\nOTOH, maybe compareTo() isn\u0027t needed at all?  sort() methods take a comparison method, so any method can be used there and they don\u0027t need to be \"consistent with equals\".  The same is true (i.e., a comparison method can be provided) in the unlikely event that one of these objects is used as a KEY in an ordered set/map, and compareTo isn\u0027t needed at all for unordered sets/maps (e.g., HashSet).\n\nIf we can\u0027t do one or the other of the above, then perhaps we should name the method something other than compareTo.",
+      "parentUuid": "074b8850_8d392888",
+      "revId": "1eb1d2bfd35e0d335212bfddd2a923c407eb2bf7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6e5834a6_af420685",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaCapabilityAssignment.java",
         "patchSetId": 2
