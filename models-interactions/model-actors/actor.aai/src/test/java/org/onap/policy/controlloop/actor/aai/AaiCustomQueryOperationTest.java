@@ -167,10 +167,10 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation {
 
     @Test
     public void testSetOutcome() {
-        outcome = oper.setOutcome(params.makeOutcome(null), OperationResult.SUCCESS, null, null);
+        outcome = oper.setOutcome(params.makeOutcome(), OperationResult.SUCCESS, null, null);
         assertNull(outcome.getResponse());
 
-        outcome = oper.setOutcome(params.makeOutcome(null), OperationResult.SUCCESS, null, "{}");
+        outcome = oper.setOutcome(params.makeOutcome(), OperationResult.SUCCESS, null, "{}");
         assertTrue(outcome.getResponse() instanceof AaiCqResponse);
     }
 

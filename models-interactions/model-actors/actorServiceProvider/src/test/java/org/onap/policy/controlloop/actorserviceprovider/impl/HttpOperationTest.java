@@ -182,7 +182,7 @@ public class HttpOperationTest {
 
         params = ControlLoopOperationParams.builder().actor(ACTOR).operation(OPERATION).requestId(REQ_ID).build();
 
-        outcome = params.makeOutcome(null);
+        outcome = params.makeOutcome();
 
         callback = new AtomicReference<>();
         future = new CompletableFuture<>();

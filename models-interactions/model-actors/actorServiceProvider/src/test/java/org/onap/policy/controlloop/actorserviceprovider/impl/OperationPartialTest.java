@@ -283,7 +283,7 @@ public class OperationPartialTest {
     public void testIsActorFailed() {
         assertFalse(oper.isActorFailed(null));
 
-        OperationOutcome outcome = params.makeOutcome(null);
+        OperationOutcome outcome = params.makeOutcome();
 
         // incorrect outcome
         outcome.setResult(OperationResult.SUCCESS);
@@ -343,7 +343,7 @@ public class OperationPartialTest {
             @Override
             protected CompletableFuture<OperationOutcome> startOperationAsync(int attempt, OperationOutcome outcome) {
 
-                OperationOutcome outcome2 = params.makeOutcome(null);
+                OperationOutcome outcome2 = params.makeOutcome();
                 outcome2.setResult(OperationResult.SUCCESS);
 
                 /*
@@ -480,7 +480,7 @@ public class OperationPartialTest {
     public void testIsSameOperation() {
         assertFalse(oper.isSameOperation(null));
 
-        OperationOutcome outcome = params.makeOutcome(null);
+        OperationOutcome outcome = params.makeOutcome();
 
         // wrong actor - should be false
         outcome.setActor(null);
@@ -523,7 +523,7 @@ public class OperationPartialTest {
         // first task completes, others do not
         List<Supplier<CompletableFuture<OperationOutcome>>> tasks = new LinkedList<>();
 
-        final OperationOutcome outcome = params.makeOutcome(null);
+        final OperationOutcome outcome = params.makeOutcome();
 
         tasks.add(() -> CompletableFuture.completedFuture(outcome));
         tasks.add(() -> new CompletableFuture<>());
@@ -588,7 +588,7 @@ public class OperationPartialTest {
 
     @Test
     public void testAllOfArray() throws Exception {
-        final OperationOutcome outcome = params.makeOutcome(null);
+        final OperationOutcome outcome = params.makeOutcome();
 
         CompletableFuture<OperationOutcome> future1 = new CompletableFuture<>();
         CompletableFuture<OperationOutcome> future2 = new CompletableFuture<>();
@@ -619,7 +619,7 @@ public class OperationPartialTest {
 
     @Test
     public void testAllOfList() throws Exception {
-        final OperationOutcome outcome = params.makeOutcome(null);
+        final OperationOutcome outcome = params.makeOutcome();
 
         CompletableFuture<OperationOutcome> future1 = new CompletableFuture<>();
         CompletableFuture<OperationOutcome> future2 = new CompletableFuture<>();
@@ -708,9 +708,9 @@ public class OperationPartialTest {
 
         // null outcome - takes precedence over a success
         List<Supplier<CompletableFuture<OperationOutcome>>> tasks = new LinkedList<>();
-        tasks.add(() -> CompletableFuture.completedFuture(params.makeOutcome(null)));
+        tasks.add(() -> CompletableFuture.completedFuture(params.makeOutcome()));
         tasks.add(() -> CompletableFuture.completedFuture(null));
-        tasks.add(() -> CompletableFuture.completedFuture(params.makeOutcome(null)));
+        tasks.add(() -> CompletableFuture.completedFuture(params.makeOutcome()));
         CompletableFuture<OperationOutcome> result = oper.allOf(tasks);
 
         assertTrue(executor.runAll(MAX_REQUESTS));
@@ -721,9 +721,9 @@ public class OperationPartialTest {
         IllegalStateException except = new IllegalStateException(EXPECTED_EXCEPTION);
 
         tasks.clear();
-        tasks.add(() -> CompletableFuture.completedFuture(params.makeOutcome(null)));
+        tasks.add(() -> CompletableFuture.completedFuture(params.makeOutcome()));
         tasks.add(() -> CompletableFuture.failedFuture(except));
-        tasks.add(() -> CompletableFuture.completedFuture(params.makeOutcome(null)));
+        tasks.add(() -> CompletableFuture.completedFuture(params.makeOutcome()));
         result = oper.allOf(tasks);
 
         assertTrue(executor.runAll(MAX_REQUESTS));
@@ -736,7 +736,7 @@ public class OperationPartialTest {
      */
     @Test
     public void testSequence() throws Exception {
-        final OperationOutcome outcome = params.makeOutcome(null);
+        final OperationOutcome outcome = params.makeOutcome();
 
         List<Supplier<CompletableFuture<OperationOutcome>>> tasks = new LinkedList<>();
         tasks.add(() -> CompletableFuture.completedFuture(outcome));
@@ -758,7 +758,7 @@ public class OperationPartialTest {
         assertSame(outcome, result.get());
 
         // second task fails, third should not run
-        OperationOutcome failure = params.makeOutcome(null);
+        OperationOutcome failure = params.makeOutcome();
         failure.setResult(OperationResult.FAILURE);
         tasks.clear();
         tasks.add(() -> CompletableFuture.completedFuture(outcome));
@@ -797,7 +797,7 @@ public class OperationPartialTest {
         OperationOutcome expectedOutcome = null;
 
         for (int count = 0; count < results.length; ++count) {
-            OperationOutcome outcome = params.makeOutcome(null);
+            OperationOutcome outcome = params.makeOutcome();
             outcome.setResult(results[count]);
             tasks.add(() -> CompletableFuture.completedFuture(outcome));
 
@@ -817,7 +817,7 @@ public class OperationPartialTest {
     public void testDetmPriority() throws CoderException {
         assertEquals(1, oper.detmPriority(null));
 
-        OperationOutcome outcome = params.makeOutcome(null);
+        OperationOutcome outcome = params.makeOutcome();
 
         Map<OperationResult, Integer> map = Map.of(OperationResult.SUCCESS, 0, OperationResult.FAILURE_GUARD, 2,
                 OperationResult.FAILURE_RETRIES, 3, OperationResult.FAILURE, 4, OperationResult.FAILURE_TIMEOUT, 5,
@@ -1049,7 +1049,7 @@ public class OperationPartialTest {
     }
 
     private OperationOutcome makeSuccess() {
-        OperationOutcome outcome = params.makeOutcome(null);
+        OperationOutcome outcome = params.makeOutcome();
         outcome.setResult(OperationResult.SUCCESS);
 
         return outcome;

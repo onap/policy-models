@@ -102,7 +102,7 @@ public class BasicOperation {
         makeContext();
 
         // get a fresh outcome
-        outcome = params.makeOutcome(TARGET_ENTITY);
+        outcome = params.makeOutcome();
     }
 
     /**

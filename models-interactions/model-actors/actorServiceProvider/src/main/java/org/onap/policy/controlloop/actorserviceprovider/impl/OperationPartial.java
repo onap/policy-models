@@ -899,7 +899,9 @@ public abstract class OperationPartial implements Operation {
      * @return a new operation outcome
      */
     protected OperationOutcome makeOutcome() {
-        return params.makeOutcome(getProperty(OperationProperties.AAI_TARGET_ENTITY));
+        OperationOutcome outcome = params.makeOutcome();
+        outcome.setTarget(getProperty(OperationProperties.AAI_TARGET_ENTITY));
+        return outcome;
     }
 
     /**

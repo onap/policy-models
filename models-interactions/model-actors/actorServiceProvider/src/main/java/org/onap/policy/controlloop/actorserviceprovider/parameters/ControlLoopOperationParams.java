@@ -52,6 +52,9 @@ import org.slf4j.LoggerFactory;
 public class ControlLoopOperationParams {
     private static final Logger logger = LoggerFactory.getLogger(ControlLoopOperationParams.class);
 
+    /*
+     * Optional keys within the "targetEntityIds" map.
+     */
     public static final String PARAMS_ENTITY_RESOURCEID = "resourceID";
     public static final String PARAMS_ENTITY_MODEL_INVARIANT_ID = "modelInvariantId";
     public static final String PARAMS_ENTITY_MODEL_VERSION_ID = "modelVersionId";
@@ -185,21 +188,9 @@ public class ControlLoopOperationParams {
      * @return a new operation outcome
      */
     public OperationOutcome makeOutcome() {
-        return makeOutcome(null);
-    }
-
-    /**
-     * Makes an operation outcome, populating it from the parameters.
-     *
-     * @param targetEntity the target entity
-     *
-     * @return a new operation outcome
-     */
-    public OperationOutcome makeOutcome(String targetEntity) {
         OperationOutcome outcome = new OperationOutcome();
         outcome.setActor(getActor());
         outcome.setOperation(getOperation());
-        outcome.setTarget(targetEntity);
 
         return outcome;
     }

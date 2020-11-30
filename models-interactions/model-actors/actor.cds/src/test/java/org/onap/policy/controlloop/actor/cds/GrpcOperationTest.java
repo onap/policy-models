@@ -219,7 +219,7 @@ public class GrpcOperationTest {
     public void testStartOperationAsyncError() throws Exception {
         operation = new GrpcOperation(params, config);
         assertThatIllegalArgumentException()
-                        .isThrownBy(() -> operation.startOperationAsync(1, params.makeOutcome(null)));
+                        .isThrownBy(() -> operation.startOperationAsync(1, params.makeOutcome()));
     }
 
     private void verifyOperation(TargetType targetType, Runnable loader) {
@@ -240,7 +240,7 @@ public class GrpcOperationTest {
         operation.generateSubRequestId(1);
 
         loader.run();
-        CompletableFuture<OperationOutcome> future3 = operation.startOperationAsync(1, params.makeOutcome(null));
+        CompletableFuture<OperationOutcome> future3 = operation.startOperationAsync(1, params.makeOutcome());
         assertNotNull(future3);
     }
 

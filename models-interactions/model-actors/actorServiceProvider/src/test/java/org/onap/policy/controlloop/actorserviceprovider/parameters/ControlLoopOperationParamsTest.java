@@ -61,7 +61,6 @@ public class ControlLoopOperationParamsTest {
     private static final String EXPECTED_EXCEPTION = "expected exception";
     private static final String ACTOR = "my-actor";
     private static final String OPERATION = "my-operation";
-    private static final String TARGET_ENTITY = "my-target";
     private static final Integer RETRY = 3;
     private static final Integer TIMEOUT = 100;
     private static final UUID REQ_ID = UUID.randomUUID();
@@ -115,7 +114,7 @@ public class ControlLoopOperationParamsTest {
                         .retry(RETRY).timeoutSec(TIMEOUT)
                         .startCallback(starter).build();
 
-        outcome = params.makeOutcome(TARGET_ENTITY);
+        outcome = params.makeOutcome();
     }
 
     @Test
@@ -139,25 +138,13 @@ public class ControlLoopOperationParamsTest {
 
     @Test
     public void testMakeOutcome() {
-        outcome = params.makeOutcome();
-        assertNull(outcome.getTarget());
-        checkRemainingFields("with actor");
-    }
-
-    @Test
-    public void testMakeOutcomeString() {
-        assertEquals(TARGET_ENTITY, outcome.getTarget());
-        checkRemainingFields("with actor");
-    }
-
-    protected void checkRemainingFields(String testName) {
         assertEquals(ACTOR, outcome.getActor());
         assertEquals(OPERATION, outcome.getOperation());
-        assertNull(testName, outcome.getStart());
-        assertNull(testName, outcome.getEnd());
-        assertNull(testName, outcome.getSubRequestId());
-        assertNotNull(testName, outcome.getResult());
-        assertNull(testName, outcome.getMessage());
+        assertNull(outcome.getStart());
+        assertNull(outcome.getEnd());
+        assertNull(outcome.getSubRequestId());
+        assertNotNull(outcome.getResult());
+        assertNull(outcome.getMessage());
     }
 
     @Test
