@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "26c5cdaa_83b51a00",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProviderFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2020-11-30T20:10:23Z",
+      "side": 1,
+      "message": "Curious if we really need to only perform retries based on fixed search strings? Or just keep trying for any type of error as what we are trying to do is initializing the provider.",
+      "range": {
+        "startLine": 38,
+        "startChar": 34,
+        "endLine": 38,
+        "endChar": 56
+      },
+      "revId": "f0a41f4a974774c5d94335b63cd1b2dab81213cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8fda50aa_a9ce0a96",
         "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProviderParameters.java",
         "patchSetId": 1
