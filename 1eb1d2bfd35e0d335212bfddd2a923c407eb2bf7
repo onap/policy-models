@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "074b8850_8d392888",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaCapabilityAssignment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-11-30T20:07:10Z",
+      "side": 1,
+      "message": "I\u0027m just thinking a little more about what \"equality\" means in terms of TOSCA entities. Should two things with the same name and version but with other differences be considered \"equal\"? Instinctively I think the answer to that should be no, so I think maybe we\u0027re misusing the concept of equality here.\n\nLet\u0027s discuss at the scrum tomorrow.",
+      "parentUuid": "42010031_6a5d246c",
+      "revId": "1eb1d2bfd35e0d335212bfddd2a923c407eb2bf7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6e5834a6_af420685",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaCapabilityAssignment.java",
         "patchSetId": 2
