@@ -66,6 +66,30 @@
     },
     {
       "key": {
+        "uuid": "e4effd16_490f74a8",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProviderFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 7010
+      },
+      "writtenOn": "2020-11-30T21:00:14Z",
+      "side": 1,
+      "message": "Is it a concern that we can\u0027t differentiate between a permanently incorrect URL and a temporarily unavailable DB? Both show as \"Can\u0027t connect\" exceptions",
+      "parentUuid": "c5b64bee_5d9aad82",
+      "range": {
+        "startLine": 38,
+        "startChar": 34,
+        "endLine": 38,
+        "endChar": 56
+      },
+      "revId": "f0a41f4a974774c5d94335b63cd1b2dab81213cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8fda50aa_a9ce0a96",
         "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProviderParameters.java",
         "patchSetId": 1
