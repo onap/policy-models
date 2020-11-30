@@ -90,6 +90,30 @@
     },
     {
       "key": {
+        "uuid": "72a81e4b_285d8ff3",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProviderFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-11-30T21:13:44Z",
+      "side": 1,
+      "message": "Now that is a concern.  So there\u0027s nothing in any of the exception messages indicating \"unknown host\"?\n\nIf we can\u0027t distinguish an invalid URL from a DB being down, then we should table this and I\u0027ll take it back to the TSC.",
+      "parentUuid": "e4effd16_490f74a8",
+      "range": {
+        "startLine": 38,
+        "startChar": 34,
+        "endLine": 38,
+        "endChar": 56
+      },
+      "revId": "f0a41f4a974774c5d94335b63cd1b2dab81213cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8fda50aa_a9ce0a96",
         "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProviderParameters.java",
         "patchSetId": 1
