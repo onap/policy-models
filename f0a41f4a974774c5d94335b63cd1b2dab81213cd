@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b2633e6_9fdb399c",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProviderFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-11-30T18:23:33Z",
+      "side": 1,
+      "message": "nice!",
+      "revId": "f0a41f4a974774c5d94335b63cd1b2dab81213cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fda50aa_a9ce0a96",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProviderParameters.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-11-30T18:23:33Z",
+      "side": 1,
+      "message": "if we make this an \"int\" with a default value of 30, then we can eliminate RETRY_PERIOD_SECONDS_DEFAULT",
+      "revId": "f0a41f4a974774c5d94335b63cd1b2dab81213cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff7b6716_6e592f08",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/PolicyModelsProviderFactoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-11-30T18:23:33Z",
+      "side": 1,
+      "message": "can probably use assertThatThrownBy(...).isInstance(...).hasMessage(...)",
+      "range": {
+        "startLine": 214,
+        "startChar": 8,
+        "endLine": 216,
+        "endChar": 75
+      },
+      "revId": "f0a41f4a974774c5d94335b63cd1b2dab81213cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
