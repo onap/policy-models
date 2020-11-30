@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42010031_6a5d246c",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaCapabilityAssignment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-11-30T18:10:16Z",
+      "side": 1,
+      "message": "technically, should return false if \"other\" is not a ToscaEntity\n\nsimilar comment in other files",
+      "revId": "1eb1d2bfd35e0d335212bfddd2a923c407eb2bf7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e5834a6_af420685",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaCapabilityAssignment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-11-30T18:10:16Z",
+      "side": 1,
+      "message": "also need to override hashCode?",
+      "revId": "1eb1d2bfd35e0d335212bfddd2a923c407eb2bf7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
