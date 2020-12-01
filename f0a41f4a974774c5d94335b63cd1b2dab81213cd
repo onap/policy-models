@@ -114,6 +114,30 @@
     },
     {
       "key": {
+        "uuid": "458f04fb_74e7bf22",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProviderFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 7010
+      },
+      "writtenOn": "2020-12-01T13:36:32Z",
+      "side": 1,
+      "message": "These are the observed errors connecting to a docker db on a separate IP (VM). These are at about 1s resolution - i.e. it went from \u0027Connection refused\u0027 to \u0027Success\u0027 in a second with no intermediate (e.g. DB not ready) state\n\nNo /etc/hosts entry for mariadb\nInternal Exception: java.sql.SQLNonTransientConnectionException: Could not connect to address\u003d(host\u003dmariadb)(port\u003d3306)(type\u003dmaster) : mariadb\n... delay while I add entry\n/etc/hosts entry but VM not running\nInternal Exception: java.sql.SQLNonTransientConnectionException: Could not connect to address\u003d(host\u003dmariadb)(port\u003d3306)(type\u003dmaster) : No route to host (Host unreachable)\n... delay while I start VM\nVM running but DB not running\nInternal Exception: java.sql.SQLNonTransientConnectionException: Could not connect to address\u003d(host\u003dmariadb)(port\u003d3306)(type\u003dmaster) : Connection refused (Connection refused)\n... delay while I start DB\n... Success!",
+      "parentUuid": "72a81e4b_285d8ff3",
+      "range": {
+        "startLine": 38,
+        "startChar": 34,
+        "endLine": 38,
+        "endChar": 56
+      },
+      "revId": "f0a41f4a974774c5d94335b63cd1b2dab81213cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8fda50aa_a9ce0a96",
         "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProviderParameters.java",
         "patchSetId": 1
