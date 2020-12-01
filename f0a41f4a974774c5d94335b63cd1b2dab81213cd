@@ -259,6 +259,30 @@
       "revId": "f0a41f4a974774c5d94335b63cd1b2dab81213cd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fdb8377d_02185c0a",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/PolicyModelsProviderFactoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 7010
+      },
+      "writtenOn": "2020-12-01T19:13:41Z",
+      "side": 1,
+      "message": "Oh wait... neat!\n\nDone!",
+      "parentUuid": "0634246d_56fac609",
+      "range": {
+        "startLine": 214,
+        "startChar": 8,
+        "endLine": 216,
+        "endChar": 75
+      },
+      "revId": "f0a41f4a974774c5d94335b63cd1b2dab81213cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
