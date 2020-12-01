@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "32f9227b_a53f0858",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProviderFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7010
+      },
+      "writtenOn": "2020-12-01T17:59:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9b2633e6_9fdb399c",
+      "revId": "f0a41f4a974774c5d94335b63cd1b2dab81213cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "26c5cdaa_83b51a00",
         "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProviderFactory.java",
         "patchSetId": 1
@@ -179,6 +197,24 @@
     },
     {
       "key": {
+        "uuid": "133e986e_ce20cca0",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProviderParameters.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 7010
+      },
+      "writtenOn": "2020-12-01T17:59:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8fda50aa_a9ce0a96",
+      "revId": "f0a41f4a974774c5d94335b63cd1b2dab81213cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff7b6716_6e592f08",
         "filename": "models-provider/src/test/java/org/onap/policy/models/provider/PolicyModelsProviderFactoryTest.java",
         "patchSetId": 1
@@ -190,6 +226,30 @@
       "writtenOn": "2020-11-30T18:23:33Z",
       "side": 1,
       "message": "can probably use assertThatThrownBy(...).isInstance(...).hasMessage(...)",
+      "range": {
+        "startLine": 214,
+        "startChar": 8,
+        "endLine": 216,
+        "endChar": 75
+      },
+      "revId": "f0a41f4a974774c5d94335b63cd1b2dab81213cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0634246d_56fac609",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/PolicyModelsProviderFactoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 7010
+      },
+      "writtenOn": "2020-12-01T17:59:23Z",
+      "side": 1,
+      "message": "Not sure how - I need to check the message of the cause",
+      "parentUuid": "ff7b6716_6e592f08",
       "range": {
         "startLine": 214,
         "startChar": 8,
