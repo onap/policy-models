@@ -22,6 +22,30 @@
       "revId": "950cbb8872fb2227f4a0382a756a7e1dff53b09c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88b4a669_eda1dc50",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaPolicyComparator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-01T12:55:02Z",
+      "side": 1,
+      "message": "might have been able to parameterize the comparator with a \u003cT extends PfNameVersion\u003e, but what you\u0027ve done looks clean and simple - I like it.",
+      "parentUuid": "5c7f0237_a9a53f4b",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 5
+      },
+      "revId": "950cbb8872fb2227f4a0382a756a7e1dff53b09c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
