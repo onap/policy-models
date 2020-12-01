@@ -138,6 +138,30 @@
     },
     {
       "key": {
+        "uuid": "a8d319a3_e76d5771",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProviderFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-01T13:47:47Z",
+      "side": 1,
+      "message": "I wonder if we could take an opposite approach and look for some things we know to be configuration errors, such as credential issues?  I\u0027ve posted a query about this on onap-discuss, but haven\u0027t seen any replies yet.\n\nAnother approach to examining the error message content would be to always retry, but to limit the number of retries before giving up.  Nevertheless, I wouldn\u0027t make any more changes until I can get some more clarification and/or direction.",
+      "parentUuid": "458f04fb_74e7bf22",
+      "range": {
+        "startLine": 38,
+        "startChar": 34,
+        "endLine": 38,
+        "endChar": 56
+      },
+      "revId": "f0a41f4a974774c5d94335b63cd1b2dab81213cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8fda50aa_a9ce0a96",
         "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProviderParameters.java",
         "patchSetId": 1
