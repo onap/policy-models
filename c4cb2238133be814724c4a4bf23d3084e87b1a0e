@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f6ddfb2_a3b87cf9",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProviderFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-12-01T18:32:03Z",
+      "side": 1,
+      "message": "Playing devil\u0027s advocate here, I am questioning why this work is needed.   In OOM deployments, API and other components won\u0027t be started until Database is up and provisioned.\n\nIt makes me a little nervous to have an infinite loop here.    I think this may not accomplish the desire intention for some components that may be invoking this function from the initialization thread, that are not yet fully initialized.   In such case, OOM liveness checks may take down the pod anyways.\n\nSafety checks could also be alternatively in .sh entry point rather that in java code but again I am questioning why this is needed in the first place.",
+      "revId": "c4cb2238133be814724c4a4bf23d3084e87b1a0e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
