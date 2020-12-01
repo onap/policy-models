@@ -16,6 +16,24 @@
       "revId": "c4cb2238133be814724c4a4bf23d3084e87b1a0e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52a6afd5_ac192a25",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProviderFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 7010
+      },
+      "writtenOn": "2020-12-01T19:21:01Z",
+      "side": 1,
+      "message": "This is only called by an explicit request to: createPolicyModelsProviderWithRetry()\nBut your point is well taken - whether we do this here, at a higher level, or at all, and if done, are we sure of the ramifications. This question is still open",
+      "parentUuid": "7f6ddfb2_a3b87cf9",
+      "revId": "c4cb2238133be814724c4a4bf23d3084e87b1a0e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
