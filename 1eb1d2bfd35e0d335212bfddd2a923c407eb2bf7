@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "7a38cb9e_e2805d74",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaCapabilityAssignment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-12-01T12:51:14Z",
+      "side": 1,
+      "message": "I took a different approach using comparators, I think it is better not to interfere with the natural order of things :-)",
+      "parentUuid": "a9a95a75_01136957",
+      "revId": "1eb1d2bfd35e0d335212bfddd2a923c407eb2bf7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6e5834a6_af420685",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaCapabilityAssignment.java",
         "patchSetId": 2
