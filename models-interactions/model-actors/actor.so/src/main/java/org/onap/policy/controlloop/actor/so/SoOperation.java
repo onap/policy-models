@@ -89,7 +89,7 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
      * @param config configuration for this operation
      * @param propertyNames names of properties required by this operation
      */
-    public SoOperation(ControlLoopOperationParams params, HttpPollingConfig config, List<String> propertyNames) {
+    protected SoOperation(ControlLoopOperationParams params, HttpPollingConfig config, List<String> propertyNames) {
         super(params, config, SoResponse.class, propertyNames);
 
         this.modelCustomizationId = null;
@@ -109,7 +109,7 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
      * @param propertyNames names of properties required by this operation
      * @param targetEntityIds Target Entity information
      */
-    public SoOperation(ControlLoopOperationParams params, HttpPollingConfig config, List<String> propertyNames,
+    protected SoOperation(ControlLoopOperationParams params, HttpPollingConfig config, List<String> propertyNames,
                        Map<String, String> targetEntityIds) {
         super(params, config, SoResponse.class, propertyNames);
 
@@ -345,7 +345,7 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
      * IllegalArgumentException if the desired data item is not found.
      */
 
-    protected GenericVnf getVnfItem(SoModelInfo soModelInfo) {
+    protected GenericVnf getVnfItem() {
         return getRequiredProperty(OperationProperties.AAI_VNF, "generic VNF");
     }
 
