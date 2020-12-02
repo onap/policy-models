@@ -20,49 +20,16 @@
 
 package org.onap.policy.so.util;
 
-import com.google.gson.JsonParseException;
-import com.google.gson.TypeAdapter;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonToken;
-import com.google.gson.stream.JsonWriter;
-import java.io.IOException;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-
-/*
- * TODO: combine the functionality of this adapter with existing LocalDateTimeTypeAdapter and eliminate this class.
- */
+import org.onap.policy.common.gson.LocalDateTimeTypeAdapter;
 
 /**
  * GSON Type Adapter for "LocalDateTime" fields, that uses the standard RFC_1123_DATE_TIME
  * formatter.
  */
-public class SoLocalDateTimeTypeAdapter extends TypeAdapter<LocalDateTime> {
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.RFC_1123_DATE_TIME;
+public class SoLocalDateTimeTypeAdapter extends LocalDateTimeTypeAdapter {
 
-    @Override
-    public LocalDateTime read(JsonReader in) throws IOException {
-        try {
-            if (in.peek() == JsonToken.NULL) {
-                in.nextNull();
-                return null;
-            } else {
-                return LocalDateTime.parse(in.nextString(), FORMATTER);
-            }
-
-        } catch (DateTimeParseException e) {
-            throw new JsonParseException("invalid date", e);
-        }
-    }
-
-    @Override
-    public void write(JsonWriter out, LocalDateTime value) throws IOException {
-        if (value == null) {
-            out.nullValue();
-        } else {
-            String text = value.format(FORMATTER);
-            out.value(text);
-        }
+    public SoLocalDateTimeTypeAdapter() {
+        super(DateTimeFormatter.RFC_1123_DATE_TIME);
     }
 }
