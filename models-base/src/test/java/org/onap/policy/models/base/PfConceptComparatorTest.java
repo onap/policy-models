@@ -23,7 +23,6 @@ package org.onap.policy.models.base;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.onap.policy.models.base.testconcepts.DummyBadPfConcept;
 import org.onap.policy.models.base.testconcepts.DummyPfConcept;
 
 public class PfConceptComparatorTest {

@@ -23,9 +23,11 @@ package org.onap.policy.models.tosca.authorative.concepts;
 import java.util.List;
 import java.util.Map;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 public class ToscaCapabilityAssignment extends ToscaEntity {
     private Map<String, Object> properties;

@@ -21,7 +21,6 @@
 package org.onap.policy.models.base.testconcepts;
 
 import java.util.Comparator;
-import org.onap.policy.models.base.PfNameVersion;
 
 /**
  * Compare two PfNameVersion objects.

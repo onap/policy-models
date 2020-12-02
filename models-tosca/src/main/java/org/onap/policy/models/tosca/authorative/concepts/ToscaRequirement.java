@@ -23,8 +23,10 @@ package org.onap.policy.models.tosca.authorative.concepts;
 import java.util.List;
 import java.util.Map;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class ToscaRequirement extends ToscaEntity {
     private String capability;
     private String node;
