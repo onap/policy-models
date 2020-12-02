@@ -32,7 +32,31 @@
                             "instanceId": "apex-0",
                             "pdpState": "ACTIVE",
                             "healthy": "NOT_HEALTHY",
-                            "message": "message from PDP"
+                            "message": "message from PDP",
+                            "awaitingDeployment": [
+                                {
+                                    "name": "Policy0",
+                                    "version": "4.5.6"
+                                }
+                            ],
+                            "awaitingUndeployment": [
+                                {
+                                    "name": "Policy9",
+                                    "version": "9.8.7"
+                                }
+                            ],
+                            "failedDeployment": [
+                                {
+                                    "name": "PolicyD1",
+                                    "version": "1.2.3"
+                                }
+                            ],
+                            "failedUndeployment": [
+                                {
+                                    "name": "PolicyU1",
+                                    "version": "6.5.4"
+                                }
+                            ]
                         }
                     ]
                 }

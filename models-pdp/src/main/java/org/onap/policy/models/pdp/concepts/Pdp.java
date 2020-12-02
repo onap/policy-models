@@ -1,7 +1,7 @@
 /*
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,12 +21,15 @@
 
 package org.onap.policy.models.pdp.concepts;
 
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.ToString;
 import org.onap.policy.models.pdp.enums.PdpHealthStatus;
 import org.onap.policy.models.pdp.enums.PdpState;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifier;
 
 /**
  * Class to represent details of a running instance of PDP.
@@ -47,6 +50,20 @@ public class Pdp {
     private PdpHealthStatus healthy;
     private String message;
 
+    // successfully deployed policies do not appear within any of these lists
+
+    @NonNull
+    private List<ToscaPolicyIdentifier> awaitingDeployment = new ArrayList<>(0);
+
+    @NonNull
+    private List<ToscaPolicyIdentifier> awaitingUndeployment = new ArrayList<>(0);
+
+    @NonNull
+    private List<ToscaPolicyIdentifier> failedDeployment = new ArrayList<>(0);
+
+    @NonNull
+    private List<ToscaPolicyIdentifier> failedUndeployment = new ArrayList<>(0);
+
     /**
      * Constructs the object, creating a deep copy of the fields from the source.
      *
@@ -57,5 +74,9 @@ public class Pdp {
         this.pdpState = source.pdpState;
         this.healthy = source.healthy;
         this.message = source.message;
+        this.awaitingDeployment = new ArrayList<>(source.awaitingDeployment);
+        this.awaitingUndeployment = new ArrayList<>(source.awaitingUndeployment);
+        this.failedDeployment = new ArrayList<>(source.failedDeployment);
+        this.failedUndeployment = new ArrayList<>(source.failedUndeployment);
     }
 }

@@ -1,7 +1,7 @@
 /*
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.function.Function;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
@@ -76,7 +77,7 @@ public final class PfUtils {
      * @param defaultValue value to be returned if source is {@code null}
      * @return a new list, containing mappings of all of the items in the original list
      */
-    public static <T> List<T> mapList(List<T> source, UnaryOperator<T> mapFunc, List<T> defaultValue) {
+    public static <T, U> List<U> mapList(List<T> source, Function<T, U> mapFunc, List<U> defaultValue) {
         if (source == null) {
             return defaultValue;
         }

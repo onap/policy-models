@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,10 @@
 package org.onap.policy.models.pap.concepts;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
@@ -31,17 +34,32 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifi
  */
 public class PolicyStatusTest {
 
+    private static final String POLICY_VERSION = "1.2.3";
+    private static final String MY_NAME = "my-name";
+    private static final String TYPE_VERSION = "3.2.1";
+    private static final String MY_TYPE = "my-type";
+
+    private ToscaPolicyTypeIdentifier type;
+    private ToscaPolicyIdentifier policy;
+    private PolicyStatus status;
+
+    /**
+     * Sets up.
+     */
+    @Before
+    public void setUp() {
+        type = new ToscaPolicyTypeIdentifier(MY_TYPE, TYPE_VERSION);
+        policy = new ToscaPolicyIdentifier(MY_NAME, POLICY_VERSION);
+        status = new PolicyStatus(type, policy);
+    }
+
     @Test
     public void test() throws CoderException {
-        ToscaPolicyTypeIdentifier type = new ToscaPolicyTypeIdentifier("my-type", "3.2.1");
-        ToscaPolicyIdentifier policy = new ToscaPolicyIdentifier("my-name", "1.2.3");
-
         // test constructor with arguments
-        PolicyStatus status = new PolicyStatus(type, policy);
-        assertEquals("my-type", status.getPolicyTypeId());
-        assertEquals("3.2.1", status.getPolicyTypeVersion());
-        assertEquals("my-name", status.getPolicyId());
-        assertEquals("1.2.3", status.getPolicyVersion());
+        assertEquals(MY_TYPE, status.getPolicyTypeId());
+        assertEquals(TYPE_VERSION, status.getPolicyTypeVersion());
+        assertEquals(MY_NAME, status.getPolicyId());
+        assertEquals(POLICY_VERSION, status.getPolicyVersion());
 
         assertEquals(type, status.getPolicyType());
         assertEquals(policy, status.getPolicy());
@@ -61,5 +79,32 @@ public class PolicyStatusTest {
 
         // test equals() method (and verify encode/decode worked)
         assertEquals(status, status2);
+    }
+
+    @Test
+    public void testBumpSuccessCount() {
+        assertTrue(status.isEmpty());
+        status.bumpSuccessCount();
+        status.bumpSuccessCount();
+        assertEquals(2, status.getSuccessCount());
+        assertFalse(status.isEmpty());
+    }
+
+    @Test
+    public void testBumpFailureCount() {
+        assertTrue(status.isEmpty());
+        status.bumpFailureCount();
+        status.bumpFailureCount();
+        assertEquals(2, status.getFailureCount());
+        assertFalse(status.isEmpty());
+    }
+
+    @Test
+    public void testBumpIncompleteCount() {
+        assertTrue(status.isEmpty());
+        status.bumpIncompleteCount();
+        status.bumpIncompleteCount();
+        assertEquals(2, status.getIncompleteCount());
+        assertFalse(status.isEmpty());
     }
 }

@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Model
  * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,8 +24,10 @@
 package org.onap.policy.models.pdp.persistence.concepts;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
@@ -38,14 +40,17 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
+import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfReferenceKey;
+import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.base.PfValidationMessage;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.enums.PdpHealthStatus;
 import org.onap.policy.models.pdp.enums.PdpState;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifier;
 
 /**
  * Class to represent a PDP in the database.
@@ -72,6 +77,18 @@ public class JpaPdp extends PfConcept implements PfAuthorative<Pdp>, Serializabl
     @Column
     private String message;
 
+    @ElementCollection
+    private List<PfConceptKey> awaitingDeployment;
+
+    @ElementCollection
+    private List<PfConceptKey> awaitingUndeployment;
+
+    @ElementCollection
+    private List<PfConceptKey> failedDeployment;
+
+    @ElementCollection
+    private List<PfConceptKey> failedUndeployment;
+
     /**
      * The Default Constructor creates a {@link JpaPdp} object with a null key.
      */
@@ -97,9 +114,26 @@ public class JpaPdp extends PfConcept implements PfAuthorative<Pdp>, Serializabl
      */
     public JpaPdp(@NonNull final PfReferenceKey key, @NonNull final PdpState pdpState,
             @NonNull PdpHealthStatus healthy) {
+        this(key, pdpState, healthy, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+    }
+
+    /**
+     * The Key Constructor creates a {@link JpaPdp} object with all mandatory fields.
+     *
+     * @param key the key
+     * @param pdpState the state of the PDP
+     * @param healthy the health state of the PDP
+     */
+    public JpaPdp(@NonNull final PfReferenceKey key, @NonNull final PdpState pdpState, @NonNull PdpHealthStatus healthy,
+                    @NonNull List<PfConceptKey> awaitingDeployment, @NonNull List<PfConceptKey> awaitingUndeployment,
+                    @NonNull List<PfConceptKey> failedDeployment, @NonNull List<PfConceptKey> failedUndeployment) {
         this.key = key;
         this.pdpState = pdpState;
         this.healthy = healthy;
+        this.awaitingDeployment = awaitingDeployment;
+        this.awaitingUndeployment = awaitingUndeployment;
+        this.failedDeployment = failedDeployment;
+        this.failedUndeployment = failedUndeployment;
     }
 
     /**
@@ -113,6 +147,14 @@ public class JpaPdp extends PfConcept implements PfAuthorative<Pdp>, Serializabl
         this.pdpState = copyConcept.pdpState;
         this.healthy = copyConcept.healthy;
         this.message = copyConcept.message;
+        this.awaitingDeployment =
+                        PfUtils.mapList(copyConcept.awaitingDeployment, PfConceptKey::new, new ArrayList<>(0));
+        this.awaitingUndeployment =
+                        PfUtils.mapList(copyConcept.awaitingUndeployment, PfConceptKey::new, new ArrayList<>(0));
+        this.failedDeployment =
+                        PfUtils.mapList(copyConcept.failedDeployment, PfConceptKey::new, new ArrayList<>(0));
+        this.failedUndeployment =
+                        PfUtils.mapList(copyConcept.failedUndeployment, PfConceptKey::new, new ArrayList<>(0));
     }
 
     /**
@@ -133,6 +175,16 @@ public class JpaPdp extends PfConcept implements PfAuthorative<Pdp>, Serializabl
         pdp.setHealthy(healthy);
         pdp.setMessage(message);
 
+        pdp.setAwaitingDeployment(
+                        PfUtils.mapList(awaitingDeployment, ToscaPolicyIdentifier::fromConcept, new ArrayList<>(0)));
+        pdp.setAwaitingUndeployment(
+                        PfUtils.mapList(awaitingUndeployment, ToscaPolicyIdentifier::fromConcept, new ArrayList<>(0)));
+
+        pdp.setFailedDeployment(
+                        PfUtils.mapList(failedDeployment, ToscaPolicyIdentifier::fromConcept, new ArrayList<>(0)));
+        pdp.setFailedUndeployment(
+                        PfUtils.mapList(failedUndeployment, ToscaPolicyIdentifier::fromConcept, new ArrayList<>(0)));
+
         return pdp;
     }
 
@@ -146,6 +198,16 @@ public class JpaPdp extends PfConcept implements PfAuthorative<Pdp>, Serializabl
         this.setPdpState(pdp.getPdpState());
         this.setHealthy(pdp.getHealthy());
         this.setMessage(pdp.getMessage());
+
+        this.setAwaitingDeployment(PfUtils.mapList(pdp.getAwaitingDeployment(), ToscaPolicyIdentifier::toConcept,
+                        new ArrayList<>(0)));
+        this.setAwaitingUndeployment(PfUtils.mapList(pdp.getAwaitingUndeployment(), ToscaPolicyIdentifier::toConcept,
+                        new ArrayList<>(0)));
+
+        this.setFailedDeployment(PfUtils.mapList(pdp.getFailedDeployment(), ToscaPolicyIdentifier::toConcept,
+                        new ArrayList<>(0)));
+        this.setFailedUndeployment(PfUtils.mapList(pdp.getFailedUndeployment(), ToscaPolicyIdentifier::toConcept,
+                        new ArrayList<>(0)));
     }
 
     @Override
@@ -198,7 +260,24 @@ public class JpaPdp extends PfConcept implements PfAuthorative<Pdp>, Serializabl
                     "message may not be blank"));
         }
 
+        validatePolicies(result, awaitingDeployment, "awaiting deployment");
+        validatePolicies(result, awaitingUndeployment, "awaiting undeployment");
+
+        validatePolicies(result, failedDeployment, "failed deployment");
+        validatePolicies(result, failedUndeployment, "failed undeployment");
+
         return result;
+    }
+
+    private void validatePolicies(PfValidationResult result, List<PfConceptKey> policies, String deployType) {
+        if (policies == null) {
+            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
+                    "a PDP must have a list of policies " + deployType));
+        } else {
+            for (PfConceptKey policyKey : policies) {
+                result = policyKey.validate(result);
+            }
+        }
     }
 
     @Override
@@ -228,6 +307,26 @@ public class JpaPdp extends PfConcept implements PfAuthorative<Pdp>, Serializabl
             return result;
         }
 
-        return ObjectUtils.compare(message, other.message);
+        result = ObjectUtils.compare(message, other.message);
+        if (result != 0) {
+            return result;
+        }
+
+        result = PfUtils.compareObjects(awaitingDeployment, other.awaitingDeployment);
+        if (result != 0) {
+            return result;
+        }
+
+        result = PfUtils.compareObjects(awaitingUndeployment, other.awaitingUndeployment);
+        if (result != 0) {
+            return result;
+        }
+
+        result = PfUtils.compareObjects(failedDeployment, other.failedDeployment);
+        if (result != 0) {
+            return result;
+        }
+
+        return PfUtils.compareObjects(failedUndeployment, other.failedUndeployment);
     }
 }

@@ -28,6 +28,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfReferenceKey;
@@ -84,6 +85,26 @@ public class JpaPdpTest {
         assertThatThrownBy(() -> {
             new JpaPdp((Pdp) null);
         }).hasMessageMatching("authorativeConcept is marked .*ull but is null");
+
+        assertThatThrownBy(() -> {
+            new JpaPdp(new PfReferenceKey(), PdpState.ACTIVE, PdpHealthStatus.UNKNOWN, null, List.of(), List.of(),
+                            List.of());
+        }).hasMessageMatching("awaitingDeployment is marked .*ull but is null");
+
+        assertThatThrownBy(() -> {
+            new JpaPdp(new PfReferenceKey(), PdpState.ACTIVE, PdpHealthStatus.UNKNOWN, List.of(), null, List.of(),
+                            List.of());
+        }).hasMessageMatching("awaitingUndeployment is marked .*ull but is null");
+
+        assertThatThrownBy(() -> {
+            new JpaPdp(new PfReferenceKey(), PdpState.ACTIVE, PdpHealthStatus.UNKNOWN, List.of(), List.of(), null,
+                            List.of());
+        }).hasMessageMatching("failedDeployment is marked .*ull but is null");
+
+        assertThatThrownBy(() -> {
+            new JpaPdp(new PfReferenceKey(), PdpState.ACTIVE, PdpHealthStatus.UNKNOWN, List.of(), List.of(), List.of(),
+                            null);
+        }).hasMessageMatching("failedUndeployment is marked .*ull but is null");
 
         assertNotNull(new JpaPdp((new PfReferenceKey())));
 
@@ -156,6 +177,26 @@ public class JpaPdpTest {
         testJpaPdp.setMessage("");
         assertFalse(testJpaPdp.validate(new PfValidationResult()).isOk());
         testJpaPdp.setMessage("Valid Message");
+        assertTrue(testJpaPdp.validate(new PfValidationResult()).isOk());
+
+        testJpaPdp.setAwaitingDeployment(null);
+        assertFalse(testJpaPdp.validate(new PfValidationResult()).isOk());
+        testJpaPdp.setAwaitingDeployment(List.of());
+        assertTrue(testJpaPdp.validate(new PfValidationResult()).isOk());
+
+        testJpaPdp.setAwaitingUndeployment(null);
+        assertFalse(testJpaPdp.validate(new PfValidationResult()).isOk());
+        testJpaPdp.setAwaitingUndeployment(List.of());
+        assertTrue(testJpaPdp.validate(new PfValidationResult()).isOk());
+
+        testJpaPdp.setFailedDeployment(null);
+        assertFalse(testJpaPdp.validate(new PfValidationResult()).isOk());
+        testJpaPdp.setFailedDeployment(List.of());
+        assertTrue(testJpaPdp.validate(new PfValidationResult()).isOk());
+
+        testJpaPdp.setFailedUndeployment(null);
+        assertFalse(testJpaPdp.validate(new PfValidationResult()).isOk());
+        testJpaPdp.setFailedUndeployment(List.of());
         assertTrue(testJpaPdp.validate(new PfValidationResult()).isOk());
 
         JpaPdp otherJpaPdp = new JpaPdp(testJpaPdp);

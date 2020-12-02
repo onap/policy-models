@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -79,5 +79,26 @@ public class PolicyStatus {
 
     public ToscaPolicyIdentifier getPolicy() {
         return new ToscaPolicyIdentifier(policyId, policyVersion);
+    }
+
+    /**
+     * Determines if all of the counts are zero.
+     *
+     * @return {@code true} if all of the counts are zero, {@code false} otherwise
+     */
+    public boolean isEmpty() {
+        return (successCount == 0 && failureCount == 0 && incompleteCount == 0);
+    }
+
+    public void bumpSuccessCount() {
+        ++successCount;
+    }
+
+    public void bumpFailureCount() {
+        ++failureCount;
+    }
+
+    public void bumpIncompleteCount() {
+        ++incompleteCount;
     }
 }

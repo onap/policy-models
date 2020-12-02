@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Models
  * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,6 +27,7 @@ import lombok.NonNull;
 import org.apache.commons.lang3.ObjectUtils;
 import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.common.parameters.ValidationResult;
+import org.onap.policy.models.base.PfConceptKey;
 
 /**
  * Identifies a policy. Both the name and version must be non-null.
@@ -50,6 +51,14 @@ public class ToscaPolicyIdentifier implements Comparable<ToscaPolicyIdentifier> 
     public ToscaPolicyIdentifier(ToscaPolicyIdentifier source) {
         this.name = source.name;
         this.version = source.version;
+    }
+
+    public static ToscaPolicyIdentifier fromConcept(PfConceptKey source) {
+        return new ToscaPolicyIdentifier(source.getName(), source.getVersion());
+    }
+
+    public PfConceptKey toConcept() {
+        return new PfConceptKey(name, version);
     }
 
     /**
