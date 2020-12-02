@@ -34,6 +34,24 @@
       "revId": "c4cb2238133be814724c4a4bf23d3084e87b1a0e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cadffcf_4d6554e7",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProviderFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-12-02T14:37:28Z",
+      "side": 1,
+      "message": "Sounds good.   I think this is OK for testing but I don\u0027t think we should make it part of general initialization scenario for API and PAP components.",
+      "parentUuid": "52a6afd5_ac192a25",
+      "revId": "c4cb2238133be814724c4a4bf23d3084e87b1a0e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
