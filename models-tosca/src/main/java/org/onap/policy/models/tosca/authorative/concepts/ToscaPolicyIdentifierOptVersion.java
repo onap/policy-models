@@ -22,6 +22,7 @@
 package org.onap.policy.models.tosca.authorative.concepts;
 
 import com.google.gson.annotations.SerializedName;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -35,9 +36,11 @@ import org.apache.commons.lang3.ObjectUtils;
 public class ToscaPolicyIdentifierOptVersion implements Comparable<ToscaPolicyIdentifierOptVersion> {
 
     @NonNull
+    @ApiModelProperty(name = "policy-id")
     @SerializedName("policy-id")
     private String name;
 
+    @ApiModelProperty(name = "policy-version")
     @SerializedName("policy-version")
     private String version;
 

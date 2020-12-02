@@ -22,6 +22,7 @@ package org.onap.policy.models.base;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import javax.ws.rs.core.Response;
 import org.junit.Test;
@@ -39,10 +40,12 @@ public class PfModelExceptionInfoTest {
         final PfModelException pfme = new PfModelException(Response.Status.ACCEPTED, "HELLO");
         assertThat(pfme).hasMessage("HELLO");
         assertEquals("Server returned: Accepted", getErrorMessage(pfme).substring(0, 25));
+        assertNotNull(pfme.toString());
 
         final PfModelRuntimeException pfmr = new PfModelRuntimeException(Response.Status.ACCEPTED, "HELLO");
         assertThat(pfmr).hasMessage("HELLO");
         assertEquals("Server returned: Accepted", getErrorMessage(pfmr).substring(0, 25));
+        assertNotNull(pfmr.toString());
     }
 
     private String getErrorMessage(final ErrorResponseInfo eri) {

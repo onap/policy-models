@@ -42,7 +42,7 @@ import org.onap.policy.models.base.PfValidationMessage;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConstraint;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaEntrySchema;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaSchemaDefinition;
 
 /**
  * Class to represent the EntrySchema of list/map property in TOSCA definition.
@@ -54,7 +54,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaEntrySchema;
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 public class JpaToscaEntrySchema
-        implements PfAuthorative<ToscaEntrySchema>, Serializable, Comparable<JpaToscaEntrySchema> {
+        implements PfAuthorative<ToscaSchemaDefinition>, Serializable, Comparable<JpaToscaEntrySchema> {
 
     private static final long serialVersionUID = 3645882081163287058L;
 
@@ -93,13 +93,13 @@ public class JpaToscaEntrySchema
      *
      * @param authorativeConcept the authorative concept to copy from
      */
-    public JpaToscaEntrySchema(final ToscaEntrySchema authorativeConcept) {
+    public JpaToscaEntrySchema(final ToscaSchemaDefinition authorativeConcept) {
         this.fromAuthorative(authorativeConcept);
     }
 
     @Override
-    public ToscaEntrySchema toAuthorative() {
-        ToscaEntrySchema toscaEntrySchema = new ToscaEntrySchema();
+    public ToscaSchemaDefinition toAuthorative() {
+        ToscaSchemaDefinition toscaEntrySchema = new ToscaSchemaDefinition();
 
         toscaEntrySchema.setType(type.getName());
         toscaEntrySchema.setTypeVersion(type.getVersion());
@@ -120,7 +120,7 @@ public class JpaToscaEntrySchema
     }
 
     @Override
-    public void fromAuthorative(final ToscaEntrySchema toscaEntrySchema) {
+    public void fromAuthorative(final ToscaSchemaDefinition toscaEntrySchema) {
         if (toscaEntrySchema.getTypeVersion() != null) {
             type = new PfConceptKey(toscaEntrySchema.getType(), toscaEntrySchema.getTypeVersion());
         } else {

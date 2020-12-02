@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,6 +55,9 @@ public class PfNameVersionTest {
         assertEquals(1, dnv0.compareNameVersion(dnv0, dnv1));
 
         dnv0.setVersion("1.2.3");
+        assertEquals(-1, dnv0.compareNameVersion(dnv0, dnv1));
+
+        dnv1.setVersion(null);
         assertEquals(-1, dnv0.compareNameVersion(dnv0, dnv1));
 
         dnv1.setVersion("1.2.3");

@@ -145,6 +145,12 @@ public class PfKeyImplTest {
         MyKey someKey8 = new MyKey();
         someKey8.setVersion(VERSION001);
         assertFalse(someKey8.isNullKey());
+
+        someKey8.setVersion("10");
+        assertEquals(0, someKey8.getMinorVersion());
+
+        someKey8.setVersion("10.11");
+        assertEquals(0, someKey8.getPatchVersion());
     }
 
     @Test

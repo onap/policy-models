@@ -3,6 +3,7 @@
  * ONAP Policy Model
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +23,8 @@
 
 package org.onap.policy.models.tosca.authorative.concepts;
 
+import com.google.gson.annotations.SerializedName;
+import io.swagger.annotations.ApiModelProperty;
 import java.util.List;
 import java.util.Map;
 import lombok.Data;
@@ -33,8 +36,13 @@ import lombok.Data;
  */
 @Data
 public class ToscaTopologyTemplate {
-
     private String description;
+
+    private Map<String, ToscaParameter> inputs;
+
+    @ApiModelProperty(name = "node_templates")
+    @SerializedName("node_templates")
+    private Map<String, ToscaNodeTemplate> nodeTemplates;
 
     private List<Map<String, ToscaPolicy>> policies;
 

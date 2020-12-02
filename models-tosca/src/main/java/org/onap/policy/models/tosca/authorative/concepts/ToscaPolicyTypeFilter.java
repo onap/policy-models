@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,7 +55,7 @@ public class ToscaPolicyTypeFilter implements PfObjectFilter<ToscaPolicyType> {
         // @formatter:off
 
         if (LATEST_VERSION.equals(version)) {
-            return this.latestVersionFilter(returnList);
+            return this.latestVersionFilter(returnList, new ToscaPolicyTypeComparator());
         } else  {
             return returnList;
         }

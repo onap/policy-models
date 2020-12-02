@@ -3,7 +3,7 @@
  * ONAP Policy Model
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ import lombok.NonNull;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class ToscaPolicyType extends ToscaEntity implements Comparable<ToscaPolicyType> {
+public class ToscaPolicyType extends ToscaEntity {
     private Map<String, ToscaProperty> properties;
 
     /**
@@ -56,10 +56,5 @@ public class ToscaPolicyType extends ToscaEntity implements Comparable<ToscaPoli
                 properties.put(propertyEntry.getKey(), propertyEntry.getValue());
             }
         }
-    }
-
-    @Override
-    public int compareTo(final ToscaPolicyType other) {
-        return compareNameVersion(this, other);
     }
 }

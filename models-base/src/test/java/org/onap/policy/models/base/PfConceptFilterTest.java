@@ -21,6 +21,7 @@
 package org.onap.policy.models.base;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -50,5 +51,14 @@ public class PfConceptFilterTest {
             final PfConceptFilter conceptFilterNull = new PfConceptFilter(null, null, null);
             conceptFilterNull.filter(null);
         }).hasMessageMatching("^originalList is marked .*on.*ull but is null$");
+
+        conceptFilter.setName("hello");
+        assertEquals("hello", conceptFilter.getName());
+
+        conceptFilter.setVersion("1.2.3");
+        assertEquals("1.2.3", conceptFilter.getVersion());
+
+        conceptFilter.setVersionPrefix("AAA");
+        assertEquals("AAA", conceptFilter.getVersionPrefix());
     }
 }
