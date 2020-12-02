@@ -87,6 +87,24 @@
       "revId": "1eb1d2bfd35e0d335212bfddd2a923c407eb2bf7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fdcc184b_fc5b9971",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaCapabilityAssignment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-12-02T12:51:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e5834a6_af420685",
+      "revId": "1eb1d2bfd35e0d335212bfddd2a923c407eb2bf7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }

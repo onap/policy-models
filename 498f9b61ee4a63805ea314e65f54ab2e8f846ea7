@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "89faaffe_e5296db5",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaCapabilityAssignment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-12-02T12:51:56Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "200f5a1a_b20b7d8e",
+      "revId": "498f9b61ee4a63805ea314e65f54ab2e8f846ea7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8924fabe_6862ab9f",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaCapabilityAssignment.java",
         "patchSetId": 1
@@ -296,6 +314,30 @@
     },
     {
       "key": {
+        "uuid": "4c260ba4_e1c419df",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaRequirement.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-12-02T12:51:56Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "47b25081_a47c6fb9",
+      "range": {
+        "startLine": 31,
+        "startChar": 12,
+        "endLine": 31,
+        "endChar": 19
+      },
+      "revId": "498f9b61ee4a63805ea314e65f54ab2e8f846ea7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e6f0915_0531c9a1",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaRequirement.java",
         "patchSetId": 1
@@ -340,6 +382,30 @@
       "revId": "498f9b61ee4a63805ea314e65f54ab2e8f846ea7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95a7c91a_b58f1457",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaRequirement.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-12-02T12:51:56Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "222723ad_fdeeefb9",
+      "range": {
+        "startLine": 43,
+        "startChar": 24,
+        "endLine": 43,
+        "endChar": 30
+      },
+      "revId": "498f9b61ee4a63805ea314e65f54ab2e8f846ea7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
