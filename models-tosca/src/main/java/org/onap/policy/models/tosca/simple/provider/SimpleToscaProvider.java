@@ -119,6 +119,24 @@ public class SimpleToscaProvider {
     }
 
     /**
+     * Delete service template.
+     *
+     * @param dao the DAO to use to access the database
+     * @return the TOSCA service template that was deleted
+     * @throws PfModelException on errors deleting the service template
+     */
+    public JpaToscaServiceTemplate deleteServiceTemplate(@NonNull final PfDao dao) throws PfModelException {
+        LOGGER.debug("->deleteServiceTemplate");
+
+        JpaToscaServiceTemplate serviceTemplate = getServiceTemplate(dao);
+
+        dao.delete(serviceTemplate);
+
+        LOGGER.debug("->deleteServiceTemplate: serviceTemplate={}", serviceTemplate);
+        return serviceTemplate;
+    }
+
+    /**
      * Get data types.
      *
      * @param dao the DAO to use to access the database

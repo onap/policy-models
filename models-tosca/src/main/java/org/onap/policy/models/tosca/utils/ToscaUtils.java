@@ -58,6 +58,7 @@ public final class ToscaUtils {
             new PfConceptKey("null",                         PfKey.NULL_KEY_VERSION),
             new PfConceptKey("list",                         PfKey.NULL_KEY_VERSION),
             new PfConceptKey("map",                          PfKey.NULL_KEY_VERSION),
+            new PfConceptKey("object",                       PfKey.NULL_KEY_VERSION),
             new PfConceptKey("scalar-unit.size",             PfKey.NULL_KEY_VERSION),
             new PfConceptKey("scalar-unit.time",             PfKey.NULL_KEY_VERSION),
             new PfConceptKey("scalar-unit.frequency",        PfKey.NULL_KEY_VERSION),

@@ -840,6 +840,43 @@ public class SimpleToscaProviderTest {
         }).hasMessageMatching("^policyKey is marked .*on.*ull but is null$");
     }
 
+    @Test
+    public void testDeleteServiceTemplate() throws PfModelException {
+        assertThatThrownBy(() -> {
+            new SimpleToscaProvider().deleteServiceTemplate(null);
+        }).hasMessageMatching("^dao is marked .*on.*ull but is null$");
+
+        assertThatThrownBy(() -> {
+            new SimpleToscaProvider().deleteServiceTemplate(pfDao);
+        }).hasMessage("service template not found in database");
+
+        JpaToscaServiceTemplate serviceTemplate = new JpaToscaServiceTemplate();
+
+        PfConceptKey dataType0Key = new PfConceptKey("DataType0", "0.0.1");
+        JpaToscaDataType dataType0 = new JpaToscaDataType();
+        dataType0.setKey(dataType0Key);
+        serviceTemplate.setDataTypes(new JpaToscaDataTypes());
+        serviceTemplate.getDataTypes().getConceptMap().put(dataType0Key, dataType0);
+
+        JpaToscaServiceTemplate createdServiceTemplate =
+            new SimpleToscaProvider().createDataTypes(pfDao, serviceTemplate);
+
+        assertEquals(1, createdServiceTemplate.getDataTypes().getConceptMap().size());
+        assertEquals(dataType0, createdServiceTemplate.getDataTypes().get(dataType0Key));
+        assertEquals(null, createdServiceTemplate.getDataTypes().get(dataType0Key).getDescription());
+
+        JpaToscaServiceTemplate deletedServiceTemplate = new SimpleToscaProvider().deleteServiceTemplate(pfDao);
+
+        assertEquals(dataType0, deletedServiceTemplate.getDataTypes().get(dataType0Key));
+    }
+
+    @Test
+    public void testNullParameters() {
+        assertThatThrownBy(() -> {
+            new SimpleToscaProvider().getCascadedDataTypes(null, null, null);
+        }).hasMessageMatching("^dbServiceTemplate is marked .*on.*ull but is null$");
+    }
+
     private void createPolicyTypes() throws CoderException, PfModelException {
         Object yamlObject = new Yaml()
             .load(ResourceUtils.getResourceAsString("policytypes/onap.policies.monitoring.tcagen2.yaml"));
