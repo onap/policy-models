@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8afc5d5_ba4c6d35",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/Pdp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2020-12-04T20:09:23Z",
+      "side": 1,
+      "message": "Hi Jim,\nApologies, I just now went through the design wiki you created for this.\nI am more inclined towards option 1: Creating a separate table to store policy notifications. That way we have less updates to the master data \"PdpGroup\" and less impact on other actions. We need to also think about the response of PdpGroup Query (REST API) not getting too complex for the end users.\nAlso, updating the PDP table means either we support automatic DB upgrade in H release or PF users needs to perform a manual upgrade of DB data (which is painful).\nLet me know your thoughts.",
+      "range": {
+        "startLine": 55,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 80
+      },
+      "revId": "06333eb5fbf153098236ba2f85a1a19c620c29ef",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
