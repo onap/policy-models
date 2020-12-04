@@ -16,6 +16,24 @@
       "revId": "db2118d4a635f2d116d4a5cd6714730600e47b6c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "837b67e8_e879fad8",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/provider/SimpleToscaProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-12-04T11:14:34Z",
+      "side": 1,
+      "message": "No, getServiceTemplate() reads the service template and checks if it is null, if it is null, it throws an exception.",
+      "parentUuid": "e717cfa2_df5501e7",
+      "revId": "db2118d4a635f2d116d4a5cd6714730600e47b6c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
