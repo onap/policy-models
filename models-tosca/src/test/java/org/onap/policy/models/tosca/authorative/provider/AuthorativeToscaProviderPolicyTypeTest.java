@@ -418,4 +418,10 @@ public class AuthorativeToscaProviderPolicyTypeTest {
             new AuthorativeToscaProvider().createPolicyTypes(pfDao, testServiceTemplate);
         }).hasMessage("An incoming list of concepts must have at least one entry");
     }
+
+    @Test
+    public void testNullParameters() throws Exception {
+        assertThatThrownBy(() -> new AuthorativeToscaProvider().getPolicyTypeList(null, null, null))
+            .hasMessageMatching("^dao is marked .*on.*ull but is null$");
+    }
 }
