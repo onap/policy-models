@@ -207,7 +207,7 @@ public class VfModuleDelete extends SoOperation {
      */
     protected Pair<String, SoRequest> makeRequest() {
         final SoModelInfo soModelInfo = prepareSoModelInfo();
-        final GenericVnf vnfItem = getVnfItem(soModelInfo);
+        final GenericVnf vnfItem = getVnfItem();
         final ServiceInstance vnfServiceItem = getServiceInstance();
         final Tenant tenantItem = getDefaultTenant();
         final CloudRegion cloudRegionItem = getDefaultCloudRegion();
