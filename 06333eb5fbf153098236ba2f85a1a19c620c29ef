@@ -22,6 +22,30 @@
       "revId": "06333eb5fbf153098236ba2f85a1a19c620c29ef",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b599be1f_22962566",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/Pdp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-04T20:53:49Z",
+      "side": 1,
+      "message": "This approach eliminates the need for a separate REST API to query for actual deployment status.  Nevertheless, I\u0027ll follow option #1 and see where that leads.",
+      "parentUuid": "c8afc5d5_ba4c6d35",
+      "range": {
+        "startLine": 55,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 80
+      },
+      "revId": "06333eb5fbf153098236ba2f85a1a19c620c29ef",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
