@@ -39,23 +39,23 @@ import org.onap.policy.models.base.PfValidationResult;
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class JpaToscaEntrySchemaTest {
+public class JpaToscaSchemaDefinitionTest {
 
     private static final String A_DESCRIPTION = "A Description";
 
     @Test
     public void testEntrySchemaPojo() {
-        assertNotNull(new JpaToscaEntrySchema(new PfConceptKey()));
-        assertNotNull(new JpaToscaEntrySchema(new JpaToscaEntrySchema(new PfConceptKey())));
+        assertNotNull(new JpaToscaSchemaDefinition(new PfConceptKey()));
+        assertNotNull(new JpaToscaSchemaDefinition(new JpaToscaSchemaDefinition(new PfConceptKey())));
 
-        assertThatThrownBy(() -> new JpaToscaEntrySchema((PfConceptKey) null))
+        assertThatThrownBy(() -> new JpaToscaSchemaDefinition((PfConceptKey) null))
                 .hasMessageMatching("type is marked .*on.*ull but is null");
 
-        assertThatThrownBy(() -> new JpaToscaEntrySchema((JpaToscaEntrySchema) null))
+        assertThatThrownBy(() -> new JpaToscaSchemaDefinition((JpaToscaSchemaDefinition) null))
                 .hasMessageMatching("copyConcept is marked .*on.*ull but is null");
 
         PfConceptKey typeKey = new PfConceptKey("type", "0.0.1");
-        JpaToscaEntrySchema tes = new JpaToscaEntrySchema(typeKey);
+        JpaToscaSchemaDefinition tes = new JpaToscaSchemaDefinition(typeKey);
 
         tes.setDescription(A_DESCRIPTION);
         assertEquals(A_DESCRIPTION, tes.getDescription());
@@ -66,18 +66,18 @@ public class JpaToscaEntrySchemaTest {
         tes.setConstraints(constraints);
         assertEquals(constraints, tes.getConstraints());
 
-        JpaToscaEntrySchema tdtClone0 = new JpaToscaEntrySchema(tes);
+        JpaToscaSchemaDefinition tdtClone0 = new JpaToscaSchemaDefinition(tes);
         assertEquals(tes, tdtClone0);
         assertEquals(0, tes.compareTo(tdtClone0));
 
-        JpaToscaEntrySchema tdtClone1 = new JpaToscaEntrySchema(tes);
+        JpaToscaSchemaDefinition tdtClone1 = new JpaToscaSchemaDefinition(tes);
         assertEquals(tes, tdtClone1);
         assertEquals(0, tes.compareTo(tdtClone1));
 
         assertEquals(-1, tes.compareTo(null));
         assertEquals(0, tes.compareTo(tes));
 
-        JpaToscaEntrySchema otherEs = new JpaToscaEntrySchema(typeKey);
+        JpaToscaSchemaDefinition otherEs = new JpaToscaSchemaDefinition(typeKey);
 
         assertNotEquals(0, tes.compareTo(otherEs));
         otherEs.setType(typeKey);
@@ -90,13 +90,13 @@ public class JpaToscaEntrySchemaTest {
         assertThatThrownBy(() -> tes.copyTo(null)).hasMessageMatching("target is marked .*on.*ull but is null");
 
         assertEquals(1, tes.getKeys().size());
-        assertEquals(1, new JpaToscaEntrySchema(typeKey).getKeys().size());
+        assertEquals(1, new JpaToscaSchemaDefinition(typeKey).getKeys().size());
 
-        new JpaToscaEntrySchema(typeKey).clean();
+        new JpaToscaSchemaDefinition(typeKey).clean();
         tes.clean();
         assertEquals(tdtClone0, tes);
 
-        assertTrue(new JpaToscaEntrySchema(typeKey).validate(new PfValidationResult()).isValid());
+        assertTrue(new JpaToscaSchemaDefinition(typeKey).validate(new PfValidationResult()).isValid());
         assertTrue(tes.validate(new PfValidationResult()).isValid());
 
         tes.setType(PfConceptKey.getNullKey());
