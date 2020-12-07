@@ -25,6 +25,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.collections4.MapUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.common.utils.coder.CoderException;
@@ -194,7 +195,7 @@ public class OptimizationPolicyTypeSerializationTest {
         String testnm = testName + " identity";
 
         assertNotNull(testnm, prop);
-        assertEquals(testnm + " metadata", 0, prop.getMetadata().size());
+        assertEquals(testnm + " metadata", true, MapUtils.isEmpty(prop.getMetadata()));
     }
 
     private void validateMatchable(String testName, Map<String, String> metadata) {

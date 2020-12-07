@@ -21,7 +21,6 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -70,7 +69,7 @@ public class JpaToscaEntityType<T extends ToscaEntity> extends PfConcept impleme
     private PfConceptKey derivedFrom;
 
     @ElementCollection
-    private Map<String, String> metadata = new TreeMap<>();
+    private Map<String, String> metadata;
 
     @Column
     private String description;
@@ -129,15 +128,7 @@ public class JpaToscaEntityType<T extends ToscaEntity> extends PfConcept impleme
             toscaEntity.setDescription(description);
         }
 
-        if (metadata != null) {
-            Map<String, String> metadataMap = new LinkedHashMap<>();
-
-            for (Entry<String, String> entry : metadata.entrySet()) {
-                metadataMap.put(entry.getKey(), entry.getValue());
-            }
-
-            toscaEntity.setMetadata(metadataMap);
-        }
+        toscaEntity.setMetadata(PfUtils.mapMap(metadata, item -> item));
 
         return toscaEntity;
     }
@@ -155,7 +146,7 @@ public class JpaToscaEntityType<T extends ToscaEntity> extends PfConcept impleme
         }
 
         if (toscaEntity.getDerivedFrom() != null) {
-            // CHeck if the derived from field contains a name-version ID
+            // Check if the derived from field contains a name-version ID
             if (toscaEntity.getDerivedFrom().contains(":")) {
                 derivedFrom = new PfConceptKey(toscaEntity.getDerivedFrom());
             } else {
@@ -167,13 +158,7 @@ public class JpaToscaEntityType<T extends ToscaEntity> extends PfConcept impleme
             description = toscaEntity.getDescription();
         }
 
-        if (toscaEntity.getMetadata() != null) {
-            metadata = new LinkedHashMap<>();
-
-            for (Entry<String, String> metadataEntry : toscaEntity.getMetadata().entrySet()) {
-                metadata.put(metadataEntry.getKey(), metadataEntry.getValue());
-            }
-        }
+        metadata = PfUtils.mapMap(toscaEntity.getMetadata(), item -> item);
     }
 
     @Override
@@ -253,16 +238,18 @@ public class JpaToscaEntityType<T extends ToscaEntity> extends PfConcept impleme
 
         @SuppressWarnings("unchecked")
         final JpaToscaEntityType<T> other = (JpaToscaEntityType<T>) otherConcept;
-        if (!key.equals(other.key)) {
-            return key.compareTo(other.key);
-        }
 
-        int result = ObjectUtils.compare(derivedFrom, other.derivedFrom);
+        int result = key.compareTo(other.key);
         if (result != 0) {
             return result;
         }
 
-        result = PfUtils.compareObjects(metadata, other.metadata);
+        result = ObjectUtils.compare(derivedFrom, other.derivedFrom);
+        if (result != 0) {
+            return result;
+        }
+
+        result = PfUtils.compareMaps(metadata, other.metadata);
         if (result != 0) {
             return result;
         }

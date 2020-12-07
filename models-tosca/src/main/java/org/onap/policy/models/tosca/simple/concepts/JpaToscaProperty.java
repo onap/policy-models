@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.EmbeddedId;
@@ -49,7 +48,6 @@ import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.base.PfValidationMessage;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaConstraint;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaProperty;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaProperty.Status;
 
@@ -86,13 +84,13 @@ public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaPr
     private Status status = Status.SUPPORTED;
 
     @ElementCollection
-    private List<JpaToscaConstraint> constraints = new ArrayList<>();
+    private List<JpaToscaConstraint> constraints;
 
     @Column
-    private JpaToscaEntrySchema entrySchema;
+    private JpaToscaSchemaDefinition entrySchema;
 
     @ElementCollection
-    private Map<String, String> metadata = new LinkedHashMap<>();
+    private Map<String, String> metadata;
 
     /**
      * The Default Constructor creates a {@link JpaToscaProperty} object with a null key.
@@ -113,7 +111,7 @@ public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaPr
     /**
      * The Key Constructor creates a {@link JpaToscaProperty} object with the given concept key.
      *
-     * @param key  the key
+     * @param key the key
      * @param type the key of the property type
      */
     public JpaToscaProperty(@NonNull final PfReferenceKey key, @NonNull final PfConceptKey type) {
@@ -136,7 +134,8 @@ public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaPr
         this.status = copyConcept.status;
         // Constraints are immutable
         this.constraints = (copyConcept.constraints != null ? new ArrayList<>(copyConcept.constraints) : null);
-        this.entrySchema = (copyConcept.entrySchema != null ? new JpaToscaEntrySchema(copyConcept.entrySchema) : null);
+        this.entrySchema =
+                (copyConcept.entrySchema != null ? new JpaToscaSchemaDefinition(copyConcept.entrySchema) : null);
         this.metadata = (copyConcept.metadata != null ? new LinkedHashMap<>(copyConcept.metadata) : null);
     }
 
@@ -166,23 +165,13 @@ public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaPr
             toscaProperty.setDefaultValue(new YamlJsonTranslator().fromYaml(defaultValue, Object.class));
         }
 
-        if (constraints != null) {
-            List<ToscaConstraint> toscaConstraints = new ArrayList<>();
-
-            for (JpaToscaConstraint constraint : constraints) {
-                toscaConstraints.add(constraint.toAuthorative());
-            }
-
-            toscaProperty.setConstraints(toscaConstraints);
-        }
+        toscaProperty.setConstraints(PfUtils.mapList(constraints, JpaToscaConstraint::toAuthorative));
 
         if (entrySchema != null) {
             toscaProperty.setEntrySchema(entrySchema.toAuthorative());
         }
 
-        if (metadata != null) {
-            toscaProperty.setMetadata(new LinkedHashMap<>(metadata));
-        }
+        toscaProperty.setMetadata(PfUtils.mapMap(metadata, metadataItem -> metadataItem));
 
         return toscaProperty;
     }
@@ -208,23 +197,13 @@ public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaPr
             defaultValue = null;
         }
 
-        if (toscaProperty.getConstraints() != null) {
-            constraints = new ArrayList<>();
-
-            for (ToscaConstraint toscaConstraint : toscaProperty.getConstraints()) {
-                constraints.add(JpaToscaConstraint.newInstance(toscaConstraint));
-            }
-        }
+        constraints = PfUtils.mapList(toscaProperty.getConstraints(), JpaToscaConstraint::newInstance);
 
         if (toscaProperty.getEntrySchema() != null) {
-            entrySchema = new JpaToscaEntrySchema(toscaProperty.getEntrySchema());
+            entrySchema = new JpaToscaSchemaDefinition(toscaProperty.getEntrySchema());
         }
 
-        // Add the property metadata if it doesn't exist already
-        if (toscaProperty.getMetadata() != null) {
-            metadata = new LinkedHashMap<>(toscaProperty.getMetadata());
-        }
-
+        metadata = PfUtils.mapMap(toscaProperty.getMetadata(), metadataItem -> metadataItem);
     }
 
     @Override
@@ -258,11 +237,7 @@ public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaPr
             entrySchema.clean();
         }
 
-        if (metadata != null) {
-            for (Entry<String, String> metadataEntry : metadata.entrySet()) {
-                metadataEntry.setValue(metadataEntry.getValue().trim());
-            }
-        }
+        metadata = PfUtils.mapMap(metadata, String::trim);
     }
 
     @Override
@@ -271,14 +246,14 @@ public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaPr
 
         if (key.isNullKey()) {
             result.addValidationMessage(
-                new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID, "key is a null key"));
+                    new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID, "key is a null key"));
         }
 
         result = key.validate(result);
 
         if (type == null || type.isNullKey()) {
             result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                "property type may not be null"));
+                    "property type may not be null"));
         }
 
         return validateFields(result);
@@ -295,19 +270,19 @@ public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaPr
 
         if (description != null && description.trim().length() == 0) {
             result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                "property description may not be blank"));
+                    "property description may not be blank"));
         }
 
         if (defaultValue != null && defaultValue.trim().length() == 0) {
             result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                "property default value may not be null"));
+                    "property default value may not be null"));
         }
 
         if (constraints != null) {
             for (JpaToscaConstraint constraint : constraints) {
                 if (constraint == null) {
                     result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                        "property constraint may not be null "));
+                            "property constraint may not be null "));
                 }
             }
         }
@@ -364,11 +339,16 @@ public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaPr
             return result;
         }
 
-        result = PfUtils.compareObjects(constraints, other.constraints);
+        result = PfUtils.compareCollections(constraints, other.constraints);
         if (result != 0) {
             return result;
         }
 
-        return entrySchema.compareTo(other.entrySchema);
+        result = entrySchema.compareTo(other.entrySchema);
+        if (result != 0) {
+            return result;
+        }
+
+        return PfUtils.compareMaps(metadata, other.metadata);
     }
 }

@@ -50,7 +50,6 @@ import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.base.PfValidationMessage;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaConstraint;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaDataType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaProperty;
 import org.onap.policy.models.tosca.utils.ToscaUtils;
@@ -70,11 +69,11 @@ public class JpaToscaDataType extends JpaToscaEntityType<ToscaDataType> implemen
     private static final long serialVersionUID = -3922690413436539164L;
 
     @ElementCollection
-    private List<JpaToscaConstraint> constraints = new ArrayList<>();
+    private List<JpaToscaConstraint> constraints;
 
     @ElementCollection
     @Lob
-    private Map<String, JpaToscaProperty> properties = new LinkedHashMap<>();
+    private Map<String, JpaToscaProperty> properties;
 
     /**
      * The Default Constructor creates a {@link JpaToscaDataType} object with a null key.
@@ -119,25 +118,8 @@ public class JpaToscaDataType extends JpaToscaEntityType<ToscaDataType> implemen
         super.setToscaEntity(toscaDataType);
         super.toAuthorative();
 
-        if (constraints != null) {
-            List<ToscaConstraint> toscaConstraints = new ArrayList<>();
-
-            for (JpaToscaConstraint constraint : constraints) {
-                toscaConstraints.add(constraint.toAuthorative());
-            }
-
-            toscaDataType.setConstraints(toscaConstraints);
-        }
-
-        if (properties != null) {
-            Map<String, ToscaProperty> propertyMap = new LinkedHashMap<>();
-
-            for (Entry<String, JpaToscaProperty> entry : properties.entrySet()) {
-                propertyMap.put(entry.getKey(), entry.getValue().toAuthorative());
-            }
-
-            toscaDataType.setProperties(propertyMap);
-        }
+        toscaDataType.setConstraints(PfUtils.mapList(constraints, JpaToscaConstraint::toAuthorative));
+        toscaDataType.setProperties(PfUtils.mapMap(properties, JpaToscaProperty::toAuthorative));
 
         return toscaDataType;
     }
@@ -146,13 +128,7 @@ public class JpaToscaDataType extends JpaToscaEntityType<ToscaDataType> implemen
     public void fromAuthorative(final ToscaDataType toscaDataType) {
         super.fromAuthorative(toscaDataType);
 
-        if (toscaDataType.getConstraints() != null) {
-            constraints = new ArrayList<>();
-
-            for (ToscaConstraint toscaConstraint : toscaDataType.getConstraints()) {
-                constraints.add(JpaToscaConstraint.newInstance(toscaConstraint));
-            }
-        }
+        constraints = PfUtils.mapList(toscaDataType.getConstraints(), JpaToscaConstraint::newInstance);
 
         if (toscaDataType.getProperties() != null) {
             properties = new LinkedHashMap<>();
@@ -220,7 +196,7 @@ public class JpaToscaDataType extends JpaToscaEntityType<ToscaDataType> implemen
     /**
      * Validate the properties.
      *
-     * @param result The result of validations up to now
+     * @param resultIn The result of validations up to now
      * @return the validation result
      */
     private PfValidationResult validateProperties(final PfValidationResult resultIn) {
@@ -250,16 +226,17 @@ public class JpaToscaDataType extends JpaToscaEntityType<ToscaDataType> implemen
         }
 
         final JpaToscaDataType other = (JpaToscaDataType) otherConcept;
-        if (!super.equals(other)) {
-            return super.compareTo(other);
-        }
-
-        int result = PfUtils.compareObjects(constraints, other.constraints);
+        int result = super.compareTo(other);
         if (result != 0) {
             return result;
         }
 
-        result = PfUtils.compareObjects(properties, other.properties);
+        result = PfUtils.compareCollections(constraints, other.constraints);
+        if (result != 0) {
+            return result;
+        }
+
+        result = PfUtils.compareMaps(properties, other.properties);
         if (result != 0) {
             return result;
         }

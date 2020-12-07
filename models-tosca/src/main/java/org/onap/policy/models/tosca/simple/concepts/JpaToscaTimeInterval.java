@@ -3,7 +3,7 @@
  * ONAP Policy Model
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -159,13 +159,14 @@ public class JpaToscaTimeInterval extends PfConcept {
         }
 
         final JpaToscaTimeInterval other = (JpaToscaTimeInterval) otherConcept;
-        if (!key.equals(other.key)) {
-            return key.compareTo(other.key);
+        int result = key.compareTo(other.key);
+        if (result != 0) {
+            return result;
         }
 
-        int returnVal = PfUtils.compareObjects(startTime, other.startTime);
-        if (returnVal != 0) {
-            return returnVal;
+        result = PfUtils.compareObjects(startTime, other.startTime);
+        if (result != 0) {
+            return result;
         }
 
         return PfUtils.compareObjects(endTime, other.endTime);

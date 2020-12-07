@@ -22,6 +22,7 @@
 package org.onap.policy.models.base;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,8 @@ import java.util.Map.Entry;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 
 /**
  * Utility class for Policy Framework concept utilities.
@@ -65,6 +68,37 @@ public final class PfUtils {
         }
 
         return 0;
+    }
+
+    /**
+     * Compare two collections of the same type, nulls are allowed.
+     *
+     * @param leftCollection the first collection
+     * @param rightCollection the second collection
+     * @return a measure of the comparison
+     */
+    public static <T> int compareCollections(final Collection<T> leftCollection, final Collection<T> rightCollection) {
+        if (CollectionUtils.isEmpty(leftCollection) && CollectionUtils.isEmpty(rightCollection)) {
+            return 0;
+        }
+
+        return compareObjects(leftCollection, rightCollection);
+    }
+
+
+    /**
+     * Compare two maps of the same type, nulls are allowed.
+     *
+     * @param leftMap the first map
+     * @param rightMap the second map
+     * @return a measure of the comparison
+     */
+    public static <K, V> int compareMaps(final Map<K, V> leftMap, final Map<K, V> rightMap) {
+        if (MapUtils.isEmpty(leftMap) && MapUtils.isEmpty(rightMap)) {
+            return 0;
+        }
+
+        return compareObjects(leftMap, rightMap);
     }
 
     /**
