@@ -306,7 +306,7 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
     /**
      * Validate the policy targets.
      *
-     * @param result The result of validations up to now
+     * @param resultIn The result of validations up to now
      * @return the validation result
      */
     private PfValidationResult validateTargets(final PfValidationResult resultIn) {

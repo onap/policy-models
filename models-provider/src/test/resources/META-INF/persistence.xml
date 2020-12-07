@@ -23,23 +23,36 @@
     <persistence-unit name="ToscaConceptTest" transaction-type="RESOURCE_LOCAL">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 
+        <class>org.onap.policy.models.base.PfConceptKey</class>
         <class>org.onap.policy.models.dao.converters.CDataConditioner</class>
         <class>org.onap.policy.models.dao.converters.Uuid2String</class>
-        <class>org.onap.policy.models.base.PfConceptKey</class>
+        <class>org.onap.policy.models.pdp.persistence.concepts.JpaPdp</class>
+        <class>org.onap.policy.models.pdp.persistence.concepts.JpaPdpGroup</class>
+        <class>org.onap.policy.models.pdp.persistence.concepts.JpaPdpStatistics</class>
+        <class>org.onap.policy.models.pdp.persistence.concepts.JpaPdpSubGroup</class>
+        <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaCapabilityAssignment</class>
+        <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaCapabilityAssignments</class>
+        <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaCapabilityType</class>
+        <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaCapabilityTypes</class>
         <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaDataType</class>
         <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaDataTypes</class>
+        <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaNodeTemplate</class>
+        <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaNodeTemplates</class>
+        <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaNodeType</class>
+        <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaNodeTypes</class>
+        <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaParameter</class>
         <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicies</class>
         <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicy</class>
         <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyType</class>
         <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyTypes</class>
-        <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaTopologyTemplate</class>
-        <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate</class>
-        <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaTrigger</class>
         <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaProperty</class>
-        <class>org.onap.policy.models.pdp.persistence.concepts.JpaPdpGroup</class>
-        <class>org.onap.policy.models.pdp.persistence.concepts.JpaPdpSubGroup</class>
-        <class>org.onap.policy.models.pdp.persistence.concepts.JpaPdp</class>
-        <class>org.onap.policy.models.pdp.persistence.concepts.JpaPdpStatistics</class>
+        <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaRelationshipType</class>
+        <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaRelationshipTypes</class>
+        <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaRequirement</class>
+        <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaRequirements</class>
+        <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate</class>
+        <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaTopologyTemplate</class>
+        <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaTrigger</class>
 
         <properties>
             <property name="eclipselink.ddl-generation" value="drop-and-create-tables" />

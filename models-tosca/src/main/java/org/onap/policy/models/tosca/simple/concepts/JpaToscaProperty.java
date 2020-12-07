@@ -89,7 +89,7 @@ public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaPr
     private List<JpaToscaConstraint> constraints = new ArrayList<>();
 
     @Column
-    private JpaToscaEntrySchema entrySchema;
+    private JpaToscaSchemaDefinition entrySchema;
 
     @ElementCollection
     private Map<String, String> metadata = new LinkedHashMap<>();
@@ -136,7 +136,8 @@ public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaPr
         this.status = copyConcept.status;
         // Constraints are immutable
         this.constraints = (copyConcept.constraints != null ? new ArrayList<>(copyConcept.constraints) : null);
-        this.entrySchema = (copyConcept.entrySchema != null ? new JpaToscaEntrySchema(copyConcept.entrySchema) : null);
+        this.entrySchema =
+            (copyConcept.entrySchema != null ? new JpaToscaSchemaDefinition(copyConcept.entrySchema) : null);
         this.metadata = (copyConcept.metadata != null ? new LinkedHashMap<>(copyConcept.metadata) : null);
     }
 
@@ -217,7 +218,7 @@ public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaPr
         }
 
         if (toscaProperty.getEntrySchema() != null) {
-            entrySchema = new JpaToscaEntrySchema(toscaProperty.getEntrySchema());
+            entrySchema = new JpaToscaSchemaDefinition(toscaProperty.getEntrySchema());
         }
 
         // Add the property metadata if it doesn't exist already
