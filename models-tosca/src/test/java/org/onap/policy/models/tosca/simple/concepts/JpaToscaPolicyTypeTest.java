@@ -221,7 +221,7 @@ public class JpaToscaPolicyTypeTest {
 
         JpaToscaProperty prop3 = new JpaToscaProperty(new PfReferenceKey(pt0.getKey(), "prop4"));
         prop3.setType(new PfConceptKey("the.property.Type1", "0.0.1"));
-        prop3.setEntrySchema(new JpaToscaEntrySchema());
+        prop3.setEntrySchema(new JpaToscaSchemaDefinition());
         prop3.getEntrySchema().setType(new PfConceptKey("the.property.Type3", "0.0.1"));
         assertTrue(prop3.validate(new PfValidationResult()).isValid());
 
@@ -230,7 +230,7 @@ public class JpaToscaPolicyTypeTest {
 
         JpaToscaProperty prop4 = new JpaToscaProperty(new PfReferenceKey(pt0.getKey(), "prop4"));
         prop4.setType(new PfConceptKey("the.property.Type1", "0.0.1"));
-        prop4.setEntrySchema(new JpaToscaEntrySchema());
+        prop4.setEntrySchema(new JpaToscaSchemaDefinition());
         prop4.getEntrySchema().setType(new PfConceptKey("the.property.Type2", "0.0.1"));
         assertTrue(prop4.validate(new PfValidationResult()).isValid());
 

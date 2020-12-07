@@ -30,11 +30,13 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
+import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 
@@ -60,8 +62,8 @@ public class JpaToscaPolicyTest {
         assertThatThrownBy(() -> {
             new JpaToscaPolicy(pol);
         }).hasMessage(
-            "PolicyType version not specified, the version of the PolicyType for this policy must be specified in the "
-                + "type_version field");
+                "PolicyType version not specified, the version of the PolicyType for this policy must be specified in"
+                        + " the type_version field");
 
         assertThatThrownBy(() -> {
             new JpaToscaPolicy((PfConceptKey) null);
@@ -181,5 +183,48 @@ public class JpaToscaPolicyTest {
         pol1.setTypeVersion("2.2.3");
         tp.fromAuthorative(pol1);
         assertEquals("2.2.3", tp.getType().getVersion());
+    }
+
+    @Test
+    public void testPolicyProperties() {
+
+        Map<String, Object> properties = new LinkedHashMap<>();
+
+        // @formatter:off
+        properties.put("byte",    Byte.valueOf("2"));
+        properties.put("short",   Short.valueOf("1234"));
+        properties.put("int",     Integer.valueOf("12345678"));
+        properties.put("long",    Long.valueOf("1234567890"));
+        properties.put("float",   Float.valueOf("12345.678"));
+        properties.put("double",  Double.valueOf("-12345.6789"));
+        properties.put("char",    '%');
+        properties.put("string",  "hello");
+        properties.put("boolean", false);
+        // @formatter:on
+
+        ToscaPolicy tp = new ToscaPolicy();
+        tp.setType("org.onap.Policy");
+        tp.setTypeVersion("1.2.3");
+        tp.setProperties(properties);
+
+        JpaToscaPolicy jtp = new JpaToscaPolicy(tp);
+        assertEquals(0, PfUtils.compareCollections(tp.getProperties().keySet(), jtp.getProperties().keySet()));
+
+        ToscaPolicy tpFromTo = jtp.toAuthorative();
+
+        tpFromTo.getProperties().entrySet().stream()
+                .forEach(property -> System.out.println(property + ":" + property.getValue().getClass().getName()));
+
+        // @formatter:off
+        assertEquals(2,           tpFromTo.getProperties().get("byte"));
+        assertEquals(1234,        tpFromTo.getProperties().get("short"));
+        assertEquals(12345678,    tpFromTo.getProperties().get("int"));
+        assertEquals(1234567890,  tpFromTo.getProperties().get("long"));
+        assertEquals(12345.678,   tpFromTo.getProperties().get("float"));
+        assertEquals(-12345.6789, tpFromTo.getProperties().get("double"));
+        assertEquals("%",         tpFromTo.getProperties().get("char"));
+        assertEquals("hello",     tpFromTo.getProperties().get("string"));
+        assertEquals(false,       tpFromTo.getProperties().get("boolean"));
+        // @formatter:on
     }
 }

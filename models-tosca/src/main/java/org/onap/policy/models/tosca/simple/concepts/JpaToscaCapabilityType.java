@@ -1,9 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP Policy Model
- * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019-2020 Nordix Foundation.
+ * Copyright (C) 2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,48 +46,40 @@ import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.base.PfValidationMessage;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaCapabilityType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaProperty;
 import org.onap.policy.models.tosca.utils.ToscaUtils;
 
 /**
- * Class to represent the policy type in TOSCA definition.
- *
- * @author Chenfei Gao (cgao@research.att.com)
- * @author Liam Fallon (liam.fallon@est.tech)
+ * Class to represent the capability type in TOSCA definition.
  */
 
 @Entity
-@Table(name = "ToscaPolicyType")
+@Table(name = "ToscaCapabilityType")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class JpaToscaPolicyType extends JpaToscaEntityType<ToscaPolicyType> implements PfAuthorative<ToscaPolicyType> {
+public class JpaToscaCapabilityType extends JpaToscaEntityType<ToscaCapabilityType>
+        implements PfAuthorative<ToscaCapabilityType> {
     private static final long serialVersionUID = -563659852901842616L;
 
     @ElementCollection
     @Lob
     private Map<String, JpaToscaProperty> properties;
 
-    @ElementCollection
-    private List<PfConceptKey> targets;
-
-    @ElementCollection
-    private List<JpaToscaTrigger> triggers;
-
     /**
-     * The Default Constructor creates a {@link JpaToscaPolicyType} object with a null key.
+     * The Default Constructor creates a {@link JpaToscaCapabilityType} object with a null key.
      */
-    public JpaToscaPolicyType() {
+    public JpaToscaCapabilityType() {
         this(new PfConceptKey());
     }
 
     /**
-     * The Key Constructor creates a {@link JpaToscaPolicyType} object with the given concept key.
+     * The Key Constructor creates a {@link JpaToscaCapabilityType} object with the given concept key.
      *
      * @param key the key
      */
-    public JpaToscaPolicyType(@NonNull final PfConceptKey key) {
+    public JpaToscaCapabilityType(@NonNull final PfConceptKey key) {
         super(key);
     }
 
@@ -99,11 +88,9 @@ public class JpaToscaPolicyType extends JpaToscaEntityType<ToscaPolicyType> impl
      *
      * @param copyConcept the concept to copy from
      */
-    public JpaToscaPolicyType(final JpaToscaPolicyType copyConcept) {
+    public JpaToscaCapabilityType(final JpaToscaCapabilityType copyConcept) {
         super(copyConcept);
-        this.properties = PfUtils.mapMap(copyConcept.properties, JpaToscaProperty::new);
-        this.targets = PfUtils.mapList(copyConcept.targets, PfConceptKey::new);
-        this.triggers = PfUtils.mapList(copyConcept.triggers, JpaToscaTrigger::new);
+        this.properties = copyConcept.properties == null ? null : new LinkedHashMap<>(copyConcept.properties);
     }
 
     /**
@@ -111,29 +98,29 @@ public class JpaToscaPolicyType extends JpaToscaEntityType<ToscaPolicyType> impl
      *
      * @param authorativeConcept the authorative concept to copy from
      */
-    public JpaToscaPolicyType(final ToscaPolicyType authorativeConcept) {
+    public JpaToscaCapabilityType(final ToscaCapabilityType authorativeConcept) {
         this.fromAuthorative(authorativeConcept);
     }
 
     @Override
-    public ToscaPolicyType toAuthorative() {
-        ToscaPolicyType toscaPolicyType = new ToscaPolicyType();
-        super.setToscaEntity(toscaPolicyType);
+    public ToscaCapabilityType toAuthorative() {
+        ToscaCapabilityType toscaCapabilityType = new ToscaCapabilityType();
+        super.setToscaEntity(toscaCapabilityType);
         super.toAuthorative();
 
-        toscaPolicyType.setProperties(PfUtils.mapMap(properties, JpaToscaProperty::toAuthorative));
+        toscaCapabilityType.setProperties(PfUtils.mapMap(properties, JpaToscaProperty::toAuthorative));
 
-        return toscaPolicyType;
+        return toscaCapabilityType;
     }
 
     @Override
-    public void fromAuthorative(final ToscaPolicyType toscaPolicyType) {
-        super.fromAuthorative(toscaPolicyType);
+    public void fromAuthorative(final ToscaCapabilityType toscaCapabilityType) {
+        super.fromAuthorative(toscaCapabilityType);
 
         // Set properties
-        if (toscaPolicyType.getProperties() != null) {
+        if (toscaCapabilityType.getProperties() != null) {
             properties = new LinkedHashMap<>();
-            for (Entry<String, ToscaProperty> toscaPropertyEntry : toscaPolicyType.getProperties().entrySet()) {
+            for (Entry<String, ToscaProperty> toscaPropertyEntry : toscaCapabilityType.getProperties().entrySet()) {
                 JpaToscaProperty jpaProperty = new JpaToscaProperty(toscaPropertyEntry.getValue());
                 jpaProperty.setKey(new PfReferenceKey(getKey(), toscaPropertyEntry.getKey()));
                 properties.put(toscaPropertyEntry.getKey(), jpaProperty);
@@ -145,19 +132,12 @@ public class JpaToscaPolicyType extends JpaToscaEntityType<ToscaPolicyType> impl
     public List<PfKey> getKeys() {
         final List<PfKey> keyList = super.getKeys();
 
+        PfUtils.mapMap(properties, property -> keyList.addAll(property.getKeys()));
+
+
         if (properties != null) {
             for (JpaToscaProperty property : properties.values()) {
                 keyList.addAll(property.getKeys());
-            }
-        }
-
-        if (targets != null) {
-            keyList.addAll(targets);
-        }
-
-        if (triggers != null) {
-            for (JpaToscaTrigger trigger : triggers) {
-                keyList.addAll(trigger.getKeys());
             }
         }
 
@@ -173,25 +153,13 @@ public class JpaToscaPolicyType extends JpaToscaEntityType<ToscaPolicyType> impl
                 property.clean();
             }
         }
-
-        if (targets != null) {
-            for (PfConceptKey target : targets) {
-                target.clean();
-            }
-        }
-
-        if (triggers != null) {
-            for (JpaToscaTrigger trigger : triggers) {
-                trigger.clean();
-            }
-        }
     }
 
     @Override
     public PfValidationResult validate(@NonNull final PfValidationResult resultIn) {
         PfValidationResult result = super.validate(resultIn);
 
-        if (PfKey.NULL_KEY_VERSION.equals(getKey().getVersion())) {
+        if (getKey().isNullVersion()) {
             result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
                     "key version is a null version"));
         }
@@ -200,21 +168,13 @@ public class JpaToscaPolicyType extends JpaToscaEntityType<ToscaPolicyType> impl
             result = validateProperties(result);
         }
 
-        if (targets != null) {
-            result = validateTargets(result);
-        }
-
-        if (triggers != null) {
-            result = validateTriggers(result);
-        }
-
         return result;
     }
 
     /**
-     * Validate the policy properties.
+     * Validate the capabiltiy type properties.
      *
-     * @param result The result of validations up to now
+     * @param resultIn The result of validations up to now
      * @return the validation result
      */
     private PfValidationResult validateProperties(final PfValidationResult resultIn) {
@@ -223,49 +183,9 @@ public class JpaToscaPolicyType extends JpaToscaEntityType<ToscaPolicyType> impl
         for (JpaToscaProperty property : properties.values()) {
             if (property == null) {
                 result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                        "policy property may not be null "));
+                        "capability type property may not be null "));
             } else {
                 result = property.validate(result);
-            }
-        }
-        return result;
-    }
-
-    /**
-     * Validate the policy targets.
-     *
-     * @param result The result of validations up to now
-     * @return the validation result
-     */
-    private PfValidationResult validateTargets(final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
-
-        for (PfConceptKey target : targets) {
-            if (target == null) {
-                result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                        "policy target may not be null "));
-            } else {
-                result = target.validate(result);
-            }
-        }
-        return result;
-    }
-
-    /**
-     * Validate the policy triggers.
-     *
-     * @param result The result of validations up to now
-     * @return the validation result
-     */
-    private PfValidationResult validateTriggers(final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
-
-        for (JpaToscaTrigger trigger : triggers) {
-            if (trigger == null) {
-                result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                        "policy trigger may not be null "));
-            } else {
-                result = trigger.validate(result);
             }
         }
         return result;
@@ -283,29 +203,19 @@ public class JpaToscaPolicyType extends JpaToscaEntityType<ToscaPolicyType> impl
             return getClass().getName().compareTo(otherConcept.getClass().getName());
         }
 
-        final JpaToscaPolicyType other = (JpaToscaPolicyType) otherConcept;
+        final JpaToscaCapabilityType other = (JpaToscaCapabilityType) otherConcept;
         int result = super.compareTo(other);
         if (result != 0) {
             return result;
         }
 
-        result = PfUtils.compareMaps(properties, other.properties);
-        if (result != 0) {
-            return result;
-        }
-
-        result = PfUtils.compareCollections(targets, other.targets);
-        if (result != 0) {
-            return result;
-        }
-
-        return PfUtils.compareCollections(triggers, other.triggers);
+        return PfUtils.compareMaps(properties, other.properties);
     }
 
     /**
-     * Get the data types referenced in a policy type.
+     * Get the data types referenced in a capability type.
      *
-     * @return the data types referenced in a policy type
+     * @return the data types referenced in a capability type
      */
     public Collection<PfConceptKey> getReferencedDataTypes() {
         if (properties == null) {

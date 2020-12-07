@@ -91,7 +91,7 @@ public class JpaToscaPropertyTest {
         assertEquals(constraints, tp.getConstraints());
 
         PfConceptKey typeKey = new PfConceptKey("type", VERSION_001);
-        JpaToscaEntrySchema tes = new JpaToscaEntrySchema(typeKey);
+        JpaToscaSchemaDefinition tes = new JpaToscaSchemaDefinition(typeKey);
         tp.setEntrySchema(tes);
 
         TreeMap<String, String> metadata = new TreeMap<>();
@@ -134,6 +134,8 @@ public class JpaToscaPropertyTest {
         otherDt.setConstraints(constraints);
         assertNotEquals(0, tp.compareTo(otherDt));
         otherDt.setEntrySchema(tes);
+        assertNotEquals(0, tp.compareTo(otherDt));
+        otherDt.setMetadata(metadata);
         assertEquals(0, tp.compareTo(otherDt));
 
         otherDt.setRequired(true);
@@ -220,7 +222,7 @@ public class JpaToscaPropertyTest {
         tp.setConstraints(constraints);
 
         PfConceptKey typeKey = new PfConceptKey("type", VERSION_001);
-        JpaToscaEntrySchema tes = new JpaToscaEntrySchema(typeKey);
+        JpaToscaSchemaDefinition tes = new JpaToscaSchemaDefinition(typeKey);
         tp.setEntrySchema(tes);
 
         TreeMap<String, String> metadata = new TreeMap<>();

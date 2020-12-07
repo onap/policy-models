@@ -21,9 +21,14 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
+import com.google.gson.annotations.SerializedName;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -31,6 +36,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
+import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.Data;
@@ -41,9 +47,12 @@ import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfReferenceKey;
+import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.base.PfValidationMessage;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaNodeTemplate;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaParameter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaTopologyTemplate;
 
 /**
@@ -69,6 +78,20 @@ public class JpaToscaTopologyTemplate extends PfConcept implements PfAuthorative
     private String description;
 
     // @formatter:off
+    @ElementCollection
+    @Lob
+    private Map<String, JpaToscaParameter> inputs;
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumns(
+        {
+            @JoinColumn(name = "nodeTemplatesName", referencedColumnName = "name"),
+            @JoinColumn(name = "nodeTemplatessVersion", referencedColumnName = "version")
+        }
+    )
+    @SerializedName("data_types")
+    private JpaToscaNodeTemplates nodeTemplates;
+
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumns(
             {
@@ -105,6 +128,9 @@ public class JpaToscaTopologyTemplate extends PfConcept implements PfAuthorative
         super(copyConcept);
         this.key = new PfReferenceKey(copyConcept.key);
         this.description = copyConcept.description;
+        this.inputs = PfUtils.mapMap(copyConcept.inputs, JpaToscaParameter::new);
+        this.nodeTemplates =
+                (copyConcept.nodeTemplates != null ? new JpaToscaNodeTemplates(copyConcept.nodeTemplates) : null);
         this.policies = (copyConcept.policies != null ? new JpaToscaPolicies(copyConcept.policies) : null);
     }
 
@@ -123,6 +149,24 @@ public class JpaToscaTopologyTemplate extends PfConcept implements PfAuthorative
 
         toscaTopologyTemplate.setDescription(description);
 
+        if (inputs != null) {
+            Map<String, ToscaParameter> inputMap = new LinkedHashMap<>();
+
+            for (Map.Entry<String, JpaToscaParameter> entry : inputs.entrySet()) {
+                inputMap.put(entry.getKey(), entry.getValue().toAuthorative());
+            }
+
+            toscaTopologyTemplate.setInputs(inputMap);
+        }
+
+        if (nodeTemplates != null) {
+            toscaTopologyTemplate.setNodeTemplates(new LinkedHashMap<>());
+            List<Map<String, ToscaNodeTemplate>> nodeTemplateMapList = nodeTemplates.toAuthorative();
+            for (Map<String, ToscaNodeTemplate> nodeTemplateMap : nodeTemplateMapList) {
+                toscaTopologyTemplate.getNodeTemplates().putAll(nodeTemplateMap);
+            }
+        }
+
         if (policies != null) {
             toscaTopologyTemplate.setPolicies(policies.toAuthorative());
         }
@@ -134,6 +178,20 @@ public class JpaToscaTopologyTemplate extends PfConcept implements PfAuthorative
     public void fromAuthorative(ToscaTopologyTemplate toscaTopologyTemplate) {
         description = toscaTopologyTemplate.getDescription();
 
+        if (toscaTopologyTemplate.getInputs() != null) {
+            inputs = new LinkedHashMap<>();
+            for (Map.Entry<String, ToscaParameter> toscaInputEntry : toscaTopologyTemplate.getInputs().entrySet()) {
+                JpaToscaParameter jpaInput = new JpaToscaParameter(toscaInputEntry.getValue());
+                jpaInput.setKey(new PfReferenceKey(getKey(), toscaInputEntry.getKey()));
+                inputs.put(toscaInputEntry.getKey(), jpaInput);
+            }
+        }
+
+        if (toscaTopologyTemplate.getNodeTemplates() != null) {
+            nodeTemplates = new JpaToscaNodeTemplates();
+            nodeTemplates.fromAuthorative(Collections.singletonList(toscaTopologyTemplate.getNodeTemplates()));
+        }
+
         if (toscaTopologyTemplate.getPolicies() != null) {
             policies = new JpaToscaPolicies();
             policies.fromAuthorative(toscaTopologyTemplate.getPolicies());
@@ -143,6 +201,16 @@ public class JpaToscaTopologyTemplate extends PfConcept implements PfAuthorative
     @Override
     public List<PfKey> getKeys() {
         final List<PfKey> keyList = getKey().getKeys();
+
+        if (inputs != null) {
+            for (JpaToscaParameter input : inputs.values()) {
+                keyList.addAll(input.getKeys());
+            }
+        }
+
+        if (nodeTemplates != null) {
+            keyList.addAll(nodeTemplates.getKeys());
+        }
 
         if (policies != null) {
             keyList.addAll(policies.getKeys());
@@ -156,6 +224,16 @@ public class JpaToscaTopologyTemplate extends PfConcept implements PfAuthorative
         key.clean();
 
         description = (description != null ? description.trim() : null);
+
+        if (inputs != null) {
+            for (JpaToscaParameter input : inputs.values()) {
+                input.clean();
+            }
+        }
+
+        if (nodeTemplates != null) {
+            nodeTemplates.clean();
+        }
 
         if (policies != null) {
             policies.clean();
@@ -178,10 +256,39 @@ public class JpaToscaTopologyTemplate extends PfConcept implements PfAuthorative
                     "property description may not be blank"));
         }
 
+        if (inputs != null) {
+            result = validateInputs(result);
+        }
+
+
+        if (nodeTemplates != null) {
+            result = nodeTemplates.validate(result);
+        }
+
         if (policies != null) {
             result = policies.validate(result);
         }
 
+        return result;
+    }
+
+    /**
+     * Validate the inputs.
+     *
+     * @param resultIn The result of validations up to now
+     * @return the validation result
+     */
+    private PfValidationResult validateInputs(final PfValidationResult resultIn) {
+        PfValidationResult result = resultIn;
+
+        for (JpaToscaParameter input : inputs.values()) {
+            if (input == null) {
+                result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
+                        "topology template input may not be null "));
+            } else {
+                result = input.validate(result);
+            }
+        }
         return result;
     }
 
@@ -192,11 +299,23 @@ public class JpaToscaTopologyTemplate extends PfConcept implements PfAuthorative
             return result;
         }
 
-        return ObjectUtils.compare(policies, ((JpaToscaTopologyTemplate) otherConcept).policies);
+        final JpaToscaTopologyTemplate other = (JpaToscaTopologyTemplate) otherConcept;
+
+        result = PfUtils.compareObjects(inputs, other.inputs);
+        if (result != 0) {
+            return result;
+        }
+
+        result = ObjectUtils.compare(nodeTemplates, other.nodeTemplates);
+        if (result != 0) {
+            return result;
+        }
+
+        return ObjectUtils.compare(policies, other.policies);
     }
 
     /**
-     * Compare this topology template to another topology template, ignoring contained entitites.
+     * Compare this topology template to another topology template, ignoring contained entities.
      *
      * @param otherConcept the other topology template
      * @return the result of the comparison
