@@ -3,7 +3,7 @@
  * ONAP Policy Model
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -137,7 +137,7 @@ public class JpaToscaTrigger extends PfConcept {
         this.eventType = copyConcept.eventType;
         this.schedule = (copyConcept.schedule != null ? new JpaToscaTimeInterval(copyConcept.schedule) : null);
         this.targetFilter =
-                        (copyConcept.targetFilter != null ? new JpaToscaEventFilter(copyConcept.targetFilter) : null);
+                (copyConcept.targetFilter != null ? new JpaToscaEventFilter(copyConcept.targetFilter) : null);
         this.condition = copyConcept.condition;
         this.constraint = copyConcept.constraint;
         this.period = copyConcept.period;
@@ -245,16 +245,16 @@ public class JpaToscaTrigger extends PfConcept {
         }
 
         final JpaToscaTrigger other = (JpaToscaTrigger) otherConcept;
-        if (!key.equals(other.key)) {
-            return key.compareTo(other.key);
+        int result = key.compareTo(other.key);
+        if (result != 0) {
+            return result;
         }
 
         return compareFields(other);
     }
 
     /**
-     * Compare the fields of this ToscaTrigger object with the fields of the other ToscaProperty
-     * object.
+     * Compare the fields of this ToscaTrigger object with the fields of the other ToscaProperty object.
      *
      * @param other the other ToscaTrigger object
      */

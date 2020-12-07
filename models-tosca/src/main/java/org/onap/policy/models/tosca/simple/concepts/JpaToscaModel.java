@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -40,9 +40,8 @@ import org.onap.policy.models.base.PfModelService;
 import org.onap.policy.models.base.PfValidationResult;
 
 /**
- * A container class for a TOSCA model with multiple service templates. This class is a container
- * class that allows a model with many service templates to be constructed that contains a well
- * formed overall TOSCA model.
+ * A container class for a TOSCA model with multiple service templates. This class is a container class that allows a
+ * model with many service templates to be constructed that contains a well formed overall TOSCA model.
  *
  * <p>Validation runs {@link JpaToscaModel} validation on the model and all its sub concepts.
  */
@@ -59,16 +58,16 @@ public class JpaToscaModel extends PfModel {
     private JpaToscaServiceTemplates serviceTemplates;
 
     /**
-     * The Default Constructor creates a {@link JpaToscaModel} object with a null concept key and
-     * creates an empty TOSCA model.
+     * The Default Constructor creates a {@link JpaToscaModel} object with a null concept key and creates an empty TOSCA
+     * model.
      */
     public JpaToscaModel() {
         this(new PfConceptKey());
     }
 
     /**
-     * The Key Constructor creates a {@link JpaToscaModel} object with the given concept key and
-     * creates an empty TOSCA model.
+     * The Key Constructor creates a {@link JpaToscaModel} object with the given concept key and creates an empty TOSCA
+     * model.
      *
      * @param key the TOSCA model key
      */
@@ -139,8 +138,9 @@ public class JpaToscaModel extends PfModel {
         }
 
         final JpaToscaModel other = (JpaToscaModel) otherConcept;
-        if (!super.equals(other)) {
-            return super.compareTo(other);
+        int result = super.compareTo(other);
+        if (result != 0) {
+            return result;
         }
 
         return serviceTemplates.compareTo(other.serviceTemplates);

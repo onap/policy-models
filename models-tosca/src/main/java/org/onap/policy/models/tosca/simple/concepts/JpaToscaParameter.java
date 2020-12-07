@@ -1,9 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP Policy Model
- * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019-2020 Nordix Foundation.
+ * Copyright (C) 2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +30,9 @@ import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.onap.policy.common.utils.coder.YamlJsonTranslator;
+import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
@@ -41,57 +40,53 @@ import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfValidationMessage;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaParameter;
 
 /**
- * Class to represent the EventFilter in TOSCA definition.
- *
- * @author Chenfei Gao (cgao@research.att.com)
- * @author Liam Fallon (liam.fallon@est.tech)
+ * Class to represent the parameter in TOSCA definition.
  */
 @Entity
-@Table(name = "ToscaEventFilter")
+@Table(name = "ToscaParameter")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class JpaToscaEventFilter extends PfConcept {
-    private static final long serialVersionUID = 8769020537228210247L;
+public class JpaToscaParameter extends PfConcept implements PfAuthorative<ToscaParameter> {
+    private static final long serialVersionUID = 1675770231921107988L;
 
     @EmbeddedId
     private PfReferenceKey key;
 
     @Column
-    private PfConceptKey node;
+    private PfConceptKey type;
 
     @Column
-    private String requirement;
-
-    @Column
-    private String capability;
+    private String value;
 
     /**
-     * The Default Constructor creates a {@link JpaToscaEventFilter} object with a null key.
+     * The Default Constructor creates a {@link JpaToscaParameter} object with a null key.
      */
-    public JpaToscaEventFilter() {
+    public JpaToscaParameter() {
         this(new PfReferenceKey());
     }
 
     /**
-     * The Key Constructor creates a {@link JpaToscaEventFilter} object with the given concept key.
+     * The Key Constructor creates a {@link JpaToscaParameter} object with the given concept key.
      *
      * @param key the key
      */
-    public JpaToscaEventFilter(@NonNull final PfReferenceKey key) {
+    public JpaToscaParameter(@NonNull final PfReferenceKey key) {
         this(key, new PfConceptKey());
     }
 
     /**
-     * The full Constructor creates a {@link JpaToscaEventFilter} object with the given concept key and node.
+     * The Key Constructor creates a {@link JpaToscaParameter} object with the given concept key.
      *
      * @param key the key
+     * @param type the key of the parameter type
      */
-    public JpaToscaEventFilter(@NonNull final PfReferenceKey key, @NonNull final PfConceptKey node) {
+    public JpaToscaParameter(@NonNull final PfReferenceKey key, @NonNull final PfConceptKey type) {
         this.key = key;
-        this.node = node;
+        this.type = type;
     }
 
     /**
@@ -99,54 +94,86 @@ public class JpaToscaEventFilter extends PfConcept {
      *
      * @param copyConcept the concept to copy from
      */
-    public JpaToscaEventFilter(final JpaToscaEventFilter copyConcept) {
+    public JpaToscaParameter(final JpaToscaParameter copyConcept) {
         super(copyConcept);
         this.key = new PfReferenceKey(copyConcept.key);
-        this.node = new PfConceptKey(copyConcept.node);
-        this.requirement = copyConcept.requirement;
-        this.capability = copyConcept.capability;
+        this.type = new PfConceptKey(copyConcept.type);
+        this.value = copyConcept.value;
+    }
+
+    /**
+     * Authorative constructor.
+     *
+     * @param authorativeConcept the authorative concept to copy from
+     */
+    public JpaToscaParameter(final ToscaParameter authorativeConcept) {
+        this.fromAuthorative(authorativeConcept);
+    }
+
+    @Override
+    public ToscaParameter toAuthorative() {
+        ToscaParameter toscaParameter = new ToscaParameter();
+
+        toscaParameter.setName(key.getLocalName());
+
+        toscaParameter.setType(type.getName());
+        toscaParameter.setTypeVersion(type.getVersion());
+
+        if (!StringUtils.isBlank(value)) {
+            toscaParameter.setValue(new YamlJsonTranslator().fromYaml(value, Object.class));
+        }
+
+        return toscaParameter;
+    }
+
+    @Override
+    public void fromAuthorative(ToscaParameter toscaParameter) {
+        this.setKey(new PfReferenceKey());
+        getKey().setLocalName(toscaParameter.getName());
+
+        if (toscaParameter.getTypeVersion() != null) {
+            type = new PfConceptKey(toscaParameter.getType(), toscaParameter.getTypeVersion());
+        } else {
+            type = new PfConceptKey(toscaParameter.getType(), PfKey.NULL_KEY_VERSION);
+        }
+
+        value = new YamlJsonTranslator().toYaml(toscaParameter.getValue());
     }
 
     @Override
     public List<PfKey> getKeys() {
         final List<PfKey> keyList = getKey().getKeys();
-        keyList.addAll(node.getKeys());
+
+        keyList.addAll(type.getKeys());
+
         return keyList;
     }
 
     @Override
     public void clean() {
         key.clean();
-        node.clean();
 
-        requirement = (requirement != null ? requirement.trim() : requirement);
-        capability = (capability != null ? capability.trim() : capability);
+        type.clean();
+
+        if (value != null) {
+            value = value.trim();
+        }
     }
 
     @Override
-    public PfValidationResult validate(@NonNull final PfValidationResult resultIn) {
+    public PfValidationResult validate(final PfValidationResult resultIn) {
         PfValidationResult result = resultIn;
 
         if (key.isNullKey()) {
-            result.addValidationMessage(
-                    new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID, "key is a null key"));
+            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
+                    "paremeter key is a null key"));
         }
 
         result = key.validate(result);
 
-        if (node == null || node.isNullKey()) {
+        if (type == null || type.isNullKey()) {
             result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "node on an event filter may not be null"));
-        }
-
-        if (requirement != null && requirement.trim().length() == 0) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "event filter requirement may not be blank"));
-        }
-
-        if (capability != null && capability.trim().length() == 0) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "event filter capability may not be blank"));
+                    "parameter type may not be null"));
         }
 
         return result;
@@ -164,22 +191,12 @@ public class JpaToscaEventFilter extends PfConcept {
             return getClass().getName().compareTo(otherConcept.getClass().getName());
         }
 
-        final JpaToscaEventFilter other = (JpaToscaEventFilter) otherConcept;
+        final JpaToscaParameter other = (JpaToscaParameter) otherConcept;
         int result = key.compareTo(other.key);
         if (result != 0) {
             return result;
         }
 
-        result = node.compareTo(other.node);
-        if (result != 0) {
-            return result;
-        }
-
-        result = ObjectUtils.compare(requirement, other.requirement);
-        if (result != 0) {
-            return result;
-        }
-
-        return ObjectUtils.compare(capability, other.capability);
+        return value.compareTo(other.value);
     }
 }

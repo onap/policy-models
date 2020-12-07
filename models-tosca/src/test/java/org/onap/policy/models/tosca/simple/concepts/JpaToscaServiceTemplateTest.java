@@ -29,6 +29,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 import org.junit.Test;
@@ -154,6 +155,8 @@ public class JpaToscaServiceTemplateTest {
         JpaToscaDataType dt0 = new JpaToscaDataType(new PfConceptKey("dt0:0.0.1"));
         JpaToscaProperty prop0 = new JpaToscaProperty(new PfReferenceKey(pt0.getKey(), "prop0"));
         prop0.setType(dt0.getKey());
+
+        pt0.setProperties(new LinkedHashMap<>());
         pt0.getProperties().put(prop0.getKey().getLocalName(), prop0);
         result = tst.validate(new PfValidationResult());
         assertFalse(result.isOk());

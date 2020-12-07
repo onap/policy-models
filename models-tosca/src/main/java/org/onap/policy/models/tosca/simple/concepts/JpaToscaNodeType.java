@@ -1,9 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP Policy Model
- * ================================================================================
- * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019-2020 Nordix Foundation.
+ * Copyright (C) 2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +20,6 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -31,16 +27,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.Lob;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
@@ -50,44 +52,47 @@ import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.base.PfValidationMessage;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaDataType;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaNodeType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaProperty;
 import org.onap.policy.models.tosca.utils.ToscaUtils;
 
 /**
- * Class to represent custom data type in TOSCA definition.
- *
- * @author Chenfei Gao (cgao@research.att.com)
- * @author Liam Fallon (liam.fallon@est.tech)
+ * Class to represent the node type in TOSCA definition.
  */
+
 @Entity
-@Table(name = "ToscaDataType")
+@Table(name = "ToscaNodeType")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class JpaToscaDataType extends JpaToscaEntityType<ToscaDataType> implements PfAuthorative<ToscaDataType> {
-    private static final long serialVersionUID = -3922690413436539164L;
-
-    @ElementCollection
-    private List<JpaToscaConstraint> constraints;
+public class JpaToscaNodeType extends JpaToscaEntityType<ToscaNodeType> implements PfAuthorative<ToscaNodeType> {
+    private static final long serialVersionUID = -563659852901842616L;
 
     @ElementCollection
     @Lob
     private Map<String, JpaToscaProperty> properties;
 
+
+    // formatter:off
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumns({@JoinColumn(name = "requirementsName", referencedColumnName = "name"),
+        @JoinColumn(name = "requirementsVersion", referencedColumnName = "version")})
+    // @formatter:on
+    private JpaToscaRequirements requirements;
+
     /**
-     * The Default Constructor creates a {@link JpaToscaDataType} object with a null key.
+     * The Default Constructor creates a {@link JpaToscaNodeType} object with a null key.
      */
-    public JpaToscaDataType() {
+    public JpaToscaNodeType() {
         this(new PfConceptKey());
     }
 
     /**
-     * The Key Constructor creates a {@link JpaToscaDataType} object with the given concept key.
+     * The Key Constructor creates a {@link JpaToscaNodeType} object with the given concept key.
      *
      * @param key the key
      */
-    public JpaToscaDataType(@NonNull final PfConceptKey key) {
+    public JpaToscaNodeType(@NonNull final PfConceptKey key) {
         super(key);
     }
 
@@ -96,11 +101,11 @@ public class JpaToscaDataType extends JpaToscaEntityType<ToscaDataType> implemen
      *
      * @param copyConcept the concept to copy from
      */
-    public JpaToscaDataType(final JpaToscaDataType copyConcept) {
+    public JpaToscaNodeType(final JpaToscaNodeType copyConcept) {
         super(copyConcept);
-        // Constraints are immutable
-        this.constraints = (copyConcept.constraints != null ? new ArrayList<>(copyConcept.constraints) : null);
         this.properties = PfUtils.mapMap(copyConcept.properties, JpaToscaProperty::new);
+        this.requirements =
+                (copyConcept.requirements != null ? new JpaToscaRequirements(copyConcept.requirements) : null);
     }
 
     /**
@@ -108,35 +113,42 @@ public class JpaToscaDataType extends JpaToscaEntityType<ToscaDataType> implemen
      *
      * @param authorativeConcept the authorative concept to copy from
      */
-    public JpaToscaDataType(final ToscaDataType authorativeConcept) {
+    public JpaToscaNodeType(final ToscaNodeType authorativeConcept) {
         this.fromAuthorative(authorativeConcept);
     }
 
     @Override
-    public ToscaDataType toAuthorative() {
-        ToscaDataType toscaDataType = new ToscaDataType();
-        super.setToscaEntity(toscaDataType);
+    public ToscaNodeType toAuthorative() {
+        ToscaNodeType toscaNodeType = new ToscaNodeType();
+        super.setToscaEntity(toscaNodeType);
         super.toAuthorative();
 
-        toscaDataType.setConstraints(PfUtils.mapList(constraints, JpaToscaConstraint::toAuthorative));
-        toscaDataType.setProperties(PfUtils.mapMap(properties, JpaToscaProperty::toAuthorative));
+        toscaNodeType.setProperties(PfUtils.mapMap(properties, JpaToscaProperty::toAuthorative));
 
-        return toscaDataType;
+        if (requirements != null) {
+            toscaNodeType.setRequirements(requirements.toAuthorative());
+        }
+
+        return toscaNodeType;
     }
 
     @Override
-    public void fromAuthorative(final ToscaDataType toscaDataType) {
-        super.fromAuthorative(toscaDataType);
+    public void fromAuthorative(final ToscaNodeType toscaNodeType) {
+        super.fromAuthorative(toscaNodeType);
 
-        constraints = PfUtils.mapList(toscaDataType.getConstraints(), JpaToscaConstraint::newInstance);
-
-        if (toscaDataType.getProperties() != null) {
+        // Set properties
+        if (toscaNodeType.getProperties() != null) {
             properties = new LinkedHashMap<>();
-            for (Entry<String, ToscaProperty> toscaPropertyEntry : toscaDataType.getProperties().entrySet()) {
+            for (Entry<String, ToscaProperty> toscaPropertyEntry : toscaNodeType.getProperties().entrySet()) {
                 JpaToscaProperty jpaProperty = new JpaToscaProperty(toscaPropertyEntry.getValue());
                 jpaProperty.setKey(new PfReferenceKey(getKey(), toscaPropertyEntry.getKey()));
                 properties.put(toscaPropertyEntry.getKey(), jpaProperty);
             }
+        }
+
+        if (toscaNodeType.getRequirements() != null) {
+            requirements = new JpaToscaRequirements();
+            requirements.fromAuthorative(toscaNodeType.getRequirements());
         }
     }
 
@@ -148,6 +160,10 @@ public class JpaToscaDataType extends JpaToscaEntityType<ToscaDataType> implemen
             for (JpaToscaProperty property : properties.values()) {
                 keyList.addAll(property.getKeys());
             }
+        }
+
+        if (requirements != null) {
+            keyList.addAll(requirements.getKeys());
         }
 
         return keyList;
@@ -162,39 +178,34 @@ public class JpaToscaDataType extends JpaToscaEntityType<ToscaDataType> implemen
                 property.clean();
             }
         }
+
+        if (requirements != null) {
+            requirements.clean();
+        }
     }
 
     @Override
-    public PfValidationResult validate(final PfValidationResult resultIn) {
+    public PfValidationResult validate(@NonNull final PfValidationResult resultIn) {
         PfValidationResult result = super.validate(resultIn);
 
-        if (constraints != null) {
-            validateConstraints(result);
+        if (PfKey.NULL_KEY_VERSION.equals(getKey().getVersion())) {
+            result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
+                    "key version is a null version"));
         }
 
         if (properties != null) {
             result = validateProperties(result);
         }
 
+        if (requirements != null) {
+            result = requirements.validate(result);
+        }
+
         return result;
     }
 
     /**
-     * Validate the constraints.
-     *
-     * @param result where to put the validation results
-     */
-    private void validateConstraints(@NonNull final PfValidationResult result) {
-        for (JpaToscaConstraint constraint : constraints) {
-            if (constraint == null) {
-                result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                        "data type constraint may not be null "));
-            }
-        }
-    }
-
-    /**
-     * Validate the properties.
+     * Validate the capabiltiy type properties.
      *
      * @param resultIn The result of validations up to now
      * @return the validation result
@@ -205,7 +216,7 @@ public class JpaToscaDataType extends JpaToscaEntityType<ToscaDataType> implemen
         for (JpaToscaProperty property : properties.values()) {
             if (property == null) {
                 result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                        "data type property may not be null "));
+                        "node type property may not be null "));
             } else {
                 result = property.validate(result);
             }
@@ -225,24 +236,24 @@ public class JpaToscaDataType extends JpaToscaEntityType<ToscaDataType> implemen
             return getClass().getName().compareTo(otherConcept.getClass().getName());
         }
 
-        final JpaToscaDataType other = (JpaToscaDataType) otherConcept;
+        final JpaToscaNodeType other = (JpaToscaNodeType) otherConcept;
         int result = super.compareTo(other);
         if (result != 0) {
             return result;
         }
 
-        result = PfUtils.compareCollections(constraints, other.constraints);
+        result = PfUtils.compareMaps(properties, other.properties);
         if (result != 0) {
             return result;
         }
 
-        return PfUtils.compareMaps(properties, other.properties);
+        return ObjectUtils.compare(requirements, other.requirements);
     }
 
     /**
-     * Get the data types referenced in a data type.
+     * Get the data types referenced in a node type.
      *
-     * @return the data types referenced in a data type
+     * @return the data types referenced in a node type
      */
     public Collection<PfConceptKey> getReferencedDataTypes() {
         if (properties == null) {

@@ -23,7 +23,6 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -73,6 +72,8 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
     private static final String METADATA_POLICY_ID_TAG = "policy-id";
     private static final String METADATA_POLICY_VERSION_TAG = "policy-version";
 
+    private static final StandardCoder STANDARD_CODER = new StandardCoder();
+
     // @formatter:off
     @Column
     @AttributeOverrides({
@@ -85,10 +86,10 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
 
     @ElementCollection
     @Lob
-    private Map<String, String> properties = new LinkedHashMap<>();
+    private Map<String, String> properties;
 
     @ElementCollection
-    private List<PfConceptKey> targets = new ArrayList<>();
+    private List<PfConceptKey> targets;
     // @formatter:on
 
     /**
@@ -155,28 +156,14 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
             toscaPolicy.setTypeVersion(null);
         }
 
-        if (properties != null) {
-            Map<String, Object> propertyMap = new LinkedHashMap<>();
-
-            final StandardCoder coder = new StandardCoder();
-
-            for (Entry<String, String> entry : properties.entrySet()) {
-                try {
-                    // TODO: This is a HACK, we need to validate the properties against their
-                    // TODO: their data type in their policy type definition in TOSCA, which means reading
-                    // TODO: the policy type from the database and parsing the property value object correctly
-                    // TODO: Here we are simply reading a JSON string from the database and deserializing the
-                    // TODO: property value from JSON
-                    propertyMap.put(entry.getKey(), coder.decode(entry.getValue(), Object.class));
-                } catch (CoderException ce) {
-                    String errorMessage = "error decoding property JSON value read from database: key=" + entry.getKey()
-                        + ", value=" + entry.getValue();
-                    throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR, errorMessage, ce);
-                }
+        toscaPolicy.setProperties(PfUtils.mapMap(properties, property -> {
+            try {
+                return STANDARD_CODER.decode(property, Object.class);
+            } catch (CoderException ce) {
+                String errorMessage = "error decoding property JSON value read from database: " + property;
+                throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR, errorMessage, ce);
             }
-
-            toscaPolicy.setProperties(propertyMap);
-        }
+        }));
 
         return toscaPolicy;
     }
@@ -189,38 +176,26 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
             type.setName(toscaPolicy.getType());
         } else {
             throw new PfModelRuntimeException(Response.Status.BAD_REQUEST,
-                "PolicyType type not specified, the type of the PolicyType for this policy must be specified in "
-                    + "the type field");
+                    "PolicyType type not specified, the type of the PolicyType for this policy must be specified in "
+                            + "the type field");
         }
 
         if (toscaPolicy.getTypeVersion() != null) {
             type.setVersion(toscaPolicy.getTypeVersion());
         } else {
             throw new PfModelRuntimeException(Response.Status.BAD_REQUEST,
-                "PolicyType version not specified, the version of the PolicyType for this policy must be specified in "
-                    + "the type_version field");
+                    "PolicyType version not specified, the version of the PolicyType for this policy must be specified"
+                            + " in the type_version field");
         }
 
-        if (toscaPolicy.getProperties() != null) {
-            properties = new LinkedHashMap<>();
-
-            final StandardCoder coder = new StandardCoder();
-
-            for (Entry<String, Object> propertyEntry : toscaPolicy.getProperties().entrySet()) {
-                // TODO: This is a HACK, we need to validate the properties against their
-                // TODO: their data type in their policy type definition in TOSCA, which means reading
-                // TODO: the policy type from the database and parsing the property value object correctly
-                // TODO: Here we are simply serializing the property value into a string and storing it
-                // TODO: unvalidated into the database
-                try {
-                    properties.put(propertyEntry.getKey(), coder.encode(propertyEntry.getValue()));
-                } catch (CoderException ce) {
-                    String errorMessage = "error encoding property JSON value for database: key="
-                        + propertyEntry.getKey() + ", value=" + propertyEntry.getValue();
-                    throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR, errorMessage, ce);
-                }
+        properties = PfUtils.mapMap(toscaPolicy.getProperties(), property -> {
+            try {
+                return STANDARD_CODER.encode(property);
+            } catch (CoderException ce) {
+                String errorMessage = "error encoding property JSON value for database: " + property;
+                throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR, errorMessage, ce);
             }
-        }
+        });
 
         // Add the property metadata if it doesn't exist already
         if (toscaPolicy.getMetadata() == null) {
@@ -264,12 +239,12 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
 
         if (PfKey.NULL_KEY_VERSION.equals(getKey().getVersion())) {
             result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                "key version is a null version"));
+                    "key version is a null version"));
         }
 
         if (type == null || type.isNullKey()) {
             result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                "type is null or a null key"));
+                    "type is null or a null key"));
         } else {
             result = type.validate(result);
         }
@@ -295,10 +270,10 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
         for (Entry<String, String> propertyEntry : properties.entrySet()) {
             if (!ParameterValidationUtils.validateStringParameter(propertyEntry.getKey())) {
                 result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                    "policy property key may not be null "));
+                        "policy property key may not be null "));
             } else if (propertyEntry.getValue() == null) {
                 result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                    "policy property value may not be null "));
+                        "policy property value may not be null "));
             }
         }
     }
@@ -306,7 +281,7 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
     /**
      * Validate the policy targets.
      *
-     * @param result The result of validations up to now
+     * @param resultIn The result of validations up to now
      * @return the validation result
      */
     private PfValidationResult validateTargets(final PfValidationResult resultIn) {
@@ -315,7 +290,7 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
         for (PfConceptKey target : targets) {
             if (target == null) {
                 result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                    "policy target may not be null "));
+                        "policy target may not be null "));
             } else {
                 result = target.validate(result);
             }
@@ -338,19 +313,21 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
         }
 
         final JpaToscaPolicy other = (JpaToscaPolicy) otherConcept;
-        if (!super.equals(other)) {
-            return super.compareTo(other);
+        int result = super.compareTo(other);
+        if (result != 0) {
+            return result;
         }
 
-        if (!type.equals(other.type)) {
-            return type.compareTo(other.type);
+        result = type.compareTo(other.type);
+        if (result != 0) {
+            return result;
         }
 
-        int retVal = PfUtils.compareObjects(properties, other.properties);
-        if (retVal != 0) {
-            return retVal;
+        result = PfUtils.compareMaps(properties, other.properties);
+        if (result != 0) {
+            return result;
         }
 
-        return PfUtils.compareObjects(targets, other.targets);
+        return PfUtils.compareCollections(targets, other.targets);
     }
 }

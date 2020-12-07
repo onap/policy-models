@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,23 +33,23 @@ public class PfValidationResult {
      * The ValidationResult enumeration describes the severity of a validation result.
      */
     public enum ValidationResult {
-    /** No problems or observations were detected during validation. */
-    VALID,
-    /**
-     * Observations were made on a concept (such as blank descriptions) of a nature that will not
-     * affect the use of the concept.
-     */
-    OBSERVATION,
-    /**
-     * Warnings were made on a concept (such as defined but unused concepts) of a nature that may
-     * affect the use of the concept.
-     */
-    WARNING,
-    /**
-     * Errors were detected on a concept (such as referenced but undefined concepts) of a nature
-     * that will affect the use of the concept.
-     */
-    INVALID
+        /** No problems or observations were detected during validation. */
+        VALID,
+        /**
+         * Observations were made on a concept (such as blank descriptions) of a nature that will not affect the use of
+         * the concept.
+         */
+        OBSERVATION,
+        /**
+         * Warnings were made on a concept (such as defined but unused concepts) of a nature that may affect the use of
+         * the concept.
+         */
+        WARNING,
+        /**
+         * Errors were detected on a concept (such as referenced but undefined concepts) of a nature that will affect
+         * the use of the concept.
+         */
+        INVALID
     }
 
     // The actual verification result
@@ -59,8 +59,8 @@ public class PfValidationResult {
     private final List<PfValidationMessage> messageList = new LinkedList<>();
 
     /**
-     * Check if a validation reported a valid concept, returns true if the model is usable (that is,
-     * even if the model has warnings or observations).
+     * Check if a validation reported a valid concept, returns true if the model is usable (that is, even if the model
+     * has warnings or observations).
      *
      * @return true, if the concept is reported as valid and can be used
      */
@@ -69,8 +69,7 @@ public class PfValidationResult {
     }
 
     /**
-     * Check if a validation reported a concept with no errors or warnings, returns true if the
-     * model is OK to use.
+     * Check if a validation reported a concept with no errors or warnings, returns true if the model is OK to use.
      *
      * @return true, if the concept has no warnings or errors
      */
@@ -78,9 +77,21 @@ public class PfValidationResult {
         return validationResult == ValidationResult.VALID || validationResult == ValidationResult.OBSERVATION;
     }
 
+
     /**
-     * Adds a validation message to the validation result, used by validate() implementations on
-     * {@link PfConcept} subclasses to report validaiton observations.
+     * Append a validation result to another validation result.
+     *
+     * @param result2Append the result to append to the current validation result
+     */
+    public void append(final PfValidationResult result2Append) {
+        for (PfValidationMessage message : result2Append.getMessageList()) {
+            addValidationMessage(message);
+        }
+    }
+
+    /**
+     * Adds a validation message to the validation result, used by validate() implementations on {@link PfConcept}
+     * subclasses to report validaiton observations.
      *
      * @param validationMessage the validation message
      */

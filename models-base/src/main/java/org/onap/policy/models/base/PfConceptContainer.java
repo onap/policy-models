@@ -66,7 +66,7 @@ import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 @EqualsAndHashCode(callSuper = false)
 
 public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> extends PfConcept
-    implements PfConceptGetter<C>, PfAuthorative<List<Map<String, A>>> {
+        implements PfConceptGetter<C>, PfAuthorative<List<Map<String, A>>> {
     private static final long serialVersionUID = -324211738823208318L;
 
     private static final Pattern KEY_ID_PATTERN = Pattern.compile(PfKey.KEY_ID_REGEXP);
@@ -193,9 +193,9 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
                 }
 
                 incomingConceptEntry.getValue().setName(findConceptField(conceptKey, conceptKey.getName(),
-                    incomingConceptEntry.getValue(), PfNameVersion::getName));
+                        incomingConceptEntry.getValue(), PfNameVersion::getName));
                 incomingConceptEntry.getValue().setVersion(findConceptField(conceptKey, conceptKey.getVersion(),
-                    incomingConceptEntry.getValue(), PfNameVersion::getVersion));
+                        incomingConceptEntry.getValue(), PfNameVersion::getVersion));
 
                 C jpaConcept = getConceptNewInstance();
                 // This cast allows us to call the fromAuthorative method
@@ -212,7 +212,7 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
 
         if (conceptMap.isEmpty()) {
             throw new PfModelRuntimeException(Response.Status.BAD_REQUEST,
-                "An incoming list of concepts must have at least one entry");
+                    "An incoming list of concepts must have at least one entry");
         }
     }
 
@@ -246,7 +246,7 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
 
         if (key.equals(PfConceptKey.getNullKey())) {
             result.addValidationMessage(
-                new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID, "key is a null key"));
+                    new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID, "key is a null key"));
         }
 
         result = key.validate(result);
@@ -270,14 +270,14 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
         for (final Entry<PfConceptKey, C> conceptEntry : conceptMap.entrySet()) {
             if (conceptEntry.getKey().equals(PfConceptKey.getNullKey())) {
                 result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "key on concept entry " + conceptEntry.getKey() + " may not be the null key"));
+                        "key on concept entry " + conceptEntry.getKey() + " may not be the null key"));
             } else if (conceptEntry.getValue() == null) {
                 result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "value on concept entry " + conceptEntry.getKey() + " may not be null"));
+                        "value on concept entry " + conceptEntry.getKey() + " may not be null"));
             } else if (!conceptEntry.getKey().equals(conceptEntry.getValue().getKey())) {
                 result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "key on concept entry key " + conceptEntry.getKey() + " does not equal concept value key "
-                        + conceptEntry.getValue().getKey()));
+                        "key on concept entry key " + conceptEntry.getKey() + " does not equal concept value key "
+                                + conceptEntry.getValue().getKey()));
                 result = conceptEntry.getValue().validate(result);
             } else {
                 result = conceptEntry.getValue().validate(result);
@@ -305,11 +305,7 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
             return retVal;
         }
 
-        if (!conceptMap.equals(other.conceptMap)) {
-            return (conceptMap.hashCode() - other.conceptMap.hashCode());
-        }
-
-        return 0;
+        return PfUtils.compareMaps(conceptMap, other.conceptMap);
     }
 
     /**
@@ -349,7 +345,7 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
     @Override
     public C get(final String conceptKeyName, final String conceptKeyVersion) {
         return new PfConceptGetterImpl<>((NavigableMap<PfConceptKey, C>) conceptMap).get(conceptKeyName,
-            conceptKeyVersion);
+                conceptKeyVersion);
     }
 
     @Override
@@ -360,7 +356,7 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
     @Override
     public Set<C> getAll(final String conceptKeyName, final String conceptKeyVersion) {
         return new PfConceptGetterImpl<>((NavigableMap<PfConceptKey, C>) conceptMap).getAll(conceptKeyName,
-            conceptKeyVersion);
+                conceptKeyVersion);
     }
 
     /**
@@ -372,16 +368,16 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
     private C getConceptNewInstance() {
         try {
             String conceptClassName =
-                ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0].getTypeName();
+                    ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0].getTypeName();
             return (C) Class.forName(conceptClassName).getDeclaredConstructor().newInstance();
         } catch (Exception ex) {
             throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR,
-                "failed to instantiate instance of container concept class", ex);
+                    "failed to instantiate instance of container concept class", ex);
         }
     }
 
     private String findConceptField(final PfConceptKey conceptKey, final String keyFieldValue,
-        final PfNameVersion concept, final Function<PfNameVersion, String> fieldGetterFunction) {
+            final PfNameVersion concept, final Function<PfNameVersion, String> fieldGetterFunction) {
 
         String conceptField = fieldGetterFunction.apply(concept);
 
@@ -389,7 +385,7 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
             return keyFieldValue;
         } else {
             throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, "Key " + conceptKey.getId() + " field "
-                + keyFieldValue + " does not match the value " + conceptField + " in the concept field");
+                    + keyFieldValue + " does not match the value " + conceptField + " in the concept field");
         }
     }
 }

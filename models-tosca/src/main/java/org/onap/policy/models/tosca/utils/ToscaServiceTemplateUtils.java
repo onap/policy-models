@@ -125,9 +125,9 @@ public class ToscaServiceTemplateUtils {
 
         for (Entry<PfConceptKey, ? extends JpaToscaEntityType<? extends ToscaEntity>> fragmentEntry : fragmentContainer
                 .getConceptMap().entrySet()) {
-            JpaToscaEntityType<? extends ToscaEntity> containerEntry =
+            JpaToscaEntityType<? extends ToscaEntity> containerEntity =
                     compositeContainer.getConceptMap().get(fragmentEntry.getKey());
-            if (containerEntry != null && !containerEntry.equals(fragmentEntry.getValue())) {
+            if (containerEntity != null && containerEntity.compareTo(fragmentEntry.getValue()) != 0) {
                 result.addValidationMessage(new PfValidationMessage(fragmentEntry.getKey(),
                         ToscaServiceTemplateUtils.class,
                         ValidationResult.INVALID, "entity in incoming fragment does not equal existing entity"));

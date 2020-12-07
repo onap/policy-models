@@ -49,8 +49,11 @@ import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfValidationMessage;
 import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaCapabilityType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaDataType;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaNodeType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaRelationshipType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 
 /**
@@ -87,6 +90,36 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
         )
     @SerializedName("data_types")
     private JpaToscaDataTypes dataTypes;
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumns(
+            {
+                @JoinColumn(name = "capabilityTypesName",    referencedColumnName = "name"),
+                @JoinColumn(name = "capabilityTypesVersion", referencedColumnName = "version")
+            }
+        )
+    @SerializedName("capability_types")
+    private JpaToscaCapabilityTypes capabilityTypes;
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumns(
+            {
+                @JoinColumn(name = "relationshipTypesName",    referencedColumnName = "name"),
+                @JoinColumn(name = "relationshipTypesVersion", referencedColumnName = "version")
+            }
+        )
+    @SerializedName("relationship_types")
+    private JpaToscaRelationshipTypes relationshipTypes;
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumns(
+            {
+                @JoinColumn(name = "nodeTypesName",    referencedColumnName = "name"),
+                @JoinColumn(name = "nodeTypesVersion", referencedColumnName = "version")
+            }
+        )
+    @SerializedName("node_types")
+    private JpaToscaNodeTypes nodeTypes;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumns(
@@ -147,6 +180,12 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
         super(copyConcept);
         this.toscaDefinitionsVersion = copyConcept.toscaDefinitionsVersion;
         this.dataTypes = (copyConcept.dataTypes != null ? new JpaToscaDataTypes(copyConcept.dataTypes) : null);
+        this.capabilityTypes =
+                (copyConcept.capabilityTypes != null ? new JpaToscaCapabilityTypes(copyConcept.capabilityTypes) : null);
+        this.relationshipTypes =
+                (copyConcept.relationshipTypes != null ? new JpaToscaRelationshipTypes(copyConcept.relationshipTypes)
+                        : null);
+        this.nodeTypes = (copyConcept.nodeTypes != null ? new JpaToscaNodeTypes(copyConcept.nodeTypes) : null);
         this.policyTypes = (copyConcept.policyTypes != null ? new JpaToscaPolicyTypes(copyConcept.policyTypes) : null);
         this.topologyTemplate =
                 (copyConcept.topologyTemplate != null ? new JpaToscaTopologyTemplate(copyConcept.topologyTemplate)
@@ -176,6 +215,30 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
             List<Map<String, ToscaDataType>> dataTypeMapList = dataTypes.toAuthorative();
             for (Map<String, ToscaDataType> dataTypeMap : dataTypeMapList) {
                 toscaServiceTemplate.getDataTypes().putAll(dataTypeMap);
+            }
+        }
+
+        if (capabilityTypes != null) {
+            toscaServiceTemplate.setCapabilityTypes(new LinkedHashMap<>());
+            List<Map<String, ToscaCapabilityType>> capabilityTypeMapList = capabilityTypes.toAuthorative();
+            for (Map<String, ToscaCapabilityType> capabilityTypeMap : capabilityTypeMapList) {
+                toscaServiceTemplate.getCapabilityTypes().putAll(capabilityTypeMap);
+            }
+        }
+
+        if (relationshipTypes != null) {
+            toscaServiceTemplate.setRelationshipTypes(new LinkedHashMap<>());
+            List<Map<String, ToscaRelationshipType>> relationshipTypeMapList = relationshipTypes.toAuthorative();
+            for (Map<String, ToscaRelationshipType> relationshipTypeMap : relationshipTypeMapList) {
+                toscaServiceTemplate.getRelationshipTypes().putAll(relationshipTypeMap);
+            }
+        }
+
+        if (nodeTypes != null) {
+            toscaServiceTemplate.setNodeTypes(new LinkedHashMap<>());
+            List<Map<String, ToscaNodeType>> nodeTypeMapList = nodeTypes.toAuthorative();
+            for (Map<String, ToscaNodeType> nodeTypeMap : nodeTypeMapList) {
+                toscaServiceTemplate.getNodeTypes().putAll(nodeTypeMap);
             }
         }
 
@@ -213,6 +276,21 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
             dataTypes.fromAuthorative(Collections.singletonList(toscaServiceTemplate.getDataTypes()));
         }
 
+        if (toscaServiceTemplate.getCapabilityTypes() != null) {
+            capabilityTypes = new JpaToscaCapabilityTypes();
+            capabilityTypes.fromAuthorative(Collections.singletonList(toscaServiceTemplate.getCapabilityTypes()));
+        }
+
+        if (toscaServiceTemplate.getRelationshipTypes() != null) {
+            relationshipTypes = new JpaToscaRelationshipTypes();
+            relationshipTypes.fromAuthorative(Collections.singletonList(toscaServiceTemplate.getRelationshipTypes()));
+        }
+
+        if (toscaServiceTemplate.getNodeTypes() != null) {
+            nodeTypes = new JpaToscaNodeTypes();
+            nodeTypes.fromAuthorative(Collections.singletonList(toscaServiceTemplate.getNodeTypes()));
+        }
+
         if (toscaServiceTemplate.getPolicyTypes() != null) {
             policyTypes = new JpaToscaPolicyTypes();
             policyTypes.fromAuthorative(Collections.singletonList(toscaServiceTemplate.getPolicyTypes()));
@@ -232,6 +310,18 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
             keyList.addAll(dataTypes.getKeys());
         }
 
+        if (capabilityTypes != null) {
+            keyList.addAll(capabilityTypes.getKeys());
+        }
+
+        if (relationshipTypes != null) {
+            keyList.addAll(relationshipTypes.getKeys());
+        }
+
+        if (nodeTypes != null) {
+            keyList.addAll(nodeTypes.getKeys());
+        }
+
         if (policyTypes != null) {
             keyList.addAll(policyTypes.getKeys());
         }
@@ -249,6 +339,18 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
 
         if (dataTypes != null) {
             dataTypes.clean();
+        }
+
+        if (capabilityTypes != null) {
+            capabilityTypes.clean();
+        }
+
+        if (relationshipTypes != null) {
+            relationshipTypes.clean();
+        }
+
+        if (nodeTypes != null) {
+            nodeTypes.clean();
         }
 
         if (policyTypes != null) {
@@ -271,6 +373,18 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
 
         if (dataTypes != null) {
             result = dataTypes.validate(result);
+        }
+
+        if (capabilityTypes != null) {
+            result = capabilityTypes.validate(result);
+        }
+
+        if (relationshipTypes != null) {
+            result = relationshipTypes.validate(result);
+        }
+
+        if (nodeTypes != null) {
+            result = nodeTypes.validate(result);
         }
 
         if (policyTypes != null) {
@@ -301,6 +415,21 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
         final JpaToscaServiceTemplate other = (JpaToscaServiceTemplate) otherConcept;
 
         result = ObjectUtils.compare(dataTypes, other.dataTypes);
+        if (result != 0) {
+            return result;
+        }
+
+        result = ObjectUtils.compare(capabilityTypes, other.capabilityTypes);
+        if (result != 0) {
+            return result;
+        }
+
+        result = ObjectUtils.compare(relationshipTypes, other.relationshipTypes);
+        if (result != 0) {
+            return result;
+        }
+
+        result = ObjectUtils.compare(nodeTypes, other.nodeTypes);
         if (result != 0) {
             return result;
         }

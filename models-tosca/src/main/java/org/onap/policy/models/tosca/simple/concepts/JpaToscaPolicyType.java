@@ -23,7 +23,6 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -71,13 +70,13 @@ public class JpaToscaPolicyType extends JpaToscaEntityType<ToscaPolicyType> impl
 
     @ElementCollection
     @Lob
-    private Map<String, JpaToscaProperty> properties = new LinkedHashMap<>();
+    private Map<String, JpaToscaProperty> properties;
 
     @ElementCollection
-    private List<PfConceptKey> targets = new ArrayList<>();
+    private List<PfConceptKey> targets;
 
     @ElementCollection
-    private List<JpaToscaTrigger> triggers = new ArrayList<>();
+    private List<JpaToscaTrigger> triggers;
 
     /**
      * The Default Constructor creates a {@link JpaToscaPolicyType} object with a null key.
@@ -122,15 +121,7 @@ public class JpaToscaPolicyType extends JpaToscaEntityType<ToscaPolicyType> impl
         super.setToscaEntity(toscaPolicyType);
         super.toAuthorative();
 
-        if (properties != null) {
-            Map<String, ToscaProperty> propertyMap = new LinkedHashMap<>();
-
-            for (Entry<String, JpaToscaProperty> entry : properties.entrySet()) {
-                propertyMap.put(entry.getKey(), entry.getValue().toAuthorative());
-            }
-
-            toscaPolicyType.setProperties(propertyMap);
-        }
+        toscaPolicyType.setProperties(PfUtils.mapMap(properties, JpaToscaProperty::toAuthorative));
 
         return toscaPolicyType;
     }
@@ -293,21 +284,22 @@ public class JpaToscaPolicyType extends JpaToscaEntityType<ToscaPolicyType> impl
         }
 
         final JpaToscaPolicyType other = (JpaToscaPolicyType) otherConcept;
-        if (!super.equals(other)) {
-            return super.compareTo(other);
+        int result = super.compareTo(other);
+        if (result != 0) {
+            return result;
         }
 
-        int retVal = PfUtils.compareObjects(properties, other.properties);
-        if (retVal != 0) {
-            return retVal;
+        result = PfUtils.compareMaps(properties, other.properties);
+        if (result != 0) {
+            return result;
         }
 
-        retVal = PfUtils.compareObjects(targets, other.targets);
-        if (retVal != 0) {
-            return retVal;
+        result = PfUtils.compareCollections(targets, other.targets);
+        if (result != 0) {
+            return result;
         }
 
-        return PfUtils.compareObjects(triggers, other.triggers);
+        return PfUtils.compareCollections(triggers, other.triggers);
     }
 
     /**
