@@ -1,6 +1,6 @@
-/*
+/*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,7 +26,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.function.UnaryOperator;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
 
@@ -68,15 +68,14 @@ public final class PfUtils {
     }
 
     /**
-     * Convenience method to apply a mapping function to all of the elements of a list,
-     * generating a new list.
+     * Convenience method to apply a mapping function to all of the elements of a list, generating a new list.
      *
      * @param source list whose elements are to be mapped, or {@code null}
      * @param mapFunc mapping function
      * @param defaultValue value to be returned if source is {@code null}
      * @return a new list, containing mappings of all of the items in the original list
      */
-    public static <T> List<T> mapList(List<T> source, UnaryOperator<T> mapFunc, List<T> defaultValue) {
+    public static <T, R> List<R> mapList(List<T> source, Function<T, R> mapFunc, List<R> defaultValue) {
         if (source == null) {
             return defaultValue;
         }
@@ -85,34 +84,32 @@ public final class PfUtils {
     }
 
     /**
-     * Convenience method to apply a mapping function to all of the elements of a list,
-     * generating a new list.
+     * Convenience method to apply a mapping function to all of the elements of a list, generating a new list.
      *
      * @param source list whose elements are to be mapped, or {@code null}
      * @param mapFunc mapping function
-     * @return a new list, containing mappings of all of the items in the original list,
-     *         or {@code null} if the source is {@code null}
+     * @return a new list, containing mappings of all of the items in the original list, or {@code null} if the source
+     *         is {@code null}
      */
-    public static <T> List<T> mapList(List<T> source, UnaryOperator<T> mapFunc) {
+    public static <T, R> List<R> mapList(List<T> source, Function<T, R> mapFunc) {
         return mapList(source, mapFunc, null);
     }
 
     /**
-     * Convenience method to apply a mapping function to all of the values of a map,
-     * generating a new map.
+     * Convenience method to apply a mapping function to all of the values of a map, generating a new map.
      *
      * @param source map whose values are to be mapped, or {@code null}
      * @param mapFunc mapping function
      * @param defaultValue value to be returned if source is {@code null}
      * @return a new map, containing mappings of all of the items in the original map
      */
-    public static <T> Map<String, T> mapMap(Map<String, T> source, UnaryOperator<T> mapFunc,
-                    Map<String, T> defaultValue) {
+    public static <T, R> Map<String, R> mapMap(Map<String, T> source, Function<T, R> mapFunc,
+            Map<String, R> defaultValue) {
         if (source == null) {
             return defaultValue;
         }
 
-        Map<String, T> map = new LinkedHashMap<>();
+        Map<String, R> map = new LinkedHashMap<>();
         for (Entry<String, T> ent : source.entrySet()) {
             map.put(ent.getKey(), mapFunc.apply(ent.getValue()));
         }
@@ -121,15 +118,14 @@ public final class PfUtils {
     }
 
     /**
-     * Convenience method to apply a mapping function to all of the values of a map,
-     * generating a new map.
+     * Convenience method to apply a mapping function to all of the values of a map, generating a new map.
      *
      * @param source map whose values are to be mapped, or {@code null}
      * @param mapFunc mapping function
-     * @return a new map, containing mappings of all of the items in the original map,
-     *         or {@code null} if the source is {@code null}
+     * @return a new map, containing mappings of all of the items in the original map, or {@code null} if the source is
+     *         {@code null}
      */
-    public static <T> Map<String, T> mapMap(Map<String, T> source, UnaryOperator<T> mapFunc) {
+    public static <T, R> Map<String, R> mapMap(Map<String, T> source, Function<T, R> mapFunc) {
         return mapMap(source, mapFunc, null);
     }
 
@@ -152,9 +148,9 @@ public final class PfUtils {
             return clazz.getConstructor(clazz).newInstance(source);
 
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException
-                        | RuntimeException e) {
+                | RuntimeException e) {
             throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR,
-                            "error copying concept key class: " + source.getClass().getName(), e);
+                    "error copying concept key class: " + source.getClass().getName(), e);
         }
     }
 }

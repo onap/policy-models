@@ -53,8 +53,8 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaSchemaDefinition;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
-public class JpaToscaEntrySchema
-        implements PfAuthorative<ToscaSchemaDefinition>, Serializable, Comparable<JpaToscaEntrySchema> {
+public class JpaToscaSchemaDefinition
+    implements PfAuthorative<ToscaSchemaDefinition>, Serializable, Comparable<JpaToscaSchemaDefinition> {
 
     private static final long serialVersionUID = 3645882081163287058L;
 
@@ -71,11 +71,11 @@ public class JpaToscaEntrySchema
     private List<JpaToscaConstraint> constraints = new ArrayList<>();
 
     /**
-     * The full constructor creates a {@link JpaToscaEntrySchema} object with mandatory fields.
+     * The full constructor creates a {@link JpaToscaSchemaDefinition} object with mandatory fields.
      *
      * @param type the type of the entry schema
      */
-    public JpaToscaEntrySchema(@NonNull final PfConceptKey type) {
+    public JpaToscaSchemaDefinition(@NonNull final PfConceptKey type) {
         this.type = type;
     }
 
@@ -84,7 +84,7 @@ public class JpaToscaEntrySchema
      *
      * @param copyConcept the concept to copy from
      */
-    public JpaToscaEntrySchema(@NonNull final JpaToscaEntrySchema copyConcept) {
+    public JpaToscaSchemaDefinition(@NonNull final JpaToscaSchemaDefinition copyConcept) {
         copyConcept.copyTo(this);
     }
 
@@ -93,7 +93,7 @@ public class JpaToscaEntrySchema
      *
      * @param authorativeConcept the authorative concept to copy from
      */
-    public JpaToscaEntrySchema(final ToscaSchemaDefinition authorativeConcept) {
+    public JpaToscaSchemaDefinition(final ToscaSchemaDefinition authorativeConcept) {
         this.fromAuthorative(authorativeConcept);
     }
 
@@ -158,20 +158,20 @@ public class JpaToscaEntrySchema
 
         if (type == null || type.isNullKey()) {
             result.addValidationMessage(new PfValidationMessage(new PfConceptKey(ENTRY_SCHEMA, PfKey.NULL_KEY_VERSION),
-                    this.getClass(), ValidationResult.INVALID, "entry schema type may not be null"));
+                this.getClass(), ValidationResult.INVALID, "entry schema type may not be null"));
         }
 
         if (description != null && description.trim().length() == 0) {
             result.addValidationMessage(new PfValidationMessage(new PfConceptKey(ENTRY_SCHEMA, PfKey.NULL_KEY_VERSION),
-                    this.getClass(), ValidationResult.INVALID, "entry schema description may not be blank"));
+                this.getClass(), ValidationResult.INVALID, "entry schema description may not be blank"));
         }
 
         if (constraints != null) {
             for (JpaToscaConstraint constraint : constraints) {
                 if (constraint == null) {
                     result.addValidationMessage(
-                            new PfValidationMessage(new PfConceptKey(ENTRY_SCHEMA, PfKey.NULL_KEY_VERSION),
-                                    this.getClass(), ValidationResult.INVALID, "property constraint may not be null "));
+                        new PfValidationMessage(new PfConceptKey(ENTRY_SCHEMA, PfKey.NULL_KEY_VERSION), this.getClass(),
+                            ValidationResult.INVALID, "property constraint may not be null "));
                 }
             }
         }
@@ -180,7 +180,7 @@ public class JpaToscaEntrySchema
     }
 
     @Override
-    public int compareTo(final JpaToscaEntrySchema other) {
+    public int compareTo(final JpaToscaSchemaDefinition other) {
         if (other == null) {
             return -1;
         }
@@ -202,10 +202,10 @@ public class JpaToscaEntrySchema
      * @param target the other schemaa
      * @return the copied concept
      */
-    public JpaToscaEntrySchema copyTo(@NonNull final JpaToscaEntrySchema target) {
-        Assertions.instanceOf(target, JpaToscaEntrySchema.class);
+    public JpaToscaSchemaDefinition copyTo(@NonNull final JpaToscaSchemaDefinition target) {
+        Assertions.instanceOf(target, JpaToscaSchemaDefinition.class);
 
-        final JpaToscaEntrySchema copy = (target);
+        final JpaToscaSchemaDefinition copy = (target);
         copy.setType(new PfConceptKey(type));
         copy.setDescription(description);
 
