@@ -1,0 +1,759 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23e6166d_405f2691",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-07T17:40:06Z",
+      "side": 1,
+      "message": "this sounds integral, so wondering why it\u0027s Double",
+      "range": {
+        "startLine": 72,
+        "startChar": 25,
+        "endLine": 72,
+        "endChar": 37
+      },
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e075f29d_7002d4d2",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-07T17:40:06Z",
+      "side": 1,
+      "message": "maybe introduce a makeCopy(source, Class\u003cMap\u003e newClassType) ?\nor addAll(Map\u003c\u003e target, Map\u003c\u003e source) ?\n\neither of which return null if the source is null\n\nor simply do inline check for null and then do: new HashMap\u003c\u003e(source)",
+      "range": {
+        "startLine": 97,
+        "startChar": 26,
+        "endLine": 97,
+        "endChar": 40
+      },
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53a9d9dd_cf2bed7c",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-07T17:40:06Z",
+      "side": 1,
+      "message": "can this be null?",
+      "range": {
+        "startLine": 99,
+        "startChar": 43,
+        "endLine": 99,
+        "endChar": 66
+      },
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "744ee79a_f1c2ffb7",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-07T17:40:06Z",
+      "side": 1,
+      "message": "could replace this whole block, including the \"if\" test, with a call to PfUtils.makeMap - would reduce the whole block to one statement.\n\nsimilar comment for attributes and occurrences\n\nthat would require a minor tweak to makeMap (which should be done anyway :-) ) to take Function instead of UnaryFunction",
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc2f86f6_fabadc00",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-07T17:40:06Z",
+      "side": 1,
+      "message": "I believe you can use a static object for all of these",
+      "range": {
+        "startLine": 122,
+        "startChar": 50,
+        "endLine": 122,
+        "endChar": 74
+      },
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12fc0fd2_4ab72571",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-07T17:40:06Z",
+      "side": 1,
+      "message": "remove this - no reason to convert to double only to auto-box back to Double when adding to the list",
+      "range": {
+        "startLine": 144,
+        "startChar": 50,
+        "endLine": 144,
+        "endChar": 64
+      },
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98644bf3_93babc1e",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-07T17:40:06Z",
+      "side": 1,
+      "message": "same comment as before for these blocks",
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33868d1a_1913dbff",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-07T17:40:06Z",
+      "side": 1,
+      "message": "use propertyEntry.set() instead of put()\n\nsame comment below",
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1c701d9_cb7e6dd7",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-07T17:40:06Z",
+      "side": 1,
+      "message": "might as well add a \"break\" here - no point in duplicating the message\n\nsame comment for the other cases below",
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4db6c71b_a8e53d31",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-07T17:40:06Z",
+      "side": 1,
+      "message": "maybe use \"xxx \u003c 0.0 \u0026\u0026 xxx !\u003d unbound-value\", to prevent things like -0.5",
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8aa623a_a3669e2c",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-07T17:40:06Z",
+      "side": 1,
+      "message": "why not just call super.compareTo() and return the result if !\u003d 0?",
+      "range": {
+        "startLine": 300,
+        "startChar": 12,
+        "endLine": 300,
+        "endChar": 32
+      },
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3759d082_5515a5d1",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-07T17:40:06Z",
+      "side": 1,
+      "message": "makeMap",
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a38444f8_b631542c",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-07T17:40:06Z",
+      "side": 1,
+      "message": "could use makeMap, but the data structure is complicated enough that this is OK as is",
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d9edcbc_349a2e4b",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-07T17:40:06Z",
+      "side": 1,
+      "message": "do we not have a utility method for this?  if not, we probably should",
+      "range": {
+        "startLine": 167,
+        "startChar": 7,
+        "endLine": 171,
+        "endChar": 0
+      },
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "964c5924_3dee4350",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-07T17:40:06Z",
+      "side": 1,
+      "message": "use super.compareTo() instead?",
+      "range": {
+        "startLine": 212,
+        "startChar": 12,
+        "endLine": 212,
+        "endChar": 25
+      },
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "249bbe52_d953fe05",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaNodeTemplate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-07T17:40:06Z",
+      "side": 1,
+      "message": "makeCopy instead",
+      "range": {
+        "startLine": 119,
+        "startChar": 34,
+        "endLine": 119,
+        "endChar": 40
+      },
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55da2bbe_cc8e4efe",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaNodeTemplate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-07T17:40:06Z",
+      "side": 1,
+      "message": "makeMap",
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd1fd893_3c6f30af",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaNodeTemplate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-07T17:40:06Z",
+      "side": 1,
+      "message": "makeMap",
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21a4955e_fb998680",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaNodeTemplate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-07T17:40:06Z",
+      "side": 1,
+      "message": "this won\u0027t work as it doesn\u0027t modify the value in place",
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a16a21f9_791ef7e3",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaNodeTemplate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-07T17:40:06Z",
+      "side": 1,
+      "message": "super.compareTo",
+      "range": {
+        "startLine": 296,
+        "startChar": 12,
+        "endLine": 296,
+        "endChar": 25
+      },
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "325bcb41_c054ded8",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaNodeType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-07T17:40:06Z",
+      "side": 1,
+      "message": "makeMap",
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08af5e14_f03d91b4",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaNodeType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-07T17:40:06Z",
+      "side": 1,
+      "message": "seem to be doing this regularly - maybe make a utility method",
+      "range": {
+        "startLine": 154,
+        "startChar": 11,
+        "endLine": 159,
+        "endChar": 13
+      },
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f43d6de_1b3209e4",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaNodeType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-07T17:40:06Z",
+      "side": 1,
+      "message": "utility method?\n\nor use forEach()",
+      "range": {
+        "startLine": 173,
+        "startChar": 12,
+        "endLine": 175,
+        "endChar": 13
+      },
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb7a21e7_32e0863e",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaNodeType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-07T17:40:06Z",
+      "side": 1,
+      "message": "utility method?\n\nor use forEach()",
+      "range": {
+        "startLine": 190,
+        "startChar": 11,
+        "endLine": 193,
+        "endChar": 9
+      },
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8e6e7e7_5141e98c",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaNodeType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-07T17:40:06Z",
+      "side": 1,
+      "message": "utility method?",
+      "range": {
+        "startLine": 229,
+        "startChar": 7,
+        "endLine": 236,
+        "endChar": 9
+      },
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5b4bcb1_3e034230",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaNodeType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-07T17:40:06Z",
+      "side": 1,
+      "message": "utility method?",
+      "range": {
+        "startLine": 277,
+        "startChar": 8,
+        "endLine": 283,
+        "endChar": 9
+      },
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6f5e9c5_5930c732",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaNodeTypes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-07T17:40:06Z",
+      "side": 1,
+      "message": "utility method?",
+      "range": {
+        "startLine": 106,
+        "startChar": 8,
+        "endLine": 108,
+        "endChar": 9
+      },
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e73760b_9bd6d0a8",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaParameter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-07T17:40:06Z",
+      "side": 1,
+      "message": "key.compareTo",
+      "range": {
+        "startLine": 195,
+        "startChar": 12,
+        "endLine": 195,
+        "endChar": 23
+      },
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d968abc_e171414d",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaRelationshipType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-07T17:40:06Z",
+      "side": 1,
+      "message": "same comments as other classes: use makeCopy, makeMap, compareTo, add utility methods",
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d3c4889_8fe26819",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaRequirement.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-07T17:40:06Z",
+      "side": 1,
+      "message": "same comments as other classes: use makeCopy, makeMap, compareTo, add utility methods",
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c89fc7e1_8f4bfd36",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaRequirement.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-07T17:40:06Z",
+      "side": 1,
+      "message": "Integer?",
+      "range": {
+        "startLine": 78,
+        "startChar": 17,
+        "endLine": 78,
+        "endChar": 23
+      },
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6235f0cd_74cb3968",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaRequirement.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-07T17:40:06Z",
+      "side": 1,
+      "message": "can remove this method",
+      "range": {
+        "startLine": 188,
+        "startChar": 3,
+        "endLine": 191,
+        "endChar": 5
+      },
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fbbc9dd_83c58d03",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaRequirement.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-07T17:40:06Z",
+      "side": 1,
+      "message": "won\u0027t work",
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11e7708c_18eab70d",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaRequirements.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-07T17:40:06Z",
+      "side": 1,
+      "message": "utility method?",
+      "range": {
+        "startLine": 110,
+        "startChar": 7,
+        "endLine": 112,
+        "endChar": 9
+      },
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ef02bef_ec909ee5",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaServiceTemplate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-07T17:40:06Z",
+      "side": 1,
+      "message": "utility method?\n\nsame comment below",
+      "range": {
+        "startLine": 222,
+        "startChar": 11,
+        "endLine": 226,
+        "endChar": 13
+      },
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc410f94_1be3f38a",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaTopologyTemplate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-07T17:40:06Z",
+      "side": 1,
+      "message": "same comments as other classes: use makeCopy, makeMap, compareTo, add utility methods",
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22e5c23b_a38b235a",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignmentTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-07T17:40:06Z",
+      "side": 1,
+      "message": "trailing tabs here and below",
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
