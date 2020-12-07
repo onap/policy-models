@@ -38,7 +38,6 @@ public class ModifyNssi extends SoOperation {
     public static final String NAME = "Modify NSSI";
 
     private static final List<String> PROPERTY_NAMES = List.of(
-            OperationProperties.AAI_SERVICE,
             OperationProperties.EVENT_PAYLOAD);
 
     /**
@@ -70,8 +69,7 @@ public class ModifyNssi extends SoOperation {
 
     private SoRequest3gpp makeRequest() {
 
-        Map<String, Object> payload = params.getPayload();
-
+        String payload = getProperty(OperationProperties.EVENT_PAYLOAD);
         try {
             return getCoder().convert(payload, SoRequest3gpp.class);
         } catch (CoderException e) {

@@ -78,7 +78,7 @@ public class ModifyNssiTest extends BasicSoOperation {
         params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).build();
 
         oper = new ModifyNssi(params, config);
-
+        oper.setProperty(OperationProperties.EVENT_PAYLOAD, getPayload());
         outcome = oper.start().get();
 
         assertEquals(OperationResult.SUCCESS, outcome.getResult());
@@ -100,20 +100,13 @@ public class ModifyNssiTest extends BasicSoOperation {
     public void testGetPropertyNames() {
         assertThat(oper.getPropertyNames()).isEqualTo(
                 List.of(
-                        OperationProperties.AAI_SERVICE,
                         OperationProperties.EVENT_PAYLOAD));
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    protected Map<String, Object> makePayload() {
-        String payloadString = ResourceUtils
+    private String getPayload() {
+        return ResourceUtils
                 .getResourceAsString("src/test/resources/ModifyNSSI.json");
-
-        try {
-            return coder.decode(payloadString, Map.class);
-        } catch (CoderException e) {
-            throw new IllegalArgumentException("invalid payload value: " + payloadString, e);
-        }
     }
+
+
 }
