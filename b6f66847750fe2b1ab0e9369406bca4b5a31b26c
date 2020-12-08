@@ -383,6 +383,24 @@
     },
     {
       "key": {
+        "uuid": "43b48e80_45e7b5f4",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-12-08T15:48:19Z",
+      "side": 1,
+      "message": "Apologies, rather than putting in a \"break\", I\u0027m now printing the key of the value that\u0027s null, so, while there might still be multiple messages, now the user will see which keys have hull values. I thought this was more useful than bombing out on the first one and having the user come back and fix that only to have another one bomb out.",
+      "parentUuid": "7cbb25a0_98156ea8",
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4db6c71b_a8e53d31",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignment.java",
         "patchSetId": 1
