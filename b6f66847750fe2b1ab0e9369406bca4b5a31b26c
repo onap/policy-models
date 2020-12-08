@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "d8265d5f_54888d8c",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-12-08T15:51:07Z",
+      "side": 1,
+      "message": "OK, I\u0027ll fix the rest of the comments and come back on this one.",
+      "parentUuid": "26af1a11_3f016e7f",
+      "range": {
+        "startLine": 72,
+        "startChar": 25,
+        "endLine": 72,
+        "endChar": 37
+      },
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e075f29d_7002d4d2",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignment.java",
         "patchSetId": 1
