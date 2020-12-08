@@ -425,6 +425,24 @@
     },
     {
       "key": {
+        "uuid": "c2afe9dc_093e3636",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-08T15:56:52Z",
+      "side": 1,
+      "message": "oh, duh - that\u0027s even better!",
+      "parentUuid": "43b48e80_45e7b5f4",
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4db6c71b_a8e53d31",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignment.java",
         "patchSetId": 1
