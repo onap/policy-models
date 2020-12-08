@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "62db4d41_25b210bf",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-12-08T09:38:04Z",
+      "side": 1,
+      "message": "I tried to get it to work as an integer but the serialization and deserialization of the yaml treats all numbers as double so it was better just to leave them as doubles the whole way through.\n\nAlso the fact that the string \"unbounded\" is a legal value for occurrences causes all sorts of problems, these TOSCA people certainly don\u0027t make it easy for people trying to work with the language.",
+      "parentUuid": "23e6166d_405f2691",
+      "range": {
+        "startLine": 72,
+        "startChar": 25,
+        "endLine": 72,
+        "endChar": 37
+      },
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e075f29d_7002d4d2",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignment.java",
         "patchSetId": 1
@@ -111,6 +135,30 @@
     },
     {
       "key": {
+        "uuid": "50c7e60e_770d55aa",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-12-08T09:38:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc2f86f6_fabadc00",
+      "range": {
+        "startLine": 122,
+        "startChar": 50,
+        "endLine": 122,
+        "endChar": 74
+      },
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "12fc0fd2_4ab72571",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignment.java",
         "patchSetId": 1
@@ -131,6 +179,30 @@
       "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c060123a_3e02d845",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-12-08T09:38:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12fc0fd2_4ab72571",
+      "range": {
+        "startLine": 144,
+        "startChar": 50,
+        "endLine": 144,
+        "endChar": 64
+      },
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -168,6 +240,24 @@
     },
     {
       "key": {
+        "uuid": "165a407c_ca3fc27a",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-12-08T09:38:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33868d1a_1913dbff",
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c1c701d9_cb7e6dd7",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignment.java",
         "patchSetId": 1
@@ -185,6 +275,24 @@
     },
     {
       "key": {
+        "uuid": "d537e9ec_7974910c",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-12-08T09:38:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1c701d9_cb7e6dd7",
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4db6c71b_a8e53d31",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignment.java",
         "patchSetId": 1
@@ -199,6 +307,24 @@
       "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "929fcceb_52286495",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-12-08T09:38:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4db6c71b_a8e53d31",
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -222,6 +348,30 @@
       "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41003cf6_1a29f947",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-12-08T09:38:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8aa623a_a3669e2c",
+      "range": {
+        "startLine": 300,
+        "startChar": 12,
+        "endLine": 300,
+        "endChar": 32
+      },
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -373,6 +523,24 @@
       "writtenOn": "2020-12-07T17:40:06Z",
       "side": 1,
       "message": "this won\u0027t work as it doesn\u0027t modify the value in place",
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "108ac0e5_e275324b",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaNodeTemplate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-12-08T09:38:04Z",
+      "side": 1,
+      "message": "Yes, I need to change all these in all classes.",
+      "parentUuid": "21a4955e_fb998680",
       "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
