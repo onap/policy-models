@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -59,14 +59,14 @@ public class PfUtilsTest {
         });
         assertNull(resultList);
 
-        List<String> origList = Arrays.asList("abc", "def");
-        List<String> newList = PfUtils.mapList(origList, text -> text + "X");
+        List<String> origList = Arrays.asList("123", "456");
+        List<Integer> newList = PfUtils.mapList(origList, item -> Integer.valueOf(item) + 5);
 
-        assertEquals(Arrays.asList("abcX", "defX"), newList);
+        assertEquals(Arrays.asList(128, 461), newList);
 
         // verify that we can modify the list without throwing an exception
-        newList.remove("abcX");
-        newList.add("something else");
+        newList.remove(1);
+        newList.add(789);
     }
 
     @Test
@@ -77,15 +77,15 @@ public class PfUtilsTest {
         assertNull(resultMap);
 
         Map<String, String> origMap = new TreeMap<>();
-        origMap.put("key2A", "xyz2");
-        origMap.put("key2B", "pdq2");
-        Map<String, String> newMap = PfUtils.mapMap(origMap, text -> text + "X");
+        origMap.put("key2A", "123");
+        origMap.put("key2B", "456");
+        Map<String, Integer> newMap = PfUtils.mapMap(origMap, item -> Integer.valueOf(item) + 10);
 
-        assertEquals("{key2A=xyz2X, key2B=pdq2X}", newMap.toString());
+        assertEquals("{key2A=133, key2B=466}", newMap.toString());
 
         // verify that we can modify the map without throwing an exception
         newMap.remove("abcX");
-        newMap.put("something", "else");
+        newMap.put("something", 789);
     }
 
     @Test
