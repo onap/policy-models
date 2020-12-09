@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -70,7 +70,7 @@ public class PfUtilsTest {
     }
 
     @Test
-    public void testMapMap() {
+    public void testMapMapUnary() {
         Map<String, String> resultMap = PfUtils.mapMap(null, item -> {
             throw new RuntimeException("should not be invoked");
         });
@@ -86,6 +86,26 @@ public class PfUtilsTest {
         // verify that we can modify the map without throwing an exception
         newMap.remove("abcX");
         newMap.put("something", "else");
+    }
+
+
+    @Test
+    public void testMapMapFunction() {
+        Map<String, String> resultMap = PfUtils.mapMapByFunction(null, item -> {
+            throw new RuntimeException("should not be invoked");
+        });
+        assertNull(resultMap);
+
+        Map<String, String> origMap = new TreeMap<>();
+        origMap.put("key2A", "123");
+        origMap.put("key2B", "456");
+        Map<String, Integer> newMap = PfUtils.mapMapByFunction(origMap, item -> Integer.valueOf(item));
+
+        assertEquals("{key2A=123, key2B=456}", newMap.toString());
+
+        // verify that we can modify the map without throwing an exception
+        newMap.remove("abcX");
+        newMap.put("something", 789);
     }
 
     @Test
