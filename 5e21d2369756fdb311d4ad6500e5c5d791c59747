@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e643ec6_c22d9f37",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-09T19:22:33Z",
+      "side": 1,
+      "message": "I think this should be:\n\n  occurrences.size()\n\nmight have the same issue elsewhere",
+      "range": {
+        "startLine": 142,
+        "startChar": 59,
+        "endLine": 142,
+        "endChar": 70
+      },
+      "revId": "5e21d2369756fdb311d4ad6500e5c5d791c59747",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
