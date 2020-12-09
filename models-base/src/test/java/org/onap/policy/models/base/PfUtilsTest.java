@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -53,7 +53,7 @@ public class PfUtilsTest {
     }
 
     @Test
-    public void testMapList() {
+    public void testMapListUnary() {
         List<Object> resultList = PfUtils.mapList(null, item -> {
             throw new RuntimeException("should not be invoked");
         });
@@ -69,8 +69,26 @@ public class PfUtilsTest {
         newList.add("something else");
     }
 
+
     @Test
-    public void testMapMap() {
+    public void testMapListFunction() {
+        List<Object> resultList = PfUtils.mapListByFunction(null, item -> {
+            throw new RuntimeException("should not be invoked");
+        });
+        assertNull(resultList);
+
+        List<String> origList = Arrays.asList("123", "456");
+        List<Integer> newList = PfUtils.mapListByFunction(origList, item -> Integer.valueOf(item) + 5);
+
+        assertEquals(Arrays.asList(128, 461), newList);
+
+        // verify that we can modify the list without throwing an exception
+        newList.remove(1);
+        newList.add(789);
+    }
+
+    @Test
+    public void testMapMapUnary() {
         Map<String, String> resultMap = PfUtils.mapMap(null, item -> {
             throw new RuntimeException("should not be invoked");
         });
@@ -86,6 +104,26 @@ public class PfUtilsTest {
         // verify that we can modify the map without throwing an exception
         newMap.remove("abcX");
         newMap.put("something", "else");
+    }
+
+
+    @Test
+    public void testMapMapFunction() {
+        Map<String, String> resultMap = PfUtils.mapMapByFunction(null, item -> {
+            throw new RuntimeException("should not be invoked");
+        });
+        assertNull(resultMap);
+
+        Map<String, String> origMap = new TreeMap<>();
+        origMap.put("key2A", "123");
+        origMap.put("key2B", "456");
+        Map<String, Integer> newMap = PfUtils.mapMapByFunction(origMap, item -> Integer.valueOf(item) + 10);
+
+        assertEquals("{key2A=133, key2B=466}", newMap.toString());
+
+        // verify that we can modify the map without throwing an exception
+        newMap.remove("abcX");
+        newMap.put("something", 789);
     }
 
     @Test
