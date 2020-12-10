@@ -145,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "04c5d961_ceaa96a0",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-12-10T12:15:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8265d5f_54888d8c",
+      "range": {
+        "startLine": 72,
+        "startChar": 25,
+        "endLine": 72,
+        "endChar": 37
+      },
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e075f29d_7002d4d2",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignment.java",
         "patchSetId": 1
@@ -216,6 +240,30 @@
     },
     {
       "key": {
+        "uuid": "92306de4_12ce39d6",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-12-10T12:15:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a4d5a59_829b0db6",
+      "range": {
+        "startLine": 97,
+        "startChar": 26,
+        "endLine": 97,
+        "endChar": 40
+      },
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "53a9d9dd_cf2bed7c",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignment.java",
         "patchSetId": 1
@@ -239,6 +287,30 @@
     },
     {
       "key": {
+        "uuid": "f1cbed9d_89331bcb",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-12-10T12:15:54Z",
+      "side": 1,
+      "message": "Yes,my change can cope with null values.",
+      "parentUuid": "53a9d9dd_cf2bed7c",
+      "range": {
+        "startLine": 99,
+        "startChar": 43,
+        "endLine": 99,
+        "endChar": 66
+      },
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "744ee79a_f1c2ffb7",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignment.java",
         "patchSetId": 1
@@ -253,6 +325,24 @@
       "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10345cc1_71a0136f",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-12-10T12:15:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "744ee79a_f1c2ffb7",
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -364,6 +454,24 @@
       "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40622c74_e9ad550f",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-12-10T12:15:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98644bf3_93babc1e",
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
