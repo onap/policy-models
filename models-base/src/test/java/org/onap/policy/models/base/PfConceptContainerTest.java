@@ -111,9 +111,7 @@ public class PfConceptContainerTest {
         container.clean();
         assertEquals(clonedContainer, container);
 
-        PfValidationResult result = new PfValidationResult();
-        result = container.validate(result);
-        assertTrue(result.isOk());
+        assertTrue(container.validate("").isClean());
 
         assertEquals(0, container.compareTo(clonedContainer));
 
@@ -136,30 +134,30 @@ public class PfConceptContainerTest {
 
         final DummyPfConceptContainer container3 = container;
         assertThatThrownBy(() -> container3.validate(null))
-            .hasMessageMatching("^resultIn is marked .*on.*ull but is null$");
+            .hasMessageMatching("^fieldName is marked .*on.*ull but is null$");
 
         DummyPfConceptContainer validateContainer = new DummyPfConceptContainer();
-        assertFalse(validateContainer.validate(new PfValidationResult()).isOk());
+        assertFalse(validateContainer.validate("").isValid());
         validateContainer.setKey(new PfConceptKey("VCKey", VERSION0_0_1));
-        assertTrue(validateContainer.validate(new PfValidationResult()).isOk());
+        assertTrue(validateContainer.validate("").isClean());
 
         validateContainer.getConceptMap().put(testConceptKey, new DummyPfConcept(testConceptKey));
-        assertTrue(validateContainer.validate(new PfValidationResult()).isOk());
+        assertTrue(validateContainer.validate("").isClean());
 
         validateContainer.getConceptMap().put(PfConceptKey.getNullKey(), new DummyPfConcept(PfConceptKey.getNullKey()));
-        assertFalse(validateContainer.validate(new PfValidationResult()).isOk());
+        assertFalse(validateContainer.validate("").isValid());
         validateContainer.getConceptMap().remove(PfConceptKey.getNullKey());
-        assertTrue(validateContainer.validate(new PfValidationResult()).isOk());
+        assertTrue(validateContainer.validate("").isClean());
 
         validateContainer.getConceptMap().put(testConceptKey, null);
-        assertFalse(validateContainer.validate(new PfValidationResult()).isOk());
+        assertFalse(validateContainer.validate("").isValid());
         validateContainer.getConceptMap().put(testConceptKey, new DummyPfConcept(testConceptKey));
-        assertTrue(validateContainer.validate(new PfValidationResult()).isOk());
+        assertTrue(validateContainer.validate("").isClean());
 
         validateContainer.getConceptMap().put(testConceptKey, new DummyPfConcept(conceptKey));
-        assertFalse(validateContainer.validate(new PfValidationResult()).isOk());
+        assertFalse(validateContainer.validate("").isValid());
         validateContainer.getConceptMap().put(testConceptKey, new DummyPfConcept(testConceptKey));
-        assertTrue(validateContainer.validate(new PfValidationResult()).isOk());
+        assertTrue(validateContainer.validate("").isClean());
 
         assertEquals(conceptKey, container.get(conceptKey).getKey());
         assertEquals(conceptKey, container.get(conceptKey.getName()).getKey());

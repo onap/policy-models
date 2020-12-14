@@ -37,7 +37,6 @@ import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 
 /**
@@ -130,41 +129,41 @@ public class JpaToscaPolicyTest {
         tp.clean();
         assertEquals(tdtClone0, tp);
 
-        assertFalse(new JpaToscaPolicy().validate(new PfValidationResult()).isValid());
-        assertTrue(tp.validate(new PfValidationResult()).isValid());
+        assertFalse(new JpaToscaPolicy().validate("test").isValid());
+        assertTrue(tp.validate("test").isClean());
 
         tp.getProperties().put(null, null);
-        assertFalse(tp.validate(new PfValidationResult()).isValid());
+        assertFalse(tp.validate("test").isValid());
         tp.getProperties().remove(null);
-        assertTrue(tp.validate(new PfValidationResult()).isValid());
+        assertTrue(tp.validate("test").isClean());
 
         tp.getProperties().put("Key", null);
-        assertFalse(tp.validate(new PfValidationResult()).isValid());
+        assertFalse(tp.validate("test").isValid());
         tp.getProperties().remove("Key");
-        assertTrue(tp.validate(new PfValidationResult()).isValid());
+        assertTrue(tp.validate("test").isClean());
 
         tp.getProperties().put(null, "Value");
-        assertFalse(tp.validate(new PfValidationResult()).isValid());
+        assertFalse(tp.validate("test").isValid());
         tp.getProperties().remove(null);
-        assertTrue(tp.validate(new PfValidationResult()).isValid());
+        assertTrue(tp.validate("test").isClean());
 
         tp.getTargets().add(null);
-        assertFalse(tp.validate(new PfValidationResult()).isValid());
+        assertFalse(tp.validate("test").isValid());
         tp.getTargets().remove(null);
-        assertTrue(tp.validate(new PfValidationResult()).isValid());
+        assertTrue(tp.validate("test").isClean());
 
         PfConceptKey tpTypeKey = tp.getKey();
         assertNotNull(tpTypeKey);
         tp.setType(null);
-        assertFalse(tp.validate(new PfValidationResult()).isValid());
+        assertFalse(tp.validate("test").isValid());
         tp.setType(PfConceptKey.getNullKey());
-        assertFalse(tp.validate(new PfValidationResult()).isValid());
+        assertFalse(tp.validate("test").isValid());
         tp.setType(tpTypeKey);
-        assertTrue(tp.validate(new PfValidationResult()).isValid());
+        assertTrue(tp.validate("test").isClean());
 
         assertThatThrownBy(() -> {
             tp.validate(null);
-        }).hasMessageMatching("resultIn is marked .*on.*ull but is null");
+        }).hasMessageMatching("fieldName is marked .*on.*ull but is null");
 
         assertNotNull(tp.toAuthorative());
         tp.getType().setVersion(PfKey.NULL_KEY_VERSION);

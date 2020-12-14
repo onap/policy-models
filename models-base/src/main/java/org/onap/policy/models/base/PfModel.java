@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,8 +32,11 @@ import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
+import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.BeanValidator;
+import org.onap.policy.common.parameters.ObjectValidationResult;
+import org.onap.policy.common.parameters.ValidationStatus;
 import org.onap.policy.common.utils.validation.Assertions;
-import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 
 /**
  * This class is the base class for all models in the Policy Framework. All model classes inherit
@@ -56,8 +59,6 @@ import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public abstract class PfModel extends PfConcept {
-    private static final String IS_A_NULL_KEY = " is a null key";
-
     private static final long serialVersionUID = -771659065637205430L;
 
     @EmbeddedId
@@ -110,15 +111,10 @@ public abstract class PfModel extends PfConcept {
     }
 
     @Override
-    public PfValidationResult validate(@NonNull final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
+    public BeanValidationResult validate(@NonNull final String fieldName) {
+        BeanValidationResult result = new BeanValidator().validateTop(fieldName, this);
 
-        if (key.isNullKey()) {
-            result.addValidationMessage(
-                    new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID, "key is a null key"));
-        }
-
-        result = key.validate(result);
+        result.addResult(key.validateNotNull("key"));
 
         // Key consistency check
         final Set<PfConceptKey> artifactKeySet = new TreeSet<>();
@@ -128,9 +124,9 @@ public abstract class PfModel extends PfConcept {
         for (final PfKey pfKey : this.getKeys()) {
             // Check for the two type of keys we have
             if (pfKey instanceof PfConceptKey) {
-                result = validateArtifactKeyInModel((PfConceptKey) pfKey, artifactKeySet, result);
+                validateArtifactKeyInModel((PfConceptKey) pfKey, artifactKeySet, result);
             } else if (pfKey instanceof PfReferenceKey) {
-                result = validateReferenceKeyInModel((PfReferenceKey) pfKey, referenceKeySet, result);
+                validateReferenceKeyInModel((PfReferenceKey) pfKey, referenceKeySet, result);
             } else {
                 // It must be a PfKeyUse, nothing else is legal
                 usedKeySet.add((PfKeyUse) pfKey);
@@ -140,12 +136,12 @@ public abstract class PfModel extends PfConcept {
         // Check all reference keys have correct parent keys
         for (final PfReferenceKey referenceKey : referenceKeySet) {
             if (!artifactKeySet.contains(referenceKey.getParentConceptKey())) {
-                result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                        "parent artifact key not found for reference key " + referenceKey));
+                result.addResult(new ObjectValidationResult("referenceKey", referenceKey.getId(),
+                                ValidationStatus.INVALID, "parent artifact key not found"));
             }
         }
 
-        result = validateKeyUses(usedKeySet, artifactKeySet, referenceKeySet, result);
+        validateKeyUses(usedKeySet, artifactKeySet, referenceKeySet, result);
 
         return result;
     }
@@ -159,29 +155,27 @@ public abstract class PfModel extends PfConcept {
      * @param result The validation result to append to
      * @return the result of the validation
      */
-    private PfValidationResult validateArtifactKeyInModel(final PfConceptKey artifactKey,
-            final Set<PfConceptKey> artifactKeySet, final PfValidationResult result) {
+    private void validateArtifactKeyInModel(final PfConceptKey artifactKey,
+            final Set<PfConceptKey> artifactKeySet, final BeanValidationResult result) {
+        String id = artifactKey.getName() + ":" + artifactKey.getVersion();
+
         // Null key check
         if (artifactKey.isNullKey()) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "key " + artifactKey + IS_A_NULL_KEY));
+            result.addResult(new ObjectValidationResult("artifactKey", id, ValidationStatus.INVALID, IS_NULL));
         }
 
         // Null key name start check
         if (artifactKey.getName().toUpperCase().startsWith(PfKey.NULL_KEY_NAME)) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "key " + artifactKey + " name starts with keyword " + PfKey.NULL_KEY_NAME));
+            result.addResult(new ObjectValidationResult("artifactKey", id, ValidationStatus.INVALID,
+                            "name starts with keyword " + PfKey.NULL_KEY_NAME));
         }
 
         // Unique key check
         if (artifactKeySet.contains(artifactKey)) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "duplicate key " + artifactKey + " found"));
+            result.addResult(new ObjectValidationResult("artifactKey", id, ValidationStatus.INVALID, "duplicate key"));
         } else {
             artifactKeySet.add(artifactKey);
         }
-
-        return result;
     }
 
     /**
@@ -191,43 +185,40 @@ public abstract class PfModel extends PfConcept {
      * @param referenceKeySet The set of reference keys encountered so far, this key is appended to
      *        the set
      * @param result The validation result to append to
-     * @return the result of the validation
      */
-    private PfValidationResult validateReferenceKeyInModel(final PfReferenceKey referenceKey,
-            final Set<PfReferenceKey> referenceKeySet, final PfValidationResult result) {
+    private void validateReferenceKeyInModel(final PfReferenceKey referenceKey,
+            final Set<PfReferenceKey> referenceKeySet, final BeanValidationResult result) {
         // Null key check
         if (referenceKey.isNullKey()) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "key " + referenceKey + IS_A_NULL_KEY));
+            result.addResult(new ObjectValidationResult("referenceKey", referenceKey.getId(),
+                            ValidationStatus.INVALID, IS_NULL));
         }
 
         // Null parent key check
         if (referenceKey.getParentConceptKey().isNullKey()) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "parent artifact key of key " + referenceKey + IS_A_NULL_KEY));
+            result.addResult(new ObjectValidationResult("referenceKey", referenceKey.getId(),
+                            ValidationStatus.INVALID, "parent artifact key " + IS_A_NULL_KEY));
         }
 
         // Null local name check
         if (referenceKey.getLocalName().equals(PfKey.NULL_KEY_NAME)) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "key " + referenceKey + " has a null local name"));
+            result.addResult(new ObjectValidationResult("referenceKey", referenceKey.getId(),
+                            ValidationStatus.INVALID, "local name is null"));
         }
 
         // Null key name start check
         if (referenceKey.getParentConceptKey().getName().toUpperCase().startsWith(PfKey.NULL_KEY_NAME)) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "key " + referenceKey + " parent name starts with keyword " + PfKey.NULL_KEY_NAME));
+            result.addResult(new ObjectValidationResult("referenceKey", referenceKey.getId(),
+                            ValidationStatus.INVALID, "parent name starts with keyword " + PfKey.NULL_KEY_NAME));
         }
 
         // Unique key check
         if (referenceKeySet.contains(referenceKey)) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "duplicate key " + referenceKey + " found"));
+            result.addResult(new ObjectValidationResult("referenceKey", referenceKey.getId(),
+                            ValidationStatus.INVALID, "duplicate key"));
         } else {
             referenceKeySet.add(referenceKey);
         }
-
-        return result;
     }
 
     /**
@@ -238,29 +229,26 @@ public abstract class PfModel extends PfConcept {
      *        the set
      * @param referenceKeySet The set of reference keys encountered so far, this key is appended to
      *        the set
-     * @param result The validation result to append to
      * @return the result of the validation
      */
-    private PfValidationResult validateKeyUses(final Set<PfKeyUse> usedKeySet, final Set<PfConceptKey> artifactKeySet,
-            final Set<PfReferenceKey> referenceKeySet, final PfValidationResult result) {
+    private void validateKeyUses(final Set<PfKeyUse> usedKeySet, final Set<PfConceptKey> artifactKeySet,
+            final Set<PfReferenceKey> referenceKeySet, final BeanValidationResult result) {
         // Check all key uses
         for (final PfKeyUse usedKey : usedKeySet) {
             if (usedKey.getKey() instanceof PfConceptKey) {
                 // PfConceptKey usage, check the key exists
                 if (!artifactKeySet.contains(usedKey.getKey())) {
-                    result.addValidationMessage(new PfValidationMessage(usedKey.getKey(), this.getClass(),
-                            ValidationResult.INVALID, "an artifact key used in the model is not defined"));
+                    result.addResult(new ObjectValidationResult("usedKey", usedKey.getKey().getId(),
+                                    ValidationStatus.INVALID, "an artifact key used in the model is not defined"));
                 }
             } else {
                 // PfReferenceKey usage, check the key exists
                 if (!referenceKeySet.contains(usedKey.getKey())) {
-                    result.addValidationMessage(new PfValidationMessage(usedKey.getKey(), this.getClass(),
-                            ValidationResult.INVALID, "a reference key used in the model is not defined"));
+                    result.addResult(new ObjectValidationResult("usedKey", usedKey.getKey().getId(),
+                                    ValidationStatus.INVALID, "a reference key used in the model is not defined"));
                 }
             }
         }
-
-        return result;
     }
 
     @Override

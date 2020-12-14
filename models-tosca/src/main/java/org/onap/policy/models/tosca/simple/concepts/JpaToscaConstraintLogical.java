@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +27,9 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
 import org.apache.commons.lang3.ObjectUtils;
+import org.onap.policy.common.parameters.BeanValidator;
+import org.onap.policy.common.parameters.ValidationResult;
+import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConstraint;
 
 /**
@@ -38,10 +42,12 @@ public class JpaToscaConstraintLogical extends JpaToscaConstraint {
 
     @Column
     @Getter
+    @NotNull
     private JpaToscaConstraintOperation operation;
 
     @Column
     @Getter
+    @NotNull
     private String compareTo;
 
     /**
@@ -146,5 +152,10 @@ public class JpaToscaConstraintLogical extends JpaToscaConstraint {
         }
 
         return ObjectUtils.compare(compareTo, other.compareTo);
+    }
+
+    @Override
+    public ValidationResult validate(@NonNull String fieldName) {
+        return new BeanValidator().validateTop(fieldName, this);
     }
 }

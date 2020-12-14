@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2020 Nordix Foundation.
+ * Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,14 +35,14 @@ import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
+import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.ObjectValidationResult;
+import org.onap.policy.common.parameters.ValidationStatus;
 import org.onap.policy.common.utils.coder.YamlJsonTranslator;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.base.PfValidationMessage;
-import org.onap.policy.models.base.PfValidationResult;
-import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaCapabilityAssignment;
 
 /**
@@ -57,6 +58,7 @@ public class JpaToscaCapabilityAssignment extends JpaToscaEntityType<ToscaCapabi
 
     private static final long serialVersionUID = 1675770231921107988L;
 
+    private static final String OCCURRENCES_TEXT = "occurrences";
     private static final String AUTHORATIVE_UNBOUNDED_LITERAL = "UNBOUNDED";
     private static final Integer JPA_UNBOUNDED_VALUE = -1;
 
@@ -160,80 +162,58 @@ public class JpaToscaCapabilityAssignment extends JpaToscaEntityType<ToscaCapabi
     }
 
     @Override
-    public PfValidationResult validate(final PfValidationResult resultIn) {
-        PfValidationResult result = super.validate(resultIn);
+    public BeanValidationResult validate(final String fieldName) {
+        BeanValidationResult result = super.validate(fieldName);
 
-        if (properties != null) {
-            result.append(validateProperties(new PfValidationResult()));
-        }
-
-        if (attributes != null) {
-            result.append(validateAttributes(new PfValidationResult()));
-        }
-
-        if (occurrences != null) {
-            result.append(validateOccurrences(new PfValidationResult()));
-        }
+        result.addResult(validateMap("properties", properties));
+        result.addResult(validateMap("attributes", attributes));
+        result.addResult(validateOccurrences());
 
         return result;
     }
 
     /**
-     * Validate the properties.
+     * Validates properties or attributes, ensuring that the values are not null.
      *
-     * @param resultIn The result of validations up to now
+     * @param fieldName field containing the map
+     * @param map the properties or attributes to be validated
      * @return the validation result
      */
-    private PfValidationResult validateProperties(final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
-
-        for (Entry<String, String> propertyEntry : properties.entrySet()) {
-            if (propertyEntry.getValue() == null) {
-                result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                        "capability assignment property " + propertyEntry.getKey() + " value may not be null"));
-            }
+    private BeanValidationResult validateMap(final String fieldName, final Map<String, String> map) {
+        if (map == null) {
+            return null;
         }
-        return result;
-    }
 
-    /**
-     * Validate the attributes.
-     *
-     * @param resultIn The result of validations up to now
-     * @return the validation result
-     */
-    private PfValidationResult validateAttributes(final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
+        BeanValidationResult result = new BeanValidationResult(fieldName, map);
 
-        for (Entry<String, String> attributeEntry : attributes.entrySet()) {
-            if (attributeEntry.getValue() == null) {
-                result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                        "capability assignment attribute " + attributeEntry.getKey() + " value may not be null"));
-            }
+        for (Entry<String, String> entry : map.entrySet()) {
+            result.validateNotNull("value of " + entry.getKey(), entry.getValue());
         }
-        return result;
+
+        return (result.isClean() ? null : result);
     }
 
     /**
      * Validate the occurrences.
      *
-     * @param resultIn The result of validations up to now
      * @return the validation result
      */
-    private PfValidationResult validateOccurrences(final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
+    private BeanValidationResult validateOccurrences() {
+        if (occurrences == null) {
+            return null;
+        }
+
+        BeanValidationResult result = new BeanValidationResult(OCCURRENCES_TEXT, occurrences);
 
         for (Integer occurrence : occurrences) {
-            if (occurrence == null) {
-                result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                        "capability assignment occurrence value may not be null "));
-            } else if (occurrence < 0 && !occurrence.equals(JPA_UNBOUNDED_VALUE)) {
-                result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                        "capability assignment occurrence value may not be negative"));
+            result.validateNotNull(OCCURRENCES_TEXT, occurrence);
+            if (occurrence != null && occurrence < 0 && !occurrence.equals(JPA_UNBOUNDED_VALUE)) {
+                result.addResult(new ObjectValidationResult(OCCURRENCES_TEXT, occurrence, ValidationStatus.INVALID,
+                                "is negative"));
             }
         }
 
-        return result;
+        return (result.isClean() ? null : result);
     }
 
     @Override

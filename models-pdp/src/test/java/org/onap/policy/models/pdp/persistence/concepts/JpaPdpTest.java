@@ -21,6 +21,7 @@
 
 package org.onap.policy.models.pdp.persistence.concepts;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -31,7 +32,6 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfReferenceKey;
-import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.enums.PdpHealthStatus;
 import org.onap.policy.models.pdp.enums.PdpState;
@@ -115,48 +115,40 @@ public class JpaPdpTest {
 
         assertThatThrownBy(() -> {
             testJpaPdp.validate(null);
-        }).hasMessageMatching("resultIn is marked .*ull but is null");
+        }).hasMessageMatching("fieldName is marked .*ull but is null");
 
-        assertFalse(testJpaPdp.validate(new PfValidationResult()).isOk());
-        assertTrue(testJpaPdp.validate(new PfValidationResult()).toString()
-                .contains("INVALID:parent of key is a null key"));
+        assertFalse(testJpaPdp.validate("test").isValid());
+        assertThat(testJpaPdp.validate("test").getResult()).contains("parent of key")
+                        .contains("INVALID, is a null key");
 
         testJpaPdp.getKey().setParentConceptKey(new PfConceptKey("Parent:1.0.0"));
-        assertFalse(testJpaPdp.validate(new PfValidationResult()).isOk());
-        assertFalse(testJpaPdp.validate(new PfValidationResult()).toString()
-                .contains("INVALID:parent of key is a null key"));
-        assertTrue(testJpaPdp.validate(new PfValidationResult()).toString()
-                .contains("INVALID:local name of parent of key is null"));
+        assertFalse(testJpaPdp.validate("test").isValid());
+        assertThat(testJpaPdp.validate("test").getResult()).contains("local name of parent of key")
+                        .contains("INVALID, is null");
 
         testJpaPdp.getKey().setParentLocalName("ParentLocal");
-        assertFalse(testJpaPdp.validate(new PfValidationResult()).isOk());
-        assertFalse(testJpaPdp.validate(new PfValidationResult()).toString()
-                .contains("INVALID:local name of parent of key is null"));
-        assertTrue(testJpaPdp.validate(new PfValidationResult()).toString()
-                .contains("INVALID:PDP state may not be null"));
+        assertFalse(testJpaPdp.validate("test").isValid());
+        assertThat(testJpaPdp.validate("test").getResult()).contains("pdpState").contains("INVALID, is null");
 
         testJpaPdp.setPdpState(PdpState.ACTIVE);
-        assertFalse(testJpaPdp.validate(new PfValidationResult()).isOk());
-        assertFalse(testJpaPdp.validate(new PfValidationResult()).toString()
-                .contains("INVALID:PDP state may not be null"));
-        assertTrue(testJpaPdp.validate(new PfValidationResult()).toString()
-                .contains("INVALID:PDP health status may not be null"));
+        assertFalse(testJpaPdp.validate("test").isValid());
+        assertThat(testJpaPdp.validate("test").getResult()).contains("healthy").contains("INVALID, is null");
 
         testJpaPdp.setHealthy(PdpHealthStatus.HEALTHY);
-        assertTrue(testJpaPdp.validate(new PfValidationResult()).isOk());
+        assertTrue(testJpaPdp.validate("test").isValid());
 
         PfReferenceKey savedKey = testJpaPdp.getKey();
         testJpaPdp.setKey(PfReferenceKey.getNullKey());
-        assertFalse(testJpaPdp.validate(new PfValidationResult()).isOk());
+        assertFalse(testJpaPdp.validate("test").isValid());
         testJpaPdp.setKey(savedKey);
-        assertTrue(testJpaPdp.validate(new PfValidationResult()).isOk());
+        assertTrue(testJpaPdp.validate("test").isValid());
 
         testJpaPdp.setMessage(null);
-        assertTrue(testJpaPdp.validate(new PfValidationResult()).isOk());
+        assertTrue(testJpaPdp.validate("test").isValid());
         testJpaPdp.setMessage("");
-        assertFalse(testJpaPdp.validate(new PfValidationResult()).isOk());
+        assertFalse(testJpaPdp.validate("test").isValid());
         testJpaPdp.setMessage("Valid Message");
-        assertTrue(testJpaPdp.validate(new PfValidationResult()).isOk());
+        assertTrue(testJpaPdp.validate("test").isValid());
 
         JpaPdp otherJpaPdp = new JpaPdp(testJpaPdp);
         assertEquals(0, testJpaPdp.compareTo(otherJpaPdp));

@@ -45,7 +45,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
-import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.BeanValidator;
+import org.onap.policy.common.parameters.ObjectValidationResult;
+import org.onap.policy.common.parameters.ValidationStatus;
 
 // @formatter:off
 /**
@@ -241,18 +244,17 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
     }
 
     @Override
-    public PfValidationResult validate(@NonNull final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
+    public BeanValidationResult validate(@NonNull String fieldName) {
+        BeanValidationResult result = new BeanValidator().validateTop(fieldName, this);
 
         if (key.equals(PfConceptKey.getNullKey())) {
-            result.addValidationMessage(
-                    new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID, "key is a null key"));
+            result.addResult(new ObjectValidationResult("key", key.getId(), ValidationStatus.INVALID, IS_NULL));
         }
 
-        result = key.validate(result);
+        result.addResult(key.validate("key"));
 
         if (!conceptMap.isEmpty()) {
-            result = validateConceptMap(result);
+            result.addResult(validateConceptMap());
         }
 
         return result;
@@ -264,26 +266,26 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
      * @param resultIn the incoming validation results so far
      * @return the validation results with the results of this validation added
      */
-    private PfValidationResult validateConceptMap(final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
+    private BeanValidationResult validateConceptMap() {
+        BeanValidationResult result = new BeanValidationResult("conceptMap", this);
 
         for (final Entry<PfConceptKey, C> conceptEntry : conceptMap.entrySet()) {
+            String keyName = conceptEntry.getKey().getId();
             if (conceptEntry.getKey().equals(PfConceptKey.getNullKey())) {
-                result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                        "key on concept entry " + conceptEntry.getKey() + " may not be the null key"));
+                result.addResult(new ObjectValidationResult("key", keyName, ValidationStatus.INVALID, IS_A_NULL_KEY));
             } else if (conceptEntry.getValue() == null) {
-                result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                        "value on concept entry " + conceptEntry.getKey() + " may not be null"));
+                result.addResult(new ObjectValidationResult(keyName, conceptEntry.getValue(), ValidationStatus.INVALID,
+                                IS_NULL));
             } else if (!conceptEntry.getKey().equals(conceptEntry.getValue().getKey())) {
-                result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                        "key on concept entry key " + conceptEntry.getKey() + " does not equal concept value key "
-                                + conceptEntry.getValue().getKey()));
-                result = conceptEntry.getValue().validate(result);
+                result.addResult(new ObjectValidationResult(keyName, conceptEntry.getValue().getId(),
+                                ValidationStatus.INVALID, "does not equal concept value key"));
+                result.addResult(conceptEntry.getValue().validate(keyName));
             } else {
-                result = conceptEntry.getValue().validate(result);
+                result.addResult(conceptEntry.getValue().validate(keyName));
             }
         }
-        return result;
+
+        return (result.isClean() ? null : result);
     }
 
     @Override
