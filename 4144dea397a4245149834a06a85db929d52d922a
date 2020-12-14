@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8bcfc576_290903e8",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfUtils.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-14T13:50:12Z",
+      "side": 1,
+      "message": "is this check really necessary?\n\nsame question on line 101",
+      "revId": "4144dea397a4245149834a06a85db929d52d922a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "230bcd7c_7c36e093",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityType.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-14T13:50:12Z",
+      "side": 1,
+      "message": "since JpaToscaProperty is mutable, shouldn\u0027t we make a copy of each property?",
+      "revId": "4144dea397a4245149834a06a85db929d52d922a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4878bdf_862835d1",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityType.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-14T13:50:12Z",
+      "side": 1,
+      "message": "should also check isNullName() ?",
+      "revId": "4144dea397a4245149834a06a85db929d52d922a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fb55641_cc90c5ba",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaDataType.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-14T13:50:12Z",
+      "side": 1,
+      "message": "at one point, sonar complained that should just return the value here.  maybe it doesn\u0027t care anymore?",
+      "revId": "4144dea397a4245149834a06a85db929d52d922a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02e4fb04_bbffd0a5",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignmentTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-14T13:50:12Z",
+      "side": 1,
+      "message": "maybe replace these with:\n\n  assertThat(ca.getXxx()).isEmpty()",
+      "revId": "4144dea397a4245149834a06a85db929d52d922a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "adcba5d3_b4c2ded3",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaPolicyTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-14T13:50:12Z",
+      "side": 1,
+      "message": "is sonar ok with println since it\u0027s in a junit?",
+      "range": {
+        "startLine": 216,
+        "startChar": 48,
+        "endLine": 216,
+        "endChar": 55
+      },
+      "revId": "4144dea397a4245149834a06a85db929d52d922a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4bfce094_446f4366",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/serialization/OptimizationPolicyTypeSerializationTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-14T13:50:12Z",
+      "side": 1,
+      "message": "maybe use assertThat(xxx).isEmpty() instead",
+      "revId": "4144dea397a4245149834a06a85db929d52d922a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
