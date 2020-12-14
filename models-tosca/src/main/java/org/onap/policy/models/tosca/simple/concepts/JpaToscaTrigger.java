@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Model
  * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -36,13 +36,15 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.lang3.ObjectUtils;
-import org.onap.policy.common.utils.validation.ParameterValidationUtils;
+import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.BeanValidator;
+import org.onap.policy.common.parameters.annotations.Min;
+import org.onap.policy.common.parameters.annotations.NotBlank;
+import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfReferenceKey;
-import org.onap.policy.models.base.PfValidationMessage;
-import org.onap.policy.models.base.PfValidationResult;
-import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.base.Validation;
 
 /**
  * Class to represent the trigger of policy type in TOSCA definition.
@@ -62,9 +64,12 @@ public class JpaToscaTrigger extends PfConcept {
     private PfReferenceKey key;
 
     @Column
+    @NotBlank
     private String description;
 
     @Column
+    @NotNull
+    @NotBlank
     @SerializedName("event_type")
     private String eventType;
 
@@ -87,12 +92,16 @@ public class JpaToscaTrigger extends PfConcept {
     private Duration period;
 
     @Column
+    @Min(0)
     private int evaluations = 0;
 
     @Column
+    @NotBlank
     private String method;
 
     @Column
+    @NotNull
+    @NotBlank
     private String action;
 
     /**
@@ -177,57 +186,13 @@ public class JpaToscaTrigger extends PfConcept {
     }
 
     @Override
-    public PfValidationResult validate(@NonNull final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
+    public BeanValidationResult validate(@NonNull final String fieldName) {
+        BeanValidationResult result = new BeanValidator().validateTop(fieldName, this);
 
-        if (key.isNullKey()) {
-            result.addValidationMessage(
-                    new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID, "key is a null key"));
-        }
+        result.addResult(key.validateNotNull("key"));
 
-        result = key.validate(result);
-
-        if (description != null && description.trim().length() == 0) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "trigger description may not be blank"));
-        }
-
-        if (!ParameterValidationUtils.validateStringParameter(eventType)) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "event type on trigger must be defined"));
-        }
-
-        result = validateOptionalFields(result);
-
-        if (evaluations < 0) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "evaluations on trigger must be zero or a positive integer"));
-        }
-
-        if (method != null && method.trim().length() == 0) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "method on trigger may not be blank"));
-        }
-
-        if (!ParameterValidationUtils.validateStringParameter(action)) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "action on trigger must be defined"));
-        }
-
-        return result;
-    }
-
-    /**
-     * Validate optional fields.
-     *
-     * @param resultIn the validation result so far
-     * @return the validation resutls including these fields
-     */
-    private PfValidationResult validateOptionalFields(final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
-
-        result = (schedule != null ? schedule.validate(result) : result);
-        result = (targetFilter != null ? targetFilter.validate(result) : result);
+        Validation.validateItem(result, "schedule", schedule, false);
+        Validation.validateItem(result, "targetFilter", targetFilter, false);
 
         return result;
     }

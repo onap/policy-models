@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,12 +32,12 @@ import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
+import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfModel;
 import org.onap.policy.models.base.PfModelService;
-import org.onap.policy.models.base.PfValidationResult;
 
 /**
  * A container class for a TOSCA model with multiple service templates. This class is a container
@@ -118,10 +118,12 @@ public class JpaToscaModel extends PfModel {
     }
 
     @Override
-    public PfValidationResult validate(@NonNull final PfValidationResult resultIn) {
-        PfValidationResult result = super.validate(resultIn);
+    public BeanValidationResult validate(@NonNull final String fieldName) {
+        BeanValidationResult result = super.validate(fieldName);
 
-        return serviceTemplates.validate(result);
+        result.addResult(serviceTemplates.validate("serviceTemplates"));
+
+        return result;
     }
 
     @Override

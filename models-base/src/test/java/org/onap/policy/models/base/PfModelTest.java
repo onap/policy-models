@@ -73,59 +73,59 @@ public class PfModelTest {
     public void testPfModelValidation() {
         PfConceptKey dpmKey = new PfConceptKey("modelKey", VERSION001);
         DummyPfModel dpm = new DummyPfModel(dpmKey);
-        assertTrue(dpm.validate(new PfValidationResult()).isValid());
+        assertTrue(dpm.validate("").isClean());
 
-        assertThatThrownBy(() -> dpm.validate(null)).hasMessageMatching("^resultIn is marked .*on.*ull but is null$");
+        assertThatThrownBy(() -> dpm.validate(null)).hasMessageMatching("^fieldName is marked .*on.*ull but is null$");
 
         dpm.setKey(PfConceptKey.getNullKey());
-        assertFalse(dpm.validate(new PfValidationResult()).isValid());
+        assertFalse(dpm.validate("").isValid());
         dpm.setKey(dpmKey);
-        assertTrue(dpm.validate(new PfValidationResult()).isValid());
+        assertTrue(dpm.validate("").isClean());
 
         dpm.getKeyList().add(PfReferenceKey.getNullKey());
         dpm.getKeyList().add(new PfKeyUse(PfReferenceKey.getNullKey()));
-        assertFalse(dpm.validate(new PfValidationResult()).isValid());
+        assertFalse(dpm.validate("").isValid());
         dpm.getKeyList().clear();
-        assertTrue(dpm.validate(new PfValidationResult()).isValid());
+        assertTrue(dpm.validate("").isClean());
 
         PfConceptKey goodCKey = new PfConceptKey("goodCKey", VERSION001);
         PfReferenceKey goodRKey = new PfReferenceKey(goodCKey, "goodLocalName");
 
         dpm.getKeyList().add(goodCKey);
         dpm.getKeyList().add(goodRKey);
-        assertTrue(dpm.validate(new PfValidationResult()).isValid());
+        assertTrue(dpm.validate("").isClean());
 
         PfConceptKey goodCKeyDup = new PfConceptKey(goodCKey);
         dpm.getKeyList().add(goodCKeyDup);
-        assertFalse(dpm.validate(new PfValidationResult()).isValid());
+        assertFalse(dpm.validate("").isValid());
         dpm.getKeyList().remove(goodCKeyDup);
-        assertTrue(dpm.validate(new PfValidationResult()).isValid());
+        assertTrue(dpm.validate("").isClean());
 
         PfReferenceKey goodRKeyDup = new PfReferenceKey(goodRKey);
         dpm.getKeyList().add(goodRKeyDup);
-        assertFalse(dpm.validate(new PfValidationResult()).isValid());
+        assertFalse(dpm.validate("").isValid());
         dpm.getKeyList().remove(goodRKeyDup);
-        assertTrue(dpm.validate(new PfValidationResult()).isValid());
+        assertTrue(dpm.validate("").isClean());
 
         PfKeyUse goodCKeyUse = new PfKeyUse(goodCKey);
         dpm.getKeyList().add(goodCKeyUse);
-        assertTrue(dpm.validate(new PfValidationResult()).isValid());
+        assertTrue(dpm.validate("").isClean());
 
         PfKeyUse goodRKeyUse = new PfKeyUse(goodRKey);
         dpm.getKeyList().add(goodRKeyUse);
-        assertTrue(dpm.validate(new PfValidationResult()).isValid());
+        assertTrue(dpm.validate("").isClean());
 
         PfConceptKey badCKey = new PfConceptKey("badCKey", VERSION001);
         PfKeyUse badCKeyUse = new PfKeyUse(badCKey);
         dpm.getKeyList().add(badCKeyUse);
-        assertFalse(dpm.validate(new PfValidationResult()).isValid());
+        assertFalse(dpm.validate("").isValid());
         dpm.getKeyList().remove(badCKeyUse);
-        assertTrue(dpm.validate(new PfValidationResult()).isValid());
+        assertTrue(dpm.validate("").isClean());
 
         PfKeyUse badRKeyUse = new PfKeyUse(new PfReferenceKey(badCKey, "badLocalName"));
         dpm.getKeyList().add(badRKeyUse);
-        assertFalse(dpm.validate(new PfValidationResult()).isValid());
+        assertFalse(dpm.validate("").isValid());
         dpm.getKeyList().remove(badRKeyUse);
-        assertTrue(dpm.validate(new PfValidationResult()).isValid());
+        assertTrue(dpm.validate("").isClean());
     }
 }

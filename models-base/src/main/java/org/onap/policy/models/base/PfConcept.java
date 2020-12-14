@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,8 +30,11 @@ import lombok.NonNull;
  * and interfaces on all concepts that are sub-classes of this class.
  */
 
-public abstract class PfConcept implements Serializable, Comparable<PfConcept> {
+public abstract class PfConcept implements Validated, Serializable, Comparable<PfConcept> {
     private static final long serialVersionUID = -7434939557282697490L;
+
+    public static final String IS_A_NULL_KEY = "is a null key";
+    public static final String IS_NULL = "is null";
 
     /**
      * Default constructor.
@@ -63,15 +66,6 @@ public abstract class PfConcept implements Serializable, Comparable<PfConcept> {
      * @return the keys used by this concept and its contained concepts
      */
     public abstract List<PfKey> getKeys();
-
-    /**
-     * Validate that this concept is structurally correct.
-     *
-     * @param result the parameter in which the result of the validation will be returned
-     * @return the validation result that was passed in in the @{link result} field with the result of this validation
-     *         added
-     */
-    public abstract PfValidationResult validate(@NonNull final PfValidationResult result);
 
     /**
      * Clean this concept, tidy up any superfluous information such as leading and trailing white space.
