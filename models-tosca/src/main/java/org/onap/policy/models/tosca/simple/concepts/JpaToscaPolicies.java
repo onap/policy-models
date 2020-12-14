@@ -32,10 +32,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.ToString;
+import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConceptContainer;
 import org.onap.policy.models.base.PfConceptKey;
-import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.utils.ToscaUtils;
 
@@ -105,8 +105,8 @@ public class JpaToscaPolicies extends PfConceptContainer<JpaToscaPolicy, ToscaPo
     }
 
     @Override
-    public PfValidationResult validate(@NonNull final PfValidationResult resultIn) {
-        PfValidationResult result = super.validate(resultIn);
+    public BeanValidationResult validate(@NonNull final String fieldName) {
+        BeanValidationResult result = super.validate(fieldName);
 
         for (JpaToscaPolicy policy : this.getConceptMap().values()) {
             ToscaUtils.getEntityTypeAncestors(this, policy, result);

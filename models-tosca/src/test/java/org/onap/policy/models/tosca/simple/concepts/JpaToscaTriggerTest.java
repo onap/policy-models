@@ -33,7 +33,6 @@ import java.util.Date;
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfReferenceKey;
-import org.onap.policy.models.base.PfValidationResult;
 
 /**
  * DAO test for ToscaTrigger.
@@ -153,28 +152,28 @@ public class JpaToscaTriggerTest {
         tdt.clean();
         assertEquals(tdtClone0, tdt);
 
-        assertFalse(new JpaToscaTrigger().validate(new PfValidationResult()).isValid());
-        assertTrue(tdt.validate(new PfValidationResult()).isValid());
+        assertFalse(new JpaToscaTrigger().validate("test").isValid());
+        assertTrue(tdt.validate("test").isValid());
 
         tdt.setDescription(null);
-        assertTrue(tdt.validate(new PfValidationResult()).isValid());
+        assertTrue(tdt.validate("test").isValid());
         tdt.setDescription("");
-        assertFalse(tdt.validate(new PfValidationResult()).isValid());
+        assertFalse(tdt.validate("test").isValid());
         tdt.setDescription(A_DESCRIPTION);
-        assertTrue(tdt.validate(new PfValidationResult()).isValid());
+        assertTrue(tdt.validate("test").isValid());
 
         tdt.setEvaluations(-1);
-        assertFalse(tdt.validate(new PfValidationResult()).isValid());
+        assertFalse(tdt.validate("test").isValid());
         tdt.setEvaluations(100);
-        assertTrue(tdt.validate(new PfValidationResult()).isValid());
+        assertTrue(tdt.validate("test").isValid());
 
         tdt.setMethod(null);
-        assertTrue(tdt.validate(new PfValidationResult()).isValid());
+        assertTrue(tdt.validate("test").isValid());
         tdt.setMethod("");
-        assertFalse(tdt.validate(new PfValidationResult()).isValid());
+        assertFalse(tdt.validate("test").isValid());
         tdt.setMethod(A_METHOD);
-        assertTrue(tdt.validate(new PfValidationResult()).isValid());
+        assertTrue(tdt.validate("test").isValid());
 
-        assertThatThrownBy(() -> tdt.validate(null)).hasMessageMatching("resultIn is marked .*on.*ull but is null");
+        assertThatThrownBy(() -> tdt.validate(null)).hasMessageMatching("fieldName is marked .*on.*ull but is null");
     }
 }

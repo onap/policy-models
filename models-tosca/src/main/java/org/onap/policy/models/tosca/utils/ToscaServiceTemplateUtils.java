@@ -25,12 +25,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 import javax.ws.rs.core.Response;
 import lombok.NonNull;
+import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.ObjectValidationResult;
+import org.onap.policy.common.parameters.ValidationStatus;
 import org.onap.policy.models.base.PfConceptContainer;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelRuntimeException;
-import org.onap.policy.models.base.PfValidationMessage;
-import org.onap.policy.models.base.PfValidationResult;
-import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaEntity;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaEntityType;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
@@ -57,42 +57,44 @@ public class ToscaServiceTemplateUtils {
      */
     public static JpaToscaServiceTemplate addFragment(@NonNull final JpaToscaServiceTemplate originalTemplate,
             @NonNull final JpaToscaServiceTemplate fragmentTemplate) {
-        PfValidationResult result = new PfValidationResult();
+        BeanValidationResult result = new BeanValidationResult("fragmentTemplate", fragmentTemplate);
 
         if (originalTemplate.compareToWithoutEntities(fragmentTemplate) != 0) {
-            result.addValidationMessage(new PfValidationMessage(originalTemplate.getKey(),
-                    ToscaServiceTemplateUtils.class, ValidationResult.INVALID,
-                    "service template in incoming fragment does not equal existing service template"));
+            result.addResult(new ObjectValidationResult("serviceTemplate",
+                            originalTemplate.getKey().getId(), ValidationStatus.INVALID,
+                            "service template in incoming fragment does not equal existing service template"));
         }
 
         JpaToscaServiceTemplate compositeTemplate = new JpaToscaServiceTemplate(originalTemplate);
 
         compositeTemplate.setDataTypes(
-                addFragmentEntitites(compositeTemplate.getDataTypes(), fragmentTemplate.getDataTypes(), result));
+                addFragmentEntitites(compositeTemplate.getDataTypes(), fragmentTemplate.getDataTypes(), result,
+                                "dataTypes"));
         compositeTemplate.setPolicyTypes(
-                addFragmentEntitites(compositeTemplate.getPolicyTypes(), fragmentTemplate.getPolicyTypes(), result));
+                addFragmentEntitites(compositeTemplate.getPolicyTypes(), fragmentTemplate.getPolicyTypes(), result,
+                                "policyTypes"));
 
         if (originalTemplate.getTopologyTemplate() != null && fragmentTemplate.getTopologyTemplate() != null) {
             if (originalTemplate.getTopologyTemplate()
                     .compareToWithoutEntities(fragmentTemplate.getTopologyTemplate()) == 0) {
                 compositeTemplate.getTopologyTemplate()
                         .setPolicies(addFragmentEntitites(compositeTemplate.getTopologyTemplate().getPolicies(),
-                                fragmentTemplate.getTopologyTemplate().getPolicies(), result));
+                                fragmentTemplate.getTopologyTemplate().getPolicies(), result, "topologyTemplate"));
             } else {
-                result.addValidationMessage(new PfValidationMessage(originalTemplate.getTopologyTemplate().getKey(),
-                        ToscaServiceTemplateUtils.class, ValidationResult.INVALID,
-                        "topology template in incoming fragment does not equal existing topology template"));
+                result.addResult(new ObjectValidationResult("serviceTemplate",
+                                originalTemplate.getTopologyTemplate().getKey().getId(), ValidationStatus.INVALID,
+                                "topology template in incoming fragment does not equal existing topology template"));
             }
         } else if (fragmentTemplate.getTopologyTemplate() != null) {
             compositeTemplate.setTopologyTemplate(new JpaToscaTopologyTemplate(fragmentTemplate.getTopologyTemplate()));
         }
 
         if (result.isValid()) {
-            result = compositeTemplate.validate(result);
+            result.addResult(compositeTemplate.validate("compositeTemplate"));
         }
 
         if (!result.isValid()) {
-            String message = result.toString();
+            String message = result.getResult();
             throw new PfModelRuntimeException(Response.Status.NOT_ACCEPTABLE, message);
         }
 
@@ -106,6 +108,7 @@ public class ToscaServiceTemplateUtils {
      *
      * @param compositeContainer the original container
      * @param fragmentContainer the fragment being added to the original container
+     * @param fieldName name of the field containing the data
      * @return the composite container with the result
      */
     @SuppressWarnings("unchecked")
@@ -113,7 +116,7 @@ public class ToscaServiceTemplateUtils {
     private static
         <S extends PfConceptContainer<? extends JpaToscaEntityType<? extends ToscaEntity>, ? extends ToscaEntity>>
             S addFragmentEntitites(final S compositeContainer, final S fragmentContainer,
-                    final PfValidationResult result) {
+                    final BeanValidationResult result, String fieldName) {
 
         if (compositeContainer == null) {
             return fragmentContainer;
@@ -128,9 +131,9 @@ public class ToscaServiceTemplateUtils {
             JpaToscaEntityType<? extends ToscaEntity> containerEntry =
                     compositeContainer.getConceptMap().get(fragmentEntry.getKey());
             if (containerEntry != null && !containerEntry.equals(fragmentEntry.getValue())) {
-                result.addValidationMessage(new PfValidationMessage(fragmentEntry.getKey(),
-                        ToscaServiceTemplateUtils.class,
-                        ValidationResult.INVALID, "entity in incoming fragment does not equal existing entity"));
+                result.addResult(new ObjectValidationResult(fieldName, fragmentEntry.getKey().getId(),
+                            ValidationStatus.INVALID,
+                            "entity in incoming fragment does not equal existing entity"));
             }
         }
 

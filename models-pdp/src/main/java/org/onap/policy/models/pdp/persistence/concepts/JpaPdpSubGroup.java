@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Model
  * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -43,7 +43,12 @@ import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-import org.onap.policy.common.utils.validation.ParameterValidationUtils;
+import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.BeanValidator;
+import org.onap.policy.common.parameters.ObjectValidationResult;
+import org.onap.policy.common.parameters.ValidationStatus;
+import org.onap.policy.common.parameters.annotations.Min;
+import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
@@ -52,9 +57,7 @@ import org.onap.policy.models.base.PfKeyUse;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfSearchableKey;
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.base.PfValidationMessage;
-import org.onap.policy.models.base.PfValidationResult;
-import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.base.Validation;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifier;
@@ -77,15 +80,19 @@ public class JpaPdpSubGroup extends PfConcept implements PfAuthorative<PdpSubGro
     private PfReferenceKey key;
 
     @ElementCollection
+    @NotNull
     private List<PfSearchableKey> supportedPolicyTypes;
 
     @ElementCollection
+    @NotNull
     private List<PfConceptKey> policies;
 
     @Column
+    @Min(0)
     private int currentInstanceCount;
 
     @Column
+    @Min(0)
     private int desiredInstanceCount;
 
     @ElementCollection
@@ -101,7 +108,8 @@ public class JpaPdpSubGroup extends PfConcept implements PfAuthorative<PdpSubGro
                 @JoinColumn(name = "pdpLocalName",        referencedColumnName = "localName")
             }
         )
-    // formatter:on
+    // @formatter:on
+    @NotNull
     private List<JpaPdp> pdpInstances;
 
     /**
@@ -279,80 +287,27 @@ public class JpaPdpSubGroup extends PfConcept implements PfAuthorative<PdpSubGro
     }
 
     @Override
-    public PfValidationResult validate(@NonNull final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
+    public BeanValidationResult validate(@NonNull final String fieldName) {
+        BeanValidationResult result = new BeanValidator().validateTop(fieldName, this);
 
-        if (key.isNullKey()) {
-            result.addValidationMessage(
-                    new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID, "key is a null key"));
-        }
-
-        result = key.validate(result);
-
-        if (key.getParentConceptKey().isNullKey()) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "parent of key is a null key"));
-        }
-
-        if (currentInstanceCount < 0) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "the current instance count of a PDP sub group may not be negative"));
-        }
-
-        if (desiredInstanceCount < 0) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "the desired instance count of a PDP sub group may not be negative"));
-        }
+        result.addResult(key.validateNotNull("key"));
+        result.addResult(key.getParentConceptKey().validateNotNull("parent of key"));
 
         if (properties != null) {
             for (Entry<String, String> propertyEntry : properties.entrySet()) {
-                if (!ParameterValidationUtils.validateStringParameter(propertyEntry.getKey())) {
-                    result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                            "a property key may not be null or blank"));
-                }
-                if (!ParameterValidationUtils.validateStringParameter(propertyEntry.getValue())) {
-                    result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                            "a property value may not be null or blank"));
-                }
+                Validation.validateNotBlank(result, propertyEntry);
             }
         }
 
-        return validateSubConcepts(result);
-    }
-
-    /**
-     * Validate collections of sub concepts.
-     *
-     * @param result the result in which to store the validation result
-     * @return the validation result including the results of this method
-     */
-    private PfValidationResult validateSubConcepts(PfValidationResult result) {
-        if (supportedPolicyTypes == null || supportedPolicyTypes.isEmpty()) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "a PDP subgroup must support at least one policy type"));
+        if (supportedPolicyTypes != null && supportedPolicyTypes.isEmpty()) {
+            result.addResult(new ObjectValidationResult("supportedPolicyTypes", supportedPolicyTypes,
+                            ValidationStatus.INVALID, "a PDP subgroup must support at least one policy type"));
         } else {
-            for (PfSearchableKey supportedPolicyType : supportedPolicyTypes) {
-                result = supportedPolicyType.validate(result);
-            }
+            Validation.validateItems(result, "supportedPolicyTypes", supportedPolicyTypes, true);
         }
 
-        if (policies == null) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "a PDP subgroup must have a list of policies"));
-        } else {
-            for (PfConceptKey policyKey : policies) {
-                result = policyKey.validate(result);
-            }
-        }
-
-        if (pdpInstances == null) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "a PDP subgroup must have a list of PDPs"));
-        } else {
-            for (JpaPdp jpaPdp : pdpInstances) {
-                result = jpaPdp.validate(result);
-            }
-        }
+        Validation.validateItems(result, "policies", policies, true);
+        Validation.validateItems(result, "pdpInstances", pdpInstances, true);
 
         return result;
     }

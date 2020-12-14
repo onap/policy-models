@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
-import org.onap.policy.models.base.PfValidationResult;
 
 /**
  * DAO test for ToscaEntrySchema.
@@ -96,27 +95,27 @@ public class JpaToscaEntrySchemaTest {
         tes.clean();
         assertEquals(tdtClone0, tes);
 
-        assertTrue(new JpaToscaEntrySchema(typeKey).validate(new PfValidationResult()).isValid());
-        assertTrue(tes.validate(new PfValidationResult()).isValid());
+        assertTrue(new JpaToscaEntrySchema(typeKey).validate("test").isValid());
+        assertTrue(tes.validate("test").isValid());
 
         tes.setType(PfConceptKey.getNullKey());
-        assertFalse(tes.validate(new PfValidationResult()).isValid());
+        assertFalse(tes.validate("test").isValid());
         tes.setType(null);
-        assertFalse(tes.validate(new PfValidationResult()).isValid());
+        assertFalse(tes.validate("test").isValid());
         tes.setType(typeKey);
-        assertTrue(tes.validate(new PfValidationResult()).isValid());
+        assertTrue(tes.validate("test").isValid());
 
         tes.setDescription("");
 
-        assertFalse(tes.validate(new PfValidationResult()).isValid());
+        assertFalse(tes.validate("test").isValid());
         tes.setDescription(A_DESCRIPTION);
-        assertTrue(tes.validate(new PfValidationResult()).isValid());
+        assertTrue(tes.validate("test").isValid());
 
         tes.getConstraints().add(null);
-        assertFalse(tes.validate(new PfValidationResult()).isValid());
+        assertFalse(tes.validate("test").isValid());
         tes.getConstraints().remove(null);
-        assertTrue(tes.validate(new PfValidationResult()).isValid());
+        assertTrue(tes.validate("test").isValid());
 
-        assertThatThrownBy(() -> tes.validate(null)).hasMessageMatching("resultIn is marked .*on.*ull but is null");
+        assertThatThrownBy(() -> tes.validate(null)).hasMessageMatching("fieldName is marked .*on.*ull but is null");
     }
 }

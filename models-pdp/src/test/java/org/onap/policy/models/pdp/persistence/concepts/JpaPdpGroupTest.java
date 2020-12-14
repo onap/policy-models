@@ -35,7 +35,6 @@ import java.util.List;
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfReferenceKey;
-import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
 import org.onap.policy.models.pdp.enums.PdpState;
 import org.onap.policy.models.pdp.testconcepts.DummyJpaPdpSubgroupChild;
@@ -130,44 +129,44 @@ public class JpaPdpGroupTest {
 
         assertThatThrownBy(() -> {
             testJpaPdpGroup.validate(null);
-        }).hasMessageMatching("resultIn" + NULL_ERROR);
+        }).hasMessageMatching("fieldName" + NULL_ERROR);
 
-        assertFalse(testJpaPdpGroup.validate(new PfValidationResult()).isOk());
+        assertFalse(testJpaPdpGroup.validate("test").isValid());
         testJpaPdpGroup.setPdpGroupState(PdpState.PASSIVE);
-        assertTrue(testJpaPdpGroup.validate(new PfValidationResult()).isOk());
+        assertTrue(testJpaPdpGroup.validate("test").isValid());
 
         testJpaPdpGroup.setKey(PfConceptKey.getNullKey());
-        assertFalse(testJpaPdpGroup.validate(new PfValidationResult()).isOk());
+        assertFalse(testJpaPdpGroup.validate("test").isValid());
         testJpaPdpGroup.setKey(new PfConceptKey("PdpGroup0", VERSION));
-        assertTrue(testJpaPdpGroup.validate(new PfValidationResult()).isOk());
+        assertTrue(testJpaPdpGroup.validate("test").isValid());
 
         testJpaPdpGroup.setDescription("   ");
-        assertFalse(testJpaPdpGroup.validate(new PfValidationResult()).isOk());
+        assertFalse(testJpaPdpGroup.validate("test").isValid());
         testJpaPdpGroup.setDescription("  A Description ");
-        assertTrue(testJpaPdpGroup.validate(new PfValidationResult()).isOk());
+        assertTrue(testJpaPdpGroup.validate("test").isValid());
         testJpaPdpGroup.setDescription(null);
-        assertTrue(testJpaPdpGroup.validate(new PfValidationResult()).isOk());
+        assertTrue(testJpaPdpGroup.validate("test").isValid());
 
         testJpaPdpGroup.setProperties(new LinkedHashMap<>());
         testJpaPdpGroup.getProperties().put(null, null);
-        assertFalse(testJpaPdpGroup.validate(new PfValidationResult()).isOk());
+        assertFalse(testJpaPdpGroup.validate("test").isValid());
         testJpaPdpGroup.getProperties().remove(null);
-        assertTrue(testJpaPdpGroup.validate(new PfValidationResult()).isOk());
+        assertTrue(testJpaPdpGroup.validate("test").isValid());
 
         testJpaPdpGroup.setProperties(new LinkedHashMap<>());
         testJpaPdpGroup.getProperties().put("NullKey", null);
-        assertFalse(testJpaPdpGroup.validate(new PfValidationResult()).isOk());
+        assertFalse(testJpaPdpGroup.validate("test").isValid());
         testJpaPdpGroup.getProperties().remove("NullKey");
-        assertTrue(testJpaPdpGroup.validate(new PfValidationResult()).isOk());
+        assertTrue(testJpaPdpGroup.validate("test").isValid());
 
         List<JpaPdpSubGroup> jpaPdpSubgroups = testJpaPdpGroup.getPdpSubGroups();
         assertNotNull(jpaPdpSubgroups);
         testJpaPdpGroup.setPdpSubGroups(null);
-        assertFalse(testJpaPdpGroup.validate(new PfValidationResult()).isOk());
+        assertFalse(testJpaPdpGroup.validate("test").isValid());
         testJpaPdpGroup.setPdpSubGroups(new ArrayList<>());
-        assertTrue(testJpaPdpGroup.validate(new PfValidationResult()).isOk());
+        assertTrue(testJpaPdpGroup.validate("test").isValid());
         testJpaPdpGroup.setPdpSubGroups(jpaPdpSubgroups);
-        assertTrue(testJpaPdpGroup.validate(new PfValidationResult()).isOk());
+        assertTrue(testJpaPdpGroup.validate("test").isValid());
 
         JpaPdpGroup otherJpaPdpGroup = new JpaPdpGroup(testJpaPdpGroup);
         assertEquals(0, testJpaPdpGroup.compareTo(otherJpaPdpGroup));

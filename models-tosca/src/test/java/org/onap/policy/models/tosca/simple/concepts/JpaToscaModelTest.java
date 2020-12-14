@@ -33,7 +33,6 @@ import java.util.TreeMap;
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelService;
-import org.onap.policy.models.base.PfValidationResult;
 
 /**
  * DAO test for ToscaDatatype.
@@ -101,13 +100,13 @@ public class JpaToscaModelTest {
         tm.clean();
         assertEquals(tttClone0, tm);
 
-        assertFalse(new JpaToscaModel().validate(new PfValidationResult()).isValid());
-        assertTrue(tm.validate(new PfValidationResult()).isValid());
+        assertFalse(new JpaToscaModel().validate("test").isValid());
+        assertTrue(tm.validate("test").isValid());
 
         tm.register();
         assertTrue(PfModelService.existsModel(tm.getServiceTemplates().getId()));
         PfModelService.deregisterModel(tm.getServiceTemplates().getId());
 
-        assertThatThrownBy(() -> tm.validate(null)).hasMessageMatching("resultIn is marked .*on.*ull but is null");
+        assertThatThrownBy(() -> tm.validate(null)).hasMessageMatching("fieldName is marked .*on.*ull but is null");
     }
 }

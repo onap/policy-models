@@ -1,7 +1,7 @@
 /*
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,8 +26,12 @@ import java.util.List;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
+import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.BeanValidator;
+import org.onap.policy.common.parameters.ObjectValidationResult;
+import org.onap.policy.common.parameters.ValidationResult;
+import org.onap.policy.common.parameters.ValidationStatus;
 import org.onap.policy.common.utils.validation.Assertions;
-import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 
 /**
  * A key, upon which other key subclasses can be built, providing implementations of the methods.
@@ -240,23 +244,56 @@ public abstract class PfKeyImpl extends PfKey {
         }
     }
 
-    @Override
-    public PfValidationResult validate(final PfValidationResult result) {
-        final String nameValidationErrorMessage =
-            Assertions.getStringParameterValidationMessage(NAME_TOKEN, getName(), getNameRegEx());
-        if (nameValidationErrorMessage != null) {
-            result.addValidationMessage(new PfValidationMessage(this, this.getClass(), ValidationResult.INVALID,
-                "name invalid-" + nameValidationErrorMessage));
+    /**
+     * Validates the key, ensuring that neither the name nor the version is "NULL" and
+     * that both match their respective regular expressions.
+     *
+     * @param fieldName name of the field containing this concept
+     * @return the validation result
+     */
+    public ValidationResult validateNotNull2(@NonNull final String fieldName) {
+        if (isNullKey()) {
+            return new ObjectValidationResult(fieldName, getId(), ValidationStatus.INVALID, IS_A_NULL_KEY);
         }
 
-        final String versionValidationErrorMessage =
-            Assertions.getStringParameterValidationMessage(VERSION_TOKEN, getVersion(), getVersionRegEx());
-        if (versionValidationErrorMessage != null) {
-            result.addValidationMessage(new PfValidationMessage(this, this.getClass(), ValidationResult.INVALID,
-                "version invalid-" + versionValidationErrorMessage));
-        }
+        return validateCommon(fieldName, false);
+    }
+
+    /**
+     * Validates the key, ensuring that the name is not "NULL" and that both the name and
+     * version match their respective regular expressions. Allows a null version when
+     * validating.
+     */
+    @Override
+    public BeanValidationResult validate(final String fieldName) {
+        return validateCommon(fieldName, true);
+    }
+
+    private BeanValidationResult validateCommon(final String fieldName, boolean nullVersionOk) {
+        BeanValidationResult result = new BeanValidator().validateTop(fieldName, this);
+
+        result.addResult(validateName());
+        result.addResult(validateVersion(nullVersionOk));
 
         return result;
+    }
+
+    private ValidationResult validateName() {
+        if (isNullName()) {
+            return new ObjectValidationResult(NAME_TOKEN, getName(), ValidationStatus.INVALID,
+                            IS_NULL);
+        }
+
+        return Validation.validateRegEx(NAME_TOKEN, getName(), getNameRegEx());
+    }
+
+    private ValidationResult validateVersion(boolean nullOk) {
+        if (!nullOk && isNullVersion()) {
+            return new ObjectValidationResult(VERSION_TOKEN, getVersion(), ValidationStatus.INVALID,
+                            IS_NULL);
+        }
+
+        return Validation.validateRegEx(VERSION_TOKEN, getVersion(), getVersionRegEx());
     }
 
     @Override
