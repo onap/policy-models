@@ -31,7 +31,6 @@ import org.junit.Test;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.coder.YamlJsonTranslator;
 import org.onap.policy.common.utils.resources.ResourceUtils;
-import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
@@ -72,7 +71,7 @@ public class ToscaServiceTemplateMappingTest {
         JpaToscaServiceTemplate internalServiceTemplate =
                 ToscaServiceTemplateUtils.addFragment(policyTypeServiceTemplate, policyFragmentServiceTemplate);
 
-        assertTrue(internalServiceTemplate.validate(new PfValidationResult()).isValid());
+        assertTrue(internalServiceTemplate.validate("test").isValid());
         ToscaServiceTemplate plainPolicies2 = internalServiceTemplate.toAuthorative();
 
         ToscaPolicy pp1 = plainPolicies.getToscaTopologyTemplate().getPolicies().get(0).values().iterator().next();
@@ -92,11 +91,11 @@ public class ToscaServiceTemplateMappingTest {
         ToscaServiceTemplate plainPolicyTypes = standardCoder.decode(yamlAsJsonString, ToscaServiceTemplate.class);
         JpaToscaServiceTemplate internalPolicyTypes = new JpaToscaServiceTemplate();
         internalPolicyTypes.fromAuthorative(plainPolicyTypes);
-        assertTrue(internalPolicyTypes.validate(new PfValidationResult()).isValid());
+        assertTrue(internalPolicyTypes.validate("test").isValid());
         ToscaServiceTemplate plainPolicyTypes2 = internalPolicyTypes.toAuthorative();
         JpaToscaServiceTemplate internalPolicyTypes2 = new JpaToscaServiceTemplate();
         internalPolicyTypes2.fromAuthorative(plainPolicyTypes2);
-        assertTrue(internalPolicyTypes2.validate(new PfValidationResult()).isValid());
+        assertTrue(internalPolicyTypes2.validate("test").isValid());
         assertEquals(0, internalPolicyTypes.compareTo(internalPolicyTypes2));
     }
 }

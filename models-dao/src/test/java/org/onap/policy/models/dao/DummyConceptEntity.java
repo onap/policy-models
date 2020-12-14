@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,11 +31,12 @@ import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
+import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.BeanValidator;
 import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
-import org.onap.policy.models.base.PfValidationResult;
 
 @Entity
 @Table(name = "DummyConceptEntity")
@@ -100,8 +101,12 @@ public class DummyConceptEntity extends PfConcept {
     }
 
     @Override
-    public PfValidationResult validate(final PfValidationResult result) {
-        return key.validate(result);
+    public BeanValidationResult validate(@NonNull final String fieldName) {
+        BeanValidationResult result = new BeanValidator().validateTop(fieldName, this);
+
+        result.addResult(key.validate("key"));
+
+        return result;
     }
 
     @Override

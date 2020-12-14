@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,12 +25,12 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.core.Response;
 import lombok.NonNull;
+import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.base.PfReferenceKey;
-import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.dao.PfDao;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
@@ -96,9 +96,9 @@ public class PdpProvider {
             JpaPdpGroup jpaPdpGroup = new JpaPdpGroup();
             jpaPdpGroup.fromAuthorative(pdpGroup);
 
-            PfValidationResult validationResult = jpaPdpGroup.validate(new PfValidationResult());
-            if (!validationResult.isOk()) {
-                String errorMessage = "pdp group \"" + jpaPdpGroup.getId() + NOT_VALID + validationResult;
+            BeanValidationResult validationResult = jpaPdpGroup.validate("pdpGroup");
+            if (!validationResult.isValid()) {
+                String errorMessage = "pdp group \"" + jpaPdpGroup.getId() + NOT_VALID + validationResult.getResult();
                 LOGGER.warn(errorMessage);
                 throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
             }
@@ -133,9 +133,9 @@ public class PdpProvider {
             JpaPdpGroup jpaPdpGroup = new JpaPdpGroup();
             jpaPdpGroup.fromAuthorative(pdpGroup);
 
-            PfValidationResult validationResult = jpaPdpGroup.validate(new PfValidationResult());
-            if (!validationResult.isOk()) {
-                String errorMessage = "pdp group \"" + jpaPdpGroup.getId() + NOT_VALID + validationResult;
+            BeanValidationResult validationResult = jpaPdpGroup.validate("pdpGroup");
+            if (!validationResult.isValid()) {
+                String errorMessage = "pdp group \"" + jpaPdpGroup.getId() + NOT_VALID + validationResult.getResult();
                 LOGGER.warn(errorMessage);
                 throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
             }
@@ -171,9 +171,9 @@ public class PdpProvider {
         final JpaPdpSubGroup jpaPdpSubgroup = new JpaPdpSubGroup(subGroupKey);
         jpaPdpSubgroup.fromAuthorative(pdpSubGroup);
 
-        PfValidationResult validationResult = jpaPdpSubgroup.validate(new PfValidationResult());
-        if (!validationResult.isOk()) {
-            String errorMessage = "PDP subgroup \"" + jpaPdpSubgroup.getId() + NOT_VALID + validationResult;
+        BeanValidationResult validationResult = jpaPdpSubgroup.validate("pdpSubgroup");
+        if (!validationResult.isValid()) {
+            String errorMessage = "PDP subgroup \"" + jpaPdpSubgroup.getId() + NOT_VALID + validationResult.getResult();
             LOGGER.warn(errorMessage);
             throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
         }
@@ -198,9 +198,9 @@ public class PdpProvider {
         final JpaPdp jpaPdp = new JpaPdp(pdpKey);
         jpaPdp.fromAuthorative(pdp);
 
-        PfValidationResult validationResult = jpaPdp.validate(new PfValidationResult());
-        if (!validationResult.isOk()) {
-            String errorMessage = "PDP \"" + jpaPdp.getId() + NOT_VALID + validationResult;
+        BeanValidationResult validationResult = jpaPdp.validate("pdp");
+        if (!validationResult.isValid()) {
+            String errorMessage = "PDP \"" + jpaPdp.getId() + NOT_VALID + validationResult.getResult();
             LOGGER.warn(errorMessage);
             throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
         }

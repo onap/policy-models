@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +22,9 @@
 package org.onap.policy.models.base;
 
 import lombok.NonNull;
+import org.onap.policy.common.parameters.ObjectValidationResult;
+import org.onap.policy.common.parameters.ValidationResult;
+import org.onap.policy.common.parameters.ValidationStatus;
 
 /**
  * The key uniquely identifies every entity in the system. This class is an abstract class to give a common parent for
@@ -136,4 +140,18 @@ public abstract class PfKey extends PfConcept {
      * @return the patch version of a key
      */
     public abstract int getPatchVersion();
+
+    /**
+     * Validates that the key is not null.
+     *
+     * @return the result, if invalid, {@code null} otherwise
+     */
+    @Override
+    public ValidationResult validate(@NonNull final String fieldName) {
+        if (isNullKey()) {
+            return new ObjectValidationResult(fieldName, getId(), ValidationStatus.INVALID, IS_A_NULL_KEY);
+        }
+
+        return null;
+    }
 }

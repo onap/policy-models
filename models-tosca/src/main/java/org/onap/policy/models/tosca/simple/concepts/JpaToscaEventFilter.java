@@ -2,8 +2,8 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Model
  * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019-2020 Nordix Foundation.
+ * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,13 +34,15 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.lang3.ObjectUtils;
+import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.BeanValidator;
+import org.onap.policy.common.parameters.annotations.NotBlank;
+import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfReferenceKey;
-import org.onap.policy.models.base.PfValidationMessage;
-import org.onap.policy.models.base.PfValidationResult;
-import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.base.Validation;
 
 /**
  * Class to represent the EventFilter in TOSCA definition.
@@ -60,12 +62,15 @@ public class JpaToscaEventFilter extends PfConcept {
     private PfReferenceKey key;
 
     @Column
+    @NotNull
     private PfConceptKey node;
 
     @Column
+    @NotBlank
     private String requirement;
 
     @Column
+    @NotBlank
     private String capability;
 
     /**
@@ -124,30 +129,12 @@ public class JpaToscaEventFilter extends PfConcept {
     }
 
     @Override
-    public PfValidationResult validate(@NonNull final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
+    public BeanValidationResult validate(@NonNull final String fieldName) {
+        BeanValidationResult result = new BeanValidator().validateTop(fieldName, this);
 
-        if (key.isNullKey()) {
-            result.addValidationMessage(
-                    new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID, "key is a null key"));
-        }
+        result.addResult(key.validate("key"));
 
-        result = key.validate(result);
-
-        if (node == null || node.isNullKey()) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "node on an event filter may not be null"));
-        }
-
-        if (requirement != null && requirement.trim().length() == 0) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "event filter requirement may not be blank"));
-        }
-
-        if (capability != null && capability.trim().length() == 0) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "event filter capability may not be blank"));
-        }
+        Validation.validateNotNull(result, "node", node, false);
 
         return result;
     }

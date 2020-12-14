@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,8 +33,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import org.junit.Test;
+import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.models.base.PfConceptKey;
-import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaDataType;
 
 public class JpaToscaDataTypesTest {
@@ -71,23 +71,23 @@ public class JpaToscaDataTypesTest {
 
         dtMapList.get(0).put("dt0", dt0);
         assertNotNull(new JpaToscaDataTypes(dtMapList));
-        assertTrue(new JpaToscaDataTypes(dtMapList).validate(new PfValidationResult()).isValid());
+        assertTrue(new JpaToscaDataTypes(dtMapList).validate("test").isClean());
         assertThatThrownBy(() -> new JpaToscaDataTypes(dtMapList).validate(null))
-                .hasMessageMatching("resultIn is marked .*on.*ull but is null");
+                .hasMessageMatching("fieldName is marked .*on.*ull but is null");
 
         dt0.setDerivedFrom(null);
-        assertTrue(new JpaToscaDataTypes(dtMapList).validate(new PfValidationResult()).isValid());
+        assertTrue(new JpaToscaDataTypes(dtMapList).validate("test").isClean());
 
         dt0.setDerivedFrom("tosca.datatypes.Root");
-        assertTrue(new JpaToscaDataTypes(dtMapList).validate(new PfValidationResult()).isValid());
+        assertTrue(new JpaToscaDataTypes(dtMapList).validate("test").isClean());
 
         dt0.setDerivedFrom("some.other.Thing");
-        PfValidationResult result = new JpaToscaDataTypes(dtMapList).validate(new PfValidationResult());
+        BeanValidationResult result = new JpaToscaDataTypes(dtMapList).validate("test");
         assertFalse(result.isValid());
-        assertThat(result.toString()).contains("parent some.other.Thing:0.0.0 of entity not found");
+        assertThat(result.getResult()).contains("some.other.Thing:0.0.0").contains("parent entity not found");
 
         dt0.setDerivedFrom(null);
-        assertTrue(new JpaToscaDataTypes(dtMapList).validate(new PfValidationResult()).isValid());
+        assertTrue(new JpaToscaDataTypes(dtMapList).validate("test").isClean());
 
         ToscaDataType dt1 = new ToscaDataType();
         dt1.setName("dt1");
@@ -95,17 +95,17 @@ public class JpaToscaDataTypesTest {
         dt1.setDescription("dt1 description");
 
         dtMapList.get(0).put("dt1", dt1);
-        assertTrue(new JpaToscaDataTypes(dtMapList).validate(new PfValidationResult()).isValid());
+        assertTrue(new JpaToscaDataTypes(dtMapList).validate("test").isClean());
 
         dt1.setDerivedFrom("dt0");
-        assertTrue(new JpaToscaDataTypes(dtMapList).validate(new PfValidationResult()).isValid());
+        assertTrue(new JpaToscaDataTypes(dtMapList).validate("test").isClean());
 
         dt1.setDerivedFrom("dt2");
-        result = new JpaToscaDataTypes(dtMapList).validate(new PfValidationResult());
+        result = new JpaToscaDataTypes(dtMapList).validate("test");
         assertFalse(result.isValid());
-        assertThat(result.toString()).contains("parent dt2:0.0.0 of entity not found");
+        assertThat(result.getResult()).contains("dt2:0.0.0").contains("parent entity not found");
 
         dt1.setDerivedFrom("dt0");
-        assertTrue(new JpaToscaDataTypes(dtMapList).validate(new PfValidationResult()).isValid());
+        assertTrue(new JpaToscaDataTypes(dtMapList).validate("test").isClean());
     }
 }
