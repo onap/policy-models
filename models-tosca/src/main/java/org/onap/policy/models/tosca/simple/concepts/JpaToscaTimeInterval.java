@@ -2,8 +2,8 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Model
  * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019-2020 Nordix Foundation.
+ * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,13 +34,15 @@ import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
+import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.BeanValidator;
+import org.onap.policy.common.parameters.ObjectValidationResult;
+import org.onap.policy.common.parameters.ValidationStatus;
+import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.base.PfValidationMessage;
-import org.onap.policy.models.base.PfValidationResult;
-import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 
 /**
  * Class to represent the TimeInterval in TOSCA definition.
@@ -60,9 +62,11 @@ public class JpaToscaTimeInterval extends PfConcept {
     @EmbeddedId
     private PfReferenceKey key;
 
+    @NotNull
     @SerializedName("start_time")
     private Date startTime;
 
+    @NotNull
     @SerializedName("end_time")
     private Date endTime;
 
@@ -117,30 +121,24 @@ public class JpaToscaTimeInterval extends PfConcept {
     }
 
     @Override
-    public PfValidationResult validate(@NonNull final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
+    public BeanValidationResult validate(@NonNull final String fieldName) {
+        BeanValidationResult result = new BeanValidator().validateTop(fieldName, this);
 
-        if (key.isNullKey()) {
-            result.addValidationMessage(
-                    new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID, "key is a null key"));
+        result.addResult(key.validate("key"));
+
+        if (startTime != null && startTime.getTime() == 0) {
+            result.addResult(new ObjectValidationResult("start time", startTime, ValidationStatus.INVALID,
+                            "is zero"));
         }
 
-        result = key.validate(result);
-
-        if (startTime == null || startTime.getTime() == 0) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "start time on time interval may not be null or zero"));
-        }
-
-        if (endTime == null || endTime.getTime() == 0) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "end time on time interval may not be null or zero"));
+        if (endTime != null && endTime.getTime() == 0) {
+            result.addResult(new ObjectValidationResult("end time", endTime, ValidationStatus.INVALID,
+                            "is zero"));
         }
 
         if (startTime != null && endTime != null && endTime.before(startTime)) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "end time \"" + endTime.toString() + "\" on time interval may not be before start time \""
-                            + startTime.toString() + "\""));
+            result.addResult(new ObjectValidationResult("end time", endTime, ValidationStatus.INVALID,
+                            "is before start time"));
         }
 
         return result;

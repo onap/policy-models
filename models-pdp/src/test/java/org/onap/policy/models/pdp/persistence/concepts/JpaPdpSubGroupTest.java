@@ -21,6 +21,7 @@
 
 package org.onap.policy.models.pdp.persistence.concepts;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -36,7 +37,6 @@ import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfSearchableKey;
-import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.pdp.testconcepts.DummyJpaPdpSubgroupChild;
 
@@ -138,82 +138,78 @@ public class JpaPdpSubGroupTest {
 
         assertThatThrownBy(() -> {
             testJpaPdpSubGroup.validate(null);
-        }).hasMessageMatching("resultIn is marked .*ull but is null");
+        }).hasMessageMatching("fieldName is marked .*ull but is null");
 
-        assertFalse(testJpaPdpSubGroup.validate(new PfValidationResult()).isOk());
-        assertTrue(testJpaPdpSubGroup.validate(new PfValidationResult()).toString()
-                .contains("INVALID:parent of key is a null key"));
+        assertFalse(testJpaPdpSubGroup.validate("test").isValid());
+        assertThat(testJpaPdpSubGroup.validate("test").getResult())
+                .contains("parent of key").contains("INVALID, is a null key");
 
         testJpaPdpSubGroup.getKey().setParentConceptKey(new PfConceptKey("Parent:1.0.0"));
-        assertFalse(testJpaPdpSubGroup.validate(new PfValidationResult()).isOk());
-        assertFalse(testJpaPdpSubGroup.validate(new PfValidationResult()).toString()
-                .contains("INVALID:parent of key is a null key"));
-        assertTrue(testJpaPdpSubGroup.validate(new PfValidationResult()).toString()
-                .contains("INVALID:a PDP subgroup must support at least one policy type"));
+        assertFalse(testJpaPdpSubGroup.validate("test").isValid());
+        assertThat(testJpaPdpSubGroup.validate("test").getResult())
+            .contains("supportedPolicyTypes").contains("INVALID, a PDP subgroup must support at least one policy type");
 
         testJpaPdpSubGroup.setSupportedPolicyTypes(new ArrayList<>());
         testJpaPdpSubGroup.getSupportedPolicyTypes().add(new PfSearchableKey("APolicyType:1.0.0"));
-        assertTrue(testJpaPdpSubGroup.validate(new PfValidationResult()).isOk());
-        assertFalse(testJpaPdpSubGroup.validate(new PfValidationResult()).toString()
-                .contains("INVALID:a PDP subgroup must support at least one policy type"));
+        assertTrue(testJpaPdpSubGroup.validate("test").isClean());
 
         PfReferenceKey savedKey = testJpaPdpSubGroup.getKey();
         testJpaPdpSubGroup.setKey(PfReferenceKey.getNullKey());
-        assertFalse(testJpaPdpSubGroup.validate(new PfValidationResult()).isOk());
+        assertFalse(testJpaPdpSubGroup.validate("test").isValid());
         testJpaPdpSubGroup.setKey(savedKey);
-        assertTrue(testJpaPdpSubGroup.validate(new PfValidationResult()).isOk());
+        assertTrue(testJpaPdpSubGroup.validate("test").isClean());
 
         testJpaPdpSubGroup.setProperties(new LinkedHashMap<>());
         testJpaPdpSubGroup.getProperties().put(null, null);
-        assertFalse(testJpaPdpSubGroup.validate(new PfValidationResult()).isOk());
+        assertFalse(testJpaPdpSubGroup.validate("test").isValid());
         testJpaPdpSubGroup.getProperties().remove(null);
-        assertTrue(testJpaPdpSubGroup.validate(new PfValidationResult()).isOk());
+        assertTrue(testJpaPdpSubGroup.validate("test").isClean());
 
         testJpaPdpSubGroup.setProperties(new LinkedHashMap<>());
         testJpaPdpSubGroup.getProperties().put("NullKey", null);
-        assertFalse(testJpaPdpSubGroup.validate(new PfValidationResult()).isOk());
+        assertFalse(testJpaPdpSubGroup.validate("test").isValid());
         testJpaPdpSubGroup.getProperties().remove("NullKey");
-        assertTrue(testJpaPdpSubGroup.validate(new PfValidationResult()).isOk());
+        assertTrue(testJpaPdpSubGroup.validate("test").isClean());
 
         testJpaPdpSubGroup.setDesiredInstanceCount(-1);
-        assertFalse(testJpaPdpSubGroup.validate(new PfValidationResult()).isOk());
+        assertFalse(testJpaPdpSubGroup.validate("test").isValid());
         testJpaPdpSubGroup.setDesiredInstanceCount(0);
-        assertTrue(testJpaPdpSubGroup.validate(new PfValidationResult()).isOk());
+        assertTrue(testJpaPdpSubGroup.validate("test").isClean());
         testJpaPdpSubGroup.setProperties(null);
 
         testJpaPdpSubGroup.setCurrentInstanceCount(-1);
-        assertFalse(testJpaPdpSubGroup.validate(new PfValidationResult()).isOk());
+        assertFalse(testJpaPdpSubGroup.validate("test").isValid());
         testJpaPdpSubGroup.setCurrentInstanceCount(0);
-        assertTrue(testJpaPdpSubGroup.validate(new PfValidationResult()).isOk());
+        assertTrue(testJpaPdpSubGroup.validate("test").isClean());
         testJpaPdpSubGroup.setProperties(null);
-        assertTrue(testJpaPdpSubGroup.validate(new PfValidationResult()).isOk());
+        assertTrue(testJpaPdpSubGroup.validate("test").isClean());
 
         List<PfSearchableKey> supportedPolicyTypes = testJpaPdpSubGroup.getSupportedPolicyTypes();
         assertNotNull(supportedPolicyTypes);
         testJpaPdpSubGroup.setSupportedPolicyTypes(null);
-        assertFalse(testJpaPdpSubGroup.validate(new PfValidationResult()).isOk());
+        assertFalse(testJpaPdpSubGroup.validate("test").isValid());
         testJpaPdpSubGroup.setSupportedPolicyTypes(new ArrayList<>());
-        assertFalse(testJpaPdpSubGroup.validate(new PfValidationResult()).isOk());
+        assertFalse(testJpaPdpSubGroup.validate("test").isValid());
         testJpaPdpSubGroup.setSupportedPolicyTypes(supportedPolicyTypes);
-        assertTrue(testJpaPdpSubGroup.validate(new PfValidationResult()).isOk());
+        assertTrue(testJpaPdpSubGroup.validate("test").isClean());
 
         List<PfConceptKey> supportedPolicies = testJpaPdpSubGroup.getPolicies();
         assertNotNull(supportedPolicies);
         testJpaPdpSubGroup.setPolicies(null);
-        assertFalse(testJpaPdpSubGroup.validate(new PfValidationResult()).isOk());
+        assertFalse(testJpaPdpSubGroup.validate("test").isValid());
         testJpaPdpSubGroup.setPolicies(new ArrayList<>());
-        assertTrue(testJpaPdpSubGroup.validate(new PfValidationResult()).isOk());
+        assertTrue(testJpaPdpSubGroup.validate("test").isClean());
         testJpaPdpSubGroup.setPolicies(supportedPolicies);
-        assertTrue(testJpaPdpSubGroup.validate(new PfValidationResult()).isOk());
+        assertTrue(testJpaPdpSubGroup.validate("test").isClean());
 
         List<JpaPdp> pdpInstances = testJpaPdpSubGroup.getPdpInstances();
         assertNotNull(pdpInstances);
         testJpaPdpSubGroup.setPdpInstances(null);
-        assertFalse(testJpaPdpSubGroup.validate(new PfValidationResult()).isOk());
+        assertFalse(testJpaPdpSubGroup.validate("test").isValid());
         testJpaPdpSubGroup.setPdpInstances(new ArrayList<>());
-        assertTrue(testJpaPdpSubGroup.validate(new PfValidationResult()).isOk());
+        assertTrue(testJpaPdpSubGroup.validate("test").isClean());
         testJpaPdpSubGroup.setPdpInstances(pdpInstances);
-        assertTrue(testJpaPdpSubGroup.validate(new PfValidationResult()).isOk());
+        assertTrue(testJpaPdpSubGroup.validate("test").isClean());
 
         JpaPdpSubGroup otherJpaPdpSubGroup = new JpaPdpSubGroup(testJpaPdpSubGroup);
         assertEquals(0, testJpaPdpSubGroup.compareTo(otherJpaPdpSubGroup));

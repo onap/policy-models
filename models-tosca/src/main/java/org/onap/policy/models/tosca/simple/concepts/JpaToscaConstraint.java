@@ -27,6 +27,7 @@ import java.io.Serializable;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.onap.policy.models.base.PfAuthorative;
+import org.onap.policy.models.base.Validated;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConstraint;
 
 /**
@@ -38,7 +39,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaConstraint;
 @NoArgsConstructor
 @EqualsAndHashCode
 public abstract class JpaToscaConstraint
-        implements PfAuthorative<ToscaConstraint>, Serializable, Comparable<JpaToscaConstraint> {
+        implements PfAuthorative<ToscaConstraint>, Validated, Serializable, Comparable<JpaToscaConstraint> {
     private static final long serialVersionUID = -2689472945262507455L;
 
     /**

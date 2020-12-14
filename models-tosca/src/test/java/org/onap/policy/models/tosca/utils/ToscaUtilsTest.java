@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +21,7 @@
 
 package org.onap.policy.models.tosca.utils;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
@@ -28,9 +30,9 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
-import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaDataType;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaDataTypes;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicies;
@@ -149,7 +151,7 @@ public class ToscaUtilsTest {
         }).hasMessageMatching("entityTypes is marked .*on.*ull but is null");
 
         assertThatThrownBy(() -> {
-            ToscaUtils.getEntityTypeAncestors(null, null, new PfValidationResult());
+            ToscaUtils.getEntityTypeAncestors(null, null, new BeanValidationResult("test", this));
         }).hasMessageMatching("entityTypes is marked .*on.*ull but is null");
 
         assertThatThrownBy(() -> {
@@ -157,7 +159,7 @@ public class ToscaUtilsTest {
         }).hasMessageMatching("entityTypes is marked .*on.*ull but is null");
 
         assertThatThrownBy(() -> {
-            ToscaUtils.getEntityTypeAncestors(null, new JpaToscaDataType(), new PfValidationResult());
+            ToscaUtils.getEntityTypeAncestors(null, new JpaToscaDataType(), new BeanValidationResult("test", this));
         }).hasMessageMatching("entityTypes is marked .*on.*ull but is null");
 
         assertThatThrownBy(() -> {
@@ -165,7 +167,7 @@ public class ToscaUtilsTest {
         }).hasMessageMatching("entityType is marked .*on.*ull but is null");
 
         assertThatThrownBy(() -> {
-            ToscaUtils.getEntityTypeAncestors(new JpaToscaDataTypes(), null, new PfValidationResult());
+            ToscaUtils.getEntityTypeAncestors(new JpaToscaDataTypes(), null, new BeanValidationResult("test", this));
         }).hasMessageMatching("entityType is marked .*on.*ull but is null");
 
         assertThatThrownBy(() -> {
@@ -176,7 +178,7 @@ public class ToscaUtilsTest {
         JpaToscaDataType dt0 = new JpaToscaDataType();
         dt0.setKey(new PfConceptKey("dt0", "0.0.1"));
         dt0.setDescription("dt0 description");
-        PfValidationResult result = new PfValidationResult();
+        BeanValidationResult result = new BeanValidationResult("test", this);
 
         assertTrue(ToscaUtils.getEntityTypeAncestors(dataTypes, dt0, result).isEmpty());
 
@@ -195,9 +197,9 @@ public class ToscaUtilsTest {
         dt0.setDerivedFrom(new PfConceptKey("some.thing.Else", PfKey.NULL_KEY_VERSION));
         assertTrue(ToscaUtils.getEntityTypeAncestors(dataTypes, dt0, result).isEmpty());
         assertFalse(result.isValid());
-        assertTrue(result.toString().contains("parent some.thing.Else:0.0.0 of entity not found"));
+        assertThat(result.getResult()).contains("some.thing.Else:0.0.0").contains("INVALID, parent entity not found");
 
-        result = new PfValidationResult();
+        result = new BeanValidationResult("test", this);
         dt0.setDerivedFrom(new PfConceptKey("tosca.datatyps.Root", PfKey.NULL_KEY_VERSION));
 
         JpaToscaDataType dt1 = new JpaToscaDataType();
@@ -233,7 +235,7 @@ public class ToscaUtilsTest {
 
         dt0.setDerivedFrom(dt0.getKey());
         assertThatThrownBy(() -> {
-            ToscaUtils.getEntityTypeAncestors(dataTypes, dt0, new PfValidationResult());
+            ToscaUtils.getEntityTypeAncestors(dataTypes, dt0, new BeanValidationResult("test", this));
         }).hasMessageContaining("entity cannot be an ancestor of itself");
 
         dt0.setDerivedFrom(null);
@@ -250,7 +252,7 @@ public class ToscaUtilsTest {
         dataTypes.getConceptMap().remove(dt1.getKey());
         assertTrue(ToscaUtils.getEntityTypeAncestors(dataTypes, dt2, result).isEmpty());
         assertFalse(result.isValid());
-        assertTrue(result.toString().contains("parent dt1:0.0.1 of entity not found"));
+        assertThat(result.getResult()).contains("dt1:0.0.1").contains("parent entity not found");
     }
 
     @Test
@@ -369,6 +371,6 @@ public class ToscaUtilsTest {
         assertThatThrownBy(() -> {
             final JpaToscaDataTypes badDataTypes = new JpaToscaDataTypes(dataTypes);
             ToscaUtils.getEntityTree(badDataTypes, dt9.getKey().getName(), dt9.getKey().getVersion());
-        }).hasMessageContaining("parent i.dont.Exist:0.0.0 of entity not found");
+        }).hasMessageContaining("i.dont.Exist:0.0.0").hasMessageContaining("INVALID, parent entity not found");
     }
 }

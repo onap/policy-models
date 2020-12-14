@@ -40,18 +40,17 @@ import javax.ws.rs.core.Response;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
+import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
-import org.onap.policy.common.utils.validation.ParameterValidationUtils;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.base.PfValidationMessage;
-import org.onap.policy.models.base.PfValidationResult;
-import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.base.Validation;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 
 /**
@@ -82,6 +81,7 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
         @AttributeOverride(name = "version",
                            column = @Column(name = "type_version"))
         })
+    @NotNull
     private PfConceptKey type;
 
     @ElementCollection
@@ -234,68 +234,29 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
     }
 
     @Override
-    public PfValidationResult validate(@NonNull final PfValidationResult resultIn) {
-        PfValidationResult result = super.validate(resultIn);
+    public BeanValidationResult validate(@NonNull final String fieldName) {
+        BeanValidationResult result = super.validate(fieldName);
 
-        if (PfKey.NULL_KEY_VERSION.equals(getKey().getVersion())) {
-            result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                    "key version is a null version"));
-        }
+        result.addResult(getKey().validate("key", true));
 
-        if (type == null || type.isNullKey()) {
-            result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                    "type is null or a null key"));
-        } else {
-            result = type.validate(result);
-        }
+        Validation.validateNotNull(result, "type", type, true);
 
-        if (properties != null) {
-            validateProperties(result);
-        }
+        result.validateMap("properties", properties, this::validateProperty);
 
-        if (targets != null) {
-            result = validateTargets(result);
-        }
+        Validation.validateItems(result, "targets", targets);
 
         return result;
     }
 
     /**
-     * Validate the policy properties.
+     * Validate a policy property.
      *
      * @param result where to put the validation results
+     * @param propertyEntry property entry
      */
-    private void validateProperties(final PfValidationResult result) {
-
-        for (Entry<String, String> propertyEntry : properties.entrySet()) {
-            if (!ParameterValidationUtils.validateStringParameter(propertyEntry.getKey())) {
-                result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                        "policy property key may not be null "));
-            } else if (propertyEntry.getValue() == null) {
-                result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                        "policy property value may not be null "));
-            }
-        }
-    }
-
-    /**
-     * Validate the policy targets.
-     *
-     * @param resultIn The result of validations up to now
-     * @return the validation result
-     */
-    private PfValidationResult validateTargets(final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
-
-        for (PfConceptKey target : targets) {
-            if (target == null) {
-                result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                        "policy target may not be null "));
-            } else {
-                result = target.validate(result);
-            }
-        }
-        return result;
+    private void validateProperty(final BeanValidationResult result, Entry<String, String> propertyEntry) {
+        Validation.validateNotBlank(result, "key", propertyEntry.getKey());
+        result.validateNotNull("value for " + propertyEntry.getKey(), propertyEntry.getValue());
     }
 
     @Override

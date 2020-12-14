@@ -3,6 +3,7 @@
  * ONAP Policy Model
  * ================================================================================
  * Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,14 +38,13 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.lang3.builder.CompareToBuilder;
+import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.BeanValidator;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfTimestampKey;
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.base.PfValidationMessage;
-import org.onap.policy.models.base.PfValidationResult;
-import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 import org.onap.policy.models.pdp.concepts.PdpEngineWorkerStatistics;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
 
@@ -203,15 +203,10 @@ public class JpaPdpStatistics extends PfConcept implements PfAuthorative<PdpStat
     }
 
     @Override
-    public PfValidationResult validate(@NonNull PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
+    public BeanValidationResult validate(@NonNull final String fieldName) {
+        BeanValidationResult result = new BeanValidator().validateTop(fieldName, this);
 
-        if (key.isNullKey()) {
-            result.addValidationMessage(
-                    new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID, "key is a null key"));
-        }
-
-        result = key.validate(result);
+        result.addResult(key.validate("key"));
 
         return result;
     }

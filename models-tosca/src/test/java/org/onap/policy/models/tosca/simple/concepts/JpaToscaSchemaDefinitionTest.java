@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
-import org.onap.policy.models.base.PfValidationResult;
 
 /**
  * DAO test for ToscaEntrySchema.
@@ -96,27 +95,27 @@ public class JpaToscaSchemaDefinitionTest {
         tes.clean();
         assertEquals(tdtClone0, tes);
 
-        assertTrue(new JpaToscaSchemaDefinition(typeKey).validate(new PfValidationResult()).isValid());
-        assertTrue(tes.validate(new PfValidationResult()).isValid());
+        assertTrue(new JpaToscaSchemaDefinition(typeKey).validate("test").isClean());
+        assertTrue(tes.validate("test").isClean());
 
         tes.setType(PfConceptKey.getNullKey());
-        assertFalse(tes.validate(new PfValidationResult()).isValid());
+        assertFalse(tes.validate("test").isValid());
         tes.setType(null);
-        assertFalse(tes.validate(new PfValidationResult()).isValid());
+        assertFalse(tes.validate("test").isValid());
         tes.setType(typeKey);
-        assertTrue(tes.validate(new PfValidationResult()).isValid());
+        assertTrue(tes.validate("test").isClean());
 
         tes.setDescription("");
 
-        assertFalse(tes.validate(new PfValidationResult()).isValid());
+        assertFalse(tes.validate("test").isValid());
         tes.setDescription(A_DESCRIPTION);
-        assertTrue(tes.validate(new PfValidationResult()).isValid());
+        assertTrue(tes.validate("test").isClean());
 
         tes.getConstraints().add(null);
-        assertFalse(tes.validate(new PfValidationResult()).isValid());
+        assertFalse(tes.validate("test").isValid());
         tes.getConstraints().remove(null);
-        assertTrue(tes.validate(new PfValidationResult()).isValid());
+        assertTrue(tes.validate("test").isClean());
 
-        assertThatThrownBy(() -> tes.validate(null)).hasMessageMatching("resultIn is marked .*on.*ull but is null");
+        assertThatThrownBy(() -> tes.validate(null)).hasMessageMatching("fieldName is marked .*on.*ull but is null");
     }
 }

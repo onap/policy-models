@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,9 +24,9 @@ package org.onap.policy.models.base.testconcepts;
 import java.util.Arrays;
 import java.util.List;
 import lombok.NonNull;
+import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfKey;
-import org.onap.policy.models.base.PfValidationResult;
 
 public class DummyPfKey extends PfKey {
     private static final long serialVersionUID = 1L;
@@ -75,7 +75,7 @@ public class DummyPfKey extends PfKey {
     }
 
     @Override
-    public PfValidationResult validate(PfValidationResult result) {
+    public ValidationResult validate(String fieldName) {
         return null;
     }
 

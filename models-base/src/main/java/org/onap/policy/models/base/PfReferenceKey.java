@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,8 +28,10 @@ import javax.persistence.Embeddable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
+import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.BeanValidator;
+import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.common.utils.validation.Assertions;
-import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 
 /**
  * A reference key identifies entities in the system that are contained in other entities. Every contained concept in
@@ -339,34 +341,18 @@ public class PfReferenceKey extends PfKey {
     }
 
     @Override
-    public PfValidationResult validate(final PfValidationResult result) {
-        final String parentNameValidationErrorMessage = Assertions.getStringParameterValidationMessage(PARENT_KEY_NAME,
-                        parentKeyName, NAME_REGEXP);
-        if (parentNameValidationErrorMessage != null) {
-            result.addValidationMessage(new PfValidationMessage(this, this.getClass(), ValidationResult.INVALID,
-                            "parentKeyName invalid-" + parentNameValidationErrorMessage));
+    public ValidationResult validate(@NonNull final String fieldName) {
+        ValidationResult superResult = super.validate(fieldName);
+        if (superResult != null) {
+            return superResult;
         }
 
-        final String parentKeyVersionValidationErrorMessage = Assertions
-                        .getStringParameterValidationMessage(PARENT_KEY_VERSION, parentKeyVersion, VERSION_REGEXP);
-        if (parentKeyVersionValidationErrorMessage != null) {
-            result.addValidationMessage(new PfValidationMessage(this, this.getClass(), ValidationResult.INVALID,
-                            "parentKeyVersion invalid-" + parentKeyVersionValidationErrorMessage));
-        }
+        BeanValidationResult result = new BeanValidator().validateTop(fieldName, this);
 
-        final String parentLocalNameValidationErrorMessage = Assertions
-                        .getStringParameterValidationMessage(PARENT_LOCAL_NAME, parentLocalName, LOCAL_NAME_REGEXP);
-        if (parentLocalNameValidationErrorMessage != null) {
-            result.addValidationMessage(new PfValidationMessage(this, this.getClass(), ValidationResult.INVALID,
-                            "parentLocalName invalid-" + parentLocalNameValidationErrorMessage));
-        }
-
-        final String localNameValidationErrorMessage = Assertions.getStringParameterValidationMessage(LOCAL_NAME,
-                        localName, LOCAL_NAME_REGEXP);
-        if (localNameValidationErrorMessage != null) {
-            result.addValidationMessage(new PfValidationMessage(this, this.getClass(), ValidationResult.INVALID,
-                            "localName invalid-" + localNameValidationErrorMessage));
-        }
+        result.addResult(Validation.validateRegEx(PARENT_KEY_NAME, parentKeyName, NAME_REGEXP));
+        result.addResult(Validation.validateRegEx(PARENT_KEY_VERSION, parentKeyVersion, VERSION_REGEXP));
+        result.addResult(Validation.validateRegEx(PARENT_LOCAL_NAME, parentLocalName, LOCAL_NAME_REGEXP));
+        result.addResult(Validation.validateRegEx(LOCAL_NAME, localName, LOCAL_NAME_REGEXP));
 
         return result;
     }

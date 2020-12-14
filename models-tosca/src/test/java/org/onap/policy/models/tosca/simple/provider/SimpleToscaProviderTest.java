@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,6 +35,7 @@ import org.junit.Test;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
+import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfReferenceKey;
@@ -418,7 +419,7 @@ public class SimpleToscaProviderTest {
 
         assertThatThrownBy(() -> {
             new SimpleToscaProvider().createPolicies(pfDao, originalServiceTemplate);
-        }).hasMessageContaining("policy type IDontExist:99.100.101 referenced in policy not found");
+        }).hasMessageContaining("IDontExist:99.100.101").hasMessageContaining("referenced policy type not found");
 
         toscaPolicy.setType("IDontExist");
         originalServiceTemplate.fromAuthorative(toscaServiceTemplate);
@@ -523,8 +524,7 @@ public class SimpleToscaProviderTest {
         serviceTemplateFragment.getPolicyTypes().getConceptMap().put(badPt.getKey(), badPt);
 
         assertThatThrownBy(() -> new SimpleToscaProvider().appendToServiceTemplate(pfDao, serviceTemplateFragment))
-                .hasMessageContaining(
-                        "key on concept entry PfConceptKey(name=NULL, version=0.0.0) may not be the null key");
+            .hasMessageContaining("\"key\"").hasMessageContaining(PfConcept.IS_A_NULL_KEY);
     }
 
     @Test

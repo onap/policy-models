@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Model
  * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -38,6 +38,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.lang3.ObjectUtils;
+import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.BeanValidator;
+import org.onap.policy.common.parameters.annotations.NotBlank;
+import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.common.utils.coder.YamlJsonTranslator;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
@@ -45,9 +49,8 @@ import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.base.PfValidationMessage;
-import org.onap.policy.models.base.PfValidationResult;
-import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.base.Validated;
+import org.onap.policy.models.base.Validation;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaProperty;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaProperty.Status;
 
@@ -62,22 +65,25 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaProperty.Status;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaProperty> {
+public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaProperty>, Validated {
     private static final long serialVersionUID = 1675770231921107988L;
 
     @EmbeddedId
     private PfReferenceKey key;
 
     @Column
+    @NotNull
     private PfConceptKey type;
 
     @Column
+    @NotBlank
     private String description;
 
     @Column
     private boolean required = false;
 
     @Column(name = "default")
+    @NotBlank
     private String defaultValue;
 
     @Column
@@ -241,52 +247,15 @@ public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaPr
     }
 
     @Override
-    public PfValidationResult validate(final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
+    public BeanValidationResult validate(@NonNull final String fieldName) {
+        BeanValidationResult result = new BeanValidator().validateTop(fieldName, this);
 
-        if (key.isNullKey()) {
-            result.addValidationMessage(
-                    new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID, "key is a null key"));
-        }
+        result.addResult(key.validate("key"));
+        Validation.validateNotNull(result, "type", type, false);
+        Validation.validateItemsNotNull(result, "constraints", constraints);
+        Validation.validateItem(result, "entrySchema", entrySchema, false);
 
-        result = key.validate(result);
-
-        if (type == null || type.isNullKey()) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "property type may not be null"));
-        }
-
-        return validateFields(result);
-    }
-
-    /**
-     * Validate the property fields.
-     *
-     * @param resultIn the incoming validation results so far
-     * @return the validation results including this validation
-     */
-    private PfValidationResult validateFields(final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
-
-        if (description != null && description.trim().length() == 0) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "property description may not be blank"));
-        }
-
-        if (defaultValue != null && defaultValue.trim().length() == 0) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "property default value may not be null"));
-        }
-
-        if (constraints != null) {
-            for (JpaToscaConstraint constraint : constraints) {
-                if (constraint == null) {
-                    result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                            "property constraint may not be null "));
-                }
-            }
-        }
-        return (entrySchema != null ? entrySchema.validate(result) : result);
+        return result;
     }
 
     @Override
