@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "0d52f68f_07c161e8",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfUtils.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-12-14T14:52:33Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "acbe64c0_69c53178",
+      "revId": "4144dea397a4245149834a06a85db929d52d922a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b9dda97_29f4512d",
         "filename": "models-base/src/main/java/org/onap/policy/models/base/PfUtils.java",
         "patchSetId": 4
@@ -66,6 +84,24 @@
       "writtenOn": "2020-12-14T14:26:48Z",
       "side": 1,
       "message": "is this really needed?  seems like compareCollections() would work just fine",
+      "revId": "4144dea397a4245149834a06a85db929d52d922a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f32d72e3_ba54e84b",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfUtils.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-12-14T14:52:33Z",
+      "side": 1,
+      "message": "We need this for maps because with the generics, it enforces the two maps to be of the same type.",
+      "parentUuid": "4b9dda97_29f4512d",
       "revId": "4144dea397a4245149834a06a85db929d52d922a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
@@ -141,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "148aa648_c3042ad1",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaDataType.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-12-14T14:52:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9fb55641_cc90c5ba",
+      "revId": "4144dea397a4245149834a06a85db929d52d922a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02e4fb04_bbffd0a5",
         "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignmentTest.java",
         "patchSetId": 4
@@ -155,6 +209,24 @@
       "revId": "4144dea397a4245149834a06a85db929d52d922a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13059d9f_d37020ac",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignmentTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-12-14T14:52:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02e4fb04_bbffd0a5",
+      "revId": "4144dea397a4245149834a06a85db929d52d922a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -181,6 +253,30 @@
     },
     {
       "key": {
+        "uuid": "e7af6cde_2795621a",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaPolicyTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-12-14T14:52:33Z",
+      "side": 1,
+      "message": "done, removed, this was test code for me to check what the coders were doing.",
+      "parentUuid": "adcba5d3_b4c2ded3",
+      "range": {
+        "startLine": 216,
+        "startChar": 48,
+        "endLine": 216,
+        "endChar": 55
+      },
+      "revId": "4144dea397a4245149834a06a85db929d52d922a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4bfce094_446f4366",
         "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/serialization/OptimizationPolicyTypeSerializationTest.java",
         "patchSetId": 4
@@ -192,6 +288,24 @@
       "writtenOn": "2020-12-14T13:50:12Z",
       "side": 1,
       "message": "maybe use assertThat(xxx).isEmpty() instead",
+      "revId": "4144dea397a4245149834a06a85db929d52d922a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3f9190d_6ae0d16c",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/serialization/OptimizationPolicyTypeSerializationTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-12-14T14:52:33Z",
+      "side": 1,
+      "message": "I was just tweaking an existing test here, maybe we can come back and clean up these assertions in this test class in a later review?",
+      "parentUuid": "4bfce094_446f4366",
       "revId": "4144dea397a4245149834a06a85db929d52d922a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
