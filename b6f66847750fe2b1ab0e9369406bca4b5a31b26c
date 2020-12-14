@@ -892,6 +892,30 @@
     },
     {
       "key": {
+        "uuid": "9ef5505d_61295376",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaNodeTemplate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-14T14:26:48Z",
+      "side": 1,
+      "message": "Both the key \u0026 value are Strings, and as Strings are immutable, it\u0027s ok to copy the references rather than creating new instances",
+      "parentUuid": "e6ab663c_0269338d",
+      "range": {
+        "startLine": 119,
+        "startChar": 34,
+        "endLine": 119,
+        "endChar": 40
+      },
+      "revId": "b6f66847750fe2b1ab0e9369406bca4b5a31b26c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "55da2bbe_cc8e4efe",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaNodeTemplate.java",
         "patchSetId": 1

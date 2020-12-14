@@ -37,6 +37,41 @@
     },
     {
       "key": {
+        "uuid": "acbe64c0_69c53178",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfUtils.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-14T14:26:48Z",
+      "side": 1,
+      "message": "ah, didn\u0027t realize that isEmpty() returns true if the collection is null",
+      "parentUuid": "1f2718c7_c9718d6b",
+      "revId": "4144dea397a4245149834a06a85db929d52d922a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b9dda97_29f4512d",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfUtils.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-14T14:26:48Z",
+      "side": 1,
+      "message": "is this really needed?  seems like compareCollections() would work just fine",
+      "revId": "4144dea397a4245149834a06a85db929d52d922a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "230bcd7c_7c36e093",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityType.java",
         "patchSetId": 4
