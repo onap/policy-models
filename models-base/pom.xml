@@ -33,6 +33,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.onap.policy.common</groupId>
+            <artifactId>common-parameters</artifactId>
+            <version>${policy.common.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.onap.policy.models</groupId>
             <artifactId>policy-models-errors</artifactId>
             <version>${project.version}</version>

@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -204,7 +204,7 @@ public class PdpProviderTest {
         pdpGroups0.getGroups().get(0).setPdpGroupState(null);
         assertThatThrownBy(() -> {
             new PdpProvider().createPdpGroups(pfDao, pdpGroups0.getGroups());
-        }).hasMessageContaining("INVALID:pdpGroupState may not be null");
+        }).hasMessageContaining("pdpGroupState").hasMessageContaining("INVALID, is null");
     }
 
     @Test
@@ -269,7 +269,7 @@ public class PdpProviderTest {
         pdpGroups0.getGroups().get(0).setPdpGroupState(null);
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpGroups(pfDao, pdpGroups0.getGroups());
-        }).hasMessageContaining("INVALID:pdpGroupState may not be null");
+        }).hasMessageContaining("pdpGroupState").hasMessageContaining("INVALID, is null");
     }
 
     @Test
@@ -375,7 +375,7 @@ public class PdpProviderTest {
         existingSubGroup.setDesiredInstanceCount(-1);
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpSubGroup(pfDao, PDP_GROUP0, existingSubGroup);
-        }).hasMessageContaining("INVALID:the desired instance count of a PDP sub group may not be negative");
+        }).hasMessageContaining("desiredInstanceCount").hasMessageContaining("INVALID, is below the minimum value: 0");
         existingSubGroup.setDesiredInstanceCount(10);
     }
 
@@ -473,7 +473,7 @@ public class PdpProviderTest {
         existingPdp.setMessage("");
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdp(pfDao, PDP_GROUP0, "APEX", existingPdp);
-        }).hasMessageContaining("INVALID:message may not be blank");
+        }).hasMessageContaining("message").hasMessageContaining("INVALID, is blank");
         existingPdp.setMessage("A Message");
     }
 

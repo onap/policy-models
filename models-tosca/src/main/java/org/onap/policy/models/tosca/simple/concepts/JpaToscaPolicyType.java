@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Model
  * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -40,15 +40,15 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.collections4.CollectionUtils;
+import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.base.PfValidationMessage;
-import org.onap.policy.models.base.PfValidationResult;
-import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.base.Validated;
+import org.onap.policy.models.base.Validation;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaProperty;
 import org.onap.policy.models.tosca.utils.ToscaUtils;
@@ -65,7 +65,8 @@ import org.onap.policy.models.tosca.utils.ToscaUtils;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class JpaToscaPolicyType extends JpaToscaEntityType<ToscaPolicyType> implements PfAuthorative<ToscaPolicyType> {
+public class JpaToscaPolicyType extends JpaToscaEntityType<ToscaPolicyType>
+                implements PfAuthorative<ToscaPolicyType>, Validated {
     private static final long serialVersionUID = -563659852901842616L;
 
     @ElementCollection
@@ -188,86 +189,14 @@ public class JpaToscaPolicyType extends JpaToscaEntityType<ToscaPolicyType> impl
     }
 
     @Override
-    public PfValidationResult validate(@NonNull final PfValidationResult resultIn) {
-        PfValidationResult result = super.validate(resultIn);
+    public BeanValidationResult validate(@NonNull final String fieldName) {
+        BeanValidationResult result = super.validate(fieldName);
 
-        if (PfKey.NULL_KEY_VERSION.equals(getKey().getVersion())) {
-            result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                    "key version is a null version"));
-        }
+        result.addResult(getKey().validateNotNull2("key"));
+        Validation.validateItems(result, "properties", properties, true);
+        Validation.validateItems(result, "targets", targets, true);
+        Validation.validateItems(result, "triggers", triggers, true);
 
-        if (properties != null) {
-            result = validateProperties(result);
-        }
-
-        if (targets != null) {
-            result = validateTargets(result);
-        }
-
-        if (triggers != null) {
-            result = validateTriggers(result);
-        }
-
-        return result;
-    }
-
-    /**
-     * Validate the policy properties.
-     *
-     * @param result The result of validations up to now
-     * @return the validation result
-     */
-    private PfValidationResult validateProperties(final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
-
-        for (JpaToscaProperty property : properties.values()) {
-            if (property == null) {
-                result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                        "policy property may not be null "));
-            } else {
-                result = property.validate(result);
-            }
-        }
-        return result;
-    }
-
-    /**
-     * Validate the policy targets.
-     *
-     * @param result The result of validations up to now
-     * @return the validation result
-     */
-    private PfValidationResult validateTargets(final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
-
-        for (PfConceptKey target : targets) {
-            if (target == null) {
-                result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                        "policy target may not be null "));
-            } else {
-                result = target.validate(result);
-            }
-        }
-        return result;
-    }
-
-    /**
-     * Validate the policy triggers.
-     *
-     * @param result The result of validations up to now
-     * @return the validation result
-     */
-    private PfValidationResult validateTriggers(final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
-
-        for (JpaToscaTrigger trigger : triggers) {
-            if (trigger == null) {
-                result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                        "policy trigger may not be null "));
-            } else {
-                result = trigger.validate(result);
-            }
-        }
         return result;
     }
 

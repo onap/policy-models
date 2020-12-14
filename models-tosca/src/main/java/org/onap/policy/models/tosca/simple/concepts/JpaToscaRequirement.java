@@ -37,14 +37,15 @@ import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
+import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.ObjectValidationResult;
+import org.onap.policy.common.parameters.ValidationStatus;
 import org.onap.policy.common.utils.coder.YamlJsonTranslator;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.base.PfValidationMessage;
-import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaRequirement;
 
 /**
@@ -74,6 +75,7 @@ public class JpaToscaRequirement extends JpaToscaEntityType<ToscaRequirement>
     @Column
     private String relationship;
 
+    // TODO change to Integer
     @ElementCollection
     private List<Double> occurrences;
 
@@ -202,15 +204,15 @@ public class JpaToscaRequirement extends JpaToscaEntityType<ToscaRequirement>
     }
 
     @Override
-    public PfValidationResult validate(@NonNull final PfValidationResult resultIn) {
-        PfValidationResult result = super.validate(resultIn);
+    public BeanValidationResult validate(final String fieldName) {
+        BeanValidationResult result = super.validate(fieldName);
 
         if (properties != null) {
-            result = validateProperties(result);
+            validateProperties(result);
         }
 
         if (occurrences != null) {
-            result = validateOccurrences(result);
+            validateOccurrences(result);
         }
 
         return result;
@@ -219,43 +221,28 @@ public class JpaToscaRequirement extends JpaToscaEntityType<ToscaRequirement>
     /**
      * Validate the properties.
      *
-     * @param resultIn The result of validations up to now
-     * @return the validation result
+     * @param result where to put the result
      */
-    private PfValidationResult validateProperties(final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
-
+    private void validateProperties(final BeanValidationResult result) {
         for (String property : properties.values()) {
-            if (property == null) {
-                result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(),
-                        PfValidationResult.ValidationResult.INVALID, "topology template property may not be null "));
-            }
+            result.validateNotNull("properties", property);
         }
-        return result;
     }
 
     /**
      * Validate the occurrences.
      *
-     * @param resultIn The result of validations up to now
-     * @return the validation result
+     * @param result where to put the result
      */
-    private PfValidationResult validateOccurrences(final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
+    private void validateOccurrences(final BeanValidationResult result) {
 
         for (Double occurrence : occurrences) {
-            if (occurrence == null) {
-                result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(),
-                        PfValidationResult.ValidationResult.INVALID, "requirement occurrence value may not be null "));
-            }
-            if (occurrence < -1.0) {
-                result.addValidationMessage(
-                        new PfValidationMessage(getKey(), this.getClass(), PfValidationResult.ValidationResult.INVALID,
-                                "requirement occurrence value may not be negative"));
+            result.validateNotNull("occurrences", occurrence);
+            if (occurrence != null && occurrence < -1.0) {
+                result.addResult(new ObjectValidationResult("occurrences", occurrence, ValidationStatus.INVALID,
+                                "is negative"));
             }
         }
-
-        return result;
     }
 
     @Override

@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,14 +41,16 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.lang3.ObjectUtils;
-import org.onap.policy.common.utils.validation.ParameterValidationUtils;
+import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.ObjectValidationResult;
+import org.onap.policy.common.parameters.ValidationStatus;
+import org.onap.policy.common.parameters.annotations.NotBlank;
+import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
-import org.onap.policy.models.base.PfValidationMessage;
-import org.onap.policy.models.base.PfValidationResult;
-import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.base.Validation;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaCapabilityType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaDataType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaNodeType;
@@ -78,6 +80,8 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
 
     // @formatter:off
     @Column
+    @NotNull
+    @NotBlank
     @SerializedName("tosca_definitions_version")
     private String toscaDefinitionsVersion;
 
@@ -363,46 +367,25 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
     }
 
     @Override
-    public PfValidationResult validate(final PfValidationResult resultIn) {
-        PfValidationResult result = super.validate(resultIn);
+    public BeanValidationResult validate(@NonNull final String fieldName) {
+        BeanValidationResult result = super.validate(fieldName);
 
-        if (!ParameterValidationUtils.validateStringParameter(toscaDefinitionsVersion)) {
-            result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                    "service template tosca definitions version may not be null"));
-        }
-
-        if (dataTypes != null) {
-            result = dataTypes.validate(result);
-        }
-
-        if (capabilityTypes != null) {
-            result = capabilityTypes.validate(result);
-        }
-
-        if (relationshipTypes != null) {
-            result = relationshipTypes.validate(result);
-        }
-
-        if (nodeTypes != null) {
-            result = nodeTypes.validate(result);
-        }
-
-        if (policyTypes != null) {
-            result = policyTypes.validate(result);
-        }
-
-        if (topologyTemplate != null) {
-            result = topologyTemplate.validate(result);
-        }
+        Validation.validateItem(result, "dataTypes", dataTypes, false);
+        Validation.validateItem(result, "capabilityTypes", capabilityTypes, false);
+        Validation.validateItem(result, "relationshipTypes", relationshipTypes, false);
+        Validation.validateItem(result, "nodeTypes", nodeTypes, false);
+        Validation.validateItem(result, "policyTypes", policyTypes, false);
+        Validation.validateItem(result, "topologyTemplate", topologyTemplate, false);
 
         // No point in validating cross references if the structure of the individual parts are not valid
-        if (!result.isOk()) {
+        if (!result.isValid()) {
             return result;
         }
 
         validateReferencedDataTypes(result);
+        validatePolicyTypesInPolicies(result);
 
-        return validatePolicyTypesInPolicies(result);
+        return result;
     }
 
     @Override
@@ -471,39 +454,39 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
      * Validate that all data types referenced in policy types exist.
      *
      * @param result the validation result object to use for the validation result
-     * @return the validation result object
      */
-    private PfValidationResult validateReferencedDataTypes(final PfValidationResult result) {
+    private void validateReferencedDataTypes(final BeanValidationResult result) {
         if (policyTypes == null) {
-            return result;
+            return;
         }
 
         if (dataTypes != null) {
             for (JpaToscaDataType dataType : dataTypes.getAll(null)) {
-                validateReferencedDataTypesExists(dataType.getKey(), dataType.getReferencedDataTypes(), result);
+                validateReferencedDataTypesExists(result, "dataTypes", dataType.getKey(),
+                                dataType.getReferencedDataTypes());
             }
         }
 
         for (JpaToscaPolicyType policyType : policyTypes.getAll(null)) {
-            validateReferencedDataTypesExists(policyType.getKey(), policyType.getReferencedDataTypes(), result);
+            validateReferencedDataTypesExists(result, "policyTypes", policyType.getKey(),
+                            policyType.getReferencedDataTypes());
         }
-
-        return result;
     }
 
     /**
      * Validate that the referenced data types exist for a collection of data type keys.
      *
+     * @param result the validation result object to use for the validation result
+     * @param fieldName name of the field being validated
      * @param referencingEntityKey the key of the referencing entity
      * @param dataTypeKeyCollection the data type key collection
-     * @param result the result of the validation
      */
-    private void validateReferencedDataTypesExists(final PfConceptKey referencingEntityKey,
-            final Collection<PfConceptKey> dataTypeKeyCollection, final PfValidationResult result) {
+    private void validateReferencedDataTypesExists(BeanValidationResult result, String fieldName,
+                    final PfConceptKey referencingEntityKey, final Collection<PfConceptKey> dataTypeKeyCollection) {
         for (PfConceptKey dataTypeKey : dataTypeKeyCollection) {
             if (dataTypes == null || dataTypes.get(dataTypeKey) == null) {
-                result.addValidationMessage(new PfValidationMessage(referencingEntityKey, this.getClass(),
-                        ValidationResult.INVALID, "referenced data type " + dataTypeKey.getId() + " not found"));
+                result.addResult(new ObjectValidationResult(fieldName, dataTypeKey.getId(), ValidationStatus.INVALID,
+                                "referenced data type not found"));
             }
         }
     }
@@ -512,29 +495,24 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
      * Validate that all policy types referenced in policies exist.
      *
      * @param result the validation result object to use for the validation result
-     * @return the validation result object
      */
-    private PfValidationResult validatePolicyTypesInPolicies(PfValidationResult result) {
+    private void validatePolicyTypesInPolicies(BeanValidationResult result) {
         if (topologyTemplate == null || topologyTemplate.getPolicies() == null
-                || topologyTemplate.getPolicies().getConceptMap().isEmpty()) {
-            return result;
+                        || topologyTemplate.getPolicies().getConceptMap().isEmpty()) {
+            return;
         }
 
         if (policyTypes == null || policyTypes.getConceptMap().isEmpty()) {
-            result.addValidationMessage(new PfValidationMessage(this.getKey(), this.getClass(),
-                    ValidationResult.INVALID,
-                    "no policy types are defined on the service template for the policies in the topology template"));
-            return result;
+            result.addResult(new ObjectValidationResult("policyTypes", policyTypes, ValidationStatus.INVALID,
+                "no policy types are defined on the service template for the policies in the topology template"));
+            return;
         }
 
         for (JpaToscaPolicy policy : topologyTemplate.getPolicies().getAll(null)) {
             if (policyTypes.get(policy.getType()) == null) {
-                result.addValidationMessage(
-                        new PfValidationMessage(policy.getKey(), this.getClass(), ValidationResult.INVALID,
-                                "policy type " + policy.getType().getId() + " referenced in policy not found"));
+                result.addResult(new ObjectValidationResult("policyTypes", policy.getType().getId(),
+                                ValidationStatus.INVALID, "referenced policy type not found"));
             }
         }
-
-        return result;
     }
 }

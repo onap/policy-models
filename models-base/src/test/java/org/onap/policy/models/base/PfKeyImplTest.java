@@ -21,6 +21,7 @@
 
 package org.onap.policy.models.base;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
@@ -35,11 +36,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.junit.Test;
+import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.models.base.PfKey.Compatibility;
 import org.onap.policy.models.base.testconcepts.DummyPfKey;
 
 public class PfKeyImplTest {
 
+    private static final String REGEX_ERROR = "does not match regular expression";
     private static final String OTHER_IS_NULL = "^otherKey is marked .*on.*ull but is null$";
     private static final String ID_IS_NULL = "^id is marked .*on.*ull but is null$";
     private static final String VERSION123 = "1.2.3";
@@ -109,20 +112,13 @@ public class PfKeyImplTest {
         assertFalse(someKey1.isCompatible(someKey5));
         assertFalse(someKey1.isCompatible(new DummyPfKey()));
 
-        assertEquals(PfValidationResult.ValidationResult.VALID,
-            someKey0.validate(new PfValidationResult()).getValidationResult());
-        assertEquals(PfValidationResult.ValidationResult.VALID,
-            someKey1.validate(new PfValidationResult()).getValidationResult());
-        assertEquals(PfValidationResult.ValidationResult.VALID,
-            someKey2.validate(new PfValidationResult()).getValidationResult());
-        assertEquals(PfValidationResult.ValidationResult.VALID,
-            someKey3.validate(new PfValidationResult()).getValidationResult());
-        assertEquals(PfValidationResult.ValidationResult.VALID,
-            someKey4.validate(new PfValidationResult()).getValidationResult());
-        assertEquals(PfValidationResult.ValidationResult.VALID,
-            someKey5.validate(new PfValidationResult()).getValidationResult());
-        assertEquals(PfValidationResult.ValidationResult.VALID,
-            someKey6.validate(new PfValidationResult()).getValidationResult());
+        assertTrue(someKey0.validate("").isClean());
+        assertTrue(someKey1.validate("").isClean());
+        assertTrue(someKey2.validate("").isClean());
+        assertTrue(someKey3.validate("").isClean());
+        assertTrue(someKey4.validate("").isClean());
+        assertTrue(someKey5.validate("").isClean());
+        assertTrue(someKey6.validate("").isClean());
 
         someKey0.clean();
         assertNotNull(someKey0.toString());
@@ -179,22 +175,20 @@ public class PfKeyImplTest {
         Field nameField = testKey.getClass().getDeclaredField("name");
         nameField.setAccessible(true);
         nameField.set(testKey, "Key Name");
-        PfValidationResult validationResult = new PfValidationResult();
-        testKey.validate(validationResult);
+        ValidationResult validationResult = testKey.validate("testKey");
         nameField.set(testKey, "TheKey");
         nameField.setAccessible(false);
-        assertEquals("name invalid-parameter name with value Key Name " + "does not match regular expression "
-            + PfKey.NAME_REGEXP, validationResult.getMessageList().get(0).getMessage());
+        assertThat(validationResult.getResult()).contains("name")
+                        .contains("INVALID, does not match regular expression " + PfKey.NAME_REGEXP);
 
         Field versionField = testKey.getClass().getDeclaredField("version");
         versionField.setAccessible(true);
         versionField.set(testKey, "Key Version");
-        PfValidationResult validationResult2 = new PfValidationResult();
-        testKey.validate(validationResult2);
+        ValidationResult validationResult2 = testKey.validate("testKey");
         versionField.set(testKey, VERSION001);
         versionField.setAccessible(false);
-        assertEquals("version invalid-parameter version with value Key Version " + "does not match regular expression "
-            + PfKey.VERSION_REGEXP, validationResult2.getMessageList().get(0).getMessage());
+        assertThat(validationResult2.getResult()).contains("version")
+                        .contains("INVALID, does not match regular expression " + PfKey.VERSION_REGEXP);
     }
 
     @Test
@@ -269,6 +263,73 @@ public class PfKeyImplTest {
         assertEquals(1, key.getMajorVersion());
         assertEquals(2, key.getMinorVersion());
         assertEquals(3, key.getPatchVersion());
+    }
+
+    @Test
+    public void testValidateNotNull() {
+        MyKey goodKey = new MyKey("Key", VERSION001);
+        MyKey nullName = new MyKey(PfKey.NULL_KEY_NAME, VERSION001);
+        MyKey nullVersion = new MyKey("Key", PfKey.NULL_KEY_VERSION);
+        MyKey nullKey = new MyKey(PfKey.NULL_KEY_NAME, PfKey.NULL_KEY_VERSION);
+
+        assertThat(goodKey.validateNotNull("my-key").getResult()).isNull();
+        assertThat(nullName.validateNotNull("my-key").getResult()).contains("\"name\"").contains(PfConceptKey.IS_NULL);
+        assertThat(nullVersion.validateNotNull("my-key").getResult()).isNull();
+        assertThat(nullKey.validateNotNull("my-key").getResult()).contains(PfConceptKey.IS_A_NULL_KEY)
+                        .doesNotContain("name").doesNotContain("version");
+
+        assertThatThrownBy(() -> goodKey.validateNotNull(null))
+                        .hasMessageMatching("fieldName is marked .*on.*ull but is null");
+    }
+
+    @Test
+    public void testValidateNotNull2() {
+        MyKey goodKey = new MyKey("Key", VERSION001);
+        MyKey nullName = new MyKey(PfKey.NULL_KEY_NAME, VERSION001);
+        MyKey nullVersion = new MyKey("Key", PfKey.NULL_KEY_VERSION);
+        MyKey nullKey = new MyKey(PfKey.NULL_KEY_NAME, PfKey.NULL_KEY_VERSION);
+
+        assertThat(goodKey.validateNotNull2("my-key").getResult()).isNull();
+        assertThat(nullName.validateNotNull2("my-key").getResult()).contains("\"name\"").contains(PfConceptKey.IS_NULL);
+        assertThat(nullVersion.validateNotNull2("my-key").getResult()).contains("\"version\"")
+                        .contains(PfConceptKey.IS_NULL);
+        assertThat(nullKey.validateNotNull2("my-key").getResult()).contains(PfConceptKey.IS_A_NULL_KEY)
+                        .doesNotContain("name").doesNotContain("version");
+
+        assertThatThrownBy(() -> goodKey.validateNotNull2(null))
+                        .hasMessageMatching("fieldName is marked .*on.*ull but is null");
+    }
+
+    @Test
+    public void testValidateName() {
+        MyKey goodKey = new MyKey("Key", VERSION001);
+        MyKey nullKey = new MyKey(PfKey.NULL_KEY_NAME, VERSION001);
+        MyKey badKey = new MyKey("bad $%", VERSION001);
+
+        assertThat(goodKey.validateNotNull("my-key").getResult()).isNull();
+        assertThat(nullKey.validateNotNull2("my-key").getResult()).contains("\"name\"").contains(PfConceptKey.IS_NULL);
+        assertThat(badKey.validateNotNull("my-key").getResult()).contains("\"name\"").contains("bad")
+                        .contains(REGEX_ERROR);
+    }
+
+    @Test
+    public void testValidateVersion() {
+        MyKey goodKey = new MyKey("Key", VERSION001);
+        MyKey nullKey = new MyKey("Key", PfKey.NULL_KEY_VERSION);
+        MyKey badKey = new MyKey("Key", "bad");
+
+        // tests where version may be null
+        assertThat(goodKey.validateNotNull("my-key").getResult()).isNull();
+        assertThat(nullKey.validateNotNull("my-key").getResult()).isNull();
+        assertThat(badKey.validateNotNull("my-key").getResult()).contains("\"version\"").contains("bad")
+                        .contains(REGEX_ERROR);
+
+        // tests where version may NOT be null
+        assertThat(goodKey.validateNotNull2("my-key").getResult()).isNull();
+        assertThat(nullKey.validateNotNull2("my-key").getResult()).contains("\"version\"")
+                        .contains(PfConceptKey.IS_NULL);
+        assertThat(badKey.validateNotNull2("my-key").getResult()).contains("\"version\"").contains("bad")
+                        .contains(REGEX_ERROR);
     }
 
     @Getter

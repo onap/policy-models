@@ -3,6 +3,7 @@
  * ONAP Policy Model
  * ================================================================================
  * Copyright (C) 2019-2020 Nordix Foundation.
+ * Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,11 +31,11 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
 import lombok.NonNull;
+import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.base.PfTimestampKey;
-import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.dao.PfDao;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.persistence.concepts.JpaPdpStatistics;
@@ -118,9 +119,10 @@ public class PdpStatisticsProvider {
             JpaPdpStatistics jpaPdpStatistics = new JpaPdpStatistics();
             jpaPdpStatistics.fromAuthorative(pdpStatistics);
 
-            PfValidationResult validationResult = jpaPdpStatistics.validate(new PfValidationResult());
-            if (!validationResult.isOk()) {
-                String errorMessage = "pdp statictics \"" + jpaPdpStatistics.getName() + NOT_VALID + validationResult;
+            BeanValidationResult validationResult = jpaPdpStatistics.validate("pdpStatistics");
+            if (!validationResult.isValid()) {
+                String errorMessage = "pdp statictics \"" + jpaPdpStatistics.getName() + NOT_VALID
+                                + validationResult.getResult();
                 LOGGER.warn(errorMessage);
                 throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
             }
@@ -156,9 +158,10 @@ public class PdpStatisticsProvider {
             JpaPdpStatistics jpaPdpStatistics = new JpaPdpStatistics();
             jpaPdpStatistics.fromAuthorative(pdpStatistics);
 
-            PfValidationResult validationResult = jpaPdpStatistics.validate(new PfValidationResult());
-            if (!validationResult.isOk()) {
-                String errorMessage = "pdp statistics \"" + jpaPdpStatistics.getId() + NOT_VALID + validationResult;
+            BeanValidationResult validationResult = jpaPdpStatistics.validate("pdpStatistics");
+            if (!validationResult.isValid()) {
+                String errorMessage = "pdp statistics \"" + jpaPdpStatistics.getId() + NOT_VALID
+                                + validationResult.getResult();
                 LOGGER.warn(errorMessage);
                 throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
             }
