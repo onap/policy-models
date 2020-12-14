@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,13 +37,14 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.lang3.ObjectUtils;
+import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.BeanValidator;
+import org.onap.policy.common.parameters.annotations.NotBlank;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfReferenceKey;
-import org.onap.policy.models.base.PfValidationMessage;
-import org.onap.policy.models.base.PfValidationResult;
-import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.base.Validation;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaTopologyTemplate;
 
 /**
@@ -66,6 +67,7 @@ public class JpaToscaTopologyTemplate extends PfConcept implements PfAuthorative
     private PfReferenceKey key;
 
     @Column(name = "description")
+    @NotBlank
     private String description;
 
     // @formatter:off
@@ -163,24 +165,12 @@ public class JpaToscaTopologyTemplate extends PfConcept implements PfAuthorative
     }
 
     @Override
-    public PfValidationResult validate(PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
+    public BeanValidationResult validate(@NonNull final String fieldName) {
+        BeanValidationResult result = new BeanValidator().validateTop(fieldName, this);
 
-        if (key.isNullKey()) {
-            result.addValidationMessage(
-                    new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID, "key is a null key"));
-        }
+        result.addResult(key.validateNotNull("key"));
 
-        result = key.validate(result);
-
-        if (description != null && description.trim().length() == 0) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "property description may not be blank"));
-        }
-
-        if (policies != null) {
-            result = policies.validate(result);
-        }
+        Validation.validateItem(result, "policies", policies, false);
 
         return result;
     }

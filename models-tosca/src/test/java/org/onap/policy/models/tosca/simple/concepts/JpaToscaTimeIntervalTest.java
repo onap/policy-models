@@ -32,7 +32,6 @@ import java.util.Date;
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfReferenceKey;
-import org.onap.policy.models.base.PfValidationResult;
 
 /**
  * DAO test for ToscaTimeInterval.
@@ -109,23 +108,23 @@ public class JpaToscaTimeIntervalTest {
         tti.clean();
         assertEquals(tdtClone0, tti);
 
-        assertFalse(new JpaToscaTimeInterval().validate(new PfValidationResult()).isValid());
-        assertTrue(tti.validate(new PfValidationResult()).isValid());
+        assertFalse(new JpaToscaTimeInterval().validate("test").isValid());
+        assertTrue(tti.validate("test").isClean());
 
         tti.setStartTime(null);
-        assertFalse(tti.validate(new PfValidationResult()).isValid());
+        assertFalse(tti.validate("test").isValid());
         tti.setStartTime(new Date(endTime.getTime() + 1));
-        assertFalse(tti.validate(new PfValidationResult()).isValid());
+        assertFalse(tti.validate("test").isValid());
         tti.setStartTime(startTime);
-        assertTrue(tti.validate(new PfValidationResult()).isValid());
+        assertTrue(tti.validate("test").isClean());
 
         tti.setEndTime(null);
-        assertFalse(tti.validate(new PfValidationResult()).isValid());
+        assertFalse(tti.validate("test").isValid());
         tti.setEndTime(new Date(startTime.getTime() - 1));
-        assertFalse(tti.validate(new PfValidationResult()).isValid());
+        assertFalse(tti.validate("test").isValid());
         tti.setEndTime(endTime);
-        assertTrue(tti.validate(new PfValidationResult()).isValid());
+        assertTrue(tti.validate("test").isClean());
 
-        assertThatThrownBy(() -> tti.validate(null)).hasMessageMatching("resultIn is marked .*on.*ull but is null");
+        assertThatThrownBy(() -> tti.validate(null)).hasMessageMatching("fieldName is marked .*on.*ull but is null");
     }
 }

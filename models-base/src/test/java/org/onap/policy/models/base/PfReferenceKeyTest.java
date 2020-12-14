@@ -21,6 +21,7 @@
 
 package org.onap.policy.models.base;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -30,6 +31,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Field;
 import org.junit.Test;
+import org.onap.policy.common.parameters.ValidationResult;
 
 public class PfReferenceKeyTest {
 
@@ -93,9 +95,7 @@ public class PfReferenceKeyTest {
         assertEquals(PfKey.Compatibility.DIFFERENT, testReferenceKey.getCompatibility(PfReferenceKey.getNullKey()));
         assertEquals(PfKey.Compatibility.IDENTICAL, testReferenceKey.getCompatibility(testReferenceKey));
 
-        PfValidationResult result = new PfValidationResult();
-        result = testReferenceKey.validate(result);
-        assertEquals(PfValidationResult.ValidationResult.VALID, result.getValidationResult());
+        assertTrue(testReferenceKey.validate("testReferenceKey").isClean());
 
         testReferenceKey.clean();
 
@@ -139,49 +139,37 @@ public class PfReferenceKeyTest {
         Field parentNameField = testReferenceKey.getClass().getDeclaredField("parentKeyName");
         parentNameField.setAccessible(true);
         parentNameField.set(testReferenceKey, "Parent Name");
-        PfValidationResult validationResult = new PfValidationResult();
-        testReferenceKey.validate(validationResult);
+        ValidationResult result = testReferenceKey.validate("testReferenceKey");
         parentNameField.set(testReferenceKey, "ParentName");
         parentNameField.setAccessible(false);
-        assertEquals(
-            "parentKeyName invalid-parameter parentKeyName with value Parent Name "
-                + "does not match regular expression " + PfKey.NAME_REGEXP,
-            validationResult.getMessageList().get(0).getMessage());
+        assertThat(result.getResult()).contains("parentKeyName")
+                        .contains("INVALID, does not match regular expression " + PfKey.NAME_REGEXP);
 
         Field parentVersionField = testReferenceKey.getClass().getDeclaredField("parentKeyVersion");
         parentVersionField.setAccessible(true);
         parentVersionField.set(testReferenceKey, "Parent Version");
-        PfValidationResult validationResult2 = new PfValidationResult();
-        testReferenceKey.validate(validationResult2);
+        ValidationResult validationResult2 = testReferenceKey.validate("testReferenceKey");
         parentVersionField.set(testReferenceKey, VERSION001);
         parentVersionField.setAccessible(false);
-        assertEquals(
-            "parentKeyVersion invalid-parameter parentKeyVersion with value Parent Version "
-                + "does not match regular expression " + PfKey.VERSION_REGEXP,
-            validationResult2.getMessageList().get(0).getMessage());
+        assertThat(validationResult2.getResult()).contains("parentKeyVersion")
+                        .contains("INVALID, does not match regular expression " + PfKey.VERSION_REGEXP);
 
         Field parentLocalNameField = testReferenceKey.getClass().getDeclaredField("parentLocalName");
         parentLocalNameField.setAccessible(true);
         parentLocalNameField.set(testReferenceKey, "Parent Local Name");
-        PfValidationResult validationResult3 = new PfValidationResult();
-        testReferenceKey.validate(validationResult3);
+        ValidationResult validationResult3 = testReferenceKey.validate("testReferenceKey");
         parentLocalNameField.set(testReferenceKey, PARENT_LOCAL_NAME);
         parentLocalNameField.setAccessible(false);
-        assertEquals(
-            "parentLocalName invalid-parameter parentLocalName with value "
-                + "Parent Local Name does not match regular expression [A-Za-z0-9\\-_\\.]+|^$",
-            validationResult3.getMessageList().get(0).getMessage());
+        assertThat(validationResult3.getResult()).contains("parentLocalName")
+                        .contains("INVALID, does not match regular expression [A-Za-z0-9\\-_\\.]+|^$");
 
         Field localNameField = testReferenceKey.getClass().getDeclaredField("localName");
         localNameField.setAccessible(true);
         localNameField.set(testReferenceKey, "Local Name");
-        PfValidationResult validationResult4 = new PfValidationResult();
-        testReferenceKey.validate(validationResult4);
+        ValidationResult validationResult4 = testReferenceKey.validate("testReferenceKey");
         localNameField.set(testReferenceKey, LOCAL_NAME);
         localNameField.setAccessible(false);
-        assertEquals(
-            "localName invalid-parameter localName with value Local Name "
-                + "does not match regular expression [A-Za-z0-9\\-_\\.]+|^$",
-            validationResult4.getMessageList().get(0).getMessage());
+        assertThat(validationResult4.getResult()).contains("localName")
+                        .contains("INVALID, does not match regular expression [A-Za-z0-9\\-_\\.]+|^$");
     }
 }
