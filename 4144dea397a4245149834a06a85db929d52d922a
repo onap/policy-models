@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1f2718c7_c9718d6b",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfUtils.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-12-14T14:21:32Z",
+      "side": 1,
+      "message": "Yes, because the semantics here is that if one of the colletions is null and the other is empty, then they are considered to be semantically equal.",
+      "parentUuid": "8bcfc576_290903e8",
+      "revId": "4144dea397a4245149834a06a85db929d52d922a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "230bcd7c_7c36e093",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityType.java",
         "patchSetId": 4
@@ -47,6 +65,24 @@
       "writtenOn": "2020-12-14T13:50:12Z",
       "side": 1,
       "message": "should also check isNullName() ?",
+      "revId": "4144dea397a4245149834a06a85db929d52d922a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f224f793_0316fc6f",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityType.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-12-14T14:21:32Z",
+      "side": 1,
+      "message": "There is some reason for not checking this that I can\u0027t remember now, I\u0027ll check.",
+      "parentUuid": "b4878bdf_862835d1",
       "revId": "4144dea397a4245149834a06a85db929d52d922a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
