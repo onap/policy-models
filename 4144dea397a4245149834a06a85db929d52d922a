@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "760d760d_21920425",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfUtils.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-15T11:17:13Z",
+      "side": 1,
+      "message": "nvm - a Map isn\u0027t a Collection, duh",
+      "parentUuid": "f32d72e3_ba54e84b",
+      "revId": "4144dea397a4245149834a06a85db929d52d922a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "230bcd7c_7c36e093",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityType.java",
         "patchSetId": 4
