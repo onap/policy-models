@@ -50,6 +50,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifier;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplateFilter;
 import org.onap.policy.models.tosca.authorative.provider.AuthorativeToscaProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -128,6 +129,43 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
 
         LOGGER.debug("closed the database connection to {} using persistence unit {}", parameters.getDatabaseUrl(),
                 parameters.getPersistenceUnit());
+    }
+
+    @Override
+    public List<ToscaServiceTemplate> getServiceTemplateList(final String name, final String version)
+            throws PfModelException {
+        assertInitialized();
+        return new AuthorativeToscaProvider().getServiceTemplateList(pfDao, name, version);
+    }
+
+
+    @Override
+    public List<ToscaServiceTemplate> getFilteredServiceTemplateList(@NonNull ToscaServiceTemplateFilter filter)
+            throws PfModelException {
+        assertInitialized();
+        return new AuthorativeToscaProvider().getFilteredServiceTemplateList(pfDao, filter);
+    }
+
+    @Override
+    public ToscaServiceTemplate createServiceTemplate(@NonNull final ToscaServiceTemplate serviceTemplate)
+            throws PfModelException {
+        assertInitialized();
+        return new AuthorativeToscaProvider().createServiceTemplate(pfDao, serviceTemplate);
+    }
+
+    @Override
+    public ToscaServiceTemplate updateServiceTemplate(@NonNull final ToscaServiceTemplate serviceTemplate)
+            throws PfModelException {
+        assertInitialized();
+        return new AuthorativeToscaProvider().updateServiceTemplate(pfDao, serviceTemplate);
+    }
+
+    @Override
+    public ToscaServiceTemplate deleteServiceTemplate(@NonNull final String name, @NonNull final String version)
+            throws PfModelException {
+        assertInitialized();
+
+        return new AuthorativeToscaProvider().deleteServiceTemplate(pfDao, name, version);
     }
 
     @Override

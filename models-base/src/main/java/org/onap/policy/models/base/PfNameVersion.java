@@ -38,6 +38,24 @@ public interface PfNameVersion {
     public void setVersion(final String version);
 
     /**
+     * Get the defined name for a concept, return null if no name is defined.
+     *
+     * @return the defined name
+     */
+    public default String getDefinedName() {
+        return getName();
+    }
+
+    /**
+     * Get the defined version for a concept, return null if no version is defined.
+     *
+     * @return the defined version
+     */
+    public default String getDefinedVersion() {
+        return getVersion();
+    }
+
+    /**
      * Compare two name version implementation objects.
      *
      * @param left the left name/version implementation

@@ -56,8 +56,7 @@ public interface PfObjectFilter<T> {
     }
 
     /**
-     * Gets a predicate used to filter an item in a list by exactly matching an extracted value
-     * with some text.
+     * Gets a predicate used to filter an item in a list by exactly matching an extracted value with some text.
      *
      * @param text the desired text to check against, or {@code null} if to accept everything
      * @param extractor function to extract the value, to be matched, from a list item
@@ -73,11 +72,9 @@ public interface PfObjectFilter<T> {
     }
 
     /**
-     * Gets a predicate used to filter an item in a list by comparing the start of an
-     * extracted value with a prefix.
+     * Gets a predicate used to filter an item in a list by comparing the start of an extracted value with a prefix.
      *
-     * @param prefix the desired prefix to check against, or {@code null} if to accept
-     *        everything
+     * @param prefix the desired prefix to check against, or {@code null} if to accept everything
      * @param extractor function to extract the value, to be matched, from a list item
      * @return a predicate to match a prefix with a value from a list item
      */
@@ -94,8 +91,7 @@ public interface PfObjectFilter<T> {
     }
 
     /**
-     * Gets a predicate used to filter an item in a list by matching an extracted value
-     * with a regular expression.
+     * Gets a predicate used to filter an item in a list by matching an extracted value with a regular expression.
      *
      * @param pattern regular expression to match, or {@code null} if to accept everything
      * @param extractor function to extract the value, to be matched, from a list item
@@ -140,7 +136,8 @@ public interface PfObjectFilter<T> {
              * The list is sorted so if the last element name is the same as the current element name, the current
              * element should be removed.
              */
-            if (!((PfNameVersion) curElement).getName().equals(((PfNameVersion) lastElement).getName())) {
+            if (PfUtils.compareObjects(((PfNameVersion) curElement).getName(),
+                    ((PfNameVersion) lastElement).getName()) != 0) {
                 // have a new name - done comparing with the old "current"
                 ++icur;
             }

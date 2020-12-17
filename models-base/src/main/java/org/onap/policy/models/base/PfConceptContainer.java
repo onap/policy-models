@@ -198,9 +198,9 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
                 }
 
                 incomingConceptEntry.getValue().setName(findConceptField(conceptKey, conceptKey.getName(),
-                        incomingConceptEntry.getValue(), PfNameVersion::getName));
+                        incomingConceptEntry.getValue(), PfNameVersion::getDefinedName));
                 incomingConceptEntry.getValue().setVersion(findConceptField(conceptKey, conceptKey.getVersion(),
-                        incomingConceptEntry.getValue(), PfNameVersion::getVersion));
+                        incomingConceptEntry.getValue(), PfNameVersion::getDefinedVersion));
 
                 C jpaConcept = getConceptNewInstance();
                 // This cast allows us to call the fromAuthorative method

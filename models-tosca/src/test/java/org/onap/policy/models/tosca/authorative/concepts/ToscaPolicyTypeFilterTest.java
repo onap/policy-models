@@ -47,12 +47,11 @@ import org.yaml.snakeyaml.Yaml;
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 public class ToscaPolicyTypeFilterTest {
-    private static final String VERSION_100 = "1.0.0";
-
-    private static final String VERSION_000 = "0.0.0";
-
     // Logger for this class
     private static final Logger LOGGER = LoggerFactory.getLogger(ToscaPolicyTypeFilterTest.class);
+
+    private static final String VERSION_100 = "1.0.0";
+    private static final String VERSION_000 = "0.0.0";
 
     // @formatter:off
     private static final String[] policyTypeResourceNames = {
@@ -151,11 +150,11 @@ public class ToscaPolicyTypeFilterTest {
         // got changed - perhaps we change this test to find a specific name
         // to test for vs an index which never remains consistent?
         //
-        //assertEquals("2.0.0", filteredList.get(18).getVersion());
+        // assertEquals("2.0.0", filteredList.get(18).getVersion());
         //
         // And now this index changes again??
         //
-        //assertEquals(VERSION_100, filteredList.get(17).getVersion());
+        // assertEquals(VERSION_100, filteredList.get(17).getVersion());
 
         typeList.get(12).setVersion(VERSION_100);
         filteredList = filter.filter(typeList);

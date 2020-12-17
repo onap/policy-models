@@ -41,6 +41,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplateFilter;
 
 /**
  * Dummy implementation of {@link PolicyModelsProvider} with bad constructor.
@@ -60,6 +61,30 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
     @Override
     public void init() throws PfModelException {
         // do nothing
+    }
+
+    @Override
+    public List<ToscaServiceTemplate> getFilteredServiceTemplateList(@NonNull ToscaServiceTemplateFilter filter)
+            throws PfModelException {
+        return null;
+    }
+
+    @Override
+    public ToscaServiceTemplate createServiceTemplate(@NonNull ToscaServiceTemplate serviceTemplate)
+            throws PfModelException {
+        return null;
+    }
+
+    @Override
+    public ToscaServiceTemplate updateServiceTemplate(@NonNull ToscaServiceTemplate serviceTemplate)
+            throws PfModelException {
+        return null;
+    }
+
+    @Override
+    public ToscaServiceTemplate deleteServiceTemplate(@NonNull String name, @NonNull String version)
+            throws PfModelException {
+        return null;
     }
 
     @Override
@@ -201,6 +226,12 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
     @Override
     public List<PdpStatistics> deletePdpStatistics(final String name, final Date timestamp) {
         // Not implemented
+        return null;
+    }
+
+    @Override
+    public List<ToscaServiceTemplate> getServiceTemplateList(String name, String version) throws PfModelException {
+        // TODO Auto-generated method stub
         return null;
     }
 }

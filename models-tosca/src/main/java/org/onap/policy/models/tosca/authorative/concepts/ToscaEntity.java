@@ -32,6 +32,7 @@ import javax.ws.rs.core.Response;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.base.PfNameVersion;
 
@@ -43,8 +44,8 @@ import org.onap.policy.models.base.PfNameVersion;
 @Data
 @NoArgsConstructor
 public class ToscaEntity implements PfNameVersion {
-    private String name;
-    private String version;
+    private String name = PfKey.NULL_KEY_NAME;
+    private String version = PfKey.NULL_KEY_VERSION;
 
     @ApiModelProperty(name = "derived_from")
     @SerializedName("derived_from")
@@ -79,6 +80,16 @@ public class ToscaEntity implements PfNameVersion {
      */
     public ToscaEntityKey getKey() {
         return new ToscaEntityKey(name, version);
+    }
+
+    @Override
+    public String getDefinedName() {
+        return (PfKey.NULL_KEY_NAME.equals(name) ? null : name);
+    }
+
+    @Override
+    public String getDefinedVersion() {
+        return (PfKey.NULL_KEY_VERSION.equals(version) ? null : version);
     }
 
     /**
@@ -129,5 +140,4 @@ public class ToscaEntity implements PfNameVersion {
 
         return entityMap;
     }
-
 }
