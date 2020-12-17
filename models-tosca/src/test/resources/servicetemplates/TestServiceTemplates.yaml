@@ -1,0 +1,185 @@
+service_templates:
+- tosca_definitions_version: tosca_simple_yaml_1_1_0
+  policy_types:
+    onap.policies.Policytype0:
+      derived_from: tosca.policies.Root
+      version: 1.0.0
+      name: onap.policies.Policytype0
+      description: a policy type
+      properties:
+        policytype0.property0:
+          type: onap.datatypes.datatype0
+          description: a property
+          required: true
+  data_types:
+    onap.datatypes.datatype0:
+      derived_from: tosca.datatypes.Root
+      properties:
+        domain0:
+          type: string
+          required: true
+          description: Domain name
+          default: domainDefault
+- tosca_definitions_version: tosca_simple_yaml_1_1_0
+  policy_types:
+    onap.policies.Policytype1:
+      derived_from: tosca.policies.Root
+      version: 1.0.0
+      name: onap.policies.Policytype1
+      description: a policy type
+      properties:
+        policytype1.property1:
+          type: onap.datatypes.datatype1
+          description: a property
+          required: true
+  data_types:
+    onap.datatypes.datatype1:
+      derived_from: tosca.datatypes.Root
+      properties:
+        domain1:
+          type: string
+          required: true
+          description: Domain name
+          default: domainDefault
+- tosca_definitions_version: tosca_simple_yaml_1_1_0
+  name: name0
+  policy_types:
+    onap.policies.Policytype2:
+      derived_from: tosca.policies.Root
+      version: 1.0.0
+      name: onap.policies.Policytype2
+      description: a policy type
+      properties:
+        policytype2.property2:
+          type: onap.datatypes.datatype2
+          description: a property
+          required: true
+  data_types:
+    onap.datatypes.datatype2:
+      derived_from: tosca.datatypes.Root
+      properties:
+        domain2:
+          type: string
+          required: true
+          description: Domain name
+          default: domainDefault
+- tosca_definitions_version: tosca_simple_yaml_1_1_0
+  name: name0
+  policy_types:
+    onap.policies.Policytype3:
+      derived_from: tosca.policies.Root
+      version: 1.0.0
+      name: onap.policies.Policytype3
+      description: a policy type
+      properties:
+        policytype3.property3:
+          type: onap.datatypes.datatype3
+          description: a property
+          required: true
+  data_types:
+    onap.datatypes.datatype3:
+      derived_from: tosca.datatypes.Root
+      properties:
+        domain3:
+          type: string
+          required: true
+          description: Domain name
+          default: domainDefault
+- tosca_definitions_version: tosca_simple_yaml_1_1_0
+  name: name0
+  policy_types:
+    onap.policies.Policytype4:
+      derived_from: tosca.policies.Root
+      version: 1.0.0
+      name: onap.policies.Policytype4
+      description: a policy type
+      properties:
+        policytype4.property4:
+          type: onap.datatypes.datatype4
+          description: a property
+          required: true
+  data_types:
+    onap.datatypes.datatype4:
+      derived_from: tosca.datatypes.Root
+      properties:
+        domain4:
+          type: string
+          required: true
+          description: Domain name
+          default: domainDefault
+- tosca_definitions_version: tosca_simple_yaml_1_1_0
+  name: name0
+  vesion: 1.2.3
+  policy_types:
+    onap.policies.Policytype5:
+      derived_from: tosca.policies.Root
+      version: 1.0.0
+      name: onap.policies.Policytype5
+      description: a policy type
+      properties:
+        policytype5.property5:
+          type: onap.datatypes.datatype5
+          description: a property
+          required: true
+  data_types:
+    onap.datatypes.datatype5:
+      derived_from: tosca.datatypes.Root
+      properties:
+        domain5:
+          type: string
+          required: true
+          description: Domain name
+          default: domainDefault
+- tosca_definitions_version: tosca_simple_yaml_1_1_0
+  name: name0
+  version: 1.2.3
+  policy_types:
+    onap.policies.Policytype6:
+      derived_from: tosca.policies.Root
+      version: 1.0.0
+      name: onap.policies.Policytype6
+      description: a policy type
+      properties:
+        policytype6.property6:
+          type: onap.datatypes.datatype6
+          description: a property
+          required: true
+  data_types:
+    onap.datatypes.datatype6:
+      derived_from: tosca.datatypes.Root
+      properties:
+        domain6:
+          type: string
+          required: true
+          description: Domain name
+          default: domainDefault
+- tosca_definitions_version: tosca_simple_yaml_1_1_0
+  name: name0
+  version: 1.2.3
+- tosca_definitions_version: tosca_simple_yaml_1_1_0
+  name: name0
+  version: 1.2.4
+- tosca_definitions_version: tosca_simple_yaml_1_1_0
+  name: name0
+  version: 1.2.5
+- tosca_definitions_version: tosca_simple_yaml_1_1_0
+  name: name0
+  version: 1.2.6
+- tosca_definitions_version: tosca_simple_yaml_1_1_0
+  name: name0
+  version: 1.2.7
+- tosca_definitions_version: tosca_simple_yaml_1_1_0
+  name: name0
+  version: 1.2.8
+- tosca_definitions_version: tosca_simple_yaml_1_1_0
+  name: name0
+  version: 1.2.8
+- tosca_definitions_version: tosca_simple_yaml_1_1_0
+  name: name0
+  version: 1.2.8
+- tosca_definitions_version: tosca_simple_yaml_1_1_0
+  name: name1
+  version: 1.2.3
+- tosca_definitions_version: tosca_simple_yaml_1_1_0
+  name: name2
+  version: 1.8.3

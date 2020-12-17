@@ -43,6 +43,7 @@ import org.onap.policy.models.dao.DaoParameters;
 import org.onap.policy.models.dao.PfDao;
 import org.onap.policy.models.dao.PfDaoFactory;
 import org.onap.policy.models.dao.impl.DefaultPfDao;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaDataType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
@@ -410,8 +411,8 @@ public class AuthorativeToscaProviderPolicyTest {
 
     @Test
     public void testEntityMaps() throws CoderException, PfModelException {
-        Object yamlObject = new Yaml().load(
-                ResourceUtils.getResourceAsString("policytypes/onap.policies.monitoring.tcagen2.yaml"));
+        Object yamlObject =
+                new Yaml().load(ResourceUtils.getResourceAsString("policytypes/onap.policies.monitoring.tcagen2.yaml"));
         String yamlAsJsonString = new StandardCoder().encode(yamlObject);
 
         ToscaServiceTemplate toscaServiceTemplatePolicyType =
@@ -449,11 +450,19 @@ public class AuthorativeToscaProviderPolicyTest {
         assertThatThrownBy(() -> {
             createdServiceTemplate.getToscaTopologyTemplate().getPoliciesAsMap();
         }).hasMessageContaining("list of map of entities contains more than one entity with key");
+
+
+        ToscaDataType duplDataType = toscaServiceTemplatePolicyType.getDataTypes().values().iterator().next();
+        toscaServiceTemplatePolicyType.getDataTypes().put("DuplicateDataType", duplDataType);
+
+        assertThatThrownBy(() -> {
+            toscaServiceTemplatePolicyType.getDataTypesAsMap();
+        }).hasMessageContaining("list of map of entities contains more than one entity with key");
     }
 
     private void createPolicyTypes() throws CoderException, PfModelException {
-        Object yamlObject = new Yaml().load(
-                ResourceUtils.getResourceAsString("policytypes/onap.policies.monitoring.tcagen2.yaml"));
+        Object yamlObject =
+                new Yaml().load(ResourceUtils.getResourceAsString("policytypes/onap.policies.monitoring.tcagen2.yaml"));
         String yamlAsJsonString = new StandardCoder().encode(yamlObject);
 
         ToscaServiceTemplate toscaServiceTemplatePolicyType =

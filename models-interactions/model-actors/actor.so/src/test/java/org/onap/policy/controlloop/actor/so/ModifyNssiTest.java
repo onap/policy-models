@@ -4,6 +4,7 @@
  * ================================================================================
  * Copyright (C) 2020 Wipro Limited.
  * Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,14 +29,11 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
-import java.util.Map;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
-import org.onap.policy.common.utils.coder.CoderException;
-import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
@@ -47,7 +45,6 @@ public class ModifyNssiTest extends BasicSoOperation {
 
     private ModifyNssi oper;
 
-    private static StandardCoder coder = new StandardCoder();
 
     public ModifyNssiTest() {
         super(DEFAULT_ACTOR, ModifyNssi.NAME);
@@ -63,6 +60,7 @@ public class ModifyNssiTest extends BasicSoOperation {
         destroyAfterClass();
     }
 
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -71,9 +69,8 @@ public class ModifyNssiTest extends BasicSoOperation {
 
     @Test
     public void testSuccess() throws Exception {
-        HttpPollingParams opParams = HttpPollingParams.builder().clientName(MY_CLIENT)
-                .path("3gppservices/v7/modify").pollPath("orchestrationRequests/v5/")
-                .maxPolls(2).build();
+        HttpPollingParams opParams = HttpPollingParams.builder().clientName(MY_CLIENT).path("3gppservices/v7/modify")
+                .pollPath("orchestrationRequests/v5/").maxPolls(2).build();
         config = new HttpPollingConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
         params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).build();
 
@@ -98,14 +95,11 @@ public class ModifyNssiTest extends BasicSoOperation {
 
     @Test
     public void testGetPropertyNames() {
-        assertThat(oper.getPropertyNames()).isEqualTo(
-                List.of(
-                        OperationProperties.EVENT_PAYLOAD));
+        assertThat(oper.getPropertyNames()).isEqualTo(List.of(OperationProperties.EVENT_PAYLOAD));
     }
 
     private String getPayload() {
-        return ResourceUtils
-                .getResourceAsString("src/test/resources/ModifyNSSI.json");
+        return ResourceUtils.getResourceAsString("src/test/resources/ModifyNSSI.json");
     }
 
 

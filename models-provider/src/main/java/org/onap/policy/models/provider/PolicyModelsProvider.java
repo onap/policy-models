@@ -35,6 +35,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplateFilter;
 
 /**
  * This interface describes the operations that are provided to users and components for reading objects from and
@@ -52,6 +53,58 @@ public interface PolicyModelsProvider extends AutoCloseable {
 
     @Override
     public void close() throws PfModelException;
+
+    /**
+     * Get service templates.
+     *
+     * @param name the name of the topology template to get, set to null to get all service templates
+     * @param version the version of the service template to get, set to null to get all service templates
+     * @return the topology templates found
+     * @throws PfModelException on errors getting service templates
+     */
+    public List<ToscaServiceTemplate> getServiceTemplateList(final String name, final String version)
+            throws PfModelException;
+
+    /**
+     * Get filtered service templates.
+     *
+     * @param filter the filter for the service templates to get
+     * @return the service templates found
+     * @throws PfModelException on errors getting service templates
+     */
+    public List<ToscaServiceTemplate> getFilteredServiceTemplateList(@NonNull final ToscaServiceTemplateFilter filter)
+            throws PfModelException;
+
+    /**
+     * Create service template.
+     *
+     * @param serviceTemplate the service template to be created
+     * @return the created service template
+     * @throws PfModelException on errors creating the service template
+     */
+    public ToscaServiceTemplate createServiceTemplate(@NonNull final ToscaServiceTemplate serviceTemplate)
+            throws PfModelException;
+
+    /**
+     * Update service template.
+     *
+     * @param serviceTemplate the service template to be updated
+     * @return the updated service template
+     * @throws PfModelException on errors updating the service template
+     */
+    public ToscaServiceTemplate updateServiceTemplate(@NonNull final ToscaServiceTemplate serviceTemplate)
+            throws PfModelException;
+
+    /**
+     * Delete service template.
+     *
+     * @param name the name of the service template to delete.
+     * @param version the version of the service template to delete.
+     * @return the TOSCA service template that was deleted
+     * @throws PfModelException on errors deleting policy types
+     */
+    public ToscaServiceTemplate deleteServiceTemplate(@NonNull final String name, @NonNull final String version)
+            throws PfModelException;
 
     /**
      * Get policy types.
@@ -104,7 +157,7 @@ public interface PolicyModelsProvider extends AutoCloseable {
             throws PfModelException;
 
     /**
-     * Create policy types.
+     * Update policy types.
      *
      * @param serviceTemplate the service template containing the definition of the policy types to be modified
      * @return the TOSCA service template containing the modified policy types
@@ -119,7 +172,7 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * @param name the name of the policy type to delete.
      * @param version the version of the policy type to delete.
      * @return the TOSCA service template containing the policy type that was deleted
-     * @throws PfModelException on errors deleting policy types
+     * @throws PfModelException on errors deleting the policy type
      */
     public ToscaServiceTemplate deletePolicyType(@NonNull final String name, @NonNull final String version)
             throws PfModelException;
