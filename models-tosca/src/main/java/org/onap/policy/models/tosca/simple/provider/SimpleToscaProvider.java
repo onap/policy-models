@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,13 +27,13 @@ import java.util.List;
 import javax.ws.rs.core.Response;
 import lombok.NonNull;
 import org.apache.commons.collections4.CollectionUtils;
+import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptFilter;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
-import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.dao.PfDao;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaEntity;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaDataType;
@@ -107,9 +108,9 @@ public class SimpleToscaProvider {
                 ToscaServiceTemplateUtils.addFragment(dbServiceTemplate, incomingServiceTemplateFragment);
         }
 
-        PfValidationResult result = serviceTemplateToWrite.validate(new PfValidationResult());
+        BeanValidationResult result = serviceTemplateToWrite.validate("service template");
         if (!result.isValid()) {
-            throw new PfModelRuntimeException(Response.Status.NOT_ACCEPTABLE, result.toString());
+            throw new PfModelRuntimeException(Response.Status.NOT_ACCEPTABLE, result.getResult());
         }
 
         new SimpleToscaServiceTemplateProvider().write(dao, serviceTemplateToWrite);
@@ -454,9 +455,11 @@ public class SimpleToscaProvider {
                 POLICY_TYPE + policyTypeKey.getId() + NOT_FOUND);
         }
 
+        BeanValidationResult result = new BeanValidationResult("policy types", serviceTemplate);
+
         for (JpaToscaPolicyType policyType : serviceTemplate.getPolicyTypes().getAll(null)) {
             Collection<JpaToscaEntityType<ToscaEntity>> ancestorList = ToscaUtils
-                .getEntityTypeAncestors(serviceTemplate.getPolicyTypes(), policyType, new PfValidationResult());
+                .getEntityTypeAncestors(serviceTemplate.getPolicyTypes(), policyType, result);
 
             if (ancestorList.contains(policyType4Deletion)) {
                 throw new PfModelRuntimeException(Response.Status.NOT_ACCEPTABLE, POLICY_TYPE + policyTypeKey.getId()

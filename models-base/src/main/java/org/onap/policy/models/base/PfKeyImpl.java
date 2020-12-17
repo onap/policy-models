@@ -1,7 +1,7 @@
 /*
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,8 +26,9 @@ import java.util.List;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
+import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.common.utils.validation.Assertions;
-import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 
 /**
  * A key, upon which other key subclasses can be built, providing implementations of the methods.
@@ -241,20 +242,11 @@ public abstract class PfKeyImpl extends PfKey {
     }
 
     @Override
-    public PfValidationResult validate(final PfValidationResult result) {
-        final String nameValidationErrorMessage =
-            Assertions.getStringParameterValidationMessage(NAME_TOKEN, getName(), getNameRegEx());
-        if (nameValidationErrorMessage != null) {
-            result.addValidationMessage(new PfValidationMessage(this, this.getClass(), ValidationResult.INVALID,
-                "name invalid-" + nameValidationErrorMessage));
-        }
+    public ValidationResult validate(@NonNull String fieldName) {
+        BeanValidationResult result = new BeanValidationResult(fieldName, this);
 
-        final String versionValidationErrorMessage =
-            Assertions.getStringParameterValidationMessage(VERSION_TOKEN, getVersion(), getVersionRegEx());
-        if (versionValidationErrorMessage != null) {
-            result.addValidationMessage(new PfValidationMessage(this, this.getClass(), ValidationResult.INVALID,
-                "version invalid-" + versionValidationErrorMessage));
-        }
+        result.addResult(validateRegex(NAME_TOKEN, getName(), getNameRegEx()));
+        result.addResult(validateRegex(VERSION_TOKEN, getVersion(), getVersionRegEx()));
 
         return result;
     }

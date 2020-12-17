@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2020 Nordix Foundation.
+ *  Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,6 +33,7 @@ import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.onap.policy.models.base.Validated;
 import org.onap.policy.models.dao.DaoParameters;
 import org.onap.policy.models.dao.PfDao;
 import org.onap.policy.models.dao.PfDaoFactory;
@@ -141,11 +143,13 @@ public class PdpStatisticsProviderTest {
 
         assertThatThrownBy(() -> {
             new PdpStatisticsProvider().createPdpStatistics(pfDao, pdpStatisticsNullList);
-        }).hasMessageContaining("pdp statictics \"NULL\" is not valid");
+        }).hasMessageContaining("pdp statistics").hasMessageContaining("key")
+                        .hasMessageContaining(Validated.IS_A_NULL_KEY);
 
         assertThatThrownBy(() -> {
             new PdpStatisticsProvider().updatePdpStatistics(pfDao, pdpStatisticsNullList);
-        }).hasMessageContaining("pdp statistics \"NULL:0.0.0:0\" is not valid");
+        }).hasMessageContaining("pdp statistics").hasMessageContaining("key")
+                        .hasMessageContaining(Validated.IS_A_NULL_KEY);
     }
 
     @Test

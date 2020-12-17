@@ -37,7 +37,6 @@ import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfReferenceKey;
-import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
 
@@ -132,46 +131,46 @@ public class JpaToscaPolicyTypeTest {
         tpt.clean();
         assertEquals(tdtClone0, tpt);
 
-        assertFalse(new JpaToscaPolicyType().validate(new PfValidationResult()).isValid());
-        assertTrue(tpt.validate(new PfValidationResult()).isValid());
+        assertFalse(new JpaToscaPolicyType().validate("").isValid());
+        assertTrue(tpt.validate("").isValid());
 
         tpt.getProperties().put(null, null);
-        assertFalse(tpt.validate(new PfValidationResult()).isValid());
+        assertFalse(tpt.validate("").isValid());
         tpt.getProperties().remove(null);
-        assertTrue(tpt.validate(new PfValidationResult()).isValid());
+        assertTrue(tpt.validate("").isValid());
 
         tpt.getTargets().add(null);
-        assertFalse(tpt.validate(new PfValidationResult()).isValid());
+        assertFalse(tpt.validate("").isValid());
         tpt.getTargets().remove(null);
-        assertTrue(tpt.validate(new PfValidationResult()).isValid());
+        assertTrue(tpt.validate("").isValid());
 
         tpt.getTriggers().add(null);
-        assertFalse(tpt.validate(new PfValidationResult()).isValid());
+        assertFalse(tpt.validate("").isValid());
         tpt.getTriggers().remove(null);
-        assertTrue(tpt.validate(new PfValidationResult()).isValid());
+        assertTrue(tpt.validate("").isValid());
 
         tpt.getMetadata().put(null, null);
-        assertFalse(tpt.validate(new PfValidationResult()).isValid());
+        assertFalse(tpt.validate("").isValid());
         tpt.getMetadata().remove(null);
-        assertTrue(tpt.validate(new PfValidationResult()).isValid());
+        assertTrue(tpt.validate("").isValid());
 
         tpt.getMetadata().put("nullKey", null);
-        assertFalse(tpt.validate(new PfValidationResult()).isValid());
+        assertFalse(tpt.validate("").isValid());
         tpt.getMetadata().remove("nullKey");
-        assertTrue(tpt.validate(new PfValidationResult()).isValid());
+        assertTrue(tpt.validate("").isValid());
 
         tpt.setDescription("");
 
-        assertFalse(tpt.validate(new PfValidationResult()).isValid());
+        assertFalse(tpt.validate("").isValid());
         tpt.setDescription(A_DESCRIPTION);
-        assertTrue(tpt.validate(new PfValidationResult()).isValid());
+        assertTrue(tpt.validate("").isValid());
 
         tpt.setDerivedFrom(PfConceptKey.getNullKey());
-        assertFalse(tpt.validate(new PfValidationResult()).isValid());
+        assertFalse(tpt.validate("").isValid());
         tpt.setDerivedFrom(derivedFromKey);
-        assertTrue(tpt.validate(new PfValidationResult()).isValid());
+        assertTrue(tpt.validate("").isValid());
 
-        assertThatThrownBy(() -> tpt.validate(null)).hasMessageMatching("resultIn is marked .*on.*ull but is null");
+        assertThatThrownBy(() -> tpt.validate(null)).hasMessageMatching("fieldName is marked .*on.*ull but is null");
 
         assertThatThrownBy(() -> new JpaToscaEntityType<ToscaPolicy>((PfConceptKey) null))
                 .hasMessageMatching("key is marked .*on.*ull but is null");
@@ -200,21 +199,21 @@ public class JpaToscaPolicyTypeTest {
 
         JpaToscaProperty prop0 = new JpaToscaProperty(new PfReferenceKey(pt0.getKey(), "prop0"));
         prop0.setType(new PfConceptKey("string", PfKey.NULL_KEY_VERSION));
-        assertTrue(prop0.validate(new PfValidationResult()).isValid());
+        assertTrue(prop0.validate("").isValid());
 
         pt0.getProperties().put(prop0.getKey().getLocalName(), prop0);
         assertTrue(pt0.getReferencedDataTypes().isEmpty());
 
         JpaToscaProperty prop1 = new JpaToscaProperty(new PfReferenceKey(pt0.getKey(), "prop1"));
         prop1.setType(new PfConceptKey("the.property.Type0", "0.0.1"));
-        assertTrue(prop1.validate(new PfValidationResult()).isValid());
+        assertTrue(prop1.validate("").isValid());
 
         pt0.getProperties().put(prop1.getKey().getLocalName(), prop1);
         assertEquals(1, pt0.getReferencedDataTypes().size());
 
         JpaToscaProperty prop2 = new JpaToscaProperty(new PfReferenceKey(pt0.getKey(), "prop2"));
         prop2.setType(new PfConceptKey("the.property.Type0", "0.0.1"));
-        assertTrue(prop2.validate(new PfValidationResult()).isValid());
+        assertTrue(prop2.validate("").isValid());
 
         pt0.getProperties().put(prop2.getKey().getLocalName(), prop2);
         assertEquals(1, pt0.getReferencedDataTypes().size());
@@ -223,7 +222,7 @@ public class JpaToscaPolicyTypeTest {
         prop3.setType(new PfConceptKey("the.property.Type1", "0.0.1"));
         prop3.setEntrySchema(new JpaToscaSchemaDefinition());
         prop3.getEntrySchema().setType(new PfConceptKey("the.property.Type3", "0.0.1"));
-        assertTrue(prop3.validate(new PfValidationResult()).isValid());
+        assertTrue(prop3.validate("").isValid());
 
         pt0.getProperties().put(prop3.getKey().getLocalName(), prop3);
         assertEquals(3, pt0.getReferencedDataTypes().size());
@@ -232,7 +231,7 @@ public class JpaToscaPolicyTypeTest {
         prop4.setType(new PfConceptKey("the.property.Type1", "0.0.1"));
         prop4.setEntrySchema(new JpaToscaSchemaDefinition());
         prop4.getEntrySchema().setType(new PfConceptKey("the.property.Type2", "0.0.1"));
-        assertTrue(prop4.validate(new PfValidationResult()).isValid());
+        assertTrue(prop4.validate("").isValid());
 
         pt0.getProperties().put(prop4.getKey().getLocalName(), prop4);
         assertEquals(3, pt0.getReferencedDataTypes().size());

@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Model
  * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,13 +34,11 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.lang3.ObjectUtils;
+import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfReferenceKey;
-import org.onap.policy.models.base.PfValidationMessage;
-import org.onap.policy.models.base.PfValidationResult;
-import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 
 /**
  * Class to represent the EventFilter in TOSCA definition.
@@ -124,30 +122,13 @@ public class JpaToscaEventFilter extends PfConcept {
     }
 
     @Override
-    public PfValidationResult validate(@NonNull final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
+    public BeanValidationResult validate(@NonNull String fieldName) {
+        BeanValidationResult result = new BeanValidationResult(fieldName, this);
 
-        if (key.isNullKey()) {
-            result.addValidationMessage(
-                    new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID, "key is a null key"));
-        }
-
-        result = key.validate(result);
-
-        if (node == null || node.isNullKey()) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "node on an event filter may not be null"));
-        }
-
-        if (requirement != null && requirement.trim().length() == 0) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "event filter requirement may not be blank"));
-        }
-
-        if (capability != null && capability.trim().length() == 0) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "event filter capability may not be blank"));
-        }
+        result.addResult(validateKeyNotNull("key", key));
+        result.addResult(validateKeyNotNull("node", node));
+        result.addResult(validateNotBlank("requirement", requirement, false));
+        result.addResult(validateNotBlank("capability", capability, false));
 
         return result;
     }

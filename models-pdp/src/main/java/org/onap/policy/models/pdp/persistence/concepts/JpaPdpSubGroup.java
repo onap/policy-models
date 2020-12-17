@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Model
  * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -43,7 +43,7 @@ import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-import org.onap.policy.common.utils.validation.ParameterValidationUtils;
+import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
@@ -52,9 +52,7 @@ import org.onap.policy.models.base.PfKeyUse;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfSearchableKey;
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.base.PfValidationMessage;
-import org.onap.policy.models.base.PfValidationResult;
-import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.base.Validated;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifier;
@@ -279,80 +277,33 @@ public class JpaPdpSubGroup extends PfConcept implements PfAuthorative<PdpSubGro
     }
 
     @Override
-    public PfValidationResult validate(@NonNull final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
+    public BeanValidationResult validate(@NonNull String fieldName) {
+        BeanValidationResult result = new BeanValidationResult(fieldName, this);
 
-        if (key.isNullKey()) {
-            result.addValidationMessage(
-                    new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID, "key is a null key"));
-        }
-
-        result = key.validate(result);
-
-        if (key.getParentConceptKey().isNullKey()) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "parent of key is a null key"));
-        }
+        result.addResult(validateKeyNotNull("key", key));
+        result.addResult(validateKeyNotNull("parent of key", key.getParentConceptKey()));
 
         if (currentInstanceCount < 0) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "the current instance count of a PDP sub group may not be negative"));
+            addResult(result, "currentInstanceCount", currentInstanceCount, "is negative");
         }
 
         if (desiredInstanceCount < 0) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "the desired instance count of a PDP sub group may not be negative"));
+            addResult(result, "desiredInstanceCount", desiredInstanceCount, "is negative");
         }
 
-        if (properties != null) {
-            for (Entry<String, String> propertyEntry : properties.entrySet()) {
-                if (!ParameterValidationUtils.validateStringParameter(propertyEntry.getKey())) {
-                    result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                            "a property key may not be null or blank"));
-                }
-                if (!ParameterValidationUtils.validateStringParameter(propertyEntry.getValue())) {
-                    result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                            "a property value may not be null or blank"));
-                }
-            }
-        }
+        validateMap(result, "properties", properties, Validated::validateEntryNotBlankNotBlank);
 
-        return validateSubConcepts(result);
-    }
-
-    /**
-     * Validate collections of sub concepts.
-     *
-     * @param result the result in which to store the validation result
-     * @return the validation result including the results of this method
-     */
-    private PfValidationResult validateSubConcepts(PfValidationResult result) {
         if (supportedPolicyTypes == null || supportedPolicyTypes.isEmpty()) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "a PDP subgroup must support at least one policy type"));
+            addResult(result, "supportedPolicyTypes", supportedPolicyTypes, "is empty");
         } else {
-            for (PfSearchableKey supportedPolicyType : supportedPolicyTypes) {
-                result = supportedPolicyType.validate(result);
-            }
+            validateList(result, "supportedPolicyTypes", supportedPolicyTypes, Validated::validateNotNull);
         }
 
-        if (policies == null) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "a PDP subgroup must have a list of policies"));
-        } else {
-            for (PfConceptKey policyKey : policies) {
-                result = policyKey.validate(result);
-            }
-        }
+        result.validateNotNull("policies", policies);
+        validateList(result, "policies", policies, Validated::validateNotNull);
 
-        if (pdpInstances == null) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "a PDP subgroup must have a list of PDPs"));
-        } else {
-            for (JpaPdp jpaPdp : pdpInstances) {
-                result = jpaPdp.validate(result);
-            }
-        }
+        result.validateNotNull("pdpInstances", pdpInstances);
+        validateList(result, "pdpInstances", pdpInstances, Validated::validateNotNull);
 
         return result;
     }

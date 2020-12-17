@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2020 Nordix Foundation.
+ * Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +42,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.models.base.PfAuthorative;
@@ -50,9 +51,7 @@ import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.base.PfValidationMessage;
-import org.onap.policy.models.base.PfValidationResult;
-import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.base.Validated;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaCapabilityAssignment;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaNodeTemplate;
 
@@ -231,44 +230,15 @@ public class JpaToscaNodeTemplate extends JpaToscaEntityType<ToscaNodeTemplate>
     }
 
     @Override
-    public PfValidationResult validate(final PfValidationResult resultIn) {
-        PfValidationResult result = super.validate(resultIn);
+    public BeanValidationResult validate(String fieldName) {
+        BeanValidationResult result = super.validate(fieldName);
 
-        if (StringUtils.isBlank(type)) {
-            result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                    "node template type may not be null"));
-        }
+        result.addResult(validateNotBlank("type", type, true));
 
-        if (properties != null) {
-            result.append(validateProperties(new PfValidationResult()));
-        }
+        validateMap(result, "properties", properties, Validated::validateEntryValueNotNull);
+        validateOptional(result, "requirements", requirements);
+        validateOptional(result, "capabilities", capabilities);
 
-        if (requirements != null) {
-            result.append(requirements.validate(result));
-        }
-
-        if (capabilities != null) {
-            result.append(validateProperties(capabilities.validate(result)));
-        }
-
-        return result;
-    }
-
-    /**
-     * Validate the properties.
-     *
-     * @param resultIn The result of validations up to now
-     * @return the validation result
-     */
-    private PfValidationResult validateProperties(final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
-
-        for (String property : properties.values()) {
-            if (property == null) {
-                result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                        "topology template property may not be null "));
-            }
-        }
         return result;
     }
 

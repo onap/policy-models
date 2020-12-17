@@ -36,7 +36,6 @@ import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfReferenceKey;
-import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConstraint;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaDataType;
 
@@ -109,22 +108,22 @@ public class JpaToscaDataTypeTest {
         tdt.clean();
         assertEquals(tdtClone0, tdt);
 
-        assertFalse(new JpaToscaDataType().validate(new PfValidationResult()).isValid());
-        assertTrue(tdt.validate(new PfValidationResult()).isValid());
+        assertFalse(new JpaToscaDataType().validate("").isValid());
+        assertTrue(tdt.validate("").isValid());
 
         tdt.getConstraints().add(null);
-        assertFalse(tdt.validate(new PfValidationResult()).isValid());
+        assertFalse(tdt.validate("").isValid());
         tdt.getConstraints().remove(null);
-        assertTrue(tdt.validate(new PfValidationResult()).isValid());
+        assertTrue(tdt.validate("").isValid());
 
         tdt.getProperties().put(null, null);
-        assertFalse(tdt.validate(new PfValidationResult()).isValid());
+        assertFalse(tdt.validate("").isValid());
         tdt.getProperties().remove(null);
-        assertTrue(tdt.validate(new PfValidationResult()).isValid());
+        assertTrue(tdt.validate("").isValid());
 
         assertThatThrownBy(() -> {
             tdt.validate(null);
-        }).hasMessageMatching("result is marked .*on.*ull but is null");
+        }).hasMessageMatching("fieldName is marked .*on.*ull but is null");
 
         ToscaDataType dat = new ToscaDataType();
         dat.setName("name");
@@ -153,21 +152,21 @@ public class JpaToscaDataTypeTest {
 
         JpaToscaProperty prop0 = new JpaToscaProperty(new PfReferenceKey(dt0.getKey(), "prop0"));
         prop0.setType(new PfConceptKey("string", PfKey.NULL_KEY_VERSION));
-        assertTrue(prop0.validate(new PfValidationResult()).isValid());
+        assertTrue(prop0.validate("").isValid());
 
         dt0.getProperties().put(prop0.getKey().getLocalName(), prop0);
         assertTrue(dt0.getReferencedDataTypes().isEmpty());
 
         JpaToscaProperty prop1 = new JpaToscaProperty(new PfReferenceKey(dt0.getKey(), "prop1"));
         prop1.setType(new PfConceptKey("the.property.Type0", "0.0.1"));
-        assertTrue(prop1.validate(new PfValidationResult()).isValid());
+        assertTrue(prop1.validate("").isValid());
 
         dt0.getProperties().put(prop1.getKey().getLocalName(), prop1);
         assertEquals(1, dt0.getReferencedDataTypes().size());
 
         JpaToscaProperty prop2 = new JpaToscaProperty(new PfReferenceKey(dt0.getKey(), "prop2"));
         prop2.setType(new PfConceptKey("the.property.Type0", "0.0.1"));
-        assertTrue(prop2.validate(new PfValidationResult()).isValid());
+        assertTrue(prop2.validate("").isValid());
 
         dt0.getProperties().put(prop2.getKey().getLocalName(), prop2);
         assertEquals(1, dt0.getReferencedDataTypes().size());
@@ -176,7 +175,7 @@ public class JpaToscaDataTypeTest {
         prop3.setType(new PfConceptKey("the.property.Type1", "0.0.1"));
         prop3.setEntrySchema(new JpaToscaSchemaDefinition());
         prop3.getEntrySchema().setType(new PfConceptKey("the.property.Type3", "0.0.1"));
-        assertTrue(prop3.validate(new PfValidationResult()).isValid());
+        assertTrue(prop3.validate("").isValid());
 
         dt0.getProperties().put(prop3.getKey().getLocalName(), prop3);
         assertEquals(3, dt0.getReferencedDataTypes().size());
@@ -185,7 +184,7 @@ public class JpaToscaDataTypeTest {
         prop4.setType(new PfConceptKey("the.property.Type1", "0.0.1"));
         prop4.setEntrySchema(new JpaToscaSchemaDefinition());
         prop4.getEntrySchema().setType(new PfConceptKey("the.property.Type2", "0.0.1"));
-        assertTrue(prop4.validate(new PfValidationResult()).isValid());
+        assertTrue(prop4.validate("").isValid());
 
         dt0.getProperties().put(prop4.getKey().getLocalName(), prop4);
         assertEquals(3, dt0.getReferencedDataTypes().size());

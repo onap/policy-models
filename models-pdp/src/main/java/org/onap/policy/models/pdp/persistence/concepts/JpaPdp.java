@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Model
  * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,14 +35,11 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfReferenceKey;
-import org.onap.policy.models.base.PfValidationMessage;
-import org.onap.policy.models.base.PfValidationResult;
-import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.enums.PdpHealthStatus;
 import org.onap.policy.models.pdp.enums.PdpState;
@@ -163,40 +160,19 @@ public class JpaPdp extends PfConcept implements PfAuthorative<Pdp>, Serializabl
     }
 
     @Override
-    public PfValidationResult validate(@NonNull final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
+    public BeanValidationResult validate(@NonNull String fieldName) {
+        BeanValidationResult result = new BeanValidationResult(fieldName, this);
 
-        if (key.isNullKey()) {
-            result.addValidationMessage(
-                    new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID, "key is a null key"));
-        }
-
-        result = key.validate(result);
-
-        if (key.getParentConceptKey().isNullKey()) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "parent of key is a null key"));
-        }
+        result.addResult(validateKeyNotNull("key", key));
+        result.addResult(validateKeyNotNull("parent of key", key.getParentConceptKey()));
 
         if (PfKey.NULL_KEY_NAME.equals(key.getParentLocalName())) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "local name of parent of key is null"));
+            addResult(result, "local name of parent of key", key.getParentLocalName(), IS_NULL);
         }
 
-        if (pdpState == null) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "PDP state may not be null"));
-        }
-
-        if (healthy == null) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "PDP health status may not be null"));
-        }
-
-        if (message != null && StringUtils.isBlank(message)) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "message may not be blank"));
-        }
+        result.addResult(validateNotNull("pdpState", pdpState));
+        result.addResult(validateNotNull("healthy", healthy));
+        result.addResult(validateNotBlank("message", message, false));
 
         return result;
     }

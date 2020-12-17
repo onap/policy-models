@@ -20,234 +20,328 @@
 
 package org.onap.policy.models.base;
 
+import com.google.re2j.Pattern;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 import lombok.NonNull;
-import org.onap.policy.common.utils.validation.Assertions;
-import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.apache.commons.lang3.StringUtils;
+import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.ObjectValidationResult;
+import org.onap.policy.common.parameters.ValidationResult;
+import org.onap.policy.common.parameters.ValidationStatus;
 
 /**
  * Classes that can be validated. This can be used as a super class or as a stand-alone
  * utility class.
  */
-public class Validated {
+public abstract class Validated {
+    public static final String IS_BLANK = "is blank";
+    public static final String IS_A_NULL_KEY = "is a null key";
+    public static final String IS_NULL = "is null";
+    public static final String NOT_DEFINED = "not defined";
+    public static final String NOT_FOUND = "not found";
+
+    public static final String KEY_TOKEN = "key";
+    public static final String VALUE_TOKEN = "value";
 
     /**
-     * Validates the fields of the object. The default method simply returns the result.
+     * Validates the fields of the object.
      *
-     * @param result where to place the result
-     * @return the result
+     * @param fieldName name of the field containing this
+     * @return the result, or {@code null}
      */
-    public PfValidationResult validate(@NonNull PfValidationResult result) {
-        return result;
+    public abstract ValidationResult validate(String fieldName);
+
+    /**
+     * Adds a result indicating that a value is invalid.
+     *
+     * @param result where to put the result
+     * @param fieldName name of the field containing the value
+     * @param value the field's value
+     * @param errorMessage the error message
+     */
+    public static void addResult(BeanValidationResult result, @NonNull String fieldName, Object value,
+                    @NonNull String errorMessage) {
+        Object value2 = (value instanceof PfKey ? ((PfKey) value).getId() : value);
+        result.addResult(new ObjectValidationResult(fieldName, value2, ValidationStatus.INVALID, errorMessage));
     }
 
     /**
-     * Validates that a field value is not null.
+     * Makes a result that indicates a value is invalid, because it is null.
      *
-     * @param container the object that contains the field
-     * @param fieldName name of the field to be validated
-     * @param value value to be validated
-     * @param result where to place the result
-     * @return the result
+     * @param fieldName name of the field containing the value
+     * @param value the field's value
+     * @return a result indicating the value is invalid
      */
-    public PfValidationResult validateNotNull(@NonNull Object container, @NonNull String fieldName, Object value,
-                    @NonNull PfValidationResult result) {
-
-        if (value == null) {
-            addError(container, fieldName, result, "null");
-        }
-
-        return result;
+    public static ValidationResult makeNullResult(@NonNull String fieldName, Object value) {
+        Object value2 = (value instanceof PfKey ? ((PfKey) value).getId() : value);
+        return new ObjectValidationResult(fieldName, value2, ValidationStatus.INVALID, IS_NULL);
     }
 
     /**
-     * Validates that the name and version of a concept key do not have the null default
-     * values.
+     * Validates that a value is not {@code null}.
      *
-     * @param value value to be validated
-     * @param result where to place the result
-     * @return the result
+     * @param result where to put the result
+     * @param fieldName name of the field containing the value
+     * @param value the field's value
      */
-    public PfValidationResult validateNotNull(@NonNull PfConceptKey value, @NonNull PfValidationResult result) {
-
-        if (PfKey.NULL_KEY_NAME.equals(value.getName())) {
-            addError(value, "name", result, "null");
-        }
-
-        if (PfKey.NULL_KEY_VERSION.equals(value.getVersion())) {
-            addError(value, "version", result, "null");
-        }
-
-        return result;
-    }
-
-    /**
-     * Validates the contents of a field, verifying that it matches a pattern, if it is
-     * non-null.
-     *
-     * @param container the object that contains the field
-     * @param fieldName name of the field to be validated
-     * @param value value to be validated
-     * @param pattern pattern used to validate the value
-     * @param result where to place the result
-     * @return the result
-     */
-    public PfValidationResult validateText(@NonNull Object container, @NonNull String fieldName, String value,
-                    @NonNull String pattern, @NonNull PfValidationResult result) {
-
+    public static void validateOptional(BeanValidationResult result, @NonNull String fieldName, Validated value) {
         if (value != null) {
-            addError(container, fieldName, result,
-                            Assertions.getStringParameterValidationMessage(fieldName, value, pattern));
+            result.addResult(value.validate(fieldName));
         }
-
-        return result;
     }
 
     /**
-     * Validates the contents of a property field, verifying that the keys ands values are
-     * non-null.
+     * Validates that a value is not {@code null}.
      *
-     * @param container the object that contains the field
-     * @param fieldName name of the field to be validated
-     * @param properties properties to be validated
-     * @param resultIn where to place the result
-     * @return the result
+     * @param fieldName name of the field containing the value
+     * @param value the field's value
+     * @return a result, or {@code null}
      */
-    public <T> PfValidationResult validatePropertiesNotNull(@NonNull Object container, @NonNull String fieldName,
-                    Map<String, T> properties, @NonNull PfValidationResult resultIn) {
-
-        PfValidationResult result = resultIn;
-
-        if (properties == null) {
-            return result;
+    public static ValidationResult validateNotNull(@NonNull String fieldName, Object value) {
+        if (value == null) {
+            return new ObjectValidationResult(fieldName, value, ValidationStatus.INVALID, IS_NULL);
         }
 
-        for (Entry<String, T> ent : properties.entrySet()) {
-            String key = ent.getKey();
-            String keyName = fieldName + "." + key;
-            result = validateNotNull(container, keyName, key, result);
-
-            result = validateNotNull(container, keyName, ent.getValue(), result);
-        }
-
-        return result;
+        return null;
     }
 
     /**
-     * Validates the items in a collection field are non-null.
+     * Validates that a value is not "blank" (i.e., empty). value.
      *
-     * @param container the object that contains the field
-     * @param fieldName name of the field to be validated
-     * @param collection collection whose items are to be validated
-     * @param resultIn where to place the result
-     * @return the result
+     * @param fieldName name of the field containing the value
+     * @param value the field's value
+     * @param checkNull {@code true} if to validate that the value is not {@code null}
+     * @return a result, or {@code null}
      */
-    public <T> PfValidationResult validateCollectionNotNull(@NonNull Object container, @NonNull String fieldName,
-                    Collection<T> collection, @NonNull PfValidationResult resultIn) {
+    public static ValidationResult validateNotBlank(@NonNull String fieldName, String value, boolean checkNull) {
+        if (value == null && !checkNull) {
+            return null;
+        }
 
-        PfValidationResult result = resultIn;
+        if (StringUtils.isBlank(value)) {
+            return new ObjectValidationResult(fieldName, value, ValidationStatus.INVALID, IS_BLANK);
+        }
 
-        if (collection == null) {
+        return null;
+    }
+
+    /**
+     * Validates that a value matches regular expression.
+     *
+     * @param fieldName name of the field containing the value
+     * @param value the field's value
+     * @param pattern regular expression to be matched
+     * @return a result, or {@code null}
+     */
+    public static ValidationResult validateRegex(@NonNull String fieldName, String value, @NonNull String pattern) {
+        if (value == null) {
+            return makeNullResult(fieldName, value);
+        }
+
+        if (!Pattern.matches(pattern, value)) {
+            return new ObjectValidationResult(fieldName, value, ValidationStatus.INVALID,
+                            "does not match regular expression " + pattern);
+        }
+
+        return null;
+    }
+
+    /**
+     * Validates a key, ensuring that it isn't null and that it's structurally sound.
+     *
+     * @param fieldName name of the field containing the key
+     * @param key the field's value
+     * @return a result, or {@code null}
+     */
+    public static ValidationResult validateKeyNotNull(@NonNull String fieldName, PfKey key) {
+        if (key == null) {
+            return new ObjectValidationResult(fieldName, key, ValidationStatus.INVALID, IS_A_NULL_KEY);
+        }
+
+        if (key.isNullKey()) {
+            return new ObjectValidationResult(fieldName, key.getId(), ValidationStatus.INVALID, IS_A_NULL_KEY);
+        }
+
+        return key.validate(fieldName);
+    }
+
+    /**
+     * Validates a key's version, ensuring that it isn't null.
+     *
+     * @param fieldName name of the field containing the key
+     * @param key the field's value
+     * @return a result, or {@code null}
+     */
+    public static BeanValidationResult validateKeyVersionNotNull(@NonNull String fieldName, PfConceptKey key) {
+        if (key != null && key.isNullVersion()) {
+            BeanValidationResult result = new BeanValidationResult(fieldName, key);
+            result.addResult(makeNullResult(PfKeyImpl.VERSION_TOKEN, key.getVersion()));
             return result;
         }
 
-        String prefix = fieldName + ".";
+        return null;
+    }
+
+    /**
+     * Generates a function to validate that a value is not below a minimum.
+     *
+     * @param min minimum value allowed
+     * @param allowedValue {@code null} or an allowed value outside the range
+     * @param checkRef {@code true} to generate an error if the value is {@code null}
+     * @return a function to validate that a value is not below a minimum
+     */
+    public static BiFunction<String, Integer, ValidationResult> validateMin(int min, Integer allowedValue,
+                    boolean checkRef) {
+        return (name, value) -> validateMin(name, value, min, allowedValue, checkRef);
+    }
+
+    /**
+     * Validates that a value is not below a minimum.
+     *
+     * @param fieldName name of the field containing the key
+     * @param value the field's value
+     * @param min minimum value allowed
+     * @param allowedValue {@code null} or an allowed value outside the range
+     * @param checkRef {@code true} to generate an error if the value is {@code null}
+     * @return a result, or {@code null}
+     */
+    public static ValidationResult validateMin(@NonNull String fieldName, Integer value, int min, Integer allowedValue,
+                    boolean checkRef) {
+        if (value == null) {
+            if (checkRef) {
+                return makeNullResult(fieldName, value);
+            }
+
+            return null;
+        }
+
+        if (value < min && !value.equals(allowedValue)) {
+            return new ObjectValidationResult(fieldName, value, ValidationStatus.INVALID,
+                            "is below the minimum value: " + min);
+        }
+
+        return null;
+    }
+
+    /**
+     * Validates the items in a list.
+     *
+     * @param result where to add the results
+     * @param fieldName name of the field containing the list
+     * @param list the field's list (may be {@code null})
+     * @param checker function to validate in individual item in the list
+     */
+    public static <T> void validateList(BeanValidationResult result, @NonNull String fieldName, Collection<T> list,
+                    BiFunction<String, T, ValidationResult> checker) {
+        if (list == null) {
+            return;
+        }
+
+        BeanValidationResult result2 = new BeanValidationResult(fieldName, list);
+
         int count = 0;
-
-        for (T item : collection) {
-            result = validateNotNull(container, prefix + count, item, result);
-            ++count;
+        for (T value : list) {
+            result2.addResult(checker.apply(String.valueOf(count++), value));
         }
 
-        return result;
-    }
-
-    /**
-     * Invokes the "validate()" method on each item in a collection field, if the item is
-     * non-null.
-     *
-     * @param container the object that contains the field
-     * @param fieldName name of the field to be validated
-     * @param collection collection whose items are to be validated
-     * @param result where to place the result
-     * @return the result
-     */
-    public <T extends Validated> PfValidationResult validateCollection(@NonNull Object container,
-                    @NonNull String fieldName, Collection<T> collection, @NonNull PfValidationResult result) {
-
-        if (collection == null) {
-            return result;
-        }
-
-        for (T item : collection) {
-            if (item != null) {
-                result = item.validate(result);
-            }
-        }
-
-        return result;
-    }
-
-    /**
-     * Invokes the "validate()" method on each item in a concept collection field, if the
-     * item is non-null.
-     *
-     * @param container the object that contains the field
-     * @param fieldName name of the field to be validated
-     * @param collection collection whose items are to be validated
-     * @param result where to place the result
-     * @return the result
-     */
-    public <T extends PfConcept> PfValidationResult validateConceptCollection(@NonNull Object container,
-                    @NonNull String fieldName, Collection<T> collection, @NonNull PfValidationResult result) {
-
-        if (collection == null) {
-            return result;
-        }
-
-        for (T item : collection) {
-            if (item != null) {
-                result = item.validate(result);
-            }
-        }
-
-        return result;
-    }
-
-    /**
-     * Adds an error message to the validation result.
-     *
-     * @param container the object that contains the field
-     * @param fieldName name of the field to be validated
-     * @param result where to place the result
-     * @param errmsg the error message to be added, or {@code null} if nothing to add
-     */
-    public void addError(@NonNull Object container, @NonNull String fieldName, @NonNull PfValidationResult result,
-                    String errmsg) {
-        if (errmsg != null) {
-            result.addValidationMessage(new PfValidationMessage(makeKey(container), container.getClass(),
-                            ValidationResult.INVALID, fieldName + " invalid-" + errmsg));
+        if (!result2.isClean()) {
+            result.addResult(result2);
         }
     }
 
     /**
-     * Makes a PfKey suitable for insertion into a validation message. Note: the
-     * "toString()" method of the key simply invokes container.toString();
+     * Validates the items in a map.
      *
-     * @param container the container object for which the key should be made
-     * @return a key for the container
+     * @param result where to add the results
+     * @param fieldName name of the field containing the list
+     * @param map the field's map (may be {@code null})
+     * @param checker function to validate in individual item in the list
      */
-    public PfKey makeKey(@NonNull Object container) {
+    public static <T> void validateMap(BeanValidationResult result, @NonNull String fieldName, Map<String, T> map,
+                    Function<Map.Entry<String, T>, ValidationResult> checker) {
+        if (map == null) {
+            return;
+        }
 
-        return new PfConceptKey() {
-            private static final long serialVersionUID = 1L;
+        BeanValidationResult result2 = new BeanValidationResult(fieldName, map);
 
-            @Override
-            public String toString() {
-                return container.toString();
-            }
-        };
+        for (Entry<String, T> entry : map.entrySet()) {
+            result2.addResult(checker.apply(entry));
+        }
+
+        if (!result2.isClean()) {
+            result.addResult(result2);
+        }
+    }
+
+    /**
+     * Validates a Map entry, ensuring that neither the key nor the value are "blank"
+     * (i.e., empty or {@code null}).
+     *
+     * @param entry entry to be validated
+     * @return a result, or {@code null}
+     */
+    public static BeanValidationResult validateEntryNotBlankNotBlank(Map.Entry<String, String> entry) {
+        BeanValidationResult result = new BeanValidationResult("" + entry.getKey(), entry.getKey());
+
+        if (StringUtils.isBlank(entry.getKey())) {
+            Validated.addResult(result, KEY_TOKEN, entry.getKey(), IS_BLANK);
+        }
+
+        if (StringUtils.isBlank(entry.getValue())) {
+            Validated.addResult(result, VALUE_TOKEN, entry.getValue(), IS_BLANK);
+        }
+
+        return (result.isClean() ? null : result);
+    }
+
+    /**
+     * Validates a Map entry, ensuring that the key is not "blank" (i.e., empty or
+     * {@code null}) and the value is not {@code null}.
+     *
+     * @param entry entry to be validated
+     * @return a result, or {@code null}
+     */
+    public static BeanValidationResult validateEntryNotBlankNotNull(Map.Entry<String, String> entry) {
+        BeanValidationResult result = new BeanValidationResult("" + entry.getKey(), entry.getKey());
+
+        if (StringUtils.isBlank(entry.getKey())) {
+            Validated.addResult(result, KEY_TOKEN, entry.getKey(), IS_BLANK);
+        }
+
+        if (entry.getValue() == null) {
+            result.addResult(makeNullResult(VALUE_TOKEN, entry.getValue()));
+        }
+
+        return (result.isClean() ? null : result);
+    }
+
+    /**
+     * Validates a Map entry, ensuring that neither the key nor the value are
+     * {@code null}. If the value is a subclass of this class, then it's
+     * {@link #validate(String)} method is invoked.
+     *
+     * @param entry entry to be validated
+     * @return a result, or {@code null}
+     */
+    public static <V> BeanValidationResult validateEntryValueNotNull(Map.Entry<String, V> entry) {
+        BeanValidationResult result = new BeanValidationResult("" + entry.getKey(), entry.getKey());
+
+        if (entry.getKey() == null) {
+            result.addResult(makeNullResult(KEY_TOKEN, entry.getKey()));
+        }
+
+        V value = entry.getValue();
+        if (value == null) {
+            result.addResult(makeNullResult(VALUE_TOKEN, entry.getValue()));
+        } else if (value instanceof Validated) {
+            result.addResult(((Validated) value).validate(VALUE_TOKEN));
+        }
+
+        return (result.isClean() ? null : result);
     }
 }

@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,8 +33,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import org.junit.Test;
+import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.models.base.PfConceptKey;
-import org.onap.policy.models.base.PfValidationResult;
+import org.onap.policy.models.base.Validated;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
 
 public class JpaToscaPolicyTypesTest {
@@ -71,23 +72,24 @@ public class JpaToscaPolicyTypesTest {
 
         ptMapList.get(0).put("pt0", pt0);
         assertNotNull(new JpaToscaPolicyTypes(ptMapList));
-        assertTrue(new JpaToscaPolicyTypes(ptMapList).validate(new PfValidationResult()).isValid());
+        assertTrue(new JpaToscaPolicyTypes(ptMapList).validate("").isValid());
         assertThatThrownBy(() -> new JpaToscaPolicyTypes(ptMapList).validate(null))
-                .hasMessageMatching("resultIn is marked .*on.*ull but is null");
+                .hasMessageMatching("fieldName is marked .*on.*ull but is null");
 
         pt0.setDerivedFrom(null);
-        assertTrue(new JpaToscaPolicyTypes(ptMapList).validate(new PfValidationResult()).isValid());
+        assertTrue(new JpaToscaPolicyTypes(ptMapList).validate("").isValid());
 
         pt0.setDerivedFrom("tosca.PolicyTypes.Root");
-        assertTrue(new JpaToscaPolicyTypes(ptMapList).validate(new PfValidationResult()).isValid());
+        assertTrue(new JpaToscaPolicyTypes(ptMapList).validate("").isValid());
 
         pt0.setDerivedFrom("some.other.Thing");
-        PfValidationResult result = new JpaToscaPolicyTypes(ptMapList).validate(new PfValidationResult());
+        BeanValidationResult result = new JpaToscaPolicyTypes(ptMapList).validate("");
         assertFalse(result.isValid());
-        assertThat(result.toString()).contains("parent some.other.Thing:0.0.0 of entity not found");
+        assertThat(result.getResult()).contains("parent").contains("some.other.Thing:0.0.0")
+                        .contains(Validated.NOT_FOUND);
 
         pt0.setDerivedFrom(null);
-        assertTrue(new JpaToscaPolicyTypes(ptMapList).validate(new PfValidationResult()).isValid());
+        assertTrue(new JpaToscaPolicyTypes(ptMapList).validate("").isValid());
 
         ToscaPolicyType pt1 = new ToscaPolicyType();
         pt1.setName("pt1");
@@ -95,17 +97,17 @@ public class JpaToscaPolicyTypesTest {
         pt1.setDescription("pt1 description");
 
         ptMapList.get(0).put("pt1", pt1);
-        assertTrue(new JpaToscaPolicyTypes(ptMapList).validate(new PfValidationResult()).isValid());
+        assertTrue(new JpaToscaPolicyTypes(ptMapList).validate("").isValid());
 
         pt1.setDerivedFrom("pt0");
-        assertTrue(new JpaToscaPolicyTypes(ptMapList).validate(new PfValidationResult()).isValid());
+        assertTrue(new JpaToscaPolicyTypes(ptMapList).validate("").isValid());
 
         pt1.setDerivedFrom("pt2");
-        result = new JpaToscaPolicyTypes(ptMapList).validate(new PfValidationResult());
+        result = new JpaToscaPolicyTypes(ptMapList).validate("");
         assertFalse(result.isValid());
-        assertThat(result.toString()).contains("parent pt2:0.0.0 of entity not found");
+        assertThat(result.getResult()).contains("parent").contains("pt2:0.0.0").contains(Validated.NOT_FOUND);
 
         pt1.setDerivedFrom("pt0");
-        assertTrue(new JpaToscaPolicyTypes(ptMapList).validate(new PfValidationResult()).isValid());
+        assertTrue(new JpaToscaPolicyTypes(ptMapList).validate("").isValid());
     }
 }

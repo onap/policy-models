@@ -33,7 +33,6 @@ import java.util.TreeMap;
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfReferenceKey;
-import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaTopologyTemplate;
 
 /**
@@ -108,21 +107,21 @@ public class JpaToscaTopologyTemplateTest {
         ttt.clean();
         assertEquals(tttClone0, ttt);
 
-        assertTrue(new JpaToscaTopologyTemplate().validate(new PfValidationResult()).isValid());
-        assertTrue(ttt.validate(new PfValidationResult()).isValid());
+        assertTrue(new JpaToscaTopologyTemplate().validate("").isValid());
+        assertTrue(ttt.validate("").isValid());
 
         ttt.setKey(PfReferenceKey.getNullKey());
-        assertFalse(ttt.validate(new PfValidationResult()).isValid());
+        assertFalse(ttt.validate("").isValid());
         ttt.setKey(tttKey);
-        assertTrue(ttt.validate(new PfValidationResult()).isValid());
+        assertTrue(ttt.validate("").isValid());
 
         ttt.setDescription(null);
-        assertTrue(ttt.validate(new PfValidationResult()).isValid());
+        assertTrue(ttt.validate("").isValid());
         ttt.setDescription("");
-        assertFalse(ttt.validate(new PfValidationResult()).isValid());
+        assertFalse(ttt.validate("").isValid());
         ttt.setDescription(A_DESCRIPTION);
-        assertTrue(ttt.validate(new PfValidationResult()).isValid());
+        assertTrue(ttt.validate("").isValid());
 
-        assertThatThrownBy(() -> ttt.validate(null)).hasMessageMatching("resultIn is marked .*on.*ull but is null");
+        assertThatThrownBy(() -> ttt.validate(null)).hasMessageMatching("fieldName is marked .*on.*ull but is null");
     }
 }

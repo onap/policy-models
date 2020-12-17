@@ -21,6 +21,7 @@
 
 package org.onap.policy.models.base;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
@@ -35,6 +36,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.junit.Test;
+import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.models.base.PfKey.Compatibility;
 import org.onap.policy.models.base.testconcepts.DummyPfKey;
 
@@ -109,20 +111,13 @@ public class PfKeyImplTest {
         assertFalse(someKey1.isCompatible(someKey5));
         assertFalse(someKey1.isCompatible(new DummyPfKey()));
 
-        assertEquals(PfValidationResult.ValidationResult.VALID,
-            someKey0.validate(new PfValidationResult()).getValidationResult());
-        assertEquals(PfValidationResult.ValidationResult.VALID,
-            someKey1.validate(new PfValidationResult()).getValidationResult());
-        assertEquals(PfValidationResult.ValidationResult.VALID,
-            someKey2.validate(new PfValidationResult()).getValidationResult());
-        assertEquals(PfValidationResult.ValidationResult.VALID,
-            someKey3.validate(new PfValidationResult()).getValidationResult());
-        assertEquals(PfValidationResult.ValidationResult.VALID,
-            someKey4.validate(new PfValidationResult()).getValidationResult());
-        assertEquals(PfValidationResult.ValidationResult.VALID,
-            someKey5.validate(new PfValidationResult()).getValidationResult());
-        assertEquals(PfValidationResult.ValidationResult.VALID,
-            someKey6.validate(new PfValidationResult()).getValidationResult());
+        assertTrue(someKey0.validate("").isValid());
+        assertTrue(someKey1.validate("").isValid());
+        assertTrue(someKey2.validate("").isValid());
+        assertTrue(someKey3.validate("").isValid());
+        assertTrue(someKey4.validate("").isValid());
+        assertTrue(someKey5.validate("").isValid());
+        assertTrue(someKey6.validate("").isValid());
 
         someKey0.clean();
         assertNotNull(someKey0.toString());
@@ -179,22 +174,20 @@ public class PfKeyImplTest {
         Field nameField = testKey.getClass().getDeclaredField("name");
         nameField.setAccessible(true);
         nameField.set(testKey, "Key Name");
-        PfValidationResult validationResult = new PfValidationResult();
-        testKey.validate(validationResult);
+        ValidationResult validationResult = testKey.validate("");
         nameField.set(testKey, "TheKey");
         nameField.setAccessible(false);
-        assertEquals("name invalid-parameter name with value Key Name " + "does not match regular expression "
-            + PfKey.NAME_REGEXP, validationResult.getMessageList().get(0).getMessage());
+        assertThat(validationResult.getResult()).contains("\"name\"").doesNotContain("\"version\"")
+            .contains("does not match regular expression " + PfKey.NAME_REGEXP);
 
         Field versionField = testKey.getClass().getDeclaredField("version");
         versionField.setAccessible(true);
         versionField.set(testKey, "Key Version");
-        PfValidationResult validationResult2 = new PfValidationResult();
-        testKey.validate(validationResult2);
+        ValidationResult validationResult2 = testKey.validate("");
         versionField.set(testKey, VERSION001);
         versionField.setAccessible(false);
-        assertEquals("version invalid-parameter version with value Key Version " + "does not match regular expression "
-            + PfKey.VERSION_REGEXP, validationResult2.getMessageList().get(0).getMessage());
+        assertThat(validationResult2.getResult()).doesNotContain("\"name\"").contains("\"version\"")
+            .contains("does not match regular expression " + PfKey.VERSION_REGEXP);
     }
 
     @Test

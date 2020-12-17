@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Model
  * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,13 +34,11 @@ import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
+import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.base.PfValidationMessage;
-import org.onap.policy.models.base.PfValidationResult;
-import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 
 /**
  * Class to represent the TimeInterval in TOSCA definition.
@@ -117,30 +115,21 @@ public class JpaToscaTimeInterval extends PfConcept {
     }
 
     @Override
-    public PfValidationResult validate(@NonNull final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
+    public BeanValidationResult validate(@NonNull String fieldName) {
+        BeanValidationResult result = new BeanValidationResult(fieldName, this);
 
-        if (key.isNullKey()) {
-            result.addValidationMessage(
-                    new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID, "key is a null key"));
-        }
-
-        result = key.validate(result);
+        result.addResult(validateKeyNotNull("key", key));
 
         if (startTime == null || startTime.getTime() == 0) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "start time on time interval may not be null or zero"));
+            addResult(result, "startTime", startTime, "is null or zero");
         }
 
         if (endTime == null || endTime.getTime() == 0) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "end time on time interval may not be null or zero"));
+            addResult(result, "endTime", endTime, "is null or zero");
         }
 
         if (startTime != null && endTime != null && endTime.before(startTime)) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "end time \"" + endTime.toString() + "\" on time interval may not be before start time \""
-                            + startTime.toString() + "\""));
+            addResult(result, "endTime", endTime, "is before startTime");
         }
 
         return result;

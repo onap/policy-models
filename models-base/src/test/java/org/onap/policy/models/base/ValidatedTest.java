@@ -1,9 +1,8 @@
-/*
+/*-
  * ============LICENSE_START=======================================================
- * ONAP Policy Models
+ * ONAP
  * ================================================================================
- * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,424 +20,324 @@
 
 package org.onap.policy.models.base;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.junit.Before;
+import java.util.function.BiFunction;
+import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import org.junit.Test;
+import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.ObjectValidationResult;
+import org.onap.policy.common.parameters.ValidationResult;
+import org.onap.policy.common.parameters.ValidationStatus;
+import org.onap.policy.common.utils.coder.CoderException;
+import org.onap.policy.common.utils.coder.StandardCoder;
 
 public class ValidatedTest {
-    private static final String COLLECTION_TEXT = "collection";
-    private static final String ERROR_MESSAGE = "error message";
-    private static final String COLLECTION_FIELD = "coll";
-    private static final String VALID_VALUE = "abc123";
-    private static final String PROPS_FIELD = "props";
-    private static final String MY_NAME = "my.name";
-    private static final String VALID_FIELD = "validField";
-    private static final String INVALID_FIELD = "invalidField";
-    private static final String NULL_FIELD = "nullField";
-    private static final String WORD_PAT = "\\w*";
-    private static final String MY_TO_STRING = "[some text]";
-    private static final String VERSION = "1.2.3";
+    private static final @NonNull String MY_FIELD = "myField";
+    private static final @NonNull String Q_KEY = "\"" + Validated.KEY_TOKEN + "\"";
+    private static final @NonNull String Q_VALUE = "\"" + Validated.VALUE_TOKEN + "\"";
+    private static final String NOT_SAME = "not same";
+    private static final String TEXT = "some text";
+    private static final String OTHER = "other text";
+    private static final String NAME = "myKey";
+    private static final String VERSION = "1.0.0";
+    private static final String BLANKS = "\t \n";
 
-    private Validated validated;
-
-    @Before
-    public void setUp() {
-        validated = new Validated();
+    @Test
+    public void testAddResult() {
+        BeanValidationResult result = new BeanValidationResult("", this);
+        Validated.addResult(result, MY_FIELD, TEXT, "some message");
+        assertThat(result.getResult()).contains(MY_FIELD).contains(TEXT).contains("some message");
     }
 
     @Test
-    public void testValidate() {
-        assertThatThrownBy(() -> validated.validate(null)).isInstanceOf(NullPointerException.class);
+    public void testMakeNullResult() {
+        ValidationResult rnull = Validated.makeNullResult(MY_FIELD, TEXT);
+        assertEquals(MY_FIELD, rnull.getName());
+        assertThat(rnull.getResult()).contains(MY_FIELD).contains(TEXT).contains(Validated.IS_NULL);
+        assertFalse(rnull.isValid());
+    }
 
-        PfValidationResult result = new PfValidationResult();
-        assertSame(result, validated.validate(result));
-        assertTrue(result.isValid());
-        assertEquals(0, result.getMessageList().size());
+    @Test
+    public void testValidateOptional() {
+        BeanValidationResult result = new BeanValidationResult("", this);
+        Validated.validateOptional(result, MY_FIELD, null);
+        assertTrue(result.isClean());
+
+        Validated.validateOptional(result, MY_FIELD, new MyString(TEXT));
+        assertTrue(result.isClean());
+
+        Validated.validateOptional(result, MY_FIELD, new MyString(OTHER));
+        assertThat(result.getResult()).contains(MY_FIELD).contains(OTHER).contains(NOT_SAME);
     }
 
     @Test
     public void testValidateNotNull() {
-        PfValidationResult result = new PfValidationResult();
+        assertThat(Validated.validateNotNull(MY_FIELD, TEXT)).isNull();
 
-        final PfValidationResult result2 = result;
-        assertThatThrownBy(() -> validated.validateNotNull(null, VALID_FIELD, VALID_VALUE, result2))
-                        .isInstanceOf(NullPointerException.class);
-        assertThatThrownBy(() -> validated.validateNotNull(this, null, VALID_VALUE, result2))
-                        .isInstanceOf(NullPointerException.class);
-        assertThatThrownBy(() -> validated.validateNotNull(this, VALID_FIELD, VALID_VALUE, null))
-                        .isInstanceOf(NullPointerException.class);
-
-        // null text
-        result = validated.validateNotNull(this, NULL_FIELD, null, result);
-
-        // invalid text
-        result = validated.validateNotNull(this, INVALID_FIELD, "!!!", result);
-
-        // valid text
-        result = validated.validateNotNull(this, VALID_FIELD, VALID_VALUE, result);
-
-        // different value
-        result = validated.validateNotNull(this, VALID_FIELD, Integer.valueOf(10), result);
-
-        assertFalse(result.isValid());
-        assertEquals(1, result.getMessageList().size());
-
-        // check result for null text
-        PfValidationMessage msg = result.getMessageList().get(0);
-        assertEquals(ValidatedTest.class.getName(), msg.getObservedClass());
-        assertEquals(MY_TO_STRING, msg.getObservedKey().toString());
-        assertTrue(msg.getMessage().contains("nullField invalid-null"));
+        assertThat(Validated.validateNotNull(MY_FIELD, null).getResult()).contains(MY_FIELD)
+                        .contains(Validated.IS_NULL);
     }
 
     @Test
-    public void testValidateNotNullConceptKey() {
-        PfValidationResult result = new PfValidationResult();
+    public void testValidateNotBlank() {
+        assertThat(Validated.validateNotBlank(MY_FIELD, TEXT, false)).isNull();
+        assertThat(Validated.validateNotBlank(MY_FIELD, TEXT, true)).isNull();
 
-        // null key
-        PfConceptKey key = new PfConceptKey();
-        key.setVersion(VERSION);
-        result = validated.validateNotNull(key, result);
+        assertThat(Validated.validateNotBlank(MY_FIELD, null, false)).isNull();
+        assertThat(Validated.validateNotBlank(MY_FIELD, null, true).getResult()).contains(MY_FIELD)
+                        .contains(Validated.IS_BLANK);
 
-        // null value
-        key = new PfConceptKey();
-        key.setName(MY_NAME);
-        result = validated.validateNotNull(key, result);
-
-        // both null
-        key = new PfConceptKey();
-        result = validated.validateNotNull(key, result);
-
-        assertFalse(result.isValid());
-        assertEquals(4, result.getMessageList().size());
-
-        // valid key & value
-        key = new PfConceptKey();
-        key.setName(MY_NAME);
-        key.setVersion(VERSION);
-        result = validated.validateNotNull(key, result);
-
-        // no change
-        assertFalse(result.isValid());
-        assertEquals(4, result.getMessageList().size());
-
-        Iterator<PfValidationMessage> it = result.getMessageList().iterator();
-
-        // check null key
-        PfValidationMessage msg = it.next();
-        assertEquals(PfConceptKey.class.getName(), msg.getObservedClass());
-        assertTrue(msg.getMessage().contains("name invalid-null"));
-
-        // check null value
-        msg = it.next();
-        assertEquals(PfConceptKey.class.getName(), msg.getObservedClass());
-        assertTrue(msg.getMessage().contains("version invalid-null"));
-
-        // check both null
-        msg = it.next();
-        assertEquals(PfConceptKey.class.getName(), msg.getObservedClass());
-        assertTrue(msg.getMessage().contains("name invalid-null"));
-        assertTrue(it.next().getMessage().contains("version invalid-null"));
-
-        PfValidationResult pfValidationResult = new PfValidationResult();
-        final PfConceptKey key2 = key;
-        assertThatThrownBy(() -> validated.validateNotNull(key2, null)).isInstanceOf(NullPointerException.class);
-        assertThatThrownBy(() -> validated.validateNotNull(null, pfValidationResult))
-                        .isInstanceOf(NullPointerException.class);
+        assertThat(Validated.validateNotBlank(MY_FIELD, "", false).getResult()).contains(MY_FIELD)
+                        .contains(Validated.IS_BLANK);
+        assertThat(Validated.validateNotBlank(MY_FIELD, "", true).getResult()).contains(MY_FIELD)
+                        .contains(Validated.IS_BLANK);
     }
 
     @Test
-    public void testValidateText() {
-        PfValidationResult result = new PfValidationResult();
+    public void testValidateRegex() {
+        assertThat(Validated.validateRegex(MY_FIELD, "hello", ".*ll.*")).isNull();
 
-        final PfValidationResult result2 = result;
-        assertThatThrownBy(() -> validated.validateText(null, VALID_FIELD, VALID_VALUE, WORD_PAT, result2))
-                        .isInstanceOf(NullPointerException.class);
-        assertThatThrownBy(() -> validated.validateText(this, null, VALID_VALUE, WORD_PAT, result2))
-                        .isInstanceOf(NullPointerException.class);
-        assertThatThrownBy(() -> validated.validateText(this, VALID_FIELD, VALID_VALUE, null, result2))
-                        .isInstanceOf(NullPointerException.class);
-        assertThatThrownBy(() -> validated.validateText(this, VALID_FIELD, VALID_VALUE, WORD_PAT, null))
-                        .isInstanceOf(NullPointerException.class);
-
-        // null text
-        result = validated.validateText(this, NULL_FIELD, null, WORD_PAT, result);
-
-        // invalid text
-        result = validated.validateText(this, INVALID_FIELD, "!!!", WORD_PAT, result);
-
-        // valid text
-        result = validated.validateText(this, VALID_FIELD, VALID_VALUE, WORD_PAT, result);
-
-        assertFalse(result.isValid());
-        assertEquals(1, result.getMessageList().size());
-
-        // check result for invalid text
-        PfValidationMessage msg = result.getMessageList().get(0);
-        assertEquals(ValidatedTest.class.getName(), msg.getObservedClass());
-        assertEquals(MY_TO_STRING, msg.getObservedKey().toString());
-        assertTrue(msg.getMessage().contains("invalidField invalid-parameter invalidField"));
+        assertThat(Validated.validateRegex(MY_FIELD, "hello", "[x-z]").getResult()).contains(MY_FIELD).contains("hello")
+                        .contains("does not match regular expression [x-z]");
     }
 
     @Test
-    public void testValidatePropertiesNotNull() {
-        PfValidationResult result = new PfValidationResult();
-        result = validated.validatePropertiesNotNull(this, "properties", null, result);
-        assertTrue(result.isValid());
-        assertEquals(0, result.getMessageList().size());
+    public void testValidateKeyNotNull() throws CoderException {
+        assertThat(Validated.validateKeyNotNull(MY_FIELD, new PfConceptKey(NAME, VERSION)).getResult()).isNull();
+        assertThat(Validated.validateKeyNotNull(MY_FIELD, new PfConceptKey(NAME, PfConceptKey.NULL_KEY_VERSION))
+                        .getResult()).isNull();
+        assertThat(Validated.validateKeyNotNull(MY_FIELD, new PfConceptKey(PfConceptKey.NULL_KEY_NAME, VERSION))
+                        .getResult()).isNull();
 
-        Map<String, Integer> map = new LinkedHashMap<>();
+        // key is null
+        assertThat(Validated
+                        .validateKeyNotNull(MY_FIELD,
+                                        new PfConceptKey(PfConceptKey.NULL_KEY_NAME, PfConceptKey.NULL_KEY_VERSION))
+                        .getResult()).contains(MY_FIELD).doesNotContain("\"name\"").doesNotContain("\"version\"")
+                                        .contains(Validated.IS_A_NULL_KEY);
 
-        // null key
-        map.put(null, 10);
-
-        // null value
-        map.put("abc", null);
-
-        // valid key & value
-        map.put("def", 11);
-
-
-        result = validated.validatePropertiesNotNull(this, PROPS_FIELD, map, result);
-
-        assertFalse(result.isValid());
-        assertEquals(2, result.getMessageList().size());
-
-        Iterator<PfValidationMessage> it = result.getMessageList().iterator();
-
-        // check null key
-        PfValidationMessage msg = it.next();
-        assertEquals(ValidatedTest.class.getName(), msg.getObservedClass());
-        assertEquals(MY_TO_STRING, msg.getObservedKey().toString());
-        assertTrue(msg.getMessage().contains("props.null invalid-null"));
-
-        // check null value
-        msg = it.next();
-        assertEquals(ValidatedTest.class.getName(), msg.getObservedClass());
-        assertEquals(MY_TO_STRING, msg.getObservedKey().toString());
-        assertTrue(msg.getMessage().contains("props.abc invalid-null"));
-
-        final PfValidationResult result2 = result;
-        assertThatThrownBy(() -> validated.validatePropertiesNotNull(null, PROPS_FIELD, map, result2))
-                        .isInstanceOf(NullPointerException.class);
-        assertThatThrownBy(() -> validated.validatePropertiesNotNull(this, null, map, result2))
-                        .isInstanceOf(NullPointerException.class);
-        assertThatThrownBy(() -> validated.validatePropertiesNotNull(this, PROPS_FIELD, map, null))
-                        .isInstanceOf(NullPointerException.class);
+        /*
+         * Key is not null, but key.validate() should fail due to an invalid version.
+         * Note: have to create the key by decoding from json, as the class will prevent
+         * an invalid version from being assigned.
+         */
+        PfConceptKey key = new StandardCoder().decode("{'name':'myKey','version':'bogus'}".replace('\'', '"'),
+                        PfConceptKey.class);
+        assertThat(Validated.validateKeyNotNull(MY_FIELD, key).getResult()).contains(MY_FIELD).contains("version")
+                        .contains("does not match regular expression");
     }
 
     @Test
-    public void testValidateCollectionNotNull() {
-        PfValidationResult result = new PfValidationResult();
-        result = validated.validateCollectionNotNull(this, COLLECTION_TEXT, null, result);
-        assertTrue(result.isValid());
-        assertEquals(0, result.getMessageList().size());
+    public void testValidateKeyVersionNotNull() {
+        assertThat(Validated.validateKeyVersionNotNull(MY_FIELD, null)).isNull();
 
-        final List<String> lst = Arrays.asList("abc", null, "def", null);
+        assertThat(Validated.validateKeyVersionNotNull(MY_FIELD, new PfConceptKey(NAME, VERSION))).isNull();
 
-        result = validated.validateCollectionNotNull(this, COLLECTION_FIELD, lst, result);
-
-        assertFalse(result.isValid());
-        assertEquals(2, result.getMessageList().size());
-
-        Iterator<PfValidationMessage> it = result.getMessageList().iterator();
-
-        // check first item
-        PfValidationMessage msg = it.next();
-        assertEquals(ValidatedTest.class.getName(), msg.getObservedClass());
-        assertEquals(MY_TO_STRING, msg.getObservedKey().toString());
-        assertTrue(msg.getMessage().contains("coll.1 invalid-null"));
-
-        // check null value
-        msg = it.next();
-        assertEquals(ValidatedTest.class.getName(), msg.getObservedClass());
-        assertEquals(MY_TO_STRING, msg.getObservedKey().toString());
-        assertTrue(msg.getMessage().contains("coll.3 invalid-null"));
-
-        final PfValidationResult result2 = result;
-        assertThatThrownBy(() -> validated.validateCollectionNotNull(null, COLLECTION_FIELD, lst, result2))
-                        .isInstanceOf(NullPointerException.class);
-        assertThatThrownBy(() -> validated.validateCollectionNotNull(this, null, lst, result2))
-                        .isInstanceOf(NullPointerException.class);
-        assertThatThrownBy(() -> validated.validateCollectionNotNull(this, COLLECTION_FIELD, lst, null))
-                        .isInstanceOf(NullPointerException.class);
+        assertThat(Validated.validateKeyVersionNotNull(MY_FIELD, new PfConceptKey(NAME, PfConceptKey.NULL_KEY_VERSION))
+                        .getResult()).contains(MY_FIELD).contains("version").contains(Validated.IS_NULL);
     }
 
     @Test
-    public void testValidateCollection() {
-        PfValidationResult result = new PfValidationResult();
-        result = validated.validateCollection(this, COLLECTION_TEXT, null, result);
-        assertTrue(result.isValid());
-        assertEquals(0, result.getMessageList().size());
+    public void testValidateMinIntIntegerBoolean_testValidateMinStringIntegerIntIntegerBoolean() {
+        /*
+         * No "special" value, don't check the reference.
+         */
+        BiFunction<String, Integer, ValidationResult> func = Validated.validateMin(10, null, false);
+        assertThat(func.apply(MY_FIELD, null)).isNull();
 
-        List<MyValid> lst = Arrays.asList(new MyValid(0, false), new MyValid(1, true), null, new MyValid(2, false),
-                        new MyValid(3, true));
-        result = validated.validateCollection(this, COLLECTION_FIELD, lst, result);
+        // exact match
+        assertThat(func.apply(MY_FIELD, 10)).isNull();
 
-        assertFalse(result.isValid());
-        assertEquals(2, result.getMessageList().size());
+        assertThat(func.apply(MY_FIELD, 20)).isNull();
 
-        Iterator<PfValidationMessage> it = result.getMessageList().iterator();
+        assertThat(func.apply(MY_FIELD, 9).getResult()).contains(MY_FIELD).contains("9")
+                        .contains("is below the minimum value: 10");
 
-        // check first item
-        PfValidationMessage msg = it.next();
-        assertEquals(MyValid.class.getName(), msg.getObservedClass());
-        assertEquals(MY_TO_STRING, msg.getObservedKey().toString());
-        assertTrue(msg.getMessage().contains("index.0 invalid-wrong value"));
+        /*
+         * "special" value, don't check the reference.
+         */
+        func = Validated.validateMin(10, 7, false);
+        assertThat(func.apply(MY_FIELD, null)).isNull();
 
-        // check null value
-        msg = it.next();
-        assertEquals(MyValid.class.getName(), msg.getObservedClass());
-        assertEquals(MY_TO_STRING, msg.getObservedKey().toString());
-        assertTrue(msg.getMessage().contains("index.2 invalid-wrong value"));
+        // exact match
+        assertThat(func.apply(MY_FIELD, 10)).isNull();
 
-        final PfValidationResult result2 = result;
-        assertThatThrownBy(() -> validated.validateCollection(null, COLLECTION_FIELD, lst, result2))
-                        .isInstanceOf(NullPointerException.class);
-        assertThatThrownBy(() -> validated.validateCollection(this, null, lst, result2))
-                        .isInstanceOf(NullPointerException.class);
-        assertThatThrownBy(() -> validated.validateCollection(this, COLLECTION_FIELD, lst, null))
-                        .isInstanceOf(NullPointerException.class);
+        assertThat(func.apply(MY_FIELD, 20)).isNull();
+
+        // special value - should be ok
+        assertThat(func.apply(MY_FIELD, 7)).isNull();
+
+        assertThat(func.apply(MY_FIELD, 9).getResult()).contains(MY_FIELD).contains("9")
+                        .contains("is below the minimum value: 10");
+
+        /*
+         * Check the reference (i.e., generate an error if the value is null).
+         */
+        func = Validated.validateMin(10, null, true);
+        assertThat(func.apply(MY_FIELD, null).getResult()).contains(MY_FIELD).contains(Validated.IS_NULL);
+
+        // exact match
+        assertThat(func.apply(MY_FIELD, 10)).isNull();
+
+        assertThat(func.apply(MY_FIELD, 20)).isNull();
+
+        assertThat(func.apply(MY_FIELD, 9).getResult()).contains(MY_FIELD).contains("9")
+                        .contains("is below the minimum value: 10");
     }
 
     @Test
-    public void testValidateConceptCollection() {
-        PfValidationResult result = new PfValidationResult();
-        result = validated.validateConceptCollection(this, COLLECTION_TEXT, null, result);
-        assertTrue(result.isValid());
-        assertEquals(0, result.getMessageList().size());
+    public void testValidateList() {
+        BeanValidationResult result = new BeanValidationResult("", this);
+        Validated.validateList(result, MY_FIELD, null, Validated::validateNotNull);
+        assertThat(result.getResult()).isNull();
 
-        List<MyConcept> lst = Arrays.asList(new MyConcept(0, false), new MyConcept(1, true), null,
-                        new MyConcept(2, false), new MyConcept(3, true));
-        result = validated.validateConceptCollection(this, COLLECTION_FIELD, lst, result);
+        result = new BeanValidationResult("", this);
+        Validated.validateList(result, MY_FIELD, List.of(TEXT, OTHER), Validated::validateNotNull);
+        assertThat(result.getResult()).isNull();
 
-        assertFalse(result.isValid());
-        assertEquals(2, result.getMessageList().size());
-
-        Iterator<PfValidationMessage> it = result.getMessageList().iterator();
-
-        // check first item
-        PfValidationMessage msg = it.next();
-        assertEquals(MyConcept.class.getName(), msg.getObservedClass());
-        assertEquals(MY_TO_STRING, msg.getObservedKey().toString());
-        assertTrue(msg.getMessage().contains("index.0 invalid-wrong value"));
-
-        // check null value
-        msg = it.next();
-        assertEquals(MyConcept.class.getName(), msg.getObservedClass());
-        assertEquals(MY_TO_STRING, msg.getObservedKey().toString());
-        assertTrue(msg.getMessage().contains("index.2 invalid-wrong value"));
-
-        final PfValidationResult result2 = result;
-        assertThatThrownBy(() -> validated.validateConceptCollection(null, COLLECTION_FIELD, lst, result2))
-                        .isInstanceOf(NullPointerException.class);
-        assertThatThrownBy(() -> validated.validateConceptCollection(this, null, lst, result2))
-                        .isInstanceOf(NullPointerException.class);
-        assertThatThrownBy(() -> validated.validateConceptCollection(this, COLLECTION_FIELD, lst, null))
-                        .isInstanceOf(NullPointerException.class);
+        List<String> list = new ArrayList<>();
+        list.add(TEXT);
+        list.add(null);
+        list.add(OTHER);
+        list.add(null);
+        result = new BeanValidationResult("", this);
+        Validated.validateList(result, MY_FIELD, list, Validated::validateNotNull);
+        assertThat(result.getResult()).doesNotContain("0").contains("1").doesNotContain("2").contains("3")
+                        .contains(Validated.IS_NULL);
     }
 
     @Test
-    public void testAddError() {
-        final PfValidationResult result = new PfValidationResult();
-        final PfValidationResult result2 = result;
+    public void testValidateMap() {
+        BeanValidationResult result = new BeanValidationResult("", this);
+        Validated.validateMap(result, MY_FIELD, null, Validated::validateEntryNotBlankNotBlank);
+        assertThat(result.getResult()).isNull();
 
-        assertThatThrownBy(() -> validated.addError(null, VALID_FIELD, result2, ERROR_MESSAGE))
-                        .isInstanceOf(NullPointerException.class);
-        assertThatThrownBy(() -> validated.addError(this, null, result2, ERROR_MESSAGE))
-                        .isInstanceOf(NullPointerException.class);
-        assertThatThrownBy(() -> validated.addError(this, VALID_FIELD, null, ERROR_MESSAGE))
-                        .isInstanceOf(NullPointerException.class);
+        result = new BeanValidationResult("", this);
+        Validated.validateMap(result, MY_FIELD, Map.of("abc", TEXT, "def", OTHER),
+                        Validated::validateEntryNotBlankNotBlank);
+        assertThat(result.getResult()).isNull();
 
-        validated.addError(this, VALID_FIELD, result, "error-A");
-        validated.addError(this, VALID_FIELD, result, null);
-        validated.addError(this, VALID_FIELD, result, "error-B");
+        // invalid values
+        Map<String, String> map = new HashMap<>();
+        map.put("ghi", TEXT);
+        map.put("jkl", "");
+        map.put("mno", OTHER);
+        map.put("pqr", "");
+        result = new BeanValidationResult("", this);
+        Validated.validateMap(result, MY_FIELD, map, Validated::validateEntryNotBlankNotBlank);
+        assertThat(result.getResult()).doesNotContain("abc").contains("jkl").doesNotContain("mno").contains("pqr")
+                        .contains(Q_VALUE).doesNotContain(Q_KEY).contains(Validated.IS_BLANK);
 
-        assertFalse(result.isValid());
-        assertEquals(2, result.getMessageList().size());
-
-        Iterator<PfValidationMessage> it = result.getMessageList().iterator();
-
-        PfValidationMessage msg = it.next();
-        assertEquals(ValidatedTest.class.getName(), msg.getObservedClass());
-        assertEquals(MY_TO_STRING, msg.getObservedKey().toString());
-        assertTrue(msg.getMessage().contains("validField invalid-error-A"));
-
-        msg = it.next();
-        assertEquals(ValidatedTest.class.getName(), msg.getObservedClass());
-        assertEquals(MY_TO_STRING, msg.getObservedKey().toString());
-        assertTrue(msg.getMessage().contains("validField invalid-error-B"));
+        // invalid keys
+        map = new HashMap<>();
+        map.put("stu", TEXT);
+        map.put("", TEXT);
+        map.put("vwx", OTHER);
+        map.put(null, OTHER);
+        result = new BeanValidationResult("", this);
+        Validated.validateMap(result, MY_FIELD, map, Validated::validateEntryNotBlankNotBlank);
+        assertThat(result.getResult()).doesNotContain("stu").contains("\"\"").doesNotContain("vwx").contains("null")
+                        .contains(Q_KEY).doesNotContain(Q_VALUE).contains(Validated.IS_BLANK);
     }
 
     @Test
-    public void testMakeKey() {
-        assertThatThrownBy(() -> validated.makeKey(null)).isInstanceOf(NullPointerException.class);
+    public void testValidateEntryNotBlankNotBlank() {
+        assertThat(Validated.validateEntryNotBlankNotBlank(makeEntry(TEXT, OTHER))).isNull();
 
-        PfKey key = validated.makeKey(this);
-        assertEquals(MY_TO_STRING, key.toString());
+        // try invalid values for the key
+        assertThat(Validated.validateEntryNotBlankNotBlank(makeEntry(null, OTHER)).getResult()).contains(Q_KEY)
+                        .contains(Validated.IS_BLANK).doesNotContain(Q_VALUE);
+
+        assertThat(Validated.validateEntryNotBlankNotBlank(makeEntry(BLANKS, OTHER)).getResult()).contains(Q_KEY)
+                        .contains(Validated.IS_BLANK).doesNotContain(Q_VALUE);
+
+        // try invalid values for the value
+        assertThat(Validated.validateEntryNotBlankNotBlank(makeEntry(TEXT, null)).getResult()).contains(Q_VALUE)
+                        .contains(Validated.IS_BLANK).doesNotContain(Q_KEY);
+
+        assertThat(Validated.validateEntryNotBlankNotBlank(makeEntry(TEXT, BLANKS)).getResult()).contains(Q_VALUE)
+                        .contains(Validated.IS_BLANK).doesNotContain(Q_KEY);
+
+        // both invalid
+        assertThat(Validated.validateEntryNotBlankNotBlank(makeEntry(BLANKS, BLANKS)).getResult()).contains(Q_KEY)
+                        .contains(Q_VALUE);
     }
 
-    @Override
-    public String toString() {
-        return MY_TO_STRING;
+    @Test
+    public void testValidateEntryNotBlankNotNull() {
+        assertThat(Validated.validateEntryNotBlankNotNull(makeEntry(TEXT, OTHER))).isNull();
+
+        // try invalid values for the key
+        assertThat(Validated.validateEntryNotBlankNotNull(makeEntry(null, OTHER)).getResult()).contains(Q_KEY)
+                        .contains(Validated.IS_BLANK).doesNotContain(Q_VALUE);
+
+        assertThat(Validated.validateEntryNotBlankNotNull(makeEntry(BLANKS, OTHER)).getResult()).contains(Q_KEY)
+                        .contains(Validated.IS_BLANK).doesNotContain(Q_VALUE);
+
+        // try invalid values for the value
+        assertThat(Validated.validateEntryNotBlankNotNull(makeEntry(TEXT, null)).getResult()).contains(Q_VALUE)
+                        .contains(Validated.IS_NULL).doesNotContain(Q_KEY);
+
+        // blanks should have no impact for the value
+        assertThat(Validated.validateEntryNotBlankNotNull(makeEntry(TEXT, BLANKS))).isNull();
+
+        // both invalid
+        assertThat(Validated.validateEntryNotBlankNotNull(makeEntry(BLANKS, null)).getResult()).contains(Q_KEY)
+                        .contains(Q_VALUE);
     }
 
-    private static class MyValid extends Validated {
-        private boolean valid;
-        private int index;
+    @Test
+    public void testValidateEntryValueNotNull() {
+        assertThat(Validated.validateEntryValueNotNull(makeEntry(TEXT, OTHER))).isNull();
 
-        public MyValid(int index, boolean valid) {
-            this.index = index;
-            this.valid = valid;
-        }
+        // blanks should have no impact
+        assertThat(Validated.validateEntryValueNotNull(makeEntry(BLANKS, OTHER))).isNull();
+        assertThat(Validated.validateEntryNotBlankNotNull(makeEntry(TEXT, BLANKS))).isNull();
+
+        assertThat(Validated.validateEntryValueNotNull(makeEntry(null, OTHER)).getResult()).contains(Q_KEY)
+                        .contains(Validated.IS_NULL).doesNotContain(Q_VALUE);
+
+        assertThat(Validated.validateEntryValueNotNull(makeEntry(TEXT, null)).getResult()).contains(Q_VALUE)
+                        .contains(Validated.IS_NULL).doesNotContain(Q_KEY);
+
+        // should invoke the value's validate() method, which should return success
+        assertThat(Validated.validateEntryValueNotNull(makeEntry(TEXT, new MyString(TEXT)))).isNull();
+
+        // should invoke the value's validate() method, which should return failure
+        assertThat(Validated.validateEntryValueNotNull(makeEntry(TEXT, new MyString(OTHER))).getResult())
+                        .contains(Q_VALUE).contains(NOT_SAME).doesNotContain(Q_KEY);
+
+        // both invalid
+        assertThat(Validated.validateEntryValueNotNull(makeEntry(null, null)).getResult()).contains(Q_KEY)
+                        .contains(Q_VALUE);
+    }
+
+    private <V> Map.Entry<String, V> makeEntry(String key, V value) {
+        Map<String, V> map = new HashMap<>();
+        map.put(key, value);
+        return map.entrySet().iterator().next();
+    }
+
+    @AllArgsConstructor
+    private static class MyString extends Validated {
+        private final String text;
 
         @Override
-        public PfValidationResult validate(PfValidationResult result) {
-            if (!valid) {
-                this.addError(this, "index." + index, result, "wrong value");
+        public ValidationResult validate(String fieldName) {
+            if (TEXT.equals(text)) {
+                return null;
             }
 
-            return result;
-        }
-
-        @Override
-        public String toString() {
-            return MY_TO_STRING;
-        }
-    }
-
-    private static class MyConcept extends PfConceptKey {
-        private static final long serialVersionUID = 1L;
-
-        private boolean valid;
-        private int index;
-
-        public MyConcept(int index, boolean valid) {
-            this.index = index;
-            this.valid = valid;
-        }
-
-        @Override
-        public PfValidationResult validate(PfValidationResult result) {
-            if (!valid) {
-                new Validated().addError(this, "index." + index, result, "wrong value");
-            }
-
-            return result;
-        }
-
-        @Override
-        public String toString() {
-            return MY_TO_STRING;
+            return new ObjectValidationResult(fieldName, text, ValidationStatus.INVALID, NOT_SAME);
         }
     }
 }

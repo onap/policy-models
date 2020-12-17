@@ -44,17 +44,14 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.onap.policy.common.utils.validation.ParameterValidationUtils;
+import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.base.PfValidationMessage;
-import org.onap.policy.models.base.PfValidationResult;
-import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.base.Validated;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.pdp.enums.PdpState;
@@ -218,59 +215,19 @@ public class JpaPdpGroup extends PfConcept implements PfAuthorative<PdpGroup> {
     }
 
     @Override
-    public PfValidationResult validate(@NonNull final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
+    public BeanValidationResult validate(@NonNull String fieldName) {
+        BeanValidationResult result = new BeanValidationResult(fieldName, this);
 
-        if (key.isNullKey()) {
-            result.addValidationMessage(
-                    new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID, "key is a null key"));
-        }
+        result.addResult(validateKeyNotNull("key", key));
+        result.addResult(validateNotBlank("description", description, false));
+        result.addResult(validateNotNull("pdpGroupState", pdpGroupState));
 
-        result = key.validate(result);
+        validateMap(result, "properties", properties, Validated::validateEntryNotBlankNotBlank);
 
-        if (description != null && StringUtils.isBlank(description)) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "description may not be blank"));
-        }
-
-        if (pdpGroupState == null) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "pdpGroupState may not be null"));
-        }
-
-        if (properties != null) {
-            validateProperties(result);
-        }
-
-        if (pdpSubGroups == null) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "a PDP group must have a list of PDP subgroups"));
-        } else {
-            for (JpaPdpSubGroup jpaPdpSubgroup : pdpSubGroups) {
-                result = jpaPdpSubgroup.validate(result);
-            }
-        }
+        result.addResult(validateNotNull("pdpSubGroups", pdpSubGroups));
+        validateList(result, "pdpSubGroups", pdpSubGroups, Validated::validateNotNull);
 
         return result;
-    }
-
-    /**
-     * Validate the properties.
-     *
-     * @param result where to place any new validation results
-     */
-    private void validateProperties(PfValidationResult result) {
-
-        for (Entry<String, String> propertyEntry : properties.entrySet()) {
-            if (!ParameterValidationUtils.validateStringParameter(propertyEntry.getKey())) {
-                result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                        "a property key may not be null or blank"));
-            }
-            if (!ParameterValidationUtils.validateStringParameter(propertyEntry.getValue())) {
-                result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                        "a property value may not be null or blank"));
-            }
-        }
     }
 
     @Override
