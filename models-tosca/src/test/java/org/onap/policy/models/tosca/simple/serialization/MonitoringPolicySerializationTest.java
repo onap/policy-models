@@ -36,7 +36,6 @@ import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.coder.YamlJsonTranslator;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.base.PfConceptKey;
-import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicy;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
@@ -179,8 +178,8 @@ public class MonitoringPolicySerializationTest {
 
         // Sanity check the entire structure
         assertNotNull(serviceTemplate);
-        LOGGER.info(serviceTemplate.validate(new PfValidationResult()).toString());
-        assertTrue(serviceTemplate.validate(new PfValidationResult()).isValid());
+        LOGGER.info(serviceTemplate.validate("").toString());
+        assertTrue(serviceTemplate.validate("").isValid());
 
         // Check tosca_definitions_version
         assertEquals(YAML_VERSION, serviceTemplate.getToscaDefinitionsVersion());
@@ -211,8 +210,8 @@ public class MonitoringPolicySerializationTest {
 
         // Sanity check the entire structure
         assertNotNull(serviceTemplate);
-        LOGGER.info(serviceTemplate.validate(new PfValidationResult()).toString());
-        assertTrue(serviceTemplate.validate(new PfValidationResult()).isValid());
+        LOGGER.info(serviceTemplate.validate("").toString());
+        assertTrue(serviceTemplate.validate("").isValid());
 
         // Check tosca_definitions_version
         assertEquals(YAML_VERSION, serviceTemplate.getToscaDefinitionsVersion());
@@ -243,8 +242,8 @@ public class MonitoringPolicySerializationTest {
 
         // Sanity check the entire structure
         assertNotNull(serviceTemplate);
-        LOGGER.info(serviceTemplate.validate(new PfValidationResult()).toString());
-        assertTrue(serviceTemplate.validate(new PfValidationResult()).isValid());
+        LOGGER.info(serviceTemplate.validate("").toString());
+        assertTrue(serviceTemplate.validate("").isValid());
 
         // Check tosca_definitions_version
         assertEquals(YAML_VERSION, serviceTemplate.getToscaDefinitionsVersion());

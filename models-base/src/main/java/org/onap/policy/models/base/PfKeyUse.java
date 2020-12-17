@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,8 +25,9 @@ import java.util.List;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.ToString;
+import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.common.utils.validation.Assertions;
-import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 
 /**
  * This class records a usage of a key in the system. When the list of keys being used by a concept
@@ -134,12 +135,10 @@ public class PfKeyUse extends PfKey {
     }
 
     @Override
-    public PfValidationResult validate(@NonNull final PfValidationResult result) {
-        if (usedKey.isNullKey()) {
-            result.addValidationMessage(new PfValidationMessage(usedKey, this.getClass(), ValidationResult.INVALID,
-                    "usedKey is a null key"));
-        }
-        return usedKey.validate(result);
+    public ValidationResult validate(@NonNull String fieldName) {
+        BeanValidationResult result = new BeanValidationResult(fieldName, this);
+        result.addResult(validateKeyNotNull("usedKey", usedKey));
+        return result;
     }
 
     @Override

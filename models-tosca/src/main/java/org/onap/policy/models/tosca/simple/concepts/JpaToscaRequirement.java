@@ -37,14 +37,13 @@ import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
+import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.common.utils.coder.YamlJsonTranslator;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
-import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.base.PfValidationMessage;
-import org.onap.policy.models.base.PfValidationResult;
+import org.onap.policy.models.base.Validated;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaRequirement;
 
 /**
@@ -63,7 +62,7 @@ public class JpaToscaRequirement extends JpaToscaEntityType<ToscaRequirement>
 
     private static final long serialVersionUID = 2785481541573683089L;
     private static final String AUTHORATIVE_UNBOUNDED_LITERAL = "UNBOUNDED";
-    private static final Double JPA_UNBOUNDED_VALUE = -1.0;
+    private static final Integer JPA_UNBOUNDED_VALUE = -1;
 
     @Column
     private String capability;
@@ -75,7 +74,7 @@ public class JpaToscaRequirement extends JpaToscaEntityType<ToscaRequirement>
     private String relationship;
 
     @ElementCollection
-    private List<Double> occurrences;
+    private List<Integer> occurrences;
 
     @ElementCollection
     @Lob
@@ -133,11 +132,11 @@ public class JpaToscaRequirement extends JpaToscaEntityType<ToscaRequirement>
 
         if (occurrences != null) {
             List<Object> occurrencesList = new ArrayList<>(occurrences);
-            for (Double occurrence : occurrences) {
-                if (occurrence == JPA_UNBOUNDED_VALUE) {
+            for (Integer occurrence : occurrences) {
+                if (JPA_UNBOUNDED_VALUE.equals(occurrence)) {
                     occurrencesList.add(AUTHORATIVE_UNBOUNDED_LITERAL);
                 } else {
-                    occurrencesList.add(occurrence.doubleValue());
+                    occurrencesList.add(occurrence);
                 }
             }
             toscaRequirement.setOccurrences(occurrencesList);
@@ -170,7 +169,7 @@ public class JpaToscaRequirement extends JpaToscaEntityType<ToscaRequirement>
                 if (occurrence.equals(AUTHORATIVE_UNBOUNDED_LITERAL)) {
                     occurrences.add(JPA_UNBOUNDED_VALUE);
                 } else {
-                    occurrences.add((Double) occurrence);
+                    occurrences.add(((Number) occurrence).intValue());
                 }
             }
         }
@@ -186,11 +185,6 @@ public class JpaToscaRequirement extends JpaToscaEntityType<ToscaRequirement>
     }
 
     @Override
-    public List<PfKey> getKeys() {
-        return super.getKeys();
-    }
-
-    @Override
     public void clean() {
         super.clean();
 
@@ -202,58 +196,11 @@ public class JpaToscaRequirement extends JpaToscaEntityType<ToscaRequirement>
     }
 
     @Override
-    public PfValidationResult validate(@NonNull final PfValidationResult resultIn) {
-        PfValidationResult result = super.validate(resultIn);
+    public BeanValidationResult validate(String fieldName) {
+        BeanValidationResult result = super.validate(fieldName);
 
-        if (properties != null) {
-            result = validateProperties(result);
-        }
-
-        if (occurrences != null) {
-            result = validateOccurrences(result);
-        }
-
-        return result;
-    }
-
-    /**
-     * Validate the properties.
-     *
-     * @param resultIn The result of validations up to now
-     * @return the validation result
-     */
-    private PfValidationResult validateProperties(final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
-
-        for (String property : properties.values()) {
-            if (property == null) {
-                result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(),
-                        PfValidationResult.ValidationResult.INVALID, "topology template property may not be null "));
-            }
-        }
-        return result;
-    }
-
-    /**
-     * Validate the occurrences.
-     *
-     * @param resultIn The result of validations up to now
-     * @return the validation result
-     */
-    private PfValidationResult validateOccurrences(final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
-
-        for (Double occurrence : occurrences) {
-            if (occurrence == null) {
-                result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(),
-                        PfValidationResult.ValidationResult.INVALID, "requirement occurrence value may not be null "));
-            }
-            if (occurrence < -1.0) {
-                result.addValidationMessage(
-                        new PfValidationMessage(getKey(), this.getClass(), PfValidationResult.ValidationResult.INVALID,
-                                "requirement occurrence value may not be negative"));
-            }
-        }
+        validateMap(result, "properties", properties, Validated::validateEntryValueNotNull);
+        validateList(result, "occurrences", occurrences, validateMin(0, JPA_UNBOUNDED_VALUE, true));
 
         return result;
     }

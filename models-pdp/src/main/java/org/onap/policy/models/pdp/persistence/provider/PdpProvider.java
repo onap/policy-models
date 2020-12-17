@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,12 +25,12 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.core.Response;
 import lombok.NonNull;
+import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.base.PfReferenceKey;
-import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.dao.PfDao;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
@@ -40,8 +40,6 @@ import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.pdp.persistence.concepts.JpaPdp;
 import org.onap.policy.models.pdp.persistence.concepts.JpaPdpGroup;
 import org.onap.policy.models.pdp.persistence.concepts.JpaPdpSubGroup;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * This class provides the provision of information on PAP concepts in the database to callers.
@@ -49,10 +47,6 @@ import org.slf4j.LoggerFactory;
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 public class PdpProvider {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PdpProvider.class);
-
-    // Recurring string constants
-    private static final String NOT_VALID = "\" is not valid \n";
 
     /**
      * Get PDP groups.
@@ -96,11 +90,9 @@ public class PdpProvider {
             JpaPdpGroup jpaPdpGroup = new JpaPdpGroup();
             jpaPdpGroup.fromAuthorative(pdpGroup);
 
-            PfValidationResult validationResult = jpaPdpGroup.validate(new PfValidationResult());
-            if (!validationResult.isOk()) {
-                String errorMessage = "pdp group \"" + jpaPdpGroup.getId() + NOT_VALID + validationResult;
-                LOGGER.warn(errorMessage);
-                throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
+            BeanValidationResult validationResult = jpaPdpGroup.validate("PDP group");
+            if (!validationResult.isValid()) {
+                throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, validationResult.getResult());
             }
 
             dao.create(jpaPdpGroup);
@@ -133,11 +125,9 @@ public class PdpProvider {
             JpaPdpGroup jpaPdpGroup = new JpaPdpGroup();
             jpaPdpGroup.fromAuthorative(pdpGroup);
 
-            PfValidationResult validationResult = jpaPdpGroup.validate(new PfValidationResult());
-            if (!validationResult.isOk()) {
-                String errorMessage = "pdp group \"" + jpaPdpGroup.getId() + NOT_VALID + validationResult;
-                LOGGER.warn(errorMessage);
-                throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
+            BeanValidationResult validationResult = jpaPdpGroup.validate("PDP group");
+            if (!validationResult.isValid()) {
+                throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, validationResult.getResult());
             }
 
             dao.update(jpaPdpGroup);
@@ -171,11 +161,9 @@ public class PdpProvider {
         final JpaPdpSubGroup jpaPdpSubgroup = new JpaPdpSubGroup(subGroupKey);
         jpaPdpSubgroup.fromAuthorative(pdpSubGroup);
 
-        PfValidationResult validationResult = jpaPdpSubgroup.validate(new PfValidationResult());
-        if (!validationResult.isOk()) {
-            String errorMessage = "PDP subgroup \"" + jpaPdpSubgroup.getId() + NOT_VALID + validationResult;
-            LOGGER.warn(errorMessage);
-            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
+        BeanValidationResult validationResult = jpaPdpSubgroup.validate("PDP sub group");
+        if (!validationResult.isValid()) {
+            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, validationResult.getResult());
         }
 
         dao.update(jpaPdpSubgroup);
@@ -198,11 +186,9 @@ public class PdpProvider {
         final JpaPdp jpaPdp = new JpaPdp(pdpKey);
         jpaPdp.fromAuthorative(pdp);
 
-        PfValidationResult validationResult = jpaPdp.validate(new PfValidationResult());
-        if (!validationResult.isOk()) {
-            String errorMessage = "PDP \"" + jpaPdp.getId() + NOT_VALID + validationResult;
-            LOGGER.warn(errorMessage);
-            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
+        BeanValidationResult validationResult = jpaPdp.validate("PDP");
+        if (!validationResult.isValid()) {
+            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, validationResult.getResult());
         }
 
         dao.update(jpaPdp);

@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Model
  * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -36,13 +36,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.lang3.ObjectUtils;
-import org.onap.policy.common.utils.validation.ParameterValidationUtils;
+import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfReferenceKey;
-import org.onap.policy.models.base.PfValidationMessage;
-import org.onap.policy.models.base.PfValidationResult;
-import org.onap.policy.models.base.PfValidationResult.ValidationResult;
 
 /**
  * Class to represent the trigger of policy type in TOSCA definition.
@@ -177,57 +174,23 @@ public class JpaToscaTrigger extends PfConcept {
     }
 
     @Override
-    public PfValidationResult validate(@NonNull final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
+    public BeanValidationResult validate(@NonNull String fieldName) {
+        BeanValidationResult result = new BeanValidationResult(fieldName, this);
 
-        if (key.isNullKey()) {
-            result.addValidationMessage(
-                    new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID, "key is a null key"));
-        }
+        result.addResult(validateKeyNotNull("key", key));
 
-        result = key.validate(result);
+        result.addResult(validateNotBlank("description", description, false));
+        result.addResult(validateNotBlank("eventType", eventType, true));
 
-        if (description != null && description.trim().length() == 0) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "trigger description may not be blank"));
-        }
-
-        if (!ParameterValidationUtils.validateStringParameter(eventType)) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "event type on trigger must be defined"));
-        }
-
-        result = validateOptionalFields(result);
+        validateOptional(result, "schedule", schedule);
+        validateOptional(result, "targetFilter", targetFilter);
 
         if (evaluations < 0) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "evaluations on trigger must be zero or a positive integer"));
+            addResult(result, "evaluations", evaluations, "is negative");
         }
 
-        if (method != null && method.trim().length() == 0) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "method on trigger may not be blank"));
-        }
-
-        if (!ParameterValidationUtils.validateStringParameter(action)) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "action on trigger must be defined"));
-        }
-
-        return result;
-    }
-
-    /**
-     * Validate optional fields.
-     *
-     * @param resultIn the validation result so far
-     * @return the validation resutls including these fields
-     */
-    private PfValidationResult validateOptionalFields(final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
-
-        result = (schedule != null ? schedule.validate(result) : result);
-        result = (targetFilter != null ? targetFilter.validate(result) : result);
+        result.addResult(validateNotBlank("method", method, false));
+        result.addResult(validateNotBlank("action", action, true));
 
         return result;
     }

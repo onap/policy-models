@@ -26,7 +26,6 @@ package org.onap.policy.models.tosca.simple.concepts;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
@@ -40,18 +39,16 @@ import javax.ws.rs.core.Response;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
+import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
-import org.onap.policy.common.utils.validation.ParameterValidationUtils;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.base.PfValidationMessage;
-import org.onap.policy.models.base.PfValidationResult;
-import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.base.Validated;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 
 /**
@@ -234,67 +231,15 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
     }
 
     @Override
-    public PfValidationResult validate(@NonNull final PfValidationResult resultIn) {
-        PfValidationResult result = super.validate(resultIn);
+    public BeanValidationResult validate(String fieldName) {
+        BeanValidationResult result = super.validate(fieldName);
 
-        if (PfKey.NULL_KEY_VERSION.equals(getKey().getVersion())) {
-            result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                    "key version is a null version"));
-        }
+        result.addResult(validateKeyVersionNotNull("key", getKey()));
+        result.addResult(validateKeyNotNull("type", type));
 
-        if (type == null || type.isNullKey()) {
-            result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                    "type is null or a null key"));
-        } else {
-            result = type.validate(result);
-        }
+        validateMap(result, "properties", properties, Validated::validateEntryNotBlankNotNull);
+        validateList(result, "targets", targets, Validated::validateNotNull);
 
-        if (properties != null) {
-            validateProperties(result);
-        }
-
-        if (targets != null) {
-            result = validateTargets(result);
-        }
-
-        return result;
-    }
-
-    /**
-     * Validate the policy properties.
-     *
-     * @param result where to put the validation results
-     */
-    private void validateProperties(final PfValidationResult result) {
-
-        for (Entry<String, String> propertyEntry : properties.entrySet()) {
-            if (!ParameterValidationUtils.validateStringParameter(propertyEntry.getKey())) {
-                result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                        "policy property key may not be null "));
-            } else if (propertyEntry.getValue() == null) {
-                result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                        "policy property value may not be null "));
-            }
-        }
-    }
-
-    /**
-     * Validate the policy targets.
-     *
-     * @param resultIn The result of validations up to now
-     * @return the validation result
-     */
-    private PfValidationResult validateTargets(final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
-
-        for (PfConceptKey target : targets) {
-            if (target == null) {
-                result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                        "policy target may not be null "));
-            } else {
-                result = target.validate(result);
-            }
-        }
         return result;
     }
 

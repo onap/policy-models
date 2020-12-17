@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,8 +33,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import org.junit.Test;
+import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.models.base.PfConceptKey;
-import org.onap.policy.models.base.PfValidationResult;
+import org.onap.policy.models.base.Validated;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 
 public class JpaToscaPoliciesTest {
@@ -73,23 +74,24 @@ public class JpaToscaPoliciesTest {
 
         polMapList.get(0).put("pol0", pol0);
         assertNotNull(new JpaToscaPolicies(polMapList));
-        assertTrue(new JpaToscaPolicies(polMapList).validate(new PfValidationResult()).isValid());
+        assertTrue(new JpaToscaPolicies(polMapList).validate("").isValid());
         assertThatThrownBy(() -> new JpaToscaPolicies(polMapList).validate(null))
-                .hasMessageMatching("resultIn is marked .*on.*ull but is null");
+                .hasMessageMatching("fieldName is marked .*on.*ull but is null");
 
         pol0.setDerivedFrom(null);
-        assertTrue(new JpaToscaPolicies(polMapList).validate(new PfValidationResult()).isValid());
+        assertTrue(new JpaToscaPolicies(polMapList).validate("").isValid());
 
         pol0.setDerivedFrom("tosca.Policies.Root");
-        assertTrue(new JpaToscaPolicies(polMapList).validate(new PfValidationResult()).isValid());
+        assertTrue(new JpaToscaPolicies(polMapList).validate("").isValid());
 
         pol0.setDerivedFrom("some.other.Thing");
-        PfValidationResult result = new JpaToscaPolicies(polMapList).validate(new PfValidationResult());
+        BeanValidationResult result = new JpaToscaPolicies(polMapList).validate("");
         assertFalse(result.isValid());
-        assertThat(result.toString()).contains("parent some.other.Thing:0.0.0 of entity not found");
+        assertThat(result.getResult()).contains("parent").contains("some.other.Thing:0.0.0")
+                        .contains(Validated.NOT_FOUND);
 
         pol0.setDerivedFrom(null);
-        assertTrue(new JpaToscaPolicies(polMapList).validate(new PfValidationResult()).isValid());
+        assertTrue(new JpaToscaPolicies(polMapList).validate("").isValid());
 
         ToscaPolicy pol1 = new ToscaPolicy();
         pol1.setName("pol1");
@@ -99,17 +101,17 @@ public class JpaToscaPoliciesTest {
         pol1.setTypeVersion("0.0.1");
 
         polMapList.get(0).put("pol1", pol1);
-        assertTrue(new JpaToscaPolicies(polMapList).validate(new PfValidationResult()).isValid());
+        assertTrue(new JpaToscaPolicies(polMapList).validate("").isValid());
 
         pol1.setDerivedFrom("pol0");
-        assertTrue(new JpaToscaPolicies(polMapList).validate(new PfValidationResult()).isValid());
+        assertTrue(new JpaToscaPolicies(polMapList).validate("").isValid());
 
         pol1.setDerivedFrom("pol2");
-        result = new JpaToscaPolicies(polMapList).validate(new PfValidationResult());
+        result = new JpaToscaPolicies(polMapList).validate("");
         assertFalse(result.isValid());
-        assertThat(result.toString()).contains("parent pol2:0.0.0 of entity not found");
+        assertThat(result.getResult()).contains("parent").contains("pol2:0.0.0").contains(Validated.NOT_FOUND);
 
         pol1.setDerivedFrom("pol0");
-        assertTrue(new JpaToscaPolicies(polMapList).validate(new PfValidationResult()).isValid());
+        assertTrue(new JpaToscaPolicies(polMapList).validate("").isValid());
     }
 }

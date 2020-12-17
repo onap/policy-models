@@ -45,7 +45,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
-import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.ValidationResult;
 
 // @formatter:off
 /**
@@ -241,19 +242,11 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
     }
 
     @Override
-    public PfValidationResult validate(@NonNull final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
+    public BeanValidationResult validate(@NonNull String fieldName) {
+        BeanValidationResult result = new BeanValidationResult(fieldName, this);
 
-        if (key.equals(PfConceptKey.getNullKey())) {
-            result.addValidationMessage(
-                    new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID, "key is a null key"));
-        }
-
-        result = key.validate(result);
-
-        if (!conceptMap.isEmpty()) {
-            result = validateConceptMap(result);
-        }
+        result.addResult(validateKeyNotNull("key", key));
+        result.addResult(validateConceptMap());
 
         return result;
     }
@@ -261,29 +254,31 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
     /**
      * Validate the concept map of the container.
      *
-     * @param resultIn the incoming validation results so far
-     * @return the validation results with the results of this validation added
+     * @return the validation result
      */
-    private PfValidationResult validateConceptMap(final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
+    private ValidationResult validateConceptMap() {
+        BeanValidationResult result = new BeanValidationResult("conceptMap", conceptMap);
 
         for (final Entry<PfConceptKey, C> conceptEntry : conceptMap.entrySet()) {
+            BeanValidationResult result2 = null;
+
             if (conceptEntry.getKey().equals(PfConceptKey.getNullKey())) {
-                result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                        "key on concept entry " + conceptEntry.getKey() + " may not be the null key"));
+                addResult(result, "key on concept entry", conceptEntry.getKey(), IS_A_NULL_KEY);
             } else if (conceptEntry.getValue() == null) {
-                result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                        "value on concept entry " + conceptEntry.getKey() + " may not be null"));
+                result2 = new BeanValidationResult(conceptEntry.getKey().getId(), conceptEntry.getKey());
+                addResult(result2, "value", conceptEntry.getValue(), IS_NULL);
             } else if (!conceptEntry.getKey().equals(conceptEntry.getValue().getKey())) {
-                result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                        "key on concept entry key " + conceptEntry.getKey() + " does not equal concept value key "
-                                + conceptEntry.getValue().getKey()));
-                result = conceptEntry.getValue().validate(result);
+                result2 = new BeanValidationResult(conceptEntry.getKey().getId(), conceptEntry.getKey());
+                addResult(result2, "value", conceptEntry.getValue(), "does not equal concept key");
+                result2.addResult(conceptEntry.getValue().validate("value"));
             } else {
-                result = conceptEntry.getValue().validate(result);
+                result2 = new BeanValidationResult(conceptEntry.getKey().getId(), conceptEntry.getKey());
+                result2.addResult(conceptEntry.getValue().validate("value"));
             }
+
+            result.addResult(result2);
         }
-        return result;
+        return (result.isClean() ? null : result);
     }
 
     @Override

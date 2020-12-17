@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2020 Nordix Foundation.
+ *  Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +27,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.Iterator;
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
+import org.onap.policy.models.base.Validated;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaDataType;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaDataTypes;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicies;
@@ -132,13 +134,14 @@ public class ToscaServiceTemplateUtilsTest {
         final JpaToscaServiceTemplate compositeTestTemplate = new JpaToscaServiceTemplate(compositeTemplate00);
         assertThatThrownBy(() -> {
             ToscaServiceTemplateUtils.addFragment(compositeTestTemplate, fragmentTemplate03);
-        }).hasMessageContaining("entity in incoming fragment does not equal existing entity");
+        }).hasMessageContaining("incoming fragment").hasMessageContaining("entity").hasMessageContaining("dt0:0.0.1")
+                        .hasMessageContaining("does not equal existing entity");
 
         JpaToscaServiceTemplate fragmentTemplate04 = new JpaToscaServiceTemplate();
         fragmentTemplate04.setDescription("Another service template");
         assertThatThrownBy(() -> {
             ToscaServiceTemplateUtils.addFragment(compositeTestTemplate, fragmentTemplate04);
-        }).hasMessageContaining("service template in incoming fragment does not equal existing service template");
+        }).hasMessageContaining("service template").hasMessageContaining("does not equal existing service template");
 
         JpaToscaServiceTemplate fragmentTemplate05 = new JpaToscaServiceTemplate();
         fragmentTemplate05.setTopologyTemplate(new JpaToscaTopologyTemplate());
@@ -159,7 +162,8 @@ public class ToscaServiceTemplateUtilsTest {
         fragmentTemplate07.getTopologyTemplate().setDescription("topology template other description");
         assertThatThrownBy(() -> {
             ToscaServiceTemplateUtils.addFragment(compositeTemplate04, fragmentTemplate07);
-        }).hasMessageContaining("topology template in incoming fragment does not equal existing topology template");
+        }).hasMessageContaining("incoming fragment").hasMessageContaining("topology template")
+                        .hasMessageContaining("does not equal existing topology template");
 
         JpaToscaDataType dt1 = new JpaToscaDataType();
         dt1.setKey(new PfConceptKey("dt1", "0.0.1"));
@@ -189,7 +193,7 @@ public class ToscaServiceTemplateUtilsTest {
 
         assertThatThrownBy(() -> {
             ToscaServiceTemplateUtils.addFragment(compositeTemplate04, fragmentTemplate08);
-        }).hasMessageContaining("JpaToscaPolicy:INVALID:type is null or a null key");
+        }).hasMessageContaining("type").hasMessageContaining(Validated.IS_A_NULL_KEY);
 
         p0.setType(pt0.getKey());
 

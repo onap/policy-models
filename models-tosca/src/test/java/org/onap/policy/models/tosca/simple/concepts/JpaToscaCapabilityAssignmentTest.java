@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2020 Nordix Foundation.
+ *  Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
-import org.onap.policy.models.base.PfValidationResult;
+import org.onap.policy.models.base.Validated;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaCapabilityAssignment;
 
 /**
@@ -69,7 +70,7 @@ public class JpaToscaCapabilityAssignmentTest {
         assertEquals(caKey, ca.getKeys().get(0));
 
         ca.clean();
-        ca.validate(new PfValidationResult());
+        ca.validate("");
         assertThat(ca.getProperties()).isNullOrEmpty();
         assertThat(ca.getAttributes()).isNullOrEmpty();
 
@@ -77,7 +78,7 @@ public class JpaToscaCapabilityAssignmentTest {
         ca.setAttributes(null);
         ca.setOccurrences(null);
         ca.clean();
-        ca.validate(new PfValidationResult());
+        ca.validate("");
         assertEquals(null, ca.getProperties());
         assertEquals(null, ca.getAttributes());
 
@@ -94,7 +95,7 @@ public class JpaToscaCapabilityAssignmentTest {
         ca.setOccurrences(occurrences);
 
         ca.clean();
-        ca.validate(new PfValidationResult());
+        ca.validate("");
         assertEquals("Untrimmed Value", ca.getProperties().get("Key0"));
         assertEquals("Untrimmed Value", ca.getAttributes().get("Key0"));
 
@@ -102,10 +103,10 @@ public class JpaToscaCapabilityAssignmentTest {
         ca.getAttributes().put("Key1", null);
         ca.getOccurrences().add(null);
         ca.getOccurrences().add(-12345);
-        PfValidationResult result = ca.validate(new PfValidationResult());
-        assertThat(result.toString()).contains("capability assignment property Key1 value may not be null");
-        assertThat(result.toString()).contains("capability assignment attribute Key1 value may not be null");
-        assertThat(result.toString()).contains("capability assignment occurrence value may not be negative");
+        assertThat(ca.validate("").getResult())
+            .contains("properties").contains("Key1").contains(Validated.IS_NULL)
+            .contains("attributes").contains("Key1").contains(Validated.IS_NULL)
+            .contains("occurrence").contains("value").contains("is below the minimum value: 0");
     }
 
     @Test

@@ -36,7 +36,6 @@ import java.util.TreeMap;
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfReferenceKey;
-import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaProperty;
 
 /**
@@ -158,42 +157,42 @@ public class JpaToscaPropertyTest {
         tp.clean();
         assertEquals(tdtClone0, tp);
 
-        assertFalse(new JpaToscaProperty().validate(new PfValidationResult()).isValid());
-        assertTrue(tp.validate(new PfValidationResult()).isValid());
+        assertFalse(new JpaToscaProperty().validate("").isValid());
+        assertTrue(tp.validate("").isValid());
 
         tp.setDescription(null);
-        assertTrue(tp.validate(new PfValidationResult()).isValid());
+        assertTrue(tp.validate("").isValid());
         tp.setDescription("");
-        assertFalse(tp.validate(new PfValidationResult()).isValid());
+        assertFalse(tp.validate("").isValid());
         tp.setDescription(A_DESCRIPTION);
-        assertTrue(tp.validate(new PfValidationResult()).isValid());
+        assertTrue(tp.validate("").isValid());
 
         tp.setType(null);
-        assertFalse(tp.validate(new PfValidationResult()).isValid());
+        assertFalse(tp.validate("").isValid());
         tp.setType(typeKey);
-        assertTrue(tp.validate(new PfValidationResult()).isValid());
+        assertTrue(tp.validate("").isValid());
 
         tp.setType(PfConceptKey.getNullKey());
-        assertFalse(tp.validate(new PfValidationResult()).isValid());
+        assertFalse(tp.validate("").isValid());
         tp.setType(typeKey);
-        assertTrue(tp.validate(new PfValidationResult()).isValid());
+        assertTrue(tp.validate("").isValid());
 
         tp.setDefaultValue(null);
-        assertTrue(tp.validate(new PfValidationResult()).isValid());
+        assertTrue(tp.validate("").isValid());
         tp.setDefaultValue("");
-        assertFalse(tp.validate(new PfValidationResult()).isValid());
+        assertFalse(tp.validate("").isValid());
         tp.setDefaultValue(DEFAULT_KEY);
-        assertTrue(tp.validate(new PfValidationResult()).isValid());
+        assertTrue(tp.validate("").isValid());
 
         tp.getConstraints().add(null);
-        assertFalse(tp.validate(new PfValidationResult()).isValid());
+        assertFalse(tp.validate("").isValid());
         tp.getConstraints().remove(null);
-        assertTrue(tp.validate(new PfValidationResult()).isValid());
+        assertTrue(tp.validate("").isValid());
 
         tp.setMetadata(null);
-        assertTrue(tp.validate(new PfValidationResult()).isValid());
+        assertTrue(tp.validate("").isValid());
 
-        assertThatThrownBy(() -> tp.validate(null)).hasMessageMatching("resultIn is marked .*on.*ull but is null");
+        assertThatThrownBy(() -> tp.validate(null)).hasMessageMatching("fieldName is marked .*on.*ull but is null");
     }
 
     @Test

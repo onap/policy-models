@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,15 +35,13 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.lang3.ObjectUtils;
-import org.onap.policy.common.utils.validation.ParameterValidationUtils;
+import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.base.PfValidationMessage;
-import org.onap.policy.models.base.PfValidationResult;
-import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.base.Validated;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaEntity;
 
 /**
@@ -188,38 +186,17 @@ public class JpaToscaEntityType<T extends ToscaEntity> extends PfConcept impleme
     }
 
     @Override
-    public PfValidationResult validate(PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
+    public BeanValidationResult validate(@NonNull String fieldName) {
+        BeanValidationResult result = new BeanValidationResult(fieldName, this);
 
-        if (key.isNullKey()) {
-            result.addValidationMessage(
-                    new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID, "key is a null key"));
+        result.addResult(validateKeyNotNull("key", key));
+
+        if (derivedFrom != null) {
+            result.addResult(validateKeyNotNull("derivedFrom", derivedFrom));
         }
 
-        result = key.validate(result);
-
-        if (derivedFrom != null && derivedFrom.isNullKey()) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "derived from key is a null key"));
-        }
-
-        if (metadata != null) {
-            for (Entry<String, String> metadataEntry : metadata.entrySet()) {
-                if (!ParameterValidationUtils.validateStringParameter(metadataEntry.getKey())) {
-                    result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                            "property metadata key may not be null"));
-                }
-                if (!ParameterValidationUtils.validateStringParameter(metadataEntry.getValue())) {
-                    result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                            "property metadata value may not be null"));
-                }
-            }
-        }
-
-        if (description != null && description.trim().length() == 0) {
-            result.addValidationMessage(new PfValidationMessage(key, this.getClass(), ValidationResult.INVALID,
-                    "property description may not be blank"));
-        }
+        validateMap(result, "metadata", metadata, Validated::validateEntryNotBlankNotBlank);
+        result.addResult(validateNotBlank("description", description, false));
 
         return result;
     }

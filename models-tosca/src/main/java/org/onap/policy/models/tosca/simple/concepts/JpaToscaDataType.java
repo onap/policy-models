@@ -41,15 +41,14 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.collections4.CollectionUtils;
+import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.base.PfValidationMessage;
-import org.onap.policy.models.base.PfValidationResult;
-import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.base.Validated;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaDataType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaProperty;
 import org.onap.policy.models.tosca.utils.ToscaUtils;
@@ -165,51 +164,12 @@ public class JpaToscaDataType extends JpaToscaEntityType<ToscaDataType> implemen
     }
 
     @Override
-    public PfValidationResult validate(final PfValidationResult resultIn) {
-        PfValidationResult result = super.validate(resultIn);
+    public BeanValidationResult validate(String fieldName) {
+        BeanValidationResult result = super.validate(fieldName);
 
-        if (constraints != null) {
-            validateConstraints(result);
-        }
+        validateList(result, "constraints", constraints, Validated::validateNotNull);
+        validateMap(result, "properties", properties, Validated::validateEntryValueNotNull);
 
-        if (properties != null) {
-            result = validateProperties(result);
-        }
-
-        return result;
-    }
-
-    /**
-     * Validate the constraints.
-     *
-     * @param result where to put the validation results
-     */
-    private void validateConstraints(@NonNull final PfValidationResult result) {
-        for (JpaToscaConstraint constraint : constraints) {
-            if (constraint == null) {
-                result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                        "data type constraint may not be null "));
-            }
-        }
-    }
-
-    /**
-     * Validate the properties.
-     *
-     * @param resultIn The result of validations up to now
-     * @return the validation result
-     */
-    private PfValidationResult validateProperties(final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
-
-        for (JpaToscaProperty property : properties.values()) {
-            if (property == null) {
-                result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                        "data type property may not be null "));
-            } else {
-                result = property.validate(result);
-            }
-        }
         return result;
     }
 

@@ -34,7 +34,6 @@ import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.base.PfConceptKey;
-import org.onap.policy.models.base.PfValidationResult;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaConstraintLogical;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaConstraintValidValues;
@@ -140,8 +139,8 @@ public class MonitoringPolicyTypeSerializationTest {
 
         // Sanity check the entire structure
         assertNotNull(serviceTemplate);
-        LOGGER.info(serviceTemplate.validate(new PfValidationResult()).toString());
-        assertTrue(serviceTemplate.validate(new PfValidationResult()).isValid());
+        LOGGER.info(serviceTemplate.validate("").toString());
+        assertTrue(serviceTemplate.validate("").isValid());
 
         // Check tosca_definitions_version
         assertEquals("tosca_simple_yaml_1_1_0", serviceTemplate.getToscaDefinitionsVersion());
@@ -361,8 +360,8 @@ public class MonitoringPolicyTypeSerializationTest {
 
         // Sanity check the entire structure
         assertNotNull(serviceTemplate);
-        LOGGER.info(serviceTemplate.validate(new PfValidationResult()).toString());
-        assertTrue(serviceTemplate.validate(new PfValidationResult()).isValid());
+        LOGGER.info(serviceTemplate.validate("").toString());
+        assertTrue(serviceTemplate.validate("").isValid());
 
         // Check tosca_definitions_version
         assertEquals("tosca_simple_yaml_1_1_0", serviceTemplate.getToscaDefinitionsVersion());

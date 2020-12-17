@@ -31,7 +31,6 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfReferenceKey;
-import org.onap.policy.models.base.PfValidationResult;
 
 /**
  * DAO test for ToscaEventFilter.
@@ -107,30 +106,30 @@ public class JpaToscaEventFilterTest {
         tef.clean();
         assertEquals(tdtClone0, tef);
 
-        assertFalse(new JpaToscaEventFilter().validate(new PfValidationResult()).isValid());
-        assertTrue(tef.validate(new PfValidationResult()).isValid());
+        assertFalse(new JpaToscaEventFilter().validate("").isValid());
+        assertTrue(tef.validate("").isValid());
 
         tef.setRequirement(null);
-        assertTrue(tef.validate(new PfValidationResult()).isValid());
+        assertTrue(tef.validate("").isValid());
         tef.setRequirement("");
-        assertFalse(tef.validate(new PfValidationResult()).isValid());
+        assertFalse(tef.validate("").isValid());
         tef.setRequirement(A_REQUREMENT);
-        assertTrue(tef.validate(new PfValidationResult()).isValid());
+        assertTrue(tef.validate("").isValid());
 
         tef.setCapability(null);
-        assertTrue(tef.validate(new PfValidationResult()).isValid());
+        assertTrue(tef.validate("").isValid());
         tef.setCapability("");
-        assertFalse(tef.validate(new PfValidationResult()).isValid());
+        assertFalse(tef.validate("").isValid());
         tef.setCapability(A_CAPABILITY);
-        assertTrue(tef.validate(new PfValidationResult()).isValid());
+        assertTrue(tef.validate("").isValid());
 
         tef.setNode(null);
-        assertFalse(tef.validate(new PfValidationResult()).isValid());
+        assertFalse(tef.validate("").isValid());
         tef.setNode(PfConceptKey.getNullKey());
-        assertFalse(tef.validate(new PfValidationResult()).isValid());
+        assertFalse(tef.validate("").isValid());
         tef.setNode(nodeKey);
-        assertTrue(tef.validate(new PfValidationResult()).isValid());
+        assertTrue(tef.validate("").isValid());
 
-        assertThatThrownBy(() -> tef.validate(null)).hasMessageMatching("resultIn is marked .*on.*ull but is null");
+        assertThatThrownBy(() -> tef.validate(null)).hasMessageMatching("fieldName is marked .*on.*ull but is null");
     }
 }

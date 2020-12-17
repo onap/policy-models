@@ -62,9 +62,7 @@ public class PfKeyUseTest {
         keyUse.clean();
         assertNotNull(keyUse);
 
-        PfValidationResult result = new PfValidationResult();
-        result = keyUse.validate(result);
-        assertNotNull(result);
+        assertNotNull(keyUse.validate(""));
 
         assertNotEquals(0, keyUse.hashCode());
 
@@ -84,8 +82,7 @@ public class PfKeyUseTest {
         assertEquals(0, keyUse.compareTo(new PfKeyUse(key)));
 
         PfKeyUse keyUseNull = new PfKeyUse(PfConceptKey.getNullKey());
-        PfValidationResult resultNull = new PfValidationResult();
-        assertEquals(false, keyUseNull.validate(resultNull).isValid());
+        assertEquals(false, keyUseNull.validate("").isValid());
 
         assertThatThrownBy(() -> keyUse.setKey(null)).hasMessageMatching("^key is marked .*on.*ull but is null$");
 
@@ -93,7 +90,8 @@ public class PfKeyUseTest {
 
         assertThatThrownBy(() -> keyUse.isCompatible(null)).hasMessageMatching(OTHER_KEY_IS_NULL);
 
-        assertThatThrownBy(() -> keyUse.validate(null)).hasMessageMatching("^result is marked .*on.*ull but is null$");
+        assertThatThrownBy(() -> keyUse.validate(null))
+                        .hasMessageMatching("^fieldName is marked .*on.*ull but is null$");
 
         PfKeyUse testKeyUse = new PfKeyUse(new DummyPfConceptKeySub(new PfConceptKey()));
         assertEquals(testKeyUse, new PfKeyUse(testKeyUse));

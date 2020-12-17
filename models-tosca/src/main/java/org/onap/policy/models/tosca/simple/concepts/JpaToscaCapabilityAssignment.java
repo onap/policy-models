@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2020 Nordix Foundation.
+ * Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +25,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
@@ -34,14 +34,13 @@ import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
+import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.common.utils.coder.YamlJsonTranslator;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.base.PfValidationMessage;
-import org.onap.policy.models.base.PfValidationResult;
-import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.base.Validated;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaCapabilityAssignment;
 
 /**
@@ -160,78 +159,13 @@ public class JpaToscaCapabilityAssignment extends JpaToscaEntityType<ToscaCapabi
     }
 
     @Override
-    public PfValidationResult validate(final PfValidationResult resultIn) {
-        PfValidationResult result = super.validate(resultIn);
+    public BeanValidationResult validate(String fieldName) {
+        BeanValidationResult result = super.validate(fieldName);
 
-        if (properties != null) {
-            result.append(validateProperties(new PfValidationResult()));
-        }
+        validateMap(result, "properties", properties, Validated::validateEntryValueNotNull);
+        validateMap(result, "attributes", attributes, Validated::validateEntryValueNotNull);
 
-        if (attributes != null) {
-            result.append(validateAttributes(new PfValidationResult()));
-        }
-
-        if (occurrences != null) {
-            result.append(validateOccurrences(new PfValidationResult()));
-        }
-
-        return result;
-    }
-
-    /**
-     * Validate the properties.
-     *
-     * @param resultIn The result of validations up to now
-     * @return the validation result
-     */
-    private PfValidationResult validateProperties(final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
-
-        for (Entry<String, String> propertyEntry : properties.entrySet()) {
-            if (propertyEntry.getValue() == null) {
-                result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                        "capability assignment property " + propertyEntry.getKey() + " value may not be null"));
-            }
-        }
-        return result;
-    }
-
-    /**
-     * Validate the attributes.
-     *
-     * @param resultIn The result of validations up to now
-     * @return the validation result
-     */
-    private PfValidationResult validateAttributes(final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
-
-        for (Entry<String, String> attributeEntry : attributes.entrySet()) {
-            if (attributeEntry.getValue() == null) {
-                result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                        "capability assignment attribute " + attributeEntry.getKey() + " value may not be null"));
-            }
-        }
-        return result;
-    }
-
-    /**
-     * Validate the occurrences.
-     *
-     * @param resultIn The result of validations up to now
-     * @return the validation result
-     */
-    private PfValidationResult validateOccurrences(final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
-
-        for (Integer occurrence : occurrences) {
-            if (occurrence == null) {
-                result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                        "capability assignment occurrence value may not be null "));
-            } else if (occurrence < 0 && !occurrence.equals(JPA_UNBOUNDED_VALUE)) {
-                result.addValidationMessage(new PfValidationMessage(getKey(), this.getClass(), ValidationResult.INVALID,
-                        "capability assignment occurrence value may not be negative"));
-            }
-        }
+        validateList(result, "occurrences", occurrences, validateMin(0, JPA_UNBOUNDED_VALUE, true));
 
         return result;
     }

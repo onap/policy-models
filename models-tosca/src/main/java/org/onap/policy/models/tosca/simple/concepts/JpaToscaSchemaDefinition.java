@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Model
  * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,14 +33,13 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import org.apache.commons.lang3.ObjectUtils;
+import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.base.PfValidationMessage;
-import org.onap.policy.models.base.PfValidationResult;
-import org.onap.policy.models.base.PfValidationResult.ValidationResult;
+import org.onap.policy.models.base.Validated;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConstraint;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaSchemaDefinition;
 
@@ -53,13 +52,10 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaSchemaDefinition;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
-public class JpaToscaSchemaDefinition
+public class JpaToscaSchemaDefinition extends Validated
         implements PfAuthorative<ToscaSchemaDefinition>, Serializable, Comparable<JpaToscaSchemaDefinition> {
 
     private static final long serialVersionUID = 3645882081163287058L;
-
-    // Recurring string constants
-    private static final String ENTRY_SCHEMA = "EntrySchema";
 
     @Column
     private PfConceptKey type;
@@ -147,34 +143,14 @@ public class JpaToscaSchemaDefinition
         description = (description != null ? description.trim() : null);
     }
 
-    /**
-     * Validate the entry schema.
-     *
-     * @param resultIn the incoming result
-     * @return the ooutput result witht he result of this validation
-     */
-    public PfValidationResult validate(@NonNull final PfValidationResult resultIn) {
-        PfValidationResult result = resultIn;
+    @Override
+    public BeanValidationResult validate(@NonNull String fieldName) {
+        BeanValidationResult result = new BeanValidationResult(fieldName, this);
 
-        if (type == null || type.isNullKey()) {
-            result.addValidationMessage(new PfValidationMessage(new PfConceptKey(ENTRY_SCHEMA, PfKey.NULL_KEY_VERSION),
-                    this.getClass(), ValidationResult.INVALID, "entry schema type may not be null"));
-        }
+        result.addResult(validateKeyNotNull("type", type));
+        result.addResult(validateNotBlank("description", description, false));
 
-        if (description != null && description.trim().length() == 0) {
-            result.addValidationMessage(new PfValidationMessage(new PfConceptKey(ENTRY_SCHEMA, PfKey.NULL_KEY_VERSION),
-                    this.getClass(), ValidationResult.INVALID, "entry schema description may not be blank"));
-        }
-
-        if (constraints != null) {
-            for (JpaToscaConstraint constraint : constraints) {
-                if (constraint == null) {
-                    result.addValidationMessage(
-                            new PfValidationMessage(new PfConceptKey(ENTRY_SCHEMA, PfKey.NULL_KEY_VERSION),
-                                    this.getClass(), ValidationResult.INVALID, "property constraint may not be null "));
-                }
-            }
-        }
+        validateList(result, "constraints", constraints, Validated::validateNotNull);
 
         return result;
     }
