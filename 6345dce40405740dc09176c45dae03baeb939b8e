@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1f58fd3_9b233316",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfReferenceKey.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-12-18T18:16:07Z",
+      "side": 1,
+      "message": "Nice!",
+      "range": {
+        "startLine": 346,
+        "startChar": 8,
+        "endLine": 349,
+        "endChar": 23
+      },
+      "revId": "6345dce40405740dc09176c45dae03baeb939b8e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a2a92f61_1962a40c",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-12-18T18:16:07Z",
+      "side": 1,
+      "message": "Yes, this is much cleaner!",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 175,
+        "endChar": 70
+      },
+      "revId": "6345dce40405740dc09176c45dae03baeb939b8e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
