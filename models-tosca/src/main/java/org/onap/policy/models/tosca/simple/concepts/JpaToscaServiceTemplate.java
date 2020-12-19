@@ -42,6 +42,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.lang3.ObjectUtils;
 import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.annotations.NotBlank;
+import org.onap.policy.common.parameters.annotations.NotNull;
+import org.onap.policy.common.parameters.annotations.Valid;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
@@ -76,6 +79,8 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
     // @formatter:off
     @Column
     @SerializedName("tosca_definitions_version")
+    @NotNull
+    @NotBlank
     private String toscaDefinitionsVersion;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
@@ -86,6 +91,7 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
             }
         )
     @SerializedName("data_types")
+    @Valid
     private JpaToscaDataTypes dataTypes;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
@@ -96,6 +102,7 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
             }
         )
     @SerializedName("capability_types")
+    @Valid
     private JpaToscaCapabilityTypes capabilityTypes;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
@@ -106,6 +113,7 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
             }
         )
     @SerializedName("relationship_types")
+    @Valid
     private JpaToscaRelationshipTypes relationshipTypes;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
@@ -116,6 +124,7 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
             }
         )
     @SerializedName("node_types")
+    @Valid
     private JpaToscaNodeTypes nodeTypes;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
@@ -126,6 +135,7 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
             }
         )
     @SerializedName("policy_types")
+    @Valid
     private JpaToscaPolicyTypes policyTypes;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
@@ -138,6 +148,7 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
             }
         )
     @SerializedName("topology_template")
+    @Valid
     private JpaToscaTopologyTemplate topologyTemplate;
     // @formatter:on
 
@@ -362,15 +373,6 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
     @Override
     public BeanValidationResult validate(String fieldName) {
         BeanValidationResult result = super.validate(fieldName);
-
-        result.addResult(validateNotBlank("toscaDefinitionsVersion", toscaDefinitionsVersion, true));
-
-        validateOptional(result, "dataTypes", dataTypes);
-        validateOptional(result, "capabilityTypes", capabilityTypes);
-        validateOptional(result, "relationshipTypes", relationshipTypes);
-        validateOptional(result, "nodeTypes", nodeTypes);
-        validateOptional(result, "policyTypes", policyTypes);
-        validateOptional(result, "topologyTemplate", topologyTemplate);
 
         // No point in validating cross references if the structure of the individual parts are not valid
         if (!result.isValid()) {

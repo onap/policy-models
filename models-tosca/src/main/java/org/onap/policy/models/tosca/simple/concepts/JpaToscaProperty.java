@@ -38,7 +38,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.lang3.ObjectUtils;
-import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.annotations.Items;
+import org.onap.policy.common.parameters.annotations.NotBlank;
+import org.onap.policy.common.parameters.annotations.NotNull;
+import org.onap.policy.common.parameters.annotations.Valid;
 import org.onap.policy.common.utils.coder.YamlJsonTranslator;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
@@ -46,7 +49,7 @@ import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.base.Validated;
+import org.onap.policy.models.base.validation.annotations.VerifyKey;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaProperty;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaProperty.Status;
 
@@ -65,27 +68,35 @@ public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaPr
     private static final long serialVersionUID = 1675770231921107988L;
 
     @EmbeddedId
+    @VerifyKey
+    @NotNull
     private PfReferenceKey key;
 
     @Column
+    @VerifyKey
+    @NotNull
     private PfConceptKey type;
 
     @Column
+    @NotBlank
     private String description;
 
     @Column
     private boolean required = false;
 
     @Column(name = "default")
+    @NotBlank
     private String defaultValue;
 
     @Column
     private Status status = Status.SUPPORTED;
 
     @ElementCollection
+    @Items(notNull = {@NotNull}, valid = {@Valid})
     private List<JpaToscaConstraint> constraints;
 
     @Column
+    @Valid
     private JpaToscaSchemaDefinition entrySchema;
 
     @ElementCollection
@@ -237,21 +248,6 @@ public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaPr
         }
 
         metadata = PfUtils.mapMap(metadata, String::trim);
-    }
-
-    @Override
-    public BeanValidationResult validate(@NonNull String fieldName) {
-        BeanValidationResult result = new BeanValidationResult(fieldName, this);
-
-        result.addResult(validateKeyNotNull("key", key));
-        result.addResult(validateKeyNotNull("type", type));
-        result.addResult(validateNotBlank("description", description, false));
-        result.addResult(validateNotBlank("defaultValue", defaultValue, false));
-
-        validateList(result, "constraints", constraints, Validated::validateNotNull);
-        validateOptional(result, "entrySchema", entrySchema);
-
-        return result;
     }
 
     @Override

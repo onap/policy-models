@@ -44,6 +44,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.annotations.Entries;
+import org.onap.policy.common.parameters.annotations.Items;
+import org.onap.policy.common.parameters.annotations.Min;
+import org.onap.policy.common.parameters.annotations.NotBlank;
+import org.onap.policy.common.parameters.annotations.NotNull;
+import org.onap.policy.common.parameters.annotations.Valid;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
@@ -52,7 +58,7 @@ import org.onap.policy.models.base.PfKeyUse;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfSearchableKey;
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.base.Validated;
+import org.onap.policy.models.base.validation.annotations.VerifyKey;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifier;
@@ -72,21 +78,31 @@ public class JpaPdpSubGroup extends PfConcept implements PfAuthorative<PdpSubGro
     private static final long serialVersionUID = -357224425637789775L;
 
     @EmbeddedId
+    @VerifyKey
+    @NotNull
     private PfReferenceKey key;
 
     @ElementCollection
+    @NotNull
+    @Items(notNull = {@NotNull}, valid = {@Valid})
     private List<PfSearchableKey> supportedPolicyTypes;
 
     @ElementCollection
+    @NotNull
+    @Items(notNull = {@NotNull}, valid = {@Valid})
     private List<PfConceptKey> policies;
 
     @Column
+    @Min(0)
     private int currentInstanceCount;
 
     @Column
+    @Min(0)
     private int desiredInstanceCount;
 
     @ElementCollection
+    @Entries(key = @Items(notNull = {@NotNull}, notBlank = {@NotBlank}),
+                value = @Items(notNull = {@NotNull}, notBlank = {@NotBlank}))
     private Map<String, String> properties;
 
     // @formatter:off
@@ -100,6 +116,8 @@ public class JpaPdpSubGroup extends PfConcept implements PfAuthorative<PdpSubGro
             }
         )
     // formatter:on
+    @NotNull
+    @Items(notNull = {@NotNull}, valid = {@Valid})
     private List<JpaPdp> pdpInstances;
 
     /**
@@ -278,32 +296,13 @@ public class JpaPdpSubGroup extends PfConcept implements PfAuthorative<PdpSubGro
 
     @Override
     public BeanValidationResult validate(@NonNull String fieldName) {
-        BeanValidationResult result = new BeanValidationResult(fieldName, this);
+        BeanValidationResult result = super.validate(fieldName);
 
-        result.addResult(validateKeyNotNull("key", key));
         result.addResult(validateKeyNotNull("parent of key", key.getParentConceptKey()));
 
-        if (currentInstanceCount < 0) {
-            addResult(result, "currentInstanceCount", currentInstanceCount, "is negative");
-        }
-
-        if (desiredInstanceCount < 0) {
-            addResult(result, "desiredInstanceCount", desiredInstanceCount, "is negative");
-        }
-
-        validateMap(result, "properties", properties, Validated::validateEntryNotBlankNotBlank);
-
-        if (supportedPolicyTypes == null || supportedPolicyTypes.isEmpty()) {
+        if (supportedPolicyTypes != null && supportedPolicyTypes.isEmpty()) {
             addResult(result, "supportedPolicyTypes", supportedPolicyTypes, "is empty");
-        } else {
-            validateList(result, "supportedPolicyTypes", supportedPolicyTypes, Validated::validateNotNull);
         }
-
-        result.validateNotNull("policies", policies);
-        validateList(result, "policies", policies, Validated::validateNotNull);
-
-        result.validateNotNull("pdpInstances", pdpInstances);
-        validateList(result, "pdpInstances", pdpInstances, Validated::validateNotNull);
 
         return result;
     }

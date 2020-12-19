@@ -37,6 +37,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.junit.Test;
 import org.onap.policy.common.parameters.ValidationResult;
+import org.onap.policy.common.parameters.annotations.Pattern;
 import org.onap.policy.models.base.PfKey.Compatibility;
 import org.onap.policy.models.base.testconcepts.DummyPfKey;
 
@@ -268,10 +269,13 @@ public class PfKeyImplTest {
     @Setter
     @EqualsAndHashCode(callSuper = false)
     @NoArgsConstructor
-    private static class MyKey extends PfKeyImpl {
+    public static class MyKey extends PfKeyImpl {
         private static final long serialVersionUID = 1L;
 
+        @Pattern(regexp = NAME_REGEXP)
         private String name;
+
+        @Pattern(regexp = VERSION_REGEXP)
         private String version;
 
         public MyKey(String name, String version) {

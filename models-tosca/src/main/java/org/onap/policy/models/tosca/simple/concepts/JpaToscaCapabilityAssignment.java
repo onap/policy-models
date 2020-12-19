@@ -34,13 +34,16 @@ import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.annotations.Entries;
+import org.onap.policy.common.parameters.annotations.Items;
+import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.common.utils.coder.YamlJsonTranslator;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.base.Validated;
+import org.onap.policy.models.base.validation.annotations.PfItems;
+import org.onap.policy.models.base.validation.annotations.PfMin;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaCapabilityAssignment;
 
 /**
@@ -63,13 +66,16 @@ public class JpaToscaCapabilityAssignment extends JpaToscaEntityType<ToscaCapabi
 
     @ElementCollection
     @Lob
+    @Entries(key = @Items(notNull = {@NotNull}), value = @Items(notNull = {@NotNull}))
     private Map<String, String> properties;
 
     @ElementCollection
     @Lob
+    @Entries(key = @Items(notNull = {@NotNull}), value = @Items(notNull = {@NotNull}))
     private Map<String, String> attributes;
 
     @ElementCollection
+    @PfItems(notNull = {@NotNull}, pfMin = {@PfMin(value = 0, allowed = -1)})
     private List<Integer> occurrences;
 
     /**
@@ -156,18 +162,6 @@ public class JpaToscaCapabilityAssignment extends JpaToscaEntityType<ToscaCapabi
 
         properties = PfUtils.mapMap(properties, String::trim);
         attributes = PfUtils.mapMap(attributes, String::trim);
-    }
-
-    @Override
-    public BeanValidationResult validate(String fieldName) {
-        BeanValidationResult result = super.validate(fieldName);
-
-        validateMap(result, "properties", properties, Validated::validateEntryValueNotNull);
-        validateMap(result, "attributes", attributes, Validated::validateEntryValueNotNull);
-
-        validateList(result, "occurrences", occurrences, validateMin(0, JPA_UNBOUNDED_VALUE, true));
-
-        return result;
     }
 
     @Override
