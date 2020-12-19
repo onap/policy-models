@@ -43,13 +43,17 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.lang3.ObjectUtils;
-import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.annotations.Entries;
+import org.onap.policy.common.parameters.annotations.Items;
+import org.onap.policy.common.parameters.annotations.NotBlank;
+import org.onap.policy.common.parameters.annotations.NotNull;
+import org.onap.policy.common.parameters.annotations.Valid;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.base.Validated;
+import org.onap.policy.models.base.validation.annotations.VerifyKey;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaNodeTemplate;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaParameter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaTopologyTemplate;
@@ -71,14 +75,18 @@ public class JpaToscaTopologyTemplate extends PfConcept implements PfAuthorative
     public static final String DEFAULT_LOCAL_NAME = "ToscaTopologyTemplateSimple";
 
     @EmbeddedId
+    @VerifyKey
+    @NotNull
     private PfReferenceKey key;
 
     @Column(name = "description")
+    @NotBlank
     private String description;
 
     // @formatter:off
     @ElementCollection
     @Lob
+    @Entries(key = @Items(notNull = {@NotNull}), value = @Items(notNull = {@NotNull}, valid = {@Valid}))
     private Map<String, JpaToscaParameter> inputs;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
@@ -89,6 +97,7 @@ public class JpaToscaTopologyTemplate extends PfConcept implements PfAuthorative
         }
     )
     @SerializedName("data_types")
+    @Valid
     private JpaToscaNodeTemplates nodeTemplates;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
@@ -99,6 +108,7 @@ public class JpaToscaTopologyTemplate extends PfConcept implements PfAuthorative
             }
         )
     // @formatter:on
+    @Valid
     private JpaToscaPolicies policies;
 
     /**
@@ -237,21 +247,6 @@ public class JpaToscaTopologyTemplate extends PfConcept implements PfAuthorative
         if (policies != null) {
             policies.clean();
         }
-    }
-
-    @Override
-    public BeanValidationResult validate(@NonNull String fieldName) {
-        BeanValidationResult result = new BeanValidationResult(fieldName, this);
-
-        result.addResult(validateKeyNotNull("key", key));
-        result.addResult(validateNotBlank("description", description, false));
-
-        validateMap(result, "inputs", inputs, Validated::validateEntryValueNotNull);
-
-        validateOptional(result, "nodeTemplates", nodeTemplates);
-        validateOptional(result, "policies", policies);
-
-        return result;
     }
 
     @Override

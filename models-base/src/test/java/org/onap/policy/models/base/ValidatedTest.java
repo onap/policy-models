@@ -434,12 +434,14 @@ public class ValidatedTest {
         private final String text;
 
         @Override
-        public ValidationResult validate(String fieldName) {
+        public BeanValidationResult validate(String fieldName) {
             if (TEXT.equals(text)) {
                 return null;
             }
 
-            return new ObjectValidationResult(fieldName, text, ValidationStatus.INVALID, NOT_SAME);
+            BeanValidationResult result = new BeanValidationResult(fieldName, this);
+            result.addResult(new ObjectValidationResult(fieldName, text, ValidationStatus.INVALID, NOT_SAME));
+            return result;
         }
     }
 }

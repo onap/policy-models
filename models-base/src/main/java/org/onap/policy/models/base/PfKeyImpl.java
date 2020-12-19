@@ -26,8 +26,6 @@ import java.util.List;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
-import org.onap.policy.common.parameters.BeanValidationResult;
-import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.common.utils.validation.Assertions;
 
 /**
@@ -239,16 +237,6 @@ public abstract class PfKeyImpl extends PfKey {
         } else {
             return 0;
         }
-    }
-
-    @Override
-    public ValidationResult validate(@NonNull String fieldName) {
-        BeanValidationResult result = new BeanValidationResult(fieldName, this);
-
-        result.addResult(validateRegex(NAME_TOKEN, getName(), getNameRegEx()));
-        result.addResult(validateRegex(VERSION_TOKEN, getVersion(), getVersionRegEx()));
-
-        return result;
     }
 
     @Override

@@ -34,11 +34,13 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.lang3.ObjectUtils;
-import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.annotations.NotBlank;
+import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfReferenceKey;
+import org.onap.policy.models.base.validation.annotations.VerifyKey;
 
 /**
  * Class to represent the EventFilter in TOSCA definition.
@@ -55,15 +57,21 @@ public class JpaToscaEventFilter extends PfConcept {
     private static final long serialVersionUID = 8769020537228210247L;
 
     @EmbeddedId
+    @VerifyKey
+    @NotNull
     private PfReferenceKey key;
 
     @Column
+    @VerifyKey
+    @NotNull
     private PfConceptKey node;
 
     @Column
+    @NotBlank
     private String requirement;
 
     @Column
+    @NotBlank
     private String capability;
 
     /**
@@ -119,18 +127,6 @@ public class JpaToscaEventFilter extends PfConcept {
 
         requirement = (requirement != null ? requirement.trim() : requirement);
         capability = (capability != null ? capability.trim() : capability);
-    }
-
-    @Override
-    public BeanValidationResult validate(@NonNull String fieldName) {
-        BeanValidationResult result = new BeanValidationResult(fieldName, this);
-
-        result.addResult(validateKeyNotNull("key", key));
-        result.addResult(validateKeyNotNull("node", node));
-        result.addResult(validateNotBlank("requirement", requirement, false));
-        result.addResult(validateNotBlank("capability", capability, false));
-
-        return result;
     }
 
     @Override

@@ -28,8 +28,8 @@ import javax.persistence.Embeddable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-import org.onap.policy.common.parameters.BeanValidationResult;
-import org.onap.policy.common.parameters.ValidationResult;
+import org.onap.policy.common.parameters.annotations.NotNull;
+import org.onap.policy.common.parameters.annotations.Pattern;
 import org.onap.policy.common.utils.validation.Assertions;
 
 /**
@@ -73,15 +73,23 @@ public class PfReferenceKey extends PfKey {
     private static final int LOCAL_NAME_FIELD = 3;
 
     @Column(name = PARENT_KEY_NAME, length = 120)
+    @NotNull
+    @Pattern(regexp = NAME_REGEXP)
     private String parentKeyName;
 
     @Column(name = PARENT_KEY_VERSION, length = 15)
+    @NotNull
+    @Pattern(regexp = VERSION_REGEXP)
     private String parentKeyVersion;
 
     @Column(name = PARENT_LOCAL_NAME, length = 120)
+    @NotNull
+    @Pattern(regexp = LOCAL_NAME_REGEXP)
     private String parentLocalName;
 
     @Column(name = LOCAL_NAME, length = 120)
+    @NotNull
+    @Pattern(regexp = LOCAL_NAME_REGEXP)
     private String localName;
 
     /**
@@ -337,18 +345,6 @@ public class PfReferenceKey extends PfKey {
         final PfReferenceKey otherReferenceKey = (PfReferenceKey) otherKey;
 
         return this.getParentConceptKey().isNewerThan(otherReferenceKey.getParentConceptKey());
-    }
-
-    @Override
-    public ValidationResult validate(@NonNull String fieldName) {
-        BeanValidationResult result = new BeanValidationResult(fieldName, this);
-
-        result.addResult(validateRegex(PARENT_KEY_NAME, parentKeyName, NAME_REGEXP));
-        result.addResult(validateRegex(PARENT_KEY_VERSION, parentKeyVersion, VERSION_REGEXP));
-        result.addResult(validateRegex(PARENT_LOCAL_NAME, parentLocalName, LOCAL_NAME_REGEXP));
-        result.addResult(validateRegex(LOCAL_NAME, localName, LOCAL_NAME_REGEXP));
-
-        return result;
     }
 
     @Override

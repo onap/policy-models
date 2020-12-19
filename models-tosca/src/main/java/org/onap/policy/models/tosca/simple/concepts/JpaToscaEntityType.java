@@ -35,13 +35,16 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.lang3.ObjectUtils;
-import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.annotations.Entries;
+import org.onap.policy.common.parameters.annotations.Items;
+import org.onap.policy.common.parameters.annotations.NotBlank;
+import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.base.Validated;
+import org.onap.policy.models.base.validation.annotations.VerifyKey;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaEntity;
 
 /**
@@ -54,6 +57,8 @@ public class JpaToscaEntityType<T extends ToscaEntity> extends PfConcept impleme
     private static final long serialVersionUID = -1330661834220739393L;
 
     @EmbeddedId
+    @VerifyKey
+    @NotNull
     private PfConceptKey key;
 
     // @formatter:off
@@ -64,12 +69,16 @@ public class JpaToscaEntityType<T extends ToscaEntity> extends PfConcept impleme
         @AttributeOverride(name = "version",
                            column = @Column(name = "derived_from_version"))
         })
+    @VerifyKey
     private PfConceptKey derivedFrom;
 
     @ElementCollection
+    @Entries(key = @Items(notNull = {@NotNull}, notBlank = {@NotBlank}),
+                value = @Items(notNull = {@NotNull}, notBlank = {@NotBlank}))
     private Map<String, String> metadata;
 
     @Column
+    @NotBlank
     private String description;
 
     private transient T toscaEntity;
@@ -183,22 +192,6 @@ public class JpaToscaEntityType<T extends ToscaEntity> extends PfConcept impleme
         }
 
         description = (description != null ? description.trim() : null);
-    }
-
-    @Override
-    public BeanValidationResult validate(@NonNull String fieldName) {
-        BeanValidationResult result = new BeanValidationResult(fieldName, this);
-
-        result.addResult(validateKeyNotNull("key", key));
-
-        if (derivedFrom != null) {
-            result.addResult(validateKeyNotNull("derivedFrom", derivedFrom));
-        }
-
-        validateMap(result, "metadata", metadata, Validated::validateEntryNotBlankNotBlank);
-        result.addResult(validateNotBlank("description", description, false));
-
-        return result;
     }
 
     @Override

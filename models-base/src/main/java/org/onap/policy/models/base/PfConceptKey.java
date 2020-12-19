@@ -26,6 +26,7 @@ import javax.persistence.Embeddable;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
+import org.onap.policy.common.parameters.annotations.Pattern;
 import org.onap.policy.common.utils.validation.Assertions;
 
 /**
@@ -43,9 +44,11 @@ public class PfConceptKey extends PfKeyImpl {
     private static final long serialVersionUID = 8932717618579392561L;
 
     @Column(name = NAME_TOKEN, length = 120)
+    @Pattern(regexp = NAME_REGEXP)
     private String name;
 
     @Column(name = VERSION_TOKEN, length = 20)
+    @Pattern(regexp = VERSION_REGEXP)
     private String version;
 
     /**

@@ -41,13 +41,16 @@ import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.collections4.CollectionUtils;
 import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.annotations.Entries;
+import org.onap.policy.common.parameters.annotations.Items;
+import org.onap.policy.common.parameters.annotations.NotNull;
+import org.onap.policy.common.parameters.annotations.Valid;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.base.Validated;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaProperty;
 import org.onap.policy.models.tosca.utils.ToscaUtils;
@@ -69,12 +72,15 @@ public class JpaToscaPolicyType extends JpaToscaEntityType<ToscaPolicyType> impl
 
     @ElementCollection
     @Lob
+    @Entries(key = @Items(notNull = {@NotNull}), value = @Items(notNull = {@NotNull}, valid = {@Valid}))
     private Map<String, JpaToscaProperty> properties;
 
     @ElementCollection
+    @Items(notNull = {@NotNull}, valid = {@Valid})
     private List<PfConceptKey> targets;
 
     @ElementCollection
+    @Items(notNull = {@NotNull}, valid = {@Valid})
     private List<JpaToscaTrigger> triggers;
 
     /**
@@ -191,10 +197,6 @@ public class JpaToscaPolicyType extends JpaToscaEntityType<ToscaPolicyType> impl
         BeanValidationResult result = super.validate(fieldName);
 
         result.addResult(validateKeyVersionNotNull("key", getKey()));
-
-        validateMap(result, "properties", properties, Validated::validateEntryValueNotNull);
-        validateList(result, "targets", targets, Validated::validateNotNull);
-        validateList(result, "triggers", triggers, Validated::validateNotNull);
 
         return result;
     }

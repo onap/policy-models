@@ -39,13 +39,16 @@ import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.collections4.CollectionUtils;
 import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.annotations.Entries;
+import org.onap.policy.common.parameters.annotations.Items;
+import org.onap.policy.common.parameters.annotations.NotNull;
+import org.onap.policy.common.parameters.annotations.Valid;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.base.Validated;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaCapabilityType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaProperty;
 import org.onap.policy.models.tosca.utils.ToscaUtils;
@@ -65,6 +68,7 @@ public class JpaToscaCapabilityType extends JpaToscaEntityType<ToscaCapabilityTy
 
     @ElementCollection
     @Lob
+    @Entries(key = @Items(notNull = {@NotNull}), value = @Items(notNull = {@NotNull}, valid = {@Valid}))
     private Map<String, JpaToscaProperty> properties;
 
     /**
@@ -160,8 +164,6 @@ public class JpaToscaCapabilityType extends JpaToscaEntityType<ToscaCapabilityTy
         BeanValidationResult result = super.validate(fieldName);
 
         result.addResult(validateKeyVersionNotNull("key", getKey()));
-
-        validateMap(result, "properties", properties, Validated::validateEntryValueNotNull);
 
         return result;
     }
