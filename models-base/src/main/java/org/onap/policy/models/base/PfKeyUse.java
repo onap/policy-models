@@ -23,11 +23,12 @@ package org.onap.policy.models.base;
 
 import java.util.List;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
-import org.onap.policy.common.parameters.BeanValidationResult;
-import org.onap.policy.common.parameters.ValidationResult;
+import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.common.utils.validation.Assertions;
+import org.onap.policy.models.base.validation.annotations.Key;
 
 /**
  * This class records a usage of a key in the system. When the list of keys being used by a concept
@@ -42,6 +43,9 @@ import org.onap.policy.common.utils.validation.Assertions;
 public class PfKeyUse extends PfKey {
     private static final long serialVersionUID = 2007147220109881705L;
 
+    @Key
+    @NotNull
+    @Getter
     private PfKey usedKey;
 
     /**
@@ -132,13 +136,6 @@ public class PfKeyUse extends PfKey {
     @Override
     public void clean() {
         usedKey.clean();
-    }
-
-    @Override
-    public ValidationResult validate(@NonNull String fieldName) {
-        BeanValidationResult result = new BeanValidationResult(fieldName, this);
-        result.addResult(validateKeyNotNull("usedKey", usedKey));
-        return result;
     }
 
     @Override

@@ -35,7 +35,9 @@ import lombok.NonNull;
 import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.common.parameters.ObjectValidationResult;
 import org.onap.policy.common.parameters.ValidationStatus;
+import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.common.utils.validation.Assertions;
+import org.onap.policy.models.base.validation.annotations.Key;
 
 /**
  * This class is the base class for all models in the Policy Framework. All model classes inherit
@@ -63,6 +65,8 @@ public abstract class PfModel extends PfConcept {
     private static final long serialVersionUID = -771659065637205430L;
 
     @EmbeddedId
+    @Key
+    @NotNull
     private PfConceptKey key;
 
     /**
@@ -113,9 +117,7 @@ public abstract class PfModel extends PfConcept {
 
     @Override
     public BeanValidationResult validate(@NonNull String fieldName) {
-        BeanValidationResult result = new BeanValidationResult(fieldName, this);
-
-        result.addResult(validateKeyNotNull("key", key));
+        BeanValidationResult result = new PfValidator().validateTop(fieldName, this);
 
         // Key consistency check
         final Set<PfConceptKey> artifactKeySet = new TreeSet<>();

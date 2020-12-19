@@ -36,10 +36,13 @@ import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.lang3.ObjectUtils;
 import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.annotations.NotBlank;
+import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfReferenceKey;
+import org.onap.policy.models.base.validation.annotations.Key;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.enums.PdpHealthStatus;
 import org.onap.policy.models.pdp.enums.PdpState;
@@ -58,15 +61,20 @@ public class JpaPdp extends PfConcept implements PfAuthorative<Pdp>, Serializabl
     private static final long serialVersionUID = -357224425637789775L;
 
     @EmbeddedId
+    @Key
+    @NotNull
     private PfReferenceKey key;
 
     @Column
+    @NotNull
     private PdpState pdpState;
 
     @Column
+    @NotNull
     private PdpHealthStatus healthy;
 
     @Column
+    @NotBlank
     private String message;
 
     /**
@@ -161,18 +169,13 @@ public class JpaPdp extends PfConcept implements PfAuthorative<Pdp>, Serializabl
 
     @Override
     public BeanValidationResult validate(@NonNull String fieldName) {
-        BeanValidationResult result = new BeanValidationResult(fieldName, this);
+        BeanValidationResult result = super.validate(fieldName);
 
-        result.addResult(validateKeyNotNull("key", key));
         result.addResult(validateKeyNotNull("parent of key", key.getParentConceptKey()));
 
         if (PfKey.NULL_KEY_NAME.equals(key.getParentLocalName())) {
             addResult(result, "local name of parent of key", key.getParentLocalName(), IS_NULL);
         }
-
-        result.addResult(validateNotNull("pdpState", pdpState));
-        result.addResult(validateNotNull("healthy", healthy));
-        result.addResult(validateNotBlank("message", message, false));
 
         return result;
     }

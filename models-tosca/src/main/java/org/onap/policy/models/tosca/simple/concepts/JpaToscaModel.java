@@ -32,7 +32,7 @@ import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.annotations.Valid;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
@@ -55,6 +55,7 @@ public class JpaToscaModel extends PfModel {
     private static final long serialVersionUID = 8800599637708309945L;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @Valid
     private JpaToscaServiceTemplates serviceTemplates;
 
     /**
@@ -114,15 +115,6 @@ public class JpaToscaModel extends PfModel {
     public void clean() {
         super.clean();
         serviceTemplates.clean();
-    }
-
-    @Override
-    public BeanValidationResult validate(String fieldName) {
-        BeanValidationResult result = super.validate(fieldName);
-
-        result.addResult(serviceTemplates.validate("serviceTemplates"));
-
-        return result;
     }
 
     @Override

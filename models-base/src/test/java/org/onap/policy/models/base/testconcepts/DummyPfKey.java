@@ -24,7 +24,7 @@ package org.onap.policy.models.base.testconcepts;
 import java.util.Arrays;
 import java.util.List;
 import lombok.NonNull;
-import org.onap.policy.common.parameters.ValidationResult;
+import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfKey;
 
@@ -75,7 +75,7 @@ public class DummyPfKey extends PfKey {
     }
 
     @Override
-    public ValidationResult validate(@NonNull String fieldName) {
+    public BeanValidationResult validate(@NonNull String fieldName) {
         return null;
     }
 

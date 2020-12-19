@@ -38,12 +38,13 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.lang3.builder.CompareToBuilder;
-import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfTimestampKey;
 import org.onap.policy.models.base.PfUtils;
+import org.onap.policy.models.base.validation.annotations.Key;
 import org.onap.policy.models.pdp.concepts.PdpEngineWorkerStatistics;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
 
@@ -63,6 +64,8 @@ public class JpaPdpStatistics extends PfConcept implements PfAuthorative<PdpStat
     private static final String NULL_NAME = "NULL";
 
     @EmbeddedId
+    @Key
+    @NotNull
     private PfTimestampKey key;
 
     @Column(length = 120)
@@ -199,15 +202,6 @@ public class JpaPdpStatistics extends PfConcept implements PfAuthorative<PdpStat
     @Override
     public List<PfKey> getKeys() {
         return getKey().getKeys();
-    }
-
-    @Override
-    public BeanValidationResult validate(@NonNull String fieldName) {
-        BeanValidationResult result = new BeanValidationResult(fieldName, this);
-
-        result.addResult(validateKeyNotNull("key", key));
-
-        return result;
     }
 
     @Override

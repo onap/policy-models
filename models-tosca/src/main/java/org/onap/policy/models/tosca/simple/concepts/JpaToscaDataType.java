@@ -41,14 +41,16 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.collections4.CollectionUtils;
-import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.annotations.Entries;
+import org.onap.policy.common.parameters.annotations.Items;
+import org.onap.policy.common.parameters.annotations.NotNull;
+import org.onap.policy.common.parameters.annotations.Valid;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.base.Validated;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaDataType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaProperty;
 import org.onap.policy.models.tosca.utils.ToscaUtils;
@@ -68,10 +70,12 @@ public class JpaToscaDataType extends JpaToscaEntityType<ToscaDataType> implemen
     private static final long serialVersionUID = -3922690413436539164L;
 
     @ElementCollection
+    @Items(notNull = {@NotNull})
     private List<JpaToscaConstraint> constraints;
 
     @ElementCollection
     @Lob
+    @Entries(key = @Items(notNull = {@NotNull}), value = @Items(notNull = {@NotNull}, valid = {@Valid}))
     private Map<String, JpaToscaProperty> properties;
 
     /**
@@ -161,16 +165,6 @@ public class JpaToscaDataType extends JpaToscaEntityType<ToscaDataType> implemen
                 property.clean();
             }
         }
-    }
-
-    @Override
-    public BeanValidationResult validate(String fieldName) {
-        BeanValidationResult result = super.validate(fieldName);
-
-        validateList(result, "constraints", constraints, Validated::validateNotNull);
-        validateMap(result, "properties", properties, Validated::validateEntryValueNotNull);
-
-        return result;
     }
 
     @Override

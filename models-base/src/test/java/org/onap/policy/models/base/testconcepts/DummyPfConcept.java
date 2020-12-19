@@ -27,20 +27,25 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.lang3.ObjectUtils;
-import org.onap.policy.common.parameters.BeanValidationResult;
-import org.onap.policy.common.parameters.ValidationResult;
+import org.onap.policy.common.parameters.annotations.NotBlank;
+import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
+import org.onap.policy.models.base.validation.annotations.Key;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class DummyPfConcept extends PfConcept implements PfAuthorative<DummyAuthorativeConcept> {
     private static final long serialVersionUID = 1L;
+
     @EmbeddedId
+    @Key
+    @NotNull
     private PfConceptKey key;
 
+    @NotBlank
     private String description;
 
 
@@ -98,16 +103,6 @@ public class DummyPfConcept extends PfConcept implements PfAuthorative<DummyAuth
         key.clean();
 
         description = (description != null ? description.trim() : null);
-    }
-
-    @Override
-    public ValidationResult validate(@NonNull String fieldName) {
-        BeanValidationResult result = new BeanValidationResult(fieldName, this);
-
-        result.addResult(validateKeyNotNull("key", key));
-        result.addResult(validateNotBlank("description", description, false));
-
-        return result;
     }
 
     @Override

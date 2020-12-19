@@ -27,7 +27,6 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
 import org.onap.policy.common.parameters.BeanValidationResult;
-import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.common.utils.validation.Assertions;
 
 /**
@@ -242,8 +241,8 @@ public abstract class PfKeyImpl extends PfKey {
     }
 
     @Override
-    public ValidationResult validate(@NonNull String fieldName) {
-        BeanValidationResult result = new BeanValidationResult(fieldName, this);
+    public BeanValidationResult validate(@NonNull String fieldName) {
+        BeanValidationResult result = super.validate(fieldName);
 
         result.addResult(validateRegex(NAME_TOKEN, getName(), getNameRegEx()));
         result.addResult(validateRegex(VERSION_TOKEN, getVersion(), getVersionRegEx()));
