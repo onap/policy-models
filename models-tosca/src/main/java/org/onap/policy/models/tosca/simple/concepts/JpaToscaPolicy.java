@@ -40,6 +40,11 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.annotations.Entries;
+import org.onap.policy.common.parameters.annotations.Items;
+import org.onap.policy.common.parameters.annotations.NotBlank;
+import org.onap.policy.common.parameters.annotations.NotNull;
+import org.onap.policy.common.parameters.annotations.Valid;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.models.base.PfAuthorative;
@@ -48,7 +53,7 @@ import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.base.Validated;
+import org.onap.policy.models.base.validation.annotations.Key;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 
 /**
@@ -79,13 +84,17 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
         @AttributeOverride(name = "version",
                            column = @Column(name = "type_version"))
         })
+    @Key
+    @NotNull
     private PfConceptKey type;
 
     @ElementCollection
     @Lob
+    @Entries(key = @Items(notNull = {@NotNull}, notBlank = {@NotBlank}), value = @Items(notNull = {@NotNull}))
     private Map<String, String> properties;
 
     @ElementCollection
+    @Items(notNull = {@NotNull}, valid = {@Valid})
     private List<PfConceptKey> targets;
     // @formatter:on
 
@@ -235,10 +244,6 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
         BeanValidationResult result = super.validate(fieldName);
 
         result.addResult(validateKeyVersionNotNull("key", getKey()));
-        result.addResult(validateKeyNotNull("type", type));
-
-        validateMap(result, "properties", properties, Validated::validateEntryNotBlankNotNull);
-        validateList(result, "targets", targets, Validated::validateNotNull);
 
         return result;
     }

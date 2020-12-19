@@ -42,7 +42,11 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.lang3.ObjectUtils;
-import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.annotations.Entries;
+import org.onap.policy.common.parameters.annotations.Items;
+import org.onap.policy.common.parameters.annotations.NotBlank;
+import org.onap.policy.common.parameters.annotations.NotNull;
+import org.onap.policy.common.parameters.annotations.Valid;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.models.base.PfAuthorative;
@@ -51,7 +55,6 @@ import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.base.Validated;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaCapabilityAssignment;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaNodeTemplate;
 
@@ -70,21 +73,26 @@ public class JpaToscaNodeTemplate extends JpaToscaEntityType<ToscaNodeTemplate>
     private static final StandardCoder STANDARD_CODER = new StandardCoder();
 
     @Column
+    @NotNull
+    @NotBlank
     private String type;
 
     @ElementCollection
     @Lob
+    @Entries(key = @Items(notNull = {@NotNull}), value = @Items(notNull = {@NotNull}))
     private Map<String, String> properties;
 
     // formatter:off
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumns({@JoinColumn(name = "requirementsName", referencedColumnName = "name"),
         @JoinColumn(name = "requirementsVersion", referencedColumnName = "version")})
+    @Valid
     private JpaToscaRequirements requirements;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumns({@JoinColumn(name = "capabilitiesName", referencedColumnName = "name"),
         @JoinColumn(name = "capabilitiesVersion", referencedColumnName = "version")})
+    @Valid
     private JpaToscaCapabilityAssignments capabilities;
     // @formatter:on
 
@@ -227,19 +235,6 @@ public class JpaToscaNodeTemplate extends JpaToscaEntityType<ToscaNodeTemplate>
         if (capabilities != null) {
             capabilities.clean();
         }
-    }
-
-    @Override
-    public BeanValidationResult validate(String fieldName) {
-        BeanValidationResult result = super.validate(fieldName);
-
-        result.addResult(validateNotBlank("type", type, true));
-
-        validateMap(result, "properties", properties, Validated::validateEntryValueNotNull);
-        validateOptional(result, "requirements", requirements);
-        validateOptional(result, "capabilities", capabilities);
-
-        return result;
     }
 
     @Override

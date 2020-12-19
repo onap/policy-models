@@ -32,13 +32,14 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
-import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.common.utils.coder.YamlJsonTranslator;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfReferenceKey;
+import org.onap.policy.models.base.validation.annotations.Key;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaParameter;
 
 /**
@@ -53,9 +54,13 @@ public class JpaToscaParameter extends PfConcept implements PfAuthorative<ToscaP
     private static final long serialVersionUID = 1675770231921107988L;
 
     @EmbeddedId
+    @Key
+    @NotNull
     private PfReferenceKey key;
 
     @Column
+    @Key
+    @NotNull
     private PfConceptKey type;
 
     @Column
@@ -157,16 +162,6 @@ public class JpaToscaParameter extends PfConcept implements PfAuthorative<ToscaP
         if (value != null) {
             value = value.trim();
         }
-    }
-
-    @Override
-    public BeanValidationResult validate(String fieldName) {
-        BeanValidationResult result = new BeanValidationResult(fieldName, this);
-
-        result.addResult(validateKeyNotNull("key", key));
-        result.addResult(validateKeyNotNull("type", type));
-
-        return result;
     }
 
     @Override

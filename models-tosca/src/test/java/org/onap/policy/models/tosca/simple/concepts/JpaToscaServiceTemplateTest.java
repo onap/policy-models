@@ -141,7 +141,7 @@ public class JpaToscaServiceTemplateTest {
 
         tst.setToscaDefinitionsVersion(null);
         BeanValidationResult result = tst.validate("");
-        assertThat(result.getResult()).contains("toscaDefinitionsVersion").contains(Validated.IS_BLANK);
+        assertThat(result.getResult()).contains("toscaDefinitionsVersion").contains(Validated.IS_NULL);
 
         tst.setToscaDefinitionsVersion(JpaToscaServiceTemplate.DEFAULT_TOSCA_DEFINTIONS_VERISON);
         tst.setDataTypes(null);

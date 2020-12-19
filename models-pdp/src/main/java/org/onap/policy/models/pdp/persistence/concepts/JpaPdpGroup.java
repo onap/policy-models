@@ -44,14 +44,18 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.lang3.ObjectUtils;
-import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.annotations.Entries;
+import org.onap.policy.common.parameters.annotations.Items;
+import org.onap.policy.common.parameters.annotations.NotBlank;
+import org.onap.policy.common.parameters.annotations.NotNull;
+import org.onap.policy.common.parameters.annotations.Valid;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.base.Validated;
+import org.onap.policy.models.base.validation.annotations.Key;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.pdp.enums.PdpState;
@@ -70,15 +74,21 @@ public class JpaPdpGroup extends PfConcept implements PfAuthorative<PdpGroup> {
     private static final long serialVersionUID = -357224425637789775L;
 
     @EmbeddedId
+    @Key
+    @NotNull
     private PfConceptKey key;
 
     @Column
+    @NotBlank
     private String description;
 
     @Column
+    @NotNull
     private PdpState pdpGroupState;
 
     @ElementCollection
+    @Entries(key = @Items(notNull = {@NotNull}, notBlank = {@NotBlank}),
+                value = @Items(notNull = {@NotNull}, notBlank = {@NotBlank}))
     private Map<String, String> properties;
 
     // @formatter:off
@@ -90,6 +100,8 @@ public class JpaPdpGroup extends PfConcept implements PfAuthorative<PdpGroup> {
             @JoinColumn(name = "pdpGroupLocalName",        referencedColumnName = "localName")
         })
     // @formatter:on
+    @NotNull
+    @Items(notNull = {@NotNull}, valid = {@Valid})
     private List<JpaPdpSubGroup> pdpSubGroups;
 
     /**
@@ -212,22 +224,6 @@ public class JpaPdpGroup extends PfConcept implements PfAuthorative<PdpGroup> {
         for (JpaPdpSubGroup jpaPdpSubgroup : pdpSubGroups) {
             jpaPdpSubgroup.clean();
         }
-    }
-
-    @Override
-    public BeanValidationResult validate(@NonNull String fieldName) {
-        BeanValidationResult result = new BeanValidationResult(fieldName, this);
-
-        result.addResult(validateKeyNotNull("key", key));
-        result.addResult(validateNotBlank("description", description, false));
-        result.addResult(validateNotNull("pdpGroupState", pdpGroupState));
-
-        validateMap(result, "properties", properties, Validated::validateEntryNotBlankNotBlank);
-
-        result.addResult(validateNotNull("pdpSubGroups", pdpSubGroups));
-        validateList(result, "pdpSubGroups", pdpSubGroups, Validated::validateNotNull);
-
-        return result;
     }
 
     @Override

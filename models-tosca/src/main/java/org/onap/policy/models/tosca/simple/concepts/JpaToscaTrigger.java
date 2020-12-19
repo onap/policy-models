@@ -36,10 +36,14 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.lang3.ObjectUtils;
-import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.annotations.Min;
+import org.onap.policy.common.parameters.annotations.NotBlank;
+import org.onap.policy.common.parameters.annotations.NotNull;
+import org.onap.policy.common.parameters.annotations.Valid;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfReferenceKey;
+import org.onap.policy.models.base.validation.annotations.Key;
 
 /**
  * Class to represent the trigger of policy type in TOSCA definition.
@@ -56,27 +60,36 @@ public class JpaToscaTrigger extends PfConcept {
     private static final long serialVersionUID = -6515211640208986971L;
 
     @EmbeddedId
+    @Key
+    @NotNull
     private PfReferenceKey key;
 
     @Column
+    @NotBlank
     private String description;
 
     @Column
     @SerializedName("event_type")
+    @NotNull
+    @NotBlank
     private String eventType;
 
     @Column
     @SerializedName("schedule")
+    @Valid
     private JpaToscaTimeInterval schedule;
 
     @Column
     @SerializedName("target_filter")
+    @Valid
     private JpaToscaEventFilter targetFilter;
 
     @Column
+    @Valid
     private JpaToscaConstraint condition;
 
     @Column
+    @Valid
     private JpaToscaConstraint constraint;
 
     @Column
@@ -84,12 +97,16 @@ public class JpaToscaTrigger extends PfConcept {
     private Duration period;
 
     @Column
+    @Min(0)
     private int evaluations = 0;
 
     @Column
+    @NotBlank
     private String method;
 
     @Column
+    @NotNull
+    @NotBlank
     private String action;
 
     /**
@@ -171,28 +188,6 @@ public class JpaToscaTrigger extends PfConcept {
 
         method = (method != null ? method.trim() : method);
         action = action.trim();
-    }
-
-    @Override
-    public BeanValidationResult validate(@NonNull String fieldName) {
-        BeanValidationResult result = new BeanValidationResult(fieldName, this);
-
-        result.addResult(validateKeyNotNull("key", key));
-
-        result.addResult(validateNotBlank("description", description, false));
-        result.addResult(validateNotBlank("eventType", eventType, true));
-
-        validateOptional(result, "schedule", schedule);
-        validateOptional(result, "targetFilter", targetFilter);
-
-        if (evaluations < 0) {
-            addResult(result, "evaluations", evaluations, "is negative");
-        }
-
-        result.addResult(validateNotBlank("method", method, false));
-        result.addResult(validateNotBlank("action", action, true));
-
-        return result;
     }
 
     @Override

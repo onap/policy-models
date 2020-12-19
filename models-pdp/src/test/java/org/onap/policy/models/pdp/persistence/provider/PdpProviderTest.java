@@ -379,7 +379,7 @@ public class PdpProviderTest {
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpSubGroup(pfDao, PDP_GROUP0, existingSubGroup);
         }).hasMessageContaining("PDP sub group").hasMessageContaining("desiredInstanceCount")
-                        .hasMessageContaining("is negative");
+                        .hasMessageContaining("below the minimum value");
         existingSubGroup.setDesiredInstanceCount(10);
     }
 

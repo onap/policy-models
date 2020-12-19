@@ -47,6 +47,8 @@ import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
 import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.common.parameters.ValidationResult;
+import org.onap.policy.common.parameters.annotations.NotNull;
+import org.onap.policy.models.base.validation.annotations.Key;
 
 // @formatter:off
 /**
@@ -73,6 +75,8 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
     private static final Pattern KEY_ID_PATTERN = Pattern.compile(PfKey.KEY_ID_REGEXP);
 
     @EmbeddedId
+    @Key
+    @NotNull
     private PfConceptKey key;
 
     @ManyToMany(cascade = CascadeType.ALL)
@@ -243,9 +247,7 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
 
     @Override
     public BeanValidationResult validate(@NonNull String fieldName) {
-        BeanValidationResult result = new BeanValidationResult(fieldName, this);
-
-        result.addResult(validateKeyNotNull("key", key));
+        BeanValidationResult result = new PfValidator().validateTop(fieldName, this);
         result.addResult(validateConceptMap());
 
         return result;

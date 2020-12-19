@@ -37,7 +37,7 @@ import org.onap.policy.common.parameters.ValidationStatus;
  * Classes that can be validated. This can be used as a super class or as a stand-alone
  * utility class.
  */
-public abstract class Validated {
+public class Validated {
     public static final String IS_BLANK = "is blank";
     public static final String IS_A_NULL_KEY = "is a null key";
     public static final String IS_NULL = "is null";
@@ -48,12 +48,15 @@ public abstract class Validated {
     public static final String VALUE_TOKEN = "value";
 
     /**
-     * Validates the fields of the object.
+     * Validates the fields of the object. The default method uses a {@link PfValidator}
+     * to validate the object.
      *
      * @param fieldName name of the field containing this
      * @return the result, or {@code null}
      */
-    public abstract ValidationResult validate(String fieldName);
+    public BeanValidationResult validate(@NonNull String fieldName) {
+        return new PfValidator().validateTop(fieldName, this);
+    }
 
     /**
      * Adds a result indicating that a value is invalid.

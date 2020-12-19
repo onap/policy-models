@@ -35,10 +35,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfUtils;
+import org.onap.policy.models.base.validation.annotations.Key;
 
 /**
  * Class to represent the TimeInterval in TOSCA definition.
@@ -56,6 +58,8 @@ public class JpaToscaTimeInterval extends PfConcept {
     private static final long serialVersionUID = 9151467029611969980L;
 
     @EmbeddedId
+    @Key
+    @NotNull
     private PfReferenceKey key;
 
     @SerializedName("start_time")
@@ -116,9 +120,7 @@ public class JpaToscaTimeInterval extends PfConcept {
 
     @Override
     public BeanValidationResult validate(@NonNull String fieldName) {
-        BeanValidationResult result = new BeanValidationResult(fieldName, this);
-
-        result.addResult(validateKeyNotNull("key", key));
+        BeanValidationResult result = super.validate(fieldName);
 
         if (startTime == null || startTime.getTime() == 0) {
             addResult(result, "startTime", startTime, "is null or zero");

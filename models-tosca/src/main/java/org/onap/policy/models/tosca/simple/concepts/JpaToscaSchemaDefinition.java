@@ -33,13 +33,17 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import org.apache.commons.lang3.ObjectUtils;
-import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.annotations.Items;
+import org.onap.policy.common.parameters.annotations.NotBlank;
+import org.onap.policy.common.parameters.annotations.NotNull;
+import org.onap.policy.common.parameters.annotations.Valid;
 import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.base.Validated;
+import org.onap.policy.models.base.validation.annotations.Key;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConstraint;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaSchemaDefinition;
 
@@ -58,12 +62,16 @@ public class JpaToscaSchemaDefinition extends Validated
     private static final long serialVersionUID = 3645882081163287058L;
 
     @Column
+    @Key
+    @NotNull
     private PfConceptKey type;
 
     @Column
+    @NotBlank
     private String description;
 
     @ElementCollection
+    @Items(notNull = {@NotNull}, valid = {@Valid})
     private List<JpaToscaConstraint> constraints;
 
     /**
@@ -141,18 +149,6 @@ public class JpaToscaSchemaDefinition extends Validated
     public void clean() {
         type.clean();
         description = (description != null ? description.trim() : null);
-    }
-
-    @Override
-    public BeanValidationResult validate(@NonNull String fieldName) {
-        BeanValidationResult result = new BeanValidationResult(fieldName, this);
-
-        result.addResult(validateKeyNotNull("type", type));
-        result.addResult(validateNotBlank("description", description, false));
-
-        validateList(result, "constraints", constraints, Validated::validateNotNull);
-
-        return result;
     }
 
     @Override
