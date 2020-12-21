@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "af8e58de_70dd7bbd",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfConceptContainer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-12-21T13:28:01Z",
+      "side": 1,
+      "message": "I wonder should we use an annotation name that includes some indication in the name that it\u0027s a verification annotation. Maybe VerifyKey or VerifyNotNull. It\u0027s just when I saw this first i thought the @NotNull one was the Lombok @NonNull annotation.\n\nI guess this would be a change on the policy/common parameters code as well.",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 12
+      },
+      "revId": "dc1344afd1bb209e10a4055ae2244f7b8fbf4ed3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
