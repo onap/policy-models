@@ -22,6 +22,47 @@
       "revId": "dc1344afd1bb209e10a4055ae2244f7b8fbf4ed3",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f495f532_32232aab",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfConceptContainer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-21T14:39:07Z",
+      "side": 1,
+      "message": "the annotations defined in policy/common (e.g., NotNull) are modeled after those on javax.validation, thus I don\u0027t think they should be changed.  However, those defined in policy/models (e.g., Key) are specific to policy, thus I\u0027m open to renaming them.\n\nquestion: should @VerifyKey also imply @Valid (i.e., invoke the key.validated() method)?  If not, then I\u0027ll need to add @Valid to most of the places where @Key is currently used.",
+      "parentUuid": "af8e58de_70dd7bbd",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 12
+      },
+      "revId": "dc1344afd1bb209e10a4055ae2244f7b8fbf4ed3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e04e37a0_9e6dcd2d",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfKeyImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-21T14:39:07Z",
+      "side": 1,
+      "message": "not needed - subclasses will do this via annotations instead",
+      "revId": "dc1344afd1bb209e10a4055ae2244f7b8fbf4ed3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
