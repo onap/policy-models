@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "1cbf0c03_2e3833bd",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfConceptContainer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-12-21T14:56:25Z",
+      "side": 1,
+      "message": "Sounds good for the first paragraph on policy/common annotations.\n\nOn @VerifyKey, yes I think that is fine.",
+      "parentUuid": "f495f532_32232aab",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 12
+      },
+      "revId": "dc1344afd1bb209e10a4055ae2244f7b8fbf4ed3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e04e37a0_9e6dcd2d",
         "filename": "models-base/src/main/java/org/onap/policy/models/base/PfKeyImpl.java",
         "patchSetId": 2
@@ -63,6 +87,24 @@
       "revId": "dc1344afd1bb209e10a4055ae2244f7b8fbf4ed3",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2c58def_5711c350",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfKeyImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-12-21T14:56:25Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e04e37a0_9e6dcd2d",
+      "revId": "dc1344afd1bb209e10a4055ae2244f7b8fbf4ed3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
