@@ -21,6 +21,7 @@
 
 package org.onap.policy.models.base;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -73,5 +74,6 @@ public class PfSearchableKeyTest {
         PfSearchableKey someKey4 = new PfSearchableKey("my-name.*", VERSION001);
         assertEquals("my-name.*", someKey4.getName());
         assertEquals(VERSION001, someKey4.getVersion());
+        assertThat(someKey4.validate("").getResult()).isNull();
     }
 }

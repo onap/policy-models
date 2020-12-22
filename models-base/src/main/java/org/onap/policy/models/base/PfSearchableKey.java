@@ -43,7 +43,7 @@ public class PfSearchableKey extends PfKeyImpl {
     public static final String WILDCARD_NAME_REGEXP = "^[A-Za-z0-9\\-_\\.]+(?:\\.\\*)?$";
 
     @Column(name = NAME_TOKEN, length = 120)
-    @Pattern(regexp = NAME_REGEXP)
+    @Pattern(regexp = WILDCARD_NAME_REGEXP)
     private String name;
 
     @Column(name = VERSION_TOKEN, length = 20)
