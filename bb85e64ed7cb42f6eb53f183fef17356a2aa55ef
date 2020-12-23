@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d05c997b_97354873",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfConceptContainer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-12-23T11:13:08Z",
+      "side": 1,
+      "message": "Adding the getDefinedName() and getDefinedVersion() to the PfNameVersion interface allows us to ahve the default value of a name and version on a ToscaEntity as PfKey.NULL_KEY_NAME and PfKey.NULL_KEY_VERSION rather than Java \"null\" when we read concepts in from JSON or YAML. THis makes the processing much easier as we don\u0027t have to worry about nulls existing.\n\nThe getDefinedName() and getDefinedVersion() methods return Java \"null\" if the name or version is not defined, ie is \"null\" of the PfKey interpretation of null.",
+      "range": {
+        "startLine": 201,
+        "startChar": 72,
+        "endLine": 203,
+        "endChar": 89
+      },
+      "revId": "bb85e64ed7cb42f6eb53f183fef17356a2aa55ef",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "412775e9_a81ef8a2",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfNameVersion.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-12-23T11:13:08Z",
+      "side": 1,
+      "message": "see previous comment",
+      "range": {
+        "startLine": 41,
+        "startChar": 1,
+        "endLine": 58,
+        "endChar": 7
+      },
+      "revId": "bb85e64ed7cb42f6eb53f183fef17356a2aa55ef",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d923a00_bd7f51ec",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfObjectFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-12-23T11:13:08Z",
+      "side": 1,
+      "message": "This allows the filter to act in a sane manner if one, other, or both of the names is null.",
+      "range": {
+        "startLine": 139,
+        "startChar": 12,
+        "endLine": 140,
+        "endChar": 68
+      },
+      "revId": "bb85e64ed7cb42f6eb53f183fef17356a2aa55ef",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb8c00ec_b7737948",
+        "filename": "models-interactions/model-actors/actor.so/src/test/java/org/onap/policy/controlloop/actor/so/ModifyNssiTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-12-23T11:13:08Z",
+      "side": 1,
+      "message": "Eclipse warnings showed up on this file.",
+      "revId": "bb85e64ed7cb42f6eb53f183fef17356a2aa55ef",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31a242df_b303374e",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaServiceTemplateComparator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-12-23T11:13:08Z",
+      "side": 1,
+      "message": "The current way of doing filtering means we need 2 classes for everything we need to filter on, I\u0027ll look at a better way of doing filtering in a future review.",
+      "revId": "bb85e64ed7cb42f6eb53f183fef17356a2aa55ef",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
