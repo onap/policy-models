@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ws.rs.core.Response;
+import lombok.NonNull;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.base.PfModelException;
@@ -42,6 +43,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplateFilter;
 
 /**
  * This class provides a dummy implementation of the Policy Models Provider for the ONAP Policy Framework.
@@ -67,6 +69,36 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
     @Override
     public void close() {
         // Not required on the dummy provider
+    }
+
+
+    @Override
+    public List<ToscaServiceTemplate> getServiceTemplateList(String name, String version) throws PfModelException {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<ToscaServiceTemplate> getFilteredServiceTemplateList(@NonNull ToscaServiceTemplateFilter filter)
+            throws PfModelException {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public ToscaServiceTemplate createServiceTemplate(@NonNull ToscaServiceTemplate serviceTemplate)
+            throws PfModelException {
+        return serviceTemplate;
+    }
+
+    @Override
+    public ToscaServiceTemplate updateServiceTemplate(@NonNull ToscaServiceTemplate serviceTemplate)
+            throws PfModelException {
+        return serviceTemplate;
+    }
+
+    @Override
+    public ToscaServiceTemplate deleteServiceTemplate(@NonNull String name, @NonNull String version)
+            throws PfModelException {
+        return getDummyResponse("dummyimpl/DummyToscaServiceTemplateDeleteResponse.json");
     }
 
     @Override
