@@ -22,6 +22,30 @@
       "revId": "8ad3f95cdcec48b8315a5febfd4ec07bae7aabba",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54331e20_fd006651",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaConceptIdentifierOptVersion.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-01-04T20:52:07Z",
+      "side": 0,
+      "message": "This is also used in the clamp-policy API, so I would prefer not to change the serialized names.",
+      "parentUuid": "27a3981e_fb142461",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 46
+      },
+      "revId": "8ad3f95cdcec48b8315a5febfd4ec07bae7aabba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
