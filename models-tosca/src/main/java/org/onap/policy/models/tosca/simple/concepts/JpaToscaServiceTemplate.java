@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -269,11 +269,11 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
     public void fromAuthorative(ToscaServiceTemplate toscaServiceTemplate) {
         super.fromAuthorative(toscaServiceTemplate);
 
-        if (PfKey.NULL_KEY_NAME.equals(getKey().getName())) {
+        if (toscaServiceTemplate.getDefinedName() == null) {
             getKey().setName(DEFAULT_NAME);
         }
 
-        if (PfKey.NULL_KEY_VERSION.equals(getKey().getVersion())) {
+        if (toscaServiceTemplate.getDefinedVersion() == null) {
             getKey().setVersion(DEFAULT_VERSION);
         }
 
@@ -476,8 +476,8 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
      * @param dataTypeKeyCollection the data type key collection
      * @param result where the results are added
      */
-    private void validateReferencedDataTypesExists(
-            final Collection<PfConceptKey> dataTypeKeyCollection, final BeanValidationResult result) {
+    private void validateReferencedDataTypesExists(final Collection<PfConceptKey> dataTypeKeyCollection,
+            final BeanValidationResult result) {
         for (PfConceptKey dataTypeKey : dataTypeKeyCollection) {
             if (dataTypes == null || dataTypes.get(dataTypeKey) == null) {
                 addResult(result, "data type", dataTypeKey.getId(), NOT_FOUND);

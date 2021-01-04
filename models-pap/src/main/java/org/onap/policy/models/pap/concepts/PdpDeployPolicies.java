@@ -1,8 +1,9 @@
-/*
+/*-
  * ============LICENSE_START=======================================================
  * ONAP Policy Models
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,19 +22,35 @@
 package org.onap.policy.models.pap.concepts;
 
 import java.util.List;
-import lombok.Getter;
-import lombok.Setter;
+import java.util.stream.Collectors;
 import lombok.ToString;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifierOptVersion;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierOptVersion;
 
 /**
- * Request deploy or update a set of policies using the <i>simple</i> PDP Group deployment
- * REST API. Only the "name" and "version" fields of a Policy are used, and only the
- * "name" field is actually required.
+ * Request deploy or update a set of policies using the <i>simple</i> PDP Group deployment REST API. Only the "name" and
+ * "version" fields of a Policy are used, and only the "name" field is actually required.
  */
-@Getter
-@Setter
 @ToString
 public class PdpDeployPolicies {
-    private List<ToscaPolicyIdentifierOptVersion> policies;
+    private List<PapPolicyIdentifier> policies;
+
+    /**
+     * Get the identifiers of the policies on the list.
+     *
+     * @return The list of identifiers
+     */
+    public List<ToscaConceptIdentifierOptVersion> getPolicies() {
+        return policies == null ? null
+                : policies.stream().map(PapPolicyIdentifier::getGenericIdentifier).collect(Collectors.toList());
+    }
+
+    /**
+     * Set the identifiers of the policies on the list.
+     *
+     * @param policies The list of identifiers
+     */
+    public void setPolicies(final List<ToscaConceptIdentifierOptVersion> policies) {
+        this.policies =
+                policies == null ? null : policies.stream().map(PapPolicyIdentifier::new).collect(Collectors.toList());
+    }
 }

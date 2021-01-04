@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,8 +32,7 @@ import org.onap.policy.common.parameters.ObjectValidationResult;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.common.parameters.ValidationStatus;
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifier;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifier;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
 
 /**
  * Class to represent a group of all PDP's of the same pdp type running for a particular
@@ -44,8 +43,8 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifi
 @Data
 public class PdpSubGroup {
     private String pdpType;
-    private List<ToscaPolicyTypeIdentifier> supportedPolicyTypes;
-    private List<ToscaPolicyIdentifier> policies;
+    private List<ToscaConceptIdentifier> supportedPolicyTypes;
+    private List<ToscaConceptIdentifier> policies;
     private int currentInstanceCount;
     private int desiredInstanceCount;
     private Map<String, String> properties;
@@ -65,9 +64,9 @@ public class PdpSubGroup {
      */
     public PdpSubGroup(@NonNull final PdpSubGroup source) {
         this.pdpType = source.pdpType;
-        this.supportedPolicyTypes = PfUtils.mapList(source.supportedPolicyTypes, ToscaPolicyTypeIdentifier::new,
+        this.supportedPolicyTypes = PfUtils.mapList(source.supportedPolicyTypes, ToscaConceptIdentifier::new,
                         new ArrayList<>(0));
-        this.policies = PfUtils.mapList(source.policies, ToscaPolicyIdentifier::new, new ArrayList<>(0));
+        this.policies = PfUtils.mapList(source.policies, ToscaConceptIdentifier::new, new ArrayList<>(0));
         this.currentInstanceCount = source.currentInstanceCount;
         this.desiredInstanceCount = source.desiredInstanceCount;
         this.properties = (source.properties == null ? null : new LinkedHashMap<>(source.properties));
@@ -87,9 +86,9 @@ public class PdpSubGroup {
         result.validateNotNull("pdpType", pdpType);
         // When doing PdpGroup Update operation, supported policy types and policies doesn't have to be validated.
         if (!updateGroupFlow) {
-            result.validateNotNullList("policies", policies, ToscaPolicyIdentifier::validatePapRest);
+            result.validateNotNullList("policies", policies, ToscaConceptIdentifier::validatePapRest);
             result.validateNotNullList("supportedPolicyTypes", supportedPolicyTypes,
-                ToscaPolicyTypeIdentifier::validatePapRest);
+                ToscaConceptIdentifier::validatePapRest);
 
             if (supportedPolicyTypes != null && supportedPolicyTypes.isEmpty()) {
                 result.addResult(new ObjectValidationResult("supportedPolicyTypes", supportedPolicyTypes,
