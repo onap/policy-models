@@ -3,7 +3,7 @@
  * ONAP Policy Models
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2020 Nordix Foundation.
+ * Modifications Copyright (C) 2020-2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ import java.util.Collections;
 import org.junit.Test;
 import org.onap.policy.models.pdp.enums.PdpHealthStatus;
 import org.onap.policy.models.pdp.enums.PdpState;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifier;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
 
 public class PdpStatusTest {
 
@@ -52,7 +52,7 @@ public class PdpStatusTest {
         orig.setPdpGroup("my-group");
         orig.setPdpSubgroup("my-subgroup");
         orig.setPdpType("my-type");
-        orig.setPolicies(Arrays.asList(new ToscaPolicyIdentifier("policy-A", "1.0.0")));
+        orig.setPolicies(Arrays.asList(new ToscaConceptIdentifier("policy-A", "1.0.0")));
         orig.setProperties("my-properties");
 
         final PdpResponseDetails resp = new PdpResponseDetails();

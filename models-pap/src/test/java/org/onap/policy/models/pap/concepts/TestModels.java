@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,11 +20,13 @@
 
 package org.onap.policy.models.pap.concepts;
 
-import com.openpojo.reflection.filters.FilterPackageInfo;
+import com.openpojo.reflection.PojoClass;
+import com.openpojo.reflection.impl.PojoClassFactory;
 import com.openpojo.validation.Validator;
 import com.openpojo.validation.ValidatorBuilder;
 import com.openpojo.validation.test.impl.GetterTester;
 import com.openpojo.validation.test.impl.SetterTester;
+import java.util.List;
 import org.junit.Test;
 import org.onap.policy.common.utils.test.ToStringTester;
 
@@ -37,8 +39,19 @@ public class TestModels {
 
     @Test
     public void testPapModels() {
-        final Validator validator = ValidatorBuilder.create().with(new ToStringTester()).with(new SetterTester())
-                .with(new GetterTester()).build();
-        validator.validate(TestModels.class.getPackage().getName(), new FilterPackageInfo());
+        List<PojoClass> pojoClasses = PojoClassFactory.getPojoClasses(TestModels.class.getPackage().getName());
+
+        // @formatter:off
+        final Validator validator =
+                ValidatorBuilder.create()
+                    .with(new ToStringTester())
+                    .with(new SetterTester())
+                    .with(new GetterTester())
+                    .build();
+        // @formatter:on
+
+        pojoClasses.remove(PojoClassFactory.getPojoClass(PdpDeployPolicies.class));
+
+        validator.validate(pojoClasses);
     }
 }

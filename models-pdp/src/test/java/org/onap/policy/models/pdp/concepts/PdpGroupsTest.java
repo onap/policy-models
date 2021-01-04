@@ -3,6 +3,7 @@
  * ONAP Policy Models
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,7 +35,7 @@ import java.util.List;
 import java.util.Map;
 import org.junit.Test;
 import org.onap.policy.common.parameters.ValidationResult;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifier;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
 
 public class PdpGroupsTest {
 
@@ -46,7 +47,7 @@ public class PdpGroupsTest {
         PdpSubGroup subgrp = new PdpSubGroup();
         subgrp.setDesiredInstanceCount(1);
         subgrp.setPdpType("pdp-type");
-        subgrp.setSupportedPolicyTypes(Arrays.asList(new ToscaPolicyTypeIdentifier("policy-type", "9.8.7")));
+        subgrp.setSupportedPolicyTypes(Arrays.asList(new ToscaConceptIdentifier("policy-type", "9.8.7")));
         subgrp.setPolicies(Collections.emptyList());
 
         group1.setPdpSubgroups(Arrays.asList(subgrp));

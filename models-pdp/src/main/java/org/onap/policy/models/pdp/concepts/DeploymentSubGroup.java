@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +28,7 @@ import lombok.NonNull;
 import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifier;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
 
 /**
  * A deployment (i.e., set of policies) for all PDPs of the same pdp type running within a
@@ -44,7 +45,7 @@ public class DeploymentSubGroup {
 
     private String pdpType;
     private Action action;
-    private List<ToscaPolicyIdentifier> policies;
+    private List<ToscaConceptIdentifier> policies;
 
     /**
      * Constructs the object.
@@ -61,7 +62,7 @@ public class DeploymentSubGroup {
     public DeploymentSubGroup(@NonNull final DeploymentSubGroup source) {
         this.pdpType = source.pdpType;
         this.action = source.action;
-        this.policies = PfUtils.mapList(source.policies, ToscaPolicyIdentifier::new, new ArrayList<>(0));
+        this.policies = PfUtils.mapList(source.policies, ToscaConceptIdentifier::new, new ArrayList<>(0));
     }
 
     /**
@@ -75,7 +76,7 @@ public class DeploymentSubGroup {
 
         result.validateNotNull("pdpType", pdpType);
         result.validateNotNull("action", action);
-        result.validateNotNullList("policies", policies, ToscaPolicyIdentifier::validatePapRest);
+        result.validateNotNullList("policies", policies, ToscaConceptIdentifier::validatePapRest);
 
         return result;
     }

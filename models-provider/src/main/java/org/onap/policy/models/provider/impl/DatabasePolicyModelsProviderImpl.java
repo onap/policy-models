@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
  * ================================================================================
@@ -43,12 +43,11 @@ import org.onap.policy.models.pdp.persistence.provider.PdpProvider;
 import org.onap.policy.models.pdp.persistence.provider.PdpStatisticsProvider;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifier;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifier;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplateFilter;
 import org.onap.policy.models.tosca.authorative.provider.AuthorativeToscaProvider;
@@ -212,7 +211,7 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
             throws PfModelException {
         assertInitialized();
 
-        ToscaPolicyTypeIdentifier policyTypeIdentifier = new ToscaPolicyTypeIdentifier(name, version);
+        ToscaConceptIdentifier policyTypeIdentifier = new ToscaConceptIdentifier(name, version);
         assertPolicyTypeNotSupportedInPdpGroup(policyTypeIdentifier);
 
         return new AuthorativeToscaProvider().deletePolicyType(pfDao, name, version);
@@ -261,7 +260,7 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
             throws PfModelException {
         assertInitialized();
 
-        ToscaPolicyIdentifier policyIdentifier = new ToscaPolicyIdentifier(name, version);
+        ToscaConceptIdentifier policyIdentifier = new ToscaConceptIdentifier(name, version);
         assertPolicyNotDeployedInPdpGroup(policyIdentifier);
 
         return new AuthorativeToscaProvider().deletePolicy(pfDao, name, version);
@@ -363,7 +362,7 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
      * @param policyTypeIdentifier the policy type identifier
      * @throws PfModelException if the policy type is supported in a PDP group
      */
-    private void assertPolicyTypeNotSupportedInPdpGroup(ToscaPolicyTypeIdentifier policyTypeIdentifier)
+    private void assertPolicyTypeNotSupportedInPdpGroup(ToscaConceptIdentifier policyTypeIdentifier)
             throws PfModelException {
         for (PdpGroup pdpGroup : getPdpGroups(null)) {
             for (PdpSubGroup pdpSubGroup : pdpGroup.getPdpSubgroups()) {
@@ -382,7 +381,7 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
      * @param policyIdentifier the identifier of the policy
      * @throws PfModelException thrown if the policy is deployed in a PDP group
      */
-    private void assertPolicyNotDeployedInPdpGroup(final ToscaPolicyIdentifier policyIdentifier)
+    private void assertPolicyNotDeployedInPdpGroup(final ToscaConceptIdentifier policyIdentifier)
             throws PfModelException {
         for (PdpGroup pdpGroup : getPdpGroups(null)) {
             for (PdpSubGroup pdpSubGroup : pdpGroup.getPdpSubgroups()) {

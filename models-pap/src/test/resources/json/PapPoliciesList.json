@@ -1,0 +1,16 @@
+{
+    "policies": [
+        {
+            "policy-id" : "MyPolicy0",
+            "policy-version": "1.2.0"
+        },
+        {
+            "policy-id" : "MyPolicy1",
+            "policy-version": "1.2.1"
+        },
+        {
+            "policy-id" : "MyPolicy2",
+            "policy-version": "1.2.2"
+        }
+    ]
+}
