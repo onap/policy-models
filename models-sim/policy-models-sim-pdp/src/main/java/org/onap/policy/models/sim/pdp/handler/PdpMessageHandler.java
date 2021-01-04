@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,8 +31,8 @@ import org.onap.policy.models.pdp.enums.PdpResponseStatus;
 import org.onap.policy.models.pdp.enums.PdpState;
 import org.onap.policy.models.sim.pdp.PdpSimulatorConstants;
 import org.onap.policy.models.sim.pdp.parameters.PdpStatusParameters;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifier;
 
 /**
  * This class supports the handling of pdp messages.
@@ -117,11 +117,11 @@ public class PdpMessageHandler {
      *
      * @return policyTypeIdentifiers
      */
-    public List<ToscaPolicyIdentifier> getToscaPolicyIdentifiers(final List<ToscaPolicy> policies) {
-        final List<ToscaPolicyIdentifier> policyIdentifiers = new ArrayList<>(policies.size());
+    public List<ToscaConceptIdentifier> getToscaPolicyIdentifiers(final List<ToscaPolicy> policies) {
+        final List<ToscaConceptIdentifier> policyIdentifiers = new ArrayList<>(policies.size());
         for (final ToscaPolicy policy : policies) {
             if (null != policy.getName() && null != policy.getVersion()) {
-                policyIdentifiers.add(new ToscaPolicyIdentifier(policy.getName(), policy.getVersion()));
+                policyIdentifiers.add(new ToscaConceptIdentifier(policy.getName(), policy.getVersion()));
             }
         }
         return policyIdentifiers;

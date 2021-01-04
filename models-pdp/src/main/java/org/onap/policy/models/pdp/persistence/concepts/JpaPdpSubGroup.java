@@ -3,7 +3,7 @@
  * ONAP Policy Model
  * ================================================================================
  * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61,8 +61,7 @@ import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.base.validation.annotations.VerifyKey;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifier;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifier;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
 
 /**
  * Class to represent a PDP subgroup in the database.
@@ -186,14 +185,14 @@ public class JpaPdpSubGroup extends PfConcept implements PfAuthorative<PdpSubGro
 
         pdpSubgroup.setSupportedPolicyTypes(new ArrayList<>());
         for (PfSearchableKey supportedPolicyTypeKey : supportedPolicyTypes) {
-            ToscaPolicyTypeIdentifier supportedPolicyTypeIdent = new ToscaPolicyTypeIdentifier(
+            ToscaConceptIdentifier supportedPolicyTypeIdent = new ToscaConceptIdentifier(
                     supportedPolicyTypeKey.getName(), supportedPolicyTypeKey.getVersion());
             pdpSubgroup.getSupportedPolicyTypes().add(supportedPolicyTypeIdent);
         }
 
         pdpSubgroup.setPolicies(new ArrayList<>());
         for (PfConceptKey policyKey : policies) {
-            ToscaPolicyIdentifier toscaPolicyIdentifier = new ToscaPolicyIdentifier();
+            ToscaConceptIdentifier toscaPolicyIdentifier = new ToscaConceptIdentifier();
             toscaPolicyIdentifier.setName(policyKey.getName());
             toscaPolicyIdentifier.setVersion(policyKey.getVersion());
             pdpSubgroup.getPolicies().add(toscaPolicyIdentifier);
@@ -220,7 +219,7 @@ public class JpaPdpSubGroup extends PfConcept implements PfAuthorative<PdpSubGro
 
         this.supportedPolicyTypes = new ArrayList<>();
         if (pdpSubgroup.getSupportedPolicyTypes() != null) {
-            for (ToscaPolicyTypeIdentifier supportedPolicyType : pdpSubgroup.getSupportedPolicyTypes()) {
+            for (ToscaConceptIdentifier supportedPolicyType : pdpSubgroup.getSupportedPolicyTypes()) {
                 this.supportedPolicyTypes
                         .add(new PfSearchableKey(supportedPolicyType.getName(), supportedPolicyType.getVersion()));
             }
@@ -228,7 +227,7 @@ public class JpaPdpSubGroup extends PfConcept implements PfAuthorative<PdpSubGro
 
         this.policies = new ArrayList<>();
         if (pdpSubgroup.getPolicies() != null) {
-            for (ToscaPolicyIdentifier toscaPolicyIdentifier : pdpSubgroup.getPolicies()) {
+            for (ToscaConceptIdentifier toscaPolicyIdentifier : pdpSubgroup.getPolicies()) {
                 this.policies
                         .add(new PfConceptKey(toscaPolicyIdentifier.getName(), toscaPolicyIdentifier.getVersion()));
             }

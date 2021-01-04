@@ -3,7 +3,7 @@
  * ONAP Policy Models
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019-2020 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,8 +37,7 @@ import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifier;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifier;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
 
 /**
  * Test methods not tested by {@link ModelsTest}.
@@ -70,10 +69,10 @@ public class PdpSubGroupTest {
 
         orig.setPdpType("my-type");
 
-        final ToscaPolicyIdentifier pol1 = new ToscaPolicyIdentifier();
+        final ToscaConceptIdentifier pol1 = new ToscaConceptIdentifier();
         pol1.setName("policy-A");
         pol1.setVersion("1.0.0");
-        final ToscaPolicyIdentifier pol2 = new ToscaPolicyIdentifier();
+        final ToscaConceptIdentifier pol2 = new ToscaConceptIdentifier();
         pol2.setName("policy-B");
         pol1.setVersion("2.0.0");
         orig.setPolicies(Arrays.asList(pol1, pol2));
@@ -83,8 +82,8 @@ public class PdpSubGroupTest {
         props.put("key-B", "value-B");
         orig.setProperties(props);
 
-        final ToscaPolicyTypeIdentifier supp1 = new ToscaPolicyTypeIdentifier("supp-A", "1.2");
-        final ToscaPolicyTypeIdentifier supp2 = new ToscaPolicyTypeIdentifier("supp-B", "3.4");
+        final ToscaConceptIdentifier supp1 = new ToscaConceptIdentifier("supp-A", "1.2");
+        final ToscaConceptIdentifier supp2 = new ToscaConceptIdentifier("supp-B", "3.4");
         orig.setSupportedPolicyTypes(Arrays.asList(supp1, supp2));
 
         assertEquals(orig.toString(), new PdpSubGroup(orig).toString());
@@ -97,8 +96,8 @@ public class PdpSubGroupTest {
         subgrp.setDesiredInstanceCount(1);
         subgrp.setPdpType("pdp-type");
         subgrp.setSupportedPolicyTypes(
-                        Arrays.asList(makeIdent("type-X", VERSION_300, ToscaPolicyTypeIdentifier.class)));
-        subgrp.setPolicies(Arrays.asList(makeIdent("policy-X", "4.0.0", ToscaPolicyIdentifier.class)));
+                        Arrays.asList(makeIdent("type-X", VERSION_300, ToscaConceptIdentifier.class)));
+        subgrp.setPolicies(Arrays.asList(makeIdent("policy-X", "4.0.0", ToscaConceptIdentifier.class)));
 
         ValidationResult result = subgrp.validatePapRest(false);
         assertNotNull(result);
@@ -130,8 +129,8 @@ public class PdpSubGroupTest {
         subgrp.setDesiredInstanceCount(1);
         subgrp.setPdpType("pdp-type");
         subgrp.setSupportedPolicyTypes(
-                        Arrays.asList(makeIdent("type-X", VERSION_300, ToscaPolicyTypeIdentifier.class)));
-        subgrp.setPolicies(Arrays.asList(makeIdent("policy-X", "4.0.0", ToscaPolicyIdentifier.class)));
+                        Arrays.asList(makeIdent("type-X", VERSION_300, ToscaConceptIdentifier.class)));
+        subgrp.setPolicies(Arrays.asList(makeIdent("policy-X", "4.0.0", ToscaConceptIdentifier.class)));
 
         // valid
         ValidationResult result = subgrp.validatePapRest(false);
@@ -171,7 +170,7 @@ public class PdpSubGroupTest {
 
         // invalid policy type item
         sub2 = new PdpSubGroup(subgrp);
-        sub2.getSupportedPolicyTypes().set(0, makeIdent(null, VERSION_300, ToscaPolicyTypeIdentifier.class));
+        sub2.getSupportedPolicyTypes().set(0, makeIdent(null, VERSION_300, ToscaConceptIdentifier.class));
         assertInvalid(sub2);
 
         // null policies
@@ -186,7 +185,7 @@ public class PdpSubGroupTest {
 
         // invalid policy item
         sub2 = new PdpSubGroup(subgrp);
-        sub2.getPolicies().set(0, makeIdent(null, VERSION_300, ToscaPolicyIdentifier.class));
+        sub2.getPolicies().set(0, makeIdent(null, VERSION_300, ToscaConceptIdentifier.class));
         assertInvalid(sub2);
     }
 

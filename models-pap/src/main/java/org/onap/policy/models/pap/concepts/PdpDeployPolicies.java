@@ -3,6 +3,7 @@
  * ONAP Policy Models
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +25,7 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifierOptVersion;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierOptVersion;
 
 /**
  * Request deploy or update a set of policies using the <i>simple</i> PDP Group deployment
@@ -35,5 +36,5 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifierOp
 @Setter
 @ToString
 public class PdpDeployPolicies {
-    private List<ToscaPolicyIdentifierOptVersion> policies;
+    private List<ToscaConceptIdentifierOptVersion> policies;
 }

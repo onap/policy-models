@@ -3,7 +3,7 @@
  * ONAP Policy Models
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2020 Nordix Foundation.
+ * Modifications Copyright (C) 2020-2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,50 +25,37 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import org.apache.commons.lang3.ObjectUtils;
-import org.onap.policy.common.parameters.BeanValidationResult;
-import org.onap.policy.common.parameters.ValidationResult;
 
 /**
- * Identifies a policy type. Both the name and version must be non-null.
+ * Concept identifier with an optional version; only the "name" is required.
  */
 @Data
 @NoArgsConstructor
-public class ToscaPolicyTypeIdentifier implements Comparable<ToscaPolicyTypeIdentifier> {
+public class ToscaConceptIdentifierOptVersion implements Comparable<ToscaConceptIdentifierOptVersion> {
 
     @NonNull
     private String name;
 
-    @NonNull
     private String version;
 
 
-    public ToscaPolicyTypeIdentifier(@NonNull String name, @NonNull String version) {
+    public ToscaConceptIdentifierOptVersion(@NonNull String name, String version) {
         this.name = name;
         this.version = version;
     }
 
-    public ToscaPolicyTypeIdentifier(ToscaPolicyTypeIdentifier source) {
+    public ToscaConceptIdentifierOptVersion(ToscaConceptIdentifierOptVersion source) {
         this.name = source.name;
         this.version = source.version;
     }
 
-    /**
-     * Validates that appropriate fields are populated for an incoming call to the PAP
-     * REST API.
-     *
-     * @return the validation result
-     */
-    public ValidationResult validatePapRest() {
-        BeanValidationResult result = new BeanValidationResult("group", this);
-
-        result.validateNotNull("name", name);
-        result.validateNotNull("version", version);
-
-        return result;
+    public ToscaConceptIdentifierOptVersion(ToscaConceptIdentifier source) {
+        this.name = source.getName();
+        this.version = source.getVersion();
     }
 
     @Override
-    public int compareTo(ToscaPolicyTypeIdentifier other) {
+    public int compareTo(ToscaConceptIdentifierOptVersion other) {
         if (this == other) {
             return 0;
         }
