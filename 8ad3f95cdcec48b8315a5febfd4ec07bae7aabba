@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27a3981e_fb142461",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaConceptIdentifierOptVersion.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2021-01-04T16:34:50Z",
+      "side": 0,
+      "message": "This means a small change to the JSON on the PAP-PDP communication but I think it is worth it in order to make the class generally usable.",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 46
+      },
+      "revId": "8ad3f95cdcec48b8315a5febfd4ec07bae7aabba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
