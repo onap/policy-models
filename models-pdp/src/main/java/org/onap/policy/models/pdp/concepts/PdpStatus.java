@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,7 +30,7 @@ import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.pdp.enums.PdpHealthStatus;
 import org.onap.policy.models.pdp.enums.PdpMessageType;
 import org.onap.policy.models.pdp.enums.PdpState;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifier;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
 
 /**
  * Class to represent the PDP_STATUS message that all the PDP's will send to PAP.
@@ -51,7 +51,7 @@ public class PdpStatus extends PdpMessage {
      */
     private String description;
 
-    private List<ToscaPolicyIdentifier> policies;
+    private List<ToscaConceptIdentifier> policies;
     private String deploymentInstanceInfo;
     private String properties;
     private PdpStatistics statistics;
@@ -77,7 +77,7 @@ public class PdpStatus extends PdpMessage {
         this.state = source.state;
         this.healthy = source.healthy;
         this.description = source.description;
-        this.policies = PfUtils.mapList(source.policies, ToscaPolicyIdentifier::new, new ArrayList<>(0));
+        this.policies = PfUtils.mapList(source.policies, ToscaConceptIdentifier::new, new ArrayList<>(0));
         this.deploymentInstanceInfo = source.deploymentInstanceInfo;
         this.properties = source.properties;
         this.statistics = (source.statistics == null ? null : new PdpStatistics(source.statistics));

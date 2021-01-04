@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
  * ================================================================================
@@ -43,10 +43,9 @@ import org.onap.policy.models.pdp.enums.PdpState;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderFactory;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifier;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifier;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 
 /**
@@ -97,7 +96,7 @@ public class DatabasePolicyModelsProviderTest {
         }).hasMessageMatching("^parameters is marked .*on.*ull but is null$");
 
         PolicyModelsProvider databaseProvider =
-            new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
+                new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
         parameters.setDatabaseUrl("jdbc://www.acmecorp.nonexist");
 
@@ -131,7 +130,7 @@ public class DatabasePolicyModelsProviderTest {
     public void testProviderMethodsNull() throws Exception {
 
         PolicyModelsProvider databaseProvider =
-            new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
+                new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
         assertThatThrownBy(() -> {
             databaseProvider.getFilteredPolicyTypes(null);
@@ -275,7 +274,7 @@ public class DatabasePolicyModelsProviderTest {
     @Test
     public void testProviderMethodsNotInit() throws Exception {
         PolicyModelsProvider databaseProvider =
-            new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
+                new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
         databaseProvider.close();
 
@@ -287,15 +286,15 @@ public class DatabasePolicyModelsProviderTest {
     @Test
     public void testProviderMethods() throws PfModelException {
         PolicyModelsProvider databaseProvider =
-            new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
+                new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
         assertThatThrownBy(() -> databaseProvider.getPolicyTypes(NAME, VERSION_100))
-            .hasMessage("service template not found in database");
+                .hasMessage("service template not found in database");
 
         assertTrue(databaseProvider.getPolicyTypeList(NAME, VERSION_100).isEmpty());
 
         assertThatThrownBy(() -> databaseProvider.getFilteredPolicyTypes(ToscaPolicyTypeFilter.builder().build()))
-            .hasMessage("service template not found in database");
+                .hasMessage("service template not found in database");
 
         assertTrue(databaseProvider.getFilteredPolicyTypeList(ToscaPolicyTypeFilter.builder().build()).isEmpty());
 
@@ -308,15 +307,15 @@ public class DatabasePolicyModelsProviderTest {
         }).hasMessage("no policy types specified on service template");
 
         assertThatThrownBy(() -> databaseProvider.deletePolicyType(NAME, VERSION_100))
-            .hasMessage("service template not found in database");
+                .hasMessage("service template not found in database");
 
         assertThatThrownBy(() -> databaseProvider.getPolicies(NAME, VERSION_100))
-            .hasMessage("service template not found in database");
+                .hasMessage("service template not found in database");
 
         assertTrue(databaseProvider.getPolicyList(NAME, VERSION_100).isEmpty());
 
         assertThatThrownBy(() -> databaseProvider.getFilteredPolicies(ToscaPolicyFilter.builder().build()))
-            .hasMessage("service template not found in database");
+                .hasMessage("service template not found in database");
 
         assertTrue(databaseProvider.getFilteredPolicyList(ToscaPolicyFilter.builder().build()).isEmpty());
 
@@ -329,7 +328,7 @@ public class DatabasePolicyModelsProviderTest {
         }).hasMessage("topology template not specified on service template");
 
         assertThatThrownBy(() -> databaseProvider.deletePolicy("Policy", "0.0.0").getToscaTopologyTemplate())
-            .hasMessage("service template not found in database");
+                .hasMessage("service template not found in database");
 
         assertEquals(0, databaseProvider.getPdpGroups(NAME).size());
         assertEquals(0, databaseProvider.getFilteredPdpGroups(PdpGroupFilter.builder().build()).size());
@@ -349,7 +348,7 @@ public class DatabasePolicyModelsProviderTest {
         pdpSubGroup.setPdpType("type");
         pdpSubGroup.setDesiredInstanceCount(123);
         pdpSubGroup.setSupportedPolicyTypes(new ArrayList<>());
-        pdpSubGroup.getSupportedPolicyTypes().add(new ToscaPolicyTypeIdentifier("type", "7.8.9"));
+        pdpSubGroup.getSupportedPolicyTypes().add(new ToscaConceptIdentifier("type", "7.8.9"));
         pdpGroup.getPdpSubgroups().add(pdpSubGroup);
 
         Pdp pdp = new Pdp();
@@ -369,20 +368,20 @@ public class DatabasePolicyModelsProviderTest {
         statisticsArrayList.add(pdpStatistics);
 
         assertEquals(123,
-            databaseProvider.createPdpGroups(groupList).get(0).getPdpSubgroups().get(0).getDesiredInstanceCount());
+                databaseProvider.createPdpGroups(groupList).get(0).getPdpSubgroups().get(0).getDesiredInstanceCount());
         assertEquals(1, databaseProvider.getPdpGroups(GROUP).size());
 
         pdpSubGroup.setDesiredInstanceCount(234);
         databaseProvider.updatePdpSubGroup(GROUP, pdpSubGroup);
         assertEquals(234,
-            databaseProvider.getPdpGroups(GROUP).get(0).getPdpSubgroups().get(0).getDesiredInstanceCount());
+                databaseProvider.getPdpGroups(GROUP).get(0).getPdpSubgroups().get(0).getDesiredInstanceCount());
 
-        assertEquals("Hello",
-            databaseProvider.getPdpGroups(GROUP).get(0).getPdpSubgroups().get(0).getPdpInstances().get(0).getMessage());
+        assertEquals("Hello", databaseProvider.getPdpGroups(GROUP).get(0).getPdpSubgroups().get(0).getPdpInstances()
+                .get(0).getMessage());
         pdp.setMessage("Howdy");
         databaseProvider.updatePdp(GROUP, "type", pdp);
-        assertEquals("Howdy",
-            databaseProvider.getPdpGroups(GROUP).get(0).getPdpSubgroups().get(0).getPdpInstances().get(0).getMessage());
+        assertEquals("Howdy", databaseProvider.getPdpGroups(GROUP).get(0).getPdpSubgroups().get(0).getPdpInstances()
+                .get(0).getMessage());
 
         assertThatThrownBy(() -> {
             databaseProvider.deletePdpGroup(NAME);
@@ -396,30 +395,30 @@ public class DatabasePolicyModelsProviderTest {
 
         assertEquals(NAME, databaseProvider.getPdpStatistics(null, null).get(0).getPdpInstanceId());
         assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(null, GROUP, null, null, null, ORDER, 0).get(0)
-            .getPdpInstanceId());
+                .getPdpInstanceId());
         assertEquals(0,
-            databaseProvider.getFilteredPdpStatistics(null, GROUP, null, new Date(), null, ORDER, 0).size());
+                databaseProvider.getFilteredPdpStatistics(null, GROUP, null, new Date(), null, ORDER, 0).size());
         assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(null, GROUP, null, null, new Date(), ORDER, 0)
-            .get(0).getPdpInstanceId());
+                .get(0).getPdpInstanceId());
         assertEquals(0,
-            databaseProvider.getFilteredPdpStatistics(null, GROUP, null, new Date(), new Date(), ORDER, 0).size());
+                databaseProvider.getFilteredPdpStatistics(null, GROUP, null, new Date(), new Date(), ORDER, 0).size());
 
         assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(NAME, GROUP, null, null, null, ORDER, 0).get(0)
-            .getPdpInstanceId());
+                .getPdpInstanceId());
         assertEquals(0,
-            databaseProvider.getFilteredPdpStatistics(NAME, GROUP, null, new Date(), new Date(), ORDER, 0).size());
+                databaseProvider.getFilteredPdpStatistics(NAME, GROUP, null, new Date(), new Date(), ORDER, 0).size());
 
         assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(NAME, GROUP, "type", null, null, ORDER, 0).get(0)
-            .getPdpInstanceId());
-        assertEquals(0,
-            databaseProvider.getFilteredPdpStatistics(NAME, GROUP, "type", new Date(), new Date(), ORDER, 0).size());
+                .getPdpInstanceId());
+        assertEquals(0, databaseProvider.getFilteredPdpStatistics(NAME, GROUP, "type", new Date(), new Date(), ORDER, 0)
+                .size());
 
         assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(NAME, GROUP, "type", null, null, ORDER, 1).get(0)
-            .getPdpInstanceId());
+                .getPdpInstanceId());
         assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(NAME, GROUP, "type", null, null, ORDER, 5).get(0)
-            .getPdpInstanceId());
-        assertEquals(0,
-            databaseProvider.getFilteredPdpStatistics(NAME, GROUP, "type", new Date(), new Date(), ORDER, 5).size());
+                .getPdpInstanceId());
+        assertEquals(0, databaseProvider.getFilteredPdpStatistics(NAME, GROUP, "type", new Date(), new Date(), ORDER, 5)
+                .size());
 
         assertEquals(NAME, databaseProvider.deletePdpStatistics(NAME, null).get(0).getPdpInstanceId());
         assertEquals(0, databaseProvider.getPdpStatistics(null, null).size());
@@ -429,13 +428,13 @@ public class DatabasePolicyModelsProviderTest {
 
     @Test
     public void testDeletePolicyDeployedInSubgroup() throws PfModelException {
-        List<ToscaPolicyIdentifier> policies = new ArrayList<>();
+        List<ToscaConceptIdentifier> policies = new ArrayList<>();
 
-        policies.add(new ToscaPolicyIdentifier("p0", "0.0.1"));
-        policies.add(new ToscaPolicyIdentifier("p1", "0.0.1"));
+        policies.add(new ToscaConceptIdentifier("p0", "0.0.1"));
+        policies.add(new ToscaConceptIdentifier("p1", "0.0.1"));
 
-        List<ToscaPolicyTypeIdentifier> supportedPolicyTypes = new ArrayList<>();
-        supportedPolicyTypes.add(new ToscaPolicyTypeIdentifier("pt2", "0.0.1"));
+        List<ToscaConceptIdentifier> supportedPolicyTypes = new ArrayList<>();
+        supportedPolicyTypes.add(new ToscaConceptIdentifier("pt2", "0.0.1"));
 
         PdpSubGroup subGroup = new PdpSubGroup();
         subGroup.setPdpType("pdpType");
@@ -454,24 +453,24 @@ public class DatabasePolicyModelsProviderTest {
         pdpGroups.add(pdpGroup);
 
         PolicyModelsProvider databaseProvider =
-            new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
+                new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
         databaseProvider.createPdpGroups(pdpGroups);
 
         assertThatThrownBy(() -> databaseProvider.deletePolicy("p0", "0.0.1"))
-            .hasMessageContaining("policy is in use, it is deployed in PDP group pdpGroup subgroup pdpType");
+                .hasMessageContaining("policy is in use, it is deployed in PDP group pdpGroup subgroup pdpType");
 
         assertThatThrownBy(() -> databaseProvider.deletePolicy("p3", "0.0.1"))
-            .hasMessageContaining("service template not found in database");
+                .hasMessageContaining("service template not found in database");
 
         databaseProvider.close();
     }
 
     @Test
     public void testDeletePolicyTypeSupportedInSubgroup() throws PfModelException {
-        List<ToscaPolicyTypeIdentifier> supportedPolicyTypes = new ArrayList<>();
-        supportedPolicyTypes.add(new ToscaPolicyTypeIdentifier("pt1", "0.0.1"));
-        supportedPolicyTypes.add(new ToscaPolicyTypeIdentifier("pt2", "0.0.1"));
+        List<ToscaConceptIdentifier> supportedPolicyTypes = new ArrayList<>();
+        supportedPolicyTypes.add(new ToscaConceptIdentifier("pt1", "0.0.1"));
+        supportedPolicyTypes.add(new ToscaConceptIdentifier("pt2", "0.0.1"));
 
         PdpSubGroup subGroup = new PdpSubGroup();
         subGroup.setPdpType("pdpType");
@@ -489,15 +488,15 @@ public class DatabasePolicyModelsProviderTest {
         pdpGroups.add(pdpGroup);
 
         PolicyModelsProvider databaseProvider =
-            new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
+                new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
         databaseProvider.createPdpGroups(pdpGroups);
 
         assertThatThrownBy(() -> databaseProvider.deletePolicyType("pt2", "0.0.1"))
-            .hasMessageContaining("policy type is in use, it is referenced in PDP group pdpGroup subgroup pdpType");
+                .hasMessageContaining("policy type is in use, it is referenced in PDP group pdpGroup subgroup pdpType");
 
         assertThatThrownBy(() -> databaseProvider.deletePolicyType("pt0", "0.0.1"))
-            .hasMessageContaining("service template not found in database");
+                .hasMessageContaining("service template not found in database");
 
         databaseProvider.close();
     }

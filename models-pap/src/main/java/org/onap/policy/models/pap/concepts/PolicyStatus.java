@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,8 +22,7 @@ package org.onap.policy.models.pap.concepts;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifier;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifier;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
 
 @Data
 @NoArgsConstructor
@@ -66,18 +66,18 @@ public class PolicyStatus {
      * @param policy policy identifier, from which the name and version are to be
      *        extracted
      */
-    public PolicyStatus(ToscaPolicyTypeIdentifier policyType, ToscaPolicyIdentifier policy) {
+    public PolicyStatus(ToscaConceptIdentifier policyType, ToscaConceptIdentifier policy) {
         this.policyTypeId = policyType.getName();
         this.policyTypeVersion = policyType.getVersion();
         this.policyId = policy.getName();
         this.policyVersion = policy.getVersion();
     }
 
-    public ToscaPolicyTypeIdentifier getPolicyType() {
-        return new ToscaPolicyTypeIdentifier(policyTypeId, policyTypeVersion);
+    public ToscaConceptIdentifier getPolicyType() {
+        return new ToscaConceptIdentifier(policyTypeId, policyTypeVersion);
     }
 
-    public ToscaPolicyIdentifier getPolicy() {
-        return new ToscaPolicyIdentifier(policyId, policyVersion);
+    public ToscaConceptIdentifier getPolicy() {
+        return new ToscaConceptIdentifier(policyId, policyVersion);
     }
 }
