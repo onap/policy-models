@@ -3,6 +3,7 @@
  * ONAP Policy Models
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,39 +34,39 @@ import org.onap.policy.common.parameters.ValidationResult;
 /**
  * Test methods not tested by {@link PojosTest}.
  */
-public class ToscaPolicyIdentifierTest extends ToscaIdentifierTestBase<ToscaPolicyIdentifier> {
+public class ToscaPolicyTypeConceptIdentifierTest extends ToscaIdentifierTestBase<ToscaConceptIdentifier> {
 
-    public ToscaPolicyIdentifierTest() {
-        super(ToscaPolicyIdentifier.class, "name", "version");
+    public ToscaPolicyTypeConceptIdentifierTest() {
+        super(ToscaConceptIdentifier.class, "name", "version");
     }
 
     @Test
     public void testAllArgsConstructor() {
-        assertThatThrownBy(() -> new ToscaPolicyIdentifier(null, VERSION)).isInstanceOf(NullPointerException.class);
-        assertThatThrownBy(() -> new ToscaPolicyIdentifier(NAME, null)).isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> new ToscaConceptIdentifier(null, VERSION)).isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> new ToscaConceptIdentifier(NAME, null)).isInstanceOf(NullPointerException.class);
 
-        ToscaPolicyIdentifier orig = new ToscaPolicyIdentifier(NAME, VERSION);
+        ToscaConceptIdentifier orig = new ToscaConceptIdentifier(NAME, VERSION);
         assertEquals(NAME, orig.getName());
         assertEquals(VERSION, orig.getVersion());
     }
 
     @Test
     public void testCopyConstructor() {
-        assertThatThrownBy(() -> new ToscaPolicyIdentifier(null)).isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> new ToscaConceptIdentifier(null)).isInstanceOf(NullPointerException.class);
 
-        ToscaPolicyIdentifier orig = new ToscaPolicyIdentifier();
+        ToscaConceptIdentifier orig = new ToscaConceptIdentifier();
 
         // verify with null values
-        assertEquals(orig.toString(), new ToscaPolicyIdentifier(orig).toString());
+        assertEquals(orig.toString(), new ToscaConceptIdentifier(orig).toString());
 
         // verify with all values
-        orig = new ToscaPolicyIdentifier(NAME, VERSION);
-        assertEquals(orig.toString(), new ToscaPolicyIdentifier(orig).toString());
+        orig = new ToscaConceptIdentifier(NAME, VERSION);
+        assertEquals(orig.toString(), new ToscaConceptIdentifier(orig).toString());
     }
 
     @Test
     public void testValidatePapRest() throws Exception {
-        ToscaPolicyIdentifier ident = new ToscaPolicyIdentifier(NAME, VERSION);
+        ToscaConceptIdentifier ident = new ToscaConceptIdentifier(NAME, VERSION);
         ValidationResult result = ident.validatePapRest();
         assertNotNull(result);
         assertTrue(result.isValid());

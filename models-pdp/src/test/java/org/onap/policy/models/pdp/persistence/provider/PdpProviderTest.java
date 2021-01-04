@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -49,8 +49,7 @@ import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.pdp.enums.PdpHealthStatus;
 import org.onap.policy.models.pdp.enums.PdpState;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifier;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifier;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
 import org.onap.policy.models.tosca.simple.provider.SimpleToscaProvider;
 
 /**
@@ -153,11 +152,11 @@ public class PdpProviderTest {
 
         assertEquals(5, new PdpProvider().createPdpGroups(pfDao, pdpGroups0.getGroups()).size());
 
-        List<ToscaPolicyTypeIdentifier> policyTypeList = new ArrayList<>();
-        policyTypeList.add(new ToscaPolicyTypeIdentifier("policy.type.0", "1.2.3"));
+        List<ToscaConceptIdentifier> policyTypeList = new ArrayList<>();
+        policyTypeList.add(new ToscaConceptIdentifier("policy.type.0", "1.2.3"));
 
-        List<ToscaPolicyIdentifier> policyList = new ArrayList<>();
-        policyList.add(new ToscaPolicyIdentifier("Policy0", "4.5.6"));
+        List<ToscaConceptIdentifier> policyList = new ArrayList<>();
+        policyList.add(new ToscaConceptIdentifier("Policy0", "4.5.6"));
 
         // @formatter:off
         final PdpGroupFilter filter = PdpGroupFilter.builder()

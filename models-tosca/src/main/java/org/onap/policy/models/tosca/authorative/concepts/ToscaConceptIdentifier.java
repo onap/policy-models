@@ -1,9 +1,9 @@
-/*
+/*-
  * ============LICENSE_START=======================================================
  * ONAP Policy Models
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2020 Nordix Foundation.
+ * Modifications Copyright (C) 2020-2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,47 +21,53 @@
 
 package org.onap.policy.models.tosca.authorative.concepts;
 
-import com.google.gson.annotations.SerializedName;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import org.apache.commons.lang3.ObjectUtils;
+import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.ValidationResult;
 
 /**
- * Policy identifier with an optional version; only the "name" is required.
+ * Identifies a concept. Both the name and version must be non-null.
  */
 @Data
 @NoArgsConstructor
-public class ToscaPolicyIdentifierOptVersion implements Comparable<ToscaPolicyIdentifierOptVersion> {
+public class ToscaConceptIdentifier implements Comparable<ToscaConceptIdentifier> {
 
     @NonNull
-    @ApiModelProperty(name = "policy-id")
-    @SerializedName("policy-id")
     private String name;
 
-    @ApiModelProperty(name = "policy-version")
-    @SerializedName("policy-version")
+    @NonNull
     private String version;
 
 
-    public ToscaPolicyIdentifierOptVersion(@NonNull String name, String version) {
+    public ToscaConceptIdentifier(@NonNull String name, @NonNull String version) {
         this.name = name;
         this.version = version;
     }
 
-    public ToscaPolicyIdentifierOptVersion(ToscaPolicyIdentifierOptVersion source) {
+    public ToscaConceptIdentifier(ToscaConceptIdentifier source) {
         this.name = source.name;
         this.version = source.version;
     }
 
-    public ToscaPolicyIdentifierOptVersion(ToscaPolicyIdentifier source) {
-        this.name = source.getName();
-        this.version = source.getVersion();
+    /**
+     * Validates that appropriate fields are populated for an incoming call to the PAP REST API.
+     *
+     * @return the validation result
+     */
+    public ValidationResult validatePapRest() {
+        BeanValidationResult result = new BeanValidationResult("group", this);
+
+        result.validateNotNull("name", name);
+        result.validateNotNull("version", version);
+
+        return result;
     }
 
     @Override
-    public int compareTo(ToscaPolicyIdentifierOptVersion other) {
+    public int compareTo(ToscaConceptIdentifier other) {
         if (this == other) {
             return 0;
         }

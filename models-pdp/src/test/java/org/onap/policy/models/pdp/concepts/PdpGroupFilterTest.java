@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,8 +34,7 @@ import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.pdp.enums.PdpState;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifier;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifier;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
 
 /**
  * Test of the {@link PdpGroupFilter} class.
@@ -174,9 +173,9 @@ public class PdpGroupFilterTest {
 
     @Test
     public void testFilterPolicyType() {
-        List<ToscaPolicyTypeIdentifier> identifierList = new ArrayList<>();
+        List<ToscaConceptIdentifier> identifierList = new ArrayList<>();
 
-        identifierList.add(new ToscaPolicyTypeIdentifier(NON_EXISTANT, VERSION1));
+        identifierList.add(new ToscaConceptIdentifier(NON_EXISTANT, VERSION1));
         PdpGroupFilter filter =
                 PdpGroupFilter.builder().policyTypeList(identifierList).build();
         List<PdpGroup> filteredList = filter.filter(pdpGroupList);
@@ -184,7 +183,7 @@ public class PdpGroupFilterTest {
         identifierList.clear();
 
         // don't match wild cards
-        identifierList.add(new ToscaPolicyTypeIdentifier(NON_EXISTANT, VERSION1));
+        identifierList.add(new ToscaConceptIdentifier(NON_EXISTANT, VERSION1));
         filter = PdpGroupFilter.builder().policyTypeList(identifierList).build();
         final List<PdpGroup> wildCards =
                         pdpGroupList.stream().map(this::makeWildCardPolicyTypes).collect(Collectors.toList());
@@ -193,42 +192,42 @@ public class PdpGroupFilterTest {
         identifierList.clear();
 
         // match wild cards
-        identifierList.add(new ToscaPolicyTypeIdentifier(POLICY_TYPE0, VERSION1));
+        identifierList.add(new ToscaConceptIdentifier(POLICY_TYPE0, VERSION1));
         filter = PdpGroupFilter.builder().policyTypeList(identifierList).build();
         filteredList = filter.filter(wildCards);
         assertEquals(4, filteredList.size());
         identifierList.clear();
 
-        identifierList.add(new ToscaPolicyTypeIdentifier(POLICY_TYPE0, VERSION1));
+        identifierList.add(new ToscaConceptIdentifier(POLICY_TYPE0, VERSION1));
         filter = PdpGroupFilter.builder().policyTypeList(identifierList).build();
         filteredList = filter.filter(pdpGroupList);
         assertEquals(4, filteredList.size());
         identifierList.clear();
 
-        identifierList.add(new ToscaPolicyTypeIdentifier(POLICY_TYPE1, VERSION4));
+        identifierList.add(new ToscaConceptIdentifier(POLICY_TYPE1, VERSION4));
         filter = PdpGroupFilter.builder().policyTypeList(identifierList).build();
         filteredList = filter.filter(pdpGroupList);
         assertEquals(4, filteredList.size());
         identifierList.clear();
 
-        identifierList.add(new ToscaPolicyTypeIdentifier(POLICY_TYPE2, VERSION7));
+        identifierList.add(new ToscaConceptIdentifier(POLICY_TYPE2, VERSION7));
         filter = PdpGroupFilter.builder().policyTypeList(identifierList).build();
         filteredList = filter.filter(pdpGroupList);
         assertEquals(2, filteredList.size());
         identifierList.clear();
 
-        identifierList.add(new ToscaPolicyTypeIdentifier(POLICY_TYPE3, VERSION0));
+        identifierList.add(new ToscaConceptIdentifier(POLICY_TYPE3, VERSION0));
         filter = PdpGroupFilter.builder().policyTypeList(identifierList).build();
         filteredList = filter.filter(pdpGroupList);
         assertEquals(2, filteredList.size());
         identifierList.clear();
 
-        identifierList.add(new ToscaPolicyTypeIdentifier(NON_EXISTANT, VERSION1));
-        identifierList.add(new ToscaPolicyTypeIdentifier(POLICY_TYPE0, VERSION9));
-        identifierList.add(new ToscaPolicyTypeIdentifier(POLICY_TYPE0, VERSION1));
-        identifierList.add(new ToscaPolicyTypeIdentifier(POLICY_TYPE1, VERSION4));
-        identifierList.add(new ToscaPolicyTypeIdentifier(POLICY_TYPE2, VERSION7));
-        identifierList.add(new ToscaPolicyTypeIdentifier(POLICY_TYPE3, VERSION0));
+        identifierList.add(new ToscaConceptIdentifier(NON_EXISTANT, VERSION1));
+        identifierList.add(new ToscaConceptIdentifier(POLICY_TYPE0, VERSION9));
+        identifierList.add(new ToscaConceptIdentifier(POLICY_TYPE0, VERSION1));
+        identifierList.add(new ToscaConceptIdentifier(POLICY_TYPE1, VERSION4));
+        identifierList.add(new ToscaConceptIdentifier(POLICY_TYPE2, VERSION7));
+        identifierList.add(new ToscaConceptIdentifier(POLICY_TYPE3, VERSION0));
         filter = PdpGroupFilter.builder().policyTypeList(identifierList).build();
         filteredList = filter.filter(pdpGroupList);
         assertEquals(5, filteredList.size());
@@ -238,30 +237,30 @@ public class PdpGroupFilterTest {
         assertEquals(0, filteredList.size());
 
         identifierList.clear();
-        identifierList.add(new ToscaPolicyTypeIdentifier(POLICY_TYPE0, VERSION1));
+        identifierList.add(new ToscaConceptIdentifier(POLICY_TYPE0, VERSION1));
         filter = PdpGroupFilter.builder().policyTypeList(identifierList).matchPolicyTypesExactly(true).build();
         filteredList = filter.filter(pdpGroupList);
         assertEquals(2, filteredList.size());
 
         identifierList.clear();
-        identifierList.add(new ToscaPolicyTypeIdentifier(POLICY_TYPE0, VERSION1));
-        identifierList.add(new ToscaPolicyTypeIdentifier(POLICY_TYPE1, VERSION4));
-        identifierList.add(new ToscaPolicyTypeIdentifier(POLICY_TYPE2, VERSION7));
+        identifierList.add(new ToscaConceptIdentifier(POLICY_TYPE0, VERSION1));
+        identifierList.add(new ToscaConceptIdentifier(POLICY_TYPE1, VERSION4));
+        identifierList.add(new ToscaConceptIdentifier(POLICY_TYPE2, VERSION7));
         filter = PdpGroupFilter.builder().policyTypeList(identifierList).matchPolicyTypesExactly(true).build();
         filteredList = filter.filter(pdpGroupList);
         assertEquals(1, filteredList.size());
 
         identifierList.clear();
-        identifierList.add(new ToscaPolicyTypeIdentifier(POLICY_TYPE0, VERSION1));
-        identifierList.add(new ToscaPolicyTypeIdentifier(POLICY_TYPE1, VERSION4));
-        identifierList.add(new ToscaPolicyTypeIdentifier(POLICY_TYPE3, VERSION0));
+        identifierList.add(new ToscaConceptIdentifier(POLICY_TYPE0, VERSION1));
+        identifierList.add(new ToscaConceptIdentifier(POLICY_TYPE1, VERSION4));
+        identifierList.add(new ToscaConceptIdentifier(POLICY_TYPE3, VERSION0));
         filter = PdpGroupFilter.builder().policyTypeList(identifierList).matchPolicyTypesExactly(true).build();
         filteredList = filter.filter(pdpGroupList);
         assertEquals(1, filteredList.size());
 
         identifierList.clear();
-        identifierList.add(new ToscaPolicyTypeIdentifier(POLICY_TYPE1, VERSION4));
-        identifierList.add(new ToscaPolicyTypeIdentifier(POLICY_TYPE3, VERSION0));
+        identifierList.add(new ToscaConceptIdentifier(POLICY_TYPE1, VERSION4));
+        identifierList.add(new ToscaConceptIdentifier(POLICY_TYPE3, VERSION0));
         filter = PdpGroupFilter.builder().policyTypeList(identifierList).matchPolicyTypesExactly(true).build();
         filteredList = filter.filter(pdpGroupList);
         assertEquals(1, filteredList.size());
@@ -278,7 +277,7 @@ public class PdpGroupFilterTest {
         PdpGroup newGroup = new PdpGroup(group);
 
         for (PdpSubGroup subgroup : newGroup.getPdpSubgroups()) {
-            for (ToscaPolicyTypeIdentifier subType : subgroup.getSupportedPolicyTypes()) {
+            for (ToscaConceptIdentifier subType : subgroup.getSupportedPolicyTypes()) {
                 if (POLICY_TYPE0.equals(subType.getName())) {
                     subType.setName("policy.type.*");
                 }
@@ -290,51 +289,51 @@ public class PdpGroupFilterTest {
 
     @Test
     public void testFilterPolicy() {
-        List<ToscaPolicyIdentifier> identifierList = new ArrayList<>();
+        List<ToscaConceptIdentifier> identifierList = new ArrayList<>();
 
-        identifierList.add(new ToscaPolicyIdentifier(NON_EXISTANT, VERSION1));
+        identifierList.add(new ToscaConceptIdentifier(NON_EXISTANT, VERSION1));
         PdpGroupFilter filter =
                 PdpGroupFilter.builder().policyList(identifierList).build();
         List<PdpGroup> filteredList = filter.filter(pdpGroupList);
         assertEquals(0, filteredList.size());
         identifierList.clear();
 
-        identifierList.add(new ToscaPolicyIdentifier(POLICY0, VERSION9));
+        identifierList.add(new ToscaConceptIdentifier(POLICY0, VERSION9));
         filter = PdpGroupFilter.builder().policyList(identifierList).build();
         filteredList = filter.filter(pdpGroupList);
         assertEquals(0, filteredList.size());
         identifierList.clear();
 
-        identifierList.add(new ToscaPolicyIdentifier(POLICY0, VERSION4));
+        identifierList.add(new ToscaConceptIdentifier(POLICY0, VERSION4));
         filter = PdpGroupFilter.builder().policyList(identifierList).build();
         filteredList = filter.filter(pdpGroupList);
         assertEquals(4, filteredList.size());
         identifierList.clear();
 
-        identifierList.add(new ToscaPolicyIdentifier(POLICY1, VERSION4));
+        identifierList.add(new ToscaConceptIdentifier(POLICY1, VERSION4));
         filter = PdpGroupFilter.builder().policyList(identifierList).build();
         filteredList = filter.filter(pdpGroupList);
         assertEquals(1, filteredList.size());
         identifierList.clear();
 
-        identifierList.add(new ToscaPolicyIdentifier(POLICY2, VERSION4));
+        identifierList.add(new ToscaConceptIdentifier(POLICY2, VERSION4));
         filter = PdpGroupFilter.builder().policyList(identifierList).build();
         filteredList = filter.filter(pdpGroupList);
         assertEquals(2, filteredList.size());
         identifierList.clear();
 
-        identifierList.add(new ToscaPolicyIdentifier(POLICY3, VERSION1));
+        identifierList.add(new ToscaConceptIdentifier(POLICY3, VERSION1));
         filter = PdpGroupFilter.builder().policyList(identifierList).build();
         filteredList = filter.filter(pdpGroupList);
         assertEquals(1, filteredList.size());
         identifierList.clear();
 
-        identifierList.add(new ToscaPolicyIdentifier(NON_EXISTANT, VERSION1));
-        identifierList.add(new ToscaPolicyIdentifier(POLICY0, VERSION9));
-        identifierList.add(new ToscaPolicyIdentifier(POLICY0, VERSION4));
-        identifierList.add(new ToscaPolicyIdentifier(POLICY1, VERSION4));
-        identifierList.add(new ToscaPolicyIdentifier(POLICY2, VERSION4));
-        identifierList.add(new ToscaPolicyIdentifier(POLICY3, VERSION1));
+        identifierList.add(new ToscaConceptIdentifier(NON_EXISTANT, VERSION1));
+        identifierList.add(new ToscaConceptIdentifier(POLICY0, VERSION9));
+        identifierList.add(new ToscaConceptIdentifier(POLICY0, VERSION4));
+        identifierList.add(new ToscaConceptIdentifier(POLICY1, VERSION4));
+        identifierList.add(new ToscaConceptIdentifier(POLICY2, VERSION4));
+        identifierList.add(new ToscaConceptIdentifier(POLICY3, VERSION1));
         filter = PdpGroupFilter.builder().policyList(identifierList).build();
         filteredList = filter.filter(pdpGroupList);
         assertEquals(5, filteredList.size());
@@ -344,27 +343,27 @@ public class PdpGroupFilterTest {
         assertEquals(0, filteredList.size());
 
         identifierList.clear();
-        identifierList.add(new ToscaPolicyIdentifier(POLICY0, VERSION4));
+        identifierList.add(new ToscaConceptIdentifier(POLICY0, VERSION4));
         filter = PdpGroupFilter.builder().policyList(identifierList).matchPoliciesExactly(true).build();
         filteredList = filter.filter(pdpGroupList);
         assertEquals(3, filteredList.size());
 
         identifierList.clear();
-        identifierList.add(new ToscaPolicyIdentifier(POLICY0, VERSION4));
-        identifierList.add(new ToscaPolicyIdentifier(POLICY1, VERSION4));
+        identifierList.add(new ToscaConceptIdentifier(POLICY0, VERSION4));
+        identifierList.add(new ToscaConceptIdentifier(POLICY1, VERSION4));
         filter = PdpGroupFilter.builder().policyList(identifierList).matchPoliciesExactly(true).build();
         filteredList = filter.filter(pdpGroupList);
         assertEquals(1, filteredList.size());
 
         identifierList.clear();
-        identifierList.add(new ToscaPolicyIdentifier(POLICY2, VERSION4));
+        identifierList.add(new ToscaConceptIdentifier(POLICY2, VERSION4));
         filter = PdpGroupFilter.builder().policyList(identifierList).matchPoliciesExactly(true).build();
         filteredList = filter.filter(pdpGroupList);
         assertEquals(1, filteredList.size());
 
         identifierList.clear();
-        identifierList.add(new ToscaPolicyIdentifier(POLICY2, VERSION4));
-        identifierList.add(new ToscaPolicyIdentifier(POLICY3, VERSION1));
+        identifierList.add(new ToscaConceptIdentifier(POLICY2, VERSION4));
+        identifierList.add(new ToscaConceptIdentifier(POLICY3, VERSION1));
         filter = PdpGroupFilter.builder().policyList(identifierList).matchPoliciesExactly(true).build();
         filteredList = filter.filter(pdpGroupList);
         assertEquals(1, filteredList.size());

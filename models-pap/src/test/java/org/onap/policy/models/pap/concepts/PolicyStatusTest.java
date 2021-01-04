@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,8 +24,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifier;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifier;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
 
 /**
  * This only tests the methods that aren't already tested via TestModels.
@@ -33,8 +33,8 @@ public class PolicyStatusTest {
 
     @Test
     public void test() throws CoderException {
-        ToscaPolicyTypeIdentifier type = new ToscaPolicyTypeIdentifier("my-type", "3.2.1");
-        ToscaPolicyIdentifier policy = new ToscaPolicyIdentifier("my-name", "1.2.3");
+        ToscaConceptIdentifier type = new ToscaConceptIdentifier("my-type", "3.2.1");
+        ToscaConceptIdentifier policy = new ToscaConceptIdentifier("my-name", "1.2.3");
 
         // test constructor with arguments
         PolicyStatus status = new PolicyStatus(type, policy);

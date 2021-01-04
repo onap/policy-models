@@ -3,7 +3,7 @@
  * ONAP Policy Models
  * ================================================================================
  * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019-2020 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ import java.util.TreeMap;
 import org.junit.Test;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.models.pdp.enums.PdpState;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifier;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
 
 /**
  * Test methods not tested by {@link ModelsTest}.
@@ -129,7 +129,7 @@ public class PdpGroupTest {
         PdpSubGroup subgroup1 = new PdpSubGroup();
         subgroup1.setDesiredInstanceCount(1);
         subgroup1.setPdpType(PDP_TYPE1);
-        subgroup1.setSupportedPolicyTypes(Arrays.asList(new ToscaPolicyTypeIdentifier("a-type-name", "3.2.1")));
+        subgroup1.setSupportedPolicyTypes(Arrays.asList(new ToscaConceptIdentifier("a-type-name", "3.2.1")));
         subgroup1.setPolicies(Collections.emptyList());
         group.setPdpSubgroups(Arrays.asList(subgroup1));
 
@@ -165,7 +165,7 @@ public class PdpGroupTest {
         PdpSubGroup subgroup1 = new PdpSubGroup();
         subgroup1.setDesiredInstanceCount(1);
         subgroup1.setPdpType(PDP_TYPE1);
-        subgroup1.setSupportedPolicyTypes(Arrays.asList(new ToscaPolicyTypeIdentifier("a-type-name", "3.2.1")));
+        subgroup1.setSupportedPolicyTypes(Arrays.asList(new ToscaConceptIdentifier("a-type-name", "3.2.1")));
         subgroup1.setPolicies(Collections.emptyList());
 
         PdpSubGroup subgroup2 = new PdpSubGroup(subgroup1);

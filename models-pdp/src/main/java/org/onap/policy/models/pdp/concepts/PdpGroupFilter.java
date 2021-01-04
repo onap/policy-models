@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,8 +29,7 @@ import lombok.NonNull;
 import org.apache.commons.lang3.ObjectUtils;
 import org.onap.policy.models.base.PfObjectFilter;
 import org.onap.policy.models.pdp.enums.PdpState;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifier;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeIdentifier;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
 
 /**
  * Filter class for searches for {@link PdpGroup} instances. If any fields are null, they are ignored.
@@ -50,14 +49,14 @@ public class PdpGroupFilter implements PfObjectFilter<PdpGroup> {
     private String pdpType;
 
     // Set regular expressions on fields to match policy type names and versions
-    private List<ToscaPolicyTypeIdentifier> policyTypeList;
+    private List<ToscaConceptIdentifier> policyTypeList;
 
     // If set, only PDP groups where policy types are matched exactly are returned
     @Builder.Default
     private boolean matchPolicyTypesExactly = false;
 
     // Set regular expressions on fields to match policy names and versions
-    private List<ToscaPolicyIdentifier> policyList;
+    private List<ToscaConceptIdentifier> policyList;
 
     // If set, only PDP groups where policies are matched exactly are returned
     @Builder.Default
@@ -110,7 +109,7 @@ public class PdpGroupFilter implements PfObjectFilter<PdpGroup> {
      * @param matchPolicyTypesExactly if true, only PDP groups where policy types are matched exactly are returned
      * @return true if the filter should let this PDP group through
      */
-    private boolean filterOnPolicyTypeList(final PdpGroup pdpGroup, final List<ToscaPolicyTypeIdentifier> typeFilter,
+    private boolean filterOnPolicyTypeList(final PdpGroup pdpGroup, final List<ToscaConceptIdentifier> typeFilter,
             final boolean matchPolicyTypesExactly) {
         if (typeFilter == null) {
             return true;
@@ -139,9 +138,9 @@ public class PdpGroupFilter implements PfObjectFilter<PdpGroup> {
      * @return true if one element of the elements to find is supported by an element on
      *         the list we searched
      */
-    private boolean findSupportedPolicyType(List<ToscaPolicyTypeIdentifier> supportedPolicyTypes,
-                    List<ToscaPolicyTypeIdentifier> typeFilter) {
-        for (ToscaPolicyTypeIdentifier supportedPolicyType : supportedPolicyTypes) {
+    private boolean findSupportedPolicyType(List<ToscaConceptIdentifier> supportedPolicyTypes,
+                    List<ToscaConceptIdentifier> typeFilter) {
+        for (ToscaConceptIdentifier supportedPolicyType : supportedPolicyTypes) {
             String supName = supportedPolicyType.getName();
             if (supName.endsWith(".*")) {
                 String substr = supName.substring(0, supName.length() - 1);
@@ -164,7 +163,7 @@ public class PdpGroupFilter implements PfObjectFilter<PdpGroup> {
      * @param matchPoliciesExactly if true, only PDP groups where ps are matched exactly are returned
      * @return true if the filter should let this PDP group through
      */
-    private boolean filterOnPolicyList(final PdpGroup pdpGroup, final List<ToscaPolicyIdentifier> policyFilter,
+    private boolean filterOnPolicyList(final PdpGroup pdpGroup, final List<ToscaConceptIdentifier> policyFilter,
             final boolean matchPoliciesExactly) {
         if (policyFilter == null) {
             return true;

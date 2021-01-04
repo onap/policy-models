@@ -3,6 +3,7 @@
  * ONAP Policy Models
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,7 +35,7 @@ import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.models.pdp.concepts.DeploymentSubGroup.Action;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifier;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
 
 /**
  * Test methods not tested by {@link ModelsTest}.
@@ -56,10 +57,10 @@ public class DeploymentSubGroupTest {
         orig.setPdpType("my-type");
         orig.setAction(Action.POST);
 
-        final ToscaPolicyIdentifier pol1 = new ToscaPolicyIdentifier();
+        final ToscaConceptIdentifier pol1 = new ToscaConceptIdentifier();
         pol1.setName("policy-A");
         pol1.setVersion("1.0.0");
-        final ToscaPolicyIdentifier pol2 = new ToscaPolicyIdentifier();
+        final ToscaConceptIdentifier pol2 = new ToscaConceptIdentifier();
         pol2.setName("policy-B");
         pol1.setVersion("2.0.0");
         orig.setPolicies(Arrays.asList(pol1, pol2));
@@ -73,7 +74,7 @@ public class DeploymentSubGroupTest {
 
         subgrp.setPdpType("pdp-type");
         subgrp.setAction(Action.PATCH);
-        subgrp.setPolicies(Arrays.asList(makeIdent("policy-X", "4.0.0", ToscaPolicyIdentifier.class)));
+        subgrp.setPolicies(Arrays.asList(makeIdent("policy-X", "4.0.0", ToscaConceptIdentifier.class)));
 
         // valid
         ValidationResult result = subgrp.validatePapRest();
@@ -103,7 +104,7 @@ public class DeploymentSubGroupTest {
 
         // invalid policy item
         sub2 = new DeploymentSubGroup(subgrp);
-        sub2.getPolicies().set(0, makeIdent(null, VERSION_300, ToscaPolicyIdentifier.class));
+        sub2.getPolicies().set(0, makeIdent(null, VERSION_300, ToscaConceptIdentifier.class));
         assertInvalid(sub2);
     }
 
