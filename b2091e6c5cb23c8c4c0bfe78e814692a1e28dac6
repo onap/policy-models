@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ee4e7470_da954548",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/concepts/PapPolicyIdentifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2021-01-05T19:24:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "cf795f4d_46ca472a",
+      "revId": "b2091e6c5cb23c8c4c0bfe78e814692a1e28dac6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8c80ea21_4233f85c",
         "filename": "models-pap/src/main/java/org/onap/policy/models/pap/concepts/PdpDeployPolicies.java",
         "patchSetId": 2
@@ -39,6 +57,30 @@
       "revId": "b2091e6c5cb23c8c4c0bfe78e814692a1e28dac6",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ee3f8e7_9b436fa0",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/concepts/PdpDeployPolicies.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2021-01-05T19:24:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8c80ea21_4233f85c",
+      "range": {
+        "startLine": 35,
+        "startChar": 17,
+        "endLine": 35,
+        "endChar": 36
+      },
+      "revId": "b2091e6c5cb23c8c4c0bfe78e814692a1e28dac6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "7f28aeae_0ebaa2a1",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/concepts/PdpDeployPolicies.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2021-01-05T19:24:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea752686_3a19deff",
+      "range": {
+        "startLine": 42,
+        "startChar": 50,
+        "endLine": 42,
+        "endChar": 61
+      },
+      "revId": "b2091e6c5cb23c8c4c0bfe78e814692a1e28dac6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf4efdd7_f2cc9aa3",
         "filename": "models-pap/src/main/java/org/onap/policy/models/pap/concepts/PdpDeployPolicies.java",
         "patchSetId": 2
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "4c7e0fd1_48210c77",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/concepts/PdpDeployPolicies.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2021-01-05T19:24:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "bf4efdd7_f2cc9aa3",
+      "range": {
+        "startLine": 54,
+        "startChar": 52,
+        "endLine": 54,
+        "endChar": 71
+      },
+      "revId": "b2091e6c5cb23c8c4c0bfe78e814692a1e28dac6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "81ff658a_7b37965e",
         "filename": "models-pap/src/test/java/org/onap/policy/models/pap/concepts/TestModels.java",
         "patchSetId": 2
@@ -108,6 +198,30 @@
       "revId": "b2091e6c5cb23c8c4c0bfe78e814692a1e28dac6",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63b29184_717092b2",
+        "filename": "models-pap/src/test/java/org/onap/policy/models/pap/concepts/TestModels.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2021-01-05T19:24:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "81ff658a_7b37965e",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 1
+      },
+      "revId": "b2091e6c5cb23c8c4c0bfe78e814692a1e28dac6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
