@@ -46,6 +46,30 @@
       "revId": "8ad3f95cdcec48b8315a5febfd4ec07bae7aabba",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "049ab71f_78fbdfbe",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaConceptIdentifierOptVersion.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2021-01-05T13:52:16Z",
+      "side": 0,
+      "message": "OK, I have tried a different approach.\n\nIt would be nice to create a subclass of ToscaConceptIdentifierOptVersion that would handle the different names for serialization/deserialization of the policy identifier name/version \"policy-id\" and \"policy-version\" used on the PAP-PDP communication. However, this can\u0027t be done  because the only name to change the @SerializedName would to be to introduce new name/version fields on the subclass and this would shadow the name/version fields in the base class.\n\nSo what I ahve done instead is to introduce a new class called PapPolicyIdentifier in models-pap. This class acts as a serialization/deserialization class for the ToscaConceptIdentifierOptVersion class. It is used to serialize and deserailze the messages on the PAP/PDP communication and is used as the members on the PdpDeployPolicies class. Have a look at that class to see what you think of that.",
+      "parentUuid": "54331e20_fd006651",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 46
+      },
+      "revId": "8ad3f95cdcec48b8315a5febfd4ec07bae7aabba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }

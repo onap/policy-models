@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf795f4d_46ca472a",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/concepts/PapPolicyIdentifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2021-01-05T13:52:16Z",
+      "side": 1,
+      "message": "This class is used to serialize and deserialize IDs in the \"policy-id\" \"policy-version\" format used on PAP-PDP communication. I has no getters or setters so GSON serialization and deserialization is used for instantiation. The getGenericIdentifier() method converts an instance of the class  into a regular ToscaConceptIdentifierOptVersion instance",
+      "revId": "b2091e6c5cb23c8c4c0bfe78e814692a1e28dac6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c80ea21_4233f85c",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/concepts/PdpDeployPolicies.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2021-01-05T13:52:16Z",
+      "side": 1,
+      "message": "This keeps the serialization and deserialization using \"policy-id\" and \"policy-version\" IDs.",
+      "range": {
+        "startLine": 35,
+        "startChar": 17,
+        "endLine": 35,
+        "endChar": 36
+      },
+      "revId": "b2091e6c5cb23c8c4c0bfe78e814692a1e28dac6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea752686_3a19deff",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/concepts/PdpDeployPolicies.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2021-01-05T13:52:16Z",
+      "side": 1,
+      "message": "Providing getPolicies() and setPolicies() methods that work in ToscaConceptIdentifierOptVersion IDs isolates the use of PapPolicyIdentifier ids to PAP/PDP communication only.",
+      "range": {
+        "startLine": 42,
+        "startChar": 50,
+        "endLine": 42,
+        "endChar": 61
+      },
+      "revId": "b2091e6c5cb23c8c4c0bfe78e814692a1e28dac6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81ff658a_7b37965e",
+        "filename": "models-pap/src/test/java/org/onap/policy/models/pap/concepts/TestModels.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2021-01-05T13:52:16Z",
+      "side": 1,
+      "message": "We need to remove this class from POJO testing because we have overridden the getters and setters to work with regular IDs.",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 1
+      },
+      "revId": "b2091e6c5cb23c8c4c0bfe78e814692a1e28dac6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
