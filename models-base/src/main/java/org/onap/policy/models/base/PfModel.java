@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -159,7 +159,7 @@ public abstract class PfModel extends PfConcept {
     private void validateArtifactKeyInModel(final PfConceptKey artifactKey,
             final Set<PfConceptKey> artifactKeySet, final BeanValidationResult result) {
 
-        result.addResult(validateKeyNotNull(KEYS_TOKEN, artifactKey));
+        validateKeyNotNull(result, KEYS_TOKEN, artifactKey);
 
         BeanValidationResult result2 = new BeanValidationResult(KEYS_TOKEN, artifactKey);
 

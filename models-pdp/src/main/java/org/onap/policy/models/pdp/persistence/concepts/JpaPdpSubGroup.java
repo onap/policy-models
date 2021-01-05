@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Model
  * ================================================================================
- * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019-2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -44,8 +44,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.onap.policy.common.parameters.BeanValidationResult;
-import org.onap.policy.common.parameters.annotations.Entries;
-import org.onap.policy.common.parameters.annotations.Items;
 import org.onap.policy.common.parameters.annotations.Min;
 import org.onap.policy.common.parameters.annotations.NotBlank;
 import org.onap.policy.common.parameters.annotations.NotNull;
@@ -83,12 +81,10 @@ public class JpaPdpSubGroup extends PfConcept implements PfAuthorative<PdpSubGro
 
     @ElementCollection
     @NotNull
-    @Items(notNull = {@NotNull}, valid = {@Valid})
-    private List<PfSearchableKey> supportedPolicyTypes;
+    private List<@NotNull @Valid PfSearchableKey> supportedPolicyTypes;
 
     @ElementCollection
     @NotNull
-    @Items(notNull = {@NotNull}, valid = {@Valid})
     private List<PfConceptKey> policies;
 
     @Column
@@ -100,9 +96,7 @@ public class JpaPdpSubGroup extends PfConcept implements PfAuthorative<PdpSubGro
     private int desiredInstanceCount;
 
     @ElementCollection
-    @Entries(key = @Items(notNull = {@NotNull}, notBlank = {@NotBlank}),
-                value = @Items(notNull = {@NotNull}, notBlank = {@NotBlank}))
-    private Map<String, String> properties;
+    private Map<@NotNull @NotBlank String, @NotNull @NotBlank String> properties;
 
     // @formatter:off
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
@@ -116,8 +110,7 @@ public class JpaPdpSubGroup extends PfConcept implements PfAuthorative<PdpSubGro
         )
     // formatter:on
     @NotNull
-    @Items(notNull = {@NotNull}, valid = {@Valid})
-    private List<JpaPdp> pdpInstances;
+    private List<@NotNull @Valid JpaPdp> pdpInstances;
 
     /**
      * The Default Constructor creates a {@link JpaPdpSubGroup} object with a null key.
@@ -297,7 +290,7 @@ public class JpaPdpSubGroup extends PfConcept implements PfAuthorative<PdpSubGro
     public BeanValidationResult validate(@NonNull String fieldName) {
         BeanValidationResult result = super.validate(fieldName);
 
-        result.addResult(validateKeyNotNull("parent of key", key.getParentConceptKey()));
+        validateKeyNotNull(result, "parent of key", key.getParentConceptKey());
 
         if (supportedPolicyTypes != null && supportedPolicyTypes.isEmpty()) {
             addResult(result, "supportedPolicyTypes", supportedPolicyTypes, "is empty");

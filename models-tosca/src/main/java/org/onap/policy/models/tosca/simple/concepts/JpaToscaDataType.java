@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Model
  * ================================================================================
- * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -41,8 +41,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.collections4.CollectionUtils;
-import org.onap.policy.common.parameters.annotations.Entries;
-import org.onap.policy.common.parameters.annotations.Items;
 import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.common.parameters.annotations.Valid;
 import org.onap.policy.models.base.PfAuthorative;
@@ -70,13 +68,11 @@ public class JpaToscaDataType extends JpaToscaEntityType<ToscaDataType> implemen
     private static final long serialVersionUID = -3922690413436539164L;
 
     @ElementCollection
-    @Items(notNull = {@NotNull}, valid = {@Valid})
-    private List<JpaToscaConstraint> constraints;
+    private List<@NotNull @Valid JpaToscaConstraint> constraints;
 
     @ElementCollection
     @Lob
-    @Entries(key = @Items(notNull = {@NotNull}), value = @Items(notNull = {@NotNull}, valid = {@Valid}))
-    private Map<String, JpaToscaProperty> properties;
+    private Map<@NotNull String, @NotNull @Valid JpaToscaProperty> properties;
 
     /**
      * The Default Constructor creates a {@link JpaToscaDataType} object with a null key.

@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Model
  * ================================================================================
- * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -171,7 +171,7 @@ public class JpaPdp extends PfConcept implements PfAuthorative<Pdp>, Serializabl
     public BeanValidationResult validate(@NonNull String fieldName) {
         BeanValidationResult result = super.validate(fieldName);
 
-        result.addResult(validateKeyNotNull("parent of key", key.getParentConceptKey()));
+        validateKeyNotNull(result, "parent of key", key.getParentConceptKey());
 
         if (PfKey.NULL_KEY_NAME.equals(key.getParentLocalName())) {
             addResult(result, "local name of parent of key", key.getParentLocalName(), IS_NULL);

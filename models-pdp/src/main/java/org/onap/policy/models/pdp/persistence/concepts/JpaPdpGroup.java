@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Model
  * ================================================================================
- * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -44,8 +44,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.lang3.ObjectUtils;
-import org.onap.policy.common.parameters.annotations.Entries;
-import org.onap.policy.common.parameters.annotations.Items;
 import org.onap.policy.common.parameters.annotations.NotBlank;
 import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.common.parameters.annotations.Valid;
@@ -87,9 +85,7 @@ public class JpaPdpGroup extends PfConcept implements PfAuthorative<PdpGroup> {
     private PdpState pdpGroupState;
 
     @ElementCollection
-    @Entries(key = @Items(notNull = {@NotNull}, notBlank = {@NotBlank}),
-                value = @Items(notNull = {@NotNull}, notBlank = {@NotBlank}))
-    private Map<String, String> properties;
+    private Map<@NotNull @NotBlank String, @NotNull @NotBlank String> properties;
 
     // @formatter:off
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
@@ -101,8 +97,7 @@ public class JpaPdpGroup extends PfConcept implements PfAuthorative<PdpGroup> {
         })
     // @formatter:on
     @NotNull
-    @Items(notNull = {@NotNull}, valid = {@Valid})
-    private List<JpaPdpSubGroup> pdpSubGroups;
+    private List<@NotNull @Valid JpaPdpSubGroup> pdpSubGroups;
 
     /**
      * The Default Constructor creates a {@link JpaPdpGroup} object with a null key.

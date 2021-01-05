@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Requirement Model
  * ================================================================================
- * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -37,15 +37,12 @@ import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-import org.onap.policy.common.parameters.annotations.Entries;
-import org.onap.policy.common.parameters.annotations.Items;
 import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.common.utils.coder.YamlJsonTranslator;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.base.validation.annotations.PfItems;
 import org.onap.policy.models.base.validation.annotations.PfMin;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaRequirement;
 
@@ -77,13 +74,11 @@ public class JpaToscaRequirement extends JpaToscaEntityType<ToscaRequirement>
     private String relationship;
 
     @ElementCollection
-    @PfItems(notNull = {@NotNull}, pfMin = {@PfMin(value = 0, allowed = -1)})
-    private List<Integer> occurrences;
+    private List<@NotNull @PfMin(value = 0, allowed = -1) Integer> occurrences;
 
     @ElementCollection
     @Lob
-    @Entries(key = @Items(notNull = {@NotNull}), value = @Items(notNull = {@NotNull}))
-    private Map<String, String> properties;
+    private Map<@NotNull String, @NotNull String> properties;
 
     /**
      * The Default Constructor creates a {@link JpaToscaRequirement} object with a null key.

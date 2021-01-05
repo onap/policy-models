@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Model
  * ================================================================================
- * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -41,8 +41,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.collections4.CollectionUtils;
 import org.onap.policy.common.parameters.BeanValidationResult;
-import org.onap.policy.common.parameters.annotations.Entries;
-import org.onap.policy.common.parameters.annotations.Items;
 import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.common.parameters.annotations.Valid;
 import org.onap.policy.models.base.PfAuthorative;
@@ -72,16 +70,13 @@ public class JpaToscaPolicyType extends JpaToscaEntityType<ToscaPolicyType> impl
 
     @ElementCollection
     @Lob
-    @Entries(key = @Items(notNull = {@NotNull}), value = @Items(notNull = {@NotNull}, valid = {@Valid}))
-    private Map<String, JpaToscaProperty> properties;
+    private Map<@NotNull String, @NotNull @Valid JpaToscaProperty> properties;
 
     @ElementCollection
-    @Items(notNull = {@NotNull}, valid = {@Valid})
-    private List<PfConceptKey> targets;
+    private List<@NotNull @Valid PfConceptKey> targets;
 
     @ElementCollection
-    @Items(notNull = {@NotNull}, valid = {@Valid})
-    private List<JpaToscaTrigger> triggers;
+    private List<@NotNull @Valid JpaToscaTrigger> triggers;
 
     /**
      * The Default Constructor creates a {@link JpaToscaPolicyType} object with a null key.
@@ -196,7 +191,7 @@ public class JpaToscaPolicyType extends JpaToscaEntityType<ToscaPolicyType> impl
     public BeanValidationResult validate(String fieldName) {
         BeanValidationResult result = super.validate(fieldName);
 
-        result.addResult(validateKeyVersionNotNull("key", getKey()));
+        validateKeyVersionNotNull(result, "key", getKey());
 
         return result;
     }

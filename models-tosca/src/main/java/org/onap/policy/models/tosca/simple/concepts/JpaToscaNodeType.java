@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2020 Nordix Foundation.
- * Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,8 +45,6 @@ import lombok.NonNull;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.onap.policy.common.parameters.BeanValidationResult;
-import org.onap.policy.common.parameters.annotations.Entries;
-import org.onap.policy.common.parameters.annotations.Items;
 import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.common.parameters.annotations.Valid;
 import org.onap.policy.models.base.PfAuthorative;
@@ -73,8 +71,7 @@ public class JpaToscaNodeType extends JpaToscaEntityType<ToscaNodeType> implemen
 
     @ElementCollection
     @Lob
-    @Entries(key = @Items(notNull = {@NotNull}), value = @Items(notNull = {@NotNull}, valid = {@Valid}))
-    private Map<String, JpaToscaProperty> properties;
+    private Map<@NotNull String, @NotNull @Valid JpaToscaProperty> properties;
 
 
     // formatter:off
@@ -193,7 +190,7 @@ public class JpaToscaNodeType extends JpaToscaEntityType<ToscaNodeType> implemen
     public BeanValidationResult validate(String fieldName) {
         BeanValidationResult result = super.validate(fieldName);
 
-        result.addResult(validateKeyVersionNotNull("key", getKey()));
+        validateKeyVersionNotNull(result, "key", getKey());
 
         return result;
     }

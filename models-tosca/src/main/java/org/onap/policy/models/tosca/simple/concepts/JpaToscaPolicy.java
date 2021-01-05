@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Model
  * ================================================================================
- * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -40,8 +40,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.onap.policy.common.parameters.BeanValidationResult;
-import org.onap.policy.common.parameters.annotations.Entries;
-import org.onap.policy.common.parameters.annotations.Items;
 import org.onap.policy.common.parameters.annotations.NotBlank;
 import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.common.parameters.annotations.Valid;
@@ -90,12 +88,10 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
 
     @ElementCollection
     @Lob
-    @Entries(key = @Items(notNull = {@NotNull}, notBlank = {@NotBlank}), value = @Items(notNull = {@NotNull}))
-    private Map<String, String> properties;
+    private Map<@NotNull @NotBlank String, @NotNull String> properties;
 
     @ElementCollection
-    @Items(notNull = {@NotNull}, valid = {@Valid})
-    private List<PfConceptKey> targets;
+    private List<@NotNull @Valid PfConceptKey> targets;
     // @formatter:on
 
     /**
@@ -243,7 +239,7 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
     public BeanValidationResult validate(String fieldName) {
         BeanValidationResult result = super.validate(fieldName);
 
-        result.addResult(validateKeyVersionNotNull("key", getKey()));
+        validateKeyVersionNotNull(result, "key", getKey());
 
         return result;
     }

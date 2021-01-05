@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,16 +20,12 @@
 
 package org.onap.policy.models.base;
 
-import java.util.Map;
 import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.common.parameters.BeanValidator;
-import org.onap.policy.common.parameters.EntryValidator;
 import org.onap.policy.common.parameters.ObjectValidationResult;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.common.parameters.ValidationStatus;
 import org.onap.policy.common.parameters.ValueValidator;
-import org.onap.policy.models.base.validation.annotations.PfEntries;
-import org.onap.policy.models.base.validation.annotations.PfItems;
 import org.onap.policy.models.base.validation.annotations.PfMin;
 import org.onap.policy.models.base.validation.annotations.VerifyKey;
 
@@ -39,8 +35,6 @@ public class PfValidator extends BeanValidator {
     protected void addValidators(ValueValidator validator) {
         super.addValidators(validator);
 
-        validator.addAnnotation(PfItems.class, this::verCollection);
-        validator.addAnnotation(PfEntries.class, this::verMap);
         validator.addAnnotation(VerifyKey.class, this::verKey);
         validator.addAnnotation(PfMin.class, this::verPfMin);
     }
@@ -69,26 +63,6 @@ public class PfValidator extends BeanValidator {
     }
 
     /**
-     * Validates the items in a Map.
-     *
-     * @param result where to add the validation result
-     * @param fieldName name of the field containing the collection
-     * @param annot validation annotations for individual entries
-     * @param value value to be verified
-     * @return {@code true} if the next check should be performed, {@code false} otherwise
-     */
-    public boolean verMap(BeanValidationResult result, String fieldName, PfEntries annot, Object value) {
-
-        if (!(value instanceof Map)) {
-            return true;
-        }
-
-        EntryValidator entryValidator = makeEntryValidator(annot.key(), annot.value());
-
-        return verMap(result, fieldName, entryValidator, value);
-    }
-
-    /**
      * Invokes the value's {@link Validated#validate(String) validate()} method, if the
      * value is of type {@link Validated}.
      */
@@ -96,7 +70,14 @@ public class PfValidator extends BeanValidator {
     public boolean verCascade(BeanValidationResult result, String fieldName, Object value) {
         if (value instanceof Validated) {
             ValidationResult result2 = ((Validated) value).validate(fieldName);
-            result.addResult(result2);
+            if (result2 == null) {
+                return true;
+            }
+
+            if (!result2.isClean()) {
+                result.addResult(result2);
+            }
+
             return result2.isValid();
         }
 
