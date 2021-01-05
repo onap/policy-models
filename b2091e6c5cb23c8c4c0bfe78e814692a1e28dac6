@@ -222,6 +222,30 @@
       "revId": "b2091e6c5cb23c8c4c0bfe78e814692a1e28dac6",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "894f2085_518335e8",
+        "filename": "models-pap/src/test/java/org/onap/policy/models/pap/concepts/TestModels.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-01-05T19:41:03Z",
+      "side": 1,
+      "message": "so then we probably need to add some junits for the class.  Note: I don\u0027t think any tests are needed for lombok-generated methods, as lombok.config excludes these methods from sonar coverage.",
+      "parentUuid": "63b29184_717092b2",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 1
+      },
+      "revId": "b2091e6c5cb23c8c4c0bfe78e814692a1e28dac6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
