@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e75ffcf_7550f572",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/concepts/PapPolicyIdentifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2021-01-06T14:02:45Z",
+      "side": 1,
+      "message": "New File? License update?",
+      "range": {
+        "startLine": 5,
+        "startChar": 3,
+        "endLine": 6,
+        "endChar": 54
+      },
+      "revId": "11a6ac34f1fcbe108b1253c26ac16555f2f96a1e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
