@@ -270,6 +270,30 @@
       "revId": "b2091e6c5cb23c8c4c0bfe78e814692a1e28dac6",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b17a14af_90712d14",
+        "filename": "models-pap/src/test/java/org/onap/policy/models/pap/concepts/TestModels.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-01-06T12:00:53Z",
+      "side": 1,
+      "message": "oh, duh, my bad.",
+      "parentUuid": "c877f232_aa3d8851",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 1
+      },
+      "revId": "b2091e6c5cb23c8c4c0bfe78e814692a1e28dac6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
