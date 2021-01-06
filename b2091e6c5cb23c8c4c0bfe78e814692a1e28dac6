@@ -246,6 +246,30 @@
       "revId": "b2091e6c5cb23c8c4c0bfe78e814692a1e28dac6",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c877f232_aa3d8851",
+        "filename": "models-pap/src/test/java/org/onap/policy/models/pap/concepts/TestModels.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2021-01-06T10:11:23Z",
+      "side": 1,
+      "message": "I already added a specific class to test PdPDeployPolicies called PdpDeployPoliciesTest, which gives nearly complete coverage.",
+      "parentUuid": "894f2085_518335e8",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 1
+      },
+      "revId": "b2091e6c5cb23c8c4c0bfe78e814692a1e28dac6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
