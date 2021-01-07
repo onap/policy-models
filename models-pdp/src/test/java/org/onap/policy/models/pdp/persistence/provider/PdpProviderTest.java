@@ -21,6 +21,7 @@
 
 package org.onap.policy.models.pdp.persistence.provider;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -620,5 +621,18 @@ public class PdpProviderTest {
         }).hasMessageMatching("pdpStatistics is marked .*ull but is null");
 
         new PdpProvider().updatePdpStatistics(pfDao, "name", "TYPE", "inst", new PdpStatistics());
+    }
+
+    @Test
+    public void testGetGroupPolicyStatus() throws PfModelException {
+        assertThatThrownBy(() -> {
+            new PdpProvider().getGroupPolicyStatus(null, "someGroup");
+        }).hasMessageMatching(DAO_IS_NULL);
+
+        assertThatThrownBy(() -> {
+            new PdpProvider().getGroupPolicyStatus(pfDao, null);
+        }).hasMessageContaining("group").hasMessageContaining("null");
+
+        assertThat(new PdpProvider().getGroupPolicyStatus(pfDao, "someGroup")).isEmpty();
     }
 }

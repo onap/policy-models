@@ -22,7 +22,10 @@
 package org.onap.policy.models.pdp.persistence.provider;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
 import lombok.NonNull;
 import org.onap.policy.common.parameters.BeanValidationResult;
@@ -35,10 +38,12 @@ import org.onap.policy.models.dao.PfDao;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
 import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
+import org.onap.policy.models.pdp.concepts.PdpPolicyStatus;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.pdp.persistence.concepts.JpaPdp;
 import org.onap.policy.models.pdp.persistence.concepts.JpaPdpGroup;
+import org.onap.policy.models.pdp.persistence.concepts.JpaPdpPolicyStatus;
 import org.onap.policy.models.pdp.persistence.concepts.JpaPdpSubGroup;
 
 /**
@@ -245,6 +250,76 @@ public class PdpProvider {
             @NonNull final String pdpType, @NonNull final String pdpInstanceId,
             @NonNull final PdpStatistics pdpStatistics) throws PfModelException {
         // Not implemented yet
+    }
+
+    /**
+     * Gets the policy deployments for a PDP group.
+     *
+     * @param dao the DAO to use to access the database
+     * @param groupName the name of the PDP group of interest, null to get results for all
+     *        PDP groups
+     * @return the deployments found
+     * @throws PfModelException on errors getting PDP groups
+     */
+    public List<PdpPolicyStatus> getGroupPolicyStatus(@NonNull final PfDao dao, @NonNull final String groupName)
+                    throws PfModelException {
+
+        Map<String, Object> filter = Map.of("pdpGroup", groupName);
+
+        return dao.getFiltered(JpaPdpPolicyStatus.class, null, null, null, null, filter, null, 0).stream()
+                        .map(JpaPdpPolicyStatus::toAuthorative).collect(Collectors.toList());
+    }
+
+    /**
+     * Creates collections of policy status.
+     *
+     * @param dao the DAO to use to access the database
+     * @param objs the objects to create
+     */
+    public void createPolicyStatus(@NonNull final PfDao dao, @NonNull Collection<PdpPolicyStatus> objs) {
+
+        dao.createCollection(fromAuthorative(objs, "createPdpPolicyStatusList"));
+    }
+
+    /**
+     * Deletes collections of policy status.
+     *
+     * @param dao the DAO to use to access the database
+     * @param objs the objects to delete
+     */
+    public void deletePolicyStatus(@NonNull final PfDao dao, @NonNull Collection<PdpPolicyStatus> objs) {
+
+        dao.deleteCollection(fromAuthorative(objs, "deletePdpPolicyStatusList"));
+    }
+
+    /**
+     * Converts a collection of authorative policy status to a collection of JPA policy
+     * status.  Validates the resulting list.
+     *
+     * @param objs authorative policy status to convert
+     * @param fieldName name of the field containing the collection
+     * @return a collection of JPA policy status
+     */
+    private Collection<JpaPdpPolicyStatus> fromAuthorative(Collection<PdpPolicyStatus> objs, String fieldName) {
+        if (objs == null) {
+            return null;
+        }
+
+        List<JpaPdpPolicyStatus> jpas = objs.stream().map(JpaPdpPolicyStatus::new).collect(Collectors.toList());
+
+        // validate the objects
+        BeanValidationResult result = new BeanValidationResult(fieldName, jpas);
+
+        int count = 0;
+        for (JpaPdpPolicyStatus jpa: jpas) {
+            result.addResult(jpa.validate(String.valueOf(count++)));
+        }
+
+        if (!result.isValid()) {
+            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, result.getResult());
+        }
+
+        return jpas;
     }
 
     /**
