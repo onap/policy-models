@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "41fb70d7_91300197",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2021-01-07T15:23:22Z",
+      "side": 1,
+      "message": "Much better!",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 88,
+        "endChar": 10
+      },
+      "revId": "e6bea18abd1a1b4ddf7203508832e6a3f9380598",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
