@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,11 @@
 package org.onap.policy.models.pdp.persistence.provider;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
 import lombok.NonNull;
 import org.onap.policy.common.parameters.BeanValidationResult;
@@ -35,10 +39,12 @@ import org.onap.policy.models.dao.PfDao;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
 import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
+import org.onap.policy.models.pdp.concepts.PdpPolicyStatus;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.pdp.persistence.concepts.JpaPdp;
 import org.onap.policy.models.pdp.persistence.concepts.JpaPdpGroup;
+import org.onap.policy.models.pdp.persistence.concepts.JpaPdpPolicyStatus;
 import org.onap.policy.models.pdp.persistence.concepts.JpaPdpSubGroup;
 
 /**
@@ -47,6 +53,7 @@ import org.onap.policy.models.pdp.persistence.concepts.JpaPdpSubGroup;
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 public class PdpProvider {
+    private static final Object statusLock = new Object();
 
     /**
      * Get PDP groups.
@@ -245,6 +252,72 @@ public class PdpProvider {
             @NonNull final String pdpType, @NonNull final String pdpInstanceId,
             @NonNull final PdpStatistics pdpStatistics) throws PfModelException {
         // Not implemented yet
+    }
+
+    /**
+     * Gets the policy deployments for a PDP group.
+     *
+     * @param dao the DAO to use to access the database
+     * @param groupName the name of the PDP group of interest, null to get results for all
+     *        PDP groups
+     * @return the deployments found
+     * @throws PfModelException on errors getting PDP groups
+     */
+    public List<PdpPolicyStatus> getGroupPolicyStatus(@NonNull final PfDao dao, @NonNull final String groupName)
+                    throws PfModelException {
+
+        Map<String, Object> filter = Map.of("pdpGroup", groupName);
+
+        return dao.getFiltered(JpaPdpPolicyStatus.class, null, null, null, null, filter, null, 0).stream()
+                        .map(JpaPdpPolicyStatus::toAuthorative).collect(Collectors.toList());
+    }
+
+    /**
+     * Creates, updates, and deletes collections of policy status.
+     *
+     * @param dao the DAO to use to access the database
+     * @param createObjs the objects to create
+     * @param updateObjs the objects to update
+     * @param deleteObjs the objects to delete
+     */
+    public void cudPolicyStatus(@NonNull final PfDao dao, Collection<PdpPolicyStatus> createObjs,
+                    Collection<PdpPolicyStatus> updateObjs, Collection<PdpPolicyStatus> deleteObjs) {
+
+        synchronized (statusLock) {
+            dao.deleteCollection(fromAuthorativeStatus(deleteObjs, "deletePdpPolicyStatusList"));
+            dao.createCollection(fromAuthorativeStatus(createObjs, "createPdpPolicyStatusList"));
+            dao.createCollection(fromAuthorativeStatus(updateObjs, "updatePdpPolicyStatusList"));
+        }
+    }
+
+    /**
+     * Converts a collection of authorative policy status to a collection of JPA policy
+     * status.  Validates the resulting list.
+     *
+     * @param objs authorative policy status to convert
+     * @param fieldName name of the field containing the collection
+     * @return a collection of JPA policy status
+     */
+    private Collection<JpaPdpPolicyStatus> fromAuthorativeStatus(Collection<PdpPolicyStatus> objs, String fieldName) {
+        if (objs == null) {
+            return Collections.emptyList();
+        }
+
+        List<JpaPdpPolicyStatus> jpas = objs.stream().map(JpaPdpPolicyStatus::new).collect(Collectors.toList());
+
+        // validate the objects
+        BeanValidationResult result = new BeanValidationResult(fieldName, jpas);
+
+        int count = 0;
+        for (JpaPdpPolicyStatus jpa: jpas) {
+            result.addResult(jpa.validate(String.valueOf(count++)));
+        }
+
+        if (!result.isValid()) {
+            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, result.getResult());
+        }
+
+        return jpas;
     }
 
     /**

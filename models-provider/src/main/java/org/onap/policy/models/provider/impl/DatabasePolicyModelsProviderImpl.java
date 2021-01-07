@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2021 Nordix Foundation.
- *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,6 +22,7 @@
 
 package org.onap.policy.models.provider.impl;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -37,6 +38,7 @@ import org.onap.policy.models.dao.impl.DefaultPfDao;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
 import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
+import org.onap.policy.models.pdp.concepts.PdpPolicyStatus;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.pdp.persistence.provider.PdpProvider;
@@ -343,6 +345,20 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
             throws PfModelException {
         assertInitialized();
         return new PdpStatisticsProvider().deletePdpStatistics(pfDao, name, timestamp);
+    }
+
+    @Override
+    public List<PdpPolicyStatus> getGroupPolicyStatus(@NonNull String groupName)
+                    throws PfModelException {
+        assertInitialized();
+        return new PdpProvider().getGroupPolicyStatus(pfDao, groupName);
+    }
+
+    @Override
+    public void cudPolicyStatus(Collection<PdpPolicyStatus> createObjs,
+                    Collection<PdpPolicyStatus> updateObjs, Collection<PdpPolicyStatus> deleteObjs) {
+        assertInitialized();
+        new PdpProvider().cudPolicyStatus(pfDao, createObjs, updateObjs, deleteObjs);
     }
 
     /**

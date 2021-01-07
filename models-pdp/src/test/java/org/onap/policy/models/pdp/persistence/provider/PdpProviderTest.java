@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2021 Nordix Foundation.
- *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,12 +21,15 @@
 
 package org.onap.policy.models.pdp.persistence.provider;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 import org.eclipse.persistence.config.PersistenceUnitProperties;
@@ -36,6 +39,7 @@ import org.junit.Test;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.base.PfModelException;
+import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.base.Validated;
 import org.onap.policy.models.dao.DaoParameters;
 import org.onap.policy.models.dao.PfDao;
@@ -45,6 +49,9 @@ import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
 import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
 import org.onap.policy.models.pdp.concepts.PdpGroups;
+import org.onap.policy.models.pdp.concepts.PdpPolicyStatus;
+import org.onap.policy.models.pdp.concepts.PdpPolicyStatus.PdpPolicyStatusBuilder;
+import org.onap.policy.models.pdp.concepts.PdpPolicyStatus.State;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.pdp.enums.PdpHealthStatus;
@@ -64,8 +71,11 @@ public class PdpProviderTest {
     private static final String GROUP_IS_NULL = "pdpGroupName is marked .*ull but is null";
     private static final String DAO_IS_NULL = "dao is marked .*ull but is null";
     private static final String PDP_GROUP0 = "PdpGroup0";
+    private static final String GROUP_A = "groupA";
+    private static final String GROUP_B = "groupB";
     private PfDao pfDao;
     private StandardCoder standardCoder;
+    private PdpPolicyStatusBuilder statusBuilder;
 
 
     /**
@@ -100,6 +110,18 @@ public class PdpProviderTest {
     @Before
     public void setupGson() {
         standardCoder = new StandardCoder();
+    }
+
+    /**
+     * Set up Policy Status builder.
+     */
+    @Before
+    public void setupBuilder() {
+        ToscaConceptIdentifier policy = new ToscaConceptIdentifier("MyPolicy", "1.2.3");
+        ToscaConceptIdentifier policyType = new ToscaConceptIdentifier("MyPolicyType", "1.2.4");
+
+        statusBuilder = PdpPolicyStatus.builder().deploy(true).pdpType("MyPdpType").policy(policy)
+                        .policyType(policyType).state(State.SUCCESS);
     }
 
     @After
@@ -620,5 +642,131 @@ public class PdpProviderTest {
         }).hasMessageMatching("pdpStatistics is marked .*ull but is null");
 
         new PdpProvider().updatePdpStatistics(pfDao, "name", "TYPE", "inst", new PdpStatistics());
+    }
+
+    @Test
+    public void testGetGroupPolicyStatus() throws PfModelException {
+        assertThatThrownBy(() -> {
+            new PdpProvider().getGroupPolicyStatus(null, "someGroup");
+        }).hasMessageMatching(DAO_IS_NULL);
+
+        assertThatThrownBy(() -> {
+            new PdpProvider().getGroupPolicyStatus(pfDao, null);
+        }).hasMessageContaining("group").hasMessageContaining("null");
+
+        assertThat(new PdpProvider().getGroupPolicyStatus(pfDao, PDP_GROUP0)).isEmpty();
+    }
+
+    @Test
+    public void cudPolicyStatus() throws PfModelException {
+        PdpProvider prov = new PdpProvider();
+
+        assertThatThrownBy(() -> prov.cudPolicyStatus(null, List.of(), List.of(), List.of()))
+                        .hasMessageMatching(DAO_IS_NULL);
+
+        // null collections should be OK
+        assertThatCode(() -> prov.cudPolicyStatus(pfDao, null, null, null)).doesNotThrowAnyException();
+    }
+
+    @Test
+    public void cudPolicyStatus_Create() throws PfModelException {
+        PdpProvider prov = new PdpProvider();
+
+        PdpPolicyStatus idx = statusBuilder.pdpGroup(GROUP_A).pdpId("idX").build();
+        PdpPolicyStatus idy = statusBuilder.pdpGroup(GROUP_A).pdpId("idY").build();
+        PdpPolicyStatus idz = statusBuilder.pdpGroup(GROUP_B).pdpId("idZ").build();
+        prov.cudPolicyStatus(pfDao, List.of(idx, idy), null, null);
+        prov.cudPolicyStatus(pfDao, List.of(idz), null, null);
+
+        List<PdpPolicyStatus> records = prov.getGroupPolicyStatus(pfDao, GROUP_A);
+        assertThat(records).hasSize(2);
+
+        Collections.sort(records, (rec1, rec2) -> rec1.getPdpId().compareTo(rec2.getPdpId()));
+        assertThat(records.get(0)).isEqualTo(idx);
+        assertThat(records.get(1)).isEqualTo(idy);
+
+        records = prov.getGroupPolicyStatus(pfDao, GROUP_B);
+        assertThat(records).hasSize(1);
+        assertThat(records.get(0)).isEqualTo(idz);
+    }
+
+    @Test
+    public void cudPolicyStatus_Update() throws PfModelException {
+        PdpProvider prov = new PdpProvider();
+
+        PdpPolicyStatus idw = statusBuilder.pdpGroup(GROUP_A).pdpId("wId").build();
+        PdpPolicyStatus idx = statusBuilder.pdpGroup(GROUP_A).pdpId("xId").build();
+        PdpPolicyStatus idy = statusBuilder.pdpGroup(GROUP_A).pdpId("yId").build();
+        PdpPolicyStatus idz = statusBuilder.pdpGroup(GROUP_A).pdpId("zId").build();
+        prov.cudPolicyStatus(pfDao, List.of(idw, idx, idy, idz), null, null);
+
+        assertThat(prov.getGroupPolicyStatus(pfDao, GROUP_A)).hasSize(4);
+
+        /*
+         * Now update some records.
+         */
+        idx.setState(State.FAILURE);
+        idz.setState(State.WAITING);
+        prov.cudPolicyStatus(pfDao, null, List.of(idx, idz), null);
+        List<PdpPolicyStatus> records = prov.getGroupPolicyStatus(pfDao, GROUP_A);
+        assertThat(records).hasSize(4);
+
+        Collections.sort(records, (rec1, rec2) -> rec1.getPdpId().compareTo(rec2.getPdpId()));
+        assertThat(records.get(0)).isEqualTo(idw);
+        assertThat(records.get(1)).isEqualTo(idx);
+        assertThat(records.get(2)).isEqualTo(idy);
+        assertThat(records.get(3)).isEqualTo(idz);
+    }
+
+    @Test
+    public void cudPolicyStatus_Delete() throws PfModelException {
+        PdpProvider prov = new PdpProvider();
+
+        PdpPolicyStatus idw = statusBuilder.pdpGroup(GROUP_A).pdpId("idW").build();
+        PdpPolicyStatus idx = statusBuilder.pdpGroup(GROUP_A).pdpId("idX").build();
+        PdpPolicyStatus idy = statusBuilder.pdpGroup(GROUP_A).pdpId("idY").build();
+        PdpPolicyStatus idz = statusBuilder.pdpGroup(GROUP_A).pdpId("idZ").build();
+        prov.cudPolicyStatus(pfDao, List.of(idw, idx, idy, idz), null, null);
+
+        assertThat(prov.getGroupPolicyStatus(pfDao, GROUP_A)).hasSize(4);
+
+        /*
+         * Delete some records and then check again.
+         */
+        prov.cudPolicyStatus(pfDao, null, null, List.of(idw, idy));
+
+        List<PdpPolicyStatus> records = prov.getGroupPolicyStatus(pfDao, GROUP_A);
+        assertThat(records).hasSize(2);
+
+        Collections.sort(records, (rec1, rec2) -> rec1.getPdpId().compareTo(rec2.getPdpId()));
+        assertThat(records.get(0)).isEqualTo(idx);
+        assertThat(records.get(1)).isEqualTo(idz);
+    }
+
+    @Test
+    public void testFromAuthorativeStatus() throws PfModelException {
+        PdpProvider prov = new PdpProvider();
+
+        assertThatCode(() -> prov.cudPolicyStatus(pfDao, null, null, null)).doesNotThrowAnyException();
+
+        PdpPolicyStatus ida = statusBuilder.pdpGroup(GROUP_A).pdpId("idA").build();
+        PdpPolicyStatus idb = statusBuilder.pdpGroup(GROUP_A).pdpId("idB").build();
+        PdpPolicyStatus idc = statusBuilder.pdpGroup(GROUP_A).pdpId("idC").build();
+        PdpPolicyStatus idd = statusBuilder.pdpGroup(GROUP_A).pdpId("idD").build();
+
+        // make a couple invalid records
+        idb.setState(null);
+        idd.setState(null);
+
+        List<PdpPolicyStatus> list = List.of(ida, idb, idc, idd);
+
+        // @formatter:off
+        assertThatCode(() -> prov.cudPolicyStatus(pfDao, list, null, null))
+            .isInstanceOf(PfModelRuntimeException.class)
+            .hasMessageContaining("1").hasMessageContaining("3")
+            .hasMessageNotContaining("0").hasMessageNotContaining("2");
+        // @formatter:on
+
+        assertThat(prov.getGroupPolicyStatus(pfDao, GROUP_A)).isEmpty();
     }
 }

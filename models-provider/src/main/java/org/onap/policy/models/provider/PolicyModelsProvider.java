@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
+ *  Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +22,7 @@
 
 package org.onap.policy.models.provider;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import lombok.NonNull;
@@ -28,6 +30,7 @@ import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
 import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
+import org.onap.policy.models.pdp.concepts.PdpPolicyStatus;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
@@ -367,4 +370,25 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * @throws PfModelException on errors deleting PDP statistics
      */
     public List<PdpStatistics> deletePdpStatistics(@NonNull String name, Date timestamp) throws PfModelException;
+
+    /**
+     * Gets the policy deployments for a PDP group.
+     *
+     * @param groupName the name of the PDP group of interest, null to get results for all
+     *        PDP groups
+     * @return the deployments found
+     * @throws PfModelException on errors getting PDP groups
+     */
+    public List<PdpPolicyStatus> getGroupPolicyStatus(@NonNull final String groupName)
+                    throws PfModelException;
+
+    /**
+     * Creates, updates, and deletes collections of policy status.
+     *
+     * @param createObjs the objects to create
+     * @param updateObjs the objects to update
+     * @param deleteObjs the objects to delete
+     */
+    public void cudPolicyStatus(Collection<PdpPolicyStatus> createObjs,
+                    Collection<PdpPolicyStatus> updateObjs, Collection<PdpPolicyStatus> deleteObjs);
 }

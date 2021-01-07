@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
- *  Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,6 +23,7 @@
 package org.onap.policy.models.provider.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import javax.ws.rs.core.Response;
@@ -34,6 +35,7 @@ import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
 import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
+import org.onap.policy.models.pdp.concepts.PdpPolicyStatus;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.provider.PolicyModelsProvider;
@@ -236,6 +238,18 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
     public List<PdpStatistics> deletePdpStatistics(final String name, final Date timestamp) {
         // Not implemented
         return new ArrayList<>();
+    }
+
+    @Override
+    public List<PdpPolicyStatus> getGroupPolicyStatus(String groupName) throws PfModelException {
+        // Not implemented
+        return new ArrayList<>();
+    }
+
+    @Override
+    public void cudPolicyStatus(Collection<PdpPolicyStatus> createObjs, Collection<PdpPolicyStatus> updateObjs,
+                    Collection<PdpPolicyStatus> deleteObjs) {
+        // Not implemented
     }
 
     /**

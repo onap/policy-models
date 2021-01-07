@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,6 +22,8 @@
 
 package org.onap.policy.models.provider.impl;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -111,6 +113,9 @@ public class DummyPolicyModelsProviderTest {
         assertTrue(dummyProvider.createPdpStatistics(null).isEmpty());
         assertTrue(dummyProvider.updatePdpStatistics(null).isEmpty());
         assertTrue(dummyProvider.deletePdpStatistics(null, new Date()).isEmpty());
+
+        assertThat(dummyProvider.getGroupPolicyStatus("name")).isEmpty();
+        assertThatCode(() -> dummyProvider.cudPolicyStatus(null, null, null)).doesNotThrowAnyException();
     }
 
     @Test
