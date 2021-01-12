@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e6f1db1f_24395283",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2021-01-12T18:13:45Z",
+      "side": 1,
+      "message": "This will be helpful for the new deployment status REST API as well. Thanks!",
+      "range": {
+        "startLine": 279,
+        "startChar": 33,
+        "endLine": 279,
+        "endChar": 51
+      },
+      "revId": "9a67d321484b935eaf63e55373088fa64b0ffd76",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
