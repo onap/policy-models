@@ -57,6 +57,7 @@ import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.pdp.enums.PdpHealthStatus;
 import org.onap.policy.models.pdp.enums.PdpState;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierOptVersion;
 import org.onap.policy.models.tosca.simple.provider.SimpleToscaProvider;
 
 /**
@@ -73,6 +74,9 @@ public class PdpProviderTest {
     private static final String PDP_GROUP0 = "PdpGroup0";
     private static final String GROUP_A = "groupA";
     private static final String GROUP_B = "groupB";
+    private static final ToscaConceptIdentifier MY_POLICY = new ToscaConceptIdentifier("MyPolicy", "1.2.3");
+    private static final ToscaConceptIdentifier MY_POLICY2 = new ToscaConceptIdentifier("MyPolicyB", "2.3.4");
+
     private PfDao pfDao;
     private StandardCoder standardCoder;
     private PdpPolicyStatusBuilder statusBuilder;
@@ -117,10 +121,9 @@ public class PdpProviderTest {
      */
     @Before
     public void setupBuilder() {
-        ToscaConceptIdentifier policy = new ToscaConceptIdentifier("MyPolicy", "1.2.3");
         ToscaConceptIdentifier policyType = new ToscaConceptIdentifier("MyPolicyType", "1.2.4");
 
-        statusBuilder = PdpPolicyStatus.builder().deploy(true).pdpType("MyPdpType").policy(policy)
+        statusBuilder = PdpPolicyStatus.builder().deploy(true).pdpType("MyPdpType").policy(MY_POLICY)
                         .policyType(policyType).state(State.SUCCESS);
     }
 
@@ -645,6 +648,53 @@ public class PdpProviderTest {
     }
 
     @Test
+    public void testGetAllPolicyStatusPfDao() throws PfModelException {
+        assertThatThrownBy(() -> {
+            new PdpProvider().getAllPolicyStatus(null);
+        }).hasMessageMatching(DAO_IS_NULL);
+
+        assertThat(new PdpProvider().getAllPolicyStatus(pfDao)).isEmpty();
+
+        PdpProvider provider = loadDeployments();
+        assertThat(provider.getAllPolicyStatus(pfDao)).hasSize(5);
+    }
+
+    private PdpProvider loadDeployments() {
+        PdpProvider provider = new PdpProvider();
+
+        // same name, different version
+        final ToscaConceptIdentifier policy3 = new ToscaConceptIdentifier(MY_POLICY.getName(), "10.20.30");
+
+        PdpPolicyStatus id1 = statusBuilder.pdpGroup(GROUP_A).pdpId("pdp1").policy(MY_POLICY).build();
+        PdpPolicyStatus id2 = statusBuilder.pdpGroup(GROUP_A).pdpId("pdp2").policy(MY_POLICY2).build();
+        PdpPolicyStatus id3 = statusBuilder.pdpGroup(GROUP_A).pdpId("pdp3").policy(policy3).build();
+        PdpPolicyStatus id4 = statusBuilder.pdpGroup(GROUP_B).pdpId("pdp4").policy(MY_POLICY).build();
+        PdpPolicyStatus id5 = statusBuilder.pdpGroup(GROUP_B).pdpId("pdp5").policy(MY_POLICY2).build();
+        provider.cudPolicyStatus(pfDao, List.of(id1, id2, id3, id4, id5), null, null);
+
+        return provider;
+    }
+
+    @Test
+    public void testGetAllPolicyStatusPfDaoToscaConceptIdentifierOptVersion() throws PfModelException {
+        assertThatThrownBy(() -> {
+            new PdpProvider().getAllPolicyStatus(null, new ToscaConceptIdentifierOptVersion("somePdp", null));
+        }).hasMessageMatching(DAO_IS_NULL);
+
+        assertThatThrownBy(() -> {
+            new PdpProvider().getAllPolicyStatus(pfDao, null);
+        }).hasMessageContaining("policy").hasMessageContaining("null");
+
+        assertThat(new PdpProvider().getAllPolicyStatus(pfDao, new ToscaConceptIdentifierOptVersion("somePdp", null)))
+                        .isEmpty();
+
+        PdpProvider provider = loadDeployments();
+        assertThat(provider.getAllPolicyStatus(pfDao, new ToscaConceptIdentifierOptVersion(MY_POLICY))).hasSize(2);
+        assertThat(provider.getAllPolicyStatus(pfDao, new ToscaConceptIdentifierOptVersion(MY_POLICY.getName(), null)))
+                        .hasSize(3);
+    }
+
+    @Test
     public void testGetGroupPolicyStatus() throws PfModelException {
         assertThatThrownBy(() -> {
             new PdpProvider().getGroupPolicyStatus(null, "someGroup");
@@ -655,6 +705,9 @@ public class PdpProviderTest {
         }).hasMessageContaining("group").hasMessageContaining("null");
 
         assertThat(new PdpProvider().getGroupPolicyStatus(pfDao, PDP_GROUP0)).isEmpty();
+
+        PdpProvider provider = loadDeployments();
+        assertThat(provider.getGroupPolicyStatus(pfDao, GROUP_A)).hasSize(3);
     }
 
     @Test

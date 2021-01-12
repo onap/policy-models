@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -228,6 +229,16 @@ public interface PfDao {
      * @return the objects or null if no objects were retrieved
      */
     <T extends PfConcept> List<T> getAllVersions(Class<T> someClass, final String name);
+
+    /**
+     * Get all the objects in the database of a given type.
+     *
+     * @param <T> the type of the objects to get, a subclass of {@link PfConcept}
+     * @param someClass the class of the objects to get, a subclass of {@link PfConcept}
+     * @param parentKeyName the name of the concepts for which to get all versions
+     * @return the objects or null if no objects were retrieved
+     */
+    <T extends PfConcept> List<T> getAllVersionsByParent(Class<T> someClass, final String parentKeyName);
 
     /**
      * Get a concept from the database with the given concept key.

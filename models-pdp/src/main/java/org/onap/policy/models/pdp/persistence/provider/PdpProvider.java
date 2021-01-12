@@ -46,6 +46,7 @@ import org.onap.policy.models.pdp.persistence.concepts.JpaPdp;
 import org.onap.policy.models.pdp.persistence.concepts.JpaPdpGroup;
 import org.onap.policy.models.pdp.persistence.concepts.JpaPdpPolicyStatus;
 import org.onap.policy.models.pdp.persistence.concepts.JpaPdpSubGroup;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierOptVersion;
 
 /**
  * This class provides the provision of information on PAP concepts in the database to callers.
@@ -252,6 +253,40 @@ public class PdpProvider {
             @NonNull final String pdpType, @NonNull final String pdpInstanceId,
             @NonNull final PdpStatistics pdpStatistics) throws PfModelException {
         // Not implemented yet
+    }
+
+    /**
+     * Gets all policy deployments.
+     *
+     * @param dao the DAO to use to access the database
+     * @return the deployments found
+     * @throws PfModelException on errors getting PDP groups
+     */
+    public List<PdpPolicyStatus> getAllPolicyStatus(@NonNull final PfDao dao)
+                    throws PfModelException {
+
+        return dao.getAll(JpaPdpPolicyStatus.class).stream().map(JpaPdpPolicyStatus::toAuthorative)
+                        .collect(Collectors.toList());
+    }
+
+    /**
+     * Gets all deployments for a policy.
+     *
+     * @param dao the DAO to use to access the database
+     * @return the deployments found
+     * @throws PfModelException on errors getting PDP groups
+     */
+    public List<PdpPolicyStatus> getAllPolicyStatus(@NonNull final PfDao dao,
+                    @NonNull ToscaConceptIdentifierOptVersion policy) throws PfModelException {
+
+        if (policy.getVersion() != null) {
+            return dao.getAll(JpaPdpPolicyStatus.class, new PfConceptKey(policy.getName(), policy.getVersion()))
+                            .stream().map(JpaPdpPolicyStatus::toAuthorative).collect(Collectors.toList());
+
+        } else {
+            return dao.getAllVersionsByParent(JpaPdpPolicyStatus.class, policy.getName()).stream()
+                            .map(JpaPdpPolicyStatus::toAuthorative).collect(Collectors.toList());
+        }
     }
 
     /**

@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
- *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -90,6 +90,9 @@ public class DefaultPfDao implements PfDao {
 
     private static final String SELECT_ALL_FOR_PARENT =
             SELECT_FROM_TABLE + WHERE + PARENT_NAME_FILTER + AND + PARENT_VERSION_FILTER;
+
+    private static final String SELECT_ALL_VERSIONS_FOR_PARENT =
+            SELECT_FROM_TABLE + WHERE + PARENT_NAME_FILTER;
 
     private static final String SELECT_ALL_VERSIONS = SELECT_FROM_TABLE + WHERE + NAME_FILTER;
 
@@ -462,6 +465,23 @@ public class DefaultPfDao implements PfDao {
             return mg.createQuery(setQueryTable(SELECT_ALL_FOR_PARENT, someClass), someClass)
                     .setParameter(PARENT_NAME,    parentKey.getName())
                     .setParameter(PARENT_VERSION, parentKey.getVersion())
+                    .getResultList();
+            // @formatter:on
+        } finally {
+            mg.close();
+        }
+    }
+
+    @Override
+    public <T extends PfConcept> List<T> getAllVersionsByParent(final Class<T> someClass, final String parentKeyName) {
+        if (someClass == null || parentKeyName == null) {
+            return Collections.emptyList();
+        }
+        final EntityManager mg = getEntityManager();
+        try {
+            // @formatter:off
+            return mg.createQuery(setQueryTable(SELECT_ALL_VERSIONS_FOR_PARENT, someClass), someClass)
+                    .setParameter(PARENT_NAME, parentKeyName)
                     .getResultList();
             // @formatter:on
         } finally {
