@@ -33,6 +33,7 @@ import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
 import org.onap.policy.models.pdp.concepts.PdpPolicyStatus;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierOptVersion;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
@@ -370,6 +371,24 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * @throws PfModelException on errors deleting PDP statistics
      */
     public List<PdpStatistics> deletePdpStatistics(@NonNull String name, Date timestamp) throws PfModelException;
+
+    /**
+     * Gets all policy deployments.
+     *
+     * @return the deployments found
+     * @throws PfModelException on errors getting PDP groups
+     */
+    public List<PdpPolicyStatus> getAllPolicyStatus()
+                    throws PfModelException;
+
+    /**
+     * Gets all deployments for a policy.
+     *
+     * @return the deployments found
+     * @throws PfModelException on errors getting PDP groups
+     */
+    public List<PdpPolicyStatus> getAllPolicyStatus(@NonNull ToscaConceptIdentifierOptVersion policy)
+                    throws PfModelException;
 
     /**
      * Gets the policy deployments for a PDP group.

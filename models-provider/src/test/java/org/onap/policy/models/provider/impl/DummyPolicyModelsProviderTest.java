@@ -39,6 +39,7 @@ import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderFactory;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierOptVersion;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
@@ -114,6 +115,8 @@ public class DummyPolicyModelsProviderTest {
         assertTrue(dummyProvider.updatePdpStatistics(null).isEmpty());
         assertTrue(dummyProvider.deletePdpStatistics(null, new Date()).isEmpty());
 
+        assertThat(dummyProvider.getAllPolicyStatus()).isEmpty();
+        assertThat(dummyProvider.getAllPolicyStatus(new ToscaConceptIdentifierOptVersion("MyPolicy", null))).isEmpty();
         assertThat(dummyProvider.getGroupPolicyStatus("name")).isEmpty();
         assertThatCode(() -> dummyProvider.cudPolicyStatus(null, null, null)).doesNotThrowAnyException();
     }

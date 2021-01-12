@@ -38,6 +38,7 @@ import org.onap.policy.models.pdp.concepts.PdpPolicyStatus;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.provider.PolicyModelsProvider;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierOptVersion;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
@@ -232,6 +233,19 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
+    public List<PdpPolicyStatus> getAllPolicyStatus() throws PfModelException {
+        // Not implemented
+        return null;
+    }
+
+    @Override
+    public List<PdpPolicyStatus> getAllPolicyStatus(@NonNull ToscaConceptIdentifierOptVersion policy)
+                    throws PfModelException {
+        // Not implemented
+        return null;
+    }
+
+    @Override
     public List<PdpPolicyStatus> getGroupPolicyStatus(@NonNull String groupName) throws PfModelException {
         // Not implemented
         return null;
@@ -245,7 +259,7 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
 
     @Override
     public List<ToscaServiceTemplate> getServiceTemplateList(String name, String version) throws PfModelException {
-        // TODO Auto-generated method stub
+        // Not implemented
         return null;
     }
 }

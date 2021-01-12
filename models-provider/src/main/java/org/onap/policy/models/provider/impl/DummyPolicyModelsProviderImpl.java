@@ -40,6 +40,7 @@ import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierOptVersion;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
@@ -236,6 +237,19 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
 
     @Override
     public List<PdpStatistics> deletePdpStatistics(final String name, final Date timestamp) {
+        // Not implemented
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<PdpPolicyStatus> getAllPolicyStatus() throws PfModelException {
+        // Not implemented
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<PdpPolicyStatus> getAllPolicyStatus(@NonNull ToscaConceptIdentifierOptVersion policy)
+                    throws PfModelException {
         // Not implemented
         return new ArrayList<>();
     }

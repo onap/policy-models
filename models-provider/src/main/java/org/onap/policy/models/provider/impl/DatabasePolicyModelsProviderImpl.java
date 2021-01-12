@@ -46,6 +46,7 @@ import org.onap.policy.models.pdp.persistence.provider.PdpStatisticsProvider;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierOptVersion;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
@@ -345,6 +346,19 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
             throws PfModelException {
         assertInitialized();
         return new PdpStatisticsProvider().deletePdpStatistics(pfDao, name, timestamp);
+    }
+
+    @Override
+    public List<PdpPolicyStatus> getAllPolicyStatus() throws PfModelException {
+        assertInitialized();
+        return new PdpProvider().getAllPolicyStatus(pfDao);
+    }
+
+    @Override
+    public List<PdpPolicyStatus> getAllPolicyStatus(@NonNull ToscaConceptIdentifierOptVersion policy)
+                    throws PfModelException {
+        assertInitialized();
+        return new PdpProvider().getAllPolicyStatus(pfDao, policy);
     }
 
     @Override
