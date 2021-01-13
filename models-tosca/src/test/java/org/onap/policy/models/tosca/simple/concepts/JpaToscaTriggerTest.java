@@ -89,10 +89,10 @@ public class JpaToscaTriggerTest {
         tdt.setTargetFilter(targetFilter);
 
         JpaToscaConstraintLogical lsc = new JpaToscaConstraintLogical(JpaToscaConstraintOperation.EQ, "hello");
-        tdt.setCondition(lsc);
-        assertEquals(lsc, tdt.getCondition());
-        tdt.setConstraint(lsc);
-        assertEquals(lsc, tdt.getConstraint());
+        tdt.setToscaCondition(lsc);
+        assertEquals(lsc, tdt.getToscaCondition());
+        tdt.setToscaConstraint(lsc);
+        assertEquals(lsc, tdt.getToscaConstraint());
 
         tdt.setPeriod(Duration.ZERO);
         assertEquals(Duration.ZERO, tdt.getPeriod());
@@ -129,9 +129,9 @@ public class JpaToscaTriggerTest {
         assertNotEquals(0, tdt.compareTo(otherDt));
         otherDt.setTargetFilter(targetFilter);
         assertNotEquals(0, tdt.compareTo(otherDt));
-        otherDt.setCondition(lsc);
+        otherDt.setToscaCondition(lsc);
         assertNotEquals(0, tdt.compareTo(otherDt));
-        otherDt.setConstraint(lsc);
+        otherDt.setToscaConstraint(lsc);
         assertNotEquals(0, tdt.compareTo(otherDt));
         otherDt.setPeriod(Duration.ZERO);
         assertNotEquals(0, tdt.compareTo(otherDt));

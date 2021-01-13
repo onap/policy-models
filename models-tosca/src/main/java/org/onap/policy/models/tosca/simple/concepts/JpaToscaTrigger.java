@@ -86,11 +86,11 @@ public class JpaToscaTrigger extends PfConcept {
 
     @Column
     @Valid
-    private JpaToscaConstraint condition;
+    private JpaToscaConstraint toscaCondition;
 
     @Column
     @Valid
-    private JpaToscaConstraint constraint;
+    private JpaToscaConstraint toscaConstraint;
 
     @Column
     @SerializedName("period")
@@ -152,8 +152,8 @@ public class JpaToscaTrigger extends PfConcept {
         this.schedule = (copyConcept.schedule != null ? new JpaToscaTimeInterval(copyConcept.schedule) : null);
         this.targetFilter =
                 (copyConcept.targetFilter != null ? new JpaToscaEventFilter(copyConcept.targetFilter) : null);
-        this.condition = copyConcept.condition;
-        this.constraint = copyConcept.constraint;
+        this.toscaCondition = copyConcept.toscaCondition;
+        this.toscaConstraint = copyConcept.toscaConstraint;
         this.period = copyConcept.period;
         this.evaluations = copyConcept.evaluations;
         this.method = copyConcept.method;
@@ -237,12 +237,12 @@ public class JpaToscaTrigger extends PfConcept {
             return result;
         }
 
-        result = ObjectUtils.compare(condition, other.condition);
+        result = ObjectUtils.compare(toscaCondition, other.toscaCondition);
         if (result != 0) {
             return result;
         }
 
-        result = ObjectUtils.compare(constraint, other.constraint);
+        result = ObjectUtils.compare(toscaConstraint, other.toscaConstraint);
         if (result != 0) {
             return result;
         }
