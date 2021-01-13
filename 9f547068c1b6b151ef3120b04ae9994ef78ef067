@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8422f367_e28bb1d5",
+        "filename": "models-interactions/model-impl/cds/src/main/java/org/onap/policy/cds/client/CdsProcessorHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-01-13T22:13:29Z",
+      "side": 1,
+      "message": "maybe this one should go in the regular log, so that it includes the stack trace",
+      "revId": "9f547068c1b6b151ef3120b04ae9994ef78ef067",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
