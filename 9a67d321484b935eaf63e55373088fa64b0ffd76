@@ -22,6 +22,30 @@
       "revId": "9a67d321484b935eaf63e55373088fa64b0ffd76",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13ecf600_db46e6c8",
+        "filename": "models-interactions/model-impl/cds/src/main/java/org/onap/policy/cds/client/CdsProcessorHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2021-01-13T22:06:37Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "6b794301_89631698",
+      "range": {
+        "startLine": 61,
+        "startChar": 16,
+        "endLine": 61,
+        "endChar": 29
+      },
+      "revId": "9a67d321484b935eaf63e55373088fa64b0ffd76",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
