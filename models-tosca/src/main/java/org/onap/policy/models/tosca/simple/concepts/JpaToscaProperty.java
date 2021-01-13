@@ -83,7 +83,7 @@ public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaPr
     @Column
     private boolean required = false;
 
-    @Column(name = "default")
+    @Column(name = "\"DEFAULT\"")
     @NotBlank
     private String defaultValue;
 
