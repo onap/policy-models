@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * Copyright (C) 2019 Bell Canada.
+ * Copyright (C) 2019-2021 Bell Canada.
  * Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -36,7 +36,6 @@ import org.slf4j.LoggerFactory;
 
 public class CdsProcessorHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(CdsProcessorHandler.class);
-    private static final String LOG_MSG = "[{}|{}|{}|]{}{}";
 
     private CdsProcessorListener listener;
     private String url;
@@ -56,17 +55,12 @@ public class CdsProcessorHandler {
         final StreamObserver<ExecutionServiceOutput> responseObserver = new StreamObserver<ExecutionServiceOutput>() {
             @Override
             public void onNext(ExecutionServiceOutput output) {
-                LOGGER.info(LOG_MSG, EventType.IN, CommInfrastructure.REST, url, NetLoggerUtil.SYSTEM_LS,
-                                output);
                 NetLoggerUtil.log(EventType.IN, CommInfrastructure.REST, url, output.toString());
-
                 listener.onMessage(output);
             }
 
             @Override
             public void onError(Throwable throwable) {
-                LOGGER.info(LOG_MSG, EventType.IN, CommInfrastructure.REST, url, NetLoggerUtil.SYSTEM_LS,
-                                throwable);
                 NetLoggerUtil.log(EventType.IN, CommInfrastructure.REST, url, throwable.toString());
                 listener.onError(throwable);
                 finishLatch.countDown();
@@ -82,8 +76,6 @@ public class CdsProcessorHandler {
 
         final StreamObserver<ExecutionServiceInput> requestObserver = asyncStub.process(responseObserver);
         try {
-            LOGGER.info(LOG_MSG, EventType.OUT, CommInfrastructure.REST, url, NetLoggerUtil.SYSTEM_LS,
-                            request);
             NetLoggerUtil.log(EventType.OUT, CommInfrastructure.REST, url, request.toString());
 
             // Send the message to CDS backend for processing
