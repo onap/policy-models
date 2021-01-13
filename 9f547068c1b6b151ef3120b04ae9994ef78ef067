@@ -16,6 +16,24 @@
       "revId": "9f547068c1b6b151ef3120b04ae9994ef78ef067",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77c4abd7_3526d3f7",
+        "filename": "models-interactions/model-impl/cds/src/main/java/org/onap/policy/cds/client/CdsProcessorHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2021-01-13T22:40:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8422f367_e28bb1d5",
+      "revId": "9f547068c1b6b151ef3120b04ae9994ef78ef067",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
