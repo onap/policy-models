@@ -84,11 +84,11 @@ public class JpaToscaTrigger extends PfConcept {
     @Valid
     private JpaToscaEventFilter targetFilter;
 
-    @Column
+    @Column(name = "\"CONDITION\"")
     @Valid
     private JpaToscaConstraint condition;
 
-    @Column
+    @Column(name = "\"CONSTRAINT\"")
     @Valid
     private JpaToscaConstraint constraint;
 
