@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "685b9cb2_4a34fa97",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaTrigger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 7010
+      },
+      "writtenOn": "2021-01-14T17:41:39Z",
+      "side": 1,
+      "message": "Agree, just renaming the DB column is safer given Lombok-generated getter/setter",
+      "parentUuid": "517ba3a8_2ea5b6a2",
+      "range": {
+        "startLine": 89,
+        "startChar": 31,
+        "endLine": 89,
+        "endChar": 45
+      },
+      "revId": "7eac32e7cc8cffb4b3c35e0a2951043315346cd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2f968058_e4f57b0f",
         "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaTriggerTest.java",
         "patchSetId": 3
