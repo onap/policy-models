@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55c4f142_e7f1f440",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2021-01-14T13:12:49Z",
+      "side": 1,
+      "message": "Issue-ID already points to this link, so this isn\u0027t necessary. ONAP guidelines are met with Issue-ID.",
+      "range": {
+        "startLine": 13,
+        "startChar": 1,
+        "endLine": 13,
+        "endChar": 51
+      },
+      "revId": "491d914aa62e474fdc58c8f4406195c6835db250",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
