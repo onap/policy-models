@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0ec1998d_c7b4fb88",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaProperty.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-01-14T16:54:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "414c32cb_a4861471",
+      "revId": "31d3c2b27c06bf16237c19a5e8d4bd2f3308d4f9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d33cc54_511b9a73",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaTrigger.java",
         "patchSetId": 2

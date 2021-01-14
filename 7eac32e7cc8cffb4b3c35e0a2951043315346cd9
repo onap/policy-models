@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "517ba3a8_2ea5b6a2",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaTrigger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-01-14T16:54:04Z",
+      "side": 1,
+      "message": "don\u0027t need to rename the whole field, just the DB column, but I\u0027m OK with it since it won\u0027t impact the other repos (AFAIK).",
+      "range": {
+        "startLine": 89,
+        "startChar": 31,
+        "endLine": 89,
+        "endChar": 45
+      },
+      "revId": "7eac32e7cc8cffb4b3c35e0a2951043315346cd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f968058_e4f57b0f",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaTriggerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-01-14T16:54:04Z",
+      "side": 1,
+      "message": "2021",
+      "range": {
+        "startLine": 3,
+        "startChar": 23,
+        "endLine": 3,
+        "endChar": 28
+      },
+      "revId": "7eac32e7cc8cffb4b3c35e0a2951043315346cd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
