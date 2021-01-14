@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "414c32cb_a4861471",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaProperty.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-01-14T13:43:17Z",
+      "side": 1,
+      "message": "can we just remove the name altogether.  Seems like \"defaultValue\" would be ok.",
+      "revId": "31d3c2b27c06bf16237c19a5e8d4bd2f3308d4f9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d33cc54_511b9a73",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaTrigger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-01-14T13:43:17Z",
+      "side": 1,
+      "message": "maybe just change to toscaCondition?",
+      "revId": "31d3c2b27c06bf16237c19a5e8d4bd2f3308d4f9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8416915_3f75454a",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaTrigger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-01-14T13:43:17Z",
+      "side": 1,
+      "message": "maybe just change to toscaConstraint?",
+      "revId": "31d3c2b27c06bf16237c19a5e8d4bd2f3308d4f9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
