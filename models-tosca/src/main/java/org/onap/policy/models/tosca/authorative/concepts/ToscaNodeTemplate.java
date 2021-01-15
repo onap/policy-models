@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Model
  * ================================================================================
- * Copyright (C) 2020 Nordix Foundation.
+ * Copyright (C) 2020-2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,11 +22,14 @@
 
 package org.onap.policy.models.tosca.authorative.concepts;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -36,4 +39,19 @@ public class ToscaNodeTemplate extends ToscaEntity {
     private Map<String, Object> properties;
     private List<Map<String, ToscaRequirement>> requirements;
     private Map<String, ToscaCapabilityAssignment> capabilities;
+
+    /**
+     * Copy constructor.
+     *
+     * @param copyObject the obejct to copy from.
+     */
+    public ToscaNodeTemplate(@NonNull ToscaNodeTemplate copyObject) {
+        super(copyObject);
+
+        this.type = copyObject.type;
+
+        this.properties = (copyObject.properties != null ? new LinkedHashMap<>(copyObject.properties) : null);
+        this.requirements = (copyObject.requirements != null ? new ArrayList<>(copyObject.requirements) : null);
+        this.capabilities = (copyObject.capabilities != null ? new LinkedHashMap<>(copyObject.capabilities) : null);
+    }
 }
