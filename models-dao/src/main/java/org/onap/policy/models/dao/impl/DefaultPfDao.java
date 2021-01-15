@@ -395,7 +395,7 @@ public class DefaultPfDao implements PfDao {
                 query.setMaxResults(getRecordNum);
             }
 
-            LOGGER.error("filterQueryString is  \"{}\"", filterQueryString);
+            LOGGER.debug("filterQueryString is  \"{}\"", filterQueryString);
             return query.getResultList();
         } finally {
             mg.close();
