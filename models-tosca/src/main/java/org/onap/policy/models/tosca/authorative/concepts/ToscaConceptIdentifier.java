@@ -27,6 +27,8 @@ import lombok.NonNull;
 import org.apache.commons.lang3.ObjectUtils;
 import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.common.parameters.ValidationResult;
+import org.onap.policy.models.base.PfConceptKey;
+import org.onap.policy.models.base.PfKey;
 
 /**
  * Identifies a concept. Both the name and version must be non-null.
@@ -47,6 +49,11 @@ public class ToscaConceptIdentifier implements Comparable<ToscaConceptIdentifier
         this.version = version;
     }
 
+    public ToscaConceptIdentifier(@NonNull PfKey key) {
+        this.name = key.getName();
+        this.version = key.getVersion();
+    }
+
     public ToscaConceptIdentifier(ToscaConceptIdentifier source) {
         this.name = source.name;
         this.version = source.version;
@@ -64,6 +71,15 @@ public class ToscaConceptIdentifier implements Comparable<ToscaConceptIdentifier
         result.validateNotNull("version", version);
 
         return result;
+    }
+
+    /**
+     * Create a PfConcceptKey from the TOSCA identifier.
+     *
+     * @return the key
+     */
+    public PfConceptKey asConceptKey() {
+        return new PfConceptKey(name, version);
     }
 
     @Override

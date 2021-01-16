@@ -1,4 +1,4 @@
-/*
+/*-
  * ============LICENSE_START=======================================================
  * ONAP Policy Models
  * ================================================================================
@@ -52,7 +52,8 @@ public class ToscaPolicyTypeConceptIdentifierTest extends ToscaIdentifierTestBas
 
     @Test
     public void testCopyConstructor() {
-        assertThatThrownBy(() -> new ToscaConceptIdentifier(null)).isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> new ToscaConceptIdentifier((ToscaConceptIdentifier) null))
+                .isInstanceOf(NullPointerException.class);
 
         ToscaConceptIdentifier orig = new ToscaConceptIdentifier();
 
