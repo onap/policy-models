@@ -25,16 +25,10 @@ package org.onap.policy.models.provider.impl;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 import javax.ws.rs.core.Response;
 import lombok.NonNull;
-import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
-import org.onap.policy.models.dao.DaoParameters;
-import org.onap.policy.models.dao.PfDao;
-import org.onap.policy.models.dao.PfDaoFactory;
-import org.onap.policy.models.dao.impl.DefaultPfDao;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
 import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
@@ -63,14 +57,9 @@ import org.slf4j.LoggerFactory;
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
+public class DatabasePolicyModelsProviderImpl extends AbstractModelsProvider implements PolicyModelsProvider {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DatabasePolicyModelsProviderImpl.class);
-
-    private final PolicyModelsProviderParameters parameters;
-
-    // Database connection and the DAO for reading and writing Policy Framework concepts
-    private PfDao pfDao;
 
     /**
      * Constructor that takes the parameters.
@@ -78,66 +67,14 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
      * @param parameters the parameters for the provider
      */
     public DatabasePolicyModelsProviderImpl(@NonNull final PolicyModelsProviderParameters parameters) {
-        this.parameters = parameters;
-    }
-
-    @Override
-    public void init() throws PfModelException {
-        LOGGER.debug("opening the database connection to {} using persistence unit {}", parameters.getDatabaseUrl(),
-                parameters.getPersistenceUnit());
-
-        if (pfDao != null) {
-            String errorMessage = "provider is already initialized";
-            LOGGER.warn(errorMessage);
-            throw new PfModelException(Response.Status.NOT_ACCEPTABLE, errorMessage);
-        }
-
-        // Parameters for the DAO
-        final DaoParameters daoParameters = new DaoParameters();
-        daoParameters.setPluginClass(DefaultPfDao.class.getName());
-        daoParameters.setPersistenceUnit(parameters.getPersistenceUnit());
-
-        // @formatter:off
-        Properties jdbcProperties = new Properties();
-        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_DRIVER,   parameters.getDatabaseDriver());
-        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_URL,      parameters.getDatabaseUrl());
-        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_USER,     parameters.getDatabaseUser());
-        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_PASSWORD, parameters.getDatabasePassword());
-        // @formatter:on
-
-        daoParameters.setJdbcProperties(jdbcProperties);
-
-        try {
-            pfDao = new PfDaoFactory().createPfDao(daoParameters);
-            pfDao.init(daoParameters);
-        } catch (Exception exc) {
-            String errorMessage = "could not create Data Access Object (DAO) using url \"" + parameters.getDatabaseUrl()
-                    + "\" and persistence unit \"" + parameters.getPersistenceUnit() + "\"";
-
-            this.close();
-            throw new PfModelException(Response.Status.NOT_ACCEPTABLE, errorMessage, exc);
-        }
-    }
-
-    @Override
-    public void close() throws PfModelException {
-        LOGGER.debug("closing the database connection to {} using persistence unit {}", parameters.getDatabaseUrl(),
-                parameters.getPersistenceUnit());
-
-        if (pfDao != null) {
-            pfDao.close();
-            pfDao = null;
-        }
-
-        LOGGER.debug("closed the database connection to {} using persistence unit {}", parameters.getDatabaseUrl(),
-                parameters.getPersistenceUnit());
+        super(parameters);
     }
 
     @Override
     public List<ToscaServiceTemplate> getServiceTemplateList(final String name, final String version)
             throws PfModelException {
         assertInitialized();
-        return new AuthorativeToscaProvider().getServiceTemplateList(pfDao, name, version);
+        return new AuthorativeToscaProvider().getServiceTemplateList(getPfDao(), name, version);
     }
 
 
@@ -145,21 +82,21 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
     public List<ToscaServiceTemplate> getFilteredServiceTemplateList(@NonNull ToscaServiceTemplateFilter filter)
             throws PfModelException {
         assertInitialized();
-        return new AuthorativeToscaProvider().getFilteredServiceTemplateList(pfDao, filter);
+        return new AuthorativeToscaProvider().getFilteredServiceTemplateList(getPfDao(), filter);
     }
 
     @Override
     public ToscaServiceTemplate createServiceTemplate(@NonNull final ToscaServiceTemplate serviceTemplate)
             throws PfModelException {
         assertInitialized();
-        return new AuthorativeToscaProvider().createServiceTemplate(pfDao, serviceTemplate);
+        return new AuthorativeToscaProvider().createServiceTemplate(getPfDao(), serviceTemplate);
     }
 
     @Override
     public ToscaServiceTemplate updateServiceTemplate(@NonNull final ToscaServiceTemplate serviceTemplate)
             throws PfModelException {
         assertInitialized();
-        return new AuthorativeToscaProvider().updateServiceTemplate(pfDao, serviceTemplate);
+        return new AuthorativeToscaProvider().updateServiceTemplate(getPfDao(), serviceTemplate);
     }
 
     @Override
@@ -167,46 +104,46 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
             throws PfModelException {
         assertInitialized();
 
-        return new AuthorativeToscaProvider().deleteServiceTemplate(pfDao, name, version);
+        return new AuthorativeToscaProvider().deleteServiceTemplate(getPfDao(), name, version);
     }
 
     @Override
     public ToscaServiceTemplate getPolicyTypes(final String name, final String version) throws PfModelException {
         assertInitialized();
-        return new AuthorativeToscaProvider().getPolicyTypes(pfDao, name, version);
+        return new AuthorativeToscaProvider().getPolicyTypes(getPfDao(), name, version);
     }
 
     @Override
     public List<ToscaPolicyType> getPolicyTypeList(final String name, final String version) throws PfModelException {
         assertInitialized();
-        return new AuthorativeToscaProvider().getPolicyTypeList(pfDao, name, version);
+        return new AuthorativeToscaProvider().getPolicyTypeList(getPfDao(), name, version);
     }
 
     @Override
     public ToscaServiceTemplate getFilteredPolicyTypes(@NonNull ToscaPolicyTypeFilter filter) throws PfModelException {
         assertInitialized();
-        return new AuthorativeToscaProvider().getFilteredPolicyTypes(pfDao, filter);
+        return new AuthorativeToscaProvider().getFilteredPolicyTypes(getPfDao(), filter);
     }
 
     @Override
     public List<ToscaPolicyType> getFilteredPolicyTypeList(@NonNull ToscaPolicyTypeFilter filter)
             throws PfModelException {
         assertInitialized();
-        return new AuthorativeToscaProvider().getFilteredPolicyTypeList(pfDao, filter);
+        return new AuthorativeToscaProvider().getFilteredPolicyTypeList(getPfDao(), filter);
     }
 
     @Override
     public ToscaServiceTemplate createPolicyTypes(@NonNull final ToscaServiceTemplate serviceTemplate)
             throws PfModelException {
         assertInitialized();
-        return new AuthorativeToscaProvider().createPolicyTypes(pfDao, serviceTemplate);
+        return new AuthorativeToscaProvider().createPolicyTypes(getPfDao(), serviceTemplate);
     }
 
     @Override
     public ToscaServiceTemplate updatePolicyTypes(@NonNull final ToscaServiceTemplate serviceTemplate)
             throws PfModelException {
         assertInitialized();
-        return new AuthorativeToscaProvider().updatePolicyTypes(pfDao, serviceTemplate);
+        return new AuthorativeToscaProvider().updatePolicyTypes(getPfDao(), serviceTemplate);
     }
 
     @Override
@@ -217,45 +154,45 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
         ToscaConceptIdentifier policyTypeIdentifier = new ToscaConceptIdentifier(name, version);
         assertPolicyTypeNotSupportedInPdpGroup(policyTypeIdentifier);
 
-        return new AuthorativeToscaProvider().deletePolicyType(pfDao, name, version);
+        return new AuthorativeToscaProvider().deletePolicyType(getPfDao(), name, version);
     }
 
     @Override
     public ToscaServiceTemplate getPolicies(final String name, final String version) throws PfModelException {
         assertInitialized();
-        return new AuthorativeToscaProvider().getPolicies(pfDao, name, version);
+        return new AuthorativeToscaProvider().getPolicies(getPfDao(), name, version);
     }
 
     @Override
     public List<ToscaPolicy> getPolicyList(final String name, final String version) throws PfModelException {
         assertInitialized();
-        return new AuthorativeToscaProvider().getPolicyList(pfDao, name, version);
+        return new AuthorativeToscaProvider().getPolicyList(getPfDao(), name, version);
     }
 
     @Override
     public ToscaServiceTemplate getFilteredPolicies(@NonNull ToscaPolicyFilter filter) throws PfModelException {
         assertInitialized();
-        return new AuthorativeToscaProvider().getFilteredPolicies(pfDao, filter);
+        return new AuthorativeToscaProvider().getFilteredPolicies(getPfDao(), filter);
     }
 
     @Override
     public List<ToscaPolicy> getFilteredPolicyList(@NonNull ToscaPolicyFilter filter) throws PfModelException {
         assertInitialized();
-        return new AuthorativeToscaProvider().getFilteredPolicyList(pfDao, filter);
+        return new AuthorativeToscaProvider().getFilteredPolicyList(getPfDao(), filter);
     }
 
     @Override
     public ToscaServiceTemplate createPolicies(@NonNull final ToscaServiceTemplate serviceTemplate)
             throws PfModelException {
         assertInitialized();
-        return new AuthorativeToscaProvider().createPolicies(pfDao, serviceTemplate);
+        return new AuthorativeToscaProvider().createPolicies(getPfDao(), serviceTemplate);
     }
 
     @Override
     public ToscaServiceTemplate updatePolicies(@NonNull final ToscaServiceTemplate serviceTemplate)
             throws PfModelException {
         assertInitialized();
-        return new AuthorativeToscaProvider().updatePolicies(pfDao, serviceTemplate);
+        return new AuthorativeToscaProvider().updatePolicies(getPfDao(), serviceTemplate);
     }
 
     @Override
@@ -266,56 +203,56 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
         ToscaConceptIdentifier policyIdentifier = new ToscaConceptIdentifier(name, version);
         assertPolicyNotDeployedInPdpGroup(policyIdentifier);
 
-        return new AuthorativeToscaProvider().deletePolicy(pfDao, name, version);
+        return new AuthorativeToscaProvider().deletePolicy(getPfDao(), name, version);
     }
 
     @Override
     public List<PdpGroup> getPdpGroups(final String name) throws PfModelException {
         assertInitialized();
-        return new PdpProvider().getPdpGroups(pfDao, name);
+        return new PdpProvider().getPdpGroups(getPfDao(), name);
     }
 
     @Override
     public List<PdpGroup> getFilteredPdpGroups(@NonNull PdpGroupFilter filter) throws PfModelException {
         assertInitialized();
-        return new PdpProvider().getFilteredPdpGroups(pfDao, filter);
+        return new PdpProvider().getFilteredPdpGroups(getPfDao(), filter);
     }
 
     @Override
     public List<PdpGroup> createPdpGroups(@NonNull final List<PdpGroup> pdpGroups) throws PfModelException {
         assertInitialized();
-        return new PdpProvider().createPdpGroups(pfDao, pdpGroups);
+        return new PdpProvider().createPdpGroups(getPfDao(), pdpGroups);
     }
 
     @Override
     public List<PdpGroup> updatePdpGroups(@NonNull final List<PdpGroup> pdpGroups) throws PfModelException {
         assertInitialized();
-        return new PdpProvider().updatePdpGroups(pfDao, pdpGroups);
+        return new PdpProvider().updatePdpGroups(getPfDao(), pdpGroups);
     }
 
     @Override
     public void updatePdpSubGroup(@NonNull final String pdpGroupName, @NonNull final PdpSubGroup pdpSubGroup)
             throws PfModelException {
         assertInitialized();
-        new PdpProvider().updatePdpSubGroup(pfDao, pdpGroupName, pdpSubGroup);
+        new PdpProvider().updatePdpSubGroup(getPfDao(), pdpGroupName, pdpSubGroup);
     }
 
     @Override
     public void updatePdp(@NonNull String pdpGroupName, @NonNull String pdpSubGroup, @NonNull Pdp pdp)
             throws PfModelException {
-        new PdpProvider().updatePdp(pfDao, pdpGroupName, pdpSubGroup, pdp);
+        new PdpProvider().updatePdp(getPfDao(), pdpGroupName, pdpSubGroup, pdp);
     }
 
     @Override
     public PdpGroup deletePdpGroup(@NonNull final String name) throws PfModelException {
         assertInitialized();
-        return new PdpProvider().deletePdpGroup(pfDao, name);
+        return new PdpProvider().deletePdpGroup(getPfDao(), name);
     }
 
     @Override
     public List<PdpStatistics> getPdpStatistics(final String name, final Date timestamp) throws PfModelException {
         assertInitialized();
-        return new PdpStatisticsProvider().getPdpStatistics(pfDao, name, timestamp);
+        return new PdpStatisticsProvider().getPdpStatistics(getPfDao(), name, timestamp);
     }
 
     @Override
@@ -323,7 +260,7 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
             final String pdpSubGroup, final Date startTimeStamp, final Date endTimeStamp, final String sortOrder,
             final int getRecordNum) throws PfModelException {
         assertInitialized();
-        return new PdpStatisticsProvider().getFilteredPdpStatistics(pfDao, name, pdpGroupName, pdpSubGroup,
+        return new PdpStatisticsProvider().getFilteredPdpStatistics(getPfDao(), name, pdpGroupName, pdpSubGroup,
                 startTimeStamp, endTimeStamp, sortOrder, getRecordNum);
     }
 
@@ -331,55 +268,55 @@ public class DatabasePolicyModelsProviderImpl implements PolicyModelsProvider {
     public List<PdpStatistics> createPdpStatistics(@NonNull final List<PdpStatistics> pdpStatisticsList)
             throws PfModelException {
         assertInitialized();
-        return new PdpStatisticsProvider().createPdpStatistics(pfDao, pdpStatisticsList);
+        return new PdpStatisticsProvider().createPdpStatistics(getPfDao(), pdpStatisticsList);
     }
 
     @Override
     public List<PdpStatistics> updatePdpStatistics(@NonNull final List<PdpStatistics> pdpStatisticsList)
             throws PfModelException {
         assertInitialized();
-        return new PdpStatisticsProvider().updatePdpStatistics(pfDao, pdpStatisticsList);
+        return new PdpStatisticsProvider().updatePdpStatistics(getPfDao(), pdpStatisticsList);
     }
 
     @Override
     public List<PdpStatistics> deletePdpStatistics(@NonNull final String name, final Date timestamp)
             throws PfModelException {
         assertInitialized();
-        return new PdpStatisticsProvider().deletePdpStatistics(pfDao, name, timestamp);
+        return new PdpStatisticsProvider().deletePdpStatistics(getPfDao(), name, timestamp);
     }
 
     @Override
     public List<PdpPolicyStatus> getAllPolicyStatus() throws PfModelException {
         assertInitialized();
-        return new PdpProvider().getAllPolicyStatus(pfDao);
+        return new PdpProvider().getAllPolicyStatus(getPfDao());
     }
 
     @Override
     public List<PdpPolicyStatus> getAllPolicyStatus(@NonNull ToscaConceptIdentifierOptVersion policy)
                     throws PfModelException {
         assertInitialized();
-        return new PdpProvider().getAllPolicyStatus(pfDao, policy);
+        return new PdpProvider().getAllPolicyStatus(getPfDao(), policy);
     }
 
     @Override
     public List<PdpPolicyStatus> getGroupPolicyStatus(@NonNull String groupName)
                     throws PfModelException {
         assertInitialized();
-        return new PdpProvider().getGroupPolicyStatus(pfDao, groupName);
+        return new PdpProvider().getGroupPolicyStatus(getPfDao(), groupName);
     }
 
     @Override
     public void cudPolicyStatus(Collection<PdpPolicyStatus> createObjs,
                     Collection<PdpPolicyStatus> updateObjs, Collection<PdpPolicyStatus> deleteObjs) {
         assertInitialized();
-        new PdpProvider().cudPolicyStatus(pfDao, createObjs, updateObjs, deleteObjs);
+        new PdpProvider().cudPolicyStatus(getPfDao(), createObjs, updateObjs, deleteObjs);
     }
 
     /**
      * Check if the model provider is initialized.
      */
     private void assertInitialized() {
-        if (pfDao == null) {
+        if (getPfDao() == null) {
             String errorMessage = "policy models provider is not initilaized";
             LOGGER.warn(errorMessage);
             throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
