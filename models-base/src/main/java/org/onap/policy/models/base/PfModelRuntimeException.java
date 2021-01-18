@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ * Copyright (C) 2019, 2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -74,6 +74,18 @@ public class PfModelRuntimeException extends RuntimeException implements ErrorRe
      */
     public PfModelRuntimeException(final Response.Status statusCode, final String message, final Exception exception) {
         this(statusCode, message, exception, null);
+    }
+
+    /**
+     * Instantiates a new model runtime exception from a PfModelException instance.
+     *
+     * @param exception the exception that caused this model exception
+     */
+    public PfModelRuntimeException(final PfModelException exception) {
+        super(exception.getMessage());
+        this.object = exception.getObject();
+        errorResponse.setResponseCode(exception.getErrorResponse().getResponseCode());
+        ErrorResponseUtils.getExceptionMessages(errorResponse, this);
     }
 
     /**

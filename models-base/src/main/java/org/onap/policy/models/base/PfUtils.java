@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -137,14 +137,14 @@ public final class PfUtils {
      * @param defaultValue value to be returned if source is {@code null}
      * @return a new map, containing mappings of all of the items in the original map
      */
-    public static <T, R> Map<String, R> mapMap(Map<String, T> source, Function<T, R> mapFunc,
-            Map<String, R> defaultValue) {
+    public static <K, T, R> Map<K, R> mapMap(Map<K, T> source, Function<T, R> mapFunc,
+            Map<K, R> defaultValue) {
         if (source == null) {
             return defaultValue;
         }
 
-        Map<String, R> map = new LinkedHashMap<>();
-        for (Entry<String, T> ent : source.entrySet()) {
+        Map<K, R> map = new LinkedHashMap<>();
+        for (Entry<K, T> ent : source.entrySet()) {
             map.put(ent.getKey(), mapFunc.apply(ent.getValue()));
         }
 
@@ -159,7 +159,7 @@ public final class PfUtils {
      * @return a new map, containing mappings of all of the items in the original map, or {@code null} if the source is
      *         {@code null}
      */
-    public static <T, R> Map<String, R> mapMap(Map<String, T> source, Function<T, R> mapFunc) {
+    public static <K, T, R> Map<K, R> mapMap(Map<K, T> source, Function<T, R> mapFunc) {
         return mapMap(source, mapFunc, null);
     }
 
