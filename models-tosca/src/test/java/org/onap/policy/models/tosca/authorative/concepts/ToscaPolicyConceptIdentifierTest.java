@@ -1,4 +1,4 @@
-/*
+/*-
  * ============LICENSE_START=======================================================
  * ONAP Policy Models
  * ================================================================================
@@ -30,6 +30,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.onap.policy.common.parameters.ValidationResult;
+import org.onap.policy.models.base.PfConceptKey;
 
 /**
  * Test methods not tested by {@link PojosTest}.
@@ -52,7 +53,8 @@ public class ToscaPolicyConceptIdentifierTest extends ToscaIdentifierTestBase<To
 
     @Test
     public void testCopyConstructor() {
-        assertThatThrownBy(() -> new ToscaConceptIdentifier(null)).isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> new ToscaConceptIdentifier((ToscaConceptIdentifier) null))
+                .isInstanceOf(NullPointerException.class);
 
         ToscaConceptIdentifier orig = new ToscaConceptIdentifier();
 
@@ -62,6 +64,19 @@ public class ToscaPolicyConceptIdentifierTest extends ToscaIdentifierTestBase<To
         // verify with all values
         orig = new ToscaConceptIdentifier(NAME, VERSION);
         assertEquals(orig.toString(), new ToscaConceptIdentifier(orig).toString());
+    }
+
+
+    @Test
+    public void testPfKey() {
+        assertThatThrownBy(() -> new ToscaConceptIdentifier((PfConceptKey) null))
+                .isInstanceOf(NullPointerException.class);
+
+        PfConceptKey origKey = new PfConceptKey("Hello", "0.0.1");
+
+        assertEquals(origKey.getName(), new ToscaConceptIdentifier(origKey).getName());
+
+        assertEquals(origKey, new ToscaConceptIdentifier(origKey).asConceptKey());
     }
 
     @Test
