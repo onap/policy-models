@@ -52,7 +52,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
  * Class to represent PDP-Policy deployment status in the database.
  */
 @Entity
-@Table(name = "JpaPdpPolicyStatus", indexes = {@Index(name = "JpaPdpPolicyStatus_PdpGroup", columnList = "pdpGroup")})
+@Table(name = "PdpPolicyStatus", indexes = {@Index(name = "PdpPolicyStatus_PdpGroup", columnList = "pdpGroup")})
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
 @EqualsAndHashCode(callSuper = false)
