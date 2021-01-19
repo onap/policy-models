@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db11e82f_fc653107",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfModelRuntimeException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-01-19T13:07:56Z",
+      "side": 1,
+      "message": "need to do anything to ensure the stack trace isn\u0027t lost?",
+      "revId": "d53ed665283871269f16963ff96beef9dd83d1f5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
