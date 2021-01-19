@@ -16,6 +16,24 @@
       "revId": "d53ed665283871269f16963ff96beef9dd83d1f5",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "068c7da1_239c5184",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfModelRuntimeException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2021-01-19T14:01:28Z",
+      "side": 1,
+      "message": "Questions: should it be super(exception) instead to preserve the exception as is?",
+      "parentUuid": "db11e82f_fc653107",
+      "revId": "d53ed665283871269f16963ff96beef9dd83d1f5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
