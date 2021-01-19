@@ -34,6 +34,24 @@
       "revId": "d53ed665283871269f16963ff96beef9dd83d1f5",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a3a3f5c_d71646c8",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfModelRuntimeException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2021-01-19T14:49:44Z",
+      "side": 1,
+      "message": "Yes, it should, It\u0027s changed in the next patchset.",
+      "parentUuid": "068c7da1_239c5184",
+      "revId": "d53ed665283871269f16963ff96beef9dd83d1f5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
