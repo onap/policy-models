@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "d5907559_5a013487",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/impl/AbstractModelsProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2021-01-19T15:11:04Z",
+      "side": 1,
+      "message": "Both suggestions are done in next patch set, thanks!",
+      "parentUuid": "2531ea98_bcbe2630",
+      "revId": "7769a0c437243b1d5992d55616df20079c8eebc5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a666cfb2_50d62d84",
         "filename": "models-provider/src/main/java/org/onap/policy/models/provider/impl/DatabasePolicyModelsProviderImpl.java",
         "patchSetId": 1
@@ -51,6 +69,24 @@
       "revId": "7769a0c437243b1d5992d55616df20079c8eebc5",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfa96c2c_40866bae",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/impl/DatabasePolicyModelsProviderImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2021-01-19T15:11:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a666cfb2_50d62d84",
+      "revId": "7769a0c437243b1d5992d55616df20079c8eebc5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
