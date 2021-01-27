@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
+ * Modifications Copyright (C) 2020-2021 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,8 +26,6 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.protobuf.util.JsonFormat;
 import io.grpc.ManagedChannel;
-import io.grpc.internal.DnsNameResolverProvider;
-import io.grpc.internal.PickFirstLoadBalancerProvider;
 import io.grpc.netty.NettyChannelBuilder;
 import io.grpc.stub.StreamObserver;
 import java.io.IOException;
@@ -77,9 +75,7 @@ public class CdsSimulatorTest {
         Builder builder = ExecutionServiceInput.newBuilder();
         JsonFormat.parser().ignoringUnknownFields().merge(reqstr, builder);
         ExecutionServiceInput request = builder.build();
-        ManagedChannel channel = NettyChannelBuilder.forAddress(Util.LOCALHOST, sim.getPort())
-            .nameResolverFactory(new DnsNameResolverProvider())
-            .loadBalancerFactory(new PickFirstLoadBalancerProvider()).usePlaintext().build();
+        ManagedChannel channel = NettyChannelBuilder.forAddress(Util.LOCALHOST, sim.getPort()).usePlaintext().build();
 
         try {
             final CompletableFuture<ExecutionServiceOutput> future = new CompletableFuture<>();
