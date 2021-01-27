@@ -26,8 +26,6 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.protobuf.util.JsonFormat;
 import io.grpc.ManagedChannel;
-import io.grpc.internal.DnsNameResolverProvider;
-import io.grpc.internal.PickFirstLoadBalancerProvider;
 import io.grpc.netty.NettyChannelBuilder;
 import io.grpc.stub.StreamObserver;
 import java.io.IOException;
@@ -77,9 +75,7 @@ public class CdsSimulatorTest {
         Builder builder = ExecutionServiceInput.newBuilder();
         JsonFormat.parser().ignoringUnknownFields().merge(reqstr, builder);
         ExecutionServiceInput request = builder.build();
-        ManagedChannel channel = NettyChannelBuilder.forAddress(Util.LOCALHOST, sim.getPort())
-            .nameResolverFactory(new DnsNameResolverProvider())
-            .loadBalancerFactory(new PickFirstLoadBalancerProvider()).usePlaintext().build();
+        ManagedChannel channel = NettyChannelBuilder.forAddress(Util.LOCALHOST, sim.getPort()).usePlaintext().build();
 
         try {
             final CompletableFuture<ExecutionServiceOutput> future = new CompletableFuture<>();
