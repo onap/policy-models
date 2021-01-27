@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f9b14df_2f6cee74",
+        "filename": "models-interactions/model-simulators/src/test/java/org/onap/policy/simulators/CdsSimulatorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2021-01-27T22:28:30Z",
+      "side": 1,
+      "message": "license year in files update if you have a chance",
+      "revId": "90813153d85c7ed4367c17ceafe01ac94187dcbd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
