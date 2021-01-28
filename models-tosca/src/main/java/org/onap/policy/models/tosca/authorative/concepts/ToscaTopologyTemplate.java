@@ -3,7 +3,7 @@
  * ONAP Policy Model
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2020 Nordix Foundation.
+ * Modifications Copyright (C) 2020-2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,9 +25,13 @@ package org.onap.policy.models.tosca.authorative.concepts;
 
 import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 /**
  * Class to represent TOSCA topology template matching input/output from/to client.
@@ -35,6 +39,7 @@ import lombok.Data;
  * @author Chenfei Gao (cgao@research.att.com)
  */
 @Data
+@NoArgsConstructor
 public class ToscaTopologyTemplate {
     private String description;
 
@@ -48,5 +53,20 @@ public class ToscaTopologyTemplate {
 
     public Map<ToscaEntityKey, ToscaPolicy> getPoliciesAsMap() {
         return ToscaEntity.getEntityListMapAsMap(policies);
+    }
+
+    /**
+     * Copy constructor.
+     *
+     * @param copyObject the obejct to copy from.
+     */
+    public ToscaTopologyTemplate(@NonNull ToscaTopologyTemplate copyObject) {
+        this.description = copyObject.description;
+
+        // @formatter:off
+        this.inputs        = (copyObject.inputs        != null ? new LinkedHashMap<>(copyObject.inputs)        : null);
+        this.nodeTemplates = (copyObject.nodeTemplates != null ? new LinkedHashMap<>(copyObject.nodeTemplates) : null);
+        this.policies      = (copyObject.policies      != null ? new ArrayList<>(copyObject.policies)          : null);
+        // @formatter:on
     }
 }

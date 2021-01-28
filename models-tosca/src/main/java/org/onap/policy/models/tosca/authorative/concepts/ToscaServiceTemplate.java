@@ -3,7 +3,7 @@
  * ONAP Policy Model
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019-2020 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,9 +25,12 @@ package org.onap.policy.models.tosca.authorative.concepts;
 
 import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 /**
  * Class to represent TOSCA service template matching input/output from/to client.
@@ -36,6 +39,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
 public class ToscaServiceTemplate extends ToscaEntity {
     @ApiModelProperty(name = "tosca_definitions_version")
     @SerializedName("tosca_definitions_version")
@@ -71,5 +75,38 @@ public class ToscaServiceTemplate extends ToscaEntity {
 
     public Map<ToscaEntityKey, ToscaPolicyType> getPolicyTypesAsMap() {
         return ToscaEntity.getEntityMapAsMap(policyTypes);
+    }
+
+    /**
+     * Copy constructor.
+     *
+     * @param copyObject the obejct to copy from.
+     */
+    public ToscaServiceTemplate(@NonNull ToscaServiceTemplate copyObject) {
+        super(copyObject);
+
+        this.toscaDefinitionsVersion = copyObject.toscaDefinitionsVersion;
+
+        // @formatter:off
+        this.dataTypes         = (copyObject.dataTypes         != null
+                ? new LinkedHashMap<>(copyObject.dataTypes)
+                : null);
+        this.capabilityTypes   = (copyObject.capabilityTypes   != null
+                ? new LinkedHashMap<>(copyObject.capabilityTypes)
+                : null);
+        this.nodeTypes         = (copyObject.nodeTypes         != null
+                ? new LinkedHashMap<>(copyObject.nodeTypes)
+                : null);
+        this.relationshipTypes = (copyObject.relationshipTypes != null
+                ? new LinkedHashMap<>(copyObject.relationshipTypes)
+                : null);
+        this.policyTypes       = (copyObject.policyTypes       != null
+                ? new LinkedHashMap<>(copyObject.policyTypes)
+                : null);
+        // @formatter:on
+
+        this.toscaTopologyTemplate =
+                (copyObject.toscaTopologyTemplate != null ? new ToscaTopologyTemplate(copyObject.toscaTopologyTemplate)
+                        : null);
     }
 }
