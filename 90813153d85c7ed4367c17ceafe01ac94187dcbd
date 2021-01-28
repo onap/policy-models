@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0e14707d_8b900034",
+        "filename": "models-interactions/model-impl/cds/src/main/java/org/onap/policy/cds/client/CdsProcessorGrpcClient.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2021-01-28T14:10:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c5b2983_e14bcc13",
+      "range": {
+        "startLine": 3,
+        "startChar": 17,
+        "endLine": 3,
+        "endChar": 21
+      },
+      "revId": "90813153d85c7ed4367c17ceafe01ac94187dcbd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f9b14df_2f6cee74",
         "filename": "models-interactions/model-simulators/src/test/java/org/onap/policy/simulators/CdsSimulatorTest.java",
         "patchSetId": 2
@@ -39,6 +63,24 @@
       "revId": "90813153d85c7ed4367c17ceafe01ac94187dcbd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e90e398_3ecc5e83",
+        "filename": "models-interactions/model-simulators/src/test/java/org/onap/policy/simulators/CdsSimulatorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2021-01-28T14:10:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f9b14df_2f6cee74",
+      "revId": "90813153d85c7ed4367c17ceafe01ac94187dcbd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
