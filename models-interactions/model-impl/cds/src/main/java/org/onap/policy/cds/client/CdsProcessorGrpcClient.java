@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * Copyright (C) 2019 Bell Canada.
+ * Copyright (C) 2019-2021 Bell Canada.
  * Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,8 +21,6 @@ package org.onap.policy.cds.client;
 
 import com.google.common.base.Preconditions;
 import io.grpc.ManagedChannel;
-import io.grpc.internal.DnsNameResolverProvider;
-import io.grpc.internal.PickFirstLoadBalancerProvider;
 import io.grpc.netty.NettyChannelBuilder;
 import java.util.concurrent.CountDownLatch;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceInput;
@@ -65,8 +63,6 @@ public class CdsProcessorGrpcClient implements AutoCloseable {
         String url = bldr.toString();
 
         this.channel = NettyChannelBuilder.forAddress(props.getHost(), props.getPort())
-            .nameResolverFactory(new DnsNameResolverProvider())
-            .loadBalancerFactory(new PickFirstLoadBalancerProvider())
             .intercept(new BasicAuthClientHeaderInterceptor(props)).usePlaintext().build();
         this.handler = new CdsProcessorHandler(listener, url);
         LOGGER.info("CdsProcessorListener started");
