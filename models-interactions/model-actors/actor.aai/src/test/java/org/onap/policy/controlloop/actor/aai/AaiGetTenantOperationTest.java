@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@
 package org.onap.policy.controlloop.actor.aai;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -162,6 +163,20 @@ public class AaiGetTenantOperationTest extends BasicAaiOperation {
         assertTrue(future2.isDone());
 
         assertEquals(OperationResult.FAILURE, future2.get().getResult());
+    }
+
+    /**
+     * Tests startOperationAsync() when a property is missing.
+     */
+    @Test
+    public void testStartOperationAsyncMissingProperty() throws Exception {
+        oper = new AaiGetTenantOperation(params, config);
+
+        oper.generateSubRequestId(1);
+        outcome.setSubRequestId(oper.getSubRequestId());
+
+        assertThatIllegalStateException().isThrownBy(() -> oper.startOperationAsync(1, outcome))
+                        .withMessageContaining("missing target entity");
     }
 
     @Test

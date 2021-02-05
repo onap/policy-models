@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2020 Wipro Limited.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -239,8 +239,8 @@ public class VfModuleDelete extends SoOperation {
          */
 
         // compute the path
-        String path = PATH_PREFIX + vnfServiceItem.getServiceInstanceId() + "/vnfs/" + vnfItem.getVnfId()
-                        + "/vfModules/null";
+        String svcId = getRequiredText("service instance ID", vnfServiceItem.getServiceInstanceId());
+        String path = PATH_PREFIX + svcId + "/vnfs/" + vnfItem.getVnfId() + "/vfModules/null";
 
         return Pair.of(path, request);
     }

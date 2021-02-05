@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2020 Wipro Limited.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -324,9 +324,24 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
      */
     protected SoCloudConfiguration constructCloudConfiguration(Tenant tenantItem, CloudRegion cloudRegionItem) {
         SoCloudConfiguration cloudConfiguration = new SoCloudConfiguration();
-        cloudConfiguration.setTenantId(tenantItem.getTenantId());
-        cloudConfiguration.setLcpCloudRegionId(cloudRegionItem.getCloudRegionId());
+        cloudConfiguration.setTenantId(getRequiredText("tenant ID", tenantItem.getTenantId()));
+        cloudConfiguration.setLcpCloudRegionId(getRequiredText("cloud region ID", cloudRegionItem.getCloudRegionId()));
         return cloudConfiguration;
+    }
+
+    /**
+     * Verifies that a value is not {@code null}.
+     *
+     * @param name value name
+     * @param value value to check
+     * @return the value
+     */
+    protected String getRequiredText(String name, String value) {
+        if (value == null) {
+            throw new IllegalArgumentException("missing " + name);
+        }
+
+        return value;
     }
 
     /**

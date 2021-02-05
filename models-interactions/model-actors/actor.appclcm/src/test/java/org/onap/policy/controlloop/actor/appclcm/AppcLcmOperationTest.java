@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ package org.onap.policy.controlloop.actor.appclcm;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -159,6 +159,18 @@ public class AppcLcmOperationTest extends BasicBidirectionalTopicOperation<AppcL
         assertEquals(subreq, request.getBody().getInput().getCommonHeader().getSubRequestId());
     }
 
+    /**
+     * Tests makeRequest() when a property is missing.
+     */
+    @Test
+    public void testMakeRequestMissingProperty() throws Exception {
+        oper = new AppcLcmOperation(params, config);
+        oper.generateSubRequestId(1);
+
+        assertThatIllegalStateException().isThrownBy(() -> oper.makeRequest(1))
+                        .withMessageContaining("missing target entity");
+    }
+
     @Test
     public void testConvertPayload() {
         // only builds a payload for ConfigModify
@@ -183,9 +195,11 @@ public class AppcLcmOperationTest extends BasicBidirectionalTopicOperation<AppcL
             }
         };
 
+        oper.setProperty(OperationProperties.AAI_TARGET_ENTITY, TARGET_ENTITY);
         oper.generateSubRequestId(2);
 
-        assertThatThrownBy(() -> oper.makeRequest(2)).isInstanceOf(NullPointerException.class);
+        assertThatIllegalArgumentException().isThrownBy(() -> oper.makeRequest(2))
+                        .withMessageContaining("Cannot convert payload");
     }
 
     @Test

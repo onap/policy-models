@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@
 package org.onap.policy.controlloop.actor.sdnc;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -117,5 +118,51 @@ public class BandwidthOnDemandOperationTest extends BasicSdncOperation {
         oper.setProperty(OperationProperties.ENRICHMENT_VNF_ID, MY_VNF);
 
         verifyRequest("bod.json", verifyOperation(oper), IGNORE_FIELDS);
+    }
+
+    /*
+     * Tests makeRequest() when a property is missing.
+     */
+
+    @Test
+    public void testMakeRequestMissingBandwidth() throws Exception {
+        oper = new BandwidthOnDemandOperation(params, config);
+        oper.setProperty(OperationProperties.ENRICHMENT_SERVICE_ID, MY_SERVICE);
+        oper.setProperty(OperationProperties.ENRICHMENT_BANDWIDTH_CHANGE_TIME, MY_CHANGE_TIME);
+        oper.setProperty(OperationProperties.ENRICHMENT_VNF_ID, MY_VNF);
+
+        oper.generateSubRequestId(1);
+        outcome.setSubRequestId(oper.getSubRequestId());
+
+        assertThatIllegalStateException().isThrownBy(() -> oper.makeRequest(1))
+                        .withMessageContaining("missing bandwidth from enrichment data");
+    }
+
+    @Test
+    public void testMakeRequestMissingBandwidthChangeTime() throws Exception {
+        oper = new BandwidthOnDemandOperation(params, config);
+        oper.setProperty(OperationProperties.ENRICHMENT_SERVICE_ID, MY_SERVICE);
+        oper.setProperty(OperationProperties.ENRICHMENT_BANDWIDTH, MY_BANDWIDTH);
+        oper.setProperty(OperationProperties.ENRICHMENT_VNF_ID, MY_VNF);
+
+        oper.generateSubRequestId(1);
+        outcome.setSubRequestId(oper.getSubRequestId());
+
+        assertThatIllegalStateException().isThrownBy(() -> oper.makeRequest(1))
+                        .withMessageContaining("missing bandwidth change time from enrichment data");
+    }
+
+    @Test
+    public void testMakeRequestMissingVnfId() throws Exception {
+        oper = new BandwidthOnDemandOperation(params, config);
+        oper.setProperty(OperationProperties.ENRICHMENT_SERVICE_ID, MY_SERVICE);
+        oper.setProperty(OperationProperties.ENRICHMENT_BANDWIDTH, MY_BANDWIDTH);
+        oper.setProperty(OperationProperties.ENRICHMENT_BANDWIDTH_CHANGE_TIME, MY_CHANGE_TIME);
+
+        oper.generateSubRequestId(1);
+        outcome.setSubRequestId(oper.getSubRequestId());
+
+        assertThatIllegalStateException().isThrownBy(() -> oper.makeRequest(1))
+                        .withMessageContaining("missing VNF id from enrichment data");
     }
 }

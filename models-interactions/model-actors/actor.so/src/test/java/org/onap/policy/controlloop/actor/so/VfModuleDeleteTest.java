@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2020 Wipro Limited.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -351,6 +351,20 @@ public class VfModuleDeleteTest extends BasicSoOperation {
         assertEquals("Basic " + encoded, valueCaptor.getValue());
     }
 
+    /**
+     * Tests makeRequest() when a property is missing.
+     */
+    @Test
+    public void testMakeRequestMissingProperty() throws Exception {
+        loadProperties();
+
+        ServiceInstance instance = new ServiceInstance();
+        oper.setProperty(OperationProperties.AAI_SERVICE, instance);
+
+        assertThatIllegalArgumentException().isThrownBy(() -> oper.makeRequest())
+                        .withMessageContaining("missing service instance ID");
+    }
+
     @Test
     public void testMakeHttpClient() {
         // must use a real operation to invoke this method
@@ -393,8 +407,13 @@ public class VfModuleDeleteTest extends BasicSoOperation {
         vnf.setVnfId(VNF_ID);
         oper.setProperty(OperationProperties.AAI_VNF, vnf);
 
-        oper.setProperty(OperationProperties.AAI_DEFAULT_CLOUD_REGION, new CloudRegion());
-        oper.setProperty(OperationProperties.AAI_DEFAULT_TENANT, new Tenant());
+        CloudRegion cloudRegion = new CloudRegion();
+        cloudRegion.setCloudRegionId("my-cloud-id");
+        oper.setProperty(OperationProperties.AAI_DEFAULT_CLOUD_REGION, cloudRegion);
+
+        Tenant tenant = new Tenant();
+        tenant.setTenantId("my-tenant-id");
+        oper.setProperty(OperationProperties.AAI_DEFAULT_TENANT, tenant);
 
         oper.setProperty(OperationProperties.DATA_VF_COUNT, VF_COUNT);
     }
