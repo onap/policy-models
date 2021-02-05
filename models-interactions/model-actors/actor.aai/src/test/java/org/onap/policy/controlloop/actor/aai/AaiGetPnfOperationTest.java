@@ -21,6 +21,7 @@
 package org.onap.policy.controlloop.actor.aai;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -162,6 +163,20 @@ public class AaiGetPnfOperationTest extends BasicAaiOperation {
         assertTrue(future2.isDone());
 
         assertEquals(OperationResult.FAILURE, future2.get().getResult());
+    }
+
+    /**
+     * Tests startOperationAsync() when a property is missing.
+     */
+    @Test
+    public void testStartOperationAsyncMissingProperty() throws Exception {
+        oper = new AaiGetPnfOperation(params, config);
+
+        oper.generateSubRequestId(1);
+        outcome.setSubRequestId(oper.getSubRequestId());
+
+        assertThatIllegalStateException().isThrownBy(() -> oper.startOperationAsync(1, outcome))
+                        .withMessageContaining("missing target entity");
     }
 
     @Test

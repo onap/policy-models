@@ -197,8 +197,8 @@ public class VfModuleCreate extends SoOperation {
         buildConfigurationParameters().ifPresent(request.getRequestDetails()::setConfigurationParameters);
 
         // compute the path
-        String path = PATH_PREFIX + vnfServiceItem.getServiceInstanceId() + "/vnfs/" + vnfItem.getVnfId()
-                        + "/vfModules/scaleOut";
+        String svcId = getRequiredText("service instance ID", vnfServiceItem.getServiceInstanceId());
+        String path = PATH_PREFIX + svcId + "/vnfs/" + vnfItem.getVnfId() + "/vfModules/scaleOut";
 
         return Pair.of(path, request);
     }

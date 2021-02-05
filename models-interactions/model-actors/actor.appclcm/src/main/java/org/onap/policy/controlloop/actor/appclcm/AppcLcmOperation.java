@@ -84,7 +84,7 @@ public class AppcLcmOperation extends BidirectionalTopicOperation<AppcLcmDmaapWr
          * Action Identifiers are required for APPC LCM requests. For R1, the recipes
          * supported by Policy only require a vnf-id.
          */
-        String target = getProperty(OperationProperties.AAI_TARGET_ENTITY);
+        String target = getRequiredProperty(OperationProperties.AAI_TARGET_ENTITY, "target entity");
         inputRequest.setActionIdentifiers(Map.of(VNF_ID_KEY, target));
 
         /*

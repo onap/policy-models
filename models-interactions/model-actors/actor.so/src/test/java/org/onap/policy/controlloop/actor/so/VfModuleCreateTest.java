@@ -212,6 +212,20 @@ public class VfModuleCreateTest extends BasicSoOperation {
         verifyRequest("vfModuleCreate.json", pair.getRight());
     }
 
+    /**
+     * Tests makeRequest() when a property is missing.
+     */
+    @Test
+    public void testMakeRequestMissingProperty() throws Exception {
+        loadProperties();
+
+        ServiceInstance instance = new ServiceInstance();
+        oper.setProperty(OperationProperties.AAI_SERVICE, instance);
+
+        assertThatIllegalArgumentException().isThrownBy(() -> oper.makeRequest())
+                        .withMessageContaining("missing service instance ID");
+    }
+
     private void loadProperties() {
         // set the properties
         ServiceInstance instance = new ServiceInstance();
@@ -229,8 +243,13 @@ public class VfModuleCreateTest extends BasicSoOperation {
         vnf.setVnfId(VNF_ID);
         oper.setProperty(OperationProperties.AAI_VNF, vnf);
 
-        oper.setProperty(OperationProperties.AAI_DEFAULT_CLOUD_REGION, new CloudRegion());
-        oper.setProperty(OperationProperties.AAI_DEFAULT_TENANT, new Tenant());
+        CloudRegion cloudRegion = new CloudRegion();
+        cloudRegion.setCloudRegionId("my-cloud-id");
+        oper.setProperty(OperationProperties.AAI_DEFAULT_CLOUD_REGION, cloudRegion);
+
+        Tenant tenant = new Tenant();
+        tenant.setTenantId("my-tenant-id");
+        oper.setProperty(OperationProperties.AAI_DEFAULT_TENANT, tenant);
 
         oper.setProperty(OperationProperties.DATA_VF_COUNT, VF_COUNT);
     }

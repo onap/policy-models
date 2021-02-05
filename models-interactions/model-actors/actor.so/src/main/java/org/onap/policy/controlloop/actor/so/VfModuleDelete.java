@@ -239,8 +239,8 @@ public class VfModuleDelete extends SoOperation {
          */
 
         // compute the path
-        String path = PATH_PREFIX + vnfServiceItem.getServiceInstanceId() + "/vnfs/" + vnfItem.getVnfId()
-                        + "/vfModules/null";
+        String svcId = getRequiredText("service instance ID", vnfServiceItem.getServiceInstanceId());
+        String path = PATH_PREFIX + svcId + "/vnfs/" + vnfItem.getVnfId() + "/vfModules/null";
 
         return Pair.of(path, request);
     }

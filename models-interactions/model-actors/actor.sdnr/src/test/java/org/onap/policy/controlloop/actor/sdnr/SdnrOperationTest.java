@@ -21,6 +21,7 @@
 package org.onap.policy.controlloop.actor.sdnr;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
@@ -67,6 +68,7 @@ public class SdnrOperationTest extends BasicSdnrOperation {
         super.setUp();
 
         operation = new SdnrOperation(params, config);
+        operation.setProperty(OperationProperties.EVENT_PAYLOAD, "my payload");
     }
 
     @After
@@ -106,6 +108,20 @@ public class SdnrOperationTest extends BasicSdnrOperation {
         assertEquals(params.getRequestId(), header.getRequestId());
     }
 
+    /**
+     * Tests makeRequest() when a property is missing.
+     */
+    @Test
+    public void testMakeRequestMissingProperty() throws Exception {
+        operation = new SdnrOperation(params, config);
+
+        operation.generateSubRequestId(1);
+        outcome.setSubRequestId(operation.getSubRequestId());
+
+        assertThatIllegalStateException().isThrownBy(() -> operation.makeRequest(1))
+                        .withMessageContaining("missing event payload");
+    }
+
     @Test
     public void testGetExpectedKeyValues() {
         operation.generateSubRequestId(1);
@@ -127,6 +143,7 @@ public class SdnrOperationTest extends BasicSdnrOperation {
         params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).build();
 
         operation = new SdnrOperation(params, config);
+        operation.setProperty(OperationProperties.EVENT_PAYLOAD, "my payload");
 
         outcome = operation.start().get();
         assertEquals(OperationResult.SUCCESS, outcome.getResult());

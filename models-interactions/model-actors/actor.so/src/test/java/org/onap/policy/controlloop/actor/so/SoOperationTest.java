@@ -37,6 +37,8 @@ import java.util.List;
 import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
+import org.onap.aai.domain.yang.CloudRegion;
+import org.onap.aai.domain.yang.Tenant;
 import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.controlloop.ControlLoopOperation;
@@ -203,6 +205,38 @@ public class SoOperationTest extends BasicSoOperation {
         params = params.toBuilder().payload(null).build();
         oper = new SoOperation(params, config, PROP_NAMES) {};
         assertTrue(oper.buildConfigurationParameters().isEmpty());
+    }
+
+    @Test
+    public void testConstructCloudConfiguration() throws Exception {
+        Tenant tenantItem = new Tenant();
+        tenantItem.setTenantId("my-tenant-id");
+
+        CloudRegion cloudRegionItem = new CloudRegion();
+        cloudRegionItem.setCloudRegionId("my-cloud-id");
+
+        assertThatCode(() -> oper.constructCloudConfiguration(tenantItem, cloudRegionItem)).doesNotThrowAnyException();
+
+        tenantItem.setTenantId(null);
+        assertThatIllegalArgumentException()
+                        .isThrownBy(() -> oper.constructCloudConfiguration(tenantItem, cloudRegionItem))
+                        .withMessageContaining("missing tenant ID");
+        tenantItem.setTenantId("my-tenant-id");
+
+        cloudRegionItem.setCloudRegionId(null);
+        assertThatIllegalArgumentException()
+                        .isThrownBy(() -> oper.constructCloudConfiguration(tenantItem, cloudRegionItem))
+                        .withMessageContaining("missing cloud region ID");
+        cloudRegionItem.setCloudRegionId("my-cloud-id");
+    }
+
+    @Test
+    public void testGetRequiredText() throws Exception {
+
+        assertThatCode(() -> oper.getRequiredText("some value", "my value")).doesNotThrowAnyException();
+
+        assertThatIllegalArgumentException().isThrownBy(() -> oper.getRequiredText("some value", null))
+                        .withMessageContaining("missing some value");
     }
 
     @Test

@@ -73,7 +73,7 @@ public class AaiGetTenantOperation extends AaiGetOperation {
         WebTarget web = getClient().getWebTarget().path(path);
         str.append(path);
 
-        String target = getProperty(OperationProperties.AAI_TARGET_ENTITY);
+        String target = getRequiredProperty(OperationProperties.AAI_TARGET_ENTITY, "target entity");
 
         web = addQuery(web, str, "?", "search-node-type", "vserver");
         web = addQuery(web, str, "&", "filter", "vserver-name:EQUALS:" + target);

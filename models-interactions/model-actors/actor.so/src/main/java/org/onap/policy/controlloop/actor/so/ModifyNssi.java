@@ -67,9 +67,9 @@ public class ModifyNssi extends SoOperation {
         return handleResponse(outcome, url, callback -> getClient().put(callback, path, entity, headers));
     }
 
-    private SoRequest3gpp makeRequest() {
+    protected SoRequest3gpp makeRequest() {
 
-        String payload = getProperty(OperationProperties.EVENT_PAYLOAD);
+        String payload = getRequiredProperty(OperationProperties.EVENT_PAYLOAD, "event payload");
         try {
             return getCoder().convert(payload, SoRequest3gpp.class);
         } catch (CoderException e) {

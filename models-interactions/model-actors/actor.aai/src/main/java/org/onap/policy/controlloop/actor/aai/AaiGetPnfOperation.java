@@ -72,7 +72,7 @@ public class AaiGetPnfOperation extends AaiGetOperation {
 
         StringBuilder str = new StringBuilder(getClient().getBaseUrl());
 
-        String target = getProperty(OperationProperties.AAI_TARGET_ENTITY);
+        String target = getRequiredProperty(OperationProperties.AAI_TARGET_ENTITY, "target entity");
         String path = getPath() + URI_SEP + URLEncoder.encode(target, StandardCharsets.UTF_8);
         WebTarget web = getClient().getWebTarget().path(path);
         str.append(path);

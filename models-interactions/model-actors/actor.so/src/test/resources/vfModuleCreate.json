@@ -8,7 +8,10 @@
       "modelVersion": "my-model-version",
       "modelCustomizationId": "my-model-customization-id"
     },
-    "cloudConfiguration": {},
+    "cloudConfiguration": {
+      "lcpCloudRegionId": "my-cloud-id",
+      "tenantId": "my-tenant-id"
+    },
     "requestInfo": {
       "instanceName": "vfModuleName",
       "source": "POLICY",

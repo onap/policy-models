@@ -73,11 +73,13 @@ public class BandwidthOnDemandOperation extends SdncOperation {
 
         SdncHealVfModuleParameter bandwidth = new SdncHealVfModuleParameter();
         bandwidth.setName(BANDWIDTH);
-        bandwidth.setValue(getProperty(OperationProperties.ENRICHMENT_BANDWIDTH));
+        bandwidth.setValue(getRequiredProperty(OperationProperties.ENRICHMENT_BANDWIDTH,
+                        "bandwidth from enrichment data"));
 
         SdncHealVfModuleParameter timeStamp = new SdncHealVfModuleParameter();
         timeStamp.setName(BANDWIDTH_CHANGE_TIME);
-        timeStamp.setValue(getProperty(OperationProperties.ENRICHMENT_BANDWIDTH_CHANGE_TIME));
+        timeStamp.setValue(getRequiredProperty(OperationProperties.ENRICHMENT_BANDWIDTH_CHANGE_TIME,
+                        "bandwidth change time from enrichment data"));
 
         SdncHealVfModuleParametersInfo vfParametersInfo = new SdncHealVfModuleParametersInfo();
         vfParametersInfo.addParameters(bandwidth);
@@ -102,7 +104,7 @@ public class BandwidthOnDemandOperation extends SdncOperation {
         request.setUrl("/" + getPath());
 
         SdncHealVnfInfo vnfInfo = new SdncHealVnfInfo();
-        vnfInfo.setVnfId(getProperty(OperationProperties.ENRICHMENT_VNF_ID));
+        vnfInfo.setVnfId(getRequiredProperty(OperationProperties.ENRICHMENT_VNF_ID, "VNF id from enrichment data"));
 
         SdncHealVfModuleInfo vfModuleInfo = new SdncHealVfModuleInfo();
         vfModuleInfo.setVfModuleId("");

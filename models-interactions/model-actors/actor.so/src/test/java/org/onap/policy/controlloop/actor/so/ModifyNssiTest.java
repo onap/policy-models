@@ -24,6 +24,7 @@ package org.onap.policy.controlloop.actor.so;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -102,5 +103,15 @@ public class ModifyNssiTest extends BasicSoOperation {
         return ResourceUtils.getResourceAsString("src/test/resources/ModifyNSSI.json");
     }
 
+    /**
+     * Tests makeRequest() when a property is missing.
+     */
+    @Test
+    public void testMakeRequestMissingProperty() throws Exception {
+        oper = new ModifyNssi(params, config);
+
+        assertThatIllegalStateException().isThrownBy(() -> oper.makeRequest())
+                        .withMessageContaining("missing event payload");
+    }
 
 }

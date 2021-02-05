@@ -150,7 +150,7 @@ public class SdnrOperation extends BidirectionalTopicOperation<PciMessage, PciMe
         requestCommonHeader.setSubRequestId(subRequestId);
 
         sdnrRequest.setCommonHeader(requestCommonHeader);
-        sdnrRequest.setPayload(getProperty(OperationProperties.EVENT_PAYLOAD));
+        sdnrRequest.setPayload(getRequiredProperty(OperationProperties.EVENT_PAYLOAD, "event payload"));
         sdnrRequest.setAction(params.getOperation());
 
         /*
