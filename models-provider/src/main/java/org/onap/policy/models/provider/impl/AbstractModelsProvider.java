@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2021 Nordix Foundation.
+ *  Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -83,6 +84,8 @@ public abstract class AbstractModelsProvider implements Closeable {
         jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_URL,      parameters.getDatabaseUrl());
         jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_USER,     parameters.getDatabaseUser());
         jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_PASSWORD, parameters.getDatabasePassword());
+        jdbcProperties.setProperty(PersistenceUnitProperties.TARGET_DATABASE,
+                        (parameters.getDatabaseType() == null ? "MySQL" : parameters.getDatabaseType()));
         // @formatter:on
 
         daoParameters.setJdbcProperties(jdbcProperties);
