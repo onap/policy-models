@@ -21,6 +21,7 @@
 
 package org.onap.policy.models.tosca.authorative.concepts;
 
+import java.io.Serializable;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -35,7 +36,8 @@ import org.onap.policy.models.base.PfKey;
  */
 @Data
 @NoArgsConstructor
-public class ToscaConceptIdentifier implements Comparable<ToscaConceptIdentifier> {
+public class ToscaConceptIdentifier implements Serializable, Comparable<ToscaConceptIdentifier> {
+    private static final long serialVersionUID = 8010649773816325786L;
 
     @NonNull
     private String name;

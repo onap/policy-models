@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
  * ================================================================================
@@ -39,12 +39,11 @@ import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierOptVersion;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaEntityFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplateFilter;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaTypedEntityFilter;
 
 /**
  * Dummy implementation of {@link PolicyModelsProvider} with bad constructor.
@@ -67,8 +66,8 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public List<ToscaServiceTemplate> getFilteredServiceTemplateList(@NonNull ToscaServiceTemplateFilter filter)
-            throws PfModelException {
+    public List<ToscaServiceTemplate> getFilteredServiceTemplateList(
+            @NonNull ToscaEntityFilter<ToscaServiceTemplate> filter) throws PfModelException {
         return null;
     }
 
@@ -164,12 +163,13 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public ToscaServiceTemplate getFilteredPolicyTypes(@NonNull ToscaPolicyTypeFilter filter) throws PfModelException {
+    public ToscaServiceTemplate getFilteredPolicyTypes(@NonNull ToscaEntityFilter<ToscaPolicyType> filter)
+            throws PfModelException {
         return null;
     }
 
     @Override
-    public List<ToscaPolicyType> getFilteredPolicyTypeList(@NonNull ToscaPolicyTypeFilter filter)
+    public List<ToscaPolicyType> getFilteredPolicyTypeList(@NonNull ToscaEntityFilter<ToscaPolicyType> filter)
             throws PfModelException {
         return Collections.emptyList();
     }
@@ -180,12 +180,14 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public ToscaServiceTemplate getFilteredPolicies(@NonNull ToscaPolicyFilter filter) throws PfModelException {
+    public ToscaServiceTemplate getFilteredPolicies(@NonNull ToscaTypedEntityFilter<ToscaPolicy> filter)
+            throws PfModelException {
         return null;
     }
 
     @Override
-    public List<ToscaPolicy> getFilteredPolicyList(@NonNull ToscaPolicyFilter filter) throws PfModelException {
+    public List<ToscaPolicy> getFilteredPolicyList(@NonNull ToscaTypedEntityFilter<ToscaPolicy> filter)
+            throws PfModelException {
         return Collections.emptyList();
     }
 
@@ -240,7 +242,7 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
 
     @Override
     public List<PdpPolicyStatus> getAllPolicyStatus(@NonNull ToscaConceptIdentifierOptVersion policy)
-                    throws PfModelException {
+            throws PfModelException {
         // Not implemented
         return null;
     }
@@ -253,7 +255,7 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
 
     @Override
     public void cudPolicyStatus(Collection<PdpPolicyStatus> createObjs, Collection<PdpPolicyStatus> updateObjs,
-                    Collection<PdpPolicyStatus> deleteObjs) {
+            Collection<PdpPolicyStatus> deleteObjs) {
         // Not implemented
     }
 

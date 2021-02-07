@@ -23,6 +23,7 @@ package org.onap.policy.models.tosca.authorative.concepts;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.util.LinkedHashMap;
 import org.junit.Test;
@@ -45,6 +46,10 @@ public class ToscaPolicyTest {
         policy.setType("my_type");
         policy.setTypeVersion("3.2.1");
 
+        ToscaEntity te = new ToscaEntity();
+        assertNull(te.getType());
+        assertNull(te.getTypeVersion());
+
         assertEquals("ToscaEntityKey(name=my_name, version=1.2.3)", policy.getKey().toString());
         assertEquals(new ToscaConceptIdentifier("my_name", "1.2.3"), policy.getKey().asIdentifier());
 
@@ -57,11 +62,11 @@ public class ToscaPolicyTest {
         assertEquals("3.2.1", type.getVersion());
 
         ToscaPolicy clonedPolicy0 = new ToscaPolicy(policy);
-        assertEquals(0, new ToscaPolicyComparator().compare(policy, clonedPolicy0));
+        assertEquals(0, new ToscaEntityComparator<ToscaPolicy>().compare(policy, clonedPolicy0));
 
         policy.setProperties(new LinkedHashMap<String, Object>());
         policy.getProperties().put("PropertyKey", "PropertyValue");
         ToscaPolicy clonedPolicy1 = new ToscaPolicy(policy);
-        assertEquals(0, new ToscaPolicyComparator().compare(policy, clonedPolicy1));
+        assertEquals(0, new ToscaEntityComparator<ToscaPolicy>().compare(policy, clonedPolicy1));
     }
 }

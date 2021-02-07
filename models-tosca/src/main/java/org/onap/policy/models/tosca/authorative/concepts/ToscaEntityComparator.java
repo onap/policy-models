@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2020 Nordix Foundation.
+ *  Copyright (C) 2020-2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,12 +23,12 @@ package org.onap.policy.models.tosca.authorative.concepts;
 import java.util.Comparator;
 
 /**
- * Compare two ToscaServiceTemplate objects.
+ * Compare two ToscaEntity objects.
  */
-public class ToscaServiceTemplateComparator implements Comparator<ToscaServiceTemplate> {
+public class ToscaEntityComparator<T extends ToscaEntity> implements Comparator<T> {
 
     @Override
-    public int compare(final ToscaServiceTemplate left, final ToscaServiceTemplate right) {
+    public int compare(final ToscaEntity left, final ToscaEntity right) {
         return left.compareNameVersion(left, right);
     }
 }

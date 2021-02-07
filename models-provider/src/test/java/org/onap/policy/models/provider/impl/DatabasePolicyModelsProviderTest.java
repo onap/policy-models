@@ -47,9 +47,11 @@ import org.onap.policy.models.provider.PolicyModelsProviderFactory;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierOptVersion;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaEntityFilter;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaTypedEntityFilter;
 
 /**
  * Test the database models provider implementation.
@@ -296,10 +298,12 @@ public class DatabasePolicyModelsProviderTest {
 
         assertTrue(databaseProvider.getPolicyTypeList(NAME, VERSION_100).isEmpty());
 
-        assertThatThrownBy(() -> databaseProvider.getFilteredPolicyTypes(ToscaPolicyTypeFilter.builder().build()))
-                .hasMessage("service template not found in database");
+        assertThatThrownBy(
+                () -> databaseProvider.getFilteredPolicyTypes(ToscaEntityFilter.<ToscaPolicyType>builder().build()))
+                        .hasMessage("service template not found in database");
 
-        assertTrue(databaseProvider.getFilteredPolicyTypeList(ToscaPolicyTypeFilter.builder().build()).isEmpty());
+        assertTrue(databaseProvider.getFilteredPolicyTypeList(ToscaEntityFilter.<ToscaPolicyType>builder().build())
+                .isEmpty());
 
         assertThatThrownBy(() -> {
             databaseProvider.createPolicyTypes(new ToscaServiceTemplate());
@@ -317,10 +321,12 @@ public class DatabasePolicyModelsProviderTest {
 
         assertTrue(databaseProvider.getPolicyList(NAME, VERSION_100).isEmpty());
 
-        assertThatThrownBy(() -> databaseProvider.getFilteredPolicies(ToscaPolicyFilter.builder().build()))
-                .hasMessage("service template not found in database");
+        assertThatThrownBy(
+                () -> databaseProvider.getFilteredPolicies(ToscaTypedEntityFilter.<ToscaPolicy>builder().build()))
+                        .hasMessage("service template not found in database");
 
-        assertTrue(databaseProvider.getFilteredPolicyList(ToscaPolicyFilter.builder().build()).isEmpty());
+        assertTrue(databaseProvider.getFilteredPolicyList(ToscaTypedEntityFilter.<ToscaPolicy>builder().build())
+                .isEmpty());
 
         assertThatThrownBy(() -> {
             databaseProvider.createPolicies(new ToscaServiceTemplate());
@@ -428,7 +434,7 @@ public class DatabasePolicyModelsProviderTest {
 
         assertThat(databaseProvider.getAllPolicyStatus()).isEmpty();
         assertThat(databaseProvider.getAllPolicyStatus(new ToscaConceptIdentifierOptVersion("MyPolicy", null)))
-                        .isEmpty();
+                .isEmpty();
         assertThat(databaseProvider.getGroupPolicyStatus(GROUP)).isEmpty();
         assertThatCode(() -> databaseProvider.cudPolicyStatus(null, null, null)).doesNotThrowAnyException();
 

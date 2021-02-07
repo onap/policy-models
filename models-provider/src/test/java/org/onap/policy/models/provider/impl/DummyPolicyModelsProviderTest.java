@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
  * ================================================================================
@@ -40,9 +40,11 @@ import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderFactory;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierOptVersion;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaEntityFilter;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaTypedEntityFilter;
 
 /**
  * Test the dummy models provider implementation.
@@ -83,17 +85,17 @@ public class DummyPolicyModelsProviderTest {
         dummyProvider.init();
 
         assertNotNull(dummyProvider.getPolicyTypes("name", VERSION));
-        assertNotNull(dummyProvider.getFilteredPolicyTypes(ToscaPolicyTypeFilter.builder().build()));
+        assertNotNull(dummyProvider.getFilteredPolicyTypes(ToscaEntityFilter.<ToscaPolicyType>builder().build()));
         assertNotNull(dummyProvider.getPolicyTypeList("name", VERSION));
-        assertNotNull(dummyProvider.getFilteredPolicyTypeList(ToscaPolicyTypeFilter.builder().build()));
+        assertNotNull(dummyProvider.getFilteredPolicyTypeList(ToscaEntityFilter.<ToscaPolicyType>builder().build()));
         assertNotNull(dummyProvider.createPolicyTypes(new ToscaServiceTemplate()));
         assertNotNull(dummyProvider.updatePolicyTypes(new ToscaServiceTemplate()));
         assertNotNull(dummyProvider.deletePolicyType("name", VERSION));
 
         assertNotNull(dummyProvider.getPolicies("name", VERSION));
-        assertNotNull(dummyProvider.getFilteredPolicies(ToscaPolicyFilter.builder().build()));
+        assertNotNull(dummyProvider.getFilteredPolicies(ToscaTypedEntityFilter.<ToscaPolicy>builder().build()));
         assertNotNull(dummyProvider.getPolicyList("name", VERSION));
-        assertNotNull(dummyProvider.getFilteredPolicyList(ToscaPolicyFilter.builder().build()));
+        assertNotNull(dummyProvider.getFilteredPolicyList(ToscaTypedEntityFilter.<ToscaPolicy>builder().build()));
         assertNotNull(dummyProvider.createPolicies(new ToscaServiceTemplate()));
         assertNotNull(dummyProvider.updatePolicies(new ToscaServiceTemplate()));
         assertNotNull(dummyProvider.deletePolicy("name", VERSION));
