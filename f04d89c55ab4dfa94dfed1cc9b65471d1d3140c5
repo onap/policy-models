@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08000b46_61fbfd7c",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/impl/AbstractModelsProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2021-02-08T23:03:37Z",
+      "side": 1,
+      "message": "I am used to see this as \"mysql\" (lower case) when it ends up in the jdbc url, does it make a difference that camel case here?",
+      "revId": "f04d89c55ab4dfa94dfed1cc9b65471d1d3140c5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
