@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,7 +46,7 @@ public class ToscaPolicyTypeTest {
         tpt.setDescription("Desc");
 
         ToscaPolicyType clonedTpt0 = new ToscaPolicyType(tpt);
-        assertEquals(0, new ToscaPolicyTypeComparator().compare(tpt, clonedTpt0));
+        assertEquals(0, new ToscaEntityComparator<ToscaPolicyType>().compare(tpt, clonedTpt0));
 
         tpt.setMetadata(new LinkedHashMap<>());
         tpt.setProperties(new LinkedHashMap<>());
@@ -57,6 +57,6 @@ public class ToscaPolicyTypeTest {
         tpt.getProperties().put("Property0", tp);
 
         ToscaPolicyType clonedTpt1 = new ToscaPolicyType(tpt);
-        assertEquals(0, new ToscaPolicyTypeComparator().compare(tpt, clonedTpt1));
+        assertEquals(0, new ToscaEntityComparator<ToscaPolicyType>().compare(tpt, clonedTpt1));
     }
 }

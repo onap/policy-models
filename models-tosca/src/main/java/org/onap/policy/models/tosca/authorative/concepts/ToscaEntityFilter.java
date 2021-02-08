@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,13 +28,13 @@ import lombok.NonNull;
 import org.onap.policy.models.base.PfObjectFilter;
 
 /**
- * Filter class for searches for {@link ToscaServiceTemplate} instances. If any fields are null, they are ignored.
+ * Filter class for searches for {@link ToscaEntity} instances. If any fields are null, they are ignored.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 @Builder
 @Data
-public class ToscaServiceTemplateFilter implements PfObjectFilter<ToscaServiceTemplate> {
+public class ToscaEntityFilter<T extends ToscaEntity> implements PfObjectFilter<T> {
     public static final String LATEST_VERSION = "LATEST";
 
     // Regular expression
@@ -44,10 +44,10 @@ public class ToscaServiceTemplateFilter implements PfObjectFilter<ToscaServiceTe
     private String version;
 
     @Override
-    public List<ToscaServiceTemplate> filter(@NonNull final List<ToscaServiceTemplate> originalList) {
+    public List<T> filter(@NonNull final List<T> originalList) {
 
         // @formatter:off
-        List<ToscaServiceTemplate> returnList = originalList.stream()
+        List<T> returnList = originalList.stream()
                 .filter(p -> filterString(p.getName(), name))
                 .filter(p -> LATEST_VERSION.equals(version)
                         || filterString(p.getVersion(), version))
@@ -55,7 +55,7 @@ public class ToscaServiceTemplateFilter implements PfObjectFilter<ToscaServiceTe
         // @formatter:off
 
         if (LATEST_VERSION.equals(version)) {
-            return this.latestVersionFilter(returnList, new ToscaServiceTemplateComparator());
+            return this.latestVersionFilter(returnList, new ToscaEntityComparator<T>());
         } else  {
             return returnList;
         }

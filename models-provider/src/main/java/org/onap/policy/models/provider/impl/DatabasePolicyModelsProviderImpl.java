@@ -41,12 +41,11 @@ import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierOptVersion;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaEntityFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplateFilter;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaTypedEntityFilter;
 import org.onap.policy.models.tosca.authorative.provider.AuthorativeToscaProvider;
 
 /**
@@ -74,8 +73,8 @@ public class DatabasePolicyModelsProviderImpl extends AbstractModelsProvider imp
 
 
     @Override
-    public List<ToscaServiceTemplate> getFilteredServiceTemplateList(@NonNull ToscaServiceTemplateFilter filter)
-            throws PfModelException {
+    public List<ToscaServiceTemplate> getFilteredServiceTemplateList(
+            @NonNull ToscaEntityFilter<ToscaServiceTemplate> filter) throws PfModelException {
         assertInitialized();
         return new AuthorativeToscaProvider().getFilteredServiceTemplateList(getPfDao(), filter);
     }
@@ -115,13 +114,14 @@ public class DatabasePolicyModelsProviderImpl extends AbstractModelsProvider imp
     }
 
     @Override
-    public ToscaServiceTemplate getFilteredPolicyTypes(@NonNull ToscaPolicyTypeFilter filter) throws PfModelException {
+    public ToscaServiceTemplate getFilteredPolicyTypes(@NonNull ToscaEntityFilter<ToscaPolicyType> filter)
+            throws PfModelException {
         assertInitialized();
         return new AuthorativeToscaProvider().getFilteredPolicyTypes(getPfDao(), filter);
     }
 
     @Override
-    public List<ToscaPolicyType> getFilteredPolicyTypeList(@NonNull ToscaPolicyTypeFilter filter)
+    public List<ToscaPolicyType> getFilteredPolicyTypeList(@NonNull ToscaEntityFilter<ToscaPolicyType> filter)
             throws PfModelException {
         assertInitialized();
         return new AuthorativeToscaProvider().getFilteredPolicyTypeList(getPfDao(), filter);
@@ -165,13 +165,15 @@ public class DatabasePolicyModelsProviderImpl extends AbstractModelsProvider imp
     }
 
     @Override
-    public ToscaServiceTemplate getFilteredPolicies(@NonNull ToscaPolicyFilter filter) throws PfModelException {
+    public ToscaServiceTemplate getFilteredPolicies(@NonNull ToscaTypedEntityFilter<ToscaPolicy> filter)
+            throws PfModelException {
         assertInitialized();
         return new AuthorativeToscaProvider().getFilteredPolicies(getPfDao(), filter);
     }
 
     @Override
-    public List<ToscaPolicy> getFilteredPolicyList(@NonNull ToscaPolicyFilter filter) throws PfModelException {
+    public List<ToscaPolicy> getFilteredPolicyList(@NonNull ToscaTypedEntityFilter<ToscaPolicy> filter)
+            throws PfModelException {
         assertInitialized();
         return new AuthorativeToscaProvider().getFilteredPolicyList(getPfDao(), filter);
     }
@@ -288,21 +290,20 @@ public class DatabasePolicyModelsProviderImpl extends AbstractModelsProvider imp
 
     @Override
     public List<PdpPolicyStatus> getAllPolicyStatus(@NonNull ToscaConceptIdentifierOptVersion policy)
-                    throws PfModelException {
+            throws PfModelException {
         assertInitialized();
         return new PdpProvider().getAllPolicyStatus(getPfDao(), policy);
     }
 
     @Override
-    public List<PdpPolicyStatus> getGroupPolicyStatus(@NonNull String groupName)
-                    throws PfModelException {
+    public List<PdpPolicyStatus> getGroupPolicyStatus(@NonNull String groupName) throws PfModelException {
         assertInitialized();
         return new PdpProvider().getGroupPolicyStatus(getPfDao(), groupName);
     }
 
     @Override
-    public void cudPolicyStatus(Collection<PdpPolicyStatus> createObjs,
-                    Collection<PdpPolicyStatus> updateObjs, Collection<PdpPolicyStatus> deleteObjs) {
+    public void cudPolicyStatus(Collection<PdpPolicyStatus> createObjs, Collection<PdpPolicyStatus> updateObjs,
+            Collection<PdpPolicyStatus> deleteObjs) {
         assertInitialized();
         new PdpProvider().cudPolicyStatus(getPfDao(), createObjs, updateObjs, deleteObjs);
     }

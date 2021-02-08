@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Model
  * ================================================================================
- * Copyright (C) 2019-2020 Nordix Foundation.
+ * Copyright (C) 2019-2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -139,5 +139,23 @@ public class ToscaEntity implements PfNameVersion {
         }
 
         return entityMap;
+    }
+
+    /**
+     * Method that should be specialised to return the type of the entity if the entity has a type.
+     *
+     * @return the type of the entity or null if it has no type
+     */
+    public String getType() {
+        return null;
+    }
+
+    /**
+     * Method that should be specialised to return the type version of the entity if the entity has a type.
+     *
+     * @return the type of the entity or null if it has no type
+     */
+    public String getTypeVersion() {
+        return null;
     }
 }

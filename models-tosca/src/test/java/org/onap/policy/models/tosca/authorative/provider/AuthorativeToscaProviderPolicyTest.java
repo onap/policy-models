@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -45,9 +45,9 @@ import org.onap.policy.models.dao.PfDaoFactory;
 import org.onap.policy.models.dao.impl.DefaultPfDao;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaDataType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaTopologyTemplate;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaTypedEntityFilter;
 import org.yaml.snakeyaml.Yaml;
 
 /**
@@ -166,7 +166,8 @@ public class AuthorativeToscaProviderPolicyTest {
         }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
-            new AuthorativeToscaProvider().getFilteredPolicies(null, ToscaPolicyFilter.builder().build());
+            new AuthorativeToscaProvider().getFilteredPolicies(null,
+                    ToscaTypedEntityFilter.<ToscaPolicy>builder().build());
         }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
@@ -178,7 +179,8 @@ public class AuthorativeToscaProviderPolicyTest {
         }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
-            new AuthorativeToscaProvider().getFilteredPolicyList(null, ToscaPolicyFilter.builder().build());
+            new AuthorativeToscaProvider().getFilteredPolicyList(null,
+                    ToscaTypedEntityFilter.<ToscaPolicy>builder().build());
         }).hasMessageMatching(DAO_IS_NULL);
 
         assertThatThrownBy(() -> {
@@ -203,8 +205,8 @@ public class AuthorativeToscaProviderPolicyTest {
         assertEquals(0, beforePolicy.compareNameVersion(beforePolicy, createdPolicy));
         assertEquals(beforePolicy.getType(), createdPolicy.getType());
 
-        ToscaServiceTemplate gotServiceTemplate =
-                new AuthorativeToscaProvider().getFilteredPolicies(pfDao, ToscaPolicyFilter.builder().build());
+        ToscaServiceTemplate gotServiceTemplate = new AuthorativeToscaProvider().getFilteredPolicies(pfDao,
+                ToscaTypedEntityFilter.<ToscaPolicy>builder().build());
 
         ToscaPolicy gotPolicy =
                 gotServiceTemplate.getToscaTopologyTemplate().getPolicies().get(0).get(policyKey.getName());
@@ -212,14 +214,14 @@ public class AuthorativeToscaProviderPolicyTest {
         assertEquals(beforePolicy.getType(), gotPolicy.getType());
 
         gotServiceTemplate = new AuthorativeToscaProvider().getFilteredPolicies(pfDao,
-                ToscaPolicyFilter.builder().name(policyKey.getName()).build());
+                ToscaTypedEntityFilter.<ToscaPolicy>builder().name(policyKey.getName()).build());
 
         gotPolicy = gotServiceTemplate.getToscaTopologyTemplate().getPolicies().get(0).get(policyKey.getName());
         assertEquals(0, beforePolicy.compareNameVersion(beforePolicy, gotPolicy));
         assertEquals(beforePolicy.getType(), gotPolicy.getType());
 
         gotServiceTemplate = new AuthorativeToscaProvider().getFilteredPolicies(pfDao,
-                ToscaPolicyFilter.builder().name(policyKey.getName()).version(VERSION_100).build());
+                ToscaTypedEntityFilter.<ToscaPolicy>builder().name(policyKey.getName()).version(VERSION_100).build());
 
         gotPolicy = gotServiceTemplate.getToscaTopologyTemplate().getPolicies().get(0).get(policyKey.getName());
         assertEquals(0, beforePolicy.compareNameVersion(beforePolicy, gotPolicy));
@@ -229,18 +231,18 @@ public class AuthorativeToscaProviderPolicyTest {
         assertEquals(1, gotPolicyList.size());
         assertEquals(0, beforePolicy.compareNameVersion(beforePolicy, gotPolicyList.get(0)));
 
-        gotPolicyList =
-                new AuthorativeToscaProvider().getFilteredPolicyList(pfDao, ToscaPolicyFilter.builder().build());
+        gotPolicyList = new AuthorativeToscaProvider().getFilteredPolicyList(pfDao,
+                ToscaTypedEntityFilter.<ToscaPolicy>builder().build());
         assertEquals(1, gotPolicyList.size());
         assertEquals(0, beforePolicy.compareNameVersion(beforePolicy, gotPolicyList.get(0)));
 
         gotPolicyList = new AuthorativeToscaProvider().getFilteredPolicyList(pfDao,
-                ToscaPolicyFilter.builder().name(policyKey.getName()).build());
+                ToscaTypedEntityFilter.<ToscaPolicy>builder().name(policyKey.getName()).build());
         assertEquals(1, gotPolicyList.size());
         assertEquals(0, beforePolicy.compareNameVersion(beforePolicy, gotPolicyList.get(0)));
 
         gotPolicyList = new AuthorativeToscaProvider().getFilteredPolicyList(pfDao,
-                ToscaPolicyFilter.builder().name(policyKey.getName()).version(VERSION_100).build());
+                ToscaTypedEntityFilter.<ToscaPolicy>builder().name(policyKey.getName()).version(VERSION_100).build());
         assertEquals(1, gotPolicyList.size());
         assertEquals(0, beforePolicy.compareNameVersion(beforePolicy, gotPolicyList.get(0)));
     }

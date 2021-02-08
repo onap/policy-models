@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
  *  Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
@@ -34,12 +34,11 @@ import org.onap.policy.models.pdp.concepts.PdpPolicyStatus;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierOptVersion;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaEntityFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplateFilter;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaTypedEntityFilter;
 
 /**
  * This interface describes the operations that are provided to users and components for reading objects from and
@@ -76,8 +75,8 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * @return the service templates found
      * @throws PfModelException on errors getting service templates
      */
-    public List<ToscaServiceTemplate> getFilteredServiceTemplateList(@NonNull final ToscaServiceTemplateFilter filter)
-            throws PfModelException;
+    public List<ToscaServiceTemplate> getFilteredServiceTemplateList(
+            @NonNull final ToscaEntityFilter<ToscaServiceTemplate> filter) throws PfModelException;
 
     /**
      * Create service template.
@@ -137,7 +136,7 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * @return the policy types found
      * @throws PfModelException on errors getting policy types
      */
-    public ToscaServiceTemplate getFilteredPolicyTypes(@NonNull final ToscaPolicyTypeFilter filter)
+    public ToscaServiceTemplate getFilteredPolicyTypes(@NonNull final ToscaEntityFilter<ToscaPolicyType> filter)
             throws PfModelException;
 
     /**
@@ -147,7 +146,7 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * @return the policy types found
      * @throws PfModelException on errors getting policy types
      */
-    public List<ToscaPolicyType> getFilteredPolicyTypeList(@NonNull final ToscaPolicyTypeFilter filter)
+    public List<ToscaPolicyType> getFilteredPolicyTypeList(@NonNull final ToscaEntityFilter<ToscaPolicyType> filter)
             throws PfModelException;
 
     /**
@@ -208,7 +207,8 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * @return the policies found
      * @throws PfModelException on errors getting policies
      */
-    public ToscaServiceTemplate getFilteredPolicies(@NonNull final ToscaPolicyFilter filter) throws PfModelException;
+    public ToscaServiceTemplate getFilteredPolicies(@NonNull final ToscaTypedEntityFilter<ToscaPolicy> filter)
+            throws PfModelException;
 
     /**
      * Get filtered policies.
@@ -217,7 +217,8 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * @return the policies found
      * @throws PfModelException on errors getting policies
      */
-    public List<ToscaPolicy> getFilteredPolicyList(@NonNull final ToscaPolicyFilter filter) throws PfModelException;
+    public List<ToscaPolicy> getFilteredPolicyList(@NonNull final ToscaTypedEntityFilter<ToscaPolicy> filter)
+            throws PfModelException;
 
     /**
      * Create policies.
@@ -378,8 +379,7 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * @return the deployments found
      * @throws PfModelException on errors getting PDP groups
      */
-    public List<PdpPolicyStatus> getAllPolicyStatus()
-                    throws PfModelException;
+    public List<PdpPolicyStatus> getAllPolicyStatus() throws PfModelException;
 
     /**
      * Gets all deployments for a policy.
@@ -388,18 +388,16 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * @throws PfModelException on errors getting PDP groups
      */
     public List<PdpPolicyStatus> getAllPolicyStatus(@NonNull ToscaConceptIdentifierOptVersion policy)
-                    throws PfModelException;
+            throws PfModelException;
 
     /**
      * Gets the policy deployments for a PDP group.
      *
-     * @param groupName the name of the PDP group of interest, null to get results for all
-     *        PDP groups
+     * @param groupName the name of the PDP group of interest, null to get results for all PDP groups
      * @return the deployments found
      * @throws PfModelException on errors getting PDP groups
      */
-    public List<PdpPolicyStatus> getGroupPolicyStatus(@NonNull final String groupName)
-                    throws PfModelException;
+    public List<PdpPolicyStatus> getGroupPolicyStatus(@NonNull final String groupName) throws PfModelException;
 
     /**
      * Creates, updates, and deletes collections of policy status.
@@ -408,6 +406,6 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * @param updateObjs the objects to update
      * @param deleteObjs the objects to delete
      */
-    public void cudPolicyStatus(Collection<PdpPolicyStatus> createObjs,
-                    Collection<PdpPolicyStatus> updateObjs, Collection<PdpPolicyStatus> deleteObjs);
+    public void cudPolicyStatus(Collection<PdpPolicyStatus> createObjs, Collection<PdpPolicyStatus> updateObjs,
+            Collection<PdpPolicyStatus> deleteObjs);
 }

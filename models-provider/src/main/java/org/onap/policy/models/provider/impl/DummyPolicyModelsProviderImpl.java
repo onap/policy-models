@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
  * ================================================================================
@@ -41,12 +41,11 @@ import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierOptVersion;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaEntityFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplateFilter;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaTypedEntityFilter;
 
 /**
  * This class provides a dummy implementation of the Policy Models Provider for the ONAP Policy Framework.
@@ -81,8 +80,8 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public List<ToscaServiceTemplate> getFilteredServiceTemplateList(@NonNull ToscaServiceTemplateFilter filter)
-            throws PfModelException {
+    public List<ToscaServiceTemplate> getFilteredServiceTemplateList(
+            @NonNull ToscaEntityFilter<ToscaServiceTemplate> filter) throws PfModelException {
         return new ArrayList<>();
     }
 
@@ -115,12 +114,13 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public ToscaServiceTemplate getFilteredPolicyTypes(ToscaPolicyTypeFilter filter) throws PfModelException {
+    public ToscaServiceTemplate getFilteredPolicyTypes(ToscaEntityFilter<ToscaPolicyType> filter)
+            throws PfModelException {
         return getDummyResponse("dummyimpl/DummyToscaPolicyTypeGetResponse.json");
     }
 
     @Override
-    public List<ToscaPolicyType> getFilteredPolicyTypeList(ToscaPolicyTypeFilter filter) {
+    public List<ToscaPolicyType> getFilteredPolicyTypeList(ToscaEntityFilter<ToscaPolicyType> filter) {
         return new ArrayList<>();
     }
 
@@ -150,12 +150,13 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public ToscaServiceTemplate getFilteredPolicies(ToscaPolicyFilter filter) throws PfModelException {
+    public ToscaServiceTemplate getFilteredPolicies(ToscaTypedEntityFilter<ToscaPolicy> filter)
+            throws PfModelException {
         return getDummyResponse("dummyimpl/DummyToscaPolicyGetResponse.json");
     }
 
     @Override
-    public List<ToscaPolicy> getFilteredPolicyList(ToscaPolicyFilter filter) throws PfModelException {
+    public List<ToscaPolicy> getFilteredPolicyList(ToscaTypedEntityFilter<ToscaPolicy> filter) throws PfModelException {
         return new ArrayList<>();
     }
 
@@ -249,7 +250,7 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
 
     @Override
     public List<PdpPolicyStatus> getAllPolicyStatus(@NonNull ToscaConceptIdentifierOptVersion policy)
-                    throws PfModelException {
+            throws PfModelException {
         // Not implemented
         return new ArrayList<>();
     }
@@ -262,7 +263,7 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
 
     @Override
     public void cudPolicyStatus(Collection<PdpPolicyStatus> createObjs, Collection<PdpPolicyStatus> updateObjs,
-                    Collection<PdpPolicyStatus> deleteObjs) {
+            Collection<PdpPolicyStatus> deleteObjs) {
         // Not implemented
     }
 

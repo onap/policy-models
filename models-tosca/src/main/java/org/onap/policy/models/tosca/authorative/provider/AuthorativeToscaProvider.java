@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,12 +34,11 @@ import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.dao.PfDao;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaEntity;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaEntityFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplateFilter;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaTypedEntityFilter;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.provider.SimpleToscaProvider;
 import org.onap.policy.models.tosca.utils.ToscaServiceTemplateUtils;
@@ -97,7 +96,7 @@ public class AuthorativeToscaProvider {
      * @throws PfModelException on errors getting service templates
      */
     public List<ToscaServiceTemplate> getFilteredServiceTemplateList(PfDao pfDao,
-            @NonNull ToscaServiceTemplateFilter filter) throws PfModelException {
+            @NonNull ToscaEntityFilter<ToscaServiceTemplate> filter) throws PfModelException {
 
         LOGGER.debug("->getFilteredServiceTemplateList: filter={}", filter);
 
@@ -240,7 +239,7 @@ public class AuthorativeToscaProvider {
      * @throws PfModelException on errors getting policy types
      */
     public ToscaServiceTemplate getFilteredPolicyTypes(@NonNull final PfDao dao,
-            @NonNull final ToscaPolicyTypeFilter filter) throws PfModelException {
+            @NonNull final ToscaEntityFilter<ToscaPolicyType> filter) throws PfModelException {
 
         synchronized (providerLockObject) {
             LOGGER.debug("->getFilteredPolicyTypes: filter={}", filter);
@@ -282,7 +281,7 @@ public class AuthorativeToscaProvider {
      * @throws PfModelException on errors getting policy types
      */
     public List<ToscaPolicyType> getFilteredPolicyTypeList(@NonNull final PfDao dao,
-            @NonNull final ToscaPolicyTypeFilter filter) throws PfModelException {
+            @NonNull final ToscaEntityFilter<ToscaPolicyType> filter) throws PfModelException {
 
         LOGGER.debug("->getFilteredPolicyTypeList: filter={}", filter);
 
@@ -423,12 +422,13 @@ public class AuthorativeToscaProvider {
      * @return the policies found
      * @throws PfModelException on errors getting policies
      */
-    public ToscaServiceTemplate getFilteredPolicies(@NonNull final PfDao dao, @NonNull final ToscaPolicyFilter filter)
-            throws PfModelException {
+    public ToscaServiceTemplate getFilteredPolicies(@NonNull final PfDao dao,
+            @NonNull final ToscaTypedEntityFilter<ToscaPolicy> filter) throws PfModelException {
 
         synchronized (providerLockObject) {
             LOGGER.debug("->getFilteredPolicies: filter={}", filter);
-            String version = ToscaPolicyFilter.LATEST_VERSION.equals(filter.getVersion()) ? null : filter.getVersion();
+            String version =
+                    ToscaTypedEntityFilter.LATEST_VERSION.equals(filter.getVersion()) ? null : filter.getVersion();
 
             SimpleToscaProvider simpleToscaProvider = new SimpleToscaProvider();
             final JpaToscaServiceTemplate dbServiceTemplate =
@@ -468,11 +468,11 @@ public class AuthorativeToscaProvider {
      * @return the policies found
      * @throws PfModelException on errors getting policies
      */
-    public List<ToscaPolicy> getFilteredPolicyList(@NonNull final PfDao dao, @NonNull final ToscaPolicyFilter filter)
-            throws PfModelException {
+    public List<ToscaPolicy> getFilteredPolicyList(@NonNull final PfDao dao,
+            @NonNull final ToscaTypedEntityFilter<ToscaPolicy> filter) throws PfModelException {
 
         LOGGER.debug("->getFilteredPolicyList: filter={}", filter);
-        String version = ToscaPolicyFilter.LATEST_VERSION.equals(filter.getVersion()) ? null : filter.getVersion();
+        String version = ToscaTypedEntityFilter.LATEST_VERSION.equals(filter.getVersion()) ? null : filter.getVersion();
 
         List<ToscaPolicy> policyList = filter.filter(getPolicyList(dao, filter.getName(), version));
 

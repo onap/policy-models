@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -44,10 +44,11 @@ import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderFactory;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaEntityFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaTypedEntityFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -114,15 +115,15 @@ public class PolicyToscaPersistenceTest {
     public void testHpaPolicyTypeGet() throws PfModelException {
         long getStartTime = System.currentTimeMillis();
         ToscaServiceTemplate hpaServiceTemplate =
-            databaseProvider.getPolicyTypes("onap.policies.optimization.resource.HpaPolicy", "1.0.0");
+                databaseProvider.getPolicyTypes("onap.policies.optimization.resource.HpaPolicy", "1.0.0");
         LOGGER.trace("HPA policy normal get time (ms): {}", System.currentTimeMillis() - getStartTime);
 
         assertEquals(3, hpaServiceTemplate.getPolicyTypesAsMap().size());
         assertEquals(5, hpaServiceTemplate.getDataTypesAsMap().size());
 
         getStartTime = System.currentTimeMillis();
-        ToscaPolicyTypeFilter hpaFilter = ToscaPolicyTypeFilter.builder()
-            .name("onap.policies.optimization.resource.HpaPolicy").version("1.0.0").build();
+        ToscaEntityFilter<ToscaPolicyType> hpaFilter = ToscaEntityFilter.<ToscaPolicyType>builder()
+                .name("onap.policies.optimization.resource.HpaPolicy").version("1.0.0").build();
         hpaServiceTemplate = databaseProvider.getFilteredPolicyTypes(hpaFilter);
         LOGGER.trace("HPA policy filter name version get time (ms): {}", System.currentTimeMillis() - getStartTime);
 
@@ -130,7 +131,8 @@ public class PolicyToscaPersistenceTest {
         assertEquals(5, hpaServiceTemplate.getDataTypesAsMap().size());
 
         getStartTime = System.currentTimeMillis();
-        hpaFilter = ToscaPolicyTypeFilter.builder().name("onap.policies.optimization.resource.HpaPolicy").build();
+        hpaFilter = ToscaEntityFilter.<ToscaPolicyType>builder().name("onap.policies.optimization.resource.HpaPolicy")
+                .build();
         hpaServiceTemplate = databaseProvider.getFilteredPolicyTypes(hpaFilter);
         LOGGER.trace("HPA policy filter name only get time (ms): {}", System.currentTimeMillis() - getStartTime);
 
@@ -142,7 +144,7 @@ public class PolicyToscaPersistenceTest {
     public void testNamingPolicyGet() throws PfModelException {
         String policyYamlString = ResourceUtils.getResourceAsString("policies/sdnc.policy.naming.input.tosca.yaml");
         ToscaServiceTemplate serviceTemplate =
-            yamlJsonTranslator.fromYaml(policyYamlString, ToscaServiceTemplate.class);
+                yamlJsonTranslator.fromYaml(policyYamlString, ToscaServiceTemplate.class);
 
         long createStartTime = System.currentTimeMillis();
         databaseProvider.createPolicies(serviceTemplate);
@@ -150,7 +152,7 @@ public class PolicyToscaPersistenceTest {
 
         long getStartTime = System.currentTimeMillis();
         ToscaServiceTemplate namingServiceTemplate =
-            databaseProvider.getPolicies("SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP", "1.0.0");
+                databaseProvider.getPolicies("SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP", "1.0.0");
         LOGGER.trace("Naming policy normal get time (ms): {}", System.currentTimeMillis() - getStartTime);
 
         assertEquals(1, namingServiceTemplate.getToscaTopologyTemplate().getPoliciesAsMap().size());
@@ -158,8 +160,8 @@ public class PolicyToscaPersistenceTest {
         assertEquals(3, namingServiceTemplate.getDataTypesAsMap().size());
 
         getStartTime = System.currentTimeMillis();
-        ToscaPolicyFilter filter =
-            ToscaPolicyFilter.builder().name("SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP").version("1.0.0").build();
+        ToscaTypedEntityFilter<ToscaPolicy> filter = ToscaTypedEntityFilter.<ToscaPolicy>builder()
+                .name("SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP").version("1.0.0").build();
         namingServiceTemplate = databaseProvider.getFilteredPolicies(filter);
         LOGGER.trace("Naming policy filtered get time (ms): {}", System.currentTimeMillis() - getStartTime);
 
@@ -168,7 +170,7 @@ public class PolicyToscaPersistenceTest {
         assertEquals(3, namingServiceTemplate.getDataTypesAsMap().size());
 
         getStartTime = System.currentTimeMillis();
-        filter = ToscaPolicyFilter.builder().name("SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP").build();
+        filter = ToscaTypedEntityFilter.<ToscaPolicy>builder().name("SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP").build();
         namingServiceTemplate = databaseProvider.getFilteredPolicies(filter);
         LOGGER.trace("Naming policy filtered name only get time (ms): {}", System.currentTimeMillis() - getStartTime);
 
@@ -178,7 +180,7 @@ public class PolicyToscaPersistenceTest {
 
         long deleteStartTime = System.currentTimeMillis();
         ToscaServiceTemplate deletedServiceTemplate =
-            databaseProvider.deletePolicy("SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP", "1.0.0");
+                databaseProvider.deletePolicy("SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP", "1.0.0");
         LOGGER.trace("Naming policy delete time (ms): {}", System.currentTimeMillis() - deleteStartTime);
 
         assertEquals(1, deletedServiceTemplate.getToscaTopologyTemplate().getPoliciesAsMap().size());
@@ -188,7 +190,7 @@ public class PolicyToscaPersistenceTest {
     public void testNamingPolicyVersions() throws PfModelException {
         String policyYamlString = ResourceUtils.getResourceAsString("policies/sdnc.policy.naming.input.tosca.yaml");
         ToscaServiceTemplate serviceTemplate =
-            yamlJsonTranslator.fromYaml(policyYamlString, ToscaServiceTemplate.class);
+                yamlJsonTranslator.fromYaml(policyYamlString, ToscaServiceTemplate.class);
 
         // Create policy types and data types
         List<Map<String, ToscaPolicy>> policyMapList = serviceTemplate.getToscaTopologyTemplate().getPolicies();
@@ -211,26 +213,26 @@ public class PolicyToscaPersistenceTest {
 
         for (int i = 1; i < 22; i++) {
             ToscaServiceTemplate namingServiceTemplate =
-                databaseProvider.getPolicies("SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP", i + ".0.0");
+                    databaseProvider.getPolicies("SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP", i + ".0.0");
             assertEquals(i + ".0.0", namingServiceTemplate.getToscaTopologyTemplate().getPolicies().get(0).values()
-                .iterator().next().getVersion());
+                    .iterator().next().getVersion());
 
-            ToscaPolicyFilter policyFilter =
-                ToscaPolicyFilter.builder().name("SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP").version(i + ".0.0").build();
+            ToscaTypedEntityFilter<ToscaPolicy> policyFilter = ToscaTypedEntityFilter.<ToscaPolicy>builder()
+                    .name("SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP").version(i + ".0.0").build();
             namingServiceTemplate = databaseProvider.getFilteredPolicies(policyFilter);
             assertEquals(i + ".0.0", namingServiceTemplate.getToscaTopologyTemplate().getPolicies().get(0).values()
-                .iterator().next().getVersion());
+                    .iterator().next().getVersion());
         }
 
-        ToscaPolicyFilter policyFilter = ToscaPolicyFilter.builder().name("SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP")
-            .version(ToscaPolicyFilter.LATEST_VERSION).build();
+        ToscaTypedEntityFilter<ToscaPolicy> policyFilter = ToscaTypedEntityFilter.<ToscaPolicy>builder()
+                .name("SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP").version(ToscaTypedEntityFilter.LATEST_VERSION).build();
         ToscaServiceTemplate namingServiceTemplate = databaseProvider.getFilteredPolicies(policyFilter);
         assertEquals("21.0.0", namingServiceTemplate.getToscaTopologyTemplate().getPolicies().get(0).values().iterator()
-            .next().getVersion());
+                .next().getVersion());
 
         for (int i = 1; i < 22; i++) {
             ToscaServiceTemplate deletedServiceTemplate =
-                databaseProvider.deletePolicy("SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP", i + ".0.0");
+                    databaseProvider.deletePolicy("SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP", i + ".0.0");
             assertEquals(1, deletedServiceTemplate.getToscaTopologyTemplate().getPoliciesAsMap().size());
         }
     }
@@ -262,28 +264,29 @@ public class PolicyToscaPersistenceTest {
         for (Map<String, ToscaPolicy> policyMap : serviceTemplate.getToscaTopologyTemplate().getPolicies()) {
             for (ToscaPolicy policy : policyMap.values()) {
                 ToscaServiceTemplate gotToscaServiceTemplate =
-                    databaseProvider.getPolicies(policy.getName(), policy.getVersion());
+                        databaseProvider.getPolicies(policy.getName(), policy.getVersion());
 
                 assertEquals(policy.getType(), gotToscaServiceTemplate.getToscaTopologyTemplate().getPolicies().get(0)
-                    .get(policy.getName()).getType());
+                        .get(policy.getName()).getType());
 
-                gotToscaServiceTemplate = databaseProvider.getFilteredPolicies(ToscaPolicyFilter.builder().build());
+                gotToscaServiceTemplate =
+                        databaseProvider.getFilteredPolicies(ToscaTypedEntityFilter.<ToscaPolicy>builder().build());
 
                 assertEquals(policy.getType(),
-                    getToscaPolicyFromMapList(gotToscaServiceTemplate.getToscaTopologyTemplate().getPolicies(),
-                        policy.getName()).getType());
+                        getToscaPolicyFromMapList(gotToscaServiceTemplate.getToscaTopologyTemplate().getPolicies(),
+                                policy.getName()).getType());
 
-                gotToscaServiceTemplate = databaseProvider.getFilteredPolicies(
-                    ToscaPolicyFilter.builder().name(policy.getName()).version(policy.getVersion()).build());
+                gotToscaServiceTemplate = databaseProvider.getFilteredPolicies(ToscaTypedEntityFilter
+                        .<ToscaPolicy>builder().name(policy.getName()).version(policy.getVersion()).build());
 
                 assertEquals(policy.getType(), gotToscaServiceTemplate.getToscaTopologyTemplate().getPolicies().get(0)
-                    .get(policy.getName()).getType());
+                        .get(policy.getName()).getType());
             }
         }
     }
 
     private ToscaPolicy getToscaPolicyFromMapList(List<Map<String, ToscaPolicy>> toscaPolicyMapList,
-        String policyName) {
+            String policyName) {
         ToscaPolicy toscaPolicy = new ToscaPolicy();
         for (Map<String, ToscaPolicy> policyMap : toscaPolicyMapList) {
             toscaPolicy = policyMap.get(policyName);
@@ -300,7 +303,7 @@ public class PolicyToscaPersistenceTest {
         for (String policyTypeResource : policyTypeResources) {
             String policyTypeYamlString = ResourceUtils.getResourceAsString(policyTypeResource);
             ToscaServiceTemplate toscaServiceTemplatePolicyType =
-                yamlJsonTranslator.fromYaml(policyTypeYamlString, ToscaServiceTemplate.class);
+                    yamlJsonTranslator.fromYaml(policyTypeYamlString, ToscaServiceTemplate.class);
 
             assertNotNull(toscaServiceTemplatePolicyType);
             databaseProvider.createPolicyTypes(toscaServiceTemplatePolicyType);

@@ -3,6 +3,7 @@
  * ONAP Policy Model
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -57,9 +58,9 @@ public class PojosTest {
         validator.validate(POJO_PACKAGE,
                 new FilterPackageInfo(),
                 new FilterClassName(
-                        org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyFilter.class.getName()),
+                        org.onap.policy.models.tosca.authorative.concepts.ToscaTypedEntityFilter.class.getName()),
                 new FilterClassName(
-                        org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeFilter.class.getName()),
+                        org.onap.policy.models.tosca.authorative.concepts.ToscaEntityFilter.class.getName()),
                 new FilterClassName(
                         ToscaIdentifierTestBase.class.getName())
         );
