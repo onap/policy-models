@@ -4,7 +4,7 @@
  * ================================================================================
  * Copyright (C) 2018 Wipro Limited Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
- * Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,6 +30,7 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.BiConsumer;
 import org.junit.Test;
 
 public class PciCommonHeaderTest {
@@ -88,59 +89,27 @@ public class PciCommonHeaderTest {
 
         assertEquals(commonHeader, clonedPciCommonHeader);
 
-        commonHeader.setApiVer(null);
-        assertNotEquals(commonHeader, copiedPciCommonHeader);
-        copiedPciCommonHeader.setApiVer(null);
-        assertEquals(commonHeader, copiedPciCommonHeader);
-        commonHeader.setApiVer(KANSAS);
-        assertNotEquals(commonHeader, copiedPciCommonHeader);
-        copiedPciCommonHeader.setApiVer(KANSAS);
-        assertEquals(commonHeader, copiedPciCommonHeader);
+        checkField(KANSAS, PciCommonHeader::setApiVer);
+        checkField(flagMap, PciCommonHeader::setFlags);
+        checkField(requestMap, PciCommonHeader::setRequestTrack);
+        checkField(requestId, PciCommonHeader::setRequestId);
+        checkField(CAN_I_GO_HOME, PciCommonHeader::setSubRequestId);
+        checkField(timestamp, PciCommonHeader::setTimeStamp);
+    }
 
-        commonHeader.setFlags(null);
-        assertNotEquals(commonHeader, copiedPciCommonHeader);
-        copiedPciCommonHeader.setFlags(null);
-        assertEquals(commonHeader, copiedPciCommonHeader);
-        commonHeader.setFlags(flagMap);
-        assertNotEquals(commonHeader, copiedPciCommonHeader);
-        copiedPciCommonHeader.setFlags(flagMap);
-        assertEquals(commonHeader, copiedPciCommonHeader);
+    private <T> void checkField(T value, BiConsumer<PciCommonHeader, T> setter) {
+        PciCommonHeader details1 = new PciCommonHeader();
+        PciCommonHeader details2 = new PciCommonHeader();
 
-        commonHeader.setRequestTrack(null);
-        assertNotEquals(commonHeader, copiedPciCommonHeader);
-        copiedPciCommonHeader.setRequestTrack(null);
-        assertEquals(commonHeader, copiedPciCommonHeader);
-        commonHeader.setRequestTrack(requestMap);
-        assertNotEquals(commonHeader, copiedPciCommonHeader);
-        copiedPciCommonHeader.setRequestTrack(requestMap);
-        assertEquals(commonHeader, copiedPciCommonHeader);
+        setter.accept(details2, null);
 
+        setter.accept(details1, value);
+        assertNotEquals(details1, details2);
 
-        commonHeader.setRequestId(null);
-        assertNotEquals(commonHeader, copiedPciCommonHeader);
-        copiedPciCommonHeader.setRequestId(null);
-        assertEquals(commonHeader, copiedPciCommonHeader);
-        commonHeader.setRequestId(requestId);
-        assertNotEquals(commonHeader, copiedPciCommonHeader);
-        copiedPciCommonHeader.setRequestId(requestId);
-        assertEquals(commonHeader, copiedPciCommonHeader);
+        setter.accept(details2, value);
+        assertEquals(details1, details2);
 
-        commonHeader.setSubRequestId(null);
-        assertNotEquals(commonHeader, copiedPciCommonHeader);
-        copiedPciCommonHeader.setSubRequestId(null);
-        assertEquals(commonHeader, copiedPciCommonHeader);
-        commonHeader.setSubRequestId(CAN_I_GO_HOME);
-        assertNotEquals(commonHeader, copiedPciCommonHeader);
-        copiedPciCommonHeader.setSubRequestId(CAN_I_GO_HOME);
-        assertEquals(commonHeader, copiedPciCommonHeader);
-
-        commonHeader.setTimeStamp(null);
-        assertNotEquals(commonHeader, copiedPciCommonHeader);
-        copiedPciCommonHeader.setTimeStamp(null);
-        assertEquals(commonHeader, copiedPciCommonHeader);
-        commonHeader.setTimeStamp(timestamp);
-        assertNotEquals(commonHeader, copiedPciCommonHeader);
-        copiedPciCommonHeader.setTimeStamp(timestamp);
-        assertEquals(commonHeader, copiedPciCommonHeader);
+        setter.accept(details1, null);
+        assertNotEquals(details1, details2);
     }
 }

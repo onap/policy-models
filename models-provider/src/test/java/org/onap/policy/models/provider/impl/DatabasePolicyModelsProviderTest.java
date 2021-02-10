@@ -299,7 +299,7 @@ public class DatabasePolicyModelsProviderTest {
         assertTrue(databaseProvider.getPolicyTypeList(NAME, VERSION_100).isEmpty());
 
         assertThatThrownBy(
-                () -> databaseProvider.getFilteredPolicyTypes(ToscaEntityFilter.<ToscaPolicyType>builder().build()))
+            () -> databaseProvider.getFilteredPolicyTypes(ToscaEntityFilter.<ToscaPolicyType>builder().build()))
                         .hasMessage("service template not found in database");
 
         assertTrue(databaseProvider.getFilteredPolicyTypeList(ToscaEntityFilter.<ToscaPolicyType>builder().build())
@@ -322,7 +322,7 @@ public class DatabasePolicyModelsProviderTest {
         assertTrue(databaseProvider.getPolicyList(NAME, VERSION_100).isEmpty());
 
         assertThatThrownBy(
-                () -> databaseProvider.getFilteredPolicies(ToscaTypedEntityFilter.<ToscaPolicy>builder().build()))
+            () -> databaseProvider.getFilteredPolicies(ToscaTypedEntityFilter.<ToscaPolicy>builder().build()))
                         .hasMessage("service template not found in database");
 
         assertTrue(databaseProvider.getFilteredPolicyList(ToscaTypedEntityFilter.<ToscaPolicy>builder().build())

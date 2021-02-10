@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -93,7 +93,7 @@ public abstract class HttpOperation<T> extends OperationPartial {
      * @param clazz response class
      * @param propertyNames names of properties required by this operation
      */
-    public HttpOperation(ControlLoopOperationParams params, HttpConfig config, Class<T> clazz,
+    protected HttpOperation(ControlLoopOperationParams params, HttpConfig config, Class<T> clazz,
                     List<String> propertyNames) {
         super(params, config, propertyNames);
         this.config = config;

@@ -67,7 +67,7 @@ public class ToscaTypedEntityFilter<T extends ToscaEntity> implements PfObjectFi
         // @formatter:off
 
         if (LATEST_VERSION.equals(version)) {
-            return this.latestVersionFilter(returnList, new ToscaEntityComparator<T>());
+            return this.latestVersionFilter(returnList, new ToscaEntityComparator<>());
         } else  {
             return returnList;
         }

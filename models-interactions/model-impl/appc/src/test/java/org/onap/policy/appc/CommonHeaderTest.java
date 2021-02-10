@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * appc
  * ================================================================================
- * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.BiConsumer;
 import org.junit.Test;
 
 public class CommonHeaderTest {
@@ -94,67 +95,28 @@ public class CommonHeaderTest {
 
         assertEquals(commonHeader, clonedCommonHeader);
 
-        commonHeader.setApiVer(null);
-        assertNotEquals(commonHeader, copiedCommonHeader);
-        copiedCommonHeader.setApiVer(null);
-        assertEquals(commonHeader, copiedCommonHeader);
-        commonHeader.setApiVer(KANSAS);
-        assertNotEquals(commonHeader, copiedCommonHeader);
-        copiedCommonHeader.setApiVer(KANSAS);
-        assertEquals(commonHeader, copiedCommonHeader);
+        checkField(KANSAS, CommonHeader::setApiVer);
+        checkField(flagSet, CommonHeader::setFlags);
+        checkField(DOROTHY, CommonHeader::setOriginatorId);
+        checkField(requestId, CommonHeader::setRequestId);
+        checkField(requestTrackSet, CommonHeader::setRequestTrack);
+        checkField(CAN_I_GO_HOME, CommonHeader::setSubRequestId);
+        checkField(timestamp, CommonHeader::setTimeStamp);
+    }
 
-        commonHeader.setFlags(null);
-        assertNotEquals(commonHeader, copiedCommonHeader);
-        copiedCommonHeader.setFlags(null);
-        assertEquals(commonHeader, copiedCommonHeader);
-        commonHeader.setFlags(flagSet);
-        assertNotEquals(commonHeader, copiedCommonHeader);
-        copiedCommonHeader.setFlags(flagSet);
-        assertEquals(commonHeader, copiedCommonHeader);
+    private <T> void checkField(T value, BiConsumer<CommonHeader, T> setter) {
+        CommonHeader header1 = new CommonHeader();
+        CommonHeader header2 = new CommonHeader();
 
-        commonHeader.setOriginatorId(null);
-        assertNotEquals(commonHeader, copiedCommonHeader);
-        copiedCommonHeader.setOriginatorId(null);
-        assertEquals(commonHeader, copiedCommonHeader);
-        commonHeader.setOriginatorId(DOROTHY);
-        assertNotEquals(commonHeader, copiedCommonHeader);
-        copiedCommonHeader.setOriginatorId(DOROTHY);
-        assertEquals(commonHeader, copiedCommonHeader);
+        setter.accept(header2, null);
 
-        commonHeader.setRequestId(null);
-        assertNotEquals(commonHeader, copiedCommonHeader);
-        copiedCommonHeader.setRequestId(null);
-        assertEquals(commonHeader, copiedCommonHeader);
-        commonHeader.setRequestId(requestId);
-        assertNotEquals(commonHeader, copiedCommonHeader);
-        copiedCommonHeader.setRequestId(requestId);
-        assertEquals(commonHeader, copiedCommonHeader);
+        setter.accept(header1, value);
+        assertNotEquals(header1, header2);
 
-        commonHeader.setRequestTrack(null);
-        assertNotEquals(commonHeader, copiedCommonHeader);
-        copiedCommonHeader.setRequestTrack(null);
-        assertEquals(commonHeader, copiedCommonHeader);
-        commonHeader.setRequestTrack(requestTrackSet);
-        assertNotEquals(commonHeader, copiedCommonHeader);
-        copiedCommonHeader.setRequestTrack(requestTrackSet);
-        assertEquals(commonHeader, copiedCommonHeader);
+        setter.accept(header2, value);
+        assertEquals(header1, header2);
 
-        commonHeader.setSubRequestId(null);
-        assertNotEquals(commonHeader, copiedCommonHeader);
-        copiedCommonHeader.setSubRequestId(null);
-        assertEquals(commonHeader, copiedCommonHeader);
-        commonHeader.setSubRequestId(CAN_I_GO_HOME);
-        assertNotEquals(commonHeader, copiedCommonHeader);
-        copiedCommonHeader.setSubRequestId(CAN_I_GO_HOME);
-        assertEquals(commonHeader, copiedCommonHeader);
-
-        commonHeader.setTimeStamp(null);
-        assertNotEquals(commonHeader, copiedCommonHeader);
-        copiedCommonHeader.setTimeStamp(null);
-        assertEquals(commonHeader, copiedCommonHeader);
-        commonHeader.setTimeStamp(timestamp);
-        assertNotEquals(commonHeader, copiedCommonHeader);
-        copiedCommonHeader.setTimeStamp(timestamp);
-        assertEquals(commonHeader, copiedCommonHeader);
+        setter.accept(header1, null);
+        assertNotEquals(header1, header2);
     }
 }

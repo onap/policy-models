@@ -33,7 +33,6 @@ import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -81,14 +80,14 @@ public class JpaToscaNodeTemplate extends JpaToscaEntityType<ToscaNodeTemplate>
 
     // formatter:off
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumns({@JoinColumn(name = "requirementsName", referencedColumnName = "name"),
-        @JoinColumn(name = "requirementsVersion", referencedColumnName = "version")})
+    @JoinColumn(name = "requirementsName", referencedColumnName = "name")
+    @JoinColumn(name = "requirementsVersion", referencedColumnName = "version")
     @Valid
     private JpaToscaRequirements requirements;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumns({@JoinColumn(name = "capabilitiesName", referencedColumnName = "name"),
-        @JoinColumn(name = "capabilitiesVersion", referencedColumnName = "version")})
+    @JoinColumn(name = "capabilitiesName", referencedColumnName = "name")
+    @JoinColumn(name = "capabilitiesVersion", referencedColumnName = "version")
     @Valid
     private JpaToscaCapabilityAssignments capabilities;
     // @formatter:on

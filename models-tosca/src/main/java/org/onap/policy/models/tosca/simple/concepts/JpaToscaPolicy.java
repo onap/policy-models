@@ -27,7 +27,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -76,12 +75,8 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
 
     // @formatter:off
     @Column
-    @AttributeOverrides({
-        @AttributeOverride(name = "name",
-                           column = @Column(name = "type_name")),
-        @AttributeOverride(name = "version",
-                           column = @Column(name = "type_version"))
-        })
+    @AttributeOverride(name = "name", column = @Column(name = "type_name"))
+    @AttributeOverride(name = "version", column = @Column(name = "type_version"))
     @VerifyKey
     @NotNull
     private PfConceptKey type;
