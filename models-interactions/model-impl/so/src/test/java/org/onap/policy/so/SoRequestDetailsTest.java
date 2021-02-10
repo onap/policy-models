@@ -3,8 +3,7 @@
  * so
  * ================================================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
- * ================================================================================
- * Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved
+ * Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,6 +29,7 @@ import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiConsumer;
 import org.junit.Test;
 
 public class SoRequestDetailsTest {
@@ -118,58 +118,27 @@ public class SoRequestDetailsTest {
         assertNotEquals(details, null);
         assertNotEquals(details, (Object) "Hello");
 
-        details.setCloudConfiguration(null);
-        assertNotEquals(details, copiedDetails);
-        copiedDetails.setCloudConfiguration(null);
-        assertEquals(details, copiedDetails);
-        details.setCloudConfiguration(cloudConfiguration);
-        assertNotEquals(details, copiedDetails);
-        copiedDetails.setCloudConfiguration(cloudConfiguration);
-        assertEquals(details, copiedDetails);
+        checkField(cloudConfiguration, SoRequestDetails::setCloudConfiguration);
+        checkField(modelInfo, SoRequestDetails::setModelInfo);
+        checkField(requestInfo, SoRequestDetails::setRequestInfo);
+        checkField(requestParameters, SoRequestDetails::setRequestParameters);
+        checkField(subscriberInfo, SoRequestDetails::setSubscriberInfo);
+        checkField(relatedInstanceList, SoRequestDetails::setRelatedInstanceList);
+    }
 
-        details.setModelInfo(null);
-        assertNotEquals(details, copiedDetails);
-        copiedDetails.setModelInfo(null);
-        assertEquals(details, copiedDetails);
-        details.setModelInfo(modelInfo);
-        assertNotEquals(details, copiedDetails);
-        copiedDetails.setModelInfo(modelInfo);
-        assertEquals(details, copiedDetails);
+    private <T> void checkField(T value, BiConsumer<SoRequestDetails, T> setter) {
+        SoRequestDetails details1 = new SoRequestDetails();
+        SoRequestDetails details2 = new SoRequestDetails(details1);
 
-        details.setRequestInfo(null);
-        assertNotEquals(details, copiedDetails);
-        copiedDetails.setRequestInfo(null);
-        assertEquals(details, copiedDetails);
-        details.setRequestInfo(requestInfo);
-        assertNotEquals(details, copiedDetails);
-        copiedDetails.setRequestInfo(requestInfo);
-        assertEquals(details, copiedDetails);
+        setter.accept(details2, null);
 
-        details.setRequestParameters(null);
-        assertNotEquals(details, copiedDetails);
-        copiedDetails.setRequestParameters(null);
-        assertEquals(details, copiedDetails);
-        details.setRequestParameters(requestParameters);
-        assertNotEquals(details, copiedDetails);
-        copiedDetails.setRequestParameters(requestParameters);
-        assertEquals(details, copiedDetails);
+        setter.accept(details1, value);
+        assertNotEquals(details1, details2);
 
-        details.setSubscriberInfo(null);
-        assertNotEquals(details, copiedDetails);
-        copiedDetails.setSubscriberInfo(null);
-        assertEquals(details, copiedDetails);
-        details.setSubscriberInfo(subscriberInfo);
-        assertNotEquals(details, copiedDetails);
-        copiedDetails.setSubscriberInfo(subscriberInfo);
-        assertEquals(details, copiedDetails);
+        setter.accept(details2, value);
+        assertEquals(details1, details2);
 
-        details.setRelatedInstanceList(null);
-        assertNotEquals(details, copiedDetails);
-        copiedDetails.setRelatedInstanceList(null);
-        assertEquals(details, copiedDetails);
-        details.setRelatedInstanceList(relatedInstanceList);
-        assertNotEquals(details, copiedDetails);
-        copiedDetails.setRelatedInstanceList(relatedInstanceList);
-        assertEquals(details, copiedDetails);
+        setter.accept(details1, null);
+        assertNotEquals(details1, details2);
     }
 }

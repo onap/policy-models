@@ -72,7 +72,7 @@ public abstract class PfModel extends PfConcept {
     /**
      * The Default Constructor creates this concept with a NULL artifact key.
      */
-    public PfModel() {
+    protected PfModel() {
         this(new PfConceptKey());
     }
 
@@ -81,7 +81,7 @@ public abstract class PfModel extends PfConcept {
      *
      * @param key the key of this concept
      */
-    public PfModel(@NonNull final PfConceptKey key) {
+    protected PfModel(@NonNull final PfConceptKey key) {
         super();
         Assertions.argumentNotNull(key, "key may not be null");
 
@@ -93,7 +93,7 @@ public abstract class PfModel extends PfConcept {
      *
      * @param copyConcept the concept to copy from
      */
-    public PfModel(@NonNull final PfModel copyConcept) {
+    protected PfModel(@NonNull final PfModel copyConcept) {
         super(copyConcept);
         this.key = new PfConceptKey(copyConcept.key);
     }

@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,7 +51,7 @@ public abstract class StartConfigPartial<T> implements Startable, Configurable<T
      *
      * @param fullName full name of this object, used for logging and exception purposes
      */
-    public StartConfigPartial(String fullName) {
+    protected StartConfigPartial(String fullName) {
         this.fullName = fullName;
     }
 

@@ -28,14 +28,16 @@ import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.event.comm.TopicSink;
 import org.onap.policy.common.endpoints.event.comm.TopicSource;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 
+@RunWith(MockitoJUnitRunner.class)
 public class AppcLcmTopicServerTest {
     private static final String MY_TOPIC = "my-topic";
 
@@ -51,8 +53,6 @@ public class AppcLcmTopicServerTest {
      */
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-
         server = new AppcLcmTopicServer(sink, source);
     }
 

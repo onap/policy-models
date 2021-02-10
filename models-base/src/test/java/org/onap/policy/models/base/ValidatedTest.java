@@ -110,7 +110,8 @@ public class ValidatedTest {
         BeanValidationResult result2 = new BeanValidationResult("", this);
 
         // null parameter tests
-        assertThatThrownBy(() -> Validated.validateKeyNotNull(result2, null, new PfConceptKey()))
+        PfConceptKey conceptKey = new PfConceptKey();
+        assertThatThrownBy(() -> Validated.validateKeyNotNull(result2, null, conceptKey))
                         .isInstanceOf(NullPointerException.class);
 
         assertThatCode(() -> Validated.validateKeyNotNull(result2, MY_FIELD, null)).doesNotThrowAnyException();
@@ -131,7 +132,8 @@ public class ValidatedTest {
         assertThat(result.getResult()).contains(MY_FIELD).contains("version").contains(Validated.IS_NULL);
 
         BeanValidationResult result2 = new BeanValidationResult("", this);
-        assertThatThrownBy(() -> Validated.validateKeyVersionNotNull(result2, null, new PfConceptKey()))
+        PfConceptKey conceptKey = new PfConceptKey();
+        assertThatThrownBy(() -> Validated.validateKeyVersionNotNull(result2, null, conceptKey))
                         .isInstanceOf(NullPointerException.class);
 
         assertThatCode(() -> Validated.validateKeyVersionNotNull(result2, MY_FIELD, null)).doesNotThrowAnyException();

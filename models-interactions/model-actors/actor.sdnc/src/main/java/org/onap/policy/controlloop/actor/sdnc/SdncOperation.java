@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,7 +47,7 @@ public abstract class SdncOperation extends HttpOperation<SdncResponse> {
      * @param config configuration for this operation
      * @param propertyNames names of properties required by this operation
      */
-    public SdncOperation(ControlLoopOperationParams params, HttpConfig config, List<String> propertyNames) {
+    protected SdncOperation(ControlLoopOperationParams params, HttpConfig config, List<String> propertyNames) {
         super(params, config, SdncResponse.class, propertyNames);
     }
 

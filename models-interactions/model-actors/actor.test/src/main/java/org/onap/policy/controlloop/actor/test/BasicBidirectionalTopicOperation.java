@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -81,7 +81,7 @@ public abstract class BasicBidirectionalTopicOperation<Q> extends BasicOperation
     /**
      * Constructs the object using a default actor and operation name.
      */
-    public BasicBidirectionalTopicOperation() {
+    protected BasicBidirectionalTopicOperation() {
         super();
     }
 
@@ -91,7 +91,7 @@ public abstract class BasicBidirectionalTopicOperation<Q> extends BasicOperation
      * @param actor actor name
      * @param operation operation name
      */
-    public BasicBidirectionalTopicOperation(String actor, String operation) {
+    protected BasicBidirectionalTopicOperation(String actor, String operation) {
         super(actor, operation);
     }
 

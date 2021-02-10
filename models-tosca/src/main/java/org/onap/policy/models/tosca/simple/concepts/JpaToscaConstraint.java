@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Model
  * ================================================================================
- * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -46,7 +46,7 @@ public abstract class JpaToscaConstraint
      *
      * @param authorativeConcept the authorative concept to copy from
      */
-    public JpaToscaConstraint(final ToscaConstraint authorativeConcept) {
+    protected JpaToscaConstraint(final ToscaConstraint authorativeConcept) {
         this.fromAuthorative(authorativeConcept);
     }
 

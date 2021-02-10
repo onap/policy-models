@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -118,7 +118,7 @@ public abstract class OperationPartial implements Operation {
      * @param config configuration for this operation
      * @param propertyNames names of properties required by this operation
      */
-    public OperationPartial(ControlLoopOperationParams params, OperatorConfig config, List<String> propertyNames) {
+    protected OperationPartial(ControlLoopOperationParams params, OperatorConfig config, List<String> propertyNames) {
         this.params = params;
         this.config = config;
         this.fullName = params.getActor() + "." + params.getOperation();
@@ -518,7 +518,7 @@ public abstract class OperationPartial implements Operation {
             return futures[0];
         }
 
-        CompletableFuture.anyOf(futures).thenApply(outcome -> (OperationOutcome) outcome)
+        CompletableFuture.anyOf(futures).thenApply(OperationOutcome.class::cast)
                         .whenCompleteAsync(controller.delayedComplete(), params.getExecutor());
 
         return controller;
