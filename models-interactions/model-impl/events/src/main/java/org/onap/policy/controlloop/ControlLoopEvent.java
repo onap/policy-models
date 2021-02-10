@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * controlloop
  * ================================================================================
- * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -54,7 +54,7 @@ public abstract class ControlLoopEvent implements Serializable {
      *
      * @param event the existing instance
      */
-    public ControlLoopEvent(ControlLoopEvent event) {
+    protected ControlLoopEvent(ControlLoopEvent event) {
         if (event == null) {
             return;
         }

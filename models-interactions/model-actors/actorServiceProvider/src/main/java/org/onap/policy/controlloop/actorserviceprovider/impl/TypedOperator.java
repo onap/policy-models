@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -62,7 +62,7 @@ public abstract class TypedOperator<C, T extends Operation> extends OperatorPart
      * @param name operation name
      * @param operationMaker function to make an operation
      */
-    public TypedOperator(String actorName, String name, OperationMaker<C, T> operationMaker) {
+    protected TypedOperator(String actorName, String name, OperationMaker<C, T> operationMaker) {
         super(actorName, name);
         this.operationMaker = operationMaker;
     }

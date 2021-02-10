@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
- *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -72,6 +72,7 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
         implements PfConceptGetter<C>, PfAuthorative<List<Map<String, A>>> {
     private static final long serialVersionUID = -324211738823208318L;
 
+    private static final String VALUE_FIELD = "value";
     private static final Pattern KEY_ID_PATTERN = Pattern.compile(PfKey.KEY_ID_REGEXP);
 
     @EmbeddedId
@@ -268,14 +269,14 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
                 addResult(result, "key on concept entry", conceptEntry.getKey(), IS_A_NULL_KEY);
             } else if (conceptEntry.getValue() == null) {
                 result2 = new BeanValidationResult(conceptEntry.getKey().getId(), conceptEntry.getKey());
-                addResult(result2, "value", conceptEntry.getValue(), IS_NULL);
+                addResult(result2, VALUE_FIELD, conceptEntry.getValue(), IS_NULL);
             } else if (!conceptEntry.getKey().equals(conceptEntry.getValue().getKey())) {
                 result2 = new BeanValidationResult(conceptEntry.getKey().getId(), conceptEntry.getKey());
-                addResult(result2, "value", conceptEntry.getValue(), "does not equal concept key");
-                result2.addResult(conceptEntry.getValue().validate("value"));
+                addResult(result2, VALUE_FIELD, conceptEntry.getValue(), "does not equal concept key");
+                result2.addResult(conceptEntry.getValue().validate(VALUE_FIELD));
             } else {
                 result2 = new BeanValidationResult(conceptEntry.getKey().getId(), conceptEntry.getKey());
-                result2.addResult(conceptEntry.getValue().validate("value"));
+                result2.addResult(conceptEntry.getValue().validate(VALUE_FIELD));
             }
 
             result.addResult(result2);

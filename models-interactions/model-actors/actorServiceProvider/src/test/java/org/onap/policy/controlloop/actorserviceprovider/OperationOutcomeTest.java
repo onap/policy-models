@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -112,10 +112,10 @@ public class OperationOutcomeTest {
         outcome.setOperation(OPERATION);
 
         // null actor argument
-        assertThatThrownBy(() -> outcome.isFor(null, OPERATION));
+        assertThatThrownBy(() -> outcome.isFor(null, OPERATION)).isInstanceOf(NullPointerException.class);
 
         // null operation argument
-        assertThatThrownBy(() -> outcome.isFor(ACTOR, null));
+        assertThatThrownBy(() -> outcome.isFor(ACTOR, null)).isInstanceOf(NullPointerException.class);
 
         // true case
         assertTrue(OperationOutcome.isFor(outcome, ACTOR, OPERATION));
@@ -126,7 +126,7 @@ public class OperationOutcomeTest {
         outcome.setResult(OperationResult.FAILURE_EXCEPTION);
         assertEquals(OperationResult.FAILURE_EXCEPTION, outcome.getResult());
 
-        assertThatThrownBy(() -> outcome.setResult(null));
+        assertThatThrownBy(() -> outcome.setResult(null)).isInstanceOf(NullPointerException.class);
     }
 
     private void setAll() {

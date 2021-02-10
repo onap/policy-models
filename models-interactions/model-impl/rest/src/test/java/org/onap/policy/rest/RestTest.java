@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * rest
  * ================================================================================
- * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -145,60 +145,39 @@ public class RestTest {
         RestManager mgr = new RestManager();
 
         Pair<Integer, String> result = mgr.get(getUri, null, null, null);
-
-        assertEquals((Integer) 200, result.getLeft());
-        assertNotNull(result.getRight());
-        assertTrue(result.getRight().length() > 0);
-        assertEquals("GOT: " + EXPECT_STRING, result.getRight());
+        checkResult(result, "GOT: " + EXPECT_STRING);
 
         result = mgr.delete(deleteUri, null, null, null, null, null);
-        assertEquals((Integer) 200, result.getLeft());
-        assertNotNull(result.getRight());
-        assertTrue(result.getRight().length() > 0);
-        assertEquals("DELETE: " + EXPECT_STRING, result.getRight());
+        checkResult(result, "DELETE: " + EXPECT_STRING);
 
         result = mgr.delete(deleteUri, null, null, null);
-        assertEquals((Integer) 200, result.getLeft());
-        assertNotNull(result.getRight());
-        assertTrue(result.getRight().length() > 0);
-        assertEquals("DELETE: " + EXPECT_STRING, result.getRight());
+        checkResult(result, "DELETE: " + EXPECT_STRING);
 
         result = mgr.put(putUri, null, null, null, MediaType.TEXT_PLAIN, PAYLOAD);
-        assertEquals((Integer) 200, result.getLeft());
-        assertNotNull(result.getRight());
-        assertTrue(result.getRight().length() > 0);
-        assertEquals("PUT: " + PAYLOAD + EXPECT_STRING, result.getRight());
+        checkResult(result, "PUT: " + PAYLOAD + EXPECT_STRING);
 
         result = mgr.put(putUriBlank, null, null, null, MediaType.TEXT_PLAIN, PAYLOAD);
-        assertEquals((Integer) 200, result.getLeft());
-        assertNotNull(result.getRight());
-        assertTrue(result.getRight().length() > 0);
-        assertEquals("PUT: " + PAYLOAD + RETURN_STRING, result.getRight());
+        checkResult(result, "PUT: " + PAYLOAD + RETURN_STRING);
 
         result = mgr.post(postUri, null, null, null, MediaType.TEXT_PLAIN, PAYLOAD);
-        assertEquals((Integer) 200, result.getLeft());
-        assertNotNull(result.getRight());
-        assertTrue(result.getRight().length() > 0);
-        assertEquals("POST: " + PAYLOAD + EXPECT_STRING, result.getRight());
+        checkResult(result, "POST: " + PAYLOAD + EXPECT_STRING);
 
         result = mgr.post(postUriBlank, null, null, null, MediaType.TEXT_PLAIN, PAYLOAD);
-        assertEquals((Integer) 200, result.getLeft());
-        assertNotNull(result.getRight());
-        assertTrue(result.getRight().length() > 0);
-        assertEquals("POST: " + PAYLOAD + RETURN_STRING, result.getRight());
+        checkResult(result, "POST: " + PAYLOAD + RETURN_STRING);
 
         result = mgr.patch(patchUri, null, null, null, PAYLOAD);
-        assertEquals((Integer) 200, result.getLeft());
-        assertNotNull(result.getRight());
-        assertTrue(result.getRight().length() > 0);
-        assertEquals("PATCH: " + PAYLOAD + EXPECT_STRING, result.getRight());
+        checkResult(result, "PATCH: " + PAYLOAD + EXPECT_STRING);
 
         result = mgr.patch(patchUriBlank, null, null, null, PAYLOAD);
+        checkResult(result, "PATCH: " + PAYLOAD + RETURN_STRING);
+
+    }
+
+    private void checkResult(Pair<Integer, String> result, String expectedText) {
         assertEquals((Integer) 200, result.getLeft());
         assertNotNull(result.getRight());
         assertTrue(result.getRight().length() > 0);
-        assertEquals("PATCH: " + PAYLOAD + RETURN_STRING, result.getRight());
-
+        assertEquals(expectedText, result.getRight());
     }
 
     @Test
@@ -206,53 +185,28 @@ public class RestTest {
         RestManager mgr = new RestManager();
 
         Pair<Integer, String> result = mgr.get(getUri, "", null, null);
-
-        assertEquals((Integer) 200, result.getLeft());
-        assertNotNull(result.getRight());
-        assertTrue(result.getRight().length() > 0);
-        assertEquals("GOT: " + EXPECT_STRING, result.getRight());
+        checkResult(result, "GOT: " + EXPECT_STRING);
 
         result = mgr.delete(deleteUri, "", null, null, null, null);
-        assertEquals((Integer) 200, result.getLeft());
-        assertNotNull(result.getRight());
-        assertTrue(result.getRight().length() > 0);
-        assertEquals("DELETE: " + EXPECT_STRING, result.getRight());
+        checkResult(result, "DELETE: " + EXPECT_STRING);
 
         result = mgr.put(putUri, "", null, null, MediaType.TEXT_PLAIN, PAYLOAD);
-        assertEquals((Integer) 200, result.getLeft());
-        assertNotNull(result.getRight());
-        assertTrue(result.getRight().length() > 0);
-        assertEquals("PUT: " + PAYLOAD + EXPECT_STRING, result.getRight());
+        checkResult(result, "PUT: " + PAYLOAD + EXPECT_STRING);
 
         result = mgr.put(putUriBlank, "", null, null, MediaType.TEXT_PLAIN, PAYLOAD);
-        assertEquals((Integer) 200, result.getLeft());
-        assertNotNull(result.getRight());
-        assertTrue(result.getRight().length() > 0);
-        assertEquals("PUT: " + PAYLOAD + RETURN_STRING, result.getRight());
+        checkResult(result, "PUT: " + PAYLOAD + RETURN_STRING);
 
         result = mgr.post(postUri, "", null, null, MediaType.TEXT_PLAIN, PAYLOAD);
-        assertEquals((Integer) 200, result.getLeft());
-        assertNotNull(result.getRight());
-        assertTrue(result.getRight().length() > 0);
-        assertEquals("POST: " + PAYLOAD + EXPECT_STRING, result.getRight());
+        checkResult(result, "POST: " + PAYLOAD + EXPECT_STRING);
 
         result = mgr.post(postUriBlank, "", null, null, MediaType.TEXT_PLAIN, PAYLOAD);
-        assertEquals((Integer) 200, result.getLeft());
-        assertNotNull(result.getRight());
-        assertTrue(result.getRight().length() > 0);
-        assertEquals("POST: " + PAYLOAD + RETURN_STRING, result.getRight());
+        checkResult(result, "POST: " + PAYLOAD + RETURN_STRING);
 
         result = mgr.patch(patchUri, "", null, null, PAYLOAD);
-        assertEquals((Integer) 200, result.getLeft());
-        assertNotNull(result.getRight());
-        assertTrue(result.getRight().length() > 0);
-        assertEquals("PATCH: " + PAYLOAD + EXPECT_STRING, result.getRight());
+        checkResult(result, "PATCH: " + PAYLOAD + EXPECT_STRING);
 
         result = mgr.patch(patchUriBlank, "", null, null, PAYLOAD);
-        assertEquals((Integer) 200, result.getLeft());
-        assertNotNull(result.getRight());
-        assertTrue(result.getRight().length() > 0);
-        assertEquals("PATCH: " + PAYLOAD + RETURN_STRING, result.getRight());
+        checkResult(result, "PATCH: " + PAYLOAD + RETURN_STRING);
 
     }
 
@@ -261,53 +215,28 @@ public class RestTest {
         RestManager mgr = new RestManager();
 
         Pair<Integer, String> result = mgr.get(getUri, "user", null, null);
-
-        assertEquals((Integer) 200, result.getLeft());
-        assertNotNull(result.getRight());
-        assertTrue(result.getRight().length() > 0);
-        assertEquals("GOT: " + EXPECT_STRING, result.getRight());
+        checkResult(result, "GOT: " + EXPECT_STRING);
 
         result = mgr.delete(deleteUri, "user", null, null, null, null);
-        assertEquals((Integer) 200, result.getLeft());
-        assertNotNull(result.getRight());
-        assertTrue(result.getRight().length() > 0);
-        assertEquals("DELETE: " + EXPECT_STRING, result.getRight());
+        checkResult(result, "DELETE: " + EXPECT_STRING);
 
         result = mgr.put(putUri, "user", null, null, MediaType.TEXT_PLAIN, PAYLOAD);
-        assertEquals((Integer) 200, result.getLeft());
-        assertNotNull(result.getRight());
-        assertTrue(result.getRight().length() > 0);
-        assertEquals("PUT: " + PAYLOAD + EXPECT_STRING, result.getRight());
+        checkResult(result, "PUT: " + PAYLOAD + EXPECT_STRING);
 
         result = mgr.put(putUriBlank, "user", null, null, MediaType.TEXT_PLAIN, PAYLOAD);
-        assertEquals((Integer) 200, result.getLeft());
-        assertNotNull(result.getRight());
-        assertTrue(result.getRight().length() > 0);
-        assertEquals("PUT: " + PAYLOAD + RETURN_STRING, result.getRight());
+        checkResult(result, "PUT: " + PAYLOAD + RETURN_STRING);
 
         result = mgr.post(postUri, "user", null, null, MediaType.TEXT_PLAIN, PAYLOAD);
-        assertEquals((Integer) 200, result.getLeft());
-        assertNotNull(result.getRight());
-        assertTrue(result.getRight().length() > 0);
-        assertEquals("POST: " + PAYLOAD + EXPECT_STRING, result.getRight());
+        checkResult(result, "POST: " + PAYLOAD + EXPECT_STRING);
 
         result = mgr.post(postUriBlank, "user", null, null, MediaType.TEXT_PLAIN, PAYLOAD);
-        assertEquals((Integer) 200, result.getLeft());
-        assertNotNull(result.getRight());
-        assertTrue(result.getRight().length() > 0);
-        assertEquals("POST: " + PAYLOAD + RETURN_STRING, result.getRight());
+        checkResult(result, "POST: " + PAYLOAD + RETURN_STRING);
 
         result = mgr.patch(patchUri, "user", null, null, PAYLOAD);
-        assertEquals((Integer) 200, result.getLeft());
-        assertNotNull(result.getRight());
-        assertTrue(result.getRight().length() > 0);
-        assertEquals("PATCH: " + PAYLOAD + EXPECT_STRING, result.getRight());
+        checkResult(result, "PATCH: " + PAYLOAD + EXPECT_STRING);
 
         result = mgr.patch(patchUriBlank, "user", null, null, PAYLOAD);
-        assertEquals((Integer) 200, result.getLeft());
-        assertNotNull(result.getRight());
-        assertTrue(result.getRight().length() > 0);
-        assertEquals("PATCH: " + PAYLOAD + RETURN_STRING, result.getRight());
+        checkResult(result, "PATCH: " + PAYLOAD + RETURN_STRING);
 
     }
 
@@ -338,37 +267,21 @@ public class RestTest {
         RestManager mgr = new RestManager();
 
         Pair<Integer, String> result = mgr.get(baseUri + "RestTest/GetHello/" + NAME_PARAM, null, null, null);
-
-        assertEquals((Integer) 200, result.getLeft());
-        assertNotNull(result.getRight());
-        assertTrue(result.getRight().length() > 0);
-        assertEquals("GOT: " + RETURN_STRING + NAME_PARAM + " aged 90", result.getRight());
+        checkResult(result, "GOT: " + RETURN_STRING + NAME_PARAM + " aged 90");
 
         result = mgr.delete(baseUri + "RestTest/DeleteHello/" + NAME_PARAM, null, null, null, null, null);
-        assertEquals((Integer) 200, result.getLeft());
-        assertNotNull(result.getRight());
-        assertTrue(result.getRight().length() > 0);
-        assertEquals("DELETE: " + RETURN_STRING + NAME_PARAM + " aged 90", result.getRight());
+        checkResult(result, "DELETE: " + RETURN_STRING + NAME_PARAM + " aged 90");
 
         result = mgr.put(baseUri + "RestTest/PutHello/" + NAME_PARAM, null, null, null, MediaType.TEXT_PLAIN, PAYLOAD);
-        assertEquals((Integer) 200, result.getLeft());
-        assertNotNull(result.getRight());
-        assertTrue(result.getRight().length() > 0);
-        assertEquals("PUT: " + PAYLOAD + RETURN_STRING + NAME_PARAM + " aged 90", result.getRight());
+        checkResult(result, "PUT: " + PAYLOAD + RETURN_STRING + NAME_PARAM + " aged 90");
 
         result = mgr.post(baseUri + "RestTest/PostHello/" + NAME_PARAM, null, null,
             null, MediaType.TEXT_PLAIN, PAYLOAD);
-        assertEquals((Integer) 200, result.getLeft());
-        assertNotNull(result.getRight());
-        assertTrue(result.getRight().length() > 0);
-        assertEquals("POST: " + PAYLOAD + RETURN_STRING + NAME_PARAM + " aged 90", result.getRight());
+        checkResult(result, "POST: " + PAYLOAD + RETURN_STRING + NAME_PARAM + " aged 90");
 
         result = mgr.patch(baseUri + "RestTest/PatchHello/" + NAME_PARAM, null, null,
             null, PAYLOAD);
-        assertEquals((Integer) 200, result.getLeft());
-        assertNotNull(result.getRight());
-        assertTrue(result.getRight().length() > 0);
-        assertEquals("PATCH: " + PAYLOAD + RETURN_STRING + NAME_PARAM + " aged 90", result.getRight());
+        checkResult(result, "PATCH: " + PAYLOAD + RETURN_STRING + NAME_PARAM + " aged 90");
 
     }
 
