@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * appc
  * ================================================================================
- * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,6 +27,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiConsumer;
 import org.junit.Test;
 
 public class RequestTest {
@@ -77,49 +78,26 @@ public class RequestTest {
         assertNotEquals(request, null);
         assertNotEquals(request, (Object) "Hello");
 
-        request.setCommonHeader(null);
-        assertNotEquals(request, copiedRequest);
-        copiedRequest.setCommonHeader(null);
-        assertEquals(request, copiedRequest);
-        request.setCommonHeader(commonHeader);
-        assertNotEquals(request, copiedRequest);
-        copiedRequest.setCommonHeader(commonHeader);
-        assertEquals(request, copiedRequest);
+        checkField(commonHeader, Request::setCommonHeader);
+        checkField(GO_TO_OZ, Request::setAction);
+        checkField(WIZARD, Request::setObjectId);
+        checkField("Oz", Request::setTargetId);
+        checkField(payload, Request::setPayload);
+    }
 
-        request.setAction(null);
-        assertNotEquals(request, copiedRequest);
-        copiedRequest.setAction(null);
-        assertEquals(request, copiedRequest);
-        request.setAction(GO_TO_OZ);
-        assertNotEquals(request, copiedRequest);
-        copiedRequest.setAction(GO_TO_OZ);
-        assertEquals(request, copiedRequest);
+    private <T> void checkField(T value, BiConsumer<Request, T> setter) {
+        Request request1 = new Request();
+        Request request2 = new Request();
 
-        request.setObjectId(null);
-        assertNotEquals(request, copiedRequest);
-        copiedRequest.setObjectId(null);
-        assertEquals(request, copiedRequest);
-        request.setObjectId(WIZARD);
-        assertNotEquals(request, copiedRequest);
-        copiedRequest.setObjectId(WIZARD);
-        assertEquals(request, copiedRequest);
+        setter.accept(request2, null);
 
-        request.setTargetId(null);
-        assertNotEquals(request, copiedRequest);
-        copiedRequest.setTargetId(null);
-        assertEquals(request, copiedRequest);
-        request.setTargetId("Oz");
-        assertNotEquals(request, copiedRequest);
-        copiedRequest.setTargetId("Oz");
-        assertEquals(request, copiedRequest);
+        setter.accept(request1, value);
+        assertNotEquals(request1, request2);
 
-        request.setPayload(new HashMap<>());
-        assertNotEquals(request, copiedRequest);
-        copiedRequest.setPayload(new HashMap<>());
-        assertEquals(request, copiedRequest);
-        request.setPayload(payload);
-        assertNotEquals(request, copiedRequest);
-        copiedRequest.setPayload(payload);
-        assertEquals(request, copiedRequest);
+        setter.accept(request2, value);
+        assertEquals(request1, request2);
+
+        setter.accept(request1, null);
+        assertNotEquals(request1, request2);
     }
 }

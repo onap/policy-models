@@ -4,7 +4,7 @@
  * ================================================================================
  * Copyright (C) 2018 Wipro Limited Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
- * Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.function.BiConsumer;
 import org.junit.Test;
 
 public class PciWrapperTest {
@@ -73,49 +74,26 @@ public class PciWrapperTest {
         assertNotEquals(wrapper, null);
         assertNotEquals(wrapper, (Object) "Hello");
 
-        wrapper.setVersion(null);
-        assertNotEquals(wrapper, copiedPciWrapper);
-        copiedPciWrapper.setVersion(null);
-        assertEquals(wrapper, copiedPciWrapper);
-        wrapper.setVersion(VERSION_19);
-        assertNotEquals(wrapper, copiedPciWrapper);
-        copiedPciWrapper.setVersion(VERSION_19);
-        assertEquals(wrapper, copiedPciWrapper);
+        checkField(VERSION_19, PciWrapper::setVersion);
+        checkField(THE_EMERALD_CITY, PciWrapper::setCambriaPartition);
+        checkField(TORNADO, PciWrapper::setRpcName);
+        checkField(YELLOW_BRICK_ROAD, PciWrapper::setCorrelationId);
+        checkField(MUNCHKIN, PciWrapper::setType);
+    }
 
-        wrapper.setCambriaPartition(null);
-        assertNotEquals(wrapper, copiedPciWrapper);
-        copiedPciWrapper.setCambriaPartition(null);
-        assertEquals(wrapper, copiedPciWrapper);
-        wrapper.setCambriaPartition(THE_EMERALD_CITY);
-        assertNotEquals(wrapper, copiedPciWrapper);
-        copiedPciWrapper.setCambriaPartition(THE_EMERALD_CITY);
-        assertEquals(wrapper, copiedPciWrapper);
+    private <T> void checkField(T value, BiConsumer<PciWrapper, T> setter) {
+        PciWrapper details1 = new PciWrapper();
+        PciWrapper details2 = new PciWrapper();
 
-        wrapper.setRpcName(null);
-        assertNotEquals(wrapper, copiedPciWrapper);
-        copiedPciWrapper.setRpcName(null);
-        assertEquals(wrapper, copiedPciWrapper);
-        wrapper.setRpcName(TORNADO);
-        assertNotEquals(wrapper, copiedPciWrapper);
-        copiedPciWrapper.setRpcName(TORNADO);
-        assertEquals(wrapper, copiedPciWrapper);
+        setter.accept(details2, null);
 
-        wrapper.setCorrelationId(null);
-        assertNotEquals(wrapper, copiedPciWrapper);
-        copiedPciWrapper.setCorrelationId(null);
-        assertEquals(wrapper, copiedPciWrapper);
-        wrapper.setCorrelationId(YELLOW_BRICK_ROAD);
-        assertNotEquals(wrapper, copiedPciWrapper);
-        copiedPciWrapper.setCorrelationId(YELLOW_BRICK_ROAD);
-        assertEquals(wrapper, copiedPciWrapper);
+        setter.accept(details1, value);
+        assertNotEquals(details1, details2);
 
-        wrapper.setType(null);
-        assertNotEquals(wrapper, copiedPciWrapper);
-        copiedPciWrapper.setType(null);
-        assertEquals(wrapper, copiedPciWrapper);
-        wrapper.setType(MUNCHKIN);
-        assertNotEquals(wrapper, copiedPciWrapper);
-        copiedPciWrapper.setType(MUNCHKIN);
-        assertEquals(wrapper, copiedPciWrapper);
+        setter.accept(details2, value);
+        assertEquals(details1, details2);
+
+        setter.accept(details1, null);
+        assertNotEquals(details1, details2);
     }
 }

@@ -1,7 +1,7 @@
 /*
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
- *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ public abstract class PfKeyImpl extends PfKey {
     /**
      * The default constructor creates a null concept key.
      */
-    public PfKeyImpl() {
+    protected PfKeyImpl() {
         this(NULL_KEY_NAME, NULL_KEY_VERSION);
     }
 
@@ -51,7 +51,7 @@ public abstract class PfKeyImpl extends PfKey {
      *
      * @param copyConcept the concept to copy from
      */
-    public PfKeyImpl(final PfKeyImpl copyConcept) {
+    protected PfKeyImpl(final PfKeyImpl copyConcept) {
         super(copyConcept);
         setName(copyConcept.getName());
         setVersion(copyConcept.getVersion());
@@ -63,7 +63,7 @@ public abstract class PfKeyImpl extends PfKey {
      * @param name the key name
      * @param version the key version
      */
-    public PfKeyImpl(@NonNull final String name, @NonNull final String version) {
+    protected PfKeyImpl(@NonNull final String name, @NonNull final String version) {
         super();
         setName(name);
         setVersion(version);
@@ -74,7 +74,7 @@ public abstract class PfKeyImpl extends PfKey {
      *
      * @param id the key ID in a format that respects the KEY_ID_REGEXP
      */
-    public PfKeyImpl(@NonNull final String id) {
+    protected PfKeyImpl(@NonNull final String id) {
         // Check the incoming ID is valid
         Assertions.validateStringParameter("id", id, getKeyIdRegEx());
 

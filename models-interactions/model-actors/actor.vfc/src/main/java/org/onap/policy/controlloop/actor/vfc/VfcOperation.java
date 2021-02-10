@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -64,7 +64,7 @@ public abstract class VfcOperation extends HttpOperation<VfcResponse> {
      * @param params operation parameters
      * @param config configuration for this operation
      */
-    public VfcOperation(ControlLoopOperationParams params, HttpConfig config) {
+    protected VfcOperation(ControlLoopOperationParams params, HttpConfig config) {
         super(params, config, VfcResponse.class, PROPERTY_NAMES);
 
         setUsePolling();
