@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -69,7 +70,7 @@ public abstract class PfKey extends PfConcept {
     /**
      * Default constructor.
      */
-    public PfKey() {
+    protected PfKey() {
         super();
     }
 
@@ -78,7 +79,7 @@ public abstract class PfKey extends PfConcept {
      *
      * @param copyConcept the concept to copy from
      */
-    public PfKey(final PfKey copyConcept) {
+    protected PfKey(final PfKey copyConcept) {
         super(copyConcept);
     }
 

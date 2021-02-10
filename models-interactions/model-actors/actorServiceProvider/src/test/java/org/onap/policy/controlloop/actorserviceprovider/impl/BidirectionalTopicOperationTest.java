@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -166,7 +166,7 @@ public class BidirectionalTopicOperationTest {
         assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertEquals(response, outcome.getResponse());
 
-        verify(forwarder).unregister(eq(Arrays.asList(REQ_ID)), eq(listenerCaptor.getValue()));
+        verify(forwarder).unregister(Arrays.asList(REQ_ID), listenerCaptor.getValue());
     }
 
     /**
@@ -194,7 +194,7 @@ public class BidirectionalTopicOperationTest {
         assertTrue(executor.runAll(MAX_REQUESTS));
         assertTrue(future.isCompletedExceptionally());
 
-        verify(forwarder).unregister(eq(Arrays.asList(REQ_ID)), eq(listenerCaptor.getValue()));
+        verify(forwarder).unregister(Arrays.asList(REQ_ID), listenerCaptor.getValue());
     }
 
     /**
@@ -210,7 +210,7 @@ public class BidirectionalTopicOperationTest {
         verify(forwarder).register(eq(Arrays.asList(REQ_ID)), listenerCaptor.capture());
 
         // must still unregister
-        verify(forwarder).unregister(eq(Arrays.asList(REQ_ID)), eq(listenerCaptor.getValue()));
+        verify(forwarder).unregister(Arrays.asList(REQ_ID), listenerCaptor.getValue());
     }
 
     @Test
