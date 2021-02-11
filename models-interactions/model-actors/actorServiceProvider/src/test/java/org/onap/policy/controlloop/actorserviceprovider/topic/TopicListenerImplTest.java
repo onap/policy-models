@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,13 +33,15 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 
+@RunWith(MockitoJUnitRunner.class)
 public class TopicListenerImplTest {
     private static final StandardCoder coder = new StandardCoder();
     private static final CommInfrastructure INFRA = CommInfrastructure.NOOP;
@@ -72,8 +74,6 @@ public class TopicListenerImplTest {
      */
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-
         topic = new TopicListenerImpl();
 
         forwarder1 = topic.addForwarder(new SelectorKey(KEY1));

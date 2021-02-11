@@ -44,10 +44,11 @@ import lombok.Getter;
 import lombok.Setter;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
@@ -61,6 +62,7 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOp
 import org.onap.policy.controlloop.actorserviceprovider.topic.BidirectionalTopicHandler;
 import org.onap.policy.controlloop.actorserviceprovider.topic.Forwarder;
 
+@RunWith(MockitoJUnitRunner.class)
 public class BidirectionalTopicOperationTest {
     private static final CommInfrastructure SINK_INFRA = CommInfrastructure.NOOP;
     private static final IllegalStateException EXPECTED_EXCEPTION = new IllegalStateException("expected exception");
@@ -98,8 +100,6 @@ public class BidirectionalTopicOperationTest {
      */
     @Before
     public void setUp() throws CoderException {
-        MockitoAnnotations.initMocks(this);
-
         when(config.getTopicHandler()).thenReturn(handler);
         when(config.getForwarder()).thenReturn(forwarder);
         when(config.getTimeoutMs()).thenReturn(TIMEOUT_MS);

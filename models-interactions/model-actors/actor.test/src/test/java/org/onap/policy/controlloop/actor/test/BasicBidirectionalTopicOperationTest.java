@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,14 +33,16 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.policy.common.endpoints.event.comm.TopicSink;
 import org.onap.policy.common.endpoints.event.comm.TopicSource;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.simulators.TopicServer;
 
+@RunWith(MockitoJUnitRunner.class)
 public class BasicBidirectionalTopicOperationTest {
     private static final String ACTOR = "my-actor";
     private static final String OPERATION = "my-operation";
@@ -66,8 +68,6 @@ public class BasicBidirectionalTopicOperationTest {
      */
     @Before
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
-
         oper = new MyOperation(ACTOR, OPERATION);
         oper.setUpBasic();
     }

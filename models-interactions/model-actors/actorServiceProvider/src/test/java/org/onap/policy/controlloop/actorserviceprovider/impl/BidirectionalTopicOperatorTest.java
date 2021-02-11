@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,8 +33,9 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicParams;
@@ -45,6 +46,7 @@ import org.onap.policy.controlloop.actorserviceprovider.topic.BidirectionalTopic
 import org.onap.policy.controlloop.actorserviceprovider.topic.Forwarder;
 import org.onap.policy.controlloop.actorserviceprovider.topic.SelectorKey;
 
+@RunWith(MockitoJUnitRunner.class)
 public class BidirectionalTopicOperatorTest {
     private static final String ACTOR = "my-actor";
     private static final String OPERATION = "my-operation";
@@ -70,8 +72,6 @@ public class BidirectionalTopicOperatorTest {
      */
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-
         keys = List.of(new SelectorKey(""));
 
         when(mgr.getTopicHandler(MY_SINK, MY_SOURCE)).thenReturn(handler);

@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,8 +39,9 @@ import javax.ws.rs.client.InvocationCallback;
 import javax.ws.rs.core.Response;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
@@ -52,6 +53,7 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingCo
 /**
  * Tests HttpOperation when polling is enabled.
  */
+@RunWith(MockitoJUnitRunner.class)
 public class HttpPollingOperationTest {
     private static final String BASE_URI = "http://my-host:6969/base-uri/";
     private static final String MY_PATH = "my-path";
@@ -84,12 +86,9 @@ public class HttpPollingOperationTest {
      */
     @Before
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
-
         when(client.getBaseUrl()).thenReturn(BASE_URI);
 
         when(config.getClient()).thenReturn(client);
-        when(config.getPath()).thenReturn(MY_PATH);
         when(config.getMaxPolls()).thenReturn(MAX_POLLS);
         when(config.getPollPath()).thenReturn(POLL_PATH);
         when(config.getPollWaitSec()).thenReturn(POLL_WAIT_SEC);
@@ -120,8 +119,6 @@ public class HttpPollingOperationTest {
 
         // should throw an exception if we pass a plain HttpConfig
         HttpConfig config2 = mock(HttpConfig.class);
-        when(config2.getClient()).thenReturn(client);
-        when(config2.getPath()).thenReturn(MY_PATH);
 
         assertThatIllegalStateException().isThrownBy(() -> new MyOper(params, config2).setUsePolling());
     }

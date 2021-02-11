@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,11 +27,13 @@ import static org.mockito.Mockito.when;
 import java.util.concurrent.Executor;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactory;
 
+@RunWith(MockitoJUnitRunner.class)
 public class HttpPollingConfigTest {
     private static final String MY_CLIENT = "my-client";
     private static final String MY_PATH = "my-path";
@@ -55,8 +57,6 @@ public class HttpPollingConfigTest {
      */
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-
         when(factory.get(MY_CLIENT)).thenReturn(client);
 
         params = HttpPollingParams.builder().maxPolls(MAX_POLLS).pollPath(POLL_PATH).pollWaitSec(WAIT_SEC)

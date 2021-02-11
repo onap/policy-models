@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2020 Bell Canada. All rights reserved.
- * Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,8 @@ import java.util.Map;
 import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.MockitoAnnotations;
+import org.junit.runner.RunWith;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.policy.cds.properties.CdsServerProperties;
 import org.onap.policy.controlloop.actor.cds.constants.CdsActorConstants;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
@@ -36,6 +37,7 @@ import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ParameterValidationRuntimeException;
 
+@RunWith(MockitoJUnitRunner.class)
 public class GrpcOperatorTest {
 
     GrpcOperator operation;
@@ -47,7 +49,6 @@ public class GrpcOperatorTest {
      */
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
         operation = new GrpcOperator(CdsActorConstants.CDS_ACTOR, GrpcOperation.NAME, GrpcOperation::new);
 
         CdsServerProperties props = new CdsServerProperties();

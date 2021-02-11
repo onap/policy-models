@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,13 +29,15 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.policy.controlloop.actorserviceprovider.topic.BidirectionalTopicHandler;
 import org.onap.policy.controlloop.actorserviceprovider.topic.BidirectionalTopicManager;
 import org.onap.policy.controlloop.actorserviceprovider.topic.Forwarder;
 import org.onap.policy.controlloop.actorserviceprovider.topic.SelectorKey;
 
+@RunWith(MockitoJUnitRunner.class)
 public class BidirectionalTopicConfigTest {
     private static final String MY_SINK = "my-sink";
     private static final String MY_SOURCE = "my-source";
@@ -57,8 +59,6 @@ public class BidirectionalTopicConfigTest {
      */
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-
         List<SelectorKey> keys = Arrays.asList(new SelectorKey(""));
 
         when(topicManager.getTopicHandler(MY_SINK, MY_SOURCE)).thenReturn(topicHandler);

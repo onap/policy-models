@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,8 +30,9 @@ import java.util.Collections;
 import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactory;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
@@ -41,6 +42,7 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingCo
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ParameterValidationRuntimeException;
 
+@RunWith(MockitoJUnitRunner.class)
 public class HttpPollingOperatorTest {
     private static final String ACTOR = "my-actor";
     private static final String OPERATION = "my-name";
@@ -64,8 +66,6 @@ public class HttpPollingOperatorTest {
      */
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-
         when(factory.get(CLIENT)).thenReturn(client);
 
         oper = new MyOperator();

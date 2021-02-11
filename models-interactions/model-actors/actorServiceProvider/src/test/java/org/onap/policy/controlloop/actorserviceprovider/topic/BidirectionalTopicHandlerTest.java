@@ -32,14 +32,16 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.event.comm.TopicEndpoint;
 import org.onap.policy.common.endpoints.event.comm.TopicSink;
 import org.onap.policy.common.endpoints.event.comm.TopicSource;
 import org.onap.policy.common.endpoints.event.comm.client.BidirectionalTopicClientException;
 
+@RunWith(MockitoJUnitRunner.class)
 public class BidirectionalTopicHandlerTest {
     private static final String UNKNOWN = "unknown";
     private static final String MY_SOURCE = "my-source";
@@ -64,8 +66,6 @@ public class BidirectionalTopicHandlerTest {
      */
     @Before
     public void setUp() throws BidirectionalTopicClientException {
-        MockitoAnnotations.initMocks(this);
-
         when(mgr.getTopicSinks(MY_SINK)).thenReturn(Arrays.asList(publisher));
         when(mgr.getTopicSources(Arrays.asList(MY_SOURCE))).thenReturn(Arrays.asList(subscriber));
 

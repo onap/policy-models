@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2020 Bell Canada. All rights reserved.
- * Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,9 +24,6 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -34,17 +31,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.aai.domain.yang.ServiceInstance;
-import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceInput;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceOutput;
 import org.onap.policy.cds.client.CdsProcessorGrpcClient;
 import org.onap.policy.cds.properties.CdsServerProperties;
@@ -63,6 +59,7 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOp
 import org.onap.policy.simulators.CdsSimulator;
 import org.onap.policy.simulators.Util;
 
+@RunWith(MockitoJUnitRunner.class)
 public class GrpcOperationTest {
     private static final String MY_VNF = "my-vnf";
     private static final String MY_SVC_ID = "my-service-instance-id";
@@ -104,8 +101,6 @@ public class GrpcOperationTest {
      */
     @Before
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
-
         // Setup the CDS properties
         cdsProps = new CdsServerProperties();
         cdsProps.setHost("10.10.10.10");
@@ -113,9 +108,6 @@ public class GrpcOperationTest {
         cdsProps.setUsername("testUser");
         cdsProps.setPassword("testPassword");
         cdsProps.setTimeout(1);
-
-        // Setup cdsClient
-        when(cdsClient.sendRequest(any(ExecutionServiceInput.class))).thenReturn(mock(CountDownLatch.class));
 
         // Setup executor
         executor = new PseudoExecutor();

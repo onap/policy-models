@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -62,8 +62,9 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.event.comm.bus.internal.BusTopicParams;
 import org.onap.policy.common.endpoints.event.comm.bus.internal.BusTopicParams.TopicParamsBuilder;
@@ -83,6 +84,7 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOp
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
 
+@RunWith(MockitoJUnitRunner.class)
 public class HttpOperationTest {
 
     private static final IllegalStateException EXPECTED_EXCEPTION = new IllegalStateException("expected exception");
@@ -169,8 +171,6 @@ public class HttpOperationTest {
      */
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-
         rejectRequest = false;
         nget = 0;
         npost = 0;

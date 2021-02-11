@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,15 +44,17 @@ import javax.ws.rs.core.Response.Status;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.models.sim.dmaap.parameters.DmaapSimParameterGroup;
 
+@RunWith(MockitoJUnitRunner.class)
 public class DmaapSimProviderTest {
     private static final String EXPECTED_EXCEPTION = "expected exception";
     private static final long SWEEP_SEC = 10L;
@@ -86,8 +88,6 @@ public class DmaapSimProviderTest {
      */
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-
         when(params.getTopicSweepSec()).thenReturn(SWEEP_SEC);
 
         prov = new MyProvider(params);

@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,8 +28,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 import ch.qos.logback.classic.Logger;
 import java.time.Instant;
@@ -59,8 +57,9 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.common.utils.coder.Coder;
@@ -80,6 +79,7 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.OperatorConfi
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.slf4j.LoggerFactory;
 
+@RunWith(MockitoJUnitRunner.class)
 public class OperationPartialTest {
     private static final CommInfrastructure SINK_INFRA = CommInfrastructure.NOOP;
     private static final CommInfrastructure SOURCE_INFRA = CommInfrastructure.UEB;
@@ -160,17 +160,11 @@ public class OperationPartialTest {
      */
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
         executor = new PseudoExecutor();
 
         params = ControlLoopOperationParams.builder().completeCallback(this::completer).requestId(REQ_ID)
                         .executor(executor).actorService(service).actor(ACTOR).operation(OPERATION).timeoutSec(TIMEOUT)
                         .startCallback(this::starter).build();
-
-        when(service.getActor(OperationPartial.GUARD_ACTOR_NAME)).thenReturn(guardActor);
-        when(guardActor.getOperator(OperationPartial.GUARD_OPERATION_NAME)).thenReturn(guardOperator);
-        when(guardOperator.buildOperation(any())).thenReturn(guardOperation);
-        when(guardOperation.start()).thenReturn(CompletableFuture.completedFuture(makeSuccess()));
 
         config = new OperatorConfig(executor);
 
@@ -1046,13 +1040,6 @@ public class OperationPartialTest {
     private <T> Consumer<T> noop() {
         return unused -> {
         };
-    }
-
-    private OperationOutcome makeSuccess() {
-        OperationOutcome outcome = params.makeOutcome();
-        outcome.setResult(OperationResult.SUCCESS);
-
-        return outcome;
     }
 
     /**

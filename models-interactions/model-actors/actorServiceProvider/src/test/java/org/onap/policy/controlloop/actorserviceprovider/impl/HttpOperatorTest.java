@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,8 +34,9 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactory;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
@@ -46,6 +47,7 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ParameterValidationRuntimeException;
 
+@RunWith(MockitoJUnitRunner.class)
 public class HttpOperatorTest {
 
     private static final String ACTOR = "my-actor";
@@ -68,8 +70,6 @@ public class HttpOperatorTest {
      */
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-
         when(factory.get(HTTP_CLIENT)).thenReturn(client);
 
         oper = new MyOperator();

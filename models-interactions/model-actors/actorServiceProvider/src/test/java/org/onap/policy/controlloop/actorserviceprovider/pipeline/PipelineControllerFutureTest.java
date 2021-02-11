@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,10 +43,12 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 
+@RunWith(MockitoJUnitRunner.class)
 public class PipelineControllerFutureTest {
     private static final IllegalStateException EXPECTED_EXCEPTION = new IllegalStateException("expected exception");
     private static final String TEXT = "some text";
@@ -77,8 +79,6 @@ public class PipelineControllerFutureTest {
      */
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-
         compFuture = spy(new CompletableFuture<>());
 
         controller = new PipelineControllerFuture<>();

@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,11 +32,13 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 
+@RunWith(MockitoJUnitRunner.class)
 public class ForwarderTest {
     private static final String TEXT = "some text";
 
@@ -75,7 +77,6 @@ public class ForwarderTest {
      */
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
         forwarder = new Forwarder(Arrays.asList(new SelectorKey(KEY1), new SelectorKey(KEY2, SUBKEY)));
 
         forwarder.register(Arrays.asList(VALUEA_REQID, VALUEA_SUBREQID), listener1);
@@ -159,9 +160,6 @@ public class ForwarderTest {
         verify(listener1b, times(2)).accept(any(), any());
         verify(listener2).accept(any(), any());
         verify(listener3).accept(any(), any());
-
-        // listener throws an exception
-        doThrow(new IllegalStateException("expected exception")).when(listener1).accept(any(), any());
     }
 
     /*
