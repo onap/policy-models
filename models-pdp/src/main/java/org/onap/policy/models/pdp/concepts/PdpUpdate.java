@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property.
+ *  Modifications Copyright (C) 2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +29,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.onap.policy.models.pdp.enums.PdpMessageType;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 
 /**
@@ -56,6 +58,16 @@ public class PdpUpdate extends PdpMessage {
      * even if all of the policies are removed from the subgroup.
      */
     private List<ToscaPolicy> policies = new LinkedList<>();
+
+    /**
+     * Policies that the PDP should deploy.
+     */
+    private List<ToscaPolicy> policiesToBeDeployed = new LinkedList<>();
+
+    /**
+     * Policies that the PDP should undeploy.
+     */
+    private List<ToscaConceptIdentifier> policiesToBeUndeployed = new LinkedList<>();
 
     /**
      * Constructor for instantiating PdpUpdate class with message name.
