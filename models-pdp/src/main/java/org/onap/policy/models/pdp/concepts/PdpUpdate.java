@@ -58,6 +58,16 @@ public class PdpUpdate extends PdpMessage {
     private List<ToscaPolicy> policies = new LinkedList<>();
 
     /**
+     * Policies that the PDP should deploy. This is a list of policies to be deployed.
+     */
+    private List<ToscaPolicy> deployedPolicies = new LinkedList<>();
+
+    /**
+     * Policies that the PDP should deploy. This is a list of policies to be undeployed.
+     */
+    private List<ToscaPolicy> undeployedPolicies = new LinkedList<>();
+
+    /**
      * Constructor for instantiating PdpUpdate class with message name.
      *
      */
