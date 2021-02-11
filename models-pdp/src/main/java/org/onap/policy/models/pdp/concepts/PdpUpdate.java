@@ -28,6 +28,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.onap.policy.models.pdp.enums.PdpMessageType;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 
 /**
@@ -56,6 +57,16 @@ public class PdpUpdate extends PdpMessage {
      * even if all of the policies are removed from the subgroup.
      */
     private List<ToscaPolicy> policies = new LinkedList<>();
+
+    /**
+     * Policies that the PDP should deploy.
+     */
+    private List<ToscaPolicy> policiesToBeDeployed = new LinkedList<>();
+
+    /**
+     * Policies that the PDP should undeploy.
+     */
+    private List<ToscaConceptIdentifier> policiesToBeUndeployed = new LinkedList<>();
 
     /**
      * Constructor for instantiating PdpUpdate class with message name.
