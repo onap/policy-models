@@ -25,6 +25,63 @@
     },
     {
       "key": {
+        "uuid": "044e5322_92442b77",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfReferenceTimestampKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-02-12T12:32:36Z",
+      "side": 1,
+      "message": "use this instead:\n\n  super(referenceKey);",
+      "revId": "0e6a976a345002389744db9a13ab94c070a034f8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de0ccfea_ea6e079b",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfReferenceTimestampKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-02-12T12:32:36Z",
+      "side": 1,
+      "message": "delete this method - the one from the super class is sufficient",
+      "revId": "0e6a976a345002389744db9a13ab94c070a034f8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66909c2c_571aa145",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfReferenceTimestampKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-02-12T12:32:36Z",
+      "side": 1,
+      "message": "this is not compatible with line 180 - that expects the trailing timestamp to be a long, but this treats it as a date-string",
+      "range": {
+        "startLine": 207,
+        "startChar": 37,
+        "endLine": 207,
+        "endChar": 46
+      },
+      "revId": "0e6a976a345002389744db9a13ab94c070a034f8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3157cfc2_811e14c6",
         "filename": "models-base/src/main/java/org/onap/policy/models/base/PfReferenceTimestampKey.java",
         "patchSetId": 1
@@ -42,6 +99,23 @@
         "endLine": 233,
         "endChar": 5
       },
+      "revId": "0e6a976a345002389744db9a13ab94c070a034f8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "364c9eb1_973392d0",
+        "filename": "models-base/src/test/java/org/onap/policy/models/base/PfReferenceTimestampKeyTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-02-12T12:32:36Z",
+      "side": 1,
+      "message": "need coverage tests for isNewerThan()",
       "revId": "0e6a976a345002389744db9a13ab94c070a034f8",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
