@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "acdcfe20_5dd68791",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfReferenceTimestampKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2021-02-12T16:04:20Z",
+      "side": 1,
+      "message": "Yes that would be good. java.time has very useful date formatter and parsing methods, you can look into using those also.",
+      "parentUuid": "f4ab4f2b_f29560f1",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 22
+      },
+      "revId": "0e6a976a345002389744db9a13ab94c070a034f8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "044e5322_92442b77",
         "filename": "models-base/src/main/java/org/onap/policy/models/base/PfReferenceTimestampKey.java",
         "patchSetId": 1
