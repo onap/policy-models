@@ -3,6 +3,7 @@
  * ONAP Policy Model
  * ================================================================================
  * Copyright (C) 2020-2021 Nordix Foundation.
+ * Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,9 +35,8 @@ import lombok.NonNull;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class ToscaNodeTemplate extends ToscaEntity {
+public class ToscaNodeTemplate extends ToscaWithObjectProperties {
     private String type;
-    private Map<String, Object> properties;
     private List<Map<String, ToscaRequirement>> requirements;
     private Map<String, ToscaCapabilityAssignment> capabilities;
 
@@ -50,7 +50,6 @@ public class ToscaNodeTemplate extends ToscaEntity {
 
         this.type = copyObject.type;
 
-        this.properties = (copyObject.properties != null ? new LinkedHashMap<>(copyObject.properties) : null);
         this.requirements = (copyObject.requirements != null ? new ArrayList<>(copyObject.requirements) : null);
         this.capabilities = (copyObject.capabilities != null ? new LinkedHashMap<>(copyObject.capabilities) : null);
     }

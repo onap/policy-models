@@ -25,26 +25,22 @@ package org.onap.policy.models.tosca.simple.concepts;
 
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.ws.rs.core.Response;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.onap.policy.common.parameters.BeanValidationResult;
-import org.onap.policy.common.parameters.annotations.NotBlank;
 import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.common.parameters.annotations.Valid;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
-import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
@@ -64,7 +60,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements PfAuthorative<ToscaPolicy> {
+public class JpaToscaPolicy extends JpaToscaWithStringProperties<ToscaPolicy> {
     private static final long serialVersionUID = 3265174757061982805L;
 
     // Tags for metadata
@@ -80,10 +76,6 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
     @VerifyKey
     @NotNull
     private PfConceptKey type;
-
-    @ElementCollection
-    @Lob
-    private Map<@NotNull @NotBlank String, @NotNull String> properties;
 
     @ElementCollection
     private List<@NotNull @Valid PfConceptKey> targets;
@@ -124,7 +116,6 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
     public JpaToscaPolicy(@NonNull final JpaToscaPolicy copyConcept) {
         super(copyConcept);
         this.type = new PfConceptKey(copyConcept.type);
-        this.properties = (copyConcept.properties != null ? new LinkedHashMap<>(copyConcept.properties) : null);
         this.targets = PfUtils.mapList(copyConcept.targets, PfConceptKey::new);
     }
 
@@ -153,15 +144,6 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
             toscaPolicy.setTypeVersion(null);
         }
 
-        toscaPolicy.setProperties(PfUtils.mapMap(properties, property -> {
-            try {
-                return STANDARD_CODER.decode(property, Object.class);
-            } catch (CoderException ce) {
-                String errorMessage = "error decoding property JSON value read from database: " + property;
-                throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR, errorMessage, ce);
-            }
-        }));
-
         return toscaPolicy;
     }
 
@@ -185,15 +167,6 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
                             + " in the type_version field");
         }
 
-        properties = PfUtils.mapMap(toscaPolicy.getProperties(), property -> {
-            try {
-                return STANDARD_CODER.encode(property);
-            } catch (CoderException ce) {
-                String errorMessage = "error encoding property JSON value for database: " + property;
-                throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR, errorMessage, ce);
-            }
-        });
-
         // Add the property metadata if it doesn't exist already
         if (toscaPolicy.getMetadata() == null) {
             setMetadata(new LinkedHashMap<>());
@@ -202,6 +175,26 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
         // Add the policy name and version fields to the metadata
         getMetadata().put(METADATA_POLICY_ID_TAG, getKey().getName());
         getMetadata().put(METADATA_POLICY_VERSION_TAG, getKey().getVersion());
+    }
+
+    @Override
+    protected Object deserializePropertyValue(String propValue) {
+        try {
+            return STANDARD_CODER.decode(propValue, Object.class);
+        } catch (CoderException ce) {
+            String errorMessage = "error decoding property JSON value read from database: " + propValue;
+            throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR, errorMessage, ce);
+        }
+    }
+
+    @Override
+    protected String serializePropertyValue(Object propValue) {
+        try {
+            return STANDARD_CODER.encode(propValue);
+        } catch (CoderException ce) {
+            String errorMessage = "error encoding property JSON value for database: " + propValue;
+            throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR, errorMessage, ce);
+        }
     }
 
     @Override
@@ -241,30 +234,18 @@ public class JpaToscaPolicy extends JpaToscaEntityType<ToscaPolicy> implements P
 
     @Override
     public int compareTo(final PfConcept otherConcept) {
-        if (otherConcept == null) {
-            return -1;
-        }
-
         if (this == otherConcept) {
             return 0;
         }
 
-        if (getClass() != otherConcept.getClass()) {
-            return getClass().getName().compareTo(otherConcept.getClass().getName());
+        int result = super.compareTo(otherConcept);
+        if (result != 0) {
+            return result;
         }
 
         final JpaToscaPolicy other = (JpaToscaPolicy) otherConcept;
-        int result = super.compareTo(other);
-        if (result != 0) {
-            return result;
-        }
 
         result = type.compareTo(other.type);
-        if (result != 0) {
-            return result;
-        }
-
-        result = PfUtils.compareMaps(properties, other.properties);
         if (result != 0) {
             return result;
         }
