@@ -27,13 +27,11 @@ import java.util.List;
 import java.util.Map;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.ws.rs.core.Response;
@@ -46,12 +44,10 @@ import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.common.parameters.annotations.Valid;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
-import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfModelRuntimeException;
-import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaCapabilityAssignment;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaNodeTemplate;
 
@@ -63,8 +59,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaNodeTemplate;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class JpaToscaNodeTemplate extends JpaToscaEntityType<ToscaNodeTemplate>
-        implements PfAuthorative<ToscaNodeTemplate> {
+public class JpaToscaNodeTemplate extends JpaToscaWithStringProperties<ToscaNodeTemplate> {
     private static final long serialVersionUID = 1675770231921107988L;
 
     private static final StandardCoder STANDARD_CODER = new StandardCoder();
@@ -73,10 +68,6 @@ public class JpaToscaNodeTemplate extends JpaToscaEntityType<ToscaNodeTemplate>
     @NotNull
     @NotBlank
     private String type;
-
-    @ElementCollection
-    @Lob
-    private Map<@NotNull String, @NotNull String> properties;
 
     // formatter:off
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
@@ -116,7 +107,6 @@ public class JpaToscaNodeTemplate extends JpaToscaEntityType<ToscaNodeTemplate>
     public JpaToscaNodeTemplate(final JpaToscaNodeTemplate copyConcept) {
         super(copyConcept);
         this.type = copyConcept.type;
-        this.properties = PfUtils.mapMap(copyConcept.properties, String::new);
         this.requirements =
                 (copyConcept.requirements != null ? new JpaToscaRequirements(copyConcept.requirements) : null);
         this.capabilities =
@@ -151,15 +141,6 @@ public class JpaToscaNodeTemplate extends JpaToscaEntityType<ToscaNodeTemplate>
 
         toscaNodeTemplate.setType(type);
 
-        toscaNodeTemplate.setProperties(PfUtils.mapMap(properties, property -> {
-            try {
-                return STANDARD_CODER.decode(property, Object.class);
-            } catch (CoderException ce) {
-                String errorMessage = "error decoding property JSON value read from database: " + property;
-                throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR, errorMessage, ce);
-            }
-        }));
-
         if (requirements != null) {
             toscaNodeTemplate.setRequirements(requirements.toAuthorative());
         }
@@ -181,15 +162,6 @@ public class JpaToscaNodeTemplate extends JpaToscaEntityType<ToscaNodeTemplate>
 
         type = toscaNodeTemplate.getType();
 
-        properties = PfUtils.mapMap(toscaNodeTemplate.getProperties(), property -> {
-            try {
-                return STANDARD_CODER.encode(property);
-            } catch (CoderException ce) {
-                String errorMessage = "error encoding property JSON value for database: " + property;
-                throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR, errorMessage, ce);
-            }
-        });
-
         if (toscaNodeTemplate.getRequirements() != null) {
             requirements = new JpaToscaRequirements();
             requirements.fromAuthorative(toscaNodeTemplate.getRequirements());
@@ -198,6 +170,26 @@ public class JpaToscaNodeTemplate extends JpaToscaEntityType<ToscaNodeTemplate>
         if (toscaNodeTemplate.getCapabilities() != null) {
             capabilities = new JpaToscaCapabilityAssignments();
             capabilities.fromAuthorative(Collections.singletonList(toscaNodeTemplate.getCapabilities()));
+        }
+    }
+
+    @Override
+    protected Object deserializePropertyValue(String propValue) {
+        try {
+            return STANDARD_CODER.decode(propValue, Object.class);
+        } catch (CoderException ce) {
+            String errorMessage = "error decoding property JSON value read from database: " + propValue;
+            throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR, errorMessage, ce);
+        }
+    }
+
+    @Override
+    protected String serializePropertyValue(Object propValue) {
+        try {
+            return STANDARD_CODER.encode(propValue);
+        } catch (CoderException ce) {
+            String errorMessage = "error encoding property JSON value for database: " + propValue;
+            throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR, errorMessage, ce);
         }
     }
 
@@ -222,8 +214,6 @@ public class JpaToscaNodeTemplate extends JpaToscaEntityType<ToscaNodeTemplate>
 
         type = type.trim();
 
-        properties = PfUtils.mapMap(properties, String::trim);
-
         if (requirements != null) {
             requirements.clean();
         }
@@ -235,28 +225,18 @@ public class JpaToscaNodeTemplate extends JpaToscaEntityType<ToscaNodeTemplate>
 
     @Override
     public int compareTo(final PfConcept otherConcept) {
-        if (otherConcept == null) {
-            return -1;
-        }
         if (this == otherConcept) {
             return 0;
         }
-        if (getClass() != otherConcept.getClass()) {
-            return getClass().getName().compareTo(otherConcept.getClass().getName());
+
+        int result = super.compareTo(otherConcept);
+        if (result != 0) {
+            return result;
         }
 
         final JpaToscaNodeTemplate other = (JpaToscaNodeTemplate) otherConcept;
-        int result = super.compareTo(other);
-        if (result != 0) {
-            return result;
-        }
 
         result = type.compareTo(other.type);
-        if (result != 0) {
-            return result;
-        }
-
-        result = PfUtils.compareMaps(properties, other.properties);
         if (result != 0) {
             return result;
         }
