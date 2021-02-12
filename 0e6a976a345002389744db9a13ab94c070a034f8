@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f4ab4f2b_f29560f1",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfReferenceTimestampKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2021-02-12T14:26:36Z",
+      "side": 1,
+      "message": "Hi Pam,\nShould we use Instant from java.time ? What do you suggest? Probably we need to refactor pfTimestampkey class as well?",
+      "parentUuid": "d6ad02d3_2218b5db",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 22
+      },
+      "revId": "0e6a976a345002389744db9a13ab94c070a034f8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "044e5322_92442b77",
         "filename": "models-base/src/main/java/org/onap/policy/models/base/PfReferenceTimestampKey.java",
         "patchSetId": 1
