@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3157cfc2_811e14c6",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfReferenceTimestampKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2021-02-12T09:42:47Z",
+      "side": 1,
+      "message": "I would probably out the call to super as the first thing to check in the class because I think it should check name, then version, then localname and finally the timestamp.",
+      "range": {
+        "startLine": 233,
+        "startChar": 0,
+        "endLine": 233,
+        "endChar": 5
+      },
+      "revId": "0e6a976a345002389744db9a13ab94c070a034f8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0b0828b_6a41c394",
+        "filename": "models-base/src/test/java/org/onap/policy/models/base/PfReferenceTimestampKeyTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2021-02-12T09:42:47Z",
+      "side": 1,
+      "message": "PfKey class may have a constant defined for this.",
+      "range": {
+        "startLine": 45,
+        "startChar": 21,
+        "endLine": 45,
+        "endChar": 27
+      },
+      "revId": "0e6a976a345002389744db9a13ab94c070a034f8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "917227e2_63aac359",
+        "filename": "models-base/src/test/java/org/onap/policy/models/base/PfReferenceTimestampKeyTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2021-02-12T09:42:47Z",
+      "side": 1,
+      "message": "Same comment",
+      "range": {
+        "startLine": 47,
+        "startChar": 21,
+        "endLine": 47,
+        "endChar": 31
+      },
+      "revId": "0e6a976a345002389744db9a13ab94c070a034f8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
