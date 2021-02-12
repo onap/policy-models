@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,7 +43,7 @@ public abstract class TopicServer<Q> implements TopicListener {
      * @param sink sink to which responses should be published
      * @param source source from which requests arrive
      */
-    public TopicServer(TopicSink sink, TopicSource source, Coder coder, Class<Q> reqClass) {
+    protected TopicServer(TopicSink sink, TopicSource source, Coder coder, Class<Q> reqClass) {
         this.sink = sink;
         this.source = source;
         this.coder = coder;

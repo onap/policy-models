@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -242,7 +242,8 @@ public class MainTest {
      */
     @Test
     public void testBuildTopicServerInvalidProvider() {
-        assertThatThrownBy(() -> new Main("invalidTopicServer.json").start());
+        assertThatThrownBy(() -> new Main("invalidTopicServer.json").start())
+                        .hasCauseInstanceOf(IllegalArgumentException.class);
     }
 
     /**
@@ -250,7 +251,8 @@ public class MainTest {
      */
     @Test
     public void testBuildTopicServerNoSink() {
-        assertThatThrownBy(() -> new Main("missingSink.json").start());
+        assertThatThrownBy(() -> new Main("missingSink.json").start())
+                        .hasCauseInstanceOf(IllegalArgumentException.class);
     }
 
     /**
@@ -258,6 +260,7 @@ public class MainTest {
      */
     @Test
     public void testBuildTopicServerNoSource() {
-        assertThatThrownBy(() -> new Main("missingSource.json").start());
+        assertThatThrownBy(() -> new Main("missingSource.json").start())
+                        .hasCauseInstanceOf(IllegalArgumentException.class);
     }
 }
