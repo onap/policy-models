@@ -1,9 +1,8 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP Policy Model
+ * ONAP
  * ================================================================================
- * Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019-2020 Nordix Foundation.
+ * Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,26 +15,31 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * SPDX-License-Identifier: Apache-2.0
  * ============LICENSE_END=========================================================
  */
 
 package org.onap.policy.models.tosca.authorative.concepts;
 
-import java.util.List;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
-/**
- * Class to represent TOSCA data type matching input/output from/to client.
- *
- * @author Chenfei Gao (cgao@research.att.com)
- */
-@Data
-@EqualsAndHashCode(callSuper = true)
-@NoArgsConstructor
-public class ToscaDataType extends ToscaWithToscaProperties {
-    private List<ToscaConstraint> constraints;
+import java.util.Map;
+import org.junit.Test;
+
+public class ToscaWithObjectPropertiesTest {
+
+    @Test
+    public void testCopyConstructor() {
+        ToscaWithObjectProperties tosca = new ToscaWithObjectProperties();
+        assertEquals(tosca, new ToscaWithObjectProperties(tosca));
+
+        tosca.setProperties(Map.of("abc", 10, "def", "world"));
+        assertEquals(tosca, new ToscaWithObjectProperties(tosca));
+
+        assertNotEquals(tosca, new ToscaWithObjectProperties());
+
+        assertThatThrownBy(() -> new ToscaWithObjectProperties(null)).hasMessageContaining("copyObject")
+                        .hasMessageContaining("is null");
+    }
 }
