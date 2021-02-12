@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "c14fc533_67810934",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfReferenceTimestampKey.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2021-02-12T21:11:42Z",
+      "side": 1,
+      "message": "not sure if you need to customize the toString, but if not @ToString(callsuper \u003d true) to pick up from parent class, the benefit would be to get rid of the tostring below.",
+      "revId": "5d6dc574ba078e357147f2e351a2c581fdaeb07e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd5d0dd2_63742e69",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfReferenceTimestampKey.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2021-02-12T21:11:42Z",
+      "side": 1,
+      "message": "don\u0027t need @getter, @data will include both setters and getters",
+      "revId": "5d6dc574ba078e357147f2e351a2c581fdaeb07e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8288b29_04a14dab",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfReferenceTimestampKey.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2021-02-12T21:11:42Z",
+      "side": 1,
+      "message": "is there a reason don\u0027t want to call super on the base class to compute the hash ?   In any case, I think false is the default so if it is not necessary could be ommitted.",
+      "revId": "5d6dc574ba078e357147f2e351a2c581fdaeb07e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "66be1646_464600ff",
         "filename": "models-base/src/main/java/org/onap/policy/models/base/PfReferenceTimestampKey.java",
         "patchSetId": 2
