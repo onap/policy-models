@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "1182e52e_92387647",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfReferenceTimestampKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2021-02-15T10:17:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de0ccfea_ea6e079b",
+      "revId": "0e6a976a345002389744db9a13ab94c070a034f8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "66909c2c_571aa145",
         "filename": "models-base/src/main/java/org/onap/policy/models/base/PfReferenceTimestampKey.java",
         "patchSetId": 1
@@ -195,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "f08c8270_c6e64b13",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfReferenceTimestampKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2021-02-15T10:17:36Z",
+      "side": 1,
+      "message": "Here the approach is, we are comparing the timestamp first and then invoking the call to super, only if the timestamp is same. Followed the same approach as of existing PfTimestampKey class. \nOtherwise, we may need to get the return value from super and compare the timestamp based on some criteria. I hope this approach is okay.",
+      "parentUuid": "3157cfc2_811e14c6",
+      "range": {
+        "startLine": 233,
+        "startChar": 0,
+        "endLine": 233,
+        "endChar": 5
+      },
+      "revId": "0e6a976a345002389744db9a13ab94c070a034f8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "364c9eb1_973392d0",
         "filename": "models-base/src/test/java/org/onap/policy/models/base/PfReferenceTimestampKeyTest.java",
         "patchSetId": 1
@@ -209,6 +251,24 @@
       "revId": "0e6a976a345002389744db9a13ab94c070a034f8",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65565263_6de2d96c",
+        "filename": "models-base/src/test/java/org/onap/policy/models/base/PfReferenceTimestampKeyTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2021-02-15T10:17:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "364c9eb1_973392d0",
+      "revId": "0e6a976a345002389744db9a13ab94c070a034f8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -235,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "55768c86_e4e7ee5c",
+        "filename": "models-base/src/test/java/org/onap/policy/models/base/PfReferenceTimestampKeyTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2021-02-15T10:17:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0b0828b_6a41c394",
+      "range": {
+        "startLine": 45,
+        "startChar": 21,
+        "endLine": 45,
+        "endChar": 27
+      },
+      "revId": "0e6a976a345002389744db9a13ab94c070a034f8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "917227e2_63aac359",
         "filename": "models-base/src/test/java/org/onap/policy/models/base/PfReferenceTimestampKeyTest.java",
         "patchSetId": 1
@@ -255,6 +339,30 @@
       "revId": "0e6a976a345002389744db9a13ab94c070a034f8",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9dc0407_9a40906a",
+        "filename": "models-base/src/test/java/org/onap/policy/models/base/PfReferenceTimestampKeyTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2021-02-15T10:17:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "917227e2_63aac359",
+      "range": {
+        "startLine": 47,
+        "startChar": 21,
+        "endLine": 47,
+        "endChar": 31
+      },
+      "revId": "0e6a976a345002389744db9a13ab94c070a034f8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
