@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad5a6cf6_d82c6ae8",
+        "filename": "models-base/src/test/java/org/onap/policy/models/base/PfReferenceTimestampKeyTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 4903
+      },
+      "writtenOn": "2021-02-15T16:51:36Z",
+      "side": 1,
+      "message": "Maybe verify if sonar is reporting problems with too many assertions or not.",
+      "range": {
+        "startLine": 72,
+        "startChar": 14,
+        "endLine": 72,
+        "endChar": 44
+      },
+      "revId": "99ae746ad5ae6f0ef0e659bbbe7582812f126f73",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
