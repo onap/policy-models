@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * appc
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019, 2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,9 +21,10 @@
 
 package org.onap.policy.appc.util;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
+import com.google.gson.JsonParseException;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -51,6 +52,7 @@ public class SerializationTest {
         ZonedDateTime outZdt = Serialization.gsonPretty.fromJson(zdtString, ZonedDateTime.class);
         assertEquals(zdt.getDayOfWeek(), outZdt.getDayOfWeek());
 
-        assertNull(Serialization.gsonPretty.fromJson("oz time is weird", ZonedDateTime.class));
+        assertThatThrownBy(() -> Serialization.gsonPretty.fromJson("oz time is weird", ZonedDateTime.class))
+                        .isInstanceOf(JsonParseException.class);
     }
 }

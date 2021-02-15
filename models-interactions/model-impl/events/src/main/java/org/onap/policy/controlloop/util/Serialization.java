@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * controlloop
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019, 2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,24 +33,26 @@ import java.lang.reflect.Type;
 import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import org.onap.policy.common.gson.InstantAsMillisTypeAdapter;
+import org.onap.policy.common.gson.ZonedDateTimeTypeAdapter;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public final class Serialization {
-    public static final Gson gson =
-            new GsonBuilder().disableHtmlEscaping().registerTypeAdapter(ZonedDateTime.class, new GsonUtcAdapter())
-                    .registerTypeAdapter(Instant.class, new GsonInstantAdapter())
+    public static final DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSSxxx");
+
+    public static final Gson gson = new GsonBuilder().disableHtmlEscaping()
+                    .registerTypeAdapter(ZonedDateTime.class, new ZonedDateTimeTypeAdapter(format))
+                    .registerTypeAdapter(Instant.class, new InstantAsMillisTypeAdapter())
                     .registerTypeAdapter(ControlLoopNotificationType.class, new NotificationTypeAdapter()).create();
 
     public static final Gson gsonPretty = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
-            .registerTypeAdapter(ZonedDateTime.class, new GsonUtcAdapter())
-            .registerTypeAdapter(Instant.class, new GsonInstantAdapter())
+            .registerTypeAdapter(ZonedDateTime.class, new ZonedDateTimeTypeAdapter(format))
+            .registerTypeAdapter(Instant.class, new InstantAsMillisTypeAdapter())
             .registerTypeAdapter(ControlLoopNotificationType.class, new NotificationTypeAdapter()).create();
 
     public static final Gson gsonJunit = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
-            .registerTypeAdapter(ZonedDateTime.class, new GsonUtcAdapter())
-            .registerTypeAdapter(Instant.class, new GsonInstantAdapter()).create();
+            .registerTypeAdapter(ZonedDateTime.class, new ZonedDateTimeTypeAdapter(format))
+            .registerTypeAdapter(Instant.class, new InstantAsMillisTypeAdapter()).create();
 
     private Serialization() {
         // Private constructor to prevent subclassing
@@ -70,39 +72,4 @@ public final class Serialization {
             return ControlLoopNotificationType.toType(json.getAsString());
         }
     }
-
-    public static class GsonUtcAdapter implements JsonSerializer<ZonedDateTime>, JsonDeserializer<ZonedDateTime> {
-        private static final Logger logger = LoggerFactory.getLogger(GsonUtcAdapter.class);
-        public static final DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSSxxx");
-
-        @Override
-        public ZonedDateTime deserialize(JsonElement element, Type type, JsonDeserializationContext context) {
-            try {
-                return ZonedDateTime.parse(element.getAsString(), format);
-            } catch (Exception e) {
-                logger.error(e.getMessage(), e);
-            }
-            return null;
-        }
-
-        @Override
-        public JsonElement serialize(ZonedDateTime datetime, Type type, JsonSerializationContext context) {
-            return new JsonPrimitive(datetime.format(format));
-        }
-    }
-
-    public static class GsonInstantAdapter implements JsonSerializer<Instant>, JsonDeserializer<Instant> {
-
-        @Override
-        public Instant deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
-            return Instant.ofEpochMilli(json.getAsLong());
-        }
-
-        @Override
-        public JsonElement serialize(Instant src, Type typeOfSrc, JsonSerializationContext context) {
-            return new JsonPrimitive(src.toEpochMilli());
-        }
-
-    }
-
 }
