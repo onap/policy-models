@@ -61,7 +61,7 @@ data_types:
                 type: policy.data.increment-sequence
                 required: false
     policy.data.increment-sequence:
-        derived_from: tosca.nodes.Root
+        derived_from: tosca.datatypes.Root
         properties:
             scope:
                 type: list
