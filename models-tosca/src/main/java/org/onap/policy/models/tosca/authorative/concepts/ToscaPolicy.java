@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Model
  * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019-2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,9 +25,6 @@ package org.onap.policy.models.tosca.authorative.concepts;
 
 import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Map.Entry;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -43,14 +40,12 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @ToString(callSuper = true)
-public class ToscaPolicy extends ToscaEntity {
+public class ToscaPolicy extends ToscaWithObjectProperties {
     private String type;
 
     @ApiModelProperty(name = "type_version")
     @SerializedName("type_version")
     private String typeVersion;
-
-    private Map<String, Object> properties;
 
     /**
      * Copy constructor.
@@ -62,13 +57,6 @@ public class ToscaPolicy extends ToscaEntity {
 
         this.type = copyObject.type;
         this.typeVersion = copyObject.typeVersion;
-
-        if (copyObject.properties != null) {
-            properties = new LinkedHashMap<>();
-            for (final Entry<String, Object> propertyEntry : copyObject.properties.entrySet()) {
-                properties.put(propertyEntry.getKey(), propertyEntry.getValue());
-            }
-        }
     }
 
     /**

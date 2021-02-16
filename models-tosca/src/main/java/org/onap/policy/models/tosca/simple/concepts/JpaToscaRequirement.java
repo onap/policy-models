@@ -24,22 +24,18 @@
 package org.onap.policy.models.tosca.simple.concepts;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.Lob;
 import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.common.utils.coder.YamlJsonTranslator;
-import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfUtils;
@@ -57,12 +53,12 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaRequirement;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class JpaToscaRequirement extends JpaToscaEntityType<ToscaRequirement>
-        implements PfAuthorative<ToscaRequirement> {
+public class JpaToscaRequirement extends JpaToscaWithStringProperties<ToscaRequirement> {
 
     private static final long serialVersionUID = 2785481541573683089L;
     private static final String AUTHORATIVE_UNBOUNDED_LITERAL = "UNBOUNDED";
     private static final Integer JPA_UNBOUNDED_VALUE = -1;
+    private static final YamlJsonTranslator YAML_TRANSLATOR = new YamlJsonTranslator();
 
     @Column
     private String capability;
@@ -75,10 +71,6 @@ public class JpaToscaRequirement extends JpaToscaEntityType<ToscaRequirement>
 
     @ElementCollection
     private List<@NotNull @PfMin(value = 0, allowed = -1) Integer> occurrences;
-
-    @ElementCollection
-    @Lob
-    private Map<@NotNull String, @NotNull String> properties;
 
     /**
      * The Default Constructor creates a {@link JpaToscaRequirement} object with a null key.
@@ -107,7 +99,6 @@ public class JpaToscaRequirement extends JpaToscaEntityType<ToscaRequirement>
         this.node = copyConcept.node;
         this.relationship = copyConcept.relationship;
         this.occurrences = new ArrayList<>(copyConcept.occurrences);
-        this.properties = PfUtils.mapMap(copyConcept.properties, String::new);
     }
 
     /**
@@ -116,8 +107,7 @@ public class JpaToscaRequirement extends JpaToscaEntityType<ToscaRequirement>
      * @param authorativeConcept the authorative concept to copy from
      */
     public JpaToscaRequirement(final ToscaRequirement authorativeConcept) {
-        super(new PfConceptKey());
-        this.fromAuthorative(authorativeConcept);
+        super(authorativeConcept);
     }
 
     @Override
@@ -142,16 +132,6 @@ public class JpaToscaRequirement extends JpaToscaEntityType<ToscaRequirement>
             toscaRequirement.setOccurrences(occurrencesList);
         }
 
-        if (properties != null) {
-            Map<String, Object> propertiesMap = new LinkedHashMap<>();
-
-            for (Map.Entry<String, String> entry : properties.entrySet()) {
-                propertiesMap.put(entry.getKey(), new YamlJsonTranslator().fromYaml(entry.getValue(), Object.class));
-            }
-
-            toscaRequirement.setProperties(propertiesMap);
-        }
-
         return toscaRequirement;
     }
 
@@ -173,15 +153,16 @@ public class JpaToscaRequirement extends JpaToscaEntityType<ToscaRequirement>
                 }
             }
         }
+    }
 
-        if (toscaRequirement.getProperties() != null) {
-            properties = new LinkedHashMap<>();
-            for (Map.Entry<String, Object> toscaPropertyEntry : toscaRequirement.getProperties().entrySet()) {
-                String jpaProperty = new YamlJsonTranslator().toYaml(toscaPropertyEntry.getValue());
-                properties.put(toscaPropertyEntry.getKey(), jpaProperty);
-            }
-        }
+    @Override
+    protected Object deserializePropertyValue(String propValue) {
+        return YAML_TRANSLATOR.fromYaml(propValue, Object.class);
+    }
 
+    @Override
+    protected String serializePropertyValue(Object propValue) {
+        return YAML_TRANSLATOR.toYaml(propValue);
     }
 
     @Override
@@ -191,29 +172,20 @@ public class JpaToscaRequirement extends JpaToscaEntityType<ToscaRequirement>
         capability = capability.trim();
         node = node.trim();
         relationship = relationship.trim();
-
-        properties = PfUtils.mapMap(properties, String::trim);
     }
 
     @Override
     public int compareTo(final PfConcept otherConcept) {
-        if (otherConcept == null) {
-            return -1;
-        }
-
         if (this == otherConcept) {
             return 0;
         }
 
-        if (getClass() != otherConcept.getClass()) {
-            return getClass().getName().compareTo(otherConcept.getClass().getName());
-        }
-
-        final JpaToscaRequirement other = (JpaToscaRequirement) otherConcept;
-        int result = super.compareTo(other);
+        int result = super.compareTo(otherConcept);
         if (result != 0) {
             return result;
         }
+
+        final JpaToscaRequirement other = (JpaToscaRequirement) otherConcept;
 
         result = capability.compareTo(other.capability);
         if (result != 0) {
@@ -230,11 +202,6 @@ public class JpaToscaRequirement extends JpaToscaEntityType<ToscaRequirement>
             return result;
         }
 
-        result = PfUtils.compareCollections(occurrences, other.occurrences);
-        if (result != 0) {
-            return result;
-        }
-
-        return PfUtils.compareMaps(properties, other.properties);
+        return PfUtils.compareCollections(occurrences, other.occurrences);
     }
 }
