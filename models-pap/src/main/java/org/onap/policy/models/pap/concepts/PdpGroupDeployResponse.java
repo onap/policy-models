@@ -22,6 +22,7 @@
 package org.onap.policy.models.pap.concepts;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -31,6 +32,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString(callSuper = true)
+@NoArgsConstructor
 public class PdpGroupDeployResponse extends SimpleResponse {
 
     /**
@@ -39,18 +41,18 @@ public class PdpGroupDeployResponse extends SimpleResponse {
     private String message;
 
     /**
-     * Url to fetch the deployment status.
+     * URI to fetch the deployment status.
      */
-    private String url;
+    private String uri;
 
     /**
      * Constructs the object.
      *
      * @param message the message
-     * @param url the url to get actual deployment status
+     * @param uri the uri to get actual deployment status
      */
-    public PdpGroupDeployResponse(String message, String url) {
+    public PdpGroupDeployResponse(String message, String uri) {
         this.message = message;
-        this.url = url;
+        this.uri = uri;
     }
 }
