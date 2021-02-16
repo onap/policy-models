@@ -22,8 +22,8 @@
 
 package org.onap.policy.models.provider.impl;
 
+import java.time.Instant;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import javax.ws.rs.core.Response;
 import lombok.NonNull;
@@ -247,15 +247,16 @@ public class DatabasePolicyModelsProviderImpl extends AbstractModelsProvider imp
     }
 
     @Override
-    public List<PdpStatistics> getPdpStatistics(final String name, final Date timestamp) throws PfModelException {
+    public List<PdpStatistics> getPdpStatistics(final String name, final Instant timestamp) throws PfModelException {
         assertInitialized();
         return new PdpStatisticsProvider().getPdpStatistics(getPfDao(), name, timestamp);
     }
 
     @Override
     public List<PdpStatistics> getFilteredPdpStatistics(final String name, @NonNull final String pdpGroupName,
-            final String pdpSubGroup, final Date startTimeStamp, final Date endTimeStamp, final String sortOrder,
-            final int getRecordNum) throws PfModelException {
+                                                        final String pdpSubGroup, final Instant startTimeStamp,
+                                                        final Instant endTimeStamp, final String sortOrder,
+                                                        final int getRecordNum) throws PfModelException {
         assertInitialized();
         return new PdpStatisticsProvider().getFilteredPdpStatistics(getPfDao(), name, pdpGroupName, pdpSubGroup,
                 startTimeStamp, endTimeStamp, sortOrder, getRecordNum);
@@ -276,7 +277,7 @@ public class DatabasePolicyModelsProviderImpl extends AbstractModelsProvider imp
     }
 
     @Override
-    public List<PdpStatistics> deletePdpStatistics(@NonNull final String name, final Date timestamp)
+    public List<PdpStatistics> deletePdpStatistics(@NonNull final String name, final Instant timestamp)
             throws PfModelException {
         assertInitialized();
         return new PdpStatisticsProvider().deletePdpStatistics(getPfDao(), name, timestamp);

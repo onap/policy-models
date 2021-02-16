@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,9 +21,9 @@
 
 package org.onap.policy.models.dao.impl;
 
+import java.time.Instant;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManager;
@@ -355,8 +355,9 @@ public class DefaultPfDao implements PfDao {
 
     @Override
     public <T extends PfConcept> List<T> getFiltered(final Class<T> someClass, final String name, final String version,
-            final Date startTime, final Date endTime, final Map<String, Object> filterMap, final String sortOrder,
-            final int getRecordNum) {
+                                                     final Instant startTime, final Instant endTime,
+                                                     final Map<String, Object> filterMap, final String sortOrder,
+                                                     final int getRecordNum) {
         final EntityManager mg = getEntityManager();
 
         String filterQueryString = SELECT_FROM_TABLE + WHERE;
@@ -620,8 +621,8 @@ public class DefaultPfDao implements PfDao {
      *        endTime. null for ignore end time
      * @return the filter string to query database
      */
-    private String addKeyFilterString(String inputFilterString, final String name, final Date startTime,
-            final Date endTime) {
+    private String addKeyFilterString(String inputFilterString, final String name, final Instant startTime,
+            final Instant endTime) {
         String filterQueryString;
         if (name != null) {
             inputFilterString += NAME_FILTER + AND;
