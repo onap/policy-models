@@ -16,6 +16,24 @@
       "revId": "59d6c65ea096b5fe169c8f62acc15dd0f3de7cfb",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c2f3808_e3a9f87c",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/concepts/PdpGroupDeployResponse.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 4903
+      },
+      "writtenOn": "2021-02-16T13:47:06Z",
+      "side": 1,
+      "message": "The intention is to provide an informative message to the user.\nhttps://gerrit.onap.org/r/c/policy/pap/+/117847/5/main/src/main/java/org/onap/policy/pap/main/rest/PdpGroupDeleteControllerV1.java#210",
+      "parentUuid": "1ed34406_124d9dbc",
+      "revId": "59d6c65ea096b5fe169c8f62acc15dd0f3de7cfb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
