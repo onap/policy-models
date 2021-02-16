@@ -39,18 +39,18 @@ public class PdpGroupDeployResponse extends SimpleResponse {
     private String message;
 
     /**
-     * Url to fetch the deployment status.
+     * URI to fetch the deployment status.
      */
-    private String url;
+    private String uri;
 
     /**
      * Constructs the object.
      *
      * @param message the message
-     * @param url the url to get actual deployment status
+     * @param uri the uri to get actual deployment status
      */
-    public PdpGroupDeployResponse(String message, String url) {
+    public PdpGroupDeployResponse(String message, String uri) {
         this.message = message;
-        this.url = url;
+        this.uri = uri;
     }
 }
