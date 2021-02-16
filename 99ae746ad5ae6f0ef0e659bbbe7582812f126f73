@@ -22,6 +22,30 @@
       "revId": "99ae746ad5ae6f0ef0e659bbbe7582812f126f73",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fc7ef99_7b165a8b",
+        "filename": "models-base/src/test/java/org/onap/policy/models/base/PfReferenceTimestampKeyTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2021-02-16T07:31:22Z",
+      "side": 1,
+      "message": "Thanks Ajith. Keeping less than 25 assertions on test methods.",
+      "parentUuid": "ad5a6cf6_d82c6ae8",
+      "range": {
+        "startLine": 72,
+        "startChar": 14,
+        "endLine": 72,
+        "endChar": 44
+      },
+      "revId": "99ae746ad5ae6f0ef0e659bbbe7582812f126f73",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
