@@ -29,21 +29,26 @@ import org.junit.Test;
  */
 public class PdpGroupDeployResponseTest {
 
-    private static final String URL = "/policy/pap/v1/policies/status";
+    private static final String URI = "/policy/pap/v1/policies/status";
     private static final String MESSAGE = "the message";
 
     @Test
     public void testPdpGroupDeployResponse() {
-        assertNotNull(new PdpGroupDeployResponse("message", "url"));
+        assertNotNull(new PdpGroupDeployResponse("message", "uri"));
         assertNotNull(new PdpGroupDeployResponse("message", null));
         assertNotNull(new PdpGroupDeployResponse(null, null));
+        assertNotNull(new PdpGroupDeployResponse());
 
-        PdpGroupDeployResponse resp = new PdpGroupDeployResponse(MESSAGE, URL);
+        PdpGroupDeployResponse resp = new PdpGroupDeployResponse(MESSAGE, URI);
         assertEquals(MESSAGE, resp.getMessage());
-        assertEquals(URL, resp.getUrl());
+        assertEquals(URI, resp.getUri());
 
         resp = new PdpGroupDeployResponse(null, null);
         assertNull(resp.getMessage());
-        assertNull(resp.getUrl());
+        assertNull(resp.getUri());
+
+        resp = new PdpGroupDeployResponse();
+        assertNull(resp.getMessage());
+        assertNull(resp.getUri());
     }
 }
