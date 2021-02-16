@@ -22,8 +22,8 @@
 
 package org.onap.policy.models.provider;
 
+import java.time.Instant;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import lombok.NonNull;
 import org.onap.policy.models.base.PfModelException;
@@ -324,7 +324,7 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * @return the statistics found
      * @throws PfModelException on errors getting statistics
      */
-    public List<PdpStatistics> getPdpStatistics(final String name, final Date timestamp) throws PfModelException;
+    public List<PdpStatistics> getPdpStatistics(final String name, final Instant timestamp) throws PfModelException;
 
 
     /**
@@ -341,7 +341,7 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * @throws PfModelException on errors getting policies
      */
     public List<PdpStatistics> getFilteredPdpStatistics(String name, @NonNull String pdpGroupName, String pdpSubGroup,
-            Date startTimeStamp, Date endTimeStamp, String sortOrder, int getRecordNum) throws PfModelException;
+            Instant startTimeStamp, Instant endTimeStamp, String sortOrder, int getRecordNum) throws PfModelException;
 
     /**
      * Creates PDP statistics.
@@ -371,7 +371,7 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * @return the PDP statistics deleted
      * @throws PfModelException on errors deleting PDP statistics
      */
-    public List<PdpStatistics> deletePdpStatistics(@NonNull String name, Date timestamp) throws PfModelException;
+    public List<PdpStatistics> deletePdpStatistics(@NonNull String name, Instant timestamp) throws PfModelException;
 
     /**
      * Gets all policy deployments.

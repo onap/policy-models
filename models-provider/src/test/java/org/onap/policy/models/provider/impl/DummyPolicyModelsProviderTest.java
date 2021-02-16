@@ -30,8 +30,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import org.junit.Test;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
@@ -112,15 +112,18 @@ public class DummyPolicyModelsProviderTest {
         assertTrue(dummyProvider.getPdpStatistics("name", null).isEmpty());
 
         assertTrue(
-                dummyProvider.getFilteredPdpStatistics("name", null, null, new Date(), new Date(), null, 0).isEmpty());
+                dummyProvider.getFilteredPdpStatistics("name", null, null,
+                    Instant.now(), Instant.now(), null, 0).isEmpty());
         assertTrue(dummyProvider.createPdpStatistics(null).isEmpty());
         assertTrue(dummyProvider.updatePdpStatistics(null).isEmpty());
-        assertTrue(dummyProvider.deletePdpStatistics(null, new Date()).isEmpty());
+        assertTrue(dummyProvider.deletePdpStatistics(null, Instant.now()).isEmpty());
 
         assertThat(dummyProvider.getAllPolicyStatus()).isEmpty();
-        assertThat(dummyProvider.getAllPolicyStatus(new ToscaConceptIdentifierOptVersion("MyPolicy", null))).isEmpty();
+        assertThat(dummyProvider.getAllPolicyStatus(new ToscaConceptIdentifierOptVersion("MyPolicy",
+            null))).isEmpty();
         assertThat(dummyProvider.getGroupPolicyStatus("name")).isEmpty();
-        assertThatCode(() -> dummyProvider.cudPolicyStatus(null, null, null)).doesNotThrowAnyException();
+        assertThatCode(() -> dummyProvider.cudPolicyStatus(null, null,
+            null)).doesNotThrowAnyException();
     }
 
     @Test

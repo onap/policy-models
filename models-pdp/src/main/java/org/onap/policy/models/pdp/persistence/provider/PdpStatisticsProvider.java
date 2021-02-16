@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Model
  * ================================================================================
- * Copyright (C) 2019-2020 Nordix Foundation.
+ * Copyright (C) 2019-2021 Nordix Foundation.
  * Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,8 +23,8 @@
 
 package org.onap.policy.models.pdp.persistence.provider;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,7 +58,7 @@ public class PdpStatisticsProvider {
      * @return the PDP statistics found
      * @throws PfModelException on errors getting PDP statistics
      */
-    public List<PdpStatistics> getPdpStatistics(@NonNull final PfDao dao, final String name, final Date timestamp)
+    public List<PdpStatistics> getPdpStatistics(@NonNull final PfDao dao, final String name, final Instant timestamp)
             throws PfModelException {
 
         List<PdpStatistics> pdpStatistics = new ArrayList<>();
@@ -87,8 +87,8 @@ public class PdpStatisticsProvider {
      * @throws PfModelException on errors getting policies
      */
     public List<PdpStatistics> getFilteredPdpStatistics(@NonNull final PfDao dao, final String name,
-            @NonNull final String pdpGroupName, final String pdpSubGroup, final Date startTimeStamp,
-            final Date endTimeStamp, final String sortOrder, final int getRecordNum) {
+            @NonNull final String pdpGroupName, final String pdpSubGroup, final Instant startTimeStamp,
+            final Instant endTimeStamp, final String sortOrder, final int getRecordNum) {
         Map<String, Object> filterMap = new HashMap<>();
         filterMap.put("pdpGroupName", pdpGroupName);
         if (pdpSubGroup != null) {
@@ -181,7 +181,7 @@ public class PdpStatisticsProvider {
      * @throws PfModelException on errors deleting PDP statistics
      */
     public List<PdpStatistics> deletePdpStatistics(@NonNull final PfDao dao, @NonNull final String name,
-            final Date timestamp) {
+            final Instant timestamp) {
         List<PdpStatistics> pdpStatisticsListToDel = asPdpStatisticsList(dao.getFiltered(JpaPdpStatistics.class, name,
                 PfKey.NULL_KEY_VERSION, timestamp, timestamp, null, DESC_ORDER, 0));
 
