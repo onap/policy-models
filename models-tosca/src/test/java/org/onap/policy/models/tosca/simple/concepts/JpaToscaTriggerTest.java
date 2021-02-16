@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,7 +29,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.time.Duration;
-import java.util.Date;
+import java.time.Instant;
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfReferenceKey;
@@ -81,7 +81,7 @@ public class JpaToscaTriggerTest {
         JpaToscaTrigger tdt = new JpaToscaTrigger(tkey, EVENT_TYPE, ACTION);
 
         JpaToscaTimeInterval schedule =
-                new JpaToscaTimeInterval(new PfReferenceKey(tkey, "sched"), new Date(), new Date());
+                new JpaToscaTimeInterval(new PfReferenceKey(tkey, "sched"), Instant.now(), Instant.now());
         tdt.setSchedule(schedule);
 
         JpaToscaEventFilter targetFilter =

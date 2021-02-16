@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,8 +21,8 @@
 
 package org.onap.policy.models.dao;
 
+import java.time.Instant;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import org.onap.policy.models.base.PfConcept;
@@ -168,8 +168,8 @@ public interface PfDao {
      * @param getRecordNum Total query count from database
      * @return the objects that was retrieved from the database
      */
-    <T extends PfConcept> List<T> getFiltered(Class<T> someClass, String name, String version, Date startTime,
-            Date endTime, Map<String, Object> filterMap, String sortOrder, int getRecordNum);
+    <T extends PfConcept> List<T> getFiltered(Class<T> someClass, String name, String version, Instant startTime,
+            Instant endTime, Map<String, Object> filterMap, String sortOrder, int getRecordNum);
 
     /**
      * Get an object from the database, referred to by concept key.

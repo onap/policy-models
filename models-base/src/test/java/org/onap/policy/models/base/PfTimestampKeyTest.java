@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Date;
+import java.time.Instant;
 import org.junit.Test;
 
 public class PfTimestampKeyTest {
@@ -41,15 +41,16 @@ public class PfTimestampKeyTest {
         PfTimestampKey someKey0 = new PfTimestampKey();
         assertEquals(PfTimestampKey.getNullKey(), someKey0);
         assertTrue(someKey0.isNullKey());
-        assertEquals("PfTimestampKey(name=NULL, version=0.0.0, timestamp=0)", someKey0.toString());
+        assertEquals("PfTimestampKey(name=NULL, version=0.0.0, timeStamp=" + Instant.EPOCH + ")", someKey0.toString());
 
-        PfTimestampKey someKey1 = new PfTimestampKey("my-name", VERSION001, new Date(timeStamp));
+        PfTimestampKey someKey1 = new PfTimestampKey("my-name", VERSION001, Instant.ofEpochSecond(timeStamp));
         PfTimestampKey someKey2 = new PfTimestampKey(someKey1);
         PfTimestampKey someKey3 = new PfTimestampKey(someKey1.getId());
         assertEquals(someKey1, someKey2);
         assertEquals(someKey1, someKey3);
         assertFalse(someKey1.isNullVersion());
-        assertEquals("PfTimestampKey(name=my-name, version=0.0.1, timestamp=1574832537641)", someKey1.toString());
+        assertEquals("PfTimestampKey(name=my-name, version=0.0.1, timeStamp="
+            + Instant.ofEpochSecond(timeStamp) + ")", someKey1.toString());
 
         assertEquals("my-name", someKey1.getName());
         assertEquals(VERSION001, someKey1.getVersion());
@@ -76,7 +77,7 @@ public class PfTimestampKeyTest {
         assertFalse(someKey1.isNewerThan(someKey2));
         assertThatThrownBy(() -> someKey1.isNewerThan((PfKey) null)).isInstanceOf(NullPointerException.class)
             .hasMessageMatching("^otherKey is marked .*on.*ull but is null$");
-        someKey2.setTimeStamp(new Date(timeStamp + 1));
+        someKey2.setTimeStamp(Instant.ofEpochSecond(timeStamp).plusSeconds(90));
         assertTrue(someKey2.isNewerThan(someKey1));
         someKey3.setName("my-name3");
         assertTrue(someKey3.isNewerThan(someKey1));
@@ -86,7 +87,7 @@ public class PfTimestampKeyTest {
         assertThatThrownBy(() -> someKey1.compareTo((PfConcept) null)).isInstanceOf(NullPointerException.class)
             .hasMessageMatching("^otherObj is marked .*on.*ull but is null$");
 
-        PfTimestampKey someKey4 = new PfTimestampKey("NULL", "0.0.0", new Date(timeStamp));
+        PfTimestampKey someKey4 = new PfTimestampKey("NULL", "0.0.0", Instant.ofEpochSecond(timeStamp));
         assertFalse(someKey4.isNullKey());
         assertFalse(someKey1.isNullKey());
     }
