@@ -3,6 +3,7 @@
  * ONAP Policy Models
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2021 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,4 +33,24 @@ import lombok.ToString;
 @ToString(callSuper = true)
 public class PdpGroupDeployResponse extends SimpleResponse {
 
+    /**
+     * Response message for deployment.
+     */
+    private String message;
+
+    /**
+     * Url to fetch the deployment status.
+     */
+    private String url;
+
+    /**
+     * Constructs the object.
+     *
+     * @param message the message
+     * @param url the url to get actual deployment status
+     */
+    public PdpGroupDeployResponse(String message, String url) {
+        this.message = message;
+        this.url = url;
+    }
 }
