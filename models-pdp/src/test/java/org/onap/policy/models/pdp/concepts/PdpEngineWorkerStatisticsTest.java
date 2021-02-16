@@ -23,7 +23,7 @@ package org.onap.policy.models.pdp.concepts;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 
-import java.util.Date;
+import java.time.Instant;
 import org.junit.Test;
 import org.onap.policy.models.pdp.enums.PdpEngineWorkerState;
 
@@ -50,7 +50,7 @@ public class PdpEngineWorkerStatisticsTest {
         PdpEngineWorkerStatistics stat = new PdpEngineWorkerStatistics();
         stat.setEngineId("Engine0");
         stat.setEngineWorkerState(PdpEngineWorkerState.READY);
-        stat.setEngineTimeStamp(new Date().getTime());
+        stat.setEngineTimeStamp(Instant.now().getEpochSecond());
         stat.setEventCount(1);
         stat.setLastExecutionTime(100);
         stat.setAverageExecutionTime(99);

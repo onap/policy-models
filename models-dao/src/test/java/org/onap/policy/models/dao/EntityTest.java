@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,8 +27,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,9 +58,9 @@ public class EntityTest {
     private static final String VERSION003 = "0.0.3";
     private static final String VERSION002 = "0.0.2";
     private static final String VERSION001 = "0.0.1";
-    private static final Date TIMESTAMP0 = new Date();
-    private static final Date TIMESTAMP1 = new Date();
-    private static final Date TIMESTAMP2 = new Date();
+    private static final Instant TIMESTAMP0 = Instant.ofEpochSecond(1613494293);
+    private static final Instant TIMESTAMP1 = Instant.ofEpochSecond(1613494293).plusSeconds(55);
+    private static final Instant TIMESTAMP2 = Instant.ofEpochSecond(1613494293).plusSeconds(90);
     private PfDao pfDao;
 
     @Test

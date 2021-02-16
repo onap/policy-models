@@ -3,7 +3,7 @@
  * ONAP Policy Model
  * ================================================================================
  * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019-2020 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@
 package org.onap.policy.models.tosca.simple.concepts;
 
 import com.google.gson.annotations.SerializedName;
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -56,6 +56,7 @@ import org.onap.policy.models.base.validation.annotations.VerifyKey;
 @EqualsAndHashCode(callSuper = false)
 public class JpaToscaTimeInterval extends PfConcept {
     private static final long serialVersionUID = 9151467029611969980L;
+    private static final Instant DEFAULT_TIME = Instant.EPOCH;
 
     @EmbeddedId
     @VerifyKey
@@ -63,10 +64,10 @@ public class JpaToscaTimeInterval extends PfConcept {
     private PfReferenceKey key;
 
     @SerializedName("start_time")
-    private Date startTime;
+    private Instant startTime;
 
     @SerializedName("end_time")
-    private Date endTime;
+    private Instant endTime;
 
     /**
      * The Default Constructor creates a {@link JpaToscaTimeInterval} object with a null key.
@@ -81,7 +82,7 @@ public class JpaToscaTimeInterval extends PfConcept {
      * @param key the key
      */
     public JpaToscaTimeInterval(@NonNull final PfReferenceKey key) {
-        this(key, new Date(0), new Date(0));
+        this(key, DEFAULT_TIME, DEFAULT_TIME);
     }
 
     /**
@@ -89,8 +90,8 @@ public class JpaToscaTimeInterval extends PfConcept {
      *
      * @param key the key
      */
-    public JpaToscaTimeInterval(@NonNull final PfReferenceKey key, @NonNull final Date startTime,
-            @NonNull final Date endTime) {
+    public JpaToscaTimeInterval(@NonNull final PfReferenceKey key, @NonNull final Instant startTime,
+            @NonNull final Instant endTime) {
         this.key = key;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -122,15 +123,15 @@ public class JpaToscaTimeInterval extends PfConcept {
     public BeanValidationResult validate(@NonNull String fieldName) {
         BeanValidationResult result = super.validate(fieldName);
 
-        if (startTime == null || startTime.getTime() == 0) {
+        if (startTime == null || startTime.getEpochSecond() == 0) {
             addResult(result, "startTime", startTime, "is null or zero");
         }
 
-        if (endTime == null || endTime.getTime() == 0) {
+        if (endTime == null || endTime.getEpochSecond() == 0) {
             addResult(result, "endTime", endTime, "is null or zero");
         }
 
-        if (startTime != null && endTime != null && endTime.before(startTime)) {
+        if (startTime != null && endTime != null && endTime.isBefore(startTime)) {
             addResult(result, "endTime", endTime, "is before startTime");
         }
 
