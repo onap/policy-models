@@ -28,6 +28,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.sql.Timestamp;
 import java.time.Instant;
 import org.junit.Test;
 
@@ -46,26 +47,28 @@ public class PfReferenceTimestampKeyTest {
         assertEquals(PfKey.NULL_KEY_NAME, new PfReferenceTimestampKey(new PfConceptKey()).getParentKeyName());
         assertNotNull(new PfReferenceTimestampKey(new PfReferenceTimestampKey()).getTimeStamp());
 
-        assertEquals(LOCAL_NAME, new PfReferenceTimestampKey(new PfReferenceKey(), LOCAL_NAME,
-            Instant.ofEpochSecond(timeStamp)).getLocalName());
-        assertEquals(Instant.ofEpochSecond(timeStamp), new PfReferenceTimestampKey(new PfConceptKey(),
-            PARENT_LOCAL_NAME, LOCAL_NAME, Instant.ofEpochSecond(timeStamp)).getTimeStamp());
+        assertEquals(LOCAL_NAME,
+                new PfReferenceTimestampKey(new PfReferenceKey(), LOCAL_NAME, Instant.ofEpochSecond(timeStamp))
+                        .getLocalName());
+        assertEquals(Timestamp.from(Instant.ofEpochSecond(timeStamp)), new PfReferenceTimestampKey(new PfConceptKey(),
+                PARENT_LOCAL_NAME, LOCAL_NAME, Instant.ofEpochSecond(timeStamp)).getTimeStamp());
 
-        assertThat(new PfReferenceTimestampKey("ParentKeyName", VERSION001, PARENT_LOCAL_NAME,
-            LOCAL_NAME, Instant.ofEpochSecond(timeStamp))).isInstanceOf(PfReferenceTimestampKey.class);
+        assertThat(new PfReferenceTimestampKey("ParentKeyName", VERSION001, PARENT_LOCAL_NAME, LOCAL_NAME,
+                Instant.ofEpochSecond(timeStamp))).isInstanceOf(PfReferenceTimestampKey.class);
 
-        assertThat(new PfReferenceTimestampKey("ParentKeyName", VERSION001, LOCAL_NAME,
-            Instant.ofEpochSecond(timeStamp)).getParentLocalName()).isEqualTo(PfKey.NULL_KEY_NAME);
+        assertThat(
+                new PfReferenceTimestampKey("ParentKeyName", VERSION001, LOCAL_NAME, Instant.ofEpochSecond(timeStamp))
+                        .getParentLocalName()).isEqualTo(PfKey.NULL_KEY_NAME);
 
         assertEquals(PfReferenceTimestampKey.getNullKey().getKey(), PfReferenceTimestampKey.getNullKey());
         assertEquals("NULL:0.0.0:NULL:NULL:" + Instant.EPOCH.getEpochSecond(),
-            PfReferenceTimestampKey.getNullKey().getId());
+                PfReferenceTimestampKey.getNullKey().getId());
 
         assertThatThrownBy(() -> new PfReferenceTimestampKey(new PfConceptKey(), null, null))
-            .hasMessage("parameter \"localName\" is null");
+                .hasMessage("parameter \"localName\" is null");
 
         String id = "NULL:0.0.0:NULL:NULL:" + timeStamp;
-        assertThat(new PfReferenceTimestampKey(id).getTimeStamp().getEpochSecond()).isEqualTo(timeStamp);
+        assertThat(new PfReferenceTimestampKey(id).getTimeStamp().getTime()).isEqualTo(timeStamp);
 
     }
 
@@ -78,8 +81,7 @@ public class PfReferenceTimestampKeyTest {
         assertEquals(1, testReferenceKey.getKeys().size());
         assertFalse(testReferenceKey.isNullKey());
 
-        testReferenceKey.setParentReferenceKey(new PfReferenceKey("PN", VERSION001,
-            "LN"));
+        testReferenceKey.setParentReferenceKey(new PfReferenceKey("PN", VERSION001, "LN"));
         assertEquals("PN:0.0.1:NULL:LN", testReferenceKey.getParentReferenceKey().getId());
 
         testReferenceKey.setParentKeyName("PKN");
@@ -94,12 +96,12 @@ public class PfReferenceTimestampKeyTest {
         testReferenceKey.setLocalName("LN");
         assertEquals("LN", testReferenceKey.getLocalName());
 
-        testReferenceKey.setTimeStamp(DEFAULT_TIMESTAMP);
-        assertEquals(DEFAULT_TIMESTAMP, testReferenceKey.getTimeStamp());
+        testReferenceKey.setTimeStamp(Timestamp.from(DEFAULT_TIMESTAMP));
+        assertEquals(Timestamp.from(DEFAULT_TIMESTAMP), testReferenceKey.getTimeStamp());
 
 
         assertThatThrownBy(() -> testReferenceKey.isCompatible(null))
-            .hasMessageMatching("^otherKey is marked .*on.*ull but is null$");
+                .hasMessageMatching("^otherKey is marked .*on.*ull but is null$");
 
         assertFalse(testReferenceKey.isCompatible(PfConceptKey.getNullKey()));
         assertFalse(testReferenceKey.isCompatible(PfReferenceKey.getNullKey()));
@@ -112,26 +114,26 @@ public class PfReferenceTimestampKeyTest {
         PfReferenceTimestampKey clonedReferenceKey = new PfReferenceTimestampKey(testReferenceKey);
 
         assertEquals("PfReferenceTimestampKey(super=PfReferenceKey(parentKeyName=PKN, parentKeyVersion=0.0.1, "
-                + "parentLocalName=ParentLocalName, localName=LN), timeStamp=" + Instant.EPOCH + ")",
-            clonedReferenceKey.toString());
+                + "parentLocalName=ParentLocalName, localName=LN), timeStamp=" + Timestamp.from(Instant.EPOCH) + ")",
+                clonedReferenceKey.toString());
 
         assertNotEquals(0, testReferenceKey.hashCode());
 
         assertEquals(testReferenceKey, clonedReferenceKey);
-        assertNotEquals(testReferenceKey, new PfReferenceTimestampKey("PKN", VERSION001,
-            "PLN", "LN", Instant.ofEpochSecond(timeStamp)));
-        testReferenceKey.setTimeStamp(Instant.ofEpochSecond(timeStamp));
-        assertEquals(testReferenceKey, new PfReferenceTimestampKey("PKN", VERSION001,
-            PARENT_LOCAL_NAME, "LN", Instant.ofEpochSecond(timeStamp)));
+        assertNotEquals(testReferenceKey,
+                new PfReferenceTimestampKey("PKN", VERSION001, "PLN", "LN", Instant.ofEpochSecond(timeStamp)));
+        testReferenceKey.setTimeStamp(Timestamp.from(Instant.ofEpochSecond(timeStamp)));
+        assertEquals(testReferenceKey, new PfReferenceTimestampKey("PKN", VERSION001, PARENT_LOCAL_NAME, "LN",
+                Instant.ofEpochSecond(timeStamp)));
 
         assertNotEquals(0, testReferenceKey.compareTo(new PfConceptKey()));
-        assertNotEquals(0, testReferenceKey.compareTo(new PfReferenceTimestampKey("PKN",
-            VERSION002, "PLN", "LN", Instant.ofEpochSecond(timeStamp))));
-        assertEquals(0, testReferenceKey.compareTo(new PfReferenceTimestampKey("PKN",
-            VERSION001, PARENT_LOCAL_NAME, "LN", Instant.ofEpochSecond(timeStamp))));
+        assertNotEquals(0, testReferenceKey.compareTo(
+                new PfReferenceTimestampKey("PKN", VERSION002, "PLN", "LN", Instant.ofEpochSecond(timeStamp))));
+        assertEquals(0, testReferenceKey.compareTo(new PfReferenceTimestampKey("PKN", VERSION001, PARENT_LOCAL_NAME,
+                "LN", Instant.ofEpochSecond(timeStamp))));
 
         assertThatThrownBy(() -> new PfReferenceTimestampKey((PfReferenceTimestampKey) null))
-            .isInstanceOf(NullPointerException.class);
+                .isInstanceOf(NullPointerException.class);
 
         assertEquals(testReferenceKey, new PfReferenceTimestampKey(testReferenceKey));
 
@@ -139,14 +141,14 @@ public class PfReferenceTimestampKeyTest {
 
     @Test
     public void testNewerKey() {
-        PfReferenceTimestampKey key1 = new PfReferenceTimestampKey("ParentKeyName", VERSION001,
-            PARENT_LOCAL_NAME, LOCAL_NAME, Instant.ofEpochSecond(timeStamp));
+        PfReferenceTimestampKey key1 = new PfReferenceTimestampKey("ParentKeyName", VERSION001, PARENT_LOCAL_NAME,
+                LOCAL_NAME, Instant.ofEpochSecond(timeStamp));
         PfReferenceTimestampKey key2 = new PfReferenceTimestampKey(key1);
         assertFalse(key2.isNewerThan(key1));
         assertThatThrownBy(() -> key1.isNewerThan((PfKey) null)).isInstanceOf(NullPointerException.class)
-            .hasMessageMatching("^otherKey is marked .*on.*ull but is null$");
+                .hasMessageMatching("^otherKey is marked .*on.*ull but is null$");
 
-        key2.setTimeStamp(Instant.ofEpochSecond(timeStamp).plusSeconds(80));
+        key2.setTimeStamp(Timestamp.from(Instant.ofEpochSecond(timeStamp).plusSeconds(80)));
         assertTrue(key2.isNewerThan(key1));
     }
 

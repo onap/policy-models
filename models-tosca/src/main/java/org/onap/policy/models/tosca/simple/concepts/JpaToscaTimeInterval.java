@@ -3,7 +3,7 @@
  * ONAP Policy Model
  * ================================================================================
  * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019-2020 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,8 @@
 package org.onap.policy.models.tosca.simple.concepts;
 
 import com.google.gson.annotations.SerializedName;
-import java.util.Date;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -63,10 +64,10 @@ public class JpaToscaTimeInterval extends PfConcept {
     private PfReferenceKey key;
 
     @SerializedName("start_time")
-    private Date startTime;
+    private Timestamp startTime;
 
     @SerializedName("end_time")
-    private Date endTime;
+    private Timestamp endTime;
 
     /**
      * The Default Constructor creates a {@link JpaToscaTimeInterval} object with a null key.
@@ -81,7 +82,7 @@ public class JpaToscaTimeInterval extends PfConcept {
      * @param key the key
      */
     public JpaToscaTimeInterval(@NonNull final PfReferenceKey key) {
-        this(key, new Date(0), new Date(0));
+        this(key, Instant.EPOCH, Instant.EPOCH);
     }
 
     /**
@@ -89,11 +90,11 @@ public class JpaToscaTimeInterval extends PfConcept {
      *
      * @param key the key
      */
-    public JpaToscaTimeInterval(@NonNull final PfReferenceKey key, @NonNull final Date startTime,
-            @NonNull final Date endTime) {
+    public JpaToscaTimeInterval(@NonNull final PfReferenceKey key, @NonNull final Instant startTime,
+            @NonNull final Instant endTime) {
         this.key = key;
-        this.startTime = startTime;
-        this.endTime = endTime;
+        this.startTime = Timestamp.from(startTime);
+        this.endTime = Timestamp.from(endTime);
     }
 
     /**

@@ -20,6 +20,7 @@
 
 package org.onap.policy.models.base;
 
+import java.sql.Timestamp;
 import java.time.Instant;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -37,15 +38,16 @@ import org.onap.policy.common.utils.validation.Assertions;
  */
 @Embeddable
 @Data
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 public class PfReferenceTimestampKey extends PfReferenceKey {
+    private static final long serialVersionUID = 1130918285832617215L;
+
     private static final String TIMESTAMP_TOKEN = "timeStamp";
-    private static final Instant DEFAULT_TIMESTAMP = Instant.EPOCH;
 
     @Column(name = TIMESTAMP_TOKEN)
     @NotNull
-    private Instant timeStamp;
+    private Timestamp timeStamp;
 
 
     /**
@@ -53,7 +55,7 @@ public class PfReferenceTimestampKey extends PfReferenceKey {
      */
     public PfReferenceTimestampKey() {
         super();
-        this.timeStamp = DEFAULT_TIMESTAMP;
+        this.timeStamp = new Timestamp(0);
     }
 
     /**
@@ -75,7 +77,7 @@ public class PfReferenceTimestampKey extends PfReferenceKey {
      */
     public PfReferenceTimestampKey(final PfConceptKey pfConceptKey) {
         super(pfConceptKey);
-        this.timeStamp = DEFAULT_TIMESTAMP;
+        this.timeStamp = new Timestamp(0);
     }
 
     /**
@@ -85,12 +87,12 @@ public class PfReferenceTimestampKey extends PfReferenceKey {
      *        the parent concept key of this reference key
      * @param localName
      *        the local name of this reference key
-     * @param timeStamp
-     *        the timestamp for this reference key
+     * @param instant
+     *        the time stamp for this reference key
      */
-    public PfReferenceTimestampKey(final PfConceptKey pfConceptKey, final String localName, final Instant timeStamp) {
+    public PfReferenceTimestampKey(final PfConceptKey pfConceptKey, final String localName, final Instant instant) {
         super(pfConceptKey, localName);
-        this.timeStamp = timeStamp;
+        this.timeStamp = Timestamp.from(instant);
     }
 
     /**
@@ -100,13 +102,13 @@ public class PfReferenceTimestampKey extends PfReferenceKey {
      *        the parent reference key of this reference key
      * @param localName
      *        the local name of this reference key
-     * @param timeStamp
-     *        the timestamp for this reference key
+     * @param instant
+     *        the time stamp for this reference key
      */
     public PfReferenceTimestampKey(final PfReferenceKey parentReferenceKey, final String localName,
-                                   final Instant timeStamp) {
+                                   final Instant instant) {
         super(parentReferenceKey, localName);
-        this.timeStamp = timeStamp;
+        this.timeStamp = Timestamp.from(instant);
     }
 
     /**
@@ -119,13 +121,13 @@ public class PfReferenceTimestampKey extends PfReferenceKey {
      *        the local name of the parent reference key of this reference key
      * @param localName
      *        the local name of this reference key
-     * @param timeStamp
-     *        the timestamp for this reference key
+     * @param instant
+     *        the time stamp for this reference key
      */
     public PfReferenceTimestampKey(final PfConceptKey pfConceptKey, final String parentLocalName,
-                                   final String localName, final Instant timeStamp) {
+                                   final String localName, final Instant instant) {
         super(pfConceptKey, parentLocalName, localName);
-        this.timeStamp = timeStamp;
+        this.timeStamp = Timestamp.from(instant);
     }
 
     /**
@@ -138,13 +140,13 @@ public class PfReferenceTimestampKey extends PfReferenceKey {
      *        the version of the parent concept key of this reference key
      * @param localName
      *        the local name of this reference key
-     * @param timeStamp
-     *        the timestamp for this reference key
+     * @param instant
+     *        the time stamp for this reference key
      */
     public PfReferenceTimestampKey(final String parentKeyName, final String parentKeyVersion, final String localName,
-                                   final Instant timeStamp) {
+                                   final Instant instant) {
         super(parentKeyName, parentKeyVersion, NULL_KEY_NAME, localName);
-        this.timeStamp = timeStamp;
+        this.timeStamp = Timestamp.from(instant);
     }
 
     /**
@@ -159,13 +161,13 @@ public class PfReferenceTimestampKey extends PfReferenceKey {
      *        the parent local name of this reference key
      * @param localName
      *        the local name of this reference key
-     * @param timeStamp
-     *        the timestamp for this reference key
+     * @param instant
+     *        the instant for this reference key
      */
     public PfReferenceTimestampKey(final String parentKeyName, final String parentKeyVersion,
-                                   final String parentLocalName, final String localName, final Instant timeStamp) {
+                                   final String parentLocalName, final String localName, final Instant instant) {
         super(parentKeyName, parentKeyVersion, parentLocalName, localName);
-        this.timeStamp = timeStamp;
+        this.timeStamp = Timestamp.from(instant);
     }
 
 
@@ -176,7 +178,7 @@ public class PfReferenceTimestampKey extends PfReferenceKey {
      */
     public PfReferenceTimestampKey(final String id) {
         super(id.substring(0, id.lastIndexOf(':')));
-        this.timeStamp = Instant.ofEpochSecond(Long.parseLong(id.substring(id.lastIndexOf(':') + 1)));
+        this.timeStamp = new Timestamp(Long.parseLong(id.substring(id.lastIndexOf(':') + 1)));
     }
 
 
@@ -187,9 +189,16 @@ public class PfReferenceTimestampKey extends PfReferenceKey {
      */
     public static PfReferenceTimestampKey getNullKey() {
         return new PfReferenceTimestampKey(PfKey.NULL_KEY_NAME, PfKey.NULL_KEY_VERSION, PfKey.NULL_KEY_NAME,
-            PfKey.NULL_KEY_NAME, DEFAULT_TIMESTAMP);
+            PfKey.NULL_KEY_NAME, Instant.EPOCH);
     }
 
+    public Instant getInstant() {
+        return timeStamp.toInstant();
+    }
+
+    public void setInstant(final Instant instant) {
+        setTimeStamp(Timestamp.from(instant));
+    }
 
     @Override
     public PfReferenceTimestampKey getKey() {
@@ -198,12 +207,12 @@ public class PfReferenceTimestampKey extends PfReferenceKey {
 
     @Override
     public String getId() {
-        return super.getId() + ':' + getTimeStamp().getEpochSecond();
+        return super.getId() + ':' + getTimeStamp().getTime();
     }
 
     @Override
     public boolean isNullKey() {
-        return super.isNullKey() && getTimeStamp().getEpochSecond() == 0;
+        return super.isNullKey() && getTimeStamp().getTime() == 0;
     }
 
     @Override
@@ -215,7 +224,7 @@ public class PfReferenceTimestampKey extends PfReferenceKey {
             return false;
         }
         if (!getTimeStamp().equals(otherConceptKey.timeStamp)) {
-            return timeStamp.isAfter(otherConceptKey.timeStamp);
+            return timeStamp.after(otherConceptKey.timeStamp);
         }
         return super.isNewerThan(otherKey);
     }

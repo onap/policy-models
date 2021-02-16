@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Model
  * ================================================================================
- * Copyright (C) 2019 Nordix Foundation.
+ * Copyright (C) 2019-2021 Nordix Foundation.
  * Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,17 +23,18 @@
 
 package org.onap.policy.models.base;
 
-import java.util.Date;
+import java.sql.Timestamp;
+import java.time.Instant;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NonNull;
 import org.onap.policy.common.parameters.annotations.Pattern;
 import org.onap.policy.common.utils.validation.Assertions;
 
 @Embeddable
-@Getter
+@Data
 @EqualsAndHashCode(callSuper = false)
 public class PfTimestampKey extends PfKeyImpl {
     private static final long serialVersionUID = -8410208962541783805L;
@@ -49,14 +50,15 @@ public class PfTimestampKey extends PfKeyImpl {
     private String version;
 
     @Column(name = TIMESTAMP_TOKEN)
-    private Date timeStamp;
+    @NonNull
+    private Timestamp timeStamp;
 
 
     /**
      * The default constructor creates a null concept key.
      */
     public PfTimestampKey() {
-        this(NULL_KEY_NAME, NULL_KEY_VERSION, new Date(0));
+        this(NULL_KEY_NAME, NULL_KEY_VERSION, Instant.EPOCH);
     }
 
     /**
@@ -66,8 +68,7 @@ public class PfTimestampKey extends PfKeyImpl {
      */
     public PfTimestampKey(@NonNull final PfTimestampKey copyConcept) {
         super(copyConcept);
-        long millis = copyConcept.getTimeStamp().getTime();
-        this.timeStamp = new Date(millis);
+        this.timeStamp = copyConcept.getTimeStamp();
     }
 
     /**
@@ -75,12 +76,12 @@ public class PfTimestampKey extends PfKeyImpl {
      *
      * @param name the key name
      * @param version the key version
-     * @param timeStamp the timestamp of key
+     * @param instant the time stamp of key
      */
     public PfTimestampKey(@NonNull final String name, @NonNull final String version,
-            @NonNull final Date timeStamp) {
+            @NonNull final Instant instant) {
         super(name, version);
-        this.timeStamp = new Date(timeStamp.getTime());
+        this.timeStamp = Timestamp.from(instant);
     }
 
     /**
@@ -90,7 +91,7 @@ public class PfTimestampKey extends PfKeyImpl {
      */
     public PfTimestampKey(final String id) {
         super(id.substring(0, id.lastIndexOf(':')));
-        this.timeStamp = new Date(Long.parseLong(id.substring(id.lastIndexOf(':') + 1)));
+        this.timeStamp = new Timestamp(Long.parseLong(id.substring(id.lastIndexOf(':') + 1)));
     }
 
     @Override
@@ -104,13 +105,15 @@ public class PfTimestampKey extends PfKeyImpl {
      * @return a null key
      */
     public static final PfTimestampKey getNullKey() {
-        return new PfTimestampKey(PfKey.NULL_KEY_NAME, PfKey.NULL_KEY_VERSION, new Date(0));
+        return new PfTimestampKey(PfKey.NULL_KEY_NAME, PfKey.NULL_KEY_VERSION, Instant.EPOCH);
     }
 
-    @Override
-    public String toString() {
-        return "PfTimestampKey(name=" + getName() + ", version=" + getVersion() + ", timestamp="
-                + getTimeStamp().getTime() + ")";
+    public Instant getInstant() {
+        return timeStamp.toInstant();
+    }
+
+    public void setInstant(final Instant instant) {
+        setTimeStamp(Timestamp.from(instant));;
     }
 
     @Override
@@ -128,10 +131,6 @@ public class PfTimestampKey extends PfKeyImpl {
         }
 
         return super.isNewerThan(otherKey);
-    }
-
-    public void setTimeStamp(@NonNull final Date timeStamp) {
-        this.timeStamp = new Date(timeStamp.getTime());
     }
 
     @Override
@@ -158,4 +157,5 @@ public class PfTimestampKey extends PfKeyImpl {
     public void setVersion(@NonNull String version) {
         this.version = Assertions.validateStringParameter(VERSION_TOKEN, version, getVersionRegEx());
     }
+
 }
