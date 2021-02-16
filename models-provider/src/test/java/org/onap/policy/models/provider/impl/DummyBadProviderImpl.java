@@ -22,10 +22,10 @@
 
 package org.onap.policy.models.provider.impl;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import javax.ws.rs.core.Response;
 import lombok.NonNull;
@@ -203,13 +203,13 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public List<PdpStatistics> getPdpStatistics(final String name, final Date timestamp) throws PfModelException {
+    public List<PdpStatistics> getPdpStatistics(final String name, final Instant timestamp) throws PfModelException {
         return new ArrayList<>();
     }
 
     @Override
     public List<PdpStatistics> getFilteredPdpStatistics(String name, String pdpGroupName, String pdpSubGroup,
-            Date startTimeStamp, Date endTimeStamp, String sortOrder, int getRecordNum) {
+            Instant startTimeStamp, Instant endTimeStamp, String sortOrder, int getRecordNum) {
         // Not implemented
         return new ArrayList<>();
     }
@@ -229,7 +229,7 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public List<PdpStatistics> deletePdpStatistics(final String name, final Date timestamp) {
+    public List<PdpStatistics> deletePdpStatistics(final String name, final Instant timestamp) {
         // Not implemented
         return null;
     }

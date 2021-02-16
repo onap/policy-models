@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2020 Nordix Foundation.
+ *  Copyright (C) 2020-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,8 +25,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import org.eclipse.persistence.config.PersistenceUnitProperties;
@@ -48,8 +48,8 @@ public class PdpStatisticsProviderTest {
     private static final String NAME = "name";
     private static final String GROUP = "group";
     private static final String SUBGROUP = "subgroup";
-    private static final Date TIMESTAMP1 = new Date(1078884319);
-    private static final Date TIMESTAMP2 = new Date(1078884350);
+    private static final Instant TIMESTAMP1 = Instant.ofEpochSecond(1078884319);
+    private static final Instant TIMESTAMP2 = Instant.ofEpochSecond(1078884350);
     private static final String ORDER = "DESC";
 
     private PfDao pfDao;

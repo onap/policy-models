@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,8 +28,8 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import org.junit.Test;
 import org.onap.policy.models.base.PfTimestampKey;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
@@ -128,7 +128,7 @@ public class JpaPdpStatisticsTest {
         pdpStat.setPdpInstanceId("PDP0");
         pdpStat.setPdpGroupName("PDPGroup0");
         pdpStat.setPdpSubGroupName("PDPSubGroup0");
-        pdpStat.setTimeStamp(new Date());
+        pdpStat.setTimeStamp(Instant.EPOCH);
         pdpStat.setPolicyDeployCount(3);
         pdpStat.setPolicyDeploySuccessCount(1);
         pdpStat.setPolicyDeployFailCount(2);

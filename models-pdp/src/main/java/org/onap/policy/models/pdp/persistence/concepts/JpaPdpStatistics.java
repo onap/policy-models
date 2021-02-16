@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Model
  * ================================================================================
- * Copyright (C) 2019 Nordix Foundation.
+ * Copyright (C) 2019-2021 Nordix Foundation.
  * Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,7 +24,7 @@
 package org.onap.policy.models.pdp.persistence.concepts;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -167,7 +167,7 @@ public class JpaPdpStatistics extends PfConcept implements PfAuthorative<PdpStat
     public PdpStatistics toAuthorative() {
         PdpStatistics pdpStatistics = new PdpStatistics();
         pdpStatistics.setPdpInstanceId(key.getName());
-        pdpStatistics.setTimeStamp(new Date(key.getTimeStamp().getTime()));
+        pdpStatistics.setTimeStamp(key.getTimeStamp());
         pdpStatistics.setPdpGroupName(pdpGroupName);
         pdpStatistics.setPdpSubGroupName(pdpSubGroupName);
         pdpStatistics.setPolicyDeployCount(policyDeployCount);
@@ -185,7 +185,7 @@ public class JpaPdpStatistics extends PfConcept implements PfAuthorative<PdpStat
     public void fromAuthorative(@NonNull final PdpStatistics pdpStatistics) {
         if (this.key == null || this.getKey().isNullKey()) {
             this.setKey(new PfTimestampKey(pdpStatistics.getPdpInstanceId(), PfKey.NULL_KEY_VERSION,
-                    new Date(pdpStatistics.getTimeStamp() == null ? 0 : pdpStatistics.getTimeStamp().getTime())));
+                    pdpStatistics.getTimeStamp() == null ? Instant.EPOCH : pdpStatistics.getTimeStamp()));
         }
         this.setPdpGroupName(pdpStatistics.getPdpGroupName());
         this.setPdpSubGroupName(pdpStatistics.getPdpSubGroupName());

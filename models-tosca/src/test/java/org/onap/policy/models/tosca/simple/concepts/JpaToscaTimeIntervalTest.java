@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,7 +28,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Date;
+import java.time.Instant;
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfReferenceKey;
@@ -46,27 +46,27 @@ public class JpaToscaTimeIntervalTest {
     public void testTimeIntervalPojo() {
         assertNotNull(new JpaToscaTimeInterval());
         assertNotNull(new JpaToscaTimeInterval(new PfReferenceKey()));
-        assertNotNull(new JpaToscaTimeInterval(new PfReferenceKey(), new Date(), new Date()));
+        assertNotNull(new JpaToscaTimeInterval(new PfReferenceKey(), Instant.now(), Instant.now()));
         assertNotNull(new JpaToscaTimeInterval(new JpaToscaTimeInterval()));
 
         assertThatThrownBy(() -> new JpaToscaTimeInterval((PfReferenceKey) null)).hasMessageMatching(KEY_IS_NULL);
 
         assertThatThrownBy(() -> new JpaToscaTimeInterval(null, null, null)).hasMessageMatching(KEY_IS_NULL);
 
-        assertThatThrownBy(() -> new JpaToscaTimeInterval(null, null, new Date())).hasMessageMatching(KEY_IS_NULL);
+        assertThatThrownBy(() -> new JpaToscaTimeInterval(null, null, Instant.now())).hasMessageMatching(KEY_IS_NULL);
 
-        assertThatThrownBy(() -> new JpaToscaTimeInterval(null, new Date(), null)).hasMessageMatching(KEY_IS_NULL);
+        assertThatThrownBy(() -> new JpaToscaTimeInterval(null, Instant.now(), null)).hasMessageMatching(KEY_IS_NULL);
 
-        assertThatThrownBy(() -> new JpaToscaTimeInterval(null, new Date(), new Date()))
+        assertThatThrownBy(() -> new JpaToscaTimeInterval(null, Instant.now(), Instant.now()))
                 .hasMessageMatching(KEY_IS_NULL);
 
         assertThatThrownBy(() -> new JpaToscaTimeInterval(new PfReferenceKey(), null, null))
                 .hasMessageMatching("startTime is marked .*on.*ull but is null");
 
-        assertThatThrownBy(() -> new JpaToscaTimeInterval(new PfReferenceKey(), null, new Date()))
+        assertThatThrownBy(() -> new JpaToscaTimeInterval(new PfReferenceKey(), null, Instant.now()))
                 .hasMessageMatching("startTime is marked .*on.*ull but is null");
 
-        assertThatThrownBy(() -> new JpaToscaTimeInterval(new PfReferenceKey(), new Date(), null))
+        assertThatThrownBy(() -> new JpaToscaTimeInterval(new PfReferenceKey(), Instant.now(), null))
                 .hasMessageMatching("endTime is marked .*on.*ull but is null");
 
         assertThatThrownBy(() -> new JpaToscaServiceTemplate((JpaToscaServiceTemplate) null))
@@ -74,8 +74,8 @@ public class JpaToscaTimeIntervalTest {
 
         PfConceptKey ttiParentKey = new PfConceptKey("tParentKey", "0.0.1");
         PfReferenceKey ttiKey = new PfReferenceKey(ttiParentKey, "trigger0");
-        Date startTime = new Date(1000);
-        Date endTime = new Date(2000);
+        Instant startTime = Instant.ofEpochSecond(1000);
+        Instant endTime = Instant.ofEpochSecond(2000);
         JpaToscaTimeInterval tti = new JpaToscaTimeInterval(ttiKey, startTime, endTime);
 
         JpaToscaTimeInterval tdtClone0 = new JpaToscaTimeInterval(tti);
@@ -113,14 +113,14 @@ public class JpaToscaTimeIntervalTest {
 
         tti.setStartTime(null);
         assertFalse(tti.validate("").isValid());
-        tti.setStartTime(new Date(endTime.getTime() + 1));
+        tti.setStartTime(Instant.ofEpochSecond(endTime.getEpochSecond() + 1));
         assertFalse(tti.validate("").isValid());
         tti.setStartTime(startTime);
         assertTrue(tti.validate("").isValid());
 
         tti.setEndTime(null);
         assertFalse(tti.validate("").isValid());
-        tti.setEndTime(new Date(startTime.getTime() - 1));
+        tti.setEndTime(Instant.ofEpochSecond(startTime.getEpochSecond() - 1));
         assertFalse(tti.validate("").isValid());
         tti.setEndTime(endTime);
         assertTrue(tti.validate("").isValid());
