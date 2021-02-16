@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ed34406_124d9dbc",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/concepts/PdpGroupDeployResponse.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-02-16T13:26:26Z",
+      "side": 1,
+      "message": "is this needed?",
+      "revId": "59d6c65ea096b5fe169c8f62acc15dd0f3de7cfb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
