@@ -22,6 +22,30 @@
       "revId": "9fb6de04f2402c29a4a792cc118f5bbb53906f81",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f8ef84c_d4a74110",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaWithStringPropertiesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-02-17T18:37:27Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f4390fa3_2f5e1f6f",
+      "range": {
+        "startLine": 107,
+        "startChar": 8,
+        "endLine": 107,
+        "endChar": 118
+      },
+      "revId": "9fb6de04f2402c29a4a792cc118f5bbb53906f81",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
