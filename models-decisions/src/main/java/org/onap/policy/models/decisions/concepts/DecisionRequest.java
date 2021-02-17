@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Decision Models
  * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,10 @@
 package org.onap.policy.models.decisions.concepts;
 
 import com.google.gson.annotations.SerializedName;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.time.OffsetTime;
+import java.time.ZoneOffset;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.Data;
@@ -53,6 +57,18 @@ public class DecisionRequest {
     @SerializedName("action")
     private String  action;
 
+    @SerializedName("currentDateTime")
+    private OffsetDateTime currentDateTime;
+
+    @SerializedName("currentDate")
+    private LocalDate currentDate;
+
+    @SerializedName("currentTime")
+    private OffsetTime currentTime;
+
+    @SerializedName("timeZone")
+    private ZoneOffset timeZone;
+
     @SerializedName("resource")
     private Map<String, Object> resource;
 
@@ -71,6 +87,10 @@ public class DecisionRequest {
             this.getContext().putAll(request.getContext());
         }
         this.setAction(request.getAction());
+        this.setCurrentDate(request.getCurrentDate());
+        this.setCurrentDateTime(request.getCurrentDateTime());
+        this.setCurrentTime(request.getCurrentTime());
+        this.setTimeZone(request.getTimeZone());
         if (request.getResource() != null) {
             this.setResource(new HashMap<>());
             this.getResource().putAll(request.getResource());
