@@ -55,7 +55,7 @@ public abstract class JpaToscaWithStringProperties<T extends ToscaWithObjectProp
      * The Default Constructor creates a {@link JpaToscaWithStringProperties} object with
      * a null key.
      */
-    public JpaToscaWithStringProperties() {
+    protected JpaToscaWithStringProperties() {
         this(new PfConceptKey());
     }
 
@@ -65,7 +65,7 @@ public abstract class JpaToscaWithStringProperties<T extends ToscaWithObjectProp
      *
      * @param key the key
      */
-    public JpaToscaWithStringProperties(@NonNull final PfConceptKey key) {
+    protected JpaToscaWithStringProperties(@NonNull final PfConceptKey key) {
         super(key);
     }
 
@@ -74,7 +74,7 @@ public abstract class JpaToscaWithStringProperties<T extends ToscaWithObjectProp
      *
      * @param copyConcept the concept to copy from
      */
-    public JpaToscaWithStringProperties(@NonNull final JpaToscaWithStringProperties<T> copyConcept) {
+    protected JpaToscaWithStringProperties(@NonNull final JpaToscaWithStringProperties<T> copyConcept) {
         super(copyConcept);
         this.properties = (copyConcept.properties != null ? new LinkedHashMap<>(copyConcept.properties) : null);
     }
@@ -84,7 +84,7 @@ public abstract class JpaToscaWithStringProperties<T extends ToscaWithObjectProp
      *
      * @param authorativeConcept the authorative concept to copy from
      */
-    public JpaToscaWithStringProperties(final T authorativeConcept) {
+    protected JpaToscaWithStringProperties(final T authorativeConcept) {
         super(new PfConceptKey());
         this.fromAuthorative(authorativeConcept);
     }
