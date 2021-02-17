@@ -23,27 +23,51 @@ package org.onap.policy.models.tosca.simple.concepts;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.models.base.PfConceptKey;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaWithObjectProperties;
+import org.onap.policy.models.base.PfKey;
+import org.onap.policy.models.base.PfReferenceKey;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaProperty;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaWithToscaProperties;
 
-public class JpaToscaWithStringPropertiesTest {
+public class JpaToscaWithToscaPropertiesTest {
     private static final String SOME_DESCRIPTION = "some description";
     private static final String KEY1 = "abc";
     private static final String KEY2 = "def";
-    private static final String STRING1 = "10";
-    private static final String STRING2 = "20";
-    private static final int INT1 = 10;
-    private static final int INT2 = 20;
+    private static final PfConceptKey CONCEPT_KEY1 = new PfConceptKey("hello", "1.2.3");
+    private static final PfConceptKey CONCEPT_KEY2 = new PfConceptKey("world", "3.2.1");
+    private static final PfReferenceKey REF_KEY1 = new PfReferenceKey(CONCEPT_KEY1);
+    private static final PfReferenceKey REF_KEY2 = new PfReferenceKey(CONCEPT_KEY2);
+    private static final JpaToscaProperty JPA_PROP1 = new JpaToscaProperty(REF_KEY1);
+    private static final JpaToscaProperty JPA_PROP2 = new JpaToscaProperty(REF_KEY2);
+    private static ToscaProperty PROP1;
+    private static ToscaProperty PROP2;
+    private static final String DESCRIPT1 = "description A";
+    private static final String DESCRIPT2 = "description B";
 
     private MyJpa jpa;
+
+    /**
+     * Initializes the properties.
+     */
+    @BeforeClass
+    public static void setUpBeforeClass() {
+        JPA_PROP1.setDescription(DESCRIPT1);
+        JPA_PROP2.setDescription(DESCRIPT2);
+
+        PROP1 = JPA_PROP1.toAuthorative();
+        PROP2 = JPA_PROP2.toAuthorative();
+    }
 
     @Before
     public void setUp() {
@@ -56,30 +80,44 @@ public class JpaToscaWithStringPropertiesTest {
 
         jpa = new MyJpa(key);
         jpa.setDescription(SOME_DESCRIPTION);
-        jpa.setProperties(Map.of(KEY1, STRING1, KEY2, STRING2));
+        jpa.setProperties(Map.of(KEY1, JPA_PROP1, KEY2, JPA_PROP2));
 
-        // properties should be ignored
-        assertThat(jpa.getKeys()).isEqualTo(List.of(key));
+        // properties should be included
+
+        List<PfKey> keys = jpa.getKeys();
+        Collections.sort(keys);
+
+        assertThat(keys).isEqualTo(
+                        List.of(PfConceptKey.getNullKey(), PfConceptKey.getNullKey(), key, REF_KEY1, REF_KEY2));
     }
 
     @Test
     public void testClean() {
+        jpa.clean();
+
         jpa.setDescription("  some description  ");
-        jpa.setProperties(Map.of(KEY1, "10 ", KEY2, " 20"));
+
+        JpaToscaProperty prop1 = new JpaToscaProperty(JPA_PROP1);
+        prop1.setDescription(DESCRIPT1 + " ");
+
+        JpaToscaProperty prop2 = new JpaToscaProperty(JPA_PROP2);
+        prop2.setDescription(" " + DESCRIPT2);
+
+        jpa.setProperties(Map.of(KEY1, prop1, KEY2, prop2));
 
         jpa.clean();
         assertEquals(SOME_DESCRIPTION, jpa.getDescription());
-        assertThat(jpa.getProperties()).isEqualTo(Map.of(KEY1, STRING1, KEY2, STRING2));
+        assertThat(jpa.getProperties()).isEqualTo(Map.of(KEY1, JPA_PROP1, KEY2, JPA_PROP2));
     }
 
     @Test
     public void testToAuthorative() {
         jpa.setDescription(SOME_DESCRIPTION);
-        jpa.setProperties(Map.of(KEY1, STRING1, KEY2, STRING2));
+        jpa.setProperties(Map.of(KEY1, JPA_PROP1, KEY2, JPA_PROP2));
 
         MyTosca tosca = jpa.toAuthorative();
         assertEquals(SOME_DESCRIPTION, tosca.getDescription());
-        assertThat(tosca.getProperties()).isEqualTo(Map.of(KEY1, INT1, KEY2, INT2));
+        assertThat(tosca.getProperties()).isEqualTo(Map.of(KEY1, PROP1, KEY2, PROP2));
     }
 
     @Test
@@ -91,65 +129,76 @@ public class JpaToscaWithStringPropertiesTest {
         assertEquals(SOME_DESCRIPTION, jpa.getDescription());
         assertThat(jpa.getProperties()).isNull();
 
-        tosca.setProperties(Map.of(KEY1, INT1, KEY2, INT2));
+        tosca.setProperties(Map.of(KEY1, PROP1, KEY2, PROP2));
+
+        JpaToscaProperty jpa1 = new JpaToscaProperty(PROP1);
+        jpa1.setKey(new PfReferenceKey(jpa.getKey(), KEY1));
+
+        JpaToscaProperty jpa2 = new JpaToscaProperty(PROP2);
+        jpa2.setKey(new PfReferenceKey(jpa.getKey(), KEY2));
 
         jpa = new MyJpa();
         jpa.fromAuthorative(tosca);
         assertEquals(SOME_DESCRIPTION, jpa.getDescription());
-        assertThat(jpa.getProperties()).isEqualTo(Map.of(KEY1, STRING1, KEY2, STRING2));
+        assertThat(jpa.getProperties()).isEqualTo(Map.of(KEY1, jpa1, KEY2, jpa2));
     }
 
     @Test
     public void testCompareTo() {
         jpa.setDescription(SOME_DESCRIPTION);
-        jpa.setProperties(Map.of(KEY1, STRING1, KEY2, STRING2));
+        jpa.setProperties(Map.of(KEY1, JPA_PROP1, KEY2, JPA_PROP2));
 
         assertThat(jpa).isNotEqualByComparingTo(null).isEqualByComparingTo(jpa).isNotEqualByComparingTo(new MyJpa2());
 
         MyJpa jpa2 = new MyJpa();
         jpa2.setDescription(SOME_DESCRIPTION);
-        jpa2.setProperties(Map.of(KEY1, STRING1, KEY2, STRING2));
+        jpa2.setProperties(Map.of(KEY1, JPA_PROP1, KEY2, JPA_PROP2));
         assertThat(jpa).isEqualByComparingTo(jpa2);
 
-        jpa2.setProperties(Map.of(KEY1, STRING1));
+        jpa2.setProperties(Map.of(KEY1, JPA_PROP1));
         assertThat(jpa).isNotEqualByComparingTo(jpa2);
     }
 
     @Test
-    public void testJpaToscaWithStringProperties() {
+    public void testJpaToscaWithToscaProperties() {
         assertThat(jpa.getProperties()).isNull();
         assertThat(jpa.getKey().isNullKey()).isTrue();
-
     }
 
     @Test
-    public void testJpaToscaWithStringPropertiesPfConceptKey() {
-        PfConceptKey key = new PfConceptKey("hello", "1.2.3");
-
-        jpa = new MyJpa(key);
-        assertEquals(key, jpa.getKey());
+    public void testJpaToscaWithToscaPropertiesPfConceptKey() {
+        jpa = new MyJpa(CONCEPT_KEY1);
+        assertEquals(CONCEPT_KEY1, jpa.getKey());
     }
 
     @Test
-    public void testJpaToscaWithStringPropertiesJpaToscaWithStringPropertiesOfT() {
+    public void testJpaToscaWithToscaPropertiesJpaToscaWithToscaPropertiesOfT() {
         jpa.setDescription(SOME_DESCRIPTION);
         assertEquals(jpa, new MyJpa(jpa));
 
-        jpa.setProperties(Map.of(KEY1, STRING1, KEY2, STRING2));
+        jpa.setProperties(Map.of(KEY1, JPA_PROP1, KEY2, JPA_PROP2));
         assertEquals(jpa, new MyJpa(jpa));
     }
 
     @Test
-    public void testJpaToscaWithStringPropertiesT() {
+    public void testJpaToscaWithToscaPropertiesT() {
         MyTosca tosca = new MyTosca();
         tosca.setName("world");
         tosca.setVersion("3.2.1");
         tosca.setDescription(SOME_DESCRIPTION);
-        tosca.setProperties(Map.of(KEY1, INT1, KEY2, INT2));
+        tosca.setProperties(Map.of(KEY1, PROP1, KEY2, PROP2));
 
         jpa = new MyJpa(tosca);
         assertEquals(SOME_DESCRIPTION, jpa.getDescription());
-        assertThat(jpa.getProperties()).isEqualTo(Map.of(KEY1, STRING1, KEY2, STRING2));
+
+        JpaToscaProperty jpa1 = new JpaToscaProperty(PROP1);
+        jpa1.setKey(new PfReferenceKey(jpa.getKey(), KEY1));
+
+        JpaToscaProperty jpa2 = new JpaToscaProperty(PROP2);
+        jpa2.setKey(new PfReferenceKey(jpa.getKey(), KEY2));
+
+        assertThat(jpa.getProperties()).isEqualTo(Map.of(KEY1, jpa1, KEY2, jpa2));
+
         assertEquals(new PfConceptKey("world", "3.2.1"), jpa.getKey());
     }
 
@@ -168,12 +217,38 @@ public class JpaToscaWithStringPropertiesTest {
         assertThat(jpa.validateWithKey("fieldA").isValid()).isFalse();
     }
 
-    private static class MyTosca extends ToscaWithObjectProperties {
+    @Test
+    public void testGetReferencedDataTypes() {
+        assertThat(jpa.getReferencedDataTypes()).isEmpty();
+
+        // one with a schema
+        PfConceptKey schemaKey = new PfConceptKey("schemaZ", "9.8.7");
+        JpaToscaSchemaDefinition schema = new JpaToscaSchemaDefinition();
+        schema.setType(schemaKey);
+        JpaToscaProperty prop1 = new JpaToscaProperty(JPA_PROP1);
+        prop1.setType(CONCEPT_KEY1);
+        prop1.setEntrySchema(schema);
+
+        // one property without a schema
+        JpaToscaProperty prop2 = new JpaToscaProperty(JPA_PROP2);
+        prop2.setType(CONCEPT_KEY2);
+        prop2.setEntrySchema(null);
+
+        jpa.setProperties(Map.of(KEY1, prop1, KEY2, prop2));
+
+        List<PfConceptKey> keys = new ArrayList<>(jpa.getReferencedDataTypes());
+        Collections.sort(keys);
+
+        assertThat(keys).isEqualTo(List.of(CONCEPT_KEY1, schemaKey, CONCEPT_KEY2));
+    }
+
+
+    private static class MyTosca extends ToscaWithToscaProperties {
 
     }
 
     @NoArgsConstructor
-    protected static class MyJpa extends JpaToscaWithStringProperties<MyTosca> {
+    protected static class MyJpa extends JpaToscaWithToscaProperties<MyTosca> {
         private static final long serialVersionUID = 1L;
 
         @NotNull
@@ -197,16 +272,6 @@ public class JpaToscaWithStringPropertiesTest {
         public MyTosca toAuthorative() {
             this.setToscaEntity(new MyTosca());
             return super.toAuthorative();
-        }
-
-        @Override
-        protected Object deserializePropertyValue(String propValue) {
-            return Integer.parseInt(propValue);
-        }
-
-        @Override
-        protected String serializePropertyValue(Object propValue) {
-            return propValue.toString();
         }
     }
 
