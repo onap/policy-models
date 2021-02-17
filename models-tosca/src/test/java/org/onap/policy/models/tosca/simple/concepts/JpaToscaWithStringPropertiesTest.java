@@ -104,17 +104,15 @@ public class JpaToscaWithStringPropertiesTest {
         jpa.setDescription(SOME_DESCRIPTION);
         jpa.setProperties(Map.of(KEY1, STRING1, KEY2, STRING2));
 
-        assertThat(jpa.compareTo(null)).isNegative();
-        assertThat(jpa.compareTo(jpa)).isZero();
-        assertThat(jpa.compareTo(new PfConceptKey())).isNotZero();
+        assertThat(jpa).isNotEqualByComparingTo(null).isEqualByComparingTo(jpa).isNotEqualByComparingTo(new MyJpa2());
 
         MyJpa jpa2 = new MyJpa();
         jpa2.setDescription(SOME_DESCRIPTION);
         jpa2.setProperties(Map.of(KEY1, STRING1, KEY2, STRING2));
-        assertThat(jpa.compareTo(jpa2)).isZero();
+        assertThat(jpa).isEqualByComparingTo(jpa2);
 
         jpa2.setProperties(Map.of(KEY1, STRING1));
-        assertThat(jpa.compareTo(jpa2)).isNotZero();
+        assertThat(jpa).isNotEqualByComparingTo(jpa2);
     }
 
     @Test
@@ -210,5 +208,9 @@ public class JpaToscaWithStringPropertiesTest {
         protected String serializePropertyValue(Object propValue) {
             return propValue.toString();
         }
+    }
+
+    private static class MyJpa2 extends MyJpa {
+        private static final long serialVersionUID = 1L;
     }
 }
