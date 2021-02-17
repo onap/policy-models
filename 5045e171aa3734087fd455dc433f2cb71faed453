@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "665f6327_ccf2dacd",
+        "filename": "models-decisions/src/main/java/org/onap/policy/models/decisions/concepts/DecisionRequest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-02-17T23:56:09Z",
+      "side": 1,
+      "message": "note: we have gson type adapters for transmitting ZonedDateTime and Instant, but not for these others.  If they are to be transmitted via REST calls, we may need to create type adapters for them.",
+      "revId": "5045e171aa3734087fd455dc433f2cb71faed453",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
