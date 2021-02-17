@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Models
  * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2020-2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,43 +22,33 @@
 package org.onap.policy.models.tosca.authorative.concepts;
 
 import java.io.Serializable;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import org.apache.commons.lang3.ObjectUtils;
 import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.common.parameters.ValidationResult;
-import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 
 /**
  * Identifies a concept. Both the name and version must be non-null.
  */
-@Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class ToscaConceptIdentifier implements Serializable, Comparable<ToscaConceptIdentifier> {
+public class ToscaConceptIdentifier extends ToscaNameVersion
+                implements Serializable, Comparable<ToscaConceptIdentifier> {
     private static final long serialVersionUID = 8010649773816325786L;
-
-    @NonNull
-    private String name;
-
-    @NonNull
-    private String version;
 
 
     public ToscaConceptIdentifier(@NonNull String name, @NonNull String version) {
-        this.name = name;
-        this.version = version;
+        super(name, version);
     }
 
     public ToscaConceptIdentifier(@NonNull PfKey key) {
-        this.name = key.getName();
-        this.version = key.getVersion();
+        super(key);
     }
 
     public ToscaConceptIdentifier(ToscaConceptIdentifier source) {
-        this.name = source.name;
-        this.version = source.version;
+        super(source);
     }
 
     /**
@@ -67,43 +57,16 @@ public class ToscaConceptIdentifier implements Serializable, Comparable<ToscaCon
      * @return the validation result
      */
     public ValidationResult validatePapRest() {
-        BeanValidationResult result = new BeanValidationResult("group", this);
+        BeanValidationResult result = new BeanValidationResult("identifier", this);
 
-        result.validateNotNull("name", name);
-        result.validateNotNull("version", version);
+        result.validateNotNull("name", getName());
+        result.validateNotNull("version", getVersion());
 
         return result;
     }
 
-    /**
-     * Create a PfConcceptKey from the TOSCA identifier.
-     *
-     * @return the key
-     */
-    public PfConceptKey asConceptKey() {
-        return new PfConceptKey(name, version);
-    }
-
     @Override
     public int compareTo(ToscaConceptIdentifier other) {
-        if (this == other) {
-            return 0;
-        }
-
-        if (other == null) {
-            return 1;
-        }
-
-        int result = ObjectUtils.compare(getName(), other.getName());
-        if (result != 0) {
-            return result;
-        }
-
-        return ObjectUtils.compare(getVersion(), other.getVersion());
-    }
-
-    @Override
-    public String toString() {
-        return this.name + " " + this.version;
+        return commonCompareTo(other);
     }
 }
