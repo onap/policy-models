@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd21fe2c_4b741730",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpStatistics.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2021-02-18T15:38:46Z",
+      "side": 1,
+      "message": "Some questions to make sure all the work needed after this is merged is covered:\n\n1.  What\u0027s the format it will take in the wire?   I think this one is a struct, so not sure what\u0027s the format desired for serialization.  How it should be serialized by other components, does StandardCoder have an adapter for Instant that everybody should use?\n\n2.  Is there an impact on the policy/gui repo?   Since the format is changing in these messages.\n\n3.  Is there a change in the way that these are stored in the database, anything special that need to be done by PAP?   If there are changes in the database I guess we are also saying that the schemas will be incompatible with guilin release one and we should document it in release notes.",
+      "revId": "f10aa3e3e209c6a693d36d6bf5971a944ef39917",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
