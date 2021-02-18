@@ -52,6 +52,24 @@
       "revId": "f10aa3e3e209c6a693d36d6bf5971a944ef39917",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d357743_0adff2a5",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpStatistics.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2021-02-18T16:24:45Z",
+      "side": 1,
+      "message": "Quick answers:\n\n1. If we serialize Instant using the StandardCoder then you get a sting like this:\n  \"timeStamp\": \"2021-02-18T16:18:08.834495Z\",\n   See below for an example serialization program\n2. We have up a separate review for policy gui and all the other impacted repos\n3. The database handling is using java.sql.Timestamp for timestamps and we are translating Instant instances to java.sql.Timestamp instances rather than Date instance to java.sql.Timestamp instances so the database will be OK.\n\n\nSerialization test program:\n\n    public static void main(String[] args) throws CoderException {\n        PdpStatistics stats \u003d new PdpStatistics();\n\n        stats.setPdpInstanceId(\"Instance ID\");\n        stats.setTimeStamp(Instant.now());\n        stats.setPdpGroupName(\"Group Name\");\n        stats.setPdpSubGroupName(\"Sub Group Name\");\n        stats.setPolicyDeployCount(1);\n        stats.setPolicyDeploySuccessCount(2);\n        stats.setPolicyDeployFailCount(3);\n        stats.setPolicyExecutedCount(4);\n        stats.setPolicyExecutedSuccessCount(5);\n        stats.setPolicyExecutedFailCount(6);\n        stats.setEngineStats(new ArrayList\u003c\u003e());\n\n        PdpEngineWorkerStatistics engineStats \u003d new PdpEngineWorkerStatistics();\n        engineStats.setEngineId(\"Engine ID\");\n        engineStats.setEngineWorkerState(PdpEngineWorkerState.EXECUTING);\n        engineStats.setEngineTimeStamp(1);\n        engineStats.setEventCount(2);\n        engineStats.setLastExecutionTime(3);\n        engineStats.setAverageExecutionTime(123.45);\n        engineStats.setUpTime(4);\n        engineStats.setLastEnterTime(5);\n        engineStats.setLastStart(6);\n\n        stats.getEngineStats().add(engineStats);\n\n        String serialisedPdpStats \u003d new StandardCoder().encode(stats, true);\n        System.err.println(serialisedPdpStats);\n\n        String serialisedPdpStatsYaml \u003d new StandardYamlCoder().encode(stats, true);\n        System.err.println(serialisedPdpStatsYaml);\n    }\n\nThis produces:\n\n{\n  \"pdpInstanceId\": \"Instance ID\",\n  \"timeStamp\": \"2021-02-18T16:18:08.834495Z\",\n  \"pdpGroupName\": \"Group Name\",\n  \"pdpSubGroupName\": \"Sub Group Name\",\n  \"policyDeployCount\": 1,\n  \"policyDeploySuccessCount\": 2,\n  \"policyDeployFailCount\": 3,\n  \"policyExecutedCount\": 4,\n  \"policyExecutedSuccessCount\": 5,\n  \"policyExecutedFailCount\": 6,\n  \"engineStats\": [\n    {\n      \"engineId\": \"Engine ID\",\n      \"engineWorkerState\": \"EXECUTING\",\n      \"engineTimeStamp\": 1,\n      \"eventCount\": 2,\n      \"lastExecutionTime\": 3,\n      \"averageExecutionTime\": 123.45,\n      \"upTime\": 4,\n      \"lastEnterTime\": 5,\n      \"lastStart\": 6\n    }\n  ]\n}\n\npdpInstanceId: Instance ID\ntimeStamp: \u00272021-02-18T16:23:44.911526Z\u0027\npdpGroupName: Group Name\npdpSubGroupName: Sub Group Name\npolicyDeployCount: 1\npolicyDeploySuccessCount: 2\npolicyDeployFailCount: 3\npolicyExecutedCount: 4\npolicyExecutedSuccessCount: 5\npolicyExecutedFailCount: 6\nengineStats:\n- engineId: Engine ID\n  engineWorkerState: EXECUTING\n  engineTimeStamp: 1\n  eventCount: 2\n  lastExecutionTime: 3\n  averageExecutionTime: 123.45\n  upTime: 4\n  lastEnterTime: 5\n  lastStart: 6",
+      "parentUuid": "3f33b8ed_177ed8cf",
+      "revId": "f10aa3e3e209c6a693d36d6bf5971a944ef39917",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
