@@ -16,6 +16,24 @@
       "revId": "f10aa3e3e209c6a693d36d6bf5971a944ef39917",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f33b8ed_177ed8cf",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpStatistics.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2021-02-18T15:54:11Z",
+      "side": 1,
+      "message": "I see that there are reviews out for this ..",
+      "parentUuid": "fd21fe2c_4b741730",
+      "revId": "f10aa3e3e209c6a693d36d6bf5971a944ef39917",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
