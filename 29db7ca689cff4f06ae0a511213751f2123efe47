@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a94784b_f4950747",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfTimestampKey.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-02-18T11:19:56Z",
+      "side": 1,
+      "message": "delete this - implied by @Data",
+      "revId": "29db7ca689cff4f06ae0a511213751f2123efe47",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eec20898_a3d7d8df",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfTimestampKey.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-02-18T11:19:56Z",
+      "side": 1,
+      "message": "delete this - implied by @Data",
+      "revId": "29db7ca689cff4f06ae0a511213751f2123efe47",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f2dc831_4824c2c3",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfTimestampKey.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-02-18T11:19:56Z",
+      "side": 1,
+      "message": "delete this - implied by @Data",
+      "revId": "29db7ca689cff4f06ae0a511213751f2123efe47",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07aac25b_d939ce24",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfTimestampKey.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-02-18T11:19:56Z",
+      "side": 1,
+      "message": "use DEFAULT_TIMESTAMP.equals() instead",
+      "range": {
+        "startLine": 134,
+        "startChar": 36,
+        "endLine": 134,
+        "endChar": 72
+      },
+      "revId": "29db7ca689cff4f06ae0a511213751f2123efe47",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
