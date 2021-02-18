@@ -145,11 +145,11 @@ public class MainTest {
                         .allowSelfSignedCerts(true).basePath("aai").build();
         HttpClient client = HttpClientFactoryInstance.getClientFactory().build(params);
 
-        Response response = client.get("/v8/network/generic-vnfs/generic-vnf/my-vnf");
+        Response response = client.get("/v21/network/pnfs/pnf/demo-pnf");
         assertEquals(200, response.getStatus());
 
         String result = response.readEntity(String.class);
-        assertThat(result).contains("USUCP0PCOIL0110UJZZ01-vsrx");
+        assertThat(result).contains("model-123456");
     }
 
     /**

@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * aai
  * ================================================================================
- * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * Modifications Copyright (C) 2019 Samsung Electronics Co., Ltd.
  * ================================================================================
@@ -59,10 +59,10 @@ public final class AaiManager {
     private final RestManager restManager;
 
     /** custom query and other AAI resource URLs. */
-    private static final String CQ_URL = "/aai/v16/query?format=resource";
-    private static final String TENANT_URL = "/aai/v16/search/nodes-query?"
+    private static final String CQ_URL = "/aai/v21/query?format=resource";
+    private static final String TENANT_URL = "/aai/v21/search/nodes-query?"
                     + "search-node-type=vserver&filter=vserver-name:EQUALS:";
-    private static final String PREFIX = "/aai/v16";
+    private static final String PREFIX = "/aai/v21";
     private static final String PNF_URL = PREFIX + "/network/pnfs/pnf/";
     private static final String AAI_DEPTH_SUFFIX = "?depth=0";
 
