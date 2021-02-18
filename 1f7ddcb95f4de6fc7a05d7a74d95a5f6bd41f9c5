@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "37faf56a_73d13e6b",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaConceptIdentifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2021-02-18T08:36:27Z",
+      "side": 1,
+      "message": "Nice, there is a lot if duplication on identifier classes.",
+      "range": {
+        "startLine": 37,
+        "startChar": 44,
+        "endLine": 37,
+        "endChar": 60
+      },
+      "revId": "1f7ddcb95f4de6fc7a05d7a74d95a5f6bd41f9c5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
