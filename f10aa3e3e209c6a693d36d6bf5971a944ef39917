@@ -34,6 +34,24 @@
       "revId": "f10aa3e3e209c6a693d36d6bf5971a944ef39917",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "958b6d7a_e28dafa2",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpStatistics.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-02-18T16:20:46Z",
+      "side": 1,
+      "message": "1. uses InstantAsMillisTypeAdapter, so it\u0027s the number of milliseconds.  This adapter is included in GsonMessageBodyHandler\n\n2. review in progress\n\n3. I\u0027m guessing that this will, indeed, cause a schema change :(, but don\u0027t know for sure",
+      "parentUuid": "3f33b8ed_177ed8cf",
+      "revId": "f10aa3e3e209c6a693d36d6bf5971a944ef39917",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
