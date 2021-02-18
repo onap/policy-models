@@ -16,6 +16,24 @@
       "revId": "5045e171aa3734087fd455dc433f2cb71faed453",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de72112a_f85d3bc8",
+        "filename": "models-decisions/src/main/java/org/onap/policy/models/decisions/concepts/DecisionRequest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2021-02-18T00:01:57Z",
+      "side": 1,
+      "message": "Ok we should probably do that - I think that the offset is better suited towards ISO 8601 vs Zoned which kind of uses strings like \"EST\" and \"Greenwich Mean Time\". I can look at the documentation again to be sure.",
+      "parentUuid": "665f6327_ccf2dacd",
+      "revId": "5045e171aa3734087fd455dc433f2cb71faed453",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
