@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b718fe4_1c92eff3",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfReferenceTimestampKey.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2021-02-19T13:20:26Z",
+      "side": 1,
+      "message": "Same question",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 67
+      },
+      "revId": "38fb040cd94b1814742e3c3e8ce326db365b6657",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fb4896f_e4f9fd9c",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfTimestampKey.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2021-02-19T13:20:26Z",
+      "side": 1,
+      "message": "Same question here - perhaps the constructor should just call Instant.EPOCH",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 67
+      },
+      "revId": "38fb040cd94b1814742e3c3e8ce326db365b6657",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03bcd4be_baba8f6c",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaTimeInterval.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2021-02-19T13:20:26Z",
+      "side": 1,
+      "message": "Not sure you want this as a private static final. I see its only used as a default, but perhaps it should just use Instant.EPOCH when the class is created. It would be more accurate.",
+      "range": {
+        "startLine": 59,
+        "startChar": 4,
+        "endLine": 59,
+        "endChar": 61
+      },
+      "revId": "38fb040cd94b1814742e3c3e8ce326db365b6657",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
