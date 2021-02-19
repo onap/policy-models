@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "c0226a7d_b4ff8449",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfReferenceTimestampKey.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2021-02-19T15:19:04Z",
+      "side": 1,
+      "message": "Then, I will just use Instant.EPOCH in the code for more readability without going for any static constants . Hope thats okay.",
+      "parentUuid": "6504634e_0aa8bb48",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 67
+      },
+      "revId": "38fb040cd94b1814742e3c3e8ce326db365b6657",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d06bec79_d487bf71",
         "filename": "models-base/src/main/java/org/onap/policy/models/base/PfReferenceTimestampKey.java",
         "patchSetId": 5
