@@ -70,6 +70,24 @@
       "revId": "f10aa3e3e209c6a693d36d6bf5971a944ef39917",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f2997a3_e74d23a4",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpStatistics.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2021-02-19T10:45:49Z",
+      "side": 1,
+      "message": "On answer 3: The verification failure flagged that it was Date rather than java.util.Timestamp that was being persisted. We have changed that now. The impact is only on the statistics tables and I don\u0027t think the statistic collection was enabled in Guilin releases. So, even though this is a change that impacts the database structure, it should be OK.",
+      "parentUuid": "9d357743_0adff2a5",
+      "revId": "f10aa3e3e209c6a693d36d6bf5971a944ef39917",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
