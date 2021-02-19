@@ -25,6 +25,53 @@
     },
     {
       "key": {
+        "uuid": "1c483312_fb9ee6e4",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfReferenceTimestampKey.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-02-19T13:45:42Z",
+      "side": 1,
+      "message": "yes, could just use Instant.EPOCH.  In addition, I\u0027d suggest adding a new Timestamp constant, so-as to avoid doing Timestamp.from(DEFAULT_TIMESTAMP) repeatedly.",
+      "parentUuid": "8b718fe4_1c92eff3",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 67
+      },
+      "revId": "38fb040cd94b1814742e3c3e8ce326db365b6657",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d06bec79_d487bf71",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfReferenceTimestampKey.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-02-19T13:45:42Z",
+      "side": 1,
+      "message": "extra \";\"",
+      "range": {
+        "startLine": 201,
+        "startChar": 46,
+        "endLine": 201,
+        "endChar": 47
+      },
+      "revId": "38fb040cd94b1814742e3c3e8ce326db365b6657",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2fb4896f_e4f9fd9c",
         "filename": "models-base/src/main/java/org/onap/policy/models/base/PfTimestampKey.java",
         "patchSetId": 5
@@ -64,6 +111,52 @@
         "startChar": 4,
         "endLine": 59,
         "endChar": 61
+      },
+      "revId": "38fb040cd94b1814742e3c3e8ce326db365b6657",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1438f9a0_60f585a9",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaTimeInterval.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-02-19T13:45:42Z",
+      "side": 1,
+      "message": "should be Timestamp",
+      "range": {
+        "startLine": 67,
+        "startChar": 12,
+        "endLine": 67,
+        "endChar": 19
+      },
+      "revId": "38fb040cd94b1814742e3c3e8ce326db365b6657",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9887dee2_75e9d759",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaTimeInterval.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-02-19T13:45:42Z",
+      "side": 1,
+      "message": "should be Timestamp",
+      "range": {
+        "startLine": 70,
+        "startChar": 12,
+        "endLine": 70,
+        "endChar": 19
       },
       "revId": "38fb040cd94b1814742e3c3e8ce326db365b6657",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
