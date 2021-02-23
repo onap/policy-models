@@ -67,9 +67,12 @@ public class PfReferenceTimestampKeyTest {
         assertThatThrownBy(() -> new PfReferenceTimestampKey(new PfConceptKey(), null, null))
                 .hasMessage("parameter \"localName\" is null");
 
+        assertTrue(new PfReferenceTimestampKey().isNullKey());
+        assertFalse(new PfReferenceTimestampKey("ParentKeyName", VERSION001, PfKey.NULL_KEY_NAME,
+            LOCAL_NAME, Instant.EPOCH).isNullKey());
+
         String id = "NULL:0.0.0:NULL:NULL:" + timeStamp;
         assertThat(new PfReferenceTimestampKey(id).getTimeStamp().getTime()).isEqualTo(timeStamp);
-
     }
 
     @Test

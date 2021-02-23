@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -253,7 +253,9 @@ public class PfReferenceKey extends PfKey {
 
     @Override
     public boolean isNullKey() {
-        return this.equals(PfReferenceKey.getNullKey());
+        return (PfReferenceKey.NULL_KEY_NAME.equals(this.getParentKeyName()) && PfReferenceKey.NULL_KEY_VERSION
+            .equals(this.getParentKeyVersion()) && PfReferenceKey.NULL_KEY_NAME.equals(this.getParentLocalName())
+            && PfReferenceKey.NULL_KEY_NAME.equals(this.getLocalName()));
     }
 
     /**
