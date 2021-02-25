@@ -22,6 +22,30 @@
       "revId": "1df09335f7def70a2440da5250accfa27fa22a12",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc5cfa9d_18b33929",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfReferenceKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2021-02-25T12:33:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94e8ef43_38893fa9",
+      "range": {
+        "startLine": 3,
+        "startChar": 22,
+        "endLine": 3,
+        "endChar": 27
+      },
+      "revId": "1df09335f7def70a2440da5250accfa27fa22a12",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
