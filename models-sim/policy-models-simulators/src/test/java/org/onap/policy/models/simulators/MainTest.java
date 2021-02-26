@@ -31,24 +31,17 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import javax.ws.rs.core.Response;
 import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.common.endpoints.event.comm.bus.internal.BusTopicParams;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.common.endpoints.http.client.HttpClientConfigException;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.endpoints.http.server.HttpServletServer;
-import org.onap.policy.common.endpoints.http.server.internal.JettyJerseyServer;
 import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.network.NetworkUtil;
@@ -57,44 +50,6 @@ public class MainTest {
     private static final String PARAMETER_FILE = "simParameters.json";
     private static final String HOST = "localhost";
     private static final String EXPECTED_EXCEPTION = "expected exception";
-
-    private static Map<String, String> savedValues;
-
-    /**
-     * Saves system properties.
-     */
-    @BeforeClass
-    public static void setUpBeforeClass() {
-        savedValues = new HashMap<>();
-
-        for (String prop : List.of(JettyJerseyServer.SYSTEM_KEYSTORE_PASSWORD_PROPERTY_NAME,
-                        JettyJerseyServer.SYSTEM_KEYSTORE_PROPERTY_NAME,
-                        JettyJerseyServer.SYSTEM_TRUSTSTORE_PASSWORD_PROPERTY_NAME,
-                        JettyJerseyServer.SYSTEM_TRUSTSTORE_PROPERTY_NAME)) {
-
-            savedValues.put(prop, System.getProperty(prop));
-        }
-
-        System.setProperty(JettyJerseyServer.SYSTEM_KEYSTORE_PROPERTY_NAME, "src/test/resources/keystore-test");
-        System.setProperty(JettyJerseyServer.SYSTEM_KEYSTORE_PASSWORD_PROPERTY_NAME, "kstest");
-
-        System.setProperty(JettyJerseyServer.SYSTEM_TRUSTSTORE_PROPERTY_NAME, "src/test/resources/keystore-test");
-        System.setProperty(JettyJerseyServer.SYSTEM_TRUSTSTORE_PASSWORD_PROPERTY_NAME, "kstest");
-    }
-
-    /**
-     * Restores system properties.
-     */
-    @AfterClass
-    public static void tearDownAfterClass() {
-        for (Entry<String, String> ent : savedValues.entrySet()) {
-            if (ent.getValue() == null) {
-                System.getProperties().remove(ent.getKey());
-            } else {
-                System.setProperty(ent.getKey(), ent.getValue());
-            }
-        }
-    }
 
     /**
      * Shuts down the simulator instance.
@@ -114,8 +69,8 @@ public class MainTest {
     }
 
     /**
-     * Verifies that all of the simulators are brought up and that HTTPS works with at
-     * least one of them.
+     * Verifies that all of the simulators are brought up and that a request can be sent
+     * to at least one of them.
      */
     @Test
     public void testMain() throws Exception {
@@ -141,8 +96,8 @@ public class MainTest {
     }
 
     private void checkAai() throws HttpClientConfigException {
-        BusTopicParams params = BusTopicParams.builder().clientName("client").hostname(HOST).port(6666).useHttps(true)
-                        .allowSelfSignedCerts(true).basePath("aai").build();
+        BusTopicParams params = BusTopicParams.builder().clientName("client").hostname(HOST).port(6666).useHttps(false)
+                        .basePath("aai").build();
         HttpClient client = HttpClientFactoryInstance.getClientFactory().build(params);
 
         Response response = client.get("/v21/network/pnfs/pnf/demo-pnf");

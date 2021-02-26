@@ -3,7 +3,7 @@
 # ============LICENSE_START=======================================================
 # ONAP
 # ================================================================================
-# Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+# Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
 # Modifications copyright (C) 2020 Bell Canada. All rights reserved.
 # ================================================================================
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,16 +28,8 @@ then
 fi
 
 JAVA_HOME=/usr/lib/jvm/java-11-openjdk
-KEYSTORE="${SIMULATOR_HOME}/etc/ssl/policy-keystore"
-KEYSTORE_PASSWD="Pol1cy_0nap"
-TRUSTSTORE="${SIMULATOR_HOME}/etc/ssl/policy-truststore"
-TRUSTSTORE_PASSWD="Pol1cy_0nap"
 
 ${JAVA_HOME}/bin/java \
     -cp "${SIMULATOR_HOME}/etc:${SIMULATOR_HOME}/lib/*" \
-    -Djavax.net.ssl.keyStore="${KEYSTORE}" \
-    -Djavax.net.ssl.keyStorePassword="${KEYSTORE_PASSWD}" \
-    -Djavax.net.ssl.trustStore="${TRUSTSTORE}" \
-    -Djavax.net.ssl.trustStorePassword="${TRUSTSTORE_PASSWD}" \
     org.onap.policy.models.simulators.Main \
         ${SIMULATOR_HOME}/etc/mounted/simParameters.json

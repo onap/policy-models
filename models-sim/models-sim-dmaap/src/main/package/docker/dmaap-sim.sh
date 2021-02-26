@@ -3,6 +3,7 @@
 # ============LICENSE_START=======================================================
 #  Copyright (C) 2019 Nordix Foundation.
 #  Modifications copyright (C) 2020 Bell Canada. All rights reserved.
+#  Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
 # ================================================================================
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -26,10 +27,6 @@ then
 fi
 
 JAVA_HOME=/usr/lib/jvm/java-11-openjdk
-KEYSTORE="${DMAAP_SIM_HOME}/etc/ssl/policy-keystore"
-KEYSTORE_PASSWD="Pol1cy_0nap"
-TRUSTSTORE="${DMAAP_SIM_HOME}/etc/ssl/policy-truststore"
-TRUSTSTORE_PASSWD="Pol1cy_0nap"
 
 if [ "$#" -eq 1 ]
 then
@@ -47,9 +44,5 @@ echo "DMaaP simulation configuration file: $CONFIG_FILE"
 
 $JAVA_HOME/bin/java \
     -cp "$DMAAP_SIM_HOME/etc:$DMAAP_SIM_HOME/lib/*" \
-    -Djavax.net.ssl.keyStore="$KEYSTORE" \
-    -Djavax.net.ssl.keyStorePassword="$KEYSTORE_PASSWD" \
-    -Djavax.net.ssl.trustStore="$TRUSTSTORE" \
-    -Djavax.net.ssl.trustStorePassword="$TRUSTSTORE_PASSWD" \
     org.onap.policy.models.sim.dmaap.startstop.Main \
     -c $CONFIG_FILE

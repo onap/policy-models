@@ -8,43 +8,43 @@
             "name": "DMaaP simulator",
             "providerClass": "org.onap.policy.models.sim.dmaap.rest.DmaapSimRestControllerV1",
             "host": "localhost",
-            "port": 3905,
-            "https": true
+            "port": 3904,
+            "https": false
         },
         {
             "name": "A&AI simulator",
             "providerClass": "org.onap.policy.simulators.AaiSimulatorJaxRs",
             "host": "localhost",
             "port": 6666,
-            "https": true
+            "https": false
         },
         {
             "name": "Guard simulator",
             "providerClass": "org.onap.policy.simulators.GuardSimulatorJaxRs",
             "host": "localhost",
             "port": 6667,
-            "https": true
+            "https": false
         },
         {
             "name": "SDNC simulator",
             "providerClass": "org.onap.policy.simulators.SdncSimulatorJaxRs",
             "host": "localhost",
             "port": 6668,
-            "https": true
+            "https": false
         },
         {
             "name": "SO simulator",
             "providerClass": "org.onap.policy.simulators.SoSimulatorJaxRs",
             "host": "localhost",
             "port": 6669,
-            "https": true
+            "https": false
         },
         {
             "name": "VFC simulator",
             "providerClass": "org.onap.policy.simulators.VfcSimulatorJaxRs",
             "host": "localhost",
             "port": 6670,
-            "https": true
+            "https": false
         }
     ],
     "topicSinks": [
@@ -52,19 +52,19 @@
             "topic": "APPC-CL",
             "servers": ["localhost"],
             "topicCommInfrastructure": "DMAAP",
-            "useHttps": true
+            "useHttps": false
         },
         {
             "topic": "APPC-LCM-WRITE",
             "servers": ["localhost"],
             "topicCommInfrastructure": "DMAAP",
-            "useHttps": true
+            "useHttps": false
         },
         {
             "topic": "SDNR-CL",
             "servers": ["localhost"],
             "topicCommInfrastructure": "DMAAP",
-            "useHttps": true
+            "useHttps": false
         }
     ],
     "topicSources": [
@@ -72,19 +72,19 @@
             "topic": "APPC-CL",
             "servers": ["localhost"],
             "topicCommInfrastructure": "DMAAP",
-            "useHttps": true
+            "useHttps": false
         },
         {
             "topic": "APPC-LCM-READ",
             "servers": ["localhost"],
             "topicCommInfrastructure": "DMAAP",
-            "useHttps": true
+            "useHttps": false
         },
         {
             "topic": "SDNR-CL-RSP",
             "servers": ["localhost"],
             "topicCommInfrastructure": "DMAAP",
-            "useHttps": true
+            "useHttps": false
         }
     ],
     "topicServers": [
