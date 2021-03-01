@@ -22,12 +22,14 @@ package org.onap.policy.models.base;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.Collections;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-import lombok.ToString;
 import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.common.utils.validation.Assertions;
 
@@ -36,11 +38,11 @@ import org.onap.policy.common.utils.validation.Assertions;
  * additional option to have timestamp as a parameter.
  *
  */
+
 @Embeddable
 @Data
-@EqualsAndHashCode(callSuper = true)
-@ToString(callSuper = true)
-public class PfReferenceTimestampKey extends PfReferenceKey {
+@EqualsAndHashCode
+public class PfReferenceTimestampKey extends PfKey {
     private static final long serialVersionUID = 1130918285832617215L;
 
     private static final String TIMESTAMP_TOKEN = "timeStamp";
@@ -49,24 +51,27 @@ public class PfReferenceTimestampKey extends PfReferenceKey {
     @NotNull
     private Timestamp timeStamp;
 
+    @Embedded
+    @Column
+    private PfReferenceKey referenceKey;
 
     /**
      * The default constructor creates a null reference timestamp key.
      */
     public PfReferenceTimestampKey() {
-        super();
+        this.referenceKey = new PfReferenceKey();
         this.timeStamp = new Timestamp(0);
     }
 
     /**
      * The Copy Constructor creates a key by copying another key.
      *
-     * @param referenceKey
+     * @param referenceTimestampKey
      *        the reference key to copy from
      */
-    public PfReferenceTimestampKey(final PfReferenceTimestampKey referenceKey) {
-        super(referenceKey);
-        this.timeStamp = referenceKey.getTimeStamp();
+    public PfReferenceTimestampKey(final PfReferenceTimestampKey referenceTimestampKey) {
+        this.referenceKey = referenceTimestampKey.getReferenceKey();
+        this.timeStamp = referenceTimestampKey.getTimeStamp();
     }
 
     /**
@@ -76,7 +81,7 @@ public class PfReferenceTimestampKey extends PfReferenceKey {
      *        the parent concept key of this reference key
      */
     public PfReferenceTimestampKey(final PfConceptKey pfConceptKey) {
-        super(pfConceptKey);
+        this.referenceKey = new PfReferenceKey(pfConceptKey);
         this.timeStamp = new Timestamp(0);
     }
 
@@ -91,7 +96,7 @@ public class PfReferenceTimestampKey extends PfReferenceKey {
      *        the time stamp for this reference key
      */
     public PfReferenceTimestampKey(final PfConceptKey pfConceptKey, final String localName, final Instant instant) {
-        super(pfConceptKey, localName);
+        this.referenceKey = new PfReferenceKey(pfConceptKey, localName);
         this.timeStamp = Timestamp.from(instant);
     }
 
@@ -107,7 +112,7 @@ public class PfReferenceTimestampKey extends PfReferenceKey {
      */
     public PfReferenceTimestampKey(final PfReferenceKey parentReferenceKey, final String localName,
                                    final Instant instant) {
-        super(parentReferenceKey, localName);
+        this.referenceKey = new PfReferenceKey(parentReferenceKey, localName);
         this.timeStamp = Timestamp.from(instant);
     }
 
@@ -126,7 +131,7 @@ public class PfReferenceTimestampKey extends PfReferenceKey {
      */
     public PfReferenceTimestampKey(final PfConceptKey pfConceptKey, final String parentLocalName,
                                    final String localName, final Instant instant) {
-        super(pfConceptKey, parentLocalName, localName);
+        this.referenceKey = new PfReferenceKey(pfConceptKey, parentLocalName, localName);
         this.timeStamp = Timestamp.from(instant);
     }
 
@@ -145,7 +150,7 @@ public class PfReferenceTimestampKey extends PfReferenceKey {
      */
     public PfReferenceTimestampKey(final String parentKeyName, final String parentKeyVersion, final String localName,
                                    final Instant instant) {
-        super(parentKeyName, parentKeyVersion, NULL_KEY_NAME, localName);
+        this.referenceKey = new PfReferenceKey(parentKeyName, parentKeyVersion, PfKey.NULL_KEY_NAME, localName);
         this.timeStamp = Timestamp.from(instant);
     }
 
@@ -166,7 +171,7 @@ public class PfReferenceTimestampKey extends PfReferenceKey {
      */
     public PfReferenceTimestampKey(final String parentKeyName, final String parentKeyVersion,
                                    final String parentLocalName, final String localName, final Instant instant) {
-        super(parentKeyName, parentKeyVersion, parentLocalName, localName);
+        this.referenceKey = new PfReferenceKey(parentKeyName, parentKeyVersion, parentLocalName, localName);
         this.timeStamp = Timestamp.from(instant);
     }
 
@@ -177,7 +182,7 @@ public class PfReferenceTimestampKey extends PfReferenceKey {
      * @param id the key ID in a format that respects the KEY_ID_REGEXP
      */
     public PfReferenceTimestampKey(final String id) {
-        super(id.substring(0, id.lastIndexOf(':')));
+        this.referenceKey = new PfReferenceKey(id.substring(0, id.lastIndexOf(':')));
         this.timeStamp = new Timestamp(Long.parseLong(id.substring(id.lastIndexOf(':') + 1)));
     }
 
@@ -200,32 +205,99 @@ public class PfReferenceTimestampKey extends PfReferenceKey {
         setTimeStamp(Timestamp.from(instant));
     }
 
-    @Override
+    /**
+     * Get the key of this reference.
+     *
+     * @return the pfReferenceTimestamp key
+     */
     public PfReferenceTimestampKey getKey() {
         return this;
     }
 
-    @Override
+    /**
+     * Get the key as a string.
+     * @return pfReferenceTimestamp key.
+     */
     public String getId() {
-        return super.getId() + ':' + getTimeStamp().getTime();
+        return getReferenceKey().getId() + ':' + getTimeStamp().getTime();
+    }
+
+
+    /**
+     * Check if this key is a newer version than the other key.
+     *
+     * @param otherKey the key to check against
+     * @return true, if this key is newer than the other key
+     */
+    @Override
+    public boolean isNewerThan(@NonNull PfKey otherKey) {
+        Assertions.instanceOf(otherKey, PfReferenceTimestampKey.class);
+        final PfReferenceTimestampKey otherReferenceKey = (PfReferenceTimestampKey) otherKey;
+        if (!getTimeStamp().equals(otherReferenceKey.timeStamp)) {
+            return timeStamp.after(otherReferenceKey.timeStamp);
+        }
+        return getReferenceKey().isNewerThan(otherReferenceKey.getReferenceKey());
     }
 
     @Override
     public boolean isNullKey() {
-        return super.isNullKey() && getTimeStamp().getTime() == 0;
+        return getReferenceKey().isNullKey() && getTimeStamp().getTime() == 0;
     }
 
     @Override
-    public boolean isNewerThan(@NonNull PfKey otherKey) {
-        Assertions.instanceOf(otherKey, PfReferenceTimestampKey.class);
-        final PfReferenceTimestampKey otherConceptKey = (PfReferenceTimestampKey) otherKey;
+    public int getMajorVersion() {
+        return getReferenceKey().getMajorVersion();
+    }
 
-        if (this.equals(otherConceptKey)) {
+    @Override
+    public int getMinorVersion() {
+        return getReferenceKey().getMinorVersion();
+    }
+
+    @Override
+    public int getPatchVersion() {
+        return getReferenceKey().getPatchVersion();
+    }
+
+
+    @Override
+    public int compareTo(@NonNull final PfConcept otherObj) {
+        if (this == otherObj) {
+            return 0;
+        }
+        if (getClass() != otherObj.getClass()) {
+            return getClass().getName().compareTo(otherObj.getClass().getName());
+        }
+        int result = getReferenceKey().compareTo(((PfReferenceTimestampKey) otherObj).getReferenceKey());
+        if (0 == result) {
+            return getTimeStamp().compareTo(((PfReferenceTimestampKey) otherObj).timeStamp);
+        }
+        return result;
+    }
+
+    @Override
+    public List<PfKey> getKeys() {
+        return Collections.singletonList(getKey());
+    }
+
+    @Override
+    public void clean() {
+        getReferenceKey().clean();
+    }
+
+    @Override
+    public Compatibility getCompatibility(@NonNull PfKey otherKey) {
+        return getReferenceKey().getCompatibility(otherKey);
+    }
+
+    @Override
+    public boolean isCompatible(@NonNull PfKey otherKey) {
+        if (!(otherKey instanceof PfReferenceTimestampKey)) {
             return false;
         }
-        if (!getTimeStamp().equals(otherConceptKey.timeStamp)) {
-            return timeStamp.after(otherConceptKey.timeStamp);
-        }
-        return super.isNewerThan(otherKey);
+        final PfReferenceTimestampKey otherReferenceKey = (PfReferenceTimestampKey) otherKey;
+
+        return this.getReferenceKey().getParentConceptKey().isCompatible(otherReferenceKey.getReferenceKey()
+            .getParentConceptKey());
     }
 }
