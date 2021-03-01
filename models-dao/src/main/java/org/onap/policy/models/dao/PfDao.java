@@ -29,6 +29,7 @@ import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfReferenceKey;
+import org.onap.policy.models.base.PfReferenceTimestampKey;
 import org.onap.policy.models.base.PfTimestampKey;
 
 /**
@@ -200,6 +201,16 @@ public interface PfDao {
      * @return the object that was retrieved from the database or null if the object was not retrieved
      */
     <T extends PfConcept> T get(Class<T> someClass, PfTimestampKey timestampKey);
+
+    /**
+     * Get an object from the database, referred to by reference timestamp key.
+     *
+     * @param <T> the type of the object to get, a subclass of {@link PfConcept}
+     * @param someClass the class of the object to get, a subclass of {@link PfConcept}
+     * @param key the PfReferenceTimestampKey of the object to get
+     * @return the object that was retrieved from the database or null if the object was not retrieved
+     */
+    <T extends PfConcept> T get(Class<T> someClass, PfReferenceTimestampKey key);
 
     /**
      * Get all the objects in the database of a given type.
