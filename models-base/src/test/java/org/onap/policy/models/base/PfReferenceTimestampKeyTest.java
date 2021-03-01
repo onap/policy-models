@@ -43,13 +43,14 @@ public class PfReferenceTimestampKeyTest {
 
     @Test
     public void testPfReferenceTimestampKeyConstruct() {
-        assertThat(new PfReferenceTimestampKey().getLocalName()).isEqualTo(PfKey.NULL_KEY_NAME);
-        assertEquals(PfKey.NULL_KEY_NAME, new PfReferenceTimestampKey(new PfConceptKey()).getParentKeyName());
+        assertThat(new PfReferenceTimestampKey().getReferenceKey().getLocalName()).isEqualTo(PfKey.NULL_KEY_NAME);
+        assertEquals(PfKey.NULL_KEY_NAME, new PfReferenceTimestampKey(new PfConceptKey()).getReferenceKey()
+            .getParentKeyName());
         assertNotNull(new PfReferenceTimestampKey(new PfReferenceTimestampKey()).getTimeStamp());
 
         assertEquals(LOCAL_NAME,
                 new PfReferenceTimestampKey(new PfReferenceKey(), LOCAL_NAME, Instant.ofEpochSecond(timeStamp))
-                        .getLocalName());
+                        .getReferenceKey().getLocalName());
         assertEquals(Timestamp.from(Instant.ofEpochSecond(timeStamp)), new PfReferenceTimestampKey(new PfConceptKey(),
                 PARENT_LOCAL_NAME, LOCAL_NAME, Instant.ofEpochSecond(timeStamp)).getTimeStamp());
 
@@ -58,7 +59,7 @@ public class PfReferenceTimestampKeyTest {
 
         assertThat(
                 new PfReferenceTimestampKey("ParentKeyName", VERSION001, LOCAL_NAME, Instant.ofEpochSecond(timeStamp))
-                        .getParentLocalName()).isEqualTo(PfKey.NULL_KEY_NAME);
+                        .getReferenceKey().getParentLocalName()).isEqualTo(PfKey.NULL_KEY_NAME);
 
         assertEquals(PfReferenceTimestampKey.getNullKey().getKey(), PfReferenceTimestampKey.getNullKey());
         assertEquals("NULL:0.0.0:NULL:NULL:" + Instant.EPOCH.getEpochSecond(),
@@ -67,9 +68,8 @@ public class PfReferenceTimestampKeyTest {
         assertThatThrownBy(() -> new PfReferenceTimestampKey(new PfConceptKey(), null, null))
                 .hasMessage("parameter \"localName\" is null");
 
-        assertTrue(new PfReferenceTimestampKey().isNullKey());
-        assertFalse(new PfReferenceTimestampKey("ParentKeyName", VERSION001, PfKey.NULL_KEY_NAME,
-            LOCAL_NAME, Instant.EPOCH).isNullKey());
+        PfReferenceTimestampKey testNullKey = new PfReferenceTimestampKey();
+        assertTrue(testNullKey.isNullKey());
 
         String id = "NULL:0.0.0:NULL:NULL:" + timeStamp;
         assertThat(new PfReferenceTimestampKey(id).getTimeStamp().getTime()).isEqualTo(timeStamp);
@@ -78,26 +78,26 @@ public class PfReferenceTimestampKeyTest {
     @Test
     public void testPfReferenceTimestampKey() {
         PfReferenceTimestampKey testReferenceKey = new PfReferenceTimestampKey();
-        testReferenceKey.setParentConceptKey(new PfConceptKey("PN", VERSION001));
-        assertEquals("PN:0.0.1", testReferenceKey.getParentConceptKey().getId());
+        testReferenceKey.setReferenceKey(new PfReferenceKey(new PfConceptKey("PN", VERSION001)));
+        assertEquals("PN:0.0.1", testReferenceKey.getReferenceKey().getParentConceptKey().getId());
 
         assertEquals(1, testReferenceKey.getKeys().size());
         assertFalse(testReferenceKey.isNullKey());
 
-        testReferenceKey.setParentReferenceKey(new PfReferenceKey("PN", VERSION001, "LN"));
-        assertEquals("PN:0.0.1:NULL:LN", testReferenceKey.getParentReferenceKey().getId());
+        testReferenceKey.setReferenceKey(new PfReferenceKey("PN", VERSION001, "LN"));
+        assertEquals("PN:0.0.1:NULL:LN", testReferenceKey.getReferenceKey().getId());
 
-        testReferenceKey.setParentKeyName("PKN");
-        assertEquals("PKN", testReferenceKey.getParentKeyName());
+        testReferenceKey.getReferenceKey().setParentKeyName("PKN");
+        assertEquals("PKN", testReferenceKey.getReferenceKey().getParentKeyName());
 
-        testReferenceKey.setParentKeyVersion(VERSION001);
-        assertEquals(VERSION001, testReferenceKey.getParentKeyVersion());
+        testReferenceKey.getReferenceKey().setParentKeyVersion(VERSION001);
+        assertEquals(VERSION001, testReferenceKey.getReferenceKey().getParentKeyVersion());
 
-        testReferenceKey.setParentLocalName(PARENT_LOCAL_NAME);
-        assertEquals(PARENT_LOCAL_NAME, testReferenceKey.getParentLocalName());
+        testReferenceKey.getReferenceKey().setParentLocalName(PARENT_LOCAL_NAME);
+        assertEquals(PARENT_LOCAL_NAME, testReferenceKey.getReferenceKey().getParentLocalName());
 
-        testReferenceKey.setLocalName("LN");
-        assertEquals("LN", testReferenceKey.getLocalName());
+        testReferenceKey.getReferenceKey().setLocalName("LN");
+        assertEquals("LN", testReferenceKey.getReferenceKey().getLocalName());
 
         testReferenceKey.setTimeStamp(Timestamp.from(DEFAULT_TIMESTAMP));
         assertEquals(Timestamp.from(DEFAULT_TIMESTAMP), testReferenceKey.getTimeStamp());
@@ -116,22 +116,23 @@ public class PfReferenceTimestampKeyTest {
 
         PfReferenceTimestampKey clonedReferenceKey = new PfReferenceTimestampKey(testReferenceKey);
 
-        assertEquals("PfReferenceTimestampKey(super=PfReferenceKey(parentKeyName=PKN, parentKeyVersion=0.0.1, "
-                + "parentLocalName=ParentLocalName, localName=LN), timeStamp=" + Timestamp.from(Instant.EPOCH) + ")",
-                clonedReferenceKey.toString());
+        assertEquals("PfReferenceTimestampKey(timeStamp=" + Timestamp.from(Instant.EPOCH) + ","
+                + " referenceKey=PfReferenceKey(parentKeyName=PKN, parentKeyVersion=0.0.1, "
+                + "parentLocalName=ParentLocalName, localName=LN))", clonedReferenceKey.toString());
 
         assertNotEquals(0, testReferenceKey.hashCode());
 
         assertEquals(testReferenceKey, clonedReferenceKey);
-        assertNotEquals(testReferenceKey,
-                new PfReferenceTimestampKey("PKN", VERSION001, "PLN", "LN", Instant.ofEpochSecond(timeStamp)));
+        assertNotEquals(testReferenceKey, new PfReferenceTimestampKey("PKN", VERSION001, "PLN",
+            "LN", Instant.ofEpochSecond(timeStamp)));
         testReferenceKey.setTimeStamp(Timestamp.from(Instant.ofEpochSecond(timeStamp)));
         assertEquals(testReferenceKey, new PfReferenceTimestampKey("PKN", VERSION001, PARENT_LOCAL_NAME, "LN",
                 Instant.ofEpochSecond(timeStamp)));
 
-        assertNotEquals(0, testReferenceKey.compareTo(new PfConceptKey()));
-        assertNotEquals(0, testReferenceKey.compareTo(
-                new PfReferenceTimestampKey("PKN", VERSION002, "PLN", "LN", Instant.ofEpochSecond(timeStamp))));
+        assertNotEquals(0, testReferenceKey.compareTo(new PfReferenceTimestampKey()));
+        assertNotEquals(0, testReferenceKey.compareTo(new PfReferenceTimestampKey("PKN", VERSION002,
+            "PLN", "LN", Instant.ofEpochSecond(timeStamp))));
+
         assertEquals(0, testReferenceKey.compareTo(new PfReferenceTimestampKey("PKN", VERSION001, PARENT_LOCAL_NAME,
                 "LN", Instant.ofEpochSecond(timeStamp))));
 

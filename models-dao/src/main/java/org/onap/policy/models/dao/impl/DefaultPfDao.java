@@ -37,6 +37,7 @@ import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.base.PfReferenceKey;
+import org.onap.policy.models.base.PfReferenceTimestampKey;
 import org.onap.policy.models.base.PfTimestampKey;
 import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.dao.DaoParameters;
@@ -77,6 +78,8 @@ public class DefaultPfDao implements PfDao {
     private static final String PARENT_NAME_FILTER     = "c.key.parentKeyName = :parentname";
     private static final String PARENT_VERSION_FILTER  = "c.key.parentKeyVersion = :parentversion";
     private static final String LOCAL_NAME_FILTER      = "c.key.localName = :localname";
+
+    private static final String PARENT_NAME_REF_FILTER     = "c.key.referenceKey.parentKeyName = :parentKeyName";
 
     private static final String CLONE_ERR_MSG = "Could not clone object of class \"{}\"";
 
@@ -366,7 +369,8 @@ public class DefaultPfDao implements PfDao {
             if (filterMap != null) {
                 filterQueryString = buildFilter(filterMap, filterQueryString);
             }
-            filterQueryString = addKeyFilterString(filterQueryString, name, startTime, endTime);
+            filterQueryString = addKeyFilterString(filterQueryString, name, startTime, endTime,
+                isRefTimestampKey(someClass));
             if (getRecordNum > 0) {
                 filterQueryString += ORDER + " c.key.timeStamp " + sortOrder;
             }
@@ -378,7 +382,11 @@ public class DefaultPfDao implements PfDao {
                 }
             }
             if (name != null) {
-                query.setParameter("name", name);
+                if (isRefTimestampKey(someClass)) {
+                    query.setParameter("parentKeyName", name);
+                } else {
+                    query.setParameter("name", name);
+                }
             }
             if (startTime != null) {
                 if (endTime != null) {
@@ -398,8 +406,25 @@ public class DefaultPfDao implements PfDao {
 
             LOGGER.debug("filterQueryString is  \"{}\"", filterQueryString);
             return query.getResultList();
-        } finally {
+        }  finally {
             mg.close();
+        }
+    }
+
+    /**
+     * This method checks if the class invoking the DAO is using PfReferenceTimestamp Key.
+     * @param someClass class that invoked Dao
+     * @return true if the key is PfReferenceTimestampKey.
+     */
+    private <T extends PfConcept> boolean isRefTimestampKey(final Class<T> someClass) {
+        try {
+            return PfReferenceTimestampKey.class.isAssignableFrom(someClass.getDeclaredField("key").getType());
+        } catch (NoSuchFieldException e) {  // NOSONAR
+            /*
+             * If the class doesn't have the 'key' field present, PfReferenceTimestamp is not used. Not logging, as its
+             * likely to be frequent and will clutter the log.
+             */
+            return false;
         }
     }
 
@@ -423,6 +448,11 @@ public class DefaultPfDao implements PfDao {
 
     @Override
     public <T extends PfConcept> T get(final Class<T> someClass, final PfTimestampKey key) {
+        return genericGet(someClass, key);
+    }
+
+    @Override
+    public <T extends PfConcept> T get(final Class<T> someClass, final PfReferenceTimestampKey key) {
         return genericGet(someClass, key);
     }
 
@@ -619,25 +649,31 @@ public class DefaultPfDao implements PfDao {
      *        timeStamp <= endTime. null for ignore start time.
      * @param endTime the end timeStamp to filter from database, filter rule: startTime <= filteredRecord timeStamp <=
      *        endTime. null for ignore end time
+     * @param isRefTimestampKey boolean value, set to true if the query invoked for pfReferenceTimestampKey
      * @return the filter string to query database
      */
     private String addKeyFilterString(String inputFilterString, final String name, final Instant startTime,
-            final Instant endTime) {
+            final Instant endTime, final boolean isRefTimestampKey) {
         String filterQueryString;
+        String inputFilter = inputFilterString;
         if (name != null) {
-            inputFilterString += NAME_FILTER + AND;
+            if (isRefTimestampKey) {
+                inputFilter += PARENT_NAME_REF_FILTER + AND;
+            } else {
+                inputFilter += NAME_FILTER + AND;
+            }
         }
         if (startTime != null) {
             if (endTime != null) {
-                filterQueryString = inputFilterString + TIMESTAMP_START_FILTER + AND + TIMESTAMP_END_FILTER;
+                filterQueryString = inputFilter + TIMESTAMP_START_FILTER + AND + TIMESTAMP_END_FILTER;
             } else {
-                filterQueryString = inputFilterString + TIMESTAMP_START_FILTER;
+                filterQueryString = inputFilter + TIMESTAMP_START_FILTER;
             }
         } else {
             if (endTime != null) {
-                filterQueryString = inputFilterString + TIMESTAMP_END_FILTER;
+                filterQueryString = inputFilter + TIMESTAMP_END_FILTER;
             } else {
-                filterQueryString = inputFilterString.substring(0, inputFilterString.length() - AND.length());
+                filterQueryString = inputFilter.substring(0, inputFilter.length() - AND.length());
             }
         }
 
