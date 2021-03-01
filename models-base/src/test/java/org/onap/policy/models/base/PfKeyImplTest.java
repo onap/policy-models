@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,6 +35,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.common.parameters.annotations.Pattern;
@@ -48,6 +49,44 @@ public class PfKeyImplTest {
     private static final String VERSION123 = "1.2.3";
     private static final String VERSION100 = "1.0.0";
     private static final String VERSION001 = "0.0.1";
+    private static MyKey someKey;
+    private static MyKey someKey0;
+    private static MyKey someKey1;
+    private static MyKey someKey2;
+    private static MyKey someKey3;
+    private static MyKey someKey4;
+    private static MyKey someKey4a;
+    private static MyKey someKey5;
+    private static MyKey someKey6;
+
+    /**
+     * Sets data in Keys for the tests.
+     */
+    @BeforeClass
+    public static void setUp() {
+        someKey = new MyKey();
+
+        someKey0 = new MyKey();
+        someKey1 = new MyKey("name", VERSION001);
+        someKey2 = new MyKey(someKey1);
+        someKey3 = new MyKey(someKey1.getId());
+
+        someKey0.setName("zero");
+        someKey0.setVersion("0.0.2");
+        someKey3.setVersion("0.0.2");
+
+        someKey4 = new MyKey(someKey1);
+        someKey4.setVersion("0.1.2");
+
+        someKey4a = new MyKey(someKey1);
+        someKey4a.setVersion("0.0.0");
+
+        someKey5 = new MyKey(someKey1);
+        someKey5.setVersion("1.2.2");
+
+        someKey6 = new MyKey(someKey1);
+        someKey6.setVersion("3.0.0");
+    }
 
     @Test
     public void testConceptKey() {
@@ -58,38 +97,23 @@ public class PfKeyImplTest {
         assertThatThrownBy(() -> new MyKey((MyKey) null))
             .hasMessageMatching("^copyConcept is marked .*on.*ull but is null$");
 
-        MyKey someKey0 = new MyKey();
-        assertTrue(someKey0.isNullKey());
-        assertEquals(new MyKey(PfKey.NULL_KEY_NAME, PfKey.NULL_KEY_VERSION), someKey0);
+        assertTrue(someKey.isNullKey());
+        assertEquals(new MyKey(PfKey.NULL_KEY_NAME, PfKey.NULL_KEY_VERSION), someKey);
 
-        MyKey someKey1 = new MyKey("name", VERSION001);
-        MyKey someKey2 = new MyKey(someKey1);
-        MyKey someKey3 = new MyKey(someKey1.getId());
-        assertEquals(someKey1, someKey2);
-        assertEquals(someKey1, someKey3);
-        assertFalse(someKey1.isNullKey());
-        assertFalse(someKey1.isNullVersion());
+        MyKey someKey11 = new MyKey("name", VERSION001);
+        MyKey someKey22 = new MyKey(someKey11);
+        MyKey someKey33 = new MyKey(someKey11.getId());
+        assertEquals(someKey11, someKey22);
+        assertEquals(someKey11, someKey33);
+        assertFalse(someKey11.isNullKey());
+        assertFalse(someKey11.isNullVersion());
 
-        assertEquals(someKey2, someKey1.getKey());
-        assertEquals(1, someKey1.getKeys().size());
+        assertEquals(someKey22, someKey11.getKey());
+        assertEquals(1, someKey11.getKeys().size());
+    }
 
-        someKey0.setName("zero");
-        someKey0.setVersion("0.0.2");
-
-        someKey3.setVersion("0.0.2");
-
-        MyKey someKey4 = new MyKey(someKey1);
-        someKey4.setVersion("0.1.2");
-
-        MyKey someKey4a = new MyKey(someKey1);
-        someKey4a.setVersion("0.0.0");
-
-        MyKey someKey5 = new MyKey(someKey1);
-        someKey5.setVersion("1.2.2");
-
-        MyKey someKey6 = new MyKey(someKey1);
-        someKey6.setVersion("3.0.0");
-
+    @Test
+    public void testCompatibilityConceptKey() {
         assertEquals("name:0.1.2", someKey4.getId());
 
         assertThatThrownBy(() -> someKey0.getCompatibility(null)).isInstanceOf(NullPointerException.class)
@@ -111,7 +135,10 @@ public class PfKeyImplTest {
         assertFalse(someKey1.isCompatible(someKey0));
         assertFalse(someKey1.isCompatible(someKey5));
         assertFalse(someKey1.isCompatible(new DummyPfKey()));
+    }
 
+    @Test
+    public void testValidityConceptKey() {
         assertTrue(someKey0.validate("").isValid());
         assertTrue(someKey1.validate("").isValid());
         assertTrue(someKey2.validate("").isValid());
@@ -119,7 +146,10 @@ public class PfKeyImplTest {
         assertTrue(someKey4.validate("").isValid());
         assertTrue(someKey5.validate("").isValid());
         assertTrue(someKey6.validate("").isValid());
+    }
 
+    @Test
+    public void testCleanConceptKey() {
         someKey0.clean();
         assertNotNull(someKey0.toString());
 
@@ -135,8 +165,8 @@ public class PfKeyImplTest {
         assertEquals(-36, someKey0.compareTo(new DummyPfKey()));
 
         assertNotEquals(someKey0, null);
-        assertEquals(someKey0, (Object) someKey0);
-        assertNotEquals(someKey0, (Object) new DummyPfKey());
+        assertEquals(someKey0, someKey0);
+        assertNotEquals(someKey0, new DummyPfKey());
 
         MyKey someKey8 = new MyKey();
         someKey8.setVersion(VERSION001);

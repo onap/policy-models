@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2020 Nordix Foundation.
+ *  Copyright (C) 2020-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -80,12 +80,7 @@ public class ToscaServiceTemplateUtilsTest {
 
         JpaToscaServiceTemplate compositeTemplate00 =
                 ToscaServiceTemplateUtils.addFragment(originalTemplate, fragmentTemplate00);
-        assertEquals(compositeTemplate00,
-                ToscaServiceTemplateUtils.addFragment(compositeTemplate00, fragmentTemplate00));
-        assertEquals(compositeTemplate00,
-                ToscaServiceTemplateUtils.addFragment(compositeTemplate00, new JpaToscaServiceTemplate()));
-        assertEquals(compositeTemplate00,
-                ToscaServiceTemplateUtils.addFragment(new JpaToscaServiceTemplate(), compositeTemplate00));
+        checkFragments(compositeTemplate00, fragmentTemplate00);
 
         JpaToscaDataType dt0 = new JpaToscaDataType();
         dt0.setKey(new PfConceptKey("dt0", "0.0.1"));
@@ -96,21 +91,11 @@ public class ToscaServiceTemplateUtilsTest {
 
         JpaToscaServiceTemplate compositeTemplate01 =
                 ToscaServiceTemplateUtils.addFragment(originalTemplate, fragmentTemplate01);
-        assertEquals(compositeTemplate01,
-                ToscaServiceTemplateUtils.addFragment(compositeTemplate01, fragmentTemplate01));
-        assertEquals(compositeTemplate01,
-                ToscaServiceTemplateUtils.addFragment(compositeTemplate01, new JpaToscaServiceTemplate()));
-        assertEquals(compositeTemplate01,
-                ToscaServiceTemplateUtils.addFragment(new JpaToscaServiceTemplate(), compositeTemplate01));
+        checkFragments(compositeTemplate01, fragmentTemplate01);
 
         JpaToscaServiceTemplate compositeTemplate02 =
                 ToscaServiceTemplateUtils.addFragment(compositeTemplate00, fragmentTemplate01);
-        assertEquals(compositeTemplate02,
-                ToscaServiceTemplateUtils.addFragment(compositeTemplate02, fragmentTemplate01));
-        assertEquals(compositeTemplate02,
-                ToscaServiceTemplateUtils.addFragment(compositeTemplate02, new JpaToscaServiceTemplate()));
-        assertEquals(compositeTemplate02,
-                ToscaServiceTemplateUtils.addFragment(new JpaToscaServiceTemplate(), compositeTemplate02));
+        checkFragments(compositeTemplate02, fragmentTemplate01);
 
         JpaToscaDataType otherDt0 = new JpaToscaDataType();
         otherDt0.setKey(new PfConceptKey("dt0", "0.0.1"));
@@ -218,5 +203,14 @@ public class ToscaServiceTemplateUtilsTest {
         JpaToscaServiceTemplate compositeTemplate06 =
                 ToscaServiceTemplateUtils.addFragment(compositeTemplate05, fragmentTemplate09);
         assertEquals(compositeTemplate05.getTopologyTemplate(), compositeTemplate06.getTopologyTemplate());
+    }
+
+    private void checkFragments(JpaToscaServiceTemplate compositeTemplate, JpaToscaServiceTemplate fragmentTemplate) {
+        assertEquals(compositeTemplate,
+                ToscaServiceTemplateUtils.addFragment(compositeTemplate, fragmentTemplate));
+        assertEquals(compositeTemplate,
+                ToscaServiceTemplateUtils.addFragment(compositeTemplate, new JpaToscaServiceTemplate()));
+        assertEquals(compositeTemplate,
+                ToscaServiceTemplateUtils.addFragment(new JpaToscaServiceTemplate(), compositeTemplate));
     }
 }

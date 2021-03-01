@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -43,7 +43,7 @@ import org.onap.policy.models.base.testconcepts.DummyPfConceptContainer;
 import org.onap.policy.models.base.testconcepts.DummyPfConceptSub;
 
 /**
- * Test the PfCOnceptCOntainer class.
+ * Test the PfConceptContainer class.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
@@ -83,7 +83,11 @@ public class PfConceptContainerTest {
 
         assertThatThrownBy(() -> new DummyPfConceptContainer(null, new TreeMap<PfConceptKey, DummyPfConcept>()))
             .hasMessageMatching(KEY_IS_NULL);
+    }
 
+    @Test
+    public void testNamedConceptContainer() {
+        DummyPfConceptContainer container = new DummyPfConceptContainer();
         container.getKey().setName(DUMMY_VALUE);
         DummyPfConceptContainer clonedContainer = new DummyPfConceptContainer(container);
         assertNotNull(clonedContainer);
@@ -132,6 +136,15 @@ public class PfConceptContainerTest {
         PfConceptKey testConceptKey = new PfConceptKey("TestKey", VERSION0_0_1);
         testContainer.getConceptMap().put(testConceptKey, new DummyPfConcept(testConceptKey));
         assertNotEquals(0, container.compareTo(testContainer));
+    }
+
+    @Test
+    public void testValidationContainer() {
+        DummyPfConceptContainer container = new DummyPfConceptContainer();
+        PfConceptKey conceptKey = new PfConceptKey("Key", VERSION0_0_1);
+        Map<PfConceptKey, DummyPfConcept> conceptMap = new TreeMap<>();
+        conceptMap.put(conceptKey, new DummyPfConcept(conceptKey));
+        container.setConceptMap(conceptMap);
 
         final DummyPfConceptContainer container3 = container;
         assertThatThrownBy(() -> container3.validate(null))
@@ -142,6 +155,7 @@ public class PfConceptContainerTest {
         validateContainer.setKey(new PfConceptKey("VCKey", VERSION0_0_1));
         assertTrue(validateContainer.validate("").isValid());
 
+        PfConceptKey testConceptKey = new PfConceptKey("TestKey", VERSION0_0_1);
         validateContainer.getConceptMap().put(testConceptKey, new DummyPfConcept(testConceptKey));
         assertTrue(validateContainer.validate("").isValid());
 
@@ -159,6 +173,15 @@ public class PfConceptContainerTest {
         assertFalse(validateContainer.validate("").isValid());
         validateContainer.getConceptMap().put(testConceptKey, new DummyPfConcept(testConceptKey));
         assertTrue(validateContainer.validate("").isValid());
+    }
+
+    @Test
+    public void testSetContainer() {
+        DummyPfConceptContainer container = new DummyPfConceptContainer();
+        PfConceptKey conceptKey = new PfConceptKey("Key", VERSION0_0_1);
+        Map<PfConceptKey, DummyPfConcept> conceptMap = new TreeMap<>();
+        conceptMap.put(conceptKey, new DummyPfConcept(conceptKey));
+        container.setConceptMap(conceptMap);
 
         assertEquals(conceptKey, container.get(conceptKey).getKey());
         assertEquals(conceptKey, container.get(conceptKey.getName()).getKey());
@@ -190,6 +213,7 @@ public class PfConceptContainerTest {
         anotherKey.setVersion(PfKey.NULL_KEY_VERSION);
         assertEquals(conceptKey, container.get(anotherKey).getKey());
     }
+
 
     @Test
     public void testAuthorative() {
