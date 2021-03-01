@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -71,17 +71,21 @@ public class PfKeyUseTest {
 
         assertNotEquals(0, keyUse.hashCode());
 
-        assertEquals(keyUse, (Object) keyUse);
+        assertEquals(keyUse, keyUse);
         assertEquals(keyUse, clonedKeyUse);
-        assertNotEquals(keyUse, (Object) "Hello");
+        assertNotEquals(keyUse, "Hello");
         assertEquals(keyUse, new PfKeyUse(key));
 
         assertEquals(0, keyUse.compareTo(keyUse));
         assertEquals(0, keyUse.compareTo(clonedKeyUse));
         assertNotEquals(0, keyUse.compareTo(new PfConceptKey()));
         assertEquals(0, keyUse.compareTo(new PfKeyUse(key)));
+    }
 
+    @Test
+    public void testNullKey() {
         PfKeyUse keyUseNull = new PfKeyUse(PfConceptKey.getNullKey());
+        PfKeyUse keyUse = new PfKeyUse();
         assertEquals(false, keyUseNull.validate("").isValid());
 
         assertThatThrownBy(() -> keyUse.setKey(null)).hasMessageMatching("^key is marked .*on.*ull but is null$");

@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -174,6 +174,10 @@ public class ToscaUtilsTest {
         assertThatThrownBy(() -> {
             ToscaUtils.getEntityTypeAncestors(new JpaToscaDataTypes(), new JpaToscaDataType(), null);
         }).hasMessageMatching("result is marked .*on.*ull but is null");
+    }
+
+    @Test
+    public void testGetentityTypeAncestorsDataType() {
 
         JpaToscaDataTypes dataTypes = new JpaToscaDataTypes();
         JpaToscaDataType dt0 = new JpaToscaDataType();
@@ -181,22 +185,19 @@ public class ToscaUtilsTest {
         dt0.setDescription("dt0 description");
         BeanValidationResult result = new BeanValidationResult("", null);
 
-        assertTrue(ToscaUtils.getEntityTypeAncestors(dataTypes, dt0, result).isEmpty());
+        assertThat(ToscaUtils.getEntityTypeAncestors(dataTypes, dt0, result)).isEmpty();
 
         dataTypes.getConceptMap().put(dt0.getKey(), dt0);
-        assertTrue(ToscaUtils.getEntityTypeAncestors(dataTypes, dt0, result).isEmpty());
-        assertTrue(result.isValid());
+        checkSingleEmptyEntityTypeAncestor(dataTypes, dt0, result);
 
         dt0.setDerivedFrom(null);
-        assertTrue(ToscaUtils.getEntityTypeAncestors(dataTypes, dt0, result).isEmpty());
-        assertTrue(result.isValid());
+        checkSingleEmptyEntityTypeAncestor(dataTypes, dt0, result);
 
         dt0.setDerivedFrom(new PfConceptKey("tosca.datatyps.Root", PfKey.NULL_KEY_VERSION));
-        assertTrue(ToscaUtils.getEntityTypeAncestors(dataTypes, dt0, result).isEmpty());
-        assertTrue(result.isValid());
+        checkSingleEmptyEntityTypeAncestor(dataTypes, dt0, result);
 
         dt0.setDerivedFrom(new PfConceptKey("some.thing.Else", PfKey.NULL_KEY_VERSION));
-        assertTrue(ToscaUtils.getEntityTypeAncestors(dataTypes, dt0, result).isEmpty());
+        assertThat(ToscaUtils.getEntityTypeAncestors(dataTypes, dt0, result)).isEmpty();
         assertFalse(result.isValid());
         assertThat(result.getResult()).contains("parent").contains("some.thing.Else:0.0.0")
                         .contains(Validated.NOT_FOUND);
@@ -208,32 +209,21 @@ public class ToscaUtilsTest {
         dt1.setKey(new PfConceptKey("dt1", "0.0.1"));
         dt1.setDescription("dt1 description");
         dataTypes.getConceptMap().put(dt1.getKey(), dt1);
-        assertTrue(ToscaUtils.getEntityTypeAncestors(dataTypes, dt0, result).isEmpty());
-        assertTrue(ToscaUtils.getEntityTypeAncestors(dataTypes, dt1, result).isEmpty());
-        assertTrue(result.isValid());
+        checkSingleEmptyEntityTypeAncestor(dataTypes, dt0, result);
+        checkSingleEmptyEntityTypeAncestor(dataTypes, dt1, result);
 
         dt1.setDerivedFrom(dt0.getKey());
-        assertTrue(ToscaUtils.getEntityTypeAncestors(dataTypes, dt0, result).isEmpty());
-        assertFalse(ToscaUtils.getEntityTypeAncestors(dataTypes, dt1, result).isEmpty());
-        assertEquals(1, ToscaUtils.getEntityTypeAncestors(dataTypes, dt1, result).size());
-        assertTrue(result.isValid());
+        checkMultipleEmptyEntityTypeAncestors(dataTypes, dt0, dt1, result, 1);
 
         JpaToscaDataType dt2 = new JpaToscaDataType();
         dt2.setKey(new PfConceptKey("dt2", "0.0.1"));
         dt2.setDescription("dt2 description");
         dataTypes.getConceptMap().put(dt2.getKey(), dt2);
-        assertTrue(ToscaUtils.getEntityTypeAncestors(dataTypes, dt0, result).isEmpty());
-        assertFalse(ToscaUtils.getEntityTypeAncestors(dataTypes, dt1, result).isEmpty());
-        assertEquals(1, ToscaUtils.getEntityTypeAncestors(dataTypes, dt1, result).size());
-        assertTrue(result.isValid());
+        checkMultipleEmptyEntityTypeAncestors(dataTypes, dt0, dt1, result, 1);
 
         dt2.setDerivedFrom(dt1.getKey());
-        assertTrue(ToscaUtils.getEntityTypeAncestors(dataTypes, dt0, result).isEmpty());
-        assertFalse(ToscaUtils.getEntityTypeAncestors(dataTypes, dt1, result).isEmpty());
-        assertFalse(ToscaUtils.getEntityTypeAncestors(dataTypes, dt2, result).isEmpty());
-        assertEquals(1, ToscaUtils.getEntityTypeAncestors(dataTypes, dt1, result).size());
-        assertEquals(2, ToscaUtils.getEntityTypeAncestors(dataTypes, dt2, result).size());
-        assertTrue(result.isValid());
+        checkMultipleEmptyEntityTypeAncestors(dataTypes, dt0, dt1, result, 1);
+        checkMultipleEmptyEntityTypeAncestors(dataTypes, dt0, dt2, result, 2);
 
         dt0.setDerivedFrom(dt0.getKey());
         assertThatThrownBy(() -> {
@@ -244,17 +234,36 @@ public class ToscaUtilsTest {
         assertEquals(2, ToscaUtils.getEntityTypeAncestors(dataTypes, dt2, result).size());
 
         dt1.setDerivedFrom(new PfConceptKey("tosca.datatyps.Root", PfKey.NULL_KEY_VERSION));
-        assertTrue(ToscaUtils.getEntityTypeAncestors(dataTypes, dt0, result).isEmpty());
-        assertTrue(ToscaUtils.getEntityTypeAncestors(dataTypes, dt1, result).isEmpty());
-        assertFalse(ToscaUtils.getEntityTypeAncestors(dataTypes, dt2, result).isEmpty());
-        assertEquals(0, ToscaUtils.getEntityTypeAncestors(dataTypes, dt1, result).size());
-        assertEquals(1, ToscaUtils.getEntityTypeAncestors(dataTypes, dt2, result).size());
-        assertTrue(result.isValid());
+        checkSingleEmptyEntityTypeAncestor(dataTypes, dt0, result);
+        checkMultipleEmptyEntityTypeAncestors(dataTypes, dt1, dt2, result, 1, 0);
 
         dataTypes.getConceptMap().remove(dt1.getKey());
-        assertTrue(ToscaUtils.getEntityTypeAncestors(dataTypes, dt2, result).isEmpty());
+        assertThat(ToscaUtils.getEntityTypeAncestors(dataTypes, dt2, result)).isEmpty();
         assertFalse(result.isValid());
         assertThat(result.getResult()).contains("parent").contains("dt1:0.0.1").contains(Validated.NOT_FOUND);
+    }
+
+    private void checkSingleEmptyEntityTypeAncestor(JpaToscaDataTypes dataTypes, JpaToscaDataType emptydt,
+            BeanValidationResult result) {
+        assertThat(ToscaUtils.getEntityTypeAncestors(dataTypes, emptydt, result)).isEmpty();
+        assertTrue(result.isValid());
+    }
+
+    private void checkMultipleEmptyEntityTypeAncestors(JpaToscaDataTypes dataTypes, JpaToscaDataType emptydt,
+            JpaToscaDataType notemptydt, BeanValidationResult result, int size1) {
+        assertThat(ToscaUtils.getEntityTypeAncestors(dataTypes, emptydt, result)).isEmpty();
+        assertFalse(ToscaUtils.getEntityTypeAncestors(dataTypes, notemptydt, result).isEmpty());
+        assertEquals(size1, ToscaUtils.getEntityTypeAncestors(dataTypes, notemptydt, result).size());
+        assertTrue(result.isValid());
+    }
+
+    private void checkMultipleEmptyEntityTypeAncestors(JpaToscaDataTypes dataTypes, JpaToscaDataType emptydt,
+            JpaToscaDataType notemptydt, BeanValidationResult result, int size1, int size2) {
+        assertThat(ToscaUtils.getEntityTypeAncestors(dataTypes, emptydt, result)).isEmpty();
+        assertFalse(ToscaUtils.getEntityTypeAncestors(dataTypes, notemptydt, result).isEmpty());
+        assertEquals(size1, ToscaUtils.getEntityTypeAncestors(dataTypes, notemptydt, result).size());
+        assertEquals(size2, ToscaUtils.getEntityTypeAncestors(dataTypes, emptydt, result).size());
+        assertTrue(result.isValid());
     }
 
     @Test
@@ -278,7 +287,7 @@ public class ToscaUtilsTest {
         filteredDataTypes.getConceptMap().put(dt0.getKey(), dt0);
         ToscaUtils.getEntityTree(filteredDataTypes, "IDontExist", "0.0.0");
         assertNotEquals(dataTypes, filteredDataTypes);
-        assertTrue(filteredDataTypes.getConceptMap().isEmpty());
+        assertThat(filteredDataTypes.getConceptMap()).isEmpty();
 
         filteredDataTypes.getConceptMap().put(dt0.getKey(), dt0);
         ToscaUtils.getEntityTree(filteredDataTypes, dt0.getKey().getName(), dt0.getKey().getVersion());
