@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b0543a7e_a9d11d15",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfReferenceTimestampKey.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2021-03-02T18:42:25Z",
+      "side": 1,
+      "message": "Actually this method overrides the super class method that expects PfKey as an argument.",
+      "parentUuid": "42000f72_58f356eb",
+      "range": {
+        "startLine": 232,
+        "startChar": 40,
+        "endLine": 232,
+        "endChar": 45
+      },
+      "revId": "ebdc9dd7587d3ee14824d63660c2c9375eb342e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "63f55405_91c1d4b8",
         "filename": "models-base/src/main/java/org/onap/policy/models/base/PfReferenceTimestampKey.java",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "29a32a5c_84d848f9",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfReferenceTimestampKey.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2021-03-02T18:42:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63f55405_91c1d4b8",
+      "range": {
+        "startLine": 237,
+        "startChar": 8,
+        "endLine": 239,
+        "endChar": 9
+      },
+      "revId": "ebdc9dd7587d3ee14824d63660c2c9375eb342e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e54711bd_3bd8623a",
         "filename": "models-base/src/main/java/org/onap/policy/models/base/PfReferenceTimestampKey.java",
         "patchSetId": 2
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "c8fdd7bd_ffc66ab5",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfReferenceTimestampKey.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2021-03-02T18:42:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e54711bd_3bd8623a",
+      "revId": "ebdc9dd7587d3ee14824d63660c2c9375eb342e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48297b9a_2d22f9e2",
         "filename": "models-base/src/main/java/org/onap/policy/models/base/PfReferenceTimestampKey.java",
         "patchSetId": 2
@@ -79,6 +145,24 @@
       "revId": "ebdc9dd7587d3ee14824d63660c2c9375eb342e5",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7af6cc16_efc6ddf0",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfReferenceTimestampKey.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2021-03-02T18:42:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48297b9a_2d22f9e2",
+      "revId": "ebdc9dd7587d3ee14824d63660c2c9375eb342e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "1e54b0c1_d1d07d94",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2021-03-02T18:42:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63f4f80c_a509962d",
+      "range": {
+        "startLine": 421,
+        "startChar": 49,
+        "endLine": 421,
+        "endChar": 55
+      },
+      "revId": "ebdc9dd7587d3ee14824d63660c2c9375eb342e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "543e0c18_fcff11d5",
         "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
         "patchSetId": 2
@@ -125,6 +233,30 @@
       "revId": "ebdc9dd7587d3ee14824d63660c2c9375eb342e5",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d84a16f_7c9742ca",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2021-03-02T18:42:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "543e0c18_fcff11d5",
+      "range": {
+        "startLine": 422,
+        "startChar": 17,
+        "endLine": 422,
+        "endChar": 27
+      },
+      "revId": "ebdc9dd7587d3ee14824d63660c2c9375eb342e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -168,6 +300,48 @@
     },
     {
       "key": {
+        "uuid": "c1156320_243c8b02",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2021-03-02T18:42:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e62f6ed2_eb8cfeaf",
+      "range": {
+        "startLine": 422,
+        "startChar": 1,
+        "endLine": 423,
+        "endChar": 24
+      },
+      "revId": "ebdc9dd7587d3ee14824d63660c2c9375eb342e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "adce6216_7fcaa384",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2021-03-02T18:42:25Z",
+      "side": 1,
+      "message": "Logging the exception here.",
+      "parentUuid": "a9e90173_985d8922",
+      "revId": "ebdc9dd7587d3ee14824d63660c2c9375eb342e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "918a6191_8f527222",
         "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
         "patchSetId": 2
@@ -182,6 +356,24 @@
       "revId": "ebdc9dd7587d3ee14824d63660c2c9375eb342e5",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5dbfb2a_8bba85b2",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2021-03-02T18:42:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "918a6191_8f527222",
+      "revId": "ebdc9dd7587d3ee14824d63660c2c9375eb342e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
