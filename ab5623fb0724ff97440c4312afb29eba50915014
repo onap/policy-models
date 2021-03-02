@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "617d78c6_f76d293c",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfReferenceTimestampKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-03-02T20:42:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "156cfaa4_c2d08403",
+      "range": {
+        "startLine": 274,
+        "startChar": 15,
+        "endLine": 274,
+        "endChar": 17
+      },
+      "revId": "ab5623fb0724ff97440c4312afb29eba50915014",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9be77fd7_ba5dee9c",
         "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
         "patchSetId": 3
@@ -156,6 +180,30 @@
       "side": 1,
       "message": "Just curious, Are we expecting these Dao methods would be invoked by classes that use different variable names for pf keys other than \"key\" ? Otherwise, its less likely we get in to NoSuchField Exception here. As the filters defined in the static variables uses \"key\", I presume all classes follows the same naming convention?",
       "parentUuid": "2853cef3_b4b9ebee",
+      "range": {
+        "startLine": 423,
+        "startChar": 19,
+        "endLine": 423,
+        "endChar": 24
+      },
+      "revId": "ab5623fb0724ff97440c4312afb29eba50915014",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "176ec3c5_77a65432",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-03-02T20:42:48Z",
+      "side": 1,
+      "message": "good point.  For that matter, this is a PfConcept, so why not just call getKey() instead of doing the field look-up?  Then we don\u0027t even need to catch an exception",
+      "parentUuid": "9c125477_f2e0f979",
       "range": {
         "startLine": 423,
         "startChar": 19,
