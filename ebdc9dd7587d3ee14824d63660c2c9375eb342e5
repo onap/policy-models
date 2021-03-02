@@ -2,6 +2,132 @@
   "comments": [
     {
       "key": {
+        "uuid": "42000f72_58f356eb",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfReferenceTimestampKey.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-03-02T17:37:30Z",
+      "side": 1,
+      "message": "why not just make this PfReferenceTimestampKey and remove lines 233-235?",
+      "range": {
+        "startLine": 232,
+        "startChar": 40,
+        "endLine": 232,
+        "endChar": 45
+      },
+      "revId": "ebdc9dd7587d3ee14824d63660c2c9375eb342e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63f55405_91c1d4b8",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfReferenceTimestampKey.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-03-02T17:37:30Z",
+      "side": 1,
+      "message": "probably don\u0027t need these lines",
+      "range": {
+        "startLine": 237,
+        "startChar": 8,
+        "endLine": 239,
+        "endChar": 9
+      },
+      "revId": "ebdc9dd7587d3ee14824d63660c2c9375eb342e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e54711bd_3bd8623a",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfReferenceTimestampKey.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-03-02T17:37:30Z",
+      "side": 1,
+      "message": "why not use @NonNull and delete line 269?",
+      "revId": "ebdc9dd7587d3ee14824d63660c2c9375eb342e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48297b9a_2d22f9e2",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfReferenceTimestampKey.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-03-02T17:37:30Z",
+      "side": 1,
+      "message": "also need to compare timestamps",
+      "revId": "ebdc9dd7587d3ee14824d63660c2c9375eb342e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63f4f80c_a509962d",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-03-02T17:37:30Z",
+      "side": 1,
+      "message": "isAssignableFrom?",
+      "range": {
+        "startLine": 421,
+        "startChar": 49,
+        "endLine": 421,
+        "endChar": 55
+      },
+      "revId": "ebdc9dd7587d3ee14824d63660c2c9375eb342e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "543e0c18_fcff11d5",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-03-02T17:37:30Z",
+      "side": 1,
+      "message": "maybe use a more specific exception type",
+      "range": {
+        "startLine": 422,
+        "startChar": 17,
+        "endLine": 422,
+        "endChar": 27
+      },
+      "revId": "ebdc9dd7587d3ee14824d63660c2c9375eb342e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e62f6ed2_eb8cfeaf",
         "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
         "patchSetId": 2
@@ -19,6 +145,40 @@
         "endLine": 423,
         "endChar": 24
       },
+      "revId": "ebdc9dd7587d3ee14824d63660c2c9375eb342e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9e90173_985d8922",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-03-02T17:37:30Z",
+      "side": 1,
+      "message": "might provide a reason - i.e., the class doesn\u0027t have a \"key\" field",
+      "revId": "ebdc9dd7587d3ee14824d63660c2c9375eb342e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "918a6191_8f527222",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-03-02T17:37:30Z",
+      "side": 1,
+      "message": "sonar: should not change input parameters\n\nsame on line 659",
       "revId": "ebdc9dd7587d3ee14824d63660c2c9375eb342e5",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
