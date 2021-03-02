@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8423c215_7a39c89a",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2021-03-02T16:40:48Z",
+      "side": 1,
+      "message": "Can you not compare the Class types here rather than doing a string compare?",
+      "revId": "bb55675621c4ccddfd87cbbc304a3bdb23eebb64",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
