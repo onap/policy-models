@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "156cfaa4_c2d08403",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfReferenceTimestampKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-03-02T19:40:15Z",
+      "side": 1,
+      "message": "yep, that\u0027s it",
+      "parentUuid": "ebdf197e_591ad7a1",
+      "range": {
+        "startLine": 274,
+        "startChar": 15,
+        "endLine": 274,
+        "endChar": 17
+      },
+      "revId": "ab5623fb0724ff97440c4312afb29eba50915014",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9be77fd7_ba5dee9c",
         "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
         "patchSetId": 3
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "Sorry Jim, what is the reason you think that can be mentioned for NOSONAR?",
       "parentUuid": "9be77fd7_ba5dee9c",
+      "range": {
+        "startLine": 423,
+        "startChar": 19,
+        "endLine": 423,
+        "endChar": 24
+      },
+      "revId": "ab5623fb0724ff97440c4312afb29eba50915014",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2853cef3_b4b9ebee",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-03-02T19:40:15Z",
+      "side": 1,
+      "message": "something like:\nif it doesn\u0027t have the field, then it doesn\u0027t use a RefTimestampKey - no need to log that, as it\u0027s likely to be frequent and will just clutter the log",
+      "parentUuid": "ebac77f5_add483a8",
       "range": {
         "startLine": 423,
         "startChar": 19,
