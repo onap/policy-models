@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ebdf197e_591ad7a1",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfReferenceTimestampKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2021-03-02T19:23:04Z",
+      "side": 1,
+      "message": "Pardon, something like below?\n\nint result \u003d getReferenceKey().compareTo(((PfReferenceTimestampKey) otherObj).getReferenceKey();\nif(result \u003d\u003d 0) {\n    //compare timestamp\n}\nreturn result;",
+      "parentUuid": "d43f8835_e9a3945d",
+      "range": {
+        "startLine": 274,
+        "startChar": 15,
+        "endLine": 274,
+        "endChar": 17
+      },
+      "revId": "ab5623fb0724ff97440c4312afb29eba50915014",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9be77fd7_ba5dee9c",
         "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2021-03-02T19:07:04Z",
       "side": 1,
       "message": "let\u0027s make this \"trace\" since we expect it to happen regularly.  On the other hand, I\u0027m tempted to delete this line and mark line 422 as \"NOSONAR\", with an appropriate comment as to why it\u0027s NOSONAR",
+      "range": {
+        "startLine": 423,
+        "startChar": 19,
+        "endLine": 423,
+        "endChar": 24
+      },
+      "revId": "ab5623fb0724ff97440c4312afb29eba50915014",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebac77f5_add483a8",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2021-03-02T19:23:04Z",
+      "side": 1,
+      "message": "Sorry Jim, what is the reason you think that can be mentioned for NOSONAR?",
+      "parentUuid": "9be77fd7_ba5dee9c",
       "range": {
         "startLine": 423,
         "startChar": 19,
