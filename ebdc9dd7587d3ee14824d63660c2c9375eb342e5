@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e62f6ed2_eb8cfeaf",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2021-03-02T17:36:09Z",
+      "side": 1,
+      "message": "sonar won\u0027t like no exception being logged or re-thrown",
+      "range": {
+        "startLine": 422,
+        "startChar": 1,
+        "endLine": 423,
+        "endChar": 24
+      },
+      "revId": "ebdc9dd7587d3ee14824d63660c2c9375eb342e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
