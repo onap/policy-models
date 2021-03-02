@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -61,8 +61,7 @@ public class JpaToscaPolicyTest {
         assertThatThrownBy(() -> {
             new JpaToscaPolicy(pol);
         }).hasMessage(
-                "PolicyType version not specified, the version of the PolicyType for this policy must be specified in"
-                        + " the type_version field");
+                "Version not specified, the version of this TOSCA entity must be specified in the type_version field");
 
         assertThatThrownBy(() -> {
             new JpaToscaPolicy((PfConceptKey) null);

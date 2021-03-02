@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2020 Nordix Foundation.
+ *  Copyright (C) 2020-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -44,10 +44,16 @@ public class JpaToscaCapabilityAssignmentTest {
 
     @Test
     public void testPropertyPojo() {
+        ToscaCapabilityAssignment tca = new ToscaCapabilityAssignment();
+        tca.setName("world");
+        tca.setVersion("1.2.3");
+        tca.setType("planet");
+        tca.setTypeVersion("4.5.6");
+
         assertNotNull(new JpaToscaCapabilityAssignment());
         assertNotNull(new JpaToscaCapabilityAssignment(new PfConceptKey()));
         assertNotNull(new JpaToscaCapabilityAssignment(new JpaToscaCapabilityAssignment()));
-        assertNotNull(new JpaToscaCapabilityAssignment(new ToscaCapabilityAssignment()));
+        assertNotNull(new JpaToscaCapabilityAssignment(tca));
 
         assertThatThrownBy(() -> new JpaToscaCapabilityAssignment((PfConceptKey) null)).hasMessageMatching(KEY_IS_NULL);
         assertThatThrownBy(() -> new JpaToscaCapabilityAssignment((JpaToscaCapabilityAssignment) null))
@@ -149,11 +155,19 @@ public class JpaToscaCapabilityAssignmentTest {
 
     @Test
     public void testAuthorative() {
-        ToscaCapabilityAssignment tca =
-                new JpaToscaCapabilityAssignment(new ToscaCapabilityAssignment()).toAuthorative();
+        ToscaCapabilityAssignment tca = new ToscaCapabilityAssignment();
+        tca.setName("world");
+        tca.setVersion("1.2.3");
+        tca.setType("planet");
+        tca.setTypeVersion("4.5.6");
 
-        JpaToscaCapabilityAssignment jtca = new JpaToscaCapabilityAssignment(tca);
-        ToscaCapabilityAssignment tca2 = jtca.toAuthorative();
-        assertEquals(tca, tca2);
+        ToscaCapabilityAssignment tcaConsTo =
+                new JpaToscaCapabilityAssignment(tca).toAuthorative();
+
+        assertEquals(tca, tcaConsTo);
+
+        JpaToscaCapabilityAssignment jtca = new JpaToscaCapabilityAssignment(tcaConsTo);
+        ToscaCapabilityAssignment tcaFromTo = jtca.toAuthorative();
+        assertEquals(tca, tcaFromTo);
     }
 }

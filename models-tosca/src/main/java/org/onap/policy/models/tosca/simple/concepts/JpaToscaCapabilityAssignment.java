@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * Copyright (C) 2020 Nordix Foundation.
+ * Copyright (C) 2020-2021 Nordix Foundation.
  * Modifications Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -50,7 +50,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaCapabilityAssignme
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class JpaToscaCapabilityAssignment extends JpaToscaWithStringProperties<ToscaCapabilityAssignment> {
+public class JpaToscaCapabilityAssignment extends JpaToscaWithTypeAndStringProperties<ToscaCapabilityAssignment> {
 
     private static final long serialVersionUID = 1675770231921107988L;
 

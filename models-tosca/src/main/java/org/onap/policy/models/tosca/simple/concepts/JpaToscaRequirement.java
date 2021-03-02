@@ -3,7 +3,7 @@
  * ONAP Requirement Model
  * ================================================================================
  * Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019-2020 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,7 +53,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaRequirement;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class JpaToscaRequirement extends JpaToscaWithStringProperties<ToscaRequirement> {
+public class JpaToscaRequirement extends JpaToscaWithTypeAndStringProperties<ToscaRequirement> {
 
     private static final long serialVersionUID = 2785481541573683089L;
     private static final String AUTHORATIVE_UNBOUNDED_LITERAL = "UNBOUNDED";

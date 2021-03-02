@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * Copyright (C) 2020 Nordix Foundation.
+ * Copyright (C) 2020-2021 Nordix Foundation.
  * Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,16 +21,38 @@
 
 package org.onap.policy.models.tosca.authorative.concepts;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.ToString;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class ToscaCapabilityAssignment extends ToscaWithObjectProperties {
+@ToString(callSuper = true)
+public class ToscaCapabilityAssignment extends ToscaWithTypeAndObjectProperties {
     private Map<String, Object> attributes;
     private List<Object> occurrences;
+
+    /**
+     * Copy constructor.
+     *
+     * @param copyObject object to copy
+     */
+    public ToscaCapabilityAssignment(@NonNull ToscaCapabilityAssignment copyObject) {
+        super(copyObject);
+
+        if (copyObject.attributes != null) {
+            attributes = new LinkedHashMap<>(copyObject.attributes);
+        }
+
+        if (copyObject.occurrences != null) {
+            occurrences = new ArrayList<>(copyObject.occurrences);
+        }
+    }
 }

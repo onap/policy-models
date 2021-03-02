@@ -23,8 +23,6 @@
 
 package org.onap.policy.models.tosca.authorative.concepts;
 
-import com.google.gson.annotations.SerializedName;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -40,40 +38,13 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @ToString(callSuper = true)
-public class ToscaPolicy extends ToscaWithObjectProperties {
-    private String type;
-
-    @ApiModelProperty(name = "type_version")
-    @SerializedName("type_version")
-    private String typeVersion;
-
+public class ToscaPolicy extends ToscaWithTypeAndObjectProperties {
     /**
      * Copy constructor.
      *
-     * @param copyObject the obejct to copy from.
+     * @param copyObject object to copy
      */
     public ToscaPolicy(@NonNull ToscaPolicy copyObject) {
         super(copyObject);
-
-        this.type = copyObject.type;
-        this.typeVersion = copyObject.typeVersion;
-    }
-
-    /**
-     * Gets the identifier for this policy.
-     *
-     * @return this policy's identifier
-     */
-    public ToscaConceptIdentifier getIdentifier() {
-        return new ToscaConceptIdentifier(getName(), getVersion());
-    }
-
-    /**
-     * Gets the type identifier for this policy.
-     *
-     * @return this policy's type identifier
-     */
-    public ToscaConceptIdentifier getTypeIdentifier() {
-        return new ToscaConceptIdentifier(getType(), getTypeVersion());
     }
 }

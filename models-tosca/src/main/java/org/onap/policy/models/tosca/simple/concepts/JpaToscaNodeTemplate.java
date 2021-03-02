@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * Copyright (C) 2020 Nordix Foundation.
+ * Copyright (C) 2020-2021 Nordix Foundation.
  * Modifications Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,7 +26,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
@@ -39,8 +38,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.lang3.ObjectUtils;
-import org.onap.policy.common.parameters.annotations.NotBlank;
-import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.common.parameters.annotations.Valid;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
@@ -59,15 +56,10 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaNodeTemplate;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class JpaToscaNodeTemplate extends JpaToscaWithStringProperties<ToscaNodeTemplate> {
+public class JpaToscaNodeTemplate extends JpaToscaWithTypeAndStringProperties<ToscaNodeTemplate> {
     private static final long serialVersionUID = 1675770231921107988L;
 
     private static final StandardCoder STANDARD_CODER = new StandardCoder();
-
-    @Column
-    @NotNull
-    @NotBlank
-    private String type;
 
     // formatter:off
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
@@ -106,7 +98,7 @@ public class JpaToscaNodeTemplate extends JpaToscaWithStringProperties<ToscaNode
      */
     public JpaToscaNodeTemplate(final JpaToscaNodeTemplate copyConcept) {
         super(copyConcept);
-        this.type = copyConcept.type;
+
         this.requirements =
                 (copyConcept.requirements != null ? new JpaToscaRequirements(copyConcept.requirements) : null);
         this.capabilities =
@@ -121,7 +113,6 @@ public class JpaToscaNodeTemplate extends JpaToscaWithStringProperties<ToscaNode
      */
     public JpaToscaNodeTemplate(@NonNull final PfConceptKey key, final String type) {
         super(key);
-        this.type = type;
     }
 
     /**
@@ -138,8 +129,6 @@ public class JpaToscaNodeTemplate extends JpaToscaWithStringProperties<ToscaNode
         ToscaNodeTemplate toscaNodeTemplate = new ToscaNodeTemplate();
         super.setToscaEntity(toscaNodeTemplate);
         super.toAuthorative();
-
-        toscaNodeTemplate.setType(type);
 
         if (requirements != null) {
             toscaNodeTemplate.setRequirements(requirements.toAuthorative());
@@ -159,8 +148,6 @@ public class JpaToscaNodeTemplate extends JpaToscaWithStringProperties<ToscaNode
     @Override
     public void fromAuthorative(ToscaNodeTemplate toscaNodeTemplate) {
         super.fromAuthorative(toscaNodeTemplate);
-
-        type = toscaNodeTemplate.getType();
 
         if (toscaNodeTemplate.getRequirements() != null) {
             requirements = new JpaToscaRequirements();
@@ -212,8 +199,6 @@ public class JpaToscaNodeTemplate extends JpaToscaWithStringProperties<ToscaNode
     public void clean() {
         super.clean();
 
-        type = type.trim();
-
         if (requirements != null) {
             requirements.clean();
         }
@@ -235,11 +220,6 @@ public class JpaToscaNodeTemplate extends JpaToscaWithStringProperties<ToscaNode
         }
 
         final JpaToscaNodeTemplate other = (JpaToscaNodeTemplate) otherConcept;
-
-        result = type.compareTo(other.type);
-        if (result != 0) {
-            return result;
-        }
 
         result = ObjectUtils.compare(requirements, other.requirements);
         if (result != 0) {

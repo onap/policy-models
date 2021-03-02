@@ -1,6 +1,6 @@
 /*
  * ============LICENSE_START=======================================================
- * Copyright (C) 2020 Nordix Foundation.
+ * Copyright (C) 2020-2021 Nordix Foundation.
  * Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,15 +21,38 @@
 
 package org.onap.policy.models.tosca.authorative.concepts;
 
+import java.util.ArrayList;
 import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.ToString;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ToscaRequirement extends ToscaWithObjectProperties {
+@NoArgsConstructor
+@ToString(callSuper = true)
+public class ToscaRequirement extends ToscaWithTypeAndObjectProperties {
     private String capability;
     private String node;
     private String relationship;
     private List<Object> occurrences;
+
+    /**
+     * Copy constructor.
+     *
+     * @param copyObject object to copy
+     */
+    public ToscaRequirement(@NonNull ToscaRequirement copyObject) {
+        super(copyObject);
+
+        this.capability = copyObject.capability;
+        this.node = copyObject.node;
+        this.relationship = copyObject.relationship;
+
+        if (copyObject.occurrences != null) {
+            occurrences = new ArrayList<>(copyObject.occurrences);
+        }
+    }
 }

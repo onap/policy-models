@@ -31,12 +31,13 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.ToString;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class ToscaNodeTemplate extends ToscaWithObjectProperties {
-    private String type;
+@ToString(callSuper = true)
+public class ToscaNodeTemplate extends ToscaWithTypeAndObjectProperties {
     private List<Map<String, ToscaRequirement>> requirements;
     private Map<String, ToscaCapabilityAssignment> capabilities;
 
@@ -47,8 +48,6 @@ public class ToscaNodeTemplate extends ToscaWithObjectProperties {
      */
     public ToscaNodeTemplate(@NonNull ToscaNodeTemplate copyObject) {
         super(copyObject);
-
-        this.type = copyObject.type;
 
         this.requirements = (copyObject.requirements != null ? new ArrayList<>(copyObject.requirements) : null);
         this.capabilities = (copyObject.capabilities != null ? new LinkedHashMap<>(copyObject.capabilities) : null);

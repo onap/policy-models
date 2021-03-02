@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -145,7 +145,7 @@ public final class ToscaUtils {
      * @param serviceTemplate the service template containing policy types to be checked
      */
     public static void assertExist(final JpaToscaServiceTemplate serviceTemplate,
-        final Function<JpaToscaServiceTemplate, String> checkerFunction) {
+            final Function<JpaToscaServiceTemplate, String> checkerFunction) {
         String message = checkerFunction.apply(serviceTemplate);
         if (message != null) {
             throw new PfModelRuntimeException(Response.Status.NOT_FOUND, message);
@@ -158,7 +158,7 @@ public final class ToscaUtils {
      * @param serviceTemplate the service template containing policy types to be checked
      */
     public static boolean doExist(final JpaToscaServiceTemplate serviceTemplate,
-        final Function<JpaToscaServiceTemplate, String> checkerFunction) {
+            final Function<JpaToscaServiceTemplate, String> checkerFunction) {
         return checkerFunction.apply(serviceTemplate) == null;
     }
 
@@ -220,8 +220,8 @@ public final class ToscaUtils {
      * @return the entity set containing the ancestors of the incoming entity
      */
     public static Collection<JpaToscaEntityType<ToscaEntity>> getEntityTypeAncestors(
-        @NonNull PfConceptContainer<? extends PfConcept, ? extends PfNameVersion> entityTypes,
-        @NonNull JpaToscaEntityType<?> entityType, @NonNull final BeanValidationResult result) {
+            @NonNull PfConceptContainer<? extends PfConcept, ? extends PfNameVersion> entityTypes,
+            @NonNull JpaToscaEntityType<?> entityType, @NonNull final BeanValidationResult result) {
 
         PfConceptKey parentEntityTypeKey = entityType.getDerivedFrom();
         if (parentEntityTypeKey == null || parentEntityTypeKey.getName().endsWith(ROOT_KEY_NAME_SUFFIX)) {
@@ -230,17 +230,17 @@ public final class ToscaUtils {
 
         if (entityType.getKey().equals(parentEntityTypeKey)) {
             result.addResult(new ObjectValidationResult("entity type", entityType.getKey().getId(),
-                            ValidationStatus.INVALID, "ancestor of itself"));
+                    ValidationStatus.INVALID, "ancestor of itself"));
             throw new PfModelRuntimeException(Response.Status.CONFLICT, result.getResult());
         }
 
         @SuppressWarnings("unchecked")
         Set<JpaToscaEntityType<ToscaEntity>> ancestorEntitySet = (Set<JpaToscaEntityType<ToscaEntity>>) entityTypes
-            .getAll(parentEntityTypeKey.getName(), parentEntityTypeKey.getVersion());
+                .getAll(parentEntityTypeKey.getName(), parentEntityTypeKey.getVersion());
         Set<JpaToscaEntityType<ToscaEntity>> ancestorEntitySetToReturn = new HashSet<>(ancestorEntitySet);
         if (ancestorEntitySet.isEmpty()) {
-            result.addResult(new ObjectValidationResult("parent", parentEntityTypeKey.getId(),
-                            ValidationStatus.INVALID, Validated.NOT_FOUND));
+            result.addResult(new ObjectValidationResult("parent", parentEntityTypeKey.getId(), ValidationStatus.INVALID,
+                    Validated.NOT_FOUND));
         } else {
             for (JpaToscaEntityType<?> filteredEntityType : ancestorEntitySet) {
                 ancestorEntitySetToReturn.addAll(getEntityTypeAncestors(entityTypes, filteredEntityType, result));
@@ -257,18 +257,18 @@ public final class ToscaUtils {
      * @param entityVersion the version of the entity
      */
     public static void getEntityTree(
-        @NonNull final PfConceptContainer<? extends PfConcept, ? extends PfNameVersion> entityTypes,
-        final String entityName, final String entityVersion) {
+            @NonNull final PfConceptContainer<? extends PfConcept, ? extends PfNameVersion> entityTypes,
+            final String entityName, final String entityVersion) {
 
         BeanValidationResult result = new BeanValidationResult("entity", entityName);
 
         @SuppressWarnings("unchecked")
         Set<JpaToscaEntityType<?>> filteredEntitySet =
-            (Set<JpaToscaEntityType<?>>) entityTypes.getAllNamesAndVersions(entityName, entityVersion);
+                (Set<JpaToscaEntityType<?>>) entityTypes.getAllNamesAndVersions(entityName, entityVersion);
         Set<JpaToscaEntityType<?>> filteredEntitySetToReturn = new HashSet<>(filteredEntitySet);
         for (JpaToscaEntityType<?> filteredEntityType : filteredEntitySet) {
             filteredEntitySetToReturn
-                .addAll(ToscaUtils.getEntityTypeAncestors(entityTypes, filteredEntityType, result));
+                    .addAll(ToscaUtils.getEntityTypeAncestors(entityTypes, filteredEntityType, result));
         }
 
         if (!result.isValid()) {
@@ -276,6 +276,6 @@ public final class ToscaUtils {
         }
 
         entityTypes.getConceptMap().entrySet()
-            .removeIf(entityEntry -> !filteredEntitySetToReturn.contains(entityEntry.getValue()));
+                .removeIf(entityEntry -> !filteredEntitySetToReturn.contains(entityEntry.getValue()));
     }
 }
