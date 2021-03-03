@@ -237,6 +237,30 @@
       "revId": "ab5623fb0724ff97440c4312afb29eba50915014",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6f1f77c_45119851",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2021-03-03T04:48:23Z",
+      "side": 1,
+      "message": "Hi Jim, I think we can\u0027t use getKey() directly in this case as we get only the class reference of the Entity class here which is using Pfkey in its table. Hence field lookup was done. \n\nIn this case, we can either log the error (as missing \"key\" field is less likely to happen ) or if we think, there are chances of log clutter due to other classes which might have different naming convention for \"key\" field, we can keep this NOSONAR . Please suggest your thoughts.",
+      "parentUuid": "d7fae101_4f58cb72",
+      "range": {
+        "startLine": 423,
+        "startChar": 19,
+        "endLine": 423,
+        "endChar": 24
+      },
+      "revId": "ab5623fb0724ff97440c4312afb29eba50915014",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
