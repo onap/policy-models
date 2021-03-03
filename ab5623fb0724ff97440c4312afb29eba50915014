@@ -309,6 +309,30 @@
       "revId": "ab5623fb0724ff97440c4312afb29eba50915014",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "881d11b5_a48eca8a",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-03-03T12:48:11Z",
+      "side": 1,
+      "message": "Sorry, yes, please add the logging back in.  As you pointed out, it should never happen and, if it does, the message will help us track down the culprit.",
+      "parentUuid": "2c433048_2243c29d",
+      "range": {
+        "startLine": 423,
+        "startChar": 19,
+        "endLine": 423,
+        "endChar": 24
+      },
+      "revId": "ab5623fb0724ff97440c4312afb29eba50915014",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
