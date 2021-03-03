@@ -261,6 +261,30 @@
       "revId": "ab5623fb0724ff97440c4312afb29eba50915014",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b4863d2_47006742",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-03-03T12:37:44Z",
+      "side": 1,
+      "message": "oh, right, we have the class, not the object.  OK, then let\u0027s leave it the way you have it, assuming the exception\u0027s message includes the class name.",
+      "parentUuid": "b6f1f77c_45119851",
+      "range": {
+        "startLine": 423,
+        "startChar": 19,
+        "endLine": 423,
+        "endChar": 24
+      },
+      "revId": "ab5623fb0724ff97440c4312afb29eba50915014",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
