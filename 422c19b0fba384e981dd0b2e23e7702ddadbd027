@@ -22,6 +22,29 @@
       "revId": "422c19b0fba384e981dd0b2e23e7702ddadbd027",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "566b90ef_51c2ecc1",
+        "filename": "models-base/src/test/java/org/onap/policy/models/base/PfObjectFilterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2021-03-03T14:12:58Z",
+      "side": 1,
+      "message": "I think sonar will recommend to use assertTrue and assertFalse for these. Please check the whole file.",
+      "range": {
+        "startLine": 92,
+        "startChar": 8,
+        "endLine": 107,
+        "endChar": 105
+      },
+      "revId": "422c19b0fba384e981dd0b2e23e7702ddadbd027",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
