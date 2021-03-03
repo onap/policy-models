@@ -45,6 +45,23 @@
       "revId": "422c19b0fba384e981dd0b2e23e7702ddadbd027",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff29fca8_b87498c4",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/utils/ToscaUtilsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2021-03-03T14:50:12Z",
+      "side": 1,
+      "message": "I think recommended way is assertThat(X).isEmpty()",
+      "revId": "422c19b0fba384e981dd0b2e23e7702ddadbd027",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
