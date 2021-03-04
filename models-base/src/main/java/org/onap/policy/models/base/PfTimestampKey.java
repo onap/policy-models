@@ -113,7 +113,7 @@ public class PfTimestampKey extends PfKeyImpl {
     }
 
     public void setInstant(final Instant instant) {
-        setTimeStamp(Timestamp.from(instant));;
+        setTimeStamp(Timestamp.from(instant));
     }
 
     @Override

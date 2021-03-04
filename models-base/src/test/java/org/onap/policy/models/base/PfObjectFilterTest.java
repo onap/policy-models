@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -51,6 +51,90 @@ public class PfObjectFilterTest {
 
     @Test
     public void testPfObjectInterface() {
+        DummyPfObjectFilter dof = new DummyPfObjectFilter();
+        assertFalse(dof.filterString(HELLO, "Goodbye"));
+        assertTrue(dof.filterString(HELLO, HELLO));
+
+        assertFalse(dof.filterString(HELLO, "Goodbye"));
+        assertTrue(dof.filterString(HELLO, HELLO));
+        assertTrue(dof.filterString(HELLO, null));
+
+        List<DummyPfObject> doList = getListPfObject();
+        List<DummyPfObject> latestVersionList = dof.latestVersionFilter(doList, new DummyPfObjectComparator());
+        assertEquals(3, latestVersionList.size());
+        assertEquals("aaaaa", latestVersionList.get(0).getName());
+        assertEquals(VERSION002, latestVersionList.get(0).getVersion());
+        assertEquals(NAME0, latestVersionList.get(1).getName());
+        assertEquals(VERSION100, latestVersionList.get(1).getVersion());
+        assertEquals(NAME1, latestVersionList.get(2).getName());
+        assertEquals("0.1.2", latestVersionList.get(2).getVersion());
+
+        latestVersionList.remove(2);
+        latestVersionList.remove(1);
+        List<DummyPfObject> newestVersionList = dof.latestVersionFilter(latestVersionList,
+            new DummyPfObjectComparator());
+        assertEquals(latestVersionList, newestVersionList);
+    }
+
+    @Test
+    public void testStringFilteredPfObjectInterface() {
+        List<DummyPfObject> doList = getListPfObject();
+        MyFilter filter = new MyFilter();
+
+        assertTrue(filter.filterString(null, HELLO));
+
+        DummyPfObject do0 = doList.get(0);
+        DummyPfObject do5 = doList.get(5);
+        DummyPfObject doNullVersion = new DummyPfObject();
+        do5.setName("bbbbb");
+
+        assertFalse(filter(filter::filterStringPred, DummyPfObject::getVersion, doNullVersion, VERSION100));
+        assertFalse(filter(filter::filterStringPred, DummyPfObject::getVersion, do0, "1"));
+        assertFalse(filter(filter::filterStringPred, DummyPfObject::getVersion, do0, "2.0.0"));
+        assertTrue(filter(filter::filterStringPred, DummyPfObject::getVersion, doNullVersion, null));
+        assertTrue(filter(filter::filterStringPred, DummyPfObject::getVersion, do0, null));
+        assertTrue(filter(filter::filterStringPred, DummyPfObject::getVersion, do0, VERSION100));
+    }
+
+    @Test
+    public void testPrefixFilteredPfObjectInterface() {
+
+        DummyPfObject doNullVersion = new DummyPfObject();
+        MyFilter filter = new MyFilter();
+
+        List<DummyPfObject> doList = getListPfObject();
+        DummyPfObject do0 = doList.get(0);
+
+        assertFalse(filter(filter::filterPrefixPred, DummyPfObject::getVersion, doNullVersion, "1."));
+        assertFalse(filter(filter::filterPrefixPred, DummyPfObject::getVersion, do0, "1.1"));
+        assertFalse(filter(filter::filterPrefixPred, DummyPfObject::getVersion, do0, "1.1"));
+        assertFalse(filter(filter::filterPrefixPred, DummyPfObject::getVersion, do0, "2"));
+        assertTrue(filter(filter::filterPrefixPred, DummyPfObject::getVersion, doNullVersion, null));
+        assertTrue(filter(filter::filterPrefixPred, DummyPfObject::getVersion, do0, null));
+        assertTrue(filter(filter::filterPrefixPred, DummyPfObject::getVersion, do0, "1."));
+        assertTrue(filter(filter::filterPrefixPred, DummyPfObject::getVersion, do0, "1.0."));
+        assertTrue(filter(filter::filterPrefixPred, DummyPfObject::getVersion, do0, VERSION100));
+    }
+
+    @Test
+    public void testRegexFilteredPfObjectInterface() {
+        List<DummyPfObject> doList = getListPfObject();
+        DummyPfObject do0 = doList.get(0);
+
+        MyFilter filter = new MyFilter();
+        DummyPfObject doNullVersion = new DummyPfObject();
+
+        assertFalse(filter(filter::filterRegexpPred, DummyPfObject::getVersion, doNullVersion, "1[.].*"));
+        assertFalse(filter(filter::filterRegexpPred, DummyPfObject::getVersion, do0, "2[.].*"));
+        assertTrue(filter(filter::filterRegexpPred, DummyPfObject::getVersion, doNullVersion, null));
+        assertTrue(filter(filter::filterRegexpPred, DummyPfObject::getVersion, do0, null));
+        assertTrue(filter(filter::filterRegexpPred, DummyPfObject::getVersion, do0, "1[.].*"));
+        assertTrue(filter(filter::filterRegexpPred, DummyPfObject::getVersion, do0, "1[.]0[.].*"));
+        assertTrue(filter(filter::filterRegexpPred, DummyPfObject::getVersion, do0, "1[.]0[.]0"));
+        assertTrue(filter(filter::filterRegexpPred, DummyPfObject::getVersion, do0, "1...."));
+    }
+
+    private List<DummyPfObject> getListPfObject() {
         DummyPfObject do0 = new DummyPfObject();
         do0.setName(NAME0);
         do0.setVersion(VERSION100);
@@ -89,61 +173,7 @@ public class PfObjectFilterTest {
         doList.add(do4);
         doList.add(do5);
 
-        DummyPfObjectFilter dof = new DummyPfObjectFilter();
-        assertFalse(dof.filterString(HELLO, "Goodbye"));
-        assertTrue(dof.filterString(HELLO, HELLO));
-
-        assertEquals(false, dof.filterString(HELLO, "Goodbye"));
-        assertEquals(true, dof.filterString(HELLO, HELLO));
-        assertEquals(true, dof.filterString(HELLO, null));
-
-        List<DummyPfObject> latestVersionList = dof.latestVersionFilter(doList, new DummyPfObjectComparator());
-        assertEquals(3, latestVersionList.size());
-        assertEquals("aaaaa", latestVersionList.get(0).getName());
-        assertEquals(VERSION002, latestVersionList.get(0).getVersion());
-        assertEquals(NAME0, latestVersionList.get(1).getName());
-        assertEquals(VERSION100, latestVersionList.get(1).getVersion());
-        assertEquals(NAME1, latestVersionList.get(2).getName());
-        assertEquals("0.1.2", latestVersionList.get(2).getVersion());
-
-        latestVersionList.remove(2);
-        latestVersionList.remove(1);
-        List<DummyPfObject> newestVersionList = dof.latestVersionFilter(latestVersionList,
-            new DummyPfObjectComparator());
-        assertEquals(latestVersionList, newestVersionList);
-
-        MyFilter filter = new MyFilter();
-
-        assertEquals(true, filter.filterString(null, HELLO));
-
-        DummyPfObject doNullVersion = new DummyPfObject();
-        do5.setName("bbbbb");
-
-        assertEquals(false, filter(filter::filterStringPred, DummyPfObject::getVersion, doNullVersion, VERSION100));
-        assertEquals(false, filter(filter::filterStringPred, DummyPfObject::getVersion, do0, "1"));
-        assertEquals(false, filter(filter::filterStringPred, DummyPfObject::getVersion, do0, "2.0.0"));
-        assertEquals(true, filter(filter::filterStringPred, DummyPfObject::getVersion, doNullVersion, null));
-        assertEquals(true, filter(filter::filterStringPred, DummyPfObject::getVersion, do0, null));
-        assertEquals(true, filter(filter::filterStringPred, DummyPfObject::getVersion, do0, VERSION100));
-
-        assertEquals(false, filter(filter::filterPrefixPred, DummyPfObject::getVersion, doNullVersion, "1."));
-        assertEquals(false, filter(filter::filterPrefixPred, DummyPfObject::getVersion, do0, "1.1"));
-        assertEquals(false, filter(filter::filterPrefixPred, DummyPfObject::getVersion, do0, "1.1"));
-        assertEquals(false, filter(filter::filterPrefixPred, DummyPfObject::getVersion, do0, "2"));
-        assertEquals(true, filter(filter::filterPrefixPred, DummyPfObject::getVersion, doNullVersion, null));
-        assertEquals(true, filter(filter::filterPrefixPred, DummyPfObject::getVersion, do0, null));
-        assertEquals(true, filter(filter::filterPrefixPred, DummyPfObject::getVersion, do0, "1."));
-        assertEquals(true, filter(filter::filterPrefixPred, DummyPfObject::getVersion, do0, "1.0."));
-        assertEquals(true, filter(filter::filterPrefixPred, DummyPfObject::getVersion, do0, VERSION100));
-
-        assertEquals(false, filter(filter::filterRegexpPred, DummyPfObject::getVersion, doNullVersion, "1[.].*"));
-        assertEquals(false, filter(filter::filterRegexpPred, DummyPfObject::getVersion, do0, "2[.].*"));
-        assertEquals(true, filter(filter::filterRegexpPred, DummyPfObject::getVersion, doNullVersion, null));
-        assertEquals(true, filter(filter::filterRegexpPred, DummyPfObject::getVersion, do0, null));
-        assertEquals(true, filter(filter::filterRegexpPred, DummyPfObject::getVersion, do0, "1[.].*"));
-        assertEquals(true, filter(filter::filterRegexpPred, DummyPfObject::getVersion, do0, "1[.]0[.].*"));
-        assertEquals(true, filter(filter::filterRegexpPred, DummyPfObject::getVersion, do0, "1[.]0[.]0"));
-        assertEquals(true, filter(filter::filterRegexpPred, DummyPfObject::getVersion, do0, "1...."));
+        return doList;
     }
 
     private boolean filter(BiFunction<String, Function<DummyPfObject, String>, Predicate<DummyPfObject>> predMaker,
