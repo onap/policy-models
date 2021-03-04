@@ -3,7 +3,7 @@
  * ONAP Policy Model
  * ================================================================================
  * Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019-2020 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,8 +25,6 @@ package org.onap.policy.models.tosca.simple.concepts;
 
 import java.util.LinkedHashMap;
 import java.util.List;
-import javax.persistence.AttributeOverride;
-import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
@@ -46,7 +44,6 @@ import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.base.validation.annotations.VerifyKey;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 
 /**
@@ -60,7 +57,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class JpaToscaPolicy extends JpaToscaWithStringProperties<ToscaPolicy> {
+public class JpaToscaPolicy extends JpaToscaWithTypeAndStringProperties<ToscaPolicy> {
     private static final long serialVersionUID = 3265174757061982805L;
 
     // Tags for metadata
@@ -69,23 +66,14 @@ public class JpaToscaPolicy extends JpaToscaWithStringProperties<ToscaPolicy> {
 
     private static final StandardCoder STANDARD_CODER = new StandardCoder();
 
-    // @formatter:off
-    @Column
-    @AttributeOverride(name = "name", column = @Column(name = "type_name"))
-    @AttributeOverride(name = "version", column = @Column(name = "type_version"))
-    @VerifyKey
-    @NotNull
-    private PfConceptKey type;
-
     @ElementCollection
     private List<@NotNull @Valid PfConceptKey> targets;
-    // @formatter:on
 
     /**
      * The Default Constructor creates a {@link JpaToscaPolicy} object with a null key.
      */
     public JpaToscaPolicy() {
-        this(new PfConceptKey());
+        super();
     }
 
     /**
@@ -94,7 +82,7 @@ public class JpaToscaPolicy extends JpaToscaWithStringProperties<ToscaPolicy> {
      * @param key the key
      */
     public JpaToscaPolicy(@NonNull final PfConceptKey key) {
-        this(key, new PfConceptKey());
+        super(key, new PfConceptKey());
     }
 
     /**
@@ -104,8 +92,7 @@ public class JpaToscaPolicy extends JpaToscaWithStringProperties<ToscaPolicy> {
      * @param type the type of the policy
      */
     public JpaToscaPolicy(@NonNull final PfConceptKey key, @NonNull final PfConceptKey type) {
-        super(key);
-        this.type = type;
+        super(key, type);
     }
 
     /**
@@ -115,7 +102,6 @@ public class JpaToscaPolicy extends JpaToscaWithStringProperties<ToscaPolicy> {
      */
     public JpaToscaPolicy(@NonNull final JpaToscaPolicy copyConcept) {
         super(copyConcept);
-        this.type = new PfConceptKey(copyConcept.type);
         this.targets = PfUtils.mapList(copyConcept.targets, PfConceptKey::new);
     }
 
@@ -126,7 +112,6 @@ public class JpaToscaPolicy extends JpaToscaWithStringProperties<ToscaPolicy> {
      */
     public JpaToscaPolicy(final ToscaPolicy authorativeConcept) {
         super(new PfConceptKey());
-        type = new PfConceptKey();
         this.fromAuthorative(authorativeConcept);
     }
 
@@ -136,36 +121,12 @@ public class JpaToscaPolicy extends JpaToscaWithStringProperties<ToscaPolicy> {
         super.setToscaEntity(toscaPolicy);
         super.toAuthorative();
 
-        toscaPolicy.setType(type.getName());
-
-        if (!PfKey.NULL_KEY_VERSION.equals(type.getVersion())) {
-            toscaPolicy.setTypeVersion(type.getVersion());
-        } else {
-            toscaPolicy.setTypeVersion(null);
-        }
-
         return toscaPolicy;
     }
 
     @Override
     public void fromAuthorative(@NonNull final ToscaPolicy toscaPolicy) {
         super.fromAuthorative(toscaPolicy);
-
-        if (toscaPolicy.getType() != null) {
-            type.setName(toscaPolicy.getType());
-        } else {
-            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST,
-                    "PolicyType type not specified, the type of the PolicyType for this policy must be specified in "
-                            + "the type field");
-        }
-
-        if (toscaPolicy.getTypeVersion() != null) {
-            type.setVersion(toscaPolicy.getTypeVersion());
-        } else {
-            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST,
-                    "PolicyType version not specified, the version of the PolicyType for this policy must be specified"
-                            + " in the type_version field");
-        }
 
         // Add the property metadata if it doesn't exist already
         if (toscaPolicy.getMetadata() == null) {
@@ -201,8 +162,6 @@ public class JpaToscaPolicy extends JpaToscaWithStringProperties<ToscaPolicy> {
     public List<PfKey> getKeys() {
         final List<PfKey> keyList = super.getKeys();
 
-        keyList.addAll(type.getKeys());
-
         if (targets != null) {
             keyList.addAll(targets);
         }
@@ -213,8 +172,6 @@ public class JpaToscaPolicy extends JpaToscaWithStringProperties<ToscaPolicy> {
     @Override
     public void clean() {
         super.clean();
-
-        type.clean();
 
         if (targets != null) {
             for (PfConceptKey target : targets) {
@@ -244,11 +201,6 @@ public class JpaToscaPolicy extends JpaToscaWithStringProperties<ToscaPolicy> {
         }
 
         final JpaToscaPolicy other = (JpaToscaPolicy) otherConcept;
-
-        result = type.compareTo(other.type);
-        if (result != 0) {
-            return result;
-        }
 
         return PfUtils.compareCollections(targets, other.targets);
     }

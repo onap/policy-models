@@ -1,6 +1,7 @@
 /*
  * ============LICENSE_START=======================================================
  * Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +21,8 @@
 
 package org.onap.policy.models.tosca.authorative.concepts;
 
+import com.google.gson.annotations.SerializedName;
+import io.swagger.annotations.ApiModelProperty;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import lombok.Data;
@@ -36,19 +39,46 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @ToString
-public class ToscaWithObjectProperties extends ToscaEntity {
+public class ToscaWithTypeAndObjectProperties extends ToscaEntity {
+    private String type;
+
+    @ApiModelProperty(name = "type_version")
+    @SerializedName("type_version")
+    private String typeVersion;
+
     private Map<String, Object> properties;
 
     /**
-     * Cop[y constructor.
+     * Copy constructor.
      *
      * @param copyObject object to copy
      */
-    public ToscaWithObjectProperties(@NonNull ToscaWithObjectProperties copyObject) {
+    public ToscaWithTypeAndObjectProperties(@NonNull ToscaWithTypeAndObjectProperties copyObject) {
         super(copyObject);
+
+        this.type = copyObject.type;
+        this.typeVersion = copyObject.typeVersion;
 
         if (copyObject.properties != null) {
             properties = new LinkedHashMap<>(copyObject.properties);
         }
+    }
+
+    /**
+     * Gets the identifier for this policy.
+     *
+     * @return this policy's identifier
+     */
+    public ToscaConceptIdentifier getIdentifier() {
+        return new ToscaConceptIdentifier(getName(), getVersion());
+    }
+
+    /**
+     * Gets the type identifier for this policy.
+     *
+     * @return this policy's type identifier
+     */
+    public ToscaConceptIdentifier getTypeIdentifier() {
+        return new ToscaConceptIdentifier(getType(), getTypeVersion());
     }
 }

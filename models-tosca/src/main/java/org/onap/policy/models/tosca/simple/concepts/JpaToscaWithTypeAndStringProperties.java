@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,10 +22,14 @@
 package org.onap.policy.models.tosca.simple.concepts;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import javax.persistence.AttributeOverride;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Lob;
 import javax.persistence.MappedSuperclass;
+import javax.ws.rs.core.Response;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
@@ -33,8 +38,11 @@ import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
+import org.onap.policy.models.base.PfKey;
+import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaWithObjectProperties;
+import org.onap.policy.models.base.validation.annotations.VerifyKey;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaWithTypeAndObjectProperties;
 
 /**
  * Class to represent JPA TOSCA classes containing property maps whose values are Strings.
@@ -42,31 +50,47 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaWithObjectProperti
 @MappedSuperclass
 @Data
 @EqualsAndHashCode(callSuper = true)
-public abstract class JpaToscaWithStringProperties<T extends ToscaWithObjectProperties> extends JpaToscaEntityType<T>
-                implements PfAuthorative<T> {
+public abstract class JpaToscaWithTypeAndStringProperties<T extends ToscaWithTypeAndObjectProperties>
+        extends JpaToscaEntityType<T> implements PfAuthorative<T> {
 
     private static final long serialVersionUID = 2785481541573683089L;
+
+    @Column
+    @AttributeOverride(name = "name", column = @Column(name = "type_name"))
+    @AttributeOverride(name = "version", column = @Column(name = "type_version"))
+    @VerifyKey
+    @NotNull
+    private PfConceptKey type;
 
     @ElementCollection
     @Lob
     private Map<@NotNull String, @NotNull String> properties;
 
     /**
-     * The Default Constructor creates a {@link JpaToscaWithStringProperties} object with
-     * a null key.
+     * The Default Constructor creates a {@link JpaToscaWithTypeAndStringProperties} object with a null key.
      */
-    protected JpaToscaWithStringProperties() {
+    protected JpaToscaWithTypeAndStringProperties() {
         this(new PfConceptKey());
     }
 
     /**
-     * The Key Constructor creates a {@link JpaToscaWithStringProperties} object with the
-     * given concept key.
+     * The Key Constructor creates a {@link JpaToscaWithTypeAndStringProperties} object with the given concept key.
      *
      * @param key the key
      */
-    protected JpaToscaWithStringProperties(@NonNull final PfConceptKey key) {
+    protected JpaToscaWithTypeAndStringProperties(@NonNull final PfConceptKey key) {
+        this(key, new PfConceptKey());
+    }
+
+    /**
+     * The full Constructor creates a {@link JpaToscaWithTypeAndStringProperties} object with all mandatory fields.
+     *
+     * @param key the key
+     * @param type the type of the policy
+     */
+    protected JpaToscaWithTypeAndStringProperties(@NonNull final PfConceptKey key, @NonNull final PfConceptKey type) {
         super(key);
+        this.type = type;
     }
 
     /**
@@ -74,8 +98,9 @@ public abstract class JpaToscaWithStringProperties<T extends ToscaWithObjectProp
      *
      * @param copyConcept the concept to copy from
      */
-    protected JpaToscaWithStringProperties(@NonNull final JpaToscaWithStringProperties<T> copyConcept) {
+    protected JpaToscaWithTypeAndStringProperties(@NonNull final JpaToscaWithTypeAndStringProperties<T> copyConcept) {
         super(copyConcept);
+        this.type = new PfConceptKey(copyConcept.type);
         this.properties = (copyConcept.properties != null ? new LinkedHashMap<>(copyConcept.properties) : null);
     }
 
@@ -84,14 +109,23 @@ public abstract class JpaToscaWithStringProperties<T extends ToscaWithObjectProp
      *
      * @param authorativeConcept the authorative concept to copy from
      */
-    protected JpaToscaWithStringProperties(final T authorativeConcept) {
+    protected JpaToscaWithTypeAndStringProperties(final T authorativeConcept) {
         super(new PfConceptKey());
+        type = new PfConceptKey();
         this.fromAuthorative(authorativeConcept);
     }
 
     @Override
     public T toAuthorative() {
         T tosca = super.toAuthorative();
+
+        tosca.setType(type.getName());
+
+        if (!PfKey.NULL_KEY_VERSION.equals(type.getVersion())) {
+            tosca.setTypeVersion(type.getVersion());
+        } else {
+            tosca.setTypeVersion(null);
+        }
 
         tosca.setProperties(PfUtils.mapMap(properties, this::deserializePropertyValue));
 
@@ -101,6 +135,21 @@ public abstract class JpaToscaWithStringProperties<T extends ToscaWithObjectProp
     @Override
     public void fromAuthorative(@NonNull final T authorativeConcept) {
         super.fromAuthorative(authorativeConcept);
+
+        if (authorativeConcept.getType() != null) {
+            type.setName(authorativeConcept.getType());
+        } else {
+            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST,
+                    "Type not specified, the type of this TOSCA entity must be specified in the type field");
+        }
+
+        if (authorativeConcept.getTypeVersion() != null) {
+            type.setVersion(authorativeConcept.getTypeVersion());
+        } else {
+            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST,
+                    "Version not specified, the version of this TOSCA entity must be specified"
+                            + " in the type_version field");
+        }
 
         properties = PfUtils.mapMap(authorativeConcept.getProperties(), this::serializePropertyValue);
     }
@@ -121,10 +170,20 @@ public abstract class JpaToscaWithStringProperties<T extends ToscaWithObjectProp
      */
     protected abstract String serializePropertyValue(Object propValue);
 
+    @Override
+    public List<PfKey> getKeys() {
+        final List<PfKey> keyList = super.getKeys();
+
+        keyList.addAll(type.getKeys());
+
+        return keyList;
+    }
 
     @Override
     public void clean() {
         super.clean();
+
+        type.clean();
 
         properties = PfUtils.mapMap(properties, String::trim);
     }
@@ -155,7 +214,12 @@ public abstract class JpaToscaWithStringProperties<T extends ToscaWithObjectProp
         }
 
         @SuppressWarnings("unchecked")
-        final JpaToscaWithStringProperties<T> other = (JpaToscaWithStringProperties<T>) otherConcept;
+        final JpaToscaWithTypeAndStringProperties<T> other = (JpaToscaWithTypeAndStringProperties<T>) otherConcept;
+
+        result = type.compareTo(other.type);
+        if (result != 0) {
+            return result;
+        }
 
         return PfUtils.compareMaps(properties, other.properties);
     }
