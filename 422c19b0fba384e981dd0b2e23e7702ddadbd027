@@ -80,6 +80,24 @@
       "revId": "422c19b0fba384e981dd0b2e23e7702ddadbd027",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d11b98cc_bd472235",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/utils/ToscaUtilsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-03-04T12:15:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f158f42a_be117229",
+      "revId": "422c19b0fba384e981dd0b2e23e7702ddadbd027",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
