@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "89b5c3fb_bd4cd562",
+        "filename": "models-base/src/test/java/org/onap/policy/models/base/PfKeyImplTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-03-04T21:28:23Z",
+      "side": 0,
+      "message": "I was afraid of this - need to put the \"(Object)\" cast back in.  Otherwise sonar complains about the assertEquals() lines.",
+      "range": {
+        "startLine": 138,
+        "startChar": 31,
+        "endLine": 138,
+        "endChar": 39
+      },
+      "revId": "726bec7cd5e1b0f5c45b3ec58bc64e344240e8c9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ccc16040_f43c15b3",
+        "filename": "models-base/src/test/java/org/onap/policy/models/base/PfKeyUseTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-03-04T21:28:23Z",
+      "side": 0,
+      "message": "same comment as before",
+      "range": {
+        "startLine": 74,
+        "startChar": 29,
+        "endLine": 74,
+        "endChar": 37
+      },
+      "revId": "726bec7cd5e1b0f5c45b3ec58bc64e344240e8c9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
