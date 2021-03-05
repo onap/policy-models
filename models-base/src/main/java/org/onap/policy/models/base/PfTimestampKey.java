@@ -3,7 +3,7 @@
  * ONAP Policy Model
  * ================================================================================
  * Copyright (C) 2019-2021 Nordix Foundation.
- * Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,8 +23,8 @@
 
 package org.onap.policy.models.base;
 
-import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import lombok.Data;
@@ -51,7 +51,7 @@ public class PfTimestampKey extends PfKeyImpl {
 
     @Column(name = TIMESTAMP_TOKEN)
     @NonNull
-    private Timestamp timeStamp;
+    private Date timeStamp;
 
 
     /**
@@ -81,7 +81,7 @@ public class PfTimestampKey extends PfKeyImpl {
     public PfTimestampKey(@NonNull final String name, @NonNull final String version,
             @NonNull final Instant instant) {
         super(name, version);
-        this.timeStamp = Timestamp.from(instant);
+        this.timeStamp = Date.from(instant);
     }
 
     /**
@@ -91,7 +91,7 @@ public class PfTimestampKey extends PfKeyImpl {
      */
     public PfTimestampKey(final String id) {
         super(id.substring(0, id.lastIndexOf(':')));
-        this.timeStamp = new Timestamp(Long.parseLong(id.substring(id.lastIndexOf(':') + 1)));
+        this.timeStamp = new Date(Long.parseLong(id.substring(id.lastIndexOf(':') + 1)));
     }
 
     @Override
@@ -113,7 +113,7 @@ public class PfTimestampKey extends PfKeyImpl {
     }
 
     public void setInstant(final Instant instant) {
-        setTimeStamp(Timestamp.from(instant));
+        setTimeStamp(Date.from(instant));
     }
 
     @Override
