@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d7615d2_36781fa2",
+        "filename": "models-base/src/test/java/org/onap/policy/models/base/PfKeyImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2021-03-05T15:43:25Z",
+      "side": 1,
+      "message": "I think this line could be deleted altogether, I don\u0027t think there is a whole lot of value on the assert here.",
+      "revId": "32f3f7ec3c8d28cb9a545936b8a47395b8a00d28",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd7d29d2_9cb73dad",
+        "filename": "models-base/src/test/java/org/onap/policy/models/base/PfKeyImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2021-03-05T15:43:25Z",
+      "side": 1,
+      "message": "question, why does it need to be typecasted to Object? it\u0027s not obvious to me why it would be required.",
+      "revId": "32f3f7ec3c8d28cb9a545936b8a47395b8a00d28",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
