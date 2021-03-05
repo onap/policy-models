@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2021 Nordix Foundation.
+ * Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,13 +21,15 @@
 
 package org.onap.policy.models.base;
 
-import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
@@ -41,15 +44,16 @@ import org.onap.policy.common.utils.validation.Assertions;
 
 @Embeddable
 @Data
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 public class PfReferenceTimestampKey extends PfKey {
     private static final long serialVersionUID = 1130918285832617215L;
 
     private static final String TIMESTAMP_TOKEN = "timeStamp";
 
     @Column(name = TIMESTAMP_TOKEN)
+    @Temporal(TemporalType.TIMESTAMP)
     @NotNull
-    private Timestamp timeStamp;
+    private Date timeStamp;
 
     @Embedded
     @Column
@@ -60,7 +64,7 @@ public class PfReferenceTimestampKey extends PfKey {
      */
     public PfReferenceTimestampKey() {
         this.referenceKey = new PfReferenceKey();
-        this.timeStamp = new Timestamp(0);
+        this.timeStamp = new Date(0);
     }
 
     /**
@@ -82,7 +86,7 @@ public class PfReferenceTimestampKey extends PfKey {
      */
     public PfReferenceTimestampKey(final PfConceptKey pfConceptKey) {
         this.referenceKey = new PfReferenceKey(pfConceptKey);
-        this.timeStamp = new Timestamp(0);
+        this.timeStamp = new Date(0);
     }
 
     /**
@@ -97,7 +101,7 @@ public class PfReferenceTimestampKey extends PfKey {
      */
     public PfReferenceTimestampKey(final PfConceptKey pfConceptKey, final String localName, final Instant instant) {
         this.referenceKey = new PfReferenceKey(pfConceptKey, localName);
-        this.timeStamp = Timestamp.from(instant);
+        this.timeStamp = Date.from(instant);
     }
 
     /**
@@ -113,7 +117,7 @@ public class PfReferenceTimestampKey extends PfKey {
     public PfReferenceTimestampKey(final PfReferenceKey parentReferenceKey, final String localName,
                                    final Instant instant) {
         this.referenceKey = new PfReferenceKey(parentReferenceKey, localName);
-        this.timeStamp = Timestamp.from(instant);
+        this.timeStamp = Date.from(instant);
     }
 
     /**
@@ -132,7 +136,7 @@ public class PfReferenceTimestampKey extends PfKey {
     public PfReferenceTimestampKey(final PfConceptKey pfConceptKey, final String parentLocalName,
                                    final String localName, final Instant instant) {
         this.referenceKey = new PfReferenceKey(pfConceptKey, parentLocalName, localName);
-        this.timeStamp = Timestamp.from(instant);
+        this.timeStamp = Date.from(instant);
     }
 
     /**
@@ -151,7 +155,7 @@ public class PfReferenceTimestampKey extends PfKey {
     public PfReferenceTimestampKey(final String parentKeyName, final String parentKeyVersion, final String localName,
                                    final Instant instant) {
         this.referenceKey = new PfReferenceKey(parentKeyName, parentKeyVersion, PfKey.NULL_KEY_NAME, localName);
-        this.timeStamp = Timestamp.from(instant);
+        this.timeStamp = Date.from(instant);
     }
 
     /**
@@ -172,7 +176,7 @@ public class PfReferenceTimestampKey extends PfKey {
     public PfReferenceTimestampKey(final String parentKeyName, final String parentKeyVersion,
                                    final String parentLocalName, final String localName, final Instant instant) {
         this.referenceKey = new PfReferenceKey(parentKeyName, parentKeyVersion, parentLocalName, localName);
-        this.timeStamp = Timestamp.from(instant);
+        this.timeStamp = Date.from(instant);
     }
 
 
@@ -183,7 +187,7 @@ public class PfReferenceTimestampKey extends PfKey {
      */
     public PfReferenceTimestampKey(final String id) {
         this.referenceKey = new PfReferenceKey(id.substring(0, id.lastIndexOf(':')));
-        this.timeStamp = new Timestamp(Long.parseLong(id.substring(id.lastIndexOf(':') + 1)));
+        this.timeStamp = new Date(Long.parseLong(id.substring(id.lastIndexOf(':') + 1)));
     }
 
 
@@ -202,7 +206,7 @@ public class PfReferenceTimestampKey extends PfKey {
     }
 
     public void setInstant(final Instant instant) {
-        setTimeStamp(Timestamp.from(instant));
+        setTimeStamp(Date.from(instant));
     }
 
     /**
