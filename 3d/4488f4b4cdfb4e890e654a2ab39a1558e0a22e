@@ -1,0 +1,10 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Jim Hahn <jrh3@att.com>
+Code-Review+1: Ramesh Murugan Iyer <ramesh.murugan.iyer@est.tech>
+Code-Review+1: Jorge Hernandez <jorge.hernandez-herrero@att.com>
+Code-Review+2: Liam Fallon <liam.fallon@est.tech>
+Submitted-by: Jim Hahn <jrh3@att.com>
+Submitted-at: Mon, 08 Mar 2021 21:07:40 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/policy/models/+/118873
+Project: policy/models
+Branch: refs/heads/master
