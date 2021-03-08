@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2021 Nordix Foundation.
+ * Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,8 +26,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.Date;
 import org.junit.Test;
 
 public class PfTimestampKeyTest {
@@ -41,7 +42,7 @@ public class PfTimestampKeyTest {
         PfTimestampKey someKey0 = new PfTimestampKey();
         assertEquals(PfTimestampKey.getNullKey(), someKey0);
         assertTrue(someKey0.isNullKey());
-        assertEquals("PfTimestampKey(name=NULL, version=0.0.0, timeStamp=" + Timestamp.from(Instant.EPOCH) + ")",
+        assertEquals("PfTimestampKey(name=NULL, version=0.0.0, timeStamp=" + Date.from(Instant.EPOCH) + ")",
                 someKey0.toString());
 
         PfTimestampKey someKey1 = new PfTimestampKey("my-name", VERSION001, Instant.ofEpochSecond(timeStamp));
@@ -51,7 +52,7 @@ public class PfTimestampKeyTest {
         assertEquals(someKey1, someKey3);
         assertFalse(someKey1.isNullVersion());
         assertEquals("PfTimestampKey(name=my-name, version=0.0.1, timeStamp="
-                + Timestamp.from(Instant.ofEpochSecond(timeStamp)) + ")", someKey1.toString());
+                + Date.from(Instant.ofEpochSecond(timeStamp)) + ")", someKey1.toString());
 
         assertEquals("my-name", someKey1.getName());
         assertEquals(VERSION001, someKey1.getVersion());
@@ -79,7 +80,7 @@ public class PfTimestampKeyTest {
         assertFalse(someKey1.isNewerThan(someKey2));
         assertThatThrownBy(() -> someKey1.isNewerThan((PfKey) null)).isInstanceOf(NullPointerException.class)
                 .hasMessageMatching("^otherKey is marked .*on.*ull but is null$");
-        someKey2.setTimeStamp(Timestamp.from(Instant.ofEpochSecond(timeStamp).plusMillis(90)));
+        someKey2.setTimeStamp(Date.from(Instant.ofEpochSecond(timeStamp).plusMillis(90)));
         assertTrue(someKey2.isNewerThan(someKey1));
         someKey3.setName("my-name3");
         assertTrue(someKey3.isNewerThan(someKey1));
