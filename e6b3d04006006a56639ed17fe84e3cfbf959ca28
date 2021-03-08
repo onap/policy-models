@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70705d69_eafd2683",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfReferenceTimestampKey.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2021-03-08T09:46:52Z",
+      "side": 1,
+      "message": "We are going to keep Timestamp here ?",
+      "range": {
+        "startLine": 53,
+        "startChar": 12,
+        "endLine": 53,
+        "endChar": 22
+      },
+      "revId": "e6b3d04006006a56639ed17fe84e3cfbf959ca28",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
