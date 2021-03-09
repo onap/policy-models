@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -62,7 +62,10 @@ public class JpaToscaEventFilterTest {
 
         assertThatThrownBy(() -> new JpaToscaEventFilter((JpaToscaEventFilter) null))
                 .isInstanceOf(NullPointerException.class);
+    }
 
+    @Test
+    public void testEventFilter() {
         PfConceptKey efParentKey = new PfConceptKey("tParentKey", VERSION_001);
         PfReferenceKey efKey = new PfReferenceKey(efParentKey, "trigger0");
         PfConceptKey nodeKey = new PfConceptKey("tParentKey", VERSION_001);
@@ -75,12 +78,10 @@ public class JpaToscaEventFilterTest {
         assertEquals(A_CAPABILITY, tef.getCapability());
 
         JpaToscaEventFilter tdtClone0 = new JpaToscaEventFilter(tef);
-        assertEquals(tef, tdtClone0);
-        assertEquals(0, tef.compareTo(tdtClone0));
+        checkEqualsEventFilter(tef, tdtClone0);
 
         JpaToscaEventFilter tdtClone1 = new JpaToscaEventFilter(tef);
-        assertEquals(tef, tdtClone1);
-        assertEquals(0, tef.compareTo(tdtClone1));
+        checkEqualsEventFilter(tef, tdtClone1);
 
         assertEquals(-1, tef.compareTo(null));
         assertEquals(0, tef.compareTo(tef));
@@ -101,6 +102,21 @@ public class JpaToscaEventFilterTest {
 
         assertEquals(2, tef.getKeys().size());
         assertEquals(2, new JpaToscaEventFilter().getKeys().size());
+    }
+
+    private void checkEqualsEventFilter(JpaToscaEventFilter tef1, JpaToscaEventFilter tef2) {
+        assertEquals(tef1, tef2);
+        assertEquals(0, tef1.compareTo(tef2));
+    }
+
+    @Test
+    public void testValidationEventFilter() {
+        PfConceptKey efParentKey = new PfConceptKey("tParentKey", VERSION_001);
+        PfReferenceKey efKey = new PfReferenceKey(efParentKey, "trigger0");
+        PfConceptKey nodeKey = new PfConceptKey("tParentKey", VERSION_001);
+        JpaToscaEventFilter tef = new JpaToscaEventFilter(efKey, nodeKey);
+
+        JpaToscaEventFilter tdtClone0 = new JpaToscaEventFilter(tef);
 
         new JpaToscaEventFilter().clean();
         tef.clean();

@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -58,6 +58,12 @@ public class JpaToscaTopologyTemplateTest {
         assertThatThrownBy(() -> new JpaToscaTopologyTemplate((JpaToscaTopologyTemplate) null))
                 .isInstanceOf(NullPointerException.class);
 
+        assertThatThrownBy(() -> new JpaToscaTopologyTemplate((JpaToscaTopologyTemplate) null))
+                .isInstanceOf(NullPointerException.class);
+    }
+
+    @Test
+    public void testTopologyTemplates() {
         PfReferenceKey tttKey = new PfReferenceKey("tst", VERSION_001, "ttt");
         JpaToscaTopologyTemplate ttt = new JpaToscaTopologyTemplate(tttKey);
 
@@ -75,12 +81,10 @@ public class JpaToscaTopologyTemplateTest {
         ttt.setPolicies(policies);
 
         JpaToscaTopologyTemplate tttClone0 = new JpaToscaTopologyTemplate(ttt);
-        assertEquals(ttt, tttClone0);
-        assertEquals(0, ttt.compareTo(tttClone0));
+        checkEqualsTopologyTemplate(ttt, tttClone0);
 
         JpaToscaTopologyTemplate tttClone1 = new JpaToscaTopologyTemplate(ttt);
-        assertEquals(ttt, tttClone1);
-        assertEquals(0, ttt.compareTo(tttClone1));
+        checkEqualsTopologyTemplate(ttt, tttClone1);
 
         assertEquals(-1, ttt.compareTo(null));
         assertEquals(0, ttt.compareTo(ttt));
@@ -97,11 +101,16 @@ public class JpaToscaTopologyTemplateTest {
         otherDt.setPolicies(policies);
         assertEquals(0, ttt.compareTo(otherDt));
 
-        assertThatThrownBy(() -> new JpaToscaTopologyTemplate((JpaToscaTopologyTemplate) null))
-                .isInstanceOf(NullPointerException.class);
-
         assertEquals(4, ttt.getKeys().size());
         assertEquals(1, new JpaToscaTopologyTemplate().getKeys().size());
+    }
+
+    @Test
+    public void testTopologyTemplateValidation() {
+        PfReferenceKey tttKey = new PfReferenceKey("tst", VERSION_001, "ttt");
+        JpaToscaTopologyTemplate ttt = new JpaToscaTopologyTemplate(tttKey);
+
+        JpaToscaTopologyTemplate tttClone0 = new JpaToscaTopologyTemplate(ttt);
 
         new JpaToscaTopologyTemplate().clean();
         ttt.clean();
@@ -123,5 +132,10 @@ public class JpaToscaTopologyTemplateTest {
         assertTrue(ttt.validate("").isValid());
 
         assertThatThrownBy(() -> ttt.validate(null)).hasMessageMatching("fieldName is marked .*on.*ull but is null");
+    }
+
+    private void checkEqualsTopologyTemplate(JpaToscaTopologyTemplate ttt1, JpaToscaTopologyTemplate ttt2) {
+        assertEquals(ttt1, ttt2);
+        assertEquals(0, ttt1.compareTo(ttt2));
     }
 }
