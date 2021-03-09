@@ -75,7 +75,10 @@ public class JpaToscaTriggerTest {
                 .hasMessageMatching("eventType is marked .*on.*ull but is null");
 
         assertThatThrownBy(() -> new JpaToscaTrigger((JpaToscaTrigger) null)).isInstanceOf(NullPointerException.class);
+    }
 
+    @Test
+    public void testTriggerConstraints() {
         PfConceptKey tparentKey = new PfConceptKey("tParentKey", VERSION_001);
         PfReferenceKey tkey = new PfReferenceKey(tparentKey, "trigger0");
         JpaToscaTrigger tdt = new JpaToscaTrigger(tkey, EVENT_TYPE, ACTION);
@@ -104,12 +107,10 @@ public class JpaToscaTriggerTest {
         assertEquals(A_METHOD, tdt.getMethod());
 
         JpaToscaTrigger tdtClone0 = new JpaToscaTrigger(tdt);
-        assertEquals(tdt, tdtClone0);
-        assertEquals(0, tdt.compareTo(tdtClone0));
+        checkEqualsToscaTriggers(tdt, tdtClone0);
 
         JpaToscaTrigger tdtClone1 = new JpaToscaTrigger(tdt);
-        assertEquals(tdt, tdtClone1);
-        assertEquals(0, tdt.compareTo(tdtClone1));
+        checkEqualsToscaTriggers(tdt, tdtClone1);
 
         assertEquals(-1, tdt.compareTo(null));
         assertEquals(0, tdt.compareTo(tdt));
@@ -147,6 +148,15 @@ public class JpaToscaTriggerTest {
 
         assertEquals(4, tdt.getKeys().size());
         assertEquals(1, new JpaToscaTrigger().getKeys().size());
+    }
+
+    @Test
+    public void testCloneToscaTrigger() {
+        PfConceptKey tparentKey = new PfConceptKey("tParentKey", VERSION_001);
+        PfReferenceKey tkey = new PfReferenceKey(tparentKey, "trigger0");
+        JpaToscaTrigger tdt = new JpaToscaTrigger(tkey, EVENT_TYPE, ACTION);
+
+        JpaToscaTrigger tdtClone0 = new JpaToscaTrigger(tdt);
 
         new JpaToscaTrigger().clean();
         tdt.clean();
@@ -175,5 +185,10 @@ public class JpaToscaTriggerTest {
         assertTrue(tdt.validate("").isValid());
 
         assertThatThrownBy(() -> tdt.validate(null)).hasMessageMatching("fieldName is marked .*on.*ull but is null");
+    }
+
+    private void checkEqualsToscaTriggers(JpaToscaTrigger tdt1, JpaToscaTrigger tdt2) {
+        assertEquals(tdt1, tdt2);
+        assertEquals(0, tdt1.compareTo(tdt2));
     }
 }

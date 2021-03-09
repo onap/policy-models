@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -61,7 +61,10 @@ public class JpaToscaDataTypesTest {
 
         assertThatThrownBy(() -> new JpaToscaDataTypes(null, new TreeMap<PfConceptKey, JpaToscaDataType>()))
                 .hasMessageMatching(KEY_IS_NULL);
+    }
 
+    @Test
+    public void testDerivedDataTypes() {
         List<Map<String, ToscaDataType>> dtMapList = new ArrayList<>();
         dtMapList.add(new LinkedHashMap<>());
 
