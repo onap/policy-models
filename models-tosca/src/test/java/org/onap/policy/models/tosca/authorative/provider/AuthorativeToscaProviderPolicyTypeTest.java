@@ -220,22 +220,19 @@ public class AuthorativeToscaProviderPolicyTypeTest {
                 ToscaEntityFilter.<ToscaPolicyType>builder().build());
 
         ToscaPolicyType gotPolicyType = gotServiceTemplate.getPolicyTypes().get(policyTypeKey.getName());
-        assertEquals(true, beforePolicyType.getName().equals(gotPolicyType.getName()));
-        assertEquals(0, ObjectUtils.compare(beforePolicyType.getDescription(), gotPolicyType.getDescription()));
+        checkEqualsNameDescription(beforePolicyType, gotPolicyType);
 
         gotServiceTemplate = new AuthorativeToscaProvider().getFilteredPolicyTypes(pfDao,
                 ToscaEntityFilter.<ToscaPolicyType>builder().name(policyTypeKey.getName()).build());
 
         gotPolicyType = gotServiceTemplate.getPolicyTypes().get(policyTypeKey.getName());
-        assertEquals(true, beforePolicyType.getName().equals(gotPolicyType.getName()));
-        assertEquals(0, ObjectUtils.compare(beforePolicyType.getDescription(), gotPolicyType.getDescription()));
+        checkEqualsNameDescription(beforePolicyType, gotPolicyType);
 
         gotServiceTemplate = new AuthorativeToscaProvider().getFilteredPolicyTypes(pfDao, ToscaEntityFilter
                 .<ToscaPolicyType>builder().name(policyTypeKey.getName()).version(VERSION_001).build());
 
         gotPolicyType = gotServiceTemplate.getPolicyTypes().get(policyTypeKey.getName());
-        assertEquals(true, beforePolicyType.getName().equals(gotPolicyType.getName()));
-        assertEquals(0, ObjectUtils.compare(beforePolicyType.getDescription(), gotPolicyType.getDescription()));
+        checkEqualsNameDescription(beforePolicyType, gotPolicyType);
 
         List<ToscaPolicyType> gotPolicyTypeList =
                 new AuthorativeToscaProvider().getPolicyTypeList(pfDao, POLICY_NO_VERSION, VERSION_001);
@@ -261,6 +258,11 @@ public class AuthorativeToscaProviderPolicyTypeTest {
                 ToscaEntityFilter.<ToscaPolicyType>builder().version("1.0.0").build());
         assertEquals(1, gotPolicyTypeList.size());
         assertEquals(true, beforePolicyType.getName().equals(gotPolicyType.getName()));
+    }
+
+    private void checkEqualsNameDescription(ToscaPolicyType beforePolicyType, ToscaPolicyType gotPolicyType) {
+        assertEquals(true, beforePolicyType.getName().equals(gotPolicyType.getName()));
+        assertEquals(0, ObjectUtils.compare(beforePolicyType.getDescription(), gotPolicyType.getDescription()));
     }
 
     @Test
