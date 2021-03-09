@@ -26,7 +26,6 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -163,10 +162,6 @@ public class PfKeyImplTest {
 
         assertEquals(0, someKey0.compareTo(someKey0));
         assertEquals(-36, someKey0.compareTo(new DummyPfKey()));
-
-        assertNotEquals(someKey0, null);
-        assertEquals(someKey0, (Object) someKey0);
-        assertNotEquals(someKey0, (Object) new DummyPfKey());
 
         MyKey someKey8 = new MyKey();
         someKey8.setVersion(VERSION001);
