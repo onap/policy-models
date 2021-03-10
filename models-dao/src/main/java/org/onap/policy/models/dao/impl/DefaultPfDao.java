@@ -367,7 +367,7 @@ public class DefaultPfDao implements PfDao {
 
         try {
             if (filterMap != null) {
-                filterQueryString = buildFilter(filterMap, filterQueryString);
+                filterQueryString = buildFilter(filterMap, filterQueryString, isRefTimestampKey(someClass));
             }
             filterQueryString = addKeyFilterString(filterQueryString, name, startTime, endTime,
                 isRefTimestampKey(someClass));
@@ -425,10 +425,15 @@ public class DefaultPfDao implements PfDao {
         }
     }
 
-    private String buildFilter(final Map<String, Object> filterMap, String filterQueryString) {
+    private String buildFilter(final Map<String, Object> filterMap, String filterQueryString,
+                               boolean isRefTimestampKey) {
         StringBuilder bld = new StringBuilder(filterQueryString);
         for (String key : filterMap.keySet()) {
-            bld.append("c." + key + "= :" + key + AND);
+            if (isRefTimestampKey) {
+                bld.append("c.key.referenceKey." + key + "= :" + key + AND);
+            } else {
+                bld.append("c." + key + "= :" + key + AND);
+            }
         }
         return bld.toString();
     }
