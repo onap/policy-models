@@ -16,6 +16,29 @@
       "revId": "b6652d1d10a635912e9bba78cf6d49a476428300",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a9e6f4d_d24bb7dd",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProviderPolicyTypeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2021-03-10T15:54:33Z",
+      "side": 1,
+      "message": "assertTrue - theres a few more like that in this file. Does sonar flag it? Lately it has been.",
+      "range": {
+        "startLine": 264,
+        "startChar": 8,
+        "endLine": 264,
+        "endChar": 20
+      },
+      "revId": "b6652d1d10a635912e9bba78cf6d49a476428300",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
