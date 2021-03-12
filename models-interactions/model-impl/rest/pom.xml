@@ -2,7 +2,7 @@
   ============LICENSE_START=======================================================
   rest
   ================================================================================
-  Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
+  Copyright (C) 2017-2021 AT&T Intellectual Property. All rights reserved.
   Modifications Copyright (C) 2019 Nordix Foundation.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -59,45 +59,4 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>onap-java-style</id>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                        <phase>process-sources</phase>
-                        <configuration>
-                            <!-- Use Google Java Style Guide:
-                            https://github.com/checkstyle/checkstyle/blob/master/src/main/resources/google_checks.xml
-                            with minor changes -->
-                            <configLocation>onap-checkstyle/onap-java-style.xml</configLocation>
-                            <!-- <sourceDirectory> is needed so that checkstyle ignores the generated sources directory -->
-                            <sourceDirectories>${project.build.sourceDirectory}</sourceDirectories>
-                            <includeResources>true</includeResources>
-                            <includeTestSourceDirectory>true</includeTestSourceDirectory>
-                            <includeTestResources>true</includeTestResources>
-                            <excludes>
-                            </excludes>
-                            <consoleOutput>true</consoleOutput>
-                            <failsOnViolation>true</failsOnViolation>
-                            <violationSeverity>warning</violationSeverity>
-                        </configuration>
-                    </execution>
-                </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.onap.oparent</groupId>
-                        <artifactId>checkstyle</artifactId>
-                        <version>${oparent.version}</version>
-                        <scope>compile</scope>
-                    </dependency>
-                </dependencies>
-            </plugin>
-        </plugins>
-    </build>
 </project>
