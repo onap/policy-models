@@ -105,6 +105,30 @@
       "revId": "b6652d1d10a635912e9bba78cf6d49a476428300",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e313c1b6_82fa1921",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProviderPolicyTypeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-03-12T12:31:18Z",
+      "side": 1,
+      "message": "should probably change it to:\n\n  assertEquals(beforePolicyType.getName(), gotPolicyType.getName())",
+      "parentUuid": "7c0c788b_f02ec042",
+      "range": {
+        "startLine": 264,
+        "startChar": 8,
+        "endLine": 264,
+        "endChar": 20
+      },
+      "revId": "b6652d1d10a635912e9bba78cf6d49a476428300",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
