@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -52,7 +52,7 @@ public class JpaPdpSubGroupTest {
     private static final String PDP_A = "PDP-A";
 
     @Test
-    public void testJpaPdpSubGroup() {
+    public void testJpaPdpSubGroupErrors() {
         assertThatThrownBy(() -> {
             new JpaPdpSubGroup((JpaPdpSubGroup) null);
         }).hasMessageMatching("copyConcept is marked .*ull but is null");
@@ -114,7 +114,10 @@ public class JpaPdpSubGroupTest {
         }).hasMessageMatching(NULL_KEY_ERROR);
 
         assertNotNull(new JpaPdpSubGroup((new PfReferenceKey())));
+    }
 
+    @Test
+    public void testJpaPdpSubGroup() {
         PdpSubGroup testPdpSubgroup = new PdpSubGroup();
         testPdpSubgroup.setPdpType(PDP_A);
         JpaPdpSubGroup testJpaPdpSubGroup = new JpaPdpSubGroup();
@@ -154,6 +157,11 @@ public class JpaPdpSubGroupTest {
         testJpaPdpSubGroup.setSupportedPolicyTypes(new ArrayList<>());
         testJpaPdpSubGroup.getSupportedPolicyTypes().add(new PfSearchableKey("APolicyType:1.0.0"));
         assertTrue(testJpaPdpSubGroup.validate("").isValid());
+    }
+
+    @Test
+    public void testJpaPdpSubGroupSavedKey() {
+        JpaPdpSubGroup testJpaPdpSubGroup = setUpJpaPdpSubGroup();
 
         PfReferenceKey savedKey = testJpaPdpSubGroup.getKey();
         testJpaPdpSubGroup.setKey(PfReferenceKey.getNullKey());
@@ -185,6 +193,11 @@ public class JpaPdpSubGroupTest {
         assertTrue(testJpaPdpSubGroup.validate("").isValid());
         testJpaPdpSubGroup.setProperties(null);
         assertTrue(testJpaPdpSubGroup.validate("").isValid());
+    }
+
+    @Test
+    public void testJpaPdpSubGroupPolicyTypes() {
+        JpaPdpSubGroup testJpaPdpSubGroup = setUpJpaPdpSubGroup();
 
         List<PfSearchableKey> supportedPolicyTypes = testJpaPdpSubGroup.getSupportedPolicyTypes();
         assertNotNull(supportedPolicyTypes);
@@ -212,6 +225,11 @@ public class JpaPdpSubGroupTest {
         assertTrue(testJpaPdpSubGroup.validate("").isValid());
         testJpaPdpSubGroup.setPdpInstances(pdpInstances);
         assertTrue(testJpaPdpSubGroup.validate("").isValid());
+    }
+
+    @Test
+    public void testJpaPdpSubGroupKeys() {
+        JpaPdpSubGroup testJpaPdpSubGroup = setUpJpaPdpSubGroup();
 
         JpaPdpSubGroup otherJpaPdpSubGroup = new JpaPdpSubGroup(testJpaPdpSubGroup);
         assertEquals(0, testJpaPdpSubGroup.compareTo(otherJpaPdpSubGroup));
@@ -277,5 +295,22 @@ public class JpaPdpSubGroupTest {
         assertEquals(4, testJpaPdpSubGroup.getKeys().size());
 
         assertEquals(testJpaPdpSubGroup, new JpaPdpSubGroup(testJpaPdpSubGroup));
+    }
+
+    private JpaPdpSubGroup setUpJpaPdpSubGroup() {
+        PdpSubGroup testPdpSubgroup = new PdpSubGroup();
+        testPdpSubgroup.setPdpType(PDP_A);
+        JpaPdpSubGroup testJpaPdpSubGroup = new JpaPdpSubGroup();
+        testJpaPdpSubGroup.setKey(PfReferenceKey.getNullKey());
+        testJpaPdpSubGroup.fromAuthorative(testPdpSubgroup);
+        testJpaPdpSubGroup.getKey().setParentConceptKey(new PfConceptKey("Parent:1.0.0"));
+        testJpaPdpSubGroup.setProperties(new LinkedHashMap<>());
+        testJpaPdpSubGroup.setDesiredInstanceCount(0);
+        testJpaPdpSubGroup.setCurrentInstanceCount(0);
+        testJpaPdpSubGroup.setProperties(null);
+        testJpaPdpSubGroup.setSupportedPolicyTypes(new ArrayList<>());
+        testJpaPdpSubGroup.getSupportedPolicyTypes().add(new PfSearchableKey("APolicyType:1.0.0"));
+        testJpaPdpSubGroup.clean();
+        return testJpaPdpSubGroup;
     }
 }
