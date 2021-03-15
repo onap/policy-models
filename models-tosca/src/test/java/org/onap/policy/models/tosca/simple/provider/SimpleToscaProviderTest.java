@@ -705,7 +705,7 @@ public class SimpleToscaProviderTest {
     }
 
     @Test
-    public void testNonNulls() {
+    public void testNonNullsDataType() {
         assertThatThrownBy(() -> {
             new SimpleToscaProvider().getServiceTemplate(null);
         }).hasMessageMatching(DAO_IS_NULL);
@@ -761,7 +761,10 @@ public class SimpleToscaProviderTest {
         assertThatThrownBy(() -> {
             new SimpleToscaProvider().deleteDataType(pfDao, null);
         }).hasMessageMatching("^dataTypeKey is marked .*on.*ull but is null$");
+    }
 
+    @Test
+    public void testNotNullsPolicyTypes() {
         assertThatThrownBy(() -> {
             new SimpleToscaProvider().getPolicyTypes(null, null, null);
         }).hasMessageMatching(DAO_IS_NULL);

@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -61,7 +61,10 @@ public class JpaToscaDataTypeTest {
 
         assertThatThrownBy(() -> new JpaToscaDataType((JpaToscaDataType) null))
                 .isInstanceOf(NullPointerException.class);
+    }
 
+    @Test
+    public void testDataTypeProperties() {
         PfConceptKey dtKey = new PfConceptKey("tdt", VERSION_001);
         JpaToscaDataType tdt = new JpaToscaDataType(dtKey);
 
@@ -109,6 +112,14 @@ public class JpaToscaDataTypeTest {
         assertEquals(tdtClone0, tdt);
 
         assertFalse(new JpaToscaDataType().validate("").isValid());
+        validateJpaToscaDataTypeOperations(tdt);
+
+        assertThatThrownBy(() -> {
+            tdt.validate(null);
+        }).hasMessageMatching("fieldName is marked .*on.*ull but is null");
+    }
+
+    private void validateJpaToscaDataTypeOperations(JpaToscaDataType tdt) {
         assertTrue(tdt.validate("").isValid());
 
         tdt.getConstraints().add(null);
@@ -120,11 +131,10 @@ public class JpaToscaDataTypeTest {
         assertFalse(tdt.validate("").isValid());
         tdt.getProperties().remove(null);
         assertTrue(tdt.validate("").isValid());
+    }
 
-        assertThatThrownBy(() -> {
-            tdt.validate(null);
-        }).hasMessageMatching("fieldName is marked .*on.*ull but is null");
-
+    @Test
+    public void testDataTypeConstraints() {
         ToscaDataType dat = new ToscaDataType();
         dat.setName("name");
         dat.setVersion("1.2.3");
