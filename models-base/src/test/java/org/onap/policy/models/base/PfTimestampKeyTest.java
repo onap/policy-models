@@ -59,17 +59,6 @@ public class PfTimestampKeyTest {
 
         assertEquals(someKey2, someKey1.getKey());
         assertEquals(1, someKey1.getKeys().size());
-
-        assertThatThrownBy(() -> new PfTimestampKey((PfTimestampKey) null)).isInstanceOf(NullPointerException.class)
-                .hasMessageMatching(CONCEPT_IS_NULL);
-        assertThatThrownBy(() -> new PfTimestampKey(null, null, null)).isInstanceOf(NullPointerException.class)
-                .hasMessageMatching(NAME_IS_NULL);
-        assertThatThrownBy(() -> new PfTimestampKey("my-name", null, null)).isInstanceOf(NullPointerException.class)
-                .hasMessageMatching(VERSION_IS_NULL);
-        assertThatThrownBy(() -> new PfTimestampKey("my-name", VERSION001, null))
-                .isInstanceOf(NullPointerException.class)
-                .hasMessageMatching("^instant is marked .*on.*ull but is null$");
-
         assertThatThrownBy(() -> someKey0.setName(null)).isInstanceOf(NullPointerException.class)
                 .hasMessageMatching(NAME_IS_NULL);
         assertThatThrownBy(() -> someKey0.setVersion(null)).isInstanceOf(NullPointerException.class)
@@ -93,5 +82,18 @@ public class PfTimestampKeyTest {
         PfTimestampKey someKey4 = new PfTimestampKey("NULL", "0.0.0", Instant.ofEpochSecond(timeStamp));
         assertFalse(someKey4.isNullKey());
         assertFalse(someKey1.isNullKey());
+    }
+
+    @Test
+    public void testTimestampKeyErrors() {
+        assertThatThrownBy(() -> new PfTimestampKey((PfTimestampKey) null)).isInstanceOf(NullPointerException.class)
+                .hasMessageMatching(CONCEPT_IS_NULL);
+        assertThatThrownBy(() -> new PfTimestampKey(null, null, null)).isInstanceOf(NullPointerException.class)
+                .hasMessageMatching(NAME_IS_NULL);
+        assertThatThrownBy(() -> new PfTimestampKey("my-name", null, null)).isInstanceOf(NullPointerException.class)
+                .hasMessageMatching(VERSION_IS_NULL);
+        assertThatThrownBy(() -> new PfTimestampKey("my-name", VERSION001, null))
+                .isInstanceOf(NullPointerException.class)
+                .hasMessageMatching("^instant is marked .*on.*ull but is null$");
     }
 }

@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2020 Nordix Foundation.
+ *  Copyright (C) 2020-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -80,33 +80,30 @@ public class HierarchyFetchTest {
         assertLatestDataTypesAreReturned(fetchedServiceTemplate);
         assertEquals(1, fetchedServiceTemplate.getPolicyTypes().size());
         ToscaPolicyType fetchedPolicyType = fetchedServiceTemplate.getPolicyTypes().values().iterator().next();
-        assertEquals("onap.policies.PolicyTypeLevel0", fetchedPolicyType.getName());
-        assertEquals("3.0.0", fetchedPolicyType.getVersion());
-        assertEquals(3, countReturnedPolicies(fetchedServiceTemplate));
+        checkEqualsPolicyType(fetchedPolicyType, "onap.policies.PolicyTypeLevel0",
+                "3.0.0", fetchedServiceTemplate, 3);
+
 
         fetchedServiceTemplate = databaseProvider.getPolicies("onap.policies.PolicyLevel0", "1.0.0");
         assertOldDataTypesAreReturned(fetchedServiceTemplate);
         assertEquals(1, fetchedServiceTemplate.getPolicyTypes().size());
         fetchedPolicyType = fetchedServiceTemplate.getPolicyTypes().values().iterator().next();
-        assertEquals("onap.policies.PolicyTypeLevel0", fetchedPolicyType.getName());
-        assertEquals("1.0.0", fetchedPolicyType.getVersion());
-        assertEquals(1, countReturnedPolicies(fetchedServiceTemplate));
+        checkEqualsPolicyType(fetchedPolicyType, "onap.policies.PolicyTypeLevel0",
+                "1.0.0", fetchedServiceTemplate, 1);
 
         fetchedServiceTemplate = databaseProvider.getPolicies("onap.policies.PolicyLevel0", "1.1.0");
         assertOldDataTypesAreReturned(fetchedServiceTemplate);
         assertEquals(1, fetchedServiceTemplate.getPolicyTypes().size());
         fetchedPolicyType = fetchedServiceTemplate.getPolicyTypes().values().iterator().next();
-        assertEquals("onap.policies.PolicyTypeLevel0", fetchedPolicyType.getName());
-        assertEquals("2.0.0", fetchedPolicyType.getVersion());
-        assertEquals(1, countReturnedPolicies(fetchedServiceTemplate));
+        checkEqualsPolicyType(fetchedPolicyType, "onap.policies.PolicyTypeLevel0",
+                "2.0.0", fetchedServiceTemplate, 1);
 
         fetchedServiceTemplate = databaseProvider.getPolicies("onap.policies.PolicyLevel0", "1.2.0");
         assertLatestDataTypesAreReturned(fetchedServiceTemplate);
         assertEquals(1, fetchedServiceTemplate.getPolicyTypes().size());
         fetchedPolicyType = fetchedServiceTemplate.getPolicyTypes().values().iterator().next();
-        assertEquals("onap.policies.PolicyTypeLevel0", fetchedPolicyType.getName());
-        assertEquals("3.0.0", fetchedPolicyType.getVersion());
-        assertEquals(1, countReturnedPolicies(fetchedServiceTemplate));
+        checkEqualsPolicyType(fetchedPolicyType, "onap.policies.PolicyTypeLevel0",
+                "3.0.0", fetchedServiceTemplate, 1);
 
         fetchedServiceTemplate = databaseProvider.getPolicies("onap.policies.PolicyLevel0.1", null);
         assertLatestDataTypesAreReturned(fetchedServiceTemplate);
@@ -114,182 +111,157 @@ public class HierarchyFetchTest {
         Iterator<ToscaPolicyType> fetchedPolicyTypeIterator =
             fetchedServiceTemplate.getPolicyTypes().values().iterator();
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
-        assertEquals("onap.policies.PolicyTypeLevel0", fetchedPolicyType.getName());
-        assertEquals("3.0.0", fetchedPolicyType.getVersion());
+        checkNameVersion(fetchedPolicyType, "onap.policies.PolicyTypeLevel0", "3.0.0");
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
-        assertEquals("onap.policies.PolicyTypeLevel0.1", fetchedPolicyType.getName());
-        assertEquals("3.0.0", fetchedPolicyType.getVersion());
-        assertEquals(3, countReturnedPolicies(fetchedServiceTemplate));
+        checkEqualsPolicyType(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1",
+                "3.0.0", fetchedServiceTemplate, 3);
 
         fetchedServiceTemplate = databaseProvider.getPolicies("onap.policies.PolicyLevel0.1", "1.0.0");
         assertLatestDataTypesAreReturned(fetchedServiceTemplate);
         assertEquals(2, fetchedServiceTemplate.getPolicyTypes().size());
         fetchedPolicyTypeIterator = fetchedServiceTemplate.getPolicyTypes().values().iterator();
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
-        assertEquals("onap.policies.PolicyTypeLevel0", fetchedPolicyType.getName());
-        assertEquals("3.0.0", fetchedPolicyType.getVersion());
+        checkNameVersion(fetchedPolicyType, "onap.policies.PolicyTypeLevel0", "3.0.0");
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
-        assertEquals("onap.policies.PolicyTypeLevel0.1", fetchedPolicyType.getName());
-        assertEquals("1.0.0", fetchedPolicyType.getVersion());
-        assertEquals(1, countReturnedPolicies(fetchedServiceTemplate));
+        checkEqualsPolicyType(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1",
+                "1.0.0", fetchedServiceTemplate, 1);
 
         fetchedServiceTemplate = databaseProvider.getPolicies("onap.policies.PolicyLevel0.1", "1.1.0");
         assertLatestDataTypesAreReturned(fetchedServiceTemplate);
         assertEquals(2, fetchedServiceTemplate.getPolicyTypes().size());
         fetchedPolicyTypeIterator = fetchedServiceTemplate.getPolicyTypes().values().iterator();
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
-        assertEquals("onap.policies.PolicyTypeLevel0", fetchedPolicyType.getName());
-        assertEquals("3.0.0", fetchedPolicyType.getVersion());
+        checkNameVersion(fetchedPolicyType, "onap.policies.PolicyTypeLevel0", "3.0.0");
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
-        assertEquals("onap.policies.PolicyTypeLevel0.1", fetchedPolicyType.getName());
-        assertEquals("2.0.0", fetchedPolicyType.getVersion());
-        assertEquals(1, countReturnedPolicies(fetchedServiceTemplate));
+        checkEqualsPolicyType(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1",
+                "2.0.0", fetchedServiceTemplate, 1);
 
         fetchedServiceTemplate = databaseProvider.getPolicies("onap.policies.PolicyLevel0.1", "1.2.0");
         assertLatestDataTypesAreReturned(fetchedServiceTemplate);
         assertEquals(2, fetchedServiceTemplate.getPolicyTypes().size());
         fetchedPolicyTypeIterator = fetchedServiceTemplate.getPolicyTypes().values().iterator();
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
-        assertEquals("onap.policies.PolicyTypeLevel0", fetchedPolicyType.getName());
-        assertEquals("3.0.0", fetchedPolicyType.getVersion());
+        checkNameVersion(fetchedPolicyType, "onap.policies.PolicyTypeLevel0", "3.0.0");
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
-        assertEquals("onap.policies.PolicyTypeLevel0.1", fetchedPolicyType.getName());
-        assertEquals("3.0.0", fetchedPolicyType.getVersion());
-        assertEquals(1, countReturnedPolicies(fetchedServiceTemplate));
+        checkEqualsPolicyType(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1",
+                "3.0.0", fetchedServiceTemplate, 1);
 
         fetchedServiceTemplate = databaseProvider.getPolicies("onap.policies.PolicyLevel0.1.2", null);
         assertLatestDataTypesAreReturned(fetchedServiceTemplate);
         assertEquals(3, fetchedServiceTemplate.getPolicyTypes().size());
         fetchedPolicyTypeIterator = fetchedServiceTemplate.getPolicyTypes().values().iterator();
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
-        assertEquals("onap.policies.PolicyTypeLevel0", fetchedPolicyType.getName());
-        assertEquals("3.0.0", fetchedPolicyType.getVersion());
+        checkNameVersion(fetchedPolicyType, "onap.policies.PolicyTypeLevel0", "3.0.0");
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
-        assertEquals("onap.policies.PolicyTypeLevel0.1", fetchedPolicyType.getName());
-        assertEquals("3.0.0", fetchedPolicyType.getVersion());
+        checkNameVersion(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1", "3.0.0");
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
-        assertEquals("onap.policies.PolicyTypeLevel0.1.2", fetchedPolicyType.getName());
-        assertEquals("3.0.0", fetchedPolicyType.getVersion());
-        assertEquals(3, countReturnedPolicies(fetchedServiceTemplate));
+        checkEqualsPolicyType(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1.2",
+                "3.0.0", fetchedServiceTemplate, 3);
 
         fetchedServiceTemplate = databaseProvider.getPolicies("onap.policies.PolicyLevel0.1.2", "1.0.0");
         assertLatestDataTypesAreReturned(fetchedServiceTemplate);
         assertEquals(3, fetchedServiceTemplate.getPolicyTypes().size());
         fetchedPolicyTypeIterator = fetchedServiceTemplate.getPolicyTypes().values().iterator();
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
-        assertEquals("onap.policies.PolicyTypeLevel0", fetchedPolicyType.getName());
-        assertEquals("3.0.0", fetchedPolicyType.getVersion());
+        checkNameVersion(fetchedPolicyType, "onap.policies.PolicyTypeLevel0", "3.0.0");
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
-        assertEquals("onap.policies.PolicyTypeLevel0.1", fetchedPolicyType.getName());
-        assertEquals("3.0.0", fetchedPolicyType.getVersion());
+        checkNameVersion(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1", "3.0.0");
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
-        assertEquals("onap.policies.PolicyTypeLevel0.1.2", fetchedPolicyType.getName());
-        assertEquals("1.0.0", fetchedPolicyType.getVersion());
-        assertEquals(1, countReturnedPolicies(fetchedServiceTemplate));
+        checkEqualsPolicyType(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1.2",
+                "1.0.0", fetchedServiceTemplate, 1);
 
         fetchedServiceTemplate = databaseProvider.getPolicies("onap.policies.PolicyLevel0.1.2", "1.1.0");
         assertLatestDataTypesAreReturned(fetchedServiceTemplate);
         assertEquals(3, fetchedServiceTemplate.getPolicyTypes().size());
         fetchedPolicyTypeIterator = fetchedServiceTemplate.getPolicyTypes().values().iterator();
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
-        assertEquals("onap.policies.PolicyTypeLevel0", fetchedPolicyType.getName());
-        assertEquals("3.0.0", fetchedPolicyType.getVersion());
+        checkNameVersion(fetchedPolicyType, "onap.policies.PolicyTypeLevel0", "3.0.0");
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
-        assertEquals("onap.policies.PolicyTypeLevel0.1", fetchedPolicyType.getName());
-        assertEquals("3.0.0", fetchedPolicyType.getVersion());
+        checkNameVersion(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1", "3.0.0");
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
-        assertEquals("onap.policies.PolicyTypeLevel0.1.2", fetchedPolicyType.getName());
-        assertEquals("2.0.0", fetchedPolicyType.getVersion());
-        assertEquals(1, countReturnedPolicies(fetchedServiceTemplate));
+        checkEqualsPolicyType(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1.2",
+                "2.0.0", fetchedServiceTemplate, 1);
 
         fetchedServiceTemplate = databaseProvider.getPolicies("onap.policies.PolicyLevel0.1.2", "1.2.0");
         assertLatestDataTypesAreReturned(fetchedServiceTemplate);
         assertEquals(3, fetchedServiceTemplate.getPolicyTypes().size());
         fetchedPolicyTypeIterator = fetchedServiceTemplate.getPolicyTypes().values().iterator();
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
-        assertEquals("onap.policies.PolicyTypeLevel0", fetchedPolicyType.getName());
-        assertEquals("3.0.0", fetchedPolicyType.getVersion());
+        checkNameVersion(fetchedPolicyType, "onap.policies.PolicyTypeLevel0", "3.0.0");
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
-        assertEquals("onap.policies.PolicyTypeLevel0.1", fetchedPolicyType.getName());
-        assertEquals("3.0.0", fetchedPolicyType.getVersion());
+        checkNameVersion(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1", "3.0.0");
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
-        assertEquals("onap.policies.PolicyTypeLevel0.1.2", fetchedPolicyType.getName());
-        assertEquals("3.0.0", fetchedPolicyType.getVersion());
-        assertEquals(1, countReturnedPolicies(fetchedServiceTemplate));
+        checkEqualsPolicyType(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1.2",
+                "3.0.0", fetchedServiceTemplate, 1);
 
         fetchedServiceTemplate = databaseProvider.getPolicies("onap.policies.PolicyLevel0.1.2.3", null);
         assertLatestDataTypesAreReturned(fetchedServiceTemplate);
         assertEquals(4, fetchedServiceTemplate.getPolicyTypes().size());
         fetchedPolicyTypeIterator = fetchedServiceTemplate.getPolicyTypes().values().iterator();
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
-        assertEquals("onap.policies.PolicyTypeLevel0", fetchedPolicyType.getName());
-        assertEquals("3.0.0", fetchedPolicyType.getVersion());
+        checkNameVersion(fetchedPolicyType, "onap.policies.PolicyTypeLevel0", "3.0.0");
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
-        assertEquals("onap.policies.PolicyTypeLevel0.1", fetchedPolicyType.getName());
-        assertEquals("3.0.0", fetchedPolicyType.getVersion());
+        checkNameVersion(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1", "3.0.0");
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
-        assertEquals("onap.policies.PolicyTypeLevel0.1.2", fetchedPolicyType.getName());
-        assertEquals("3.0.0", fetchedPolicyType.getVersion());
+        checkNameVersion(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1.2", "3.0.0");
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
-        assertEquals("onap.policies.PolicyTypeLevel0.1.2.3", fetchedPolicyType.getName());
-        assertEquals("3.0.0", fetchedPolicyType.getVersion());
-        assertEquals(3, countReturnedPolicies(fetchedServiceTemplate));
+        checkEqualsPolicyType(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1.2.3",
+                "3.0.0", fetchedServiceTemplate, 3);
 
         fetchedServiceTemplate = databaseProvider.getPolicies("onap.policies.PolicyLevel0.1.2.3", "1.0.0");
         assertLatestDataTypesAreReturned(fetchedServiceTemplate);
         assertEquals(4, fetchedServiceTemplate.getPolicyTypes().size());
         fetchedPolicyTypeIterator = fetchedServiceTemplate.getPolicyTypes().values().iterator();
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
-        assertEquals("onap.policies.PolicyTypeLevel0", fetchedPolicyType.getName());
-        assertEquals("3.0.0", fetchedPolicyType.getVersion());
+        checkNameVersion(fetchedPolicyType, "onap.policies.PolicyTypeLevel0", "3.0.0");
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
-        assertEquals("onap.policies.PolicyTypeLevel0.1", fetchedPolicyType.getName());
-        assertEquals("3.0.0", fetchedPolicyType.getVersion());
+        checkNameVersion(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1", "3.0.0");
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
-        assertEquals("onap.policies.PolicyTypeLevel0.1.2", fetchedPolicyType.getName());
-        assertEquals("3.0.0", fetchedPolicyType.getVersion());
+        checkNameVersion(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1.2", "3.0.0");
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
-        assertEquals("onap.policies.PolicyTypeLevel0.1.2.3", fetchedPolicyType.getName());
-        assertEquals("1.0.0", fetchedPolicyType.getVersion());
-        assertEquals(1, countReturnedPolicies(fetchedServiceTemplate));
+        checkEqualsPolicyType(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1.2.3",
+                "1.0.0", fetchedServiceTemplate, 1);
 
         fetchedServiceTemplate = databaseProvider.getPolicies("onap.policies.PolicyLevel0.1.2.3", "1.1.0");
         assertLatestDataTypesAreReturned(fetchedServiceTemplate);
         assertEquals(4, fetchedServiceTemplate.getPolicyTypes().size());
         fetchedPolicyTypeIterator = fetchedServiceTemplate.getPolicyTypes().values().iterator();
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
-        assertEquals("onap.policies.PolicyTypeLevel0", fetchedPolicyType.getName());
-        assertEquals("3.0.0", fetchedPolicyType.getVersion());
+        checkNameVersion(fetchedPolicyType, "onap.policies.PolicyTypeLevel0", "3.0.0");
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
-        assertEquals("onap.policies.PolicyTypeLevel0.1", fetchedPolicyType.getName());
-        assertEquals("3.0.0", fetchedPolicyType.getVersion());
+        checkNameVersion(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1", "3.0.0");
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
-        assertEquals("onap.policies.PolicyTypeLevel0.1.2", fetchedPolicyType.getName());
-        assertEquals("3.0.0", fetchedPolicyType.getVersion());
+        checkNameVersion(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1.2", "3.0.0");
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
-        assertEquals("onap.policies.PolicyTypeLevel0.1.2.3", fetchedPolicyType.getName());
-        assertEquals("2.0.0", fetchedPolicyType.getVersion());
-        assertEquals(1, countReturnedPolicies(fetchedServiceTemplate));
+        checkEqualsPolicyType(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1.2.3",
+                "2.0.0", fetchedServiceTemplate, 1);
 
         fetchedServiceTemplate = databaseProvider.getPolicies("onap.policies.PolicyLevel0.1.2.3", "1.2.0");
         assertLatestDataTypesAreReturned(fetchedServiceTemplate);
         assertEquals(4, fetchedServiceTemplate.getPolicyTypes().size());
         fetchedPolicyTypeIterator = fetchedServiceTemplate.getPolicyTypes().values().iterator();
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
-        assertEquals("onap.policies.PolicyTypeLevel0", fetchedPolicyType.getName());
-        assertEquals("3.0.0", fetchedPolicyType.getVersion());
+        checkNameVersion(fetchedPolicyType, "onap.policies.PolicyTypeLevel0", "3.0.0");
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
-        assertEquals("onap.policies.PolicyTypeLevel0.1", fetchedPolicyType.getName());
-        assertEquals("3.0.0", fetchedPolicyType.getVersion());
+        checkNameVersion(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1", "3.0.0");
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
-        assertEquals("onap.policies.PolicyTypeLevel0.1.2", fetchedPolicyType.getName());
-        assertEquals("3.0.0", fetchedPolicyType.getVersion());
+        checkNameVersion(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1.2", "3.0.0");
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
-        assertEquals("onap.policies.PolicyTypeLevel0.1.2.3", fetchedPolicyType.getName());
-        assertEquals("3.0.0", fetchedPolicyType.getVersion());
-        assertEquals(1, countReturnedPolicies(fetchedServiceTemplate));
+        checkEqualsPolicyType(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1.2.3",
+                "3.0.0", fetchedServiceTemplate, 1);
 
         databaseProvider.close();
+    }
+
+    private void checkNameVersion(ToscaPolicyType fetchedPolicyType, String name, String ver) {
+        assertEquals(name, fetchedPolicyType.getName());
+        assertEquals(ver, fetchedPolicyType.getVersion());
+    }
+
+    private void checkEqualsPolicyType(ToscaPolicyType fetchedPolicyType, String name, String ver,
+            ToscaServiceTemplate fetchedServiceTemplate, int policies) {
+        checkNameVersion(fetchedPolicyType, name, ver);
+        assertEquals(policies, countReturnedPolicies(fetchedServiceTemplate));
     }
 
     private void assertOldDataTypesAreReturned(final ToscaServiceTemplate fetchedServiceTemplate) {

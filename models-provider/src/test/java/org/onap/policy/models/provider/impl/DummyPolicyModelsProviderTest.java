@@ -33,6 +33,7 @@ import static org.junit.Assert.assertTrue;
 import java.time.Instant;
 import java.util.ArrayList;
 import org.junit.Test;
+import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
@@ -76,12 +77,7 @@ public class DummyPolicyModelsProviderTest {
 
     @Test
     public void testProviderMethods() throws Exception {
-        PolicyModelsProviderParameters parameters = new PolicyModelsProviderParameters();
-        parameters.setImplementation(DummyPolicyModelsProviderImpl.class.getName());
-        parameters.setDatabaseUrl("jdbc:dummy");
-        parameters.setPersistenceUnit("dummy");
-
-        PolicyModelsProvider dummyProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
+        PolicyModelsProvider dummyProvider = setUpDummyProvider();
         dummyProvider.init();
 
         assertNotNull(dummyProvider.getPolicyTypes("name", VERSION));
@@ -105,6 +101,12 @@ public class DummyPolicyModelsProviderTest {
         assertTrue(dummyProvider.createPdpGroups(new ArrayList<>()).isEmpty());
         assertTrue(dummyProvider.updatePdpGroups(new ArrayList<>()).isEmpty());
         assertNull(dummyProvider.deletePdpGroup("name"));
+    }
+
+    @Test
+    public void testProviderMethodsParameters() throws Exception {
+        PolicyModelsProvider dummyProvider = setUpDummyProvider();
+        dummyProvider.init();
 
         dummyProvider.updatePdpSubGroup("name", new PdpSubGroup());
         dummyProvider.updatePdp("name", "type", new Pdp());
@@ -137,5 +139,15 @@ public class DummyPolicyModelsProviderTest {
                 new DummyPolicyModelsProviderSubImpl(new PolicyModelsProviderParameters())) {
             assertThatThrownBy(resp::getBadDummyResponse2).hasMessage("error serializing object");
         }
+    }
+
+    private PolicyModelsProvider setUpDummyProvider() throws PfModelException {
+        PolicyModelsProviderParameters parameters = new PolicyModelsProviderParameters();
+        parameters.setImplementation(DummyPolicyModelsProviderImpl.class.getName());
+        parameters.setDatabaseUrl("jdbc:dummy");
+        parameters.setPersistenceUnit("dummy");
+
+        PolicyModelsProvider dummyProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
+        return dummyProvider;
     }
 }
