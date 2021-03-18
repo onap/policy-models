@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -95,21 +95,17 @@ public class JpaPdpGroupTest {
 
         assertNotNull(new JpaPdpGroup((new PfConceptKey())));
         assertNotNull(new JpaPdpGroup((new JpaPdpGroup())));
+    }
 
+    @Test
+    public void testPdpGroupSet() {
         PdpGroup testPdpGroup = new PdpGroup();
         testPdpGroup.setName(PDP_GROUP0);
         testPdpGroup.setPdpSubgroups(new ArrayList<>());
-        JpaPdpGroup testJpaPdpGroup = new JpaPdpGroup();
-        testJpaPdpGroup.setKey(null);
 
-        testJpaPdpGroup.setKey(new PfConceptKey());
-
-        testPdpGroup.setVersion(VERSION);
-        testJpaPdpGroup.fromAuthorative(testPdpGroup);
+        JpaPdpGroup testJpaPdpGroup = setUpSmallJpaPdpGroup();
 
         assertEquals(PDP_GROUP0, testJpaPdpGroup.getKey().getName());
-        testJpaPdpGroup.setKey(PfConceptKey.getNullKey());
-        testJpaPdpGroup.fromAuthorative(testPdpGroup);
 
         assertThatThrownBy(() -> {
             testJpaPdpGroup.fromAuthorative(null);
@@ -126,6 +122,11 @@ public class JpaPdpGroupTest {
 
         testJpaPdpGroup.clean();
         assertEquals(PDP_GROUP0, testJpaPdpGroup.getKey().getName());
+    }
+
+    @Test
+    public void testPdpGroupValidation() {
+        JpaPdpGroup testJpaPdpGroup = setUpSmallJpaPdpGroup();
 
         assertThatThrownBy(() -> {
             testJpaPdpGroup.validate(null);
@@ -158,6 +159,11 @@ public class JpaPdpGroupTest {
         assertFalse(testJpaPdpGroup.validate("").isValid());
         testJpaPdpGroup.getProperties().remove("NullKey");
         assertTrue(testJpaPdpGroup.validate("").isValid());
+    }
+
+    @Test
+    public void testPdpSubgroups() {
+        JpaPdpGroup testJpaPdpGroup = setUpJpaPdpGroup();
 
         List<JpaPdpSubGroup> jpaPdpSubgroups = testJpaPdpGroup.getPdpSubGroups();
         assertNotNull(jpaPdpSubgroups);
@@ -212,8 +218,12 @@ public class JpaPdpGroupTest {
         psg = testJpaPdpGroup.toAuthorative();
         assertNull(psg.getProperties());
         testJpaPdpGroup.setProperties(new LinkedHashMap<>());
+    }
 
-        testJpaPdpGroup.clean();
+    @Test
+    public void testPdpGroupsProperties() {
+        JpaPdpGroup testJpaPdpGroup = setUpJpaPdpGroup();
+
         testJpaPdpGroup.getProperties().put(" PropKey ", " Prop Value ");
         testJpaPdpGroup.clean();
         assertEquals("PropKey", testJpaPdpGroup.getProperties().keySet().iterator().next());
@@ -222,6 +232,9 @@ public class JpaPdpGroupTest {
         testJpaPdpGroup.clean();
         assertEquals("A Description", testJpaPdpGroup.getDescription());
 
+        JpaPdpSubGroup anotherPdpSubgroup =
+                new JpaPdpSubGroup(new PfReferenceKey(testJpaPdpGroup.getKey(), "AnotherPdpSubgroup"));
+
         assertEquals(1, testJpaPdpGroup.getKeys().size());
         testJpaPdpGroup.getPdpSubGroups().add(anotherPdpSubgroup);
         assertEquals(2, testJpaPdpGroup.getKeys().size());
@@ -229,5 +242,31 @@ public class JpaPdpGroupTest {
         assertEquals(2, testJpaPdpGroup.getKeys().size());
 
         assertEquals(testJpaPdpGroup, new JpaPdpGroup(testJpaPdpGroup));
+    }
+
+    private JpaPdpGroup setUpSmallJpaPdpGroup() {
+        PdpGroup testPdpGroup = new PdpGroup();
+        testPdpGroup.setName(PDP_GROUP0);
+        testPdpGroup.setPdpSubgroups(new ArrayList<>());
+        testPdpGroup.setVersion(VERSION);
+
+        JpaPdpGroup testJpaPdpGroup = new JpaPdpGroup();
+        testJpaPdpGroup.setKey(new PfConceptKey(PDP_GROUP0, VERSION));
+        testJpaPdpGroup.fromAuthorative(testPdpGroup);
+        testJpaPdpGroup.clean();
+
+        return testJpaPdpGroup;
+    }
+
+    private JpaPdpGroup setUpJpaPdpGroup() {
+        JpaPdpGroup testJpaPdpGroup = setUpSmallJpaPdpGroup();
+
+        testJpaPdpGroup.setKey(new PfConceptKey("PdpGroup0", VERSION));
+        testJpaPdpGroup.setDescription(null);
+        testJpaPdpGroup.setPdpGroupState(PdpState.PASSIVE);
+        testJpaPdpGroup.setProperties(new LinkedHashMap<>());
+        testJpaPdpGroup.clean();
+
+        return testJpaPdpGroup;
     }
 }

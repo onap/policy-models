@@ -519,7 +519,7 @@ public class PdpProviderTest {
     }
 
     @Test
-    public void testUpdatePdpStatistics() throws PfModelException {
+    public void testUpdatePdpStatisticsDao() throws PfModelException {
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpStatistics(null, null, null, null, null);
         }).hasMessageMatching(DAO_IS_NULL);
@@ -583,7 +583,10 @@ public class PdpProviderTest {
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpStatistics(null, "name", "TYPE", "inst", new PdpStatistics());
         }).hasMessageMatching(DAO_IS_NULL);
+    }
 
+    @Test
+    public void testUpdatePdpStatisticsGroup() throws PfModelException {
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpStatistics(pfDao, null, null, null, null);
         }).hasMessageMatching(GROUP_IS_NULL);

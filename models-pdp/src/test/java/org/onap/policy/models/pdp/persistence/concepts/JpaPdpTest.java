@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -87,7 +87,10 @@ public class JpaPdpTest {
         }).hasMessageMatching("authorativeConcept is marked .*ull but is null");
 
         assertNotNull(new JpaPdp((new PfReferenceKey())));
+    }
 
+    @Test
+    public void testJpaPdpInstace() {
         Pdp testPdp = new Pdp();
         testPdp.setInstanceId(PDP1);
         JpaPdp testJpaPdp = new JpaPdp();
@@ -113,6 +116,15 @@ public class JpaPdpTest {
         testJpaPdp.setMessage("   A Message   ");
         testJpaPdp.clean();
         assertEquals("A Message", testJpaPdp.getMessage());
+    }
+
+    @Test
+    public void testJpaPdpValidation() {
+        Pdp testPdp = new Pdp();
+        testPdp.setInstanceId(PDP1);
+        JpaPdp testJpaPdp = new JpaPdp();
+        testJpaPdp.setKey(PfReferenceKey.getNullKey());
+        testJpaPdp.fromAuthorative(testPdp);
 
         assertThatThrownBy(() -> {
             testJpaPdp.validate(null);
@@ -142,6 +154,11 @@ public class JpaPdpTest {
 
         testJpaPdp.setHealthy(PdpHealthStatus.HEALTHY);
         assertTrue(testJpaPdp.validate("").isValid());
+    }
+
+    @Test
+    public void testJpaPdpValidationSwapKey() {
+        JpaPdp testJpaPdp = setUpJpaPdp();
 
         PfReferenceKey savedKey = testJpaPdp.getKey();
         testJpaPdp.setKey(PfReferenceKey.getNullKey());
@@ -155,6 +172,11 @@ public class JpaPdpTest {
         assertFalse(testJpaPdp.validate("").isValid());
         testJpaPdp.setMessage("Valid Message");
         assertTrue(testJpaPdp.validate("").isValid());
+    }
+
+    @Test
+    public void testJpaPdpCompare() {
+        JpaPdp testJpaPdp = setUpJpaPdp();
 
         JpaPdp otherJpaPdp = new JpaPdp(testJpaPdp);
         assertEquals(0, testJpaPdp.compareTo(otherJpaPdp));
@@ -183,5 +205,19 @@ public class JpaPdpTest {
         assertEquals(0, testJpaPdp.compareTo(otherJpaPdp));
 
         assertEquals(testJpaPdp, new JpaPdp(testJpaPdp));
+    }
+
+    private JpaPdp setUpJpaPdp() {
+        Pdp testPdp = new Pdp();
+        testPdp.setInstanceId(PDP1);
+        JpaPdp testJpaPdp = new JpaPdp();
+        testJpaPdp.setKey(PfReferenceKey.getNullKey());
+        testJpaPdp.fromAuthorative(testPdp);
+        testJpaPdp.getKey().setParentConceptKey(new PfConceptKey("Parent:1.0.0"));
+        testJpaPdp.getKey().setParentLocalName("ParentLocal");
+        testJpaPdp.setPdpState(PdpState.ACTIVE);
+        testJpaPdp.setHealthy(PdpHealthStatus.HEALTHY);
+        testJpaPdp.setMessage("Valid Message");
+        return testJpaPdp;
     }
 }
