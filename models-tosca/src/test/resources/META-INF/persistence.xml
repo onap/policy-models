@@ -49,8 +49,10 @@
         <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate</class>
         <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaTopologyTemplate</class>
         <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaTrigger</class>
+        <class>org.onap.policy.models.tosca.authorative.trial.MyEntity</class>
 
         <properties>
+            <property name="javax.persistence.schema-generation.database.action" value="create" />
             <property name="eclipselink.ddl-generation" value="drop-and-create-tables" />
             <property name="eclipselink.ddl-generation.output-mode" value="database" />
             <property name="eclipselink.logging.level" value="INFO" />
