@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58f23598_c4903963",
+        "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/persistence/provider/PdpProviderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-03-19T18:40:45Z",
+      "side": 1,
+      "message": "wonder if there\u0027s a common place to put this?",
+      "range": {
+        "startLine": 98,
+        "startChar": 8,
+        "endLine": 107,
+        "endChar": 9
+      },
+      "revId": "d6db5582b6705c11abbf8b507aa423aa00bcd7ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5425e294_b417da90",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/impl/PolicyStatisticsPersistenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-03-19T18:40:45Z",
+      "side": 1,
+      "message": "extra \"c\"\n\nsame comment below",
+      "range": {
+        "startLine": 40,
+        "startChar": 29,
+        "endLine": 40,
+        "endChar": 30
+      },
+      "revId": "d6db5582b6705c11abbf8b507aa423aa00bcd7ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
