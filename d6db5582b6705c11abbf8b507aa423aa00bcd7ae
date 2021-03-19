@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bf987fb7_d9d3f286",
+        "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/persistence/provider/PdpProviderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2021-03-19T19:26:43Z",
+      "side": 1,
+      "message": "wouldn\u0027t it be better to have a properties file that is read under src/test/resources where you would set the driver and url and avoid setting properties and the conditionals in multiple places?",
+      "parentUuid": "58f23598_c4903963",
+      "range": {
+        "startLine": 98,
+        "startChar": 8,
+        "endLine": 107,
+        "endChar": 9
+      },
+      "revId": "d6db5582b6705c11abbf8b507aa423aa00bcd7ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5425e294_b417da90",
         "filename": "models-provider/src/test/java/org/onap/policy/models/provider/impl/PolicyStatisticsPersistenceTest.java",
         "patchSetId": 1
