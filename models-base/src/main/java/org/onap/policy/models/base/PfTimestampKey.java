@@ -51,7 +51,7 @@ public class PfTimestampKey extends PfKeyImpl {
     @Pattern(regexp = VERSION_REGEXP)
     private String version;
 
-    @Column(name = TIMESTAMP_TOKEN)
+    @Column(name = TIMESTAMP_TOKEN, precision = 3)
     @Temporal(TemporalType.TIMESTAMP)
     @NonNull
     private Date timeStamp;

@@ -87,9 +87,13 @@ public class SimpleToscaProviderTest {
         jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_USER, "policy");
         jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_PASSWORD, "P01icY");
 
-        // H2, use "org.mariadb.jdbc.Driver" and "jdbc:mariadb://localhost:3306/policy" for locally installed MariaDB
-        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_DRIVER, "org.h2.Driver");
-        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_URL, "jdbc:h2:mem:testdb");
+        if (System.getProperty("USE-MARIADB") != null) {
+            jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_DRIVER, "org.mariadb.jdbc.Driver");
+            jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_URL, "jdbc:mariadb://localhost:3306/policy");
+        } else {
+            jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_DRIVER, "org.h2.Driver");
+            jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_URL, "jdbc:h2:mem:testdb");
+        }
 
         daoParameters.setJdbcProperties(jdbcProperties);
 

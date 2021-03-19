@@ -50,7 +50,7 @@ public class PfReferenceTimestampKey extends PfKey {
 
     private static final String TIMESTAMP_TOKEN = "timeStamp";
 
-    @Column(name = TIMESTAMP_TOKEN)
+    @Column(name = TIMESTAMP_TOKEN, precision = 3)
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull
     private Date timeStamp;
@@ -214,6 +214,7 @@ public class PfReferenceTimestampKey extends PfKey {
      *
      * @return the pfReferenceTimestamp key
      */
+    @Override
     public PfReferenceTimestampKey getKey() {
         return this;
     }
@@ -222,6 +223,7 @@ public class PfReferenceTimestampKey extends PfKey {
      * Get the key as a string.
      * @return pfReferenceTimestamp key.
      */
+    @Override
     public String getId() {
         return getReferenceKey().getId() + ':' + getTimeStamp().getTime();
     }
