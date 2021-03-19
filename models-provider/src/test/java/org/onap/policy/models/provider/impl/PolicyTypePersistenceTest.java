@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -61,8 +61,15 @@ public class PolicyTypePersistenceTest {
         // H2, use "org.mariadb.jdbc.Driver" and "jdbc:mariadb://localhost:3306/policy" for locally installed MariaDB
 
         PolicyModelsProviderParameters parameters = new PolicyModelsProviderParameters();
-        parameters.setDatabaseDriver("org.h2.Driver");
-        parameters.setDatabaseUrl("jdbc:h2:mem:testdb");
+
+        if (System.getProperty("USE-MARIADB") != null) {
+            parameters.setDatabaseDriver("org.mariadb.jdbc.Driver");
+            parameters.setDatabaseUrl("jdbc:mariadb://localhost:3306/policy");
+        } else {
+            parameters.setDatabaseDriver("org.h2.Driver");
+            parameters.setDatabaseUrl("jdbc:h2:mem:testdb");
+        }
+
         parameters.setDatabaseUser("policy");
         parameters.setDatabasePassword("P01icY");
         parameters.setPersistenceUnit("ToscaConceptTest");

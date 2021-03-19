@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   ============LICENSE_START=======================================================
-   Copyright (C) 2019-2020 Nordix Foundation.
+   Copyright (C) 2019-2021 Nordix Foundation.
    Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -57,6 +57,7 @@
         <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaTrigger</class>
 
         <properties>
+            <property name="eclipselink.target-database" value="MySQL" />
             <property name="eclipselink.ddl-generation" value="drop-and-create-tables" />
             <property name="eclipselink.ddl-generation.output-mode" value="database" />
             <property name="eclipselink.logging.level" value="INFO" />

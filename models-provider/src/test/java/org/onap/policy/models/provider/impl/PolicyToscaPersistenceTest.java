@@ -76,11 +76,19 @@ public class PolicyToscaPersistenceTest {
         // H2, use "org.mariadb.jdbc.Driver" and "jdbc:mariadb://localhost:3306/policy" for locally installed MariaDB
 
         PolicyModelsProviderParameters parameters = new PolicyModelsProviderParameters();
-        parameters.setDatabaseDriver("org.h2.Driver");
-        parameters.setDatabaseUrl("jdbc:h2:mem:testdb");
+
+        if (System.getProperty("USE-MARIADB") != null) {
+            parameters.setDatabaseDriver("org.mariadb.jdbc.Driver");
+            parameters.setDatabaseUrl("jdbc:mariadb://localhost:3306/policy");
+        } else {
+            parameters.setDatabaseDriver("org.h2.Driver");
+            parameters.setDatabaseUrl("jdbc:h2:mem:testdb");
+        }
+
         parameters.setDatabaseUser("policy");
         parameters.setDatabasePassword("P01icY");
         parameters.setPersistenceUnit("ToscaConceptTest");
+
 
         databaseProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
