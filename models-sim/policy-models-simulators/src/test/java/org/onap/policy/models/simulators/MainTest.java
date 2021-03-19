@@ -31,6 +31,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,6 +53,7 @@ import org.onap.policy.common.endpoints.http.server.internal.JettyJerseyServer;
 import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.network.NetworkUtil;
+import org.onap.policy.common.utils.security.SelfSignedKeyStore;
 
 public class MainTest {
     private static final String PARAMETER_FILE = "simParameters.json";
@@ -64,7 +66,7 @@ public class MainTest {
      * Saves system properties.
      */
     @BeforeClass
-    public static void setUpBeforeClass() {
+    public static void setUpBeforeClass() throws IOException, InterruptedException {
         savedValues = new HashMap<>();
 
         for (String prop : List.of(JettyJerseyServer.SYSTEM_KEYSTORE_PASSWORD_PROPERTY_NAME,
@@ -75,11 +77,14 @@ public class MainTest {
             savedValues.put(prop, System.getProperty(prop));
         }
 
-        System.setProperty(JettyJerseyServer.SYSTEM_KEYSTORE_PROPERTY_NAME, "src/test/resources/keystore-test");
-        System.setProperty(JettyJerseyServer.SYSTEM_KEYSTORE_PASSWORD_PROPERTY_NAME, "kstest");
+        System.setProperty(JettyJerseyServer.SYSTEM_KEYSTORE_PROPERTY_NAME, new SelfSignedKeyStore().getKeystoreName());
+        System.setProperty(JettyJerseyServer.SYSTEM_KEYSTORE_PASSWORD_PROPERTY_NAME,
+                        SelfSignedKeyStore.KEYSTORE_PASSWORD);
 
-        System.setProperty(JettyJerseyServer.SYSTEM_TRUSTSTORE_PROPERTY_NAME, "src/test/resources/keystore-test");
-        System.setProperty(JettyJerseyServer.SYSTEM_TRUSTSTORE_PASSWORD_PROPERTY_NAME, "kstest");
+        System.setProperty(JettyJerseyServer.SYSTEM_TRUSTSTORE_PROPERTY_NAME,
+                        "src/main/resources/ssl/policy-truststore");
+        System.setProperty(JettyJerseyServer.SYSTEM_TRUSTSTORE_PASSWORD_PROPERTY_NAME,
+                        SelfSignedKeyStore.KEYSTORE_PASSWORD);
     }
 
     /**
