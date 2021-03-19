@@ -69,6 +69,23 @@
       "revId": "d6db5582b6705c11abbf8b507aa423aa00bcd7ae",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59b49170_1b2b3826",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/impl/PolicyStatisticsPersistenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-03-19T20:23:19Z",
+      "side": 1,
+      "message": "hmm.  To verify that this works using an in-memory DB, you have to open a DB connection and keep it open through the whole test.  Otherwise, it will go away between after each close().",
+      "revId": "d6db5582b6705c11abbf8b507aa423aa00bcd7ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
