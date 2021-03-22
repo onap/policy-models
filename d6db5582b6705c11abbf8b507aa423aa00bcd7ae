@@ -203,6 +203,24 @@
     },
     {
       "key": {
+        "uuid": "8b79dd0e_1bda175b",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/impl/PolicyStatisticsPersistenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-03-22T12:43:04Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7d2fb8b8_ed458aa0",
+      "revId": "d6db5582b6705c11abbf8b507aa423aa00bcd7ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "58762861_bf4ebf03",
         "filename": "models-provider/src/test/java/org/onap/policy/models/provider/impl/PolicyStatisticsPersistenceTest.java",
         "patchSetId": 1
@@ -217,6 +235,24 @@
       "revId": "d6db5582b6705c11abbf8b507aa423aa00bcd7ae",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "efc8831c_8343c6d0",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/impl/PolicyStatisticsPersistenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-03-22T12:43:04Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "58762861_bf4ebf03",
+      "revId": "d6db5582b6705c11abbf8b507aa423aa00bcd7ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -240,6 +276,30 @@
       "revId": "d6db5582b6705c11abbf8b507aa423aa00bcd7ae",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74c7d38c_845327a2",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/impl/PolicyStatisticsPersistenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-03-22T12:43:04Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "276fcda4_418a3ee4",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 3
+      },
+      "revId": "d6db5582b6705c11abbf8b507aa423aa00bcd7ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
