@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -43,7 +43,7 @@ public class JpaToscaPoliciesTest {
     private static final String KEY_IS_NULL = "key is marked .*on.*ull but is null";
 
     @Test
-    public void testPolicies() {
+    public void testPoliciesErrors() {
         assertNotNull(new JpaToscaPolicies());
         assertNotNull(new JpaToscaPolicies(new PfConceptKey()));
         assertNotNull(new JpaToscaPolicies(new PfConceptKey(), new TreeMap<PfConceptKey, JpaToscaPolicy>()));
@@ -61,7 +61,10 @@ public class JpaToscaPoliciesTest {
 
         assertThatThrownBy(() -> new JpaToscaPolicies(null, new TreeMap<PfConceptKey, JpaToscaPolicy>()))
                 .hasMessageMatching(KEY_IS_NULL);
+    }
 
+    @Test
+    public void testToscaPolicies() {
         List<Map<String, ToscaPolicy>> polMapList = new ArrayList<>();
         polMapList.add(new LinkedHashMap<>());
 

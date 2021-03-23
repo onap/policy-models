@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -49,7 +49,7 @@ public class JpaToscaServiceTemplateTest {
     private static final String VERSION_001 = "0.0.1";
 
     @Test
-    public void testServiceTemplatePojo() {
+    public void testServiceTemplateNull() {
         assertNotNull(new JpaToscaServiceTemplate());
         assertNotNull(new JpaToscaServiceTemplate(new PfConceptKey()));
         assertNotNull(new JpaToscaServiceTemplate(new PfConceptKey(), ""));
@@ -66,7 +66,10 @@ public class JpaToscaServiceTemplateTest {
 
         assertThatThrownBy(() -> new JpaToscaServiceTemplate((JpaToscaServiceTemplate) null))
                 .isInstanceOf(NullPointerException.class);
+    }
 
+    @Test
+    public void testServiceTemplatePojo() {
         PfConceptKey tstKey = new PfConceptKey("tst", VERSION_001);
         JpaToscaServiceTemplate tst = new JpaToscaServiceTemplate(tstKey, "Tosca Version");
 
