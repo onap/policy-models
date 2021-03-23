@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -43,7 +43,7 @@ public class JpaToscaSchemaDefinitionTest {
     private static final String A_DESCRIPTION = "A Description";
 
     @Test
-    public void testEntrySchemaPojo() {
+    public void testEntrySchemaNull() {
         assertNotNull(new JpaToscaSchemaDefinition(new PfConceptKey()));
         assertNotNull(new JpaToscaSchemaDefinition(new JpaToscaSchemaDefinition(new PfConceptKey())));
 
@@ -52,7 +52,10 @@ public class JpaToscaSchemaDefinitionTest {
 
         assertThatThrownBy(() -> new JpaToscaSchemaDefinition((JpaToscaSchemaDefinition) null))
                 .hasMessageMatching("copyConcept is marked .*on.*ull but is null");
+    }
 
+    @Test
+    public void testEntrySchema() {
         PfConceptKey typeKey = new PfConceptKey("type", "0.0.1");
         JpaToscaSchemaDefinition tes = new JpaToscaSchemaDefinition(typeKey);
 
@@ -94,6 +97,12 @@ public class JpaToscaSchemaDefinitionTest {
         new JpaToscaSchemaDefinition(typeKey).clean();
         tes.clean();
         assertEquals(tdtClone0, tes);
+    }
+
+    @Test
+    public void testEntrySchemaValidation() {
+        PfConceptKey typeKey = new PfConceptKey("type", "0.0.1");
+        JpaToscaSchemaDefinition tes = setUpJpaToscaSchemaDefinition(typeKey);
 
         assertTrue(new JpaToscaSchemaDefinition(typeKey).validate("").isValid());
         assertTrue(tes.validate("").isValid());
@@ -117,5 +126,17 @@ public class JpaToscaSchemaDefinitionTest {
         assertTrue(tes.validate("").isValid());
 
         assertThatThrownBy(() -> tes.validate(null)).hasMessageMatching("fieldName is marked .*on.*ull but is null");
+    }
+
+    private JpaToscaSchemaDefinition setUpJpaToscaSchemaDefinition(PfConceptKey typeKey) {
+        JpaToscaSchemaDefinition tes = new JpaToscaSchemaDefinition(typeKey);
+        tes.setDescription(A_DESCRIPTION);
+
+        List<JpaToscaConstraint> constraints = new ArrayList<>();
+        JpaToscaConstraintLogical lsc = new JpaToscaConstraintLogical(JpaToscaConstraintOperation.EQ, "hello");
+        constraints.add(lsc);
+        tes.setConstraints(constraints);
+
+        return tes;
     }
 }

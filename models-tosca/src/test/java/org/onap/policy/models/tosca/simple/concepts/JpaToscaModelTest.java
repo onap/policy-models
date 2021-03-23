@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -63,7 +63,10 @@ public class JpaToscaModelTest {
 
         assertThatThrownBy(() -> new JpaToscaModel((JpaToscaModel) null))
                 .hasMessageMatching("copyConcept is marked .*on.*ull but is null");
+    }
 
+    @Test
+    public void testJpaToscaModel() {
         PfConceptKey tstsKey = new PfConceptKey("tsts", VERSION_001);
         Map<PfConceptKey, JpaToscaServiceTemplate> tstMap = new TreeMap<>();
         JpaToscaServiceTemplates tsts = new JpaToscaServiceTemplates(tstsKey, tstMap);
