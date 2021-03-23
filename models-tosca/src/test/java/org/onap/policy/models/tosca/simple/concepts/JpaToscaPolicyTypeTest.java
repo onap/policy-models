@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -50,7 +50,7 @@ public class JpaToscaPolicyTypeTest {
     private static final String VERSION_001 = "0.0.1";
 
     @Test
-    public void testPolicyTypePojo() {
+    public void testPolicyTypeNull() {
         assertNotNull(new JpaToscaPolicyType());
         assertNotNull(new JpaToscaPolicyType(new PfConceptKey()));
         assertNotNull(new JpaToscaPolicyType(new JpaToscaPolicyType()));
@@ -60,7 +60,10 @@ public class JpaToscaPolicyTypeTest {
 
         assertThatThrownBy(() -> new JpaToscaPolicyType((JpaToscaPolicyType) null))
                 .isInstanceOf(NullPointerException.class);
+    }
 
+    @Test
+    public void testPolicyTypePojo() {
         PfConceptKey ptKey = new PfConceptKey("tdt", VERSION_001);
         JpaToscaPolicyType tpt = new JpaToscaPolicyType(ptKey);
 
@@ -124,12 +127,17 @@ public class JpaToscaPolicyTypeTest {
         otherDt.setTriggers(triggers);
         assertEquals(0, tpt.compareTo(otherDt));
 
-        assertEquals(6, tpt.getKeys().size());
-        assertEquals(1, new JpaToscaPolicyType().getKeys().size());
-
         new JpaToscaPolicyType().clean();
         tpt.clean();
         assertEquals(tdtClone0, tpt);
+    }
+
+    @Test
+    public void testPolicyTypeValidation() {
+        JpaToscaPolicyType tpt = setUpJpaToscaPolicyType();
+
+        assertEquals(6, tpt.getKeys().size());
+        assertEquals(1, new JpaToscaPolicyType().getKeys().size());
 
         assertFalse(new JpaToscaPolicyType().validate("").isValid());
         assertTrue(tpt.validate("").isValid());
@@ -148,6 +156,11 @@ public class JpaToscaPolicyTypeTest {
         assertFalse(tpt.validate("").isValid());
         tpt.getTriggers().remove(null);
         assertTrue(tpt.validate("").isValid());
+    }
+
+    @Test
+    public void testPolicyTypeValidation2() {
+        JpaToscaPolicyType tpt = setUpJpaToscaPolicyType();
 
         tpt.getMetadata().put(null, null);
         assertFalse(tpt.validate("").isValid());
@@ -167,8 +180,15 @@ public class JpaToscaPolicyTypeTest {
 
         tpt.setDerivedFrom(PfConceptKey.getNullKey());
         assertFalse(tpt.validate("").isValid());
+
+        PfConceptKey derivedFromKey = new PfConceptKey("deriveFrom", VERSION_001);
         tpt.setDerivedFrom(derivedFromKey);
         assertTrue(tpt.validate("").isValid());
+    }
+
+    @Test
+    public void testPolicyTypeEntity() {
+        JpaToscaPolicyType tpt = setUpJpaToscaPolicyType();
 
         assertThatThrownBy(() -> tpt.validate(null)).hasMessageMatching("fieldName is marked .*on.*ull but is null");
 
@@ -235,5 +255,37 @@ public class JpaToscaPolicyTypeTest {
 
         pt0.getProperties().put(prop4.getKey().getLocalName(), prop4);
         assertEquals(3, pt0.getReferencedDataTypes().size());
+    }
+
+    private JpaToscaPolicyType setUpJpaToscaPolicyType() {
+        PfConceptKey ptKey = new PfConceptKey("tdt", VERSION_001);
+        JpaToscaPolicyType tpt = new JpaToscaPolicyType(ptKey);
+
+        PfConceptKey derivedFromKey = new PfConceptKey("deriveFrom", VERSION_001);
+        tpt.setDerivedFrom(derivedFromKey);
+
+        Map<String, String> metadata = new HashMap<>();
+        metadata.put("key", "value");
+        tpt.setMetadata(metadata);
+
+        tpt.setDescription(A_DESCRIPTION);
+
+        PfConceptKey propTypeKey = new PfConceptKey("propType", VERSION_001);
+        Map<String, JpaToscaProperty> properties = new LinkedHashMap<>();
+        JpaToscaProperty tp = new JpaToscaProperty(new PfReferenceKey(ptKey, "aProp"), propTypeKey);
+        properties.put(tp.getKey().getLocalName(), tp);
+        tpt.setProperties(properties);
+
+        List<PfConceptKey> targets = new ArrayList<>();
+        PfConceptKey target = new PfConceptKey("target", VERSION_001);
+        targets.add(target);
+        tpt.setTargets(targets);
+
+        List<JpaToscaTrigger> triggers = new ArrayList<>();
+        JpaToscaTrigger trigger = new JpaToscaTrigger(new PfReferenceKey(ptKey, "aTrigger"), "EventType", "Action");
+        triggers.add(trigger);
+        tpt.setTriggers(triggers);
+
+        return tpt;
     }
 }

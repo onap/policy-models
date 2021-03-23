@@ -72,7 +72,10 @@ public class JpaToscaTimeIntervalTest {
 
         assertThatThrownBy(() -> new JpaToscaServiceTemplate((JpaToscaServiceTemplate) null))
                 .isInstanceOf(NullPointerException.class);
+    }
 
+    @Test
+    public void testTimeInterval() {
         PfConceptKey ttiParentKey = new PfConceptKey("tParentKey", "0.0.1");
         PfReferenceKey ttiKey = new PfReferenceKey(ttiParentKey, "trigger0");
         Instant startTime = Instant.ofEpochSecond(1000);
@@ -108,12 +111,19 @@ public class JpaToscaTimeIntervalTest {
         new JpaToscaTimeInterval().clean();
         tti.clean();
         assertEquals(tdtClone0, tti);
+    }
 
+    @Test
+    public void testTimeIntervalValidation() {
+        Instant startTime = Instant.ofEpochSecond(1000);
+        Instant endTime = Instant.ofEpochSecond(2000);
+        JpaToscaTimeInterval tti = setUpJpaToscaTimeInterval(startTime, endTime);
         assertFalse(new JpaToscaTimeInterval().validate("").isValid());
         assertTrue(tti.validate("").isValid());
 
         tti.setStartTime(null);
         assertFalse(tti.validate("").isValid());
+
         tti.setStartTime(Timestamp.from(endTime.plusSeconds(1)));
         assertFalse(tti.validate("").isValid());
         tti.setStartTime(Timestamp.from(startTime));
@@ -127,5 +137,13 @@ public class JpaToscaTimeIntervalTest {
         assertTrue(tti.validate("").isValid());
 
         assertThatThrownBy(() -> tti.validate(null)).hasMessageMatching("fieldName is marked .*on.*ull but is null");
+    }
+
+    private JpaToscaTimeInterval setUpJpaToscaTimeInterval(Instant startTime, Instant endTime) {
+        PfConceptKey ttiParentKey = new PfConceptKey("tParentKey", "0.0.1");
+        PfReferenceKey ttiKey = new PfReferenceKey(ttiParentKey, "trigger0");
+        JpaToscaTimeInterval tti = new JpaToscaTimeInterval(ttiKey, startTime, endTime);
+
+        return tti;
     }
 }

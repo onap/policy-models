@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -51,7 +51,7 @@ public class JpaToscaPropertyTest {
     private static final String VERSION_001 = "0.0.1";
 
     @Test
-    public void testPropertyPojo() {
+    public void testPropertyNull() {
         assertNotNull(new JpaToscaProperty());
         assertNotNull(new JpaToscaProperty(new PfReferenceKey()));
         assertNotNull(new JpaToscaProperty(new PfReferenceKey(), new PfConceptKey()));
@@ -65,7 +65,10 @@ public class JpaToscaPropertyTest {
 
         assertThatThrownBy(() -> new JpaToscaProperty(new PfReferenceKey(), null))
                 .hasMessageMatching("type is marked .*on.*ull but is null");
+    }
 
+    @Test
+    public void testProperty() {
         PfConceptKey pparentKey = new PfConceptKey("tParentKey", VERSION_001);
         PfReferenceKey pkey = new PfReferenceKey(pparentKey, "trigger0");
         PfConceptKey ptypeKey = new PfConceptKey("TTypeKey", VERSION_001);
@@ -112,13 +115,23 @@ public class JpaToscaPropertyTest {
         assertEquals(-1, tp.compareTo(null));
         assertEquals(0, tp.compareTo(tp));
         assertNotEquals(0, tp.compareTo(tp.getKey()));
+    }
+
+    @Test
+    public void testPropertyCompareData() {
+        JpaToscaProperty tp = setUpJpaToscaProperty();
 
         PfReferenceKey otherDtKey = new PfReferenceKey("otherDt", VERSION_001, "OtherProperty");
         JpaToscaProperty otherDt = new JpaToscaProperty(otherDtKey);
 
         assertNotEquals(0, tp.compareTo(otherDt));
+
+        PfConceptKey pparentKey = new PfConceptKey("tParentKey", VERSION_001);
+        PfReferenceKey pkey = new PfReferenceKey(pparentKey, "trigger0");
         otherDt.setKey(pkey);
         assertNotEquals(0, tp.compareTo(otherDt));
+
+        PfConceptKey ptypeKey = new PfConceptKey("TTypeKey", VERSION_001);
         otherDt.setType(ptypeKey);
         assertNotEquals(0, tp.compareTo(otherDt));
         otherDt.setDescription(A_DESCRIPTION);
@@ -130,10 +143,21 @@ public class JpaToscaPropertyTest {
         otherDt.setStatus(ToscaProperty.Status.SUPPORTED);
         assertNotEquals(0, tp.compareTo(otherDt));
         assertNotEquals(0, tp.compareTo(otherDt));
+
+        List<JpaToscaConstraint> constraints = new ArrayList<>();
+        JpaToscaConstraintLogical lsc = new JpaToscaConstraintLogical(JpaToscaConstraintOperation.EQ, "hello");
+        constraints.add(lsc);
         otherDt.setConstraints(constraints);
         assertNotEquals(0, tp.compareTo(otherDt));
+
+        PfConceptKey typeKey = new PfConceptKey("type", VERSION_001);
+        JpaToscaSchemaDefinition tes = new JpaToscaSchemaDefinition(typeKey);
         otherDt.setEntrySchema(tes);
         assertNotEquals(0, tp.compareTo(otherDt));
+
+        TreeMap<String, String> metadata = new TreeMap<>();
+        metadata.put("metaA", "dataA");
+        metadata.put("metaB", "dataB");
         otherDt.setMetadata(metadata);
         assertEquals(0, tp.compareTo(otherDt));
 
@@ -152,6 +176,12 @@ public class JpaToscaPropertyTest {
 
         assertEquals(3, tp.getKeys().size());
         assertEquals(2, new JpaToscaProperty().getKeys().size());
+    }
+
+    @Test
+    public void testPropertyCompareDescription() {
+        JpaToscaProperty tp = setUpJpaToscaProperty();
+        JpaToscaProperty tdtClone0 = new JpaToscaProperty(tp);
 
         new JpaToscaProperty().clean();
         tp.clean();
@@ -169,6 +199,12 @@ public class JpaToscaPropertyTest {
 
         tp.setType(null);
         assertFalse(tp.validate("").isValid());
+    }
+
+    @Test
+    public void testPropertyCompareMetadata() {
+        JpaToscaProperty tp = setUpJpaToscaProperty();
+        PfConceptKey typeKey = new PfConceptKey("type", VERSION_001);
         tp.setType(typeKey);
         assertTrue(tp.validate("").isValid());
 
@@ -238,5 +274,33 @@ public class JpaToscaPropertyTest {
 
         assertEquals(tp.toString(), tp2.toString());
         assertEquals(tp, tp2);
+    }
+
+    private JpaToscaProperty setUpJpaToscaProperty() {
+        PfConceptKey pparentKey = new PfConceptKey("tParentKey", VERSION_001);
+        PfReferenceKey pkey = new PfReferenceKey(pparentKey, "trigger0");
+        PfConceptKey ptypeKey = new PfConceptKey("TTypeKey", VERSION_001);
+
+        JpaToscaProperty tp = new JpaToscaProperty(pkey, ptypeKey);
+        tp.setDescription(A_DESCRIPTION);
+        tp.setRequired(false);
+        tp.setDefaultValue(DEFAULT_KEY);
+        tp.setStatus(ToscaProperty.Status.SUPPORTED);
+
+        List<JpaToscaConstraint> constraints = new ArrayList<>();
+        JpaToscaConstraintLogical lsc = new JpaToscaConstraintLogical(JpaToscaConstraintOperation.EQ, "hello");
+        constraints.add(lsc);
+        tp.setConstraints(constraints);
+
+        PfConceptKey typeKey = new PfConceptKey("type", VERSION_001);
+        JpaToscaSchemaDefinition tes = new JpaToscaSchemaDefinition(typeKey);
+        tp.setEntrySchema(tes);
+
+        TreeMap<String, String> metadata = new TreeMap<>();
+        metadata.put("metaA", "dataA");
+        metadata.put("metaB", "dataB");
+        tp.setMetadata(metadata);
+
+        return tp;
     }
 }
