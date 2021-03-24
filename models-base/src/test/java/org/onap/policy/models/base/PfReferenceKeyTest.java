@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -42,7 +42,7 @@ public class PfReferenceKeyTest {
     private static final String VERSION001 = "0.0.1";
 
     @Test
-    public void testPfReferenceKey() {
+    public void testPfReferenceKeyNotNull() {
         assertNotNull(new PfReferenceKey());
         assertNotNull(new PfReferenceKey(new PfConceptKey()));
         assertNotNull(new PfReferenceKey(new PfConceptKey(), LOCAL_NAME));
@@ -57,7 +57,10 @@ public class PfReferenceKeyTest {
 
         assertThatThrownBy(() -> new PfReferenceKey(new PfConceptKey(), null))
             .hasMessage("parameter \"localName\" is null");
+    }
 
+    @Test
+    public void testPfReferenceKey() {
         PfReferenceKey testReferenceKey = new PfReferenceKey();
         testReferenceKey.setParentConceptKey(new PfConceptKey("PN", VERSION001));
         assertEquals("PN:0.0.1", testReferenceKey.getParentConceptKey().getId());
@@ -96,7 +99,11 @@ public class PfReferenceKeyTest {
         assertEquals(PfKey.Compatibility.IDENTICAL, testReferenceKey.getCompatibility(testReferenceKey));
 
         assertTrue(testReferenceKey.validate("").isValid());
+    }
 
+    @Test
+    public void testMultiplePfReferenceKey() {
+        PfReferenceKey testReferenceKey = setTestReferenceKey();
         testReferenceKey.clean();
 
         PfReferenceKey clonedReferenceKey = new PfReferenceKey(testReferenceKey);
@@ -171,5 +178,17 @@ public class PfReferenceKeyTest {
         localNameField.setAccessible(false);
         assertThat(validationResult4.getResult()).contains("\"localName\"")
         .contains("does not match regular expression [A-Za-z0-9\\-_\\.]+|^$");
+    }
+
+    private PfReferenceKey setTestReferenceKey() {
+        PfReferenceKey testReferenceKey = new PfReferenceKey();
+        testReferenceKey.setParentConceptKey(new PfConceptKey("PN", VERSION001));
+        testReferenceKey.setParentReferenceKey(new PfReferenceKey("PN", VERSION001, "LN"));
+        testReferenceKey.setParentKeyName("NPKN");
+        testReferenceKey.setParentKeyVersion(VERSION001);
+        testReferenceKey.setParentLocalName(NPKLN);
+        testReferenceKey.setLocalName("NLN");
+
+        return testReferenceKey;
     }
 }

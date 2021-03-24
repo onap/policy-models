@@ -192,6 +192,13 @@ public class DatabasePolicyModelsProviderTest {
         assertThatThrownBy(() -> {
             databaseProvider.deletePolicy("aaa", null);
         }).hasMessageMatching("^version is marked .*on.*ull but is null$");
+    }
+
+    @Test
+    public void testProviderMethodsNullGroup() throws Exception {
+
+        PolicyModelsProvider databaseProvider =
+                new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
         assertThatThrownBy(() -> {
             databaseProvider.getFilteredPdpGroups(null);
@@ -344,7 +351,10 @@ public class DatabasePolicyModelsProviderTest {
 
         assertNotNull(databaseProvider.createPdpGroups(new ArrayList<>()));
         assertNotNull(databaseProvider.updatePdpGroups(new ArrayList<>()));
+    }
 
+    @Test
+    public void testProviderMethodsInGroups() throws PfModelException {
         PdpGroup pdpGroup = new PdpGroup();
         pdpGroup.setName(GROUP);
         pdpGroup.setVersion("1.2.3");
@@ -376,6 +386,9 @@ public class DatabasePolicyModelsProviderTest {
         ArrayList<PdpStatistics> statisticsArrayList = new ArrayList<>();
         statisticsArrayList.add(pdpStatistics);
 
+        PolicyModelsProvider databaseProvider =
+                new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
+
         assertEquals(123,
                 databaseProvider.createPdpGroups(groupList).get(0).getPdpSubgroups().get(0).getDesiredInstanceCount());
         assertEquals(1, databaseProvider.getPdpGroups(GROUP).size());
@@ -401,6 +414,13 @@ public class DatabasePolicyModelsProviderTest {
         assertEquals(0, databaseProvider.getPdpStatistics(null, null).size());
         assertEquals(1, databaseProvider.createPdpStatistics(statisticsArrayList).size());
         assertEquals(1, databaseProvider.updatePdpStatistics(statisticsArrayList).size());
+    }
+
+
+    @Test
+    public void testProviderMethodsStatistics() throws PfModelException {
+        PolicyModelsProvider databaseProvider =
+                new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
         assertEquals(NAME, databaseProvider.getPdpStatistics(null, null).get(0).getPdpInstanceId());
         assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(null, GROUP, null,
