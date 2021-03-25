@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "539ff0ca_488dd4d2",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaPolicyTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 7629
+      },
+      "writtenOn": "2021-03-25T16:02:49Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "12ce36ab_0f06cec1",
+      "range": {
+        "startLine": 242,
+        "startChar": 42,
+        "endLine": 243,
+        "endChar": 23
+      },
+      "revId": "1b50c6a269a8fec93f3c097ff42152279e904716",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8c1c591_95147723",
         "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaPolicyTest.java",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "56d43e9b_ac7c0f36",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaPolicyTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 7629
+      },
+      "writtenOn": "2021-03-25T16:02:49Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a8c1c591_95147723",
+      "range": {
+        "startLine": 248,
+        "startChar": 8,
+        "endLine": 248,
+        "endChar": 19
+      },
+      "revId": "1b50c6a269a8fec93f3c097ff42152279e904716",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "42115d19_ad5bdcd0",
         "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaPolicyTypeTest.java",
         "patchSetId": 1
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "9cb917a1_a94a01c0",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaPolicyTypeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 7629
+      },
+      "writtenOn": "2021-03-25T16:02:49Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "42115d19_ad5bdcd0",
+      "revId": "1b50c6a269a8fec93f3c097ff42152279e904716",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cc3d2429_ee1d6c56",
         "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaPropertyTest.java",
         "patchSetId": 1
@@ -79,6 +145,24 @@
       "revId": "1b50c6a269a8fec93f3c097ff42152279e904716",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f7f12b0_9120f60b",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaPropertyTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 7629
+      },
+      "writtenOn": "2021-03-25T16:02:49Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "cc3d2429_ee1d6c56",
+      "revId": "1b50c6a269a8fec93f3c097ff42152279e904716",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
