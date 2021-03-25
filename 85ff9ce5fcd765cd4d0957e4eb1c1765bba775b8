@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b1efcdc1_7b498a7b",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaPolicyTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-03-25T17:43:02Z",
+      "side": 1,
+      "message": "in fact, don\u0027t even need \"propertyMap\" variable\n\nsame comment elsewhere",
+      "parentUuid": "9d98ce0b_ef613dcd",
+      "range": {
+        "startLine": 242,
+        "startChar": 42,
+        "endLine": 242,
+        "endChar": 55
+      },
+      "revId": "85ff9ce5fcd765cd4d0957e4eb1c1765bba775b8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f57a5503_b59031dc",
         "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaPolicyTest.java",
         "patchSetId": 2
