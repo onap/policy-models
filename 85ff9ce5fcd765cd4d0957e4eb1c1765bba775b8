@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "f79f7464_40e20ca2",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaPolicyTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 7629
+      },
+      "writtenOn": "2021-03-26T09:08:15Z",
+      "side": 1,
+      "message": "List\u003cPfConceptKey\u003e targets \u003d List.of(target);\nIf I try to do this I would get UnsupportedOperationException when there are methods like .add() line #156",
+      "parentUuid": "f57a5503_b59031dc",
+      "range": {
+        "startLine": 246,
+        "startChar": 37,
+        "endLine": 246,
+        "endChar": 52
+      },
+      "revId": "85ff9ce5fcd765cd4d0957e4eb1c1765bba775b8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e85d0b28_f50d79e8",
         "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaPropertyTest.java",
         "patchSetId": 2
