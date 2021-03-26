@@ -80,7 +80,10 @@ public class JpaToscaPolicyTest {
         }).hasMessageMatching(KEY_IS_NULL);
 
         assertThatThrownBy(() -> new JpaToscaPolicy((JpaToscaPolicy) null)).isInstanceOf(NullPointerException.class);
+    }
 
+    @Test
+    public void testJpaToscaPolicy() {
         PfConceptKey tpKey = new PfConceptKey("tdt", VERSION_001);
         PfConceptKey ptKey = new PfConceptKey("policyType", VERSION_001);
         JpaToscaPolicy tp = new JpaToscaPolicy(tpKey, ptKey);
@@ -127,7 +130,11 @@ public class JpaToscaPolicyTest {
         new JpaToscaPolicy().clean();
         tp.clean();
         assertEquals(tdtClone0, tp);
+    }
 
+    @Test
+    public void testJpaToscaPolicyValidation() {
+        JpaToscaPolicy tp = setUpJpaToscaPolicy();
         assertFalse(new JpaToscaPolicy().validate("").isValid());
         assertTrue(tp.validate("").isValid());
 
@@ -150,7 +157,11 @@ public class JpaToscaPolicyTest {
         assertFalse(tp.validate("").isValid());
         tp.getTargets().remove(null);
         assertTrue(tp.validate("").isValid());
+    }
 
+    @Test
+    public void testJpaToscaPolicyAuthorative() {
+        JpaToscaPolicy tp = setUpJpaToscaPolicy();
         PfConceptKey tpTypeKey = tp.getKey();
         assertNotNull(tpTypeKey);
         tp.setType(null);
@@ -221,5 +232,20 @@ public class JpaToscaPolicyTest {
         assertEquals("hello",     tpFromTo.getProperties().get("string"));
         assertEquals(false,       tpFromTo.getProperties().get("boolean"));
         // @formatter:on
+    }
+
+    private JpaToscaPolicy setUpJpaToscaPolicy() {
+        PfConceptKey tpKey = new PfConceptKey("tdt", VERSION_001);
+        PfConceptKey ptKey = new PfConceptKey("policyType", VERSION_001);
+        JpaToscaPolicy tp = new JpaToscaPolicy(tpKey, ptKey);
+
+        // Maps and Lists need to be modifiable
+        Map<String, String> propertyMap = new HashMap<>(Map.of("Property", "\"Property Value\""));
+        tp.setProperties(propertyMap);
+
+        PfConceptKey target = new PfConceptKey("target", VERSION_001);
+        List<PfConceptKey> targets = new ArrayList<>(List.of(target));
+        tp.setTargets(targets);
+        return tp;
     }
 }
