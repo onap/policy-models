@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2021 Nordix Foundation.
+ * Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,6 +42,9 @@ public class TestModels {
     public void testPapModels() {
         List<PojoClass> pojoClasses = PojoClassFactory.getPojoClasses(TestModels.class.getPackage().getName());
 
+        pojoClasses.removeIf(pojo -> pojo.getName().contains("$"));
+        pojoClasses.removeIf(pojo -> pojo.getClazz() == PdpDeployPolicies.class);
+
         // @formatter:off
         final Validator validator =
                 ValidatorBuilder.create()
@@ -49,8 +53,6 @@ public class TestModels {
                     .with(new GetterTester())
                     .build();
         // @formatter:on
-
-        pojoClasses.remove(PojoClassFactory.getPojoClass(PdpDeployPolicies.class));
 
         validator.validate(pojoClasses);
     }

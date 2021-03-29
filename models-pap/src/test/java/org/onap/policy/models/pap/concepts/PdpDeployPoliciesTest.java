@@ -18,6 +18,7 @@
 
 package org.onap.policy.models.pap.concepts;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -35,6 +36,8 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierO
  * This only tests the methods that aren't already tested via TestModels.
  */
 public class PdpDeployPoliciesTest {
+    private static StandardCoder CODER = new StandardCoder();
+
     @Test
     public void testPapPolicyIdentifier() throws CoderException, IOException {
         assertNotNull(new PdpDeployPolicies());
@@ -71,9 +74,7 @@ public class PdpDeployPoliciesTest {
     public void testPapPolicyIdentifierSerialization() throws CoderException, IOException {
         String idListString = TextFileUtils.getTextFileAsString("src/test/resources/json/PapPoliciesList.json");
 
-        StandardCoder coder = new StandardCoder();
-
-        PdpDeployPolicies policies = coder.decode(idListString, PdpDeployPolicies.class);
+        PdpDeployPolicies policies = CODER.decode(idListString, PdpDeployPolicies.class);
 
         assertEquals(3, policies.getPolicies().size());
 
@@ -84,7 +85,30 @@ public class PdpDeployPoliciesTest {
         assertEquals("MyPolicy2", policies.getPolicies().get(2).getName());
         assertEquals("1.2.2", policies.getPolicies().get(2).getVersion());
 
-        String idListStringBack = coder.encode(policies);
+        String idListStringBack = CODER.encode(policies);
         assertEquals(idListString.replaceAll("\\s+", ""), idListStringBack.replaceAll("\\s+", ""));
+    }
+
+    @Test
+    public void testValidatePapRest() throws IOException, CoderException {
+        // valid list
+        String idListString = TextFileUtils.getTextFileAsString("src/test/resources/json/PapPoliciesList.json");
+        PdpDeployPolicies policies = CODER.decode(idListString, PdpDeployPolicies.class);
+        assertThat(policies.validatePapRest().getResult()).isNull();
+
+        // null list
+        policies = new PdpDeployPolicies();
+        assertThat(policies.validatePapRest().getResult()).contains("policies");
+
+        // list containing null item
+        idListString = TextFileUtils.getTextFileAsString("src/test/resources/json/PapPoliciesNullItem.json");
+        policies = CODER.decode(idListString, PdpDeployPolicies.class);
+        assertThat(policies.validatePapRest().getResult()).contains("policies").contains("null");
+
+        // list containing an invalid policy
+        idListString = TextFileUtils.getTextFileAsString("src/test/resources/json/PapPoliciesInvalidPolicy.json");
+        policies = CODER.decode(idListString, PdpDeployPolicies.class);
+        assertThat(policies.validatePapRest().getResult()).contains("policies").contains("name").contains("null")
+                        .doesNotContain("\"value\"");
     }
 }
