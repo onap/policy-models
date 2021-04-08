@@ -88,7 +88,7 @@ public class DatabasePolicyModelsProviderTest {
     public void setupParameters() {
         parameters = new PolicyModelsProviderParameters();
         parameters.setDatabaseDriver("org.h2.Driver");
-        parameters.setDatabaseUrl("jdbc:h2:mem:testdb");
+        parameters.setDatabaseUrl("jdbc:h2:mem:DatabasePolicyModelsProviderTest");
         parameters.setDatabaseUser("policy");
         parameters.setDatabasePassword("P01icY");
         parameters.setPersistenceUnit("ToscaConceptTest");
@@ -110,7 +110,7 @@ public class DatabasePolicyModelsProviderTest {
 
         databaseProvider.close();
 
-        parameters.setDatabaseUrl("jdbc:h2:mem:testdb");
+        parameters.setDatabaseUrl("jdbc:h2:mem:DatabasePolicyModelsProviderTest");
 
         parameters.setPersistenceUnit("WileECoyote");
 

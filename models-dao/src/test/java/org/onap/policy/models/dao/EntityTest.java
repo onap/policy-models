@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2021 Nordix Foundation.
- *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -70,7 +70,7 @@ public class EntityTest {
         Properties jdbcProperties = new Properties();
         // @formatter:off
         jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_DRIVER,   "org.h2.Driver");
-        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_URL,      "jdbc:h2:mem:testdb");
+        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_URL,      "jdbc:h2:mem:EntityTest");
         jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_USER,     "sa");
         jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_PASSWORD, "");
         // @formatter:on
@@ -105,7 +105,7 @@ public class EntityTest {
 
         Properties jdbcProperties = new Properties();
         jdbcProperties.setProperty("javax.persistence.jdbc.driver", "org.h2.Driver");
-        jdbcProperties.setProperty("javax.persistence.jdbc.url", "jdbc:h2:mem:testdb");
+        jdbcProperties.setProperty("javax.persistence.jdbc.url", "jdbc:h2:mem:EntityTest");
         jdbcProperties.setProperty("javax.persistence.jdbc.user", "sa");
         jdbcProperties.setProperty("javax.persistence.jdbc.password", "");
 
