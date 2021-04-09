@@ -28,10 +28,12 @@ import static org.junit.Assert.assertEquals;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.common.utils.coder.YamlJsonTranslator;
 import org.onap.policy.common.utils.resources.TextFileUtils;
+import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderFactory;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
@@ -43,6 +45,8 @@ public class HierarchyFetchTest {
 
     private static PolicyModelsProviderParameters parameters;
 
+    private PolicyModelsProvider databaseProvider;
+
     @BeforeClass
     public static void beforeSetupParameters() {
         parameters = new PolicyModelsProviderParameters();
@@ -53,10 +57,19 @@ public class HierarchyFetchTest {
         parameters.setPersistenceUnit("ToscaConceptTest");
     }
 
+    /**
+     * Closes the DB.
+     */
+    @After
+    public void tearDown() throws PfModelException {
+        if (databaseProvider != null) {
+            databaseProvider.close();
+        }
+    }
+
     @Test
     public void testMultipleVersions() throws Exception {
-        PolicyModelsProvider databaseProvider =
-            new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
+        databaseProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
         ToscaServiceTemplate serviceTemplate = new YamlJsonTranslator().fromYaml(
             TextFileUtils

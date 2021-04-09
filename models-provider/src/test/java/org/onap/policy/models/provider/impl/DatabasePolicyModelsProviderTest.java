@@ -32,6 +32,7 @@ import static org.junit.Assert.assertTrue;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.models.base.PfModelException;
@@ -79,7 +80,9 @@ public class DatabasePolicyModelsProviderTest {
 
     private static final String ORDER = "DESC";
 
-    PolicyModelsProviderParameters parameters;
+    private PolicyModelsProviderParameters parameters;
+
+    private PolicyModelsProvider databaseProvider;
 
     /**
      * Initialize parameters.
@@ -94,14 +97,23 @@ public class DatabasePolicyModelsProviderTest {
         parameters.setPersistenceUnit("ToscaConceptTest");
     }
 
+    /**
+     * Closes the DB.
+     */
+    @After
+    public void tearDown() throws PfModelException {
+        if (databaseProvider != null) {
+            databaseProvider.close();
+        }
+    }
+
     @Test
     public void testInitAndClose() throws Exception {
         assertThatThrownBy(() -> {
             new DatabasePolicyModelsProviderImpl(null);
         }).hasMessageMatching("^parameters is marked .*on.*ull but is null$");
 
-        PolicyModelsProvider databaseProvider =
-                new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
+        databaseProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
         parameters.setDatabaseUrl("jdbc://www.acmecorp.nonexist");
 
@@ -134,8 +146,7 @@ public class DatabasePolicyModelsProviderTest {
     @Test
     public void testProviderMethodsNull() throws Exception {
 
-        PolicyModelsProvider databaseProvider =
-                new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
+        databaseProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
         assertThatThrownBy(() -> {
             databaseProvider.getFilteredPolicyTypes(null);
@@ -197,8 +208,7 @@ public class DatabasePolicyModelsProviderTest {
     @Test
     public void testProviderMethodsNullGroup() throws Exception {
 
-        PolicyModelsProvider databaseProvider =
-                new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
+        databaseProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
         assertThatThrownBy(() -> {
             databaseProvider.getFilteredPdpGroups(null);
@@ -285,8 +295,7 @@ public class DatabasePolicyModelsProviderTest {
 
     @Test
     public void testProviderMethodsNotInit() throws Exception {
-        PolicyModelsProvider databaseProvider =
-                new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
+        databaseProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
         databaseProvider.close();
 
@@ -297,8 +306,7 @@ public class DatabasePolicyModelsProviderTest {
 
     @Test
     public void testProviderMethods() throws PfModelException {
-        PolicyModelsProvider databaseProvider =
-                new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
+        databaseProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
         assertThatThrownBy(() -> databaseProvider.getPolicyTypes(NAME, VERSION_100))
                 .hasMessage("service template not found in database");
@@ -386,8 +394,7 @@ public class DatabasePolicyModelsProviderTest {
         ArrayList<PdpStatistics> statisticsArrayList = new ArrayList<>();
         statisticsArrayList.add(pdpStatistics);
 
-        PolicyModelsProvider databaseProvider =
-                new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
+        databaseProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
         assertEquals(123,
                 databaseProvider.createPdpGroups(groupList).get(0).getPdpSubgroups().get(0).getDesiredInstanceCount());
@@ -419,8 +426,14 @@ public class DatabasePolicyModelsProviderTest {
 
     @Test
     public void testProviderMethodsStatistics() throws PfModelException {
-        PolicyModelsProvider databaseProvider =
-                new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
+        databaseProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
+
+        PdpStatistics pdpStatistics = new PdpStatistics();
+        pdpStatistics.setPdpInstanceId(NAME);
+        pdpStatistics.setTimeStamp(TIMESTAMP);
+        pdpStatistics.setPdpGroupName(GROUP);
+        pdpStatistics.setPdpSubGroupName("type");
+        databaseProvider.createPdpStatistics(List.of(pdpStatistics));
 
         assertEquals(NAME, databaseProvider.getPdpStatistics(null, null).get(0).getPdpInstanceId());
         assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(null, GROUP, null,
@@ -491,8 +504,7 @@ public class DatabasePolicyModelsProviderTest {
         List<PdpGroup> pdpGroups = new ArrayList<>();
         pdpGroups.add(pdpGroup);
 
-        PolicyModelsProvider databaseProvider =
-                new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
+        databaseProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
         databaseProvider.createPdpGroups(pdpGroups);
 
@@ -526,8 +538,7 @@ public class DatabasePolicyModelsProviderTest {
         List<PdpGroup> pdpGroups = new ArrayList<>();
         pdpGroups.add(pdpGroup);
 
-        PolicyModelsProvider databaseProvider =
-                new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
+        databaseProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
         databaseProvider.createPdpGroups(pdpGroups);
 
