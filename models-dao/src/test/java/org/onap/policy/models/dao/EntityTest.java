@@ -37,6 +37,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.UUID;
 import org.eclipse.persistence.config.PersistenceUnitProperties;
+import org.junit.After;
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
@@ -62,6 +63,17 @@ public class EntityTest {
     private static final Instant TIMESTAMP1 = Instant.ofEpochSecond(1613494293).plusSeconds(55);
     private static final Instant TIMESTAMP2 = Instant.ofEpochSecond(1613494293).plusSeconds(90);
     private PfDao pfDao;
+
+    /**
+     * Closes the DAO.
+     */
+    @After
+    public void tearDown() {
+        if (pfDao != null) {
+            pfDao.close();
+            pfDao = null;
+        }
+    }
 
     @Test
     public void testEntityTestSanity() throws PfModelException {
@@ -92,8 +104,6 @@ public class EntityTest {
 
         assertThatThrownBy(() -> pfDao.create(new PfConceptKey()))
                         .hasMessage("Policy Framework DAO has not been initialized");
-
-        pfDao.close();
     }
 
     @Test
@@ -119,8 +129,6 @@ public class EntityTest {
         testVersionOps();
 
         testgetFilteredOps();
-
-        pfDao.close();
     }
 
     @Test
@@ -164,9 +172,8 @@ public class EntityTest {
         pfDao.getConcept(PfConceptKey.class, nullKey);
         pfDao.getConcept(null, nullRefKey);
         pfDao.getConcept(PfReferenceKey.class, nullRefKey);
-        pfDao.size(null);
 
-        assertThatCode(() -> pfDao.close()).doesNotThrowAnyException();
+        assertThatCode(() -> pfDao.size(null)).doesNotThrowAnyException();
     }
 
     private void testAllOps() {

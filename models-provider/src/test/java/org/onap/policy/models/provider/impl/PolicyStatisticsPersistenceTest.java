@@ -41,9 +41,9 @@ public class PolicyStatisticsPersistenceTest {
     public void testPdpStatiscticsPersistence() throws PfModelException {
         // Try the test on three providers
         for (int i = 0; i < 3; i++) {
-            PolicyModelsProvider databaseProvider = setupProvider();
-            testPdpStatiscticsPersistenceOneProvider(databaseProvider);
-            databaseProvider.close();
+            try (PolicyModelsProvider databaseProvider = setupProvider()) {
+                testPdpStatiscticsPersistenceOneProvider(databaseProvider);
+            }
         }
     }
 
