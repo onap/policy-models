@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7163836_cfb50405",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/impl/DatabasePolicyModelsProviderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 4903
+      },
+      "writtenOn": "2021-04-12T10:19:38Z",
+      "side": 1,
+      "message": "could move this to a method and reuse below.",
+      "range": {
+        "startLine": 389,
+        "startChar": 0,
+        "endLine": 395,
+        "endChar": 47
+      },
+      "revId": "19e931bf068c55e4d4290b4702cdb7273f8dddc2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
