@@ -22,6 +22,30 @@
       "revId": "19e931bf068c55e4d4290b4702cdb7273f8dddc2",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6417646a_bac37500",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/impl/DatabasePolicyModelsProviderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-04-12T13:14:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7163836_cfb50405",
+      "range": {
+        "startLine": 389,
+        "startChar": 0,
+        "endLine": 395,
+        "endChar": 47
+      },
+      "revId": "19e931bf068c55e4d4290b4702cdb7273f8dddc2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
