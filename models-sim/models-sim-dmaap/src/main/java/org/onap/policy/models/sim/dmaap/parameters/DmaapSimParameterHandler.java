@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -60,13 +60,6 @@ public class DmaapSimParameterHandler {
                     + "\"\n" + "(" + e.getClass().getSimpleName() + "):" + e.getMessage();
             LOGGER.error(errorMessage);
             throw new DmaapSimException(errorMessage, e);
-        }
-
-        // The JSON processing returns null if there is an empty file
-        if (dmaapSimParameterGroup == null) {
-            final String errorMessage = "no parameters found in \"" + arguments.getConfigurationFilePath() + "\"";
-            LOGGER.error(errorMessage);
-            throw new DmaapSimException(errorMessage);
         }
 
         // validate the parameters
