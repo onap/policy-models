@@ -25,6 +25,7 @@ package org.onap.policy.models.pdp.persistence.concepts;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -33,16 +34,19 @@ import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.lang3.builder.CompareToBuilder;
+import org.eclipse.persistence.annotations.Index;
 import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
+import org.onap.policy.models.base.PfGeneratedIdKey;
 import org.onap.policy.models.base.PfKey;
-import org.onap.policy.models.base.PfTimestampKey;
 import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.base.validation.annotations.VerifyKey;
 import org.onap.policy.models.pdp.concepts.PdpEngineWorkerStatistics;
@@ -55,6 +59,7 @@ import org.onap.policy.models.pdp.concepts.PdpStatistics;
  */
 @Entity
 @Table(name = "PdpStatistics")
+@Index(name = "IDX_TSIDX1", columnNames = {"timeStamp"})
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
 @AllArgsConstructor
@@ -66,7 +71,11 @@ public class JpaPdpStatistics extends PfConcept implements PfAuthorative<PdpStat
     @EmbeddedId
     @VerifyKey
     @NotNull
-    private PfTimestampKey key;
+    private PfGeneratedIdKey key;
+
+    @Column(precision = 3)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date timeStamp;
 
     @Column(length = 120)
     private String pdpGroupName;
@@ -99,7 +108,7 @@ public class JpaPdpStatistics extends PfConcept implements PfAuthorative<PdpStat
      * The Default Constructor creates a {@link JpaPdpStatistics} object with a null key.
      */
     public JpaPdpStatistics() {
-        this(new PfTimestampKey());
+        this(new PfGeneratedIdKey());
     }
 
     /**
@@ -107,10 +116,9 @@ public class JpaPdpStatistics extends PfConcept implements PfAuthorative<PdpStat
      *
      * @param key the key
      */
-    public JpaPdpStatistics(@NonNull final PfTimestampKey key) {
-        this(key, NULL_NAME, NULL_NAME, 0L, 0L, 0L, 0L, 0L, 0L, null);
+    public JpaPdpStatistics(@NonNull final PfGeneratedIdKey key) {
+        this(key, null, NULL_NAME, NULL_NAME, 0L, 0L, 0L, 0L, 0L, 0L, null);
     }
-
 
     /**
      * Copy constructor.
@@ -119,7 +127,8 @@ public class JpaPdpStatistics extends PfConcept implements PfAuthorative<PdpStat
      */
     public JpaPdpStatistics(@NonNull final JpaPdpStatistics copyConcept) {
         super(copyConcept);
-        this.key = new PfTimestampKey(copyConcept.key);
+        this.key = new PfGeneratedIdKey(copyConcept.key);
+        this.timeStamp = copyConcept.timeStamp;
         this.pdpGroupName = copyConcept.pdpGroupName;
         this.pdpSubGroupName = copyConcept.pdpSubGroupName;
         this.policyDeployCount = copyConcept.policyDeployCount;
@@ -153,7 +162,8 @@ public class JpaPdpStatistics extends PfConcept implements PfAuthorative<PdpStat
         }
 
         final JpaPdpStatistics other = (JpaPdpStatistics) otherConcept;
-        return new CompareToBuilder().append(this.key, other.key).append(this.pdpGroupName, other.pdpGroupName)
+        return new CompareToBuilder().append(this.key, other.key).append(this.timeStamp, other.timeStamp)
+                .append(this.pdpGroupName, other.pdpGroupName)
                 .append(this.pdpSubGroupName, other.pdpSubGroupName)
                 .append(this.policyDeployCount, other.policyDeployCount)
                 .append(this.policyDeployFailCount, other.policyDeployFailCount)
@@ -167,7 +177,8 @@ public class JpaPdpStatistics extends PfConcept implements PfAuthorative<PdpStat
     public PdpStatistics toAuthorative() {
         PdpStatistics pdpStatistics = new PdpStatistics();
         pdpStatistics.setPdpInstanceId(key.getName());
-        pdpStatistics.setTimeStamp(key.getInstant());
+        pdpStatistics.setGeneratedId(key.getGeneratedId());
+        pdpStatistics.setTimeStamp(timeStamp.toInstant());
         pdpStatistics.setPdpGroupName(pdpGroupName);
         pdpStatistics.setPdpSubGroupName(pdpSubGroupName);
         pdpStatistics.setPolicyDeployCount(policyDeployCount);
@@ -183,9 +194,16 @@ public class JpaPdpStatistics extends PfConcept implements PfAuthorative<PdpStat
 
     @Override
     public void fromAuthorative(@NonNull final PdpStatistics pdpStatistics) {
-        if (this.key == null || this.getKey().isNullKey()) {
-            this.setKey(new PfTimestampKey(pdpStatistics.getPdpInstanceId(), PfKey.NULL_KEY_VERSION,
-                    pdpStatistics.getTimeStamp() == null ? Instant.EPOCH : pdpStatistics.getTimeStamp()));
+        if (pdpStatistics.getGeneratedId() == null) {
+            this.setKey(new PfGeneratedIdKey(pdpStatistics.getPdpInstanceId(), PfKey.NULL_KEY_VERSION));
+        } else {
+            this.setKey(new PfGeneratedIdKey(pdpStatistics.getPdpInstanceId(),
+                        PfKey.NULL_KEY_VERSION, pdpStatistics.getGeneratedId()));
+        }
+        if (pdpStatistics.getTimeStamp() == null) {
+            this.setTimeStamp(Date.from(Instant.EPOCH));
+        } else {
+            this.setTimeStamp(Date.from(pdpStatistics.getTimeStamp()));
         }
         this.setPdpGroupName(pdpStatistics.getPdpGroupName());
         this.setPdpSubGroupName(pdpStatistics.getPdpSubGroupName());

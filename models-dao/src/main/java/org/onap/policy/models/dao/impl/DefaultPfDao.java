@@ -23,6 +23,7 @@ package org.onap.policy.models.dao.impl;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -34,6 +35,7 @@ import javax.persistence.TypedQuery;
 import javax.ws.rs.core.Response;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
+import org.onap.policy.models.base.PfGeneratedIdKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.base.PfReferenceKey;
@@ -56,6 +58,7 @@ public class DefaultPfDao implements PfDao {
     private static final String NAME           = "name";
     private static final String VERSION        = "version";
     private static final String TIMESTAMP      = "timeStamp";
+    private static final String GENERATEDID      = "Id";
     private static final String PARENT_NAME    = "parentname";
     private static final String PARENT_VERSION = "parentversion";
     private static final String LOCAL_NAME     = "localname";
@@ -75,6 +78,10 @@ public class DefaultPfDao implements PfDao {
     private static final String TIMESTAMP_FILTER       = "c.key.timeStamp = :timeStamp";
     private static final String TIMESTAMP_START_FILTER = "c.key.timeStamp >= :startTime";
     private static final String TIMESTAMP_END_FILTER   = "c.key.timeStamp <= :endTime";
+    private static final String TIMESTAMP_FILTER_NOKEY       = "c.timeStamp = :timeStamp";
+    private static final String TIMESTAMP_START_FILTER_NOKEY = "c.timeStamp >= :startTime";
+    private static final String TIMESTAMP_END_FILTER_NOKEY   = "c.timeStamp <= :endTime";
+    private static final String GENERATED_ID_FILTER       = "c.key.generatedId = :Id";
     private static final String PARENT_NAME_FILTER     = "c.key.parentKeyName = :parentname";
     private static final String PARENT_VERSION_FILTER  = "c.key.parentKeyVersion = :parentversion";
     private static final String LOCAL_NAME_FILTER      = "c.key.localName = :localname";
@@ -89,6 +96,9 @@ public class DefaultPfDao implements PfDao {
     private static final String DELETE_BY_TIMESTAMP_KEY =
             DELETE_FROM_TABLE + WHERE + NAME_FILTER + AND + VERSION_FILTER  + AND + TIMESTAMP_FILTER;
 
+    private static final String DELETE_BY_GENERATED_ID_KEY =
+            DELETE_FROM_TABLE + WHERE + NAME_FILTER + AND + VERSION_FILTER  + AND + GENERATED_ID_FILTER;
+
     private static final String DELETE_BY_REFERENCE_KEY =
             DELETE_FROM_TABLE + WHERE + PARENT_NAME_FILTER + AND + PARENT_VERSION_FILTER + AND + LOCAL_NAME_FILTER;
 
@@ -102,6 +112,9 @@ public class DefaultPfDao implements PfDao {
 
     private static final String SELECT_BY_CONCEPT_KEY =
             SELECT_FROM_TABLE + WHERE + NAME_FILTER + AND + VERSION_FILTER;
+
+    private static final String SELECT_BY_TIMESTAMP_NOKEY =
+            SELECT_FROM_TABLE + WHERE + NAME_FILTER + AND + VERSION_FILTER + AND + TIMESTAMP_FILTER_NOKEY;
 
     private static final String SELECT_BY_REFERENCE_KEY =
             SELECT_FROM_TABLE + WHERE + PARENT_NAME_FILTER + AND + PARENT_VERSION_FILTER + AND + LOCAL_NAME_FILTER;
@@ -246,6 +259,27 @@ public class DefaultPfDao implements PfDao {
     }
 
     @Override
+    public <T extends PfConcept> void delete(final Class<T> someClass, final PfGeneratedIdKey key) {
+        if (key == null) {
+            return;
+        }
+        final EntityManager mg = getEntityManager();
+        try {
+            // @formatter:off
+            mg.getTransaction().begin();
+            mg.createQuery(setQueryTable(DELETE_BY_GENERATED_ID_KEY, someClass), someClass)
+                    .setParameter(NAME,    key.getName())
+                    .setParameter(VERSION, key.getVersion())
+                    .setParameter(GENERATEDID, key.getGeneratedId())
+                    .executeUpdate();
+            mg.getTransaction().commit();
+            // @formatter:on
+        } finally {
+            mg.close();
+        }
+    }
+
+    @Override
     public <T extends PfConcept> void createCollection(final Collection<T> objs) {
         if (objs == null || objs.isEmpty()) {
             return;
@@ -369,11 +403,26 @@ public class DefaultPfDao implements PfDao {
             if (filterMap != null) {
                 filterQueryString = buildFilter(filterMap, filterQueryString, isRefTimestampKey(someClass));
             }
-            filterQueryString = addKeyFilterString(filterQueryString, name, startTime, endTime,
-                isRefTimestampKey(someClass));
-            if (getRecordNum > 0) {
-                filterQueryString += ORDER + " c.key.timeStamp " + sortOrder;
+
+            if (isKeyWithTimestamp(someClass)) {
+                filterQueryString = addKeyFilterString(filterQueryString, name, startTime, endTime,
+                        isRefTimestampKey(someClass));
+            } else {
+                filterQueryString = addNonKeyFilterString(filterQueryString, name, startTime, endTime,
+                        isRefTimestampKey(someClass));
             }
+
+
+            if (getRecordNum > 0) {
+                if (isKeyWithTimestamp(someClass)) {
+                    filterQueryString += ORDER + " c.key.timeStamp " + sortOrder;
+                } else {
+                    filterQueryString += ORDER + " c.timeStamp " + sortOrder;
+                }
+
+            }
+
+
             TypedQuery<T> query = mg.createQuery(setQueryTable(filterQueryString, someClass), someClass);
 
             if (filterMap != null) {
@@ -425,6 +474,21 @@ public class DefaultPfDao implements PfDao {
         }
     }
 
+    /**
+     * This method checks if the class invoking the DAO is using PfReferenceTimestamp Key.
+     * @param someClass class that invoked Dao
+     * @return true if the key is Key that contains timestamp field.
+     */
+    private <T extends PfConcept> boolean isKeyWithTimestamp(final Class<T> someClass) {
+        try {
+            return Arrays.stream(someClass.getDeclaredField("key").getType().getDeclaredFields())
+                         .anyMatch(f -> f.getName().equals("timeStamp"));
+        } catch (NoSuchFieldException e) {
+            LOGGER.error("Error verifying the key with timestamp:", e);
+            return false;
+        }
+    }
+
     private String buildFilter(final Map<String, Object> filterMap, String filterQueryString,
                                boolean isRefTimestampKey) {
         StringBuilder bld = new StringBuilder(filterQueryString);
@@ -445,6 +509,11 @@ public class DefaultPfDao implements PfDao {
 
     @Override
     public <T extends PfConcept> T get(final Class<T> someClass, final PfReferenceKey key) {
+        return genericGet(someClass, key);
+    }
+
+    @Override
+    public <T extends PfConcept> T get(final Class<T> someClass, final PfGeneratedIdKey key) {
         return genericGet(someClass, key);
     }
 
@@ -532,6 +601,28 @@ public class DefaultPfDao implements PfDao {
             // @formatter:off
             return mg.createQuery(setQueryTable(SELECT_ALL_VERSIONS, someClass), someClass)
                     .setParameter(NAME, conceptName)
+                    .getResultList();
+            // @formatter:on
+        } finally {
+            mg.close();
+        }
+    }
+
+    @Override
+    public <T extends PfConcept> List<T> getByTimestamp(final Class<T> someClass,
+                                                        final PfGeneratedIdKey key,
+                                                        final Instant timeStamp) {
+        if (someClass == null || key == null || timeStamp == null) {
+            return Collections.emptyList();
+        }
+
+        final EntityManager mg = getEntityManager();
+        try {
+            // @formatter:off
+            return mg.createQuery(setQueryTable(SELECT_BY_TIMESTAMP_NOKEY, someClass), someClass)
+                    .setParameter(NAME,    key.getName())
+                    .setParameter(VERSION, key.getVersion())
+                    .setParameter(TIMESTAMP, Timestamp.from(timeStamp))
                     .getResultList();
             // @formatter:on
         } finally {
@@ -674,6 +765,45 @@ public class DefaultPfDao implements PfDao {
         } else {
             if (endTime != null) {
                 filterQueryString = inputFilter + TIMESTAMP_END_FILTER;
+            } else {
+                filterQueryString = inputFilter.substring(0, inputFilter.length() - AND.length());
+            }
+        }
+
+        return filterQueryString;
+    }
+
+    /**
+     * generate filter string with the filter value in TimestampKey.
+     *
+     * @param inputFilterString current filterString generated from FilterMap
+     * @param name the pdp name the start timeStamp to filter from database, filter rule: startTime <= filteredRecord
+     *        timeStamp <= endTime. null for ignore start time.
+     * @param endTime the end timeStamp to filter from database, filter rule: startTime <= filteredRecord timeStamp <=
+     *        endTime. null for ignore end time
+     * @param isRefTimestampKey boolean value, set to true if the query invoked for pfReferenceTimestampKey
+     * @return the filter string to query database
+     */
+    private String addNonKeyFilterString(String inputFilterString, final String name, final Instant startTime,
+            final Instant endTime, final boolean isRefTimestampKey) {
+        String filterQueryString;
+        String inputFilter = inputFilterString;
+        if (name != null) {
+            if (isRefTimestampKey) {
+                inputFilter += PARENT_NAME_REF_FILTER + AND;
+            } else {
+                inputFilter += NAME_FILTER + AND;
+            }
+        }
+        if (startTime != null) {
+            if (endTime != null) {
+                filterQueryString = inputFilter + TIMESTAMP_START_FILTER_NOKEY + AND + TIMESTAMP_END_FILTER_NOKEY;
+            } else {
+                filterQueryString = inputFilter + TIMESTAMP_START_FILTER_NOKEY;
+            }
+        } else {
+            if (endTime != null) {
+                filterQueryString = inputFilter + TIMESTAMP_END_FILTER_NOKEY;
             } else {
                 filterQueryString = inputFilter.substring(0, inputFilter.length() - AND.length());
             }
