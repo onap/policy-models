@@ -31,7 +31,7 @@ import static org.junit.Assert.assertTrue;
 import java.time.Instant;
 import java.util.ArrayList;
 import org.junit.Test;
-import org.onap.policy.models.base.PfTimestampKey;
+import org.onap.policy.models.base.PfGeneratedIdKey;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
 
 /**
@@ -41,14 +41,14 @@ public class JpaPdpStatisticsTest {
 
     @Test
     public void testConstructor() {
-        assertThatThrownBy(() -> new JpaPdpStatistics((PfTimestampKey) null)).hasMessageContaining("key");
+        assertThatThrownBy(() -> new JpaPdpStatistics((PfGeneratedIdKey) null)).hasMessageContaining("key");
 
         assertThatThrownBy(() -> new JpaPdpStatistics((JpaPdpStatistics) null)).hasMessageContaining("copyConcept");
 
         assertThatThrownBy(() -> new JpaPdpStatistics((PdpStatistics) null)).hasMessageContaining("authorativeConcept");
 
         assertNotNull(new JpaPdpStatistics());
-        assertNotNull(new JpaPdpStatistics(new PfTimestampKey()));
+        assertNotNull(new JpaPdpStatistics(new PfGeneratedIdKey()));
 
         PdpStatistics pdpStat = createPdpStatistics();
         JpaPdpStatistics jpaPdpStat = new JpaPdpStatistics(createPdpStatistics());
@@ -114,7 +114,7 @@ public class JpaPdpStatisticsTest {
         assertEquals(pdpStat.getPdpInstanceId(), jpaPdpStat.getKey().getName());
         assertEquals(pdpStat.getPdpGroupName(), jpaPdpStat.getPdpGroupName());
         assertEquals(pdpStat.getPdpSubGroupName(), jpaPdpStat.getPdpSubGroupName());
-        assertEquals(pdpStat.getTimeStamp(), jpaPdpStat.getKey().getInstant());
+        assertEquals(pdpStat.getTimeStamp(), jpaPdpStat.getTimeStamp().toInstant());
         assertEquals(pdpStat.getPolicyDeployCount(), jpaPdpStat.getPolicyDeployCount());
         assertEquals(pdpStat.getPolicyDeploySuccessCount(), jpaPdpStat.getPolicyDeploySuccessCount());
         assertEquals(pdpStat.getPolicyDeployFailCount(), jpaPdpStat.getPolicyDeployFailCount());
@@ -128,6 +128,7 @@ public class JpaPdpStatisticsTest {
         pdpStat.setPdpInstanceId("PDP0");
         pdpStat.setPdpGroupName("PDPGroup0");
         pdpStat.setPdpSubGroupName("PDPSubGroup0");
+        pdpStat.setGeneratedId(10001L);
         pdpStat.setTimeStamp(Instant.EPOCH);
         pdpStat.setPolicyDeployCount(3);
         pdpStat.setPolicyDeploySuccessCount(1);

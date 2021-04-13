@@ -29,6 +29,7 @@
         <class>org.onap.policy.models.dao.DummyConceptEntity</class>
         <class>org.onap.policy.models.dao.DummyReferenceEntity</class>
         <class>org.onap.policy.models.dao.DummyTimestampEntity</class>
+        <class>org.onap.policy.models.dao.DummyGeneratedIdEntity</class>
 
         <properties>
             <property name="eclipselink.target-database" value="MySQL" />
