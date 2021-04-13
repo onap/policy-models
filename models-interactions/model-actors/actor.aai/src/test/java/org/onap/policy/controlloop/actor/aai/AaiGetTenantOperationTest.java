@@ -117,7 +117,7 @@ public class AaiGetTenantOperationTest extends BasicAaiOperation {
         oper.setProperty(OperationProperties.AAI_TARGET_ENTITY, "failedVserver");
 
         outcome = oper.start().get();
-        assertEquals(OperationResult.FAILURE, outcome.getResult());
+        assertEquals(OperationResult.FAILURE_EXCEPTION, outcome.getResult());
     }
 
     @Test
@@ -152,7 +152,7 @@ public class AaiGetTenantOperationTest extends BasicAaiOperation {
     public void testStartOperationAsyncFailure() throws Exception {
 
         when(rawResponse.getStatus()).thenReturn(500);
-        when(rawResponse.readEntity(String.class)).thenReturn("");
+        when(rawResponse.readEntity(String.class)).thenReturn("{}");
 
         when(webAsync.get(any(InvocationCallback.class))).thenAnswer(provideResponse(rawResponse));
 

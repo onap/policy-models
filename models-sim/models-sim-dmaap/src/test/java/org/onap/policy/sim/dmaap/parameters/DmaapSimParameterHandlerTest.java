@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -59,7 +59,7 @@ public class DmaapSimParameterHandlerTest {
 
         args.parse(new String[] {"-c", RESOURCE_DIR + "EmptyParameterFile.json"});
         assertThatThrownBy(() -> handler.getParameters(args)).isInstanceOf(DmaapSimException.class)
-                        .hasMessageStartingWith("no parameters found");
+                        .hasMessageContaining("source is empty");
 
 
         args.parse(new String[] {"-c", RESOURCE_DIR + "Parameters_InvalidName.json"});

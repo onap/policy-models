@@ -152,7 +152,7 @@ public class AaiGetPnfOperationTest extends BasicAaiOperation {
     public void testStartOperationAsyncFailure() throws Exception {
 
         when(rawResponse.getStatus()).thenReturn(500);
-        when(rawResponse.readEntity(String.class)).thenReturn("");
+        when(rawResponse.readEntity(String.class)).thenReturn("{}");
 
         when(webAsync.get(any(InvocationCallback.class))).thenAnswer(provideResponse(rawResponse));
 

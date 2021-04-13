@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -62,13 +62,6 @@ public class PdpSimulatorParameterHandler {
                     + "\"\n" + "(" + e.getClass().getSimpleName() + "):" + e.getMessage();
             logger.error(errorMessage);
             throw new PdpSimulatorException(errorMessage, e);
-        }
-
-        // The JSON processing returns null if there is an empty file
-        if (pdpSimulatorParameterGroup == null) {
-            final String errorMessage = "no parameters found in \"" + arguments.getConfigurationFilePath() + "\"";
-            logger.error(errorMessage);
-            throw new PdpSimulatorException(errorMessage);
         }
 
         // validate the parameters
