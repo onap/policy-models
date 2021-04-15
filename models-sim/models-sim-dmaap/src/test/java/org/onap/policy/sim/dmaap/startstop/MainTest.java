@@ -1,6 +1,7 @@
 /*
  * ============LICENSE_START=======================================================
- *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property.
+ * Modifications Copyright (C) 2019-2020 AT&T Intellectual Property.
+ * Modifications Copyright (C) 2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +21,7 @@
 
 package org.onap.policy.sim.dmaap.startstop;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -30,6 +32,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.models.sim.dmaap.rest.CommonRestServer;
+import org.onap.policy.models.sim.dmaap.startstop.DmaapSimCommandLineArguments;
 import org.onap.policy.models.sim.dmaap.startstop.Main;
 import org.onap.policy.sim.dmaap.parameters.CommonTestData;
 
@@ -101,5 +104,12 @@ public class MainTest extends CommonRestServer {
         final String[] NormalParameters = {"-c", "parameters/InvalidParameters.json"};
         main = new Main(NormalParameters);
         assertNull(main.getParameters());
+    }
+
+    @Test
+    public void testDmaapSimVersion() {
+        String[] testArgs = {"-v"};
+        DmaapSimCommandLineArguments sutArgs = new DmaapSimCommandLineArguments(testArgs);
+        assertThat(sutArgs.version()).startsWith("ONAP DMaaP simulator Service");
     }
 }

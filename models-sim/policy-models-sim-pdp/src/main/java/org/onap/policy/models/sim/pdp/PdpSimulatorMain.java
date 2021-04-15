@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,8 +22,10 @@
 package org.onap.policy.models.sim.pdp;
 
 import java.util.Arrays;
+import org.onap.policy.common.utils.cmd.CommandLineException;
 import org.onap.policy.common.utils.services.Registry;
 import org.onap.policy.models.sim.pdp.exception.PdpSimulatorException;
+import org.onap.policy.models.sim.pdp.exception.PdpSimulatorRunTimeException;
 import org.onap.policy.models.sim.pdp.parameters.PdpSimulatorParameterGroup;
 import org.onap.policy.models.sim.pdp.parameters.PdpSimulatorParameterHandler;
 import org.slf4j.Logger;
@@ -64,7 +66,7 @@ public class PdpSimulatorMain {
             }
             // Validate that the arguments are sane
             arguments.validate();
-        } catch (final PdpSimulatorException e) {
+        } catch (final PdpSimulatorRunTimeException | CommandLineException e) {
             LOGGER.error(PDP_SIMULATOR_FAIL_MSG, e);
             return;
         }

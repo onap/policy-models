@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,6 +28,7 @@ import static org.junit.Assert.fail;
 
 import java.io.FileNotFoundException;
 import org.junit.Test;
+import org.onap.policy.common.utils.cmd.CommandLineException;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.models.sim.pdp.PdpSimulatorCommandLineArguments;
 import org.onap.policy.models.sim.pdp.exception.PdpSimulatorException;
@@ -40,7 +41,7 @@ import org.onap.policy.models.sim.pdp.exception.PdpSimulatorException;
 public class TestPdpSimulatorParameterHandler {
 
     @Test
-    public void testParameterHandlerNoParameterFile() throws PdpSimulatorException {
+    public void testParameterHandlerNoParameterFile() throws PdpSimulatorException, CommandLineException {
         final String[] emptyArgumentString = { "-c", "src/test/resources/NoParametersFile.json" };
 
         final PdpSimulatorCommandLineArguments emptyArguments = new PdpSimulatorCommandLineArguments();
@@ -56,7 +57,7 @@ public class TestPdpSimulatorParameterHandler {
     }
 
     @Test
-    public void testParameterHandlerEmptyParameters() throws PdpSimulatorException {
+    public void testParameterHandlerEmptyParameters() throws PdpSimulatorException, CommandLineException {
         final String[] noArgumentString = { "-c", "src/test/resources/NoParameters.json" };
 
         final PdpSimulatorCommandLineArguments noArguments = new PdpSimulatorCommandLineArguments();
@@ -67,7 +68,7 @@ public class TestPdpSimulatorParameterHandler {
     }
 
     @Test
-    public void testParameterHandlerInvalidParameters() throws PdpSimulatorException {
+    public void testParameterHandlerInvalidParameters() throws PdpSimulatorException, CommandLineException {
         final String[] invalidArgumentString = { "-c", "src/test/resources/InvalidParameters.json" };
 
         final PdpSimulatorCommandLineArguments invalidArguments = new PdpSimulatorCommandLineArguments();
@@ -79,7 +80,7 @@ public class TestPdpSimulatorParameterHandler {
     }
 
     @Test
-    public void testParameterHandlerNoParameters() throws PdpSimulatorException {
+    public void testParameterHandlerNoParameters() throws PdpSimulatorException, CommandLineException {
         final String[] noArgumentString = { "-c", "src/test/resources/EmptyConfigParameters.json" };
 
         final PdpSimulatorCommandLineArguments noArguments = new PdpSimulatorCommandLineArguments();
@@ -90,7 +91,7 @@ public class TestPdpSimulatorParameterHandler {
     }
 
     @Test
-    public void testPdpSimulatorParameterGroup() throws PdpSimulatorException {
+    public void testPdpSimulatorParameterGroup() throws PdpSimulatorException, CommandLineException {
         final String[] pdpSimulatorConfigParameters = { "-c", "src/test/resources/PdpSimulatorConfigParameters.json" };
 
         final PdpSimulatorCommandLineArguments arguments = new PdpSimulatorCommandLineArguments();
@@ -102,7 +103,7 @@ public class TestPdpSimulatorParameterHandler {
     }
 
     @Test
-    public void testPdpSimulatorParameterGroup_InvalidName() throws PdpSimulatorException {
+    public void testPdpSimulatorParameterGroup_InvalidName() throws PdpSimulatorException, CommandLineException {
         final String[] pdpSimulatorConfigParameters = {"-c",
             "src/test/resources/PdpSimulatorConfigParameters_InvalidName.json"};
 
@@ -114,7 +115,7 @@ public class TestPdpSimulatorParameterHandler {
     }
 
     @Test
-    public void testPdpSimulatorVersion() throws PdpSimulatorException {
+    public void testPdpSimulatorVersion() throws PdpSimulatorException, CommandLineException {
         final String[] pdpSimulatorConfigParameters = { "-v" };
         final PdpSimulatorCommandLineArguments arguments = new PdpSimulatorCommandLineArguments();
         final String version = arguments.parse(pdpSimulatorConfigParameters);
@@ -122,7 +123,7 @@ public class TestPdpSimulatorParameterHandler {
     }
 
     @Test
-    public void testPdpSimulatorHelp() throws PdpSimulatorException {
+    public void testPdpSimulatorHelp() throws PdpSimulatorException, CommandLineException {
         final String[] pdpSimulatorConfigParameters = { "-h" };
         final PdpSimulatorCommandLineArguments arguments = new PdpSimulatorCommandLineArguments();
         final String help = arguments.parse(pdpSimulatorConfigParameters);
@@ -136,5 +137,13 @@ public class TestPdpSimulatorParameterHandler {
 
         assertThatThrownBy(() -> arguments.parse(pdpSimulatorConfigParameters))
                         .hasMessageStartingWith("invalid command line arguments specified");
+    }
+
+    @Test
+    public void testPdpSimulatorProperty() throws PdpSimulatorException, CommandLineException {
+        final String[] pdpSimulatorConfigParameters = { "-p", "dummyProperties.json" };
+        final PdpSimulatorCommandLineArguments arguments = new PdpSimulatorCommandLineArguments();
+        arguments.parse(pdpSimulatorConfigParameters);
+        assertTrue(arguments.checkSetPropertyFilePath());
     }
 }
