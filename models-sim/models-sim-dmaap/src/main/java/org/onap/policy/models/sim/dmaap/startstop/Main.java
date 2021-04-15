@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,7 +22,9 @@
 package org.onap.policy.models.sim.dmaap.startstop;
 
 import java.util.Arrays;
+import org.onap.policy.common.utils.cmd.CommandLineException;
 import org.onap.policy.models.sim.dmaap.DmaapSimException;
+import org.onap.policy.models.sim.dmaap.DmaapSimRuntimeException;
 import org.onap.policy.models.sim.dmaap.parameters.DmaapSimParameterGroup;
 import org.onap.policy.models.sim.dmaap.parameters.DmaapSimParameterHandler;
 import org.slf4j.Logger;
@@ -58,7 +60,7 @@ public class Main {
             }
             // Validate that the arguments are sane
             arguments.validate();
-        } catch (final DmaapSimException e) {
+        } catch (final DmaapSimRuntimeException | CommandLineException e) {
             LOGGER.error("start of DMaaP simulator service failed", e);
             return;
         }
