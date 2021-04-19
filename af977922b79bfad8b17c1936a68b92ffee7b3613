@@ -1,0 +1,256 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47bc36f7_09fc9107",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfGeneratedIdKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-04-19T17:16:40Z",
+      "side": 1,
+      "message": "\"An\" \u003d\u003e \"A\"",
+      "range": {
+        "startLine": 34,
+        "startChar": 3,
+        "endLine": 34,
+        "endChar": 5
+      },
+      "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49cc4bd3_30b3be4e",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfGeneratedIdKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-04-19T17:16:40Z",
+      "side": 1,
+      "message": "\"an\" \u003d\u003e \"a\"",
+      "range": {
+        "startLine": 35,
+        "startChar": 13,
+        "endLine": 35,
+        "endChar": 15
+      },
+      "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8d5cea1_2215a762",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfGeneratedIdKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-04-19T17:16:40Z",
+      "side": 1,
+      "message": "\"p\" \u003d\u003e \"p/\"",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 5
+      },
+      "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85d7c774_63d60321",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-04-19T17:16:40Z",
+      "side": 1,
+      "message": "extra spaces",
+      "range": {
+        "startLine": 61,
+        "startChar": 47,
+        "endLine": 61,
+        "endChar": 49
+      },
+      "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ecf2799_220d4c71",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-04-19T17:16:40Z",
+      "side": 1,
+      "message": "now that we have two different cases, perhaps we should come up with an OO method, or a factory class, that will generate the appropriate filter string rather than add \"if\" statements for each type of key class.  (Maybe create a cache that maps the key Class to a factory.)\n\nsame comment below",
+      "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca912787_531210b5",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 777,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-04-19T17:16:40Z",
+      "side": 1,
+      "message": "\"Generate\" (actually, it should be \"Generates\", but since everything else in this file leaves off \"s\", I guess we should remain consistent here)",
+      "range": {
+        "startLine": 777,
+        "startChar": 7,
+        "endLine": 777,
+        "endChar": 15
+      },
+      "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e145a8f8_d30670c4",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 780,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-04-19T17:16:40Z",
+      "side": 1,
+      "message": "missing @param startTime",
+      "range": {
+        "startLine": 780,
+        "startChar": 31,
+        "endLine": 780,
+        "endChar": 32
+      },
+      "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f468eb1a_5ea9357c",
+        "filename": "models-dao/src/test/java/org/onap/policy/models/dao/EntityTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-04-19T17:16:40Z",
+      "side": 1,
+      "message": "sonar may complain about the number of assertions - any way to split this method into separate test cases?",
+      "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0818c958_1aef3334",
+        "filename": "models-dao/src/test/java/org/onap/policy/models/dao/EntityTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-04-19T17:16:40Z",
+      "side": 1,
+      "message": "same comment as above",
+      "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "603aa558_d6d40c23",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpStatistics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-04-19T17:16:40Z",
+      "side": 1,
+      "message": "do we query just by timestamp?  seems like this index should include name \u0026 version, too",
+      "range": {
+        "startLine": 62,
+        "startChar": 44,
+        "endLine": 62,
+        "endChar": 53
+      },
+      "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09e0c077_8e034951",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpStatistics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-04-19T17:16:40Z",
+      "side": 1,
+      "message": "maybe put this on the next line to match the others",
+      "range": {
+        "startLine": 165,
+        "startChar": 65,
+        "endLine": 165,
+        "endChar": 66
+      },
+      "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee7e8522_2f6b2237",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpStatisticsProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-04-19T17:16:40Z",
+      "side": 1,
+      "message": "do we typically manipulate incoming data in the provider calls?",
+      "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
