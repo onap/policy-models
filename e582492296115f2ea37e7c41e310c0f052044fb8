@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e8c2ba7_2be8324e",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfGeneratedIdKey.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2021-04-21T13:24:00Z",
+      "side": 1,
+      "message": "just 2021",
+      "range": {
+        "startLine": 3,
+        "startChar": 18,
+        "endLine": 3,
+        "endChar": 27
+      },
+      "revId": "e582492296115f2ea37e7c41e310c0f052044fb8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eeadd0f3_e8f57514",
+        "filename": "models-base/src/test/java/org/onap/policy/models/base/PfGeneratedIdKeyTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2021-04-21T13:24:00Z",
+      "side": 1,
+      "message": "Just 2021",
+      "range": {
+        "startLine": 3,
+        "startChar": 18,
+        "endLine": 3,
+        "endChar": 27
+      },
+      "revId": "e582492296115f2ea37e7c41e310c0f052044fb8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd646ea8_2f72eafb",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/PfFilterFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2021-04-21T13:24:00Z",
+      "side": 1,
+      "message": "just 2021",
+      "range": {
+        "startLine": 3,
+        "startChar": 18,
+        "endLine": 3,
+        "endChar": 27
+      },
+      "revId": "e582492296115f2ea37e7c41e310c0f052044fb8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d969a8f3_12f3a72d",
+        "filename": "models-dao/src/test/java/org/onap/policy/models/dao/DummyGeneratedIdEntity.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2021-04-21T13:24:00Z",
+      "side": 1,
+      "message": "just 2021",
+      "range": {
+        "startLine": 3,
+        "startChar": 18,
+        "endLine": 3,
+        "endChar": 27
+      },
+      "revId": "e582492296115f2ea37e7c41e310c0f052044fb8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
