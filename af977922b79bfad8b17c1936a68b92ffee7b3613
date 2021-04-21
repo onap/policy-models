@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "820fe760_b1b56d8f",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfGeneratedIdKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-04-21T15:18:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47bc36f7_09fc9107",
+      "range": {
+        "startLine": 34,
+        "startChar": 3,
+        "endLine": 34,
+        "endChar": 5
+      },
+      "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "49cc4bd3_30b3be4e",
         "filename": "models-base/src/main/java/org/onap/policy/models/base/PfGeneratedIdKey.java",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12f931ce_3feb1448",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfGeneratedIdKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-04-21T15:18:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49cc4bd3_30b3be4e",
+      "range": {
+        "startLine": 35,
+        "startChar": 13,
+        "endLine": 35,
+        "endChar": 15
+      },
+      "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "dd236cbd_52836ee8",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfGeneratedIdKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-04-21T15:18:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8d5cea1_2215a762",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 5
+      },
+      "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "85d7c774_63d60321",
         "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
         "patchSetId": 1
@@ -91,6 +163,30 @@
       "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e01a03a_7d3c7665",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-04-21T15:18:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85d7c774_63d60321",
+      "range": {
+        "startLine": 61,
+        "startChar": 47,
+        "endLine": 61,
+        "endChar": 49
+      },
+      "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -134,6 +230,30 @@
     },
     {
       "key": {
+        "uuid": "3432d732_3cd6c621",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 777,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-04-21T15:18:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca912787_531210b5",
+      "range": {
+        "startLine": 777,
+        "startChar": 7,
+        "endLine": 777,
+        "endChar": 15
+      },
+      "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e145a8f8_d30670c4",
         "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
         "patchSetId": 1
@@ -157,6 +277,30 @@
     },
     {
       "key": {
+        "uuid": "b76ca9cd_9c6c7008",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 780,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-04-21T15:18:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e145a8f8_d30670c4",
+      "range": {
+        "startLine": 780,
+        "startChar": 31,
+        "endLine": 780,
+        "endChar": 32
+      },
+      "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f468eb1a_5ea9357c",
         "filename": "models-dao/src/test/java/org/onap/policy/models/dao/EntityTest.java",
         "patchSetId": 1
@@ -174,6 +318,24 @@
     },
     {
       "key": {
+        "uuid": "ad8ae589_5f6fc9cc",
+        "filename": "models-dao/src/test/java/org/onap/policy/models/dao/EntityTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-04-21T15:18:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f468eb1a_5ea9357c",
+      "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0818c958_1aef3334",
         "filename": "models-dao/src/test/java/org/onap/policy/models/dao/EntityTest.java",
         "patchSetId": 1
@@ -185,6 +347,24 @@
       "writtenOn": "2021-04-19T17:16:40Z",
       "side": 1,
       "message": "same comment as above",
+      "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1577a00_48de1d9a",
+        "filename": "models-dao/src/test/java/org/onap/policy/models/dao/EntityTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-04-21T15:18:26Z",
+      "side": 1,
+      "message": "any way to split this method into separate test cases?",
+      "parentUuid": "0818c958_1aef3334",
       "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
@@ -214,6 +394,30 @@
     },
     {
       "key": {
+        "uuid": "8d8e4470_4ef51dd2",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpStatistics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-04-21T15:18:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "603aa558_d6d40c23",
+      "range": {
+        "startLine": 62,
+        "startChar": 44,
+        "endLine": 62,
+        "endChar": 53
+      },
+      "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "09e0c077_8e034951",
         "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpStatistics.java",
         "patchSetId": 1
@@ -237,6 +441,30 @@
     },
     {
       "key": {
+        "uuid": "7a9000d1_f741758b",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpStatistics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-04-21T15:18:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09e0c077_8e034951",
+      "range": {
+        "startLine": 165,
+        "startChar": 65,
+        "endLine": 165,
+        "endChar": 66
+      },
+      "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee7e8522_2f6b2237",
         "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpStatisticsProvider.java",
         "patchSetId": 1
@@ -248,6 +476,24 @@
       "writtenOn": "2021-04-19T17:16:40Z",
       "side": 1,
       "message": "do we typically manipulate incoming data in the provider calls?",
+      "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d28869e0_e0e263d1",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpStatisticsProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-04-21T15:18:26Z",
+      "side": 1,
+      "message": "need feedback from Liam here",
+      "parentUuid": "ee7e8522_2f6b2237",
       "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
