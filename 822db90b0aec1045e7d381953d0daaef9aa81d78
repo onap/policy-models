@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "768fe623_1aaac496",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/PfFilterFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-04-22T15:30:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19459c39_027660cb",
+      "range": {
+        "startLine": 74,
+        "startChar": 16,
+        "endLine": 76,
+        "endChar": 83
+      },
+      "revId": "822db90b0aec1045e7d381953d0daaef9aa81d78",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7dc215af_36aaa59c",
         "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
         "patchSetId": 3
@@ -39,6 +63,24 @@
       "revId": "822db90b0aec1045e7d381953d0daaef9aa81d78",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60231911_dca80b92",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-04-22T15:30:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7dc215af_36aaa59c",
+      "revId": "822db90b0aec1045e7d381953d0daaef9aa81d78",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
