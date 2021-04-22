@@ -779,6 +779,24 @@
       "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47a112ee_d2f786ff",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpStatisticsProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-04-22T19:58:13Z",
+      "side": 1,
+      "message": "I\u0027d still like Liam\u0027s input here",
+      "parentUuid": "b36859aa_25738a4d",
+      "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
