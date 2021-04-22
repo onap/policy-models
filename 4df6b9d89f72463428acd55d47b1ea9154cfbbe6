@@ -16,6 +16,24 @@
       "revId": "4df6b9d89f72463428acd55d47b1ea9154cfbbe6",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "858eb140_29b0d5b1",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/PfFilterFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-04-22T18:57:35Z",
+      "side": 1,
+      "message": "can still delete this line",
+      "parentUuid": "b244afac_c0e2782c",
+      "revId": "4df6b9d89f72463428acd55d47b1ea9154cfbbe6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
