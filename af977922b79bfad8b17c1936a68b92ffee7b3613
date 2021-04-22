@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "e61eb756_bf1a2bc6",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfGeneratedIdKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 7668
+      },
+      "writtenOn": "2021-04-22T19:46:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47bc36f7_09fc9107",
+      "range": {
+        "startLine": 34,
+        "startChar": 3,
+        "endLine": 34,
+        "endChar": 5
+      },
+      "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "49cc4bd3_30b3be4e",
         "filename": "models-base/src/main/java/org/onap/policy/models/base/PfGeneratedIdKey.java",
         "patchSetId": 1
@@ -81,6 +105,30 @@
         "id": 811
       },
       "writtenOn": "2021-04-21T15:18:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49cc4bd3_30b3be4e",
+      "range": {
+        "startLine": 35,
+        "startChar": 13,
+        "endLine": 35,
+        "endChar": 15
+      },
+      "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b038dc3f_7604e191",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfGeneratedIdKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 7668
+      },
+      "writtenOn": "2021-04-22T19:46:57Z",
       "side": 1,
       "message": "Done",
       "parentUuid": "49cc4bd3_30b3be4e",
@@ -143,6 +191,30 @@
     },
     {
       "key": {
+        "uuid": "337c2caf_86540634",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfGeneratedIdKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 7668
+      },
+      "writtenOn": "2021-04-22T19:46:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8d5cea1_2215a762",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 5
+      },
+      "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "85d7c774_63d60321",
         "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
         "patchSetId": 1
@@ -190,6 +262,30 @@
     },
     {
       "key": {
+        "uuid": "de45c82d_f541f7e2",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 7668
+      },
+      "writtenOn": "2021-04-22T19:46:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85d7c774_63d60321",
+      "range": {
+        "startLine": 61,
+        "startChar": 47,
+        "endLine": 61,
+        "endChar": 49
+      },
+      "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ecf2799_220d4c71",
         "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
         "patchSetId": 1
@@ -204,6 +300,24 @@
       "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1869759c_ec09e904",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 7668
+      },
+      "writtenOn": "2021-04-22T19:46:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ecf2799_220d4c71",
+      "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -239,6 +353,30 @@
         "id": 811
       },
       "writtenOn": "2021-04-21T15:18:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca912787_531210b5",
+      "range": {
+        "startLine": 777,
+        "startChar": 7,
+        "endLine": 777,
+        "endChar": 15
+      },
+      "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "38064bcb_9bbb950e",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 777,
+      "author": {
+        "id": 7668
+      },
+      "writtenOn": "2021-04-22T19:46:57Z",
       "side": 1,
       "message": "Done",
       "parentUuid": "ca912787_531210b5",
@@ -301,6 +439,30 @@
     },
     {
       "key": {
+        "uuid": "1f492e80_cb67d78c",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 780,
+      "author": {
+        "id": 7668
+      },
+      "writtenOn": "2021-04-22T19:46:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e145a8f8_d30670c4",
+      "range": {
+        "startLine": 780,
+        "startChar": 31,
+        "endLine": 780,
+        "endChar": 32
+      },
+      "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f468eb1a_5ea9357c",
         "filename": "models-dao/src/test/java/org/onap/policy/models/dao/EntityTest.java",
         "patchSetId": 1
@@ -327,6 +489,24 @@
         "id": 811
       },
       "writtenOn": "2021-04-21T15:18:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f468eb1a_5ea9357c",
+      "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb5b9dee_81344463",
+        "filename": "models-dao/src/test/java/org/onap/policy/models/dao/EntityTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 7668
+      },
+      "writtenOn": "2021-04-22T19:46:57Z",
       "side": 1,
       "message": "Done",
       "parentUuid": "f468eb1a_5ea9357c",
@@ -389,6 +569,24 @@
     },
     {
       "key": {
+        "uuid": "42c8d94c_08c854ca",
+        "filename": "models-dao/src/test/java/org/onap/policy/models/dao/EntityTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 7668
+      },
+      "writtenOn": "2021-04-22T19:46:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0818c958_1aef3334",
+      "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "603aa558_d6d40c23",
         "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpStatistics.java",
         "patchSetId": 1
@@ -421,6 +619,30 @@
         "id": 811
       },
       "writtenOn": "2021-04-21T15:18:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "603aa558_d6d40c23",
+      "range": {
+        "startLine": 62,
+        "startChar": 44,
+        "endLine": 62,
+        "endChar": 53
+      },
+      "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5fc045c_1cb218df",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpStatistics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 7668
+      },
+      "writtenOn": "2021-04-22T19:46:57Z",
       "side": 1,
       "message": "Done",
       "parentUuid": "603aa558_d6d40c23",
@@ -483,6 +705,30 @@
     },
     {
       "key": {
+        "uuid": "4b766417_5b7a8527",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpStatistics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 7668
+      },
+      "writtenOn": "2021-04-22T19:46:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09e0c077_8e034951",
+      "range": {
+        "startLine": 165,
+        "startChar": 65,
+        "endLine": 165,
+        "endChar": 66
+      },
+      "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee7e8522_2f6b2237",
         "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpStatisticsProvider.java",
         "patchSetId": 1
@@ -511,6 +757,24 @@
       "writtenOn": "2021-04-21T15:18:26Z",
       "side": 1,
       "message": "need feedback from Liam here",
+      "parentUuid": "ee7e8522_2f6b2237",
+      "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b36859aa_25738a4d",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpStatisticsProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 7668
+      },
+      "writtenOn": "2021-04-22T19:46:57Z",
+      "side": 1,
+      "message": "This is required for the dao.get on line 149",
       "parentUuid": "ee7e8522_2f6b2237",
       "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
