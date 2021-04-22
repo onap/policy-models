@@ -371,6 +371,24 @@
     },
     {
       "key": {
+        "uuid": "4d208902_39113bbf",
+        "filename": "models-dao/src/test/java/org/onap/policy/models/dao/EntityTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-04-22T12:16:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1577a00_48de1d9a",
+      "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "603aa558_d6d40c23",
         "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpStatistics.java",
         "patchSetId": 1

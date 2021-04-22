@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19459c39_027660cb",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/PfFilterFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-04-22T12:16:57Z",
+      "side": 1,
+      "message": "can move these duplicate lines out of the switch statement",
+      "range": {
+        "startLine": 74,
+        "startChar": 16,
+        "endLine": 76,
+        "endChar": 83
+      },
+      "revId": "822db90b0aec1045e7d381953d0daaef9aa81d78",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7dc215af_36aaa59c",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/DefaultPfDao.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-04-22T12:16:57Z",
+      "side": 1,
+      "message": "almost there.  Now let\u0027s take it the rest of the way by replacing line 399 with something like:\n\n  PfFilter timeStampFilter \u003d new PfFilterFactory().createFilter(someClass);\n\nthen the fields within PfFilterFactory would go away, as they would no longer be needed",
+      "revId": "822db90b0aec1045e7d381953d0daaef9aa81d78",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
