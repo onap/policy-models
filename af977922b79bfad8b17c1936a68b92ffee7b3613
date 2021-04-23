@@ -797,6 +797,24 @@
       "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30ee2188_f0713431",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpStatisticsProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2021-04-23T07:24:33Z",
+      "side": 1,
+      "message": "Yes, this is OK, we receive the statistics from the PDP periodically, the problem is we have no key on those statistics. So we are adding a sequence number so that we have a unique key for each record.\n\nWhen we are doing our backup and restore, we will have to be careful here that the sequence number does not go back to zero and tart overwriting the rows in the DB.",
+      "parentUuid": "47a112ee_d2f786ff",
+      "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
