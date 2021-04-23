@@ -815,6 +815,24 @@
       "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b822355f_a4a6b966",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpStatisticsProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-04-23T12:28:10Z",
+      "side": 1,
+      "message": "Thanks, Liam",
+      "parentUuid": "30ee2188_f0713431",
+      "revId": "af977922b79bfad8b17c1936a68b92ffee7b3613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
