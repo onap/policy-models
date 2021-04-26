@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import org.onap.policy.common.parameters.GroupValidationResult;
+import org.onap.policy.common.parameters.ValidationResult;
 
 /**
  * Class to perform unit test of {@link PdpStatusParameters}.
@@ -40,7 +40,7 @@ public class TestPdpStatusParameters {
     public void test() {
         final PdpStatusParameters pdpStatusParameters =
                 testData.toObject(testData.getPdpStatusParametersMap(false), PdpStatusParameters.class);
-        final GroupValidationResult validationResult = pdpStatusParameters.validate();
+        final ValidationResult validationResult = pdpStatusParameters.validate();
         assertTrue(validationResult.isValid());
         assertEquals(CommonTestData.TIME_INTERVAL, pdpStatusParameters.getTimeIntervalMs());
         assertEquals(CommonTestData.PDP_TYPE, pdpStatusParameters.getPdpType());
@@ -53,7 +53,7 @@ public class TestPdpStatusParameters {
     public void testValidate() {
         final PdpStatusParameters pdpStatusParameters =
                 testData.toObject(testData.getPdpStatusParametersMap(false), PdpStatusParameters.class);
-        final GroupValidationResult result = pdpStatusParameters.validate();
+        final ValidationResult result = pdpStatusParameters.validate();
         assertNull(result.getResult());
         assertTrue(result.isValid());
     }
