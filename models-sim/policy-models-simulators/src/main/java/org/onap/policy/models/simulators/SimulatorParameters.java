@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,8 +27,8 @@ import lombok.Getter;
 import org.onap.policy.common.endpoints.parameters.TopicParameters;
 import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.common.parameters.BeanValidator;
-import org.onap.policy.common.parameters.ObjectValidationResult;
 import org.onap.policy.common.parameters.ValidationStatus;
+import org.onap.policy.common.parameters.annotations.Valid;
 import org.onap.policy.models.sim.dmaap.parameters.DmaapSimParameterGroup;
 
 /**
@@ -45,12 +45,12 @@ public class SimulatorParameters {
      */
     private DmaapSimParameterGroup dmaapProvider;
 
-    private CdsServerParameters grpcServer;
+    private @Valid CdsServerParameters grpcServer;
 
     /**
      * Parameters for the REST server simulators that are to be started.
      */
-    private List<ClassRestServerParameters> restServers = new LinkedList<>();
+    private List<@Valid ClassRestServerParameters> restServers = new LinkedList<>();
 
     /**
      * Topic sinks that are used by {@link #topicServers}.
@@ -65,7 +65,7 @@ public class SimulatorParameters {
     /**
      * Parameters for the TOPIC server simulators that are to be started.
      */
-    private List<TopicServerParameters> topicServers = new LinkedList<>();
+    private List<@Valid TopicServerParameters> topicServers = new LinkedList<>();
 
 
     /**
@@ -83,20 +83,11 @@ public class SimulatorParameters {
             BeanValidationResult subResult = new BeanValidationResult("dmaapProvider", dmaapProvider);
             subResult.validateNotNull("name", dmaapProvider.getName());
             if (dmaapProvider.getTopicSweepSec() < 1) {
-                ObjectValidationResult fieldResult =
-                                new ObjectValidationResult("topicSweepSec", dmaapProvider.getTopicSweepSec(),
-                                                ValidationStatus.INVALID, "is below the minimum value: 1");
-                subResult.addResult(fieldResult);
+                subResult.addResult("topicSweepSec", dmaapProvider.getTopicSweepSec(),
+                                ValidationStatus.INVALID, "is below the minimum value: 1");
             }
             result.addResult(subResult);
         }
-
-        if (grpcServer != null) {
-            result.addResult(grpcServer.validate());
-        }
-
-        result.validateList("restServers", restServers, params -> params.validate("restServers"));
-        result.validateList("topicServers", topicServers, params -> params.validate("topicServers"));
 
         return result;
     }

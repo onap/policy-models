@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@
 package org.onap.policy.models.sim.pdp.parameters;
 
 import java.io.File;
-import org.onap.policy.common.parameters.GroupValidationResult;
+import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
@@ -72,7 +72,7 @@ public class PdpSimulatorParameterHandler {
         }
 
         // validate the parameters
-        final GroupValidationResult validationResult = pdpSimulatorParameterGroup.validate();
+        final ValidationResult validationResult = pdpSimulatorParameterGroup.validate();
         if (!validationResult.isValid()) {
             String returnMessage =
                     "validation error(s) on parameters from \"" + arguments.getConfigurationFilePath() + "\"\n";
