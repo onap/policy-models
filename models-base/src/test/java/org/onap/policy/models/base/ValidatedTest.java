@@ -30,7 +30,6 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.junit.Test;
 import org.onap.policy.common.parameters.BeanValidationResult;
-import org.onap.policy.common.parameters.ObjectValidationResult;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.common.parameters.ValidationStatus;
 import org.onap.policy.common.utils.coder.CoderException;
@@ -163,7 +162,7 @@ public class ValidatedTest {
             }
 
             BeanValidationResult result = new BeanValidationResult(fieldName, this);
-            result.addResult(new ObjectValidationResult(fieldName, text, ValidationStatus.INVALID, NOT_SAME));
+            result.addResult(fieldName, text, ValidationStatus.INVALID, NOT_SAME);
             return result;
         }
     }

@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property.
+ *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,6 @@ import java.util.stream.Collectors;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.onap.policy.common.parameters.BeanValidationResult;
-import org.onap.policy.common.parameters.ObjectValidationResult;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.common.parameters.ValidationStatus;
 import org.onap.policy.models.base.PfKey;
@@ -96,8 +95,7 @@ public class PdpGroup implements PfNameVersion, Comparable<PdpGroup> {
             (PdpSubGroup pdpSubGroup) -> pdpSubGroup.validatePapRest(updateGroupFlow));
 
         if (pdpSubgroups != null && pdpSubgroups.isEmpty()) {
-            result.addResult(new ObjectValidationResult(SUBGROUP_FIELD, pdpSubgroups, ValidationStatus.INVALID,
-                            "is empty"));
+            result.addResult(SUBGROUP_FIELD, pdpSubgroups, ValidationStatus.INVALID, "is empty");
         }
 
         checkDuplicateSubgroups(result);
@@ -122,8 +120,7 @@ public class PdpGroup implements PfNameVersion, Comparable<PdpGroup> {
         }
 
         // different sizes implies duplicates
-        result.addResult(new ObjectValidationResult(SUBGROUP_FIELD, pdpTypes, ValidationStatus.INVALID,
-                        "duplicate subgroups"));
+        result.addResult(SUBGROUP_FIELD, pdpTypes, ValidationStatus.INVALID, "duplicate subgroups");
     }
 
     @Override

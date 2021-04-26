@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2020 Bell Canada.
+ * Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,8 +24,7 @@ import java.util.Base64;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.onap.policy.common.parameters.GroupValidationResult;
-import org.onap.policy.common.parameters.ParameterGroup;
+import org.onap.policy.common.parameters.ParameterGroupImpl;
 import org.onap.policy.common.parameters.ParameterRuntimeException;
 import org.onap.policy.common.parameters.annotations.Max;
 import org.onap.policy.common.parameters.annotations.Min;
@@ -33,7 +33,7 @@ import org.onap.policy.common.parameters.annotations.NotNull;
 @Getter
 @Setter
 @ToString
-public class CdsServerParameters implements ParameterGroup {
+public class CdsServerParameters extends ParameterGroupImpl {
 
     // Port range constants
     private static final int MIN_USER_PORT = 1024;
@@ -76,11 +76,6 @@ public class CdsServerParameters implements ParameterGroup {
     @Override
     public void setName(final String name) {
         throw new ParameterRuntimeException("The name of this ParameterGroup implementation is always " + getName());
-    }
-
-    @Override
-    public GroupValidationResult validate() {
-        return new GroupValidationResult(this);
     }
 
     /**

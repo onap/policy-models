@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 AT&T Intellectual Property.
+ *  Copyright (C) 2019, 2021 AT&T Intellectual Property.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import org.onap.policy.common.parameters.BeanValidationResult;
-import org.onap.policy.common.parameters.ObjectValidationResult;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.common.parameters.ValidationStatus;
 import org.onap.policy.models.base.PfUtils;
@@ -70,8 +69,7 @@ public class DeploymentGroup {
         result.validateNotNullList(SUBGROUP_FIELD, deploymentSubgroups, DeploymentSubGroup::validatePapRest);
 
         if (deploymentSubgroups != null && deploymentSubgroups.isEmpty()) {
-            result.addResult(new ObjectValidationResult(SUBGROUP_FIELD, deploymentSubgroups, ValidationStatus.INVALID,
-                            "is empty"));
+            result.addResult(SUBGROUP_FIELD, deploymentSubgroups, ValidationStatus.INVALID, "is empty");
         }
 
         checkDuplicateSubgroups(result);
@@ -102,8 +100,8 @@ public class DeploymentGroup {
 
                 if (curact != null && action == Action.PATCH) {
                     BeanValidationResult subResult = new BeanValidationResult(pdpType, pdpType);
-                    subResult.addResult(new ObjectValidationResult("action", action, ValidationStatus.INVALID,
-                                    "incompatible with previous action: " + curact));
+                    subResult.addResult("action", action, ValidationStatus.INVALID,
+                                    "incompatible with previous action: " + curact);
                     BeanValidationResult subResult2 = new BeanValidationResult(SUBGROUP_FIELD, subgrp);
                     subResult2.addResult(subResult);
                     result.addResult(subResult2);

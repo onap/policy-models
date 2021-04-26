@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ public class ClassRestServerParametersTest {
     @Test
     public void testValidateString() throws CoderException {
         // some fields missing
-        ValidationResult result = new ClassRestServerParameters().validate("InvalidParams");
+        ValidationResult result = new ClassRestServerParameters().validate();
         assertFalse(result.isValid());
         assertNotNull(result.getResult());
 
@@ -43,6 +43,6 @@ public class ClassRestServerParametersTest {
         SimulatorParameters simParams = new StandardCoder()
                         .decode(new File("src/test/resources/simParameters.json"), SimulatorParameters.class);
         ClassRestServerParameters params = simParams.getRestServers().get(0);
-        assertNull(params.validate("ValidParams").getResult());
+        assertNull(params.validate().getResult());
     }
 }
