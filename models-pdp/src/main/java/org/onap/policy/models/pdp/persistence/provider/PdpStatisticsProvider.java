@@ -32,10 +32,10 @@ import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
 import lombok.NonNull;
 import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.models.base.PfGeneratedIdKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
-import org.onap.policy.models.base.PfTimestampKey;
 import org.onap.policy.models.dao.PfDao;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.persistence.concepts.JpaPdpStatistics;
@@ -58,13 +58,32 @@ public class PdpStatisticsProvider {
      * @return the PDP statistics found
      * @throws PfModelException on errors getting PDP statistics
      */
-    public List<PdpStatistics> getPdpStatistics(@NonNull final PfDao dao, final String name, final Instant timestamp)
+    public List<PdpStatistics> getPdpStatistics(@NonNull final PfDao dao, final String name, final Instant timeStamp)
+            throws PfModelException {
+        List<PdpStatistics> pdpStatistics = new ArrayList<>();
+        if (name != null && timeStamp != null) {
+            return asPdpStatisticsList(dao.getByTimestamp(JpaPdpStatistics.class,
+                    new PfGeneratedIdKey(name, PfKey.NULL_KEY_VERSION), timeStamp));
+        } else {
+            return asPdpStatisticsList(dao.getAll(JpaPdpStatistics.class));
+        }
+    }
+
+    /**
+     * Get PDP statistics.
+     *
+     * @param dao the DAO to use to access the database
+     * @param name the name of the PDP statistics to get, null to get all PDPs
+     * @return the PDP statistics found
+     * @throws PfModelException on errors getting PDP statistics
+     */
+    public List<PdpStatistics> getPdpStatistics(@NonNull final PfDao dao, final String name)
             throws PfModelException {
 
         List<PdpStatistics> pdpStatistics = new ArrayList<>();
         if (name != null) {
             pdpStatistics
-                    .add(dao.get(JpaPdpStatistics.class, new PfTimestampKey(name, PfKey.NULL_KEY_VERSION, timestamp))
+                    .add(dao.get(JpaPdpStatistics.class, new PfGeneratedIdKey(name, PfKey.NULL_KEY_VERSION))
                             .toAuthorative());
         } else {
             return asPdpStatisticsList(dao.getAll(JpaPdpStatistics.class));
@@ -95,7 +114,8 @@ public class PdpStatisticsProvider {
             filterMap.put("pdpSubGroupName", pdpSubGroup);
         }
 
-        return asPdpStatisticsList(dao.getFiltered(JpaPdpStatistics.class, name, PfKey.NULL_KEY_VERSION, startTimeStamp,
+        return asPdpStatisticsList(dao.getFiltered(JpaPdpStatistics.class, name,
+                PfKey.NULL_KEY_VERSION, startTimeStamp,
                 endTimeStamp, filterMap, sortOrder, getRecordNum));
     }
 
@@ -109,17 +129,16 @@ public class PdpStatisticsProvider {
      */
     public List<PdpStatistics> createPdpStatistics(@NonNull final PfDao dao,
             @NonNull final List<PdpStatistics> pdpStatisticsList) throws PfModelException {
-
         for (PdpStatistics pdpStatistics : pdpStatisticsList) {
             JpaPdpStatistics jpaPdpStatistics = new JpaPdpStatistics();
             jpaPdpStatistics.fromAuthorative(pdpStatistics);
-
             BeanValidationResult validationResult = jpaPdpStatistics.validate("pdp statistics");
             if (!validationResult.isValid()) {
                 throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, validationResult.getResult());
             }
 
             dao.create(jpaPdpStatistics);
+            pdpStatistics.setGeneratedId(jpaPdpStatistics.getKey().getGeneratedId());
         }
 
         // Return the created PDP statistics
@@ -127,11 +146,10 @@ public class PdpStatisticsProvider {
 
         for (PdpStatistics pdpStatisticsItem : pdpStatisticsList) {
             JpaPdpStatistics jpaPdpStatistics =
-                    dao.get(JpaPdpStatistics.class, new PfTimestampKey(pdpStatisticsItem.getPdpInstanceId(),
-                            PfKey.NULL_KEY_VERSION, pdpStatisticsItem.getTimeStamp()));
+                    dao.get(JpaPdpStatistics.class, new PfGeneratedIdKey(pdpStatisticsItem.getPdpInstanceId(),
+                            PfKey.NULL_KEY_VERSION, pdpStatisticsItem.getGeneratedId()));
             pdpStatistics.add(jpaPdpStatistics.toAuthorative());
         }
-
         return pdpStatistics;
     }
 
@@ -163,8 +181,8 @@ public class PdpStatisticsProvider {
 
         for (PdpStatistics pdpStatisticsItem : pdpStatisticsList) {
             JpaPdpStatistics jpaPdpStatistics =
-                    dao.get(JpaPdpStatistics.class, new PfTimestampKey(pdpStatisticsItem.getPdpInstanceId(),
-                            PfKey.NULL_KEY_VERSION, pdpStatisticsItem.getTimeStamp()));
+                    dao.get(JpaPdpStatistics.class, new PfGeneratedIdKey(pdpStatisticsItem.getPdpInstanceId(),
+                            PfKey.NULL_KEY_VERSION, pdpStatisticsItem.getGeneratedId()));
             pdpStatistics.add(jpaPdpStatistics.toAuthorative());
         }
 
@@ -182,11 +200,12 @@ public class PdpStatisticsProvider {
      */
     public List<PdpStatistics> deletePdpStatistics(@NonNull final PfDao dao, @NonNull final String name,
             final Instant timestamp) {
-        List<PdpStatistics> pdpStatisticsListToDel = asPdpStatisticsList(dao.getFiltered(JpaPdpStatistics.class, name,
+        List<PdpStatistics> pdpStatisticsListToDel = asPdpStatisticsList(
+                dao.getFiltered(JpaPdpStatistics.class, name,
                 PfKey.NULL_KEY_VERSION, timestamp, timestamp, null, DESC_ORDER, 0));
 
         pdpStatisticsListToDel.stream().forEach(s -> dao.delete(JpaPdpStatistics.class,
-                new PfTimestampKey(s.getPdpInstanceId(), PfKey.NULL_KEY_VERSION, s.getTimeStamp())));
+                new PfGeneratedIdKey(s.getPdpInstanceId(), PfKey.NULL_KEY_VERSION, s.getGeneratedId())));
 
         return pdpStatisticsListToDel;
     }

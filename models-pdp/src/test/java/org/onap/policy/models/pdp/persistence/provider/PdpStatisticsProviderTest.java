@@ -50,6 +50,8 @@ public class PdpStatisticsProviderTest {
     private static final String SUBGROUP = "subgroup";
     private static final Instant TIMESTAMP1 = Instant.ofEpochSecond(1078884319);
     private static final Instant TIMESTAMP2 = Instant.ofEpochSecond(1078884350);
+    private static final Long GENERATEDID1 = 1L;
+    private static final Long GENERATEDID2 = 2L;
     private static final String ORDER = "DESC";
 
     private PfDao pfDao;
@@ -90,6 +92,7 @@ public class PdpStatisticsProviderTest {
         PdpStatistics pdpStatistics = new PdpStatistics();
         pdpStatistics.setPdpInstanceId(NAME);
         pdpStatistics.setTimeStamp(TIMESTAMP1);
+        pdpStatistics.setGeneratedId(GENERATEDID1);
         pdpStatistics.setPdpGroupName(GROUP);
         pdpStatistics.setPdpSubGroupName(SUBGROUP);
         pdpStatistics.setPolicyDeployCount(2);
@@ -105,6 +108,7 @@ public class PdpStatisticsProviderTest {
         PdpStatistics pdpStatistics2 = new PdpStatistics();
         pdpStatistics2.setPdpInstanceId("name2");
         pdpStatistics2.setTimeStamp(TIMESTAMP2);
+        pdpStatistics2.setGeneratedId(GENERATEDID2);
         pdpStatistics2.setPdpGroupName(GROUP);
         pdpStatistics2.setPdpSubGroupName(SUBGROUP);
         pdpStatistics2.setPolicyDeployCount(2);
@@ -121,7 +125,6 @@ public class PdpStatisticsProviderTest {
         createdPdpStatisticsList = new PdpStatisticsProvider().createPdpStatistics(pfDao, pdpStatisticsTestList);
         createdListStr = createdPdpStatisticsList.toString();
         assertEquals(createdListStr.replaceAll("\\s+", ""), testListStr.replaceAll("\\s+", ""));
-
     }
 
     @After
@@ -219,7 +222,6 @@ public class PdpStatisticsProviderTest {
                 new PdpStatisticsProvider().updatePdpStatistics(pfDao, pdpStatisticsTestList);
         String gotListStr = updatePdpStatisticsList.toString();
         assertEquals(testListStr.replaceAll("\\s+", ""), gotListStr.replaceAll("\\s+", ""));
-
     }
 
     @Test
