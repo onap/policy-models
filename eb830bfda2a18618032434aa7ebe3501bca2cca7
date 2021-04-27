@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74f8ed0e_476c065b",
+        "filename": "models-dao/src/test/java/org/onap/policy/models/dao/EntityTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-04-27T15:32:05Z",
+      "side": 1,
+      "message": "thanks!",
+      "revId": "eb830bfda2a18618032434aa7ebe3501bca2cca7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
