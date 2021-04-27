@@ -38,6 +38,7 @@ public abstract class PfFilter {
     private String timeStampEndFilter;
     private String timeStampFilter;
     private String nameParameter;
+    private String keyPrefix;
 
     /**
      * Generates filter string.
@@ -59,7 +60,7 @@ public abstract class PfFilter {
         StringBuilder filterQueryString = new StringBuilder(inputFilterString);
         if (filterMap != null) {
             for (String key : filterMap.keySet()) {
-                filterQueryString.append("c." + key + "= :" + key + AND);
+                filterQueryString.append(getKeyPrefix() + key + "= :" + key + AND);
             }
         }
 
