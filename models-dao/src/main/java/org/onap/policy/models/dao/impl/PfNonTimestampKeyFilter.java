@@ -32,6 +32,7 @@ public class PfNonTimestampKeyFilter extends PfFilter {
     private static final String TIMESTAMP_END_FILTER         = "c.timeStamp <= :endTime";
     private static final String TIMESTAMP_FILTER             = " c.timeStamp ";
     private static final String NAME_PARAMETER               = "name";
+    private static final String KEY_PREFIX                   = "c.";
 
     /**
      * The default constructor injects query strings.
@@ -42,5 +43,6 @@ public class PfNonTimestampKeyFilter extends PfFilter {
         setTimeStampEndFilter(TIMESTAMP_END_FILTER);
         setTimeStampFilter(TIMESTAMP_FILTER);
         setNameParameter(NAME_PARAMETER);
+        setKeyPrefix(KEY_PREFIX);
     }
 }
