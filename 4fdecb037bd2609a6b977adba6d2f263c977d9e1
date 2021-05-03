@@ -22,6 +22,30 @@
       "revId": "4fdecb037bd2609a6b977adba6d2f263c977d9e1",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8d96673_cea6a162",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProviderParameters.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-05-03T14:28:28Z",
+      "side": 1,
+      "message": "The original code didn\u0027t check them, and I suspect this is intentional so that they aren\u0027t required when testing.",
+      "parentUuid": "c3fbf5a3_b8a440d7",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 35
+      },
+      "revId": "4fdecb037bd2609a6b977adba6d2f263c977d9e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
