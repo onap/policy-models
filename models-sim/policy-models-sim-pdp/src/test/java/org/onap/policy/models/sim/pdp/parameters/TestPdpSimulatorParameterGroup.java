@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +21,7 @@
 
 package org.onap.policy.models.sim.pdp.parameters;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -27,7 +29,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.Map;
 import org.junit.Test;
 import org.onap.policy.common.endpoints.parameters.TopicParameterGroup;
-import org.onap.policy.common.parameters.GroupValidationResult;
+import org.onap.policy.common.parameters.ValidationResult;
 
 /**
  * Class to perform unit test of {@link PdpSimulatorParameterGroup}.
@@ -50,7 +52,7 @@ public class TestPdpSimulatorParameterGroup {
                 PdpSimulatorParameterGroup.class);
         final PdpStatusParameters pdpStatusParameters = pdpSimulatorParameters.getPdpStatusParameters();
         final TopicParameterGroup topicParameterGroup  = pdpSimulatorParameters.getTopicParameterGroup();
-        final GroupValidationResult validationResult = pdpSimulatorParameters.validate();
+        final ValidationResult validationResult = pdpSimulatorParameters.validate();
         assertTrue(validationResult.isValid());
         assertEquals(CommonTestData.PDP_SIMULATOR_GROUP_NAME, pdpSimulatorParameters.getName());
         assertEquals(CommonTestData.TIME_INTERVAL, pdpStatusParameters.getTimeIntervalMs());
@@ -65,7 +67,7 @@ public class TestPdpSimulatorParameterGroup {
     public void testPdpSimulatorParameterGroup_NullName() {
         final PdpSimulatorParameterGroup pdpSimulatorParameters = commonTestData
                 .toObject(commonTestData.getPdpSimulatorParameterGroupMap(null), PdpSimulatorParameterGroup.class);
-        final GroupValidationResult validationResult = pdpSimulatorParameters.validate();
+        final ValidationResult validationResult = pdpSimulatorParameters.validate();
         assertFalse(validationResult.isValid());
         assertEquals(null, pdpSimulatorParameters.getName());
         assertTrue(validationResult.getResult().contains("is null"));
@@ -75,11 +77,11 @@ public class TestPdpSimulatorParameterGroup {
     public void testPdpSimulatorParameterGroup_EmptyName() {
         final PdpSimulatorParameterGroup pdpSimulatorParameters = commonTestData
                 .toObject(commonTestData.getPdpSimulatorParameterGroupMap(""), PdpSimulatorParameterGroup.class);
-        final GroupValidationResult validationResult = pdpSimulatorParameters.validate();
+        final ValidationResult validationResult = pdpSimulatorParameters.validate();
         assertFalse(validationResult.isValid());
         assertEquals("", pdpSimulatorParameters.getName());
-        assertTrue(validationResult.getResult().contains(
-                "field \"name\" type \"java.lang.String\" value \"\" INVALID, " + "must be a non-blank string"));
+        assertThat(validationResult.getResult()).contains(
+                "\"name\" value \"\" INVALID, " + "is blank");
     }
 
     @Test
@@ -88,7 +90,7 @@ public class TestPdpSimulatorParameterGroup {
                 commonTestData.getPdpSimulatorParameterGroupMap(CommonTestData.PDP_SIMULATOR_GROUP_NAME),
                 PdpSimulatorParameterGroup.class);
         pdpSimulatorParameters.setName("PdpSimulatorNewGroup");
-        final GroupValidationResult validationResult = pdpSimulatorParameters.validate();
+        final ValidationResult validationResult = pdpSimulatorParameters.validate();
         assertTrue(validationResult.isValid());
         assertEquals("PdpSimulatorNewGroup", pdpSimulatorParameters.getName());
     }
@@ -100,11 +102,10 @@ public class TestPdpSimulatorParameterGroup {
         map.put("pdpStatusParameters", commonTestData.getPdpStatusParametersMap(true));
         final PdpSimulatorParameterGroup pdpSimulatorParameters =
                 commonTestData.toObject(map, PdpSimulatorParameterGroup.class);
-        final GroupValidationResult validationResult = pdpSimulatorParameters.validate();
+        final ValidationResult validationResult = pdpSimulatorParameters.validate();
         assertFalse(validationResult.isValid());
-        assertTrue(validationResult.getResult()
-                .contains("\"org.onap.policy.models.sim.pdp.parameters.PdpSimulatorParameterGroup\" INVALID, "
-                        + "parameter group has status INVALID"));
+        assertThat(validationResult.getResult())
+                .contains("\"PdpSimulatorParameterGroup\" INVALID, item has status INVALID");
     }
 
     @Test
@@ -115,11 +116,10 @@ public class TestPdpSimulatorParameterGroup {
 
         final PdpSimulatorParameterGroup parGroup =
                 commonTestData.toObject(map, PdpSimulatorParameterGroup.class);
-        final GroupValidationResult validationResult = parGroup.validate();
+        final ValidationResult validationResult = parGroup.validate();
         assertFalse(validationResult.isValid());
-        assertTrue(validationResult.getResult()
-                .contains("\"org.onap.policy.common.endpoints.parameters.TopicParameterGroup\" INVALID, "
-                        + "parameter group has status INVALID"));
+        assertThat(validationResult.getResult())
+                .contains("\"TopicParameterGroup\" INVALID, item has status INVALID");
     }
 
 }

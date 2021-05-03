@@ -23,10 +23,11 @@
 package org.onap.policy.models.provider;
 
 import lombok.Data;
-import org.onap.policy.common.parameters.GroupValidationResult;
+import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.BeanValidator;
 import org.onap.policy.common.parameters.ParameterGroup;
-import org.onap.policy.common.parameters.ValidationStatus;
-import org.onap.policy.common.utils.validation.ParameterValidationUtils;
+import org.onap.policy.common.parameters.annotations.NotBlank;
+import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.models.provider.impl.DatabasePolicyModelsProviderImpl;
 
 // @formatter:off
@@ -55,42 +56,25 @@ public class PolicyModelsProviderParameters implements ParameterGroup {
     private static final String DEFAULT_IMPLEMENTATION = DatabasePolicyModelsProviderImpl.class.getName();
 
     private String name;
+    @NotNull @NotBlank
     private String implementation = DEFAULT_IMPLEMENTATION;
     private String databaseType;
+    @NotNull @NotBlank
     private String databaseDriver;
+    @NotNull @NotBlank
     private String databaseUrl;
     private String databaseUser;
     private String databasePassword;
+    @NotNull @NotBlank
     private String persistenceUnit;
 
     /**
      * Validate the model provider parameters.
      *
      */
+
     @Override
-    public GroupValidationResult validate() {
-        final GroupValidationResult validationResult = new GroupValidationResult(this);
-
-        if (!ParameterValidationUtils.validateStringParameter(implementation)) {
-            validationResult.setResult("implementation", ValidationStatus.INVALID,
-                    "a PolicyModelsProvider implementation must be specified");
-        }
-
-        if (!ParameterValidationUtils.validateStringParameter(databaseDriver)) {
-            validationResult.setResult("databaseUrl", ValidationStatus.INVALID,
-                    "a driver must be specified for the JDBC connection to the database");
-        }
-
-        if (!ParameterValidationUtils.validateStringParameter(databaseUrl)) {
-            validationResult.setResult("databaseUrl", ValidationStatus.INVALID,
-                    "a URL must be specified for the JDBC connection to the database");
-        }
-
-        if (!ParameterValidationUtils.validateStringParameter(persistenceUnit)) {
-            validationResult.setResult("persistenceUnit", ValidationStatus.INVALID,
-                    "a persistence unit must be specified for connecting to the database");
-        }
-
-        return validationResult;
+    public BeanValidationResult validate() {
+        return new BeanValidator().validateTop(getClass().getSimpleName(), this);
     }
 }

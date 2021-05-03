@@ -61,8 +61,7 @@ public class Validated {
      */
     public static void addResult(@NonNull BeanValidationResult result, @NonNull String fieldName, Object value,
                     @NonNull String errorMessage) {
-        result.addResult(
-                        new ObjectValidationResult(fieldName, getKeyId(value), ValidationStatus.INVALID, errorMessage));
+        result.addResult(fieldName, getKeyId(value), ValidationStatus.INVALID, errorMessage);
     }
 
     /**
@@ -85,13 +84,12 @@ public class Validated {
      */
     public static void validateKeyNotNull(BeanValidationResult result, @NonNull String fieldName, PfKey key) {
         if (key == null) {
-            result.addResult(new ObjectValidationResult(fieldName, key, ValidationStatus.INVALID, IS_A_NULL_KEY));
+            result.addResult(fieldName, key, ValidationStatus.INVALID, IS_A_NULL_KEY);
             return;
         }
 
         if (key.isNullKey()) {
-            result.addResult(new ObjectValidationResult(fieldName, key.getId(), ValidationStatus.INVALID,
-                            IS_A_NULL_KEY));
+            result.addResult(fieldName, key.getId(), ValidationStatus.INVALID, IS_A_NULL_KEY);
             return;
         }
 

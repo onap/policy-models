@@ -33,7 +33,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.onap.policy.common.parameters.BeanValidationResult;
-import org.onap.policy.common.parameters.ObjectValidationResult;
 import org.onap.policy.common.parameters.ValidationStatus;
 import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.common.utils.validation.Assertions;
@@ -236,14 +235,12 @@ public abstract class PfModel extends PfConcept {
             if (usedKey.getKey() instanceof PfConceptKey) {
                 // PfConceptKey usage, check the key exists
                 if (!artifactKeySet.contains(usedKey.getKey())) {
-                    result.addResult(new ObjectValidationResult("artifact key", usedKey.getId(),
-                                    ValidationStatus.INVALID, NOT_DEFINED));
+                    result.addResult("artifact key", usedKey.getId(), ValidationStatus.INVALID, NOT_DEFINED);
                 }
             } else {
                 // PfReferenceKey usage, check the key exists
                 if (!referenceKeySet.contains(usedKey.getKey())) {
-                    result.addResult(new ObjectValidationResult("reference key", usedKey.getId(),
-                                    ValidationStatus.INVALID, NOT_DEFINED));
+                    result.addResult("reference key", usedKey.getId(), ValidationStatus.INVALID, NOT_DEFINED);
                 }
             }
         }

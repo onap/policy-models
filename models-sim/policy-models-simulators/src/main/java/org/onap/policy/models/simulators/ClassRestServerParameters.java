@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,28 +21,11 @@
 package org.onap.policy.models.simulators;
 
 import lombok.Getter;
-import org.apache.commons.lang3.StringUtils;
 import org.onap.policy.common.endpoints.parameters.RestServerParameters;
-import org.onap.policy.common.parameters.ObjectValidationResult;
-import org.onap.policy.common.parameters.ValidationResult;
-import org.onap.policy.common.parameters.ValidationStatus;
+import org.onap.policy.common.parameters.annotations.ClassName;
+import org.onap.policy.common.parameters.annotations.NotNull;
 
 @Getter
 public class ClassRestServerParameters extends RestServerParameters {
-    private String providerClass;
-
-    /**
-     * Validates the parameters.
-     *
-     * @param containerName name of the parameter container
-     * @return the validation result
-     */
-    public ValidationResult validate(String containerName) {
-        // not using a BeanValidator because username and password are not required
-        if (StringUtils.isBlank(providerClass)) {
-            return new ObjectValidationResult("providerClass", providerClass, ValidationStatus.INVALID, "is empty");
-        }
-
-        return new ObjectValidationResult("providerClass", providerClass);
-    }
+    private @NotNull @ClassName String providerClass;
 }

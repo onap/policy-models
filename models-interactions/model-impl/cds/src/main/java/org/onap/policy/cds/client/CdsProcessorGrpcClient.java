@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2019-2021 Bell Canada.
- * Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import java.util.concurrent.CountDownLatch;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceInput;
 import org.onap.policy.cds.api.CdsProcessorListener;
 import org.onap.policy.cds.properties.CdsServerProperties;
-import org.onap.policy.common.parameters.GroupValidationResult;
+import org.onap.policy.common.parameters.ValidationResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,7 +50,7 @@ public class CdsProcessorGrpcClient implements AutoCloseable {
      * @param listener the listener to listen on
      */
     public CdsProcessorGrpcClient(final CdsProcessorListener listener, CdsServerProperties props) {
-        final GroupValidationResult validationResult = props.validate();
+        final ValidationResult validationResult = props.validate();
         Preconditions.checkState(validationResult.getStatus().isValid(), "Error validating CDS server "
             + "properties: " + validationResult.getResult());
 

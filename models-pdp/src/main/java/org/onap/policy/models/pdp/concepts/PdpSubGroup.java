@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2021 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,6 @@ import java.util.Map;
 import lombok.Data;
 import lombok.NonNull;
 import org.onap.policy.common.parameters.BeanValidationResult;
-import org.onap.policy.common.parameters.ObjectValidationResult;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.common.parameters.ValidationStatus;
 import org.onap.policy.models.base.PfUtils;
@@ -91,14 +90,12 @@ public class PdpSubGroup {
                 ToscaConceptIdentifier::validatePapRest);
 
             if (supportedPolicyTypes != null && supportedPolicyTypes.isEmpty()) {
-                result.addResult(new ObjectValidationResult("supportedPolicyTypes", supportedPolicyTypes,
-                    ValidationStatus.INVALID, "empty list"));
+                result.addResult("supportedPolicyTypes", supportedPolicyTypes, ValidationStatus.INVALID, "empty list");
             }
         }
 
         if (desiredInstanceCount <= 0) {
-            result.addResult(new ObjectValidationResult("desiredInstanceCount", desiredInstanceCount,
-                            ValidationStatus.INVALID, "non-positive"));
+            result.addResult("desiredInstanceCount", desiredInstanceCount, ValidationStatus.INVALID, "non-positive");
         }
 
         return result;

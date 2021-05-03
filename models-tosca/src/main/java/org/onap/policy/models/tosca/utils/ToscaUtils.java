@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2021 Nordix Foundation.
- *  Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -229,8 +229,8 @@ public final class ToscaUtils {
         }
 
         if (entityType.getKey().equals(parentEntityTypeKey)) {
-            result.addResult(new ObjectValidationResult("entity type", entityType.getKey().getId(),
-                    ValidationStatus.INVALID, "ancestor of itself"));
+            result.addResult("entity type", entityType.getKey().getId(),
+                            ValidationStatus.INVALID, "ancestor of itself");
             throw new PfModelRuntimeException(Response.Status.CONFLICT, result.getResult());
         }
 
@@ -239,8 +239,7 @@ public final class ToscaUtils {
                 .getAll(parentEntityTypeKey.getName(), parentEntityTypeKey.getVersion());
         Set<JpaToscaEntityType<ToscaEntity>> ancestorEntitySetToReturn = new HashSet<>(ancestorEntitySet);
         if (ancestorEntitySet.isEmpty()) {
-            result.addResult(new ObjectValidationResult("parent", parentEntityTypeKey.getId(), ValidationStatus.INVALID,
-                    Validated.NOT_FOUND));
+            result.addResult("parent", parentEntityTypeKey.getId(), ValidationStatus.INVALID, Validated.NOT_FOUND);
         } else {
             for (JpaToscaEntityType<?> filteredEntityType : ancestorEntitySet) {
                 ancestorEntitySetToReturn.addAll(getEntityTypeAncestors(entityTypes, filteredEntityType, result));

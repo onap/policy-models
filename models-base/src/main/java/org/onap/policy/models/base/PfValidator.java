@@ -22,7 +22,6 @@ package org.onap.policy.models.base;
 
 import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.common.parameters.BeanValidator;
-import org.onap.policy.common.parameters.ObjectValidationResult;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.common.parameters.ValidationStatus;
 import org.onap.policy.common.parameters.ValueValidator;
@@ -100,8 +99,7 @@ public class PfValidator extends BeanValidator {
 
         PfKey pfkey = (PfKey) value;
         if (annot.keyNotNull() && pfkey.isNullKey()) {
-            result.addResult(new ObjectValidationResult(fieldName, xlate(pfkey), ValidationStatus.INVALID,
-                            Validated.IS_A_NULL_KEY));
+            result.addResult(fieldName, xlate(pfkey), ValidationStatus.INVALID, Validated.IS_A_NULL_KEY);
             return false;
         }
 
@@ -118,13 +116,11 @@ public class PfValidator extends BeanValidator {
         PfKeyImpl keyimpl = (PfKeyImpl) pfkey;
 
         if (annot.nameNotNull() && keyimpl.isNullName()) {
-            result2.addResult(new ObjectValidationResult("name", pfkey.getName(), ValidationStatus.INVALID,
-                            Validated.IS_NULL));
+            result2.addResult("name", pfkey.getName(), ValidationStatus.INVALID, Validated.IS_NULL);
         }
 
         if (annot.versionNotNull() && keyimpl.isNullVersion()) {
-            result2.addResult(new ObjectValidationResult("version", pfkey.getVersion(), ValidationStatus.INVALID,
-                            Validated.IS_NULL));
+            result2.addResult("version", pfkey.getVersion(), ValidationStatus.INVALID, Validated.IS_NULL);
         }
 
         if (!result2.isClean()) {
