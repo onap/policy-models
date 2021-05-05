@@ -23,6 +23,11 @@ policy_types:
                 description: Whether an abatement event message will be expected for the control loop from DCAE.
                 required: true
                 default: false
+            guardDisabled:
+                type: boolean
+                description: Whether guard checks should be disabled while performing operations.
+                required: false
+                default: false
             trigger:
                 type: string
                 description: Initial operation to execute upon receiving an Onset event message for the Control Loop.
