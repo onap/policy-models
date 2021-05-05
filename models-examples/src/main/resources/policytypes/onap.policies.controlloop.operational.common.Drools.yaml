@@ -7,8 +7,12 @@ policy_types:
         name: onap.policies.controlloop.operational.common.Drools
         description: Operational policies for Drools PDP
         properties:
+            guardDisabled:
+                type: boolean
+                description: Whether guard checks should be disabled while performing operations.
+                required: false
+                default: false
             controllerName:
                 type: string
                 description: Drools controller properties
                 required: false
-
