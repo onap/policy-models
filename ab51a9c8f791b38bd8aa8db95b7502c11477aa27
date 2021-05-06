@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5aa0fcd4_53c1eee3",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.controlloop.operational.Common.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 4903
+      },
+      "writtenOn": "2021-05-06T10:30:31Z",
+      "side": 1,
+      "message": "Question: Is it better to have this in Common or common.Drools type?",
+      "range": {
+        "startLine": 26,
+        "startChar": 12,
+        "endLine": 26,
+        "endChar": 26
+      },
+      "revId": "ab51a9c8f791b38bd8aa8db95b7502c11477aa27",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
