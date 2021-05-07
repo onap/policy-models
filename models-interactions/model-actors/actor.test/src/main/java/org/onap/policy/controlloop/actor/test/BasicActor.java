@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,6 @@ import lombok.Getter;
 import org.onap.policy.common.endpoints.event.comm.TopicEndpointManager;
 import org.onap.policy.common.endpoints.event.comm.bus.internal.BusTopicParams;
 import org.onap.policy.common.endpoints.http.client.HttpClientConfigException;
-import org.onap.policy.common.endpoints.http.client.HttpClientFactory;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.endpoints.parameters.TopicParameterGroup;
 import org.onap.policy.common.parameters.BeanValidationResult;
@@ -116,7 +115,7 @@ public class BasicActor {
      */
     private MyConfig readConfig(String yamlConfigFile) {
         try {
-            String yaml = ResourceUtils.getResourceAsString(yamlConfigFile);
+            var yaml = ResourceUtils.getResourceAsString(yamlConfigFile);
             if (yaml == null) {
                 throw new FileNotFoundException(yamlConfigFile);
             }
@@ -139,7 +138,7 @@ public class BasicActor {
         stopOtherServices();
 
         if (config.getHttpClients() != null) {
-            HttpClientFactory factory = HttpClientFactoryInstance.getClientFactory();
+            var factory = HttpClientFactoryInstance.getClientFactory();
             for (BusTopicParams params : config.getHttpClients()) {
                 factory.build(params);
             }

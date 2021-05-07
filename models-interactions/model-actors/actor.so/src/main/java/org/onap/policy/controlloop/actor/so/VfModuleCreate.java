@@ -28,11 +28,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.apache.commons.lang3.tuple.Pair;
-import org.onap.aai.domain.yang.CloudRegion;
-import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.aai.domain.yang.ModelVer;
-import org.onap.aai.domain.yang.ServiceInstance;
-import org.onap.aai.domain.yang.Tenant;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
@@ -110,7 +106,7 @@ public class VfModuleCreate extends SoOperation {
      */
     @Override
     protected Status detmStatus(Response rawResponse, SoResponse response) {
-        Status status = super.detmStatus(rawResponse, response);
+        var status = super.detmStatus(rawResponse, response);
 
         if (status == Status.SUCCESS) {
             setVfCount(getVfCount() + 1);
@@ -125,15 +121,15 @@ public class VfModuleCreate extends SoOperation {
      * @return a pair containing the request URL and the new request
      */
     protected Pair<String, SoRequest> makeRequest() {
-        final SoModelInfo soModelInfo = prepareSoModelInfo();
-        final GenericVnf vnfItem = getVnfItem();
-        final ServiceInstance vnfServiceItem = getServiceInstance();
-        final Tenant tenantItem = getDefaultTenant();
-        final CloudRegion cloudRegionItem = getDefaultCloudRegion();
+        final var soModelInfo = prepareSoModelInfo();
+        final var vnfItem = getVnfItem();
+        final var vnfServiceItem = getServiceInstance();
+        final var tenantItem = getDefaultTenant();
+        final var cloudRegionItem = getDefaultCloudRegion();
         final ModelVer vnfModel = getVnfModel();
         final ModelVer vnfServiceModel = getServiceModel();
 
-        SoRequest request = new SoRequest();
+        var request = new SoRequest();
         request.setOperationType(SoOperationType.SCALE_OUT);
 
         //
@@ -155,8 +151,8 @@ public class VfModuleCreate extends SoOperation {
         request.getRequestDetails().getRequestInfo().setInstanceName("vfModuleName");
 
         // relatedInstanceList
-        SoRelatedInstanceListElement relatedInstanceListElement1 = new SoRelatedInstanceListElement();
-        SoRelatedInstanceListElement relatedInstanceListElement2 = new SoRelatedInstanceListElement();
+        var relatedInstanceListElement1 = new SoRelatedInstanceListElement();
+        var relatedInstanceListElement2 = new SoRelatedInstanceListElement();
         relatedInstanceListElement1.setRelatedInstance(new SoRelatedInstance());
         relatedInstanceListElement2.setRelatedInstance(new SoRelatedInstance());
 

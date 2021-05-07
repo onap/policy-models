@@ -70,7 +70,7 @@ public class AaiGetPnfOperation extends AaiGetOperation {
     protected CompletableFuture<OperationOutcome> startOperationAsync(int attempt, OperationOutcome outcome) {
         Map<String, Object> headers = makeHeaders();
 
-        StringBuilder str = new StringBuilder(getClient().getBaseUrl());
+        var str = new StringBuilder(getClient().getBaseUrl());
 
         String target = getRequiredProperty(OperationProperties.AAI_TARGET_ENTITY, "target entity");
         String path = getPath() + URI_SEP + URLEncoder.encode(target, StandardCharsets.UTF_8);
@@ -82,7 +82,7 @@ public class AaiGetPnfOperation extends AaiGetOperation {
         Builder webldr = web.request();
         addHeaders(webldr, headers);
 
-        String url = str.toString();
+        var url = str.toString();
 
         logMessage(EventType.OUT, CommInfrastructure.REST, url, null);
 

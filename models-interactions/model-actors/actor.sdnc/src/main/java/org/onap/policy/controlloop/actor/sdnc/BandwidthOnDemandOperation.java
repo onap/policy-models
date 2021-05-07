@@ -71,45 +71,45 @@ public class BandwidthOnDemandOperation extends SdncOperation {
             throw new IllegalArgumentException("missing enrichment data, " + SERVICE_ID_KEY);
         }
 
-        SdncHealVfModuleParameter bandwidth = new SdncHealVfModuleParameter();
+        var bandwidth = new SdncHealVfModuleParameter();
         bandwidth.setName(BANDWIDTH);
         bandwidth.setValue(getRequiredProperty(OperationProperties.ENRICHMENT_BANDWIDTH,
                         "bandwidth from enrichment data"));
 
-        SdncHealVfModuleParameter timeStamp = new SdncHealVfModuleParameter();
+        var timeStamp = new SdncHealVfModuleParameter();
         timeStamp.setName(BANDWIDTH_CHANGE_TIME);
         timeStamp.setValue(getRequiredProperty(OperationProperties.ENRICHMENT_BANDWIDTH_CHANGE_TIME,
                         "bandwidth change time from enrichment data"));
 
-        SdncHealVfModuleParametersInfo vfParametersInfo = new SdncHealVfModuleParametersInfo();
+        var vfParametersInfo = new SdncHealVfModuleParametersInfo();
         vfParametersInfo.addParameters(bandwidth);
         vfParametersInfo.addParameters(timeStamp);
 
-        SdncHealVfModuleRequestInput vfRequestInfo = new SdncHealVfModuleRequestInput();
+        var vfRequestInfo = new SdncHealVfModuleRequestInput();
         vfRequestInfo.setVfModuleParametersInfo(vfParametersInfo);
 
-        SdncHealServiceInfo serviceInfo = new SdncHealServiceInfo();
+        var serviceInfo = new SdncHealServiceInfo();
         serviceInfo.setServiceInstanceId(serviceInstance);
 
-        SdncHealRequestInfo requestInfo = new SdncHealRequestInfo();
+        var requestInfo = new SdncHealRequestInfo();
         requestInfo.setRequestAction("SdwanBandwidthChange");
 
-        SdncHealRequestHeaderInfo headerInfo = new SdncHealRequestHeaderInfo();
+        var headerInfo = new SdncHealRequestHeaderInfo();
         headerInfo.setSvcAction("update");
         headerInfo.setSvcRequestId(getSubRequestId());
 
-        SdncRequest request = new SdncRequest();
+        var request = new SdncRequest();
         request.setNsInstanceId(serviceInstance);
         request.setRequestId(params.getRequestId());
         request.setUrl("/" + getPath());
 
-        SdncHealVnfInfo vnfInfo = new SdncHealVnfInfo();
+        var vnfInfo = new SdncHealVnfInfo();
         vnfInfo.setVnfId(getRequiredProperty(OperationProperties.ENRICHMENT_VNF_ID, "VNF id from enrichment data"));
 
-        SdncHealVfModuleInfo vfModuleInfo = new SdncHealVfModuleInfo();
+        var vfModuleInfo = new SdncHealVfModuleInfo();
         vfModuleInfo.setVfModuleId("");
 
-        SdncHealRequest healRequest = new SdncHealRequest();
+        var healRequest = new SdncHealRequest();
         healRequest.setVnfInfo(vnfInfo);
         healRequest.setVfModuleInfo(vfModuleInfo);
         healRequest.setRequestHeaderInfo(headerInfo);

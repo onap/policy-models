@@ -69,15 +69,15 @@ public class AppcLcmOperation extends BidirectionalTopicOperation<AppcLcmDmaapWr
     protected AppcLcmDmaapWrapper makeRequest(int attempt) {
         String subRequestId = getSubRequestId();
 
-        AppcLcmCommonHeader header = new AppcLcmCommonHeader();
+        var header = new AppcLcmCommonHeader();
         header.setOriginatorId(params.getRequestId().toString());
         header.setRequestId(params.getRequestId());
         header.setSubRequestId(subRequestId);
 
-        AppcLcmInput inputRequest = new AppcLcmInput();
+        var inputRequest = new AppcLcmInput();
         inputRequest.setCommonHeader(header);
 
-        AppcLcmRecipeFormatter recipeFormatter = new AppcLcmRecipeFormatter(getName());
+        var recipeFormatter = new AppcLcmRecipeFormatter(getName());
         inputRequest.setAction(recipeFormatter.getBodyRecipe());
 
         /*
@@ -99,10 +99,10 @@ public class AppcLcmOperation extends BidirectionalTopicOperation<AppcLcmDmaapWr
             inputRequest.setPayload(null);
         }
 
-        AppcLcmBody body = new AppcLcmBody();
+        var body = new AppcLcmBody();
         body.setInput(inputRequest);
 
-        AppcLcmDmaapWrapper dmaapRequest = new AppcLcmDmaapWrapper();
+        var dmaapRequest = new AppcLcmDmaapWrapper();
         dmaapRequest.setBody(body);
         dmaapRequest.setVersion("2.0");
         dmaapRequest.setCorrelationId(params.getRequestId() + "-" + subRequestId);
@@ -123,7 +123,7 @@ public class AppcLcmOperation extends BidirectionalTopicOperation<AppcLcmDmaapWr
      */
     private void convertPayload(Map<String, Object> source, AppcLcmInput request) {
         try {
-            String encodedPayloadString = getCoder().encode(source);
+            var encodedPayloadString = getCoder().encode(source);
             request.setPayload(encodedPayloadString);
         } catch (CoderException e) {
             throw new IllegalArgumentException("Cannot convert payload", e);

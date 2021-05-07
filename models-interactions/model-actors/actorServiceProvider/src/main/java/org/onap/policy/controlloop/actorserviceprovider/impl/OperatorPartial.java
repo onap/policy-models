@@ -38,7 +38,7 @@ public abstract class OperatorPartial extends StartConfigPartial<Map<String, Obj
      */
     @Getter
     private final Executor blockingExecutor = command -> {
-        Thread thread = new Thread(command);
+        var thread = new Thread(command);
         thread.setDaemon(true);
         thread.start();
     };

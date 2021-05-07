@@ -79,7 +79,7 @@ public abstract class AppcOperation extends BidirectionalTopicOperation<Request,
      * @return a new request
      */
     protected Request makeRequest(int attempt, GenericVnf targetVnf) {
-        Request request = new Request();
+        var request = new Request();
         request.setCommonHeader(new CommonHeader());
         request.getCommonHeader().setRequestId(params.getRequestId());
         request.getCommonHeader().setSubRequestId(getSubRequestId());
@@ -139,7 +139,7 @@ public abstract class AppcOperation extends BidirectionalTopicOperation<Request,
             return Status.STILL_WAITING;
         }
 
-        ResponseCode code = ResponseCode.toResponseCode(response.getStatus().getCode());
+        var code = ResponseCode.toResponseCode(response.getStatus().getCode());
         if (code == null) {
             throw new IllegalArgumentException(
                             "unknown APPC-C response status code: " + response.getStatus().getCode());
