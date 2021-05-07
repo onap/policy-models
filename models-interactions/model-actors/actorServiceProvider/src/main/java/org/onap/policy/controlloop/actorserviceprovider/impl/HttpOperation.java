@@ -24,7 +24,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
@@ -182,7 +181,7 @@ public abstract class HttpOperation<T> extends OperationPartial {
 
         final PipelineControllerFuture<OperationOutcome> controller = new PipelineControllerFuture<>();
         final CompletableFuture<Response> future = new CompletableFuture<>();
-        final Executor executor = params.getExecutor();
+        final var executor = params.getExecutor();
 
         // arrange for the callback to complete "future"
         InvocationCallback<Response> callback = new InvocationCallback<>() {

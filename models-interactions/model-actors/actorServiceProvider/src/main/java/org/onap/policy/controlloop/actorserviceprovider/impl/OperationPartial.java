@@ -225,9 +225,9 @@ public abstract class OperationPartial implements Operation {
 
         logger.info("{}: start operation attempt {} for {}", getFullName(), attempt, params.getRequestId());
 
-        final Executor executor = params.getExecutor();
-        final OperationOutcome outcome = makeOutcome();
-        final CallbackManager callbacks = new CallbackManager();
+        final var executor = params.getExecutor();
+        final var outcome = makeOutcome();
+        final var callbacks = new CallbackManager();
 
         // this operation attempt gets its own controller
         final PipelineControllerFuture<OperationOutcome> controller = new PipelineControllerFuture<>();
@@ -594,14 +594,13 @@ public abstract class OperationPartial implements Operation {
      * @return an array of futures, possibly zero-length. If the array is of size one,
      *         then that one item should be returned instead of the controller
      */
+    @SuppressWarnings("unchecked")
     private CompletableFuture<OperationOutcome>[] attachFutures(PipelineControllerFuture<OperationOutcome> controller,
                     List<Supplier<CompletableFuture<OperationOutcome>>> futureMakers,
                     UnaryOperator<CompletableFuture<OperationOutcome>> adorn) {
 
         if (futureMakers.isEmpty()) {
-            @SuppressWarnings("unchecked")
-            CompletableFuture<OperationOutcome>[] result = new CompletableFuture[0];
-            return result;
+            return new CompletableFuture[0];
         }
 
         // the last, unadorned future that is created
@@ -631,8 +630,7 @@ public abstract class OperationPartial implements Operation {
             }
         }
 
-        @SuppressWarnings("unchecked")
-        CompletableFuture<OperationOutcome>[] result = new CompletableFuture[futures.size()];
+        var result = new CompletableFuture[futures.size()];
 
         if (result.length == 1) {
             // special case - return the unadorned future
@@ -747,7 +745,7 @@ public abstract class OperationPartial implements Operation {
          * executing
          */
         final PipelineControllerFuture<OperationOutcome> controller = new PipelineControllerFuture<>();
-        final Executor executor = params.getExecutor();
+        final var executor = params.getExecutor();
 
         // @formatter:off
         controller.wrap(nextTask)
@@ -830,7 +828,7 @@ public abstract class OperationPartial implements Operation {
                 outcome.setEnd(null);
 
                 // pass a copy to the callback
-                OperationOutcome outcome2 = new OperationOutcome(outcome);
+                var outcome2 = new OperationOutcome(outcome);
                 outcome2.setFinalOutcome(false);
                 params.callbackStarted(outcome2);
             }

@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2020 Bell Canada. All rights reserved.
+ * Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +20,6 @@
 package org.onap.policy.controlloop.actor.cds;
 
 import java.util.concurrent.CompletableFuture;
-import org.onap.ccsdk.cds.controllerblueprints.common.api.EventType;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceOutput;
 import org.onap.policy.cds.api.CdsProcessorListener;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
@@ -55,7 +55,7 @@ public class CdsActorServiceManager implements CdsProcessorListener {
     @Override
     public void onMessage(final ExecutionServiceOutput message) {
         LOGGER.info("Received notification from CDS: {}", message);
-        EventType eventType = message.getStatus().getEventType();
+        var eventType = message.getStatus().getEventType();
         switch (eventType) {
             case EVENT_COMPONENT_PROCESSING:
                 LOGGER.info("CDS is processing the message: {}", message);

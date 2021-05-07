@@ -67,7 +67,7 @@ public class AaiGetTenantOperation extends AaiGetOperation {
     protected CompletableFuture<OperationOutcome> startOperationAsync(int attempt, OperationOutcome outcome) {
         final Map<String, Object> headers = makeHeaders();
 
-        StringBuilder str = new StringBuilder(getClient().getBaseUrl());
+        var str = new StringBuilder(getClient().getBaseUrl());
 
         String path = getPath();
         WebTarget web = getClient().getWebTarget().path(path);
@@ -81,7 +81,7 @@ public class AaiGetTenantOperation extends AaiGetOperation {
         Builder webldr = web.request();
         addHeaders(webldr, headers);
 
-        String url = str.toString();
+        var url = str.toString();
 
         logMessage(EventType.OUT, CommInfrastructure.REST, url, null);
 

@@ -38,10 +38,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.onap.aai.domain.yang.CloudRegion;
-import org.onap.aai.domain.yang.GenericVnf;
-import org.onap.aai.domain.yang.ServiceInstance;
-import org.onap.aai.domain.yang.Tenant;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
@@ -50,7 +46,6 @@ import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingConfig;
 import org.onap.policy.controlloop.actorserviceprovider.pipeline.PipelineControllerFuture;
-import org.onap.policy.so.SoModelInfo;
 import org.onap.policy.so.SoOperationType;
 import org.onap.policy.so.SoRequest;
 import org.onap.policy.so.SoRequestDetails;
@@ -129,7 +124,7 @@ public class VfModuleDelete extends SoOperation {
 
         final String url = getClient().getBaseUrl() + uri;
 
-        Builder builder = HttpRequest.newBuilder(URI.create(url));
+        var builder = HttpRequest.newBuilder(URI.create(url));
         builder = builder.header("Content-type", contentType);
         builder = addAuthHeader(builder);
 
@@ -191,7 +186,7 @@ public class VfModuleDelete extends SoOperation {
      */
     @Override
     protected Status detmStatus(Response rawResponse, SoResponse response) {
-        Status status = super.detmStatus(rawResponse, response);
+        var status = super.detmStatus(rawResponse, response);
 
         if (status == Status.SUCCESS) {
             setVfCount(getVfCount() - 1);
@@ -206,20 +201,20 @@ public class VfModuleDelete extends SoOperation {
      * @return a pair containing the request URL and the new request
      */
     protected Pair<String, SoRequest> makeRequest() {
-        final SoModelInfo soModelInfo = prepareSoModelInfo();
-        final GenericVnf vnfItem = getVnfItem();
-        final ServiceInstance vnfServiceItem = getServiceInstance();
-        final Tenant tenantItem = getDefaultTenant();
-        final CloudRegion cloudRegionItem = getDefaultCloudRegion();
+        final var soModelInfo = prepareSoModelInfo();
+        final var vnfItem = getVnfItem();
+        final var vnfServiceItem = getServiceInstance();
+        final var tenantItem = getDefaultTenant();
+        final var cloudRegionItem = getDefaultCloudRegion();
 
-        SoRequest request = new SoRequest();
+        var request = new SoRequest();
         request.setOperationType(SoOperationType.DELETE_VF_MODULE);
 
         //
         //
         // Do NOT send SO the requestId, they do not support this field
         //
-        SoRequestDetails details = new SoRequestDetails();
+        var details = new SoRequestDetails();
         request.setRequestDetails(details);
         details.setRelatedInstanceList(null);
         details.setConfigurationParameters(null);

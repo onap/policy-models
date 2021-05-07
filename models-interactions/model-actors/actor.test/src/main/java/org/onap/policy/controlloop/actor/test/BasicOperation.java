@@ -53,7 +53,7 @@ public class BasicOperation {
     protected static final String EVENT_VERSION = "my-event-version";
 
     protected static final Executor blockingExecutor = command -> {
-        Thread thread = new Thread(command);
+        var thread = new Thread(command);
         thread.setDaemon(true);
         thread.start();
     };
@@ -137,7 +137,7 @@ public class BasicOperation {
      */
     protected <R> void verifyRequest(String expectedJsonFile, R request, String... ignore) throws CoderException {
         String json = coder.encode(request, true);
-        String expected = ResourceUtils.getResourceAsString(expectedJsonFile);
+        var expected = ResourceUtils.getResourceAsString(expectedJsonFile);
 
         // strip various items, because they change for each request
         for (String stripper : ignore) {

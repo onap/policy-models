@@ -251,7 +251,7 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
     }
 
     protected SoModelInfo prepareSoModelInfo() {
-        SoModelInfo soModelInfo = new SoModelInfo();
+        var soModelInfo = new SoModelInfo();
         soModelInfo.setModelCustomizationId(modelCustomizationId);
         soModelInfo.setModelInvariantId(modelInvariantId);
         soModelInfo.setModelName(modelName);
@@ -267,7 +267,7 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
      * @return SO request information
      */
     protected SoRequestInfo constructRequestInfo() {
-        SoRequestInfo soRequestInfo = new SoRequestInfo();
+        var soRequestInfo = new SoRequestInfo();
         soRequestInfo.setSource("POLICY");
         soRequestInfo.setSuppressRollback(false);
         soRequestInfo.setRequestorId("policy");
@@ -323,7 +323,7 @@ public abstract class SoOperation extends HttpOperation<SoResponse> {
      * @return SO cloud configuration
      */
     protected SoCloudConfiguration constructCloudConfiguration(Tenant tenantItem, CloudRegion cloudRegionItem) {
-        SoCloudConfiguration cloudConfiguration = new SoCloudConfiguration();
+        var cloudConfiguration = new SoCloudConfiguration();
         cloudConfiguration.setTenantId(getRequiredText("tenant ID", tenantItem.getTenantId()));
         cloudConfiguration.setLcpCloudRegionId(getRequiredText("cloud region ID", cloudRegionItem.getCloudRegionId()));
         return cloudConfiguration;
