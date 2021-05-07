@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61,29 +61,29 @@ public class RerouteOperation extends SdncOperation {
         if (StringUtils.isBlank(serviceInstance)) {
             throw new IllegalArgumentException("missing enrichment data, " + SERVICE_ID_KEY);
         }
-        SdncHealServiceInfo serviceInfo = new SdncHealServiceInfo();
+        var serviceInfo = new SdncHealServiceInfo();
         serviceInfo.setServiceInstanceId(serviceInstance);
 
         String networkId = getProperty(OperationProperties.ENRICHMENT_NETWORK_ID);
         if (StringUtils.isBlank(networkId)) {
             throw new IllegalArgumentException("missing enrichment data, " + NETWORK_ID_KEY);
         }
-        SdncHealNetworkInfo networkInfo = new SdncHealNetworkInfo();
+        var networkInfo = new SdncHealNetworkInfo();
         networkInfo.setNetworkId(networkId);
 
-        SdncHealRequestInfo requestInfo = new SdncHealRequestInfo();
+        var requestInfo = new SdncHealRequestInfo();
         requestInfo.setRequestAction("ReoptimizeSOTNInstance");
 
-        SdncHealRequestHeaderInfo headerInfo = new SdncHealRequestHeaderInfo();
+        var headerInfo = new SdncHealRequestHeaderInfo();
         headerInfo.setSvcAction("reoptimize");
         headerInfo.setSvcRequestId(getSubRequestId());
 
-        SdncRequest request = new SdncRequest();
+        var request = new SdncRequest();
         request.setNsInstanceId(serviceInstance);
         request.setRequestId(params.getRequestId());
         request.setUrl("/" + getPath());
 
-        SdncHealRequest healRequest = new SdncHealRequest();
+        var healRequest = new SdncHealRequest();
         healRequest.setRequestHeaderInfo(headerInfo);
         healRequest.setNetworkInfo(networkInfo);
         healRequest.setRequestInfo(requestInfo);

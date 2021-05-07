@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -76,7 +76,7 @@ public class AaiCustomQueryOperation extends HttpOperation<String> {
         final Map<String, String> request = makeRequest();
         Map<String, Object> headers = makeHeaders();
 
-        StringBuilder str = new StringBuilder(getClient().getBaseUrl());
+        var str = new StringBuilder(getClient().getBaseUrl());
 
         String path = getPath();
         WebTarget web = getClient().getWebTarget().path(path);
@@ -89,7 +89,7 @@ public class AaiCustomQueryOperation extends HttpOperation<String> {
             webldr.header(header.getKey(), header.getValue());
         }
 
-        String url = str.toString();
+        var url = str.toString();
 
         String strRequest = prettyPrint(request);
         logMessage(EventType.OUT, CommInfrastructure.REST, url, strRequest);

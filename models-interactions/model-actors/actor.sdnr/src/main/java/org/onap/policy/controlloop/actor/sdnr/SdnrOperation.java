@@ -83,7 +83,7 @@ public class SdnrOperation extends BidirectionalTopicOperation<PciMessage, PciMe
             return Status.FAILURE;
         }
 
-        StatusCodeEnum code = StatusCodeEnum.fromStatusCode(response.getStatus().getCode());
+        var code = StatusCodeEnum.fromStatusCode(response.getStatus().getCode());
 
         if (code == null) {
             logger.warn("unknown SDNR response status code: {}", response.getStatus().getCode());
@@ -119,7 +119,7 @@ public class SdnrOperation extends BidirectionalTopicOperation<PciMessage, PciMe
             return setOutcome(outcome, result);
         }
 
-        PciResponse pciResponse = responseWrapper.getBody().getOutput();
+        var pciResponse = responseWrapper.getBody().getOutput();
         if (pciResponse.getStatus() == null || pciResponse.getStatus().getValue() == null) {
             return setOutcome(outcome, result);
         }
@@ -135,17 +135,17 @@ public class SdnrOperation extends BidirectionalTopicOperation<PciMessage, PciMe
 
         /* Construct an SDNR request using pci Model */
 
-        PciMessage dmaapRequest = new PciMessage();
+        var dmaapRequest = new PciMessage();
         dmaapRequest.setVersion("1.0");
         dmaapRequest.setCorrelationId(params.getRequestId() + "-" + subRequestId);
         dmaapRequest.setType("request");
         dmaapRequest.setRpcName(params.getOperation().toLowerCase());
 
         /* This is the actual request that is placed in the dmaap wrapper. */
-        final PciRequest sdnrRequest = new PciRequest();
+        final var sdnrRequest = new PciRequest();
 
         /* The common header is a required field for all SDNR requests. */
-        PciCommonHeader requestCommonHeader = new PciCommonHeader();
+        var requestCommonHeader = new PciCommonHeader();
         requestCommonHeader.setRequestId(params.getRequestId());
         requestCommonHeader.setSubRequestId(subRequestId);
 
@@ -156,7 +156,7 @@ public class SdnrOperation extends BidirectionalTopicOperation<PciMessage, PciMe
         /*
          * Once the pci request is constructed, add it into the body of the dmaap wrapper.
          */
-        PciBody body = new PciBody();
+        var body = new PciBody();
         body.setInput(sdnrRequest);
         dmaapRequest.setBody(body);
 

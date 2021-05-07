@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,6 @@ package org.onap.policy.controlloop.actor.guard;
 import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -96,8 +95,8 @@ public class DecisionOperation extends HttpOperation<DecisionResponse> {
         // guard is disabled, thus it is always treated as a success
         logger.info("{}: guard disabled, always succeeds for {}", getFullName(), params.getRequestId());
 
-        final Executor executor = params.getExecutor();
-        final CallbackManager callbacks = new CallbackManager();
+        final var executor = params.getExecutor();
+        final var callbacks = new CallbackManager();
 
         return CompletableFuture.completedFuture(makeOutcome())
                         .whenCompleteAsync(callbackStarted(callbacks), executor)

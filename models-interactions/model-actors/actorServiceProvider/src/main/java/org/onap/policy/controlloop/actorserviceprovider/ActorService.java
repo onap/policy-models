@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ActorService
  * ================================================================================
- * Copyright (C) 2017-2018, 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018, 2020-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -89,7 +89,7 @@ public class ActorService extends StartConfigPartial<Map<String, Object>> {
         }
 
         actors.sort((actor1, actor2) -> {
-            int cmp = Integer.compare(actor1.getSequenceNumber(), actor2.getSequenceNumber());
+            var cmp = Integer.compare(actor1.getSequenceNumber(), actor2.getSequenceNumber());
             if (cmp != 0) {
                 return cmp;
             }
@@ -108,7 +108,7 @@ public class ActorService extends StartConfigPartial<Map<String, Object>> {
      * @throws IllegalArgumentException if no actor by the given name exists
      */
     public Actor getActor(String name) {
-        Actor actor = name2actor.get(name);
+        var actor = name2actor.get(name);
         if (actor == null) {
             throw new IllegalArgumentException("unknown actor " + name);
         }

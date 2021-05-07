@@ -31,6 +31,7 @@ import org.mockito.Mock;
 import org.onap.policy.common.endpoints.event.comm.TopicEndpointManager;
 import org.onap.policy.common.endpoints.event.comm.TopicSink;
 import org.onap.policy.common.endpoints.event.comm.TopicSource;
+import org.onap.policy.common.endpoints.event.comm.client.BidirectionalTopicClientException;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.common.endpoints.parameters.TopicParameters;
@@ -97,13 +98,17 @@ public abstract class BasicBidirectionalTopicOperation<Q> extends BasicOperation
 
     /**
      * Starts the topic.
+     *
+     * @throws InterruptedException if interrupted
+     * @throws BidirectionalTopicClientException if the client cannot be built
      */
-    protected static void initBeforeClass(String sinkTopic, String sourceTopic) throws Exception {
+    protected static void initBeforeClass(String sinkTopic, String sourceTopic)
+                    throws InterruptedException, BidirectionalTopicClientException {
 
         Util.buildDmaapSim();
 
         // note: the sink and source names are swapped for the simulator
-        TopicParameters ptopic = new TopicParameters();
+        var ptopic = new TopicParameters();
         ptopic.setTopic(sourceTopic);
         ptopic.setManaged(true);
         ptopic.setServers(List.of("localhost"));

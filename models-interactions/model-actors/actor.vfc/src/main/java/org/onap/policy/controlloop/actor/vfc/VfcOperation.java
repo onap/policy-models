@@ -172,20 +172,20 @@ public abstract class VfcOperation extends HttpOperation<VfcResponse> {
                             "Missing enrichment data for service instance, server id, or server name.");
         }
 
-        VfcHealActionVmInfo vmActionInfo = new VfcHealActionVmInfo();
+        var vmActionInfo = new VfcHealActionVmInfo();
         vmActionInfo.setVmid(vmId);
         vmActionInfo.setVmname(vmName);
 
-        VfcHealAdditionalParams additionalParams = new VfcHealAdditionalParams();
+        var additionalParams = new VfcHealAdditionalParams();
         additionalParams.setAction(getName());
         additionalParams.setActionInfo(vmActionInfo);
 
-        VfcHealRequest healRequest = new VfcHealRequest();
+        var healRequest = new VfcHealRequest();
         healRequest.setVnfInstanceId(vnfId);
         healRequest.setCause(getName());
         healRequest.setAdditionalParams(additionalParams);
 
-        VfcRequest request = new VfcRequest();
+        var request = new VfcRequest();
         request.setHealRequest(healRequest);
         request.setNsInstanceId(serviceInstance);
         request.setRequestId(params.getRequestId());

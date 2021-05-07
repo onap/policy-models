@@ -22,7 +22,6 @@ package org.onap.policy.controlloop.actorserviceprovider.impl;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
 import java.util.function.BiConsumer;
 import lombok.Getter;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
@@ -106,11 +105,11 @@ public abstract class BidirectionalTopicOperation<Q, S> extends OperationPartial
     @Override
     protected CompletableFuture<OperationOutcome> startOperationAsync(int attempt, OperationOutcome outcome) {
 
-        final Q request = makeRequest(attempt);
+        final var request = makeRequest(attempt);
         final List<String> expectedKeyValues = getExpectedKeyValues(attempt, request);
 
         final PipelineControllerFuture<OperationOutcome> controller = new PipelineControllerFuture<>();
-        final Executor executor = params.getExecutor();
+        final var executor = params.getExecutor();
 
         // register a listener BEFORE publishing
 
