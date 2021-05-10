@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2020 Nordix Foundation.
- * Modifications Copyright (C) 2020 AT&T
+ * Modifications Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -57,7 +57,7 @@ public class ToscaServiceTemplateUtils {
     public static JpaToscaServiceTemplate addFragment(@NonNull final JpaToscaServiceTemplate originalTemplate,
             @NonNull final JpaToscaServiceTemplate fragmentTemplate) {
 
-        BeanValidationResult result = new BeanValidationResult("incoming fragment", fragmentTemplate);
+        var result = new BeanValidationResult("incoming fragment", fragmentTemplate);
 
         if (originalTemplate.compareToWithoutEntities(fragmentTemplate) != 0) {
             Validated.addResult(result, "service template",
@@ -65,7 +65,7 @@ public class ToscaServiceTemplateUtils {
                             "does not equal existing service template");
         }
 
-        JpaToscaServiceTemplate compositeTemplate = new JpaToscaServiceTemplate(originalTemplate);
+        var compositeTemplate = new JpaToscaServiceTemplate(originalTemplate);
 
         compositeTemplate.setDataTypes(
                 addFragmentEntitites(compositeTemplate.getDataTypes(), fragmentTemplate.getDataTypes(), result));
@@ -123,7 +123,7 @@ public class ToscaServiceTemplateUtils {
             return compositeContainer;
         }
 
-        BeanValidationResult result2 = new BeanValidationResult("incoming fragment", fragmentContainer);
+        var result2 = new BeanValidationResult("incoming fragment", fragmentContainer);
 
         for (Entry<PfConceptKey, ? extends JpaToscaEntityType<? extends ToscaEntity>> fragmentEntry : fragmentContainer
                 .getConceptMap().entrySet()) {

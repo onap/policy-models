@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -68,7 +68,7 @@ public class JpaToscaConstraintValidValues extends JpaToscaConstraint {
 
     @Override
     public ToscaConstraint toAuthorative() {
-        ToscaConstraint toscaConstraint = new ToscaConstraint();
+        var toscaConstraint = new ToscaConstraint();
 
         toscaConstraint.setValidValues(validValues);
 

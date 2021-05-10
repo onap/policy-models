@@ -158,7 +158,7 @@ public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaPr
 
     @Override
     public ToscaProperty toAuthorative() {
-        ToscaProperty toscaProperty = new ToscaProperty();
+        var toscaProperty = new ToscaProperty();
 
         toscaProperty.setName(key.getLocalName());
 

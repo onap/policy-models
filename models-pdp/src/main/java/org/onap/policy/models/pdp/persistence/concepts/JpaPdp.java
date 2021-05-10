@@ -131,7 +131,7 @@ public class JpaPdp extends PfConcept implements PfAuthorative<Pdp>, Serializabl
 
     @Override
     public Pdp toAuthorative() {
-        Pdp pdp = new Pdp();
+        var pdp = new Pdp();
 
         pdp.setInstanceId(key.getLocalName());
         pdp.setPdpState(pdpState);

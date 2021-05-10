@@ -107,7 +107,7 @@ public abstract class JpaToscaWithToscaProperties<T extends ToscaWithToscaProper
         if (authorativeConcept.getProperties() != null) {
             properties = new LinkedHashMap<>();
             for (Entry<String, ToscaProperty> toscaPropertyEntry : authorativeConcept.getProperties().entrySet()) {
-                JpaToscaProperty jpaProperty = new JpaToscaProperty(toscaPropertyEntry.getValue());
+                var jpaProperty = new JpaToscaProperty(toscaPropertyEntry.getValue());
                 jpaProperty.setKey(new PfReferenceKey(getKey(), toscaPropertyEntry.getKey()));
                 properties.put(toscaPropertyEntry.getKey(), jpaProperty);
             }
@@ -116,7 +116,7 @@ public abstract class JpaToscaWithToscaProperties<T extends ToscaWithToscaProper
 
     @Override
     public T toAuthorative() {
-        T tosca = super.toAuthorative();
+        var tosca = super.toAuthorative();
 
         tosca.setProperties(PfUtils.mapMap(properties, JpaToscaProperty::toAuthorative));
 

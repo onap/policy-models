@@ -117,7 +117,7 @@ public abstract class JpaToscaWithTypeAndStringProperties<T extends ToscaWithTyp
 
     @Override
     public T toAuthorative() {
-        T tosca = super.toAuthorative();
+        var tosca = super.toAuthorative();
 
         tosca.setType(type.getName());
 

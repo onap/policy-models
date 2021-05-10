@@ -172,20 +172,20 @@ public class JpaPdpSubGroup extends PfConcept implements PfAuthorative<PdpSubGro
 
     @Override
     public PdpSubGroup toAuthorative() {
-        PdpSubGroup pdpSubgroup = new PdpSubGroup();
+        var pdpSubgroup = new PdpSubGroup();
 
         pdpSubgroup.setPdpType(getKey().getLocalName());
 
         pdpSubgroup.setSupportedPolicyTypes(new ArrayList<>());
         for (PfSearchableKey supportedPolicyTypeKey : supportedPolicyTypes) {
-            ToscaConceptIdentifier supportedPolicyTypeIdent = new ToscaConceptIdentifier(
+            var supportedPolicyTypeIdent = new ToscaConceptIdentifier(
                     supportedPolicyTypeKey.getName(), supportedPolicyTypeKey.getVersion());
             pdpSubgroup.getSupportedPolicyTypes().add(supportedPolicyTypeIdent);
         }
 
         pdpSubgroup.setPolicies(new ArrayList<>());
         for (PfConceptKey policyKey : policies) {
-            ToscaConceptIdentifier toscaPolicyIdentifier = new ToscaConceptIdentifier();
+            var toscaPolicyIdentifier = new ToscaConceptIdentifier();
             toscaPolicyIdentifier.setName(policyKey.getName());
             toscaPolicyIdentifier.setVersion(policyKey.getVersion());
             pdpSubgroup.getPolicies().add(toscaPolicyIdentifier);
@@ -233,7 +233,7 @@ public class JpaPdpSubGroup extends PfConcept implements PfAuthorative<PdpSubGro
         this.pdpInstances = new ArrayList<>();
         if (pdpSubgroup.getPdpInstances() != null) {
             for (Pdp pdp : pdpSubgroup.getPdpInstances()) {
-                JpaPdp jpaPdp = new JpaPdp();
+                var jpaPdp = new JpaPdp();
                 jpaPdp.setKey(new PfReferenceKey(getKey(), pdp.getInstanceId()));
                 jpaPdp.fromAuthorative(pdp);
                 this.pdpInstances.add(jpaPdp);

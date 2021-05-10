@@ -154,10 +154,8 @@ public class JpaPdpPolicyStatus extends PfConcept implements PfAuthorative<PdpPo
     @Override
     public PdpPolicyStatus toAuthorative() {
         PfConceptKey policyKey = key.getParentConceptKey();
-        ToscaConceptIdentifier policyIdent = new ToscaConceptIdentifier(policyKey.getName(), policyKey.getVersion());
-
-        ToscaConceptIdentifier policyTypeIdent =
-                        new ToscaConceptIdentifier(policyType.getName(), policyType.getVersion());
+        var policyIdent = new ToscaConceptIdentifier(policyKey.getName(), policyKey.getVersion());
+        var policyTypeIdent = new ToscaConceptIdentifier(policyType.getName(), policyType.getVersion());
 
         // @formatter:off
         return PdpPolicyStatus.builder()

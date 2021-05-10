@@ -95,7 +95,7 @@ public class PdpProvider {
             throws PfModelException {
 
         for (PdpGroup pdpGroup : pdpGroups) {
-            JpaPdpGroup jpaPdpGroup = new JpaPdpGroup();
+            var jpaPdpGroup = new JpaPdpGroup();
             jpaPdpGroup.fromAuthorative(pdpGroup);
 
             BeanValidationResult validationResult = jpaPdpGroup.validate("PDP group");
@@ -110,8 +110,7 @@ public class PdpProvider {
         List<PdpGroup> returnPdpGroups = new ArrayList<>();
 
         for (PdpGroup pdpGroup : pdpGroups) {
-            JpaPdpGroup jpaPdpGroup =
-                    dao.get(JpaPdpGroup.class, new PfConceptKey(pdpGroup.getName(), PfKey.NULL_KEY_VERSION));
+            var jpaPdpGroup = dao.get(JpaPdpGroup.class, new PfConceptKey(pdpGroup.getName(), PfKey.NULL_KEY_VERSION));
             returnPdpGroups.add(jpaPdpGroup.toAuthorative());
         }
 
@@ -130,7 +129,7 @@ public class PdpProvider {
             throws PfModelException {
 
         for (PdpGroup pdpGroup : pdpGroups) {
-            JpaPdpGroup jpaPdpGroup = new JpaPdpGroup();
+            var jpaPdpGroup = new JpaPdpGroup();
             jpaPdpGroup.fromAuthorative(pdpGroup);
 
             BeanValidationResult validationResult = jpaPdpGroup.validate("PDP group");
@@ -145,7 +144,7 @@ public class PdpProvider {
         List<PdpGroup> returnPdpGroups = new ArrayList<>();
 
         for (PdpGroup pdpGroup : pdpGroups) {
-            JpaPdpGroup jpaPdpGroup =
+            var jpaPdpGroup =
                     dao.get(JpaPdpGroup.class, new PfConceptKey(pdpGroup.getName(), PfKey.NULL_KEY_VERSION));
             returnPdpGroups.add(jpaPdpGroup.toAuthorative());
         }
@@ -164,9 +163,9 @@ public class PdpProvider {
     public void updatePdpSubGroup(@NonNull final PfDao dao, @NonNull final String pdpGroupName,
             @NonNull final PdpSubGroup pdpSubGroup) throws PfModelException {
 
-        final PfReferenceKey subGroupKey =
+        final var subGroupKey =
                 new PfReferenceKey(pdpGroupName, PfKey.NULL_KEY_VERSION, pdpSubGroup.getPdpType());
-        final JpaPdpSubGroup jpaPdpSubgroup = new JpaPdpSubGroup(subGroupKey);
+        final var jpaPdpSubgroup = new JpaPdpSubGroup(subGroupKey);
         jpaPdpSubgroup.fromAuthorative(pdpSubGroup);
 
         BeanValidationResult validationResult = jpaPdpSubgroup.validate("PDP sub group");
@@ -189,9 +188,9 @@ public class PdpProvider {
     public void updatePdp(@NonNull final PfDao dao, @NonNull final String pdpGroupName,
             @NonNull final String pdpSubGroup, @NonNull final Pdp pdp) {
 
-        final PfReferenceKey pdpKey =
+        final var pdpKey =
                 new PfReferenceKey(pdpGroupName, PfKey.NULL_KEY_VERSION, pdpSubGroup, pdp.getInstanceId());
-        final JpaPdp jpaPdp = new JpaPdp(pdpKey);
+        final var jpaPdp = new JpaPdp(pdpKey);
         jpaPdp.fromAuthorative(pdp);
 
         BeanValidationResult validationResult = jpaPdp.validate("PDP");
@@ -212,7 +211,7 @@ public class PdpProvider {
      */
     public PdpGroup deletePdpGroup(@NonNull final PfDao dao, @NonNull final String name) {
 
-        PfConceptKey pdpGroupKey = new PfConceptKey(name, PfKey.NULL_KEY_VERSION);
+        var pdpGroupKey = new PfConceptKey(name, PfKey.NULL_KEY_VERSION);
 
         JpaPdpGroup jpaDeletePdpGroup = dao.get(JpaPdpGroup.class, pdpGroupKey);
 
@@ -341,9 +340,9 @@ public class PdpProvider {
         List<JpaPdpPolicyStatus> jpas = objs.stream().map(JpaPdpPolicyStatus::new).collect(Collectors.toList());
 
         // validate the objects
-        BeanValidationResult result = new BeanValidationResult(fieldName, jpas);
+        var result = new BeanValidationResult(fieldName, jpas);
 
-        int count = 0;
+        var count = 0;
         for (JpaPdpPolicyStatus jpa: jpas) {
             result.addResult(jpa.validate(String.valueOf(count++)));
         }
