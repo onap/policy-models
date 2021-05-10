@@ -5,6 +5,7 @@
  * Copyright (C) 2018 Wipro Limited Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2018 Samsung Electronics Co., Ltd.
  * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -59,7 +60,7 @@ public class PciResponseCode implements Serializable {
      * @return the string value equivalent of the SDNR response code
      */
     public static String toResponseValue(int code) {
-        StatusCodeEnum statusCodeEnum = StatusCodeEnum.fromStatusCode(code);
+        var statusCodeEnum = StatusCodeEnum.fromStatusCode(code);
         return (statusCodeEnum != null) ? statusCodeEnum.toString() : null;
     }
 }

@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * rest
  * ================================================================================
- * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -61,11 +61,11 @@ public class RestManager {
      */
     public Pair<Integer, String> put(String url, String username, String password, Map<String, String> headers,
             String contentType, String body) {
-        HttpPut put = new HttpPut(url);
+        var put = new HttpPut(url);
         addHeaders(put, username, password, headers);
         put.addHeader(CONTENT_TYPE, contentType);
         try {
-            StringEntity input = new StringEntity(body);
+            var input = new StringEntity(body);
             input.setContentType(contentType);
             put.setEntity(input);
         } catch (Exception e) {
@@ -88,11 +88,11 @@ public class RestManager {
      */
     public Pair<Integer, String> post(String url, String username, String password, Map<String, String> headers,
             String contentType, String body) {
-        HttpPost post = new HttpPost(url);
+        var post = new HttpPost(url);
         addHeaders(post, username, password, headers);
         post.addHeader(CONTENT_TYPE, contentType);
         try {
-            StringEntity input = new StringEntity(body);
+            var input = new StringEntity(body);
             input.setContentType(contentType);
             post.setEntity(input);
         } catch (Exception e) {
@@ -112,7 +112,7 @@ public class RestManager {
      * @return a Pair for the response status and the body
      */
     public Pair<Integer, String> get(String url, String username, String password, Map<String, String> headers) {
-        HttpGet get = new HttpGet(url);
+        var get = new HttpGet(url);
         addHeaders(get, username, password, headers);
         return sendRequest(get);
     }
@@ -131,12 +131,12 @@ public class RestManager {
      */
     public Pair<Integer, String> delete(String url, String username, String password, Map<String, String> headers,
             String contentType, String body) {
-        HttpDeleteWithBody delete = new HttpDeleteWithBody(url);
+        var delete = new HttpDeleteWithBody(url);
         addHeaders(delete, username, password, headers);
         if (body != null && !body.isEmpty()) {
             delete.addHeader(CONTENT_TYPE, contentType);
             try {
-                StringEntity input = new StringEntity(body);
+                var input = new StringEntity(body);
                 input.setContentType(contentType);
                 delete.setEntity(input);
             } catch (Exception e) {
@@ -157,7 +157,7 @@ public class RestManager {
      * @return the response status code and the body
      */
     public Pair<Integer, String> delete(String url, String username, String password, Map<String, String> headers) {
-        HttpDelete delete = new HttpDelete(url);
+        var delete = new HttpDelete(url);
         addHeaders(delete, username, password, headers);
         return sendRequest(delete);
     }
@@ -174,12 +174,12 @@ public class RestManager {
      */
     public Pair<Integer, String> patch(String url, String username, String password, Map<String, String> headers,
             String body) {
-        String contentType = "application/merge-patch+json";
-        HttpPatch patch = new HttpPatch(url);
+        var contentType = "application/merge-patch+json";
+        var patch = new HttpPatch(url);
         addHeaders(patch, username, password, headers);
         patch.addHeader(CONTENT_TYPE, contentType);
         try {
-            StringEntity input = new StringEntity(body);
+            var input = new StringEntity(body);
             input.setContentType(contentType);
             patch.setEntity(input);
         } catch (Exception e) {
@@ -204,7 +204,7 @@ public class RestManager {
                 HttpClientBuilder.create().setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE).build()) {
             HttpResponse response = client.execute(request);
             if (response != null) {
-                String returnBody = EntityUtils.toString(response.getEntity(), "UTF-8");
+                var returnBody = EntityUtils.toString(response.getEntity(), "UTF-8");
                 logger.debug("HTTP Response Status Code: {}", response.getStatusLine().getStatusCode());
                 logger.debug("HTTP Response Body:");
                 logger.debug(returnBody);

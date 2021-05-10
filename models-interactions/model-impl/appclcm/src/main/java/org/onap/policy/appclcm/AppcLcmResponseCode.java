@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * appclcm
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019, 2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * Modifications Copyright (C) 2018 Samsung Electronics Co., Ltd.
  * ================================================================================
@@ -59,7 +59,7 @@ public class AppcLcmResponseCode implements Serializable {
      * @return the string value equivalent of the APPC response code
      */
     public static String toResponseValue(int code) {
-        StatusCodeEnum statusCodeEnum = StatusCodeEnum.fromStatusCode(code);
+        var statusCodeEnum = StatusCodeEnum.fromStatusCode(code);
         return (statusCodeEnum != null) ? statusCodeEnum.toString() : null;
     }
 }
