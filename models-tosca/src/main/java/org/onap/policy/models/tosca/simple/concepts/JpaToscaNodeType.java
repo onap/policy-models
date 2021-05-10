@@ -95,7 +95,7 @@ public class JpaToscaNodeType extends JpaToscaWithToscaProperties<ToscaNodeType>
 
     @Override
     public ToscaNodeType toAuthorative() {
-        ToscaNodeType toscaNodeType = new ToscaNodeType();
+        var toscaNodeType = new ToscaNodeType();
         super.setToscaEntity(toscaNodeType);
         super.toAuthorative();
 

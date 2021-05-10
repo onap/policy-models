@@ -84,7 +84,7 @@ public class PdpGroup implements PfNameVersion, Comparable<PdpGroup> {
      * @return the validation result
      */
     public ValidationResult validatePapRest(boolean updateGroupFlow) {
-        BeanValidationResult result = new BeanValidationResult("group", this);
+        var result = new BeanValidationResult("group", this);
 
         /*
          * Don't care about state, because we override it. Ok if description is null.

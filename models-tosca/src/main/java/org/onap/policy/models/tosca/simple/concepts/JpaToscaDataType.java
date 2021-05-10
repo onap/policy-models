@@ -90,7 +90,7 @@ public class JpaToscaDataType extends JpaToscaWithToscaProperties<ToscaDataType>
 
     @Override
     public ToscaDataType toAuthorative() {
-        ToscaDataType toscaDataType = new ToscaDataType();
+        var toscaDataType = new ToscaDataType();
         super.setToscaEntity(toscaDataType);
         super.toAuthorative();
 

@@ -3,7 +3,7 @@
  * ONAP Policy Model
  * ================================================================================
  * Copyright (C) 2019-2021 Nordix Foundation.
- * Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -177,7 +177,7 @@ public class JpaPdpStatistics extends PfConcept implements PfAuthorative<PdpStat
 
     @Override
     public PdpStatistics toAuthorative() {
-        PdpStatistics pdpStatistics = new PdpStatistics();
+        var pdpStatistics = new PdpStatistics();
         pdpStatistics.setPdpInstanceId(key.getName());
         pdpStatistics.setGeneratedId(key.getGeneratedId());
         pdpStatistics.setTimeStamp(timeStamp.toInstant());

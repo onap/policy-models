@@ -412,7 +412,7 @@ public class DatabasePolicyModelsProviderTest {
 
         List<PdpStatistics> statisticsArrayList = makePdpStatisticsList();
 
-        assertThat(databaseProvider.getPdpStatistics(null, null)).hasSize(0);
+        assertThat(databaseProvider.getPdpStatistics(null, null)).isEmpty();
         assertThat(databaseProvider.createPdpStatistics(statisticsArrayList)).hasSize(1);
         assertThat(databaseProvider.updatePdpStatistics(statisticsArrayList)).hasSize(1);
     }

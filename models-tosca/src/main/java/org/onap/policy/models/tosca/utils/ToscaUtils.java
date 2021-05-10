@@ -29,7 +29,6 @@ import javax.ws.rs.core.Response;
 import lombok.NonNull;
 import org.apache.commons.collections4.CollectionUtils;
 import org.onap.policy.common.parameters.BeanValidationResult;
-import org.onap.policy.common.parameters.ObjectValidationResult;
 import org.onap.policy.common.parameters.ValidationStatus;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptContainer;
@@ -259,7 +258,7 @@ public final class ToscaUtils {
             @NonNull final PfConceptContainer<? extends PfConcept, ? extends PfNameVersion> entityTypes,
             final String entityName, final String entityVersion) {
 
-        BeanValidationResult result = new BeanValidationResult("entity", entityName);
+        var result = new BeanValidationResult("entity", entityName);
 
         @SuppressWarnings("unchecked")
         Set<JpaToscaEntityType<?>> filteredEntitySet =

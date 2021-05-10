@@ -181,7 +181,7 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
 
     @Override
     public ToscaServiceTemplate toAuthorative() {
-        final ToscaServiceTemplate toscaServiceTemplate = new ToscaServiceTemplate();
+        final var toscaServiceTemplate = new ToscaServiceTemplate();
 
         super.setToscaEntity(toscaServiceTemplate);
         super.toAuthorative();

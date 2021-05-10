@@ -117,7 +117,7 @@ public class JpaToscaPolicy extends JpaToscaWithTypeAndStringProperties<ToscaPol
 
     @Override
     public ToscaPolicy toAuthorative() {
-        ToscaPolicy toscaPolicy = new ToscaPolicy();
+        var toscaPolicy = new ToscaPolicy();
         super.setToscaEntity(toscaPolicy);
         super.toAuthorative();
 

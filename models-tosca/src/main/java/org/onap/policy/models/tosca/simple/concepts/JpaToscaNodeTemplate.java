@@ -126,7 +126,7 @@ public class JpaToscaNodeTemplate extends JpaToscaWithTypeAndStringProperties<To
 
     @Override
     public ToscaNodeTemplate toAuthorative() {
-        ToscaNodeTemplate toscaNodeTemplate = new ToscaNodeTemplate();
+        var toscaNodeTemplate = new ToscaNodeTemplate();
         super.setToscaEntity(toscaNodeTemplate);
         super.toAuthorative();
 

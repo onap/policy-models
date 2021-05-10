@@ -3,7 +3,7 @@
  * ONAP Policy Model
  * ================================================================================
  * Copyright (C) 2019-2021 Nordix Foundation.
- * Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -60,7 +60,6 @@ public class PdpStatisticsProvider {
      */
     public List<PdpStatistics> getPdpStatistics(@NonNull final PfDao dao, final String name, final Instant timeStamp)
             throws PfModelException {
-        List<PdpStatistics> pdpStatistics = new ArrayList<>();
         if (name != null && timeStamp != null) {
             return asPdpStatisticsList(dao.getByTimestamp(JpaPdpStatistics.class,
                     new PfGeneratedIdKey(name, PfKey.NULL_KEY_VERSION), timeStamp));
@@ -130,7 +129,7 @@ public class PdpStatisticsProvider {
     public List<PdpStatistics> createPdpStatistics(@NonNull final PfDao dao,
             @NonNull final List<PdpStatistics> pdpStatisticsList) throws PfModelException {
         for (PdpStatistics pdpStatistics : pdpStatisticsList) {
-            JpaPdpStatistics jpaPdpStatistics = new JpaPdpStatistics();
+            var jpaPdpStatistics = new JpaPdpStatistics();
             jpaPdpStatistics.fromAuthorative(pdpStatistics);
             BeanValidationResult validationResult = jpaPdpStatistics.validate("pdp statistics");
             if (!validationResult.isValid()) {
@@ -145,7 +144,7 @@ public class PdpStatisticsProvider {
         List<PdpStatistics> pdpStatistics = new ArrayList<>(pdpStatisticsList.size());
 
         for (PdpStatistics pdpStatisticsItem : pdpStatisticsList) {
-            JpaPdpStatistics jpaPdpStatistics =
+            var jpaPdpStatistics =
                     dao.get(JpaPdpStatistics.class, new PfGeneratedIdKey(pdpStatisticsItem.getPdpInstanceId(),
                             PfKey.NULL_KEY_VERSION, pdpStatisticsItem.getGeneratedId()));
             pdpStatistics.add(jpaPdpStatistics.toAuthorative());
@@ -165,7 +164,7 @@ public class PdpStatisticsProvider {
             @NonNull final List<PdpStatistics> pdpStatisticsList) throws PfModelException {
 
         for (PdpStatistics pdpStatistics : pdpStatisticsList) {
-            JpaPdpStatistics jpaPdpStatistics = new JpaPdpStatistics();
+            var jpaPdpStatistics = new JpaPdpStatistics();
             jpaPdpStatistics.fromAuthorative(pdpStatistics);
 
             BeanValidationResult validationResult = jpaPdpStatistics.validate("pdp statistics");
@@ -180,7 +179,7 @@ public class PdpStatisticsProvider {
         List<PdpStatistics> pdpStatistics = new ArrayList<>(pdpStatisticsList.size());
 
         for (PdpStatistics pdpStatisticsItem : pdpStatisticsList) {
-            JpaPdpStatistics jpaPdpStatistics =
+            var jpaPdpStatistics =
                     dao.get(JpaPdpStatistics.class, new PfGeneratedIdKey(pdpStatisticsItem.getPdpInstanceId(),
                             PfKey.NULL_KEY_VERSION, pdpStatisticsItem.getGeneratedId()));
             pdpStatistics.add(jpaPdpStatistics.toAuthorative());

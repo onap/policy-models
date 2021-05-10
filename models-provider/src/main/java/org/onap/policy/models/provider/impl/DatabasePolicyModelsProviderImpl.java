@@ -146,7 +146,7 @@ public class DatabasePolicyModelsProviderImpl extends AbstractModelsProvider imp
             throws PfModelException {
         assertInitialized();
 
-        ToscaConceptIdentifier policyTypeIdentifier = new ToscaConceptIdentifier(name, version);
+        var policyTypeIdentifier = new ToscaConceptIdentifier(name, version);
         assertPolicyTypeNotSupportedInPdpGroup(policyTypeIdentifier);
 
         return new AuthorativeToscaProvider().deletePolicyType(getPfDao(), name, version);
@@ -197,7 +197,7 @@ public class DatabasePolicyModelsProviderImpl extends AbstractModelsProvider imp
             throws PfModelException {
         assertInitialized();
 
-        ToscaConceptIdentifier policyIdentifier = new ToscaConceptIdentifier(name, version);
+        var policyIdentifier = new ToscaConceptIdentifier(name, version);
         assertPolicyNotDeployedInPdpGroup(policyIdentifier);
 
         return new AuthorativeToscaProvider().deletePolicy(getPfDao(), name, version);
@@ -314,7 +314,7 @@ public class DatabasePolicyModelsProviderImpl extends AbstractModelsProvider imp
      */
     private void assertInitialized() {
         if (getPfDao() == null) {
-            String errorMessage = "policy models provider is not initilaized";
+            var errorMessage = "policy models provider is not initilaized";
             throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, errorMessage);
         }
     }

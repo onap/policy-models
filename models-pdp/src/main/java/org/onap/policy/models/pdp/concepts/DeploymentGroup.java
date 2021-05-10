@@ -63,7 +63,7 @@ public class DeploymentGroup {
      * @return the validation result
      */
     public ValidationResult validatePapRest() {
-        BeanValidationResult result = new BeanValidationResult("group", this);
+        var result = new BeanValidationResult("group", this);
 
         result.validateNotNull("name", name);
         result.validateNotNullList(SUBGROUP_FIELD, deploymentSubgroups, DeploymentSubGroup::validatePapRest);
@@ -94,15 +94,15 @@ public class DeploymentGroup {
         Map<String, Action> pdpType2action = new HashMap<>();
 
         for (DeploymentSubGroup subgrp : deploymentSubgroups) {
-            Action action = subgrp.getAction();
+            var action = subgrp.getAction();
 
             pdpType2action.compute(subgrp.getPdpType(), (pdpType, curact) -> {
 
                 if (curact != null && action == Action.PATCH) {
-                    BeanValidationResult subResult = new BeanValidationResult(pdpType, pdpType);
+                    var subResult = new BeanValidationResult(pdpType, pdpType);
                     subResult.addResult("action", action, ValidationStatus.INVALID,
                                     "incompatible with previous action: " + curact);
-                    BeanValidationResult subResult2 = new BeanValidationResult(SUBGROUP_FIELD, subgrp);
+                    var subResult2 = new BeanValidationResult(SUBGROUP_FIELD, subgrp);
                     subResult2.addResult(subResult);
                     result.addResult(subResult2);
                 }

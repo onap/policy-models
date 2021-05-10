@@ -101,7 +101,7 @@ public class JpaToscaSchemaDefinition extends Validated
 
     @Override
     public ToscaSchemaDefinition toAuthorative() {
-        ToscaSchemaDefinition toscaEntrySchema = new ToscaSchemaDefinition();
+        var toscaEntrySchema = new ToscaSchemaDefinition();
 
         toscaEntrySchema.setType(type.getName());
         toscaEntrySchema.setTypeVersion(type.getVersion());

@@ -80,7 +80,7 @@ public class PdpSubGroup {
      * @return the validation result
      */
     public ValidationResult validatePapRest(boolean updateGroupFlow) {
-        BeanValidationResult result = new BeanValidationResult("group", this);
+        var result = new BeanValidationResult("group", this);
 
         result.validateNotNull("pdpType", pdpType);
         // When doing PdpGroup Update operation, supported policy types and policies doesn't have to be validated.

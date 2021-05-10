@@ -69,17 +69,17 @@ public abstract class AbstractModelsProvider implements Closeable {
                 parameters.getPersistenceUnit());
 
         if (pfDao != null) {
-            String errorMessage = "provider is already initialized";
+            var errorMessage = "provider is already initialized";
             throw new PfModelException(Response.Status.NOT_ACCEPTABLE, errorMessage);
         }
 
         // Parameters for the DAO
-        final DaoParameters daoParameters = new DaoParameters();
+        final var daoParameters = new DaoParameters();
         daoParameters.setPluginClass(DefaultPfDao.class.getName());
         daoParameters.setPersistenceUnit(parameters.getPersistenceUnit());
 
         // @formatter:off
-        Properties jdbcProperties = new Properties();
+        var jdbcProperties = new Properties();
         jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_DRIVER,   parameters.getDatabaseDriver());
         jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_URL,      parameters.getDatabaseUrl());
         jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_USER,     parameters.getDatabaseUser());

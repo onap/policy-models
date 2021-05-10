@@ -153,7 +153,7 @@ public class JpaPdpGroup extends PfConcept implements PfAuthorative<PdpGroup> {
 
     @Override
     public PdpGroup toAuthorative() {
-        PdpGroup pdpGroup = new PdpGroup();
+        var pdpGroup = new PdpGroup();
 
         pdpGroup.setName(getKey().getName());
         pdpGroup.setVersion(getKey().getVersion());
@@ -184,7 +184,7 @@ public class JpaPdpGroup extends PfConcept implements PfAuthorative<PdpGroup> {
 
         this.pdpSubGroups = new ArrayList<>();
         for (PdpSubGroup pdpSubgroup : pdpGroup.getPdpSubgroups()) {
-            JpaPdpSubGroup jpaPdpSubGroup = new JpaPdpSubGroup();
+            var jpaPdpSubGroup = new JpaPdpSubGroup();
             jpaPdpSubGroup.setKey(new PfReferenceKey(getKey(), pdpSubgroup.getPdpType()));
             jpaPdpSubGroup.fromAuthorative(pdpSubgroup);
             this.pdpSubGroups.add(jpaPdpSubGroup);
