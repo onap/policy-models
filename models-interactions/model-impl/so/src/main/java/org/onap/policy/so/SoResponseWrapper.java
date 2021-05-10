@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * so
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019, 2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -70,7 +70,7 @@ public class SoResponseWrapper implements Serializable {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
+        final var prime = 31;
         int result = super.hashCode();
         result = prime * result + ((soResponse == null) ? 0 : soResponse.hashCode());
         result = prime * result + ((requestId == null) ? 0 : requestId.hashCode());

@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -165,7 +165,7 @@ public class Main extends ServiceManagerContainer {
 
     private SimulatorParameters readParameters(String paramFile) {
         try {
-            String paramsJson = getResourceAsString(paramFile);
+            var paramsJson = getResourceAsString(paramFile);
             if (paramsJson == null) {
                 throw new IllegalArgumentException(new FileNotFoundException(paramFile));
             }
@@ -183,14 +183,14 @@ public class Main extends ServiceManagerContainer {
     }
 
     private DmaapSimProvider buildDmaapProvider(DmaapSimParameterGroup params) {
-        DmaapSimProvider prov = new DmaapSimProvider(params);
+        var prov = new DmaapSimProvider(params);
         DmaapSimProvider.setInstance(prov);
         prov.start();
         return prov;
     }
 
     private CdsSimulator buildCdsSimulator(CdsServerParameters params) throws IOException {
-        CdsSimulator cdsSimulator = new CdsSimulator(params.getHost(), params.getPort(), params.getResourceLocation(),
+        var cdsSimulator = new CdsSimulator(params.getHost(), params.getPort(), params.getResourceLocation(),
             params.getSuccessRepeatCount(), params.getRequestedResponseDelayMs());
         cdsSimulator.start();
         return cdsSimulator;
@@ -211,7 +211,7 @@ public class Main extends ServiceManagerContainer {
 
     private HttpServletServer buildRestServer(String dmaapName, ClassRestServerParameters params) {
         try {
-            Properties props = getServerProperties(dmaapName, params);
+            var props = getServerProperties(dmaapName, params);
             HttpServletServer testServer = makeServer(props);
             testServer.waitedStart(5000);
 
@@ -263,7 +263,7 @@ public class Main extends ServiceManagerContainer {
      * @return a set of properties representing the given parameters
      */
     private static Properties getServerProperties(String dmaapName, ClassRestServerParameters params) {
-        final Properties props = new Properties();
+        final var props = new Properties();
         props.setProperty(PolicyEndPointProperties.PROPERTY_HTTP_SERVER_SERVICES, params.getName());
 
         final String svcpfx = PolicyEndPointProperties.PROPERTY_HTTP_SERVER_SERVICES + "." + params.getName();

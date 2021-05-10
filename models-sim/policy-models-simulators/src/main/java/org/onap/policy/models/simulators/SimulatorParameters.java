@@ -80,7 +80,7 @@ public class SimulatorParameters {
         if (dmaapProvider != null) {
             // do not want full validation of the provider, so validate the relevant
             // fields ourselves
-            BeanValidationResult subResult = new BeanValidationResult("dmaapProvider", dmaapProvider);
+            var subResult = new BeanValidationResult("dmaapProvider", dmaapProvider);
             subResult.validateNotNull("name", dmaapProvider.getName());
             if (dmaapProvider.getTopicSweepSec() < 1) {
                 subResult.addResult("topicSweepSec", dmaapProvider.getTopicSweepSec(),

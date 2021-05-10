@@ -4,7 +4,7 @@
  * ================================================================================
  * Copyright (C) 2018 Huawei. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
- * Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,9 +65,9 @@ public class SdncSimulatorJaxRs {
 
 
     private String makeSuccessResponse() {
-        final SdncResponse response = new SdncResponse();
+        final var response = new SdncResponse();
         response.setRequestId(UUID.randomUUID().toString());
-        SdncResponseOutput responseOutput = new SdncResponseOutput();
+        var responseOutput = new SdncResponseOutput();
         responseOutput.setResponseCode("200");
         responseOutput.setAckFinalIndicator("Y");
         responseOutput.setSvcRequestId(UUID.randomUUID().toString());

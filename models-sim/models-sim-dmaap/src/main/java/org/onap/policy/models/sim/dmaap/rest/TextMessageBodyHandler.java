@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Models
  * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,8 +52,7 @@ public class TextMessageBodyHandler implements MessageBodyReader<Object> {
     public List<Object> readFrom(Class<Object> type, Type genericType, Annotation[] annotations, MediaType mediaType,
                     MultivaluedMap<String, String> httpHeaders, InputStream entityStream) throws IOException {
 
-        try (BufferedReader bufferedReader =
-                        new BufferedReader(new InputStreamReader(entityStream, StandardCharsets.UTF_8))) {
+        try (var bufferedReader = new BufferedReader(new InputStreamReader(entityStream, StandardCharsets.UTF_8))) {
             List<Object> messages = new LinkedList<>();
             String msg;
             while ((msg = bufferedReader.readLine()) != null) {

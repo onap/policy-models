@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2021 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,11 +46,11 @@ public class Main {
      * @param args the command line arguments
      */
     public Main(final String[] args) {
-        final String argumentString = Arrays.toString(args);
+        final var argumentString = Arrays.toString(args);
         LOGGER.info("Starting DMaaP simulator service with arguments - {}", argumentString);
 
         // Check the arguments
-        final DmaapSimCommandLineArguments arguments = new DmaapSimCommandLineArguments();
+        final var arguments = new DmaapSimCommandLineArguments();
         try {
             // The arguments return a string if there is a message to print and we should exit
             final String argumentMessage = arguments.parse(args);

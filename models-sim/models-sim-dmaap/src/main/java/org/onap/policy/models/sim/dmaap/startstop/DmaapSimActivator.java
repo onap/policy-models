@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,11 +39,11 @@ public class DmaapSimActivator extends ServiceManagerContainer {
     public DmaapSimActivator(final DmaapSimParameterGroup dmaapSimParameterGroup) {
         super("DMaaP Simulator");
 
-        DmaapSimProvider provider = new DmaapSimProvider(dmaapSimParameterGroup);
+        var provider = new DmaapSimProvider(dmaapSimParameterGroup);
         DmaapSimProvider.setInstance(provider);
         addAction("Sim Provider", provider::start, provider::stop);
 
-        DmaapSimRestServer restServer = new DmaapSimRestServer(dmaapSimParameterGroup.getRestServerParameters());
+        var restServer = new DmaapSimRestServer(dmaapSimParameterGroup.getRestServerParameters());
         addAction("REST server", restServer::start, restServer::stop);
     }
 }

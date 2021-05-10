@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Models
  * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -153,7 +153,7 @@ public class TopicData {
         List<String> list = new ArrayList<>(messages.size());
 
         for (Object msg : messages) {
-            String str = convertMessageToString(msg, coder);
+            var str = convertMessageToString(msg, coder);
             if (str != null) {
                 list.add(str);
             }

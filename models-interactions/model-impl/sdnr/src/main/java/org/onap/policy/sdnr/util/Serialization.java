@@ -57,7 +57,7 @@ public final class Serialization {
         @Override
         public JsonElement serialize(PciRequest src, Type typeOfSrc, JsonSerializationContext context) {
             JsonElement requestJson = gsonPretty.toJsonTree(src, PciRequest.class);
-            JsonObject input = new JsonObject();
+            var input = new JsonObject();
             input.add("input", requestJson);
 
             return input;
@@ -74,7 +74,7 @@ public final class Serialization {
         @Override
         public JsonElement serialize(PciResponse src, Type typeOfSrc, JsonSerializationContext context) {
             JsonElement responseJson = gsonPretty.toJsonTree(src, PciResponse.class);
-            JsonObject output = new JsonObject();
+            var output = new JsonObject();
             output.add("output", responseJson);
             return output;
         }

@@ -54,13 +54,7 @@ public class CdsProcessorGrpcClient implements AutoCloseable {
         Preconditions.checkState(validationResult.getStatus().isValid(), "Error validating CDS server "
             + "properties: " + validationResult.getResult());
 
-        StringBuilder bldr = new StringBuilder("gRPC://");
-        bldr.append(props.getHost());
-        bldr.append(":");
-        bldr.append(props.getPort());
-        bldr.append('/');
-
-        String url = bldr.toString();
+        String url = "gRPC://" + props.getHost() + ":" + props.getPort() + "/";
 
         this.channel = NettyChannelBuilder.forAddress(props.getHost(), props.getPort())
             .intercept(new BasicAuthClientHeaderInterceptor(props)).usePlaintext().build();

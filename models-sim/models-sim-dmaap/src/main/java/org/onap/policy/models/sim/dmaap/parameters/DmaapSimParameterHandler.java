@@ -53,7 +53,7 @@ public class DmaapSimParameterHandler {
         // Read the parameters
         try {
             // Read the parameters from JSON
-            File file = new File(arguments.getFullConfigurationFilePath());
+            var file = new File(arguments.getFullConfigurationFilePath());
             dmaapSimParameterGroup = coder.decode(file, DmaapSimParameterGroup.class);
         } catch (final CoderException e) {
             final String errorMessage = "error reading parameters from \"" + arguments.getConfigurationFilePath()
