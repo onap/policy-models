@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -40,11 +40,13 @@ import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
 import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
 import org.onap.policy.models.pdp.concepts.PdpPolicyStatus;
+import org.onap.policy.models.pdp.concepts.PdpPolicyTracker;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.pdp.persistence.concepts.JpaPdp;
 import org.onap.policy.models.pdp.persistence.concepts.JpaPdpGroup;
 import org.onap.policy.models.pdp.persistence.concepts.JpaPdpPolicyStatus;
+import org.onap.policy.models.pdp.persistence.concepts.JpaPdpPolicyTracker;
 import org.onap.policy.models.pdp.persistence.concepts.JpaPdpSubGroup;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierOptVersion;
 
@@ -368,5 +370,44 @@ public class PdpProvider {
         }
 
         return pdpGroupList;
+    }
+
+    /**
+     * Collect the deployment history of policies in a Pdp Group.
+     * @param dao database access to be used.
+     * @param groupName pdp group name to be audited.
+     * @return list of deployments acted upon the policies on pdp group.
+     */
+    public List<PdpPolicyTracker> getPdpPolicyTrackers(@NonNull final PfDao dao,
+            @NonNull final String groupName) {
+        Map<String, Object> filter = Map.of("pdpGroup", groupName);
+
+        return dao.getFiltered(JpaPdpPolicyTracker.class, null, null, null, null, filter, "timestamp ASC", 0).stream()
+                        .map(JpaPdpPolicyTracker::toAuthorative).collect(Collectors.toList());
+    }
+
+    /**
+     * Collect the deployment history of policies.
+     * @param dao database access to be used.
+     * @param name policy name
+     * @param version policy version
+     * @return list of deployments acted upon the policy with the name and version informed.
+     */
+    public List<PdpPolicyTracker> getPdpPolicyTrackers(@NonNull final PfDao dao,
+            @NonNull final String name, @NonNull final String version) {
+
+        return dao.getFiltered(JpaPdpPolicyTracker.class, name, version, null, null, null, null, 0).stream()
+                .sorted().map(JpaPdpPolicyTracker::toAuthorative).collect(Collectors.toList());
+    }
+
+    /**
+     * Creates trackers for PDP policies' status which (deploy/undeploy) have changed.
+     *
+     * @param dao the DAO to use to access the database
+     * @param trackers a specification of the PDP groups to create
+     * @throws PfModelException on errors creating trackers
+     */
+    public void trackPdpPolicyAction(@NonNull final PfDao dao, @NonNull final List<PdpPolicyTracker> trackers) {
+        dao.createCollection(trackers.stream().map(JpaPdpPolicyTracker::new).collect(Collectors.toList()));
     }
 }
