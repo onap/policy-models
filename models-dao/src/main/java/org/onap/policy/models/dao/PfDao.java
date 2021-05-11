@@ -256,6 +256,16 @@ public interface PfDao {
      *
      * @param <T> the type of the objects to get, a subclass of {@link PfConcept}
      * @param someClass the class of the objects to get, a subclass of {@link PfConcept}
+     * @param numRecords number of records to be retrieved
+     * @return the objects or null if no objects were retrieved
+     */
+    <T extends PfConcept> List<T> getAll(Class<T> someClass, Integer numRecords);
+
+    /**
+     * Get all the objects in the database of a given type.
+     *
+     * @param <T> the type of the objects to get, a subclass of {@link PfConcept}
+     * @param someClass the class of the objects to get, a subclass of {@link PfConcept}
      * @param name the name of the concepts for which to get all versions
      * @return the objects or null if no objects were retrieved
      */

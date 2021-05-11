@@ -395,9 +395,8 @@ public class DefaultPfDao implements PfDao {
 
         try {
             PfFilter timeStampFilter = new PfFilterFactory().createFilter(someClass);
-            filterQueryString = timeStampFilter.addFilter(filterQueryString,
-                  name, startTime, endTime, filterMap, sortOrder, getRecordNum);
-
+            filterQueryString = timeStampFilter.addFilter(filterQueryString, name, startTime, endTime, filterMap,
+                    sortOrder, getRecordNum);
 
             TypedQuery<T> query = mg.createQuery(setQueryTable(filterQueryString, someClass), someClass);
 
@@ -427,7 +426,7 @@ public class DefaultPfDao implements PfDao {
 
             LOGGER.debug("filterQueryString is  \"{}\"", filterQueryString);
             return query.getResultList();
-        }  finally {
+        } finally {
             mg.close();
         }
     }
@@ -505,6 +504,21 @@ public class DefaultPfDao implements PfDao {
     }
 
     @Override
+    public <T extends PfConcept> List<T> getAll(Class<T> someClass, Integer numRecords) {
+
+        if (someClass == null) {
+            return Collections.emptyList();
+        }
+        final var mg = getEntityManager();
+        try {
+            return mg.createQuery(setQueryTable(SELECT_FROM_TABLE, someClass), someClass).setMaxResults(numRecords)
+                    .getResultList();
+        } finally {
+            mg.close();
+        }
+    }
+
+    @Override
     public <T extends PfConcept> List<T> getAllVersionsByParent(final Class<T> someClass, final String parentKeyName) {
         if (someClass == null || parentKeyName == null) {
             return Collections.emptyList();
@@ -539,9 +553,8 @@ public class DefaultPfDao implements PfDao {
     }
 
     @Override
-    public <T extends PfConcept> List<T> getByTimestamp(final Class<T> someClass,
-                                                        final PfGeneratedIdKey key,
-                                                        final Instant timeStamp) {
+    public <T extends PfConcept> List<T> getByTimestamp(final Class<T> someClass, final PfGeneratedIdKey key,
+            final Instant timeStamp) {
         if (someClass == null || key == null || timeStamp == null) {
             return Collections.emptyList();
         }
