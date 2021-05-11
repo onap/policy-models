@@ -75,6 +75,11 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
 
 
     @Override
+    public List<ToscaServiceTemplate> getServiceTemplateList(String name) throws PfModelException {
+        return new ArrayList<>();
+    }
+
+    @Override
     public List<ToscaServiceTemplate> getServiceTemplateList(String name, String version) throws PfModelException {
         return new ArrayList<>();
     }
@@ -95,6 +100,12 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
     public ToscaServiceTemplate updateServiceTemplate(@NonNull ToscaServiceTemplate serviceTemplate)
             throws PfModelException {
         return serviceTemplate;
+    }
+
+    @Override
+    public List<ToscaServiceTemplate> deleteServiceTemplate(@NonNull String name)
+            throws PfModelException {
+        return List.of(getDummyResponse("dummyimpl/DummyToscaServiceTemplateDeleteResponse.json"));
     }
 
     @Override

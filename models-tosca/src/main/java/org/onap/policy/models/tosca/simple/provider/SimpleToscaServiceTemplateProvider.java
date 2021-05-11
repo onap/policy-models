@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2020 Nordix Foundation.
+ *  Copyright (C) 2020-2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
 
 package org.onap.policy.models.tosca.simple.provider;
 
+import java.util.List;
 import javax.ws.rs.core.Response.Status;
 import lombok.NonNull;
 import org.onap.policy.models.base.PfConceptKey;
@@ -66,6 +67,60 @@ public class SimpleToscaServiceTemplateProvider {
     }
 
     /**
+     * Get a list of service templates with given conceptName from the database.
+     *
+     * @param dao         the DAO to use to access the database
+     * @param conceptName the conceptName
+     * @return list of Service Template read from the database
+     * @throws PfModelException on errors getting the service template
+     */
+    protected List<JpaToscaServiceTemplate> readByName(@NonNull final PfDao dao, @NonNull final String conceptName)
+        throws PfModelException {
+        LOGGER.debug("->read for conceptName {}", conceptName);
+
+        try {
+            // Get list of service templates
+            List<JpaToscaServiceTemplate> serviceTemplate =
+                dao.getAllVersions(JpaToscaServiceTemplate.class, conceptName);
+
+            LOGGER.debug("<-read: serviceTemplate={}", serviceTemplate);
+            return serviceTemplate;
+        } catch (Exception dbException) {
+            throw new PfModelException(Status.INTERNAL_SERVER_ERROR,
+                "database read error on service template with conceptName " + conceptName + "\n"
+                    + dbException.getMessage(), dbException);
+        }
+    }
+
+    /**
+     * Get a list of service templates with given conceptName and version from the database.
+     *
+     * @param dao     the DAO to use to access the database
+     * @param conceptName    the conceptName
+     * @param version the version
+     * @return list of Service Template read from the database
+     * @throws PfModelException on errors getting the service template
+     */
+    protected List<JpaToscaServiceTemplate> readByNameAndVersion(@NonNull final PfDao dao,
+                                                                 final String conceptName,
+                                                                 final String version)
+        throws PfModelException {
+        LOGGER.debug("->read for conceptName {} and version {}", conceptName, version);
+
+        try {
+            // Get list of service templates
+            List<JpaToscaServiceTemplate> serviceTemplate =
+                dao.getFiltered(JpaToscaServiceTemplate.class, conceptName, version);
+            LOGGER.debug("<-read: serviceTemplate={}", serviceTemplate);
+            return serviceTemplate;
+        } catch (Exception dbException) {
+            throw new PfModelException(Status.INTERNAL_SERVER_ERROR,
+                "database read error on service template with conceptName " + conceptName + " and version " + version
+                    + "\n" + dbException.getMessage(), dbException);
+        }
+    }
+
+    /**
      * Write a service template to the database.
      *
      * @param dao the DAO to use to access the database
@@ -100,6 +155,53 @@ public class SimpleToscaServiceTemplateProvider {
 
             JpaToscaServiceTemplate serviceTemplateToBeDeleted =
                 dao.get(JpaToscaServiceTemplate.class, DEFAULT_SERVICE_TEMPLATE_KEY);
+
+            dao.delete(serviceTemplateToBeDeleted);
+
+            LOGGER.debug("<-delete: serviceTemplate={}", serviceTemplateToBeDeleted);
+            return serviceTemplateToBeDeleted;
+        } catch (Exception dbException) {
+            throw new PfModelException(Status.INTERNAL_SERVER_ERROR, "database delete error on service tempalate"
+                + DEFAULT_SERVICE_TEMPLATE_KEY.getId() + "\n" + dbException.getMessage(), dbException);
+        }
+    }
+
+    /**
+     * Delete a service template from the database.
+     *
+     * @param dao the DAO to use to access the database
+     * @return the Service Template stored in the database
+     * @throws PfModelException on errors getting the service template
+     */
+    protected List<JpaToscaServiceTemplate> delete(@NonNull final PfDao dao, @NonNull final String conceptName)
+        throws PfModelException {
+        try {
+            LOGGER.debug("->delete");
+
+            final var deleted = dao.deleteByConceptName(JpaToscaServiceTemplate.class, conceptName);
+
+            LOGGER.debug("<-deleted {} services with concept name: {}", deleted, conceptName);
+            return deleted;
+        } catch (Exception dbException) {
+            throw new PfModelException(Status.INTERNAL_SERVER_ERROR, "database delete error on service template"
+                + DEFAULT_SERVICE_TEMPLATE_KEY.getId() + "\n" + dbException.getMessage(), dbException);
+        }
+    }
+
+    /**
+     * Delete a service template from the database.
+     *
+     * @param dao the DAO to use to access the database
+     * @return the Service Template stored in the database
+     * @throws PfModelException on errors getting the service template
+     */
+    protected JpaToscaServiceTemplate delete(@NonNull final PfDao dao, @NonNull final String conceptName,
+                                             @NonNull final String version)
+        throws PfModelException {
+        try {
+            LOGGER.debug("->delete");
+            final var pfConceptKey = new PfConceptKey(conceptName, version);
+            JpaToscaServiceTemplate serviceTemplateToBeDeleted = dao.get(JpaToscaServiceTemplate.class, pfConceptKey);
 
             dao.delete(serviceTemplateToBeDeleted);
 

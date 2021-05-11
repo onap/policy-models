@@ -21,11 +21,14 @@
 
 package org.onap.policy.models.tosca.simple.provider;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import java.util.List;
 import java.util.Properties;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.junit.After;
 import org.junit.Before;
@@ -50,6 +53,8 @@ import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
 public class SimpleToscaServiceTemplateProviderTest {
     private static final String TEMPLATE_IS_NULL = "^serviceTemplate is marked .*on.*ull but is null$";
     private static final String DAO_IS_NULL = "^dao is marked .*on.*ull but is null$";
+    private static final String VERSION_IS_NULL = "^version is marked .*on.*ull but is null$";
+    private static final String NAME_IS_NULL = "^conceptName is marked .*on.*ull but is null$";
 
     private PfDao pfDao;
 
@@ -153,6 +158,137 @@ public class SimpleToscaServiceTemplateProviderTest {
     }
 
     @Test
+    public void readByName() throws PfModelException {
+        final var name = RandomStringUtils.randomAlphabetic(4);
+        final var version = "2.3.4";
+        final var dbServiceTemplate = ServiceTemplateUtils.prepareDbServiceTemplate(pfDao, name, version);
+
+        final var actual = new SimpleToscaServiceTemplateProvider()
+            .readByName(pfDao, name);
+
+        final var expected = List.of(dbServiceTemplate);
+
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    public void readByNameNotFound() throws PfModelException {
+        final var name = RandomStringUtils.randomAlphabetic(4);
+        final var version = "2.3.4";
+        ServiceTemplateUtils.prepareDbServiceTemplate(pfDao, name, version);
+        final var conceptName = RandomStringUtils.randomAlphanumeric(3, 5);
+        final var actual = new SimpleToscaServiceTemplateProvider()
+            .readByName(pfDao, conceptName);
+
+        assertThat(actual).isEmpty();
+    }
+
+    @Test
+    public void readByNameAndVersion() throws PfModelException {
+        final var name = RandomStringUtils.randomAlphabetic(4);
+        final var version = "2.3.4";
+        final var dbServiceTemplate = ServiceTemplateUtils.prepareDbServiceTemplate(pfDao, name, version);
+
+        final var actual = new SimpleToscaServiceTemplateProvider()
+            .readByNameAndVersion(pfDao, name, version);
+
+        final var expected = List.of(dbServiceTemplate);
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    public void readByNameAndVersionNameNotFound() throws PfModelException {
+        final var name = RandomStringUtils.randomAlphabetic(4);
+        final var version = "2.3.4";
+        final var notFoundName = RandomStringUtils.randomAlphabetic(9);
+        ServiceTemplateUtils.prepareDbServiceTemplate(pfDao, name, version);
+
+        final var actual = new SimpleToscaServiceTemplateProvider()
+            .readByNameAndVersion(pfDao, notFoundName, version);
+
+        assertThat(actual).isEmpty();
+    }
+
+    @Test
+    public void readByNameAndVersionNotFound() throws PfModelException {
+        final var name = RandomStringUtils.randomAlphabetic(4);
+        final var version = "2.3.4";
+        final var notFoundVersion = "9.0.0";
+        ServiceTemplateUtils.prepareDbServiceTemplate(pfDao, name, version);
+
+        final var actual = new SimpleToscaServiceTemplateProvider()
+            .readByNameAndVersion(pfDao, name, notFoundVersion);
+
+        assertThat(actual).isEmpty();
+    }
+
+    @Test
+    public void deleteByName() throws PfModelException {
+        final var name = RandomStringUtils.randomAlphabetic(4);
+        final var version = "2.3.4";
+        final var jpaToscaServiceTemplate = ServiceTemplateUtils.prepareDbServiceTemplate(pfDao, name, version);
+
+        final var expected = List.of(jpaToscaServiceTemplate);
+
+        final var actual = new SimpleToscaServiceTemplateProvider()
+            .delete(pfDao, name);
+
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    public void deleteByNameNotFound() throws PfModelException {
+        final var name = RandomStringUtils.randomAlphabetic(4);
+        final var notFoundName = RandomStringUtils.randomAlphabetic(4);
+        final var version = "2.3.4";
+        ServiceTemplateUtils.prepareDbServiceTemplate(pfDao, name, version);
+
+        final var actual = new SimpleToscaServiceTemplateProvider()
+            .delete(pfDao, notFoundName);
+
+        assertThat(actual).isEmpty();
+    }
+
+    @Test
+    public void deleteByNameAndVersion() throws PfModelException {
+        final var name = RandomStringUtils.randomAlphabetic(4);
+        final var version = "2.3.4";
+
+        final var jpaToscaServiceTemplate = ServiceTemplateUtils.prepareDbServiceTemplate(pfDao, name, version);
+
+        final var actual = new SimpleToscaServiceTemplateProvider()
+            .delete(pfDao, name, version);
+
+        assertThat(actual).isEqualTo(jpaToscaServiceTemplate);
+    }
+
+    @Test
+    public void deleteByNameAndVersionNameNotFound() throws PfModelException {
+        final var name = RandomStringUtils.randomAlphabetic(4);
+        final var notPresentName = RandomStringUtils.randomAlphabetic(9);
+        final var version = "2.3.4";
+        ServiceTemplateUtils.prepareDbServiceTemplate(pfDao, name, version);
+
+        final var actual = new SimpleToscaServiceTemplateProvider()
+            .delete(pfDao, notPresentName, version);
+
+        assertThat(actual).isNull();
+    }
+
+    @Test
+    public void deleteByNameAndVersionNotFound() throws PfModelException {
+        final var name = RandomStringUtils.randomAlphabetic(4);
+        final var version = "9.0.0";
+        final var notPresentVersion = "2.3.4";
+        ServiceTemplateUtils.prepareDbServiceTemplate(pfDao, name, version);
+
+        final var actual = new SimpleToscaServiceTemplateProvider()
+            .delete(pfDao, name, notPresentVersion);
+
+        assertThat(actual).isNull();
+    }
+
+    @Test
     public void testNonNulls() {
         assertThatThrownBy(() -> {
             new SimpleToscaServiceTemplateProvider().write(null, null);
@@ -173,5 +309,44 @@ public class SimpleToscaServiceTemplateProviderTest {
         assertThatThrownBy(() -> {
             new SimpleToscaServiceTemplateProvider().delete(null);
         }).hasMessageMatching(DAO_IS_NULL);
+    }
+
+    @Test
+    public void testReadByNameNonNulls() {
+        assertThatThrownBy(() -> new SimpleToscaServiceTemplateProvider().readByName(null, ""))
+            .hasMessageMatching(DAO_IS_NULL);
+
+        assertThatThrownBy(() -> new SimpleToscaServiceTemplateProvider().readByName(pfDao, null))
+            .hasMessageMatching(NAME_IS_NULL);
+    }
+
+    @Test
+    public void testReadByNameAndVersionNonNulls() {
+        assertThatThrownBy(() -> new SimpleToscaServiceTemplateProvider().readByNameAndVersion(null, "", ""))
+            .hasMessageMatching(DAO_IS_NULL);
+    }
+
+    @Test
+    public void testDeleteByNameNonNulls() {
+        assertThatThrownBy(() -> new SimpleToscaServiceTemplateProvider().delete(null, ""))
+            .hasMessageMatching(DAO_IS_NULL);
+
+        assertThatThrownBy(() -> new SimpleToscaServiceTemplateProvider().delete(pfDao, null))
+            .hasMessageMatching(NAME_IS_NULL);
+    }
+
+    @Test
+    public void testDeleteByNameAndVersionNonNulls() {
+        assertThatThrownBy(
+            () -> new SimpleToscaServiceTemplateProvider().delete(null, "", "")
+        ).hasMessageMatching(DAO_IS_NULL);
+
+        assertThatThrownBy(
+            () -> new SimpleToscaServiceTemplateProvider().delete(pfDao, null, "")
+        ).hasMessageMatching(NAME_IS_NULL);
+
+        assertThatThrownBy(
+            () -> new SimpleToscaServiceTemplateProvider().delete(pfDao, "", null)
+        ).hasMessageMatching(VERSION_IS_NULL);
     }
 }

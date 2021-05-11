@@ -131,6 +131,16 @@ public interface PfDao {
     <T extends PfConcept> int deleteByConceptKey(Class<T> someClass, Collection<PfConceptKey> keys);
 
     /**
+     * Delete a collection of objects in the database with given concept name.
+     *
+     * @param <T> the type of the objects to delete, a subclass of {@link org.onap.policy.models.base.PfConcept}
+     * @param someClass the class of the objects to delete, a subclass of {@link org.onap.policy.models.base.PfConcept}
+     * @param conceptName the keys of the objects to delete
+     * @return the number of objects deleted
+     */
+    <T extends PfConcept> List<T> deleteByConceptName(Class<T> someClass, String conceptName);
+
+    /**
      * Delete a collection of objects in the database referred to by reference key.
      *
      * @param <T> the type of the objects to delete, a subclass of {@link PfConcept}

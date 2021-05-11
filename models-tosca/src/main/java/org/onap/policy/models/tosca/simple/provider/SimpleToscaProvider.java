@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -85,6 +85,53 @@ public class SimpleToscaProvider {
     }
 
     /**
+     * Get Service Templates with given name.
+     *
+     * @param dao  the DAO to use to access the database
+     * @param name the name of the service template.
+     * @return the list of service templates
+     * @throws PfModelException on errors getting the service template
+     */
+    public List<JpaToscaServiceTemplate> getServiceTemplates(@NonNull final PfDao dao, final String name)
+        throws PfModelException {
+        LOGGER.debug("->getServiceTemplate");
+
+        List<JpaToscaServiceTemplate> serviceTemplate = new SimpleToscaServiceTemplateProvider()
+            .readByName(dao, name);
+
+        if (serviceTemplate.isEmpty()) {
+            throw new PfModelRuntimeException(Response.Status.NOT_FOUND, SERVICE_TEMPLATE_NOT_FOUND_IN_DATABASE);
+        }
+
+        LOGGER.debug("<-getServiceTemplate: serviceTemplate={}", serviceTemplate);
+        return serviceTemplate;
+    }
+
+    /**
+     * Get Service Templates with given name and version.
+     *
+     * @param dao the DAO to use to access the database
+     * @param name the name of the service template.
+     * @param version the version of the service template.
+     * @return the list of service templates
+     * @throws PfModelException on errors getting the service template
+     */
+    public List<JpaToscaServiceTemplate> getServiceTemplates(@NonNull final PfDao dao, final String name,
+                                                            final String version) throws PfModelException {
+        LOGGER.debug("->getServiceTemplate");
+
+        List<JpaToscaServiceTemplate> serviceTemplate = new SimpleToscaServiceTemplateProvider()
+            .readByNameAndVersion(dao, name, version);
+
+        if (serviceTemplate.isEmpty()) {
+            throw new PfModelRuntimeException(Response.Status.NOT_FOUND, SERVICE_TEMPLATE_NOT_FOUND_IN_DATABASE);
+        }
+
+        LOGGER.debug("<-getServiceTemplate: serviceTemplate={}", serviceTemplate);
+        return serviceTemplate;
+    }
+
+    /**
      * Append a service template fragment to the service template in the database.
      *
      * @param dao the DAO to use to access the database
@@ -134,6 +181,53 @@ public class SimpleToscaProvider {
         dao.delete(serviceTemplate);
 
         LOGGER.debug("->deleteServiceTemplate: serviceTemplate={}", serviceTemplate);
+        return serviceTemplate;
+    }
+
+    /**
+     * Delete service template.
+     *
+     * @param dao the DAO to use to access the database
+     * @param name the name of the service template to delete.
+     * @return the TOSCA service template that was deleted
+     * @throws PfModelException on errors deleting the service template
+     */
+    public List<JpaToscaServiceTemplate> deleteServiceTemplate(@NonNull final PfDao dao, final String name)
+        throws PfModelException {
+        LOGGER.debug("->deleteServiceTemplate: name {}", name);
+
+        final var serviceTemplates = new SimpleToscaServiceTemplateProvider()
+            .delete(dao, name);
+
+        if (serviceTemplates.isEmpty()) {
+            throw new PfModelRuntimeException(Response.Status.NOT_FOUND, SERVICE_TEMPLATE_NOT_FOUND_IN_DATABASE);
+        }
+
+        LOGGER.debug("->deleteServiceTemplate: name {} serviceTemplate={}", name, serviceTemplates);
+        return serviceTemplates;
+    }
+
+    /**
+     * Delete service template.
+     *
+     * @param dao the DAO to use to access the database
+     * @param name the name of the service template to delete.
+     * @param version the version of the service template to delete.
+     * @return the TOSCA service template that was deleted
+     * @throws PfModelException on errors deleting the service template
+     */
+    public JpaToscaServiceTemplate deleteServiceTemplate(@NonNull final PfDao dao, final String name,
+                                                         final String version) throws PfModelException {
+        LOGGER.debug("->deleteServiceTemplate: name {}, version {}", name, version);
+
+        var serviceTemplate = new SimpleToscaServiceTemplateProvider().delete(dao, name, version);
+
+        if (serviceTemplate == null) {
+            throw new PfModelRuntimeException(Response.Status.NOT_FOUND, SERVICE_TEMPLATE_NOT_FOUND_IN_DATABASE);
+        }
+
+        LOGGER.debug("->deleteServiceTemplate: name {}, version {}, serviceTemplate={}", name, version,
+            serviceTemplate);
         return serviceTemplate;
     }
 

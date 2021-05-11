@@ -65,6 +65,12 @@ public class DatabasePolicyModelsProviderImpl extends AbstractModelsProvider imp
     }
 
     @Override
+    public List<ToscaServiceTemplate> getServiceTemplateList(String name) throws PfModelException {
+        assertInitialized();
+        return new AuthorativeToscaProvider().getServiceTemplateList(getPfDao(), name);
+    }
+
+    @Override
     public List<ToscaServiceTemplate> getServiceTemplateList(final String name, final String version)
             throws PfModelException {
         assertInitialized();
@@ -91,6 +97,13 @@ public class DatabasePolicyModelsProviderImpl extends AbstractModelsProvider imp
             throws PfModelException {
         assertInitialized();
         return new AuthorativeToscaProvider().updateServiceTemplate(getPfDao(), serviceTemplate);
+    }
+
+    @Override
+    public List<ToscaServiceTemplate> deleteServiceTemplate(@NonNull final String name) throws PfModelException {
+        assertInitialized();
+
+        return new AuthorativeToscaProvider().deleteServiceTemplate(getPfDao(), name);
     }
 
     @Override

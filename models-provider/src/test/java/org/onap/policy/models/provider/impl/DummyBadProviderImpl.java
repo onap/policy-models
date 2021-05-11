@@ -60,6 +60,7 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
         // do nothing
     }
 
+
     @Override
     public void init() throws PfModelException {
         // do nothing
@@ -80,6 +81,11 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
     @Override
     public ToscaServiceTemplate updateServiceTemplate(@NonNull ToscaServiceTemplate serviceTemplate)
             throws PfModelException {
+        return null;
+    }
+
+    @Override
+    public List<ToscaServiceTemplate> deleteServiceTemplate(@NonNull String name) throws PfModelException {
         return null;
     }
 
@@ -257,6 +263,11 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
     public void cudPolicyStatus(Collection<PdpPolicyStatus> createObjs, Collection<PdpPolicyStatus> updateObjs,
             Collection<PdpPolicyStatus> deleteObjs) {
         // Not implemented
+    }
+
+    @Override
+    public List<ToscaServiceTemplate> getServiceTemplateList(String name) throws PfModelException {
+        return null;
     }
 
     @Override

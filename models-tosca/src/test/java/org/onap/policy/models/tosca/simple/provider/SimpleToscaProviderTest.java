@@ -21,13 +21,16 @@
 
 package org.onap.policy.models.tosca.simple.provider;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Properties;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.junit.After;
 import org.junit.Before;
@@ -37,6 +40,7 @@ import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
+import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.Validated;
 import org.onap.policy.models.dao.DaoParameters;
@@ -885,6 +889,134 @@ public class SimpleToscaProviderTest {
         assertThatThrownBy(() -> {
             new SimpleToscaProvider().getCascadedDataTypes(null, null, null);
         }).hasMessageMatching("^dbServiceTemplate is marked .*on.*ull but is null$");
+    }
+
+    @Test
+    public void testGetServiceTemplatesByName() throws PfModelException {
+        final var name = RandomStringUtils.randomAlphabetic(5);
+        final var version = "2.3.4";
+        final var jpaToscaServiceTemplate = ServiceTemplateUtils.prepareDbServiceTemplate(pfDao, name, version);
+
+        final var expected = List.of(jpaToscaServiceTemplate);
+
+        final var actual = new SimpleToscaProvider().getServiceTemplates(pfDao, name);
+
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    public void testGetServiceTemplatesByNameNotFound() throws PfModelException {
+        final var name = RandomStringUtils.randomAlphabetic(5);
+        final var nameNotFound = RandomStringUtils.randomAlphabetic(6);
+        final var version = "2.3.4";
+        ServiceTemplateUtils.prepareDbServiceTemplate(pfDao, name, version);
+
+        final var simpleToscaProvider = new SimpleToscaProvider();
+
+        assertThatThrownBy(() -> simpleToscaProvider.getServiceTemplates(pfDao, nameNotFound))
+            .isInstanceOf(PfModelRuntimeException.class);
+    }
+
+    @Test
+    public void testGetServiceTemplatesByNameAndVersion() throws PfModelException {
+        final var name = RandomStringUtils.randomAlphabetic(5);
+        final var version = "2.3.4";
+        final var jpaToscaServiceTemplate = ServiceTemplateUtils.prepareDbServiceTemplate(pfDao, name, version);
+
+        final var expected = List.of(jpaToscaServiceTemplate);
+
+        final var actual = new SimpleToscaProvider().getServiceTemplates(pfDao, name, version);
+
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    public void testGetServiceTemplatesByNameAndVersionNameNotFound() throws PfModelException {
+        final var name = RandomStringUtils.randomAlphabetic(5);
+        final var nameNotFound = RandomStringUtils.randomAlphabetic(6);
+        final var version = "2.3.4";
+        ServiceTemplateUtils.prepareDbServiceTemplate(pfDao, name, version);
+
+        final var simpleToscaProvider = new SimpleToscaProvider();
+
+        assertThatThrownBy(() -> simpleToscaProvider.getServiceTemplates(pfDao, nameNotFound))
+            .isInstanceOf(PfModelRuntimeException.class);
+    }
+
+    @Test
+    public void testGetServiceTemplatesByNameAndVersionNotFound() throws PfModelException {
+        final var name = RandomStringUtils.randomAlphabetic(5);
+        final var version = "2.3.4";
+        final var versionNotFound = "9.9.9";
+        ServiceTemplateUtils.prepareDbServiceTemplate(pfDao, name, version);
+
+        final var simpleToscaProvider = new SimpleToscaProvider();
+
+        assertThatThrownBy(() -> simpleToscaProvider.getServiceTemplates(pfDao, name, versionNotFound))
+            .isInstanceOf(PfModelRuntimeException.class);
+    }
+
+    @Test
+    public void testDeleteServiceTemplateByName() throws PfModelException {
+        final var name = RandomStringUtils.randomAlphabetic(5);
+        final var version = "2.3.4";
+        final var jpaToscaServiceTemplate = ServiceTemplateUtils.prepareDbServiceTemplate(pfDao, name, version);
+
+        final var expected = List.of(jpaToscaServiceTemplate);
+
+        final var actual = new SimpleToscaProvider().deleteServiceTemplate(pfDao, name);
+
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    public void testDeleteServiceTemplateByNameNotFound() throws PfModelException {
+        final var name = RandomStringUtils.randomAlphabetic(5);
+        final var nameNotFound = RandomStringUtils.randomAlphabetic(6);
+        final var version = "2.3.4";
+        ServiceTemplateUtils.prepareDbServiceTemplate(pfDao, name, version);
+
+        final var simpleToscaProvider = new SimpleToscaProvider();
+
+        assertThatThrownBy(() -> simpleToscaProvider.deleteServiceTemplate(pfDao, nameNotFound))
+            .isInstanceOf(PfModelRuntimeException.class);
+    }
+
+    @Test
+    public void testDeleteServiceTemplateByNameAndVersion() throws PfModelException {
+        final var name = RandomStringUtils.randomAlphabetic(5);
+        final var version = "2.3.4";
+        final var jpaToscaServiceTemplate = ServiceTemplateUtils.prepareDbServiceTemplate(pfDao, name, version);
+
+        final var actual = new SimpleToscaProvider().deleteServiceTemplate(pfDao, name, version);
+
+        assertThat(actual).isEqualTo(jpaToscaServiceTemplate);
+    }
+
+    @Test
+    public void testDeleteServiceTemplateByNameAndVersionNameNotFound() throws PfModelException {
+        final var name = RandomStringUtils.randomAlphabetic(5);
+        final var nameNotFound = RandomStringUtils.randomAlphabetic(6);
+        final var version = "2.3.4";
+        ServiceTemplateUtils.prepareDbServiceTemplate(pfDao, name, version);
+
+        final var simpleToscaProvider = new SimpleToscaProvider();
+
+        assertThatThrownBy(() -> simpleToscaProvider.deleteServiceTemplate(pfDao, nameNotFound, version))
+            .isInstanceOf(PfModelRuntimeException.class);
+    }
+
+    @Test
+    public void testDeleteServiceTemplateByNameAndVersionNotFound() throws PfModelException {
+        final var name = RandomStringUtils.randomAlphabetic(5);
+        final var version = "2.3.4";
+        final var versionNotFound = "8.9.9";
+        ServiceTemplateUtils.prepareDbServiceTemplate(pfDao, name, version);
+
+        final var simpleToscaProvider = new SimpleToscaProvider();
+
+        assertThatThrownBy(() -> simpleToscaProvider.deleteServiceTemplate(pfDao, name, versionNotFound))
+            .isInstanceOf(PfModelRuntimeException.class);
     }
 
     private void createPolicyTypes() throws CoderException, PfModelException {

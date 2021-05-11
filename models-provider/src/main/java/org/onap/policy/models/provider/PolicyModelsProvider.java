@@ -61,6 +61,15 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * Get service templates.
      *
      * @param name the name of the topology template to get, set to null to get all service templates
+     * @return the topology templates found
+     * @throws PfModelException on errors getting service templates
+     */
+    public List<ToscaServiceTemplate> getServiceTemplateList(final String name) throws PfModelException;
+
+    /**
+     * Get service templates.
+     *
+     * @param name the name of the topology template to get, set to null to get all service templates
      * @param version the version of the service template to get, set to null to get all service templates
      * @return the topology templates found
      * @throws PfModelException on errors getting service templates
@@ -97,6 +106,15 @@ public interface PolicyModelsProvider extends AutoCloseable {
      */
     public ToscaServiceTemplate updateServiceTemplate(@NonNull final ToscaServiceTemplate serviceTemplate)
             throws PfModelException;
+
+    /**
+     * Delete service template.
+     *
+     * @param name the name of the service template to delete.
+     * @return the TOSCA service templates that was deleted
+     * @throws PfModelException on errors deleting policy types
+     */
+    public List<ToscaServiceTemplate> deleteServiceTemplate(@NonNull final String name) throws PfModelException;
 
     /**
      * Delete service template.

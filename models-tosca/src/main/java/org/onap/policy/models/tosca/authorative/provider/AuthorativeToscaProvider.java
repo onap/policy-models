@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import lombok.NonNull;
@@ -61,6 +62,37 @@ public class AuthorativeToscaProvider {
      *
      * @param dao the DAO to use to access the database
      * @param name the name of the service template to get.
+     * @return the service templates found
+     * @throws PfModelException on errors getting service templates
+     */
+    public List<ToscaServiceTemplate> getServiceTemplateList(PfDao dao, String name)
+            throws PfModelException {
+
+        synchronized (providerLockObject) {
+            LOGGER.debug("->getServiceTemplateList: name={}", name);
+
+            final List<ToscaServiceTemplate> serviceTemplateList;
+
+            try {
+                serviceTemplateList = new SimpleToscaProvider()
+                    .getServiceTemplates(dao, name)
+                    .stream()
+                    .map(JpaToscaServiceTemplate::toAuthorative)
+                    .collect(Collectors.toList());
+            } catch (PfModelRuntimeException pfme) {
+                return handlePfModelRuntimeException(pfme);
+            }
+
+            LOGGER.debug("<-getServiceTemplateList: name={}, serviceTemplateList={}", name, serviceTemplateList);
+            return serviceTemplateList;
+        }
+    }
+
+    /**
+     * Get service templates.
+     *
+     * @param dao the DAO to use to access the database
+     * @param name the name of the service template to get.
      * @param version the version of the service template to get.
      * @return the service templates found
      * @throws PfModelException on errors getting service templates
@@ -71,12 +103,14 @@ public class AuthorativeToscaProvider {
         synchronized (providerLockObject) {
             LOGGER.debug("->getServiceTemplateList: name={}, version={}", name, version);
 
-            List<ToscaServiceTemplate> serviceTemplateList = new ArrayList<>();
+            List<ToscaServiceTemplate> serviceTemplateList;
 
             try {
-                ToscaServiceTemplate serviceTemplate =
-                        new SimpleToscaProvider().getServiceTemplate(dao).toAuthorative();
-                serviceTemplateList.add(serviceTemplate);
+                serviceTemplateList = new SimpleToscaProvider()
+                .getServiceTemplates(dao, name, version)
+                .stream()
+                .map(JpaToscaServiceTemplate::toAuthorative)
+                .collect(Collectors.toList());
             } catch (PfModelRuntimeException pfme) {
                 return handlePfModelRuntimeException(pfme);
             }
@@ -154,7 +188,33 @@ public class AuthorativeToscaProvider {
     }
 
     /**
-     * Delete a service template.
+     * Delete a service templates with given name.
+     *
+     * @param dao the DAO to use to access the database
+     * @param name the name of the service template to delete.
+     * @return the TOSCA service template that was deleted
+     * @throws PfModelException on errors deleting the control loop
+     */
+    public List<ToscaServiceTemplate> deleteServiceTemplate(@NonNull final PfDao dao, @NonNull final String name)
+        throws PfModelException {
+
+        synchronized (providerLockObject) {
+            LOGGER.debug("->deleteServiceTemplate: name={}", name);
+
+            final var deletedServiceTemplates = new SimpleToscaProvider()
+                .deleteServiceTemplate(dao, name)
+                .stream()
+                .map(JpaToscaServiceTemplate::toAuthorative)
+                .collect(Collectors.toList());
+
+            LOGGER.debug("<-deleteServiceTemplate: name={}, deletedServiceTemplate={}", name, deletedServiceTemplates);
+            return deletedServiceTemplates;
+        }
+    }
+
+    /**
+     * Delete a service templates with given name and version.
+     * There should be only one template with given name and version in database.
      *
      * @param dao the DAO to use to access the database
      * @param name the name of the service template to delete.
@@ -168,12 +228,13 @@ public class AuthorativeToscaProvider {
         synchronized (providerLockObject) {
             LOGGER.debug("->deleteServiceTemplate: name={}, version={}", name, version);
 
-            ToscaServiceTemplate deletedServiceTemplate =
-                    new SimpleToscaProvider().deleteServiceTemplate(dao).toAuthorative();
+            final var toscaServiceTemplate = new SimpleToscaProvider()
+                .deleteServiceTemplate(dao, name, version)
+                .toAuthorative();
 
             LOGGER.debug("<-deleteServiceTemplate: name={}, version={}, deletedServiceTemplate={}", name, version,
-                    deletedServiceTemplate);
-            return deletedServiceTemplate;
+                    toscaServiceTemplate);
+            return toscaServiceTemplate;
         }
     }
 

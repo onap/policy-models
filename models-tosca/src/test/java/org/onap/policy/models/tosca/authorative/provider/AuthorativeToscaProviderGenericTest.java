@@ -21,6 +21,7 @@
 
 package org.onap.policy.models.tosca.authorative.provider;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -30,14 +31,17 @@ import com.google.gson.GsonBuilder;
 import java.util.List;
 import java.util.Properties;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.base.PfConceptKey;
+import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.dao.DaoParameters;
 import org.onap.policy.models.dao.PfDao;
 import org.onap.policy.models.dao.PfDaoFactory;
@@ -164,10 +168,133 @@ public class AuthorativeToscaProviderGenericTest {
                 VERSION_001)).hasMessageContaining("Policy Framework DAO has not been initialized");
 
         assertTrue(new AuthorativeToscaProvider().getPolicyTypeList(pfDao, "i.dont.Exist", VERSION_001).isEmpty());
+    }
 
-        ToscaServiceTemplate deletedServiceTemplate =
-                new AuthorativeToscaProvider().deleteServiceTemplate(pfDao, "Dummy", "0.0.1");
-        assertEquals(2, deletedServiceTemplate.getPolicyTypes().size());
+    @Test
+    public void testDeleteByName() throws CoderException, PfModelException {
+        final var toscaServiceTemplate = standardCoder.decode(yamlAsJsonString, ToscaServiceTemplate.class);
+
+        final var name = RandomStringUtils.randomAlphabetic(5);
+        final var version = "2.3.4";
+
+        assertNotNull(toscaServiceTemplate);
+        toscaServiceTemplate.setName(name);
+        toscaServiceTemplate.setVersion(version);
+        final var serviceTemplate = new AuthorativeToscaProvider().createServiceTemplate(pfDao, toscaServiceTemplate);
+        final var actual = List.of(serviceTemplate);
+
+        final var deleteServiceTemplate = new AuthorativeToscaProvider().deleteServiceTemplate(pfDao, name);
+
+        assertThat(deleteServiceTemplate).isEqualTo(actual);
+    }
+
+    @Test
+    public void testDeleteByNameAndVersion() throws CoderException, PfModelException {
+        final var toscaServiceTemplate = standardCoder.decode(yamlAsJsonString, ToscaServiceTemplate.class);
+
+        final var name = RandomStringUtils.randomAlphabetic(5);
+        final var version = "2.3.4";
+
+        assertNotNull(toscaServiceTemplate);
+        toscaServiceTemplate.setName(name);
+        toscaServiceTemplate.setVersion(version);
+        final var serviceTemplate = new AuthorativeToscaProvider().createServiceTemplate(pfDao, toscaServiceTemplate);
+
+        final var deleteServiceTemplate = new AuthorativeToscaProvider().deleteServiceTemplate(pfDao, name, version);
+
+        assertThat(deleteServiceTemplate).isEqualTo(serviceTemplate);
+    }
+
+    @Test
+    public void testGetServiceTemplateListByName() throws CoderException, PfModelException {
+        final var toscaServiceTemplate = standardCoder.decode(yamlAsJsonString, ToscaServiceTemplate.class);
+
+        final var name = RandomStringUtils.randomAlphabetic(5);
+        final var version = "2.3.4";
+
+        assertNotNull(toscaServiceTemplate);
+        toscaServiceTemplate.setName(name);
+        toscaServiceTemplate.setVersion(version);
+        final var serviceTemplate = new AuthorativeToscaProvider().createServiceTemplate(pfDao, toscaServiceTemplate);
+        final var actual = List.of(serviceTemplate);
+
+        final var deleteServiceTemplate = new AuthorativeToscaProvider().getServiceTemplateList(pfDao, name);
+
+        assertThat(deleteServiceTemplate).isEqualTo(actual);
+    }
+
+    @Test
+    public void testGetServiceTemplateListByNameNotFound() throws CoderException, PfModelException {
+        final var toscaServiceTemplate = standardCoder.decode(yamlAsJsonString, ToscaServiceTemplate.class);
+
+        final var name = RandomStringUtils.randomAlphabetic(5);
+        final var nameNotFound = RandomStringUtils.randomAlphabetic(5);
+        final var version = "2.3.4";
+
+        assertNotNull(toscaServiceTemplate);
+        toscaServiceTemplate.setName(name);
+        toscaServiceTemplate.setVersion(version);
+        new AuthorativeToscaProvider().createServiceTemplate(pfDao, toscaServiceTemplate);
+
+        final var deleteServiceTemplate = new AuthorativeToscaProvider().getServiceTemplateList(pfDao, nameNotFound);
+
+        assertThat(deleteServiceTemplate).isEmpty();
+    }
+
+    @Test
+    public void testGetServiceTemplateListByNameAndVersion() throws CoderException, PfModelException {
+        final var toscaServiceTemplate = standardCoder.decode(yamlAsJsonString, ToscaServiceTemplate.class);
+
+        final var name = RandomStringUtils.randomAlphabetic(5);
+        final var version = "2.3.4";
+
+        assertNotNull(toscaServiceTemplate);
+        toscaServiceTemplate.setName(name);
+        toscaServiceTemplate.setVersion(version);
+        final var serviceTemplate = new AuthorativeToscaProvider().createServiceTemplate(pfDao, toscaServiceTemplate);
+        final var actual = List.of(serviceTemplate);
+
+        final var deleteServiceTemplate = new AuthorativeToscaProvider().getServiceTemplateList(pfDao, name, version);
+
+        assertThat(deleteServiceTemplate).isEqualTo(actual);
+    }
+
+    @Test
+    public void testGetServiceTemplateListByNameAndVersionNameNotFound() throws CoderException, PfModelException {
+        final var toscaServiceTemplate = standardCoder.decode(yamlAsJsonString, ToscaServiceTemplate.class);
+
+        final var name = RandomStringUtils.randomAlphabetic(5);
+        final var nameNotFound = RandomStringUtils.randomAlphabetic(5);
+        final var version = "2.3.4";
+
+        assertNotNull(toscaServiceTemplate);
+        toscaServiceTemplate.setName(name);
+        toscaServiceTemplate.setVersion(version);
+        new AuthorativeToscaProvider().createServiceTemplate(pfDao, toscaServiceTemplate);
+
+        final var deleteServiceTemplate = new AuthorativeToscaProvider().getServiceTemplateList(pfDao, nameNotFound,
+            version);
+
+        assertThat(deleteServiceTemplate).isEmpty();
+    }
+
+    @Test
+    public void testGetServiceTemplateListByNameAndVersionNotFound() throws CoderException, PfModelException {
+        final var toscaServiceTemplate = standardCoder.decode(yamlAsJsonString, ToscaServiceTemplate.class);
+
+        final var name = RandomStringUtils.randomAlphabetic(5);
+        final var version = "2.3.4";
+        final var versionNotFound = "9.8.9";
+
+        assertNotNull(toscaServiceTemplate);
+        toscaServiceTemplate.setName(name);
+        toscaServiceTemplate.setVersion(version);
+        new AuthorativeToscaProvider().createServiceTemplate(pfDao, toscaServiceTemplate);
+
+        final var deleteServiceTemplate = new AuthorativeToscaProvider().getServiceTemplateList(pfDao, name,
+            versionNotFound);
+
+        assertThat(deleteServiceTemplate).isEmpty();
     }
 
     @Test

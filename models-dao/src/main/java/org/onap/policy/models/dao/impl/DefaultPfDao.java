@@ -87,6 +87,8 @@ public class DefaultPfDao implements PfDao {
     private static final String DELETE_BY_CONCEPT_KEY =
             DELETE_FROM_TABLE + WHERE + NAME_FILTER + AND + VERSION_FILTER;
 
+    private static final String DELETE_BY_CONCEPT_NAME = DELETE_FROM_TABLE + WHERE + NAME_FILTER;
+
     private static final String DELETE_BY_TIMESTAMP_KEY =
             DELETE_FROM_TABLE + WHERE + NAME_FILTER + AND + VERSION_FILTER  + AND + TIMESTAMP_FILTER;
 
@@ -271,6 +273,30 @@ public class DefaultPfDao implements PfDao {
         } finally {
             mg.close();
         }
+    }
+
+    @Override
+    public <T extends PfConcept> List<T> deleteByConceptName(Class<T> someClass, String nameValue) {
+        if (nameValue == null) {
+            return Collections.emptyList();
+        }
+        final List<T> resultList;
+        final var mg = getEntityManager();
+        try {
+            // @formatter:off
+            mg.getTransaction().begin();
+            resultList = mg.createQuery(setQueryTable(SELECT_ALL_VERSIONS, someClass), someClass)
+                .setParameter(NAME, nameValue)
+                .getResultList();
+            mg.createQuery(setQueryTable(DELETE_BY_CONCEPT_NAME, someClass), someClass)
+                .setParameter(NAME, nameValue)
+                .executeUpdate();
+            mg.getTransaction().commit();
+            // @formatter:on
+        } finally {
+            mg.close();
+        }
+        return resultList;
     }
 
     @Override
@@ -506,36 +532,12 @@ public class DefaultPfDao implements PfDao {
 
     @Override
     public <T extends PfConcept> List<T> getAllVersionsByParent(final Class<T> someClass, final String parentKeyName) {
-        if (someClass == null || parentKeyName == null) {
-            return Collections.emptyList();
-        }
-        final var mg = getEntityManager();
-        try {
-            // @formatter:off
-            return mg.createQuery(setQueryTable(SELECT_ALL_VERSIONS_FOR_PARENT, someClass), someClass)
-                    .setParameter(PARENT_NAME, parentKeyName)
-                    .getResultList();
-            // @formatter:on
-        } finally {
-            mg.close();
-        }
+        return findAllByParameter(someClass, SELECT_ALL_VERSIONS_FOR_PARENT, PARENT_NAME, parentKeyName);
     }
 
     @Override
     public <T extends PfConcept> List<T> getAllVersions(final Class<T> someClass, final String conceptName) {
-        if (someClass == null || conceptName == null) {
-            return Collections.emptyList();
-        }
-        final var mg = getEntityManager();
-        try {
-            // @formatter:off
-            return mg.createQuery(setQueryTable(SELECT_ALL_VERSIONS, someClass), someClass)
-                    .setParameter(NAME, conceptName)
-                    .getResultList();
-            // @formatter:on
-        } finally {
-            mg.close();
-        }
+        return findAllByParameter(someClass, SELECT_ALL_VERSIONS, NAME, conceptName);
     }
 
     @Override
@@ -681,5 +683,32 @@ public class DefaultPfDao implements PfDao {
             }
         }
         return null;
+    }
+
+    /**
+     * Executes query with given parameters and returns the result.
+     *
+     * @param <T> the type of the object to get, a subclass of {@link PfConcept}
+     * @param someClass the class of the object to get, a subclass of {@link PfConcept}
+     * @param sql string to be executed
+     * @param parameterName sql parameter name
+     * @param parameterValue sql parameter value
+     * @return list if results
+     */
+    private <T extends PfConcept> List<T> findAllByParameter(Class<T> someClass, String sql, String parameterName,
+                                                             String parameterValue) {
+        if (someClass == null || parameterValue == null) {
+            return Collections.emptyList();
+        }
+        final var mg = getEntityManager();
+        try {
+            // @formatter:off
+            return mg.createQuery(setQueryTable(sql, someClass), someClass)
+                .setParameter(parameterName, parameterValue)
+                .getResultList();
+            // @formatter:on
+        } finally {
+            mg.close();
+        }
     }
 }
