@@ -28,6 +28,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -49,6 +50,8 @@ import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
 import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
 import org.onap.policy.models.pdp.concepts.PdpGroups;
+import org.onap.policy.models.pdp.concepts.PdpPolicyDeploymentAudit;
+import org.onap.policy.models.pdp.concepts.PdpPolicyDeploymentAudit.AuditAction;
 import org.onap.policy.models.pdp.concepts.PdpPolicyStatus;
 import org.onap.policy.models.pdp.concepts.PdpPolicyStatus.PdpPolicyStatusBuilder;
 import org.onap.policy.models.pdp.concepts.PdpPolicyStatus.State;
@@ -80,7 +83,6 @@ public class PdpProviderTest {
     private PfDao pfDao;
     private StandardCoder standardCoder;
     private PdpPolicyStatusBuilder statusBuilder;
-
 
     /**
      * Set up the DAO towards the database.
@@ -128,7 +130,7 @@ public class PdpProviderTest {
         ToscaConceptIdentifier policyType = new ToscaConceptIdentifier("MyPolicyType", "1.2.4");
 
         statusBuilder = PdpPolicyStatus.builder().deploy(true).pdpType("MyPdpType").policy(MY_POLICY)
-                        .policyType(policyType).state(State.SUCCESS);
+                .policyType(policyType).state(State.SUCCESS);
     }
 
     @After
@@ -234,7 +236,7 @@ public class PdpProviderTest {
         assertThatThrownBy(() -> {
             new PdpProvider().createPdpGroups(pfDao, pdpGroups0.getGroups());
         }).hasMessageContaining("PDP group").hasMessageContaining("pdpGroupState")
-                        .hasMessageContaining(Validated.IS_NULL);
+                .hasMessageContaining(Validated.IS_NULL);
     }
 
     @Test
@@ -300,7 +302,7 @@ public class PdpProviderTest {
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpGroups(pfDao, pdpGroups0.getGroups());
         }).hasMessageContaining("PDP group").hasMessageContaining("pdpGroupState")
-                    .hasMessageContaining(Validated.IS_NULL);
+                .hasMessageContaining(Validated.IS_NULL);
     }
 
     @Test
@@ -407,7 +409,7 @@ public class PdpProviderTest {
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpSubGroup(pfDao, PDP_GROUP0, existingSubGroup);
         }).hasMessageContaining("PDP sub group").hasMessageContaining("desiredInstanceCount")
-                        .hasMessageContaining("below the minimum value");
+                .hasMessageContaining("below the minimum value");
         existingSubGroup.setDesiredInstanceCount(10);
     }
 
@@ -693,12 +695,12 @@ public class PdpProviderTest {
         }).hasMessageContaining("policy").hasMessageContaining("null");
 
         assertThat(new PdpProvider().getAllPolicyStatus(pfDao, new ToscaConceptIdentifierOptVersion("somePdp", null)))
-                        .isEmpty();
+                .isEmpty();
 
         PdpProvider provider = loadDeployments();
         assertThat(provider.getAllPolicyStatus(pfDao, new ToscaConceptIdentifierOptVersion(MY_POLICY))).hasSize(2);
         assertThat(provider.getAllPolicyStatus(pfDao, new ToscaConceptIdentifierOptVersion(MY_POLICY.getName(), null)))
-                        .hasSize(3);
+                .hasSize(3);
     }
 
     @Test
@@ -722,7 +724,7 @@ public class PdpProviderTest {
         PdpProvider prov = new PdpProvider();
 
         assertThatThrownBy(() -> prov.cudPolicyStatus(null, List.of(), List.of(), List.of()))
-                        .hasMessageMatching(DAO_IS_NULL);
+                .hasMessageMatching(DAO_IS_NULL);
 
         // null collections should be OK
         assertThatCode(() -> prov.cudPolicyStatus(pfDao, null, null, null)).doesNotThrowAnyException();
@@ -828,5 +830,74 @@ public class PdpProviderTest {
         // @formatter:on
 
         assertThat(prov.getGroupPolicyStatus(pfDao, GROUP_A)).isEmpty();
+    }
+
+    @Test
+    public void createPdpPolicyAudit() throws PfModelException {
+        PdpProvider provider = new PdpProvider();
+
+        PdpPolicyDeploymentAudit audit1 = PdpPolicyDeploymentAudit.builder().pdpGroup(GROUP_A).pdpType("pdpType")
+                .policy(MY_POLICY).action(AuditAction.DEPLOYMENT).timestamp(Instant.now()).build();
+
+        PdpPolicyDeploymentAudit audit2 = PdpPolicyDeploymentAudit.builder().pdpGroup(GROUP_A).pdpType("pdpType")
+                .policy(MY_POLICY2).action(AuditAction.DEPLOYMENT).timestamp(Instant.now()).build();
+
+        PdpPolicyDeploymentAudit audit3 = PdpPolicyDeploymentAudit.builder().pdpGroup(GROUP_A).pdpType("pdpType")
+                .policy(MY_POLICY2).action(AuditAction.UNDEPLOYMENT).timestamp(Instant.now()).build();
+
+        PdpPolicyDeploymentAudit audit4 = PdpPolicyDeploymentAudit.builder().pdpGroup(GROUP_B).pdpType("pdpType")
+                .policy(MY_POLICY).action(AuditAction.DEPLOYMENT).timestamp(Instant.now()).build();
+
+        provider.createPdpPolicyDeploymentAudit(pfDao, List.of(audit1, audit2, audit3, audit4));
+
+        List<PdpPolicyDeploymentAudit> records = provider.auditPdpPolicyDeploymentByPolicy(pfDao, MY_POLICY.getName(),
+                MY_POLICY.getVersion(), null, null);
+        assertThat(records).hasSize(2);
+
+        List<PdpPolicyDeploymentAudit> groupARecords =
+                provider.auditPdpPolicyDeploymentByGroup(pfDao, GROUP_A, null, null);
+        assertThat(groupARecords).hasSize(3);
+
+        List<PdpPolicyDeploymentAudit> groupBRecords =
+                provider.auditPdpPolicyDeploymentByGroup(pfDao, GROUP_B, null, 1);
+        assertThat(groupBRecords).hasSize(1);
+
+        // as the start date is now, shouldn't return any records
+        List<PdpPolicyDeploymentAudit> emptyList = provider.auditPdpPolicyDeploymentByPolicy(pfDao, MY_POLICY.getName(),
+                MY_POLICY.getVersion(), Instant.now(), 1);
+        assertThat(emptyList).isEmpty();
+    }
+
+    @Test
+    public void createPdpPolicyTrackerExceptions() throws PfModelException {
+        PdpProvider provider = new PdpProvider();
+
+        assertThatThrownBy(() -> {
+            provider.createPdpPolicyDeploymentAudit(null, null);
+        }).hasMessageMatching(DAO_IS_NULL);
+
+        assertThatThrownBy(() -> {
+            provider.auditPdpPolicyDeploymentByGroup(null, null, Instant.now(), null);
+        }).hasMessageMatching(DAO_IS_NULL);
+
+        assertThatThrownBy(() -> {
+            provider.auditPdpPolicyDeploymentByPolicy(null, null, null, null, null);
+        }).hasMessageMatching(DAO_IS_NULL);
+
+        assertThatThrownBy(() -> {
+            provider.createPdpPolicyDeploymentAudit(pfDao, null);
+        }).hasMessageMatching("trackers is marked non-null but is null");
+
+        assertThatThrownBy(() -> {
+            provider.auditPdpPolicyDeploymentByGroup(pfDao, null, null, null);
+        }).hasMessageMatching("groupName is marked non-null but is null");
+
+        assertThatThrownBy(() -> {
+            provider.auditPdpPolicyDeploymentByPolicy(pfDao, null, null, Instant.now(), null);
+        }).hasMessageMatching("name is marked non-null but is null");
+
+        assertThatThrownBy(() -> {
+            provider.auditPdpPolicyDeploymentByPolicy(pfDao, "name", null, Instant.now(), null);
+        }).hasMessageMatching("version is marked non-null but is null");
     }
 }
