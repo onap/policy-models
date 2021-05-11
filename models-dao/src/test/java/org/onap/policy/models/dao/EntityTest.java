@@ -183,6 +183,7 @@ public class EntityTest {
         pfDao.get(null, nullTimeKey);
         pfDao.getAll(null);
         pfDao.getAll(null, nullKey);
+        pfDao.getAll(null, null, null);
         pfDao.getConcept(null, nullKey);
         pfDao.getConcept(PfConceptKey.class, nullKey);
         pfDao.getConcept(null, nullRefKey);
