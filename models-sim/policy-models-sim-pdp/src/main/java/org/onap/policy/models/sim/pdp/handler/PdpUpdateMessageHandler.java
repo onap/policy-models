@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,12 +45,13 @@ public class PdpUpdateMessageHandler {
      * @param pdpUpdateMsg pdp update message
      */
     public void handlePdpUpdateEvent(final PdpUpdate pdpUpdateMsg) {
-        final PdpMessageHandler pdpMessageHandler = new PdpMessageHandler();
-        final PdpStatus pdpStatusContext = Registry.get(PdpSimulatorConstants.REG_PDP_STATUS_OBJECT, PdpStatus.class);
+        final var pdpMessageHandler = new PdpMessageHandler();
+        final var pdpStatusContext = Registry.get(PdpSimulatorConstants.REG_PDP_STATUS_OBJECT, PdpStatus.class);
         PdpResponseDetails pdpResponseDetails = null;
         if (pdpUpdateMsg.appliesTo(pdpStatusContext.getName(), pdpStatusContext.getPdpGroup(),
-                pdpStatusContext.getPdpSubgroup())) {
-            final PdpStatusPublisher pdpStatusPublisher = Registry.get(PdpSimulatorConstants.REG_PDP_STATUS_PUBLISHER);
+                        pdpStatusContext.getPdpSubgroup())) {
+            final var pdpStatusPublisher =
+                            Registry.get(PdpSimulatorConstants.REG_PDP_STATUS_PUBLISHER, PdpStatusPublisher.class);
             if (checkIfAlreadyHandled(pdpUpdateMsg, pdpStatusContext)) {
                 pdpResponseDetails = pdpMessageHandler.createPdpResonseDetails(pdpUpdateMsg.getRequestId(),
                         PdpResponseStatus.SUCCESS, "Pdp already updated");
@@ -73,9 +74,9 @@ public class PdpUpdateMessageHandler {
                             PdpResponseStatus.SUCCESS, "Pdp update successful.");
                 }
             }
-            final PdpStatusPublisher pdpStatusPublisherTemp =
-                    Registry.get(PdpSimulatorConstants.REG_PDP_STATUS_PUBLISHER);
-            final PdpStatus pdpStatus = pdpMessageHandler.createPdpStatusFromContext();
+            final var pdpStatusPublisherTemp =
+                    Registry.get(PdpSimulatorConstants.REG_PDP_STATUS_PUBLISHER, PdpStatusPublisher.class);
+            final var pdpStatus = pdpMessageHandler.createPdpStatusFromContext();
             pdpStatus.setResponse(pdpResponseDetails);
             pdpStatus.setDescription("Pdp status response message for PdpUpdate");
             pdpStatusPublisherTemp.send(pdpStatus);
@@ -111,7 +112,8 @@ public class PdpUpdateMessageHandler {
      * @param interval time interval received in the pdp update message from pap
      */
     public void updateInterval(final long interval) {
-        final PdpStatusPublisher pdpStatusPublisher = Registry.get(PdpSimulatorConstants.REG_PDP_STATUS_PUBLISHER);
+        final var pdpStatusPublisher =
+                        Registry.get(PdpSimulatorConstants.REG_PDP_STATUS_PUBLISHER, PdpStatusPublisher.class);
         pdpStatusPublisher.terminate();
         final List<TopicSink> topicSinks = Registry.get(PdpSimulatorConstants.REG_PDP_TOPIC_SINKS);
         Registry.registerOrReplace(PdpSimulatorConstants.REG_PDP_STATUS_PUBLISHER,

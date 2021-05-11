@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Models
  * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,8 +65,7 @@ public class CambriaMessageBodyHandler implements MessageBodyReader<Object> {
     public List<Object> readFrom(Class<Object> type, Type genericType, Annotation[] annotations, MediaType mediaType,
                     MultivaluedMap<String, String> httpHeaders, InputStream entityStream) throws IOException {
 
-        try (BufferedReader bufferedReader =
-                        new BufferedReader(new InputStreamReader(entityStream, StandardCharsets.UTF_8))) {
+        try (var bufferedReader = new BufferedReader(new InputStreamReader(entityStream, StandardCharsets.UTF_8))) {
             List<Object> messages = new LinkedList<>();
             String msg;
             while ((msg = readMessage(bufferedReader)) != null) {
@@ -137,10 +136,10 @@ public class CambriaMessageBodyHandler implements MessageBodyReader<Object> {
      * @throws IOException if an error occurs
      */
     private int readLength(Reader reader) throws IOException {
-        StringBuilder bldr = new StringBuilder(MAX_DIGITS);
+        var bldr = new StringBuilder(MAX_DIGITS);
 
         int chr;
-        for (int x = 0; x < MAX_DIGITS; ++x) {
+        for (var x = 0; x < MAX_DIGITS; ++x) {
             if ((chr = reader.read()) < 0) {
                 throw new EOFException("missing '.' in 'length' field");
             }
@@ -169,7 +168,7 @@ public class CambriaMessageBodyHandler implements MessageBodyReader<Object> {
      * @throws IOException if an error occurs
      */
     private String readString(Reader reader, int len) throws IOException {
-        char[] buf = new char[len];
+        var buf = new char[len];
         IOUtils.readFully(reader, buf);
 
         return new String(buf);

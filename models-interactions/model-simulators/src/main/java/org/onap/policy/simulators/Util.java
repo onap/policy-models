@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * simulators
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019, 2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,7 +22,6 @@
 package org.onap.policy.simulators;
 
 import java.io.IOException;
-import java.util.Properties;
 import org.onap.policy.common.endpoints.http.server.HttpServletServer;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.common.endpoints.properties.PolicyEndPointProperties;
@@ -81,7 +80,7 @@ public class Util {
      * @throws IOException if an I/O error occurs
      */
     public static CdsSimulator buildCdsSim() throws InterruptedException, IOException {
-        final CdsSimulator testServer = new CdsSimulator(LOCALHOST, CDSSIM_SERVER_PORT);
+        final var testServer = new CdsSimulator(LOCALHOST, CDSSIM_SERVER_PORT);
         testServer.start();
         waitForServerToListen(testServer.getPort());
         return testServer;
@@ -155,7 +154,7 @@ public class Util {
      * @throws InterruptedException if a thread is interrupted
      */
     public static HttpServletServer buildDmaapSim() throws InterruptedException {
-        String json = ResourceUtils.getResourceAsString("org/onap/policy/simulators/dmaap/DmaapParameters.json");
+        var json = ResourceUtils.getResourceAsString("org/onap/policy/simulators/dmaap/DmaapParameters.json");
         DmaapSimParameterGroup params = null;
         try {
             params = new StandardCoder().decode(json, DmaapSimParameterGroup.class);
@@ -166,7 +165,7 @@ public class Util {
 
         DmaapSimProvider.setInstance(new DmaapSimProvider(params));
 
-        Properties props = DmaapSimRestServer.getServerProperties(params.getRestServerParameters());
+        var props = DmaapSimRestServer.getServerProperties(params.getRestServerParameters());
 
         final String svcpfx = PolicyEndPointProperties.PROPERTY_HTTP_SERVER_SERVICES + "."
                 + params.getRestServerParameters().getName();

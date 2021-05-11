@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -89,7 +89,7 @@ public class PdpSimulatorActivator {
         topicSources = TopicEndpointManager.getManager()
                         .addTopicSources(pdpSimulatorParameterGroup.getTopicParameterGroup().getTopicSources());
 
-        final int random = RANDOM.nextInt();
+        final var random = RANDOM.nextInt();
         final String instanceId = "pdp_" + random;
         LOGGER.debug("PdpSimulatorActivator initializing with instance id: {}", instanceId);
         try {
@@ -99,8 +99,8 @@ public class PdpSimulatorActivator {
             throw new PdpSimulatorRunTimeException(e);
         }
 
-        final PdpUpdateListener pdpUpdateListener = new PdpUpdateListener();
-        final PdpStateChangeListener pdpStateChangeListener = new PdpStateChangeListener();
+        final var pdpUpdateListener = new PdpUpdateListener();
+        final var pdpStateChangeListener = new PdpStateChangeListener();
         // @formatter:off
         this.manager = new ServiceManager()
             .addAction("topics",
@@ -139,7 +139,7 @@ public class PdpSimulatorActivator {
      * Method to stop and unregister the pdp status publisher.
      */
     private void stopAndRemovePdpStatusPublisher() {
-        final PdpStatusPublisher pdpStatusPublisher =
+        final var pdpStatusPublisher =
                 Registry.get(PdpSimulatorConstants.REG_PDP_STATUS_PUBLISHER, PdpStatusPublisher.class);
         pdpStatusPublisher.terminate();
         Registry.unregister(PdpSimulatorConstants.REG_PDP_STATUS_PUBLISHER);
@@ -175,7 +175,7 @@ public class PdpSimulatorActivator {
             throw new IllegalStateException("activator is not running");
         }
         try {
-            final PdpStatusPublisher pdpStatusPublisher =
+            final var pdpStatusPublisher =
                     Registry.get(PdpSimulatorConstants.REG_PDP_STATUS_PUBLISHER, PdpStatusPublisher.class);
             // send a final heartbeat with terminated status
             pdpStatusPublisher.send(new PdpMessageHandler().getTerminatedPdpStatus());

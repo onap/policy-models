@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2020 Nordix Foundation.
- *  Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,7 +34,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
-import org.onap.ccsdk.cds.controllerblueprints.common.api.ActionIdentifiers;
 import org.onap.ccsdk.cds.controllerblueprints.common.api.EventType;
 import org.onap.ccsdk.cds.controllerblueprints.common.api.Status;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.BluePrintProcessingServiceGrpc.BluePrintProcessingServiceImplBase;
@@ -93,7 +92,7 @@ public class CdsSimulator implements Runnable {
                     public void onNext(final ExecutionServiceInput executionServiceInput) {
                         LOGGER.info("Received request input to CDS: {}", executionServiceInput);
                         try {
-                            Builder builder = getResponse(executionServiceInput, countOfSuccesfulEvents);
+                            var builder = getResponse(executionServiceInput, countOfSuccesfulEvents);
                             TimeUnit.MILLISECONDS.sleep(requestedResponseDelayMs);
                             responseObserver.onNext(builder.build());
                         } catch (InvalidProtocolBufferException e) {
@@ -151,9 +150,9 @@ public class CdsSimulator implements Runnable {
      */
     public Builder getResponse(ExecutionServiceInput executionServiceInput, int countOfSuccesfulEvents)
         throws InvalidProtocolBufferException {
-        String resourceName = "DefaultResponseEvent";
+        var resourceName = "DefaultResponseEvent";
         if (!StringUtils.isBlank(executionServiceInput.getActionIdentifiers().getActionName())) {
-            ActionIdentifiers actionIdentifiers = executionServiceInput.getActionIdentifiers();
+            var actionIdentifiers = executionServiceInput.getActionIdentifiers();
             resourceName = actionIdentifiers.getBlueprintName() + "-" + actionIdentifiers.getActionName();
         }
         if (countOfSuccesfulEvents > 0 && countOfEvents.getAndIncrement() % countOfSuccesfulEvents == 0) {
@@ -163,11 +162,11 @@ public class CdsSimulator implements Runnable {
             resourceName = resourceName + ".json";
         }
         LOGGER.info("Fetching response from {}", resourceName);
-        String responseString = ResourceUtils.getResourceAsString(resourceLocation + resourceName);
-        Builder builder = ExecutionServiceOutput.newBuilder();
+        var responseString = ResourceUtils.getResourceAsString(resourceLocation + resourceName);
+        var builder = ExecutionServiceOutput.newBuilder();
         if (null == responseString) {
             LOGGER.info("Expected response file {} not found in {}", resourceName, resourceLocation);
-            ActionIdentifiers actionIdentifiers = executionServiceInput.getActionIdentifiers();
+            var actionIdentifiers = executionServiceInput.getActionIdentifiers();
             builder.setCommonHeader(executionServiceInput.getCommonHeader());
             builder.setActionIdentifiers(actionIdentifiers);
             builder.setPayload(executionServiceInput.getPayload());

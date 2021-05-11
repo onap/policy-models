@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * simulators
  * ================================================================================
- * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,7 +30,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Path("/api/nslcm/v1")
@@ -53,7 +52,7 @@ public class VfcSimulatorJaxRs {
         try {
             response.flushBuffer();
         } catch (Exception e) {
-            final Logger logger = LoggerFactory.getLogger(VfcSimulatorJaxRs.class);
+            final var logger = LoggerFactory.getLogger(VfcSimulatorJaxRs.class);
             logger.error("flushBuffer threw: ", e);
             return "";
         }

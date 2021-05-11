@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,9 +45,10 @@ public class PdpStateChangeMessageHandler {
      * @param pdpStateChangeMsg pdp state change message
      */
     public void handlePdpStateChangeEvent(final PdpStateChange pdpStateChangeMsg) {
-        final PdpStatus pdpStatusContext = Registry.get(PdpSimulatorConstants.REG_PDP_STATUS_OBJECT, PdpStatus.class);
-        final PdpStatusPublisher pdpStatusPublisher = Registry.get(PdpSimulatorConstants.REG_PDP_STATUS_PUBLISHER);
-        final PdpMessageHandler pdpMessageHandler = new PdpMessageHandler();
+        final var pdpStatusContext = Registry.get(PdpSimulatorConstants.REG_PDP_STATUS_OBJECT, PdpStatus.class);
+        final var pdpStatusPublisher =
+                        Registry.get(PdpSimulatorConstants.REG_PDP_STATUS_PUBLISHER, PdpStatusPublisher.class);
+        final var pdpMessageHandler = new PdpMessageHandler();
         PdpResponseDetails pdpResponseDetails = null;
         if (pdpStateChangeMsg.appliesTo(pdpStatusContext.getName(), pdpStatusContext.getPdpGroup(),
                 pdpStatusContext.getPdpSubgroup())) {
@@ -61,7 +62,7 @@ public class PdpStateChangeMessageHandler {
                 default:
                     break;
             }
-            final PdpStatus pdpStatus = pdpMessageHandler.createPdpStatusFromContext();
+            final var pdpStatus = pdpMessageHandler.createPdpStatusFromContext();
             pdpStatus.setResponse(pdpResponseDetails);
             pdpStatus.setDescription("Pdp status response message for PdpStateChange");
             pdpStatusPublisher.send(pdpStatus);

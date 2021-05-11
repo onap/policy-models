@@ -86,17 +86,17 @@ public final class AaiManager {
         if (getResponse == null) {
             return null;
         } else {
-            JSONObject responseObj = new JSONObject(getResponse);
+            var responseObj = new JSONObject(getResponse);
             JSONArray resultsArray;
             if (responseObj.has("result-data")) {
                 resultsArray = (JSONArray) responseObj.get("result-data");
             } else {
                 return null;
             }
-            String resourceLink = resultsArray.getJSONObject(0).getString("resource-link");
-            String start = resourceLink.replace(PREFIX, "");
-            String query = "query/closed-loop";
-            JSONObject payload = new JSONObject();
+            var resourceLink = resultsArray.getJSONObject(0).getString("resource-link");
+            var start = resourceLink.replace(PREFIX, "");
+            var query = "query/closed-loop";
+            var payload = new JSONObject();
             payload.put("start", start);
             payload.put("query", query);
             return payload.toString();
@@ -119,7 +119,7 @@ public final class AaiManager {
 
         String urlGet = url + TENANT_URL;
 
-        String getResponse = getStringQuery(urlGet, username, password, requestId, vserver);
+        var getResponse = getStringQuery(urlGet, username, password, requestId, vserver);
         return createCustomQueryPayload(getResponse);
     }
 
@@ -186,7 +186,7 @@ public final class AaiManager {
 
         String urlGet = url + key;
 
-        int attemptsLeft = 3;
+        var attemptsLeft = 3;
 
         while (attemptsLeft-- > 0) {
             NetLoggerUtil.getNetworkLogger().info("[OUT|{}|{}|]", CommInfrastructure.REST, urlGet);
@@ -255,7 +255,7 @@ public final class AaiManager {
             logger.error("Failed to encode the pnfName: {} using UTF-8", pnfName, e);
             return null;
         }
-        String responseGet = getStringQuery(urlGet, username, password, requestId, pnfName);
+        var responseGet = getStringQuery(urlGet, username, password, requestId, pnfName);
         if (responseGet == null) {
             logger.error("Null response from AAI for the url: {}.", urlGet);
             return null;

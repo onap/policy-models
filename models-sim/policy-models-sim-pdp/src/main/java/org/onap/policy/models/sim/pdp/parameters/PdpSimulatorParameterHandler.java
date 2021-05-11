@@ -55,7 +55,7 @@ public class PdpSimulatorParameterHandler {
         // Read the parameters
         try {
             // Read the parameters from JSON
-            final File file = new File(arguments.getFullConfigurationFilePath());
+            final var file = new File(arguments.getFullConfigurationFilePath());
             pdpSimulatorParameterGroup = CODER.decode(file, PdpSimulatorParameterGroup.class);
         } catch (final CoderException e) {
             final String errorMessage = "error reading parameters from \"" + arguments.getConfigurationFilePath()

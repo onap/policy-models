@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2019-2021 Bell Canada.
- * Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,6 @@ package org.onap.policy.cds.client;
 import io.grpc.ManagedChannel;
 import io.grpc.stub.StreamObserver;
 import java.util.concurrent.CountDownLatch;
-import org.onap.ccsdk.cds.controllerblueprints.common.api.ActionIdentifiers;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.BluePrintProcessingServiceGrpc;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.BluePrintProcessingServiceGrpc.BluePrintProcessingServiceStub;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceInput;
@@ -47,13 +46,13 @@ public class CdsProcessorHandler {
     }
 
     CountDownLatch process(ExecutionServiceInput request, ManagedChannel channel) {
-        final ActionIdentifiers header = request.getActionIdentifiers();
+        final var header = request.getActionIdentifiers();
         LOGGER.info("Processing blueprint({}:{}) for action({})", header.getBlueprintVersion(),
             header.getBlueprintName(), header.getBlueprintVersion());
 
-        final CountDownLatch finishLatch = new CountDownLatch(1);
+        final var finishLatch = new CountDownLatch(1);
         final BluePrintProcessingServiceStub asyncStub = BluePrintProcessingServiceGrpc.newStub(channel);
-        final StreamObserver<ExecutionServiceOutput> responseObserver = new StreamObserver<ExecutionServiceOutput>() {
+        final StreamObserver<ExecutionServiceOutput> responseObserver = new StreamObserver<>() {
             @Override
             public void onNext(ExecutionServiceOutput output) {
                 NetLoggerUtil.log(EventType.IN, CommInfrastructure.REST, url, output.toString());

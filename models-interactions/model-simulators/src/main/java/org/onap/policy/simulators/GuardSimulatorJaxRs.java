@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * simulators
  * ================================================================================
- * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -49,7 +49,7 @@ public class GuardSimulatorJaxRs {
         @SuppressWarnings("unchecked")
         Map<String, String> guard = (Map<String, String>) req.getResource().get("guard");
         String clName = guard.get("clname");
-        DecisionResponse response = new DecisionResponse();
+        var response = new DecisionResponse();
         if (DENY_CLNAME.equals(clName)) {
             response.setStatus("Deny");
             response.setAdvice(Collections.emptyMap());

@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * simulators
  * ================================================================================
- * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * Modifications Copyright (C) 2020 Wipro Limited.
  * ================================================================================
@@ -135,9 +135,9 @@ public class SoSimulatorJaxRs {
     }
 
     private String makeStarted() {
-        String requestId = UUID.randomUUID().toString();
+        var requestId = UUID.randomUUID().toString();
 
-        String response = ResourceUtils.getResourceAsString("org/onap/policy/simulators/so/so.started.json");
+        var response = ResourceUtils.getResourceAsString("org/onap/policy/simulators/so/so.started.json");
 
         incomplete.add(requestId);
 
@@ -145,17 +145,17 @@ public class SoSimulatorJaxRs {
     }
 
     private String makeImmediateComplete() {
-        String response = ResourceUtils.getResourceAsString("org/onap/policy/simulators/so/so.immediate.success.json");
+        var response = ResourceUtils.getResourceAsString("org/onap/policy/simulators/so/so.immediate.success.json");
         return response.replace(REPLACE_ME, UUID.randomUUID().toString());
     }
 
     private String makeComplete(String requestId) {
-        String response = ResourceUtils.getResourceAsString("org/onap/policy/simulators/so/so.complete.success.json");
+        var response = ResourceUtils.getResourceAsString("org/onap/policy/simulators/so/so.complete.success.json");
         return response.replace(REPLACE_ME, requestId);
     }
 
     private String makeStillRunning(String requestId) {
-        String response = ResourceUtils.getResourceAsString("org/onap/policy/simulators/so/so.still.running.json");
+        var response = ResourceUtils.getResourceAsString("org/onap/policy/simulators/so/so.still.running.json");
         return response.replace(REPLACE_ME, requestId);
     }
 }

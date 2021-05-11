@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2021 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,7 +51,7 @@ public class PdpMessageHandler {
      */
     public PdpStatus createPdpStatusFromParameters(final String instanceId,
             final PdpStatusParameters pdpStatusParameters) {
-        final PdpStatus pdpStatus = new PdpStatus();
+        final var pdpStatus = new PdpStatus();
         pdpStatus.setPdpGroup(pdpStatusParameters.getPdpGroup());
         pdpStatus.setPdpType(pdpStatusParameters.getPdpType());
         pdpStatus.setState(PdpState.PASSIVE);
@@ -67,8 +67,8 @@ public class PdpMessageHandler {
      * @return PdpStatus the pdp status message
      */
     public PdpStatus createPdpStatusFromContext() {
-        final PdpStatus pdpStatusContext = Registry.get(PdpSimulatorConstants.REG_PDP_STATUS_OBJECT, PdpStatus.class);
-        final PdpStatus pdpStatus = new PdpStatus();
+        final var pdpStatusContext = Registry.get(PdpSimulatorConstants.REG_PDP_STATUS_OBJECT, PdpStatus.class);
+        final var pdpStatus = new PdpStatus();
         pdpStatus.setName(pdpStatusContext.getName());
         pdpStatus.setPdpType(pdpStatusContext.getPdpType());
         pdpStatus.setState(pdpStatusContext.getState());
@@ -86,7 +86,7 @@ public class PdpMessageHandler {
      * @return PdpStatus the pdp status message
      */
     public PdpStatus getTerminatedPdpStatus() {
-        final PdpStatus pdpStatusInContext = Registry.get(PdpSimulatorConstants.REG_PDP_STATUS_OBJECT, PdpStatus.class);
+        final var pdpStatusInContext = Registry.get(PdpSimulatorConstants.REG_PDP_STATUS_OBJECT, PdpStatus.class);
         pdpStatusInContext.setState(PdpState.TERMINATED);
         pdpStatusInContext.setDescription("Pdp Simulator shutting down.");
         return createPdpStatusFromContext();
@@ -103,7 +103,7 @@ public class PdpMessageHandler {
      */
     public PdpResponseDetails createPdpResonseDetails(final String requestId, final PdpResponseStatus status,
             final String responseMessage) {
-        final PdpResponseDetails pdpResponseDetails = new PdpResponseDetails();
+        final var pdpResponseDetails = new PdpResponseDetails();
         pdpResponseDetails.setResponseTo(requestId);
         pdpResponseDetails.setResponseStatus(status);
         pdpResponseDetails.setResponseMessage(responseMessage);
