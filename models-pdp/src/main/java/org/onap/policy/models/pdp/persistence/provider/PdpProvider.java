@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,6 +21,7 @@
 
 package org.onap.policy.models.pdp.persistence.provider;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -39,11 +40,13 @@ import org.onap.policy.models.dao.PfDao;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
 import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
+import org.onap.policy.models.pdp.concepts.PdpPolicyDeploymentAudit;
 import org.onap.policy.models.pdp.concepts.PdpPolicyStatus;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.pdp.persistence.concepts.JpaPdp;
 import org.onap.policy.models.pdp.persistence.concepts.JpaPdpGroup;
+import org.onap.policy.models.pdp.persistence.concepts.JpaPdpPolicyDeploymentAudit;
 import org.onap.policy.models.pdp.persistence.concepts.JpaPdpPolicyStatus;
 import org.onap.policy.models.pdp.persistence.concepts.JpaPdpSubGroup;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierOptVersion;
@@ -79,8 +82,8 @@ public class PdpProvider {
      */
     public List<PdpGroup> getFilteredPdpGroups(@NonNull final PfDao dao, @NonNull final PdpGroupFilter filter) {
 
-        return filter.filter(
-                        asPdpGroupList(dao.getFiltered(JpaPdpGroup.class, filter.getName(), PfKey.NULL_KEY_VERSION)));
+        return filter
+                .filter(asPdpGroupList(dao.getFiltered(JpaPdpGroup.class, filter.getName(), PfKey.NULL_KEY_VERSION)));
     }
 
     /**
@@ -144,8 +147,7 @@ public class PdpProvider {
         List<PdpGroup> returnPdpGroups = new ArrayList<>();
 
         for (PdpGroup pdpGroup : pdpGroups) {
-            var jpaPdpGroup =
-                    dao.get(JpaPdpGroup.class, new PfConceptKey(pdpGroup.getName(), PfKey.NULL_KEY_VERSION));
+            var jpaPdpGroup = dao.get(JpaPdpGroup.class, new PfConceptKey(pdpGroup.getName(), PfKey.NULL_KEY_VERSION));
             returnPdpGroups.add(jpaPdpGroup.toAuthorative());
         }
 
@@ -163,8 +165,7 @@ public class PdpProvider {
     public void updatePdpSubGroup(@NonNull final PfDao dao, @NonNull final String pdpGroupName,
             @NonNull final PdpSubGroup pdpSubGroup) throws PfModelException {
 
-        final var subGroupKey =
-                new PfReferenceKey(pdpGroupName, PfKey.NULL_KEY_VERSION, pdpSubGroup.getPdpType());
+        final var subGroupKey = new PfReferenceKey(pdpGroupName, PfKey.NULL_KEY_VERSION, pdpSubGroup.getPdpType());
         final var jpaPdpSubgroup = new JpaPdpSubGroup(subGroupKey);
         jpaPdpSubgroup.fromAuthorative(pdpSubGroup);
 
@@ -188,8 +189,7 @@ public class PdpProvider {
     public void updatePdp(@NonNull final PfDao dao, @NonNull final String pdpGroupName,
             @NonNull final String pdpSubGroup, @NonNull final Pdp pdp) {
 
-        final var pdpKey =
-                new PfReferenceKey(pdpGroupName, PfKey.NULL_KEY_VERSION, pdpSubGroup, pdp.getInstanceId());
+        final var pdpKey = new PfReferenceKey(pdpGroupName, PfKey.NULL_KEY_VERSION, pdpSubGroup, pdp.getInstanceId());
         final var jpaPdp = new JpaPdp(pdpKey);
         jpaPdp.fromAuthorative(pdp);
 
@@ -261,11 +261,10 @@ public class PdpProvider {
      * @return the deployments found
      * @throws PfModelException on errors getting PDP groups
      */
-    public List<PdpPolicyStatus> getAllPolicyStatus(@NonNull final PfDao dao)
-                    throws PfModelException {
+    public List<PdpPolicyStatus> getAllPolicyStatus(@NonNull final PfDao dao) throws PfModelException {
 
         return dao.getAll(JpaPdpPolicyStatus.class).stream().map(JpaPdpPolicyStatus::toAuthorative)
-                        .collect(Collectors.toList());
+                .collect(Collectors.toList());
     }
 
     /**
@@ -276,15 +275,15 @@ public class PdpProvider {
      * @throws PfModelException on errors getting PDP groups
      */
     public List<PdpPolicyStatus> getAllPolicyStatus(@NonNull final PfDao dao,
-                    @NonNull ToscaConceptIdentifierOptVersion policy) throws PfModelException {
+            @NonNull ToscaConceptIdentifierOptVersion policy) throws PfModelException {
 
         if (policy.getVersion() != null) {
             return dao.getAll(JpaPdpPolicyStatus.class, new PfConceptKey(policy.getName(), policy.getVersion()))
-                            .stream().map(JpaPdpPolicyStatus::toAuthorative).collect(Collectors.toList());
+                    .stream().map(JpaPdpPolicyStatus::toAuthorative).collect(Collectors.toList());
 
         } else {
             return dao.getAllVersionsByParent(JpaPdpPolicyStatus.class, policy.getName()).stream()
-                            .map(JpaPdpPolicyStatus::toAuthorative).collect(Collectors.toList());
+                    .map(JpaPdpPolicyStatus::toAuthorative).collect(Collectors.toList());
         }
     }
 
@@ -298,12 +297,12 @@ public class PdpProvider {
      * @throws PfModelException on errors getting PDP groups
      */
     public List<PdpPolicyStatus> getGroupPolicyStatus(@NonNull final PfDao dao, @NonNull final String groupName)
-                    throws PfModelException {
+            throws PfModelException {
 
         Map<String, Object> filter = Map.of("pdpGroup", groupName);
 
         return dao.getFiltered(JpaPdpPolicyStatus.class, null, null, null, null, filter, null, 0).stream()
-                        .map(JpaPdpPolicyStatus::toAuthorative).collect(Collectors.toList());
+                .map(JpaPdpPolicyStatus::toAuthorative).collect(Collectors.toList());
     }
 
     /**
@@ -315,7 +314,7 @@ public class PdpProvider {
      * @param deleteObjs the objects to delete
      */
     public void cudPolicyStatus(@NonNull final PfDao dao, Collection<PdpPolicyStatus> createObjs,
-                    Collection<PdpPolicyStatus> updateObjs, Collection<PdpPolicyStatus> deleteObjs) {
+            Collection<PdpPolicyStatus> updateObjs, Collection<PdpPolicyStatus> deleteObjs) {
 
         synchronized (statusLock) {
             dao.deleteCollection(fromAuthorativeStatus(deleteObjs, "deletePdpPolicyStatusList"));
@@ -326,7 +325,7 @@ public class PdpProvider {
 
     /**
      * Converts a collection of authorative policy status to a collection of JPA policy
-     * status.  Validates the resulting list.
+     * status. Validates the resulting list.
      *
      * @param objs authorative policy status to convert
      * @param fieldName name of the field containing the collection
@@ -343,7 +342,7 @@ public class PdpProvider {
         var result = new BeanValidationResult(fieldName, jpas);
 
         var count = 0;
-        for (JpaPdpPolicyStatus jpa: jpas) {
+        for (JpaPdpPolicyStatus jpa : jpas) {
             result.addResult(jpa.validate(String.valueOf(count++)));
         }
 
@@ -368,5 +367,57 @@ public class PdpProvider {
         }
 
         return pdpGroupList;
+    }
+
+    /**
+     * Collect the deployment history of policies in a Pdp Group.
+     *
+     * @param dao database access to be used.
+     * @param groupName pdp group name to be audited.
+     * @param startTime specified timestamp from where the audit starts.
+     * @param maxRecords number max of records returned by query.
+     * @return list of information about deployments acted upon the policies on pdp group.
+     */
+    public List<PdpPolicyDeploymentAudit> auditPdpPolicyDeploymentByGroup(@NonNull final PfDao dao,
+            @NonNull final String groupName, final Instant startTime, Integer maxRecords) {
+        Map<String, Object> filter = Map.of("pdpGroup", groupName);
+        maxRecords = (maxRecords == null) ? 50 : maxRecords;
+
+        return dao
+                .getFiltered(JpaPdpPolicyDeploymentAudit.class, null, null, startTime, Instant.now(), filter, "ASC",
+                        maxRecords)
+                .stream().map(JpaPdpPolicyDeploymentAudit::toAuthorative).collect(Collectors.toList());
+    }
+
+    /**
+     * Collect the deployment history of policies.
+     *
+     * @param dao database access to be used.
+     * @param name policy name
+     * @param version policy version
+     * @param startTime specified timestamp from where the audit starts.
+     * @param maxRecords number max of records returned by query.
+     * @return list of information about deployments acted upon the policy with the name and version informed.
+     */
+    public List<PdpPolicyDeploymentAudit> auditPdpPolicyDeploymentByPolicy(@NonNull final PfDao dao,
+            @NonNull final String name, @NonNull final String version, final Instant startTime, Integer maxRecords) {
+        maxRecords = (maxRecords == null) ? 50 : maxRecords;
+
+        return dao
+                .getFiltered(JpaPdpPolicyDeploymentAudit.class, name, version, startTime, Instant.now(), null, "ASC",
+                        maxRecords)
+                .stream().sorted().map(JpaPdpPolicyDeploymentAudit::toAuthorative).collect(Collectors.toList());
+    }
+
+    /**
+     * Creates trackers for PDP policies' status which (deploy/undeploy) have changed.
+     *
+     * @param dao the DAO to use to access the database
+     * @param trackers a specification of the PDP groups to create
+     * @throws PfModelException on errors creating trackers
+     */
+    public void createPdpPolicyDeploymentAudit(@NonNull final PfDao dao,
+            @NonNull final List<PdpPolicyDeploymentAudit> trackers) {
+        dao.createCollection(trackers.stream().map(JpaPdpPolicyDeploymentAudit::new).collect(Collectors.toList()));
     }
 }
