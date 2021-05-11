@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
- *  Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -175,7 +175,7 @@ public class SimpleToscaProvider {
     public JpaToscaServiceTemplate getCascadedDataTypes(@NonNull final JpaToscaServiceTemplate dbServiceTemplate,
         final String name, final String version) throws PfModelException {
 
-        JpaToscaServiceTemplate serviceTemplate = new JpaToscaServiceTemplate(dbServiceTemplate);
+        var serviceTemplate = new JpaToscaServiceTemplate(dbServiceTemplate);
         serviceTemplate.setPolicyTypes(null);
         serviceTemplate.setTopologyTemplate(null);
 
@@ -239,13 +239,13 @@ public class SimpleToscaProvider {
         }
 
         // Return the created data types
-        JpaToscaDataTypes returnDataTypes = new JpaToscaDataTypes();
+        var returnDataTypes = new JpaToscaDataTypes();
 
         for (PfConceptKey dataTypeKey : serviceTemplate.getDataTypes().getConceptMap().keySet()) {
             returnDataTypes.getConceptMap().put(dataTypeKey, dao.get(JpaToscaDataType.class, dataTypeKey));
         }
 
-        JpaToscaServiceTemplate returnServiceTemplate = new JpaToscaServiceTemplate();
+        var returnServiceTemplate = new JpaToscaServiceTemplate();
         returnServiceTemplate.setDataTypes(returnDataTypes);
 
         LOGGER.debug("<-updateDataTypes: returnServiceTempalate={}", returnServiceTemplate);
@@ -296,7 +296,7 @@ public class SimpleToscaProvider {
         new SimpleToscaServiceTemplateProvider().write(dao, serviceTemplate);
         dao.delete(dataType4Deletion);
 
-        JpaToscaServiceTemplate deletedServiceTemplate = new JpaToscaServiceTemplate();
+        var deletedServiceTemplate = new JpaToscaServiceTemplate();
         deletedServiceTemplate.setDataTypes(new JpaToscaDataTypes());
         deletedServiceTemplate.getDataTypes().getConceptMap().put(dataTypeKey, dataType4Deletion);
 
@@ -342,7 +342,7 @@ public class SimpleToscaProvider {
     public JpaToscaServiceTemplate getCascadedPolicyTypes(final JpaToscaServiceTemplate dbServiceTemplate,
         final String name, final String version) throws PfModelException {
 
-        JpaToscaServiceTemplate serviceTemplate = new JpaToscaServiceTemplate(dbServiceTemplate);
+        var serviceTemplate = new JpaToscaServiceTemplate(dbServiceTemplate);
 
         serviceTemplate.setDataTypes(null);
         serviceTemplate.setTopologyTemplate(null);
@@ -354,7 +354,7 @@ public class SimpleToscaProvider {
                 "policy types for " + name + ":" + version + DO_NOT_EXIST);
         }
 
-        JpaToscaServiceTemplate dataTypeServiceTemplate = new JpaToscaServiceTemplate(serviceTemplate);
+        var dataTypeServiceTemplate = new JpaToscaServiceTemplate(serviceTemplate);
         dataTypeServiceTemplate.setPolicyTypes(null);
 
         for (JpaToscaPolicyType policyType : serviceTemplate.getPolicyTypes().getConceptMap().values()) {
@@ -417,13 +417,13 @@ public class SimpleToscaProvider {
         }
 
         // Return the created policy types
-        JpaToscaPolicyTypes returnPolicyTypes = new JpaToscaPolicyTypes();
+        var returnPolicyTypes = new JpaToscaPolicyTypes();
 
         for (PfConceptKey policyTypeKey : serviceTemplate.getPolicyTypes().getConceptMap().keySet()) {
             returnPolicyTypes.getConceptMap().put(policyTypeKey, dao.get(JpaToscaPolicyType.class, policyTypeKey));
         }
 
-        JpaToscaServiceTemplate returnServiceTemplate = new JpaToscaServiceTemplate();
+        var returnServiceTemplate = new JpaToscaServiceTemplate();
         returnServiceTemplate.setPolicyTypes(returnPolicyTypes);
 
         LOGGER.debug("<-updatePolicyTypes: returnServiceTempalate={}", returnServiceTemplate);
@@ -455,7 +455,7 @@ public class SimpleToscaProvider {
                 POLICY_TYPE + policyTypeKey.getId() + NOT_FOUND);
         }
 
-        BeanValidationResult result = new BeanValidationResult("policy types", serviceTemplate);
+        var result = new BeanValidationResult("policy types", serviceTemplate);
 
         for (JpaToscaPolicyType policyType : serviceTemplate.getPolicyTypes().getAll(null)) {
             Collection<JpaToscaEntityType<ToscaEntity>> ancestorList = ToscaUtils
@@ -480,7 +480,7 @@ public class SimpleToscaProvider {
         new SimpleToscaServiceTemplateProvider().write(dao, serviceTemplate);
         dao.delete(policyType4Deletion);
 
-        JpaToscaServiceTemplate deletedServiceTemplate = new JpaToscaServiceTemplate();
+        var deletedServiceTemplate = new JpaToscaServiceTemplate();
         deletedServiceTemplate.setPolicyTypes(new JpaToscaPolicyTypes());
         deletedServiceTemplate.getPolicyTypes().getConceptMap().put(policyTypeKey, policyType4Deletion);
 
@@ -526,7 +526,7 @@ public class SimpleToscaProvider {
     public JpaToscaServiceTemplate getCascadedPolicies(final JpaToscaServiceTemplate dbServiceTemplate,
         final String name, final String version) throws PfModelException {
 
-        JpaToscaServiceTemplate serviceTemplate = new JpaToscaServiceTemplate(dbServiceTemplate);
+        var serviceTemplate = new JpaToscaServiceTemplate(dbServiceTemplate);
         serviceTemplate.setDataTypes(new JpaToscaDataTypes());
         serviceTemplate.setPolicyTypes(new JpaToscaPolicyTypes());
 
@@ -537,7 +537,7 @@ public class SimpleToscaProvider {
                 "policies for " + name + ":" + version + DO_NOT_EXIST);
         }
 
-        JpaToscaServiceTemplate returnServiceTemplate = new JpaToscaServiceTemplate(serviceTemplate);
+        var returnServiceTemplate = new JpaToscaServiceTemplate(serviceTemplate);
         returnServiceTemplate.getTopologyTemplate().setPolicies(new JpaToscaPolicies());
 
         for (JpaToscaPolicy policy : serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().values()) {
@@ -592,7 +592,7 @@ public class SimpleToscaProvider {
         }
 
         // Return the created policy types
-        JpaToscaPolicies returnPolicies = new JpaToscaPolicies();
+        var returnPolicies = new JpaToscaPolicies();
         returnPolicies.setKey(serviceTemplate.getTopologyTemplate().getPolicies().getKey());
 
         for (PfConceptKey policyKey : serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().keySet()) {
@@ -632,7 +632,7 @@ public class SimpleToscaProvider {
         new SimpleToscaServiceTemplateProvider().write(dao, serviceTemplate);
         dao.delete(policy4Deletion);
 
-        JpaToscaServiceTemplate deletedServiceTemplate = new JpaToscaServiceTemplate();
+        var deletedServiceTemplate = new JpaToscaServiceTemplate();
         deletedServiceTemplate.setTopologyTemplate(new JpaToscaTopologyTemplate());
         deletedServiceTemplate.getTopologyTemplate().setPolicies(new JpaToscaPolicies());
         deletedServiceTemplate.getTopologyTemplate().getPolicies().getConceptMap().put(policyKey, policy4Deletion);
@@ -685,7 +685,7 @@ public class SimpleToscaProvider {
         }
 
         // Create a filter to get the latest version of the policy type
-        PfConceptFilter pfConceptFilter = PfConceptFilter.builder().version(PfConceptFilter.LATEST_VERSION).build();
+        var pfConceptFilter = PfConceptFilter.builder().version(PfConceptFilter.LATEST_VERSION).build();
 
         // FIlter the returned policy type list
         List<PfConcept> policyTypeKeyList = new ArrayList<>(jpaPolicyTypeList);

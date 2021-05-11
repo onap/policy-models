@@ -274,7 +274,7 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
      * @return the ToscaServiceTemplate with the dummy response
      */
     protected ToscaServiceTemplate getDummyResponse(final String fileName) {
-        StandardCoder standardCoder = new StandardCoder();
+        var standardCoder = new StandardCoder();
         ToscaServiceTemplate serviceTemplate;
 
         try {

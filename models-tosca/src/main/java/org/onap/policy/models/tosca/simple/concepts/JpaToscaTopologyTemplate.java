@@ -142,7 +142,7 @@ public class JpaToscaTopologyTemplate extends PfConcept implements PfAuthorative
 
     @Override
     public ToscaTopologyTemplate toAuthorative() {
-        final ToscaTopologyTemplate toscaTopologyTemplate = new ToscaTopologyTemplate();
+        final var toscaTopologyTemplate = new ToscaTopologyTemplate();
 
         toscaTopologyTemplate.setDescription(description);
 
@@ -178,7 +178,7 @@ public class JpaToscaTopologyTemplate extends PfConcept implements PfAuthorative
         if (toscaTopologyTemplate.getInputs() != null) {
             inputs = new LinkedHashMap<>();
             for (Map.Entry<String, ToscaParameter> toscaInputEntry : toscaTopologyTemplate.getInputs().entrySet()) {
-                JpaToscaParameter jpaInput = new JpaToscaParameter(toscaInputEntry.getValue());
+                var jpaInput = new JpaToscaParameter(toscaInputEntry.getValue());
                 jpaInput.setKey(new PfReferenceKey(getKey(), toscaInputEntry.getKey()));
                 inputs.put(toscaInputEntry.getKey(), jpaInput);
             }

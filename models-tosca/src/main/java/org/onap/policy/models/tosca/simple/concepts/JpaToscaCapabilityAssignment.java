@@ -104,7 +104,7 @@ public class JpaToscaCapabilityAssignment extends JpaToscaWithTypeAndStringPrope
 
     @Override
     public ToscaCapabilityAssignment toAuthorative() {
-        ToscaCapabilityAssignment toscaCapabilityAssignment = new ToscaCapabilityAssignment();
+        var toscaCapabilityAssignment = new ToscaCapabilityAssignment();
         super.setToscaEntity(toscaCapabilityAssignment);
         super.toAuthorative();
 

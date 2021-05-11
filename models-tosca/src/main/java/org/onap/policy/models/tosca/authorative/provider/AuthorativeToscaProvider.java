@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2021 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -243,7 +243,7 @@ public class AuthorativeToscaProvider {
 
         synchronized (providerLockObject) {
             LOGGER.debug("->getFilteredPolicyTypes: filter={}", filter);
-            SimpleToscaProvider simpleToscaProvider = new SimpleToscaProvider();
+            var simpleToscaProvider = new SimpleToscaProvider();
 
             final JpaToscaServiceTemplate dbServiceTemplate = simpleToscaProvider.getPolicyTypes(dao, null, null);
 
@@ -255,7 +255,7 @@ public class AuthorativeToscaProvider {
                         "policy types for filter " + filter.toString() + " do not exist");
             }
 
-            JpaToscaServiceTemplate filteredServiceTemplate = new JpaToscaServiceTemplate();
+            var filteredServiceTemplate = new JpaToscaServiceTemplate();
 
             for (ToscaPolicyType policyType : filteredPolicyTypes) {
                 JpaToscaServiceTemplate cascadedServiceTemplate = simpleToscaProvider
@@ -430,7 +430,7 @@ public class AuthorativeToscaProvider {
             String version =
                     ToscaTypedEntityFilter.LATEST_VERSION.equals(filter.getVersion()) ? null : filter.getVersion();
 
-            SimpleToscaProvider simpleToscaProvider = new SimpleToscaProvider();
+            var simpleToscaProvider = new SimpleToscaProvider();
             final JpaToscaServiceTemplate dbServiceTemplate =
                     simpleToscaProvider.getPolicies(dao, filter.getName(), version);
 
@@ -443,7 +443,7 @@ public class AuthorativeToscaProvider {
                         "policies for filter " + filter.toString() + " do not exist");
             }
 
-            JpaToscaServiceTemplate filteredServiceTemplate = new JpaToscaServiceTemplate();
+            var filteredServiceTemplate = new JpaToscaServiceTemplate();
 
             for (ToscaPolicy policy : filteredPolicies) {
                 JpaToscaServiceTemplate cascadedServiceTemplate = simpleToscaProvider

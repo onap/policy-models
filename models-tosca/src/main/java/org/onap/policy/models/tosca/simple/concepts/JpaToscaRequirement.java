@@ -112,7 +112,7 @@ public class JpaToscaRequirement extends JpaToscaWithTypeAndStringProperties<Tos
 
     @Override
     public ToscaRequirement toAuthorative() {
-        ToscaRequirement toscaRequirement = new ToscaRequirement();
+        var toscaRequirement = new ToscaRequirement();
         super.setToscaEntity(toscaRequirement);
         super.toAuthorative();
 

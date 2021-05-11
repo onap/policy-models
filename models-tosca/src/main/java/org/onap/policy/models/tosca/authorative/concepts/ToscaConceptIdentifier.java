@@ -57,7 +57,7 @@ public class ToscaConceptIdentifier extends ToscaNameVersion
      * @return the validation result
      */
     public ValidationResult validatePapRest() {
-        BeanValidationResult result = new BeanValidationResult("identifier", this);
+        var result = new BeanValidationResult("identifier", this);
 
         result.validateNotNull("name", getName());
         result.validateNotNull("version", getVersion());

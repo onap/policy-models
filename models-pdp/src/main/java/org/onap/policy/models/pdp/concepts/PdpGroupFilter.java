@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2021 Nordix Foundation.
- *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -143,7 +143,7 @@ public class PdpGroupFilter implements PfObjectFilter<PdpGroup> {
         for (ToscaConceptIdentifier supportedPolicyType : supportedPolicyTypes) {
             String supName = supportedPolicyType.getName();
             if (supName.endsWith(".*")) {
-                String substr = supName.substring(0, supName.length() - 1);
+                var substr = supName.substring(0, supName.length() - 1);
                 if (typeFilter.stream().anyMatch(type -> type.getName().startsWith(substr))) {
                     return true;
                 }
