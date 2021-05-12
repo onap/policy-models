@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -76,7 +77,7 @@ public abstract class PfModelService {
      */
     @SuppressWarnings("unchecked")
     public static <M extends PfConcept> M getModel(@NonNull final String modelKey) {
-        final M model = (M) modelMap.get(modelKey);
+        final var model = (M) modelMap.get(modelKey);
 
         if (model == null) {
             throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR,

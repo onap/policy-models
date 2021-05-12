@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019,2021 Nordix Foundation.
- *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -205,7 +205,7 @@ public class PfReferenceKey extends PfKey {
      *        the key ID in a format that respects the KEY_ID_REGEXP
      */
     public PfReferenceKey(final String id) {
-        final String conditionedId = Assertions.validateStringParameter("id", id, REFERENCE_KEY_ID_REGEXP);
+        final var conditionedId = Assertions.validateStringParameter("id", id, REFERENCE_KEY_ID_REGEXP);
 
         // Split on colon, if the id passes the regular expression test above
         // it'll have just three colons separating the parent name,
@@ -253,9 +253,9 @@ public class PfReferenceKey extends PfKey {
 
     @Override
     public boolean isNullKey() {
-        return (PfReferenceKey.NULL_KEY_NAME.equals(this.getParentKeyName()) && PfReferenceKey.NULL_KEY_VERSION
-            .equals(this.getParentKeyVersion()) && PfReferenceKey.NULL_KEY_NAME.equals(this.getParentLocalName())
-            && PfReferenceKey.NULL_KEY_NAME.equals(this.getLocalName()));
+        return (PfKey.NULL_KEY_NAME.equals(this.getParentKeyName()) && PfKey.NULL_KEY_VERSION
+            .equals(this.getParentKeyVersion()) && PfKey.NULL_KEY_NAME.equals(this.getParentLocalName())
+            && PfKey.NULL_KEY_NAME.equals(this.getLocalName()));
     }
 
     /**

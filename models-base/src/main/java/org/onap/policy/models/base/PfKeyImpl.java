@@ -169,7 +169,7 @@ public abstract class PfKeyImpl extends PfKey {
         }
         final PfKeyImpl otherConceptKey = (PfKeyImpl) otherKey;
 
-        final Compatibility compatibility = this.getCompatibility(otherConceptKey);
+        final var compatibility = this.getCompatibility(otherConceptKey);
 
         return !(compatibility == Compatibility.DIFFERENT || compatibility == Compatibility.MAJOR);
     }

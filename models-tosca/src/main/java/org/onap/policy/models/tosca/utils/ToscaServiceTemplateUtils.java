@@ -21,7 +21,6 @@
 
 package org.onap.policy.models.tosca.utils;
 
-import java.util.Map;
 import java.util.Map.Entry;
 import javax.ws.rs.core.Response;
 import lombok.NonNull;
@@ -102,16 +101,15 @@ public class ToscaServiceTemplateUtils {
     /**
      * Check entities from a fragment container can be added to an original container.
      *
+     * @param <E> The type of TOSCA entity
+     * @param <J> The type of the JPA TOSCA entity
      * @param <S> The type of container
      *
      * @param compositeContainer the original container
      * @param fragmentContainer the fragment being added to the original container
      * @return the composite container with the result
      */
-    @SuppressWarnings("unchecked")
-    // @formatter:off
-    private static
-        <S extends PfConceptContainer<? extends JpaToscaEntityType<? extends ToscaEntity>, ? extends ToscaEntity>>
+    private static <E extends ToscaEntity, J extends JpaToscaEntityType<E>, S extends PfConceptContainer<J, E>>
             S addFragmentEntitites(final S compositeContainer, final S fragmentContainer,
                     final BeanValidationResult result) {
 
@@ -124,14 +122,13 @@ public class ToscaServiceTemplateUtils {
         }
 
         var result2 = new BeanValidationResult("incoming fragment", fragmentContainer);
+        var originalContainerMap = compositeContainer.getConceptMap();
+        var fragmentContainerMap = fragmentContainer.getConceptMap();
 
-        for (Entry<PfConceptKey, ? extends JpaToscaEntityType<? extends ToscaEntity>> fragmentEntry : fragmentContainer
-                .getConceptMap().entrySet()) {
-            JpaToscaEntityType<? extends ToscaEntity> containerEntity =
-                    compositeContainer.getConceptMap().get(fragmentEntry.getKey());
+        for (Entry<PfConceptKey, J> fragmentEntry : fragmentContainerMap.entrySet()) {
+            J containerEntity = originalContainerMap.get(fragmentEntry.getKey());
             if (containerEntity != null && containerEntity.compareTo(fragmentEntry.getValue()) != 0) {
-                Validated.addResult(result, "entity", fragmentEntry.getKey(),
-                                "does not equal existing entity");
+                Validated.addResult(result, "entity", fragmentEntry.getKey(), "does not equal existing entity");
             }
         }
 
@@ -139,13 +136,8 @@ public class ToscaServiceTemplateUtils {
             result.addResult(result2);
         }
 
-        // This use of a generic map is required to get around typing errors in directly adding the fragment map to the
-        // original map
-        @SuppressWarnings("rawtypes")
-        Map originalContainerMap = compositeContainer.getConceptMap();
-        originalContainerMap.putAll(fragmentContainer.getConceptMap());
+        originalContainerMap.putAll(fragmentContainerMap);
 
         return compositeContainer;
     }
-    // @formatter:on
 }

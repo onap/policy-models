@@ -97,7 +97,7 @@ public class PfValidator extends BeanValidator {
             return true;
         }
 
-        PfKey pfkey = (PfKey) value;
+        var pfkey = (PfKey) value;
         if (annot.keyNotNull() && pfkey.isNullKey()) {
             result.addResult(fieldName, xlate(pfkey), ValidationStatus.INVALID, Validated.IS_A_NULL_KEY);
             return false;
@@ -111,7 +111,7 @@ public class PfValidator extends BeanValidator {
             return true;
         }
 
-        BeanValidationResult result2 = new BeanValidationResult(fieldName, value);
+        var result2 = new BeanValidationResult(fieldName, value);
 
         PfKeyImpl keyimpl = (PfKeyImpl) pfkey;
 

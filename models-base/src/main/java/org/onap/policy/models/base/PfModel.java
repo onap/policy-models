@@ -160,7 +160,7 @@ public abstract class PfModel extends PfConcept {
 
         validateKeyNotNull(result, KEYS_TOKEN, artifactKey);
 
-        BeanValidationResult result2 = new BeanValidationResult(KEYS_TOKEN, artifactKey);
+        var result2 = new BeanValidationResult(KEYS_TOKEN, artifactKey);
 
         // Null key name start check
         if (artifactKey.getName().toUpperCase().startsWith(PfKey.NULL_KEY_NAME)) {
@@ -191,7 +191,7 @@ public abstract class PfModel extends PfConcept {
             addResult(result, KEYS_TOKEN, referenceKey, IS_A_NULL_KEY);
         }
 
-        BeanValidationResult result2 = new BeanValidationResult(KEYS_TOKEN, referenceKey);
+        var result2 = new BeanValidationResult(KEYS_TOKEN, referenceKey);
 
         // Null parent key check
         if (referenceKey.getParentConceptKey().isNullKey()) {
