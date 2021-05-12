@@ -137,8 +137,8 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
 
         this.conceptMap = new TreeMap<>();
         for (final Entry<PfConceptKey, C> conceptMapEntry : copyConcept.conceptMap.entrySet()) {
-            PfConceptKey newK = new PfConceptKey(conceptMapEntry.getKey());
-            C newC = PfUtils.makeCopy(conceptMapEntry.getValue());
+            var newK = new PfConceptKey(conceptMapEntry.getKey());
+            var newC = PfUtils.makeCopy(conceptMapEntry.getValue());
             this.conceptMap.put(newK, newC);
         }
     }
@@ -186,7 +186,7 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
             // Add the map entries one by one
             for (Entry<String, A> incomingConceptEntry : incomingConceptMap.entrySet()) {
 
-                PfConceptKey conceptKey = new PfConceptKey();
+                var conceptKey = new PfConceptKey();
                 if (KEY_ID_PATTERN.matches(incomingConceptEntry.getKey())) {
                     conceptKey = new PfConceptKey(incomingConceptEntry.getKey());
                 } else {
@@ -203,7 +203,7 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
                 incomingConceptEntry.getValue().setVersion(findConceptField(conceptKey, conceptKey.getVersion(),
                         incomingConceptEntry.getValue(), PfNameVersion::getDefinedVersion));
 
-                C jpaConcept = getConceptNewInstance();
+                var jpaConcept = getConceptNewInstance();
                 // This cast allows us to call the fromAuthorative method
                 @SuppressWarnings("unchecked")
                 PfAuthorative<A> authoritiveImpl = (PfAuthorative<A>) jpaConcept;
@@ -260,7 +260,7 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
      * @return the validation result
      */
     private ValidationResult validateConceptMap() {
-        BeanValidationResult result = new BeanValidationResult("conceptMap", conceptMap);
+        var result = new BeanValidationResult("conceptMap", conceptMap);
 
         for (final Entry<PfConceptKey, C> conceptEntry : conceptMap.entrySet()) {
             BeanValidationResult result2 = null;
@@ -318,7 +318,7 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
             return getAll(conceptKeyName, conceptKeyVersion);
         } else {
             final Set<C> returnSet = new TreeSet<>();
-            C foundConcept = get(conceptKeyName, conceptKeyVersion);
+            var foundConcept = get(conceptKeyName, conceptKeyVersion);
             if (foundConcept != null) {
                 returnSet.add(foundConcept);
             }

@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2021 Nordix Foundation.
+ *  Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -57,7 +58,7 @@ public abstract class PfFilter {
     public String addFilter(final String inputFilterString,
         final String name, final Instant startTime, final Instant endTime,
         final Map<String, Object> filterMap, final String sortOrder, final int getRecordNum) {
-        StringBuilder filterQueryString = new StringBuilder(inputFilterString);
+        var filterQueryString = new StringBuilder(inputFilterString);
         if (filterMap != null) {
             for (String key : filterMap.keySet()) {
                 filterQueryString.append(getKeyPrefix() + key + "= :" + key + AND);

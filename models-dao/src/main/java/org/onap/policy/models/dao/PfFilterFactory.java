@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2021 Nordix Foundation.
+ *  Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,8 +21,6 @@
 
 package org.onap.policy.models.dao;
 
-import java.time.Instant;
-import java.util.Map;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.dao.impl.PfNonTimestampKeyFilter;
 import org.onap.policy.models.dao.impl.PfReferenceTimestampKeyFilter;
@@ -67,7 +66,7 @@ public class PfFilterFactory {
      */
     private <T extends PfConcept> String getKeyName(final Class<T> someClass) {
         try {
-            String fullClassName = someClass.getDeclaredField("key").getType().toString();
+            var fullClassName = someClass.getDeclaredField("key").getType().toString();
             return fullClassName.substring(fullClassName.lastIndexOf('.') + 1);
         } catch (NoSuchFieldException e) {
             LOGGER.error("Error getting the key:", e);

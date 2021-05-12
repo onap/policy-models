@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,13 +21,13 @@
 
 package org.onap.policy.models.base;
 
+import com.google.re2j.Pattern;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.regex.Pattern;
 
 /**
  * Interface for filtering a list of concepts.
@@ -103,7 +103,7 @@ public interface PfObjectFilter<T> {
             return item -> true;
         }
 
-        Pattern pat = Pattern.compile(pattern);
+        var pat = Pattern.compile(pattern);
 
         return item -> {
             String value = extractor.apply(item);
@@ -126,11 +126,11 @@ public interface PfObjectFilter<T> {
         List<T> filteredList = new ArrayList<>(originalList);
         Collections.sort(filteredList, versionComparator);
 
-        int icur = 0;
-        for (int j = 1; j < filteredList.size(); j++) {
+        var icur = 0;
+        for (var j = 1; j < filteredList.size(); j++) {
             // Get the current and last element
-            T curElement = filteredList.get(icur);
-            T lastElement = filteredList.get(j);
+            var curElement = filteredList.get(icur);
+            var lastElement = filteredList.get(j);
 
             /*
              * The list is sorted so if the last element name is the same as the current element name, the current

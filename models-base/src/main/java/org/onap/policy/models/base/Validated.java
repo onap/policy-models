@@ -106,7 +106,7 @@ public class Validated {
     public static void validateKeyVersionNotNull(BeanValidationResult result, @NonNull String fieldName,
                     PfConceptKey key) {
         if (key != null && key.isNullVersion()) {
-            BeanValidationResult result2 = new BeanValidationResult(fieldName, key);
+            var result2 = new BeanValidationResult(fieldName, key);
             result2.addResult(makeNullResult(PfKeyImpl.VERSION_TOKEN, key.getVersion()));
             result.addResult(result2);
         }
